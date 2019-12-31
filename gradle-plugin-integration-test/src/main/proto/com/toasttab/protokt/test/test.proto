@@ -1,0 +1,10 @@
+syntax = "proto3";
+package com.toasttab.protokt.test;
+
+import "protokt/protokt.proto";
+import "google/protobuf/timestamp.proto";
+
+message TestMessage {
+    google.protobuf.Timestamp timestamp = 1 [(.protokt.property).wrap = "java.time.Instant"];
+}
+

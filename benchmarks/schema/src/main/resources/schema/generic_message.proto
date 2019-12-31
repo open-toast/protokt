@@ -1,0 +1,82 @@
+/*
+ * Copyright (c) 2019. Toast Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto3";
+
+package com.toasttab.protokt.benchmarks;
+
+option java_package = "com.toasttab.protokt.benchmarks";
+
+message GenericMessage1 {
+    string field_string1 = 1;
+    string field_string2 = 2;
+
+    int64 field_num3 = 3;
+    int64 field_num1000 = 1000;
+
+    bool field_bool1001 = 1001;
+    bool field_bool1002 = 1002;
+
+    repeated bytes field_bytes1500 = 1500;
+    repeated bytes field_bytes1501 = 1501;
+
+    int32 field_num2000 = 2000;
+    int32 field_num2001 = 2001;
+
+    string field_string3000 = 3000;
+
+    GenericMessage2 field_message4000 = 4000;
+    GenericMessage2 field_message4001 = 4001;
+
+    map<string, int64> field_map5000 = 5000;
+}
+
+message GenericMessage2 {
+    string field_string1 = 1;
+    string field_string2 = 2;
+
+    double field_num3 = 3;
+    double field_num1000 = 1000;
+
+    bool field_bool1001 = 1001;
+    bool field_bool1002 = 1002;
+
+    repeated bytes field_bytes1500 = 1500;
+    repeated bytes field_bytes1501 = 1501;
+
+    repeated GenericMessage3 field_message5000 = 5000;
+    repeated GenericMessage3 field_message5001 = 5001;
+}
+
+message GenericMessage3 {
+    string field_string1 = 1;
+    string field_string2 = 2;
+
+    int64 field_num3 = 3;
+    int64 field_num1000 = 1000;
+
+    bool field_bool1001 = 1001;
+    bool field_bool1002 = 1002;
+
+    repeated bytes field_bytes1500 = 1500;
+    repeated bytes field_bytes1501 = 1501;
+
+    map<string, GenericMessage4> field_map3000 = 3000;
+}
+
+message GenericMessage4 {
+    string field_string1 = 1;
+    float field_num3 = 3;
+}

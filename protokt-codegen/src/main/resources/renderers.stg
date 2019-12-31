@@ -1,0 +1,336 @@
+/*
+ * Copyright (c) 2019. Toast Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// Render mappers for kotlin specific code.
+// DO NOT MODIFY
+
+// PTYPE->kotlin type map, accessed <kotlinTypeNames.(type)>
+kotlinTypeNames ::= [
+    "BOOL": "Boolean",
+    "BYTES": "Bytes",
+    "DOUBLE": "Double",
+    "ENUM": "error(\"No standard type name for enum\")",
+    "FIXED32": "Int",
+    "FIXED64": "Long",
+    "FLOAT": "Float",
+    "INT32": "Int",
+    "INT64": "Long",
+    "MESSAGE": "error(\"No standard type name for message\")",
+    "SFIXED32": "Int",
+    "SFIXED64": "Long",
+    "SINT32": "Int",
+    "SINT64": "Long",
+    "STRING": "String",
+    "UINT32": "Int",
+    "UINT64": "Long",
+    default : "cannot find val"
+]
+
+// PTYPE->kotlin default values, accessed <kotlinDefaultValues.(type)>
+kotlinDefaultValues ::= [
+    "BOOL": "false",
+    "BYTES": "Bytes.empty",
+    "DOUBLE": "0.0",
+    "ENUM": ".from(0)",
+    "MESSAGE": "null",
+    "FIXED32": "0",
+    "INT32": "0",
+    "SFIXED32": "0",
+    "SINT32": "0",
+    "UINT32": "0",
+    "FIXED64": "0L",
+    "INT64": "0L",
+    "SFIXED64": "0L",
+    "SINT64": "0L",
+    "UINT64": "0L",
+    "FLOAT": "0.0F",
+    "STRING": "\"\""
+]
+
+// PTYPE->kotlin read functions, accessed <readFunctions.(type)>
+readFunctions ::= [
+    "BOOL": "readBool",
+    "BYTES": "readBytes",
+    "DOUBLE": "readDouble",
+    "ENUM": "readEnum",
+    "FIXED32": "readFixed32",
+    "FIXED64": "readFixed64",
+    "FLOAT": "readFloat",
+    "INT32": "readInt32",
+    "INT64": "readInt64",
+    "MESSAGE": "readMessage",
+    "SFIXED32": "readSFixed32",
+    "SFIXED64": "readSFixed64",
+    "SINT32": "readSInt32",
+    "SINT64": "readSInt64",
+    "STRING": "readString",
+    "UINT32": "readUInt32",
+    "UINT64": "readUInt64",
+    default : "throw new RuntimeException"
+]
+
+// PTYPE -> box
+boxFunction ::= [
+    "INT32": true,
+    "INT64": true,
+    "SINT32": true,
+    "SINT64": true,
+    "UINT32": true,
+    "UINT64": true,
+    "SFIXED32": true,
+    "SFIXED64": true,
+    "FIXED32": true,
+    "FIXED64": true,
+    default: false
+]
+
+// PTYPE -> boxed type
+boxer ::= [
+    "INT32": "Int32",
+    "INT64": "Int64",
+    "SINT32": "SInt32",
+    "SINT64": "SInt64",
+    "UINT32": "UInt32",
+    "UINT64": "UInt64",
+    "SFIXED32": "SFixed32",
+    "SFIXED64": "SFixed64",
+    "FIXED32": "Fixed32",
+    "FIXED64": "Fixed64",
+    default: ""
+]
+
+isScalar ::= [
+    "BOOL": true,
+    "STRING": true,
+    "FLOAT": true,
+    "DOUBLE": true,
+    "INT32": true,
+    "INT64": true,
+    "SINT32": true,
+    "SINT64": true,
+    "UINT32": true,
+    "UINT64": true,
+    "SFIXED32": true,
+    "SFIXED64": true,
+    "FIXED32": true,
+    "FIXED64": true,
+    default: false
+]
+
+isMessage ::= ["MESSAGE": true, default: false]
+
+isEnum ::= ["ENUM": true, default: false]
+
+isBool ::= ["BOOL": true, default: false]
+
+isGeneratedType ::= ["MESSAGE": true, "ENUM": true, default: false]
+
+isBytes ::= ["BYTES": true, "STRING": true, default: false]
+
+type2nativeF(type) ::= "<kotlinTypeNames.(type)>"
+
+readF(type, builder) ::= "<readFunctions.(type)>(<builder>)"
+
+builderF(name, shouldRenderName) ::= <%
+    <if (shouldRenderName)>
+        <name>.
+    <endif>
+    Deserializer
+%>
+
+boxF(type, def) ::= "<if (boxFunction.(type))><boxer.(type)>(<def>)<else><def><endif>"
+
+boxMapF(type, box) ::= "<if (isMessage.(type))><box>(it.key, it.value)<else><endif>"
+
+nullable ::= ["MESSAGE":"?", default:""]
+
+// the deserializer has different rules with regards to null values
+deserializeType(p) ::= <%
+    <if (p.repeated || p.map)>
+        Mutable
+    <endif>
+    <p.type>
+    <if ((p.wrapped && !isMessage.(p.messageType)) || p.nonNullOption || p.repeated)>
+        ?
+    <endif>
+%>
+
+deserializeValue(p) ::= <%
+    <if (p.repeated || isMessage.(p.messageType) || p.wrapped)>
+        null
+    <else>
+        <p.defaultValue>
+    <endif>
+%>
+
+deserializeWrapper(v) ::= <%
+    <if (p.nonNullOption)>
+        requireNotNull(<v>) {<\n>
+            <t()>"<v> specified nonnull with (protokt.<if (p.oneOf)>oneof<else>property<endif>).non_null but was null"<\n>
+        }
+    <else>
+        <v>
+        <if (p.wrapped && !p.nullable)>
+            <\ >?: <p.defaultValue>
+        <elseif (p.map)>
+            <\ >?: emptyMap()
+        <elseif (p.repeated)>
+            <\ >?: emptyList()
+        <elseif (entry.entry && isMessage.(p.messageType))>
+            <\ >?: <entry.vType>()
+        <endif>
+    <endif>
+%>
+
+deserializeVar(p) ::= <%
+    <p.name>
+    <if (isMessage.(p.messageType) || p.repeated || p.oneOf || p.nullable || p.wrapped)>
+    : <deserializeType(p)>
+    <endif>
+    <\ >= <deserializeValue(p)>
+%>
+
+oneofDefaultValueF() ::= "null"
+
+concatWithScopeF(scopedValue) ::= "<scopedValue.scope>.<scopedValue.value>"
+
+oneOfDeserializeF(oneof, name, read) ::= "<oneof>.<name>(<read>)"
+
+defaultValueF(field, type, name) ::= <%
+    <if (field.map)>
+        emptyMap()
+    <elseif (field.repeated)>
+        emptyList()
+    <elseif (isGeneratedType.(type))>
+        <name><kotlinDefaultValues.(type)>
+    <else>
+        <kotlinDefaultValues.(type)>
+    <endif>
+%>
+
+defaultConstructorExp() ::= <%
+    <if (
+        ((isScalar.(p.messageType) || isBytes.(p.messageType)) && !p.wrapped) ||
+        p.repeated ||
+        p.nullable ||
+        isEnum.(p.messageType)
+    )>
+        <\ >= <p.defaultValue>
+    <endif>
+%>
+
+nonDefaultValueF(field, name) ::= <%
+    <if (field.repeated)>(<field.fieldName>.isNotEmpty())<\ >
+    <elseif (isBytes.(field.type))>(<name>.isNotEmpty())<\ >
+    <elseif (isMessage.(field.type))>(<field.fieldName> != null)<\ >
+    <elseif (isEnum.(field.type))>(<name>.value != 0)<\ >
+    <elseif (isScalar.(field.type))>
+        <if (isBool.(field.type))>(<name>)<\ >
+        <else>(<name> != <kotlinDefaultValues.(field.type)>)<\ >
+        <endif>
+    <endif>
+%>
+
+serializeF(field, name, tag, box) ::= <<
+<if (field.repeated && field.packed)>
+serializer
+        .write(Tag(<tag>))
+        .write(UInt32(<name>.sumBy { sizeof(<boxF(type=field.type, def="it")>) }))
+    <name>.forEach {
+        serializer.write(<boxF(type=field.type, def="it")>)
+    }<\\>
+<elseif (field.map)>
+<name>.entries.forEach {
+        serializer
+            .write(Tag(<tag>))
+            .write(<box>)
+    }<\\>
+<elseif (field.repeated)>
+<name>.forEach {
+        serializer.write(Tag(<tag>)).write(<boxF(type=field.type, def="it")>)
+    }<\\>
+<else>
+serializer.write(Tag(<tag>)).write(<box>)<\\>
+<endif>
+>>
+
+deserializeF(field, type, read, lhs) ::= <<
+<if (field.map)>
+(<lhs> ?: mutableMapOf()).apply {
+        deserializer.readRepeated(false) {
+            <read>
+                .let { (k, v) -> put(k, v) }
+        }
+    }<\\>
+<elseif (field.repeated)>
+(<lhs> ?: mutableListOf()).apply {
+        deserializer.readRepeated(<field.packed>) {
+            add(<read>)
+        }
+    }<\\>
+<else>
+deserializer.<read><\\>
+<endif>
+>>
+
+standardF(field, any, nullable) ::= <%
+    <if (field.map)>
+        Map\<<any.kType>, <any.vType>>
+    <elseif (field.repeated)>
+        List\<<any>>
+    <else>
+        <typeF(field, any, nullable, false)>
+    <endif>
+%>
+
+typeF(field, any, nullable, oneof) ::= <%
+    <if ((oneof || isMessage.(field.type)) && nullable)>
+        <any>?
+    <else>
+        <any>
+    <endif>
+%>
+
+sizeof(name, field, type, fieldSizeof) ::= <<
+<if(field.map)><\\>
+sizeofMap(<name>, Tag(<field.number>)) { k, v ->
+        <type>.sizeof(k, v)
+    }<\\>
+<elseif(field.repeated && field.packed)><\\>
+sizeof(Tag(<field.number>)) +
+    <name>
+        .sumBy { sizeof(<boxF(field.type, "it")>) }
+        .let { it + sizeof(UInt32(it)) }<\\>
+<elseif(field.repeated && !field.map)><\\>
+(sizeof(Tag(<field.number>)) * <name>.size) +
+        <name>.sumBy { sizeof(<boxF(field.type, "it")>) }<\\>
+<else><\\>
+sizeof(Tag(<field.number>)) + <fieldSizeof><\\>
+<endif>
+>>
+
+fieldSizeof(field, name) ::= <%
+    sizeof(<boxF(field.type, name)>)
+%>
+
+blockComment(contents) ::= <<
+<if (contents)><\\>
+/**
+ *<contents:{ln |<ln>};separator="\n *">
+ */
+<endif>
+>>
+
+t() ::= "    "

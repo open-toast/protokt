@@ -1,0 +1,84 @@
+/*
+ * Copyright (c) 2019. Toast Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+wrapField(wrapName, arg, type, oneof) ::= <%
+    <wrapName>.wrap(<arg><deref.(type)>
+    <if (!oneof && nullDeserializeVar.(type))>
+        !!
+    <endif>
+    )
+%>
+
+nullDeserializeVar ::= [
+    "MESSAGE": true,
+    default: false
+]
+
+accessField(wrapName, arg) ::= <%
+    <wrapName>.unwrap(<arg>)
+%>
+
+deref ::= [
+    "BYTES": ".value",
+    default: ""
+]
+
+sizeof(arg) ::= "sizeof(<arg>)"
+
+bytesSlice() ::= "BytesSlice"
+
+readBytesSlice() ::= "readBytesSlice()"
+
+defaultBytesSlice() ::= "BytesSlice.empty"
+
+messageImplements() ::= <%
+    <if (message.doesImplement)><\\>
+        , <message.implements>
+    <endif>
+%>
+
+messagePropertyOverrides() ::= <%
+    <if (p.overrides)>override <endif>
+%>
+
+oneofDoesImplement() ::= <%
+    <if (options.doesImplement)>
+        : <options.implements><\ >
+    <endif>
+%>
+
+oneofImplements() ::= <%
+    <if (options.doesImplement)>
+        , <options.implements> by <types.(k).fieldName><\ >
+    <endif>
+%>
+
+deprecated(any) ::= <%
+    <if (any.deprecation)>
+        @Deprecated(
+            <if (any.deprecation.message)>
+                "<any.deprecation.message>"
+            <else>
+                "deprecated in proto"
+            <endif>
+        )<\n>
+    <endif>
+%>
+
+suppressDeprecation(any) ::= <%
+    <if (any.suppressDeprecation)>
+        @Suppress("DEPRECATION")<\n>
+    <endif>
+%>
