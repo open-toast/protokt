@@ -25,6 +25,6 @@ hs_err_pid*
 # mach
 **/.DS_Store
 
-**/.gradle/**
+#**/.gradle/**
 **/.idea/**
 **/build/**
