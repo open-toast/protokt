@@ -14,9 +14,9 @@ jobs:
 #         name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
 #         command: sudo chmod +x ./gradlew
       - run:
-          name: Download Dependencies
+          name: Build test
 #          command: ./gradlew androidDependencies
-          command: ./gradlew jar
+          command: ./gradlew build -x test
 #      - save_cache:
 #          paths:
 #            - ~/.gradle
