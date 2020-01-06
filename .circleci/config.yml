@@ -1,22 +1,20 @@
 version: 2
 jobs:
-  build:
-    working_directory: ~/code
+      environment:
+      # Configure the JVM and Gradle to avoid OOM errors
+      _JAVA_OPTIONS: "-Xmx3g"
+      GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
     docker:
-      - image: circleci/android:api-25-alpha
-    environment:
-      JVM_OPTS: -Xmx3200m
+      - image: circleci/openjdk:11.0.3-jdk-stretch
     steps:
       - checkout
-#      - restore_cache:
-#          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-#      - run:
-#         name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
-#         command: sudo chmod +x ./gradlew
+      - restore_cache:
+          key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+      - restore_cache:
+          key: v1-gradle-cache-{{ checksum "build.gradle" }}
       - run:
-          name: Download Dependencies
-#          command: ./gradlew androidDependencies
-          command: ./gradlew jar
+          name: Install dependencies
+          command: ./gradlew build -x test
 #      - save_cache:
 #          paths:
 #            - ~/.gradle
