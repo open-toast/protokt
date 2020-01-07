@@ -17,7 +17,7 @@ jobs:
           name: Install Gradle Wrapper
           command: gradle wrapper
       - run:
-          name: build me dammit
+          name: Build the application
           command: ./gradlew build -x test
 
 #      - save_cache:
