@@ -3,14 +3,13 @@ jobs:
   build:
     working_directory: ~/code
     docker:
-      #- image: circleci/android:api-25-alpha
       - image: circleci/openjdk:11.0.3-jdk-stretch
     environment:
       JVM_OPTS: -Xmx3200m
     steps:
       - checkout
-      - restore_cache:
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+#      - restore_cache:
+#          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
          name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
          command: sudo chmod +x ./gradlew
@@ -21,13 +20,9 @@ jobs:
           name: build me dammit
           command: ./gradlew build -x test
 
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-      - run:
-          name: Run Tests
-          command: ./gradlew lint test
-          destination: reports
+#      - save_cache:
+#          paths:
+#            - ~/.gradle
+#          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
 #      - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
 #          path: app/build/test-results
