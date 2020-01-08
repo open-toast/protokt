@@ -27,6 +27,8 @@ import com.toasttab.model.AnEnum
 import com.toasttab.model.RootMessage
 import com.toasttab.model.ToDeserialize
 import com.toasttab.protokt.StringValue
+import com.toasttab.protokt.rt.KtEnum
+import com.toasttab.protokt.rt.KtEnumDeserializer
 import com.toasttab.protokt.rt.KtMessage
 import com.toasttab.protokt.rt.Unknown
 import org.junit.jupiter.api.Test
@@ -35,7 +37,15 @@ class JsonDeserializationTest {
     private val mapper =
         ObjectMapper()
             .registerModule(
-                SimpleModule().addDeserializer(RootMessage.OneofField::class.java, OneofFieldDeserializer)
+                SimpleModule()
+                    .addDeserializer(
+                        RootMessage.OneofField::class.java,
+                        OneofFieldDeserializer
+                    )
+                    .addDeserializer(
+                        AnEnum::class.java,
+                        EnumFieldDeserializer(AnEnum)
+                    )
             )
             .registerModule(KotlinModule())
             .addMixIn(KtMessage::class.java, KtMixin::class.java)
@@ -67,8 +77,6 @@ class JsonDeserializationTest {
 
         val string = mapper.writeValueAsString(original)
 
-        println(string)
-
         val deserialized = mapper.readValue(string, ToDeserialize::class.java)
 
         assertThat(deserialized).isEqualTo(original)
@@ -83,5 +91,13 @@ class JsonDeserializationTest {
                 else -> throw IllegalArgumentException("Unknown oneof type: $n")
             }
         }
+    }
+
+    // Jackson does not support deserializing to sealed classes out of the box
+    class EnumFieldDeserializer<T : KtEnum>(
+        private val deserializer: KtEnumDeserializer<T>
+    ) : JsonDeserializer<T>() {
+        override fun deserialize(p: JsonParser, ctx: DeserializationContext) =
+            deserializer.from(ctx.readValue(p, Map::class.java)["value"] as Int)
     }
 }

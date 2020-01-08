@@ -16,7 +16,6 @@
 package com.toasttab.protokt.options
 
 import com.google.common.truth.Truth.assertThat
-import com.toasttab.model.AnEnum
 import com.toasttab.model.RootMessage
 import com.toasttab.protokt.rt.KtGeneratedMessage
 import org.junit.jupiter.api.Test
@@ -25,12 +24,6 @@ class GeneratedMessageAnnotationTest {
     @Test
     fun `messages have KtGeneratedMessage annotation`() {
         assertThat(RootMessage().annotationClasses)
-            .contains(KtGeneratedMessage::class)
-    }
-
-    @Test
-    fun `enums have KtGeneratedMessage annotation`() {
-        assertThat(AnEnum.FIRST.annotationClasses)
             .contains(KtGeneratedMessage::class)
     }
 

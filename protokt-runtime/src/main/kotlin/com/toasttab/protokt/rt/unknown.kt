@@ -44,13 +44,22 @@ data class Unknown(val fieldNum: Int, val value: UnknownValue) {
     constructor(fieldNum: Int, v: Long, fixed: Boolean = false) :
         this(
             fieldNum,
-            if (fixed) Fixed64Val(Fixed64(v)) else VarIntVal(v))
+            if (fixed) {
+                Fixed64Val(Fixed64(v))
+            } else {
+                VarIntVal(v)
+            }
+        )
 
     constructor(fieldNum: Int, v: Int, fixed: Boolean = false) :
         this(
             fieldNum,
-            if (fixed) Fixed32Val(Fixed32(v))
-            else VarIntVal(v.toLong()))
+            if (fixed) {
+                Fixed32Val(Fixed32(v))
+            } else {
+                VarIntVal(v.toLong())
+            }
+        )
 
     constructor(fieldNum: Int, ba: ByteArray) :
         this(fieldNum, LengthDelimitedVal(ba))
@@ -58,8 +67,11 @@ data class Unknown(val fieldNum: Int, val value: UnknownValue) {
     constructor(fieldNum: Int, str: String) :
         this(fieldNum, str.toByteArray())
 
-    fun sizeof() = when (value) {
-        is ListVal -> (sizeof(Tag(fieldNum)) * value.value.size) + value.size()
-        else -> sizeof(Tag(fieldNum)) + value.size()
-    }
+    fun sizeof() =
+        when (value) {
+            is ListVal ->
+                (sizeof(Tag(fieldNum)) * value.value.size) + value.size()
+            else ->
+                sizeof(Tag(fieldNum)) + value.size()
+        }
 }

@@ -33,12 +33,7 @@ internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
     private fun effect(ast: AST<TypeDesc>, acc: Accumulator<String>) {
         ast.data.type.template.map { template ->
             effect(Optics.annotate(ast, None), None).let {
-                if (it.isNotEmpty())
-                    STTemplate.addTo(
-                        template as STTemplate,
-                        InnerMessageVar,
-                        it.joinToString("\n")
-                    )
+                addInner(template as STTemplate, it)
                 acc(template.render())
             }
         }
@@ -53,14 +48,17 @@ internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
         if (l.isEmpty()) {
             parent.map {
                 it.data.type.template.map { t ->
-                    STTemplate.addTo(
-                        t as STTemplate,
-                        InnerMessageVar,
-                        res.joinToString("\n"))
+                    addInner(t as STTemplate, res)
                     res = emptyList()
                 }
             }
         }
         return res
+    }
+
+    private fun addInner(t: STTemplate, strings: List<String>) {
+        if (strings.isNotEmpty()) {
+            STTemplate.addTo(t, InnerMessageVar, strings.joinToString("\n"))
+        }
     }
 }

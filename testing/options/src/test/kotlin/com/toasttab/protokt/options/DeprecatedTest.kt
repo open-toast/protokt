@@ -34,9 +34,8 @@ class DeprecatedTest {
 
     @Test
     fun `foreign enum with deprecation`() {
-        assertFieldDeprecation(
-            ForeignEnumWithDeprecation.Deserializer::class,
-            "OPTION_FOUR",
+        assertClassDeprecation(
+            ForeignEnumWithDeprecation.OPTION_FOUR::class,
             "deprecated in proto"
         )
     }
@@ -76,9 +75,8 @@ class DeprecatedTest {
 
     @Test
     fun `enum with deprecation`() {
-        assertFieldDeprecation(
-            com.toasttab.model.DeprecatedModel.EnumWithDeprecation.Deserializer::class,
-            "OPTION_TWO",
+        assertClassDeprecation(
+            com.toasttab.model.DeprecatedModel.EnumWithDeprecation.OPTION_TWO::class,
             "mildly deprecated"
         )
     }

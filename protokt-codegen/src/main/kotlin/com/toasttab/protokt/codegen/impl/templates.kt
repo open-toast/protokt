@@ -53,8 +53,6 @@ object MethodSt : TemplateSt<MethodVar>(
 
 object PackageHeaderVar : HeaderVar("package")
 object RuntimePackageHeaderVar : HeaderVar("runtimePackage")
-object RpcRuntimePackageHeaderVar : HeaderVar("rpcRuntimePackage")
-object RpcHeaderVar : HeaderVar("rpc")
 object ExtPackageHeaderVar : HeaderVar("extPackage")
 object ExtHeaderVar : HeaderVar("ext")
 
@@ -64,8 +62,6 @@ object HeaderSt : TemplateSt<HeaderVar>(
     setOf(
         PackageHeaderVar,
         RuntimePackageHeaderVar,
-        RpcHeaderVar,
-        RpcRuntimePackageHeaderVar,
         ExtPackageHeaderVar,
         ExtHeaderVar
     )
@@ -74,13 +70,12 @@ object HeaderSt : TemplateSt<HeaderVar>(
 object MessageMessageVar : MessageVar("message")
 object EntryMessageVar : MessageVar("entry")
 object SerializeMessageVar : MessageVar("serialize")
-object SerializerMessageVar : MessageVar("serializer")
 object DeserializeMessageVar : MessageVar("deserialize")
-object DeserializerMessageVar : MessageVar("deserializer")
 object SizeofMessageVar : MessageVar("sizeof")
 object InnerMessageVar : MessageVar("inner")
 object ParamsMessageVar : MessageVar("params")
 object OneOfsMessageVar : MessageVar("oneofs")
+object OptionsMessageVar : MessageVar("options")
 
 object MessageSt : TemplateSt<MessageVar>(
     Templates,
@@ -89,13 +84,12 @@ object MessageSt : TemplateSt<MessageVar>(
         MessageMessageVar,
         EntryMessageVar,
         SerializeMessageVar,
-        SerializerMessageVar,
         DeserializeMessageVar,
-        DeserializerMessageVar,
         SizeofMessageVar,
         InnerMessageVar,
         ParamsMessageVar,
-        OneOfsMessageVar
+        OneOfsMessageVar,
+        OptionsMessageVar
     )
 )
 
@@ -132,9 +126,7 @@ object FieldSizeOfRF : TemplateSt<SizeOfVar>(
 object AnyRenderVar : RenderVar("any")
 object TypeRenderVar : RenderVar("type")
 object BuilderRenderVar : RenderVar("builder")
-object CompanionRenderVar : RenderVar("companion")
 object NameRenderVar : RenderVar("name")
-object ShouldRenderNameRenderVar : RenderVar("shouldRenderName")
 object DefRenderVar : RenderVar("def")
 object FieldRenderVar : RenderVar("field")
 object ReadRenderVar : RenderVar("read")
@@ -160,12 +152,6 @@ object ReadFunctionRF : TemplateSt<RenderVar>(
     Renderers,
     "readF",
     setOf(TypeRenderVar, BuilderRenderVar)
-)
-
-object BuilderRF : TemplateSt<RenderVar>(
-    Renderers,
-    "builderF",
-    setOf(CompanionRenderVar, NameRenderVar, ShouldRenderNameRenderVar)
 )
 
 object BoxRF : TemplateSt<RenderVar>(
@@ -314,10 +300,9 @@ data class ConditionalSt(
 
 data class AssignmentSt(
     val fieldName: String,
-    val value: String
-) {
-    val long = value.length > 40
-}
+    val value: String,
+    val long: Boolean
+)
 
 data class SizeofSt(
     val std: Boolean,
