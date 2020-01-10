@@ -323,7 +323,7 @@ private fun packageName(
     if (fdp.options?.uninterpretedOptionList?.nonEmpty() == true) {
         fdp.options?.uninterpretedOptionList?.find { f ->
             f.nameList.singleOrNull()?.namePart == paramName
-        }?.stringValue?.let { f -> f.toStringUtf8() }.toOption()
+        }?.stringValue?.toStringUtf8().toOption()
     } else {
         fdp.`package`.emptyToNone()
     }

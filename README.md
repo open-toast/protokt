@@ -14,10 +14,10 @@ and more
 CodedOutputStream for best performance
 
 #### Not yet implemented
-- Kotlin native support
-- Kotlin JS support
-- Support for gRPC service generation
-- Protobuf JSON support
+- Support for gRPC service and client generation (*In progress!*)
+- Kotlin native support (**Looking for contributors**)
+- Kotlin JS support (**Looking for contributors**)
+- Protobuf JSON support 
 
 See examples in [testing](https://github.com/toasttab/protokt/tree/master/testing).
 
@@ -134,30 +134,20 @@ data class Sample(
     companion object Deserializer : KtDeserializer<Sample> {
         override fun deserialize(deserializer: KtMessageDeserializer): Sample {
             var sampleField = ""
-            val unknown = mutableMapOf<Int, Unknown>()
+            val unknown: MutableMap<Int, Unknown>? = null
+
             while (true) {
                 when (deserializer.readTag()) {
                     0 ->
                         return Sample(
                             sampleField,
-                            unknown
+                            finishMap(unknown)
                         )
                     10 -> sampleField = deserializer.readString()
-                    else -> {
-                        val unk = deserializer.readUnknown()
-                        unknown[unk.fieldNum] = unknown[unk.fieldNum].let {
-                            when (it) {
-                                null -> unk
-                                else ->
-                                    when (val v = it.value) {
-                                        is ListVal ->
-                                            Unknown(unk.fieldNum, ListVal(v.value + unk.value))
-                                        else ->
-                                            Unknown(unk.fieldNum, ListVal(listOf(v, unk.value)))
-                                    }
-                            }
+                    else -> unknown =
+                        (unknown ?: mutableMapOf()).also {
+                            processUnknown(deserializer, it)
                         }
-                    }
                 }
             }
         }
@@ -194,10 +184,44 @@ In order to enjoy the full benefits of Kotlin data classes, byte arrays are wrap
 protokt `Bytes` class, which provides appropriate `equals()` and `hashCode()` implementations.
 
 #### Enums
-Enum fields are generated as classes with a single integer field. Kotlin enum classes are
-closed and cannot represent unknown values, and protocol buffers require that unknown enum values are
-preserved for reserialization. This compromise precludes the usage of exhaustive case switching and
-other nice features of enums to provide desired behavior.
+Enum fields are generated as sealed classes with an integer value and name. They cannot be represented
+as Kotlin enum classes since Kotlin enum classes are closed and cannot represent unknown values. Protocol
+buffers require that unknown enum values are preserved for reserialization, so this compromise allows
+exhaustive case switching while allowing representation of unknown values.
+
+```kotlin
+sealed class PhoneType(
+    override val value: Int,
+    override val name: String
+) : KtEnum {
+    override fun equals(other: Any?) =
+        other is PhoneType && other.value == value
+
+    override fun hashCode() =
+        value
+
+    override fun toString() =
+        name
+
+    object MOBILE : PhoneType(0, "MOBILE")
+
+    object HOME : PhoneType(1, "HOME")
+
+    object WORK : PhoneType(2, "WORK")
+
+    class UNRECOGNIZED(value: Int) : PhoneType(value, "UNRECOGNIZED")
+
+    companion object Deserializer : KtEnumDeserializer<PhoneType> {
+        override fun from(value: Int) =
+            when (value) {
+                0 -> MOBILE
+                1 -> HOME
+                2 -> WORK
+                else -> UNRECOGNIZED(value)
+            }
+    }
+}
+```
 
 #### Other Notes
 - `optimize_for` is ignored.
@@ -273,8 +297,8 @@ data class WrapperModel(
                         instant
                         ...
                     )
-                8 -> instant = 
-                        InstantConverter.wrap(deserializer.readMessage(com.toasttab.protokt.Timestamp.Deserializer))
+                8 -> instant =
+                        InstantConverter.wrap(deserializer.readMessage(com.toasttab.protokt.Timestamp))
                 ...
             }
         }
@@ -483,7 +507,7 @@ protokt$ protoc \
 
 ### Contribution
 To enable rapid development of the code generator, the protobuf conformance tests have been
-compiled and included in the `testing` project. They run on Mac OS 10.14+ and Ubuntu
+compiled and included in the `gradle-plugin-integration-testing` project. They run on Mac OS 10.14+ and Ubuntu
 16.04 x86-64 as part of normal Gradle builds.
 
 When integration testing the Gradle plugin, note that after changing the plugin and republishing

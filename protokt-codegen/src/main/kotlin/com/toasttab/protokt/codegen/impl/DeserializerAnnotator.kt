@@ -21,6 +21,7 @@ import arrow.core.Some
 import com.toasttab.protokt.codegen.MessageType
 import com.toasttab.protokt.codegen.OneOf
 import com.toasttab.protokt.codegen.StandardField
+import com.toasttab.protokt.codegen.impl.MessageAnnotator.idealMaxWidth
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptDeserializedValue
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptReadFn
@@ -40,20 +41,43 @@ private constructor(
                 field.tagList.joinToString(),
                 oneOf.fold(
                     {
-                        AssignmentSt(
-                            field.fieldName,
-                            deserializeString(field)
-                        )
+                        deserializeString(field).let { value ->
+                            AssignmentSt(
+                                field.fieldName,
+                                value,
+                                long(field, value)
+                            )
+                        }
                     },
                     {
-                        AssignmentSt(
-                            it.fieldName,
-                            oneOfDes(it, field)
-                        )
+                        oneOfDes(it, field).let { value ->
+                            AssignmentSt(
+                                it.fieldName,
+                                value,
+                                long(field, value)
+                            )
+                        }
                     }
                 )
             )
         }
+
+    private fun long(field: StandardField, value: String): Boolean {
+        val spaceTaken =
+            (ctx.enclosingMessage.size * 4) + // outer indentation
+                4 + // companion object
+                4 + // fun deserialize
+                4 + // while (true)
+                4 + // when (...)
+                field.tag.toString().length +
+                4 + // ` -> `
+                field.fieldName.length +
+                3 // ` = `
+
+        val spaceLeft = idealMaxWidth - spaceTaken
+
+        return value.length > spaceLeft
+    }
 
     private fun deserializeString(f: StandardField) =
         interceptDeserializedValue(
@@ -95,18 +119,10 @@ private constructor(
             BuilderRenderVar to
                 when (type) {
                     PType.ENUM,
-                    PType.MESSAGE -> builder()
+                    PType.MESSAGE -> stripQualification(ctx, this)
                     else -> ""
                 }
         )
-
-    private fun StandardField.builder(): String {
-        val n = stripQualification(ctx, this)
-        return BuilderRF.render(
-            ShouldRenderNameRenderVar to (msg.name != n),
-            NameRenderVar to n
-        )
-    }
 
     private fun stripQualification(ctx: Context, f: StandardField) =
         stripEnclosingMessageName(f.typePClass().unqualify(ctx.pkg), ctx)

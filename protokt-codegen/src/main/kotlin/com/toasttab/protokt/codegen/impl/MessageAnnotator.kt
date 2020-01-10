@@ -34,6 +34,8 @@ import com.toasttab.protokt.codegen.impl.SerializerAnnotator.Companion.annotateS
 import com.toasttab.protokt.codegen.impl.SizeOfAnnotator.Companion.annotateSizeof
 
 internal object MessageAnnotator {
+    val idealMaxWidth = 100
+
     fun annotateMessage(
         ast: AST<TypeDesc>,
         msg: MessageType,
@@ -48,10 +50,9 @@ internal object MessageAnnotator {
                     is OneOfsMessageVar -> annotateOneOfs(msg, ctx)
                     is SizeofMessageVar -> annotateSizeof(msg, ctx)
                     is SerializeMessageVar -> annotateSerializer(msg, ctx)
-                    is SerializerMessageVar -> SerializerMessageVar.value
                     is DeserializeMessageVar -> annotateDeserializer(msg, ctx)
-                    is DeserializerMessageVar -> DeserializerMessageVar.value
-                    is InnerMessageVar -> ""
+                    is OptionsMessageVar -> options(msg, ctx)
+                    is InnerMessageVar -> emptyList<String>()
                 }
             }
         }
@@ -78,4 +79,21 @@ internal object MessageAnnotator {
                             .fold({ false }, { it == msg })),
             fullTypeName = msg.fullProtobufTypeName
         )
+
+    private fun options(msg: MessageType, ctx: Context): Any {
+        val lengthAsOneLine =
+            ctx.enclosingMessage.size * 4 +
+                4 + // companion indentation
+                63 + // `override fun deserialize(deserializer: KtMessageDeserializer): `
+                msg.name.length +
+                2 // ` {`
+
+        return MessageOptions(
+            lengthAsOneLine > idealMaxWidth
+        )
+    }
+
+    private class MessageOptions(
+        val longDeserializer: Boolean
+    )
 }

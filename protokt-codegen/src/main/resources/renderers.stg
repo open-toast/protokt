@@ -143,13 +143,6 @@ type2nativeF(type) ::= "<kotlinTypeNames.(type)>"
 
 readF(type, builder) ::= "<readFunctions.(type)>(<builder>)"
 
-builderF(name, shouldRenderName) ::= <%
-    <if (shouldRenderName)>
-        <name>.
-    <endif>
-    Deserializer
-%>
-
 boxF(type, def) ::= "<if (boxFunction.(type))><boxer.(type)>(<def>)<else><def><endif>"
 
 boxMapF(type, box) ::= "<if (isMessage.(type))><box>(it.key, it.value)<else><endif>"
@@ -181,15 +174,17 @@ deserializeWrapper(v) ::= <%
             <t()>"<v> specified nonnull with (protokt.<if (p.oneOf)>oneof<else>property<endif>).non_null but was null"<\n>
         }
     <else>
-        <v>
-        <if (p.wrapped && !p.nullable)>
-            <\ >?: <p.defaultValue>
-        <elseif (p.map)>
-            <\ >?: emptyMap()
+        <if (p.map)>
+            finishMap(<v>)
         <elseif (p.repeated)>
-            <\ >?: emptyList()
-        <elseif (entry.entry && isMessage.(p.messageType))>
-            <\ >?: <entry.vType>()
+            finishList(<v>)
+        <else>
+            <v>
+            <if (p.wrapped && !p.nullable)>
+                <\ >?: <p.defaultValue>
+            <elseif (entry.entry && isMessage.(p.messageType))>
+                <\ >?: <entry.vType>()
+            <endif>
         <endif>
     <endif>
 %>

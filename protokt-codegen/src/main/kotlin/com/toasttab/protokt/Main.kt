@@ -52,7 +52,7 @@ internal fun main(bytes: ByteArray, out: OutputStream) = IO {
                     System.err.println(t.localizedMessage)
                     exitProcess(-1)
                 })
-            g { s -> code.append(s) }
+            g { s -> code.append(s + "\n") }
 
             Some(
                 PluginProtos.CodeGeneratorResponse.File
@@ -73,22 +73,18 @@ internal fun main(bytes: ByteArray, out: OutputStream) = IO {
 }.unsafeRunSync()
 
 private fun parseParams(req: PluginProtos.CodeGeneratorRequest) =
-    req.let {
-        if (req.parameter == null || req.parameter.isEmpty()) {
-            emptyMap()
-        } else {
-            req.parameter
-                .split(',')
-                .map { it.substringBefore('=') to it.substringAfter('=', "") }
-                .toMap()
-        }
+    if (req.parameter == null || req.parameter.isEmpty()) {
+        emptyMap()
+    } else {
+        req.parameter
+            .split(',')
+            .map { it.substringBefore('=') to it.substringAfter('=', "") }
+            .toMap()
     }
 
 private fun toCodeGeneratorRequest(bytes: ByteArray) =
-    bytes.let {
-        PluginProtos.CodeGeneratorRequest.parseFrom(
-            bytes,
-            ExtensionRegistry.newInstance()
-                .also { Protokt.registerAllExtensions(it) }
-        )
-    }
+    PluginProtos.CodeGeneratorRequest.parseFrom(
+        bytes,
+        ExtensionRegistry.newInstance()
+            .also { Protokt.registerAllExtensions(it) }
+    )

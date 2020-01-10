@@ -24,8 +24,6 @@ import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
 import com.toasttab.protokt.codegen.impl.EnumDocumentationAnnotator.Companion.annotateEnumDocumentation
 import com.toasttab.protokt.codegen.impl.EnumDocumentationAnnotator.Companion.annotateEnumFieldDocumentation
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
-import com.toasttab.protokt.codegen.impl.STAnnotator.protoktFqcn
-import com.toasttab.protokt.codegen.model.PPackage
 
 internal object EnumAnnotator {
     fun annotateEnum(
@@ -64,9 +62,7 @@ internal object EnumAnnotator {
                                     null
                                 },
                             suppressDeprecation =
-                                (e.hasDeprecation && !enclosingDeprecation(ctx)),
-                            wellKnownType =
-                                ctx.pkg == PPackage.fromString(protoktFqcn)
+                                (e.hasDeprecation && !enclosingDeprecation(ctx))
                         )
                 }
             }
@@ -83,7 +79,6 @@ internal object EnumAnnotator {
     private data class EnumOptions(
         val documentation: List<String>,
         val deprecation: Deprecation.RenderOptions?,
-        val suppressDeprecation: Boolean,
-        val wellKnownType: Boolean
+        val suppressDeprecation: Boolean
     )
 }

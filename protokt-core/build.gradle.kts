@@ -34,17 +34,30 @@ tasks.register<Copy>("moveWellKnownTypes") {
 
     from(wktSrc)
     into(wktDest)
-    include("*.proto")
+
+    include("**/*.proto")
 }
 
 tasks.register<Delete>("deleteWellKnownTypes") {
     dependsOn("moveWellKnownTypes")
-    delete(wktSrc)
+    delete(
+        fileTree(wktSrc).matching {
+            exclude("protobuf/**")
+        }
+    )
+}
+
+tasks.register<Delete>("deleteSrcMainProto") {
+    delete(wktDest)
 }
 
 afterEvaluate {
     tasks.named("generateProto") {
         dependsOn("deleteWellKnownTypes")
+    }
+
+    tasks.named("clean") {
+        dependsOn("deleteSrcMainProto")
     }
 }
 

@@ -27,6 +27,9 @@ import com.toasttab.protokt.rt.sizeof
 /* data */ class CachingId(internal val value: ByteArray) {
     val string = String(value)
 
+    override fun toString() =
+        "CachingId($string)"
+
     override fun equals(other: Any?) =
         other is CachingId && value.contentEquals(other.value)
 
