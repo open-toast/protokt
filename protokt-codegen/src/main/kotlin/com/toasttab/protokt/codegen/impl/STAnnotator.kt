@@ -41,7 +41,8 @@ object STAnnotator : Annotator<AST<TypeDesc>> {
     const val com = "com"
     const val protobuf = "protobuf"
 
-    const val googleProto = ".google.$protobuf"
+    const val rootGoogleProto = "google.$protobuf"
+    const val googleProto = ".$rootGoogleProto"
 
     const val protokt = ".protokt"
     const val protoktProtobuf = "$protokt.$protobuf"

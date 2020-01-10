@@ -25,6 +25,7 @@ import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.TypeDesc
 import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
+import com.toasttab.protokt.codegen.impl.STAnnotator.rootGoogleProto
 import com.toasttab.protokt.codegen.model.PPackage
 
 val rootPkg = PPackage.fromString("com.toasttab.protokt")
@@ -64,8 +65,10 @@ internal fun kotlinPackage(ast: AST<TypeDesc>) =
     ast.data.desc.options.kotlinPackage.emptyToNone()
         .orElse { ast.data.desc.packageName }
         .map {
-            if (it == "google.protobuf") {
-                rootPkg
+            if (it.startsWith(rootGoogleProto)) {
+                PPackage.fromString(
+                    rootPkg.toString() + it.removePrefix(rootGoogleProto)
+                )
             } else {
                 PPackage.fromString(it)
             }
