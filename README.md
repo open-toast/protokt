@@ -14,10 +14,10 @@ and more
 CodedOutputStream for best performance
 
 #### Not yet implemented
-- Kotlin native support
-- Kotlin JS support
-- Support for gRPC service generation
-- Protobuf JSON support
+- Support for gRPC service and client generation (*In progress!*)
+- Kotlin native support (**Looking for contributors**)
+- Kotlin JS support (**Looking for contributors**)
+- Protobuf JSON support 
 
 See examples in [testing](https://github.com/toasttab/protokt/tree/master/testing).
 
