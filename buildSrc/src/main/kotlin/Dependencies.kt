@@ -35,6 +35,9 @@ object versions {
     const val kotlinTest = "3.4.2"
     const val truth = "1.0"
     const val wire = "3.0.0-alpha01"
+
+    // Third Party
+    const val protoGoogleCommonProtos = "1.17.0"
 }
 
 object libraries {
@@ -49,15 +52,12 @@ object libraries {
     const val autoService = "com.google.auto.service:auto-service:${versions.autoService}"
     const val autoServiceAnnotations = "com.google.auto.service:auto-service-annotations:${versions.autoService}"
 
-    const val grpcProtobuf = "io.grpc:grpc-protobuf:${versions.grpc}"
-    const val grpcStub = "io.grpc:grpc-stub:${versions.grpc}"
     const val kollection = "com.github.andrewoma.dexx:kollection:${versions.kollection}"
 
     const val kotlinPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
     const val kotlinReflect = "org.jetbrains.kotlin:kotlin-reflect:${versions.kotlin}"
     const val kotlinStdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlin}"
     const val kotlinxCoroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.kotlinxCoroutines}"
-    const val kotlinxCoroutinesGuava = "org.jetbrains.kotlinx:kotlinx-coroutines-guava:${versions.kotlinxCoroutines}"
 
     const val protobufPlugin = "com.google.protobuf:protobuf-gradle-plugin:${versions.protobufPlugin}"
     const val protobuf = "com.google.protobuf:protobuf-java:${versions.protobuf}"
@@ -79,4 +79,7 @@ object libraries {
 
     const val wireGradle = "com.squareup.wire:wire-gradle-plugin:${versions.wire}"
     const val wireRuntime = "com.squareup.wire:wire-runtime:${versions.wire}"
+
+    // Third Party
+    const val protoGoogleCommonProtos = "com.google.api.grpc:proto-google-common-protos:${versions.protoGoogleCommonProtos}"
 }
