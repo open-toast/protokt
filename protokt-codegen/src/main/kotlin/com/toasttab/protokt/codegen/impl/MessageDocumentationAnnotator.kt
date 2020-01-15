@@ -56,7 +56,19 @@ internal fun Option<Location>.cleanDocumentation(): List<String> =
                 .emptyToNone()
                 .fold(
                     { emptyList() },
-                    { s -> s.substringBeforeLast("\n").split("\n") }
+                    { s ->
+                        s.substringBeforeLast("\n")
+                            .split("\n")
+                            .map { line ->
+                                // Escape possibly accidentally nested comments
+                                //
+                                // Will not render correctly inside backticks:
+                                // https://youtrack.jetbrains.com/issue/KT-28979
+                                line
+                                    .replace("/*", "&#47;*")
+                                    .replace("*/", "*&#47;")
+                            }
+                    }
                 )
         }
     )
