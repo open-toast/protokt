@@ -18,6 +18,7 @@ import com.toasttab.protokt.shared.protoktExtensions
 apply(plugin = "kotlin-kapt")
 
 localProtokt()
+enablePublishing()
 
 dependencies {
     implementation(project(":protokt-runtime"))

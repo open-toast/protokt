@@ -15,6 +15,7 @@
 
 localProtokt()
 pureKotlin()
+enablePublishing()
 
 dependencies {
     add("protobuf", libraries.protoGoogleCommonProtos)

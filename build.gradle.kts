@@ -28,10 +28,9 @@ buildscript {
     }
 }
 
-group = "com.toasttab.protokt"
-
 allprojects {
     lint()
+    group = "com.toasttab.protokt"
 }
 
 subprojects {

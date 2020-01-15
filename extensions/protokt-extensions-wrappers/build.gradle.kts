@@ -16,6 +16,7 @@
 import com.toasttab.protokt.shared.protoktExtensions
 
 localProtokt()
+enablePublishing()
 
 dependencies {
     implementation(project(":protokt-core"))

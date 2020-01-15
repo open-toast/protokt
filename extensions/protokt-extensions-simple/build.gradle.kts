@@ -15,6 +15,8 @@
 
 apply(plugin = "kotlin-kapt")
 
+enablePublishing()
+
 dependencies {
     compileOnly(libraries.protobuf)
 

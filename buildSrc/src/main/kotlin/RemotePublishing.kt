@@ -75,7 +75,7 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
                     artifact(tasks.getByName("sourcesJar"))
                     artifactId = project.name
                     version = "$version"
-                    groupId = "${rootProject.group}"
+                    groupId = "$group"
                 }
             }
         }

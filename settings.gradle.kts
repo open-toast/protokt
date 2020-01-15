@@ -53,5 +53,6 @@ include(
     "benchmarks:protobuf-java",
     "benchmarks:util",
 
+    "third-party",
     "third-party:proto-google-common-protos"
 )
