@@ -17,6 +17,7 @@ package com.toasttab.protokt.rt
 
 import com.google.protobuf.CodedInputStream
 import java.io.InputStream
+import java.nio.ByteBuffer
 
 interface KtDeserializer<T : KtMessage> {
     fun deserialize(deserializer: KtMessageDeserializer): T
@@ -40,4 +41,7 @@ interface KtDeserializer<T : KtMessage> {
 
     fun deserialize(stream: InputStream) =
         deserialize(deserializer(CodedInputStream.newInstance(stream)))
+
+    fun deserialize(buffer: ByteBuffer) =
+        deserialize(deserializer(CodedInputStream.newInstance(buffer)))
 }
