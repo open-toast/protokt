@@ -19,49 +19,8 @@ localProtokt()
 pureKotlin()
 enablePublishing()
 
-val wktSrc = "${project.buildDir}/extracted-include-protos/main/google/protobuf"
-val wktDest = "src/main/proto/google/protobuf"
-
-tasks.register("createProtoDir") {
-    dependsOn("extractIncludeProto")
-    doFirst {
-        file(wktDest).mkdirs()
-    }
-}
-
-tasks.register<Copy>("moveWellKnownTypes") {
-    dependsOn("createProtoDir")
-
-    from(wktSrc)
-    into(wktDest)
-
-    include("**/*.proto")
-}
-
-tasks.register<Delete>("deleteWellKnownTypes") {
-    dependsOn("moveWellKnownTypes")
-    delete(
-        fileTree(wktSrc).matching {
-            exclude("protobuf/**")
-        }
-    )
-}
-
-tasks.register<Delete>("deleteSrcMainProto") {
-    delete(wktDest)
-}
-
-afterEvaluate {
-    tasks.named("generateProto") {
-        dependsOn("deleteWellKnownTypes")
-    }
-
-    tasks.named("clean") {
-        dependsOn("deleteSrcMainProto")
-    }
-}
-
 dependencies {
+    add("protobuf", libraries.protobuf)
     compileOnly(libraries.protobuf)
     api(project(":protokt-runtime"))
     implementation(libraries.kotlinReflect)
