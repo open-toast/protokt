@@ -15,5 +15,4 @@
 
 subprojects {
     pureKotlin()
-    enablePublishing()
 }

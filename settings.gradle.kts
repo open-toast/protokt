@@ -51,5 +51,8 @@ include(
     "benchmarks:wire",
     "benchmarks:protokt",
     "benchmarks:protobuf-java",
-    "benchmarks:util"
+    "benchmarks:util",
+
+    "third-party",
+    "third-party:proto-google-common-protos"
 )

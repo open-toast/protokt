@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019. Toast Inc.
+ * Copyright (c) 2020 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,20 +13,12 @@
  * limitations under the License.
  */
 
-import com.toasttab.protokt.shared.protoktExtensions
-
-apply(plugin = "kotlin-kapt")
-
 localProtokt()
+pureKotlin()
 enablePublishing()
 
 dependencies {
-    implementation(project(":protokt-runtime"))
-    implementation(project(":extensions:protokt-extensions-api"))
-    implementation(libraries.autoServiceAnnotations)
+    add("protobuf", libraries.protoGoogleCommonProtos)
 
-    compileOnly(libraries.protobuf)
-    add("kapt", libraries.autoService)
-
-    protoktExtensions(project(":extensions:protokt-extensions-simple"))
+    implementation(project(":protokt-core"))
 }

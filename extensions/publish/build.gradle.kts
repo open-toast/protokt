@@ -13,6 +13,8 @@
  * limitations under the License.
  */
 
+enablePublishing(defaultJars = false)
+
 dependencies {
     api(project(":extensions:protokt-extensions-simple"))
     api(project(":extensions:protokt-extensions-proto-based"))
