@@ -1,4 +1,5 @@
-# protokt [![Build Status](https://jorkins.eng.toasttab.com/buildStatus/icon?job=protokt%2Fmaster)](https://jorkins.eng.toasttab.com/job/protokt/job/master/)
+# protokt 
+
 Protobuf compiler and runtime for Kotlin.
 
 Supports only the Protocol Buffers language version 3.
