@@ -8,21 +8,21 @@ jobs:
       JVM_OPTS: -Xmx3200m
     steps:
       - checkout
-#      - restore_cache:
-#          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      
       - run:
-         name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
-         command: sudo chmod +x ./gradlew
-      - run:
-          name: Install Gradle Wrapper
-          command: gradle wrapper
-      - run:
-          name: Build the application
-          command: ./gradlew build -x test
+          name: build and test
+          command: ./gradlew clean check publishToIntegrationRepository --stacktrace
 
-#      - save_cache:
-#          paths:
-#            - ~/.gradle
-#          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-#      - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
-#          path: app/build/test-results
+      - run:
+          name: integration tests
+          command: cd gradle-plugin-integration-test && ./gradlew clean build --stacktrace
+
+      - run:
+            name: save test results
+            command: |
+              mkdir -p ~/test-results
+              find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/ \;
+            when: always
+      
+      - store_test_results:
+            path: ~/test-results
