@@ -11,7 +11,18 @@ jobs:
       
       - run:
           name: build and test
-          command: cd gradle-plugin-integration-test && ./gradlew clean check publishToIntegrationRepository --stacktrace
+          command: ./gradlew clean check publishToIntegrationRepository --stacktrace
 
-      - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
-          path: "**/build/test-results"
+      - run:
+          name: integration tests
+          command: cd gradle-plugin-integration-test && ./gradlew clean build --stacktrace
+
+      - run:
+            name: Save test results
+            command: |
+              mkdir -p ~/test-results/junit/
+              find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
+            when: always
+      
+      - store_test_results:
+            path: ~/test-results
