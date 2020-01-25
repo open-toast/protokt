@@ -1,4 +1,4 @@
-# protokt 
+# protokt [![CircleCI](https://circleci.com/gh/open-toast/protokt.svg?style=svg)](https://circleci.com/gh/open-toast/protokt)
 
 Protobuf compiler and runtime for Kotlin.
 
