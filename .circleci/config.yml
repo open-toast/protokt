@@ -11,7 +11,7 @@ jobs:
       
       - run:
           name: build and test
-          command: ./gradlew check
+          command: cd gradle-plugin-integration-test && ./gradlew clean check publishToIntegrationRepository --stacktrace
 
       - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
           path: "**/build/test-results"
