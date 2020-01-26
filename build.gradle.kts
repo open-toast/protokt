@@ -33,6 +33,8 @@ allprojects {
     group = "com.toasttab.protokt"
 }
 
+promoteStagingRepo()
+
 subprojects {
     repositories {
         jcenter()

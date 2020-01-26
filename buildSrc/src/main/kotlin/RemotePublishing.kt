@@ -15,6 +15,7 @@
 
 import com.toasttab.protokt.shared.kotlin
 import com.toasttab.protokt.shared.main
+import io.codearte.gradle.nexus.NexusStagingExtension
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginConvention
 import org.gradle.api.publish.PublishingExtension
@@ -27,17 +28,55 @@ import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
+import org.gradle.plugins.signing.SigningExtension
+
+private object Pgp {
+    val key by lazy {
+        System.getenv("PGP_KEY")
+    }
+
+    val password by lazy {
+        System.getenv("PGP_PASSWORD")
+    }
+}
+
+private object Remote {
+    val username by lazy {
+        System.getenv("OSSRH_USERNAME")
+    }
+
+    val password by lazy {
+        System.getenv("OSSRH_PASSWORD")
+    }
+
+    val url = "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+}
+
+fun MavenPublication.standardPom() {
+    pom {
+        scm {
+            url.set("https://github.com/open-toast/protokt")
+        }
+        licenses {
+            license {
+                name.set("The Apache License, Version 2.0")
+                url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+            }
+        }
+    }
+}
+
+fun Project.sign(publication: MavenPublication) {
+    configure<SigningExtension> {
+        useInMemoryPgpKeys(Pgp.key, Pgp.password)
+        sign(publication)
+    }
+}
 
 fun Project.enablePublishing(defaultJars: Boolean = true) {
     apply(plugin = "maven-publish")
 
-    val remoteUrl = project.properties[
-        if (version.toString().endsWith("-SNAPSHOT")) {
-            "publish.remote.url.snapshots"
-        } else {
-            "publish.remote.url.releases"
-        }
-    ] as String?
+    val publishToRemote = !version.toString().endsWith("-SNAPSHOT")
 
     configure<PublishingExtension> {
         repositories {
@@ -46,14 +85,13 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
                 setUrl("${project.rootProject.buildDir}/repos/integration")
             }
 
-            if (remoteUrl != null) {
+            if (publishToRemote) {
                 maven {
                     name = "remote"
-                    setUrl(remoteUrl)
+                    setUrl(Remote.url)
                     credentials {
-                        username = (properties["publish.remote.user"] ?: properties["artifactory_user"]) as String
-                        password =
-                            (properties["publish.remote.password"] ?: properties["artifactory_password"]) as String
+                        username = Remote.username
+                        password = Remote.password
                     }
                 }
             }
@@ -71,6 +109,7 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
         configure<PublishingExtension> {
             publications {
                 create<MavenPublication>("sources") {
+                    standardPom()
                     from(components.getByName("java"))
                     artifact(tasks.getByName("sourcesJar"))
                     artifactId = project.name
@@ -89,13 +128,28 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
     }
 
     tasks.register("publishToRemote") {
-        enabled = remoteUrl != null
+        enabled = publishToRemote
         group = "publishing"
 
         if (enabled) {
+            val publishingExtension = project.the<PublishingExtension>()
+
+            publishingExtension.publications.withType<MavenPublication> {
+                sign(this)
+            }
+
             dependsOn(tasks.withType<PublishToMavenRepository>().matching {
-                it.repository == project.the<PublishingExtension>().repositories.getByName("remote")
+                it.repository == publishingExtension.repositories.getByName("remote")
             })
         }
+    }
+}
+
+fun Project.promoteStagingRepo() {
+    apply(plugin = "io.codearte.nexus-staging")
+
+    configure<NexusStagingExtension> {
+        username = Remote.username
+        password = Remote.password
     }
 }
