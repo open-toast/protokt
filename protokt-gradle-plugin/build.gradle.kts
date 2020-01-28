@@ -17,8 +17,6 @@ plugins {
     `java-gradle-plugin`
 }
 
-enablePublishing()
-
 val buildSrcClasses = "${rootProject.projectDir}/buildSrc/build/classes/kotlin/main"
 
 tasks.named<Jar>("jar") {
@@ -29,6 +27,8 @@ tasks.named<Jar>("jar") {
 }
 
 gradlePlugin {
+    setAutomatedPublishing(false)
+
     plugins {
         create("protokt") {
             id = "com.toasttab.protokt"
@@ -36,6 +36,8 @@ gradlePlugin {
         }
     }
 }
+
+enablePublishing()
 
 dependencies {
     implementation(gradleApi())

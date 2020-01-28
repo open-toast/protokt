@@ -54,6 +54,9 @@ private object Remote {
 
 fun MavenPublication.standardPom() {
     pom {
+        name.set("Protokt")
+        description.set("Protobuf compiler and runtime for Kotlin")
+        url.set("https://github.com/open-toast/protokt")
         scm {
             url.set("https://github.com/open-toast/protokt")
         }
@@ -63,20 +66,20 @@ fun MavenPublication.standardPom() {
                 url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
             }
         }
+        developers {
+            developer {
+                id.set("Toast")
+                name.set("Toast Open Source")
+                email.set("opensource@toasttab.com")
+            }
+        }
     }
 }
 
-fun Project.sign(publication: MavenPublication) {
-    configure<SigningExtension> {
-        useInMemoryPgpKeys(Pgp.key, Pgp.password)
-        sign(publication)
-    }
-}
+fun Project.isRelease() = !version.toString().endsWith("-SNAPSHOT")
 
 fun Project.enablePublishing(defaultJars: Boolean = true) {
     apply(plugin = "maven-publish")
-
-    val publishToRemote = !version.toString().endsWith("-SNAPSHOT")
 
     configure<PublishingExtension> {
         repositories {
@@ -85,7 +88,7 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
                 setUrl("${project.rootProject.buildDir}/repos/integration")
             }
 
-            if (publishToRemote) {
+            if (isRelease()) {
                 maven {
                     name = "remote"
                     setUrl(Remote.url)
@@ -106,12 +109,17 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
             archiveClassifier.set("sources")
         }
 
+        tasks.register<Jar>("javadocJar") {
+            from("$rootDir/README.md")
+            archiveClassifier.set("javadoc")
+        }
+
         configure<PublishingExtension> {
             publications {
                 create<MavenPublication>("sources") {
-                    standardPom()
                     from(components.getByName("java"))
                     artifact(tasks.getByName("sourcesJar"))
+                    artifact(tasks.getByName("javadocJar"))
                     artifactId = project.name
                     version = "$version"
                     groupId = "$group"
@@ -120,23 +128,35 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
         }
     }
 
+    if (isRelease()) {
+        apply(plugin = "signing")
+
+        configure<SigningExtension> {
+            useInMemoryPgpKeys(Pgp.key, Pgp.password)
+
+            project.the<PublishingExtension>().publications.withType<MavenPublication> {
+                standardPom()
+                sign(this)
+            }
+        }
+    }
+
     tasks.register("publishToIntegrationRepository") {
         group = "publishing"
+
+        val publishingExtension = project.the<PublishingExtension>()
+
         dependsOn(tasks.withType<PublishToMavenRepository>().matching {
-            it.repository == project.the<PublishingExtension>().repositories.getByName("integration")
+            it.repository == publishingExtension.repositories.getByName("integration")
         })
     }
 
     tasks.register("publishToRemote") {
-        enabled = publishToRemote
+        enabled = isRelease()
         group = "publishing"
 
         if (enabled) {
             val publishingExtension = project.the<PublishingExtension>()
-
-            publishingExtension.publications.withType<MavenPublication> {
-                sign(this)
-            }
 
             dependsOn(tasks.withType<PublishToMavenRepository>().matching {
                 it.repository == publishingExtension.repositories.getByName("remote")
@@ -146,10 +166,14 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
 }
 
 fun Project.promoteStagingRepo() {
-    apply(plugin = "io.codearte.nexus-staging")
+    if (isRelease()) {
+        apply(plugin = "io.codearte.nexus-staging")
 
-    configure<NexusStagingExtension> {
-        username = Remote.username
-        password = Remote.password
+        configure<NexusStagingExtension> {
+            username = Remote.username
+            password = Remote.password
+            packageGroup = "com.toasttab"
+            numberOfRetries = 50
+        }
     }
 }
