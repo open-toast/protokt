@@ -1,4 +1,5 @@
-version: 2.0
+version: 2.1
+
 jobs:
   build:
     context: OSS
@@ -23,16 +24,6 @@ jobs:
           name: integration tests
           command: cd gradle-plugin-integration-test && ./gradlew clean build --stacktrace
 
-      - run:
-            name: save test results
-            command: |
-              mkdir -p ~/test-results
-              find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/ \;
-            when: always
-      
-      - store_test_results:
-            path: ~/test-results
-
       - save_cache:
           paths:
             - ~/.gradle/wrapper
@@ -42,4 +33,25 @@ jobs:
             - ~/.gradle/caches
           key: v1-gradle-cache-{{ checksum "build.gradle.kts" }}
 
-      - run: "[[ \"$CIRCLE_BRANCH\" == master ]] && ./gradlew publishToRemote || echo skipping publishing"
+      - run:
+          name: Save test results
+          command: |
+            mkdir -p ~/test-results/junit/
+            find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
+          when: always
+
+      - store_test_results:
+          path: ~/test-results
+      - store_artifacts:
+          path: ~/test-results/junit
+
+      - run:
+          name: Deploy (if release)
+          command: "if [[ \"$CIRCLE_BRANCH\" == master ]]; then ./gradlew publish; else echo skipping publishing; fi"
+
+workflows:
+  version: 2.1
+  build:
+    jobs:
+      - build:
+          context: OSS
