@@ -20,7 +20,7 @@ CodedOutputStream for best performance
 - Kotlin JS support (**Looking for contributors**)
 - Protobuf JSON support 
 
-See examples in [testing](https://github.com/toasttab/protokt/tree/master/testing).
+See examples in [testing](https://github.com/open-toast/protokt/tree/master/testing).
 
 ### Usage
 
@@ -231,7 +231,7 @@ sealed class PhoneType(
 - `oneof` fields are represented as data class subtypes of a sealed base class with a single property.
 
 ### Extensions
-See examples of each option in the [options](https://github.com/toasttab/protokt/tree/master/testing/options/src/main/proto)
+See examples of each option in the [options](https://github.com/open-toast/protokt/tree/master/testing/options/src/main/proto)
 module. All protokt-specific options require importing `protokt/protokt.proto` in the protocol file.
 
 #### Wrapper Types
@@ -240,7 +240,7 @@ standard protobuf the user would be responsible for this extra transformation, b
 protokt wrapper type option allows specification of a converter that will automatically
 encode and decode custom types to protobuf primitives and well-known types. Some standard
 types are implemented in
-[extensions](https://github.com/toasttab/protokt/tree/master/extensions).
+[extensions](https://github.com/open-toast/protokt/tree/master/extensions).
 
 Wrap a field by invoking the `(protokt.property).wrap` option:
 ```proto
@@ -251,7 +251,7 @@ message DateWrapperMessage {
 }
 ```
 
-Converters implement the [Converter](https://github.com/toasttab/protokt/blob/master/extensions/protokt-extensions-api/src/main/kotlin/com/toasttab/protokt/ext/Converter.kt) interface:
+Converters implement the [Converter](https://github.com/open-toast/protokt/blob/master/extensions/protokt-extensions-api/src/main/kotlin/com/toasttab/protokt/ext/Converter.kt) interface:
 ```kotlin
 interface Converter<S: Any, T: Any> {
     val wrapper: KClass<S>
