@@ -20,7 +20,7 @@ CodedOutputStream for best performance
 - Kotlin JS support (**Looking for contributors**)
 - Protobuf JSON support 
 
-See examples in [testing](https://github.com/open-toast/protokt/tree/master/testing).
+See examples in [testing].
 
 ### Usage
 
@@ -231,7 +231,7 @@ sealed class PhoneType(
 - `oneof` fields are represented as data class subtypes of a sealed base class with a single property.
 
 ### Extensions
-See examples of each option in the [options](https://github.com/open-toast/protokt/tree/master/testing/options/src/main/proto)
+See examples of each option in the [options](testing/options/src/main/proto)
 module. All protokt-specific options require importing `protokt/protokt.proto` in the protocol file.
 
 #### Wrapper Types
@@ -240,7 +240,7 @@ standard protobuf the user would be responsible for this extra transformation, b
 protokt wrapper type option allows specification of a converter that will automatically
 encode and decode custom types to protobuf primitives and well-known types. Some standard
 types are implemented in
-[extensions](https://github.com/open-toast/protokt/tree/master/extensions).
+[extensions].
 
 Wrap a field by invoking the `(protokt.property).wrap` option:
 ```proto
@@ -251,7 +251,7 @@ message DateWrapperMessage {
 }
 ```
 
-Converters implement the [Converter](https://github.com/open-toast/protokt/blob/master/extensions/protokt-extensions-api/src/main/kotlin/com/toasttab/protokt/ext/Converter.kt) interface:
+Converters implement the [Converter](extensions/protokt-extensions-api/src/main/kotlin/com/toasttab/protokt/ext/Converter.kt) interface:
 ```kotlin
 interface Converter<S: Any, T: Any> {
     val wrapper: KClass<S>
@@ -514,3 +514,9 @@ compiled and included in the `gradle-plugin-integration-testing` project. They r
 When integration testing the Gradle plugin, note that after changing the plugin and republishing
 it to the integration repository, `./gradlew clean` is needed to trigger regeneration of the protobuf
 files with the fresh plugin.
+
+### Acknowledgements
+
+#### Authors
+
+[Ben Gordon](ben.gordon@toasttab.com), Andrew P, [Oleg Golberg](ogolberg@toasttab.com), [Patty Neckowicz](pneckowicz@toasttab.com), [Frank Moda](frank@toasttab.com) and [everyone in the commit history](../../commits/master).
