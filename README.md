@@ -514,3 +514,9 @@ compiled and included in the `gradle-plugin-integration-testing` project. They r
 When integration testing the Gradle plugin, note that after changing the plugin and republishing
 it to the integration repository, `./gradlew clean` is needed to trigger regeneration of the protobuf
 files with the fresh plugin.
+
+### Acknowledgements
+
+#### Authors
+
+Ben Gordon <ben.gordon@toasttab.com>, Andrew P, Oleg Golberg <ogolberg@toasttab.com>, Frank Moda <frank@toasttab.com>, Patricia Neckowicz<pneckowicz@toasttab.com> and [everyone in the commit history](commits/master).
