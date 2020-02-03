@@ -62,21 +62,21 @@ open class ProtoktBenchmarks {
     @Benchmark
     fun deserializeLargeFromMemory(bh: Blackhole) {
         largeDataset.payload.forEach { bytes ->
-            bh.consume(GenericMessage1.deserialize(deserializer(bytes.value)))
+            bh.consume(GenericMessage1.deserialize(deserializer(bytes)))
         }
     }
 
     @Benchmark
     fun deserializeMediumFromMemory(bh: Blackhole) {
         mediumDataset.payload.forEach { bytes ->
-            bh.consume(GenericMessage1.deserialize(deserializer(bytes.value)))
+            bh.consume(GenericMessage1.deserialize(deserializer(bytes)))
         }
     }
 
     @Benchmark
     fun deserializeSmallFromMemory(bh: Blackhole) {
         smallDataset.payload.forEach { bytes ->
-            bh.consume(GenericMessage4.deserialize(deserializer(bytes.value)))
+            bh.consume(GenericMessage4.deserialize(deserializer(bytes)))
         }
     }
 

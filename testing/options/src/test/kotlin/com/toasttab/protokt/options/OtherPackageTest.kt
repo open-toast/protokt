@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test
 class OtherPackageTest {
     @Test
     fun `messages in a file with the kotlin_package option should be in that package`() {
-        assertThat(OtherModel()::class.qualifiedName)
+        assertThat(OtherModel {}::class.qualifiedName)
             .startsWith("com.toasttab.other")
     }
 }

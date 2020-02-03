@@ -31,13 +31,16 @@ import org.junit.jupiter.api.Test
 class NullableWrappersExampleTest {
     @Test
     fun `serialization round trip works`() {
-        val original = NullableWrappersExample(
-            InetAddressValue(InetAddress.getLocalHost()),
-            InetSocketAddress(InetAddress.getLocalHost(), 0),
-            UuidValue(UUID.randomUUID()),
-            Instant.now(),
-            Duration.ofSeconds(5)
-        )
+        val original = NullableWrappersExample {
+            address = InetAddressValue { value = InetAddress.getLocalHost() }
+            socketAddress = InetSocketAddress {
+                address = InetAddress.getLocalHost()
+                port = 0
+            }
+            uuid = UuidValue { value = UUID.randomUUID() }
+            instant = Instant.now()
+            duration = Duration.ofSeconds(5)
+        }
 
         assertThat(NullableWrappersExample.deserialize(original.serialize()))
             .isEqualTo(original)

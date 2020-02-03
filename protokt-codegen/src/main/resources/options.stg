@@ -31,7 +31,7 @@ accessField(wrapName, arg) ::= <%
 %>
 
 deref ::= [
-    "BYTES": ".value",
+    "BYTES": ".bytes",
     default: ""
 ]
 

@@ -25,7 +25,7 @@ import test.kt.SomeEnum
 class EnumTest {
     @Test
     fun `round trip preserves unknown enums`() {
-        val with3 = HasMoreEnum(MoreEnum.MORE_VALUE_3)
+        val with3 = HasMoreEnum { enum = MoreEnum.MORE_VALUE_3 }
         val as2 = HasAnEnum.deserialize(with3.serialize())
 
         assertThat(as2.enum).isEqualTo(SomeEnum.from(2))
@@ -33,14 +33,5 @@ class EnumTest {
         val as3From2 = HasMoreEnum.deserialize(as2.serialize())
 
         assertThat(as3From2.enum).isEqualTo(MoreEnum.MORE_VALUE_3)
-    }
-
-    @Test
-    fun `message with an enum can be called with empty constructor`() {
-        assertThat(
-            HasAnEnum()
-        ).isEqualTo(
-            HasAnEnum()
-        )
     }
 }

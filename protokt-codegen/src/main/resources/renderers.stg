@@ -168,10 +168,14 @@ deserializeValue(p) ::= <%
     <endif>
 %>
 
+requireNotNullMessage(p) ::= <%
+    "<p.name> specified nonnull with (protokt.<if (p.oneOf)>oneof<else>property<endif>).non_null but was null"
+%>
+
 deserializeWrapper(v) ::= <%
     <if (p.nonNullOption)>
-        requireNotNull(<v>) {<\n>
-            <t()>"<v> specified nonnull with (protokt.<if (p.oneOf)>oneof<else>property<endif>).non_null but was null"<\n>
+        requireNotNull(<p.name>) {<\n>
+            <t()><requireNotNullMessage(p)><\n>
         }
     <else>
         <if (p.map)>
@@ -183,7 +187,7 @@ deserializeWrapper(v) ::= <%
             <if (p.wrapped && !p.nullable)>
                 <\ >?: <p.defaultValue>
             <elseif (entry.entry && isMessage.(p.messageType))>
-                <\ >?: <entry.vType>()
+                <\ >?: <entry.vType> {}
             <endif>
         <endif>
     <endif>
@@ -266,7 +270,7 @@ deserializeF(field, type, read, lhs) ::= <<
 (<lhs> ?: mutableMapOf()).apply {
         deserializer.readRepeated(false) {
             <read>
-                .let { (k, v) -> put(k, v) }
+                .let { it -> put(it.key, it.value) }
         }
     }<\\>
 <elseif (field.repeated)>

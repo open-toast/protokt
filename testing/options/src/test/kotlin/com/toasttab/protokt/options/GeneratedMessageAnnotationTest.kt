@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test
 class GeneratedMessageAnnotationTest {
     @Test
     fun `messages have KtGeneratedMessage annotation`() {
-        assertThat(RootMessage().annotationClasses)
+        assertThat(RootMessage {}.annotationClasses)
             .contains(KtGeneratedMessage::class)
     }
 

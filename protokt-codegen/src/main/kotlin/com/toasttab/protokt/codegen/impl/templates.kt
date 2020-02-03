@@ -17,10 +17,13 @@ package com.toasttab.protokt.codegen.impl
 
 // ADT (Algebraic Data Type) for template renderers
 sealed class GroupSt(val value: String)
-object Templates : GroupSt("templates.stg")
+object Enum : GroupSt("enum.stg")
+object Header : GroupSt("header.stg")
+object OneOf : GroupSt("oneof.stg")
+object Message : GroupSt("message.stg")
+object Options : GroupSt("options.stg")
 object Renderers : GroupSt("renderers.stg")
 object Services : GroupSt("services.stg")
-object Options : GroupSt("options.stg")
 
 // type safe variable
 interface Var { val value: String }
@@ -57,7 +60,7 @@ object ExtPackageHeaderVar : HeaderVar("extPackage")
 object ExtHeaderVar : HeaderVar("ext")
 
 object HeaderSt : TemplateSt<HeaderVar>(
-    Templates,
+    Header,
     "header",
     setOf(
         PackageHeaderVar,
@@ -78,7 +81,7 @@ object OneOfsMessageVar : MessageVar("oneofs")
 object OptionsMessageVar : MessageVar("options")
 
 object MessageSt : TemplateSt<MessageVar>(
-    Templates,
+    Message,
     "message",
     setOf(
         MessageMessageVar,
@@ -97,14 +100,14 @@ object NameEnumVar : EnumVar("name")
 object MapEnumVar : EnumVar("map")
 object OptionsEnumVar : EnumVar("options")
 object EnumSt : TemplateSt<EnumVar>(
-    Templates, "enum", setOf(NameEnumVar, MapEnumVar, OptionsEnumVar)
+    Enum, "enum", setOf(NameEnumVar, MapEnumVar, OptionsEnumVar)
 )
 
 object NameOneOfVar : OneOfVar("name")
 object TypesOneOfVar : OneOfVar("types")
 object OptionsOneOfVar : OneOfVar("options")
 object OneOfSt : TemplateSt<OneOfVar>(
-    Templates, "oneof", setOf(NameOneOfVar, TypesOneOfVar, OptionsOneOfVar)
+    OneOf, "oneof", setOf(NameOneOfVar, TypesOneOfVar, OptionsOneOfVar)
 )
 
 object NameSizeOfVar : SizeOfVar("name")

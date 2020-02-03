@@ -29,15 +29,15 @@ import org.junit.jupiter.api.Test
 
 class WrapperTypesTest {
     private val model =
-        WrapperModel(
-            id = Id("asdf"),
-            ipAddress = InetAddress.getByAddress(byteArrayOf(0, 0, 0, 1)),
-            uuid = UUID.randomUUID(),
-            cachingId = CachingId("asdf".toByteArray()),
-            socketAddress = InetSocketAddress(InetAddress.getLocalHost(), 8080),
-            instant = Instant.now(),
+        WrapperModel {
+            id = Id("asdf")
+            ipAddress = InetAddress.getByAddress(byteArrayOf(0, 0, 0, 1))
+            uuid = UUID.randomUUID()
+            cachingId = CachingId("asdf".toByteArray())
+            socketAddress = InetSocketAddress(InetAddress.getLocalHost(), 8080)
+            instant = Instant.now()
             duration = Duration.ofSeconds(5)
-        )
+        }
 
     @Test
     fun `round trip should preserve model`() {
@@ -89,9 +89,9 @@ class WrapperTypesTest {
     @Test
     fun `round trip should preserve generic wrapper oneOf`() {
         val deserialized = OneOfWrapperModel.deserialize(
-            OneOfWrapperModel(
+            OneOfWrapperModel {
                 wrappedOneof = OneOfWrapperModel.WrappedOneof.IdOneof(model.id)
-            ).serialize()
+            }.serialize()
         )
 
         assertThat(
@@ -102,9 +102,9 @@ class WrapperTypesTest {
     @Test
     fun `round trip should preserve uuid oneOf`() {
         val deserialized = OneOfWrapperModel.deserialize(
-            OneOfWrapperModel(
+            OneOfWrapperModel {
                 wrappedOneof = OneOfWrapperModel.WrappedOneof.UuidOneof(model.uuid)
-            ).serialize()
+            }.serialize()
         )
 
         assertThat(
@@ -115,9 +115,9 @@ class WrapperTypesTest {
     @Test
     fun `round trip should preserve ip address oneOf`() {
         val deserialized = OneOfWrapperModel.deserialize(
-            OneOfWrapperModel(
+            OneOfWrapperModel {
                 wrappedOneof = OneOfWrapperModel.WrappedOneof.IpAddressOneof(model.ipAddress)
-            ).serialize()
+            }.serialize()
         )
 
         assertThat(
@@ -128,9 +128,9 @@ class WrapperTypesTest {
     @Test
     fun `round trip should preserve instant oneOf`() {
         val deserialized = OneOfWrapperModel.deserialize(
-            OneOfWrapperModel(
+            OneOfWrapperModel {
                 wrappedOneof = OneOfWrapperModel.WrappedOneof.InstantOneof(model.instant)
-            ).serialize()
+            }.serialize()
         )
 
         assertThat(
@@ -141,9 +141,9 @@ class WrapperTypesTest {
     @Test
     fun `round trip should preserve socket address oneOf`() {
         val deserialized = OneOfWrapperModel.deserialize(
-            OneOfWrapperModel(
+            OneOfWrapperModel {
                 wrappedOneof = OneOfWrapperModel.WrappedOneof.SocketAddressOneof(model.socketAddress)
-            ).serialize()
+            }.serialize()
         )
 
         assertThat(

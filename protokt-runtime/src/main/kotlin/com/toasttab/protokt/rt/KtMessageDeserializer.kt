@@ -43,6 +43,9 @@ interface KtMessageDeserializer {
     fun <T : KtMessage> readMessage(m: KtDeserializer<T>): T
 }
 
+fun deserializer(bytes: Bytes) =
+    deserializer(bytes.value)
+
 fun deserializer(bytes: ByteArray) =
     deserializer(CodedInputStream.newInstance(bytes), bytes)
 

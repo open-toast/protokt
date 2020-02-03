@@ -100,18 +100,11 @@ package com.protokt.sample
 import com.toasttab.protokt.rt.*
 
 @KtGeneratedMessage("com.protokt.sample.Sample")
-data class Sample(
+class Sample
+private constructor(
     val sampleField: String,
     val unknown: Map<Int, Unknown> = emptyMap()
 ) : KtMessage {
-    @Suppress("UNUSED")
-    constructor(
-        sampleField: String = ""
-    ) : this(
-        sampleField,
-        emptyMap()
-    )
-
     override val messageSize by lazy { sizeof() }
 
     override fun serialize(serializer: KtMessageSerializer) {
@@ -128,14 +121,49 @@ data class Sample(
         if (sampleField.isNotEmpty()) {
             res += sizeof(Tag(1)) + sizeof(sampleField)
         }
-        res += unknown.entries.sumBy { it.value.sizeof() }
+        res += unknown.values.sumBy { it.sizeof() }
         return res
     }
 
-    companion object Deserializer : KtDeserializer<Sample> {
+    override fun equals(other: Any?): Boolean =
+        other is Sample &&
+            other.sampleField == sampleField &&
+            other.unknown == unknown
+
+    override fun hashCode(): Int {
+        var result = unknown.hashCode()
+        result = 31 * result + sampleField.hashCode()
+        return result
+    }
+
+    override fun toString(): String =
+        "Sample(" +
+            "sampleField=$sampleField, " +
+            "unknown=$unknown)"
+
+    fun copy(dsl: SampleDsl.() -> Unit) =
+        Sample {
+            sampleField = this@Sample.sampleField
+            unknown = this@Sample.unknown
+            dsl()
+        }
+    
+    class SampleDsl {
+        var sampleField = ""
+        var unknown: Map<Int, Unknown> = emptyMap()
+            set(newValue) { field = copyMap(newValue) }
+
+        fun build() =
+            Sample(
+                sampleField,
+                unknown
+            )
+    }
+
+    companion object Deserializer : KtDeserializer<Sample>, (SampleDsl.() -> Unit) -> Sample {
         override fun deserialize(deserializer: KtMessageDeserializer): Sample {
             var sampleField = ""
-            val unknown: MutableMap<Int, Unknown>? = null
+            var unknown: MutableMap<Int, Unknown>? = null
 
             while (true) {
                 when (deserializer.readTag()) {
@@ -152,9 +180,35 @@ data class Sample(
                 }
             }
         }
+
+        override fun invoke(dsl: SampleDsl.() -> Unit) =
+            SampleDsl().apply(dsl).build()
     }
 }
 ```
+
+Construct your protokt object like so:
+```kotlin
+Sample {
+    sampleField = "some-string"
+}
+```
+
+Why not expose a public constructor or use a data class? One of the design goals of protocol buffers is that protobuf definitions
+can be modified in backwards-compatible ways without breaking wire or API compatibility of existing code.
+Using a DSL to construct the object emulates named arguments and allows shuffling of protobuf fields
+within a definition without breaking code as would happen for a standard constructor or method call.
+
+The canonical `copy` method on data classes is emulated via a generated `copy` method:
+```kotlin
+val sample = Sample { sampleField = "some-string" }
+
+val sample2 = sample.copy { sampleField = "some-other-string" }
+```
+
+Assigning a Map or List in the DSL makes a copy of that collection to prevent any escaping mutability of the
+underlying reference. The Java protobuf implementation takes a similar approach; it only exposes mutation
+methods on the builder and not assignment. Mutating the builder does a similar copy operation.
 
 ### Runtime Notes
 #### Package
@@ -181,8 +235,7 @@ Each protokt message has a companion object `Deserializer` that implements the `
 interface, which provides the `deserialize()` method and its overloads to construct an
 instance of the message from a byte array, a Java InputStream, or others.
 
-In order to enjoy the full benefits of Kotlin data classes, byte arrays are wrapped in the
-protokt `Bytes` class, which provides appropriate `equals()` and `hashCode()` implementations.
+Byte arrays are wrapped in the protokt `Bytes` class to ensure immutability.
 
 #### Enums
 Enum fields are generated as sealed classes with an integer value and name. They cannot be represented
@@ -244,7 +297,7 @@ types are implemented in
 
 Wrap a field by invoking the `(protokt.property).wrap` option:
 ```proto
-message DateWrapperMessage {
+message WrapperMessage {
   google.protobuf.Timestamp instant = 1 [
     (protokt.property).wrap = "java.time.Instant"
   ];
@@ -253,7 +306,7 @@ message DateWrapperMessage {
 
 Converters implement the [Converter](extensions/protokt-extensions-api/src/main/kotlin/com/toasttab/protokt/ext/Converter.kt) interface:
 ```kotlin
-interface Converter<S: Any, T: Any> {
+interface Converter<S : Any, T : Any> {
     val wrapper: KClass<S>
 
     fun wrap(unwrapped: T): S
@@ -271,12 +324,16 @@ object InstantConverter : Converter<Instant, Timestamp> {
         Instant.ofEpochSecond(unwrapped.seconds, unwrapped.nanos.toLong())
 
     override fun unwrap(wrapped: Instant) =
-        Timestamp(wrapped.epochSecond, wrapped.nano)
+        Timestamp {
+            seconds = wrapped.epochSecond
+            nanos = wrapped.nano
+        }
 }
 ```
 
 ```kotlin
-data class WrapperModel(
+class WrapperModel
+private constructor(
     val instant: java.time.Instant?,
     ...
 ) : KtMessage {
@@ -420,7 +477,7 @@ Note that the `by` clause references the field by its lower camel case name.
 ##### Oneof Fields
 
 Oneof fields can declare that they implement an interface with the `(protokt.oneof).implements`
-option. Each possible field of the oneof must also implement the interface as a Message above.
+option. Each possible field type of the oneof must also implement the interface.
 This allows access of common properties without a `when` statement that always ultimately
 extracts the same property.
 
@@ -473,7 +530,7 @@ message SliceModel {
 }
 ```
 
-##### IntelliJ integration
+#### IntelliJ integration
 If IntelliJ doesn't automatically detect the generated files as source files, you may be missing
 the `idea` plugin. Apply the `idea` plugin to your Gradle project:
 ```groovy

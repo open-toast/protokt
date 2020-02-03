@@ -1,0 +1,92 @@
+/*
+ * Copyright (c) 2020 Toast Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import "renderers.stg"
+
+dsl() ::= <<
+fun copy(dsl: <message.name>Dsl.() -> Unit) =
+    <message.name> {
+        <params:{p | <p.name> = this@<message.name>.<p.name>}; separator="\n">
+        unknown = this@<message.name>.unknown
+        dsl()
+    }
+
+class <message.name>Dsl {
+    <params:{p | var <dslVar(p)>}; separator="\n">
+    var unknown: Map\<Int, Unknown> = emptyMap()
+        set(newValue) { field = copyMap(newValue) }
+
+    fun build() =
+        <message.name>(
+        <if (params)><\\>
+        <params:{p | <\\>
+            <t()><\\>
+            <if (p.nonNullOption)><\\>
+                requireNotNull(<p.name>) {<\n><\\>
+                    <t()><t()><requireNotNullMessage(p)><\n><\\>
+                <t()>\}<\\>
+            <elseif (p.wrapped)><\\>
+                requireNotNull(<p.name>) {<\n><\\>
+                    <t()><t()>"<p.name> wrapped and not specified and has no default value"<\n><\\>
+                <t()>\}<\\>
+            <else><\\>
+                <p.name><\\>
+            <endif><\\>
+        }; separator=",\n">,
+        <endif>
+            unknown
+        )
+}
+>>
+
+dslInvoke() ::= <<
+override fun invoke(dsl: <message.name>Dsl.() -> Unit) =
+    <message.name>Dsl().apply(dsl).build()
+>>
+
+
+dslVar(p) ::= <%
+    <p.name>
+    <if (isMessage.(p.messageType) || p.oneOf || p.nullable || p.wrapped || p.repeated || p.map)>
+        : <dslType(p)>
+    <endif>
+
+    <\ >= <dslValue(p)>
+
+    <if (p.map)>
+        <\n><t()>set(newValue) { field = copyMap(newValue) }
+    <elseif (p.repeated)>
+        <\n><t()>set(newValue) { field = copyList(newValue) }
+    <endif>
+%>
+
+dslType(p) ::= <%
+    <p.type>
+    <if ((p.wrapped && !isMessage.(p.messageType)) || p.nonNullOption)>
+        ?
+    <endif>
+%>
+
+dslValue(p) ::= <%
+    <if (p.map)>
+        emptyMap()
+    <elseif (p.repeated)>
+        emptyList()
+    <elseif (isMessage.(p.messageType) || p.wrapped)>
+        null
+    <else>
+        <p.defaultValue>
+    <endif>
+%>

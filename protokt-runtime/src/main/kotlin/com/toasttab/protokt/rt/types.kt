@@ -46,19 +46,25 @@ inline class SInt64(val value: Long)
 /**
  * ByteArray wrapper to provide equality
  */
-class Bytes(val value: ByteArray) {
-    fun isNotEmpty() = value.isNotEmpty()
-    fun isEmpty() = value.isEmpty()
+class Bytes(internal val value: ByteArray) {
+    val bytes
+        get() = value.clone()
+
+    fun isNotEmpty() =
+        value.isNotEmpty()
+
+    fun isEmpty() =
+        value.isEmpty()
 
     override fun equals(other: Any?) =
         other is Bytes && value.contentEquals(other.value)
 
-    override fun hashCode(): Int {
-        return value.contentHashCode()
-    }
-    override fun toString(): String {
-        return value.contentToString()
-    }
+    override fun hashCode() =
+        value.contentHashCode()
+
+    override fun toString() =
+        value.contentToString()
+
     companion object {
         val empty = Bytes(ByteArray(0))
     }

@@ -101,9 +101,14 @@ class FixtureGenerator(private val weight: Int) {
 
     fun randomSize() = random.nextInt().absoluteValue % weight + 1
 
-    fun generateDataset(name: String, msg: KClass<out KtMessage>, size: Int) = BenchmarkDataset(name, msg.qualifiedName!!, (0..size).map {
-        Bytes(randomMessageValue(msg).serialize())
-    })
+    fun generateDataset(name: String, msg: KClass<out KtMessage>, size: Int) =
+        BenchmarkDataset {
+            this.name = name
+            messageName = msg.qualifiedName!!
+            payload = (0..size).map {
+                Bytes(randomMessageValue(msg).serialize())
+            }
+        }
 }
 
 fun KtMessage.writeToFile(file: String) {
