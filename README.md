@@ -519,4 +519,4 @@ files with the fresh plugin.
 
 #### Authors
 
-[Ben Gordon](ben.gordon@toasttab.com), Andrew P, [Oleg Golberg](ogolberg@toasttab.com), [Patty Neckowicz](pneckowicz@toasttab.com), [Frank Moda](frank@toasttab.com) and [everyone in the commit history](../../commits/master).
+[Ben Gordon](mailto:ben.gordon@toasttab.com), Andrew P, [Oleg Golberg](mailto:ogolberg@toasttab.com), [Patty Neckowicz](mailto:pneckowicz@toasttab.com), [Frank Moda](mailto:frank@toasttab.com) and [everyone in the commit history](../../commits/master).
