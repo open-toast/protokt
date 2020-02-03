@@ -1,0 +1,69 @@
+/*
+ * Copyright (c) 2020 Toast Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import "dsl.stg"
+import "renderers.stg"
+
+companion() ::= <<
+companion object Deserializer : KtDeserializer\<<message.name>\><\\>
+<if (!entry.entry)><\\>
+, (<message.name>Dsl.() -> Unit) -> <message.name><\\>
+<endif><\\>
+<\ >{
+    <if (entry.entry)>
+    fun sizeof(key: <entry.kType>, value: <entry.vType>) =
+        <sizeof:{it | <it.conditionals:{n | <n.consequent>}; separator="">}; separator=" + ">
+
+    <endif><\\>
+
+    override fun deserialize(<\\>
+    <if (options.longDeserializer)><\n><t()><t()><t()><endif><\\>
+    deserializer: KtMessageDeserializer<\\>
+    <if (options.longDeserializer)><\n><t()><t()><endif>): <message.name> {
+        <params:{p | var <deserializeVar(p)>}; separator="\n">
+        <if (!entry.entry)>
+        var unknown: MutableMap\<Int, Unknown>? = null
+        <endif>
+
+        while (true) {
+            when (deserializer.readTag()) {
+                0 -><\\>
+                    <if (entry.entry)><\\>
+                    <\ >return <message.name>(<params:{p | <deserializeWrapper(p.name)>}; separator=", ">)
+                    <else>
+                    return <message.name>(
+                        <params:{p | <deserializeWrapper(p.name)>}; separator=",\n"><\\>
+                        <if (params)>,<endif>
+                        finishMap(unknown)
+                    )
+                    <endif>
+                <deserialize:{d | <d.tag> -> <d.assignment.fieldName> = <\\>
+                <if ((!d.std || d.repeated || d.assignment.long) && !entry.entry)><\n><t()><endif><\\>
+                <d.assignment.value>}; separator="\n">
+                <if (!entry.entry)>
+                else -> unknown =
+                    (unknown ?: mutableMapOf()).also {
+                        processUnknown(deserializer, it)
+                    }
+                <endif>
+            }
+        }
+    }
+    <if (!entry.entry)>
+
+    <dslInvoke()>
+    <endif>
+}
+>>

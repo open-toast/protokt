@@ -66,14 +66,14 @@ class JsonDeserializationTest {
     @Test
     fun `protokt class can be deserialized from JSON`() {
         val original =
-            ToDeserialize(
-                StringValue("some-string"),
-                RootMessage(
-                    "some-field",
-                    RootMessage.OneofField.Name("asdf")
-                ),
-                AnEnum.FIRST
-            )
+            ToDeserialize {
+                stringValue = StringValue { value = "some-string" }
+                message = RootMessage {
+                    field = "some-field"
+                    oneofField = RootMessage.OneofField.Name("asdf")
+                }
+                enum = AnEnum.FIRST
+            }
 
         val string = mapper.writeValueAsString(original)
 

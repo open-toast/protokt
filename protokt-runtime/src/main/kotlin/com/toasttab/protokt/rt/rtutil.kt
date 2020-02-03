@@ -43,9 +43,23 @@ fun <K, V> finishMap(map: Map<K, V>?): Map<K, V> =
         Collections.unmodifiableMap(map)
     }
 
+fun <K, V> copyMap(map: Map<K, V>): Map<K, V> =
+    if (map.isEmpty()) {
+        emptyMap()
+    } else {
+        Collections.unmodifiableMap(LinkedHashMap(map))
+    }
+
 fun <T> finishList(list: List<T>?): List<T> =
     if (list.isNullOrEmpty()) {
         emptyList()
     } else {
         Collections.unmodifiableList(list)
+    }
+
+fun <T> copyList(list: List<T>): List<T> =
+    if (list.isEmpty()) {
+        emptyList()
+    } else {
+        Collections.unmodifiableList(ArrayList(list))
     }

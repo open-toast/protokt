@@ -21,17 +21,20 @@ import org.stringtemplate.v4.STGroupFile
 
 // TODO: This functionality be factored out into a pure functional library
 // TODO: This imperative style is a TEMPORARY implementation detail
-internal data class STTemplate(val st: ST) : Template {
+data class STTemplate(val st: ST) : Template {
     override fun render(): String {
         return st.render()
     }
 
     companion object {
         private val templates = mapOf(
-            Templates to STGroupFile(Templates.value),
-            Services to STGroupFile(Services.value),
+            Enum to STGroupFile(Enum.value),
+            Header to STGroupFile(Header.value),
+            OneOf to STGroupFile(OneOf.value),
+            Message to STGroupFile(Message.value),
+            Options to STGroupFile(Options.value),
             Renderers to STGroupFile(Renderers.value),
-            Options to STGroupFile(Options.value)
+            Services to STGroupFile(Services.value)
         )
 
         fun <T> toTemplate(tt: TemplateSt<T>): STTemplate {

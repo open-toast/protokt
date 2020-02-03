@@ -27,5 +27,8 @@ object InstantConverter : Converter<Instant, Timestamp> {
         Instant.ofEpochSecond(unwrapped.seconds, unwrapped.nanos.toLong())
 
     override fun unwrap(wrapped: Instant) =
-        Timestamp(wrapped.epochSecond, wrapped.nano)
+        Timestamp {
+            seconds = wrapped.epochSecond
+            nanos = wrapped.nano
+        }
 }

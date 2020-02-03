@@ -40,19 +40,22 @@ fun main() {
         { return },
         {
             IO {
-                ConformanceResponse(io(stdin, it)).serialize().also { bytes ->
+                ConformanceResponse {
+                    result = io(stdin, it)
+                }.serialize().also { bytes ->
                     stdout.write(int2BytesLE(bytes.size))
                     stdout.write(bytes)
                     stdout.flush()
                 }
             }.unsafeRunSync()
-        })
+        }
+    )
 }
 
-private fun io(stdin: InputStream, pbSize: Int) = pbSize.let {
+private fun io(stdin: InputStream, size: Int) =
     runBlocking {
         Either.catch {
-            ByteArray(it).let { bytes ->
+            ByteArray(size).let { bytes ->
                 require(stdin.read(bytes) == bytes.size)
                 ConformanceRequest.deserialize(bytes)
             }
@@ -64,7 +67,7 @@ private fun io(stdin: InputStream, pbSize: Int) = pbSize.let {
         {
             if (isRequestOk(it)) {
                 (it.payload as ConformanceRequest.Payload.ProtobufPayload)
-                .protobufPayload.value.let { bytes ->
+                .protobufPayload.bytes.let { bytes ->
                     runBlocking {
                         Either.catch {
                             Result.ProtobufPayload(
@@ -87,30 +90,27 @@ private fun io(stdin: InputStream, pbSize: Int) = pbSize.let {
             }
         }
     )
-}
 
-private fun readSizeLE(ist: InputStream) = ist.let {
+private fun readSizeLE(ist: InputStream) =
     IO {
         ByteArray(4).let {
             if (ist.read(it) == 4) bytes2IntLE(it).toOption()
             else None
         }
     }.unsafeRunSync()
-}
 
-private fun isRequestOk(request: ConformanceRequest) = request.let {
-    it.messageType == proto3 &&
-    it.requestedOutputFormat == WireFormat.PROTOBUF &&
-    it.payload is ConformanceRequest.Payload.ProtobufPayload
-}
+private fun isRequestOk(request: ConformanceRequest) =
+    request.messageType == proto3 &&
+    request.requestedOutputFormat == WireFormat.PROTOBUF &&
+    request.payload is ConformanceRequest.Payload.ProtobufPayload
 
-private fun int2BytesLE(size: Int) = ByteArray(4).also {
-    it[0] = size.toByte()
-    it[1] = size.shr(8).toByte()
-    it[2] = size.shr(16).toByte()
-    it[3] = size.shr(24).toByte()
-}
+private fun int2BytesLE(size: Int) =
+    ByteArray(4).also {
+        it[0] = size.toByte()
+        it[1] = size.shr(8).toByte()
+        it[2] = size.shr(16).toByte()
+        it[3] = size.shr(24).toByte()
+    }
 
-private fun bytes2IntLE(ba: ByteArray) = ba.let {
-    ByteBuffer.wrap(it).order(ByteOrder.LITTLE_ENDIAN).int
-}
+private fun bytes2IntLE(ba: ByteArray) =
+    ByteBuffer.wrap(ba).order(ByteOrder.LITTLE_ENDIAN).int

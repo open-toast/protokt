@@ -24,19 +24,22 @@ import tutorial.AddressBook
 import tutorial.Person
 
 class ValidationSpec : StringSpec({
-    val timestamp = Timestamp(System.currentTimeMillis() * 1000)
-    val phoneNumber = Person.PhoneNumber(
-        "617-555-6666",
-        Person.PhoneType.WORK
-    )
-    val phoneNumber2 = Person.PhoneNumber(
-        "617-555-6667",
-        Person.PhoneType.MOBILE
-    )
-    val phoneNumber3 = Person.PhoneNumber(
-        "617-555-5555",
-        Person.PhoneType.HOME
-    )
+    val timestamp = Timestamp { seconds = System.currentTimeMillis() * 1000 }
+    val phoneNumber =
+        Person.PhoneNumber {
+            number = "617-555-6666"
+            type = Person.PhoneType.WORK
+        }
+    val phoneNumber2 =
+        Person.PhoneNumber {
+            number = "617-555-6667"
+            type = Person.PhoneType.MOBILE
+        }
+    val phoneNumber3 =
+        Person.PhoneNumber {
+            number = "617-555-5555"
+            type = Person.PhoneType.HOME
+        }
     val phoneNumberJava = JavaPerson.PhoneNumber
         .newBuilder()
         .setNumber("617-555-6666")
@@ -54,34 +57,38 @@ class ValidationSpec : StringSpec({
         .build()
     val phoneListKt = listOf(phoneNumber, phoneNumber2, phoneNumber3)
     val phoneListKt2 = listOf(
-        Person.PhoneNumber(
-            "781-555-1212",
-            Person.PhoneType.WORK),
-        Person.PhoneNumber(
-            "781-555-5555",
-            Person.PhoneType.HOME
-        ),
-        Person.PhoneNumber(
-            "781-555-6666",
-            Person.PhoneType.MOBILE
-        ))
-    val person = Person(
-        "Hubert J. Farnsworth",
-        0,
-        "Farnsworth@toasttab.com",
-        phoneListKt,
-        null,
-        phoneListKt.map { it.number to it.type }.toMap(),
-        Person.OneOfTest.LastUpdatedTest(timestamp))
-    val person2 = Person(
-        "Dr. John A. Zoidberg",
-        1,
-        "Zoidberg@toasttab.com",
-        phoneListKt2,
-        null,
-        phoneListKt2.map { it.number to it.type }.toMap(),
-        Person.OneOfTest.LastUpdatedTest(timestamp))
-    val addressBookKt = AddressBook(listOf(person, person2))
+        Person.PhoneNumber {
+            number = "781-555-1212"
+            type = Person.PhoneType.WORK
+        },
+        Person.PhoneNumber {
+            number = "781-555-5555"
+            type = Person.PhoneType.HOME
+        },
+        Person.PhoneNumber {
+            number = "781-555-6666"
+            type = Person.PhoneType.MOBILE
+        }
+    )
+    val person =
+        Person {
+            name = "Hubert J. Farnsworth"
+            id = 0
+            email = "Farnsworth@toasttab.com"
+            phones = phoneListKt
+            numbers = phoneListKt.map { it.number to it.type }.toMap()
+            oneOfTest = Person.OneOfTest.LastUpdatedTest(timestamp)
+        }
+    val person2 =
+        Person {
+            name = "Dr. John A. Zoidberg"
+            id = 1
+            email = "Zoidberg@toasttab.com"
+            phones = phoneListKt2
+            numbers = phoneListKt2.map { it.number to it.type }.toMap()
+            oneOfTest = Person.OneOfTest.LastUpdatedTest(timestamp)
+        }
+    val addressBookKt = AddressBook { people = listOf(person, person2) }
     val addressJava = JavaAddressBook
         .newBuilder()
         .addPeople(JavaPerson.parseFrom(person.serialize()))

@@ -25,8 +25,8 @@ import com.toasttab.model.Model2
 import org.junit.jupiter.api.Test
 
 class MessageImplementsTest {
-    private val model = ImplementsModel(Id("asdf"))
-    private val model2 = ImplementsModel2("asdf")
+    private val model = ImplementsModel { id = Id("asdf") }
+    private val model2 = ImplementsModel2 { id = "asdf" }
 
     @Test
     fun `message with wrapped field can be assigned to its interface`() {
@@ -44,7 +44,7 @@ class MessageImplementsTest {
 
     @Test
     fun `message implementing by a delegate can be assigned to its interface`() {
-        val byDelegate: Model2 = ImplementsWithDelegate(model2)
+        val byDelegate: Model2 = ImplementsWithDelegate { modelTwo = model2 }
 
         assertThat(byDelegate.id).isEqualTo(model2.id)
     }

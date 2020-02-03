@@ -45,10 +45,10 @@ class NonNullableTest {
     fun `detailed error when attempting to deserialize null field`() {
         val thrown = assertThrows<IllegalArgumentException> {
             NonNullModel.deserialize(
-                NonNullModelMirror(
-                    null,
-                    NonNullModelMirror.NonNullOneof.Message("asdf")
-                ).serialize()
+                NonNullModelMirror {
+                    nonNullStringValue = null
+                    nonNullOneof = NonNullModelMirror.NonNullOneof.Message("asdf")
+                }.serialize()
             )
         }
 
@@ -63,10 +63,10 @@ class NonNullableTest {
     fun `detailed error when attempting to deserialize null oneof`() {
         val thrown = assertThrows<IllegalArgumentException> {
             NonNullModel.deserialize(
-                NonNullModelMirror(
-                    StringValue("asdf"),
-                    null
-                ).serialize()
+                NonNullModelMirror {
+                    nonNullStringValue = StringValue { value = "asdf" }
+                    nonNullOneof = null
+                }.serialize()
             )
         }
 

@@ -48,6 +48,7 @@ object STAnnotator : Annotator<AST<TypeDesc>> {
     const val protoktProtobuf = "$protokt.$protobuf"
     const val protoktExt = "$protokt.ext"
     const val protoktExtFqcn = "$com.toasttab$protoktExt"
+    const val protoktFqcn = "$com.toasttab$protokt"
 
     data class Context(
         val enclosingMessage: List<MessageType>,

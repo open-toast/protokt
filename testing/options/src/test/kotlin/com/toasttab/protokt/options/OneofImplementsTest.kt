@@ -24,11 +24,11 @@ import org.junit.Test
 
 class OneofImplementsTest {
     private val obj =
-        ContainsOneofThatImplements(
-            ContainsOneofThatImplements.ImplementingOneof.ImplementsOne(
-                ImplementsOneof1(Id("val"))
+        ContainsOneofThatImplements {
+            implementingOneof = ContainsOneofThatImplements.ImplementingOneof.ImplementsOne(
+                ImplementsOneof1 { id = Id("val") }
             )
-        )
+        }
 
     @Test
     fun `property shared between oneof types can be assigned and accessed without switching`() {

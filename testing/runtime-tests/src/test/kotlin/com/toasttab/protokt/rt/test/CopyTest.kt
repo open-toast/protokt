@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2020 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,23 +13,29 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.options
+package com.toasttab.protokt.rt.test
 
 import com.google.common.truth.Truth.assertThat
-import com.toasttab.model.SliceModel
-import com.toasttab.protokt.rt.BytesSlice
 import org.junit.jupiter.api.Test
+import tutorial.Person
 
-class BytesSliceTest {
-    private val model =
-        SliceModel {
-            slice = BytesSlice("asdf".toByteArray())
-        }
-
+class CopyTest {
     @Test
-    fun `slice contents are preserved`() {
-        val deserialized = SliceModel.deserialize(model.serialize())
+    fun `copying an object preserves unmodified fields`() {
+        val phoneNumber =
+            Person.PhoneNumber {
+                number = "617-555-6666"
+                type = Person.PhoneType.WORK
+            }
 
-        assertThat(deserialized.slice).isEqualTo(model.slice)
+        val newNumber = phoneNumber.copy { number = "504-237-4012" }
+
+        assertThat(newNumber)
+            .isEqualTo(
+                Person.PhoneNumber {
+                    number = "504-237-4012"
+                    type = Person.PhoneType.WORK
+                }
+            )
     }
 }
