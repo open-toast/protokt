@@ -577,3 +577,6 @@ files with the fresh plugin.
 #### Authors
 
 [Ben Gordon](mailto:ben.gordon@toasttab.com), Andrew P, [Oleg Golberg](mailto:ogolberg@toasttab.com), [Patty Neckowicz](mailto:pneckowicz@toasttab.com), [Frank Moda](mailto:frank@toasttab.com) and [everyone in the commit history](../../commits/master).
+
+Thanks to the Google Kotlin team for their [Kotlin API Design](https://github.com/lowasser/protobuf/blob/master/kotlin-design.md)
+which inspired the DSL builder implemented in this library.
