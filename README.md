@@ -1,4 +1,7 @@
-# protokt [![CircleCI](https://circleci.com/gh/open-toast/protokt.svg?style=svg)](https://circleci.com/gh/open-toast/protokt)
+# protokt 
+
+![CircleCI](https://circleci.com/gh/open-toast/protokt.svg?style=svg)
+![Maven Central](https://img.shields.io/maven-central/v/com.toasttab.protokt/protokt-runtime)
 
 Protobuf compiler and runtime for Kotlin.
 
