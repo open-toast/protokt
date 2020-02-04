@@ -23,7 +23,7 @@ CodedOutputStream for best performance
 - Kotlin JS support (**Looking for contributors**)
 - Protobuf JSON support 
 
-See examples in [testing].
+See examples in [testing](testing).
 
 ### Usage
 
@@ -295,8 +295,7 @@ Sometimes a field on a protobuf message corresponds to a concrete nonprimitive t
 standard protobuf the user would be responsible for this extra transformation, but the
 protokt wrapper type option allows specification of a converter that will automatically
 encode and decode custom types to protobuf primitives and well-known types. Some standard
-types are implemented in
-[extensions].
+types are implemented in [extensions](extensions).
 
 Wrap a field by invoking the `(protokt.property).wrap` option:
 ```proto
