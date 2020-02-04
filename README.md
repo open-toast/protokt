@@ -8,13 +8,12 @@ Protobuf compiler and runtime for Kotlin.
 Supports only the Protocol Buffers language version 3.
 
 #### Features
-- Clean data class generation
 - Oneof types handled as sealed classes
-- JavaDoc comments on generated code
+- KDoc comments on generated code
 - Deprecation option pass-through to Kotlin's `@Deprecated` annotation
 - Protokt-specific options: non-null types, wrapper types, interface implementation,
 and more
-- Tight integration with Protobuf's Java library: usage of CodedInputStream and
+- Integration with Protobuf's Java library: usage of CodedInputStream and
 CodedOutputStream for best performance
 
 #### Not yet implemented
@@ -46,7 +45,7 @@ or `protobuf-javalite`:
 
 ```groovy
 dependencies {
-    "com.google.protobuf:protobuf-java:3.11.0"
+    "com.google.protobuf:protobuf-java:3.11.3"
 }
 ```
 
@@ -54,7 +53,7 @@ or
 
 ```groovy
 dependencies {
-    "com.google.protobuf:protobuf-javalite:3.11.0"
+    "com.google.protobuf:protobuf-javalite:3.11.3"
 }
 ```
 
