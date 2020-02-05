@@ -293,8 +293,8 @@ module. All protokt-specific options require importing `protokt/protokt.proto` i
 Sometimes a field on a protobuf message corresponds to a concrete nonprimitive type. In
 standard protobuf the user would be responsible for this extra transformation, but the
 protokt wrapper type option allows specification of a converter that will automatically
-encode and decode custom types to protobuf primitives and well-known types. Some standard
-types are implemented in [extensions](extensions).
+encode and decode custom types to protobuf types. Some standard types are implemented in
+[extensions](extensions).
 
 Wrap a field by invoking the `(protokt.property).wrap` option:
 ```proto
@@ -353,11 +353,11 @@ private constructor(
             when (deserializer.readTag()) {
                 0 ->
                     return WrapperModel(
-                        instant
+                        instant,
                         ...
                     )
                 8 -> instant =
-                        InstantConverter.wrap(deserializer.readMessage(com.toasttab.protokt.Timestamp))
+                    InstantConverter.wrap(deserializer.readMessage(com.toasttab.protokt.Timestamp))
                 ...
             }
         }
@@ -566,7 +566,7 @@ protokt$ protoc \
 
 ### Contribution
 To enable rapid development of the code generator, the protobuf conformance tests have been
-compiled and included in the `gradle-plugin-integration-testing` project. They run on Mac OS 10.14+ and Ubuntu
+compiled and included in the `testing` project. They run on Mac OS 10.14+ and Ubuntu
 16.04 x86-64 as part of normal Gradle builds.
 
 When integration testing the Gradle plugin, note that after changing the plugin and republishing
