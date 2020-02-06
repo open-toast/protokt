@@ -14,6 +14,7 @@
  */
 
 enablePublishing()
+compatibleWithAndroid()
 
 dependencies {
     compileOnly(libraries.protobuf)
