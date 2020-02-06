@@ -18,6 +18,7 @@ apply(plugin = "idea")
 localProtokt()
 pureKotlin()
 enablePublishing()
+compatibleWithAndroid()
 
 dependencies {
     add("protobuf", libraries.protobuf)

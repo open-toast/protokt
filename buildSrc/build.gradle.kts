@@ -31,5 +31,6 @@ dependencies {
     implementation("com.google.protobuf:protobuf-gradle-plugin:0.8.10")
     implementation("io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.21.2")
     implementation("com.google.guava:guava:28.1-jre")
+    implementation("ru.vyarus:gradle-animalsniffer-plugin:1.5.0")
     implementation(kotlin("gradle-plugin-api"))
 }
