@@ -46,7 +46,7 @@ jobs:
 
       - run:
           name: Deploy (if release)
-          command: "if [[ \"$CIRCLE_BRANCH\" == master ]]; then ./gradlew publishToRemote closeAndReleaseRepository; else echo skipping publishing; fi"
+          command: "if [[ \"$CIRCLE_BRANCH\" == master ]]; then ./gradlew publishToRemote closeAndReleaseRepository -Dorg.gradle.internal.http.socketTimeout=120000 -Dorg.gradle.internal.network.retry.max.attempts=1 -Dorg.gradle.internal.publish.checksums.insecure=true; else echo skipping publishing; fi"
 
 workflows:
   version: 2.1
