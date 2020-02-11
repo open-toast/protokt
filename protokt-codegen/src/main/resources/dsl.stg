@@ -37,9 +37,9 @@ class <message.name>Dsl {
                 requireNotNull(<p.name>) {<\n><\\>
                     <t()><t()><requireNotNullMessage(p)><\n><\\>
                 <t()>\}<\\>
-            <elseif (p.wrapped)><\\>
+            <elseif (p.wrapped && !isMessage.(p.messageType))><\\>
                 requireNotNull(<p.name>) {<\n><\\>
-                    <t()><t()>"<p.name> wrapped and not specified and has no default value"<\n><\\>
+                    <t()><t()>"<p.name> is a wrapped primitive, was not specified, and has no default value"<\n><\\>
                 <t()>\}<\\>
             <else><\\>
                 <p.name><\\>

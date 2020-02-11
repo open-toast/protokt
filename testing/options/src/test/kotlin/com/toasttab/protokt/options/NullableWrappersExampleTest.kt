@@ -27,6 +27,7 @@ import java.util.UUID
 import kotlin.reflect.KClass
 import kotlin.reflect.full.declaredMemberProperties
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertDoesNotThrow
 
 class NullableWrappersExampleTest {
     @Test
@@ -79,6 +80,13 @@ class NullableWrappersExampleTest {
         assertThat(
             NullableWrappersExample::class.propertyIsMarkedNullable("duration")
         ).isTrue()
+    }
+
+    @Test
+    fun `type can be constructed with no values`() {
+        assertDoesNotThrow {
+            NullableWrappersExample {}
+        }
     }
 
     private fun KClass<*>.propertyIsMarkedNullable(name: String) =

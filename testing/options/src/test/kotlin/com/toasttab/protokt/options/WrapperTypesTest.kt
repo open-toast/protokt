@@ -26,6 +26,7 @@ import java.time.Duration
 import java.time.Instant
 import java.util.UUID
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
 class WrapperTypesTest {
     private val model =
@@ -149,5 +150,25 @@ class WrapperTypesTest {
         assertThat(
             (deserialized.wrappedOneof as OneOfWrapperModel.WrappedOneof.SocketAddressOneof).socketAddressOneof
         ).isEqualTo(model.socketAddress)
+    }
+
+    @Test
+    fun `wrapped primitive should not be nullable`() {
+        val thrown = assertThrows<IllegalArgumentException> {
+            model.copy { id = null }
+        }
+
+        assertThat(thrown).hasMessageThat()
+            .isEqualTo("id is a wrapped primitive, was not specified, and has no default value")
+    }
+
+    @Test
+    fun `wrapped message should not be nullable`() {
+        val thrown = assertThrows<IllegalArgumentException> {
+            model.copy { instant = null }
+        }
+
+        assertThat(thrown).hasMessageThat()
+            .isEqualTo("instant specified nonnull with (protokt.property).non_null but was null")
     }
 }
