@@ -26,6 +26,7 @@ import com.toasttab.protokt.codegen.model.possiblyQualify
 import com.toasttab.protokt.ext.Converter
 import com.toasttab.protokt.ext.OptimizedSizeofConverter
 import com.toasttab.protokt.rt.PType
+import kotlin.reflect.KClass
 
 internal object Wrapper {
     val converterPkg = PPackage.fromString(Converter::class.java.`package`.name)
@@ -36,12 +37,28 @@ internal object Wrapper {
     private fun <R> StandardField.foldWrap(
         ctx: Context,
         ifEmpty: () -> R,
-        ifSome: (PClass) -> R
+        ifSome: (wrapper: PClass, wrapped: KClass<*>) -> R
     ) =
         options.protokt.wrap
             .emptyToNone()
             .map { PClass.fromName(it).possiblyQualify(ctx.pkg) }
-            .fold(ifEmpty, ifSome)
+            .fold(
+                ifEmpty,
+                {
+                    ifSome(
+                        it,
+                        typeName.emptyToNone().fold(
+                            {
+                                // Protobuf primitives have no typeName
+                                Class.forName(
+                                    TypeToNameRF.render(TypeRenderVar to type)
+                                ).kotlin
+                            },
+                            { getClass(typePClass(), ctx.desc.params) }
+                        )
+                    )
+                }
+            )
 
     fun interceptSizeof(
         f: StandardField,
@@ -51,8 +68,11 @@ internal object Wrapper {
         f.foldWrap(
             ctx,
             { interceptValueAccess(f, ctx, s) },
-            {
-                if (converter(it, ctx) is OptimizedSizeofConverter<*, *>) {
+            { wrapper, wrapped ->
+                if (
+                    converter(wrapper, wrapped, ctx) is
+                        OptimizedSizeofConverter<*, *>
+                ) {
                     s
                 } else {
                     interceptValueAccess(f, ctx, s)
@@ -73,12 +93,18 @@ internal object Wrapper {
                     NameSizeOfVar to s
                 )
             },
-            {
-                if (converter(it, ctx) is OptimizedSizeofConverter<*, *>) {
+            { wrapper, wrapped ->
+                if (
+                    converter(wrapper, wrapped, ctx) is
+                        OptimizedSizeofConverter<*, *>
+                ) {
                     ConcatWithScopeRF.render(
                         ScopedValueRenderVar to
                             ScopedValueSt(
-                                unqualifiedWrap(converterClass(it, ctx), ctx),
+                                unqualifiedWrap(
+                                    converterClass(wrapper, wrapped, ctx),
+                                    ctx
+                                ),
                                 SizeofOptionRF.render(ArgVar to s)
                             )
                     )
@@ -99,10 +125,10 @@ internal object Wrapper {
         f.foldWrap(
             ctx,
             { s },
-            {
+            { wrapper, wrapped ->
                 AccessFieldRF.render(
                     WrapNameVar to
-                        PClass.fromClass(converter(it, ctx)::class)
+                        PClass.fromClass(converter(wrapper, wrapped, ctx)::class)
                             .unqualify(ctx.pkg),
                     ArgVar to s
                 )
@@ -116,15 +142,16 @@ internal object Wrapper {
             wrap.unqualify(converterPkg)
         }
 
-    private fun converterClass(wrapper: PClass, ctx: Context) =
-        PClass.fromClass(converter(wrapper, ctx)::class)
+    private fun converterClass(wrapper: PClass, wrapped: KClass<*>, ctx: Context) =
+        PClass.fromClass(converter(wrapper, wrapped, ctx)::class)
 
-    private val converter = { wrapper: PClass, ctx: Context ->
+    private val converter = { wrapper: PClass, wrapped: KClass<*>, ctx: Context ->
         converters(ctx.desc.params.classpath).find {
-            it.wrapper == getClass(wrapper, ctx.desc.params)
+            it.wrapper == getClass(wrapper, ctx.desc.params) &&
+                it.wrapped == wrapped
         } ?: throw Exception(
             "${ctx.desc.name}: No converter found for wrapper type " +
-                wrapper.qualifiedName
+                "${wrapper.qualifiedName} from type ${wrapped.qualifiedName}"
         )
     }.memoize()
 
@@ -132,9 +159,13 @@ internal object Wrapper {
         f.foldWrap(
             ctx,
             { s },
-            {
+            { wrapper, wrapped ->
                 WrapFieldRF.render(
-                    WrapNameVar to unqualifiedWrap(converterClass(it, ctx), ctx),
+                    WrapNameVar to
+                        unqualifiedWrap(
+                            converterClass(wrapper, wrapped, ctx),
+                            ctx
+                        ),
                     ArgVar to s,
                     TypeOptionVar to f.type,
                     OneofOptionVar to true
@@ -165,7 +196,7 @@ internal object Wrapper {
                 f.foldWrap(
                     ctx,
                     { t },
-                    { unqualifiedWrap(it, ctx) }
+                    { wrapper, _ -> unqualifiedWrap(wrapper, ctx) }
                 )
             },
             { BytesSliceRF.render() }

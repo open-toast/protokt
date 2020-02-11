@@ -196,10 +196,10 @@ Sample {
 }
 ```
 
-Why not expose a public constructor or use a data class? One of the design goals of protocol buffers is that protobuf definitions
-can be modified in backwards-compatible ways without breaking wire or API compatibility of existing code.
-Using a DSL to construct the object emulates named arguments and allows shuffling of protobuf fields
-within a definition without breaking code as would happen for a standard constructor or method call.
+Why not expose a public constructor or use a data class? One of the design goals of protocol buffers is that
+protobuf definitions can be modified in backwards-compatible ways without breaking wire or API compatibility
+of existing code. Using a DSL to construct the object emulates named arguments and allows shuffling of protobuf
+fields within a definition without breaking code as would happen for a standard constructor or method call.
 
 The canonical `copy` method on data classes is emulated via a generated `copy` method:
 ```kotlin
@@ -305,10 +305,13 @@ message WrapperMessage {
 }
 ```
 
-Converters implement the [Converter](extensions/protokt-extensions-api/src/main/kotlin/com/toasttab/protokt/ext/Converter.kt) interface:
+Converters implement the [Converter](extensions/protokt-extensions-api/src/main/kotlin/com/toasttab/protokt/ext/Converter.kt)
+interface:
 ```kotlin
 interface Converter<S : Any, T : Any> {
     val wrapper: KClass<S>
+
+    val wrapped: KClass<T>
 
     fun wrap(unwrapped: T): S
 
@@ -320,6 +323,8 @@ and protokt will reference the converter's methods to wrap and unwrap from proto
 ```kotlin
 object InstantConverter : Converter<Instant, Timestamp> {
     override val wrapper = Instant::class
+
+    override val wrapped = Timestamp::class
 
     override fun wrap(unwrapped: Timestamp): Instant =
         Instant.ofEpochSecond(unwrapped.seconds, unwrapped.nanos.toLong())
@@ -376,6 +381,8 @@ the object twice. For example, a UUID is always 16 bytes:
 object UuidConverter : OptimizedSizeofConverter<UUID, ByteArray> {
     override val wrapper = UUID::class
 
+    override val wrapped = ByteArray::class
+
     private val sizeofProxy = ByteArray(16)
 
     override fun sizeof(wrapped: UUID) =
@@ -390,7 +397,7 @@ object UuidConverter : OptimizedSizeofConverter<UUID, ByteArray> {
             .run { UUID(long, long) }
     }
 
-    override fun unwrap(wrapped: UUID) =
+    override fun unwrap(wrapped: UUID): ByteArray =
         ByteBuffer.allocate(16)
             .putLong(wrapped.mostSignificantBits)
             .putLong(wrapped.leastSignificantBits)
@@ -419,8 +426,14 @@ option described below.
 
 Wrapper types that wrap protobuf primitives, for example `java.util.UUID` which wraps `bytes`, are
 not nullable and may present malformed inputs to converters when absent in deserialization. It is
-up to the converter to determine what behavior should be in these cases. To represent a nullable
-UUID use UuidValue defined in `protokt-extensions-wrappers`.
+up to the converter to determine what behavior should be in these cases. To represent nullable
+primitive wrappers use well-known types. For example for a nullable UUID:
+
+```proto
+google.protobuf.BytesValue uuid = 1 [
+  (protokt.property).wrap = "java.util.UUID"
+];
+```
 
 Wrapper types should be immutable.
 
@@ -577,7 +590,9 @@ files with the fresh plugin.
 
 #### Authors
 
-[Ben Gordon](mailto:ben.gordon@toasttab.com), Andrew P, [Oleg Golberg](mailto:ogolberg@toasttab.com), [Patty Neckowicz](mailto:pneckowicz@toasttab.com), [Frank Moda](mailto:frank@toasttab.com) and [everyone in the commit history](../../commits/master).
+[Ben Gordon](mailto:ben.gordon@toasttab.com), Andrew P, [Oleg Golberg](mailto:ogolberg@toasttab.com),
+[Patty Neckowicz](mailto:pneckowicz@toasttab.com), [Frank Moda](mailto:frank@toasttab.com) and
+[everyone in the commit history](../../commits/master).
 
 Thanks to the Google Kotlin team for their [Kotlin API Design](https://github.com/lowasser/protobuf/blob/master/kotlin-design.md)
 which inspired the DSL builder implemented in this library.

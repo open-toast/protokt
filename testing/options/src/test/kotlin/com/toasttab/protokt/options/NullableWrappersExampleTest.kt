@@ -17,10 +17,8 @@ package com.toasttab.protokt.options
 
 import com.google.common.truth.Truth.assertThat
 import com.toasttab.model.NullableWrappersExample
-import com.toasttab.protokt.ext.InetAddressValue
-import com.toasttab.protokt.ext.InetSocketAddress
-import com.toasttab.protokt.ext.UuidValue
 import java.net.InetAddress
+import java.net.InetSocketAddress
 import java.time.Duration
 import java.time.Instant
 import java.util.UUID
@@ -33,12 +31,9 @@ class NullableWrappersExampleTest {
     @Test
     fun `serialization round trip works`() {
         val original = NullableWrappersExample {
-            address = InetAddressValue { value = InetAddress.getLocalHost() }
-            socketAddress = InetSocketAddress {
-                address = InetAddress.getLocalHost()
-                port = 0
-            }
-            uuid = UuidValue { value = UUID.randomUUID() }
+            address = InetAddress.getLocalHost()
+            socketAddress = InetSocketAddress(InetAddress.getLocalHost(), 8080)
+            uuid = UUID.randomUUID()
             instant = Instant.now()
             duration = Duration.ofSeconds(5)
         }

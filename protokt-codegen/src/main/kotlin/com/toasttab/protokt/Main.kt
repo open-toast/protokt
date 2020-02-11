@@ -49,9 +49,10 @@ internal fun main(bytes: ByteArray, out: OutputStream) = IO {
                 STAnnotator,
                 STEffects,
                 { t ->
-                    System.err.println(t.localizedMessage)
+                    t.printStackTrace(System.err)
                     exitProcess(-1)
-                })
+                }
+            )
             g { s -> code.append(s + "\n") }
 
             Some(

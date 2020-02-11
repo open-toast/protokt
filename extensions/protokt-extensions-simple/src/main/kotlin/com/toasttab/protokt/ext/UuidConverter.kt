@@ -24,6 +24,8 @@ import java.util.UUID
 object UuidConverter : OptimizedSizeofConverter<UUID, ByteArray> {
     override val wrapper = UUID::class
 
+    override val wrapped = ByteArray::class
+
     private val sizeofProxy = ByteArray(16)
 
     override fun sizeof(wrapped: UUID) =
