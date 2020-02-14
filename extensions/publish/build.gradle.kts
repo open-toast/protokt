@@ -18,7 +18,6 @@ enablePublishing(defaultJars = false)
 dependencies {
     api(project(":extensions:protokt-extensions-simple"))
     api(project(":extensions:protokt-extensions-proto-based"))
-    api(project(":extensions:protokt-extensions-wrappers"))
     api(project(":extensions:protokt-extensions-api"))
 }
 

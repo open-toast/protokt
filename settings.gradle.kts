@@ -36,7 +36,6 @@ include(
     "extensions:protokt-extensions-api",
     "extensions:protokt-extensions-simple",
     "extensions:protokt-extensions-proto-based",
-    "extensions:protokt-extensions-wrappers",
     "extensions:publish",
 
     "testing:conformance-driver",

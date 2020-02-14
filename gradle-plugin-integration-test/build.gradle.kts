@@ -59,7 +59,6 @@ tasks.withType<KotlinCompile> {
     kotlinOptions {
         allWarningsAsErrors = true
         jvmTarget = "1.8"
-        freeCompilerArgs = listOf("-Xinline-classes")
     }
 }
 
