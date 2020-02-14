@@ -41,6 +41,8 @@ import com.toasttab.protokt.rt.sizeof
 object CachingIdConverter : OptimizedSizeofConverter<CachingId, ByteArray> {
     override val wrapper = CachingId::class
 
+    override val wrapped = ByteArray::class
+
     override fun sizeof(wrapped: CachingId) =
         sizeof(wrapped.value)
 

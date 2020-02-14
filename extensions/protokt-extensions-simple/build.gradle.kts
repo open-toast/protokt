@@ -22,7 +22,6 @@ dependencies {
 
     implementation(project(":extensions:protokt-extensions-api"))
     implementation(project(":protokt-core"))
-    implementation(project(":protokt-runtime"))
     implementation(libraries.autoServiceAnnotations)
 
     add("kapt", libraries.autoService)

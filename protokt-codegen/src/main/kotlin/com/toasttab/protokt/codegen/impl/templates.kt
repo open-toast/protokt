@@ -151,6 +151,12 @@ object ConvertTypeRF : TemplateSt<RenderVar>(
     setOf(TypeRenderVar)
 )
 
+object TypeToNameRF : TemplateSt<RenderVar>(
+    Renderers,
+    "type2NameF",
+    setOf(TypeRenderVar)
+)
+
 object ReadFunctionRF : TemplateSt<RenderVar>(
     Renderers,
     "readF",

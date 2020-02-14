@@ -19,16 +19,22 @@ package com.toasttab.model;
 
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
 import "protokt/ext/inet_socket_address.proto";
-import "protokt/ext/wrappers.proto";
 import "protokt/protokt.proto";
 
 message NullableWrappersExample {
-  protokt.ext.InetAddressValue address = 1;
+  google.protobuf.BytesValue address = 1 [
+    (protokt.property).wrap = "java.net.InetAddress"
+  ];
 
-  protokt.ext.InetSocketAddress socket_address = 2;
+  protokt.ext.InetSocketAddress socket_address = 2 [
+    (protokt.property).wrap = "java.net.InetSocketAddress"
+  ];
 
-  protokt.ext.UuidValue uuid = 3;
+  google.protobuf.BytesValue uuid = 3 [
+    (protokt.property).wrap = "java.util.UUID"
+  ];
 
   google.protobuf.Timestamp instant = 4 [
     (protokt.property).wrap = "java.time.Instant"

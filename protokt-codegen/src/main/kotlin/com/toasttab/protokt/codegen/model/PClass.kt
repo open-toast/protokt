@@ -26,12 +26,13 @@ data class PClass(
     val ppackage: PPackage,
     val enclosing: Option<PClass>
 ) {
+    val qualifiedName
+        get() = "${if (ppackage.default) "" else "$ppackage."}$nestedName"
+
     // do not fully qualify items in com.toasttab.protokt.ext; use a wildcard
     // import (see HeaderAccumulator.kt)
-    val qualifiedName
-        get() =
-            "${if (ppackage.default) "" else "$ppackage."}$nestedName"
-                .removePrefix("$protoktExtFqcn.")
+    val renderName
+        get() = qualifiedName.removePrefix("$protoktExtFqcn.")
 
     val nestedName: String
         get() =
@@ -47,7 +48,7 @@ data class PClass(
         if (isInPackage(pkg)) {
             nestedName
         } else {
-            qualifiedName
+            renderName
         }
 
     fun qualify(pkg: PPackage): PClass {

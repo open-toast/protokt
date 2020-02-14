@@ -23,6 +23,8 @@ object InetSocketAddressConverter :
 
     override val wrapper = java.net.InetSocketAddress::class
 
+    override val wrapped = InetSocketAddress::class
+
     override fun wrap(unwrapped: InetSocketAddress) =
         java.net.InetSocketAddress(unwrapped.address, unwrapped.port)
 

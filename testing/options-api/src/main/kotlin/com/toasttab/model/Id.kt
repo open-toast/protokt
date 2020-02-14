@@ -24,6 +24,8 @@ data class Id(val value: String)
 object IdConverter : Converter<Id, ByteArray> {
     override val wrapper = Id::class
 
+    override val wrapped = ByteArray::class
+
     override fun wrap(unwrapped: ByteArray) =
         Id(String(unwrapped))
 

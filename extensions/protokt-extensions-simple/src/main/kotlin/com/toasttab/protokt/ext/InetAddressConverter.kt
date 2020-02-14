@@ -22,6 +22,8 @@ import java.net.InetAddress
 object InetAddressConverter : Converter<InetAddress, ByteArray> {
     override val wrapper = InetAddress::class
 
+    override val wrapped = ByteArray::class
+
     override fun wrap(unwrapped: ByteArray): InetAddress {
         require(unwrapped.isNotEmpty()) {
             "cannot unwrap absent InetAddress"

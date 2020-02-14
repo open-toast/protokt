@@ -23,6 +23,8 @@ import java.time.Instant
 object InstantConverter : Converter<Instant, Timestamp> {
     override val wrapper = Instant::class
 
+    override val wrapped = Timestamp::class
+
     override fun wrap(unwrapped: Timestamp): Instant =
         Instant.ofEpochSecond(unwrapped.seconds, unwrapped.nanos.toLong())
 

@@ -14,6 +14,7 @@
  */
 
 import "options.stg"
+import "renderers.stg"
 
 oneof(name, types, options) ::= <<
 sealed class <name> <oneofDoesImplement()>{

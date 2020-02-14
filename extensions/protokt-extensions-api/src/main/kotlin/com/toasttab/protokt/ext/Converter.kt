@@ -20,6 +20,8 @@ import kotlin.reflect.KClass
 interface Converter<S : Any, T : Any> {
     val wrapper: KClass<S>
 
+    val wrapped: KClass<T>
+
     fun wrap(unwrapped: T): S
 
     fun unwrap(wrapped: S): T

@@ -87,7 +87,7 @@ private constructor(
         // If a wrapper type is specified and it shares a name with the oneof,
         // it must be fully qualified.
         if (unqualifiedType.simpleName == fieldType.simpleName) {
-            fieldType.possiblyQualify(ctx.pkg).qualifiedName
+            fieldType.possiblyQualify(ctx.pkg).renderName
         } else {
             fieldType.unqualify(ctx.pkg)
         }
@@ -103,13 +103,13 @@ private constructor(
         val requiresQualifiedTypeName = !pClass.isInPackage(ctx.pkg)
 
         return if (requiresQualifiedTypeName) {
-            pClass.qualifiedName
+            pClass.renderName
         } else {
             if (oneofFieldTypeName == pClass.nestedName) {
                 // Oneof field name shares name of its type
                 if (oneofFieldTypeName == pClass.simpleName) {
                     // Oneof field is the same as its enclosing type
-                    pClass.qualifiedName
+                    pClass.renderName
                 } else {
                     pClass.simpleName
                 }

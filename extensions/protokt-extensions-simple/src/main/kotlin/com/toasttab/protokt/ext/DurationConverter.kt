@@ -22,6 +22,8 @@ import com.toasttab.protokt.Duration
 object DurationConverter : Converter<java.time.Duration, Duration> {
     override val wrapper = java.time.Duration::class
 
+    override val wrapped = Duration::class
+
     override fun wrap(unwrapped: Duration): java.time.Duration =
         java.time.Duration.ofSeconds(unwrapped.seconds, unwrapped.nanos.toLong())
 
