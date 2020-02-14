@@ -69,6 +69,7 @@ internal fun configureProtobufPlugin(project: Project, ext: ProtoktExtension, bi
 
 private fun normalizePath(binaryPath: String) =
     if (OperatingSystem.current().isWindows) {
+        // on windows, protoc expects a full, /-separated path to the binary
         binaryPath.replace('\\', '/') + ".bat"
     } else {
         binaryPath
