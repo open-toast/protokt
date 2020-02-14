@@ -24,6 +24,7 @@ import com.google.protobuf.gradle.protoc
 import com.google.protobuf.gradle.remove
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginConvention
+import org.gradle.internal.os.OperatingSystem
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.the
 
@@ -42,7 +43,7 @@ internal fun configureProtobufPlugin(project: Project, ext: ProtoktExtension, bi
 
         plugins {
             id("protokt") {
-                path = binaryPath
+                path = normalizePath(binaryPath)
             }
         }
 
@@ -65,3 +66,11 @@ internal fun configureProtobufPlugin(project: Project, ext: ProtoktExtension, bi
         }
     }
 }
+
+private fun normalizePath(binaryPath: String) =
+    if (OperatingSystem.current().isWindows) {
+        // on windows, protoc expects a full, /-separated path to the binary
+        binaryPath.replace('\\', '/') + ".bat"
+    } else {
+        binaryPath
+    }
