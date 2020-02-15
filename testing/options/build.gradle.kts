@@ -19,10 +19,10 @@ localProtokt()
 pureKotlin()
 
 dependencies {
-    implementation(project(":protokt-core"))
     protoktExtensions(project(":testing:options-api"))
     protoktExtensions(project(":extensions:publish"))
 
+    testImplementation(project(":testing:runtime-tests"))
     testImplementation(libraries.jackson)
     testImplementation(libraries.junit)
     testImplementation(libraries.kotlinTest)

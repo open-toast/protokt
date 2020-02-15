@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2020 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,18 +13,20 @@
  * limitations under the License.
  */
 
-import com.toasttab.protokt.shared.protoktExtensions
+syntax = "proto3";
 
-apply(plugin = "kotlin-kapt")
+package com.toasttab.protokt.rt.test;
 
-localProtokt()
-enablePublishing()
+import "google/protobuf/wrappers.proto";
 
-dependencies {
-    implementation(project(":extensions:protokt-extensions-api"))
-    implementation(libraries.autoServiceAnnotations)
-
-    add("kapt", libraries.autoService)
-
-    protoktExtensions(project(":extensions:protokt-extensions-simple"))
+message WellKnownTypes {
+  google.protobuf.DoubleValue double = 1;
+  google.protobuf.FloatValue float = 2;
+  google.protobuf.Int64Value int64 = 3;
+  google.protobuf.UInt64Value uint64 = 4;
+  google.protobuf.Int32Value int32 = 5;
+  google.protobuf.UInt32Value uint32 = 6;
+  google.protobuf.BoolValue bool = 7;
+  google.protobuf.StringValue string = 8;
+  google.protobuf.BytesValue bytes = 9;
 }

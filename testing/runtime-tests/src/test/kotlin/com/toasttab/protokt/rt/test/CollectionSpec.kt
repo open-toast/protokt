@@ -28,14 +28,6 @@ import io.kotlintest.matchers.collections.shouldContainAll
 import io.kotlintest.matchers.maps.shouldContainValues
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.StringSpec
-import test.kt.ListTest
-import test.kt.MapTest
-import test.kt.RepeatedAnyTest
-import test.kt.RepeatedPackedTest
-import test.kt.RepeatedTest
-import test.kt.RepeatedWktTest
-import test.kt.Test
-import test.kt.TestOuterClass
 
 class CollectionSpec : StringSpec({
     val s0 = Bytes("this is a test".toByteArray())

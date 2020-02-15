@@ -14,11 +14,11 @@
  */
 
 wrapDeserializeRead(options, read) ::= <%
-<if (options)>
-    <wrapField(options.wrapName, read, options.type, options.oneof)>
-<else>
-    <read>
-<endif>
+    <if (options)>
+        <wrapField(options.wrapName, read, options.type, options.oneof)>
+    <else>
+        <read>
+    <endif>
 %>
 
 wrapField(wrapName, arg, type, oneof) ::= <%
@@ -27,6 +27,31 @@ wrapField(wrapName, arg, type, oneof) ::= <%
         !!
     <endif>
     )
+%>
+
+protoTypesToJavaClassNames ::= [
+    "BOOL": "Boolean",
+    "DOUBLE": "Double",
+    "FIXED32": "Integer",
+    "FIXED64": "Long",
+    "FLOAT": "Float",
+    "INT32": "Integer",
+    "INT64": "Long",
+    "SFIXED32": "Integer",
+    "SFIXED64": "Long",
+    "SINT32": "Integer",
+    "SINT64": "Long",
+    "STRING": "String",
+    "UINT32": "Integer",
+    "UINT64": "Long"
+]
+
+typeToJavaClassName(type) ::= <%
+    <if (protoTypesToJavaClassNames.(type))>
+        java.lang.<protoTypesToJavaClassNames.(type)>
+    <else>
+        [B
+    <endif>
 %>
 
 nullDeserializeVar ::= [
@@ -90,3 +115,19 @@ suppressDeprecation(any) ::= <%
         @Suppress("DEPRECATION")<\n>
     <endif>
 %>
+
+javaClassNameForWellKnownType(type) ::= <%
+    <wellKnownTypesToJavaClassNames.(type)>
+%>
+
+wellKnownTypesToJavaClassNames ::= [
+    "DoubleValue": "java.lang.Double",
+    "FloatValue": "java.lang.Float",
+    "Int64Value": "java.lang.Long",
+    "UInt64Value": "java.lang.Long",
+    "Int32Value": "java.lang.Integer",
+    "UInt32Value": "java.lang.Integer",
+    "BoolValue": "java.lang.Boolean",
+    "StringValue": "java.lang.String",
+    "BytesValue": "com.toasttab.protokt.rt.Bytes"
+]

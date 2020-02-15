@@ -36,7 +36,7 @@ buildscript {
     }
 }
 
-group = "com.toasttab.protokt"
+group = "com.toasttab.protokt.integration"
 
 apply(plugin = "com.toasttab.protokt")
 

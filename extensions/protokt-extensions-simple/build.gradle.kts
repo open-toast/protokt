@@ -18,9 +18,6 @@ apply(plugin = "kotlin-kapt")
 enablePublishing()
 
 dependencies {
-    compileOnly(libraries.protobuf)
-
-    implementation(project(":extensions:protokt-extensions-api"))
     implementation(project(":protokt-core"))
     implementation(libraries.autoServiceAnnotations)
 

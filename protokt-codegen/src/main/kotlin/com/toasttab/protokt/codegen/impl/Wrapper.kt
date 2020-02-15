@@ -22,6 +22,7 @@ import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.impl.ClassLookup.converters
 import com.toasttab.protokt.codegen.impl.ClassLookup.getClass
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
+import com.toasttab.protokt.codegen.impl.WellKnownTypes.wrapWithWellKnownInterception
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.model.possiblyQualify
@@ -34,16 +35,20 @@ internal object Wrapper {
     val converterPkg = PPackage.fromString(Converter::class.java.`package`.name)
 
     val StandardField.wrapped
-        get() = options.protokt.wrap.isNotEmpty()
+        get() = wrapWithWellKnownInterception.isDefined()
 
     private fun <R> StandardField.foldWrap(
         ctx: Context,
         ifEmpty: () -> R,
-        ifSome: (wrapper: PClass, wrapped: KClass<*>) -> R
+        ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
     ) =
-        options.protokt.wrap
-            .emptyToNone()
-            .map { PClass.fromName(it).possiblyQualify(ctx.pkg) }
+        wrapWithWellKnownInterception
+            .map {
+                getClass(
+                    PClass.fromName(it).possiblyQualify(ctx.pkg),
+                    ctx.desc.params
+                )
+            }
             .fold(
                 ifEmpty,
                 {
@@ -53,7 +58,9 @@ internal object Wrapper {
                             {
                                 // Protobuf primitives have no typeName
                                 Class.forName(
-                                    TypeToNameRF.render(TypeRenderVar to type)
+                                    TypeToJavaClassNameRF.render(
+                                        TypeOptionVar to type
+                                    )
                                 ).kotlin
                             },
                             { getClass(typePClass(), ctx.desc.params) }
@@ -137,20 +144,21 @@ internal object Wrapper {
             }
         )
 
-    private fun unqualifiedWrap(wrap: PClass, ctx: Context) =
-        if (wrap.isInPackage(ctx.pkg)) {
-            wrap.nestedName
-        } else {
-            wrap.unqualify(converterPkg)
+    private fun unqualifiedWrap(wrap: KClass<*>, ctx: Context) =
+        PClass.fromClass(wrap).run {
+            if (isInPackage(ctx.pkg)) {
+                nestedName
+            } else {
+                unqualify(converterPkg)
+            }
         }
 
-    private fun converterClass(wrapper: PClass, wrapped: KClass<*>, ctx: Context) =
-        PClass.fromClass(converter(wrapper, wrapped, ctx)::class)
+    private fun converterClass(wrapper: KClass<*>, wrapped: KClass<*>, ctx: Context) =
+        converter(wrapper, wrapped, ctx)::class
 
-    private val converter = { wrapper: PClass, wrapped: KClass<*>, ctx: Context ->
+    private val converter = { wrapper: KClass<*>, wrapped: KClass<*>, ctx: Context ->
         converters(ctx.desc.params.classpath).find {
-            it.wrapper == getClass(wrapper, ctx.desc.params) &&
-                it.wrapped == wrapped
+            it.wrapper == wrapper && it.wrapped == wrapped
         } ?: throw Exception(
             "${ctx.desc.name}: No converter found for wrapper type " +
                 "${wrapper.qualifiedName} from type ${wrapped.qualifiedName}"

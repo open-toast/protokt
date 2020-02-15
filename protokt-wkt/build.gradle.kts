@@ -13,18 +13,16 @@
  * limitations under the License.
  */
 
-import com.toasttab.protokt.shared.protoktExtensions
-
-apply(plugin = "kotlin-kapt")
+apply(plugin = "idea")
 
 localProtokt()
+pureKotlin()
 enablePublishing()
+compatibleWithAndroid()
 
 dependencies {
-    implementation(project(":extensions:protokt-extensions-api"))
-    implementation(libraries.autoServiceAnnotations)
-
-    add("kapt", libraries.autoService)
-
-    protoktExtensions(project(":extensions:protokt-extensions-simple"))
+    add("protobuf", libraries.protobuf)
+    compileOnly(libraries.protobuf)
+    api(project(":protokt-runtime"))
+    implementation(libraries.kotlinReflect)
 }

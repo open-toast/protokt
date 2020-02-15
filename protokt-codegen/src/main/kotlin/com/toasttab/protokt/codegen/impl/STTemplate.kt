@@ -27,15 +27,10 @@ data class STTemplate(val st: ST) : Template {
     }
 
     companion object {
-        private val templates = mapOf(
-            Enum to STGroupFile(Enum.value),
-            Header to STGroupFile(Header.value),
-            OneOf to STGroupFile(OneOf.value),
-            Message to STGroupFile(Message.value),
-            Options to STGroupFile(Options.value),
-            Renderers to STGroupFile(Renderers.value),
-            Services to STGroupFile(Services.value)
-        )
+        private val templates =
+            GroupSt::class.sealedSubclasses
+                .mapNotNull { it.objectInstance }
+                .associateWith { STGroupFile(it.value) }
 
         fun <T> toTemplate(tt: TemplateSt<T>): STTemplate {
             return STTemplate(

@@ -18,7 +18,6 @@ package com.toasttab.protokt.options
 import com.google.common.truth.Truth.assertThat
 import com.toasttab.model.NonNullModel
 import com.toasttab.model.NonNullModelMirror
-import com.toasttab.protokt.StringValue
 import kotlin.reflect.full.declaredMemberProperties
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -64,7 +63,7 @@ class NonNullableTest {
         val thrown = assertThrows<IllegalArgumentException> {
             NonNullModel.deserialize(
                 NonNullModelMirror {
-                    nonNullStringValue = StringValue { value = "asdf" }
+                    nonNullStringValue = "asdf"
                     nonNullOneof = null
                 }.serialize()
             )

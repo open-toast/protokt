@@ -16,8 +16,7 @@
 apply(plugin = "kotlin-kapt")
 
 dependencies {
-    implementation(project(":extensions:publish"))
-    implementation(project(":protokt-runtime"))
+    implementation(project(":protokt-core"))
     implementation(libraries.autoServiceAnnotations)
 
     add("kapt", libraries.autoService)

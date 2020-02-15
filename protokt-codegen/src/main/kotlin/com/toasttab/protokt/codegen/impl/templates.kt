@@ -141,20 +141,9 @@ object LhsRenderVar : RenderVar("lhs")
 object NullableRenderVar : RenderVar("nullable")
 object OptionsRenderVar : RenderVar("options")
 
-object WrapNameVar : OptionVar("wrapName")
-object ArgVar : OptionVar("arg")
-object TypeOptionVar : OptionVar("type")
-object OneofOptionVar : OptionVar("oneof")
-
 object ConvertTypeRF : TemplateSt<RenderVar>(
     Renderers,
     "type2nativeF",
-    setOf(TypeRenderVar)
-)
-
-object TypeToNameRF : TemplateSt<RenderVar>(
-    Renderers,
-    "type2NameF",
     setOf(TypeRenderVar)
 )
 
@@ -248,6 +237,17 @@ object OneOfDefaultValueRF : TemplateSt<RenderVar>(
     emptySet()
 )
 
+object WrapNameVar : OptionVar("wrapName")
+object ArgVar : OptionVar("arg")
+object TypeOptionVar : OptionVar("type")
+object OneofOptionVar : OptionVar("oneof")
+
+object TypeToJavaClassNameRF : TemplateSt<OptionVar>(
+    Options,
+    "typeToJavaClassName",
+    setOf(TypeOptionVar)
+)
+
 object WrapFieldRF : TemplateSt<OptionVar>(
     Options,
     "wrapField",
@@ -282,6 +282,12 @@ object DefaultBytesSliceRF : TemplateSt<OptionVar>(
     Options,
     "defaultBytesSlice",
     setOf()
+)
+
+object JavaClassNameForWellKnownTypeRF : TemplateSt<OptionVar>(
+    Options,
+    "javaClassNameForWellKnownType",
+    setOf(TypeOptionVar)
 )
 
 data class MessageDataSt(
