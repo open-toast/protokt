@@ -25,6 +25,7 @@ import com.toasttab.protokt.codegen.impl.NonNullable.hasNonNullOption
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptFieldSizeof
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptSizeof
+import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
 
 internal class SizeOfAnnotator
 private constructor(
@@ -70,9 +71,19 @@ private constructor(
             NameSizeOfVar to name,
             FieldSizeOfVar to f,
             TypeSizeOfVar to f.unqualifiedNestedTypeName(ctx),
-            FieldValueSizeOfVar to interceptFieldSizeof(f, name, ctx)
+            OptionsSizeOfVar to
+                SizeOfOptions(
+                    fieldSizeof = interceptFieldSizeof(f, name, ctx),
+                    fieldAccess =
+                        interceptValueAccess(f, ctx, IterationVarRf.render())
+                )
         )
     }
+
+    private data class SizeOfOptions(
+        val fieldSizeof: String,
+        val fieldAccess: Any
+    )
 
     private fun oneOfSize(f: OneOf, type: String) =
         f.fields.map {

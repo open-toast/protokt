@@ -37,7 +37,7 @@ class <message.name>Dsl {
                 requireNotNull(<p.name>) {<\n><\\>
                     <t()><t()><requireNotNullMessage(p)><\n><\\>
                 <t()>\}<\\>
-            <elseif (p.wrapped && !isMessage.(p.messageType))><\\>
+            <elseif (p.wrapped && !isMessage.(p.messageType) && !p.repeated)><\\>
                 requireNotNull(<p.name>) {<\n><\\>
                     <t()><t()>"<p.name> is a wrapped primitive, was not specified, and has no default value"<\n><\\>
                 <t()>\}<\\>
@@ -74,7 +74,7 @@ dslVar(p) ::= <%
 
 dslType(p) ::= <%
     <p.type>
-    <if ((p.wrapped && !isMessage.(p.messageType)) || p.nonNullOption)>
+    <if (((p.wrapped && !isMessage.(p.messageType)) || p.nonNullOption) && !p.repeated)>
         ?
     <endif>
 %>

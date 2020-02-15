@@ -18,13 +18,15 @@ package com.toasttab.protokt.codegen.impl
 import arrow.core.None
 import arrow.core.Option
 import arrow.core.Some
+import arrow.core.getOrElse
 import com.toasttab.protokt.codegen.MessageType
 import com.toasttab.protokt.codegen.OneOf
 import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.impl.MessageAnnotator.idealMaxWidth
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
-import com.toasttab.protokt.codegen.impl.Wrapper.interceptDeserializedValue
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptReadFn
+import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
+import com.toasttab.protokt.codegen.impl.Wrapper.wrapperName
 import com.toasttab.protokt.codegen.snakeToCamel
 import com.toasttab.protokt.rt.PType
 
@@ -80,16 +82,28 @@ private constructor(
     }
 
     private fun deserializeString(f: StandardField) =
-        interceptDeserializedValue(
-            f,
-            DeserializeRF.render(
-                FieldRenderVar to f,
-                TypeRenderVar to f.unqualifiedNestedTypeName(ctx),
-                ReadRenderVar to interceptReadFn(f, f.readFn()),
-                LhsRenderVar to f.fieldName
-            ),
-            ctx
+        DeserializeRF.render(
+            FieldRenderVar to f,
+            TypeRenderVar to f.unqualifiedNestedTypeName(ctx),
+            ReadRenderVar to interceptReadFn(f, f.readFn()),
+            LhsRenderVar to f.fieldName,
+            OptionsRenderVar to
+                if (f.wrapped) {
+                    DeserializerOptions(
+                        wrapName = wrapperName(f, ctx).getOrElse { "" },
+                        type = f.type.toString(),
+                        oneof = true
+                    )
+                } else {
+                    emptyList<Any>()
+                }
         )
+
+    private data class DeserializerOptions(
+        val wrapName: String,
+        val type: String,
+        val oneof: Boolean
+    )
 
     private fun MessageType.flattenedSortedFields() =
         fields.flatMap {

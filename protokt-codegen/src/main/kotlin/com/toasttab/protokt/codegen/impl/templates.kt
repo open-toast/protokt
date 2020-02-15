@@ -113,11 +113,11 @@ object OneOfSt : TemplateSt<OneOfVar>(
 object NameSizeOfVar : SizeOfVar("name")
 object FieldSizeOfVar : SizeOfVar("field")
 object TypeSizeOfVar : SizeOfVar("type")
-object FieldValueSizeOfVar : SizeOfVar("fieldSizeof")
+object OptionsSizeOfVar : SizeOfVar("options")
 object SizeOfRF : TemplateSt<SizeOfVar>(
     Renderers,
     "sizeof",
-    setOf(NameSizeOfVar, FieldSizeOfVar, TypeSizeOfVar, FieldValueSizeOfVar)
+    setOf(NameSizeOfVar, FieldSizeOfVar, TypeSizeOfVar, OptionsSizeOfVar)
 )
 
 object FieldSizeOfRF : TemplateSt<SizeOfVar>(
@@ -139,6 +139,7 @@ object OneOfRenderVar : RenderVar("oneof")
 object ScopedValueRenderVar : RenderVar("scopedValue")
 object LhsRenderVar : RenderVar("lhs")
 object NullableRenderVar : RenderVar("nullable")
+object OptionsRenderVar : RenderVar("options")
 
 object WrapNameVar : OptionVar("wrapName")
 object ArgVar : OptionVar("arg")
@@ -187,16 +188,34 @@ object TypeRF : TemplateSt<RenderVar>(
     setOf(FieldRenderVar, AnyRenderVar, NullableRenderVar, OneOfRenderVar)
 )
 
+object IterationVarRf : TemplateSt<RenderVar>(
+    Renderers,
+    "iterationVar",
+    emptySet()
+)
+
 object SerializeRF : TemplateSt<RenderVar>(
     Renderers,
     "serializeF",
-    setOf(FieldRenderVar, NameRenderVar, TagRenderVar, BoxRenderVar)
+    setOf(
+        FieldRenderVar,
+        NameRenderVar,
+        TagRenderVar,
+        BoxRenderVar,
+        OptionsRenderVar
+    )
 )
 
 object DeserializeRF : TemplateSt<RenderVar>(
     Renderers,
     "deserializeF",
-    setOf(FieldRenderVar, TypeRenderVar, ReadRenderVar, LhsRenderVar)
+    setOf(
+        FieldRenderVar,
+        TypeRenderVar,
+        ReadRenderVar,
+        LhsRenderVar,
+        OptionsRenderVar
+    )
 )
 
 object OneOfDeserializeRF : TemplateSt<RenderVar>(

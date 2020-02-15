@@ -15,6 +15,8 @@
 
 package com.toasttab.protokt.codegen.impl
 
+import arrow.core.None
+import arrow.core.Some
 import arrow.syntax.function.memoize
 import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.impl.ClassLookup.converters
@@ -155,20 +157,33 @@ internal object Wrapper {
         )
     }.memoize()
 
-    fun interceptDeserializedValue(f: StandardField, s: String, ctx: Context) =
-        f.foldWrap(
-            ctx,
+    private fun interceptDeserializedValue(
+        f: StandardField,
+        s: String,
+        ctx: Context
+    ) =
+        wrapperName(f, ctx).fold(
             { s },
-            { wrapper, wrapped ->
+            {
                 WrapFieldRF.render(
-                    WrapNameVar to
-                        unqualifiedWrap(
-                            converterClass(wrapper, wrapped, ctx),
-                            ctx
-                        ),
+                    WrapNameVar to it,
                     ArgVar to s,
                     TypeOptionVar to f.type,
                     OneofOptionVar to true
+                )
+            }
+        )
+
+    fun wrapperName(f: StandardField, ctx: Context) =
+        f.foldWrap(
+            ctx,
+            { None },
+            { wrapper, wrapped ->
+                Some(
+                    unqualifiedWrap(
+                        converterClass(wrapper, wrapped, ctx),
+                        ctx
+                    )
                 )
             }
         )
