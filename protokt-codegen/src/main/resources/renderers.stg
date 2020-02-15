@@ -129,6 +129,23 @@ isScalar ::= [
     default: false
 ]
 
+javaTypeNames ::= [
+    "BOOL": "Boolean",
+    "DOUBLE": "Double",
+    "FIXED32": "Integer",
+    "FIXED64": "Long",
+    "FLOAT": "Float",
+    "INT32": "Integer",
+    "INT64": "Long",
+    "SFIXED32": "Integer",
+    "SFIXED64": "Long",
+    "SINT32": "Integer",
+    "SINT64": "Long",
+    "STRING": "String",
+    "UINT32": "Integer",
+    "UINT64": "Long"
+]
+
 isMessage ::= ["MESSAGE": true, default: false]
 
 isEnum ::= ["ENUM": true, default: false]
@@ -142,8 +159,8 @@ isBytes ::= ["BYTES": true, "STRING": true, default: false]
 type2nativeF(type) ::= "<kotlinTypeNames.(type)>"
 
 type2NameF(type) ::= <%
-    <if (isScalar.(type))>
-        kotlin.<kotlinTypeNames.(type)>
+    <if (javaTypeNames.(type))>
+        java.lang.<javaTypeNames.(type)>
     <else>
         [B
     <endif>
