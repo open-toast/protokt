@@ -237,8 +237,6 @@ Each protokt message has a companion object `Deserializer` that implements the `
 interface, which provides the `deserialize()` method and its overloads to construct an
 instance of the message from a byte array, a Java InputStream, or others.
 
-Byte arrays are wrapped in the protokt `Bytes` class to ensure immutability.
-
 #### Enums
 Enum fields are generated as sealed classes with an integer value and name. They cannot be represented
 as Kotlin enum classes since Kotlin enum classes are closed and cannot represent unknown values. Protocol
@@ -284,6 +282,7 @@ sealed class PhoneType(
 - `repeated` fields are deserialized to Lists.
 - `map` fields are deserialized to Maps.
 - `oneof` fields are represented as data class subtypes of a sealed base class with a single property.
+- `bytes` fields are wrapped in the protokt `Bytes` class to ensure immutability.
 
 ### Extensions
 See examples of each option in the [options](testing/options/src/main/proto)
