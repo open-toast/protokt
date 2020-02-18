@@ -13,6 +13,14 @@
  * limitations under the License.
  */
 
+wrapDeserializeRead(options, read) ::= <%
+<if (options)>
+    <wrapField(options.wrapName, read, options.type, options.oneof)>
+<else>
+    <read>
+<endif>
+%>
+
 wrapField(wrapName, arg, type, oneof) ::= <%
     <wrapName>.wrap(<arg><deref.(type)>
     <if (!oneof && nullDeserializeVar.(type))>

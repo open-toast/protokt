@@ -19,6 +19,7 @@ package com.toasttab.model;
 
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
 import "protokt/ext/inet_socket_address.proto";
 import "protokt/protokt.proto";
 
@@ -83,4 +84,14 @@ message OneOfWrapperModel {
       (protokt.property).wrap = "java.net.InetSocketAddress"
     ];
   }
+}
+
+message RepeatedWrapperModel {
+  repeated bytes uuids = 1 [
+    (protokt.property).wrap = "java.util.UUID"
+  ];
+
+  repeated google.protobuf.BytesValue uuidsWrapped = 2 [
+    (protokt.property).wrap = "java.util.UUID"
+  ];
 }

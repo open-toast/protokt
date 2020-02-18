@@ -62,9 +62,19 @@ private constructor(
         f: StandardField,
         t: Option<String> = None
     ): String {
-        val n =
+        val fieldAccess =
             t.fold(
-                { interceptValueAccess(f, ctx) },
+                {
+                    interceptValueAccess(
+                        f,
+                        ctx,
+                        if (f.repeated) {
+                            IterationVarRf.render()
+                        } else {
+                            f.fieldName
+                        }
+                    )
+                },
                 {
                     interceptValueAccess(
                         f,
@@ -78,16 +88,24 @@ private constructor(
             )
         return SerializeRF.render(
             FieldRenderVar to f,
-            NameRenderVar to n,
+            NameRenderVar to f.fieldName,
             TagRenderVar to f.tag,
             BoxRenderVar to
                 if (f.map) {
                     f.boxMap(ctx)
                 } else {
-                    f.box(n)
-                }
+                    f.box(fieldAccess)
+                },
+            OptionsRenderVar to
+                SerializerOptions(
+                    fieldAccess = fieldAccess
+                )
         )
     }
+
+    private data class SerializerOptions(
+        val fieldAccess: String
+    )
 
     private fun MessageType.sortedFields() =
         fields.sortedBy {

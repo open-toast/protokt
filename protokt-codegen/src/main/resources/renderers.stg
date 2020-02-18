@@ -13,6 +13,8 @@
  * limitations under the License.
  */
 
+import "options.stg"
+
 // Render mappers for kotlin specific code.
 // DO NOT MODIFY
 
@@ -250,13 +252,15 @@ nonDefaultValueF(field, name) ::= <%
     <endif>
 %>
 
-serializeF(field, name, tag, box) ::= <<
+iterationVar() ::= "it"
+
+serializeF(field, name, tag, box, options) ::= <<
 <if (field.repeated && field.packed)>
 serializer
         .write(Tag(<tag>))
-        .write(UInt32(<name>.sumBy { sizeof(<boxF(type=field.type, def="it")>) }))
+        .write(UInt32(<name>.sumBy { sizeof(<boxF(field.type, iterationVar())>) }))
     <name>.forEach {
-        serializer.write(<boxF(type=field.type, def="it")>)
+        serializer.write(<boxF(field.type, options.fieldAccess)>)
     }<\\>
 <elseif (field.map)>
 <name>.entries.forEach {
@@ -266,14 +270,14 @@ serializer
     }<\\>
 <elseif (field.repeated)>
 <name>.forEach {
-        serializer.write(Tag(<tag>)).write(<boxF(type=field.type, def="it")>)
+        serializer.write(Tag(<tag>)).write(<boxF(field.type, options.fieldAccess)>)
     }<\\>
 <else>
 serializer.write(Tag(<tag>)).write(<box>)<\\>
 <endif>
 >>
 
-deserializeF(field, type, read, lhs) ::= <<
+deserializeF(field, type, read, lhs, options) ::= <<
 <if (field.map)>
 (<lhs> ?: mutableMapOf()).apply {
         deserializer.readRepeated(false) {
@@ -284,13 +288,15 @@ deserializeF(field, type, read, lhs) ::= <<
 <elseif (field.repeated)>
 (<lhs> ?: mutableListOf()).apply {
         deserializer.readRepeated(<field.packed>) {
-            add(<read>)
+            add(<wrapDeserializeRead(options, deserializerRead(read))>)
         }
     }<\\>
 <else>
-deserializer.<read><\\>
+<wrapDeserializeRead(options, deserializerRead(read))><\\>
 <endif>
 >>
+
+deserializerRead(read) ::= "deserializer.<read>"
 
 standardF(field, any, nullable) ::= <%
     <if (field.map)>
@@ -310,7 +316,7 @@ typeF(field, any, nullable, oneof) ::= <%
     <endif>
 %>
 
-sizeof(name, field, type, fieldSizeof) ::= <<
+sizeof(name, field, type, options) ::= <<
 <if(field.map)><\\>
 sizeofMap(<name>, Tag(<field.number>)) { k, v ->
         <type>.sizeof(k, v)
@@ -318,13 +324,13 @@ sizeofMap(<name>, Tag(<field.number>)) { k, v ->
 <elseif(field.repeated && field.packed)><\\>
 sizeof(Tag(<field.number>)) +
     <name>
-        .sumBy { sizeof(<boxF(field.type, "it")>) }
+        .sumBy { sizeof(<boxF(field.type, iterationVar())>) }
         .let { it + sizeof(UInt32(it)) }<\\>
 <elseif(field.repeated && !field.map)><\\>
 (sizeof(Tag(<field.number>)) * <name>.size) +
-        <name>.sumBy { sizeof(<boxF(field.type, "it")>) }<\\>
+        <name>.sumBy { sizeof(<boxF(field.type, options.fieldAccess)>) }<\\>
 <else><\\>
-sizeof(Tag(<field.number>)) + <fieldSizeof><\\>
+sizeof(Tag(<field.number>)) + <options.fieldSizeof><\\>
 <endif>
 >>
 
