@@ -15,6 +15,7 @@
 
 package com.toasttab.protokt.codegen.impl
 
+import arrow.core.None
 import arrow.core.orElse
 import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.impl.STAnnotator.googleProto
@@ -24,8 +25,13 @@ object WellKnownTypes {
         get() =
             options.protokt.wrap.emptyToNone()
                 .orElse {
-                    JavaClassNameForWellKnownTypeRF.render(
-                        TypeOptionVar to typeName.removePrefix("$googleProto.")
-                    ).emptyToNone()
+                    if (typeName.startsWith("$googleProto.")) {
+                        JavaClassNameForWellKnownTypeRF.render(
+                            TypeOptionVar to
+                                typeName.removePrefix("$googleProto.")
+                        ).emptyToNone()
+                    } else {
+                        None
+                    }
                 }
 }
