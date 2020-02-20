@@ -31,6 +31,7 @@ include(
     "protokt-core",
     "protokt-runtime",
     "protokt-gradle-plugin",
+    "protokt-wkt",
 
     "extensions",
     "extensions:protokt-extensions-api",

@@ -64,7 +64,13 @@ private constructor(
     ): String {
         val name =
             oneOfFieldAccess.fold(
-                { interceptSizeof(f, f.fieldName, ctx) },
+                {
+                    if (f.repeated) {
+                        f.fieldName
+                    } else {
+                        interceptSizeof(f, f.fieldName, ctx)
+                    }
+                },
                 { it }
             )
         return SizeOfRF.render(

@@ -17,13 +17,12 @@ package com.toasttab.protokt.options
 
 import com.google.common.truth.Truth.assertThat
 import com.toasttab.model.NullableWrappersExample
+import com.toasttab.protokt.rt.test.propertyIsMarkedNullable
 import java.net.InetAddress
 import java.net.InetSocketAddress
 import java.time.Duration
 import java.time.Instant
 import java.util.UUID
-import kotlin.reflect.KClass
-import kotlin.reflect.full.declaredMemberProperties
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 
@@ -83,10 +82,4 @@ class NullableWrappersExampleTest {
             NullableWrappersExample {}
         }
     }
-
-    private fun KClass<*>.propertyIsMarkedNullable(name: String) =
-        declaredMemberProperties
-            .first { it.name == name }
-            .returnType
-            .isMarkedNullable
 }

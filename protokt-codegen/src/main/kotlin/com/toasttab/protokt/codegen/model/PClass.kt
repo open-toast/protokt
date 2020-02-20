@@ -19,6 +19,7 @@ import arrow.core.None
 import arrow.core.Option
 import arrow.core.Some
 import com.toasttab.protokt.codegen.impl.STAnnotator.protoktExtFqcn
+import com.toasttab.protokt.codegen.impl.STAnnotator.protoktRtFqcn
 import kotlin.reflect.KClass
 
 data class PClass(
@@ -29,10 +30,14 @@ data class PClass(
     val qualifiedName
         get() = "${if (ppackage.default) "" else "$ppackage."}$nestedName"
 
-    // do not fully qualify items in com.toasttab.protokt.ext; use a wildcard
-    // import (see HeaderAccumulator.kt)
+    // do not fully qualify items in com.toasttab.protokt.ext or
+    // com.toasttab.protokt.rt; use a wildcard import (see HeaderAccumulator.kt)
     val renderName
-        get() = qualifiedName.removePrefix("$protoktExtFqcn.")
+        get() =
+            qualifiedName
+                .removePrefix("$protoktExtFqcn.")
+                .removePrefix("$protoktRtFqcn.")
+                .removePrefix("kotlin.")
 
     val nestedName: String
         get() =

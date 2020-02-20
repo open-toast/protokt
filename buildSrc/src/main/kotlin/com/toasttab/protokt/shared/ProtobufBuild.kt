@@ -55,11 +55,17 @@ internal fun configureProtobufPlugin(project: Project, ext: ProtoktExtension, bi
 
                 task.plugins {
                     id("protokt") {
-                        val classpath = project.configurations.getByName("protoktExtensions").asPath.replace(':', ';')
+                        project.afterEvaluate {
+                            val classpath =
+                                project.configurations
+                                    .getByName(EXTENSIONS)
+                                    .asPath
+                                    .replace(':', ';')
 
-                        option(
-                            "kotlin_extra_classpath=$classpath"
-                        )
+                            option(
+                                "kotlin_extra_classpath=$classpath"
+                            )
+                        }
                     }
                 }
             }

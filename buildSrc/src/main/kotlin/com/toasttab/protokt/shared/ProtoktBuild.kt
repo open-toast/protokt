@@ -18,7 +18,12 @@ package com.toasttab.protokt.shared
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.create
 
-fun configureProtokt(project: Project, resolveBinary: (ext: ProtoktExtension) -> String) {
+const val EXTENSIONS = "protoktExtensions"
+
+fun configureProtokt(
+    project: Project,
+    resolveBinary: (ext: ProtoktExtension) -> String
+) {
     createExtensionConfiguration(project)
 
     val ext = project.extensions.create<ProtoktExtension>("protokt")
@@ -28,9 +33,9 @@ fun configureProtokt(project: Project, resolveBinary: (ext: ProtoktExtension) ->
 }
 
 private fun createExtensionConfiguration(project: Project) {
-    val extensionsConfiguration = project.configurations.create("protoktExtensions")
+    val extensionsConfiguration = project.configurations.create(EXTENSIONS)
 
-    project.configurations.named("implementation") {
+    project.configurations.named("api") {
         extendsFrom(extensionsConfiguration)
     }
 }

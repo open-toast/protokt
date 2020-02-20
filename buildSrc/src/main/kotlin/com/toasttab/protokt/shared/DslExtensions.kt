@@ -28,7 +28,7 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 fun Project.protokt(cfg: ProtoktExtension.() -> Unit) = project.configure(cfg)
 
 fun DependencyHandler.protoktExtensions(dependencyNotation: Any): Dependency? =
-    add("protoktExtensions", dependencyNotation)
+    add(EXTENSIONS, dependencyNotation)
 
 val SourceSet.kotlin: SourceDirectorySet
     get() =

@@ -13,16 +13,17 @@
  * limitations under the License.
  */
 
-apply(plugin = "idea")
+apply(plugin = "kotlin-kapt")
 
-localProtokt()
-pureKotlin()
 enablePublishing()
 compatibleWithAndroid()
 
 dependencies {
-    add("protobuf", libraries.protobuf)
-    compileOnly(libraries.protobuf)
+    api(project(":extensions:protokt-extensions-api"))
     api(project(":protokt-runtime"))
-    implementation(libraries.kotlinReflect)
+    api(project(":protokt-wkt"))
+
+    implementation(libraries.autoServiceAnnotations)
+
+    add("kapt", libraries.autoService)
 }

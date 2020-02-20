@@ -38,17 +38,16 @@ import com.toasttab.protokt.codegen.model.PPackage
  * a NEW fully constructed AnnotatedType attached to each AST node.
  */
 object STAnnotator : Annotator<AST<TypeDesc>> {
-    const val com = "com"
-    const val protobuf = "protobuf"
-
-    const val rootGoogleProto = "google.$protobuf"
-    const val googleProto = ".$rootGoogleProto"
+    const val rootGoogleProto = "google.protobuf"
+    const val googleProto = ".google.protobuf"
 
     const val protokt = ".protokt"
-    const val protoktProtobuf = "$protokt.$protobuf"
-    const val protoktExt = "$protokt.ext"
-    const val protoktExtFqcn = "$com.toasttab$protoktExt"
-    const val protoktFqcn = "$com.toasttab$protokt"
+    const val protoktProtobuf = ".protokt.protobuf"
+    const val protoktExt = ".protokt.ext"
+
+    const val protoktRtFqcn = "com.toasttab.protokt.rt"
+    const val protoktExtFqcn = "com.toasttab.protokt.ext"
+    const val protoktFqcn = "com.toasttab.protokt"
 
     data class Context(
         val enclosingMessage: List<MessageType>,

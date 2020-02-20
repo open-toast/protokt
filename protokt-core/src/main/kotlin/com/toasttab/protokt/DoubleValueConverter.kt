@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2020 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,18 +13,20 @@
  * limitations under the License.
  */
 
-import com.toasttab.protokt.shared.protoktExtensions
+package com.toasttab.protokt
 
-apply(plugin = "kotlin-kapt")
+import com.google.auto.service.AutoService
+import com.toasttab.protokt.ext.Converter
 
-localProtokt()
-enablePublishing()
+@AutoService(Converter::class)
+object DoubleValueConverter : Converter<Double, DoubleValue> {
+    override val wrapper = Double::class
 
-dependencies {
-    implementation(project(":extensions:protokt-extensions-api"))
-    implementation(libraries.autoServiceAnnotations)
+    override val wrapped = DoubleValue::class
 
-    add("kapt", libraries.autoService)
+    override fun wrap(unwrapped: DoubleValue) =
+        unwrapped.value
 
-    protoktExtensions(project(":extensions:protokt-extensions-simple"))
+    override fun unwrap(wrapped: Double) =
+        DoubleValue { value = wrapped }
 }

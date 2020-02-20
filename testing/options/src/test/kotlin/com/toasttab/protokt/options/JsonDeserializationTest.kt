@@ -26,7 +26,6 @@ import com.google.common.truth.Truth.assertThat
 import com.toasttab.model.AnEnum
 import com.toasttab.model.RootMessage
 import com.toasttab.model.ToDeserialize
-import com.toasttab.protokt.StringValue
 import com.toasttab.protokt.rt.KtEnum
 import com.toasttab.protokt.rt.KtEnumDeserializer
 import com.toasttab.protokt.rt.KtMessage
@@ -67,7 +66,7 @@ class JsonDeserializationTest {
     fun `protokt class can be deserialized from JSON`() {
         val original =
             ToDeserialize {
-                stringValue = StringValue { value = "some-string" }
+                stringValue = "some-string"
                 message = RootMessage {
                     field = "some-field"
                     oneofField = RootMessage.OneofField.Name("asdf")

@@ -15,6 +15,7 @@
 
 package com.toasttab.protokt.gradle.plugin
 
+import com.toasttab.protokt.shared.EXTENSIONS
 import com.toasttab.protokt.shared.configureProtokt
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -22,9 +23,11 @@ import org.gradle.api.Project
 class ProtoktPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         configureProtokt(project) { ext ->
-            project.configurations.named("api") {
+            project.configurations.named(EXTENSIONS) {
                 it.dependencies.add(
-                    project.dependencies.create("com.toasttab.protokt:protokt-core:${ext.version}")
+                    project.dependencies.create(
+                        "com.toasttab.protokt:protokt-core:${ext.version}"
+                    )
                 )
             }
 

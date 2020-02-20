@@ -17,7 +17,7 @@ package com.toasttab.protokt.shared
 
 import java.util.jar.JarInputStream
 
-const val DEFAULT_PROTOBUF_VERSION = "3.11.0"
+const val DEFAULT_PROTOBUF_VERSION = "3.11.4"
 const val MANIFEST_VERSION_PROPERTY = "Implementation-Version"
 
 open class ProtoktExtension {
@@ -26,8 +26,17 @@ open class ProtoktExtension {
     var publishProto: Boolean = false
 
     val version by lazy {
-        toolsVersion ?: ProtoktExtension::class.java.protectionDomain.codeSource.location.openStream().use {
-            JarInputStream(it).manifest.mainAttributes.getValue(MANIFEST_VERSION_PROPERTY)
-        }
+        toolsVersion
+            ?: ProtoktExtension::class.java
+                .protectionDomain
+                .codeSource
+                .location
+                .openStream()
+                .use {
+                    JarInputStream(it)
+                        .manifest
+                        .mainAttributes
+                        .getValue(MANIFEST_VERSION_PROPERTY)
+                }
     }
 }

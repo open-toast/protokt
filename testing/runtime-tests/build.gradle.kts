@@ -17,8 +17,8 @@ localProtokt()
 pureKotlin()
 
 dependencies {
+    implementation(kotlin("reflect"))
     implementation(project(":testing:protobuf-java"))
-    implementation(project(":protokt-core"))
     implementation(libraries.kotlinStdlib)
 
     testImplementation(libraries.junit)

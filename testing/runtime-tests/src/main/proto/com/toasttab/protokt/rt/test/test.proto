@@ -15,7 +15,7 @@
 
 syntax = "proto3";
 
-package test.kt;
+package com.toasttab.protokt.rt.test;
 
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/any.proto";
