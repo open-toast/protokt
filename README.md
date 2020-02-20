@@ -13,6 +13,8 @@ Supports only the Protocol Buffers language version 3.
 - Deprecation option pass-through to Kotlin's `@Deprecated` annotation
 - Protokt-specific options: non-null types, wrapper types, interface implementation,
 and more
+- Representation of the well-known types as Kotlin nullable types: `StringValue`
+is represented as `String?`, etc.
 - Integration with Protobuf's Java library: usage of CodedInputStream and
 CodedOutputStream for best performance
 
@@ -430,6 +432,13 @@ primitive wrappers use well-known types. For example for a nullable UUID:
 
 ```proto
 google.protobuf.BytesValue uuid = 1 [
+  (protokt.property).wrap = "java.util.UUID"
+];
+```
+
+Wrapper types can be repeated:
+```proto
+repeated bytes uuid = 1 [
   (protokt.property).wrap = "java.util.UUID"
 ];
 ```
