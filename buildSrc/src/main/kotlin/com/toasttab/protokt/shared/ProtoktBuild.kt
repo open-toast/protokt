@@ -17,42 +17,25 @@ package com.toasttab.protokt.shared
 
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.create
-import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.project
 
-fun configureProtokt(project: Project, resolveBinary: (ext: ProtoktExtension) -> String) {
+const val EXTENSIONS = "protoktExtensions"
+
+fun configureProtokt(
+    project: Project,
+    resolveBinary: (ext: ProtoktExtension) -> String
+) {
     createExtensionConfiguration(project)
 
     val ext = project.extensions.create<ProtoktExtension>("protokt")
 
-    addProtoktCoreDependency(project, ext)
     configureProtobufPlugin(project, ext, resolveBinary(ext))
     configurePublishingTasks(project, ext)
 }
 
 private fun createExtensionConfiguration(project: Project) {
-    val extensionsConfiguration = project.configurations.create("protoktExtensions")
+    val extensionsConfiguration = project.configurations.create(EXTENSIONS)
 
-    project.configurations.named("implementation") {
+    project.configurations.named("api") {
         extendsFrom(extensionsConfiguration)
     }
 }
-
-private fun addProtoktCoreDependency(project: Project, ext: ProtoktExtension) {
-    if (project.name !in setOf("protokt-wkt", "protokt-core")) {
-        project.dependencies {
-            add(
-                "protoktExtensions",
-                if (internal(project)) {
-                    project(":protokt-core")
-                } else {
-                    "com.toasttab.protokt:protokt-core:${ext.version}"
-                }
-            )
-        }
-    }
-}
-
-private fun internal(project: Project) =
-    project.group in
-        setOf("com.toasttab.protokt", "com.toasttab.protokt.thirdparty")

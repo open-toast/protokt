@@ -17,7 +17,7 @@ package com.toasttab.protokt.shared
 
 import java.util.jar.JarInputStream
 
-const val DEFAULT_PROTOBUF_VERSION = "3.11.3"
+const val DEFAULT_PROTOBUF_VERSION = "3.11.4"
 const val MANIFEST_VERSION_PROPERTY = "Implementation-Version"
 
 open class ProtoktExtension {

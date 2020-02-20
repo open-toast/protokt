@@ -13,18 +13,27 @@
  * limitations under the License.
  */
 
+import com.toasttab.protokt.shared.EXTENSIONS
 import com.toasttab.protokt.shared.configureProtokt
 import org.gradle.api.Project
 import org.gradle.api.tasks.compile.JavaCompile
+import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.project
 import org.gradle.kotlin.dsl.withType
 
 fun Project.localProtokt() {
-    configureProtokt(project) {
-        "${project.rootDir}/protokt-codegen/build/install/protoc-gen-protokt/bin/protoc-gen-protokt"
+    configureProtokt(this) {
+        if (name !in setOf("protokt-wkt", "protokt-core")) {
+            dependencies {
+                add(EXTENSIONS, project(":protokt-core"))
+            }
+        }
+
+        "$rootDir/protokt-codegen/build/install/protoc-gen-protokt/bin/protoc-gen-protokt"
     }
 
-    project.afterEvaluate {
-        project.tasks.named("generateProto") {
+    afterEvaluate {
+        tasks.named("generateProto") {
             dependsOn(":protokt-codegen:installDist")
         }
     }

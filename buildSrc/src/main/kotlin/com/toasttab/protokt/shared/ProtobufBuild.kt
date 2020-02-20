@@ -58,7 +58,7 @@ internal fun configureProtobufPlugin(project: Project, ext: ProtoktExtension, bi
                         project.afterEvaluate {
                             val classpath =
                                 project.configurations
-                                    .getByName("protoktExtensions")
+                                    .getByName(EXTENSIONS)
                                     .asPath
                                     .replace(':', ';')
 
