@@ -44,7 +44,8 @@ class CollectionTest {
             f.addField(
                 it.fieldNum,
                 UnknownFieldSet.Field.newBuilder()
-                    .addVarint((it.value as VarIntVal).value).build())
+                    .addVarint((it.value as VarIntVal).value).build()
+            )
         }
         f.build()
     }
@@ -113,93 +114,110 @@ class CollectionTest {
             TestOuterClass.ListTest.parseFrom(
                 ListTest { list = listOf(kotlinTest, kotlinTest2) }
                     .serialize()).toByteArray()).list)
-                    .containsExactly(kotlinTest, kotlinTest2)
+            .containsExactly(kotlinTest, kotlinTest2)
     }
 
     @Test
     fun `kotlin map test`() {
-        assertThat(MapTest.deserialize(
-            MapTest {
-                map =
-                    mapOf(
-                        kotlinTest.`val`.bytes.toString() to kotlinTest,
-                        kotlinTest2.`val`.bytes.toString() to kotlinTest2
-                    )
-            }.serialize()
-        ).map.values).containsExactly(kotlinTest, kotlinTest2)
+        assertThat(
+            MapTest.deserialize(
+                MapTest {
+                    map =
+                        mapOf(
+                            kotlinTest.`val`.bytes.toString() to kotlinTest,
+                            kotlinTest2.`val`.bytes.toString() to kotlinTest2
+                        )
+                }.serialize()
+            ).map.values
+        ).containsExactly(kotlinTest, kotlinTest2)
     }
 
     @Test
     fun `kotlin → java map test`() {
-        assertThat(TestOuterClass.MapTest.parseFrom(
-            MapTest {
-                map =
-                    mapOf(
-                        kotlinTest.`val`.bytes.toString() to kotlinTest,
-                        kotlinTest2.`val`.bytes.toString() to kotlinTest2
-                    )
-            }.serialize()
-        ).mapMap.values).containsExactly(javaTest, javaTest2)
+        assertThat(
+            TestOuterClass.MapTest.parseFrom(
+                MapTest {
+                    map =
+                        mapOf(
+                            kotlinTest.`val`.bytes.toString() to kotlinTest,
+                            kotlinTest2.`val`.bytes.toString() to kotlinTest2
+                        )
+                }.serialize()
+            ).mapMap.values
+        ).containsExactly(javaTest, javaTest2)
     }
 
     @Test
     fun `java → kotlin map test`() {
-        assertThat(MapTest.deserialize(TestOuterClass.MapTest.newBuilder()
-            .putMap("nullTest", TestOuterClass.Test.newBuilder().build())
-            .putMap(javaTest.`val`.toStringUtf8(), javaTest)
-            .putMap(javaTest2.`val`.toStringUtf8(), javaTest2)
-            .build().toByteArray())
-            .map.values).containsAtLeast(kotlinTest, kotlinTest2)
+        assertThat(
+            MapTest.deserialize(
+                TestOuterClass.MapTest.newBuilder()
+                    .putMap("nullTest", TestOuterClass.Test.newBuilder().build())
+                    .putMap(javaTest.`val`.toStringUtf8(), javaTest)
+                    .putMap(javaTest2.`val`.toStringUtf8(), javaTest2)
+                    .build().toByteArray()
+            ).map.values
+        ).containsAtLeast(kotlinTest, kotlinTest2)
     }
 
     @Test
     fun `repeated test`() {
-        assertThat(RepeatedTest.deserialize(
-            RepeatedTest { list = stringList }.serialize())
-            .list).isEqualTo(stringList)
+        assertThat(
+            RepeatedTest.deserialize(
+                RepeatedTest { list = stringList }.serialize()
+            ).list
+        ).isEqualTo(stringList)
     }
 
     @Test
     fun `repeated packed kotlin → kotlin test`() {
-        assertThat(RepeatedPackedTest.deserialize(
-            RepeatedPackedTest { list = int64List }.serialize())
-            .list).isEqualTo(int64List)
+        assertThat(
+            RepeatedPackedTest.deserialize(
+                RepeatedPackedTest { list = int64List }.serialize()
+            ).list
+        ).isEqualTo(int64List)
     }
 
     @Test
     fun `repeated packed java → kotlin test`() {
-        assertThat(RepeatedPackedTest.deserialize(
-            TestOuterClass.RepeatedPackedTest.newBuilder()
-                .addList(123L)
-                .addList(456L)
-                .build().toByteArray())
-            .list).containsExactly(123L, 456L)
+        assertThat(
+            RepeatedPackedTest.deserialize(
+                TestOuterClass.RepeatedPackedTest.newBuilder()
+                    .addList(123L)
+                    .addList(456L)
+                    .build().toByteArray()
+            ).list
+        ).containsExactly(123L, 456L)
     }
 
     @Test
     fun `repeated packed kotlin → java test`() {
-        assertThat(TestOuterClass.RepeatedPackedTest
-            .parseFrom(RepeatedPackedTest { list = listOf(123L, 456L) }.serialize())
-            .listList)
-        .containsExactly(123L, 456L)
+        assertThat(
+            TestOuterClass.RepeatedPackedTest
+                .parseFrom(RepeatedPackedTest { list = listOf(123L, 456L) }.serialize())
+                .listList
+        ).containsExactly(123L, 456L)
     }
 
     @Test
     fun `kotlin repeated wkt test`() {
-        assertThat(RepeatedWktTest.deserialize(
-            RepeatedWktTest { list = listOf(ts01, ts00) }.serialize())
-            .list).containsExactly(ts01, ts00)
+        assertThat(
+            RepeatedWktTest.deserialize(
+                RepeatedWktTest { list = listOf(ts01, ts00) }.serialize()
+            ).list
+        ).containsExactly(ts01, ts00)
     }
 
     @Test
     fun `kotlin to java repeated wkt test`() {
-        assertThat(RepeatedWktTest.deserialize(
-            TestOuterClass.RepeatedWktTest.newBuilder()
-            .addList(ts1)
-            .addList(ts0)
-            .build().toByteArray())
-            .list)
-            .containsExactly(ts01, ts00)
+        assertThat(
+            RepeatedWktTest.deserialize(
+                TestOuterClass.RepeatedWktTest.newBuilder()
+                    .addList(ts1)
+                    .addList(ts0)
+                    .build().toByteArray()
+            ).list
+        ).containsExactly(ts01, ts00)
     }
 
     @Test
@@ -210,20 +228,20 @@ class CollectionTest {
                     com.toasttab.protokt.Any.pack(kotlinTest),
                     com.toasttab.protokt.Any.pack(kotlinTest2)
                 )
-            }.serialize())
-            .list.map { it.unpack(KtTest) })
-            .containsExactly(kotlinTest, kotlinTest2)
+            }.serialize()
+        ).list.map { it.unpack(KtTest) }).containsExactly(kotlinTest, kotlinTest2)
     }
 
     @Test
     fun `java → kotlin repeated any test`() {
-        assertThat(RepeatedAnyTest.deserialize(
-            TestOuterClass.RepeatedAnyTest.newBuilder()
-            .addList(com.google.protobuf.Any.pack(javaTest))
-            .addList(com.google.protobuf.Any.pack(javaTest2))
-            .build().toByteArray())
-            .list.map { it.unpack(KtTest) })
-            .containsExactly(kotlinTest, kotlinTest2)
+        assertThat(
+            RepeatedAnyTest.deserialize(
+                TestOuterClass.RepeatedAnyTest.newBuilder()
+                    .addList(com.google.protobuf.Any.pack(javaTest))
+                    .addList(com.google.protobuf.Any.pack(javaTest2))
+                    .build().toByteArray()
+            ).list.map { it.unpack(KtTest) }
+        ).containsExactly(kotlinTest, kotlinTest2)
     }
 
     @Test
@@ -234,8 +252,8 @@ class CollectionTest {
                     com.toasttab.protokt.Any.pack(kotlinTest),
                     com.toasttab.protokt.Any.pack(kotlinTest2)
                 )
-            }.serialize())
-            .listList.map { it.unpack(javaTest.javaClass) }
+            }.serialize()
+        ).listList.map { it.unpack(javaTest.javaClass) }
 
         assertThat(tests).containsExactly(javaTest, javaTest2)
     }

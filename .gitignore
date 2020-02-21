@@ -7,6 +7,5 @@ out
 .idea
 *.iml
 
-.kotlintest
 testing/conformance-driver/failing_tests.txt
 protokt-codegen/src/test/resources/com/toasttab/protokt/test-proto-bin-request.bin
