@@ -17,13 +17,13 @@ package com.toasttab.protokt.rt.test
 
 import com.example.tutorial.AddressBookProtos.AddressBook as JavaAddressBook
 import com.example.tutorial.AddressBookProtos.Person as JavaPerson
+import com.google.common.truth.Truth.assertThat
 import com.toasttab.protokt.Timestamp
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.StringSpec
+import org.junit.jupiter.api.Test
 import tutorial.AddressBook
 import tutorial.Person
 
-class ValidationSpec : StringSpec({
+class ValidationTest {
     val timestamp = Timestamp { seconds = System.currentTimeMillis() * 1000 }
     val phoneNumber =
         Person.PhoneNumber {
@@ -95,51 +95,57 @@ class ValidationSpec : StringSpec({
         .addPeople(JavaPerson.parseFrom(person2.serialize()))
         .build()
 
-    "kotlin to kotlin" {
+    @Test
+    fun `kotlin to kotlin`() {
         val pn = phoneNumber.serialize()
-        Person.PhoneNumber
-            .deserialize(pn) shouldBe phoneNumber
+        assertThat(Person.PhoneNumber.deserialize(pn)).isEqualTo(phoneNumber)
 
         val pn2 = person2.serialize()
-        Person.deserialize(pn2) shouldBe person2
+        assertThat(Person.deserialize(pn2)).isEqualTo(person2)
     }
 
-    "kotlin to kotlin large message" {
-        AddressBook
-            .deserialize(addressBookKt.serialize()) shouldBe addressBookKt
+    @Test
+    fun `kotlin to kotlin large message`() {
+        assertThat(AddressBook.deserialize(addressBookKt.serialize()))
+            .isEqualTo(addressBookKt)
     }
 
-    "kotlin to java" {
-        JavaAddressBook
-            .parseFrom(addressBookKt.serialize()) shouldBe addressJava
+    @Test
+    fun `kotlin to java`() {
+        assertThat(JavaAddressBook.parseFrom(addressBookKt.serialize()))
+            .isEqualTo(addressJava)
     }
 
-    "ab java to kotlin" {
-        AddressBook
-            .deserialize(addressJava.toByteArray()) shouldBe addressBookKt
+    @Test
+    fun `ab java to kotlin`() {
+        assertThat(AddressBook.deserialize(addressJava.toByteArray()))
+            .isEqualTo(addressBookKt)
     }
 
-    "phoneNumber kotlin to kotlin" {
+    @Test
+    fun `phoneNumber kotlin to kotlin`() {
         phoneListKt.forEach {
-            Person.PhoneNumber.deserialize(it.serialize()) shouldBe it
+            assertThat(Person.PhoneNumber.deserialize(it.serialize())).isEqualTo(it)
         }
     }
 
-    "phoneNumbers kotlin to java" {
-        JavaPerson.PhoneNumber
-            .parseFrom(phoneNumber.serialize()) shouldBe phoneNumberJava
-        JavaPerson.PhoneNumber
-            .parseFrom(phoneNumber2.serialize()) shouldBe phoneNumber2Java
-        JavaPerson.PhoneNumber
-            .parseFrom(phoneNumber3.serialize()) shouldBe phoneNumber3Java
+    @Test
+    fun `phoneNumbers kotlin to java`() {
+        assertThat(JavaPerson.PhoneNumber.parseFrom(phoneNumber.serialize()))
+            .isEqualTo(phoneNumberJava)
+        assertThat(JavaPerson.PhoneNumber.parseFrom(phoneNumber2.serialize()))
+            .isEqualTo(phoneNumber2Java)
+        assertThat(JavaPerson.PhoneNumber.parseFrom(phoneNumber3.serialize()))
+            .isEqualTo(phoneNumber3Java)
     }
 
-    "phoneNumbers java to kotlin" {
-        Person.PhoneNumber
-            .deserialize(phoneNumberJava.toByteArray()) shouldBe phoneNumber
-        Person.PhoneNumber
-            .deserialize(phoneNumber2Java.toByteArray()) shouldBe phoneNumber2
-        Person.PhoneNumber
-            .deserialize(phoneNumber3Java.toByteArray()) shouldBe phoneNumber3
+    @Test
+    fun `phoneNumbers java to kotlin`() {
+        assertThat(Person.PhoneNumber.deserialize(phoneNumberJava.toByteArray()))
+            .isEqualTo(phoneNumber)
+        assertThat(Person.PhoneNumber.deserialize(phoneNumber2Java.toByteArray()))
+            .isEqualTo(phoneNumber2)
+        assertThat(Person.PhoneNumber.deserialize(phoneNumber3Java.toByteArray()))
+            .isEqualTo(phoneNumber3)
     }
-})
+}
