@@ -15,6 +15,7 @@
 
 plugins {
     `java-gradle-plugin`
+    id("com.gradle.plugin-publish") version "0.10.1"
 }
 
 val buildSrcClasses = "${rootProject.projectDir}/buildSrc/build/classes/kotlin/main"
@@ -33,8 +34,24 @@ gradlePlugin {
         create("protokt") {
             id = "com.toasttab.protokt"
             implementationClass = "com.toasttab.protokt.gradle.plugin.ProtoktPlugin"
+            displayName = ProtoktProjectInfo.name
+            description = ProtoktProjectInfo.description
         }
     }
+}
+
+pluginBundle {
+    mavenCoordinates {
+        group = "${project.group}"
+    }
+    website = ProtoktProjectInfo.url
+    vcsUrl = ProtoktProjectInfo.url
+    description = ProtoktProjectInfo.description
+    tags = listOf("protobuf", "kotlin")
+}
+
+tasks.named("publishPlugins") {
+    enabled = isRelease()
 }
 
 enablePublishing()

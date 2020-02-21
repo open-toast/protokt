@@ -52,13 +52,19 @@ private object Remote {
     val url = "https://oss.sonatype.org/service/local/staging/deploy/maven2"
 }
 
+object ProtoktProjectInfo {
+    const val name = "Protokt"
+    const val url = "https://github.com/open-toast/protokt"
+    const val description = "Protobuf compiler and runtime for Kotlin"
+}
+
 fun MavenPublication.standardPom() {
     pom {
-        name.set("Protokt")
-        description.set("Protobuf compiler and runtime for Kotlin")
-        url.set("https://github.com/open-toast/protokt")
+        name.set(ProtoktProjectInfo.name)
+        description.set(ProtoktProjectInfo.description)
+        url.set(ProtoktProjectInfo.url)
         scm {
-            url.set("https://github.com/open-toast/protokt")
+            url.set(ProtoktProjectInfo.url)
         }
         licenses {
             license {
