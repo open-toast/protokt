@@ -19,10 +19,5 @@ pureKotlin()
 dependencies {
     implementation(kotlin("reflect"))
     implementation(project(":testing:protobuf-java"))
-    implementation(libraries.kotlinStdlib)
-
-    testImplementation(libraries.junit)
-    testImplementation(libraries.kotlinTest)
     testImplementation(libraries.protobuf)
-    testImplementation(libraries.truth)
 }

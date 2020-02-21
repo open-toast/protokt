@@ -24,8 +24,5 @@ dependencies {
 
     testImplementation(project(":testing:runtime-tests"))
     testImplementation(libraries.jackson)
-    testImplementation(libraries.junit)
-    testImplementation(libraries.kotlinTest)
     testImplementation(libraries.protobuf)
-    testImplementation(libraries.truth)
 }

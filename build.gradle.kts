@@ -47,7 +47,6 @@ subprojects {
     dependencies {
         add("api", libraries.kotlinStdlib)
 
-        add("testImplementation", libraries.kotlinTest)
         add("testImplementation", libraries.junit)
         add("testImplementation", libraries.truth)
     }

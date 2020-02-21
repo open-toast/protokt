@@ -15,6 +15,7 @@
 
 package com.toasttab.protokt.rt.test
 
+import com.google.common.truth.Truth.assertThat
 import com.google.protobuf.ByteString
 import com.google.protobuf.Timestamp as JavaTimestamp
 import com.google.protobuf.UnknownFieldSet
@@ -23,20 +24,18 @@ import com.toasttab.protokt.pack
 import com.toasttab.protokt.rt.Bytes
 import com.toasttab.protokt.rt.Unknown
 import com.toasttab.protokt.rt.VarIntVal
+import com.toasttab.protokt.rt.test.Test as KtTest
 import com.toasttab.protokt.unpack
-import io.kotlintest.matchers.collections.shouldContainAll
-import io.kotlintest.matchers.maps.shouldContainValues
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.StringSpec
+import org.junit.jupiter.api.Test
 
-class CollectionSpec : StringSpec({
+class CollectionTest {
     val s0 = Bytes("this is a test".toByteArray())
     val s1 = Bytes("this is another test".toByteArray())
-    val kotlinTest = Test { `val` = s0 }
-    val kotlinTest2 = Test { `val` = s1 }
+    val kotlinTest = KtTest { `val` = s0 }
+    val kotlinTest2 = KtTest { `val` = s1 }
     val unknowns = listOf(Unknown(666, 555), Unknown(777, 444))
     val kotlinTest3 =
-        Test {
+        KtTest {
             `val` = s1
             unknown = unknowns.map { it.fieldNum to it }.toMap()
         }
@@ -73,45 +72,53 @@ class CollectionSpec : StringSpec({
             nanos = ts1.nanos
         }
 
-    "kotlin message test" {
-        kotlinTest shouldBe Test.deserialize(kotlinTest.serialize())
+    @Test
+    fun `kotlin message test`() {
+        assertThat(kotlinTest).isEqualTo(KtTest.deserialize(kotlinTest.serialize()))
     }
 
-    "kotlin -> java test" {
-        javaTest shouldBe TestOuterClass.Test.parseFrom(kotlinTest.serialize())
+    @Test
+    fun `kotlin → java test`() {
+        assertThat(javaTest).isEqualTo(TestOuterClass.Test.parseFrom(kotlinTest.serialize()))
     }
 
-    "java -> kotlin test" {
-        kotlinTest shouldBe Test.deserialize(javaTest.toByteArray())
+    @Test
+    fun `java → kotlin test`() {
+        assertThat(kotlinTest).isEqualTo(KtTest.deserialize(javaTest.toByteArray()))
     }
 
-    "java -> kotlin unknown field test" {
-        kotlinTest3 shouldBe Test.deserialize(javaTest3.toByteArray())
+    @Test
+    fun `java → kotlin unknown field test`() {
+        assertThat(kotlinTest3).isEqualTo(KtTest.deserialize(javaTest3.toByteArray()))
     }
 
-    "kotlin list test" {
+    @Test
+    fun `kotlin list test`() {
         val lt0 = ListTest { list = listOf(kotlinTest, kotlinTest2) }
         val ltb = lt0.serialize()
         val lt = ListTest.deserialize(ltb)
-        lt.list.shouldContainAll(kotlinTest, kotlinTest2)
+        assertThat(lt.list).containsExactly(kotlinTest, kotlinTest2)
     }
 
-    "kotlin -> java list test" {
-        TestOuterClass.ListTest.parseFrom(
+    @Test
+    fun `kotlin → java list test`() {
+        assertThat(TestOuterClass.ListTest.parseFrom(
             ListTest { list = listOf(kotlinTest, kotlinTest2) }
-                .serialize()).listList.shouldContainAll(javaTest, javaTest2)
+                .serialize()).listList).containsExactly(javaTest, javaTest2)
     }
 
-    "java -> kotlin list test" {
-        ListTest.deserialize(
+    @Test
+    fun `java → kotlin list test`() {
+        assertThat(ListTest.deserialize(
             TestOuterClass.ListTest.parseFrom(
                 ListTest { list = listOf(kotlinTest, kotlinTest2) }
-                    .serialize()).toByteArray()).list
-                    .shouldContainAll(kotlinTest, kotlinTest2)
+                    .serialize()).toByteArray()).list)
+                    .containsExactly(kotlinTest, kotlinTest2)
     }
 
-    "kotlin map test" {
-        MapTest.deserialize(
+    @Test
+    fun `kotlin map test`() {
+        assertThat(MapTest.deserialize(
             MapTest {
                 map =
                     mapOf(
@@ -119,11 +126,12 @@ class CollectionSpec : StringSpec({
                         kotlinTest2.`val`.bytes.toString() to kotlinTest2
                     )
             }.serialize()
-        ).map.shouldContainValues(kotlinTest, kotlinTest2)
+        ).map.values).containsExactly(kotlinTest, kotlinTest2)
     }
 
-    "kotlin -> java map test" {
-        TestOuterClass.MapTest.parseFrom(
+    @Test
+    fun `kotlin → java map test`() {
+        assertThat(TestOuterClass.MapTest.parseFrom(
             MapTest {
                 map =
                     mapOf(
@@ -131,83 +139,95 @@ class CollectionSpec : StringSpec({
                         kotlinTest2.`val`.bytes.toString() to kotlinTest2
                     )
             }.serialize()
-        ).mapMap.shouldContainValues(javaTest, javaTest2)
+        ).mapMap.values).containsExactly(javaTest, javaTest2)
     }
 
-    "java -> kotlin map test" {
-        MapTest.deserialize(TestOuterClass.MapTest.newBuilder()
+    @Test
+    fun `java → kotlin map test`() {
+        assertThat(MapTest.deserialize(TestOuterClass.MapTest.newBuilder()
             .putMap("nullTest", TestOuterClass.Test.newBuilder().build())
             .putMap(javaTest.`val`.toStringUtf8(), javaTest)
             .putMap(javaTest2.`val`.toStringUtf8(), javaTest2)
             .build().toByteArray())
-            .map.shouldContainValues(kotlinTest, kotlinTest2)
+            .map.values).containsAtLeast(kotlinTest, kotlinTest2)
     }
 
-    "repeated test" {
-        RepeatedTest.deserialize(
+    @Test
+    fun `repeated test`() {
+        assertThat(RepeatedTest.deserialize(
             RepeatedTest { list = stringList }.serialize())
-            .list.shouldContainAll(stringList)
+            .list).isEqualTo(stringList)
     }
 
-    "repeated packed kotlin -> kotlin test" {
-        RepeatedPackedTest.deserialize(
+    @Test
+    fun `repeated packed kotlin → kotlin test`() {
+        assertThat(RepeatedPackedTest.deserialize(
             RepeatedPackedTest { list = int64List }.serialize())
-            .list.shouldContainAll(int64List)
+            .list).isEqualTo(int64List)
     }
 
-    "repeated packed java -> kotlin test" {
-        RepeatedPackedTest.deserialize(
+    @Test
+    fun `repeated packed java → kotlin test`() {
+        assertThat(RepeatedPackedTest.deserialize(
             TestOuterClass.RepeatedPackedTest.newBuilder()
                 .addList(123L)
                 .addList(456L)
                 .build().toByteArray())
-            .list.shouldContainAll(123L, 456L)
+            .list).containsExactly(123L, 456L)
     }
 
-    "repeated packed kotlin -> java test" {
-        TestOuterClass.RepeatedPackedTest
+    @Test
+    fun `repeated packed kotlin → java test`() {
+        assertThat(TestOuterClass.RepeatedPackedTest
             .parseFrom(RepeatedPackedTest { list = listOf(123L, 456L) }.serialize())
-            .listList.shouldContainAll(123L, 456L)
+            .listList)
+        .containsExactly(123L, 456L)
     }
 
-    "kotlin repeated wkt test" {
-        RepeatedWktTest.deserialize(
+    @Test
+    fun `kotlin repeated wkt test`() {
+        assertThat(RepeatedWktTest.deserialize(
             RepeatedWktTest { list = listOf(ts01, ts00) }.serialize())
-            .list.shouldContainAll(ts01, ts00)
+            .list).containsExactly(ts01, ts00)
     }
 
-    "kotlin to java repeated wkt test" {
-        RepeatedWktTest.deserialize(
+    @Test
+    fun `kotlin to java repeated wkt test`() {
+        assertThat(RepeatedWktTest.deserialize(
             TestOuterClass.RepeatedWktTest.newBuilder()
             .addList(ts1)
             .addList(ts0)
             .build().toByteArray())
-            .list.shouldContainAll(ts01, ts00)
+            .list)
+            .containsExactly(ts01, ts00)
     }
 
-    "kotlin repeated any test" {
-        RepeatedAnyTest.deserialize(
+    @Test
+    fun `kotlin repeated any test`() {
+        assertThat(RepeatedAnyTest.deserialize(
             RepeatedAnyTest {
                 list = listOf(
                     com.toasttab.protokt.Any.pack(kotlinTest),
                     com.toasttab.protokt.Any.pack(kotlinTest2)
                 )
             }.serialize())
-            .list.map { it.unpack(Test) }
-            .shouldContainAll(kotlinTest, kotlinTest2)
+            .list.map { it.unpack(KtTest) })
+            .containsExactly(kotlinTest, kotlinTest2)
     }
 
-    "java -> kotlin repeated any test" {
-        RepeatedAnyTest.deserialize(
+    @Test
+    fun `java → kotlin repeated any test`() {
+        assertThat(RepeatedAnyTest.deserialize(
             TestOuterClass.RepeatedAnyTest.newBuilder()
             .addList(com.google.protobuf.Any.pack(javaTest))
             .addList(com.google.protobuf.Any.pack(javaTest2))
             .build().toByteArray())
-            .list.map { it.unpack(Test) }
-            .shouldContainAll(kotlinTest, kotlinTest2)
+            .list.map { it.unpack(KtTest) })
+            .containsExactly(kotlinTest, kotlinTest2)
     }
 
-    "kotlin -> java repeated any test" {
+    @Test
+    fun `kotlin → java repeated any test`() {
         val tests = TestOuterClass.RepeatedAnyTest.parseFrom(
             RepeatedAnyTest {
                 list = listOf(
@@ -216,7 +236,7 @@ class CollectionSpec : StringSpec({
                 )
             }.serialize())
             .listList.map { it.unpack(javaTest.javaClass) }
-        tests.size shouldBe 2
-        tests.shouldContainAll(javaTest, javaTest2)
+
+        assertThat(tests).containsExactly(javaTest, javaTest2)
     }
-})
+}

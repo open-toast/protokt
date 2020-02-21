@@ -14,8 +14,6 @@
  */
 
 dependencies {
-    testImplementation(libraries.junit)
-    testImplementation(libraries.kotlinStdlib)
     testImplementation(libraries.protobuf)
 }
 
