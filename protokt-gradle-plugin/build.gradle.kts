@@ -50,6 +50,10 @@ pluginBundle {
     tags = listOf("protobuf", "kotlin")
 }
 
+val k = project.properties.getOrDefault("gradle.publish.key", "zzz").toString()
+
+println("!!!!!! KEY LENGTH = ${k.length}")
+
 tasks.named("publishPlugins") {
     enabled = isRelease()
 }
