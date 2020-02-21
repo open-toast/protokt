@@ -56,7 +56,10 @@ println("!!!!!! KEY LENGTH = ${k.length}")
 val ek = System.getenv("ORG_GRADLE_PROJECT_gradle.publish.key") ?: "zzz"
 println("!!!!!! ENV KEY LENGTH = ${ek.length}")
 
-val all = System.getenv().keys.filter { it.startsWith("ORG_GRADLE_PROJECT") }
+val allGradle = System.getenv().keys.filter { it.startsWith("ORG_GRADLE_PROJECT") }
+println("!!!!!! ALL GRADLE ENV = $allGradle")
+
+val all = System.getenv().keys
 println("!!!!!! ALL ENV = $all")
 
 tasks.named("publishPlugins") {
