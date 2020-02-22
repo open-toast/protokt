@@ -26,6 +26,12 @@ CodedOutputStream for best performance
 
 See examples in [testing](testing).
 
+#### Compatibility
+
+The Gradle plugin requires Java 8+, Gradle 5.6+ and runs on recent versions of MacOS, Linux, and Windows.
+
+The runtime and generated code are compatible with Java 8+ and Android 4.4+. 
+
 ### Usage
 
 #### Gradle
