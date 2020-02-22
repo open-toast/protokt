@@ -31,10 +31,17 @@ See examples in [testing](testing).
 #### Gradle
 
 ```groovy
+plugins {
+  id "com.toasttab.protokt" version "<version>"
+}
+```
+or
+
+```groovy
 buildscript {
-    dependencies {
-        classpath 'com.toasttab.protokt:protokt-gradle-plugin:<version>'
-    }
+  dependencies {
+    classpath 'com.toasttab.protokt:protokt-gradle-plugin:<version>'
+  }
 }
 
 apply plugin: 'com.toasttab.protokt'
@@ -47,7 +54,7 @@ or `protobuf-javalite`:
 
 ```groovy
 dependencies {
-    "com.google.protobuf:protobuf-java:3.11.3"
+  'com.google.protobuf:protobuf-java:<version>'
 }
 ```
 
@@ -55,7 +62,7 @@ or
 
 ```groovy
 dependencies {
-    "com.google.protobuf:protobuf-javalite:3.11.3"
+  'com.google.protobuf:protobuf-javalite:<version>'
 }
 ```
 
@@ -70,7 +77,7 @@ To work around it, disable all `JavaCompile` tasks in the project:
 
 ```groovy
 tasks.withType(JavaCompile) {
-    enabled = false
+  enabled = false
 }
 ```
 
@@ -476,7 +483,7 @@ in `build.gradle`:
 
 ```groovy
 dependencies {
-    protoktExtensions project(':api-module')
+  protoktExtensions project(':api-module')
 }
 ```
 
@@ -557,7 +564,7 @@ If IntelliJ doesn't automatically detect the generated files as source files, yo
 the `idea` plugin. Apply the `idea` plugin to your Gradle project:
 ```groovy
 plugins {
-    id 'idea'
+  id 'idea'
 }
 ```
 
