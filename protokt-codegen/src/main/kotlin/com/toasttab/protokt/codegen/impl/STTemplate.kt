@@ -40,7 +40,7 @@ data class STTemplate(val st: ST) : Template {
         fun <T : Var> addTo(
             st: STTemplate,
             tt: TemplateSt<T>,
-            fn: (T) -> Any
+            fn: (T) -> Any?
         ) {
             tt.vars.forEach { st.st.add(it.value, fn(it)) }
         }
@@ -51,11 +51,11 @@ data class STTemplate(val st: ST) : Template {
     }
 }
 
-internal fun <T : Var> TemplateSt<T>.render(params: List<Pair<T, Any>>) =
+internal fun <T : Var> TemplateSt<T>.render(params: List<Pair<T, Any?>>) =
     render(*params.toTypedArray())
 
 internal fun <T : Var> TemplateSt<T>.render(
-    vararg params: Pair<Var, Any>
+    vararg params: Pair<Var, Any?>
 ): String {
     val template = STTemplate.toTemplate(this).st
     params.forEach { (k, v) ->

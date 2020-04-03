@@ -54,7 +54,7 @@ internal object MessageAnnotator {
                     is SerializeMessageVar -> annotateSerializer(msg, ctx)
                     is DeserializeMessageVar -> annotateDeserializer(msg, ctx)
                     is OptionsMessageVar -> options(msg, ctx)
-                    is InnerMessageVar -> emptyList<String>()
+                    is InnerMessageVar -> null
                 }
             }
         }

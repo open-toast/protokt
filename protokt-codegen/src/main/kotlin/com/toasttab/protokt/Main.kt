@@ -25,7 +25,9 @@ import com.toasttab.protokt.codegen.ProtocolContext
 import com.toasttab.protokt.codegen.generate
 import com.toasttab.protokt.codegen.impl.STAnnotator
 import com.toasttab.protokt.codegen.impl.STEffects
+import com.toasttab.protokt.codegen.impl.packagesByTypeName
 import com.toasttab.protokt.codegen.newFileName
+import com.toasttab.protokt.codegen.respectJavaPackage
 import com.toasttab.protokt.codegen.toProtocol
 import com.toasttab.protokt.ext.Protokt
 import java.io.OutputStream
@@ -45,7 +47,16 @@ internal fun main(bytes: ByteArray, out: OutputStream) = IO {
         .map {
             val code = StringBuilder()
             val g = generate(
-                toProtocol(ProtocolContext(it, params)),
+                toProtocol(
+                    ProtocolContext(
+                        it,
+                        params,
+                        packagesByTypeName(
+                            req,
+                            respectJavaPackage(params)
+                        )
+                    )
+                ),
                 STAnnotator,
                 STEffects,
                 { t ->

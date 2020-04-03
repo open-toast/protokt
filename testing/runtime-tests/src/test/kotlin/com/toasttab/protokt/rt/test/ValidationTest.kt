@@ -15,13 +15,13 @@
 
 package com.toasttab.protokt.rt.test
 
+import com.example.tutorial.AddressBook
 import com.example.tutorial.AddressBookProtos.AddressBook as JavaAddressBook
 import com.example.tutorial.AddressBookProtos.Person as JavaPerson
+import com.example.tutorial.Person
 import com.google.common.truth.Truth.assertThat
 import com.toasttab.protokt.Timestamp
 import org.junit.jupiter.api.Test
-import tutorial.AddressBook
-import tutorial.Person
 
 class ValidationTest {
     val timestamp = Timestamp { seconds = System.currentTimeMillis() * 1000 }

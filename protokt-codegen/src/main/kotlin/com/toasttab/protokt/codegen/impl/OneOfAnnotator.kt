@@ -97,7 +97,7 @@ private constructor(
         f: StandardField,
         oneofFieldTypeName: String
     ): String {
-        val pClass = f.typePClass()
+        val pClass = f.typePClass(ctx)
 
         // Cannot strip qualifiers for field type in a different package
         val requiresQualifiedTypeName = !pClass.isInPackage(ctx.pkg)

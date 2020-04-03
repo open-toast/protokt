@@ -31,11 +31,10 @@ configure<JavaApplication> {
 }
 
 dependencies {
+    implementation(files(buildSrcClasses))
     implementation(project(":extensions:protokt-extensions-api"))
     implementation(project(":protokt-runtime"))
-    libraries.arrow.forEach {
-        implementation(it)
-    }
+    libraries.arrow.forEach { implementation(it) }
     implementation(libraries.kollection)
     implementation(libraries.kotlinReflect)
     implementation(libraries.kotlinxCoroutinesCore)

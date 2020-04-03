@@ -40,6 +40,8 @@ import com.google.protobuf.GeneratedMessageV3.ExtendableMessage
 import com.toasttab.protokt.codegen.impl.emptyToNone
 import com.toasttab.protokt.ext.Protokt
 import com.toasttab.protokt.rt.PType
+import com.toasttab.protokt.shared.KOTLIN_EXTRA_CLASSPATH
+import com.toasttab.protokt.shared.RESPECT_JAVA_PACKAGE
 
 private fun <I, E : ExtendableMessage<E>> E.extensionOrDefault(
     ext: GeneratedExtension<E, I>
@@ -54,11 +56,15 @@ fun toProtocol(ctx: ProtocolContext) =
     Protocol(
         FileDesc(
             name = ctx.fdp.name,
-            packageName = ctx.fdp.`package`.emptyToNone(),
-            rtPackage = Some("com.toasttab.protokt"),
+            packageName = ctx.fdp.`package`,
             version = ctx.fdp.syntax?.removePrefix("proto")?.toIntOrNull() ?: 2,
-            options = ctx.fdp.options.extensionOrDefault(Protokt.file),
-            params = PluginParams(ctx.params),
+            options = ctx.fdp.fileOptions,
+            context =
+                PluginContext(
+                    ctx.params.getOrDefault(KOTLIN_EXTRA_CLASSPATH, "").split(";"),
+                    respectJavaPackage(ctx.params),
+                    ctx.allPackagesByTypeName
+                ),
             sourceCodeInfo = ctx.fdp.sourceCodeInfo
         ),
         types = toTypeList(
@@ -68,6 +74,16 @@ fun toProtocol(ctx: ProtocolContext) =
             ctx.fdp.serviceList
         )
     )
+
+fun respectJavaPackage(params: Map<String, String>) =
+    params.getValue(RESPECT_JAVA_PACKAGE).toBoolean()
+
+val FileDescriptorProto.fileOptions
+    get() =
+        FileOptions(
+            options,
+            options.extensionOrDefault(Protokt.file)
+        )
 
 fun FileDescriptorProto.pkg(
     paramName: String

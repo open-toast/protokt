@@ -20,16 +20,16 @@ import arrow.core.None
 import arrow.core.identity
 import arrow.core.toOption
 import arrow.fx.IO
+import com.toasttab.protokt.conformance.ConformanceRequest
+import com.toasttab.protokt.conformance.ConformanceResponse
+import com.toasttab.protokt.conformance.ConformanceResponse.Result
+import com.toasttab.protokt.conformance.WireFormat
 import com.toasttab.protokt.rt.Bytes
-import conformance.ConformanceRequest
-import conformance.ConformanceResponse
-import conformance.ConformanceResponse.Result
-import conformance.WireFormat
+import com.toasttab.protokt_test_messages.proto3.TestAllTypesProto3
 import java.io.InputStream
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import kotlinx.coroutines.runBlocking
-import protobuf_test_messages.proto3.TestAllTypesProto3
 
 const val proto3 = "protobuf_test_messages.proto3.TestAllTypesProto3"
 

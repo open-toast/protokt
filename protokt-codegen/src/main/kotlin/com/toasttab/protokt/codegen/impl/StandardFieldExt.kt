@@ -15,13 +15,14 @@
 
 package com.toasttab.protokt.codegen.impl
 
+import com.toasttab.protokt.codegen.PluginContext
 import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
-import com.toasttab.protokt.codegen.impl.STAnnotator.googleProto
 import com.toasttab.protokt.codegen.impl.STAnnotator.protokt
 import com.toasttab.protokt.codegen.impl.STAnnotator.protoktExt
 import com.toasttab.protokt.codegen.impl.STAnnotator.protoktExtFqcn
 import com.toasttab.protokt.codegen.impl.STAnnotator.protoktProtobuf
+import com.toasttab.protokt.codegen.impl.STAnnotator.rootGoogleProto
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.wireFormat
@@ -66,36 +67,49 @@ internal fun StandardField.box(s: String) =
     )
 
 internal fun StandardField.unqualifiedTypeName(ctx: Context) =
-    typePClass().unqualify(ctx.pkg)
+    typePClass(ctx).unqualify(ctx.pkg)
 
-internal fun StandardField.typePClass() =
-    PClass.fromName(fullyQualifiedTypeName)
+internal fun StandardField.typePClass(ctx: Context) =
+    typePClass(ctx.desc.context)
+
+internal fun StandardField.typePClass(pctx: PluginContext) =
+    PClass.fromName(fullyQualifiedTypeName(pctx))
 
 internal fun StandardField.unqualifiedNestedTypeName(ctx: Context) =
     ctx.stripRootMessageNamePrefix(unqualifiedTypeName(ctx))
 
-internal val StandardField.fullyQualifiedTypeName
-    get() =
-        nativeTypeName.fold(
-            {
-                when {
-                    typeName.startsWith(googleProto) ->
-                        "$rootPkg${typeName.removePrefix(googleProto)}"
-                    typeName.startsWith(protoktExt) ->
-                        protoktExtFqcn + typeName.removePrefix(protoktExt)
-                    typeName.startsWith(protokt) ->
-                        protoktExtFqcn + typeName.removePrefix(protoktProtobuf)
-                    else ->
-                        typeName.removePrefix(".")
-                }
-            },
-            {
-                if (it.isEmpty()) {
-                    ConvertTypeRF.render(
-                        TypeRenderVar to type
-                    )
-                } else {
-                    it
-                }
+private fun StandardField.fullyQualifiedTypeName(ctx: PluginContext) =
+    nativeTypeName.fold(
+        {
+            when {
+                typeName.startsWith(protoktExt) ->
+                    protoktExtFqcn + typeName.removePrefix(protoktExt)
+                typeName.startsWith(protokt) ->
+                    protoktExtFqcn + typeName.removePrefix(protoktProtobuf)
+                else ->
+                    requalifyProtoType(typeName, ctx).renderName
             }
-        )
+        },
+        {
+            if (it.isEmpty()) {
+                ConvertTypeRF.render(
+                    TypeRenderVar to type
+                )
+            } else {
+                it
+            }
+        }
+    )
+
+internal fun requalifyProtoType(typeName: String, ctx: PluginContext) =
+    PClass.fromName(
+        overrideGoogleProtobuf(typeName.removePrefix("."), rootGoogleProto)
+    ).let {
+        if (ctx.respectJavaPackage) {
+            PClass.fromName(
+                it.nestedName
+            ).qualify(ctx.ppackage(typeName))
+        } else {
+            it
+        }
+    }

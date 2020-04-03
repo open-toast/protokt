@@ -34,10 +34,14 @@ data class PClass(
     // com.toasttab.protokt.rt; use a wildcard import (see HeaderAccumulator.kt)
     val renderName
         get() =
-            qualifiedName
-                .removePrefix("$protoktExtFqcn.")
-                .removePrefix("$protoktRtFqcn.")
-                .removePrefix("kotlin.")
+            when (ppackage) {
+                PPackage.fromString(protoktExtFqcn) ->
+                    qualifiedName.removePrefix("$protoktExtFqcn.")
+                PPackage.fromString(protoktRtFqcn) ->
+                    qualifiedName.removePrefix("$protoktRtFqcn.")
+                else ->
+                    qualifiedName.removePrefix("kotlin.")
+            }
 
     val nestedName: String
         get() =

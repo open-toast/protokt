@@ -15,8 +15,8 @@
 
 package com.toasttab.protokt.benchmarks.generator
 
-import benchmarks.BenchmarkDataset
 import com.google.protobuf.CodedOutputStream
+import com.toasttab.protokt.benchmarks.BenchmarkDataset
 import com.toasttab.protokt.benchmarks.GenericMessage1
 import com.toasttab.protokt.benchmarks.GenericMessage4
 import com.toasttab.protokt.rt.Bytes

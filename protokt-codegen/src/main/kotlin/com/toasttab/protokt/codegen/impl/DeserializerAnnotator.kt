@@ -139,7 +139,7 @@ private constructor(
         )
 
     private fun stripQualification(ctx: Context, f: StandardField) =
-        stripEnclosingMessageName(f.typePClass().unqualify(ctx.pkg), ctx)
+        stripEnclosingMessageName(f.typePClass(ctx).unqualify(ctx.pkg), ctx)
 
     private fun stripEnclosingMessageName(s: String, ctx: Context): String {
         var stripped = s

@@ -43,6 +43,8 @@ include(
     "testing:conformance-tests",
     "testing:options-api",
     "testing:options",
+    "testing:plugin-options",
+    "testing:plugin-options:ignore-java-package",
     "testing:protobuf-java",
     "testing:runtime-tests",
 

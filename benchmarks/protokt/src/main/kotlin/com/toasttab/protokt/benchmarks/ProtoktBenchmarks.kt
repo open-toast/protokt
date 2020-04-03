@@ -15,7 +15,6 @@
 
 package com.toasttab.protokt.benchmarks
 
-import benchmarks.BenchmarkDataset
 import com.google.protobuf.CodedInputStream
 import com.toasttab.protokt.rt.deserializer
 import java.util.concurrent.TimeUnit

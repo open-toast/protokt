@@ -28,6 +28,9 @@ import org.gradle.internal.os.OperatingSystem
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.the
 
+const val KOTLIN_EXTRA_CLASSPATH = "kotlin_extra_classpath"
+const val RESPECT_JAVA_PACKAGE = "respect_java_package"
+
 internal fun configureProtobufPlugin(project: Project, ext: ProtoktExtension, binaryPath: String) {
     project.apply(plugin = "com.google.protobuf")
 
@@ -62,9 +65,8 @@ internal fun configureProtobufPlugin(project: Project, ext: ProtoktExtension, bi
                                     .asPath
                                     .replace(':', ';')
 
-                            option(
-                                "kotlin_extra_classpath=$classpath"
-                            )
+                            option("$KOTLIN_EXTRA_CLASSPATH=$classpath")
+                            option("$RESPECT_JAVA_PACKAGE=${ext.respectJavaPackage}")
                         }
                     }
                 }

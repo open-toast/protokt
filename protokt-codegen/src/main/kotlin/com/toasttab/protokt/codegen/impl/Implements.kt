@@ -53,7 +53,7 @@ internal object Implements {
 private object PropertyOverrideChecker {
     val classIncludesProperty =
         { pClass: PClass, prop: String, ctx: Context ->
-            getClass(pClass, ctx.desc.params)
+            getClass(pClass, ctx.desc.context)
                 .members.map { m -> m.name }
                 .contains(prop)
         }.memoize()
