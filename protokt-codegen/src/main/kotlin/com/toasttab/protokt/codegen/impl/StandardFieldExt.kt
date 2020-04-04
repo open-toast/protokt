@@ -18,10 +18,6 @@ package com.toasttab.protokt.codegen.impl
 import com.toasttab.protokt.codegen.PluginContext
 import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
-import com.toasttab.protokt.codegen.impl.STAnnotator.protokt
-import com.toasttab.protokt.codegen.impl.STAnnotator.protoktExt
-import com.toasttab.protokt.codegen.impl.STAnnotator.protoktExtFqcn
-import com.toasttab.protokt.codegen.impl.STAnnotator.protoktProtobuf
 import com.toasttab.protokt.codegen.impl.STAnnotator.rootGoogleProto
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
 import com.toasttab.protokt.codegen.model.PClass
@@ -69,35 +65,25 @@ internal fun StandardField.box(s: String) =
 internal fun StandardField.unqualifiedTypeName(ctx: Context) =
     typePClass(ctx).unqualify(ctx.pkg)
 
-internal fun StandardField.typePClass(ctx: Context) =
-    typePClass(ctx.desc.context)
-
-internal fun StandardField.typePClass(pctx: PluginContext) =
-    PClass.fromName(fullyQualifiedTypeName(pctx))
-
 internal fun StandardField.unqualifiedNestedTypeName(ctx: Context) =
     ctx.stripRootMessageNamePrefix(unqualifiedTypeName(ctx))
 
-private fun StandardField.fullyQualifiedTypeName(ctx: PluginContext) =
+internal fun StandardField.typePClass(ctx: Context) =
+    typePClass(ctx.desc.context)
+
+internal fun StandardField.typePClass(ctx: PluginContext) =
     nativeTypeName.fold(
+        { requalifyProtoType(typeName, ctx) },
         {
-            when {
-                typeName.startsWith(protoktExt) ->
-                    protoktExtFqcn + typeName.removePrefix(protoktExt)
-                typeName.startsWith(protokt) ->
-                    protoktExtFqcn + typeName.removePrefix(protoktProtobuf)
-                else ->
-                    requalifyProtoType(typeName, ctx).renderName
-            }
-        },
-        {
-            if (it.isEmpty()) {
-                ConvertTypeRF.render(
-                    TypeRenderVar to type
-                )
-            } else {
-                it
-            }
+            PClass.fromName(
+                if (it.isEmpty()) {
+                    ConvertTypeRF.render(
+                        TypeRenderVar to type
+                    )
+                } else {
+                    it
+                }
+            )
         }
     )
 
