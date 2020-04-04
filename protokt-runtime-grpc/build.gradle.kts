@@ -13,15 +13,10 @@
  * limitations under the License.
  */
 
-localProtokt()
-pureKotlin()
 enablePublishing()
+compatibleWithAndroid()
 
 dependencies {
-    add("protobuf", libraries.protoGoogleCommonProtos)
-
-    implementation(project(":protokt-core"))
-    implementation(project(":protokt-runtime-grpc"))
-
+    implementation(project(":protokt-runtime"))
     implementation(libraries.grpcStub)
 }

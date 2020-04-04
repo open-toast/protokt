@@ -30,6 +30,7 @@ include(
     "protokt-codegen",
     "protokt-core",
     "protokt-runtime",
+    "protokt-runtime-grpc",
     "protokt-gradle-plugin",
     "protokt-wkt",
 

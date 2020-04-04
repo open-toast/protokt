@@ -20,7 +20,6 @@ import com.github.andrewoma.dexx.kollection.immutableListOf
 import com.toasttab.protokt.codegen.EnumType
 import com.toasttab.protokt.codegen.FileDesc
 import com.toasttab.protokt.codegen.MessageType
-import com.toasttab.protokt.codegen.MethodType
 import com.toasttab.protokt.codegen.Optics
 import com.toasttab.protokt.codegen.Optics.annotate
 import com.toasttab.protokt.codegen.ServiceType
@@ -70,8 +69,7 @@ object STAnnotator : Annotator<AST<TypeDesc>> {
                     ctx.copy(enclosingMessage = ctx.enclosingMessage + t)
                 )
             is EnumType -> addEnum(ast, t, ctx)
-            is ServiceType -> addService(ast, t)
-            is MethodType -> addMethod(ast, t)
+            is ServiceType -> addService(ast, t, ctx)
         }
 
     private fun addMessage(a: AST<TypeDesc>, msg: MessageType, ctx: Context) =
@@ -106,38 +104,6 @@ object STAnnotator : Annotator<AST<TypeDesc>> {
     private fun addEnum(a: AST<TypeDesc>, e: EnumType, ctx: Context) =
         annotateEnum(annotate(a, Some(STTemplate.toTemplate(EnumSt))), e, ctx)
 
-    private fun addService(a: AST<TypeDesc>, s: ServiceType) =
-        annotate(a, Some(STTemplate.toTemplate(ServiceSt))).let { ast ->
-            annotateService(
-                Optics.astChildrenLens.set(
-                    ast,
-                    s.methods.map {
-                        invoke(
-                            Optics.astLens.set(
-                                ast,
-                                Optics.typeDescTypeLens.set(
-                                    ast.data,
-                                    Optics.annotatedTypeTemplateLens.set(
-                                        Optics.annotatedTypeLens.set(
-                                            ast.data.type,
-                                            it
-                                        ),
-                                        Some(STTemplate.toTemplate(ServiceSt))
-                                    )
-                                )
-                            )
-                        )
-                    }
-                ),
-                s
-            )
-        }
-
-    private fun addMethod(
-        ast: AST<TypeDesc>,
-        @Suppress("UNUSED_PARAMETER") m: MethodType
-    ): AST<TypeDesc> {
-        // TODO: methods are not nested
-        return ast
-    }
+    private fun addService(a: AST<TypeDesc>, s: ServiceType, ctx: Context) =
+        annotateService(annotate(a, Some(STTemplate.toTemplate(ServiceSt))), s, ctx)
 }

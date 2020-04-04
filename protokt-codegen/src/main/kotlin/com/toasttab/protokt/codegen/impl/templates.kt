@@ -35,6 +35,8 @@ sealed class SizeOfVar(override val value: String) : Var
 sealed class RenderVar(override val value: String) : Var
 sealed class ServiceVar(override val value: String) : Var
 sealed class MethodVar(override val value: String) : Var
+sealed class MethodTypeVar(override val value: String) : Var
+sealed class DescriptorVar(override val value: String) : Var
 sealed class OptionVar(override val value: String) : Var
 
 sealed class TemplateSt<out T>(
@@ -43,15 +45,53 @@ sealed class TemplateSt<out T>(
     val vars: Set<T>
 )
 
+object NameServiceVar : ServiceVar("name")
+object QualifiedNameServiceVar : ServiceVar("qualifiedName")
+object DescriptorServiceVar : ServiceVar("descriptor")
+object MethodsServiceVar : ServiceVar("methods")
+
 object ServiceSt : TemplateSt<ServiceVar>(
     Services,
     "service",
-    setOf())
+    setOf(
+        NameServiceVar,
+        QualifiedNameServiceVar,
+        DescriptorServiceVar,
+        MethodsServiceVar
+    )
+)
+
+object NameDescriptorVar : DescriptorVar("name")
+object MethodsDescriptorVar : DescriptorVar("methods")
+
+object DescriptorSt : TemplateSt<DescriptorVar>(
+    Services,
+    "descriptor",
+    setOf(NameDescriptorVar, MethodsDescriptorVar)
+)
+
+object NameMethodVar : MethodVar("name")
+object TypeMethodVar : MethodVar("type")
+object InMethodVar : MethodVar("in")
+object OutMethodVar : MethodVar("out")
 
 object MethodSt : TemplateSt<MethodVar>(
     Services,
     "method",
-    setOf()
+    setOf(
+        NameMethodVar,
+        TypeMethodVar,
+        InMethodVar,
+        OutMethodVar
+    )
+)
+
+object MethodMethodVar : MethodTypeVar("method")
+
+object MethodTypeSt : TemplateSt<MethodTypeVar> (
+    Services,
+    "methodType",
+    setOf(MethodMethodVar)
 )
 
 object PackageHeaderVar : HeaderVar("package")
