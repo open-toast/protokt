@@ -29,9 +29,9 @@ companion object Deserializer : KtDeserializer\<<message.name>\><\\>
     <endif><\\>
 
     override fun deserialize(<\\>
-    <if (options.longDeserializer)><\n><t()><t()><t()><endif><\\>
+    <if (options.longDeserializer)><\n><t()><t()><endif><\\>
     deserializer: KtMessageDeserializer<\\>
-    <if (options.longDeserializer)><\n><t()><t()><endif>): <message.name> {
+    <if (options.longDeserializer)><\n><t()><endif>): <message.name> {
         <params:{p | var <deserializeVar(p)>}; separator="\n">
         <if (!entry.entry)>
         var unknown: MutableMap\<Int, Unknown>? = null

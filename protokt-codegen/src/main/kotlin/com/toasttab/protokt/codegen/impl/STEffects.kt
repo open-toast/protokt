@@ -18,6 +18,7 @@ package com.toasttab.protokt.codegen.impl
 import arrow.core.None
 import arrow.core.Option
 import arrow.core.Some
+import arrow.core.firstOrNone
 import com.toasttab.protokt.codegen.Optics
 import com.toasttab.protokt.codegen.TypeDesc
 import com.toasttab.protokt.codegen.algebra.AST
@@ -26,8 +27,30 @@ import com.toasttab.protokt.codegen.algebra.Effects
 
 internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
     override fun invoke(astList: List<AST<TypeDesc>>, acc: (String) -> Unit) {
-        HeaderAccumulator.writeHeader(astList, acc)
-        astList.forEach { effect(it, acc) }
+        val imports =
+            astList.firstOrNone()
+                .fold(
+                    { emptySet<Import>() },
+                    {
+                        ImportResolver(it.data.desc.context, kotlinPackage(it))
+                            .resolveImports(astList)
+                    }
+                )
+
+        val header = StringBuilder()
+        HeaderAccumulator.write(astList, imports) { header.append(it + "\n") }
+
+        val body = StringBuilder()
+        astList.forEach { effect(it) { s -> body.append(s + "\n") } }
+
+        var renderedBody = body.toString()
+
+        imports.forEach {
+            renderedBody = renderedBody.replace(it.qualifiedName, it.nestedName)
+        }
+
+        acc(header.toString())
+        acc(renderedBody)
     }
 
     private fun effect(ast: AST<TypeDesc>, acc: Accumulator<String>) {

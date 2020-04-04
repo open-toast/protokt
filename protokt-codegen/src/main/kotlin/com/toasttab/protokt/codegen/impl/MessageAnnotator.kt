@@ -30,7 +30,6 @@ import com.toasttab.protokt.codegen.impl.MapEntryAnnotator.annotateMapEntry
 import com.toasttab.protokt.codegen.impl.MessageDocumentationAnnotator.annotateMessageDocumentation
 import com.toasttab.protokt.codegen.impl.OneOfAnnotator.Companion.annotateOneOfs
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
-import com.toasttab.protokt.codegen.impl.STAnnotator.protoktFqcn
 import com.toasttab.protokt.codegen.impl.SerializerAnnotator.Companion.annotateSerializer
 import com.toasttab.protokt.codegen.impl.SizeOfAnnotator.Companion.annotateSizeof
 import com.toasttab.protokt.codegen.model.PPackage
@@ -91,7 +90,7 @@ internal object MessageAnnotator {
                 2 // ` {`
 
         return MessageOptions(
-            wellKnownType = ctx.pkg == PPackage.fromString(protoktFqcn),
+            wellKnownType = ctx.pkg == PPackage.PROTOKT,
             longDeserializer = lengthAsOneLine > idealMaxWidth
         )
     }

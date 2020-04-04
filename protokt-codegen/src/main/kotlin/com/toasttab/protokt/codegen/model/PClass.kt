@@ -18,8 +18,6 @@ package com.toasttab.protokt.codegen.model
 import arrow.core.None
 import arrow.core.Option
 import arrow.core.Some
-import com.toasttab.protokt.codegen.impl.STAnnotator.protoktExtFqcn
-import com.toasttab.protokt.codegen.impl.STAnnotator.protoktRtFqcn
 import kotlin.reflect.KClass
 
 data class PClass(
@@ -28,20 +26,12 @@ data class PClass(
     val enclosing: Option<PClass>
 ) {
     val qualifiedName
-        get() = "${if (ppackage.default) "" else "$ppackage."}$nestedName"
-
-    // do not fully qualify items in com.toasttab.protokt.ext or
-    // com.toasttab.protokt.rt; use a wildcard import (see HeaderAccumulator.kt)
-    val renderName
         get() =
-            when (ppackage) {
-                PPackage.fromString(protoktExtFqcn) ->
-                    qualifiedName.removePrefix("$protoktExtFqcn.")
-                PPackage.fromString(protoktRtFqcn) ->
-                    qualifiedName.removePrefix("$protoktRtFqcn.")
-                else ->
-                    qualifiedName.removePrefix("kotlin.")
-            }
+            if (ppackage.default) {
+                ""
+            } else {
+                "$ppackage."
+            } + nestedName
 
     val nestedName: String
         get() =
@@ -50,6 +40,13 @@ data class PClass(
                 { "${it.nestedName}.$simpleName" }
             )
 
+    fun renderName(pkg: PPackage) =
+        if (ppackage == pkg || ppackage == PPackage.fromString("kotlin")) {
+            simpleName
+        } else {
+            qualifiedName
+        }
+
     fun isInPackage(ppackage: PPackage) =
         this.ppackage == ppackage
 
@@ -57,7 +54,7 @@ data class PClass(
         if (isInPackage(pkg)) {
             nestedName
         } else {
-            renderName
+            renderName(pkg)
         }
 
     fun qualify(pkg: PPackage): PClass {
@@ -88,15 +85,15 @@ data class PClass(
             fqName: String,
             ppackage: PPackage
         ): Option<PClass> {
+            if (!fqName.contains(".")) {
+                return None
+            }
+
             val withoutLastDot = fqName.substringBeforeLast('.')
             val components = withoutLastDot.split('.')
             components.forEach { check(it.isNotEmpty()) { "$fqName invalid" } }
 
             return if (ppackage.default) {
-                if (withoutLastDot == fqName) {
-                    return None
-                }
-
                 if (components.size == 1) {
                     Some(PClass(components.single(), ppackage, None))
                 } else {

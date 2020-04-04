@@ -48,4 +48,4 @@ inline fun <reified T : KtMessage> Any.unpack(deserializer: KtDeserializer<T>): 
 
 inline fun <reified T : KtMessage> Any.isA() =
     typeUrl.substringAfterLast('/') ==
-            T::class.findAnnotation<KtGeneratedMessage>()!!.fullTypeName
+        T::class.findAnnotation<KtGeneratedMessage>()!!.fullTypeName

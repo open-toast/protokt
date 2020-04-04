@@ -20,23 +20,23 @@ import "options.stg"
 
 // PTYPE->kotlin type map, accessed <kotlinTypeNames.(type)>
 kotlinTypeNames ::= [
-    "BOOL": "Boolean",
-    "BYTES": "Bytes",
-    "DOUBLE": "Double",
+    "BOOL": "kotlin.Boolean",
+    "BYTES": "com.toasttab.protokt.rt.Bytes",
+    "DOUBLE": "kotlin.Double",
     "ENUM": "error(\"No standard type name for enum\")",
-    "FIXED32": "Int",
-    "FIXED64": "Long",
-    "FLOAT": "Float",
-    "INT32": "Int",
-    "INT64": "Long",
+    "FIXED32": "kotlin.Int",
+    "FIXED64": "kotlin.Long",
+    "FLOAT": "kotlin.Float",
+    "INT32": "kotlin.Int",
+    "INT64": "kotlin.Long",
     "MESSAGE": "error(\"No standard type name for message\")",
-    "SFIXED32": "Int",
-    "SFIXED64": "Long",
-    "SINT32": "Int",
-    "SINT64": "Long",
-    "STRING": "String",
-    "UINT32": "Int",
-    "UINT64": "Long",
+    "SFIXED32": "kotlin.Int",
+    "SFIXED64": "kotlin.Long",
+    "SINT32": "kotlin.Int",
+    "SINT64": "kotlin.Long",
+    "STRING": "kotlin.String",
+    "UINT32": "kotlin.Int",
+    "UINT64": "kotlin.Long",
     default : "cannot find val"
 ]
 
@@ -274,7 +274,7 @@ deserializeF(field, type, read, lhs, options) ::= <<
 (<lhs> ?: mutableMapOf()).apply {
         deserializer.readRepeated(false) {
             <read>
-                .let { it -> put(it.key, it.value) }
+                .run { put(key, value) }
         }
     }<\\>
 <elseif (field.repeated)>

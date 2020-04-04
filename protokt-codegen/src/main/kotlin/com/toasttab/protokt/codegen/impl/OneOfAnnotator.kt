@@ -22,6 +22,7 @@ import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
 import com.toasttab.protokt.codegen.impl.FieldDocumentationAnnotator.Companion.annotateFieldDocumentation
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptTypeName
+import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.possiblyQualify
 import com.toasttab.protokt.codegen.snakeToCamel
@@ -59,17 +60,16 @@ private constructor(
         OneOfInfo(
             fieldName = fieldName,
             type = qualifyWrapperType(
+                f,
                 PClass.fromName(oneofFieldTypeName),
-                PClass.fromName(
-                    interceptTypeName(
+                interceptTypeName(
+                    f,
+                    inferOneofFieldTypeName(
+                        ctx,
                         f,
-                        inferOneofFieldTypeName(
-                            ctx,
-                            f,
-                            oneofFieldTypeName
-                        ),
-                        ctx
-                    )
+                        oneofFieldTypeName
+                    ),
+                    ctx
                 )
             ),
             documentation = annotateFieldDocumentation(f, ctx),
@@ -83,13 +83,23 @@ private constructor(
                 }
         )
 
-    private fun qualifyWrapperType(unqualifiedType: PClass, fieldType: PClass) =
-        // If a wrapper type is specified and it shares a name with the oneof,
-        // it must be fully qualified.
-        if (unqualifiedType.simpleName == fieldType.simpleName) {
-            fieldType.possiblyQualify(ctx.pkg).renderName
+    private fun qualifyWrapperType(
+        f: StandardField,
+        unqualifiedType: PClass,
+        fieldType: String
+    ) =
+        if (f.wrapped) {
+            PClass.fromName(fieldType).let {
+                // If a wrapper type is specified and it shares a name with the
+                // oneof, it must be fully qualified.
+                if (unqualifiedType.simpleName == it.simpleName) {
+                    it.possiblyQualify(ctx.pkg).qualifiedName
+                } else {
+                    fieldType
+                }
+            }
         } else {
-            fieldType.unqualify(ctx.pkg)
+            fieldType
         }
 
     private fun inferOneofFieldTypeName(
@@ -103,13 +113,13 @@ private constructor(
         val requiresQualifiedTypeName = !pClass.isInPackage(ctx.pkg)
 
         return if (requiresQualifiedTypeName) {
-            pClass.renderName
+            pClass.renderName(ctx.pkg)
         } else {
             if (oneofFieldTypeName == pClass.nestedName) {
                 // Oneof field name shares name of its type
                 if (oneofFieldTypeName == pClass.simpleName) {
-                    // Oneof field is the same as its enclosing type
-                    pClass.renderName
+                    // Oneof field name shares name of its enclosing type
+                    pClass.qualifiedName
                 } else {
                     pClass.simpleName
                 }

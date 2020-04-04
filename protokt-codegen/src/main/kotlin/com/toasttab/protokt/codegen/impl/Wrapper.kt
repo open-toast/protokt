@@ -18,6 +18,7 @@ package com.toasttab.protokt.codegen.impl
 import arrow.core.None
 import arrow.core.Some
 import arrow.syntax.function.memoize
+import com.toasttab.protokt.codegen.PluginContext
 import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.impl.ClassLookup.converters
 import com.toasttab.protokt.codegen.impl.ClassLookup.getClass
@@ -26,14 +27,11 @@ import com.toasttab.protokt.codegen.impl.WellKnownTypes.wrapWithWellKnownInterce
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.model.possiblyQualify
-import com.toasttab.protokt.ext.Converter
 import com.toasttab.protokt.ext.OptimizedSizeofConverter
 import com.toasttab.protokt.rt.PType
 import kotlin.reflect.KClass
 
 internal object Wrapper {
-    val converterPkg = PPackage.fromString(Converter::class.java.`package`.name)
-
     val StandardField.wrapped
         get() = wrapWithWellKnownInterception.isDefined()
 
@@ -42,11 +40,19 @@ internal object Wrapper {
         ifEmpty: () -> R,
         ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
     ) =
+        foldWrap(ctx.pkg, ctx.desc.context, ifEmpty, ifSome)
+
+    fun <R> StandardField.foldWrap(
+        pkg: PPackage,
+        ctx: PluginContext,
+        ifEmpty: () -> R,
+        ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
+    ) =
         wrapWithWellKnownInterception
             .map {
                 getClass(
-                    PClass.fromName(it).possiblyQualify(ctx.pkg),
-                    ctx.desc.context
+                    PClass.fromName(it).possiblyQualify(pkg),
+                    ctx
                 )
             }
             .fold(
@@ -63,7 +69,7 @@ internal object Wrapper {
                                     )
                                 ).kotlin
                             },
-                            { getClass(typePClass(ctx), ctx.desc.context) }
+                            { getClass(typePClass(ctx), ctx) }
                         )
                     )
                 }
@@ -112,7 +118,7 @@ internal object Wrapper {
                             ScopedValueSt(
                                 unqualifiedWrap(
                                     converterClass(wrapper, wrapped, ctx),
-                                    ctx
+                                    ctx.pkg
                                 ),
                                 SizeofOptionRF.render(ArgVar to s)
                             )
@@ -144,23 +150,20 @@ internal object Wrapper {
             }
         )
 
-    private fun unqualifiedWrap(wrap: KClass<*>, ctx: Context) =
-        PClass.fromClass(wrap).run {
-            if (isInPackage(ctx.pkg)) {
-                nestedName
-            } else {
-                unqualify(converterPkg)
-            }
-        }
+    private fun unqualifiedWrap(wrap: KClass<*>, pkg: PPackage) =
+        PClass.fromClass(wrap).renderName(pkg)
 
     private fun converterClass(wrapper: KClass<*>, wrapped: KClass<*>, ctx: Context) =
         converter(wrapper, wrapped, ctx)::class
 
-    private val converter = { wrapper: KClass<*>, wrapped: KClass<*>, ctx: Context ->
-        converters(ctx.desc.context.classpath).find {
+    private fun converter(wrapper: KClass<*>, wrapped: KClass<*>, ctx: Context) =
+        converter(wrapper, wrapped, ctx.desc.context)
+
+    val converter = { wrapper: KClass<*>, wrapped: KClass<*>, ctx: PluginContext ->
+        converters(ctx.classpath).find {
             it.wrapper == wrapper && it.wrapped == wrapped
         } ?: throw Exception(
-            "${ctx.desc.name}: No converter found for wrapper type " +
+            "${ctx.fileName}: No converter found for wrapper type " +
                 "${wrapper.qualifiedName} from type ${wrapped.qualifiedName}"
         )
     }.memoize()
@@ -189,8 +192,7 @@ internal object Wrapper {
             { wrapper, wrapped ->
                 Some(
                     unqualifiedWrap(
-                        converterClass(wrapper, wrapped, ctx),
-                        ctx
+                        converterClass(wrapper, wrapped, ctx), ctx.pkg
                     )
                 )
             }
@@ -219,7 +221,7 @@ internal object Wrapper {
                 f.foldWrap(
                     ctx,
                     { t },
-                    { wrapper, _ -> unqualifiedWrap(wrapper, ctx) }
+                    { wrapper, _ -> unqualifiedWrap(wrapper, ctx.pkg) }
                 )
             },
             { BytesSliceRF.render() }

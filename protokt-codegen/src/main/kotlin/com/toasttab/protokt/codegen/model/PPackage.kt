@@ -15,6 +15,8 @@
 
 package com.toasttab.protokt.codegen.model
 
+import com.toasttab.protokt.codegen.impl.STAnnotator.protoktFqcn
+
 class PPackage
 private constructor(
     private val components: List<String>
@@ -38,6 +40,8 @@ private constructor(
 
     companion object {
         val DEFAULT = PPackage(emptyList())
+        val KOTLIN = fromString("kotlin")
+        val PROTOKT = fromString(protoktFqcn)
 
         fun fromString(`package`: String) =
             if (`package`.isEmpty()) {
@@ -57,11 +61,15 @@ private constructor(
             return if (classNameStartIdx == 0) {
                 DEFAULT
             } else {
-                PPackage(
-                    name
-                        .substring(0..(classNameStartIdx - 2))
-                        .split('.')
-                )
+                try {
+                    PPackage(
+                        name
+                            .substring(0..(classNameStartIdx - 2))
+                            .split('.')
+                    )
+                } catch (ex: Exception) {
+                    throw Exception("Invalid name: $name", ex)
+                }
             }
         }
     }
