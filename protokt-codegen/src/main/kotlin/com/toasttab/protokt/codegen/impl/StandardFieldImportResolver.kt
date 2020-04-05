@@ -59,12 +59,12 @@ class StandardFieldImportResolver(
 
     private fun listImports() =
         if (f.repeated) {
-            immutableSetOf<Import>(
+            immutableSetOf(
                 rtMethod("copyList"),
                 rtMethod("finishList")
             ) +
                 if (f.packed) {
-                    immutableSetOf<Import>(pclass(UInt32::class))
+                    immutableSetOf(pclass(UInt32::class))
                 } else {
                     immutableSetOf()
                 }

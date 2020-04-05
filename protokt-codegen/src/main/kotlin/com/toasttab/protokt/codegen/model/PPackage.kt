@@ -15,7 +15,8 @@
 
 package com.toasttab.protokt.codegen.model
 
-import com.toasttab.protokt.codegen.impl.STAnnotator.protoktFqcn
+import com.toasttab.protokt.codegen.impl.STAnnotator.protoktPkg
+import com.toasttab.protokt.codegen.impl.STAnnotator.protoktRtPkg
 
 class PPackage
 private constructor(
@@ -41,7 +42,8 @@ private constructor(
     companion object {
         val DEFAULT = PPackage(emptyList())
         val KOTLIN = fromString("kotlin")
-        val PROTOKT = fromString(protoktFqcn)
+        val PROTOKT = fromString(protoktPkg)
+        val PROTOKT_RT = fromString(protoktRtPkg)
 
         fun fromString(`package`: String) =
             if (`package`.isEmpty()) {

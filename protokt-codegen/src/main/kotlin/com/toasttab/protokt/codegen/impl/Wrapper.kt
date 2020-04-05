@@ -143,8 +143,9 @@ internal object Wrapper {
             { wrapper, wrapped ->
                 AccessFieldRF.render(
                     WrapNameVar to
-                        PClass.fromClass(converter(wrapper, wrapped, ctx)::class)
-                            .unqualify(ctx.pkg),
+                        PClass.fromClass(
+                            converter(wrapper, wrapped, ctx)::class
+                        ).renderName(ctx.pkg),
                     ArgVar to s
                 )
             }

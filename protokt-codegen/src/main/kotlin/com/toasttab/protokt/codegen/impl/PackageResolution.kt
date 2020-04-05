@@ -24,7 +24,7 @@ import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest
 import com.toasttab.protokt.codegen.FileOptions
 import com.toasttab.protokt.codegen.fileOptions
-import com.toasttab.protokt.codegen.impl.STAnnotator.protoktFqcn
+import com.toasttab.protokt.codegen.impl.STAnnotator.protoktPkg
 import com.toasttab.protokt.codegen.impl.STAnnotator.rootGoogleProto
 import com.toasttab.protokt.codegen.model.PPackage
 
@@ -127,7 +127,7 @@ private fun overrideComGoogleProtobuf(type: String) =
 
 internal fun overrideGoogleProtobuf(type: String, prefix: String) =
     if (type.startsWith(prefix)) {
-        protoktFqcn + type.removePrefix(prefix)
+        protoktPkg + type.removePrefix(prefix)
     } else {
         type
     }

@@ -47,16 +47,6 @@ data class PClass(
             qualifiedName
         }
 
-    fun isInPackage(ppackage: PPackage) =
-        this.ppackage == ppackage
-
-    fun unqualify(pkg: PPackage) =
-        if (isInPackage(pkg)) {
-            nestedName
-        } else {
-            renderName(pkg)
-        }
-
     fun qualify(pkg: PPackage): PClass {
         check(ppackage.default) {
             "cannot qualify non-default package class: $this, $pkg"

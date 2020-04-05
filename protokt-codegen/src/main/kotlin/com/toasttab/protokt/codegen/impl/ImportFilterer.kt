@@ -18,42 +18,35 @@ package com.toasttab.protokt.codegen.impl
 import com.toasttab.protokt.codegen.model.PPackage
 
 object ImportFilterer {
+    private val internalPackages = setOf(PPackage.PROTOKT, PPackage.PROTOKT_RT)
+
     fun filterDuplicateSimpleNames(imports: Sequence<Import>): Set<Import> {
-        val classImports =
-            imports.filterIsInstance<Import.Class>().map { it.pClass }.toSet()
+        val classImports = imports.filterIsInstance<Import.Class>().toSet()
+        val nonDuplicateImports = mutableSetOf<Import.Class>()
 
-        val nonDuplicateImports = mutableSetOf<Import>()
+        classImports.forEach { import ->
+            val withSameName = withSameName(import, nonDuplicateImports)
 
-        imports.forEach { import ->
-            if (import is Import.Class) {
-                val withSameName =
-                    classImports.filter {
-                        it.simpleName == import.pClass.simpleName &&
-                            it != import.pClass
-                    }
-
-                if (withSameName.isEmpty()) {
-                    nonDuplicateImports.add(import)
-                } else if (
-                    withSameName.size == 1 &&
-                    withSameName.single().ppackage == PPackage.PROTOKT
-                ) {
-                    nonDuplicateImports.add(import)
-                    nonDuplicateImports.remove(Import.Class(withSameName.single()))
-                } else {
-                    if (nonDuplicateImports.none {
-                            it is Import.Class &&
-                                it.pClass.simpleName == import.pClass.simpleName
-                        }
-                    ) {
-                        nonDuplicateImports.add(import)
-                    }
-                }
-            } else {
+            if (withSameName.isEmpty()) {
                 nonDuplicateImports.add(import)
+            } else {
+                val duplicate = withSameName.single()
+                if (duplicate.pkg in internalPackages) {
+                    nonDuplicateImports.add(import)
+                    nonDuplicateImports.remove(duplicate)
+                }
             }
         }
 
-        return nonDuplicateImports
+        return nonDuplicateImports + imports.filterIsInstance<Import.Method>()
     }
+
+    private fun withSameName(
+        import: Import.Class,
+        imports: Set<Import.Class>
+    ) =
+        imports.filter {
+            it.pClass.simpleName == import.pClass.simpleName &&
+                it.pClass != import.pClass
+        }
 }

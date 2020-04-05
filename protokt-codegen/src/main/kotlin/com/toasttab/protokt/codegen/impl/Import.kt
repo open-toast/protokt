@@ -48,7 +48,7 @@ fun method(pkg: String, name: String): Import =
     Import.Method(PPackage.fromString(pkg), name)
 
 fun rtMethod(name: String): Import =
-    method("com.toasttab.protokt.rt", name)
+    Import.Method(PPackage.PROTOKT_RT, name)
 
 fun pclass(kclass: KClass<*>): Import =
     Import.Class(PClass.fromClass(kclass))

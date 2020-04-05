@@ -34,4 +34,19 @@ class ImportFiltererTest {
                 Import.Class(PClass.fromName("java.time.Duration"))
             )
     }
+
+    @Test
+    fun `triple import resolved`() {
+        val imports =
+            sequenceOf(
+                Import.Class(PClass.fromName("java.time.Duration")),
+                Import.Class(PClass.fromName("com.toasttab.protokt.Duration")),
+                Import.Class(PClass.fromName("com.toasttab.model.Duration"))
+            )
+
+        assertThat(filterDuplicateSimpleNames(imports))
+            .containsExactly(
+                Import.Class(PClass.fromName("java.time.Duration"))
+            )
+    }
 }

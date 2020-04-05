@@ -110,7 +110,7 @@ private constructor(
         val pClass = f.typePClass(ctx)
 
         // Cannot strip qualifiers for field type in a different package
-        val requiresQualifiedTypeName = !pClass.isInPackage(ctx.pkg)
+        val requiresQualifiedTypeName = pClass.ppackage != ctx.pkg
 
         return if (requiresQualifiedTypeName) {
             pClass.renderName(ctx.pkg)

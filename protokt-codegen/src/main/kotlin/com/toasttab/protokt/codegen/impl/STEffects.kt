@@ -27,15 +27,7 @@ import com.toasttab.protokt.codegen.algebra.Effects
 
 internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
     override fun invoke(astList: List<AST<TypeDesc>>, acc: (String) -> Unit) {
-        val imports =
-            astList.firstOrNone()
-                .fold(
-                    { emptySet<Import>() },
-                    {
-                        ImportResolver(it.data.desc.context, kotlinPackage(it))
-                            .resolveImports(astList)
-                    }
-                )
+        val imports = collectPossibleImports(astList)
 
         val header = StringBuilder()
         HeaderAccumulator.write(astList, imports) { header.append(it + "\n") }
@@ -43,15 +35,27 @@ internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
         val body = StringBuilder()
         astList.forEach { effect(it) { s -> body.append(s + "\n") } }
 
-        var renderedBody = body.toString()
-
-        imports.forEach {
-            renderedBody = renderedBody.replace(it.qualifiedName, it.nestedName)
-        }
-
         acc(header.toString())
-        acc(renderedBody)
+        acc(replaceImports(body.toString(), imports))
     }
+
+    private fun collectPossibleImports(astList: List<AST<TypeDesc>>): Set<Import> =
+        astList.firstOrNone()
+            .fold(
+                { emptySet() },
+                {
+                    ImportResolver(it.data.desc.context, kotlinPackage(it))
+                        .resolveImports(astList)
+                }
+            )
+
+    private fun replaceImports(code: String, imports: Set<Import>) =
+        imports.fold(code) { body, import ->
+            body.replace(
+                "${import.qualifiedName}([^a-zA-Z])".toRegex(),
+                "${import.nestedName}$1"
+            )
+        }
 
     private fun effect(ast: AST<TypeDesc>, acc: Accumulator<String>) {
         ast.data.type.template.map { template ->
