@@ -23,7 +23,8 @@ const val MANIFEST_VERSION_PROPERTY = "Implementation-Version"
 open class ProtoktExtension {
     var protocVersion = DEFAULT_PROTOBUF_VERSION
     var toolsVersion: String? = null
-    var publishProto: Boolean = false
+    var publishProto = false
+    var respectJavaPackage = true
 
     val version by lazy {
         toolsVersion

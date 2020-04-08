@@ -21,6 +21,9 @@ import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.project
 import org.gradle.kotlin.dsl.withType
 
+val Project.buildSrcClasses
+    get() = "${rootProject.projectDir}/buildSrc/build/classes/kotlin/main"
+
 fun Project.localProtokt() {
     configureProtokt(this) {
         if (name !in setOf("protokt-wkt", "protokt-core")) {

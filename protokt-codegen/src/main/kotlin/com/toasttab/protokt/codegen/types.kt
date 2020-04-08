@@ -24,6 +24,7 @@ import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.google.protobuf.DescriptorProtos.MethodDescriptorProto
 import com.google.protobuf.DescriptorProtos.ServiceDescriptorProto
 import com.google.protobuf.DescriptorProtos.UninterpretedOption
+import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.ext.Protokt
 import com.toasttab.protokt.rt.PType
 
@@ -171,7 +172,8 @@ data class OneofOptions(
 
 data class ProtocolContext(
     val fdp: FileDescriptorProto,
-    val params: Map<String, String>
+    val params: Map<String, String>,
+    val allPackagesByTypeName: Map<String, PPackage>
 )
 
 fun ProtocolContext.findLocal(
@@ -199,21 +201,26 @@ fun ProtocolContext.findLocal(
 
 data class FileDesc(
     val name: String,
-    val packageName: Option<String>,
-    val rtPackage: Option<String>,
+    val packageName: String,
     val version: Int,
-    val options: Protokt.ProtoktFileOptions,
-    val params: PluginParams,
+    val options: FileOptions,
+    val context: PluginContext,
     val sourceCodeInfo: DescriptorProtos.SourceCodeInfo
 )
 
-data class PluginParams(
-    private val params: Map<String, String>
+data class PluginContext(
+    val classpath: List<String>,
+    val respectJavaPackage: Boolean,
+    private val allPackagesByTypeName: Map<String, PPackage>
 ) {
-    val classpath =
-        params.getOrDefault("kotlin_extra_classpath", "")
-            .split(";")
+    fun ppackage(typeName: String) =
+        allPackagesByTypeName.getValue(typeName)
 }
+
+class FileOptions(
+    val default: DescriptorProtos.FileOptions,
+    val protokt: Protokt.ProtoktFileOptions
+)
 
 data class Protocol(
     val desc: FileDesc,

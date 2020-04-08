@@ -19,13 +19,14 @@ import arrow.core.extensions.list.foldable.firstOption
 import arrow.syntax.collections.flatten
 import com.toasttab.protokt.codegen.MessageType
 import com.toasttab.protokt.codegen.OneOf
-import com.toasttab.protokt.codegen.PluginParams
+import com.toasttab.protokt.codegen.PluginContext
 import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.Type
 import com.toasttab.protokt.codegen.TypeDesc
 import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.impl.ClassLookup.converters
 import com.toasttab.protokt.codegen.impl.STAnnotator.protoktExtFqcn
+import com.toasttab.protokt.codegen.impl.STAnnotator.protoktFqcn
 import com.toasttab.protokt.codegen.impl.Wrapper.converterPkg
 import com.toasttab.protokt.codegen.model.PPackage
 
@@ -36,11 +37,12 @@ internal object HeaderAccumulator {
                 HeaderSt.render(
                     listOf(
                         kotlinPackage(f).toString().emptyToNone()
-                            .map { PackageHeaderVar to it },
-                        f.data.desc.rtPackage
-                            .map { RuntimePackageHeaderVar to it }
+                            .map { PackageHeaderVar to it }
                     ).flatten() +
-                        extImport(astList, f.data.desc.params)
+                        listOf(
+                            extImport(astList, f.data.desc.context),
+                            RuntimePackageHeaderVar to protoktFqcn
+                        )
                 )
             )
         }
@@ -48,17 +50,14 @@ internal object HeaderAccumulator {
 
     private fun extImport(
         astList: List<AST<TypeDesc>>,
-        params: PluginParams
-    ): List<Pair<HeaderVar, Any>> {
-        return if (needsExtPackage(astList, params) && !inExtPackage(astList)) {
-            listOf(
-                ExtPackageHeaderVar to converterPkg,
-                ExtHeaderVar to true
-            )
-        } else {
-            listOf()
-        }
-    }
+        ctx: PluginContext
+    ): Pair<HeaderVar, Any?> =
+        ExtPackageHeaderVar to
+            if (needsExtPackage(astList, ctx) && !inExtPackage(astList)) {
+                converterPkg
+            } else {
+                null
+            }
 
     private fun inExtPackage(astList: List<AST<TypeDesc>>) =
         astList.isNotEmpty() &&
@@ -66,17 +65,17 @@ internal object HeaderAccumulator {
 
     private fun needsExtPackage(
         astList: List<AST<TypeDesc>>,
-        params: PluginParams
+        ctx: PluginContext
     ) =
-        usesWellKnownWrappers(astList, params) || usesWellKnownValues(astList)
+        usesWellKnownWrappers(astList, ctx) || usesWellKnownValues(astList, ctx)
 
     private fun usesWellKnownWrappers(
         astList: List<AST<TypeDesc>>,
-        params: PluginParams
+        ctx: PluginContext
     ) =
-        wrappers(astList).intersect(wellKnownWrappers(params)).isNotEmpty()
+        wrappers(astList).intersect(wellKnownWrappers(ctx)).isNotEmpty()
 
-    private fun wellKnownWrappers(params: PluginParams) =
+    private fun wellKnownWrappers(params: PluginContext) =
         converters(params.classpath)
             .filter { it::class.java.`package`.name == converterPkg.toString() }
             .map { it.wrapper.qualifiedName!! }
@@ -87,13 +86,17 @@ internal object HeaderAccumulator {
             .toSet()
 
     private fun usesWellKnownValues(
-        astList: List<AST<TypeDesc>>
+        astList: List<AST<TypeDesc>>,
+        ctx: PluginContext
     ): Boolean =
-        fieldPackageNames(astList)
+        fieldPackageNames(astList, ctx)
             .any { !it.default && it == PPackage.fromString(protoktExtFqcn) }
 
-    private fun fieldPackageNames(astList: List<AST<TypeDesc>>) =
-        applyToAstList(astList) { it.typePClass().ppackage }
+    private fun fieldPackageNames(
+        astList: List<AST<TypeDesc>>,
+        ctx: PluginContext
+    ) =
+        applyToAstList(astList) { it.typePClass(ctx).ppackage }
 
     private fun <T> applyToAstList(
         astList: List<AST<TypeDesc>>,

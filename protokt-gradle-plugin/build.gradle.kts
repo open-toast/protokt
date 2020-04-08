@@ -18,8 +18,6 @@ plugins {
     id("com.gradle.plugin-publish") version "0.10.1"
 }
 
-val buildSrcClasses = "${rootProject.projectDir}/buildSrc/build/classes/kotlin/main"
-
 tasks.named<Jar>("jar") {
     from(buildSrcClasses) {
         include("com/toasttab/**")

@@ -57,7 +57,6 @@ object MethodSt : TemplateSt<MethodVar>(
 object PackageHeaderVar : HeaderVar("package")
 object RuntimePackageHeaderVar : HeaderVar("runtimePackage")
 object ExtPackageHeaderVar : HeaderVar("extPackage")
-object ExtHeaderVar : HeaderVar("ext")
 
 object HeaderSt : TemplateSt<HeaderVar>(
     Header,
@@ -65,8 +64,7 @@ object HeaderSt : TemplateSt<HeaderVar>(
     setOf(
         PackageHeaderVar,
         RuntimePackageHeaderVar,
-        ExtPackageHeaderVar,
-        ExtHeaderVar
+        ExtPackageHeaderVar
     )
 )
 

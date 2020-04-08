@@ -18,7 +18,7 @@ package com.toasttab.protokt.codegen.impl
 import arrow.core.Either
 import arrow.core.getOrHandle
 import arrow.syntax.function.memoize
-import com.toasttab.protokt.codegen.PluginParams
+import com.toasttab.protokt.codegen.PluginContext
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.ext.Converter
 import java.io.File
@@ -26,10 +26,10 @@ import java.net.URLClassLoader
 
 internal object ClassLookup {
     val getClass =
-        { pClass: PClass, params: PluginParams ->
+        { pClass: PClass, ctx: PluginContext ->
             fun loadClass(pClass: PClass) =
                 Either.catchingAll {
-                    getClassLoader(params.classpath)
+                    getClassLoader(ctx.classpath)
                         .loadClass(pClass.qualifiedName)
                         .kotlin
                 }

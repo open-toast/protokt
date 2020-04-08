@@ -46,7 +46,7 @@ internal object Wrapper {
             .map {
                 getClass(
                     PClass.fromName(it).possiblyQualify(ctx.pkg),
-                    ctx.desc.params
+                    ctx.desc.context
                 )
             }
             .fold(
@@ -63,7 +63,7 @@ internal object Wrapper {
                                     )
                                 ).kotlin
                             },
-                            { getClass(typePClass(), ctx.desc.params) }
+                            { getClass(typePClass(ctx), ctx.desc.context) }
                         )
                     )
                 }
@@ -157,7 +157,7 @@ internal object Wrapper {
         converter(wrapper, wrapped, ctx)::class
 
     private val converter = { wrapper: KClass<*>, wrapped: KClass<*>, ctx: Context ->
-        converters(ctx.desc.params.classpath).find {
+        converters(ctx.desc.context.classpath).find {
             it.wrapper == wrapper && it.wrapped == wrapped
         } ?: throw Exception(
             "${ctx.desc.name}: No converter found for wrapper type " +
