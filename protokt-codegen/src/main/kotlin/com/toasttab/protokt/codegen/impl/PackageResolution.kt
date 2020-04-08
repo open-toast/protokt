@@ -88,7 +88,6 @@ private fun EnumDescriptorProto.nestedFullyQualifiedName(
 ) =
     "${fdp.fullQualification}.$enclosingName${dp.name}.$name"
 
-
 private val FileDescriptorProto.fullQualification
     get() = `package`.emptyOrPrecedeWithDot()
 
