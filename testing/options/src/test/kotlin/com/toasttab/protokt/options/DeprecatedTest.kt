@@ -58,6 +58,15 @@ class DeprecatedTest {
     }
 
     @Test
+    fun `deprecated message DSL field`() {
+        assertFieldDeprecation(
+            com.toasttab.model.DeprecatedModel.DeprecatedModelDsl::class,
+            "id",
+            "mildly deprecated"
+        )
+    }
+
+    @Test
     fun `deprecated oneof field`() {
         assertClassDeprecation(
             com.toasttab.model.DeprecatedModel.DeprecatedOneof.Option::class,

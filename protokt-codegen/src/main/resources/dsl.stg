@@ -24,7 +24,7 @@ fun copy(dsl: <message.name>Dsl.() -> Unit) =
     }
 
 class <message.name>Dsl {
-    <params:{p | var <dslVar(p)>}; separator="\n">
+    <params:{p | <deprecated(p)>var <dslVar(p)>}; separator="\n">
     var unknown: Map\<Int, Unknown> = emptyMap()
         set(newValue) { field = copyMap(newValue) }
 
