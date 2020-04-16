@@ -52,7 +52,8 @@ internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
     private fun replaceImports(code: String, imports: Set<Import>) =
         imports.fold(code) { body, import ->
             body.replace(
-                "${import.qualifiedName}([^a-zA-Z])".toRegex(),
+                // qualified name followed by a non-identifier character
+                "${Regex.escape(import.qualifiedName)}([^a-zA-Z])".toRegex(),
                 "${import.nestedName}$1"
             )
         }

@@ -24,27 +24,7 @@ import com.toasttab.protokt.codegen.impl.Wrapper.foldWrap
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.rt.Bytes
 import com.toasttab.protokt.rt.BytesSlice
-import com.toasttab.protokt.rt.Fixed32
-import com.toasttab.protokt.rt.Fixed64
-import com.toasttab.protokt.rt.Int32
-import com.toasttab.protokt.rt.Int64
-import com.toasttab.protokt.rt.PType.FIXED32
-import com.toasttab.protokt.rt.PType.FIXED64
-import com.toasttab.protokt.rt.PType.INT32
-import com.toasttab.protokt.rt.PType.INT64
-import com.toasttab.protokt.rt.PType.SFIXED32
-import com.toasttab.protokt.rt.PType.SFIXED64
-import com.toasttab.protokt.rt.PType.SINT32
-import com.toasttab.protokt.rt.PType.SINT64
-import com.toasttab.protokt.rt.PType.UINT32
-import com.toasttab.protokt.rt.PType.UINT64
-import com.toasttab.protokt.rt.SFixed32
-import com.toasttab.protokt.rt.SFixed64
-import com.toasttab.protokt.rt.SInt32
-import com.toasttab.protokt.rt.SInt64
 import com.toasttab.protokt.rt.UInt32
-import com.toasttab.protokt.rt.UInt64
-import kotlin.reflect.KClass
 
 class StandardFieldImportResolver(
     private val f: StandardField,
@@ -83,21 +63,9 @@ class StandardFieldImportResolver(
         }
 
     private fun ptypeImports() =
-        listOfNotNull(
-            when (f.type) {
-                FIXED32 -> Fixed32::class
-                FIXED64 -> Fixed64::class
-                INT32 -> Int32::class
-                INT64 -> Int64::class
-                SFIXED32 -> SFixed32::class
-                SFIXED64 -> SFixed64::class
-                SINT32 -> SInt32::class
-                SINT64 -> SInt64::class
-                UINT32 -> UInt32::class
-                UINT64 -> UInt64::class
-                else -> null
-            }?.let { pclass(it) }
-        )
+        f.type.kotlinRepresentation?.let {
+            listOf(pclass(it))
+        } ?: emptyList()
 
     private fun wrapperTypeImports(): Set<Import> {
         val set = mutableSetOf<Import>()
@@ -116,17 +84,14 @@ class StandardFieldImportResolver(
                 if (wrapped == ByteArray::class) {
                     set.add(pclass(Bytes::class))
                 }
-                addIfNotInPackage(set, wrapper)
-                addIfNotInPackage(set, converter(wrapper, wrapped, ctx)::class)
+                listOf(wrapper, converter(wrapper, wrapped, ctx)::class).forEach {
+                    if (PPackage.fromClassName(it.java.name) != pkg) {
+                        set.add(pclass(it))
+                    }
+                }
             }
         )
 
         return set
-    }
-
-    private fun addIfNotInPackage(set: MutableSet<Import>, kclass: KClass<*>) {
-        if (PPackage.fromClassName(kclass.java.name) != pkg) {
-            set.add(pclass(kclass))
-        }
     }
 }

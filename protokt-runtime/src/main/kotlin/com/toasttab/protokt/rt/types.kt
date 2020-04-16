@@ -15,6 +15,8 @@
 
 package com.toasttab.protokt.rt
 
+import kotlin.reflect.KClass
+
 /*
  * Inline classes are experimental
  * see:
@@ -105,24 +107,24 @@ class BytesSlice(
     }
 }
 
-enum class PType {
+enum class PType(val kotlinRepresentation: KClass<*>? = null) {
     BOOL,
     BYTES,
     DOUBLE,
     ENUM,
-    FIXED32,
-    FIXED64,
+    FIXED32(Fixed32::class),
+    FIXED64(Fixed64::class),
     FLOAT,
-    INT32,
-    INT64,
+    INT32(Int32::class),
+    INT64(Int64::class),
     MESSAGE,
-    SFIXED32,
-    SFIXED64,
-    SINT32,
-    SINT64,
+    SFIXED32(SFixed32::class),
+    SFIXED64(SFixed64::class),
+    SINT32(SInt32::class),
+    SINT64(SInt64::class),
     STRING,
-    UINT32,
-    UINT64;
+    UINT32(UInt32::class),
+    UINT64(UInt64::class);
 
     val packed get() =
         this != BYTES &&

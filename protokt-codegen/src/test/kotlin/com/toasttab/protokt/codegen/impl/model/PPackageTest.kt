@@ -17,6 +17,7 @@ package com.toasttab.protokt.codegen.model
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
 class PPackageTest {
     @Test
@@ -47,5 +48,35 @@ class PPackageTest {
     fun `default package can be parsed from fully qualified class name`() {
         assertThat(PPackage.fromClassName("Baz"))
             .isEqualTo(PPackage.DEFAULT)
+    }
+
+    @Test
+    fun `fromClassName throws on name starting with dot`() {
+        val thrown = assertThrows<IllegalArgumentException> {
+            PPackage.fromClassName(".SomeName")
+        }
+
+        assertThat(thrown).hasMessageThat()
+            .contains("package with separator in one char")
+    }
+
+    @Test
+    fun `fromClassName throws on name with no uppercase`() {
+        val thrown = assertThrows<IllegalArgumentException> {
+            PPackage.fromClassName("somename")
+        }
+
+        assertThat(thrown).hasMessageThat()
+            .contains("No capital letter")
+    }
+
+    @Test
+    fun `fromClassName throws on name without dot before name`() {
+        val thrown = assertThrows<IllegalArgumentException> {
+            PPackage.fromClassName("someName")
+        }
+
+        assertThat(thrown).hasMessageThat()
+            .contains("Char before first capital letter must be")
     }
 }

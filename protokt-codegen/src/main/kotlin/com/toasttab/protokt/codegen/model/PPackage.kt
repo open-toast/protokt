@@ -55,23 +55,38 @@ private constructor(
         fun fromClassName(
             name: String
         ): PPackage {
-            val classNameStartIdx =
-                name.indexOfFirst { it.isUpperCase() }
+            val classNameStartIdx = name.indexOfFirst { it.isUpperCase() }
+            validate(classNameStartIdx, name)
 
             // Sometimes fullyQualifiedTypeName is unqualified.
             // e.g. String, Int, GeneratedCodeInfo.Annotation, etc.
             return if (classNameStartIdx == 0) {
                 DEFAULT
             } else {
-                try {
-                    PPackage(
-                        name
-                            .substring(0..(classNameStartIdx - 2))
-                            .split('.')
-                    )
-                } catch (ex: Exception) {
-                    throw Exception("Invalid name: $name", ex)
-                }
+                PPackage(
+                    name
+                        .substring(0..(classNameStartIdx - 2))
+                        .split('.')
+                )
+            }
+        }
+
+        private fun validate(classNameStartIdx: Int, name: String) {
+            if (classNameStartIdx == -1) {
+                throw IllegalArgumentException("No capital letter found: $name")
+            }
+
+            if (classNameStartIdx == 1) {
+                throw IllegalArgumentException(
+                    "Invalid name; cannot have a package with separator in one " +
+                        "char: $name"
+                )
+            }
+
+            if (classNameStartIdx != 0 && name[classNameStartIdx - 1] != '.') {
+                throw IllegalArgumentException(
+                    "Char before first capital letter must be a package separator"
+                )
             }
         }
     }
