@@ -84,11 +84,8 @@ class StandardFieldImportResolver(
                 if (wrapped == ByteArray::class) {
                     set.add(pclass(Bytes::class))
                 }
-                listOf(wrapper, converter(wrapper, wrapped, ctx)::class).forEach {
-                    if (PPackage.fromClassName(it.java.name) != pkg) {
-                        set.add(pclass(it))
-                    }
-                }
+                set.add(pclass(wrapper))
+                set.add(pclass(converter(wrapper, wrapped, ctx)::class))
             }
         )
 

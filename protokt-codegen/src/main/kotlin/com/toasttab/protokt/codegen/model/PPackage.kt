@@ -30,6 +30,13 @@ private constructor(
 
     val default = components.isEmpty()
 
+    fun qualify(name: String) =
+        if (this == DEFAULT) {
+            name
+        } else {
+            "$this.$name"
+        }
+
     override fun toString() =
         components.joinToString(".")
 

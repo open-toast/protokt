@@ -26,12 +26,7 @@ data class PClass(
     val enclosing: Option<PClass>
 ) {
     val qualifiedName
-        get() =
-            if (ppackage.default) {
-                ""
-            } else {
-                "$ppackage."
-            } + nestedName
+        get() = ppackage.qualify(nestedName)
 
     val nestedName: String
         get() =
@@ -54,7 +49,7 @@ data class PClass(
         return if (pkg.default) {
             this
         } else {
-            fromName("$pkg.$nestedName")
+            fromName(pkg.qualify(nestedName))
         }
     }
 

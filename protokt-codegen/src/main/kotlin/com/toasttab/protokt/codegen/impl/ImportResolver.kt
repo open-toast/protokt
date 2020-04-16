@@ -40,6 +40,7 @@ import com.toasttab.protokt.rt.KtMessageDeserializer
 import com.toasttab.protokt.rt.KtMessageSerializer
 import com.toasttab.protokt.rt.Tag
 import com.toasttab.protokt.rt.Unknown
+import com.toasttab.protokt.rt.processUnknown
 
 class ImportResolver(
     private val ctx: PluginContext,
@@ -58,10 +59,10 @@ class ImportResolver(
             KtGeneratedMessage::class
         ).map { pclass(it) }.toImmutableSet() +
             setOf(
-                "copyMap",
-                "finishMap",
-                "processUnknown"
-            ).map { rtMethod(it) }
+                rtMethod("copyMap"),
+                rtMethod("finishMap"),
+                rtMethod(::processUnknown)
+            )
 
     fun resolveImports(astList: List<AST<TypeDesc>>) =
         filterDuplicateSimpleNames(

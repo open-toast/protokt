@@ -17,6 +17,7 @@ package com.toasttab.protokt.codegen.impl
 
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.PPackage
+import kotlin.reflect.KCallable
 import kotlin.reflect.KClass
 
 sealed class Import {
@@ -37,7 +38,7 @@ sealed class Import {
 
     data class Method(override val pkg: PPackage, val name: String) : Import() {
         override val qualifiedName
-            get() = "$pkg.$name"
+            get() = pkg.qualify(name)
 
         override val nestedName: String
             get() = name
@@ -49,6 +50,9 @@ fun method(pkg: String, name: String): Import =
 
 fun rtMethod(name: String): Import =
     Import.Method(PPackage.PROTOKT_RT, name)
+
+fun rtMethod(callable: KCallable<*>): Import =
+    Import.Method(PPackage.PROTOKT_RT, callable.name)
 
 fun pclass(kclass: KClass<*>): Import =
     Import.Class(PClass.fromClass(kclass))
