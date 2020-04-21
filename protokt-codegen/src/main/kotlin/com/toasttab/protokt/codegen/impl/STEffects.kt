@@ -18,6 +18,7 @@ package com.toasttab.protokt.codegen.impl
 import arrow.core.None
 import arrow.core.Option
 import arrow.core.Some
+import arrow.core.firstOrNone
 import com.toasttab.protokt.codegen.Optics
 import com.toasttab.protokt.codegen.TypeDesc
 import com.toasttab.protokt.codegen.algebra.AST
@@ -26,9 +27,36 @@ import com.toasttab.protokt.codegen.algebra.Effects
 
 internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
     override fun invoke(astList: List<AST<TypeDesc>>, acc: (String) -> Unit) {
-        HeaderAccumulator.writeHeader(astList, acc)
-        astList.forEach { effect(it, acc) }
+        val imports = collectPossibleImports(astList)
+
+        val header = StringBuilder()
+        HeaderAccumulator.write(astList, imports) { header.append(it + "\n") }
+
+        val body = StringBuilder()
+        astList.forEach { effect(it) { s -> body.append(s + "\n") } }
+
+        acc(header.toString())
+        acc(replaceImports(body.toString(), imports))
     }
+
+    private fun collectPossibleImports(astList: List<AST<TypeDesc>>): Set<Import> =
+        astList.firstOrNone()
+            .fold(
+                { emptySet() },
+                {
+                    ImportResolver(it.data.desc.context, kotlinPackage(it))
+                        .resolveImports(astList)
+                }
+            )
+
+    private fun replaceImports(code: String, imports: Set<Import>) =
+        imports.fold(code) { body, import ->
+            body.replace(
+                // qualified name followed by a non-identifier character
+                "${Regex.escape(import.qualifiedName)}([^a-zA-Z])".toRegex(),
+                "${import.nestedName}$1"
+            )
+        }
 
     private fun effect(ast: AST<TypeDesc>, acc: Accumulator<String>) {
         ast.data.type.template.map { template ->

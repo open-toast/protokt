@@ -63,6 +63,7 @@ fun toProtocol(ctx: ProtocolContext) =
                 PluginContext(
                     ctx.params.getOrDefault(KOTLIN_EXTRA_CLASSPATH, "").split(";"),
                     respectJavaPackage(ctx.params),
+                    ctx.fdp.name,
                     ctx.allPackagesByTypeName
                 ),
             sourceCodeInfo = ctx.fdp.sourceCodeInfo

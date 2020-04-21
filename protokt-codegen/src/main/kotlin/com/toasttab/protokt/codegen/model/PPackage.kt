@@ -15,6 +15,9 @@
 
 package com.toasttab.protokt.codegen.model
 
+import com.toasttab.protokt.codegen.impl.STAnnotator.protoktPkg
+import com.toasttab.protokt.codegen.impl.STAnnotator.protoktRtPkg
+
 class PPackage
 private constructor(
     private val components: List<String>
@@ -27,6 +30,13 @@ private constructor(
 
     val default = components.isEmpty()
 
+    fun qualify(name: String) =
+        if (this == DEFAULT) {
+            name
+        } else {
+            "$this.$name"
+        }
+
     override fun toString() =
         components.joinToString(".")
 
@@ -38,6 +48,9 @@ private constructor(
 
     companion object {
         val DEFAULT = PPackage(emptyList())
+        val KOTLIN = fromString("kotlin")
+        val PROTOKT = fromString(protoktPkg)
+        val PROTOKT_RT = fromString(protoktRtPkg)
 
         fun fromString(`package`: String) =
             if (`package`.isEmpty()) {
@@ -49,8 +62,8 @@ private constructor(
         fun fromClassName(
             name: String
         ): PPackage {
-            val classNameStartIdx =
-                name.indexOfFirst { it.isUpperCase() }
+            val classNameStartIdx = name.indexOfFirst { it.isUpperCase() }
+            validate(classNameStartIdx, name)
 
             // Sometimes fullyQualifiedTypeName is unqualified.
             // e.g. String, Int, GeneratedCodeInfo.Annotation, etc.
@@ -61,6 +74,25 @@ private constructor(
                     name
                         .substring(0..(classNameStartIdx - 2))
                         .split('.')
+                )
+            }
+        }
+
+        private fun validate(classNameStartIdx: Int, name: String) {
+            if (classNameStartIdx == -1) {
+                throw IllegalArgumentException("No capital letter found: $name")
+            }
+
+            if (classNameStartIdx == 1) {
+                throw IllegalArgumentException(
+                    "Invalid name; cannot have a package with separator in one " +
+                        "char: $name"
+                )
+            }
+
+            if (classNameStartIdx != 0 && name[classNameStartIdx - 1] != '.') {
+                throw IllegalArgumentException(
+                    "Char before first capital letter must be a package separator"
                 )
             }
         }

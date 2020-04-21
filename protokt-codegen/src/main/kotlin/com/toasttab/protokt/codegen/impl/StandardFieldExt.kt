@@ -63,7 +63,7 @@ internal fun StandardField.box(s: String) =
     )
 
 internal fun StandardField.unqualifiedTypeName(ctx: Context) =
-    typePClass(ctx).unqualify(ctx.pkg)
+    typePClass(ctx).nestedName
 
 internal fun StandardField.unqualifiedNestedTypeName(ctx: Context) =
     ctx.stripRootMessageNamePrefix(unqualifiedTypeName(ctx))

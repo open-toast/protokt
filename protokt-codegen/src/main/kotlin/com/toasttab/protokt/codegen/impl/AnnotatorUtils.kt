@@ -23,9 +23,6 @@ import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.TypeDesc
 import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
-import com.toasttab.protokt.codegen.model.PPackage
-
-val rootPkg = PPackage.fromString("com.toasttab.protokt")
 
 internal fun resolveMapEntry(m: MessageType, ctx: Context) =
     MapTypeParams(

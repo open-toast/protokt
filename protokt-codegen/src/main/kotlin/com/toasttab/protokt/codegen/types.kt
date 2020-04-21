@@ -211,6 +211,7 @@ data class FileDesc(
 data class PluginContext(
     val classpath: List<String>,
     val respectJavaPackage: Boolean,
+    val fileName: String,
     private val allPackagesByTypeName: Map<String, PPackage>
 ) {
     fun ppackage(typeName: String) =

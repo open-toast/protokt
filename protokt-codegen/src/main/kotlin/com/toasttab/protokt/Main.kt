@@ -64,7 +64,7 @@ internal fun main(bytes: ByteArray, out: OutputStream) = IO {
                     exitProcess(-1)
                 }
             )
-            g { s -> code.append(s + "\n") }
+            g { s -> code.append(s) }
 
             Some(
                 PluginProtos.CodeGeneratorResponse.File

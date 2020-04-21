@@ -97,7 +97,7 @@ private constructor(
                 } else {
                     interceptTypeName(
                         f,
-                        f.unqualifiedNestedTypeName(ctx),
+                        f.typePClass(ctx).renderName(ctx.pkg),
                         ctx
                     )
                 }

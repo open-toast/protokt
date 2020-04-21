@@ -55,17 +55,12 @@ object MethodSt : TemplateSt<MethodVar>(
 )
 
 object PackageHeaderVar : HeaderVar("package")
-object RuntimePackageHeaderVar : HeaderVar("runtimePackage")
-object ExtPackageHeaderVar : HeaderVar("extPackage")
+object ImportsHeaderVar : HeaderVar("imports")
 
 object HeaderSt : TemplateSt<HeaderVar>(
     Header,
     "header",
-    setOf(
-        PackageHeaderVar,
-        RuntimePackageHeaderVar,
-        ExtPackageHeaderVar
-    )
+    setOf(PackageHeaderVar, ImportsHeaderVar)
 )
 
 object MessageMessageVar : MessageVar("message")

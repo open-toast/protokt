@@ -42,12 +42,8 @@ object STAnnotator : Annotator<AST<TypeDesc>> {
     const val googleProto = ".google.protobuf"
 
     const val protokt = ".protokt"
-    const val protoktProtobuf = ".protokt.protobuf"
-    const val protoktExt = ".protokt.ext"
-
-    const val protoktRtFqcn = "com.toasttab.protokt.rt"
-    const val protoktExtFqcn = "com.toasttab.protokt.ext"
-    const val protoktFqcn = "com.toasttab.protokt"
+    const val protoktPkg = "com.toasttab.protokt"
+    const val protoktRtPkg = "com.toasttab.protokt.rt"
 
     data class Context(
         val enclosingMessage: List<MessageType>,
