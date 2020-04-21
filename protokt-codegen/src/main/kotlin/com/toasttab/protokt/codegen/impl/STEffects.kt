@@ -36,7 +36,7 @@ internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
         astList.forEach { effect(it) { s -> body.append(s + "\n") } }
 
         acc(header.toString())
-        acc(replaceImports(body.toString(), imports))
+        acc(ImportReplacer.replaceImports(body.toString(), imports))
     }
 
     private fun collectPossibleImports(astList: List<AST<TypeDesc>>): Set<Import> =
@@ -48,15 +48,6 @@ internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
                         .resolveImports(astList)
                 }
             )
-
-    private fun replaceImports(code: String, imports: Set<Import>) =
-        imports.fold(code) { body, import ->
-            body.replace(
-                // qualified name followed by a non-identifier character
-                "${Regex.escape(import.qualifiedName)}([^a-zA-Z])".toRegex(),
-                "${import.nestedName}$1"
-            )
-        }
 
     private fun effect(ast: AST<TypeDesc>, acc: Accumulator<String>) {
         ast.data.type.template.map { template ->

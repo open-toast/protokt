@@ -19,39 +19,28 @@ service(name, qualifiedName, descriptor, methods) ::= <<
 object <name>Grpc {
     const val SERVICE_NAME = "<qualifiedName>"
 
-    val serviceDescriptor: ServiceDescriptor by lazy {
+    val serviceDescriptor: io.grpc.ServiceDescriptor by lazy {
         <descriptor>
     }
 
-    <methods : { m | val <m.lowerName>Method: MethodDescriptor\<<m.in>, <m.out>\> by lazy {
+    <methods : { m | val <m.lowerName>Method: io.grpc.MethodDescriptor\<<m.in>, <m.out>\> by lazy {
     <m.body><\n><\\>
     \}}; separator="\n\n">
-
-    @JvmName("descriptor")
-    @JvmSynthetic
-    fun getServiceDescriptor() =
-        serviceDescriptor
-
-    <methods : { m |<\\>
-    @JvmName("<m.lowerName>")<\n><\\>
-    @JvmSynthetic<\n><\\>
-    fun get<m.name>Method() =<\n><\\>
-        <t()><m.lowerName>Method}; separator="\n\n">
 }
 >>
 
 descriptor(methods) ::= <<
-ServiceDescriptor.newBuilder(SERVICE_NAME)
+io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
     <methods : { m | .addMethod(<m>Method)}; separator="\n">
     .build()
 >>
 
 method(name, type, in, out) ::= <<
-MethodDescriptor.newBuilder\<<in>, <out>\>()
-    .setType(MethodType.<type>)
-    .setFullMethodName(generateFullMethodName(SERVICE_NAME, "<name>"))
-    .setRequestMarshaller(KtMarshaller(<in>))
-    .setResponseMarshaller(KtMarshaller(<out>))
+io.grpc.MethodDescriptor.newBuilder\<<in>, <out>\>()
+    .setType(io.grpc.MethodDescriptor.MethodType.<type>)
+    .setFullMethodName(io.grpc.MethodDescriptor.generateFullMethodName(SERVICE_NAME, "<name>"))
+    .setRequestMarshaller(com.toasttab.protokt.grpc.KtMarshaller(<in>))
+    .setResponseMarshaller(com.toasttab.protokt.grpc.KtMarshaller(<out>))
     .build()
 >>
 

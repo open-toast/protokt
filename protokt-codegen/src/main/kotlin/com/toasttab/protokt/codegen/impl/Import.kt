@@ -22,7 +22,7 @@ import kotlin.reflect.KClass
 
 sealed class Import {
     abstract val qualifiedName: String
-    abstract val nestedName: String
+    abstract val simpleName: String
     abstract val pkg: PPackage
 
     data class Class(val pClass: PClass) : Import() {
@@ -32,27 +32,44 @@ sealed class Import {
         override val pkg: PPackage
             get() = pClass.ppackage
 
-        override val nestedName: String
-            get() = pClass.nestedName
+        override val simpleName: String
+            get() = pClass.simpleName
     }
 
-    data class Method(override val pkg: PPackage, val name: String) : Import() {
+    data class PackageMethod(
+        override val pkg: PPackage,
+        val name: String
+    ) : Import() {
         override val qualifiedName
             get() = pkg.qualify(name)
 
-        override val nestedName: String
+        override val simpleName: String
+            get() = name
+    }
+
+    data class ClassMethod(
+        val enclosingClass: PClass,
+        val name: String
+    ) : Import() {
+        override val pkg: PPackage
+            get() = enclosingClass.ppackage
+
+        override val qualifiedName: String
+            get() = "${enclosingClass.qualifiedName}.$name"
+
+        override val simpleName: String
             get() = name
     }
 }
 
 fun method(pkg: String, name: String): Import =
-    Import.Method(PPackage.fromString(pkg), name)
+    Import.PackageMethod(PPackage.fromString(pkg), name)
 
 fun rtMethod(name: String): Import =
-    Import.Method(PPackage.PROTOKT_RT, name)
+    Import.PackageMethod(PPackage.PROTOKT_RT, name)
 
 fun rtMethod(callable: KCallable<*>): Import =
-    Import.Method(PPackage.PROTOKT_RT, callable.name)
+    Import.PackageMethod(PPackage.PROTOKT_RT, callable.name)
 
 fun pclass(kclass: KClass<*>): Import =
     Import.Class(PClass.fromClass(kclass))

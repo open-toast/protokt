@@ -21,7 +21,6 @@ import com.github.andrewoma.dexx.kollection.toImmutableSet
 import com.toasttab.protokt.codegen.EnumType
 import com.toasttab.protokt.codegen.Field
 import com.toasttab.protokt.codegen.MessageType
-import com.toasttab.protokt.codegen.MethodType
 import com.toasttab.protokt.codegen.OneOf
 import com.toasttab.protokt.codegen.PluginContext
 import com.toasttab.protokt.codegen.ServiceType
@@ -77,8 +76,7 @@ class ImportResolver(
         when (t) {
             is MessageType -> imports(t)
             is EnumType -> enumImports
-            is ServiceType -> immutableSetOf()
-            is MethodType -> immutableSetOf()
+            is ServiceType -> ServiceImportResolver(t, ctx).imports()
         }
 
     private fun imports(m: MessageType): ImmutableSet<Import> =

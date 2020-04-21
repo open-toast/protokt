@@ -98,3 +98,4 @@ internal fun requalifyProtoType(typeName: String, ctx: PluginContext) =
         } else {
             it
         }
+    }

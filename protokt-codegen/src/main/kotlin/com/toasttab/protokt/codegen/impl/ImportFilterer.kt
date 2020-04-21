@@ -38,7 +38,7 @@ object ImportFilterer {
             }
         }
 
-        return nonDuplicateImports + imports.filterIsInstance<Import.Method>()
+        return nonDuplicateImports + imports.filterNot { it is Import.Class }
     }
 
     private fun withSameName(

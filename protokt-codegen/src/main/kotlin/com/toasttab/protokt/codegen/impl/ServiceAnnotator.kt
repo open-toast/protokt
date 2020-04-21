@@ -20,7 +20,6 @@ import com.toasttab.protokt.codegen.ServiceType
 import com.toasttab.protokt.codegen.TypeDesc
 import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
-import com.toasttab.protokt.codegen.model.PClass
 
 internal object ServiceAnnotator {
     fun annotateService(
@@ -83,7 +82,7 @@ internal object ServiceAnnotator {
         }
 
     private fun render(typeName: String, ctx: Context) =
-        PClass.fromName(renderTypeName(typeName)).unqualify(ctx.pkg)
+        requalifyProtoType(typeName, ctx.desc.context).renderName(ctx.pkg)
 
     private fun methodType(m: Method) =
         MethodTypeSt.render(MethodMethodVar to m)
