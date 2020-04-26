@@ -18,6 +18,7 @@ import com.toasttab.protokt.shared.DEFAULT_PROTOBUF_VERSION
 object versions {
     const val arrow = "0.10.4"
     const val autoService = "1.0-rc6"
+    const val grpc = "1.28.0"
     const val jackson = "2.10.2"
     const val kollection = "0.7"
     const val kotlin = "1.3.61"
@@ -49,6 +50,8 @@ object libraries {
 
     const val autoService = "com.google.auto.service:auto-service:${versions.autoService}"
     const val autoServiceAnnotations = "com.google.auto.service:auto-service-annotations:${versions.autoService}"
+
+    const val grpcStub = "io.grpc:grpc-stub:${versions.grpc}"
 
     const val kollection = "com.github.andrewoma.dexx:kollection:${versions.kollection}"
 

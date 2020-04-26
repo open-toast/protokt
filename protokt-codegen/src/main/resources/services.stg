@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2020 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,30 +13,49 @@
  * limitations under the License.
  */
 
-service(name, type, in, out, deprecated, ops, methods, descriptors) ::= <<
+import "renderers.stg"
 
+service(name, qualifiedName, descriptor, methods) ::= <<
 object <name>Grpc {
-    <name>
-    <type>
-    <in>
-    <out>
-    <deprecated>
-    <ops>
-    <methods>
-    <descriptors>
+    const val SERVICE_NAME = "<qualifiedName>"
+
+    val serviceDescriptor: io.grpc.ServiceDescriptor by lazy {
+        <descriptor>
+    }
+
+    <methods : { m | val <m.lowerName>Method: io.grpc.MethodDescriptor\<<m.in>, <m.out>\> by lazy {
+    <m.body><\n><\\>
+    \}}; separator="\n\n">
 }
 >>
 
-methodDesc(name, type, is, os, in, out) ::= <<
-    val METHOD_<name> =
-            io.grpc.MethodDescriptor.newBuilder\<<in>, <out>\>()
-
+descriptor(methods) ::= <<
+io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
+    <methods : { m | .addMethod(<m>Method)}; separator="\n">
+    .build()
 >>
 
-descriptorSupplier(fqcn) ::= <<
-
+method(name, type, in, out) ::= <<
+io.grpc.MethodDescriptor.newBuilder\<<in>, <out>\>()
+    .setType(io.grpc.MethodDescriptor.MethodType.<type>)
+    .setFullMethodName(io.grpc.MethodDescriptor.generateFullMethodName(SERVICE_NAME, "<name>"))
+    .setRequestMarshaller(com.toasttab.protokt.grpc.KtMarshaller(<in>))
+    .setResponseMarshaller(com.toasttab.protokt.grpc.KtMarshaller(<out>))
+    .build()
 >>
 
-method(name, type, in, out, deprecated, ops) ::= <<
-
->>
+methodType(method) ::= <%
+    <if (method.clientStreaming)>
+        <if (method.serverStreaming)>
+            BIDI_STREAMING
+        <else>
+            CLIENT_STREAMING
+        <endif>
+    <else>
+        <if (methond.serverStreaming)> {
+            SERVER_STREAMING
+        <else>
+            UNARY
+        <endif>
+    <endif>
+%>

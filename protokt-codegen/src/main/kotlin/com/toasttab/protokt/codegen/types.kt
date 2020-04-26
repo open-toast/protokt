@@ -17,7 +17,6 @@ package com.toasttab.protokt.codegen
 
 import arrow.core.None
 import arrow.core.Option
-import arrow.core.Some
 import com.google.protobuf.DescriptorProtos
 import com.google.protobuf.DescriptorProtos.DescriptorProto
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
@@ -75,41 +74,40 @@ data class EnumValueOptions(
     val protokt: Protokt.ProtoktEnumValueOptions
 )
 
-@Suppress("UNUSED")
 data class ServiceType(
     override val name: String,
     override val type: String,
-    val methods: List<MethodType>,
+    val methods: List<Method>,
     val deprecated: Boolean,
     val unknownOpts: List<UninterpretedOption>
 ) : Type() {
     constructor(desc: ServiceDescriptorProto) : this(
         desc.name,
         "",
-        desc.methodList?.map { MethodType(it) } ?: emptyList(),
+        desc.methodList?.map { Method(it) } ?: emptyList(),
         desc.options.deprecated,
-        desc.options?.uninterpretedOptionList ?: emptyList())
+        desc.options?.uninterpretedOptionList ?: emptyList()
+    )
 }
 
-data class MethodType(
-    override val name: String,
-    override val type: String,
-    val inputType: Option<String>,
-    val outputType: Option<String>,
-    val inputStreaming: Boolean,
-    val outputStreaming: Boolean,
+data class Method(
+    val name: String,
+    val inputType: String,
+    val outputType: String,
+    val clientStreaming: Boolean,
+    val serverStreaming: Boolean,
     val deprecated: Boolean,
     val unknownOpts: List<UninterpretedOption>
-) : Type() {
+) {
     constructor(desc: MethodDescriptorProto) : this(
         desc.name,
-        "",
-        Some(desc.inputType),
-        Some(desc.outputType),
+        desc.inputType,
+        desc.outputType,
         desc.clientStreaming,
         desc.serverStreaming,
         desc.options.deprecated,
-        desc.options?.uninterpretedOptionList ?: emptyList())
+        desc.options?.uninterpretedOptionList ?: emptyList()
+    )
 }
 
 sealed class Field

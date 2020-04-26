@@ -208,7 +208,7 @@ private fun toService(
     ServiceType(
         name = desc.name,
         type = newTypeName(desc.name, names),
-        methods = desc.methodList.map { MethodType(it) },
+        methods = desc.methodList.map { Method(it) },
         deprecated = desc.options.deprecated,
         unknownOpts = desc.options.uninterpretedOptionList.toList()
     )
@@ -227,8 +227,8 @@ private fun toFields(
             immutableListOf<Field>()
         )
     ) { idx, acc, t ->
-        when {
-            t.type == FieldDescriptorProto.Type.TYPE_GROUP -> acc
+        when (t.type) {
+            FieldDescriptorProto.Type.TYPE_GROUP -> acc
             else -> {
                 val i = if (t.hasOneofIndex()) Some(t.oneofIndex) else None
                 i.fold({

@@ -22,9 +22,8 @@ import org.stringtemplate.v4.STGroupFile
 // TODO: This functionality be factored out into a pure functional library
 // TODO: This imperative style is a TEMPORARY implementation detail
 data class STTemplate(val st: ST) : Template {
-    override fun render(): String {
-        return st.render()
-    }
+    override fun render() =
+        st.render()
 
     companion object {
         private val templates =
@@ -32,10 +31,8 @@ data class STTemplate(val st: ST) : Template {
                 .mapNotNull { it.objectInstance }
                 .associateWith { STGroupFile(it.value) }
 
-        fun <T> toTemplate(tt: TemplateSt<T>): STTemplate {
-            return STTemplate(
-                templates.getValue(tt.group).getInstanceOf(tt.name))
-        }
+        fun <T> toTemplate(tt: TemplateSt<T>) =
+            STTemplate(templates.getValue(tt.group).getInstanceOf(tt.name))
 
         fun <T : Var> addTo(
             st: STTemplate,

@@ -13,15 +13,19 @@
  * limitations under the License.
  */
 
-localProtokt()
-pureKotlin()
-enablePublishing()
+package com.toasttab.protokt.grpc
 
-dependencies {
-    add("protobuf", libraries.protoGoogleCommonProtos)
+import com.toasttab.protokt.rt.KtDeserializer
+import com.toasttab.protokt.rt.KtMessage
+import io.grpc.MethodDescriptor
+import java.io.InputStream
 
-    implementation(project(":protokt-core"))
-    implementation(project(":protokt-runtime-grpc"))
+class KtMarshaller<T : KtMessage>(
+    private val companion: KtDeserializer<T>
+) : MethodDescriptor.Marshaller<T> {
+    override fun stream(value: T) =
+        value.serialize().inputStream()
 
-    implementation(libraries.grpcStub)
+    override fun parse(stream: InputStream) =
+        companion.deserialize(stream)
 }

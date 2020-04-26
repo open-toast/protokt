@@ -34,7 +34,9 @@ dependencies {
     implementation(files(buildSrcClasses))
     implementation(project(":extensions:protokt-extensions-api"))
     implementation(project(":protokt-runtime"))
+    implementation(project(":protokt-runtime-grpc"))
     libraries.arrow.forEach { implementation(it) }
+    implementation(libraries.grpcStub)
     implementation(libraries.kollection)
     implementation(libraries.kotlinReflect)
     implementation(libraries.kotlinxCoroutinesCore)
