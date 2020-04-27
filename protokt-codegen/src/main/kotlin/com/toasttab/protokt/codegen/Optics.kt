@@ -27,9 +27,9 @@ object Optics {
         set = { a, t -> a.copy(rawType = t) }
     )
 
-    val annotatedTypeTemplateLens: Lens<AnnotatedType, Option<Template>> = PLens(
-        get = { i -> i.template },
-        set = { a, t -> a.copy(template = t) }
+    val annotatedTypeRenderableLens: Lens<AnnotatedType, Option<Renderable>> = PLens(
+        get = { i -> i.renderable },
+        set = { a, t -> a.copy(renderable = t) }
     )
 
     val typeDescTypeLens: Lens<TypeDesc, AnnotatedType> = PLens(
@@ -47,12 +47,12 @@ object Optics {
         set = { a, l -> a.copy(children = (a.children + l)) }
     )
 
-    fun annotate(ast: AST<TypeDesc>, t: Option<Template>) =
+    fun annotate(ast: AST<TypeDesc>, t: Option<Renderable>) =
         astLens.set(
             ast,
             typeDescTypeLens.set(
                 ast.data,
-                annotatedTypeTemplateLens.set(ast.data.type, t)
+                annotatedTypeRenderableLens.set(ast.data.type, t)
             )
         )
 }

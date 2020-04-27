@@ -29,16 +29,12 @@ import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapperName
 import com.toasttab.protokt.codegen.snakeToCamel
 import com.toasttab.protokt.codegen.template.Deserialize
-import com.toasttab.protokt.codegen.template.OneOfDeserialize
+import com.toasttab.protokt.codegen.template.Deserialize.Options
+import com.toasttab.protokt.codegen.template.Message.DeserializerInfo
+import com.toasttab.protokt.codegen.template.Message.DeserializerInfo.Assignment
+import com.toasttab.protokt.codegen.template.OneofDeserialize
 import com.toasttab.protokt.codegen.template.ReadFunction
-import com.toasttab.protokt.codegen.template.RenderVariable.Builder
-import com.toasttab.protokt.codegen.template.RenderVariable.Field
-import com.toasttab.protokt.codegen.template.RenderVariable.Lhs
-import com.toasttab.protokt.codegen.template.RenderVariable.Name
-import com.toasttab.protokt.codegen.template.RenderVariable.Oneof
-import com.toasttab.protokt.codegen.template.RenderVariable.Options
-import com.toasttab.protokt.codegen.template.RenderVariable.Read
-import com.toasttab.protokt.codegen.template.RenderVariable.Type
+import com.toasttab.protokt.codegen.template.render
 import com.toasttab.protokt.rt.PType
 
 internal class DeserializerAnnotator
@@ -46,9 +42,9 @@ private constructor(
     private val msg: MessageType,
     private val ctx: Context
 ) {
-    private fun annotateDeserializer(): List<DeserializerParams> =
+    private fun annotateDeserializer(): List<DeserializerInfo> =
         msg.flattenedSortedFields().map { (field, oneOf) ->
-            DeserializerParams(
+            DeserializerInfo(
                 oneOf.isEmpty(),
                 field.repeated,
                 field.tagList.joinToString(),
@@ -75,19 +71,6 @@ private constructor(
             )
         }
 
-    data class DeserializerParams(
-        val std: Boolean,
-        val repeated: Boolean,
-        val tag: String,
-        val assignment: Assignment
-    )
-
-    data class Assignment(
-        val fieldName: String,
-        val value: String,
-        val long: Boolean
-    )
-
     private fun long(field: StandardField, value: String): Boolean {
         val spaceTaken =
             (ctx.enclosingMessage.size * 4) + // outer indentation
@@ -106,28 +89,22 @@ private constructor(
     }
 
     private fun deserializeString(f: StandardField) =
-        Deserialize.render(
-            Field to f,
-            Type to f.unqualifiedNestedTypeName(ctx),
-            Read to interceptReadFn(f, f.readFn()),
-            Lhs to f.fieldName,
-            Options to
+        Deserialize.prepare(
+            field = f,
+            type = f.unqualifiedNestedTypeName(ctx),
+            read = interceptReadFn(f, f.readFn()),
+            lhs = f.fieldName,
+            options =
                 if (f.wrapped) {
-                    DeserializerOptions(
+                    Options(
                         wrapName = wrapperName(f, ctx).getOrElse { "" },
                         type = f.type.toString(),
                         oneof = true
                     )
                 } else {
-                    emptyList<Any>()
+                    null
                 }
-        )
-
-    private data class DeserializerOptions(
-        val wrapName: String,
-        val type: String,
-        val oneof: Boolean
-    )
+        ).render()
 
     private fun MessageType.flattenedSortedFields() =
         fields.flatMap {
@@ -145,22 +122,22 @@ private constructor(
     )
 
     private fun oneOfDes(f: OneOf, ff: StandardField) =
-        OneOfDeserialize.render(
-            Oneof to snakeToCamel(f.name).capitalize(),
-            Name to snakeToCamel(ff.name).capitalize(),
-            Read to deserializeString(ff)
-        )
+        OneofDeserialize.prepare(
+            oneof = snakeToCamel(f.name).capitalize(),
+            name = snakeToCamel(ff.name).capitalize(),
+            read = deserializeString(ff)
+        ).render()
 
     private fun StandardField.readFn() =
-        ReadFunction.render(
-            Type to type,
-            Builder to
+        ReadFunction.prepare(
+            type = type,
+            builder =
                 when (type) {
                     PType.ENUM,
                     PType.MESSAGE -> stripQualification(ctx, this)
                     else -> ""
                 }
-        )
+        ).render()
 
     private fun stripQualification(ctx: Context, f: StandardField) =
         stripEnclosingMessageName(f.typePClass(ctx).renderName(ctx.pkg), ctx)

@@ -24,7 +24,7 @@ import com.toasttab.protokt.codegen.TypeDesc
 import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.algebra.Accumulator
 import com.toasttab.protokt.codegen.algebra.Effects
-import com.toasttab.protokt.codegen.template.MessageVariable.Inner
+import com.toasttab.protokt.codegen.template.TemplateVariable
 
 internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
     override fun invoke(astList: List<AST<TypeDesc>>, acc: (String) -> Unit) {
@@ -51,9 +51,9 @@ internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
             )
 
     private fun effect(ast: AST<TypeDesc>, acc: Accumulator<String>) {
-        ast.data.type.template.map { template ->
+        ast.data.type.renderable.map { template ->
             effect(Optics.annotate(ast, None), None).let {
-                addInner(template as STTemplate, it)
+                addInner(template as StRenderable, it)
                 acc(template.render())
             }
         }
@@ -64,11 +64,11 @@ internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
         parent: Option<AST<TypeDesc>>
     ): List<String> {
         val l = ast.children.flatMap { effect(it, Some(ast)) }
-        var res = ast.data.type.template.fold({ l }, { l + it.render() })
+        var res = ast.data.type.renderable.fold({ l }, { l + it.render() })
         if (l.isEmpty()) {
             parent.map {
-                it.data.type.template.map { t ->
-                    addInner(t as STTemplate, res)
+                it.data.type.renderable.map { t ->
+                    addInner(t as StRenderable, res)
                     res = emptyList()
                 }
             }
@@ -76,9 +76,13 @@ internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
         return res
     }
 
-    private fun addInner(t: STTemplate, strings: List<String>) {
+    private fun addInner(t: StRenderable, strings: List<String>) {
         if (strings.isNotEmpty()) {
-            STTemplate.addTo(t, Inner, strings.joinToString("\n"))
+            StRenderable.addTo(t, Inner, strings.joinToString("\n"))
         }
+    }
+
+    object Inner : TemplateVariable {
+        override val name = "inner"
     }
 }

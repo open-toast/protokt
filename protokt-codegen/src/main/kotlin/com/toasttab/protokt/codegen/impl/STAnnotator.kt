@@ -15,6 +15,7 @@
 
 package com.toasttab.protokt.codegen.impl
 
+import arrow.core.None
 import arrow.core.Some
 import com.github.andrewoma.dexx.kollection.immutableListOf
 import com.toasttab.protokt.codegen.EnumType
@@ -30,9 +31,7 @@ import com.toasttab.protokt.codegen.impl.EnumAnnotator.annotateEnum
 import com.toasttab.protokt.codegen.impl.MessageAnnotator.annotateMessage
 import com.toasttab.protokt.codegen.impl.ServiceAnnotator.annotateService
 import com.toasttab.protokt.codegen.model.PPackage
-import com.toasttab.protokt.codegen.template.EnumTemplate
-import com.toasttab.protokt.codegen.template.MessageTemplate
-import com.toasttab.protokt.codegen.template.ServiceTemplate
+import com.toasttab.protokt.codegen.template.prepare
 
 /**
  * STAnnotator is an implementation of a side effect free function.
@@ -76,45 +75,34 @@ object STAnnotator : Annotator<AST<TypeDesc>> {
         }
 
     private fun addMessage(a: AST<TypeDesc>, msg: MessageType, ctx: Context) =
-        annotate(a, Some(STTemplate.toTemplate(MessageTemplate))).let { ast ->
-            annotateMessage(
-                Optics.astChildrenLens.set(
-                    ast,
-                    msg.nestedTypes.map {
-                        invoke(
-                            Optics.astLens.set(
-                                ast,
-                                Optics.typeDescTypeLens.set(
-                                    ast.data,
-                                    Optics.annotatedTypeTemplateLens.set(
-                                        Optics.annotatedTypeLens.set(
-                                            ast.data.type,
-                                            it
-                                        ),
-                                        Some(STTemplate.toTemplate(MessageTemplate))
-                                    )
+        annotate(
+            Optics.astChildrenLens.set(
+                a,
+                msg.nestedTypes.map {
+                    invoke(
+                        Optics.astLens.set(
+                            a,
+                            Optics.typeDescTypeLens.set(
+                                a.data,
+                                Optics.annotatedTypeRenderableLens.set(
+                                    Optics.annotatedTypeLens.set(
+                                        a.data.type,
+                                        it
+                                    ),
+                                    None
                                 )
-                            ),
-                            ctx
-                        )
-                    }
-                ),
-                msg,
-                ctx
-            )
-        }
+                            )
+                        ),
+                        ctx
+                    )
+                }
+            ),
+            Some(annotateMessage(msg, ctx).prepare())
+        )
 
     private fun addEnum(a: AST<TypeDesc>, e: EnumType, ctx: Context) =
-        annotateEnum(
-            annotate(a, Some(STTemplate.toTemplate(EnumTemplate))),
-            e,
-            ctx
-        )
+        annotate(a, Some(annotateEnum(e, ctx).prepare()))
 
     private fun addService(a: AST<TypeDesc>, s: ServiceType, ctx: Context) =
-        annotateService(
-            annotate(a, Some(STTemplate.toTemplate(ServiceTemplate))),
-            s,
-            ctx
-        )
+        annotate(a, Some(annotateService(s, ctx).prepare()))
 }

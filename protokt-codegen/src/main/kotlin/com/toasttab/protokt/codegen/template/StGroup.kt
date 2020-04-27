@@ -15,22 +15,12 @@
 
 package com.toasttab.protokt.codegen.template
 
-object ServiceTemplate : StTemplate<ServiceVariable>(
-    ServicesGroup,
-    "service",
-    setOf(
-        ServiceVariable.Name,
-        ServiceVariable.QualifiedName,
-        ServiceVariable.Descriptor,
-        ServiceVariable.Methods
-    )
-)
-
-sealed class ServiceVariable(
-    override val name: String
-) : TemplateVariable {
-    object Name : ServiceVariable("name")
-    object QualifiedName : ServiceVariable("qualifiedName")
-    object Descriptor : ServiceVariable("descriptor")
-    object Methods : ServiceVariable("methods")
+sealed class StGroup(val fileName: String) {
+    object Enum : StGroup("enum.stg")
+    object Header : StGroup("header.stg")
+    object Oneof : StGroup("oneof.stg")
+    object Message : StGroup("message.stg")
+    object Options : StGroup("options.stg")
+    object Renderers : StGroup("renderers.stg")
+    object Services : StGroup("services.stg")
 }

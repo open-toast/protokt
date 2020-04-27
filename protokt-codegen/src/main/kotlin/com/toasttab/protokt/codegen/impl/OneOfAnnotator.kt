@@ -26,10 +26,8 @@ import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.possiblyQualify
 import com.toasttab.protokt.codegen.snakeToCamel
-import com.toasttab.protokt.codegen.template.OneofTemplate
-import com.toasttab.protokt.codegen.template.OneofVariable.Name
-import com.toasttab.protokt.codegen.template.OneofVariable.Options
-import com.toasttab.protokt.codegen.template.OneofVariable.Types
+import com.toasttab.protokt.codegen.template.Oneof
+import com.toasttab.protokt.codegen.template.render
 
 internal class OneOfAnnotator
 private constructor(
@@ -40,11 +38,11 @@ private constructor(
         msg.fields.map {
             when (it) {
                 is OneOf ->
-                    OneofTemplate.render(
-                        Name to it.nativeTypeName,
-                        Types to it.fields.associate(::oneOfValue),
-                        Options to options(it)
-                    )
+                    Oneof.prepare(
+                        name = it.nativeTypeName,
+                        types = it.fields.associate(::oneOfValue),
+                        options = options(it)
+                    ).render()
                 else -> ""
             }
         }.filter { it.isNotEmpty() }
@@ -61,7 +59,7 @@ private constructor(
         fieldName: String,
         oneofFieldTypeName: String
     ) =
-        OneOfInfo(
+        Oneof.Info(
             fieldName = fieldName,
             type = qualifyWrapperType(
                 f,
@@ -78,13 +76,13 @@ private constructor(
             ),
             documentation = annotateFieldDocumentation(f, ctx),
             deprecation =
-                if (f.options.default.deprecated) {
-                    renderOptions(
-                        f.options.protokt.deprecationMessage
-                    )
-                } else {
-                    null
-                }
+            if (f.options.default.deprecated) {
+                renderOptions(
+                    f.options.protokt.deprecationMessage
+                )
+            } else {
+                null
+            }
         )
 
     private fun qualifyWrapperType(
@@ -133,22 +131,10 @@ private constructor(
         }
     }
 
-    private data class OneOfInfo(
-        val fieldName: String,
-        val type: String,
-        val documentation: List<String>,
-        val deprecation: Deprecation.RenderOptions?
-    )
-
     private fun options(oneof: OneOf) =
         oneof.options.protokt.implements.let {
-            OneOfOptions(it.isNotEmpty(), it)
+            Oneof.Options(it.isNotEmpty(), it)
         }
-
-    private data class OneOfOptions(
-        val doesImplement: Boolean,
-        val implements: String
-    )
 
     companion object {
         fun annotateOneOfs(msg: MessageType, ctx: Context) =

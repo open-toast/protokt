@@ -15,14 +15,27 @@
 
 package com.toasttab.protokt.codegen.template
 
-object MethodTypeTemplate : StTemplate<MethodTypeVariable> (
-    ServicesGroup,
-    "methodType",
-    setOf(MethodTypeVariable.Method)
-)
+import com.toasttab.protokt.codegen.impl.Deprecation
 
-sealed class MethodTypeVariable(
-    override val name: String
-) : TemplateVariable {
-    object Method : MethodTypeVariable("method")
+object Oneof : StTemplate<Oneof.prepare>(
+    StGroup.Oneof,
+    "oneof"
+) {
+    class prepare(
+        val name: String,
+        val types: Map<String, Info>,
+        val options: Options
+    ) : Prepare<prepare>(Oneof)
+
+    class Info(
+        val fieldName: String,
+        val type: String,
+        val documentation: List<String>,
+        val deprecation: Deprecation.RenderOptions?
+    )
+
+    class Options(
+        val doesImplement: Boolean,
+        val implements: String
+    )
 }

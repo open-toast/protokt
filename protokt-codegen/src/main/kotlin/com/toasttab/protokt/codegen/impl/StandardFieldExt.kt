@@ -24,12 +24,8 @@ import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.template.Box
 import com.toasttab.protokt.codegen.template.BoxMap
 import com.toasttab.protokt.codegen.template.NonDefaultValue
-import com.toasttab.protokt.codegen.template.RenderVariable.Box as BoxVar
-import com.toasttab.protokt.codegen.template.RenderVariable.Def
-import com.toasttab.protokt.codegen.template.RenderVariable.Field
-import com.toasttab.protokt.codegen.template.RenderVariable.Name
-import com.toasttab.protokt.codegen.template.RenderVariable.Type
 import com.toasttab.protokt.codegen.template.TypeToNative
+import com.toasttab.protokt.codegen.template.render
 import com.toasttab.protokt.codegen.wireFormat
 
 internal val StandardField.tag
@@ -54,22 +50,22 @@ internal val StandardField.deprecated
     get() = options.default.deprecated
 
 internal fun StandardField.nonDefault(ctx: Context) =
-    NonDefaultValue.render(
-        Field to this,
-        Name to interceptValueAccess(this, ctx)
-    )
+    NonDefaultValue.prepare(
+        field = this,
+        name = interceptValueAccess(this, ctx)
+    ).render()
 
 internal fun StandardField.boxMap(ctx: Context) =
-    BoxMap.render(
-        Type to type,
-        BoxVar to unqualifiedNestedTypeName(ctx)
-    )
+    BoxMap.prepare(
+        type = type,
+        box = unqualifiedNestedTypeName(ctx)
+    ).render()
 
 internal fun StandardField.box(s: String) =
-    Box.render(
-        Type to type,
-        Def to s
-    )
+    Box.prepare(
+        type = type,
+        def = s
+    ).render()
 
 internal fun StandardField.unqualifiedTypeName(ctx: Context) =
     typePClass(ctx).nestedName
@@ -86,9 +82,9 @@ internal fun StandardField.typePClass(ctx: PluginContext) =
         {
             PClass.fromName(
                 if (it.isEmpty()) {
-                    TypeToNative.render(
-                        Type to type
-                    )
+                    TypeToNative.prepare(
+                        type = type
+                    ).render()
                 } else {
                     it
                 }

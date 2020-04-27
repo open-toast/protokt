@@ -30,20 +30,14 @@ import com.toasttab.protokt.codegen.model.possiblyQualify
 import com.toasttab.protokt.codegen.template.AccessField
 import com.toasttab.protokt.codegen.template.BytesSlice
 import com.toasttab.protokt.codegen.template.ConcatWithScope
+import com.toasttab.protokt.codegen.template.ConcatWithScope.Params
 import com.toasttab.protokt.codegen.template.DefaultBytesSlice
 import com.toasttab.protokt.codegen.template.FieldSizeof
-import com.toasttab.protokt.codegen.template.OptionsVariable.Arg
-import com.toasttab.protokt.codegen.template.OptionsVariable.Oneof
-import com.toasttab.protokt.codegen.template.OptionsVariable.Type
-import com.toasttab.protokt.codegen.template.OptionsVariable.WrapName
 import com.toasttab.protokt.codegen.template.ReadBytesSlice
-import com.toasttab.protokt.codegen.template.RenderVariable.Field
-import com.toasttab.protokt.codegen.template.RenderVariable.Name
-import com.toasttab.protokt.codegen.template.RenderVariable.ScopedValue
-import com.toasttab.protokt.codegen.template.ScopedValueParams
 import com.toasttab.protokt.codegen.template.SizeofOption
 import com.toasttab.protokt.codegen.template.TypeToJavaClassName
 import com.toasttab.protokt.codegen.template.WrapField
+import com.toasttab.protokt.codegen.template.render
 import com.toasttab.protokt.ext.OptimizedSizeofConverter
 import com.toasttab.protokt.rt.PType
 import kotlin.reflect.KClass
@@ -81,7 +75,8 @@ internal object Wrapper {
                             {
                                 // Protobuf primitives have no typeName
                                 Class.forName(
-                                    TypeToJavaClassName.render(Type to type)
+                                    TypeToJavaClassName.prepare(type = type)
+                                        .render()
                                 ).kotlin
                             },
                             { getClass(typePClass(ctx), ctx) }
@@ -118,31 +113,31 @@ internal object Wrapper {
         f.foldWrap(
             ctx,
             {
-                FieldSizeof.render(
-                    Field to f,
-                    Name to s
-                )
+                FieldSizeof.prepare(
+                    field = f,
+                    name = s
+                ).render()
             },
             { wrapper, wrapped ->
                 if (
                     converter(wrapper, wrapped, ctx) is
                         OptimizedSizeofConverter<*, *>
                 ) {
-                    ConcatWithScope.render(
-                        ScopedValue to
-                            ScopedValueParams(
+                    ConcatWithScope.prepare(
+                        scopedValue =
+                            Params(
                                 unqualifiedWrap(
                                     converterClass(wrapper, wrapped, ctx),
                                     ctx.pkg
                                 ),
-                                SizeofOption.render(Arg to s)
+                                SizeofOption.prepare(arg = s).render()
                             )
-                    )
+                    ).render()
                 } else {
-                    FieldSizeof.render(
-                        Field to f,
-                        Name to s
-                    )
+                    FieldSizeof.prepare(
+                        field = f,
+                        name = s
+                    ).render()
                 }
             }
         )
@@ -156,13 +151,13 @@ internal object Wrapper {
             ctx,
             { s },
             { wrapper, wrapped ->
-                AccessField.render(
-                    WrapName to
+                AccessField.prepare(
+                    wrapName =
                         PClass.fromClass(
                             converter(wrapper, wrapped, ctx)::class
                         ).renderName(ctx.pkg),
-                    Arg to s
-                )
+                    arg = s
+                ).render()
             }
         )
 
@@ -192,12 +187,12 @@ internal object Wrapper {
         wrapperName(f, ctx).fold(
             { s },
             {
-                WrapField.render(
-                    WrapName to it,
-                    Arg to s,
-                    Type to f.type,
-                    Oneof to true
-                )
+                WrapField.prepare(
+                    wrapName = it,
+                    arg = s,
+                    type = f.type,
+                    oneof = true
+                ).render()
             }
         )
 

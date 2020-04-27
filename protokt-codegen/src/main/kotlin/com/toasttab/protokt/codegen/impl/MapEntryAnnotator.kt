@@ -17,20 +17,15 @@ package com.toasttab.protokt.codegen.impl
 
 import com.toasttab.protokt.codegen.MessageType
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
+import com.toasttab.protokt.codegen.template.Message.MapEntryInfo
 
 internal object MapEntryAnnotator {
-    fun annotateMapEntry(m: MessageType, ctx: Context): Any =
+    fun annotateMapEntry(m: MessageType, ctx: Context) =
         if (m.mapEntry) {
             resolveMapEntry(m, ctx).let { (k, v) ->
-                MapEntryParams(true, k, v)
+                MapEntryInfo(true, k, v)
             }
         } else {
-            MapEntryParams(false, "", "")
+            MapEntryInfo(false, "", "")
         }
-
-    private data class MapEntryParams(
-        val entry: Boolean,
-        val kType: String,
-        val vType: String
-    )
 }

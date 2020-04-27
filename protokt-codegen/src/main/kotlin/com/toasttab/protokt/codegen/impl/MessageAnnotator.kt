@@ -17,8 +17,6 @@ package com.toasttab.protokt.codegen.impl
 
 import arrow.core.extensions.list.foldable.firstOption
 import com.toasttab.protokt.codegen.MessageType
-import com.toasttab.protokt.codegen.TypeDesc
-import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.impl.Deprecation.enclosingDeprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.hasDeprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
@@ -33,75 +31,50 @@ import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.SerializerAnnotator.Companion.annotateSerializer
 import com.toasttab.protokt.codegen.impl.SizeOfAnnotator.Companion.annotateSizeof
 import com.toasttab.protokt.codegen.model.PPackage
-import com.toasttab.protokt.codegen.template.MessageTemplate
-import com.toasttab.protokt.codegen.template.MessageVariable.Deserialize
-import com.toasttab.protokt.codegen.template.MessageVariable.Entry
-import com.toasttab.protokt.codegen.template.MessageVariable.Inner
-import com.toasttab.protokt.codegen.template.MessageVariable.Message
-import com.toasttab.protokt.codegen.template.MessageVariable.Oneofs
-import com.toasttab.protokt.codegen.template.MessageVariable.Options
-import com.toasttab.protokt.codegen.template.MessageVariable.Params
-import com.toasttab.protokt.codegen.template.MessageVariable.Serialize
-import com.toasttab.protokt.codegen.template.MessageVariable.Sizeof
+import com.toasttab.protokt.codegen.template.Message
+import com.toasttab.protokt.codegen.template.Message.MessageInfo
+import com.toasttab.protokt.codegen.template.Message.Options
 
 internal object MessageAnnotator {
     val idealMaxWidth = 100
 
     fun annotateMessage(
-        ast: AST<TypeDesc>,
         msg: MessageType,
         ctx: Context
-    ): AST<TypeDesc> {
-        ast.data.type.template.map {
-            STTemplate.addTo(it as STTemplate, MessageTemplate) { f ->
-                when (f) {
-                    is Message -> annotateMessage(msg, ctx)
-                    is Entry -> annotateMapEntry(msg, ctx)
-                    is Params -> annotateFields(msg, ctx)
-                    is Oneofs -> annotateOneOfs(msg, ctx)
-                    is Sizeof -> annotateSizeof(msg, ctx)
-                    is Serialize -> annotateSerializer(msg, ctx)
-                    is Deserialize -> annotateDeserializer(msg, ctx)
-                    is Options -> options(msg, ctx)
-                    is Inner -> null
-                }
-            }
-        }
-        return ast
-    }
+    ) =
+        Message.prepare(
+            message = annotateMessage2(msg, ctx),
+            entry = annotateMapEntry(msg, ctx),
+            params = annotateFields(msg, ctx),
+            oneofs = annotateOneOfs(msg, ctx),
+            sizeof = annotateSizeof(msg, ctx),
+            serialize = annotateSerializer(msg, ctx),
+            deserialize = annotateDeserializer(msg, ctx),
+            options = options(msg, ctx)
+        )
 
-    private fun annotateMessage(msg: MessageType, ctx: Context) =
-        MessageParams(
+    private fun annotateMessage2(msg: MessageType, ctx: Context) =
+        MessageInfo(
             name = msg.name,
             doesImplement = msg.doesImplement,
             implements = msg.implements,
             documentation = annotateMessageDocumentation(ctx),
             deprecation =
-                if (msg.options.default.deprecated) {
-                    renderOptions(
-                        msg.options.protokt.deprecationMessage
-                    )
-                } else {
-                    null
-                },
+            if (msg.options.default.deprecated) {
+                renderOptions(
+                    msg.options.protokt.deprecationMessage
+                )
+            } else {
+                null
+            },
             suppressDeprecation = msg.hasDeprecation &&
                 (!enclosingDeprecation(ctx) ||
-                        ctx.enclosingMessage.firstOption()
-                            .fold({ false }, { it == msg })),
+                    ctx.enclosingMessage.firstOption()
+                        .fold({ false }, { it == msg })),
             fullTypeName = msg.fullProtobufTypeName
         )
 
-    private data class MessageParams(
-        val name: String,
-        val doesImplement: Boolean,
-        val implements: String,
-        val documentation: List<String>,
-        val deprecation: Deprecation.RenderOptions?,
-        val suppressDeprecation: Boolean,
-        val fullTypeName: String
-    )
-
-    private fun options(msg: MessageType, ctx: Context): Any {
+    private fun options(msg: MessageType, ctx: Context): Options {
         val lengthAsOneLine =
             ctx.enclosingMessage.size * 4 +
                 4 + // companion indentation
@@ -109,14 +82,9 @@ internal object MessageAnnotator {
                 msg.name.length +
                 2 // ` {`
 
-        return MessageOptions(
+        return Options(
             wellKnownType = ctx.pkg == PPackage.PROTOKT,
             longDeserializer = lengthAsOneLine > idealMaxWidth
         )
     }
-
-    private data class MessageOptions(
-        val wellKnownType: Boolean,
-        val longDeserializer: Boolean
-    )
 }

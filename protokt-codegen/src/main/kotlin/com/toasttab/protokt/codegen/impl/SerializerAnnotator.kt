@@ -25,27 +25,24 @@ import com.toasttab.protokt.codegen.impl.NonNullable.hasNonNullOption
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
 import com.toasttab.protokt.codegen.template.ConcatWithScope
+import com.toasttab.protokt.codegen.template.ConcatWithScope.Params
 import com.toasttab.protokt.codegen.template.ConditionalParams
 import com.toasttab.protokt.codegen.template.IterationVar
-import com.toasttab.protokt.codegen.template.RenderVariable.Box
-import com.toasttab.protokt.codegen.template.RenderVariable.Field
-import com.toasttab.protokt.codegen.template.RenderVariable.Name
-import com.toasttab.protokt.codegen.template.RenderVariable.Options
-import com.toasttab.protokt.codegen.template.RenderVariable.ScopedValue
-import com.toasttab.protokt.codegen.template.RenderVariable.Tag
-import com.toasttab.protokt.codegen.template.ScopedValueParams
+import com.toasttab.protokt.codegen.template.Message.SerializerInfo
 import com.toasttab.protokt.codegen.template.Serialize
+import com.toasttab.protokt.codegen.template.Serialize.Options
+import com.toasttab.protokt.codegen.template.render
 
 internal class SerializerAnnotator
 private constructor(
     private val msg: MessageType,
     private val ctx: Context
 ) {
-    private fun annotateSerializer(): List<SerializerParams> {
+    private fun annotateSerializer(): List<SerializerInfo> {
         return msg.sortedFields().map {
             when (it) {
                 is StandardField ->
-                    SerializerParams(
+                    SerializerInfo(
                         true,
                         it.fieldName,
                         !it.hasNonNullOption,
@@ -57,7 +54,7 @@ private constructor(
                         )
                     )
                 is OneOf ->
-                    SerializerParams(
+                    SerializerInfo(
                         false,
                         it.fieldName,
                         !it.hasNonNullOption,
@@ -68,14 +65,6 @@ private constructor(
             }
         }
     }
-
-    data class SerializerParams(
-        val std: Boolean,
-        val fieldName: String,
-        val skipDefaultValue: Boolean,
-        /** A singleton list for standard fields; one per type for enum fields */
-        val conditionals: List<ConditionalParams>
-    )
 
     private fun serializeString(
         f: StandardField,
@@ -98,28 +87,28 @@ private constructor(
                     interceptValueAccess(
                         f,
                         ctx,
-                        ConcatWithScope.render(
-                            ScopedValue to
-                                ScopedValueParams(it, f.fieldName)
-                        )
+                        ConcatWithScope.prepare(
+                            scopedValue = Params(it, f.fieldName)
+                        ).render()
                     )
                 }
             )
-        return Serialize.render(
-            Field to f,
-            Name to f.fieldName,
-            Tag to f.tag,
-            Box to
+
+        return Serialize.prepare(
+            field = f,
+            name = f.fieldName,
+            tag = f.tag,
+            box =
                 if (f.map) {
                     f.boxMap(ctx)
                 } else {
                     f.box(fieldAccess)
                 },
-            Options to
-                SerializerOptions(
+            options =
+                Options(
                     fieldAccess = fieldAccess
                 )
-        )
+        ).render()
     }
 
     private data class SerializerOptions(
@@ -136,13 +125,13 @@ private constructor(
 
     private fun oneOfSer(f: OneOf, ff: StandardField, type: String) =
         ConditionalParams(
-            ConcatWithScope.render(
-                ScopedValue to
-                    ScopedValueParams(
+            ConcatWithScope.prepare(
+                scopedValue =
+                    Params(
                         oneOfScope(f, type, ctx),
                         f.fieldTypeNames[ff.name] ?: ""
                     )
-            ),
+            ).render(),
             serializeString(ff, Some(f.fieldName))
         )
 

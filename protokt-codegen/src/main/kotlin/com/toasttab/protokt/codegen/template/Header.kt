@@ -15,20 +15,14 @@
 
 package com.toasttab.protokt.codegen.template
 
-object OneofTemplate : StTemplate<OneofVariable>(
-    OneOfGroup,
-    "oneof",
-    setOf(
-        OneofVariable.Name,
-        OneofVariable.Types,
-        OneofVariable.Options
-    )
-)
+import com.toasttab.protokt.codegen.model.PPackage
 
-sealed class OneofVariable(
-    override val name: String
-) : TemplateVariable {
-    object Name : OneofVariable("name")
-    object Types : OneofVariable("types")
-    object Options : OneofVariable("options")
+object Header : StTemplate<Header.prepare>(
+    StGroup.Header,
+    "header"
+) {
+    class prepare(
+        val `package`: PPackage?,
+        val imports: List<String>
+    ) : Prepare<prepare>(Header)
 }

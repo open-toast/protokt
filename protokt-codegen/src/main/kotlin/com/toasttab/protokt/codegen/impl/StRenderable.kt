@@ -13,9 +13,21 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.template
+package com.toasttab.protokt.codegen.impl
 
-class ConditionalParams(
-    val condition: String,
-    val consequent: String
-)
+import com.toasttab.protokt.codegen.Renderable
+import com.toasttab.protokt.codegen.template.TemplateVariable
+import org.stringtemplate.v4.ST
+
+// TODO: This functionality be factored out into a pure functional library
+// TODO: This imperative style is a TEMPORARY implementation detail
+data class StRenderable(val st: ST) : Renderable {
+    override fun render() =
+        st.render()
+
+    companion object {
+        fun <T> addTo(st: StRenderable, v: TemplateVariable, t: T) {
+            st.st.add(v.name, t)
+        }
+    }
+}

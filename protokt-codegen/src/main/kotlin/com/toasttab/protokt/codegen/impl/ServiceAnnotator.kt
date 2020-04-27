@@ -17,39 +17,22 @@ package com.toasttab.protokt.codegen.impl
 
 import com.toasttab.protokt.codegen.Method
 import com.toasttab.protokt.codegen.ServiceType
-import com.toasttab.protokt.codegen.TypeDesc
-import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.template.Descriptor
-import com.toasttab.protokt.codegen.template.DescriptorVariable
-import com.toasttab.protokt.codegen.template.MethodTemplate
-import com.toasttab.protokt.codegen.template.MethodTypeTemplate
-import com.toasttab.protokt.codegen.template.MethodTypeVariable
-import com.toasttab.protokt.codegen.template.MethodVariable
-import com.toasttab.protokt.codegen.template.ServiceTemplate
-import com.toasttab.protokt.codegen.template.ServiceVariable.Descriptor as DescriptorVar
-import com.toasttab.protokt.codegen.template.ServiceVariable.Methods
-import com.toasttab.protokt.codegen.template.ServiceVariable.Name
-import com.toasttab.protokt.codegen.template.ServiceVariable.QualifiedName
+import com.toasttab.protokt.codegen.template.Method as MethodTemplate
+import com.toasttab.protokt.codegen.template.MethodType
+import com.toasttab.protokt.codegen.template.Service
+import com.toasttab.protokt.codegen.template.Service.MethodInfo
+import com.toasttab.protokt.codegen.template.render
 
 internal object ServiceAnnotator {
-    fun annotateService(
-        ast: AST<TypeDesc>,
-        s: ServiceType,
-        ctx: Context
-    ): AST<TypeDesc> {
-        ast.data.type.template.map {
-            STTemplate.addTo(it as STTemplate, ServiceTemplate) { arg ->
-                when (arg) {
-                    is Name -> s.name
-                    is QualifiedName -> renderQualifiedName(s, ctx)
-                    is DescriptorVar -> renderDescriptor(s)
-                    is Methods -> renderMethods(s, ctx)
-                }
-            }
-        }
-        return ast
-    }
+    fun annotateService(s: ServiceType, ctx: Context) =
+        Service.prepare(
+            name = s.name,
+            qualifiedName = renderQualifiedName(s, ctx),
+            descriptor = renderDescriptor(s),
+            methods = renderMethods(s, ctx)
+        )
 
     private fun renderQualifiedName(s: ServiceType, ctx: Context) =
         if (ctx.pkg.default) {
@@ -59,35 +42,27 @@ internal object ServiceAnnotator {
         }
 
     private fun renderDescriptor(s: ServiceType) =
-        Descriptor.render(
-            DescriptorVariable.Methods to s.methods.map { it.name.decapitalize() }
-        )
-
-    private data class MethodInfo(
-        val name: String,
-        val lowerName: String,
-        val body: String,
-        val `in`: String,
-        val `out`: String
-    )
+        Descriptor.prepare(
+            methods = s.methods.map { it.name.decapitalize() }
+        ).render()
 
     private fun renderMethods(s: ServiceType, ctx: Context) =
         s.methods.map { renderMethod(it, ctx) }
 
     private fun renderMethod(m: Method, ctx: Context) =
         render(m.inputType, ctx).let { `in` ->
-            render(m.outputType, ctx).let { `out` ->
+            render(m.outputType, ctx).let { out ->
                 MethodInfo(
                     m.name,
                     m.name.decapitalize(),
-                    MethodTemplate.render(
-                        MethodVariable.Name to m.name.capitalize(),
-                        MethodVariable.Type to methodType(m),
-                        MethodVariable.In to `in`,
-                        MethodVariable.Out to `out`
-                    ),
+                    MethodTemplate.prepare(
+                        name = m.name.capitalize(),
+                        type = methodType(m),
+                        `in` = `in`,
+                        out = out
+                    ).render(),
                     `in`,
-                    `out`
+                    out
                 )
             }
         }
@@ -96,5 +71,5 @@ internal object ServiceAnnotator {
         requalifyProtoType(typeName, ctx.desc.context).renderName(ctx.pkg)
 
     private fun methodType(m: Method) =
-        MethodTypeTemplate.render(MethodTypeVariable.Method to m)
+        MethodType.prepare(method = m).render()
 }

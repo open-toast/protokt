@@ -15,18 +15,28 @@
 
 package com.toasttab.protokt.codegen.template
 
-object Descriptor : StTemplate<DescriptorVariable>(
-    ServicesGroup,
-    "descriptor",
-    setOf(
-        DescriptorVariable.Name,
-        DescriptorVariable.Methods
-    )
-)
+import com.toasttab.protokt.codegen.impl.Deprecation
+import com.toasttab.protokt.codegen.template.Enum.prepare
 
-sealed class DescriptorVariable(
-    override val name: String
-) : TemplateVariable {
-    object Name : DescriptorVariable("name")
-    object Methods : DescriptorVariable("methods")
+object Enum : StTemplate<prepare>(
+    StGroup.Enum,
+    "enum"
+) {
+    class prepare(
+        val name: String,
+        val map: Map<Int, EnumValueData>,
+        val options: EnumOptions
+    ) : Prepare<prepare>(Enum)
+
+    class EnumValueData(
+        val valueName: String,
+        val documentation: List<String>,
+        val deprecation: Deprecation.RenderOptions?
+    )
+
+    class EnumOptions(
+        val documentation: List<String>,
+        val deprecation: Deprecation.RenderOptions?,
+        val suppressDeprecation: Boolean
+    )
 }

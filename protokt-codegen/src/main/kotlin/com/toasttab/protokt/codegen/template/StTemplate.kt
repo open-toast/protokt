@@ -15,8 +15,34 @@
 
 package com.toasttab.protokt.codegen.template
 
-abstract class StTemplate<T>(
-    val group: TemplateGroup,
-    val name: String,
-    val vars: Set<T>
+import com.toasttab.protokt.codegen.impl.StRenderable
+import kotlin.reflect.full.declaredMemberProperties
+import org.stringtemplate.v4.STGroupFile
+
+val stGroupFiles =
+    StGroup::class.sealedSubclasses
+        .map { requireNotNull(it.objectInstance) { it } }
+        .associateWith { STGroupFile(it.fileName) }
+
+abstract class StTemplate<T : Any>(
+    val stGroup: StGroup,
+    val name: String
 )
+
+fun StTemplate<Unit>.render() =
+    stGroupFiles.getValue(stGroup).getInstanceOf(name).render()
+
+abstract class Prepare<T : Any>(val parent: StTemplate<T>)
+
+inline fun <reified T : Any> Prepare<T>.prepare(): StRenderable {
+    val st = stGroupFiles.getValue(parent.stGroup).getInstanceOf(parent.name)
+
+    T::class.declaredMemberProperties.forEach {
+        st.add(it.name, it.get(this as T))
+    }
+
+    return StRenderable(st)
+}
+
+inline fun <reified T : Any> Prepare<T>.render() =
+    prepare().render()
