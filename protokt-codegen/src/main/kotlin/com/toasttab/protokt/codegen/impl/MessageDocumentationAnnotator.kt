@@ -16,7 +16,7 @@
 package com.toasttab.protokt.codegen.impl
 
 import arrow.core.Option
-import arrow.core.extensions.list.foldable.firstOption
+import arrow.core.firstOrNone
 import com.google.protobuf.DescriptorProtos.DescriptorProto.NESTED_TYPE_FIELD_NUMBER
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto.MESSAGE_TYPE_FIELD_NUMBER
 import com.google.protobuf.DescriptorProtos.SourceCodeInfo.Location
@@ -29,7 +29,7 @@ internal object MessageDocumentationAnnotator {
     fun baseLocation(ctx: Context, extraPath: List<Int> = emptyList()) =
         ctx.desc.sourceCodeInfo.locationList
             .filter { it.pathList == basePath(ctx) + extraPath }
-            .firstOption()
+            .firstOrNone()
 
     private fun basePath(ctx: Context): List<Int> {
         val path = mutableListOf<Int>()

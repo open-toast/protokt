@@ -28,6 +28,12 @@ import com.toasttab.protokt.codegen.impl.Wrapper.interceptReadFn
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapperName
 import com.toasttab.protokt.codegen.snakeToCamel
+import com.toasttab.protokt.codegen.template.Deserialize
+import com.toasttab.protokt.codegen.template.Deserialize.Options
+import com.toasttab.protokt.codegen.template.Message.DeserializerInfo
+import com.toasttab.protokt.codegen.template.Message.DeserializerInfo.Assignment
+import com.toasttab.protokt.codegen.template.OneofDeserialize
+import com.toasttab.protokt.codegen.template.ReadFunction
 import com.toasttab.protokt.rt.PType
 
 internal class DeserializerAnnotator
@@ -35,16 +41,16 @@ private constructor(
     private val msg: MessageType,
     private val ctx: Context
 ) {
-    private fun annotateDeserializer(): List<DeserializerSt> =
+    private fun annotateDeserializer(): List<DeserializerInfo> =
         msg.flattenedSortedFields().map { (field, oneOf) ->
-            DeserializerSt(
+            DeserializerInfo(
                 oneOf.isEmpty(),
                 field.repeated,
                 field.tagList.joinToString(),
                 oneOf.fold(
                     {
                         deserializeString(field).let { value ->
-                            AssignmentSt(
+                            Assignment(
                                 field.fieldName,
                                 value,
                                 long(field, value)
@@ -53,7 +59,7 @@ private constructor(
                     },
                     {
                         oneOfDes(it, field).let { value ->
-                            AssignmentSt(
+                            Assignment(
                                 it.fieldName,
                                 value,
                                 long(field, value)
@@ -82,28 +88,22 @@ private constructor(
     }
 
     private fun deserializeString(f: StandardField) =
-        DeserializeRF.render(
-            FieldRenderVar to f,
-            TypeRenderVar to f.unqualifiedNestedTypeName(ctx),
-            ReadRenderVar to interceptReadFn(f, f.readFn()),
-            LhsRenderVar to f.fieldName,
-            OptionsRenderVar to
+        Deserialize.render(
+            field = f,
+            type = f.unqualifiedNestedTypeName(ctx),
+            read = interceptReadFn(f, f.readFn()),
+            lhs = f.fieldName,
+            options =
                 if (f.wrapped) {
-                    DeserializerOptions(
+                    Options(
                         wrapName = wrapperName(f, ctx).getOrElse { "" },
                         type = f.type.toString(),
                         oneof = true
                     )
                 } else {
-                    emptyList<Any>()
+                    null
                 }
         )
-
-    private data class DeserializerOptions(
-        val wrapName: String,
-        val type: String,
-        val oneof: Boolean
-    )
 
     private fun MessageType.flattenedSortedFields() =
         fields.flatMap {
@@ -121,16 +121,16 @@ private constructor(
     )
 
     private fun oneOfDes(f: OneOf, ff: StandardField) =
-        OneOfDeserializeRF.render(
-            OneOfRenderVar to snakeToCamel(f.name).capitalize(),
-            NameRenderVar to snakeToCamel(ff.name).capitalize(),
-            ReadRenderVar to deserializeString(ff)
+        OneofDeserialize.render(
+            oneof = snakeToCamel(f.name).capitalize(),
+            name = snakeToCamel(ff.name).capitalize(),
+            read = deserializeString(ff)
         )
 
     private fun StandardField.readFn() =
-        ReadFunctionRF.render(
-            TypeRenderVar to type,
-            BuilderRenderVar to
+        ReadFunction.render(
+            type = type,
+            builder =
                 when (type) {
                     PType.ENUM,
                     PType.MESSAGE -> stripQualification(ctx, this)

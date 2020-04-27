@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2020 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,19 +13,14 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.impl
+package com.toasttab.protokt.codegen.template
 
-import com.toasttab.protokt.codegen.MessageType
-import com.toasttab.protokt.codegen.impl.STAnnotator.Context
-import com.toasttab.protokt.codegen.template.Message.MapEntryInfo
-
-internal object MapEntryAnnotator {
-    fun annotateMapEntry(m: MessageType, ctx: Context) =
-        if (m.mapEntry) {
-            resolveMapEntry(m, ctx).let { (k, v) ->
-                MapEntryInfo(true, k, v)
-            }
-        } else {
-            MapEntryInfo(false, "", "")
-        }
+sealed class StGroup(val fileName: String) {
+    object Enum : StGroup("enum.stg")
+    object Header : StGroup("header.stg")
+    object Oneof : StGroup("oneof.stg")
+    object Message : StGroup("message.stg")
+    object Options : StGroup("options.stg")
+    object Renderers : StGroup("renderers.stg")
+    object Services : StGroup("services.stg")
 }

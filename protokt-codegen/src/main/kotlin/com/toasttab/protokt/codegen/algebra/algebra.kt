@@ -110,7 +110,9 @@ object Interpreter {
             IO {
                 when (val result = interpret(a, e, input, transform)) {
                     is Validated.Valid ->
-                        ASTOps.effect(result.a, out).unsafeIO(a, e)
+                        ASTOps.effect(result.a, out)
+                            .unsafeIO(a, e)
+                            .mapLeft(errors)
                     is Validated.Invalid ->
                         result.e.map(errors)
                 }

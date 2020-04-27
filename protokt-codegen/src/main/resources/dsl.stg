@@ -18,20 +18,20 @@ import "renderers.stg"
 dsl() ::= <<
 fun copy(dsl: <message.name>Dsl.() -> Unit) =
     <message.name> {
-        <params:{p | <p.name> = this@<message.name>.<p.name>}; separator="\n">
+        <properties:{p | <p.name> = this@<message.name>.<p.name>}; separator="\n">
         unknown = this@<message.name>.unknown
         dsl()
     }
 
 class <message.name>Dsl {
-    <params:{p | <deprecated(p)>var <dslVar(p)>}; separator="\n">
+    <properties:{p | <deprecated(p)>var <dslVar(p)>}; separator="\n">
     var unknown: Map\<Int, Unknown> = emptyMap()
         set(newValue) { field = copyMap(newValue) }
 
     fun build() =
         <message.name>(
-        <if (params)><\\>
-        <params:{p | <\\>
+        <if (properties)><\\>
+        <properties:{p | <\\>
             <t()><\\>
             <if (p.nonNullOption)><\\>
                 requireNotNull(<p.name>) {<\n><\\>

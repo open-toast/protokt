@@ -21,7 +21,6 @@ import com.google.protobuf.DescriptorProtos
 import com.google.protobuf.DescriptorProtos.DescriptorProto
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.google.protobuf.DescriptorProtos.MethodDescriptorProto
-import com.google.protobuf.DescriptorProtos.ServiceDescriptorProto
 import com.google.protobuf.DescriptorProtos.UninterpretedOption
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.ext.Protokt
@@ -80,15 +79,7 @@ data class ServiceType(
     val methods: List<Method>,
     val deprecated: Boolean,
     val unknownOpts: List<UninterpretedOption>
-) : Type() {
-    constructor(desc: ServiceDescriptorProto) : this(
-        desc.name,
-        "",
-        desc.methodList?.map { Method(it) } ?: emptyList(),
-        desc.options.deprecated,
-        desc.options?.uninterpretedOptionList ?: emptyList()
-    )
-}
+) : Type()
 
 data class Method(
     val name: String,
@@ -229,14 +220,13 @@ data class Protocol(
 // Interpreter Types
 data class AnnotatedType(
     val rawType: Type,
-    val template: Option<Template> = None
+    val renderable: Option<Renderable> = None
 )
 data class TypeDesc(
     val desc: FileDesc,
     val type: AnnotatedType
 )
 
-// Template interface
-interface Template {
+interface Renderable {
     fun render(): String
 }

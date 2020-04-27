@@ -26,29 +26,36 @@ import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptFieldSizeof
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptSizeof
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
+import com.toasttab.protokt.codegen.template.ConcatWithScope
+import com.toasttab.protokt.codegen.template.ConditionalParams
+import com.toasttab.protokt.codegen.template.IterationVar
+import com.toasttab.protokt.codegen.template.Message.SizeofInfo
+import com.toasttab.protokt.codegen.template.Sizeof
+import com.toasttab.protokt.codegen.template.Sizeof.Options
+import com.toasttab.protokt.codegen.template.render
 
 internal class SizeOfAnnotator
 private constructor(
     private val msg: MessageType,
     private val ctx: Context
 ) {
-    private fun annotateSizeof(): List<SizeofSt> {
+    private fun annotateSizeof(): List<SizeofInfo> {
         return msg.fields.map {
             when (it) {
                 is StandardField ->
-                    SizeofSt(
+                    SizeofInfo(
                         true,
                         "",
                         !it.hasNonNullOption,
                         listOf(
-                            ConditionalSt(
+                            ConditionalParams(
                                 it.nonDefault(ctx),
                                 sizeOfString(it, None)
                             )
                         )
                     )
                 is OneOf ->
-                    SizeofSt(
+                    SizeofInfo(
                         false,
                         it.fieldName,
                         !it.hasNonNullOption,
@@ -73,42 +80,34 @@ private constructor(
                 },
                 { it }
             )
-        return SizeOfRF.render(
-            NameSizeOfVar to name,
-            FieldSizeOfVar to f,
-            TypeSizeOfVar to f.unqualifiedNestedTypeName(ctx),
-            OptionsSizeOfVar to
-                SizeOfOptions(
+        return Sizeof.render(
+            name = name,
+            field = f,
+            type = f.unqualifiedNestedTypeName(ctx),
+            options =
+                Options(
                     fieldSizeof = interceptFieldSizeof(f, name, ctx),
                     fieldAccess =
-                        interceptValueAccess(f, ctx, IterationVarRf.render())
+                        interceptValueAccess(f, ctx, IterationVar.render())
                 )
         )
     }
 
-    private data class SizeOfOptions(
-        val fieldSizeof: String,
-        val fieldAccess: Any
-    )
-
     private fun oneOfSize(f: OneOf, type: String) =
         f.fields.map {
-            ConditionalSt(
-                ConcatWithScopeRF.render(
-                    ScopedValueRenderVar to
-                        ScopedValueSt(
-                            oneOfScope(f, type, ctx),
-                            f.fieldTypeNames[it.name] ?: ""
-                        )
+            ConditionalParams(
+                ConcatWithScope.render(
+                    scope = oneOfScope(f, type, ctx),
+                    value = f.fieldTypeNames[it.name] ?: ""
                 ),
                 sizeOfString(
                     it,
                     Some(
                         interceptSizeof(
                             it,
-                            ConcatWithScopeRF.render(
-                                ScopedValueRenderVar to
-                                    ScopedValueSt(f.fieldName, it.fieldName)
+                            ConcatWithScope.render(
+                                scope = f.fieldName,
+                                value = it.fieldName
                             ),
                             ctx
                         )

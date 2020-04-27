@@ -15,17 +15,19 @@
 
 package com.toasttab.protokt.codegen.impl
 
-import com.toasttab.protokt.codegen.MessageType
-import com.toasttab.protokt.codegen.impl.STAnnotator.Context
-import com.toasttab.protokt.codegen.template.Message.MapEntryInfo
+import com.toasttab.protokt.codegen.Renderable
+import com.toasttab.protokt.codegen.template.TemplateVariable
+import org.stringtemplate.v4.ST
 
-internal object MapEntryAnnotator {
-    fun annotateMapEntry(m: MessageType, ctx: Context) =
-        if (m.mapEntry) {
-            resolveMapEntry(m, ctx).let { (k, v) ->
-                MapEntryInfo(true, k, v)
-            }
-        } else {
-            MapEntryInfo(false, "", "")
+// TODO: This functionality be factored out into a pure functional library
+// TODO: This imperative style is a TEMPORARY implementation detail
+data class StRenderable(val st: ST) : Renderable {
+    override fun render() =
+        st.render()
+
+    companion object {
+        fun <T> addTo(st: StRenderable, v: TemplateVariable, t: T) {
+            st.st.add(v.name, t)
         }
+    }
 }

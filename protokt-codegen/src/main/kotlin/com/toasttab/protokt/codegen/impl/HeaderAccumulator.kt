@@ -19,6 +19,7 @@ import arrow.core.firstOrNone
 import com.toasttab.protokt.codegen.TypeDesc
 import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.model.PPackage
+import com.toasttab.protokt.codegen.template.Header
 
 internal object HeaderAccumulator {
     fun write(
@@ -28,8 +29,8 @@ internal object HeaderAccumulator {
     ) {
         astList.firstOrNone().map { f ->
             acc(
-                HeaderSt.render(
-                    PackageHeaderVar to
+                Header.render(
+                    `package` =
                         kotlinPackage(f).let {
                             if (it == PPackage.DEFAULT) {
                                 null
@@ -37,7 +38,7 @@ internal object HeaderAccumulator {
                                 it
                             }
                         },
-                    ImportsHeaderVar to
+                    imports =
                         imports.map { it.qualifiedName }.sorted()
                 )
             )

@@ -141,7 +141,7 @@ isGeneratedType ::= ["MESSAGE": true, "ENUM": true, default: false]
 
 isBytes ::= ["BYTES": true, "STRING": true, default: false]
 
-type2nativeF(type) ::= "<kotlinTypeNames.(type)>"
+typeToNativeF(type) ::= "<kotlinTypeNames.(type)>"
 
 readF(type, builder) ::= "<readFunctions.(type)>(<builder>)"
 
@@ -205,7 +205,7 @@ deserializeVar(p) ::= <%
 
 oneofDefaultValueF() ::= "null"
 
-concatWithScopeF(scopedValue) ::= "<scopedValue.scope>.<scopedValue.value>"
+concatWithScopeF(scope, value) ::= "<scope>.<value>"
 
 oneOfDeserializeF(oneof, name, read) ::= "<oneof>.<name>(<read>)"
 

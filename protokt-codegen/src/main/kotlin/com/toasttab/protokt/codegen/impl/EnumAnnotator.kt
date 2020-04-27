@@ -16,69 +16,51 @@
 package com.toasttab.protokt.codegen.impl
 
 import com.toasttab.protokt.codegen.EnumType
-import com.toasttab.protokt.codegen.TypeDesc
-import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.impl.Deprecation.enclosingDeprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.hasDeprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
 import com.toasttab.protokt.codegen.impl.EnumDocumentationAnnotator.Companion.annotateEnumDocumentation
 import com.toasttab.protokt.codegen.impl.EnumDocumentationAnnotator.Companion.annotateEnumFieldDocumentation
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
+import com.toasttab.protokt.codegen.template.Enum
+import com.toasttab.protokt.codegen.template.Enum.EnumInfo
+import com.toasttab.protokt.codegen.template.Enum.EnumOptions
 
 internal object EnumAnnotator {
     fun annotateEnum(
-        ast: AST<TypeDesc>,
         e: EnumType,
         ctx: Context
-    ): AST<TypeDesc> {
-        ast.data.type.template.map { t ->
-            STTemplate.addTo(t as STTemplate, EnumSt) { f ->
-                when (f) {
-                    is NameEnumVar -> e.name
-                    is MapEnumVar ->
-                        e.values.associate {
-                            it.number to
-                                EnumValueData(
-                                    it.valueName,
-                                    annotateEnumFieldDocumentation(e, it, ctx),
-                                    if (it.options.default.deprecated) {
-                                        renderOptions(
-                                            it.options.protokt.deprecationMessage
-                                        )
-                                    } else {
-                                        null
-                                    }
+    ) =
+        Enum.prepare(
+            name = e.name,
+            map =
+                e.values.associate {
+                    it.number to
+                        EnumInfo(
+                            it.valueName,
+                            annotateEnumFieldDocumentation(e, it, ctx),
+                            if (it.options.default.deprecated) {
+                                renderOptions(
+                                    it.options.protokt.deprecationMessage
                                 )
-                        }
-                    is OptionsEnumVar ->
-                        EnumOptions(
-                            documentation = annotateEnumDocumentation(e, ctx),
-                            deprecation =
-                                if (e.options.default.deprecated) {
-                                    renderOptions(
-                                        e.options.protokt.deprecationMessage
-                                    )
-                                } else {
-                                    null
-                                },
-                            suppressDeprecation =
-                                (e.hasDeprecation && !enclosingDeprecation(ctx))
+                            } else {
+                                null
+                            }
                         )
-                }
-            }
-        }
-        return ast
-    }
-
-    private data class EnumValueData(
-        val valueName: String,
-        val documentation: List<String>,
-        val deprecation: Deprecation.RenderOptions?
-    )
-
-    private data class EnumOptions(
-        val documentation: List<String>,
-        val deprecation: Deprecation.RenderOptions?,
-        val suppressDeprecation: Boolean
-    )
+                },
+            options =
+                EnumOptions(
+                    documentation = annotateEnumDocumentation(e, ctx),
+                    deprecation =
+                    if (e.options.default.deprecated) {
+                        renderOptions(
+                            e.options.protokt.deprecationMessage
+                        )
+                    } else {
+                        null
+                    },
+                    suppressDeprecation =
+                    (e.hasDeprecation && !enclosingDeprecation(ctx))
+                )
+        )
 }

@@ -24,29 +24,36 @@ import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.impl.NonNullable.hasNonNullOption
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
+import com.toasttab.protokt.codegen.template.ConcatWithScope
+import com.toasttab.protokt.codegen.template.ConditionalParams
+import com.toasttab.protokt.codegen.template.IterationVar
+import com.toasttab.protokt.codegen.template.Message.SerializerInfo
+import com.toasttab.protokt.codegen.template.Serialize
+import com.toasttab.protokt.codegen.template.Serialize.Options
+import com.toasttab.protokt.codegen.template.render
 
 internal class SerializerAnnotator
 private constructor(
     private val msg: MessageType,
     private val ctx: Context
 ) {
-    private fun annotateSerializer(): List<SerializerSt> {
+    private fun annotateSerializer(): List<SerializerInfo> {
         return msg.sortedFields().map {
             when (it) {
                 is StandardField ->
-                    SerializerSt(
+                    SerializerInfo(
                         true,
                         it.fieldName,
                         !it.hasNonNullOption,
                         listOf(
-                            ConditionalSt(
+                            ConditionalParams(
                                 it.nonDefault(ctx),
                                 serializeString(it)
                             )
                         )
                     )
                 is OneOf ->
-                    SerializerSt(
+                    SerializerInfo(
                         false,
                         it.fieldName,
                         !it.hasNonNullOption,
@@ -69,7 +76,7 @@ private constructor(
                         f,
                         ctx,
                         if (f.repeated) {
-                            IterationVarRf.render()
+                            IterationVar.render()
                         } else {
                             f.fieldName
                         }
@@ -79,25 +86,26 @@ private constructor(
                     interceptValueAccess(
                         f,
                         ctx,
-                        ConcatWithScopeRF.render(
-                            ScopedValueRenderVar to
-                                ScopedValueSt(it, f.fieldName)
+                        ConcatWithScope.render(
+                            scope = it,
+                            value = f.fieldName
                         )
                     )
                 }
             )
-        return SerializeRF.render(
-            FieldRenderVar to f,
-            NameRenderVar to f.fieldName,
-            TagRenderVar to f.tag,
-            BoxRenderVar to
+
+        return Serialize.render(
+            field = f,
+            name = f.fieldName,
+            tag = f.tag,
+            box =
                 if (f.map) {
                     f.boxMap(ctx)
                 } else {
                     f.box(fieldAccess)
                 },
-            OptionsRenderVar to
-                SerializerOptions(
+            options =
+                Options(
                     fieldAccess = fieldAccess
                 )
         )
@@ -116,13 +124,10 @@ private constructor(
         }
 
     private fun oneOfSer(f: OneOf, ff: StandardField, type: String) =
-        ConditionalSt(
-            ConcatWithScopeRF.render(
-                ScopedValueRenderVar to
-                    ScopedValueSt(
-                        oneOfScope(f, type, ctx),
-                        f.fieldTypeNames[ff.name] ?: ""
-                    )
+        ConditionalParams(
+            ConcatWithScope.render(
+                scope = oneOfScope(f, type, ctx),
+                value = f.fieldTypeNames[ff.name] ?: ""
             ),
             serializeString(ff, Some(f.fieldName))
         )
