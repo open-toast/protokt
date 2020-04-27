@@ -30,6 +30,9 @@ import com.toasttab.protokt.codegen.impl.EnumAnnotator.annotateEnum
 import com.toasttab.protokt.codegen.impl.MessageAnnotator.annotateMessage
 import com.toasttab.protokt.codegen.impl.ServiceAnnotator.annotateService
 import com.toasttab.protokt.codegen.model.PPackage
+import com.toasttab.protokt.codegen.template.EnumTemplate
+import com.toasttab.protokt.codegen.template.MessageTemplate
+import com.toasttab.protokt.codegen.template.ServiceTemplate
 
 /**
  * STAnnotator is an implementation of a side effect free function.
@@ -73,7 +76,7 @@ object STAnnotator : Annotator<AST<TypeDesc>> {
         }
 
     private fun addMessage(a: AST<TypeDesc>, msg: MessageType, ctx: Context) =
-        annotate(a, Some(STTemplate.toTemplate(MessageSt))).let { ast ->
+        annotate(a, Some(STTemplate.toTemplate(MessageTemplate))).let { ast ->
             annotateMessage(
                 Optics.astChildrenLens.set(
                     ast,
@@ -88,7 +91,7 @@ object STAnnotator : Annotator<AST<TypeDesc>> {
                                             ast.data.type,
                                             it
                                         ),
-                                        Some(STTemplate.toTemplate(MessageSt))
+                                        Some(STTemplate.toTemplate(MessageTemplate))
                                     )
                                 )
                             ),
@@ -102,8 +105,16 @@ object STAnnotator : Annotator<AST<TypeDesc>> {
         }
 
     private fun addEnum(a: AST<TypeDesc>, e: EnumType, ctx: Context) =
-        annotateEnum(annotate(a, Some(STTemplate.toTemplate(EnumSt))), e, ctx)
+        annotateEnum(
+            annotate(a, Some(STTemplate.toTemplate(EnumTemplate))),
+            e,
+            ctx
+        )
 
     private fun addService(a: AST<TypeDesc>, s: ServiceType, ctx: Context) =
-        annotateService(annotate(a, Some(STTemplate.toTemplate(ServiceSt))), s, ctx)
+        annotateService(
+            annotate(a, Some(STTemplate.toTemplate(ServiceTemplate))),
+            s,
+            ctx
+        )
 }

@@ -21,6 +21,15 @@ import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.STAnnotator.rootGoogleProto
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
 import com.toasttab.protokt.codegen.model.PClass
+import com.toasttab.protokt.codegen.template.Box
+import com.toasttab.protokt.codegen.template.BoxMap
+import com.toasttab.protokt.codegen.template.NonDefaultValue
+import com.toasttab.protokt.codegen.template.RenderVariable.Box as BoxVar
+import com.toasttab.protokt.codegen.template.RenderVariable.Def
+import com.toasttab.protokt.codegen.template.RenderVariable.Field
+import com.toasttab.protokt.codegen.template.RenderVariable.Name
+import com.toasttab.protokt.codegen.template.RenderVariable.Type
+import com.toasttab.protokt.codegen.template.TypeToNative
 import com.toasttab.protokt.codegen.wireFormat
 
 internal val StandardField.tag
@@ -45,21 +54,21 @@ internal val StandardField.deprecated
     get() = options.default.deprecated
 
 internal fun StandardField.nonDefault(ctx: Context) =
-    NonDefaultValueRF.render(
-        FieldRenderVar to this,
-        NameRenderVar to interceptValueAccess(this, ctx)
+    NonDefaultValue.render(
+        Field to this,
+        Name to interceptValueAccess(this, ctx)
     )
 
 internal fun StandardField.boxMap(ctx: Context) =
-    BoxMapRF.render(
-        TypeRenderVar to type,
-        BoxRenderVar to unqualifiedNestedTypeName(ctx)
+    BoxMap.render(
+        Type to type,
+        BoxVar to unqualifiedNestedTypeName(ctx)
     )
 
 internal fun StandardField.box(s: String) =
-    BoxRF.render(
-        TypeRenderVar to type,
-        DefRenderVar to s
+    Box.render(
+        Type to type,
+        Def to s
     )
 
 internal fun StandardField.unqualifiedTypeName(ctx: Context) =
@@ -77,8 +86,8 @@ internal fun StandardField.typePClass(ctx: PluginContext) =
         {
             PClass.fromName(
                 if (it.isEmpty()) {
-                    ConvertTypeRF.render(
-                        TypeRenderVar to type
+                    TypeToNative.render(
+                        Type to type
                     )
                 } else {
                     it

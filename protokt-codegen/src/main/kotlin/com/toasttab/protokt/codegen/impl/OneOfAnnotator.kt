@@ -26,6 +26,10 @@ import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.possiblyQualify
 import com.toasttab.protokt.codegen.snakeToCamel
+import com.toasttab.protokt.codegen.template.OneofTemplate
+import com.toasttab.protokt.codegen.template.OneofVariable.Name
+import com.toasttab.protokt.codegen.template.OneofVariable.Options
+import com.toasttab.protokt.codegen.template.OneofVariable.Types
 
 internal class OneOfAnnotator
 private constructor(
@@ -36,10 +40,10 @@ private constructor(
         msg.fields.map {
             when (it) {
                 is OneOf ->
-                    OneOfSt.render(
-                        NameOneOfVar to it.nativeTypeName,
-                        TypesOneOfVar to it.fields.associate(::oneOfValue),
-                        OptionsOneOfVar to options(it)
+                    OneofTemplate.render(
+                        Name to it.nativeTypeName,
+                        Types to it.fields.associate(::oneOfValue),
+                        Options to options(it)
                     )
                 else -> ""
             }

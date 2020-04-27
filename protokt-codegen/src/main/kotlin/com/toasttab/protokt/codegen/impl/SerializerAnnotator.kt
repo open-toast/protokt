@@ -24,29 +24,40 @@ import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.impl.NonNullable.hasNonNullOption
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
+import com.toasttab.protokt.codegen.template.ConcatWithScope
+import com.toasttab.protokt.codegen.template.ConditionalParams
+import com.toasttab.protokt.codegen.template.IterationVar
+import com.toasttab.protokt.codegen.template.RenderVariable.Box
+import com.toasttab.protokt.codegen.template.RenderVariable.Field
+import com.toasttab.protokt.codegen.template.RenderVariable.Name
+import com.toasttab.protokt.codegen.template.RenderVariable.Options
+import com.toasttab.protokt.codegen.template.RenderVariable.ScopedValue
+import com.toasttab.protokt.codegen.template.RenderVariable.Tag
+import com.toasttab.protokt.codegen.template.ScopedValueParams
+import com.toasttab.protokt.codegen.template.Serialize
 
 internal class SerializerAnnotator
 private constructor(
     private val msg: MessageType,
     private val ctx: Context
 ) {
-    private fun annotateSerializer(): List<SerializerSt> {
+    private fun annotateSerializer(): List<SerializerParams> {
         return msg.sortedFields().map {
             when (it) {
                 is StandardField ->
-                    SerializerSt(
+                    SerializerParams(
                         true,
                         it.fieldName,
                         !it.hasNonNullOption,
                         listOf(
-                            ConditionalSt(
+                            ConditionalParams(
                                 it.nonDefault(ctx),
                                 serializeString(it)
                             )
                         )
                     )
                 is OneOf ->
-                    SerializerSt(
+                    SerializerParams(
                         false,
                         it.fieldName,
                         !it.hasNonNullOption,
@@ -57,6 +68,14 @@ private constructor(
             }
         }
     }
+
+    data class SerializerParams(
+        val std: Boolean,
+        val fieldName: String,
+        val skipDefaultValue: Boolean,
+        /** A singleton list for standard fields; one per type for enum fields */
+        val conditionals: List<ConditionalParams>
+    )
 
     private fun serializeString(
         f: StandardField,
@@ -69,7 +88,7 @@ private constructor(
                         f,
                         ctx,
                         if (f.repeated) {
-                            IterationVarRf.render()
+                            IterationVar.render()
                         } else {
                             f.fieldName
                         }
@@ -79,24 +98,24 @@ private constructor(
                     interceptValueAccess(
                         f,
                         ctx,
-                        ConcatWithScopeRF.render(
-                            ScopedValueRenderVar to
-                                ScopedValueSt(it, f.fieldName)
+                        ConcatWithScope.render(
+                            ScopedValue to
+                                ScopedValueParams(it, f.fieldName)
                         )
                     )
                 }
             )
-        return SerializeRF.render(
-            FieldRenderVar to f,
-            NameRenderVar to f.fieldName,
-            TagRenderVar to f.tag,
-            BoxRenderVar to
+        return Serialize.render(
+            Field to f,
+            Name to f.fieldName,
+            Tag to f.tag,
+            Box to
                 if (f.map) {
                     f.boxMap(ctx)
                 } else {
                     f.box(fieldAccess)
                 },
-            OptionsRenderVar to
+            Options to
                 SerializerOptions(
                     fieldAccess = fieldAccess
                 )
@@ -116,10 +135,10 @@ private constructor(
         }
 
     private fun oneOfSer(f: OneOf, ff: StandardField, type: String) =
-        ConditionalSt(
-            ConcatWithScopeRF.render(
-                ScopedValueRenderVar to
-                    ScopedValueSt(
+        ConditionalParams(
+            ConcatWithScope.render(
+                ScopedValue to
+                    ScopedValueParams(
                         oneOfScope(f, type, ctx),
                         f.fieldTypeNames[ff.name] ?: ""
                     )

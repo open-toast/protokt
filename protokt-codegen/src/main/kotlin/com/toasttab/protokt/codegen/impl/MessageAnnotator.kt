@@ -33,6 +33,16 @@ import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.SerializerAnnotator.Companion.annotateSerializer
 import com.toasttab.protokt.codegen.impl.SizeOfAnnotator.Companion.annotateSizeof
 import com.toasttab.protokt.codegen.model.PPackage
+import com.toasttab.protokt.codegen.template.MessageTemplate
+import com.toasttab.protokt.codegen.template.MessageVariable.Deserialize
+import com.toasttab.protokt.codegen.template.MessageVariable.Entry
+import com.toasttab.protokt.codegen.template.MessageVariable.Inner
+import com.toasttab.protokt.codegen.template.MessageVariable.Message
+import com.toasttab.protokt.codegen.template.MessageVariable.Oneofs
+import com.toasttab.protokt.codegen.template.MessageVariable.Options
+import com.toasttab.protokt.codegen.template.MessageVariable.Params
+import com.toasttab.protokt.codegen.template.MessageVariable.Serialize
+import com.toasttab.protokt.codegen.template.MessageVariable.Sizeof
 
 internal object MessageAnnotator {
     val idealMaxWidth = 100
@@ -43,17 +53,17 @@ internal object MessageAnnotator {
         ctx: Context
     ): AST<TypeDesc> {
         ast.data.type.template.map {
-            STTemplate.addTo(it as STTemplate, MessageSt) { f ->
+            STTemplate.addTo(it as STTemplate, MessageTemplate) { f ->
                 when (f) {
-                    is MessageMessageVar -> annotateMessage(msg, ctx)
-                    is EntryMessageVar -> annotateMapEntry(msg, ctx)
-                    is ParamsMessageVar -> annotateFields(msg, ctx)
-                    is OneOfsMessageVar -> annotateOneOfs(msg, ctx)
-                    is SizeofMessageVar -> annotateSizeof(msg, ctx)
-                    is SerializeMessageVar -> annotateSerializer(msg, ctx)
-                    is DeserializeMessageVar -> annotateDeserializer(msg, ctx)
-                    is OptionsMessageVar -> options(msg, ctx)
-                    is InnerMessageVar -> null
+                    is Message -> annotateMessage(msg, ctx)
+                    is Entry -> annotateMapEntry(msg, ctx)
+                    is Params -> annotateFields(msg, ctx)
+                    is Oneofs -> annotateOneOfs(msg, ctx)
+                    is Sizeof -> annotateSizeof(msg, ctx)
+                    is Serialize -> annotateSerializer(msg, ctx)
+                    is Deserialize -> annotateDeserializer(msg, ctx)
+                    is Options -> options(msg, ctx)
+                    is Inner -> null
                 }
             }
         }
@@ -61,7 +71,7 @@ internal object MessageAnnotator {
     }
 
     private fun annotateMessage(msg: MessageType, ctx: Context) =
-        MessageDataSt(
+        MessageParams(
             name = msg.name,
             doesImplement = msg.doesImplement,
             implements = msg.implements,
@@ -81,6 +91,16 @@ internal object MessageAnnotator {
             fullTypeName = msg.fullProtobufTypeName
         )
 
+    private data class MessageParams(
+        val name: String,
+        val doesImplement: Boolean,
+        val implements: String,
+        val documentation: List<String>,
+        val deprecation: Deprecation.RenderOptions?,
+        val suppressDeprecation: Boolean,
+        val fullTypeName: String
+    )
+
     private fun options(msg: MessageType, ctx: Context): Any {
         val lengthAsOneLine =
             ctx.enclosingMessage.size * 4 +
@@ -95,7 +115,7 @@ internal object MessageAnnotator {
         )
     }
 
-    private class MessageOptions(
+    private data class MessageOptions(
         val wellKnownType: Boolean,
         val longDeserializer: Boolean
     )

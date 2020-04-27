@@ -20,6 +20,17 @@ import com.toasttab.protokt.codegen.ServiceType
 import com.toasttab.protokt.codegen.TypeDesc
 import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
+import com.toasttab.protokt.codegen.template.Descriptor
+import com.toasttab.protokt.codegen.template.DescriptorVariable
+import com.toasttab.protokt.codegen.template.MethodTemplate
+import com.toasttab.protokt.codegen.template.MethodTypeTemplate
+import com.toasttab.protokt.codegen.template.MethodTypeVariable
+import com.toasttab.protokt.codegen.template.MethodVariable
+import com.toasttab.protokt.codegen.template.ServiceTemplate
+import com.toasttab.protokt.codegen.template.ServiceVariable.Descriptor as DescriptorVar
+import com.toasttab.protokt.codegen.template.ServiceVariable.Methods
+import com.toasttab.protokt.codegen.template.ServiceVariable.Name
+import com.toasttab.protokt.codegen.template.ServiceVariable.QualifiedName
 
 internal object ServiceAnnotator {
     fun annotateService(
@@ -28,12 +39,12 @@ internal object ServiceAnnotator {
         ctx: Context
     ): AST<TypeDesc> {
         ast.data.type.template.map {
-            STTemplate.addTo(it as STTemplate, ServiceSt) { arg ->
+            STTemplate.addTo(it as STTemplate, ServiceTemplate) { arg ->
                 when (arg) {
-                    is NameServiceVar -> s.name
-                    is QualifiedNameServiceVar -> renderQualifiedName(s, ctx)
-                    is DescriptorServiceVar -> renderDescriptor(s)
-                    is MethodsServiceVar -> renderMethods(s, ctx)
+                    is Name -> s.name
+                    is QualifiedName -> renderQualifiedName(s, ctx)
+                    is DescriptorVar -> renderDescriptor(s)
+                    is Methods -> renderMethods(s, ctx)
                 }
             }
         }
@@ -48,8 +59,8 @@ internal object ServiceAnnotator {
         }
 
     private fun renderDescriptor(s: ServiceType) =
-        DescriptorSt.render(
-            MethodsDescriptorVar to s.methods.map { it.name.decapitalize() }
+        Descriptor.render(
+            DescriptorVariable.Methods to s.methods.map { it.name.decapitalize() }
         )
 
     private data class MethodInfo(
@@ -69,11 +80,11 @@ internal object ServiceAnnotator {
                 MethodInfo(
                     m.name,
                     m.name.decapitalize(),
-                    MethodSt.render(
-                        NameMethodVar to m.name.capitalize(),
-                        TypeMethodVar to methodType(m),
-                        InMethodVar to `in`,
-                        OutMethodVar to `out`
+                    MethodTemplate.render(
+                        MethodVariable.Name to m.name.capitalize(),
+                        MethodVariable.Type to methodType(m),
+                        MethodVariable.In to `in`,
+                        MethodVariable.Out to `out`
                     ),
                     `in`,
                     `out`
@@ -85,5 +96,5 @@ internal object ServiceAnnotator {
         requalifyProtoType(typeName, ctx.desc.context).renderName(ctx.pkg)
 
     private fun methodType(m: Method) =
-        MethodTypeSt.render(MethodMethodVar to m)
+        MethodTypeTemplate.render(MethodTypeVariable.Method to m)
 }

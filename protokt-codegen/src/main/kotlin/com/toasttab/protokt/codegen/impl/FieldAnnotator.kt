@@ -33,6 +33,16 @@ import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptDefaultValue
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptTypeName
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
+import com.toasttab.protokt.codegen.template.DefaultValue
+import com.toasttab.protokt.codegen.template.OneOfDefaultValue
+import com.toasttab.protokt.codegen.template.RenderVariable.Any
+import com.toasttab.protokt.codegen.template.RenderVariable.Field as FieldVar
+import com.toasttab.protokt.codegen.template.RenderVariable.Name
+import com.toasttab.protokt.codegen.template.RenderVariable.Nullable
+import com.toasttab.protokt.codegen.template.RenderVariable.Oneof
+import com.toasttab.protokt.codegen.template.RenderVariable.Type as TypeVar
+import com.toasttab.protokt.codegen.template.Standard
+import com.toasttab.protokt.codegen.template.Type
 import com.toasttab.protokt.rt.PType
 
 internal class FieldAnnotator
@@ -40,14 +50,14 @@ private constructor(
     private val msg: MessageType,
     private val ctx: Context
 ) {
-    private fun annotateFields(): List<ParameterSt> {
+    private fun annotateFields(): List<ParameterParams> {
         return msg.fields.map {
             val documentation = annotateFieldDocumentation(it, ctx)
             val nullable = it.nullable
 
             when (it) {
                 is StandardField -> {
-                    ParameterSt(
+                    ParameterParams(
                         name = it.fieldName,
                         type = annotateStandard(it),
                         defaultValue = it.defaultValue(),
@@ -70,12 +80,12 @@ private constructor(
                     )
                 }
                 is OneOf ->
-                    ParameterSt(
+                    ParameterParams(
                         name = it.fieldName,
-                        type = TypeRF.render(
-                            OneOfRenderVar to true,
-                            NullableRenderVar to nullable,
-                            AnyRenderVar to it.nativeTypeName
+                        type = Type.render(
+                            Oneof to true,
+                            Nullable to nullable,
+                            Any to it.nativeTypeName
                         ),
                         defaultValue = it.defaultValue(),
                         oneOf = true,
@@ -87,11 +97,27 @@ private constructor(
         }
     }
 
+    data class ParameterParams(
+        val name: String,
+        val type: String,
+        val defaultValue: String,
+        val messageType: String = "",
+        val repeated: Boolean = false,
+        val map: Boolean = false,
+        val oneOf: Boolean = false,
+        val nullable: Boolean = true,
+        val wrapped: Boolean = false,
+        val nonNullOption: Boolean,
+        val overrides: Boolean = false,
+        val documentation: List<String>,
+        val deprecation: Deprecation.RenderOptions? = null
+    )
+
     private fun annotateStandard(f: StandardField) =
-        StandardRF.render(
-            FieldRenderVar to f,
-            NullableRenderVar to f.nullable,
-            AnyRenderVar to
+        Standard.render(
+            FieldVar to f,
+            Nullable to f.nullable,
+            Any to
                 if (f.map) {
                     typeParams(f.typeName)
                 } else {
@@ -127,10 +153,10 @@ private constructor(
             is StandardField ->
                 interceptDefaultValue(
                     this,
-                    DefaultValueRF.render(
-                        FieldRenderVar to this,
-                        TypeRenderVar to type,
-                        NameRenderVar to
+                    DefaultValue.render(
+                        FieldVar to this,
+                        TypeVar to type,
+                        Name to
                             if (type == PType.ENUM) {
                                 unqualifiedNestedTypeName(ctx)
                             } else {
@@ -140,7 +166,7 @@ private constructor(
                     ctx
                 )
             is OneOf ->
-                OneOfDefaultValueRF.render()
+                OneOfDefaultValue.render()
         }
 
     companion object {

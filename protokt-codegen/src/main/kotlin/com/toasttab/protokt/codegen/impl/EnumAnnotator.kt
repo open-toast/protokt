@@ -24,6 +24,8 @@ import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
 import com.toasttab.protokt.codegen.impl.EnumDocumentationAnnotator.Companion.annotateEnumDocumentation
 import com.toasttab.protokt.codegen.impl.EnumDocumentationAnnotator.Companion.annotateEnumFieldDocumentation
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
+import com.toasttab.protokt.codegen.template.EnumTemplate
+import com.toasttab.protokt.codegen.template.EnumVariable
 
 internal object EnumAnnotator {
     fun annotateEnum(
@@ -32,10 +34,10 @@ internal object EnumAnnotator {
         ctx: Context
     ): AST<TypeDesc> {
         ast.data.type.template.map { t ->
-            STTemplate.addTo(t as STTemplate, EnumSt) { f ->
+            STTemplate.addTo(t as STTemplate, EnumTemplate) { f ->
                 when (f) {
-                    is NameEnumVar -> e.name
-                    is MapEnumVar ->
+                    is EnumVariable.Name -> e.name
+                    is EnumVariable.Map ->
                         e.values.associate {
                             it.number to
                                 EnumValueData(
@@ -50,7 +52,7 @@ internal object EnumAnnotator {
                                     }
                                 )
                         }
-                    is OptionsEnumVar ->
+                    is EnumVariable.Options ->
                         EnumOptions(
                             documentation = annotateEnumDocumentation(e, ctx),
                             deprecation =

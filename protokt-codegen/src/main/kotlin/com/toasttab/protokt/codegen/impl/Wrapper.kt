@@ -27,6 +27,23 @@ import com.toasttab.protokt.codegen.impl.WellKnownTypes.wrapWithWellKnownInterce
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.model.possiblyQualify
+import com.toasttab.protokt.codegen.template.AccessField
+import com.toasttab.protokt.codegen.template.BytesSlice
+import com.toasttab.protokt.codegen.template.ConcatWithScope
+import com.toasttab.protokt.codegen.template.DefaultBytesSlice
+import com.toasttab.protokt.codegen.template.FieldSizeof
+import com.toasttab.protokt.codegen.template.OptionsVariable.Arg
+import com.toasttab.protokt.codegen.template.OptionsVariable.Oneof
+import com.toasttab.protokt.codegen.template.OptionsVariable.Type
+import com.toasttab.protokt.codegen.template.OptionsVariable.WrapName
+import com.toasttab.protokt.codegen.template.ReadBytesSlice
+import com.toasttab.protokt.codegen.template.RenderVariable.Field
+import com.toasttab.protokt.codegen.template.RenderVariable.Name
+import com.toasttab.protokt.codegen.template.RenderVariable.ScopedValue
+import com.toasttab.protokt.codegen.template.ScopedValueParams
+import com.toasttab.protokt.codegen.template.SizeofOption
+import com.toasttab.protokt.codegen.template.TypeToJavaClassName
+import com.toasttab.protokt.codegen.template.WrapField
 import com.toasttab.protokt.ext.OptimizedSizeofConverter
 import com.toasttab.protokt.rt.PType
 import kotlin.reflect.KClass
@@ -64,9 +81,7 @@ internal object Wrapper {
                             {
                                 // Protobuf primitives have no typeName
                                 Class.forName(
-                                    TypeToJavaClassNameRF.render(
-                                        TypeOptionVar to type
-                                    )
+                                    TypeToJavaClassName.render(Type to type)
                                 ).kotlin
                             },
                             { getClass(typePClass(ctx), ctx) }
@@ -103,9 +118,9 @@ internal object Wrapper {
         f.foldWrap(
             ctx,
             {
-                FieldSizeOfRF.render(
-                    FieldSizeOfVar to f,
-                    NameSizeOfVar to s
+                FieldSizeof.render(
+                    Field to f,
+                    Name to s
                 )
             },
             { wrapper, wrapped ->
@@ -113,20 +128,20 @@ internal object Wrapper {
                     converter(wrapper, wrapped, ctx) is
                         OptimizedSizeofConverter<*, *>
                 ) {
-                    ConcatWithScopeRF.render(
-                        ScopedValueRenderVar to
-                            ScopedValueSt(
+                    ConcatWithScope.render(
+                        ScopedValue to
+                            ScopedValueParams(
                                 unqualifiedWrap(
                                     converterClass(wrapper, wrapped, ctx),
                                     ctx.pkg
                                 ),
-                                SizeofOptionRF.render(ArgVar to s)
+                                SizeofOption.render(Arg to s)
                             )
                     )
                 } else {
-                    FieldSizeOfRF.render(
-                        FieldSizeOfVar to f,
-                        NameSizeOfVar to s
+                    FieldSizeof.render(
+                        Field to f,
+                        Name to s
                     )
                 }
             }
@@ -141,12 +156,12 @@ internal object Wrapper {
             ctx,
             { s },
             { wrapper, wrapped ->
-                AccessFieldRF.render(
-                    WrapNameVar to
+                AccessField.render(
+                    WrapName to
                         PClass.fromClass(
                             converter(wrapper, wrapped, ctx)::class
                         ).renderName(ctx.pkg),
-                    ArgVar to s
+                    Arg to s
                 )
             }
         )
@@ -177,11 +192,11 @@ internal object Wrapper {
         wrapperName(f, ctx).fold(
             { s },
             {
-                WrapFieldRF.render(
-                    WrapNameVar to it,
-                    ArgVar to s,
-                    TypeOptionVar to f.type,
-                    OneofOptionVar to true
+                WrapField.render(
+                    WrapName to it,
+                    Arg to s,
+                    Type to f.type,
+                    Oneof to true
                 )
             }
         )
@@ -202,7 +217,7 @@ internal object Wrapper {
     fun interceptReadFn(f: StandardField, s: String) =
         f.foldBytesSlice(
             { s },
-            { ReadBytesSliceRF.render() }
+            { ReadBytesSlice.render() }
         )
 
     fun interceptDefaultValue(f: StandardField, s: String, ctx: Context) =
@@ -213,7 +228,7 @@ internal object Wrapper {
                     { s }
                 )
             },
-            { DefaultBytesSliceRF.render() }
+            { DefaultBytesSlice.render() }
         )
 
     fun interceptTypeName(f: StandardField, t: String, ctx: Context) =
@@ -225,7 +240,7 @@ internal object Wrapper {
                     { wrapper, _ -> unqualifiedWrap(wrapper, ctx.pkg) }
                 )
             },
-            { BytesSliceRF.render() }
+            { BytesSlice.render() }
         )
 
     private fun <R> StandardField.foldBytesSlice(

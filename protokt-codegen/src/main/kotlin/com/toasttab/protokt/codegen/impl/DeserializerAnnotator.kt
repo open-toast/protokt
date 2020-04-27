@@ -28,6 +28,17 @@ import com.toasttab.protokt.codegen.impl.Wrapper.interceptReadFn
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapperName
 import com.toasttab.protokt.codegen.snakeToCamel
+import com.toasttab.protokt.codegen.template.Deserialize
+import com.toasttab.protokt.codegen.template.OneOfDeserialize
+import com.toasttab.protokt.codegen.template.ReadFunction
+import com.toasttab.protokt.codegen.template.RenderVariable.Builder
+import com.toasttab.protokt.codegen.template.RenderVariable.Field
+import com.toasttab.protokt.codegen.template.RenderVariable.Lhs
+import com.toasttab.protokt.codegen.template.RenderVariable.Name
+import com.toasttab.protokt.codegen.template.RenderVariable.Oneof
+import com.toasttab.protokt.codegen.template.RenderVariable.Options
+import com.toasttab.protokt.codegen.template.RenderVariable.Read
+import com.toasttab.protokt.codegen.template.RenderVariable.Type
 import com.toasttab.protokt.rt.PType
 
 internal class DeserializerAnnotator
@@ -35,16 +46,16 @@ private constructor(
     private val msg: MessageType,
     private val ctx: Context
 ) {
-    private fun annotateDeserializer(): List<DeserializerSt> =
+    private fun annotateDeserializer(): List<DeserializerParams> =
         msg.flattenedSortedFields().map { (field, oneOf) ->
-            DeserializerSt(
+            DeserializerParams(
                 oneOf.isEmpty(),
                 field.repeated,
                 field.tagList.joinToString(),
                 oneOf.fold(
                     {
                         deserializeString(field).let { value ->
-                            AssignmentSt(
+                            Assignment(
                                 field.fieldName,
                                 value,
                                 long(field, value)
@@ -53,7 +64,7 @@ private constructor(
                     },
                     {
                         oneOfDes(it, field).let { value ->
-                            AssignmentSt(
+                            Assignment(
                                 it.fieldName,
                                 value,
                                 long(field, value)
@@ -63,6 +74,19 @@ private constructor(
                 )
             )
         }
+
+    data class DeserializerParams(
+        val std: Boolean,
+        val repeated: Boolean,
+        val tag: String,
+        val assignment: Assignment
+    )
+
+    data class Assignment(
+        val fieldName: String,
+        val value: String,
+        val long: Boolean
+    )
 
     private fun long(field: StandardField, value: String): Boolean {
         val spaceTaken =
@@ -82,12 +106,12 @@ private constructor(
     }
 
     private fun deserializeString(f: StandardField) =
-        DeserializeRF.render(
-            FieldRenderVar to f,
-            TypeRenderVar to f.unqualifiedNestedTypeName(ctx),
-            ReadRenderVar to interceptReadFn(f, f.readFn()),
-            LhsRenderVar to f.fieldName,
-            OptionsRenderVar to
+        Deserialize.render(
+            Field to f,
+            Type to f.unqualifiedNestedTypeName(ctx),
+            Read to interceptReadFn(f, f.readFn()),
+            Lhs to f.fieldName,
+            Options to
                 if (f.wrapped) {
                     DeserializerOptions(
                         wrapName = wrapperName(f, ctx).getOrElse { "" },
@@ -121,16 +145,16 @@ private constructor(
     )
 
     private fun oneOfDes(f: OneOf, ff: StandardField) =
-        OneOfDeserializeRF.render(
-            OneOfRenderVar to snakeToCamel(f.name).capitalize(),
-            NameRenderVar to snakeToCamel(ff.name).capitalize(),
-            ReadRenderVar to deserializeString(ff)
+        OneOfDeserialize.render(
+            Oneof to snakeToCamel(f.name).capitalize(),
+            Name to snakeToCamel(ff.name).capitalize(),
+            Read to deserializeString(ff)
         )
 
     private fun StandardField.readFn() =
-        ReadFunctionRF.render(
-            TypeRenderVar to type,
-            BuilderRenderVar to
+        ReadFunction.render(
+            Type to type,
+            Builder to
                 when (type) {
                     PType.ENUM,
                     PType.MESSAGE -> stripQualification(ctx, this)

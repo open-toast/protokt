@@ -13,23 +13,14 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.impl
+package com.toasttab.protokt.codegen.template
 
-// type safe variable
-
-
-data class ScopedValueSt(
+data class ScopedValueParams(
     val scope: String,
     val value: String
 )
 
-data class ConditionalSt(
+data class ConditionalParams(
     val condition: String,
     val consequent: String
 )
-
-
-
-
-
-

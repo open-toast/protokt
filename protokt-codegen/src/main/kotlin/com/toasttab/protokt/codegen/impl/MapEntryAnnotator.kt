@@ -19,12 +19,18 @@ import com.toasttab.protokt.codegen.MessageType
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 
 internal object MapEntryAnnotator {
-    fun annotateMapEntry(m: MessageType, ctx: Context) =
+    fun annotateMapEntry(m: MessageType, ctx: Context): Any =
         if (m.mapEntry) {
             resolveMapEntry(m, ctx).let { (k, v) ->
-                MapEntrySt(true, k, v)
+                MapEntryParams(true, k, v)
             }
         } else {
-            MapEntrySt(false, "", "")
+            MapEntryParams(false, "", "")
         }
+
+    private data class MapEntryParams(
+        val entry: Boolean,
+        val kType: String,
+        val vType: String
+    )
 }

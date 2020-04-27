@@ -16,6 +16,9 @@
 package com.toasttab.protokt.codegen.impl
 
 import com.toasttab.protokt.codegen.Template
+import com.toasttab.protokt.codegen.template.StTemplate
+import com.toasttab.protokt.codegen.template.TemplateGroup
+import com.toasttab.protokt.codegen.template.TemplateVariable
 import org.stringtemplate.v4.ST
 import org.stringtemplate.v4.STGroupFile
 
@@ -27,38 +30,38 @@ data class STTemplate(val st: ST) : Template {
 
     companion object {
         private val templates =
-            GroupSt::class.sealedSubclasses
+            TemplateGroup::class.sealedSubclasses
                 .mapNotNull { it.objectInstance }
                 .associateWith { STGroupFile(it.value) }
 
-        fun <T> toTemplate(tt: TemplateSt<T>) =
+        fun <T> toTemplate(tt: StTemplate<T>) =
             STTemplate(templates.getValue(tt.group).getInstanceOf(tt.name))
 
-        fun <T : Var> addTo(
+        fun <T : TemplateVariable> addTo(
             st: STTemplate,
-            tt: TemplateSt<T>,
+            tt: StTemplate<T>,
             fn: (T) -> Any?
         ) {
-            tt.vars.forEach { st.st.add(it.value, fn(it)) }
+            tt.vars.forEach { st.st.add(it.name, fn(it)) }
         }
 
-        fun <T> addTo(st: STTemplate, v: Var, t: T) {
-            st.st.add(v.value, t)
+        fun <T> addTo(st: STTemplate, v: TemplateVariable, t: T) {
+            st.st.add(v.name, t)
         }
     }
 }
 
-internal fun <T : Var> TemplateSt<T>.render(params: List<Pair<T, Any?>>) =
+internal fun <T : TemplateVariable> StTemplate<T>.render(params: List<Pair<T, Any?>>) =
     render(*params.toTypedArray())
 
-internal fun <T : Var> TemplateSt<T>.render(
-    vararg params: Pair<Var, Any?>
+internal fun <T : TemplateVariable> StTemplate<T>.render(
+    vararg params: Pair<TemplateVariable, Any?>
 ): String {
     val template = STTemplate.toTemplate(this).st
     params.forEach { (k, v) ->
         when (k) {
-            in vars -> template.add(k.value, v)
-            else -> error("${k.value} not found in $name")
+            in vars -> template.add(k.name, v)
+            else -> error("${k.name} not found in $name")
         }
     }
     return template.render()

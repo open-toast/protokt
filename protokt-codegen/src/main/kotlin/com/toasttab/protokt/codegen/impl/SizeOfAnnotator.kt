@@ -26,29 +26,39 @@ import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptFieldSizeof
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptSizeof
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
+import com.toasttab.protokt.codegen.template.ConcatWithScope
+import com.toasttab.protokt.codegen.template.ConditionalParams
+import com.toasttab.protokt.codegen.template.IterationVar
+import com.toasttab.protokt.codegen.template.RenderVariable.Field
+import com.toasttab.protokt.codegen.template.RenderVariable.Name
+import com.toasttab.protokt.codegen.template.RenderVariable.Options
+import com.toasttab.protokt.codegen.template.RenderVariable.ScopedValue
+import com.toasttab.protokt.codegen.template.RenderVariable.Type
+import com.toasttab.protokt.codegen.template.ScopedValueParams
+import com.toasttab.protokt.codegen.template.Sizeof
 
 internal class SizeOfAnnotator
 private constructor(
     private val msg: MessageType,
     private val ctx: Context
 ) {
-    private fun annotateSizeof(): List<SizeofSt> {
+    private fun annotateSizeof(): List<SizeofParams> {
         return msg.fields.map {
             when (it) {
                 is StandardField ->
-                    SizeofSt(
+                    SizeofParams(
                         true,
                         "",
                         !it.hasNonNullOption,
                         listOf(
-                            ConditionalSt(
+                            ConditionalParams(
                                 it.nonDefault(ctx),
                                 sizeOfString(it, None)
                             )
                         )
                     )
                 is OneOf ->
-                    SizeofSt(
+                    SizeofParams(
                         false,
                         it.fieldName,
                         !it.hasNonNullOption,
@@ -57,6 +67,14 @@ private constructor(
             }
         }
     }
+
+    data class SizeofParams(
+        val std: Boolean,
+        val fieldName: String,
+        val skipDefaultValue: Boolean,
+        /** A singleton list for standard fields; one per type for enum fields */
+        val conditionals: List<ConditionalParams>
+    )
 
     private fun sizeOfString(
         f: StandardField,
@@ -73,15 +91,15 @@ private constructor(
                 },
                 { it }
             )
-        return SizeOfRF.render(
-            NameSizeOfVar to name,
-            FieldSizeOfVar to f,
-            TypeSizeOfVar to f.unqualifiedNestedTypeName(ctx),
-            OptionsSizeOfVar to
+        return Sizeof.render(
+            Name to name,
+            Field to f,
+            Type to f.unqualifiedNestedTypeName(ctx),
+            Options to
                 SizeOfOptions(
                     fieldSizeof = interceptFieldSizeof(f, name, ctx),
                     fieldAccess =
-                        interceptValueAccess(f, ctx, IterationVarRf.render())
+                        interceptValueAccess(f, ctx, IterationVar.render())
                 )
         )
     }
@@ -93,10 +111,10 @@ private constructor(
 
     private fun oneOfSize(f: OneOf, type: String) =
         f.fields.map {
-            ConditionalSt(
-                ConcatWithScopeRF.render(
-                    ScopedValueRenderVar to
-                        ScopedValueSt(
+            ConditionalParams(
+                ConcatWithScope.render(
+                    ScopedValue to
+                        ScopedValueParams(
                             oneOfScope(f, type, ctx),
                             f.fieldTypeNames[it.name] ?: ""
                         )
@@ -106,9 +124,12 @@ private constructor(
                     Some(
                         interceptSizeof(
                             it,
-                            ConcatWithScopeRF.render(
-                                ScopedValueRenderVar to
-                                    ScopedValueSt(f.fieldName, it.fieldName)
+                            ConcatWithScope.render(
+                                ScopedValue to
+                                    ScopedValueParams(
+                                        f.fieldName,
+                                        it.fieldName
+                                    )
                             ),
                             ctx
                         )

@@ -24,6 +24,7 @@ import com.toasttab.protokt.codegen.TypeDesc
 import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.algebra.Accumulator
 import com.toasttab.protokt.codegen.algebra.Effects
+import com.toasttab.protokt.codegen.template.MessageVariable.Inner
 
 internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
     override fun invoke(astList: List<AST<TypeDesc>>, acc: (String) -> Unit) {
@@ -77,7 +78,7 @@ internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
 
     private fun addInner(t: STTemplate, strings: List<String>) {
         if (strings.isNotEmpty()) {
-            STTemplate.addTo(t, InnerMessageVar, strings.joinToString("\n"))
+            STTemplate.addTo(t, Inner, strings.joinToString("\n"))
         }
     }
 }
