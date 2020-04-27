@@ -21,7 +21,7 @@ import com.toasttab.protokt.rt.PType
 
 object TypeToNative : StTemplate(
     StGroup.Renderers,
-    "typeTonativeF"
+    "typeToNativeF"
 ) {
     fun render(type: PType) =
         zipRender(type)

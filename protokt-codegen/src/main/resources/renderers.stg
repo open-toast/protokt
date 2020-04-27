@@ -141,7 +141,7 @@ isGeneratedType ::= ["MESSAGE": true, "ENUM": true, default: false]
 
 isBytes ::= ["BYTES": true, "STRING": true, default: false]
 
-typeTonativeF(type) ::= "<kotlinTypeNames.(type)>"
+typeToNativeF(type) ::= "<kotlinTypeNames.(type)>"
 
 readF(type, builder) ::= "<readFunctions.(type)>(<builder>)"
 
