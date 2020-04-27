@@ -15,15 +15,13 @@
 
 package com.toasttab.protokt.codegen.impl
 
-import arrow.core.None
-import arrow.core.Some
 import com.github.andrewoma.dexx.kollection.immutableListOf
 import com.toasttab.protokt.codegen.EnumType
 import com.toasttab.protokt.codegen.FileDesc
 import com.toasttab.protokt.codegen.MessageType
-import com.toasttab.protokt.codegen.Optics
 import com.toasttab.protokt.codegen.Optics.annotate
 import com.toasttab.protokt.codegen.ServiceType
+import com.toasttab.protokt.codegen.Type
 import com.toasttab.protokt.codegen.TypeDesc
 import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.algebra.Annotator
@@ -31,7 +29,6 @@ import com.toasttab.protokt.codegen.impl.EnumAnnotator.annotateEnum
 import com.toasttab.protokt.codegen.impl.MessageAnnotator.annotateMessage
 import com.toasttab.protokt.codegen.impl.ServiceAnnotator.annotateService
 import com.toasttab.protokt.codegen.model.PPackage
-import com.toasttab.protokt.codegen.template.prepare
 
 /**
  * STAnnotator is an implementation of a side effect free function.
@@ -53,56 +50,26 @@ object STAnnotator : Annotator<AST<TypeDesc>> {
     )
 
     override fun invoke(ast: AST<TypeDesc>) =
-        invoke(
+        annotate(
             ast,
-            Context(
-                immutableListOf(),
-                kotlinPackage(ast),
-                ast.data.desc
+            annotate(
+                ast.data.type.rawType,
+                Context(
+                    immutableListOf(),
+                    kotlinPackage(ast),
+                    ast.data.desc
+                )
             )
         )
 
-    private fun invoke(ast: AST<TypeDesc>, ctx: Context): AST<TypeDesc> =
-        when (val t = ast.data.type.rawType) {
+    fun annotate(type: Type, ctx: Context): String =
+        when (type) {
             is MessageType ->
-                addMessage(
-                    ast,
-                    t,
-                    ctx.copy(enclosingMessage = ctx.enclosingMessage + t)
+                annotateMessage(
+                    type,
+                    ctx.copy(enclosingMessage = ctx.enclosingMessage + type)
                 )
-            is EnumType -> addEnum(ast, t, ctx)
-            is ServiceType -> addService(ast, t, ctx)
+            is EnumType -> annotateEnum(type, ctx)
+            is ServiceType -> annotateService(type, ctx)
         }
-
-    private fun addMessage(a: AST<TypeDesc>, msg: MessageType, ctx: Context) =
-        annotate(
-            Optics.astChildrenLens.set(
-                a,
-                msg.nestedTypes.map {
-                    invoke(
-                        Optics.astLens.set(
-                            a,
-                            Optics.typeDescTypeLens.set(
-                                a.data,
-                                Optics.annotatedTypeRenderableLens.set(
-                                    Optics.annotatedTypeLens.set(
-                                        a.data.type,
-                                        it
-                                    ),
-                                    None
-                                )
-                            )
-                        ),
-                        ctx
-                    )
-                }
-            ),
-            Some(annotateMessage(msg, ctx).prepare())
-        )
-
-    private fun addEnum(a: AST<TypeDesc>, e: EnumType, ctx: Context) =
-        annotate(a, Some(annotateEnum(e, ctx).prepare()))
-
-    private fun addService(a: AST<TypeDesc>, s: ServiceType, ctx: Context) =
-        annotate(a, Some(annotateService(s, ctx).prepare()))
 }

@@ -17,10 +17,9 @@ package com.toasttab.protokt.codegen.template
 
 import com.toasttab.protokt.codegen.model.PPackage
 
-object Header : StTemplate(
-    StGroup.Header,
-    "header"
-) {
-    fun render(`package`: PPackage?, imports: List<String>) =
-        zipRender(`package`, imports)
+object Header {
+    object Header : StTemplate(StGroup.Header) {
+        fun render(`package`: PPackage?, imports: List<String>) =
+            renderArgs(`package`, imports)
+    }
 }

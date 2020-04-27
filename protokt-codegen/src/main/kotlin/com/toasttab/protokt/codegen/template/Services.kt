@@ -15,46 +15,39 @@
 
 package com.toasttab.protokt.codegen.template
 
-object Service : PreparableStTemplate<Service.prepare>(
-    StGroup.Services,
-    "service"
-) {
-    class prepare(
-        val name: String,
-        val qualifiedName: String,
-        val descriptor: String,
-        val methods: List<MethodInfo>
-    ) : Prepare<prepare>(Service)
+abstract class ServicesTemplate : StTemplate(StGroup.Services)
 
-    class MethodInfo(
-        val name: String,
-        val lowerName: String,
-        val body: String,
-        val `in`: String,
-        val `out`: String
-    )
-}
+object Services {
+    object Service : ServicesTemplate() {
+        fun render(
+            name: String,
+            qualifiedName: String,
+            descriptor: String,
+            methods: List<MethodInfo>
+        ) =
+            renderArgs(name, qualifiedName, descriptor, methods)
 
-object Descriptor : StTemplate(
-    StGroup.Services,
-    "descriptor"
-) {
-    fun render(methods: List<String>) =
-        zipRender(methods)
-}
+        class MethodInfo(
+            val name: String,
+            val lowerName: String,
+            val body: String,
+            val `in`: String,
+            val `out`: String
+        )
+    }
 
-object Method : StTemplate(
-    StGroup.Services,
-    "method"
-) {
-    fun render(name: String, type: String, `in`: String, out: String) =
-        zipRender(name, type, `in`, out)
-}
+    object Descriptor : ServicesTemplate() {
+        fun render(methods: List<String>) =
+            renderArgs(methods)
+    }
 
-object MethodType : StTemplate(
-    StGroup.Services,
-    "methodType"
-) {
-    fun render(method: com.toasttab.protokt.codegen.Method) =
-        zipRender(method)
+    object Method : ServicesTemplate() {
+        fun render(name: String, type: String, `in`: String, out: String) =
+            renderArgs(name, type, `in`, out)
+    }
+
+    object MethodType : ServicesTemplate() {
+        fun render(method: com.toasttab.protokt.codegen.Method) =
+            renderArgs(method)
+    }
 }

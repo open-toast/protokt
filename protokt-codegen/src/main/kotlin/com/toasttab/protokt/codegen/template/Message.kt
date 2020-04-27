@@ -17,84 +17,95 @@ package com.toasttab.protokt.codegen.template
 
 import com.toasttab.protokt.codegen.impl.Deprecation
 
-object Message : PreparableStTemplate<Message.prepare>(
-    StGroup.Message,
-    "message"
-) {
-    class prepare(
-        val message: MessageInfo,
-        val entry: MapEntryInfo,
-        val serialize: List<SerializerInfo>,
-        val deserialize: List<DeserializerInfo>,
-        val sizeof: List<SizeofInfo>,
-        val properties: List<PropertyInfo>,
-        val oneofs: List<String>,
-        val options: Options
-    ) : Prepare<prepare>(Message)
+object Message {
+    object Message : StTemplate(StGroup.Message) {
+        fun render(
+            message: MessageInfo,
+            entry: MapEntryInfo,
+            serialize: List<SerializerInfo>,
+            deserialize: List<DeserializerInfo>,
+            sizeof: List<SizeofInfo>,
+            properties: List<PropertyInfo>,
+            oneofs: List<String>,
+            nested: List<String>,
+            options: Options
+        ) =
+            renderArgs(
+                message,
+                entry,
+                serialize,
+                deserialize,
+                sizeof,
+                properties,
+                oneofs,
+                nested,
+                options
+            )
 
-    class MessageInfo(
-        val name: String,
-        val doesImplement: Boolean,
-        val implements: String,
-        val documentation: List<String>,
-        val deprecation: Deprecation.RenderOptions?,
-        val suppressDeprecation: Boolean,
-        val fullTypeName: String
-    )
+        class MessageInfo(
+            val name: String,
+            val doesImplement: Boolean,
+            val implements: String,
+            val documentation: List<String>,
+            val deprecation: Deprecation.RenderOptions?,
+            val suppressDeprecation: Boolean,
+            val fullTypeName: String
+        )
 
-    class MapEntryInfo(
-        val entry: Boolean,
-        val kType: String,
-        val vType: String
-    )
+        class MapEntryInfo(
+            val entry: Boolean,
+            val kType: String,
+            val vType: String
+        )
 
-    class PropertyInfo(
-        val name: String,
-        val type: String,
-        val defaultValue: String,
-        val messageType: String = "",
-        val repeated: Boolean = false,
-        val map: Boolean = false,
-        val oneOf: Boolean = false,
-        val nullable: Boolean = true,
-        val wrapped: Boolean = false,
-        val nonNullOption: Boolean,
-        val overrides: Boolean = false,
-        val documentation: List<String>,
-        val deprecation: Deprecation.RenderOptions? = null
-    )
+        class PropertyInfo(
+            val name: String,
+            val type: String,
+            val defaultValue: String,
+            val messageType: String = "",
+            val repeated: Boolean = false,
+            val map: Boolean = false,
+            val oneOf: Boolean = false,
+            val nullable: Boolean = true,
+            val wrapped: Boolean = false,
+            val nonNullOption: Boolean,
+            val overrides: Boolean = false,
+            val documentation: List<String>,
+            val deprecation: Deprecation.RenderOptions? = null
+        )
 
-    class SizeofInfo(
-        val std: Boolean,
-        val fieldName: String,
-        val skipDefaultValue: Boolean,
-        /** A singleton list for standard fields; one per type for enum fields */
-        val conditionals: List<ConditionalParams>
-    )
-
-    class SerializerInfo(
-        val std: Boolean,
-        val fieldName: String,
-        val skipDefaultValue: Boolean,
-        /** A singleton list for standard fields; one per type for enum fields */
-        val conditionals: List<ConditionalParams>
-    )
-
-    class DeserializerInfo(
-        val std: Boolean,
-        val repeated: Boolean,
-        val tag: String,
-        val assignment: Assignment
-    ) {
-        class Assignment(
+        class SizeofInfo(
+            val std: Boolean,
             val fieldName: String,
-            val value: String,
-            val long: Boolean
+            val skipDefaultValue: Boolean,
+            /** A singleton list for standard fields; one per type for enum fields */
+            val conditionals: List<ConditionalParams>
+        )
+
+        class SerializerInfo(
+            val std: Boolean,
+            val fieldName: String,
+            val skipDefaultValue: Boolean,
+            /** A singleton list for standard fields; one per type for enum fields */
+            val conditionals: List<ConditionalParams>
+        )
+
+        class DeserializerInfo(
+            val std: Boolean,
+            val repeated: Boolean,
+            val tag: String,
+            val assignment: Assignment
+        ) {
+            class Assignment(
+                val fieldName: String,
+                val value: String,
+                val long: Boolean
+            )
+        }
+
+        class Options(
+            val wellKnownType: Boolean,
+            val longDeserializer: Boolean
         )
     }
-
-    class Options(
-        val wellKnownType: Boolean,
-        val longDeserializer: Boolean
-    )
 }

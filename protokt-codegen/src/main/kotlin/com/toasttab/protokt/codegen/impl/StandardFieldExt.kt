@@ -21,10 +21,10 @@ import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.STAnnotator.rootGoogleProto
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
 import com.toasttab.protokt.codegen.model.PClass
-import com.toasttab.protokt.codegen.template.Box
-import com.toasttab.protokt.codegen.template.BoxMap
-import com.toasttab.protokt.codegen.template.NonDefaultValue
-import com.toasttab.protokt.codegen.template.TypeToNative
+import com.toasttab.protokt.codegen.template.Renderers.Box
+import com.toasttab.protokt.codegen.template.Renderers.BoxMap
+import com.toasttab.protokt.codegen.template.Renderers.NonDefaultValue
+import com.toasttab.protokt.codegen.template.Renderers.TypeToNative
 import com.toasttab.protokt.codegen.wireFormat
 
 internal val StandardField.tag

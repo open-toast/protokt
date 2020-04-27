@@ -22,7 +22,7 @@ import arrow.core.getOrElse
 import arrow.core.toOption
 import com.toasttab.protokt.codegen.Field
 import com.toasttab.protokt.codegen.MessageType
-import com.toasttab.protokt.codegen.OneOf
+import com.toasttab.protokt.codegen.Oneof
 import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
 import com.toasttab.protokt.codegen.impl.FieldDocumentationAnnotator.Companion.annotateFieldDocumentation
@@ -33,12 +33,11 @@ import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptDefaultValue
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptTypeName
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
-import com.toasttab.protokt.codegen.template.DefaultValue
-import com.toasttab.protokt.codegen.template.Message.PropertyInfo
-import com.toasttab.protokt.codegen.template.OneOfDefaultValue
-import com.toasttab.protokt.codegen.template.Standard
-import com.toasttab.protokt.codegen.template.Type
-import com.toasttab.protokt.codegen.template.render
+import com.toasttab.protokt.codegen.template.Message.Message.PropertyInfo
+import com.toasttab.protokt.codegen.template.Renderers.DefaultValue
+import com.toasttab.protokt.codegen.template.Renderers.OneofDefaultValue
+import com.toasttab.protokt.codegen.template.Renderers.Standard
+import com.toasttab.protokt.codegen.template.Renderers.Type
 import com.toasttab.protokt.rt.PType
 
 internal class PropertyAnnotator
@@ -75,7 +74,7 @@ private constructor(
                             }
                     )
                 }
-                is OneOf ->
+                is Oneof ->
                     PropertyInfo(
                         name = it.fieldName,
                         type =
@@ -146,8 +145,8 @@ private constructor(
                     ),
                     ctx
                 )
-            is OneOf ->
-                OneOfDefaultValue.render()
+            is Oneof ->
+                OneofDefaultValue.render()
         }
 
     companion object {

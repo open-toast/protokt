@@ -16,7 +16,7 @@
 package com.toasttab.protokt.codegen.impl
 
 import com.toasttab.protokt.codegen.Field
-import com.toasttab.protokt.codegen.OneOf
+import com.toasttab.protokt.codegen.Oneof
 import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.rt.PType
 
@@ -29,13 +29,13 @@ internal object NonNullable {
         get() =
             when (this) {
                 is StandardField -> options.protokt.nonNull
-                is OneOf -> options.protokt.nonNull
+                is Oneof -> options.protokt.nonNull
             }
 
     private val Field.isKotlinRepresentationNullable
         get() =
             when (this) {
                 is StandardField -> type == PType.MESSAGE
-                is OneOf -> true
+                is Oneof -> true
             }
 }

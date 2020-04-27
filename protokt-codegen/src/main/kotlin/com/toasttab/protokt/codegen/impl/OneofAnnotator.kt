@@ -16,7 +16,7 @@
 package com.toasttab.protokt.codegen.impl
 
 import com.toasttab.protokt.codegen.MessageType
-import com.toasttab.protokt.codegen.OneOf
+import com.toasttab.protokt.codegen.Oneof
 import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
 import com.toasttab.protokt.codegen.impl.FieldDocumentationAnnotator.Companion.annotateFieldDocumentation
@@ -26,9 +26,9 @@ import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.possiblyQualify
 import com.toasttab.protokt.codegen.snakeToCamel
-import com.toasttab.protokt.codegen.template.Oneof
+import com.toasttab.protokt.codegen.template.Oneof.Oneof as OneofTemplate
 
-internal class OneOfAnnotator
+internal class OneofAnnotator
 private constructor(
     private val msg: MessageType,
     private val ctx: Context
@@ -36,8 +36,8 @@ private constructor(
     private fun annotateOneOfs() =
         msg.fields.map {
             when (it) {
-                is OneOf ->
-                    Oneof.render(
+                is Oneof ->
+                    OneofTemplate.render(
                         name = it.nativeTypeName,
                         types = it.fields.associate(::oneOfValue),
                         options = options(it)
@@ -58,7 +58,7 @@ private constructor(
         fieldName: String,
         oneofFieldTypeName: String
     ) =
-        Oneof.Info(
+        OneofTemplate.Info(
             fieldName = fieldName,
             type = qualifyWrapperType(
                 f,
@@ -130,13 +130,13 @@ private constructor(
         }
     }
 
-    private fun options(oneof: OneOf) =
+    private fun options(oneof: Oneof) =
         oneof.options.protokt.implements.let {
-            Oneof.Options(it.isNotEmpty(), it)
+            OneofTemplate.Options(it.isNotEmpty(), it)
         }
 
     companion object {
         fun annotateOneOfs(msg: MessageType, ctx: Context) =
-            OneOfAnnotator(msg, ctx).annotateOneOfs()
+            OneofAnnotator(msg, ctx).annotateOneOfs()
     }
 }

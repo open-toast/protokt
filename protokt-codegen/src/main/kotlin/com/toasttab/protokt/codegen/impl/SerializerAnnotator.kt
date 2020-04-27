@@ -19,18 +19,17 @@ import arrow.core.None
 import arrow.core.Option
 import arrow.core.Some
 import com.toasttab.protokt.codegen.MessageType
-import com.toasttab.protokt.codegen.OneOf
+import com.toasttab.protokt.codegen.Oneof
 import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.impl.NonNullable.hasNonNullOption
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
-import com.toasttab.protokt.codegen.template.ConcatWithScope
 import com.toasttab.protokt.codegen.template.ConditionalParams
-import com.toasttab.protokt.codegen.template.IterationVar
-import com.toasttab.protokt.codegen.template.Message.SerializerInfo
-import com.toasttab.protokt.codegen.template.Serialize
-import com.toasttab.protokt.codegen.template.Serialize.Options
-import com.toasttab.protokt.codegen.template.render
+import com.toasttab.protokt.codegen.template.Message.Message.SerializerInfo
+import com.toasttab.protokt.codegen.template.Renderers.ConcatWithScope
+import com.toasttab.protokt.codegen.template.Renderers.IterationVar
+import com.toasttab.protokt.codegen.template.Renderers.Serialize
+import com.toasttab.protokt.codegen.template.Renderers.Serialize.Options
 
 internal class SerializerAnnotator
 private constructor(
@@ -52,7 +51,7 @@ private constructor(
                             )
                         )
                     )
-                is OneOf ->
+                is Oneof ->
                     SerializerInfo(
                         false,
                         it.fieldName,
@@ -119,11 +118,11 @@ private constructor(
         fields.sortedBy {
             when (it) {
                 is StandardField -> it
-                is OneOf -> it.fields.first()
+                is Oneof -> it.fields.first()
             }.number
         }
 
-    private fun oneOfSer(f: OneOf, ff: StandardField, type: String) =
+    private fun oneOfSer(f: Oneof, ff: StandardField, type: String) =
         ConditionalParams(
             ConcatWithScope.render(
                 scope = oneOfScope(f, type, ctx),

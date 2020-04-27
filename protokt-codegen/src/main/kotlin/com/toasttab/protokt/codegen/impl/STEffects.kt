@@ -15,16 +15,11 @@
 
 package com.toasttab.protokt.codegen.impl
 
-import arrow.core.None
-import arrow.core.Option
-import arrow.core.Some
 import arrow.core.firstOrNone
-import com.toasttab.protokt.codegen.Optics
 import com.toasttab.protokt.codegen.TypeDesc
 import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.algebra.Accumulator
 import com.toasttab.protokt.codegen.algebra.Effects
-import com.toasttab.protokt.codegen.template.TemplateVariable
 
 internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
     override fun invoke(astList: List<AST<TypeDesc>>, acc: (String) -> Unit) {
@@ -34,7 +29,7 @@ internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
         HeaderAccumulator.write(astList, imports) { header.append(it + "\n") }
 
         val body = StringBuilder()
-        astList.forEach { effect(it) { s -> body.append(s + "\n") } }
+        astList.forEach { it.data.type.code.map { s -> body.append(s + "\n") } }
 
         acc(header.toString())
         acc(ImportReplacer.replaceImports(body.toString(), imports))
@@ -49,40 +44,4 @@ internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
                         .resolveImports(astList)
                 }
             )
-
-    private fun effect(ast: AST<TypeDesc>, acc: Accumulator<String>) {
-        ast.data.type.renderable.map { template ->
-            effect(Optics.annotate(ast, None), None).let {
-                addInner(template as StRenderable, it)
-                acc(template.render())
-            }
-        }
-    }
-
-    private fun effect(
-        ast: AST<TypeDesc>,
-        parent: Option<AST<TypeDesc>>
-    ): List<String> {
-        val l = ast.children.flatMap { effect(it, Some(ast)) }
-        var res = ast.data.type.renderable.fold({ l }, { l + it.render() })
-        if (l.isEmpty()) {
-            parent.map {
-                it.data.type.renderable.map { t ->
-                    addInner(t as StRenderable, res)
-                    res = emptyList()
-                }
-            }
-        }
-        return res
-    }
-
-    private fun addInner(t: StRenderable, strings: List<String>) {
-        if (strings.isNotEmpty()) {
-            StRenderable.addTo(t, Inner, strings.joinToString("\n"))
-        }
-    }
-
-    object Inner : TemplateVariable {
-        override val name = "inner"
-    }
 }

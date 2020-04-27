@@ -16,20 +16,15 @@
 package com.toasttab.protokt.codegen
 
 import arrow.core.Option
+import arrow.core.Some
 import arrow.optics.Lens
 import arrow.optics.PLens
 import com.toasttab.protokt.codegen.algebra.AST
 
 object Optics {
-    // put a rawType in an annotated rawType
-    val annotatedTypeLens: Lens<AnnotatedType, Type> = PLens(
-        get = { i -> i.rawType },
-        set = { a, t -> a.copy(rawType = t) }
-    )
-
-    val annotatedTypeRenderableLens: Lens<AnnotatedType, Option<Renderable>> = PLens(
-        get = { i -> i.renderable },
-        set = { a, t -> a.copy(renderable = t) }
+    val annotatedTypeLens: Lens<AnnotatedType, Option<String>> = PLens(
+        get = { i -> i.code },
+        set = { a, t -> a.copy(code = t) }
     )
 
     val typeDescTypeLens: Lens<TypeDesc, AnnotatedType> = PLens(
@@ -42,17 +37,12 @@ object Optics {
         set = { a, t -> a.copy(data = t) }
     )
 
-    val astChildrenLens: Lens<AST<TypeDesc>, List<AST<TypeDesc>>> = PLens(
-        get = { i -> i.children },
-        set = { a, l -> a.copy(children = (a.children + l)) }
-    )
-
-    fun annotate(ast: AST<TypeDesc>, t: Option<Renderable>) =
+    fun annotate(ast: AST<TypeDesc>, t: String) =
         astLens.set(
             ast,
             typeDescTypeLens.set(
                 ast.data,
-                annotatedTypeRenderableLens.set(ast.data.type, t)
+                annotatedTypeLens.set(ast.data.type, Some(t))
             )
         )
 }

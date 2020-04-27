@@ -18,12 +18,12 @@ package com.toasttab.protokt.codegen.impl
 import arrow.core.None
 import arrow.core.Some
 import com.toasttab.protokt.codegen.MessageType
-import com.toasttab.protokt.codegen.OneOf
+import com.toasttab.protokt.codegen.Oneof
 import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.TypeDesc
 import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
-import com.toasttab.protokt.codegen.template.ConcatWithScope
+import com.toasttab.protokt.codegen.template.Renderers.ConcatWithScope
 
 internal fun resolveMapEntry(m: MessageType, ctx: Context) =
     MapTypeParams(
@@ -36,7 +36,7 @@ internal data class MapTypeParams(
     val vType: String
 )
 
-internal fun oneOfScope(f: OneOf, type: String, ctx: Context) =
+internal fun oneOfScope(f: Oneof, type: String, ctx: Context) =
     ctx.stripEnclosingMessageNamePrefix(
         ctx.stripRootMessageNamePrefix(
             ConcatWithScope.render(

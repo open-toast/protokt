@@ -19,161 +19,117 @@ import com.toasttab.protokt.codegen.Field
 import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.rt.PType
 
-object TypeToNative : StTemplate(
-    StGroup.Renderers,
-    "typeToNativeF"
-) {
-    fun render(type: PType) =
-        zipRender(type)
-}
+abstract class RenderersTemplate : StTemplate(StGroup.Renderers)
 
-object ReadFunction : StTemplate(
-    StGroup.Renderers,
-    "readF"
-) {
-    fun render(type: PType, builder: String) =
-        zipRender(type, builder)
-}
+object Renderers {
+    object TypeToNative : RenderersTemplate() {
+        fun render(type: PType) =
+            renderArgs(type)
+    }
 
-object Box : StTemplate(
-    StGroup.Renderers,
-    "boxF"
-) {
-    fun render(type: PType, def: String) =
-        zipRender(type, def)
-}
+    object Read : RenderersTemplate() {
+        fun render(type: PType, builder: String) =
+            renderArgs(type, builder)
+    }
 
-object BoxMap : StTemplate(
-    StGroup.Renderers,
-    "boxMapF"
-) {
-    fun render(type: PType, box: String) =
-        zipRender(type, box)
-}
+    object Box : RenderersTemplate() {
+        fun render(type: PType, def: String) =
+            renderArgs(type, def)
+    }
 
-object OneOfDefaultValue : ParameterlessStTemplate(
-    StGroup.Renderers,
-    "oneofDefaultValueF"
-)
+    object BoxMap : RenderersTemplate() {
+        fun render(type: PType, box: String) =
+            renderArgs(type, box)
+    }
 
-object ConcatWithScope : StTemplate(
-    StGroup.Renderers,
-    "concatWithScopeF"
-) {
-    fun render(scope: String, value: String) =
-        zipRender(scope, value)
-}
+    object OneofDefaultValue : NoParamStTemplate(StGroup.Renderers)
 
-object OneofDeserialize : StTemplate(
-    StGroup.Renderers,
-    "oneOfDeserializeF"
-) {
-    fun render(oneof: String, name: String, read: String) =
-        zipRender(oneof, name, read)
-}
+    object ConcatWithScope : RenderersTemplate() {
+        fun render(scope: String, value: String) =
+            renderArgs(scope, value)
+    }
 
-object DefaultValue : StTemplate(
-    StGroup.Renderers,
-    "defaultValueF"
-) {
-    fun render(field: Field, type: PType, name: String) =
-        zipRender(field, type, name)
-}
+    object OneofDeserialize : RenderersTemplate() {
+        fun render(oneof: String, name: String, read: String) =
+            renderArgs(oneof, name, read)
+    }
 
-object NonDefaultValue : StTemplate(
-    StGroup.Renderers,
-    "nonDefaultValueF"
-) {
-    fun render(field: StandardField, name: String) =
-        zipRender(field, name)
-}
+    object DefaultValue : RenderersTemplate() {
+        fun render(field: Field, type: PType, name: String) =
+            renderArgs(field, type, name)
+    }
 
-object IterationVar : ParameterlessStTemplate(
-    StGroup.Renderers,
-    "iterationVar"
-)
+    object NonDefaultValue : RenderersTemplate() {
+        fun render(field: StandardField, name: String) =
+            renderArgs(field, name)
+    }
 
-object Serialize : StTemplate(
-    StGroup.Renderers,
-    "serializeF"
-) {
-    fun render(
-        field: StandardField,
-        name: String,
-        tag: Int,
-        box: String,
-        options: Options
-    ) =
-        zipRender(field, name, tag, box, options)
+    object IterationVar : NoParamStTemplate(StGroup.Renderers)
 
-    class Options(
-        val fieldAccess: String
-    )
-}
+    object Serialize : RenderersTemplate() {
+        fun render(
+            field: StandardField,
+            name: String,
+            tag: Int,
+            box: String,
+            options: Options
+        ) =
+            renderArgs(field, name, tag, box, options)
 
-object Deserialize : StTemplate(
-    StGroup.Renderers,
-    "deserializeF"
-) {
-    fun render(
-        field: StandardField,
-        type: String,
-        read: String,
-        lhs: String,
-        options: Options?
-    ) =
-        zipRender(field, type, read, lhs, options)
+        class Options(
+            val fieldAccess: String
+        )
+    }
 
-    class Options(
-        val wrapName: String,
-        val type: String,
-        val oneof: Boolean
-    )
-}
+    object Deserialize : RenderersTemplate() {
+        fun render(
+            field: StandardField,
+            type: String,
+            read: String,
+            lhs: String,
+            options: Options?
+        ) =
+            renderArgs(field, type, read, lhs, options)
 
-object Standard : StTemplate(
-    StGroup.Renderers,
-    "standardF"
-) {
-    fun render(field: StandardField, any: Any, nullable: Boolean) =
-        zipRender(field, any, nullable)
-}
+        class Options(
+            val wrapName: String,
+            val type: String,
+            val oneof: Boolean
+        )
+    }
 
-object Type : StTemplate(
-    StGroup.Renderers,
-    "typeF"
-) {
-    fun render(
-        field: String? = null,
-        any: String,
-        nullable: Boolean,
-        oneof: Boolean
-    ) =
-        zipRender(field, any, nullable, oneof)
-}
+    object Standard : RenderersTemplate() {
+        fun render(field: StandardField, any: Any, nullable: Boolean) =
+            renderArgs(field, any, nullable)
+    }
 
-object Sizeof : StTemplate(
-    StGroup.Renderers,
-    "sizeof"
-) {
-    fun render(
-        name: String,
-        field: StandardField,
-        type: String,
-        options: Options
-    ) =
-        zipRender(name, field, type, options)
+    object Type : RenderersTemplate() {
+        fun render(
+            field: String? = null,
+            any: String,
+            nullable: Boolean,
+            oneof: Boolean
+        ) =
+            renderArgs(field, any, nullable, oneof)
+    }
 
-    class Options(
-        val fieldSizeof: String,
-        val fieldAccess: Any
-    )
-}
+    object Sizeof : RenderersTemplate() {
+        fun render(
+            name: String,
+            field: StandardField,
+            type: String,
+            options: Options
+        ) =
+            renderArgs(name, field, type, options)
 
-object FieldSizeof : StTemplate(
-    StGroup.Renderers,
-    "fieldSizeof"
-) {
-    fun render(name: String, field: StandardField) =
-        zipRender(name, field)
+        class Options(
+            val fieldSizeof: String,
+            val fieldAccess: Any
+        )
+    }
+
+    object FieldSizeof : RenderersTemplate() {
+        fun render(name: String, field: StandardField) =
+            renderArgs(name, field)
+    }
 }

@@ -22,16 +22,16 @@ import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
 import com.toasttab.protokt.codegen.impl.EnumDocumentationAnnotator.Companion.annotateEnumDocumentation
 import com.toasttab.protokt.codegen.impl.EnumDocumentationAnnotator.Companion.annotateEnumFieldDocumentation
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
-import com.toasttab.protokt.codegen.template.Enum
-import com.toasttab.protokt.codegen.template.Enum.EnumInfo
-import com.toasttab.protokt.codegen.template.Enum.EnumOptions
+import com.toasttab.protokt.codegen.template.Enum.Enum
+import com.toasttab.protokt.codegen.template.Enum.Enum.EnumInfo
+import com.toasttab.protokt.codegen.template.Enum.Enum.EnumOptions
 
 internal object EnumAnnotator {
     fun annotateEnum(
         e: EnumType,
         ctx: Context
     ) =
-        Enum.prepare(
+        Enum.render(
             name = e.name,
             map =
                 e.values.associate {

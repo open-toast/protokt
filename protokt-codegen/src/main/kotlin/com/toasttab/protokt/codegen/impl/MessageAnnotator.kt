@@ -25,15 +25,16 @@ import com.toasttab.protokt.codegen.impl.Implements.doesImplement
 import com.toasttab.protokt.codegen.impl.Implements.implements
 import com.toasttab.protokt.codegen.impl.MapEntryAnnotator.annotateMapEntry
 import com.toasttab.protokt.codegen.impl.MessageDocumentationAnnotator.annotateMessageDocumentation
-import com.toasttab.protokt.codegen.impl.OneOfAnnotator.Companion.annotateOneOfs
+import com.toasttab.protokt.codegen.impl.OneofAnnotator.Companion.annotateOneOfs
 import com.toasttab.protokt.codegen.impl.PropertyAnnotator.Companion.annotateProperties
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
+import com.toasttab.protokt.codegen.impl.STAnnotator.annotate
 import com.toasttab.protokt.codegen.impl.SerializerAnnotator.Companion.annotateSerializer
-import com.toasttab.protokt.codegen.impl.SizeOfAnnotator.Companion.annotateSizeof
+import com.toasttab.protokt.codegen.impl.SizeofAnnotator.Companion.annotateSizeof
 import com.toasttab.protokt.codegen.model.PPackage
-import com.toasttab.protokt.codegen.template.Message
-import com.toasttab.protokt.codegen.template.Message.MessageInfo
-import com.toasttab.protokt.codegen.template.Message.Options
+import com.toasttab.protokt.codegen.template.Message.Message
+import com.toasttab.protokt.codegen.template.Message.Message.MessageInfo
+import com.toasttab.protokt.codegen.template.Message.Message.Options
 
 internal object MessageAnnotator {
     val idealMaxWidth = 100
@@ -42,7 +43,7 @@ internal object MessageAnnotator {
         msg: MessageType,
         ctx: Context
     ) =
-        Message.prepare(
+        Message.render(
             message = messageInfo(msg, ctx),
             entry = annotateMapEntry(msg, ctx),
             properties = annotateProperties(msg, ctx),
@@ -50,8 +51,12 @@ internal object MessageAnnotator {
             sizeof = annotateSizeof(msg, ctx),
             serialize = annotateSerializer(msg, ctx),
             deserialize = annotateDeserializer(msg, ctx),
+            nested = nestedTypes(msg, ctx),
             options = options(msg, ctx)
         )
+
+    private fun nestedTypes(msg: MessageType, ctx: Context) =
+        msg.nestedTypes.map { annotate(it, ctx) }
 
     private fun messageInfo(msg: MessageType, ctx: Context) =
         MessageInfo(

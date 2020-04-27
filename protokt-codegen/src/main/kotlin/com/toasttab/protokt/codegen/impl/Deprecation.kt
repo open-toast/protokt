@@ -17,7 +17,7 @@ package com.toasttab.protokt.codegen.impl
 
 import com.toasttab.protokt.codegen.EnumType
 import com.toasttab.protokt.codegen.MessageType
-import com.toasttab.protokt.codegen.OneOf
+import com.toasttab.protokt.codegen.Oneof
 import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 
@@ -38,7 +38,7 @@ object Deprecation {
                 fields.any {
                     when (it) {
                         is StandardField -> it.deprecated
-                        is OneOf -> it.fields.any(StandardField::deprecated)
+                        is Oneof -> it.fields.any(StandardField::deprecated)
                     }
                 } ||
                 nestedTypes.any {

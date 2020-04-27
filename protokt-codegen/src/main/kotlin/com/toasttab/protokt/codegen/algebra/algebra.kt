@@ -35,7 +35,6 @@ import arrow.fx.IO
 import arrow.fx.extensions.io.monadError.monadError
 import arrow.fx.fix
 import arrow.typeclasses.MonadError
-import com.github.andrewoma.dexx.kollection.ImmutableList
 import kotlinx.coroutines.runBlocking
 
 // For an overview of Free, it is recommended that you read the following:
@@ -45,7 +44,7 @@ typealias Accumulator<A> = (A) -> Unit
 
 fun <A> Kind<ASTOps.F, A>.fix(): ASTOps<A> = this as ASTOps<A>
 
-data class AST<A>(val data: A, val children: ImmutableList<AST<A>>)
+data class AST<A>(val data: A)
 
 typealias Annotator<A> = (A) -> A
 typealias Effects<A, B> = (List<A>, acc: B) -> Unit

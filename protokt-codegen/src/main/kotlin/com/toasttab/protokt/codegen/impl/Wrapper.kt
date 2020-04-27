@@ -27,16 +27,15 @@ import com.toasttab.protokt.codegen.impl.WellKnownTypes.wrapWithWellKnownInterce
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.model.possiblyQualify
-import com.toasttab.protokt.codegen.template.AccessField
-import com.toasttab.protokt.codegen.template.BytesSlice
-import com.toasttab.protokt.codegen.template.ConcatWithScope
-import com.toasttab.protokt.codegen.template.DefaultBytesSlice
-import com.toasttab.protokt.codegen.template.FieldSizeof
-import com.toasttab.protokt.codegen.template.ReadBytesSlice
-import com.toasttab.protokt.codegen.template.SizeofOption
-import com.toasttab.protokt.codegen.template.TypeToJavaClassName
-import com.toasttab.protokt.codegen.template.WrapField
-import com.toasttab.protokt.codegen.template.render
+import com.toasttab.protokt.codegen.template.Options.AccessField
+import com.toasttab.protokt.codegen.template.Options.BytesSlice
+import com.toasttab.protokt.codegen.template.Options.DefaultBytesSlice
+import com.toasttab.protokt.codegen.template.Options.ReadBytesSlice
+import com.toasttab.protokt.codegen.template.Options.Sizeof
+import com.toasttab.protokt.codegen.template.Options.TypeToJavaClassName
+import com.toasttab.protokt.codegen.template.Options.WrapField
+import com.toasttab.protokt.codegen.template.Renderers.ConcatWithScope
+import com.toasttab.protokt.codegen.template.Renderers.FieldSizeof
 import com.toasttab.protokt.ext.OptimizedSizeofConverter
 import com.toasttab.protokt.rt.PType
 import kotlin.reflect.KClass
@@ -127,7 +126,7 @@ internal object Wrapper {
                                 converterClass(wrapper, wrapped, ctx),
                                 ctx.pkg
                             ),
-                        value = SizeofOption.render(arg = s)
+                        value = Sizeof.render(arg = s)
                     )
                 } else {
                     FieldSizeof.render(

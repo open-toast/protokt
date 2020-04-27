@@ -15,62 +15,47 @@
 
 package com.toasttab.protokt.codegen.template
 
-import com.toasttab.protokt.codegen.impl.StRenderable
 import kotlin.reflect.full.declaredMemberFunctions
-import kotlin.reflect.full.declaredMemberProperties
 import org.stringtemplate.v4.STGroupFile
 
-val stGroupFiles =
+private val stGroupFiles =
     StGroup::class.sealedSubclasses
         .map { requireNotNull(it.objectInstance) { it } }
         .associateWith { STGroupFile(it.fileName) }
 
 abstract class StTemplate(
-    val stGroup: StGroup,
-    val name: String
-)
+    private val stGroup: StGroup
+) {
+    protected fun newSt() =
+        this::class.java.simpleName.decapitalize().let {
+            requireNotNull(stGroupFiles.getValue(stGroup).getInstanceOf(it)) {
+                "template not found: ${stGroup.fileName}/$it"
+            }
+        }
 
-abstract class PreparableStTemplate<T : Any>(
-    stGroup: StGroup,
-    name: String
-) : StTemplate(stGroup, name)
+    protected fun renderArgs(vararg params: Any?): String {
+        val st = newSt()
 
-abstract class ParameterlessStTemplate(
-    stGroup: StGroup,
-    name: String
-) : StTemplate(stGroup, name)
+        val renderFn = this::class.declaredMemberFunctions
+            .single { it.name == (NoParamStTemplate::render).name }
 
-fun ParameterlessStTemplate.render() =
-    newSt().render()
+        val nonReceiverParamCount = renderFn.parameters.size - 1
 
-abstract class Prepare<T : Any>(val parent: PreparableStTemplate<T>)
+        check(nonReceiverParamCount == params.size) {
+            "Wrong number of parameters for ${renderFn.name}: expected " +
+                "${params.size}, got $nonReceiverParamCount " +
+                "(${renderFn.parameters.map { it.name }})"
+        }
 
-inline fun <reified T : Any> Prepare<T>.prepare(): StRenderable {
-    val st = parent.newSt()
+        renderFn.parameters.drop(1).zip(params).forEach { (k, v) ->
+            st.add(k.name, v)
+        }
 
-    T::class.declaredMemberProperties.forEach {
-        st.add(it.name, it.get(this as T))
+        return st.render()
     }
-
-    return StRenderable(st)
 }
 
-fun StTemplate.zipRender(vararg params: Any?): String {
-    val st = newSt()
-
-    val renderFn = this::class.declaredMemberFunctions
-        .single { it.name == (ParameterlessStTemplate::render).name }
-
-    check(renderFn.parameters.size - 1 == params.size) {
-        "Wrong number of parameters for ${renderFn.name}: ${params.size}"
-    }
-
-    renderFn.parameters.drop(1).zip(params).forEach { (k, v) ->
-        st.add(k.name, v)
-    }
-
-    return st.render()
+abstract class NoParamStTemplate(stGroup: StGroup) : StTemplate(stGroup) {
+    fun render() =
+        newSt().render()
 }
-
-fun StTemplate.newSt() =
-    stGroupFiles.getValue(stGroup).getInstanceOf(name)

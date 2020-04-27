@@ -18,15 +18,15 @@ package com.toasttab.protokt.codegen.impl
 import com.toasttab.protokt.codegen.Method
 import com.toasttab.protokt.codegen.ServiceType
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
-import com.toasttab.protokt.codegen.template.Descriptor
-import com.toasttab.protokt.codegen.template.Method as MethodTemplate
-import com.toasttab.protokt.codegen.template.MethodType
-import com.toasttab.protokt.codegen.template.Service
-import com.toasttab.protokt.codegen.template.Service.MethodInfo
+import com.toasttab.protokt.codegen.template.Services.Descriptor
+import com.toasttab.protokt.codegen.template.Services.Method as MethodTemplate
+import com.toasttab.protokt.codegen.template.Services.MethodType
+import com.toasttab.protokt.codegen.template.Services.Service
+import com.toasttab.protokt.codegen.template.Services.Service.MethodInfo
 
 internal object ServiceAnnotator {
     fun annotateService(s: ServiceType, ctx: Context) =
-        Service.prepare(
+        Service.render(
             name = s.name,
             qualifiedName = renderQualifiedName(s, ctx),
             descriptor = renderDescriptor(s),
