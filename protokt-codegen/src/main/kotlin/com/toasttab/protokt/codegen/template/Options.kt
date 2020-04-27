@@ -17,67 +17,62 @@ package com.toasttab.protokt.codegen.template
 
 import com.toasttab.protokt.rt.PType
 
-object WrapField : StTemplate<WrapField.prepare>(
+object WrapField : StTemplate(
     StGroup.Options,
     "wrapField"
 ) {
-    class prepare(
-        val wrapName: String,
-        val arg: String,
-        val type: PType,
-        val oneof: Boolean
-    ) : Prepare<prepare>(WrapField)
+    fun render(
+        wrapName: String,
+        arg: String,
+        type: PType,
+        oneof: Boolean
+    ) =
+        zipRender(wrapName, arg, type, oneof)
 }
 
-object TypeToJavaClassName : StTemplate<TypeToJavaClassName.prepare>(
+object TypeToJavaClassName : StTemplate(
     StGroup.Options,
     "typeToJavaClassName"
 ) {
-    class prepare(
-        val type: PType
-    ) : Prepare<prepare>(TypeToJavaClassName)
+    fun render(type: PType) =
+        zipRender(type)
 }
 
-object AccessField : StTemplate<AccessField.prepare>(
+object AccessField : StTemplate(
     StGroup.Options,
     "accessField"
 ) {
-    class prepare(
-        val wrapName: String,
-        val arg: String
-    ) : Prepare<prepare>(AccessField)
+    fun render(wrapName: String, arg: String) =
+        zipRender(wrapName, arg)
 }
 
-object SizeofOption : StTemplate<SizeofOption.prepare>(
+object SizeofOption : StTemplate(
     StGroup.Options,
     "sizeof"
 ) {
-    class prepare(
-        val arg: String
-    ) : Prepare<prepare>(SizeofOption)
+    fun render(arg: String): String =
+        zipRender(arg)
 }
 
-object BytesSlice : StTemplate<Unit>(
+object BytesSlice : ParameterlessStTemplate(
     StGroup.Options,
     "bytesSlice"
 )
 
-object ReadBytesSlice : StTemplate<Unit>(
+object ReadBytesSlice : ParameterlessStTemplate(
     StGroup.Options,
     "readBytesSlice"
 )
 
-object DefaultBytesSlice : StTemplate<Unit>(
+object DefaultBytesSlice : ParameterlessStTemplate(
     StGroup.Options,
     "defaultBytesSlice"
 )
 
-object JavaClassNameForWellKnownType :
-    StTemplate<JavaClassNameForWellKnownType.prepare>(
+object JavaClassNameForWellKnownType : StTemplate(
     StGroup.Options,
     "javaClassNameForWellKnownType"
 ) {
-    class prepare(
-        val type: String
-    ) : Prepare<prepare>(JavaClassNameForWellKnownType)
+    fun render(type: String) =
+        zipRender(type)
 }

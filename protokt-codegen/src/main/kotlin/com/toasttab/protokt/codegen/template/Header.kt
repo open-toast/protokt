@@ -17,12 +17,10 @@ package com.toasttab.protokt.codegen.template
 
 import com.toasttab.protokt.codegen.model.PPackage
 
-object Header : StTemplate<Header.prepare>(
+object Header : StTemplate(
     StGroup.Header,
     "header"
 ) {
-    class prepare(
-        val `package`: PPackage?,
-        val imports: List<String>
-    ) : Prepare<prepare>(Header)
+    fun render(`package`: PPackage?, imports: List<String>) =
+        zipRender(`package`, imports)
 }

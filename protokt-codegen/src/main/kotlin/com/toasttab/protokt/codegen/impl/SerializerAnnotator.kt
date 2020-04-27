@@ -25,7 +25,6 @@ import com.toasttab.protokt.codegen.impl.NonNullable.hasNonNullOption
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
 import com.toasttab.protokt.codegen.template.ConcatWithScope
-import com.toasttab.protokt.codegen.template.ConcatWithScope.Params
 import com.toasttab.protokt.codegen.template.ConditionalParams
 import com.toasttab.protokt.codegen.template.IterationVar
 import com.toasttab.protokt.codegen.template.Message.SerializerInfo
@@ -87,14 +86,15 @@ private constructor(
                     interceptValueAccess(
                         f,
                         ctx,
-                        ConcatWithScope.prepare(
-                            scopedValue = Params(it, f.fieldName)
-                        ).render()
+                        ConcatWithScope.render(
+                            scope = it,
+                            value = f.fieldName
+                        )
                     )
                 }
             )
 
-        return Serialize.prepare(
+        return Serialize.render(
             field = f,
             name = f.fieldName,
             tag = f.tag,
@@ -108,7 +108,7 @@ private constructor(
                 Options(
                     fieldAccess = fieldAccess
                 )
-        ).render()
+        )
     }
 
     private data class SerializerOptions(
@@ -125,13 +125,10 @@ private constructor(
 
     private fun oneOfSer(f: OneOf, ff: StandardField, type: String) =
         ConditionalParams(
-            ConcatWithScope.prepare(
-                scopedValue =
-                    Params(
-                        oneOfScope(f, type, ctx),
-                        f.fieldTypeNames[ff.name] ?: ""
-                    )
-            ).render(),
+            ConcatWithScope.render(
+                scope = oneOfScope(f, type, ctx),
+                value = f.fieldTypeNames[ff.name] ?: ""
+            ),
             serializeString(ff, Some(f.fieldName))
         )
 

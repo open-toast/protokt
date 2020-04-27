@@ -27,7 +27,6 @@ import com.toasttab.protokt.codegen.impl.Wrapper.interceptFieldSizeof
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptSizeof
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
 import com.toasttab.protokt.codegen.template.ConcatWithScope
-import com.toasttab.protokt.codegen.template.ConcatWithScope.Params
 import com.toasttab.protokt.codegen.template.ConditionalParams
 import com.toasttab.protokt.codegen.template.IterationVar
 import com.toasttab.protokt.codegen.template.Message.SizeofInfo
@@ -81,7 +80,7 @@ private constructor(
                 },
                 { it }
             )
-        return Sizeof.prepare(
+        return Sizeof.render(
             name = name,
             field = f,
             type = f.unqualifiedNestedTypeName(ctx),
@@ -91,31 +90,25 @@ private constructor(
                     fieldAccess =
                         interceptValueAccess(f, ctx, IterationVar.render())
                 )
-        ).render()
+        )
     }
 
     private fun oneOfSize(f: OneOf, type: String) =
         f.fields.map {
             ConditionalParams(
-                ConcatWithScope.prepare(
-                    scopedValue =
-                        Params(
-                            oneOfScope(f, type, ctx),
-                            f.fieldTypeNames[it.name] ?: ""
-                        )
-                ).render(),
+                ConcatWithScope.render(
+                    scope = oneOfScope(f, type, ctx),
+                    value = f.fieldTypeNames[it.name] ?: ""
+                ),
                 sizeOfString(
                     it,
                     Some(
                         interceptSizeof(
                             it,
-                            ConcatWithScope.prepare(
-                                scopedValue =
-                                    Params(
-                                        f.fieldName,
-                                        it.fieldName
-                                    )
-                            ).render(),
+                            ConcatWithScope.render(
+                                scope = f.fieldName,
+                                value = it.fieldName
+                            ),
                             ctx
                         )
                     )

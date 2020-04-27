@@ -34,26 +34,26 @@ import com.toasttab.protokt.codegen.impl.Wrapper.interceptDefaultValue
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptTypeName
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
 import com.toasttab.protokt.codegen.template.DefaultValue
-import com.toasttab.protokt.codegen.template.Message.FieldInfo
+import com.toasttab.protokt.codegen.template.Message.PropertyInfo
 import com.toasttab.protokt.codegen.template.OneOfDefaultValue
 import com.toasttab.protokt.codegen.template.Standard
 import com.toasttab.protokt.codegen.template.Type
 import com.toasttab.protokt.codegen.template.render
 import com.toasttab.protokt.rt.PType
 
-internal class FieldAnnotator
+internal class PropertyAnnotator
 private constructor(
     private val msg: MessageType,
     private val ctx: Context
 ) {
-    private fun annotateFields(): List<FieldInfo> {
+    private fun annotateProperties(): List<PropertyInfo> {
         return msg.fields.map {
             val documentation = annotateFieldDocumentation(it, ctx)
             val nullable = it.nullable
 
             when (it) {
                 is StandardField -> {
-                    FieldInfo(
+                    PropertyInfo(
                         name = it.fieldName,
                         type = annotateStandard(it),
                         defaultValue = it.defaultValue(),
@@ -76,14 +76,14 @@ private constructor(
                     )
                 }
                 is OneOf ->
-                    FieldInfo(
+                    PropertyInfo(
                         name = it.fieldName,
                         type =
-                            Type.prepare(
+                            Type.render(
                                 oneof = true,
                                 nullable = nullable,
                                 any = it.nativeTypeName
-                            ).render(),
+                            ),
                         defaultValue = it.defaultValue(),
                         oneOf = true,
                         nullable = nullable,
@@ -95,7 +95,7 @@ private constructor(
     }
 
     private fun annotateStandard(f: StandardField) =
-        Standard.prepare(
+        Standard.render(
             field = f,
             nullable = f.nullable,
             any =
@@ -108,7 +108,7 @@ private constructor(
                         ctx
                     )
                 }
-        ).render()
+        )
 
     private fun typeParams(n: String) =
         findType(n, msg)
@@ -134,7 +134,7 @@ private constructor(
             is StandardField ->
                 interceptDefaultValue(
                     this,
-                    DefaultValue.prepare(
+                    DefaultValue.render(
                         field = this,
                         type = type,
                         name =
@@ -143,7 +143,7 @@ private constructor(
                             } else {
                                 ""
                             }
-                    ).render(),
+                    ),
                     ctx
                 )
             is OneOf ->
@@ -151,7 +151,7 @@ private constructor(
         }
 
     companion object {
-        fun annotateFields(msg: MessageType, ctx: Context) =
-            FieldAnnotator(msg, ctx).annotateFields()
+        fun annotateProperties(msg: MessageType, ctx: Context) =
+            PropertyAnnotator(msg, ctx).annotateProperties()
     }
 }

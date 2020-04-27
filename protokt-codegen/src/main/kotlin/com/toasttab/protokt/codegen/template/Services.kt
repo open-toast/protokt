@@ -15,7 +15,7 @@
 
 package com.toasttab.protokt.codegen.template
 
-object Service : StTemplate<Service.prepare>(
+object Service : PreparableStTemplate<Service.prepare>(
     StGroup.Services,
     "service"
 ) {
@@ -35,32 +35,26 @@ object Service : StTemplate<Service.prepare>(
     )
 }
 
-object Descriptor : StTemplate<Descriptor.prepare>(
+object Descriptor : StTemplate(
     StGroup.Services,
     "descriptor"
 ) {
-    class prepare(
-        val methods: List<String>
-    ) : Prepare<prepare>(Descriptor)
+    fun render(methods: List<String>) =
+        zipRender(methods)
 }
 
-object Method : StTemplate<Method.prepare>(
+object Method : StTemplate(
     StGroup.Services,
     "method"
 ) {
-    class prepare(
-        val name: String,
-        val type: String,
-        val `in`: String,
-        val out: String
-    ) : Prepare<prepare>(Method)
+    fun render(name: String, type: String, `in`: String, out: String) =
+        zipRender(name, type, `in`, out)
 }
 
-object MethodType : StTemplate<MethodType.prepare> (
+object MethodType : StTemplate(
     StGroup.Services,
     "methodType"
 ) {
-    class prepare(
-        val method: com.toasttab.protokt.codegen.Method
-    ) : Prepare<prepare>(MethodType)
+    fun render(method: com.toasttab.protokt.codegen.Method) =
+        zipRender(method)
 }

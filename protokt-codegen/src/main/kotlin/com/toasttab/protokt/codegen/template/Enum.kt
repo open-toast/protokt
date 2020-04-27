@@ -18,17 +18,17 @@ package com.toasttab.protokt.codegen.template
 import com.toasttab.protokt.codegen.impl.Deprecation
 import com.toasttab.protokt.codegen.template.Enum.prepare
 
-object Enum : StTemplate<prepare>(
+object Enum : PreparableStTemplate<prepare>(
     StGroup.Enum,
     "enum"
 ) {
     class prepare(
         val name: String,
-        val map: Map<Int, EnumValueData>,
+        val map: Map<Int, EnumInfo>,
         val options: EnumOptions
     ) : Prepare<prepare>(Enum)
 
-    class EnumValueData(
+    class EnumInfo(
         val valueName: String,
         val documentation: List<String>,
         val deprecation: Deprecation.RenderOptions?

@@ -27,7 +27,6 @@ import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.possiblyQualify
 import com.toasttab.protokt.codegen.snakeToCamel
 import com.toasttab.protokt.codegen.template.Oneof
-import com.toasttab.protokt.codegen.template.render
 
 internal class OneOfAnnotator
 private constructor(
@@ -38,11 +37,11 @@ private constructor(
         msg.fields.map {
             when (it) {
                 is OneOf ->
-                    Oneof.prepare(
+                    Oneof.render(
                         name = it.nativeTypeName,
                         types = it.fields.associate(::oneOfValue),
                         options = options(it)
-                    ).render()
+                    )
                 else -> ""
             }
         }.filter { it.isNotEmpty() }
@@ -76,13 +75,13 @@ private constructor(
             ),
             documentation = annotateFieldDocumentation(f, ctx),
             deprecation =
-            if (f.options.default.deprecated) {
-                renderOptions(
-                    f.options.protokt.deprecationMessage
-                )
-            } else {
-                null
-            }
+                if (f.options.default.deprecated) {
+                    renderOptions(
+                        f.options.protokt.deprecationMessage
+                    )
+                } else {
+                    null
+                }
         )
 
     private fun qualifyWrapperType(

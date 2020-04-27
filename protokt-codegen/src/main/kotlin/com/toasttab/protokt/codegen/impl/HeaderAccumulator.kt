@@ -20,7 +20,6 @@ import com.toasttab.protokt.codegen.TypeDesc
 import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.template.Header
-import com.toasttab.protokt.codegen.template.render
 
 internal object HeaderAccumulator {
     fun write(
@@ -30,7 +29,7 @@ internal object HeaderAccumulator {
     ) {
         astList.firstOrNone().map { f ->
             acc(
-                Header.prepare(
+                Header.render(
                     `package` =
                         kotlinPackage(f).let {
                             if (it == PPackage.DEFAULT) {
@@ -41,7 +40,7 @@ internal object HeaderAccumulator {
                         },
                     imports =
                         imports.map { it.qualifiedName }.sorted()
-                ).render()
+                )
             )
         }
     }

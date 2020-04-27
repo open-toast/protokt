@@ -20,7 +20,6 @@ import arrow.core.orElse
 import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.impl.STAnnotator.googleProto
 import com.toasttab.protokt.codegen.template.JavaClassNameForWellKnownType
-import com.toasttab.protokt.codegen.template.render
 
 object WellKnownTypes {
     val StandardField.wrapWithWellKnownInterception
@@ -28,9 +27,9 @@ object WellKnownTypes {
             options.protokt.wrap.emptyToNone()
                 .orElse {
                     if (typeName.startsWith("$googleProto.")) {
-                        JavaClassNameForWellKnownType.prepare(
+                        JavaClassNameForWellKnownType.render(
                             type = typeName.removePrefix("$googleProto.")
-                        ).render().emptyToNone()
+                        ).emptyToNone()
                     } else {
                         None
                     }

@@ -24,8 +24,6 @@ import com.toasttab.protokt.codegen.TypeDesc
 import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.template.ConcatWithScope
-import com.toasttab.protokt.codegen.template.ConcatWithScope.Params
-import com.toasttab.protokt.codegen.template.render
 
 internal fun resolveMapEntry(m: MessageType, ctx: Context) =
     MapTypeParams(
@@ -41,13 +39,10 @@ internal data class MapTypeParams(
 internal fun oneOfScope(f: OneOf, type: String, ctx: Context) =
     ctx.stripEnclosingMessageNamePrefix(
         ctx.stripRootMessageNamePrefix(
-            ConcatWithScope.prepare(
-                scopedValue =
-                    Params(
-                        type,
-                        f.nativeTypeName
-                    )
-            ).render()
+            ConcatWithScope.render(
+                scope = type,
+                value = f.nativeTypeName
+            )
         )
     )
 

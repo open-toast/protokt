@@ -16,6 +16,7 @@
 package com.toasttab.protokt.codegen.template
 
 import com.toasttab.protokt.codegen.impl.StRenderable
+import kotlin.reflect.full.declaredMemberFunctions
 import kotlin.reflect.full.declaredMemberProperties
 import org.stringtemplate.v4.STGroupFile
 
@@ -24,18 +25,28 @@ val stGroupFiles =
         .map { requireNotNull(it.objectInstance) { it } }
         .associateWith { STGroupFile(it.fileName) }
 
-abstract class StTemplate<T : Any>(
+abstract class StTemplate(
     val stGroup: StGroup,
     val name: String
 )
 
-fun StTemplate<Unit>.render() =
-    stGroupFiles.getValue(stGroup).getInstanceOf(name).render()
+abstract class PreparableStTemplate<T : Any>(
+    stGroup: StGroup,
+    name: String
+) : StTemplate(stGroup, name)
 
-abstract class Prepare<T : Any>(val parent: StTemplate<T>)
+abstract class ParameterlessStTemplate(
+    stGroup: StGroup,
+    name: String
+) : StTemplate(stGroup, name)
+
+fun ParameterlessStTemplate.render() =
+    newSt().render()
+
+abstract class Prepare<T : Any>(val parent: PreparableStTemplate<T>)
 
 inline fun <reified T : Any> Prepare<T>.prepare(): StRenderable {
-    val st = stGroupFiles.getValue(parent.stGroup).getInstanceOf(parent.name)
+    val st = parent.newSt()
 
     T::class.declaredMemberProperties.forEach {
         st.add(it.name, it.get(this as T))
@@ -44,5 +55,22 @@ inline fun <reified T : Any> Prepare<T>.prepare(): StRenderable {
     return StRenderable(st)
 }
 
-inline fun <reified T : Any> Prepare<T>.render() =
-    prepare().render()
+fun StTemplate.zipRender(vararg params: Any?): String {
+    val st = newSt()
+
+    val renderFn = this::class.declaredMemberFunctions
+        .single { it.name == (ParameterlessStTemplate::render).name }
+
+    check(renderFn.parameters.size - 1 == params.size) {
+        "Wrong number of parameters for ${renderFn.name}: ${params.size}"
+    }
+
+    renderFn.parameters.drop(1).zip(params).forEach { (k, v) ->
+        st.add(k.name, v)
+    }
+
+    return st.render()
+}
+
+fun StTemplate.newSt() =
+    stGroupFiles.getValue(stGroup).getInstanceOf(name)

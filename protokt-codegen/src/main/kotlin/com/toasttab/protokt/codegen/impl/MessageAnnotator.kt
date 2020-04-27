@@ -21,12 +21,12 @@ import com.toasttab.protokt.codegen.impl.Deprecation.enclosingDeprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.hasDeprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
 import com.toasttab.protokt.codegen.impl.DeserializerAnnotator.Companion.annotateDeserializer
-import com.toasttab.protokt.codegen.impl.FieldAnnotator.Companion.annotateFields
 import com.toasttab.protokt.codegen.impl.Implements.doesImplement
 import com.toasttab.protokt.codegen.impl.Implements.implements
 import com.toasttab.protokt.codegen.impl.MapEntryAnnotator.annotateMapEntry
 import com.toasttab.protokt.codegen.impl.MessageDocumentationAnnotator.annotateMessageDocumentation
 import com.toasttab.protokt.codegen.impl.OneOfAnnotator.Companion.annotateOneOfs
+import com.toasttab.protokt.codegen.impl.PropertyAnnotator.Companion.annotateProperties
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.SerializerAnnotator.Companion.annotateSerializer
 import com.toasttab.protokt.codegen.impl.SizeOfAnnotator.Companion.annotateSizeof
@@ -43,9 +43,9 @@ internal object MessageAnnotator {
         ctx: Context
     ) =
         Message.prepare(
-            message = annotateMessage2(msg, ctx),
+            message = messageInfo(msg, ctx),
             entry = annotateMapEntry(msg, ctx),
-            params = annotateFields(msg, ctx),
+            properties = annotateProperties(msg, ctx),
             oneofs = annotateOneOfs(msg, ctx),
             sizeof = annotateSizeof(msg, ctx),
             serialize = annotateSerializer(msg, ctx),
@@ -53,7 +53,7 @@ internal object MessageAnnotator {
             options = options(msg, ctx)
         )
 
-    private fun annotateMessage2(msg: MessageType, ctx: Context) =
+    private fun messageInfo(msg: MessageType, ctx: Context) =
         MessageInfo(
             name = msg.name,
             doesImplement = msg.doesImplement,

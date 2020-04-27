@@ -23,8 +23,8 @@ import com.toasttab.protokt.codegen.impl.EnumDocumentationAnnotator.Companion.an
 import com.toasttab.protokt.codegen.impl.EnumDocumentationAnnotator.Companion.annotateEnumFieldDocumentation
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.template.Enum
+import com.toasttab.protokt.codegen.template.Enum.EnumInfo
 import com.toasttab.protokt.codegen.template.Enum.EnumOptions
-import com.toasttab.protokt.codegen.template.Enum.EnumValueData
 
 internal object EnumAnnotator {
     fun annotateEnum(
@@ -36,7 +36,7 @@ internal object EnumAnnotator {
             map =
                 e.values.associate {
                     it.number to
-                        EnumValueData(
+                        EnumInfo(
                             it.valueName,
                             annotateEnumFieldDocumentation(e, it, ctx),
                             if (it.options.default.deprecated) {

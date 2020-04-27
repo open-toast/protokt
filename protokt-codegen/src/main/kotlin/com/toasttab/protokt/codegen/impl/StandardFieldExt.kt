@@ -25,7 +25,6 @@ import com.toasttab.protokt.codegen.template.Box
 import com.toasttab.protokt.codegen.template.BoxMap
 import com.toasttab.protokt.codegen.template.NonDefaultValue
 import com.toasttab.protokt.codegen.template.TypeToNative
-import com.toasttab.protokt.codegen.template.render
 import com.toasttab.protokt.codegen.wireFormat
 
 internal val StandardField.tag
@@ -50,22 +49,22 @@ internal val StandardField.deprecated
     get() = options.default.deprecated
 
 internal fun StandardField.nonDefault(ctx: Context) =
-    NonDefaultValue.prepare(
+    NonDefaultValue.render(
         field = this,
         name = interceptValueAccess(this, ctx)
-    ).render()
+    )
 
 internal fun StandardField.boxMap(ctx: Context) =
-    BoxMap.prepare(
+    BoxMap.render(
         type = type,
         box = unqualifiedNestedTypeName(ctx)
-    ).render()
+    )
 
 internal fun StandardField.box(s: String) =
-    Box.prepare(
+    Box.render(
         type = type,
         def = s
-    ).render()
+    )
 
 internal fun StandardField.unqualifiedTypeName(ctx: Context) =
     typePClass(ctx).nestedName
@@ -82,9 +81,7 @@ internal fun StandardField.typePClass(ctx: PluginContext) =
         {
             PClass.fromName(
                 if (it.isEmpty()) {
-                    TypeToNative.prepare(
-                        type = type
-                    ).render()
+                    TypeToNative.render(type = type)
                 } else {
                     it
                 }

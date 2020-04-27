@@ -34,7 +34,6 @@ import com.toasttab.protokt.codegen.template.Message.DeserializerInfo
 import com.toasttab.protokt.codegen.template.Message.DeserializerInfo.Assignment
 import com.toasttab.protokt.codegen.template.OneofDeserialize
 import com.toasttab.protokt.codegen.template.ReadFunction
-import com.toasttab.protokt.codegen.template.render
 import com.toasttab.protokt.rt.PType
 
 internal class DeserializerAnnotator
@@ -89,7 +88,7 @@ private constructor(
     }
 
     private fun deserializeString(f: StandardField) =
-        Deserialize.prepare(
+        Deserialize.render(
             field = f,
             type = f.unqualifiedNestedTypeName(ctx),
             read = interceptReadFn(f, f.readFn()),
@@ -104,7 +103,7 @@ private constructor(
                 } else {
                     null
                 }
-        ).render()
+        )
 
     private fun MessageType.flattenedSortedFields() =
         fields.flatMap {
@@ -122,14 +121,14 @@ private constructor(
     )
 
     private fun oneOfDes(f: OneOf, ff: StandardField) =
-        OneofDeserialize.prepare(
+        OneofDeserialize.render(
             oneof = snakeToCamel(f.name).capitalize(),
             name = snakeToCamel(ff.name).capitalize(),
             read = deserializeString(ff)
-        ).render()
+        )
 
     private fun StandardField.readFn() =
-        ReadFunction.prepare(
+        ReadFunction.render(
             type = type,
             builder =
                 when (type) {
@@ -137,7 +136,7 @@ private constructor(
                     PType.MESSAGE -> stripQualification(ctx, this)
                     else -> ""
                 }
-        ).render()
+        )
 
     private fun stripQualification(ctx: Context, f: StandardField) =
         stripEnclosingMessageName(f.typePClass(ctx).renderName(ctx.pkg), ctx)

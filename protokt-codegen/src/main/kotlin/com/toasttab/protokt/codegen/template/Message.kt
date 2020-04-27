@@ -17,7 +17,7 @@ package com.toasttab.protokt.codegen.template
 
 import com.toasttab.protokt.codegen.impl.Deprecation
 
-object Message : StTemplate<Message.prepare>(
+object Message : PreparableStTemplate<Message.prepare>(
     StGroup.Message,
     "message"
 ) {
@@ -27,7 +27,7 @@ object Message : StTemplate<Message.prepare>(
         val serialize: List<SerializerInfo>,
         val deserialize: List<DeserializerInfo>,
         val sizeof: List<SizeofInfo>,
-        val params: List<FieldInfo>,
+        val properties: List<PropertyInfo>,
         val oneofs: List<String>,
         val options: Options
     ) : Prepare<prepare>(Message)
@@ -48,7 +48,7 @@ object Message : StTemplate<Message.prepare>(
         val vType: String
     )
 
-    class FieldInfo(
+    class PropertyInfo(
         val name: String,
         val type: String,
         val defaultValue: String,

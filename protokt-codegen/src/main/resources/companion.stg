@@ -32,7 +32,7 @@ companion object Deserializer : KtDeserializer\<<message.name>\><\\>
     <if (options.longDeserializer)><\n><t()><t()><endif><\\>
     deserializer: KtMessageDeserializer<\\>
     <if (options.longDeserializer)><\n><t()><endif>): <message.name> {
-        <params:{p | var <deserializeVar(p)>}; separator="\n">
+        <properties:{p | var <deserializeVar(p)>}; separator="\n">
         <if (!entry.entry)>
         var unknown: MutableMap\<Int, Unknown>? = null
         <endif>
@@ -41,11 +41,11 @@ companion object Deserializer : KtDeserializer\<<message.name>\><\\>
             when (deserializer.readTag()) {
                 0 -><\\>
                     <if (entry.entry)><\\>
-                    <\ >return <message.name>(<params:{p | <deserializeWrapper(p.name)>}; separator=", ">)
+                    <\ >return <message.name>(<properties:{p | <deserializeWrapper(p.name)>}; separator=", ">)
                     <else>
                     return <message.name>(
-                        <params:{p | <deserializeWrapper(p.name)>}; separator=",\n"><\\>
-                        <if (params)>,<endif>
+                        <properties:{p | <deserializeWrapper(p.name)>}; separator=",\n"><\\>
+                        <if (properties)>,<endif>
                         finishMap(unknown)
                     )
                     <endif>

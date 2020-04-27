@@ -30,7 +30,6 @@ import com.toasttab.protokt.codegen.model.possiblyQualify
 import com.toasttab.protokt.codegen.template.AccessField
 import com.toasttab.protokt.codegen.template.BytesSlice
 import com.toasttab.protokt.codegen.template.ConcatWithScope
-import com.toasttab.protokt.codegen.template.ConcatWithScope.Params
 import com.toasttab.protokt.codegen.template.DefaultBytesSlice
 import com.toasttab.protokt.codegen.template.FieldSizeof
 import com.toasttab.protokt.codegen.template.ReadBytesSlice
@@ -75,8 +74,7 @@ internal object Wrapper {
                             {
                                 // Protobuf primitives have no typeName
                                 Class.forName(
-                                    TypeToJavaClassName.prepare(type = type)
-                                        .render()
+                                    TypeToJavaClassName.render(type = type)
                                 ).kotlin
                             },
                             { getClass(typePClass(ctx), ctx) }
@@ -113,31 +111,29 @@ internal object Wrapper {
         f.foldWrap(
             ctx,
             {
-                FieldSizeof.prepare(
+                FieldSizeof.render(
                     field = f,
                     name = s
-                ).render()
+                )
             },
             { wrapper, wrapped ->
                 if (
                     converter(wrapper, wrapped, ctx) is
                         OptimizedSizeofConverter<*, *>
                 ) {
-                    ConcatWithScope.prepare(
-                        scopedValue =
-                            Params(
-                                unqualifiedWrap(
-                                    converterClass(wrapper, wrapped, ctx),
-                                    ctx.pkg
-                                ),
-                                SizeofOption.prepare(arg = s).render()
-                            )
-                    ).render()
+                    ConcatWithScope.render(
+                        scope =
+                            unqualifiedWrap(
+                                converterClass(wrapper, wrapped, ctx),
+                                ctx.pkg
+                            ),
+                        value = SizeofOption.render(arg = s)
+                    )
                 } else {
-                    FieldSizeof.prepare(
+                    FieldSizeof.render(
                         field = f,
                         name = s
-                    ).render()
+                    )
                 }
             }
         )
@@ -151,13 +147,13 @@ internal object Wrapper {
             ctx,
             { s },
             { wrapper, wrapped ->
-                AccessField.prepare(
+                AccessField.render(
                     wrapName =
                         PClass.fromClass(
                             converter(wrapper, wrapped, ctx)::class
                         ).renderName(ctx.pkg),
                     arg = s
-                ).render()
+                )
             }
         )
 
@@ -187,12 +183,12 @@ internal object Wrapper {
         wrapperName(f, ctx).fold(
             { s },
             {
-                WrapField.prepare(
+                WrapField.render(
                     wrapName = it,
                     arg = s,
                     type = f.type,
                     oneof = true
-                ).render()
+                )
             }
         )
 

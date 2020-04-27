@@ -17,15 +17,12 @@ package com.toasttab.protokt.codegen.template
 
 import com.toasttab.protokt.codegen.impl.Deprecation
 
-object Oneof : StTemplate<Oneof.prepare>(
+object Oneof : StTemplate(
     StGroup.Oneof,
     "oneof"
 ) {
-    class prepare(
-        val name: String,
-        val types: Map<String, Info>,
-        val options: Options
-    ) : Prepare<prepare>(Oneof)
+    fun render(name: String, types: Map<String, Info>, options: Options) =
+        zipRender(name, types, options)
 
     class Info(
         val fieldName: String,

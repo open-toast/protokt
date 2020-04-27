@@ -18,7 +18,7 @@ import "dsl.stg"
 import "options.stg"
 import "renderers.stg"
 
-message(message, entry, serialize, deserialize, plus, sizeof, inner, params, oneofs, options) ::= <<
+message(message, entry, serialize, deserialize, plus, sizeof, inner, properties, oneofs, options) ::= <<
 <blockComment(message.documentation)><\\>
 <suppressDeprecation(message)><\\>
 <deprecated(message)><\\>
@@ -33,12 +33,12 @@ class <message.name><if (!entry.entry)><\n>private constructor<endif>(
     val value: <entry.vType>
 ) : KtMessage {
 <else>
-    <params:{p |<\\>
+    <properties:{p |<\\>
         <blockComment(p.documentation)><\\>
         <deprecated(p)><\\>
         <messagePropertyOverrides()><\\>
         val <p.name>: <p.type><\\>
-    }; separator=",\n"><if (params)>,<endif>
+    }; separator=",\n"><if (properties)>,<endif>
     val unknown: Map\<Int, Unknown> = emptyMap()
 ) : KtMessage<messageImplements()> {
 <endif>
@@ -109,15 +109,15 @@ class <message.name><if (!entry.entry)><\n>private constructor<endif>(
 
     override fun equals(other: <if (options.wellKnownType)>kotlin.<endif>Any?): Boolean =
         other is <message.name> &&
-            <params:{p | other.<p.name> == <p.name>}; separator=" &&\n"><\\>
-            <if (params)> &&<endif>
+            <properties:{p | other.<p.name> == <p.name>}; separator=" &&\n"><\\>
+            <if (properties)> &&<endif>
             other.unknown == unknown
 
     override fun hashCode()<\\>
-    <if (params)><\\>
+    <if (properties)><\\>
     : Int {
         var result = unknown.hashCode()
-        <params:{p | <\\>
+        <properties:{p | <\\>
         result = 31 * result + <p.name>.hashCode()<\\>
         }; separator="\n">
         return result
@@ -130,9 +130,9 @@ class <message.name><if (!entry.entry)><\n>private constructor<endif>(
 
     override fun toString(): String =
         "<message.name>(<\\>
-        <if (params)><\\>
+        <if (properties)><\\>
         " +
-            <params:{p | "<p.name>=$<p.name>}; separator=", \" +\n">, " +
+            <properties:{p | "<p.name>=$<p.name>}; separator=", \" +\n">, " +
             "unknown=$unknown)"<\n>
         <else><\\>
             unknown=$unknown)"

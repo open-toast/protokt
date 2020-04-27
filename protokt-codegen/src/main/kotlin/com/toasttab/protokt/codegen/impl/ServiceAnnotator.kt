@@ -23,7 +23,6 @@ import com.toasttab.protokt.codegen.template.Method as MethodTemplate
 import com.toasttab.protokt.codegen.template.MethodType
 import com.toasttab.protokt.codegen.template.Service
 import com.toasttab.protokt.codegen.template.Service.MethodInfo
-import com.toasttab.protokt.codegen.template.render
 
 internal object ServiceAnnotator {
     fun annotateService(s: ServiceType, ctx: Context) =
@@ -42,9 +41,9 @@ internal object ServiceAnnotator {
         }
 
     private fun renderDescriptor(s: ServiceType) =
-        Descriptor.prepare(
+        Descriptor.render(
             methods = s.methods.map { it.name.decapitalize() }
-        ).render()
+        )
 
     private fun renderMethods(s: ServiceType, ctx: Context) =
         s.methods.map { renderMethod(it, ctx) }
@@ -55,12 +54,12 @@ internal object ServiceAnnotator {
                 MethodInfo(
                     m.name,
                     m.name.decapitalize(),
-                    MethodTemplate.prepare(
+                    MethodTemplate.render(
                         name = m.name.capitalize(),
                         type = methodType(m),
                         `in` = `in`,
                         out = out
-                    ).render(),
+                    ),
                     `in`,
                     out
                 )
@@ -71,5 +70,5 @@ internal object ServiceAnnotator {
         requalifyProtoType(typeName, ctx.desc.context).renderName(ctx.pkg)
 
     private fun methodType(m: Method) =
-        MethodType.prepare(method = m).render()
+        MethodType.render(method = m)
 }
