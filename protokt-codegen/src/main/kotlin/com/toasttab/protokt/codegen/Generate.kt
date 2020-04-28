@@ -15,7 +15,6 @@
 
 package com.toasttab.protokt.codegen
 
-import com.github.andrewoma.dexx.kollection.immutableListOf
 import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.algebra.Accumulator
 import com.toasttab.protokt.codegen.algebra.Annotator
@@ -30,6 +29,6 @@ fun generate(
     f: (Throwable) -> Unit
 ): (Accumulator<String>) -> Unit = { out ->
     Interpreter(a, e, p.types, f) {
-        AST(TypeDesc(p.desc, AnnotatedType(it)), immutableListOf())
+        AST(TypeDesc(p.desc, AnnotatedType(it)))
     }(out)
 }

@@ -259,7 +259,7 @@ private fun toOneOf(
     field: FieldDescriptorProto,
     typeNames: Set<String>,
     fields: ImmutableList<Field>
-): OneOf {
+): Oneof {
     val newName = newFieldName(oneOf.name, typeNames)
     val standardTuple = desc.fieldList.filter {
         it.hasOneofIndex() && it.oneofIndex == field.oneofIndex
@@ -276,7 +276,7 @@ private fun toOneOf(
                 acc.c + toStandard(idx + oneofIdx, ctx, t, emptySet(), true)
             )
     })
-    return OneOf(
+    return Oneof(
         name = oneOf.name,
         fieldTypeNames = standardTuple.a,
         fieldName = newName,

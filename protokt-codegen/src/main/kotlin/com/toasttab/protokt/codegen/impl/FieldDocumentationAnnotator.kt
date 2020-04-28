@@ -18,7 +18,7 @@ package com.toasttab.protokt.codegen.impl
 import com.google.protobuf.DescriptorProtos.DescriptorProto.FIELD_FIELD_NUMBER
 import com.google.protobuf.DescriptorProtos.DescriptorProto.ONEOF_DECL_FIELD_NUMBER
 import com.toasttab.protokt.codegen.Field
-import com.toasttab.protokt.codegen.OneOf
+import com.toasttab.protokt.codegen.Oneof
 import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.impl.MessageDocumentationAnnotator.baseLocation
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
@@ -33,7 +33,7 @@ private constructor(
             ctx,
             when (field) {
                 is StandardField -> listOf(FIELD_FIELD_NUMBER, field.index)
-                is OneOf -> listOf(ONEOF_DECL_FIELD_NUMBER, field.index)
+                is Oneof -> listOf(ONEOF_DECL_FIELD_NUMBER, field.index)
             }
         ).cleanDocumentation()
 

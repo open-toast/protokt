@@ -19,22 +19,21 @@ import arrow.core.None
 import arrow.core.Option
 import arrow.core.Some
 import com.toasttab.protokt.codegen.MessageType
-import com.toasttab.protokt.codegen.OneOf
+import com.toasttab.protokt.codegen.Oneof
 import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.impl.NonNullable.hasNonNullOption
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptFieldSizeof
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptSizeof
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
-import com.toasttab.protokt.codegen.template.ConcatWithScope
 import com.toasttab.protokt.codegen.template.ConditionalParams
-import com.toasttab.protokt.codegen.template.IterationVar
-import com.toasttab.protokt.codegen.template.Message.SizeofInfo
-import com.toasttab.protokt.codegen.template.Sizeof
-import com.toasttab.protokt.codegen.template.Sizeof.Options
-import com.toasttab.protokt.codegen.template.render
+import com.toasttab.protokt.codegen.template.Message.Message.SizeofInfo
+import com.toasttab.protokt.codegen.template.Renderers.ConcatWithScope
+import com.toasttab.protokt.codegen.template.Renderers.IterationVar
+import com.toasttab.protokt.codegen.template.Renderers.Sizeof
+import com.toasttab.protokt.codegen.template.Renderers.Sizeof.Options
 
-internal class SizeOfAnnotator
+internal class SizeofAnnotator
 private constructor(
     private val msg: MessageType,
     private val ctx: Context
@@ -54,7 +53,7 @@ private constructor(
                             )
                         )
                     )
-                is OneOf ->
+                is Oneof ->
                     SizeofInfo(
                         false,
                         it.fieldName,
@@ -93,7 +92,7 @@ private constructor(
         )
     }
 
-    private fun oneOfSize(f: OneOf, type: String) =
+    private fun oneOfSize(f: Oneof, type: String) =
         f.fields.map {
             ConditionalParams(
                 ConcatWithScope.render(
@@ -118,6 +117,6 @@ private constructor(
 
     companion object {
         fun annotateSizeof(msg: MessageType, ctx: Context) =
-            SizeOfAnnotator(msg, ctx).annotateSizeof()
+            SizeofAnnotator(msg, ctx).annotateSizeof()
     }
 }

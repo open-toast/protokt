@@ -17,22 +17,21 @@ package com.toasttab.protokt.codegen.template
 
 import com.toasttab.protokt.codegen.impl.Deprecation
 
-object Oneof : StTemplate(
-    StGroup.Oneof,
-    "oneof"
-) {
-    fun render(name: String, types: Map<String, Info>, options: Options) =
-        zipRender(name, types, options)
+object Oneof {
+    object Oneof : StTemplate(StGroup.Oneof) {
+        fun render(name: String, types: Map<String, Info>, options: Options) =
+            renderArgs(name, types, options)
 
-    class Info(
-        val fieldName: String,
-        val type: String,
-        val documentation: List<String>,
-        val deprecation: Deprecation.RenderOptions?
-    )
+        class Info(
+            val fieldName: String,
+            val type: String,
+            val documentation: List<String>,
+            val deprecation: Deprecation.RenderOptions?
+        )
 
-    class Options(
-        val doesImplement: Boolean,
-        val implements: String
-    )
+        class Options(
+            val doesImplement: Boolean,
+            val implements: String
+        )
+    }
 }

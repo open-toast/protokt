@@ -144,7 +144,7 @@ val StandardField.wireFormat
         PType.SFIXED32 -> 5
     }
 
-data class OneOf(
+data class Oneof(
     val name: String,
     val fieldName: String,
     val fields: List<StandardField>,
@@ -220,13 +220,9 @@ data class Protocol(
 // Interpreter Types
 data class AnnotatedType(
     val rawType: Type,
-    val renderable: Option<Renderable> = None
+    val code: Option<String> = None
 )
 data class TypeDesc(
     val desc: FileDesc,
     val type: AnnotatedType
 )
-
-interface Renderable {
-    fun render(): String
-}

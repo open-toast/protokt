@@ -17,62 +17,42 @@ package com.toasttab.protokt.codegen.template
 
 import com.toasttab.protokt.rt.PType
 
-object WrapField : StTemplate(
-    StGroup.Options,
-    "wrapField"
-) {
-    fun render(
-        wrapName: String,
-        arg: String,
-        type: PType,
-        oneof: Boolean
-    ) =
-        zipRender(wrapName, arg, type, oneof)
-}
+abstract class OptionsTemplate : StTemplate(StGroup.Options)
 
-object TypeToJavaClassName : StTemplate(
-    StGroup.Options,
-    "typeToJavaClassName"
-) {
-    fun render(type: PType) =
-        zipRender(type)
-}
+object Options {
+    object WrapField : OptionsTemplate() {
+        fun render(
+            wrapName: String,
+            arg: String,
+            type: PType,
+            oneof: Boolean
+        ) =
+            renderArgs(wrapName, arg, type, oneof)
+    }
 
-object AccessField : StTemplate(
-    StGroup.Options,
-    "accessField"
-) {
-    fun render(wrapName: String, arg: String) =
-        zipRender(wrapName, arg)
-}
+    object TypeToJavaClassName : OptionsTemplate() {
+        fun render(type: PType) =
+            renderArgs(type)
+    }
 
-object SizeofOption : StTemplate(
-    StGroup.Options,
-    "sizeof"
-) {
-    fun render(arg: String): String =
-        zipRender(arg)
-}
+    object AccessField : OptionsTemplate() {
+        fun render(wrapName: String, arg: String) =
+            renderArgs(wrapName, arg)
+    }
 
-object BytesSlice : ParameterlessStTemplate(
-    StGroup.Options,
-    "bytesSlice"
-)
+    object Sizeof : OptionsTemplate() {
+        fun render(arg: String): String =
+            renderArgs(arg)
+    }
 
-object ReadBytesSlice : ParameterlessStTemplate(
-    StGroup.Options,
-    "readBytesSlice"
-)
+    object BytesSlice : NoParamStTemplate(StGroup.Options)
 
-object DefaultBytesSlice : ParameterlessStTemplate(
-    StGroup.Options,
-    "defaultBytesSlice"
-)
+    object ReadBytesSlice : NoParamStTemplate(StGroup.Options)
 
-object JavaClassNameForWellKnownType : StTemplate(
-    StGroup.Options,
-    "javaClassNameForWellKnownType"
-) {
-    fun render(type: String) =
-        zipRender(type)
+    object DefaultBytesSlice : NoParamStTemplate(StGroup.Options)
+
+    object JavaClassNameForWellKnownType : OptionsTemplate() {
+        fun render(type: String) =
+            renderArgs(type)
+    }
 }

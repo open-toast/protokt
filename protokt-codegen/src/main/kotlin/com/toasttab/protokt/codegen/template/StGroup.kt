@@ -15,12 +15,15 @@
 
 package com.toasttab.protokt.codegen.template
 
-sealed class StGroup(val fileName: String) {
-    object Enum : StGroup("enum.stg")
-    object Header : StGroup("header.stg")
-    object Oneof : StGroup("oneof.stg")
-    object Message : StGroup("message.stg")
-    object Options : StGroup("options.stg")
-    object Renderers : StGroup("renderers.stg")
-    object Services : StGroup("services.stg")
+sealed class StGroup {
+    val fileName
+        get() = "${this::class.java.simpleName.decapitalize()}.stg"
+
+    object Enum : StGroup()
+    object Header : StGroup()
+    object Oneof : StGroup()
+    object Message : StGroup()
+    object Options : StGroup()
+    object Renderers : StGroup()
+    object Services : StGroup()
 }

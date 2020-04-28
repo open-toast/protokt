@@ -20,7 +20,7 @@ import arrow.core.Option
 import arrow.core.Some
 import arrow.core.getOrElse
 import com.toasttab.protokt.codegen.MessageType
-import com.toasttab.protokt.codegen.OneOf
+import com.toasttab.protokt.codegen.Oneof
 import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.impl.MessageAnnotator.idealMaxWidth
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
@@ -28,12 +28,12 @@ import com.toasttab.protokt.codegen.impl.Wrapper.interceptReadFn
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapperName
 import com.toasttab.protokt.codegen.snakeToCamel
-import com.toasttab.protokt.codegen.template.Deserialize
-import com.toasttab.protokt.codegen.template.Deserialize.Options
-import com.toasttab.protokt.codegen.template.Message.DeserializerInfo
-import com.toasttab.protokt.codegen.template.Message.DeserializerInfo.Assignment
-import com.toasttab.protokt.codegen.template.OneofDeserialize
-import com.toasttab.protokt.codegen.template.ReadFunction
+import com.toasttab.protokt.codegen.template.Message.Message.DeserializerInfo
+import com.toasttab.protokt.codegen.template.Message.Message.DeserializerInfo.Assignment
+import com.toasttab.protokt.codegen.template.Renderers.Deserialize
+import com.toasttab.protokt.codegen.template.Renderers.Deserialize.Options
+import com.toasttab.protokt.codegen.template.Renderers.OneofDeserialize
+import com.toasttab.protokt.codegen.template.Renderers.Read
 import com.toasttab.protokt.rt.PType
 
 internal class DeserializerAnnotator
@@ -110,17 +110,17 @@ private constructor(
             when (it) {
                 is StandardField ->
                     listOf(FlattenedField(it, None))
-                is OneOf ->
+                is Oneof ->
                     it.fields.map { f -> FlattenedField(f, Some(it)) }
             }
         }.sortedBy { it.field.number }
 
     private data class FlattenedField(
         val field: StandardField,
-        val oneOf: Option<OneOf>
+        val oneof: Option<Oneof>
     )
 
-    private fun oneOfDes(f: OneOf, ff: StandardField) =
+    private fun oneOfDes(f: Oneof, ff: StandardField) =
         OneofDeserialize.render(
             oneof = snakeToCamel(f.name).capitalize(),
             name = snakeToCamel(ff.name).capitalize(),
@@ -128,7 +128,7 @@ private constructor(
         )
 
     private fun StandardField.readFn() =
-        ReadFunction.render(
+        Read.render(
             type = type,
             builder =
                 when (type) {

@@ -19,7 +19,7 @@ import arrow.core.firstOrNone
 import com.toasttab.protokt.codegen.TypeDesc
 import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.model.PPackage
-import com.toasttab.protokt.codegen.template.Header
+import com.toasttab.protokt.codegen.template.Header.Header
 
 internal object HeaderAccumulator {
     fun write(

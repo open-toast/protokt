@@ -19,7 +19,7 @@ import arrow.core.None
 import arrow.core.orElse
 import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.impl.STAnnotator.googleProto
-import com.toasttab.protokt.codegen.template.JavaClassNameForWellKnownType
+import com.toasttab.protokt.codegen.template.Options.JavaClassNameForWellKnownType
 
 object WellKnownTypes {
     val StandardField.wrapWithWellKnownInterception

@@ -141,13 +141,13 @@ isGeneratedType ::= ["MESSAGE": true, "ENUM": true, default: false]
 
 isBytes ::= ["BYTES": true, "STRING": true, default: false]
 
-typeToNativeF(type) ::= "<kotlinTypeNames.(type)>"
+typeToNative(type) ::= "<kotlinTypeNames.(type)>"
 
-readF(type, builder) ::= "<readFunctions.(type)>(<builder>)"
+read(type, builder) ::= "<readFunctions.(type)>(<builder>)"
 
-boxF(type, def) ::= "<if (boxFunction.(type))><boxer.(type)>(<def>)<else><def><endif>"
+box(type, def) ::= "<if (boxFunction.(type))><boxer.(type)>(<def>)<else><def><endif>"
 
-boxMapF(type, box) ::= "<if (isMessage.(type))><box>(it.key, it.value)<else><endif>"
+boxMap(type, box) ::= "<if (isMessage.(type))><box>(it.key, it.value)<else><endif>"
 
 nullable ::= ["MESSAGE":"?", default:""]
 
@@ -203,13 +203,13 @@ deserializeVar(p) ::= <%
     <\ >= <deserializeValue(p)>
 %>
 
-oneofDefaultValueF() ::= "null"
+oneofDefaultValue() ::= "null"
 
-concatWithScopeF(scope, value) ::= "<scope>.<value>"
+concatWithScope(scope, value) ::= "<scope>.<value>"
 
-oneOfDeserializeF(oneof, name, read) ::= "<oneof>.<name>(<read>)"
+oneofDeserialize(oneof, name, read) ::= "<oneof>.<name>(<read>)"
 
-defaultValueF(field, type, name) ::= <%
+defaultValue(field, type, name) ::= <%
     <if (field.map)>
         emptyMap()
     <elseif (field.repeated)>
@@ -232,7 +232,7 @@ defaultConstructorExp() ::= <%
     <endif>
 %>
 
-nonDefaultValueF(field, name) ::= <%
+nonDefaultValue(field, name) ::= <%
     <if (field.repeated)>(<field.fieldName>.isNotEmpty())<\ >
     <elseif (isBytes.(field.type))>(<name>.isNotEmpty())<\ >
     <elseif (isMessage.(field.type))>(<field.fieldName> != null)<\ >
@@ -246,13 +246,13 @@ nonDefaultValueF(field, name) ::= <%
 
 iterationVar() ::= "it"
 
-serializeF(field, name, tag, box, options) ::= <<
+serialize(field, name, tag, box, options) ::= <<
 <if (field.repeated && field.packed)>
 serializer
         .write(Tag(<tag>))
-        .write(UInt32(<name>.sumBy { sizeof(<boxF(field.type, iterationVar())>) }))
+        .write(UInt32(<name>.sumBy { sizeof(<box(field.type, iterationVar())>) }))
     <name>.forEach {
-        serializer.write(<boxF(field.type, options.fieldAccess)>)
+        serializer.write(<box(field.type, options.fieldAccess)>)
     }<\\>
 <elseif (field.map)>
 <name>.entries.forEach {
@@ -262,14 +262,14 @@ serializer
     }<\\>
 <elseif (field.repeated)>
 <name>.forEach {
-        serializer.write(Tag(<tag>)).write(<boxF(field.type, options.fieldAccess)>)
+        serializer.write(Tag(<tag>)).write(<box(field.type, options.fieldAccess)>)
     }<\\>
 <else>
 serializer.write(Tag(<tag>)).write(<box>)<\\>
 <endif>
 >>
 
-deserializeF(field, type, read, lhs, options) ::= <<
+deserialize(field, type, read, lhs, options) ::= <<
 <if (field.map)>
 (<lhs> ?: mutableMapOf()).apply {
         deserializer.readRepeated(false) {
@@ -290,17 +290,17 @@ deserializeF(field, type, read, lhs, options) ::= <<
 
 deserializerRead(read) ::= "deserializer.<read>"
 
-standardF(field, any, nullable) ::= <%
+standard(field, any, nullable) ::= <%
     <if (field.map)>
         Map\<<any.kType>, <any.vType>>
     <elseif (field.repeated)>
         List\<<any>>
     <else>
-        <typeF(field, any, nullable, false)>
+        <type(field, any, nullable, false)>
     <endif>
 %>
 
-typeF(field, any, nullable, oneof) ::= <%
+type(field, any, nullable, oneof) ::= <%
     <if ((oneof || isMessage.(field.type)) && nullable)>
         <any>?
     <else>
@@ -316,18 +316,18 @@ sizeofMap(<name>, Tag(<field.number>)) { k, v ->
 <elseif(field.repeated && field.packed)><\\>
 sizeof(Tag(<field.number>)) +
     <name>
-        .sumBy { sizeof(<boxF(field.type, iterationVar())>) }
+        .sumBy { sizeof(<box(field.type, iterationVar())>) }
         .let { it + sizeof(UInt32(it)) }<\\>
 <elseif(field.repeated && !field.map)><\\>
 (sizeof(Tag(<field.number>)) * <name>.size) +
-        <name>.sumBy { sizeof(<boxF(field.type, options.fieldAccess)>) }<\\>
+        <name>.sumBy { sizeof(<box(field.type, options.fieldAccess)>) }<\\>
 <else><\\>
 sizeof(Tag(<field.number>)) + <options.fieldSizeof><\\>
 <endif>
 >>
 
 fieldSizeof(field, name) ::= <%
-    sizeof(<boxF(field.type, name)>)
+    sizeof(<box(field.type, name)>)
 %>
 
 blockComment(contents) ::= <<
