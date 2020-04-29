@@ -13,22 +13,22 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.test
+package com.toasttab.protokt.testing
 
-import com.toasttab.protokt.rt.KtMessage
-import java.util.jar.JarInputStream
+import java.time.Instant
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-class VersionTest {
+class TestMessageTest {
     @Test
-    fun `runtime version should match project version`() {
-        val version = System.getProperty("version")
-
-        val runtimeVersion = KtMessage::class.java.protectionDomain.codeSource.location.openStream().use {
-            JarInputStream(it).manifest.mainAttributes.getValue("Implementation-Version")
+    fun `serialization should preserve the timestamp field`() {
+        val message = TestMessage {
+            timestamp = Instant.parse("2007-12-03T10:15:30.00Z")
         }
 
-        assertEquals(version, runtimeVersion)
+        assertEquals(
+            message.timestamp,
+            TestMessage.deserialize(message.serialize()).timestamp
+        )
     }
 }

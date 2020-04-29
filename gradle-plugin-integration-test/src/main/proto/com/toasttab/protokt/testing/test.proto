@@ -13,22 +13,15 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.test
+syntax = "proto3";
 
-import java.time.Instant
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+package com.toasttab.protokt.testing;
 
-class TestMessageTest {
-    @Test
-    fun `serialization should preserve the timestamp field`() {
-        val message = TestMessage {
-            timestamp = Instant.parse("2007-12-03T10:15:30.00Z")
-        }
+import "protokt/protokt.proto";
+import "google/protobuf/timestamp.proto";
 
-        assertEquals(
-            message.timestamp,
-            TestMessage.deserialize(message.serialize()).timestamp
-        )
-    }
+message TestMessage {
+  google.protobuf.Timestamp timestamp = 1 [
+    (.protokt.property).wrap = "java.time.Instant"
+  ];
 }
