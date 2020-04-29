@@ -34,3 +34,15 @@ message Constant {
 message Model {
   other.Model model = 1;
 }
+
+message ContainsUnit {
+  enum Unit {
+    first = 0;
+  }
+
+  Unit unit = 1;
+}
+
+message Unit {
+  ContainsUnit unit = 1;
+}

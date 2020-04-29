@@ -262,7 +262,7 @@ private fun toFields(
                             acc.a,
                             acc.b + it,
                             acc.c + ood.name,
-                            acc.d + toOneOf(idx, ctx, desc, ood, t, acc.a, acc.d)
+                            acc.d + toOneof(idx, ctx, desc, ood, t, acc.a, acc.d)
                         )
                     }
                 })
@@ -270,16 +270,16 @@ private fun toFields(
         }
     }.d
 
-private fun toOneOf(
+private fun toOneof(
     idx: Int,
     ctx: ProtocolContext,
     desc: DescriptorProto,
-    oneOf: OneofDescriptorProto,
+    oneof: OneofDescriptorProto,
     field: FieldDescriptorProto,
     typeNames: Set<String>,
     fields: ImmutableList<Field>
 ): Oneof {
-    val newName = newFieldName(oneOf.name, typeNames)
+    val newName = newFieldName(oneof.name, typeNames)
     val standardTuple = desc.fieldList.filter {
         it.hasOneofIndex() && it.oneofIndex == field.oneofIndex
     }.foldIndexed(
@@ -290,20 +290,20 @@ private fun toOneOf(
         ), { oneofIdx, acc, t ->
             val ftn = newTypeName(t.name, acc.b)
             Tuple3(
-                acc.a + (convertStandardFieldName(t.name) to ftn),
+                acc.a + (newFieldName(t.name, acc.b) to ftn),
                 acc.b + ftn,
                 acc.c + toStandard(idx + oneofIdx, ctx, t, emptySet(), true)
             )
     })
     return Oneof(
-        name = newTypeName(oneOf.name, typeNames),
+        name = newTypeName(oneof.name, typeNames),
         fieldTypeNames = standardTuple.a,
         fieldName = newName,
         fields = standardTuple.c,
         options =
             OneofOptions(
-                oneOf.options,
-                oneOf.options.extensionOrDefault(Protokt.oneof)
+                oneof.options,
+                oneof.options.extensionOrDefault(Protokt.oneof)
             ),
         // index relative to all oneofs in this message
         index = idx - fields.filterIsInstance<StandardField>().count()
@@ -320,7 +320,7 @@ private fun toStandard(
     fdp.type ?: error("Missing field type")).let { type ->
     StandardField(
         number = fdp.number,
-        name = convertStandardFieldName(fdp.name),
+        name = newFieldName(fdp.name, usedFieldNames),
         type = type,
         typeName = fdp.typeName,
         repeated = fdp.label == LABEL_REPEATED,
@@ -350,9 +350,6 @@ private fun toStandard(
         index = idx
     )
 }
-
-private fun convertStandardFieldName(name: String) =
-    snakeToCamel(name)
 
 private fun packageName(
     fdp: FileDescriptorProto,

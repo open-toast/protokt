@@ -27,6 +27,7 @@ internal object Keywords {
             "Long",
             "Map",
             "String",
+            "Unit",
             "emptyList",
             "protokt",
             "messageSize",
