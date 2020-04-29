@@ -16,8 +16,7 @@
 package com.toasttab.protokt.testing.options
 
 import com.google.common.truth.Truth.assertThat
-import com.toasttab.model.NullableWrappersExample
-import com.toasttab.protokt.rt.test.propertyIsMarkedNullable
+import com.toasttab.protokt.testing.rt.propertyIsMarkedNullable
 import java.net.InetAddress
 import java.net.InetSocketAddress
 import java.time.Duration

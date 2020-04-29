@@ -16,10 +16,6 @@
 package com.toasttab.protokt.testing.options
 
 import com.google.common.truth.Truth.assertThat
-import com.toasttab.protokt.testing.options.CachingId
-import com.toasttab.protokt.testing.options.Id
-import com.toasttab.model.OneOfWrapperModel
-import com.toasttab.model.WrapperModel
 import java.net.InetAddress
 import java.net.InetSocketAddress
 import java.time.Duration

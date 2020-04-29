@@ -16,8 +16,6 @@
 package com.toasttab.protokt.testing.options
 
 import com.google.common.truth.Truth.assertThat
-import com.toasttab.model.NonNullModel
-import com.toasttab.model.NonNullModelMirror
 import kotlin.reflect.full.declaredMemberProperties
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows

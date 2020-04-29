@@ -16,7 +16,6 @@
 package com.toasttab.protokt.testing.options
 
 import com.google.common.truth.Truth.assertThat
-import com.toasttab.model.ForeignEnumWithDeprecation
 import kotlin.reflect.KAnnotatedElement
 import kotlin.reflect.KClass
 import kotlin.reflect.full.declaredMemberProperties
@@ -27,7 +26,7 @@ class DeprecatedTest {
     @Test
     fun `deprecated foreign enum`() {
         assertClassDeprecation(
-            com.toasttab.model.DeprecatedForeignEnum::class,
+            DeprecatedForeignEnum::class,
             "deprecated in proto"
         )
     }
@@ -43,7 +42,7 @@ class DeprecatedTest {
     @Test
     fun `deprecated message`() {
         assertClassDeprecation(
-            com.toasttab.model.DeprecatedModel::class,
+            DeprecatedModel::class,
             "deprecated in proto"
         )
     }
@@ -51,7 +50,7 @@ class DeprecatedTest {
     @Test
     fun `deprecated message field`() {
         assertFieldDeprecation(
-            com.toasttab.model.DeprecatedModel::class,
+            DeprecatedModel::class,
             "id",
             "mildly deprecated"
         )
@@ -60,7 +59,7 @@ class DeprecatedTest {
     @Test
     fun `deprecated message DSL field`() {
         assertFieldDeprecation(
-            com.toasttab.model.DeprecatedModel.DeprecatedModelDsl::class,
+            DeprecatedModel.DeprecatedModelDsl::class,
             "id",
             "mildly deprecated"
         )
@@ -69,7 +68,7 @@ class DeprecatedTest {
     @Test
     fun `deprecated oneof field`() {
         assertClassDeprecation(
-            com.toasttab.model.DeprecatedModel.DeprecatedOneof.Option::class,
+            DeprecatedModel.DeprecatedOneof.Option::class,
             "mildly deprecated"
         )
     }
@@ -77,7 +76,7 @@ class DeprecatedTest {
     @Test
     fun `deprecated enum`() {
         assertClassDeprecation(
-            com.toasttab.model.DeprecatedModel.DeprecatedEnum::class,
+            DeprecatedModel.DeprecatedEnum::class,
             "more deprecated"
         )
     }
@@ -85,7 +84,7 @@ class DeprecatedTest {
     @Test
     fun `enum with deprecation`() {
         assertClassDeprecation(
-            com.toasttab.model.DeprecatedModel.EnumWithDeprecation.OPTION_TWO::class,
+            DeprecatedModel.EnumWithDeprecation.OPTION_TWO::class,
             "mildly deprecated"
         )
     }

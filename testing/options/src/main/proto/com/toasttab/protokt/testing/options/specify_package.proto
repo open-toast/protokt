@@ -19,6 +19,6 @@ package com.toasttab.protokt.testing.options;
 
 import "protokt/protokt.proto";
 
-option (.protokt.file).kotlin_package = "com.toasttab.other";
+option (.protokt.file).kotlin_package = "com.toasttab.protokt.testing.options.other";
 
 message OtherModel {}

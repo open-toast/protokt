@@ -16,10 +16,6 @@
 package com.toasttab.protokt.testing.options
 
 import com.google.common.truth.Truth.assertThat
-import com.toasttab.model.ContainsOneofThatImplements
-import com.toasttab.protokt.testing.options.Id
-import com.toasttab.model.ImplementsOneof1
-import com.toasttab.protokt.testing.options.OneofModel
 import org.junit.Test
 
 class OneofImplementsTest {

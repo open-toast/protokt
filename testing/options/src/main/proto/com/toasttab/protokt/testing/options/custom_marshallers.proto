@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2020 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,18 @@
  * limitations under the License.
  */
 
-localProtokt()
-pureKotlin()
+syntax = "proto3";
 
-dependencies {
-    implementation(kotlin("reflect"))
-    implementation(project(":testing:protobuf-java"))
+package com.toasttab.protokt.testing.options;
 
-    testImplementation(libraries.jackson)
-    testImplementation(libraries.protobuf)
+import "protokt/protokt.proto";
+
+message In {}
+message Out {}
+
+service CustomMarshallerService {
+  rpc CustomMarshallersMethod(In) returns (Out) {
+    option (.protokt.method).request_marshaller = "InMarshaller";
+    option (.protokt.method).response_marshaller = "OutMarshaller";
+  };
 }

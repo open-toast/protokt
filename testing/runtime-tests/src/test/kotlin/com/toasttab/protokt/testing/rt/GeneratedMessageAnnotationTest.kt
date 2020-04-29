@@ -13,14 +13,19 @@
  * limitations under the License.
  */
 
-syntax = "proto3";
+package com.toasttab.protokt.testing.rt
 
-package com.toasttab.protokt.testing.options.service;
+import com.google.common.truth.Truth.assertThat
+import com.toasttab.protokt.rt.KtGeneratedMessage
+import org.junit.jupiter.api.Test
 
-import "protokt/protokt.proto";
+class GeneratedMessageAnnotationTest {
+    @Test
+    fun `messages have KtGeneratedMessage annotation`() {
+        assertThat(RootMessage {}.annotationClasses)
+            .contains(KtGeneratedMessage::class)
+    }
 
-message SliceModel {
-  bytes slice = 1 [
-    (.protokt.property).bytes_slice = true
-  ];
+    private val Any.annotationClasses
+        get() = this::class.annotations.map { it.annotationClass }
 }

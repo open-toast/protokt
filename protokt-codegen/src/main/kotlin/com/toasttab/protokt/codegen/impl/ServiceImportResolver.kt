@@ -41,10 +41,10 @@ class ServiceImportResolver(
                 Import.ClassMethod(
                     PClass.fromClass(MethodDescriptor::class),
                     "generateFullMethodName"
-                ),
-                pclass(KtMarshaller::class)
+                )
             ) +
-                service.methods.flatMap { methodImports(it) }
+                service.methods.flatMap { methodImports(it) } +
+                possibleKtMarshaller(service.methods)
         } else {
             emptySet()
         }
@@ -54,4 +54,16 @@ class ServiceImportResolver(
             Import.Class(requalifyProtoType(method.inputType, ctx)),
             Import.Class(requalifyProtoType(method.outputType, ctx))
         )
+
+    private fun possibleKtMarshaller(methods: List<Method>) =
+        if (
+            methods.any {
+                it.options.protokt.requestMarshaller.isEmpty() ||
+                    it.options.protokt.responseMarshaller.isEmpty()
+            }
+        ) {
+            setOf(pclass(KtMarshaller::class))
+        } else {
+            emptySet()
+        }
 }

@@ -24,7 +24,8 @@ import com.toasttab.protokt.pack
 import com.toasttab.protokt.rt.Bytes
 import com.toasttab.protokt.rt.Unknown
 import com.toasttab.protokt.rt.VarIntVal
-import com.toasttab.protokt.rt.test.Test as KtTest
+import com.toasttab.protokt.testing.rt.Test as KtTest
+import com.toasttab.protokt.unpack
 import org.junit.jupiter.api.Test
 
 class CollectionTest {

@@ -16,12 +16,6 @@
 package com.toasttab.protokt.testing.options
 
 import com.google.common.truth.Truth.assertThat
-import com.toasttab.protokt.testing.options.Id
-import com.toasttab.model.ImplementsModel
-import com.toasttab.model.ImplementsModel2
-import com.toasttab.model.ImplementsWithDelegate
-import com.toasttab.protokt.testing.options.Model
-import com.toasttab.protokt.testing.options.Model2
 import org.junit.jupiter.api.Test
 
 class MessageImplementsTest {

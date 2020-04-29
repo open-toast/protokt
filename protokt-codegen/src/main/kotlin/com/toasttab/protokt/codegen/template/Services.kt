@@ -52,7 +52,7 @@ object Services {
             renderArgs(name, type, `in`, out, options)
 
         class MethodOptions(
-            val requestMashaller: String?,
+            val requestMarshaller: String?,
             val responseMarshaller: String?
         )
     }

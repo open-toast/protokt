@@ -39,8 +39,8 @@ method(name, type, in, out, options) ::= <<
 io.grpc.MethodDescriptor.newBuilder\<<in>, <out>\>()
     .setType(io.grpc.MethodDescriptor.MethodType.<type>)
     .setFullMethodName(io.grpc.MethodDescriptor.generateFullMethodName(SERVICE_NAME, "<name>"))
-    .setRequestMarshaller(<requestMarshaller()>(<in>))
-    .setResponseMarshaller(<responseMarshaller()>(<out>))
+    .setRequestMarshaller(<requestMarshaller()>)
+    .setResponseMarshaller(<responseMarshaller()>)
     .build()
 >>
 
@@ -48,7 +48,7 @@ requestMarshaller() ::= <%
     <if (options.requestMarshaller)>
         <options.requestMarshaller>
     <else>
-        <defaultMarshaller()>
+        <defaultMarshaller()>(<in>)
     <endif>
 %>
 
@@ -56,7 +56,7 @@ responseMarshaller() ::= <%
     <if (options.responseMarshaller)>
         <options.responseMarshaller>
     <else>
-        <defaultMarshaller()>
+        <defaultMarshaller()>(<out>)
     <endif>
 %>
 

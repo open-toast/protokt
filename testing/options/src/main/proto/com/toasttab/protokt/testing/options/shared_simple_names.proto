@@ -15,12 +15,12 @@
 
 syntax = "proto3";
 
-package com.toasttab.protokt.testing.options.imports;
+package com.toasttab.protokt.testing.options;
 
 import "google/protobuf/duration.proto";
 import "protokt/protokt.proto";
 
-message WrapperModel {
+message ImportsWrapperModel {
   google.protobuf.Duration native_duration = 1 [
     (.protokt.property).non_null = true
   ];

@@ -16,13 +16,13 @@
 package com.toasttab.protokt.testing.options
 
 import com.google.common.truth.Truth.assertThat
-import com.toasttab.model.kotlinpkg.Model
+import com.toasttab.protokt.testing.options.kotlinpkg.Model
 import org.junit.jupiter.api.Test
 
 class KotlinPackagePrecedenceTest {
     @Test
     fun `kotlin_package option takes precedence over java_package option`() {
         assertThat(Model::class.java.`package`.name)
-            .isEqualTo("com.toasttab.model.kotlinpkg")
+            .isEqualTo("com.toasttab.protokt.testing.options.kotlinpkg")
     }
 }

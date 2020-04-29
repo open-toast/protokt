@@ -15,8 +15,6 @@
 
 package com.toasttab.protokt.testing.options
 
-import com.toasttab.protokt.testing.options.Id
-
 interface Model {
     val id: Id
 }
