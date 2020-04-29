@@ -31,28 +31,27 @@ class ImportFilterer(
         val classImports = imports.filterIsInstance<Import.Class>().toSet()
         val nonDuplicateImports = mutableSetOf<Import.Class>()
 
-        for (import in classImports) {
-            if (getClass(PClass(import.pClass.simpleName, pkg, None)).isDefined()) {
-                // don't try to resolve imports for classes that also exist in
-                // this package
-                continue
-            }
+        classImports
+            .filterNot { classWithSimpleNameExistsInPackage(it) }
+            .forEach { import ->
+                val withSameName = withSameName(import, nonDuplicateImports)
 
-            val withSameName = withSameName(import, nonDuplicateImports)
-
-            if (withSameName.isEmpty()) {
-                nonDuplicateImports.add(import)
-            } else {
-                val duplicate = withSameName.single()
-                if (duplicate.pkg in internalPackages) {
+                if (withSameName.isEmpty()) {
                     nonDuplicateImports.add(import)
-                    nonDuplicateImports.remove(duplicate)
+                } else {
+                    val duplicate = withSameName.single()
+                    if (duplicate.pkg in internalPackages) {
+                        nonDuplicateImports.add(import)
+                        nonDuplicateImports.remove(duplicate)
+                    }
                 }
             }
-        }
 
         return nonDuplicateImports + imports.filterNot { it is Import.Class }
     }
+
+    private fun classWithSimpleNameExistsInPackage(import: Import.Class) =
+        getClass(PClass(import.pClass.simpleName, pkg, None)).isDefined()
 
     private fun withSameName(
         import: Import.Class,
