@@ -52,7 +52,7 @@ methodType(method) ::= <%
             CLIENT_STREAMING
         <endif>
     <else>
-        <if (methond.serverStreaming)> {
+        <if (method.serverStreaming)>
             SERVER_STREAMING
         <else>
             UNARY
