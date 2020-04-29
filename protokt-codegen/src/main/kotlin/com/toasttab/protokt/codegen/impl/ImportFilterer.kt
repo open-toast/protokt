@@ -15,16 +15,29 @@
 
 package com.toasttab.protokt.codegen.impl
 
+import arrow.core.None
+import arrow.core.Option
+import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.PPackage
+import kotlin.reflect.KClass
 
-object ImportFilterer {
+class ImportFilterer(
+    private val pkg: PPackage,
+    private val getClass: (PClass) -> Option<KClass<*>>
+) {
     private val internalPackages = setOf(PPackage.PROTOKT, PPackage.PROTOKT_RT)
 
     fun filterDuplicateSimpleNames(imports: Sequence<Import>): Set<Import> {
         val classImports = imports.filterIsInstance<Import.Class>().toSet()
         val nonDuplicateImports = mutableSetOf<Import.Class>()
 
-        classImports.forEach { import ->
+        for (import in classImports) {
+            if (getClass(PClass(import.pClass.simpleName, pkg, None)).isDefined()) {
+                // don't try to resolve imports for classes that also exist in
+                // this package
+                continue
+            }
+
             val withSameName = withSameName(import, nonDuplicateImports)
 
             if (withSameName.isEmpty()) {
