@@ -1,0 +1,97 @@
+/*
+ * Copyright (c) 2019 Toast Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto3";
+
+package com.toasttab.protokt.testing.options;
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "protokt/ext/inet_socket_address.proto";
+import "protokt/protokt.proto";
+
+message WrapperModel {
+  bytes id = 1 [
+    (.protokt.property).wrap = "Id"
+  ];
+
+  bytes uuid = 2 [
+    (.protokt.property).wrap = "java.util.UUID"
+  ];
+
+  bytes ip_address = 3 [
+    (.protokt.property).wrap = "java.net.InetAddress"
+  ];
+
+  bytes caching_id = 4 [
+    (.protokt.property).wrap = "CachingId"
+  ];
+
+  .protokt.ext.InetSocketAddress socket_address = 5 [
+    (.protokt.property).wrap = "java.net.InetSocketAddress",
+    (.protokt.property).non_null = true
+  ];
+
+  google.protobuf.Timestamp instant = 6 [
+    (.protokt.property).wrap = "java.time.Instant",
+    (.protokt.property).non_null = true
+  ];
+
+  google.protobuf.Duration duration = 7 [
+    (.protokt.property).wrap = "java.time.Duration",
+    (.protokt.property).non_null = true
+  ];
+}
+
+message OneOfWrapperModel {
+  oneof wrapped_oneof {
+    option (.protokt.oneof).non_null = true;
+
+    bytes id_oneof = 1 [
+      (.protokt.property).wrap = "com.toasttab.protokt.testing.options.Id"
+    ];
+
+    bytes uuid_oneof = 2 [
+      (.protokt.property).wrap = "java.util.UUID"
+    ];
+
+    bytes ip_address_oneof = 3 [
+      (.protokt.property).wrap = "java.net.InetAddress"
+    ];
+
+    bytes caching_id_oneof = 4 [
+      (.protokt.property).wrap = "CachingId"
+    ];
+
+    google.protobuf.Timestamp instant_oneof = 5 [
+      (.protokt.property).wrap = "java.time.Instant"
+    ];
+
+    .protokt.ext.InetSocketAddress socket_address_oneof = 6 [
+      (.protokt.property).wrap = "java.net.InetSocketAddress"
+    ];
+  }
+}
+
+message RepeatedWrapperModel {
+  repeated bytes uuids = 1 [
+    (.protokt.property).wrap = "java.util.UUID"
+  ];
+
+  repeated google.protobuf.BytesValue uuidsWrapped = 2 [
+    (.protokt.property).wrap = "java.util.UUID"
+  ];
+}

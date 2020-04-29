@@ -20,6 +20,7 @@ import com.toasttab.protokt.codegen.ServiceType
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.template.Services.Descriptor
 import com.toasttab.protokt.codegen.template.Services.Method as MethodTemplate
+import com.toasttab.protokt.codegen.template.Services.Method.MethodOptions
 import com.toasttab.protokt.codegen.template.Services.MethodType
 import com.toasttab.protokt.codegen.template.Services.Service
 import com.toasttab.protokt.codegen.template.Services.Service.MethodInfo
@@ -58,7 +59,8 @@ internal object ServiceAnnotator {
                         name = m.name.capitalize(),
                         type = methodType(m),
                         `in` = `in`,
-                        out = out
+                        out = out,
+                        options = methodOptions(m)
                     ),
                     `in`,
                     out
@@ -71,4 +73,10 @@ internal object ServiceAnnotator {
 
     private fun methodType(m: Method) =
         MethodType.render(method = m)
+
+    private fun methodOptions(m: Method) =
+        MethodOptions(
+            m.options.protokt.requestMarshaller.ifEmpty { null },
+            m.options.protokt.responseMarshaller.ifEmpty { null }
+        )
 }

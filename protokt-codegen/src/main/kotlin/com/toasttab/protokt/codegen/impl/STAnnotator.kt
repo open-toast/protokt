@@ -15,11 +15,12 @@
 
 package com.toasttab.protokt.codegen.impl
 
+import arrow.core.Some
 import com.github.andrewoma.dexx.kollection.immutableListOf
+import com.toasttab.protokt.codegen.AnnotatedType
 import com.toasttab.protokt.codegen.EnumType
 import com.toasttab.protokt.codegen.FileDesc
 import com.toasttab.protokt.codegen.MessageType
-import com.toasttab.protokt.codegen.Optics.annotate
 import com.toasttab.protokt.codegen.ServiceType
 import com.toasttab.protokt.codegen.Type
 import com.toasttab.protokt.codegen.TypeDesc
@@ -50,14 +51,21 @@ object STAnnotator : Annotator<AST<TypeDesc>> {
     )
 
     override fun invoke(ast: AST<TypeDesc>) =
-        annotate(
-            ast,
-            annotate(
-                ast.data.type.rawType,
-                Context(
-                    immutableListOf(),
-                    kotlinPackage(ast),
-                    ast.data.desc
+        AST(
+            TypeDesc(
+                ast.data.desc,
+                AnnotatedType(
+                    ast.data.type.rawType,
+                    Some(
+                        annotate(
+                            ast.data.type.rawType,
+                            Context(
+                                immutableListOf(),
+                                kotlinPackage(ast),
+                                ast.data.desc
+                            )
+                        )
+                    )
                 )
             )
         )

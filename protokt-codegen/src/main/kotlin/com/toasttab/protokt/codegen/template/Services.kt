@@ -42,8 +42,19 @@ object Services {
     }
 
     object Method : ServicesTemplate() {
-        fun render(name: String, type: String, `in`: String, out: String) =
-            renderArgs(name, type, `in`, out)
+        fun render(
+            name: String,
+            type: String,
+            `in`: String,
+            out: String,
+            options: MethodOptions
+        ) =
+            renderArgs(name, type, `in`, out, options)
+
+        class MethodOptions(
+            val requestMashaller: String?,
+            val responseMarshaller: String?
+        )
     }
 
     object MethodType : ServicesTemplate() {

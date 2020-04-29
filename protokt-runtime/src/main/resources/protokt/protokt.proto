@@ -134,8 +134,11 @@ extend google.protobuf.ServiceOptions {
 }
 
 message ProtoktMethodOptions {
+  // Provides a custom request marshaller for the generated method descriptor
+  string request_marshaller = 1;
+
   // Provides a custom response marshaller for the generated method descriptor
-  string response_marshaller = 1;
+  string response_marshaller = 2;
 }
 
 extend google.protobuf.MethodOptions {
