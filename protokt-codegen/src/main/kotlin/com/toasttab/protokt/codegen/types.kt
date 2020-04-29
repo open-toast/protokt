@@ -216,12 +216,12 @@ class Protocol(
 )
 
 // Interpreter Types
-data class AnnotatedType(
+class AnnotatedType(
     val rawType: Type,
     val code: Option<String> = None
 )
 
-data class TypeDesc(
+class TypeDesc(
     val desc: FileDesc,
     val type: AnnotatedType
 )

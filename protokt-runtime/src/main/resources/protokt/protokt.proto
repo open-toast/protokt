@@ -135,11 +135,13 @@ extend google.protobuf.ServiceOptions {
 
 message ProtoktMethodOptions {
   // Provides a custom request marshaller for the generated method descriptor.
-  // Substitutes the provided expression directly for `KtMarshaller(<request_type>)`
+  // Substitutes the provided expression directly for
+  // `com.toasttab.protokt.grpc.KtMarshaller(<request_type>)`
   string request_marshaller = 1;
 
   // Provides a custom response marshaller for the generated method descriptor.
-  // Substitutes the provided expression directly for `KtMarshaller(<response_type>)`
+  // Substitutes the provided expression directly for
+  // `com.toasttab.protokt.grpc.KtMarshaller(<response_type>)`
   string response_marshaller = 2;
 }
 

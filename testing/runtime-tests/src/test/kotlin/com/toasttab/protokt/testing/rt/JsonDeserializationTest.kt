@@ -40,9 +40,7 @@ class JsonDeserializationTest {
                     )
                     .addDeserializer(
                         AnEnum::class.java,
-                        EnumFieldDeserializer(
-                            AnEnum
-                        )
+                        EnumFieldDeserializer(AnEnum)
                     )
             )
             .registerModule(KotlinModule())

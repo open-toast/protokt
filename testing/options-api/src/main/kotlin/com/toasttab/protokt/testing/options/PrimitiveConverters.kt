@@ -36,8 +36,7 @@ object BytesConverter : Converter<ByteArrayBox, ByteArray> {
     override val wrapped = ByteArray::class
     override val wrapper = ByteArrayBox::class
     override fun unwrap(wrapped: ByteArrayBox) = wrapped.wrapped.bytes
-    override fun wrap(unwrapped: ByteArray) =
-        ByteArrayBox(Bytes(unwrapped))
+    override fun wrap(unwrapped: ByteArray) = ByteArrayBox(Bytes(unwrapped))
 }
 
 data class DoubleBox(val wrapped: Double)
