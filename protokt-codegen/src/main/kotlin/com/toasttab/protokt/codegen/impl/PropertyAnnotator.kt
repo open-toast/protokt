@@ -34,8 +34,8 @@ import com.toasttab.protokt.codegen.impl.Wrapper.interceptDefaultValue
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptTypeName
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
 import com.toasttab.protokt.codegen.template.Message.Message.PropertyInfo
+import com.toasttab.protokt.codegen.template.Oneof as OneofTemplate
 import com.toasttab.protokt.codegen.template.Renderers.DefaultValue
-import com.toasttab.protokt.codegen.template.Renderers.OneofDefaultValue
 import com.toasttab.protokt.codegen.template.Renderers.Standard
 import com.toasttab.protokt.codegen.template.Renderers.Type
 import com.toasttab.protokt.rt.PType
@@ -146,7 +146,7 @@ private constructor(
                     ctx
                 )
             is Oneof ->
-                OneofDefaultValue.render()
+                OneofTemplate.DefaultValue.render()
         }
 
     companion object {

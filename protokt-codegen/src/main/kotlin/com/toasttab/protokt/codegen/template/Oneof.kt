@@ -17,8 +17,10 @@ package com.toasttab.protokt.codegen.template
 
 import com.toasttab.protokt.codegen.impl.Deprecation
 
+abstract class OneofTemplate : StTemplate(StGroup.Oneof)
+
 object Oneof {
-    object Oneof : StTemplate(StGroup.Oneof) {
+    object Oneof : OneofTemplate() {
         fun render(name: String, types: Map<String, Info>, options: Options) =
             renderArgs(name, types, options)
 
@@ -33,5 +35,12 @@ object Oneof {
             val doesImplement: Boolean,
             val implements: String
         )
+    }
+
+    object DefaultValue : NoParamStTemplate(StGroup.Oneof)
+
+    object Deserialize : OneofTemplate() {
+        fun render(oneof: String, name: String, read: String) =
+            renderArgs(oneof, name, read)
     }
 }
