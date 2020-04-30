@@ -64,16 +64,13 @@ class ImportResolver(
             )
 
     fun resolveImports(astList: List<AST<TypeDesc>>) =
-        ImportFilterer(pkg) { getClassOrNone(it, ctx) }
-            .filterDuplicateSimpleNames(
-                astList.flatMapToSet { imports(it.data.type.rawType) }
-                    .asSequence()
-                    .filterNot { it.pkg == pkg }
-                    .filterNot { it.pkg == PPackage.KOTLIN }
-                    .filterNot {
-                        it is Import.Class && it.pClass.simpleName == "Any"
-                    }
-            )
+        astList.flatMapToSet { imports(it.data.type.rawType) }
+            .asSequence()
+            .filterNot { it.pkg == pkg }
+            .filterNot { it.pkg == PPackage.KOTLIN }
+            .filterNot { it is Import.Class && it.pClass.simpleName == "Any" }
+            .filterClassesWithSameNameAsMessageIn(astList)
+            .filterDuplicateSimpleNames(pkg) { getClassOrNone(it, ctx) }
 
     private fun imports(t: Type): ImmutableSet<Import> =
         when (t) {

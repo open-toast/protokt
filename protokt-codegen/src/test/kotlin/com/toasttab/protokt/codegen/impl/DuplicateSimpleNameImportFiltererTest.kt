@@ -22,9 +22,7 @@ import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.PPackage
 import org.junit.jupiter.api.Test
 
-class ImportFiltererTest {
-    private val filterer = ImportFilterer(PPackage.DEFAULT) { None }
-
+class DuplicateSimpleNameImportFiltererTest {
     @Test
     fun `duplicate import resolved in favor of non-protokt class`() {
         val imports =
@@ -33,7 +31,7 @@ class ImportFiltererTest {
                 Import.Class(PClass.fromName("com.toasttab.protokt.Duration"))
             )
 
-        assertThat(filterer.filterDuplicateSimpleNames(imports))
+        assertThat(imports.filterDuplicateSimpleNames(PPackage.DEFAULT) { None })
             .containsExactly(
                 Import.Class(PClass.fromName("java.time.Duration"))
             )
@@ -48,7 +46,7 @@ class ImportFiltererTest {
                 Import.Class(PClass.fromName("com.toasttab.model.Duration"))
             )
 
-        assertThat(filterer.filterDuplicateSimpleNames(imports))
+        assertThat(imports.filterDuplicateSimpleNames(PPackage.DEFAULT) { None })
             .containsExactly(
                 Import.Class(PClass.fromName("java.time.Duration"))
             )
@@ -56,9 +54,10 @@ class ImportFiltererTest {
 
     @Test
     fun `import with duplicate in own package skipped`() {
-        val filterer = ImportFilterer(PPackage.PROTOKT) { Some(Int::class) }
         val imports = sequenceOf(Import.Class(PClass.fromName("some.Int")))
 
-        assertThat(filterer.filterDuplicateSimpleNames(imports)).isEmpty()
+        assertThat(
+            imports.filterDuplicateSimpleNames(PPackage.PROTOKT) { Some(Int::class) }
+        ).isEmpty()
     }
 }
