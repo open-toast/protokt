@@ -58,7 +58,7 @@ private constructor(
                         false,
                         it.fieldName,
                         !it.hasNonNullOption,
-                        oneOfSize(it, msg.type)
+                        oneOfSize(it, msg.name)
                     )
             }
         }

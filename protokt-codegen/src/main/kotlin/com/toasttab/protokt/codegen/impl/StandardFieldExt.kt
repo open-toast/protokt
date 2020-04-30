@@ -21,6 +21,7 @@ import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.STAnnotator.rootGoogleProto
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
 import com.toasttab.protokt.codegen.model.PClass
+import com.toasttab.protokt.codegen.newTypeNameFromPascal
 import com.toasttab.protokt.codegen.template.Renderers.Box
 import com.toasttab.protokt.codegen.template.Renderers.BoxMap
 import com.toasttab.protokt.codegen.template.Renderers.NonDefaultValue
@@ -75,10 +76,13 @@ internal fun StandardField.unqualifiedNestedTypeName(ctx: Context) =
 internal fun StandardField.typePClass(ctx: Context) =
     typePClass(ctx.desc.context)
 
-internal fun StandardField.typePClass(ctx: PluginContext) =
-    nativeTypeName.fold(
-        { requalifyProtoType(typeName, ctx) },
-        {
+internal fun StandardField.typePClass(ctx: PluginContext): PClass {
+    val fullyProtoQualified = protoTypeName.startsWith(".")
+
+    return if (fullyProtoQualified) {
+        requalifyProtoType(protoTypeName, ctx)
+    } else {
+        newTypeNameFromPascal(protoTypeName).let {
             PClass.fromName(
                 if (it.isEmpty()) {
                     TypeToNative.render(type = type)
@@ -87,17 +91,27 @@ internal fun StandardField.typePClass(ctx: PluginContext) =
                 }
             )
         }
-    )
-
-internal fun requalifyProtoType(typeName: String, ctx: PluginContext) =
-    PClass.fromName(
-        overrideGoogleProtobuf(typeName.removePrefix("."), rootGoogleProto)
-    ).let {
-        if (ctx.respectJavaPackage) {
-            PClass.fromName(
-                it.nestedName
-            ).qualify(ctx.ppackage(typeName))
-        } else {
-            it
-        }
     }
+}
+
+internal fun requalifyProtoType(typeName: String, ctx: PluginContext): PClass {
+    val withOverriddenGoogleProtoPackage =
+        PClass.fromName(
+            overrideGoogleProtobuf(typeName.removePrefix("."), rootGoogleProto)
+        )
+
+    val withOverriddenReservedName =
+        PClass(
+            newTypeNameFromPascal(withOverriddenGoogleProtoPackage.simpleName),
+            withOverriddenGoogleProtoPackage.ppackage,
+            withOverriddenGoogleProtoPackage.enclosing
+        )
+
+    return if (ctx.respectJavaPackage) {
+        PClass.fromName(
+            withOverriddenReservedName.nestedName
+        ).qualify(ctx.ppackage(typeName))
+    } else {
+        withOverriddenReservedName
+    }
+}

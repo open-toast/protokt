@@ -32,7 +32,6 @@ import com.toasttab.protokt.codegen.template.Options.BytesSlice
 import com.toasttab.protokt.codegen.template.Options.DefaultBytesSlice
 import com.toasttab.protokt.codegen.template.Options.ReadBytesSlice
 import com.toasttab.protokt.codegen.template.Options.Sizeof
-import com.toasttab.protokt.codegen.template.Options.TypeToJavaClassName
 import com.toasttab.protokt.codegen.template.Options.WrapField
 import com.toasttab.protokt.codegen.template.Renderers.ConcatWithScope
 import com.toasttab.protokt.codegen.template.Renderers.FieldSizeof
@@ -69,12 +68,13 @@ internal object Wrapper {
                 {
                     ifSome(
                         it,
-                        typeName.emptyToNone().fold(
+                        protoTypeName.emptyToNone().fold(
                             {
                                 // Protobuf primitives have no typeName
-                                Class.forName(
-                                    TypeToJavaClassName.render(type = type)
-                                ).kotlin
+                                requireNotNull(type.kotlinRepresentation) {
+                                    "no kotlin representation for type of " +
+                                        "$name: $type"
+                                }
                             },
                             { getClass(typePClass(ctx), ctx) }
                         )

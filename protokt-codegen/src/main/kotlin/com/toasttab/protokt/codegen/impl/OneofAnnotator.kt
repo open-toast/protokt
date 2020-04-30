@@ -19,7 +19,7 @@ import com.toasttab.protokt.codegen.MessageType
 import com.toasttab.protokt.codegen.Oneof
 import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
-import com.toasttab.protokt.codegen.impl.FieldDocumentationAnnotator.Companion.annotateFieldDocumentation
+import com.toasttab.protokt.codegen.impl.PropertyDocumentationAnnotator.Companion.annotatePropertyDocumentation
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptTypeName
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
@@ -69,7 +69,7 @@ private constructor(
                     ctx
                 )
             ),
-            documentation = annotateFieldDocumentation(f, ctx),
+            documentation = annotatePropertyDocumentation(f, ctx),
             deprecation =
                 if (f.options.default.deprecated) {
                     renderOptions(

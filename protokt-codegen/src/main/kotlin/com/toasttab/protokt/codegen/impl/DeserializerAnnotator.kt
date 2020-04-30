@@ -78,7 +78,7 @@ private constructor(
                 4 + // when (...)
                 field.tag.toString().length +
                 4 + // ` -> `
-                field.fieldName.length +
+                field.name.length +
                 3 // ` = `
 
         val spaceLeft = idealMaxWidth - spaceTaken

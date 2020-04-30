@@ -63,7 +63,7 @@ class StandardFieldImportResolver(
         }
 
     private fun ptypeImports() =
-        f.type.kotlinRepresentation?.let {
+        f.type.inlineRepresentation?.let {
             listOf(pclass(it))
         } ?: emptyList()
 

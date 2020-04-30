@@ -58,7 +58,7 @@ private constructor(
                         !it.hasNonNullOption,
                         it.fields
                             .sortedBy { f -> f.number }
-                            .map { f -> oneOfSer(it, f, msg.type) }
+                            .map { f -> oneOfSer(it, f, msg.name) }
                     )
             }
         }

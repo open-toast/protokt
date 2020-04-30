@@ -25,10 +25,10 @@ import com.toasttab.protokt.codegen.MessageType
 import com.toasttab.protokt.codegen.Oneof
 import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
-import com.toasttab.protokt.codegen.impl.FieldDocumentationAnnotator.Companion.annotateFieldDocumentation
 import com.toasttab.protokt.codegen.impl.Implements.overrides
 import com.toasttab.protokt.codegen.impl.NonNullable.hasNonNullOption
 import com.toasttab.protokt.codegen.impl.NonNullable.nullable
+import com.toasttab.protokt.codegen.impl.PropertyDocumentationAnnotator.Companion.annotatePropertyDocumentation
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptDefaultValue
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptTypeName
@@ -47,7 +47,7 @@ private constructor(
 ) {
     private fun annotateProperties(): List<PropertyInfo> {
         return msg.fields.map {
-            val documentation = annotateFieldDocumentation(it, ctx)
+            val documentation = annotatePropertyDocumentation(it, ctx)
             val nullable = it.nullable
 
             when (it) {
@@ -99,7 +99,7 @@ private constructor(
             nullable = f.nullable,
             any =
                 if (f.map) {
-                    typeParams(f.typeName)
+                    typeParams(f.protoTypeName)
                 } else {
                     interceptTypeName(
                         f,
