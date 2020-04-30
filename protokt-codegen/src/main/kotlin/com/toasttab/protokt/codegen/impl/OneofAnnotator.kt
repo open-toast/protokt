@@ -37,7 +37,7 @@ private constructor(
             when (it) {
                 is Oneof ->
                     OneofTemplate.render(
-                        name = it.nativeTypeName,
+                        name = it.name,
                         types = it.fields.associate(::oneOfValue),
                         options = options(it)
                     )

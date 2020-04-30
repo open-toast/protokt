@@ -296,10 +296,9 @@ private fun toOneOf(
             )
     })
     return Oneof(
-        name = oneOf.name,
+        name = newTypeName(oneOf.name, typeNames),
         fieldTypeNames = standardTuple.a,
         fieldName = newName,
-        nativeTypeName = newTypeName(oneOf.name, typeNames),
         fields = standardTuple.c,
         options =
             OneofOptions(

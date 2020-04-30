@@ -121,7 +121,7 @@ private constructor(
 
     private fun oneOfDes(f: Oneof, ff: StandardField) =
         OneofTemplate.Deserialize.render(
-            oneof = f.nativeTypeName,
+            oneof = f.name,
             name = ff.name.capitalize(),
             read = deserializeString(ff)
         )

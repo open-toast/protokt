@@ -81,7 +81,7 @@ private constructor(
                             Type.render(
                                 oneof = true,
                                 nullable = nullable,
-                                any = it.nativeTypeName
+                                any = it.name
                             ),
                         defaultValue = it.defaultValue(),
                         oneOf = true,
