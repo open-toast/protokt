@@ -46,3 +46,9 @@ message ContainsUnit {
 message Unit {
   ContainsUnit unit = 1;
 }
+
+message ContainsFloat {
+  oneof type {
+    string float = 1;
+  }
+}

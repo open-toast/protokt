@@ -19,10 +19,6 @@ internal object Keywords {
     val reserved =
         setOf(
             "Boolean",
-            "Deserializer",
-            "KtDeserializer",
-            "KtSerializer",
-            "KtMessageSerializer",
             "Double",
             "Float",
             "Int",
@@ -31,6 +27,11 @@ internal object Keywords {
             "Map",
             "String",
             "Unit",
+            "Deserializer",
+            "KtDeserializer",
+            "KtSerializer",
+            "KtMessageSerializer",
+            "Tag",
             "deserializer",
             "serializer",
             "messageSize",
@@ -93,11 +94,8 @@ internal fun newTypeNameFromCamel(
 internal fun newTypeNameFromPascal(
     preferred: String,
     set: Set<String> = emptySet()
-): String {
-    var name = preferred
-    name = appendUnderscores(name, set)
-    return name
-}
+) =
+    appendUnderscores(preferred, set)
 
 internal fun newFieldName(preferred: String, set: Set<String>): String {
     var name = snakeToCamel(preferred).decapitalize()

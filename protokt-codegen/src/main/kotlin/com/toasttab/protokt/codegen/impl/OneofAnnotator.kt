@@ -38,16 +38,16 @@ private constructor(
                 is Oneof ->
                     OneofTemplate.render(
                         name = it.name,
-                        types = it.fields.associate(::oneOfValue),
+                        types = it.fields.associate { ff -> oneof(it, ff) },
                         options = options(it)
                     )
                 else -> ""
             }
         }.filter { it.isNotEmpty() }
 
-    private fun oneOfValue(f: StandardField) =
-        f.name.capitalize().let { oneofFieldTypeName ->
-            oneofFieldTypeName to info(f, oneofFieldTypeName)
+    private fun oneof(f: Oneof, ff: StandardField) =
+        f.fieldTypeNames.getValue(ff.name).let { oneofFieldTypeName ->
+            oneofFieldTypeName to info(ff, oneofFieldTypeName)
         }
 
     private fun info(
