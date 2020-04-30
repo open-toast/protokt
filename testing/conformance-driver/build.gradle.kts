@@ -24,7 +24,6 @@ configure<JavaApplication> {
 }
 
 dependencies {
-    implementation(project(":protokt-core"))
     libraries.arrow.forEach {
         implementation(it)
     }
