@@ -15,31 +15,43 @@
 
 package com.toasttab.protokt.codegen.impl
 
+import arrow.core.None
+import arrow.core.Option
+import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.PPackage
+import kotlin.reflect.KClass
 
-object ImportFilterer {
+class ImportFilterer(
+    private val pkg: PPackage,
+    private val getClass: (PClass) -> Option<KClass<*>>
+) {
     private val internalPackages = setOf(PPackage.PROTOKT, PPackage.PROTOKT_RT)
 
     fun filterDuplicateSimpleNames(imports: Sequence<Import>): Set<Import> {
         val classImports = imports.filterIsInstance<Import.Class>().toSet()
         val nonDuplicateImports = mutableSetOf<Import.Class>()
 
-        classImports.forEach { import ->
-            val withSameName = withSameName(import, nonDuplicateImports)
+        classImports
+            .filterNot { classWithSimpleNameExistsInPackage(it) }
+            .forEach { import ->
+                val withSameName = withSameName(import, nonDuplicateImports)
 
-            if (withSameName.isEmpty()) {
-                nonDuplicateImports.add(import)
-            } else {
-                val duplicate = withSameName.single()
-                if (duplicate.pkg in internalPackages) {
+                if (withSameName.isEmpty()) {
                     nonDuplicateImports.add(import)
-                    nonDuplicateImports.remove(duplicate)
+                } else {
+                    val duplicate = withSameName.single()
+                    if (duplicate.pkg in internalPackages) {
+                        nonDuplicateImports.add(import)
+                        nonDuplicateImports.remove(duplicate)
+                    }
                 }
             }
-        }
 
         return nonDuplicateImports + imports.filterNot { it is Import.Class }
     }
+
+    private fun classWithSimpleNameExistsInPackage(import: Import.Class) =
+        getClass(PClass(import.pClass.simpleName, pkg, None)).isDefined()
 
     private fun withSameName(
         import: Import.Class,

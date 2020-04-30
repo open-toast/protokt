@@ -28,7 +28,7 @@ import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.Type
 import com.toasttab.protokt.codegen.TypeDesc
 import com.toasttab.protokt.codegen.algebra.AST
-import com.toasttab.protokt.codegen.impl.ImportFilterer.filterDuplicateSimpleNames
+import com.toasttab.protokt.codegen.impl.ClassLookup.getClassOrNone
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.rt.KtDeserializer
 import com.toasttab.protokt.rt.KtEnum
@@ -64,13 +64,16 @@ class ImportResolver(
             )
 
     fun resolveImports(astList: List<AST<TypeDesc>>) =
-        filterDuplicateSimpleNames(
-            astList.flatMapToSet { imports(it.data.type.rawType) }
-                .asSequence()
-                .filterNot { it.pkg == pkg }
-                .filterNot { it.pkg == PPackage.KOTLIN }
-                .filterNot { it is Import.Class && it.pClass.simpleName == "Any" }
-        )
+        ImportFilterer(pkg) { getClassOrNone(it, ctx) }
+            .filterDuplicateSimpleNames(
+                astList.flatMapToSet { imports(it.data.type.rawType) }
+                    .asSequence()
+                    .filterNot { it.pkg == pkg }
+                    .filterNot { it.pkg == PPackage.KOTLIN }
+                    .filterNot {
+                        it is Import.Class && it.pClass.simpleName == "Any"
+                    }
+            )
 
     private fun imports(t: Type): ImmutableSet<Import> =
         when (t) {

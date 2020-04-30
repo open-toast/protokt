@@ -19,5 +19,7 @@ pureKotlin()
 dependencies {
     implementation(kotlin("reflect"))
     implementation(project(":testing:protobuf-java"))
+
+    testImplementation(libraries.jackson)
     testImplementation(libraries.protobuf)
 }

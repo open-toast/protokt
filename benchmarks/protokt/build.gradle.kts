@@ -31,11 +31,9 @@ tasks.withType<JavaCompile> {
 }
 
 dependencies {
-    implementation(project(":benchmarks:util"))
-    implementation(project(":protokt-runtime"))
-
     protobuf(project(":benchmarks:schema"))
 
+    implementation(project(":benchmarks:util"))
     implementation(libraries.protobuf)
 }
 

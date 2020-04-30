@@ -13,15 +13,15 @@
  * limitations under the License.
  */
 
+import com.google.protobuf.gradle.protobuf
+
 localProtokt()
 pureKotlin()
 enablePublishing()
 
 dependencies {
-    add("protobuf", libraries.protoGoogleCommonProtos)
+    protobuf(libraries.protoGoogleCommonProtos)
 
-    implementation(project(":protokt-core"))
     implementation(project(":protokt-runtime-grpc"))
-
     implementation(libraries.grpcStub)
 }

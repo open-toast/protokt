@@ -1,5 +1,3 @@
-import com.toasttab.protokt.shared.DEFAULT_PROTOBUF_VERSION
-
 /*
  * Copyright (c) 2019 Toast Inc.
  *
@@ -14,6 +12,8 @@ import com.toasttab.protokt.shared.DEFAULT_PROTOBUF_VERSION
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import com.toasttab.protokt.shared.DEFAULT_PROTOBUF_VERSION
 
 object versions {
     const val arrow = "0.10.4"
@@ -44,8 +44,7 @@ object libraries {
         "io.arrow-kt:arrow-core:${versions.arrow}",
         "io.arrow-kt:arrow-fx:${versions.arrow}",
         "io.arrow-kt:arrow-syntax:${versions.arrow}",
-        "io.arrow-kt:arrow-free:${versions.arrow}",
-        "io.arrow-kt:arrow-optics:${versions.arrow}"
+        "io.arrow-kt:arrow-free:${versions.arrow}"
     )
 
     const val autoService = "com.google.auto.service:auto-service:${versions.autoService}"

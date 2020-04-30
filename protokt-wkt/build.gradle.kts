@@ -13,6 +13,8 @@
  * limitations under the License.
  */
 
+import com.google.protobuf.gradle.protobuf
+
 apply(plugin = "idea")
 
 localProtokt()
@@ -21,8 +23,9 @@ enablePublishing()
 compatibleWithAndroid()
 
 dependencies {
-    add("protobuf", libraries.protobuf)
+    protobuf(libraries.protobuf)
     compileOnly(libraries.protobuf)
-    api(project(":protokt-runtime"))
+
+    implementation(project(":protokt-runtime"))
     implementation(libraries.kotlinReflect)
 }

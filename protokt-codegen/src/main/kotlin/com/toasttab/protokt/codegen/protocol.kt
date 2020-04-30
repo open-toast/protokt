@@ -27,6 +27,7 @@ import com.github.andrewoma.dexx.kollection.ImmutableSet
 import com.github.andrewoma.dexx.kollection.immutableListOf
 import com.github.andrewoma.dexx.kollection.immutableMapOf
 import com.github.andrewoma.dexx.kollection.immutableSetOf
+import com.google.protobuf.DescriptorProtos
 import com.google.protobuf.DescriptorProtos.DescriptorProto
 import com.google.protobuf.DescriptorProtos.EnumDescriptorProto
 import com.google.protobuf.DescriptorProtos.FieldDescriptorProto
@@ -194,7 +195,7 @@ private fun toMessage(
         options =
             MessageOptions(
                 desc.options,
-                desc.options.getExtension(Protokt.class_)
+                desc.options.extensionOrDefault(Protokt.class_)
             ),
         index = idx,
         fullProtobufTypeName = "${ctx.fdp.`package`}.${desc.name}"
@@ -208,9 +209,27 @@ private fun toService(
     ServiceType(
         name = desc.name,
         type = newTypeName(desc.name, names),
-        methods = desc.methodList.map { Method(it) },
+        methods = desc.methodList.map { toMethod(it) },
         deprecated = desc.options.deprecated,
-        unknownOpts = desc.options.uninterpretedOptionList.toList()
+        options =
+            ServiceOptions(
+                desc.options,
+                desc.options.extensionOrDefault(Protokt.service)
+            )
+    )
+
+private fun toMethod(desc: DescriptorProtos.MethodDescriptorProto) =
+    Method(
+        desc.name,
+        desc.inputType,
+        desc.outputType,
+        desc.clientStreaming,
+        desc.serverStreaming,
+        desc.options.deprecated,
+        MethodOptions(
+            desc.options,
+            desc.options.extensionOrDefault(Protokt.method)
+        )
     )
 
 private fun toFields(
@@ -285,7 +304,7 @@ private fun toOneOf(
         options =
             OneofOptions(
                 oneOf.options,
-                oneOf.options.getExtension(Protokt.oneof)
+                oneOf.options.extensionOrDefault(Protokt.oneof)
             ),
         // index relative to all oneofs in this message
         index = idx - fields.filterIsInstance<StandardField>().count()
@@ -327,7 +346,7 @@ private fun toStandard(
         options =
             FieldOptions(
                 fdp.options,
-                fdp.options.getExtension(Protokt.property)
+                fdp.options.extensionOrDefault(Protokt.property)
             ),
         index = idx
     )

@@ -119,10 +119,32 @@ extend google.protobuf.EnumOptions {
 }
 
 message ProtoktEnumValueOptions {
- // Provides a message for deprecation
+  // Provides a message for deprecation
   string deprecation_message = 1;
 }
 
 extend google.protobuf.EnumValueOptions {
   ProtoktEnumValueOptions enum_value = 1072;
+}
+
+message ProtoktServiceOptions {}
+
+extend google.protobuf.ServiceOptions {
+  ProtoktServiceOptions service = 1072;
+}
+
+message ProtoktMethodOptions {
+  // Provides a custom request marshaller for the generated method descriptor.
+  // Substitutes the provided expression directly for
+  // `com.toasttab.protokt.grpc.KtMarshaller(<request_type>)`
+  string request_marshaller = 1;
+
+  // Provides a custom response marshaller for the generated method descriptor.
+  // Substitutes the provided expression directly for
+  // `com.toasttab.protokt.grpc.KtMarshaller(<response_type>)`
+  string response_marshaller = 2;
+}
+
+extend google.protobuf.MethodOptions {
+  ProtoktMethodOptions method = 1072;
 }

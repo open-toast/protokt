@@ -35,14 +35,32 @@ io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
     .build()
 >>
 
-method(name, type, in, out) ::= <<
+method(name, type, in, out, options) ::= <<
 io.grpc.MethodDescriptor.newBuilder\<<in>, <out>\>()
     .setType(io.grpc.MethodDescriptor.MethodType.<type>)
     .setFullMethodName(io.grpc.MethodDescriptor.generateFullMethodName(SERVICE_NAME, "<name>"))
-    .setRequestMarshaller(com.toasttab.protokt.grpc.KtMarshaller(<in>))
-    .setResponseMarshaller(com.toasttab.protokt.grpc.KtMarshaller(<out>))
+    .setRequestMarshaller(<requestMarshaller()>)
+    .setResponseMarshaller(<responseMarshaller()>)
     .build()
 >>
+
+requestMarshaller() ::= <%
+    <if (options.requestMarshaller)>
+        <options.requestMarshaller>
+    <else>
+        <defaultMarshaller()>(<in>)
+    <endif>
+%>
+
+responseMarshaller() ::= <%
+    <if (options.responseMarshaller)>
+        <options.responseMarshaller>
+    <else>
+        <defaultMarshaller()>(<out>)
+    <endif>
+%>
+
+defaultMarshaller() ::= "com.toasttab.protokt.grpc.KtMarshaller"
 
 methodType(method) ::= <%
     <if (method.clientStreaming)>

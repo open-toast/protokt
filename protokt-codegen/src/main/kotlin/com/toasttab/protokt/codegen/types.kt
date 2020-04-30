@@ -20,8 +20,6 @@ import arrow.core.Option
 import com.google.protobuf.DescriptorProtos
 import com.google.protobuf.DescriptorProtos.DescriptorProto
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
-import com.google.protobuf.DescriptorProtos.MethodDescriptorProto
-import com.google.protobuf.DescriptorProtos.UninterpretedOption
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.ext.Protokt
 import com.toasttab.protokt.rt.PType
@@ -31,7 +29,7 @@ sealed class Type {
     abstract val type: String
 }
 
-data class MessageType(
+class MessageType(
     override val name: String,
     override val type: String,
     val fields: List<Field>,
@@ -47,14 +45,14 @@ data class MessageOptions(
     val protokt: Protokt.ProtoktMessageOptions
 )
 
-data class EnumType(
+class EnumType(
     override val name: String,
     override val type: String,
     val options: EnumOptions,
     val values: List<Value>,
     val index: Int
 ) : Type() {
-    data class Value(
+    class Value(
         val number: Int,
         val name: String,
         val valueName: String,
@@ -63,47 +61,47 @@ data class EnumType(
     )
 }
 
-data class EnumOptions(
+class EnumOptions(
     val default: DescriptorProtos.EnumOptions,
     val protokt: Protokt.ProtoktEnumOptions
 )
 
-data class EnumValueOptions(
+class EnumValueOptions(
     val default: DescriptorProtos.EnumValueOptions,
     val protokt: Protokt.ProtoktEnumValueOptions
 )
 
-data class ServiceType(
+class ServiceType(
     override val name: String,
     override val type: String,
     val methods: List<Method>,
     val deprecated: Boolean,
-    val unknownOpts: List<UninterpretedOption>
+    val options: ServiceOptions
 ) : Type()
 
-data class Method(
+class ServiceOptions(
+    val default: DescriptorProtos.ServiceOptions,
+    val protokt: Protokt.ProtoktServiceOptions
+)
+
+class Method(
     val name: String,
     val inputType: String,
     val outputType: String,
     val clientStreaming: Boolean,
     val serverStreaming: Boolean,
     val deprecated: Boolean,
-    val unknownOpts: List<UninterpretedOption>
-) {
-    constructor(desc: MethodDescriptorProto) : this(
-        desc.name,
-        desc.inputType,
-        desc.outputType,
-        desc.clientStreaming,
-        desc.serverStreaming,
-        desc.options.deprecated,
-        desc.options?.uninterpretedOptionList ?: emptyList()
-    )
-}
+    val options: MethodOptions
+)
+
+class MethodOptions(
+    val default: DescriptorProtos.MethodOptions,
+    val protokt: Protokt.ProtoktMethodOptions
+)
 
 sealed class Field
 
-data class StandardField(
+class StandardField(
     val number: Int,
     val name: String,
     val fieldName: String,
@@ -118,7 +116,7 @@ data class StandardField(
     val index: Int
 ) : Field()
 
-data class FieldOptions(
+class FieldOptions(
     val default: DescriptorProtos.FieldOptions,
     val protokt: Protokt.ProtoktFieldOptions
 )
@@ -144,7 +142,7 @@ val StandardField.wireFormat
         PType.SFIXED32 -> 5
     }
 
-data class Oneof(
+class Oneof(
     val name: String,
     val fieldName: String,
     val fields: List<StandardField>,
@@ -154,12 +152,12 @@ data class Oneof(
     val index: Int
 ) : Field()
 
-data class OneofOptions(
+class OneofOptions(
     val default: DescriptorProtos.OneofOptions,
     val protokt: Protokt.ProtoktOneofOptions
 )
 
-data class ProtocolContext(
+class ProtocolContext(
     val fdp: FileDescriptorProto,
     val params: Map<String, String>,
     val allPackagesByTypeName: Map<String, PPackage>
@@ -188,7 +186,7 @@ fun ProtocolContext.findLocal(
     }
 }
 
-data class FileDesc(
+class FileDesc(
     val name: String,
     val packageName: String,
     val version: Int,
@@ -197,7 +195,7 @@ data class FileDesc(
     val sourceCodeInfo: DescriptorProtos.SourceCodeInfo
 )
 
-data class PluginContext(
+class PluginContext(
     val classpath: List<String>,
     val respectJavaPackage: Boolean,
     val fileName: String,
@@ -212,17 +210,18 @@ class FileOptions(
     val protokt: Protokt.ProtoktFileOptions
 )
 
-data class Protocol(
+class Protocol(
     val desc: FileDesc,
     val types: List<Type>
 )
 
 // Interpreter Types
-data class AnnotatedType(
+class AnnotatedType(
     val rawType: Type,
     val code: Option<String> = None
 )
-data class TypeDesc(
+
+class TypeDesc(
     val desc: FileDesc,
     val type: AnnotatedType
 )

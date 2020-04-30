@@ -22,7 +22,9 @@ dependencies {
     protoktExtensions(project(":testing:options-api"))
     protoktExtensions(project(":extensions:publish"))
 
+    implementation(libraries.grpcStub)
+
+    testImplementation(kotlin("reflect"))
     testImplementation(project(":testing:runtime-tests"))
-    testImplementation(libraries.jackson)
     testImplementation(libraries.protobuf)
 }
