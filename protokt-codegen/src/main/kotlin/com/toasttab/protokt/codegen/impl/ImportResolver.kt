@@ -70,6 +70,7 @@ class ImportResolver(
             .filterNot { it.pkg == PPackage.KOTLIN }
             .filterNot { it is Import.Class && it.pClass.simpleName == "Any" }
             .filterClassesWithSameNameAsMessageIn(astList)
+            .filterClassesWithSameNameAsOneofFieldTypeIn(astList)
             .filterDuplicateSimpleNames(pkg) { getClassOrNone(it, ctx) }
 
     private fun imports(t: Type): ImmutableSet<Import> =
