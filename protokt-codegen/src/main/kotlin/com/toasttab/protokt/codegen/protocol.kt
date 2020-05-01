@@ -126,14 +126,14 @@ private fun toTypeList(
         Tuple2(immutableSetOf<String>(), immutableListOf<Type>())
     ) { idx, acc, t ->
         val e = toEnum(idx, t, acc.a)
-        Tuple2(acc.a + e.type, acc.b + e)
+        Tuple2(acc.a + e.name, acc.b + e)
     }.b +
 
     messages.foldIndexed(
         Tuple2(immutableSetOf<String>(), immutableListOf<Type>())
     ) { idx, acc, t ->
         val m = toMessage(idx, ctx, t, acc.a)
-        Tuple2(acc.a + m.type, acc.b + m)
+        Tuple2(acc.a + m.name, acc.b + m)
     }.b +
 
     services.fold(
@@ -148,10 +148,9 @@ private fun toEnum(
     desc: EnumDescriptorProto,
     names: ImmutableSet<String>
 ): EnumType {
-    val typeName = newTypeName(desc.name, names)
+    val typeName = newTypeNameFromCamel(desc.name, names)
     return EnumType(
-        name = desc.name,
-        type = typeName,
+        name = typeName,
         values = desc.valueList.toList().foldIndexed(
             Tuple2(names + typeName, immutableListOf<EnumType.Value>())
         ) { enumIdx, acc, t ->
@@ -184,14 +183,13 @@ private fun toMessage(
     desc: DescriptorProto,
     names: Set<String>
 ): MessageType {
-    val typeName = newTypeName(desc.name, names)
+    val typeName = newTypeNameFromPascal(desc.name, names)
     val fieldList = toFields(ctx, desc, names + typeName)
     return MessageType(
-        name = desc.name,
+        name = typeName,
         fields = fieldList,
         nestedTypes = toTypeList(ctx, desc.enumTypeList, desc.nestedTypeList),
         mapEntry = desc.options?.mapEntry == true,
-        type = typeName,
         options =
             MessageOptions(
                 desc.options,
@@ -208,7 +206,7 @@ private fun toService(
 ) =
     ServiceType(
         name = desc.name,
-        type = newTypeName(desc.name, names),
+        type = newTypeNameFromPascal(desc.name, names),
         methods = desc.methodList.map { toMethod(it) },
         deprecated = desc.options.deprecated,
         options =
@@ -262,7 +260,7 @@ private fun toFields(
                             acc.a,
                             acc.b + it,
                             acc.c + ood.name,
-                            acc.d + toOneOf(idx, ctx, desc, ood, t, acc.a, acc.d)
+                            acc.d + toOneof(idx, ctx, desc, ood, t, acc.a, acc.d)
                         )
                     }
                 })
@@ -270,16 +268,16 @@ private fun toFields(
         }
     }.d
 
-private fun toOneOf(
+private fun toOneof(
     idx: Int,
     ctx: ProtocolContext,
     desc: DescriptorProto,
-    oneOf: OneofDescriptorProto,
+    oneof: OneofDescriptorProto,
     field: FieldDescriptorProto,
     typeNames: Set<String>,
     fields: ImmutableList<Field>
 ): Oneof {
-    val newName = newFieldName(oneOf.name, typeNames)
+    val newName = newFieldName(oneof.name, typeNames)
     val standardTuple = desc.fieldList.filter {
         it.hasOneofIndex() && it.oneofIndex == field.oneofIndex
     }.foldIndexed(
@@ -288,22 +286,22 @@ private fun toOneOf(
             immutableSetOf<String>(),
             immutableListOf<StandardField>()
         ), { oneofIdx, acc, t ->
-            val ftn = newTypeName(t.name, acc.b)
+            val ftn = newTypeNameFromCamel(t.name, acc.b)
             Tuple3(
-                acc.a + (convertStandardFieldName(t.name) to ftn),
+                acc.a + (newFieldName(t.name, acc.b) to ftn),
                 acc.b + ftn,
                 acc.c + toStandard(idx + oneofIdx, ctx, t, emptySet(), true)
             )
     })
     return Oneof(
-        name = newTypeName(oneOf.name, typeNames),
+        name = newTypeNameFromCamel(oneof.name, typeNames),
         fieldTypeNames = standardTuple.a,
         fieldName = newName,
         fields = standardTuple.c,
         options =
             OneofOptions(
-                oneOf.options,
-                oneOf.options.extensionOrDefault(Protokt.oneof)
+                oneof.options,
+                oneof.options.extensionOrDefault(Protokt.oneof)
             ),
         // index relative to all oneofs in this message
         index = idx - fields.filterIsInstance<StandardField>().count()
@@ -316,43 +314,34 @@ private fun toStandard(
     fdp: FieldDescriptorProto,
     usedFieldNames: Set<String>,
     alwaysRequired: Boolean = false
-): StandardField = toPType(
-    fdp.type ?: error("Missing field type")).let { type ->
-    StandardField(
-        number = fdp.number,
-        name = convertStandardFieldName(fdp.name),
-        type = type,
-        typeName = fdp.typeName,
-        repeated = fdp.label == LABEL_REPEATED,
-        optional = !alwaysRequired && fdp.label == LABEL_OPTIONAL,
-        packed =
-            type.packed &&
-                (ctx.fdp.syntax == "proto3" || fdp.options?.packed == true),
-        map =
-            fdp.label == LABEL_REPEATED &&
-            fdp.type == FieldDescriptorProto.Type.TYPE_MESSAGE &&
-                ctx.findLocal(fdp.typeName).fold(
-                    { false },
-                    { it.options?.mapEntry == true }
+): StandardField =
+    toPType(checkNotNull(fdp.type) { "Missing field type" }).let { type ->
+        StandardField(
+            number = fdp.number,
+            name = newFieldName(fdp.name, usedFieldNames),
+            type = type,
+            repeated = fdp.label == LABEL_REPEATED,
+            optional = !alwaysRequired && fdp.label == LABEL_OPTIONAL,
+            packed =
+                type.packed &&
+                    (ctx.fdp.syntax == "proto3" || fdp.options?.packed == true),
+            map =
+                fdp.label == LABEL_REPEATED &&
+                fdp.type == FieldDescriptorProto.Type.TYPE_MESSAGE &&
+                    ctx.findLocal(fdp.typeName).fold(
+                        { false },
+                        { it.options?.mapEntry == true }
+                    ),
+            fieldName = newFieldName(fdp.name, usedFieldNames),
+            options =
+                FieldOptions(
+                    fdp.options,
+                    fdp.options.getExtension(Protokt.property)
                 ),
-        fieldName = newFieldName(fdp.name, usedFieldNames),
-        nativeTypeName =
-            if (fdp.typeName.startsWith('.')) {
-                None
-            } else {
-                Some(newTypeName(fdp.typeName))
-            },
-        options =
-            FieldOptions(
-                fdp.options,
-                fdp.options.extensionOrDefault(Protokt.property)
-            ),
-        index = idx
-    )
-}
-
-private fun convertStandardFieldName(name: String) =
-    snakeToCamel(name)
+            protoTypeName = fdp.typeName,
+            index = idx
+        )
+    }
 
 private fun packageName(
     fdp: FileDescriptorProto,

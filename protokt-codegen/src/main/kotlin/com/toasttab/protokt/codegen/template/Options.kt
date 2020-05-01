@@ -30,11 +30,6 @@ object Options {
             renderArgs(wrapName, arg, type, oneof)
     }
 
-    object TypeToJavaClassName : OptionsTemplate() {
-        fun render(type: PType) =
-            renderArgs(type)
-    }
-
     object AccessField : OptionsTemplate() {
         fun render(wrapName: String, arg: String) =
             renderArgs(wrapName, arg)

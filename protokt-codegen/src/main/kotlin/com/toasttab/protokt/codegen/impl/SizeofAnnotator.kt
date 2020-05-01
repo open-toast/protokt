@@ -58,7 +58,7 @@ private constructor(
                         false,
                         it.fieldName,
                         !it.hasNonNullOption,
-                        oneOfSize(it, msg.type)
+                        oneofSize(it, msg.name)
                     )
             }
         }
@@ -92,7 +92,7 @@ private constructor(
         )
     }
 
-    private fun oneOfSize(f: Oneof, type: String) =
+    private fun oneofSize(f: Oneof, type: String) =
         f.fields.map {
             ConditionalParams(
                 ConcatWithScope.render(

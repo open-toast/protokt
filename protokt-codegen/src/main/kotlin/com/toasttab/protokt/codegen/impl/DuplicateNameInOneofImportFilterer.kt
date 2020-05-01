@@ -19,7 +19,7 @@ import com.toasttab.protokt.codegen.MessageType
 import com.toasttab.protokt.codegen.Oneof
 import com.toasttab.protokt.codegen.TypeDesc
 import com.toasttab.protokt.codegen.algebra.AST
-import com.toasttab.protokt.codegen.snakeToCamel
+import com.toasttab.protokt.codegen.model.PClass
 
 fun Sequence<Import>.filterClassesWithSameNameAsOneofFieldTypeIn(
     asts: List<AST<TypeDesc>>
@@ -46,6 +46,5 @@ private fun typeNames(m: MessageType): Sequence<String> =
 
 private fun typeNames(o: Oneof) =
     o.fields.asSequence()
-        // TODO: merge with oneof naming logic in other PR
-        .map { snakeToCamel(it.typeName).capitalize() }
-        .map { it.substringAfterLast('.') }
+        .map { o.fieldTypeNames.getValue(it.name) }
+        .map { PClass.fromName(it).simpleName }

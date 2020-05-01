@@ -23,12 +23,12 @@ import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.impl.MessageDocumentationAnnotator.baseLocation
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 
-internal class FieldDocumentationAnnotator
+internal class PropertyDocumentationAnnotator
 private constructor(
     private val field: Field,
     private val ctx: Context
 ) {
-    private fun annotateFieldDocumentation() =
+    private fun annotatePropertyDocumentation() =
         baseLocation(
             ctx,
             when (field) {
@@ -38,7 +38,7 @@ private constructor(
         ).cleanDocumentation()
 
     companion object {
-        fun annotateFieldDocumentation(field: Field, ctx: Context) =
-            FieldDocumentationAnnotator(field, ctx).annotateFieldDocumentation()
+        fun annotatePropertyDocumentation(field: Field, ctx: Context) =
+            PropertyDocumentationAnnotator(field, ctx).annotatePropertyDocumentation()
     }
 }

@@ -57,7 +57,7 @@ private constructor(
                         }
                     },
                     {
-                        oneOfDes(it, field).let { value ->
+                        oneofDes(it, field).let { value ->
                             Assignment(
                                 it.fieldName,
                                 value,
@@ -78,7 +78,7 @@ private constructor(
                 4 + // when (...)
                 field.tag.toString().length +
                 4 + // ` -> `
-                field.fieldName.length +
+                field.name.length +
                 3 // ` = `
 
         val spaceLeft = idealMaxWidth - spaceTaken
@@ -119,10 +119,10 @@ private constructor(
         val oneof: Option<Oneof>
     )
 
-    private fun oneOfDes(f: Oneof, ff: StandardField) =
+    private fun oneofDes(f: Oneof, ff: StandardField) =
         OneofTemplate.Deserialize.render(
             oneof = f.name,
-            name = ff.name.capitalize(),
+            name = f.fieldTypeNames.getValue(ff.name),
             read = deserializeString(ff)
         )
 

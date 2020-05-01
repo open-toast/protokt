@@ -19,7 +19,7 @@ import com.toasttab.protokt.codegen.MessageType
 import com.toasttab.protokt.codegen.Oneof
 import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
-import com.toasttab.protokt.codegen.impl.FieldDocumentationAnnotator.Companion.annotateFieldDocumentation
+import com.toasttab.protokt.codegen.impl.PropertyDocumentationAnnotator.Companion.annotatePropertyDocumentation
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptTypeName
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
@@ -38,16 +38,16 @@ private constructor(
                 is Oneof ->
                     OneofTemplate.render(
                         name = it.name,
-                        types = it.fields.associate(::oneOfValue),
+                        types = it.fields.associate { ff -> oneof(it, ff) },
                         options = options(it)
                     )
                 else -> ""
             }
         }.filter { it.isNotEmpty() }
 
-    private fun oneOfValue(f: StandardField) =
-        f.name.capitalize().let { oneofFieldTypeName ->
-            oneofFieldTypeName to info(f, oneofFieldTypeName)
+    private fun oneof(f: Oneof, ff: StandardField) =
+        f.fieldTypeNames.getValue(ff.name).let { oneofFieldTypeName ->
+            oneofFieldTypeName to info(ff, oneofFieldTypeName)
         }
 
     private fun info(
@@ -69,7 +69,7 @@ private constructor(
                     ctx
                 )
             ),
-            documentation = annotateFieldDocumentation(f, ctx),
+            documentation = annotatePropertyDocumentation(f, ctx),
             deprecation =
                 if (f.options.default.deprecated) {
                     renderOptions(

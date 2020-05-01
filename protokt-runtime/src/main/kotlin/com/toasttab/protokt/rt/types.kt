@@ -107,27 +107,31 @@ class BytesSlice(
     }
 }
 
-enum class PType(val kotlinRepresentation: KClass<*>? = null) {
-    BOOL,
-    BYTES,
-    DOUBLE,
+enum class PType(
+    val kotlinRepresentation: KClass<*>? = null,
+    val inlineRepresentation: KClass<*>? = null
+) {
+    BOOL(Boolean::class),
+    BYTES(ByteArray::class),
+    DOUBLE(Double::class),
     ENUM,
-    FIXED32(Fixed32::class),
-    FIXED64(Fixed64::class),
-    FLOAT,
-    INT32(Int32::class),
-    INT64(Int64::class),
+    FIXED32(Int::class, Fixed32::class),
+    FIXED64(Long::class, Fixed64::class),
+    FLOAT(Float::class),
+    INT32(Int::class, Int32::class),
+    INT64(Long::class, Int64::class),
     MESSAGE,
-    SFIXED32(SFixed32::class),
-    SFIXED64(SFixed64::class),
-    SINT32(SInt32::class),
-    SINT64(SInt64::class),
-    STRING,
-    UINT32(UInt32::class),
-    UINT64(UInt64::class);
+    SFIXED32(Int::class, SFixed32::class),
+    SFIXED64(Long::class, SFixed64::class),
+    SINT32(Int::class, SInt32::class),
+    SINT64(Long::class, SInt64::class),
+    STRING(String::class),
+    UINT32(Int::class, UInt32::class),
+    UINT64(Long::class, UInt64::class);
 
-    val packed get() =
-        this != BYTES &&
-        this != MESSAGE &&
-        this != STRING
+    val packed
+        get() =
+            this != BYTES &&
+                this != MESSAGE &&
+                this != STRING
 }

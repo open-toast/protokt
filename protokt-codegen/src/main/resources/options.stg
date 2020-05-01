@@ -29,31 +29,6 @@ wrapField(wrapName, arg, type, oneof) ::= <%
     )
 %>
 
-protoTypesToJavaClassNames ::= [
-    "BOOL": "Boolean",
-    "DOUBLE": "Double",
-    "FIXED32": "Integer",
-    "FIXED64": "Long",
-    "FLOAT": "Float",
-    "INT32": "Integer",
-    "INT64": "Long",
-    "SFIXED32": "Integer",
-    "SFIXED64": "Long",
-    "SINT32": "Integer",
-    "SINT64": "Long",
-    "STRING": "String",
-    "UINT32": "Integer",
-    "UINT64": "Long"
-]
-
-typeToJavaClassName(type) ::= <%
-    <if (protoTypesToJavaClassNames.(type))>
-        java.lang.<protoTypesToJavaClassNames.(type)>
-    <else>
-        [B
-    <endif>
-%>
-
 nullDeserializeVar ::= [
     "MESSAGE": true,
     default: false

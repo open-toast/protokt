@@ -19,7 +19,6 @@ internal object Keywords {
     val reserved =
         setOf(
             "Boolean",
-            "Companion",
             "Double",
             "Float",
             "Int",
@@ -27,15 +26,17 @@ internal object Keywords {
             "Long",
             "Map",
             "String",
-            "emptyList",
-            "protokt",
+            "Unit",
+            "Deserializer",
+            "KtDeserializer",
+            "KtSerializer",
+            "KtMessageSerializer",
+            "Tag",
+            "deserializer",
+            "serializer",
             "messageSize",
-            "deserialize",
-            "serialize",
-            "enumValue",
-            "unknownFields",
-            "res",
-            "default")
+            "emptyList"
+        )
     val kotlinReserved =
         setOf(
             "as",
@@ -65,7 +66,7 @@ internal object Keywords {
             "var",
             "when",
             "while"
-    )
+        )
 }
 
 internal fun snakeToCamel(str: String): String {
@@ -84,11 +85,17 @@ internal fun snakeToCamel(str: String): String {
     }
 }
 
-internal fun newTypeName(preferred: String, set: Set<String> = emptySet()): String {
-    var name = snakeToCamel(preferred).capitalize()
-    name = appendUnderscores(name, set)
-    return name
-}
+internal fun newTypeNameFromCamel(
+    preferred: String,
+    set: Set<String> = emptySet()
+) =
+    newTypeNameFromPascal(snakeToCamel(preferred).capitalize(), set)
+
+internal fun newTypeNameFromPascal(
+    preferred: String,
+    set: Set<String> = emptySet()
+) =
+    appendUnderscores(preferred, set)
 
 internal fun newFieldName(preferred: String, set: Set<String>): String {
     var name = snakeToCamel(preferred).decapitalize()

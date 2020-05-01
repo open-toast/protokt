@@ -26,9 +26,9 @@ object WellKnownTypes {
         get() =
             options.protokt.wrap.emptyToNone()
                 .orElse {
-                    if (typeName.startsWith("$googleProto.")) {
+                    if (protoTypeName.startsWith("$googleProto.")) {
                         JavaClassNameForWellKnownType.render(
-                            type = typeName.removePrefix("$googleProto.")
+                            type = protoTypeName.removePrefix("$googleProto.")
                         ).emptyToNone()
                     } else {
                         None
