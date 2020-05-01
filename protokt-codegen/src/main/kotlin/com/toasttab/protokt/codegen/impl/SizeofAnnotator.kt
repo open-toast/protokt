@@ -97,7 +97,7 @@ private constructor(
             ConditionalParams(
                 ConcatWithScope.render(
                     scope = oneOfScope(f, type, ctx),
-                    value = f.fieldTypeNames[it.name] ?: ""
+                    value = f.fieldTypeNames.getValue(it.name)
                 ),
                 sizeOfString(
                     it,

@@ -203,11 +203,7 @@ deserializeVar(p) ::= <%
     <\ >= <deserializeValue(p)>
 %>
 
-oneofDefaultValue() ::= "null"
-
 concatWithScope(scope, value) ::= "<scope>.<value>"
-
-oneofDeserialize(oneof, name, read) ::= "<oneof>.<name>(<read>)"
 
 defaultValue(field, type, name) ::= <%
     <if (field.map)>

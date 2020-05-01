@@ -13,21 +13,12 @@
  * limitations under the License.
  */
 
-import "options.stg"
-import "renderers.stg"
+syntax = "proto3";
 
-oneof(name, types, options) ::= <<
-sealed class <name> <oneofDoesImplement()>{
-    <types.keys:{k |<\\>
-    <blockComment(types.(k).documentation)><\\>
-    <deprecated(types.(k))><\\>
-    data class <k>(
-    val <types.(k).fieldName>: <types.(k).type>
-) : <name>()<oneofImplements()>}; separator="\n\n">
+package com.toasttab.protokt.testing.rt.oneof;
+
+message MessageName {
+  oneof message_name {
+    string child = 1;
+  }
 }
-
->>
-
-defaultValue() ::= "null"
-
-deserialize(oneof, name, read) ::= "<oneof>.<name>(<read>)"

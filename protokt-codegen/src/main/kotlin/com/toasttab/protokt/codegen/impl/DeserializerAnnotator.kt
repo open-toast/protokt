@@ -27,12 +27,11 @@ import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptReadFn
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapperName
-import com.toasttab.protokt.codegen.snakeToCamel
 import com.toasttab.protokt.codegen.template.Message.Message.DeserializerInfo
 import com.toasttab.protokt.codegen.template.Message.Message.DeserializerInfo.Assignment
+import com.toasttab.protokt.codegen.template.Oneof as OneofTemplate
 import com.toasttab.protokt.codegen.template.Renderers.Deserialize
 import com.toasttab.protokt.codegen.template.Renderers.Deserialize.Options
-import com.toasttab.protokt.codegen.template.Renderers.OneofDeserialize
 import com.toasttab.protokt.codegen.template.Renderers.Read
 import com.toasttab.protokt.rt.PType
 
@@ -121,9 +120,9 @@ private constructor(
     )
 
     private fun oneOfDes(f: Oneof, ff: StandardField) =
-        OneofDeserialize.render(
-            oneof = snakeToCamel(f.name).capitalize(),
-            name = snakeToCamel(ff.name).capitalize(),
+        OneofTemplate.Deserialize.render(
+            oneof = f.name,
+            name = ff.name.capitalize(),
             read = deserializeString(ff)
         )
 

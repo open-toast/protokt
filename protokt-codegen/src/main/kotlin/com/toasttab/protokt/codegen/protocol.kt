@@ -290,16 +290,15 @@ private fun toOneOf(
         ), { oneofIdx, acc, t ->
             val ftn = newTypeName(t.name, acc.b)
             Tuple3(
-                acc.a + (t.name to ftn),
+                acc.a + (convertStandardFieldName(t.name) to ftn),
                 acc.b + ftn,
                 acc.c + toStandard(idx + oneofIdx, ctx, t, emptySet(), true)
             )
     })
     return Oneof(
-        name = oneOf.name,
+        name = newTypeName(oneOf.name, typeNames),
         fieldTypeNames = standardTuple.a,
         fieldName = newName,
-        nativeTypeName = newTypeName(oneOf.name, typeNames),
         fields = standardTuple.c,
         options =
             OneofOptions(
@@ -321,7 +320,7 @@ private fun toStandard(
     fdp.type ?: error("Missing field type")).let { type ->
     StandardField(
         number = fdp.number,
-        name = fdp.name!!,
+        name = convertStandardFieldName(fdp.name),
         type = type,
         typeName = fdp.typeName,
         repeated = fdp.label == LABEL_REPEATED,
@@ -351,6 +350,9 @@ private fun toStandard(
         index = idx
     )
 }
+
+private fun convertStandardFieldName(name: String) =
+    snakeToCamel(name)
 
 private fun packageName(
     fdp: FileDescriptorProto,

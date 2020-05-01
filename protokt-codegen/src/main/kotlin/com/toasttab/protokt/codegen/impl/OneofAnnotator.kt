@@ -25,7 +25,6 @@ import com.toasttab.protokt.codegen.impl.Wrapper.interceptTypeName
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.possiblyQualify
-import com.toasttab.protokt.codegen.snakeToCamel
 import com.toasttab.protokt.codegen.template.Oneof.Oneof as OneofTemplate
 
 internal class OneofAnnotator
@@ -38,7 +37,7 @@ private constructor(
             when (it) {
                 is Oneof ->
                     OneofTemplate.render(
-                        name = it.nativeTypeName,
+                        name = it.name,
                         types = it.fields.associate(::oneOfValue),
                         options = options(it)
                     )
@@ -47,19 +46,16 @@ private constructor(
         }.filter { it.isNotEmpty() }
 
     private fun oneOfValue(f: StandardField) =
-        snakeToCamel(f.name).let { fieldName ->
-            fieldName.capitalize().let { oneofFieldTypeName ->
-                oneofFieldTypeName to info(f, fieldName, oneofFieldTypeName)
-            }
+        f.name.capitalize().let { oneofFieldTypeName ->
+            oneofFieldTypeName to info(f, oneofFieldTypeName)
         }
 
     private fun info(
         f: StandardField,
-        fieldName: String,
         oneofFieldTypeName: String
     ) =
         OneofTemplate.Info(
-            fieldName = fieldName,
+            fieldName = f.name,
             type = qualifyWrapperType(
                 f,
                 PClass.fromName(oneofFieldTypeName),

@@ -147,7 +147,6 @@ class Oneof(
     val fieldName: String,
     val fields: List<StandardField>,
     val fieldTypeNames: Map<String, String>,
-    val nativeTypeName: String,
     val options: OneofOptions,
     val index: Int
 ) : Field()

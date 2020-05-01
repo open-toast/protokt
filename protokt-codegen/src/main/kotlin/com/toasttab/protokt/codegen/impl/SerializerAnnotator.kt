@@ -126,7 +126,7 @@ private constructor(
         ConditionalParams(
             ConcatWithScope.render(
                 scope = oneOfScope(f, type, ctx),
-                value = f.fieldTypeNames[ff.name] ?: ""
+                value = f.fieldTypeNames.getValue(ff.name)
             ),
             serializeString(ff, Some(f.fieldName))
         )

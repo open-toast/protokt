@@ -41,7 +41,7 @@ internal fun oneOfScope(f: Oneof, type: String, ctx: Context) =
         ctx.stripRootMessageNamePrefix(
             ConcatWithScope.render(
                 scope = type,
-                value = f.nativeTypeName
+                value = f.name
             )
         )
     )

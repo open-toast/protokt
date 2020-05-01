@@ -42,16 +42,9 @@ object Renderers {
             renderArgs(type, box)
     }
 
-    object OneofDefaultValue : NoParamStTemplate(StGroup.Renderers)
-
     object ConcatWithScope : RenderersTemplate() {
         fun render(scope: String, value: String) =
             renderArgs(scope, value)
-    }
-
-    object OneofDeserialize : RenderersTemplate() {
-        fun render(oneof: String, name: String, read: String) =
-            renderArgs(oneof, name, read)
     }
 
     object DefaultValue : RenderersTemplate() {
