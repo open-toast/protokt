@@ -38,7 +38,7 @@ class StandardFieldImportResolver(
             wrapperTypeImports()
 
     private fun listImports() =
-        if (f.repeated) {
+        if (f.repeated && !f.map) {
             immutableSetOf(
                 rtMethod("copyList"),
                 rtMethod("finishList")
@@ -54,10 +54,7 @@ class StandardFieldImportResolver(
 
     private fun mapImports() =
         if (f.map) {
-            setOf(
-                rtMethod("sizeofMap"),
-                rtMethod("finishList")
-            )
+            setOf(rtMethod("sizeofMap"))
         } else {
             setOf()
         }
