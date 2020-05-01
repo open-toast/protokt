@@ -270,7 +270,7 @@ deserialize(field, type, read, lhs, options) ::= <<
 (<lhs> ?: mutableMapOf()).apply {
         deserializer.readRepeated(false) {
             <read>
-                .run { put(key, value) }
+                .let { put(it.key, it.value) }
         }
     }<\\>
 <elseif (field.repeated)>
