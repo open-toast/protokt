@@ -15,33 +15,37 @@
 
 package com.toasttab.protokt.codegen.impl
 
-import com.google.common.annotations.VisibleForTesting
 import com.toasttab.protokt.codegen.MessageType
+import com.toasttab.protokt.codegen.Oneof
 import com.toasttab.protokt.codegen.TypeDesc
 import com.toasttab.protokt.codegen.algebra.AST
+import com.toasttab.protokt.codegen.snakeToCamel
 
-fun Sequence<Import>.filterClassesWithSameNameAsMessageIn(
+fun Sequence<Import>.filterClassesWithSameNameAsOneofFieldTypeIn(
     asts: List<AST<TypeDesc>>
 ) =
-    filterClassesWithSameNameAsMessageIn(allMessageNames(asts))
+    filterNot {
+        it is Import.Class &&
+            allOneofFieldTypes(asts).contains(it.pClass.simpleName)
+    }
 
-@VisibleForTesting
-internal fun Sequence<Import>.filterClassesWithSameNameAsMessageIn(
-    names: Sequence<String>
-) =
-    filterNot { it is Import.Class && names.contains(it.pClass.simpleName) }
-
-private fun allMessageNames(asts: List<AST<TypeDesc>>) =
+private fun allOneofFieldTypes(asts: List<AST<TypeDesc>>) =
     asts.asSequence().flatMap {
         when (val t = it.data.type.rawType) {
-            is MessageType -> names(t)
+            is MessageType -> typeNames(t)
             else -> emptySequence()
         }
     }
 
-private fun names(m: MessageType): Sequence<String> =
-    sequenceOf(m.name) +
+private fun typeNames(m: MessageType): Sequence<String> =
+    m.fields.asSequence().filterIsInstance<Oneof>().flatMap { typeNames(it) } +
         m.nestedTypes
             .asSequence()
             .filterIsInstance<MessageType>()
-            .flatMap { names(it) }
+            .flatMap { typeNames(it) }
+
+private fun typeNames(o: Oneof) =
+    o.fields.asSequence()
+        // TODO: merge with oneof naming logic in other PR
+        .map { snakeToCamel(it.typeName).capitalize() }
+        .map { it.substringAfterLast('.') }

@@ -17,7 +17,20 @@ syntax = "proto3";
 
 package com.toasttab.protokt.testing.rt;
 
+import "com/toasttab/protokt/testing/rt/other/model.proto";
+import "google/protobuf/struct.proto";
+
 message HasMapAndValueField {
   double value = 1;
   map<string, string> map = 2;
+}
+
+message Constant {
+  oneof constant_kind {
+    google.protobuf.NullValue null_value = 1;
+  }
+}
+
+message Model {
+  other.Model model = 1;
 }
