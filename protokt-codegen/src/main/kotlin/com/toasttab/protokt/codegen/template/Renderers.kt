@@ -72,12 +72,11 @@ object Renderers {
     object Deserialize : RenderersTemplate() {
         fun render(
             field: StandardField,
-            type: String,
             read: String,
             lhs: String,
             options: Options?
         ) =
-            renderArgs(field, type, read, lhs, options)
+            renderArgs(field, read, lhs, options)
 
         class Options(
             val wrapName: String,

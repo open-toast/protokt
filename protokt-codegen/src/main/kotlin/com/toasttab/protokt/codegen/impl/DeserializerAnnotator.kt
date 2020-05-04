@@ -89,7 +89,6 @@ private constructor(
     private fun deserializeString(f: StandardField) =
         Deserialize.render(
             field = f,
-            type = f.unqualifiedNestedTypeName(ctx),
             read = interceptReadFn(f, f.readFn()),
             lhs = f.fieldName,
             options =

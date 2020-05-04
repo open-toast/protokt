@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2020 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,10 +15,4 @@
 
 syntax = "proto3";
 
-package com.toasttab.protokt.testing.rt.other;
-
-message OtherPackageMessage {
-  enum OtherPackageEnum {
-    FIRST = 0;
-  }
-}
+message NoPacakge {}

@@ -138,7 +138,7 @@ private constructor(
                         type = type,
                         name =
                             if (type == PType.ENUM) {
-                                unqualifiedNestedTypeName(ctx)
+                                typePClass.renderName(ctx.pkg)
                             } else {
                                 ""
                             }
