@@ -26,7 +26,7 @@ tasks.named<Jar>("jar") {
 }
 
 gradlePlugin {
-    setAutomatedPublishing(true)
+    setAutomatedPublishing(false)
 
     plugins {
         create("protokt") {

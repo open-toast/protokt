@@ -15,4 +15,4 @@
 
 syntax = "proto3";
 
-message NoPacakge {}
+message NoPackage {}
