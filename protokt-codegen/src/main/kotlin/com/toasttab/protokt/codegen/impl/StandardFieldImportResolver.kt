@@ -17,7 +17,7 @@ package com.toasttab.protokt.codegen.impl
 
 import com.github.andrewoma.dexx.kollection.ImmutableSet
 import com.github.andrewoma.dexx.kollection.immutableSetOf
-import com.toasttab.protokt.codegen.PluginContext
+import com.toasttab.protokt.codegen.ProtocolContext
 import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.impl.Wrapper.converter
 import com.toasttab.protokt.codegen.impl.Wrapper.foldWrap
@@ -28,7 +28,7 @@ import com.toasttab.protokt.rt.UInt32
 
 class StandardFieldImportResolver(
     private val f: StandardField,
-    private val ctx: PluginContext,
+    private val ctx: ProtocolContext,
     private val pkg: PPackage
 ) {
     fun imports(): ImmutableSet<Import> =
@@ -70,7 +70,7 @@ class StandardFieldImportResolver(
         if (f.options.protokt.bytesSlice) {
             set.add(pclass(BytesSlice::class))
         } else {
-            set.add(Import.Class(f.typePClass(ctx)))
+            set.add(Import.Class(f.typePClass))
         }
 
         f.foldWrap(

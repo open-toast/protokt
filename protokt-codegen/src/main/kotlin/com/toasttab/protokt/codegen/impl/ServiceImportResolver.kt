@@ -18,7 +18,6 @@ package com.toasttab.protokt.codegen.impl
 import com.github.andrewoma.dexx.kollection.ImmutableSet
 import com.github.andrewoma.dexx.kollection.immutableSetOf
 import com.toasttab.protokt.codegen.Method
-import com.toasttab.protokt.codegen.PluginContext
 import com.toasttab.protokt.codegen.ServiceType
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.grpc.KtMarshaller
@@ -26,8 +25,7 @@ import io.grpc.MethodDescriptor
 import io.grpc.ServiceDescriptor
 
 class ServiceImportResolver(
-    private val service: ServiceType,
-    private val ctx: PluginContext
+    private val service: ServiceType
 ) {
     fun imports(): ImmutableSet<Import> =
         immutableSetOf(pclass(ServiceDescriptor::class)) +
@@ -51,8 +49,8 @@ class ServiceImportResolver(
 
     private fun methodImports(method: Method) =
         setOf(
-            Import.Class(requalifyProtoType(method.inputType, ctx)),
-            Import.Class(requalifyProtoType(method.outputType, ctx))
+            Import.Class(method.inputType),
+            Import.Class(method.outputType)
         )
 
     private fun possibleKtMarshaller(methods: List<Method>) =

@@ -50,8 +50,8 @@ internal object ServiceAnnotator {
         s.methods.map { renderMethod(it, ctx) }
 
     private fun renderMethod(m: Method, ctx: Context) =
-        render(m.inputType, ctx).let { `in` ->
-            render(m.outputType, ctx).let { out ->
+        m.inputType.renderName(ctx.pkg).let { `in` ->
+            m.outputType.renderName(ctx.pkg).let { out ->
                 MethodInfo(
                     m.name,
                     m.name.decapitalize(),
@@ -67,9 +67,6 @@ internal object ServiceAnnotator {
                 )
             }
         }
-
-    private fun render(typeName: String, ctx: Context) =
-        requalifyProtoType(typeName, ctx.desc.context).renderName(ctx.pkg)
 
     private fun methodType(m: Method) =
         MethodType.render(method = m)

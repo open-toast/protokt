@@ -138,7 +138,7 @@ private constructor(
         )
 
     private fun stripQualification(ctx: Context, f: StandardField) =
-        stripEnclosingMessageName(f.typePClass(ctx).renderName(ctx.pkg), ctx)
+        stripEnclosingMessageName(f.typePClass.renderName(ctx.pkg), ctx)
 
     private fun stripEnclosingMessageName(s: String, ctx: Context): String {
         var stripped = s
