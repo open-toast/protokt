@@ -29,7 +29,7 @@ import com.toasttab.protokt.codegen.template.Renderers.ConcatWithScope
 internal fun resolveMapEntry(m: MessageType, ctx: Context) =
     MapTypeParams(
         (m.fields[0] as StandardField).unqualifiedTypeName,
-        (m.fields[1] as StandardField).unqualifiedNestedTypeName(ctx)
+        (m.fields[1] as StandardField).typePClass.renderName(ctx.pkg)
     )
 
 internal data class MapTypeParams(

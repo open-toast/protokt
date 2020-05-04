@@ -18,6 +18,7 @@ syntax = "proto3";
 package com.toasttab.protokt.testing.rt;
 
 import "com/toasttab/protokt/testing/rt/other/model.proto";
+import "google/protobuf/any.proto";
 import "google/protobuf/struct.proto";
 
 message HasMapAndValueField {
@@ -51,4 +52,9 @@ message ContainsFloat {
   oneof type {
     string float = 1;
   }
+}
+
+message ContainsAny {
+  google.protobuf.Any any = 1;
+  map<int32, google.protobuf.Any> map = 2;
 }
