@@ -27,6 +27,7 @@ internal object Keywords {
             "Map",
             "String",
             "Unit",
+            "Enum",
             "Deserializer",
             "KtDeserializer",
             "KtSerializer",

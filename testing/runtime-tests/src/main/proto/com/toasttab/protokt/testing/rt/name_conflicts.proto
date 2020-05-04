@@ -58,3 +58,13 @@ message ContainsAny {
   google.protobuf.Any any = 1;
   map<int32, google.protobuf.Any> map = 2;
 }
+
+message NestedEnum {
+  message Nested {
+    enum Enum {
+      STRING = 0;
+    }
+  }
+
+  Nested.Enum enum = 1;
+}
