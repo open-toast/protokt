@@ -17,15 +17,15 @@ package com.toasttab.protokt.codegen.impl
 
 import com.github.andrewoma.dexx.kollection.ImmutableSet
 import com.github.andrewoma.dexx.kollection.immutableSetOf
-import com.toasttab.protokt.codegen.Method
-import com.toasttab.protokt.codegen.ServiceType
 import com.toasttab.protokt.codegen.model.PClass
+import com.toasttab.protokt.codegen.protoc.Method
+import com.toasttab.protokt.codegen.protoc.Service
 import com.toasttab.protokt.grpc.KtMarshaller
 import io.grpc.MethodDescriptor
 import io.grpc.ServiceDescriptor
 
 class ServiceImportResolver(
-    private val service: ServiceType
+    private val service: Service
 ) {
     fun imports(): ImmutableSet<Import> =
         immutableSetOf(pclass(ServiceDescriptor::class)) +

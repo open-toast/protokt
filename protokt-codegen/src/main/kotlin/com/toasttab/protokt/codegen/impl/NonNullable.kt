@@ -15,10 +15,10 @@
 
 package com.toasttab.protokt.codegen.impl
 
-import com.toasttab.protokt.codegen.Field
-import com.toasttab.protokt.codegen.Oneof
-import com.toasttab.protokt.codegen.StandardField
-import com.toasttab.protokt.rt.PType
+import com.toasttab.protokt.codegen.model.FieldType
+import com.toasttab.protokt.codegen.protoc.Field
+import com.toasttab.protokt.codegen.protoc.Oneof
+import com.toasttab.protokt.codegen.protoc.StandardField
 
 internal object NonNullable {
     val Field.nullable
@@ -35,7 +35,7 @@ internal object NonNullable {
     private val Field.isKotlinRepresentationNullable
         get() =
             when (this) {
-                is StandardField -> type == PType.MESSAGE
+                is StandardField -> type == FieldType.MESSAGE
                 is Oneof -> true
             }
 }

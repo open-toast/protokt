@@ -15,11 +15,11 @@
 
 package com.toasttab.protokt.codegen.impl
 
-import com.toasttab.protokt.codegen.EnumType
-import com.toasttab.protokt.codegen.MessageType
-import com.toasttab.protokt.codegen.Oneof
-import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
+import com.toasttab.protokt.codegen.protoc.Enum
+import com.toasttab.protokt.codegen.protoc.Message
+import com.toasttab.protokt.codegen.protoc.Oneof
+import com.toasttab.protokt.codegen.protoc.StandardField
 
 object Deprecation {
     fun enclosingDeprecation(ctx: Context): Boolean {
@@ -32,7 +32,7 @@ object Deprecation {
         }
     }
 
-    val MessageType.hasDeprecation: Boolean
+    val Message.hasDeprecation: Boolean
         get() =
             options.default.deprecated ||
                 fields.any {
@@ -43,13 +43,13 @@ object Deprecation {
                 } ||
                 nestedTypes.any {
                     when (it) {
-                        is MessageType -> it.hasDeprecation
-                        is EnumType -> it.hasDeprecation
+                        is Message -> it.hasDeprecation
+                        is Enum -> it.hasDeprecation
                         else -> false
                     }
                 }
 
-    val EnumType.hasDeprecation
+    val Enum.hasDeprecation
         get() =
             options.default.deprecated ||
                 values.any { it.options.default.deprecated }

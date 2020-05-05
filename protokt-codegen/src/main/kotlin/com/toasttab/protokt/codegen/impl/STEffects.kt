@@ -16,10 +16,10 @@
 package com.toasttab.protokt.codegen.impl
 
 import arrow.core.firstOrNone
-import com.toasttab.protokt.codegen.TypeDesc
 import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.algebra.Accumulator
 import com.toasttab.protokt.codegen.algebra.Effects
+import com.toasttab.protokt.codegen.protoc.TypeDesc
 
 internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
     override fun invoke(astList: List<AST<TypeDesc>>, acc: (String) -> Unit) {

@@ -15,7 +15,7 @@
 
 package com.toasttab.protokt.codegen.template
 
-import com.toasttab.protokt.rt.PType
+import com.toasttab.protokt.codegen.model.FieldType
 
 abstract class OptionsTemplate : StTemplate(StGroup.Options)
 
@@ -24,7 +24,7 @@ object Options {
         fun render(
             wrapName: String,
             arg: String,
-            type: PType,
+            type: FieldType,
             oneof: Boolean
         ) =
             renderArgs(wrapName, arg, type, oneof)

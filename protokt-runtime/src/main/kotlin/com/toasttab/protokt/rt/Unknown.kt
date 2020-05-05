@@ -39,7 +39,6 @@ inline class ListVal(val value: List<UnknownValue>) : UnknownValue {
     override fun size() = value.sumBy { it.size() }
 }
 
-@Suppress("UNUSED")
 data class Unknown(val fieldNum: Int, val value: UnknownValue) {
     constructor(fieldNum: Int, v: Long, fixed: Boolean = false) :
         this(

@@ -15,9 +15,6 @@
 
 package com.toasttab.protokt.codegen.impl
 
-import com.toasttab.protokt.codegen.MessageType
-import com.toasttab.protokt.codegen.Oneof
-import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
 import com.toasttab.protokt.codegen.impl.PropertyDocumentationAnnotator.Companion.annotatePropertyDocumentation
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
@@ -25,11 +22,14 @@ import com.toasttab.protokt.codegen.impl.Wrapper.interceptTypeName
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.possiblyQualify
+import com.toasttab.protokt.codegen.protoc.Message
+import com.toasttab.protokt.codegen.protoc.Oneof
+import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.codegen.template.Oneof.Oneof as OneofTemplate
 
 internal class OneofAnnotator
 private constructor(
-    private val msg: MessageType,
+    private val msg: Message,
     private val ctx: Context
 ) {
     private fun annotateOneOfs() =
@@ -132,7 +132,7 @@ private constructor(
         }
 
     companion object {
-        fun annotateOneOfs(msg: MessageType, ctx: Context) =
+        fun annotateOneOfs(msg: Message, ctx: Context) =
             OneofAnnotator(msg, ctx).annotateOneOfs()
     }
 }

@@ -20,8 +20,10 @@ import com.toasttab.protokt.codegen.algebra.Accumulator
 import com.toasttab.protokt.codegen.algebra.Annotator
 import com.toasttab.protokt.codegen.algebra.Effects
 import com.toasttab.protokt.codegen.algebra.Interpreter
+import com.toasttab.protokt.codegen.protoc.AnnotatedType
+import com.toasttab.protokt.codegen.protoc.Protocol
+import com.toasttab.protokt.codegen.protoc.TypeDesc
 
-// Generate kotlin code from a protocol
 fun generate(
     p: Protocol,
     a: Annotator<AST<TypeDesc>>,

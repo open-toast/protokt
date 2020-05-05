@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen
+package com.toasttab.protokt.codegen.protoc
 
 import arrow.core.None
 import arrow.core.Some
@@ -38,9 +38,9 @@ import com.google.protobuf.GeneratedMessage.GeneratedExtension
 import com.google.protobuf.GeneratedMessageV3.ExtendableMessage
 import com.toasttab.protokt.codegen.impl.STAnnotator.rootGoogleProto
 import com.toasttab.protokt.codegen.impl.overrideGoogleProtobuf
+import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.ext.Protokt
-import com.toasttab.protokt.rt.PType
 
 private fun <I, E : ExtendableMessage<E>> E.extensionOrDefault(
     ext: GeneratedExtension<E, I>
@@ -79,49 +79,50 @@ val FileDescriptorProto.fileOptions
 fun FileDescriptorProto.newFileName(name: String) =
     newFileName(name, this.name)
 
-private fun toPType(type: FieldDescriptorProto.Type) = when (type) {
-    FieldDescriptorProto.Type.TYPE_BOOL -> PType.BOOL
-    FieldDescriptorProto.Type.TYPE_BYTES -> PType.BYTES
-    FieldDescriptorProto.Type.TYPE_DOUBLE -> PType.DOUBLE
-    FieldDescriptorProto.Type.TYPE_ENUM -> PType.ENUM
-    FieldDescriptorProto.Type.TYPE_FIXED32 -> PType.FIXED32
-    FieldDescriptorProto.Type.TYPE_FIXED64 -> PType.FIXED64
-    FieldDescriptorProto.Type.TYPE_FLOAT -> PType.FLOAT
-    FieldDescriptorProto.Type.TYPE_INT32 -> PType.INT32
-    FieldDescriptorProto.Type.TYPE_INT64 -> PType.INT64
-    FieldDescriptorProto.Type.TYPE_MESSAGE -> PType.MESSAGE
-    FieldDescriptorProto.Type.TYPE_SFIXED32 -> PType.SFIXED32
-    FieldDescriptorProto.Type.TYPE_SFIXED64 -> PType.SFIXED64
-    FieldDescriptorProto.Type.TYPE_SINT32 -> PType.SINT32
-    FieldDescriptorProto.Type.TYPE_SINT64 -> PType.SINT64
-    FieldDescriptorProto.Type.TYPE_STRING -> PType.STRING
-    FieldDescriptorProto.Type.TYPE_UINT32 -> PType.UINT32
-    FieldDescriptorProto.Type.TYPE_UINT64 -> PType.UINT64
-    else -> error("Unknown type: $type")
-}
+private fun toFieldType(type: FieldDescriptorProto.Type) =
+    when (type) {
+        FieldDescriptorProto.Type.TYPE_BOOL -> FieldType.BOOL
+        FieldDescriptorProto.Type.TYPE_BYTES -> FieldType.BYTES
+        FieldDescriptorProto.Type.TYPE_DOUBLE -> FieldType.DOUBLE
+        FieldDescriptorProto.Type.TYPE_ENUM -> FieldType.ENUM
+        FieldDescriptorProto.Type.TYPE_FIXED32 -> FieldType.FIXED32
+        FieldDescriptorProto.Type.TYPE_FIXED64 -> FieldType.FIXED64
+        FieldDescriptorProto.Type.TYPE_FLOAT -> FieldType.FLOAT
+        FieldDescriptorProto.Type.TYPE_INT32 -> FieldType.INT32
+        FieldDescriptorProto.Type.TYPE_INT64 -> FieldType.INT64
+        FieldDescriptorProto.Type.TYPE_MESSAGE -> FieldType.MESSAGE
+        FieldDescriptorProto.Type.TYPE_SFIXED32 -> FieldType.SFIXED32
+        FieldDescriptorProto.Type.TYPE_SFIXED64 -> FieldType.SFIXED64
+        FieldDescriptorProto.Type.TYPE_SINT32 -> FieldType.SINT32
+        FieldDescriptorProto.Type.TYPE_SINT64 -> FieldType.SINT64
+        FieldDescriptorProto.Type.TYPE_STRING -> FieldType.STRING
+        FieldDescriptorProto.Type.TYPE_UINT32 -> FieldType.UINT32
+        FieldDescriptorProto.Type.TYPE_UINT64 -> FieldType.UINT64
+        else -> error("Unknown type: $type")
+    }
 
 private fun toTypeList(
     ctx: ProtocolContext,
     enums: List<EnumDescriptorProto>,
     messages: List<DescriptorProto>,
     services: List<ServiceDescriptorProto> = emptyList()
-): ImmutableList<Type> =
+): ImmutableList<TopLevelType> =
     enums.foldIndexed(
-        Tuple2(immutableSetOf<String>(), immutableListOf<Type>())
+        Tuple2(immutableSetOf<String>(), immutableListOf<TopLevelType>())
     ) { idx, acc, t ->
         val e = toEnum(idx, t, acc.a)
         Tuple2(acc.a + e.name, acc.b + e)
     }.b +
 
     messages.foldIndexed(
-        Tuple2(immutableSetOf<String>(), immutableListOf<Type>())
+        Tuple2(immutableSetOf<String>(), immutableListOf<TopLevelType>())
     ) { idx, acc, t ->
         val m = toMessage(idx, ctx, t, acc.a)
         Tuple2(acc.a + m.name, acc.b + m)
     }.b +
 
     services.fold(
-        Tuple2(immutableSetOf<String>(), immutableListOf<Type>())
+        Tuple2(immutableSetOf<String>(), immutableListOf<TopLevelType>())
     ) { acc, t ->
         val s = toService(t, ctx, acc.a)
         Tuple2(acc.a + s.type, acc.b + s)
@@ -131,16 +132,19 @@ private fun toEnum(
     idx: Int,
     desc: EnumDescriptorProto,
     names: ImmutableSet<String>
-): EnumType {
+): Enum {
     val typeName = newTypeNameFromCamel(desc.name, names)
-    return EnumType(
+    return Enum(
         name = typeName,
         values = desc.valueList.toList().foldIndexed(
-            Tuple2(names + typeName, immutableListOf<EnumType.Value>())
+            Tuple2(
+                names + typeName,
+                immutableListOf<Enum.Value>()
+            )
         ) { enumIdx, acc, t ->
             val n = newEnumValueName(t.name, acc.a)
             val v =
-                EnumType.Value(
+                Enum.Value(
                     t.number,
                     t.name,
                     n,
@@ -166,10 +170,10 @@ private fun toMessage(
     ctx: ProtocolContext,
     desc: DescriptorProto,
     names: Set<String>
-): MessageType {
+): Message {
     val typeName = newTypeNameFromPascal(desc.name, names)
     val fieldList = toFields(ctx, desc, names + typeName)
-    return MessageType(
+    return Message(
         name = typeName,
         fields = fieldList,
         nestedTypes = toTypeList(ctx, desc.enumTypeList, desc.nestedTypeList),
@@ -189,7 +193,7 @@ private fun toService(
     ctx: ProtocolContext,
     names: Set<String>
 ) =
-    ServiceType(
+    Service(
         name = desc.name,
         type = newTypeNameFromPascal(desc.name, names),
         methods = desc.methodList.map { toMethod(it, ctx) },
@@ -303,7 +307,7 @@ private fun toStandard(
     usedFieldNames: Set<String>,
     alwaysRequired: Boolean = false
 ): StandardField =
-    toPType(checkNotNull(fdp.type) { "Missing field type" }).let { type ->
+    toFieldType(checkNotNull(fdp.type) { "Missing field type" }).let { type ->
         StandardField(
             number = fdp.number,
             name = newFieldName(fdp.name, usedFieldNames),
@@ -315,7 +319,7 @@ private fun toStandard(
                     (ctx.fdp.syntax == "proto3" || fdp.options?.packed == true),
             map =
                 fdp.label == LABEL_REPEATED &&
-                fdp.type == FieldDescriptorProto.Type.TYPE_MESSAGE &&
+                    fdp.type == FieldDescriptorProto.Type.TYPE_MESSAGE &&
                     ctx.findLocal(fdp.typeName).fold(
                         { false },
                         { it.options?.mapEntry == true }
@@ -335,7 +339,7 @@ private fun toStandard(
 private fun typePClass(
     protoTypeName: String,
     ctx: ProtocolContext,
-    type: PType
+    fieldType: FieldType
 ): PClass {
     val fullyProtoQualified = protoTypeName.startsWith(".")
 
@@ -344,7 +348,7 @@ private fun typePClass(
     } else {
         newTypeNameFromPascal(protoTypeName).let {
             if (it.isEmpty()) {
-                PClass.fromClass(type.protoktFieldType)
+                PClass.fromClass(fieldType.protoktFieldType)
             } else {
                 PClass.fromName(it)
             }

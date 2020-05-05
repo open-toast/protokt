@@ -58,7 +58,7 @@ object Services {
     }
 
     object MethodType : ServicesTemplate() {
-        fun render(method: com.toasttab.protokt.codegen.Method) =
+        fun render(method: com.toasttab.protokt.codegen.protoc.Method) =
             renderArgs(method)
     }
 }

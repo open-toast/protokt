@@ -16,7 +16,6 @@
 package com.toasttab.protokt.codegen.impl
 
 import arrow.core.extensions.list.foldable.firstOption
-import com.toasttab.protokt.codegen.MessageType
 import com.toasttab.protokt.codegen.impl.Deprecation.enclosingDeprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.hasDeprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
@@ -32,7 +31,8 @@ import com.toasttab.protokt.codegen.impl.STAnnotator.annotate
 import com.toasttab.protokt.codegen.impl.SerializerAnnotator.Companion.annotateSerializer
 import com.toasttab.protokt.codegen.impl.SizeofAnnotator.Companion.annotateSizeof
 import com.toasttab.protokt.codegen.model.PPackage
-import com.toasttab.protokt.codegen.template.Message.Message
+import com.toasttab.protokt.codegen.protoc.Message
+import com.toasttab.protokt.codegen.template.Message.Message as MessageTemplate
 import com.toasttab.protokt.codegen.template.Message.Message.MessageInfo
 import com.toasttab.protokt.codegen.template.Message.Message.Options
 
@@ -40,10 +40,10 @@ internal object MessageAnnotator {
     val idealMaxWidth = 100
 
     fun annotateMessage(
-        msg: MessageType,
+        msg: Message,
         ctx: Context
     ) =
-        Message.render(
+        MessageTemplate.render(
             message = messageInfo(msg, ctx),
             entry = annotateMapEntry(msg, ctx),
             properties = annotateProperties(msg, ctx),
@@ -55,10 +55,10 @@ internal object MessageAnnotator {
             options = options(msg, ctx)
         )
 
-    private fun nestedTypes(msg: MessageType, ctx: Context) =
+    private fun nestedTypes(msg: Message, ctx: Context) =
         msg.nestedTypes.map { annotate(it, ctx) }
 
-    private fun messageInfo(msg: MessageType, ctx: Context) =
+    private fun messageInfo(msg: Message, ctx: Context) =
         MessageInfo(
             name = msg.name,
             doesImplement = msg.doesImplement,
@@ -79,7 +79,7 @@ internal object MessageAnnotator {
             fullTypeName = msg.fullProtobufTypeName
         )
 
-    private fun options(msg: MessageType, ctx: Context): Options {
+    private fun options(msg: Message, ctx: Context): Options {
         val lengthAsOneLine =
             ctx.enclosingMessage.size * 4 +
                 4 + // companion indentation
