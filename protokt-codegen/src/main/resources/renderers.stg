@@ -233,7 +233,7 @@ serializer.write(Tag(<tag>)).write(<box>)<\\>
 <endif>
 >>
 
-deserialize(field, type, read, lhs, options) ::= <<
+deserialize(field, read, lhs, options) ::= <<
 <if (field.map)>
 (<lhs> ?: mutableMapOf()).apply {
         deserializer.readRepeated(false) {

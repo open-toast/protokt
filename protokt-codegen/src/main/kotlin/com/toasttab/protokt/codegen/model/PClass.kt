@@ -37,7 +37,10 @@ data class PClass(
 
     fun renderName(pkg: PPackage) =
         if (ppackage == pkg || ppackage == PPackage.fromString("kotlin")) {
-            simpleName
+            enclosing.fold(
+                { simpleName },
+                { nestedName.substringAfter('.') }
+            )
         } else {
             qualifiedName
         }
