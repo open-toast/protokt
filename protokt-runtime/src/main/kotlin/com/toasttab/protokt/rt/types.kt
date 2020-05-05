@@ -129,6 +129,15 @@ enum class PType(
     UINT32(Int::class, UInt32::class),
     UINT64(Long::class, UInt64::class);
 
+    val protoktFieldType
+        get() = when (this) {
+            BYTES -> Bytes::class
+            else ->
+                requireNotNull(kotlinRepresentation) {
+                    "no protokt field type for $this"
+                }
+        }
+
     val packed
         get() =
             this != BYTES &&

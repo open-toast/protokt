@@ -20,8 +20,6 @@ import arrow.core.Some
 import arrow.core.Tuple2
 import arrow.core.Tuple3
 import arrow.core.Tuple4
-import arrow.core.extensions.list.foldable.nonEmpty
-import arrow.core.toOption
 import com.github.andrewoma.dexx.kollection.ImmutableList
 import com.github.andrewoma.dexx.kollection.ImmutableSet
 import com.github.andrewoma.dexx.kollection.immutableListOf
@@ -38,11 +36,11 @@ import com.google.protobuf.DescriptorProtos.OneofDescriptorProto
 import com.google.protobuf.DescriptorProtos.ServiceDescriptorProto
 import com.google.protobuf.GeneratedMessage.GeneratedExtension
 import com.google.protobuf.GeneratedMessageV3.ExtendableMessage
-import com.toasttab.protokt.codegen.impl.emptyToNone
+import com.toasttab.protokt.codegen.impl.STAnnotator.rootGoogleProto
+import com.toasttab.protokt.codegen.impl.overrideGoogleProtobuf
+import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.ext.Protokt
 import com.toasttab.protokt.rt.PType
-import com.toasttab.protokt.shared.KOTLIN_EXTRA_CLASSPATH
-import com.toasttab.protokt.shared.RESPECT_JAVA_PACKAGE
 
 private fun <I, E : ExtendableMessage<E>> E.extensionOrDefault(
     ext: GeneratedExtension<E, I>
@@ -60,13 +58,7 @@ fun toProtocol(ctx: ProtocolContext) =
             packageName = ctx.fdp.`package`,
             version = ctx.fdp.syntax?.removePrefix("proto")?.toIntOrNull() ?: 2,
             options = ctx.fdp.fileOptions,
-            context =
-                PluginContext(
-                    ctx.params.getOrDefault(KOTLIN_EXTRA_CLASSPATH, "").split(";"),
-                    respectJavaPackage(ctx.params),
-                    ctx.fdp.name,
-                    ctx.allPackagesByTypeName
-                ),
+            context = ctx,
             sourceCodeInfo = ctx.fdp.sourceCodeInfo
         ),
         types = toTypeList(
@@ -77,20 +69,12 @@ fun toProtocol(ctx: ProtocolContext) =
         )
     )
 
-fun respectJavaPackage(params: Map<String, String>) =
-    params.getValue(RESPECT_JAVA_PACKAGE).toBoolean()
-
 val FileDescriptorProto.fileOptions
     get() =
         FileOptions(
             options,
             options.extensionOrDefault(Protokt.file)
         )
-
-fun FileDescriptorProto.pkg(
-    paramName: String
-) =
-    packageName(this, paramName)
 
 fun FileDescriptorProto.newFileName(name: String) =
     newFileName(name, this.name)
@@ -139,7 +123,7 @@ private fun toTypeList(
     services.fold(
         Tuple2(immutableSetOf<String>(), immutableListOf<Type>())
     ) { acc, t ->
-        val s = toService(t, acc.a)
+        val s = toService(t, ctx, acc.a)
         Tuple2(acc.a + s.type, acc.b + s)
     }.b
 
@@ -202,12 +186,13 @@ private fun toMessage(
 
 private fun toService(
     desc: ServiceDescriptorProto,
+    ctx: ProtocolContext,
     names: Set<String>
 ) =
     ServiceType(
         name = desc.name,
         type = newTypeNameFromPascal(desc.name, names),
-        methods = desc.methodList.map { toMethod(it) },
+        methods = desc.methodList.map { toMethod(it, ctx) },
         deprecated = desc.options.deprecated,
         options =
             ServiceOptions(
@@ -216,11 +201,14 @@ private fun toService(
             )
     )
 
-private fun toMethod(desc: DescriptorProtos.MethodDescriptorProto) =
+private fun toMethod(
+    desc: DescriptorProtos.MethodDescriptorProto,
+    ctx: ProtocolContext
+) =
     Method(
         desc.name,
-        desc.inputType,
-        desc.outputType,
+        requalifyProtoType(desc.inputType, ctx),
+        requalifyProtoType(desc.outputType, ctx),
         desc.clientStreaming,
         desc.serverStreaming,
         desc.options.deprecated,
@@ -339,18 +327,49 @@ private fun toStandard(
                     fdp.options.getExtension(Protokt.property)
                 ),
             protoTypeName = fdp.typeName,
+            typePClass = typePClass(fdp.typeName, ctx, type),
             index = idx
         )
     }
 
-private fun packageName(
-    fdp: FileDescriptorProto,
-    paramName: String
-) =
-    if (fdp.options?.uninterpretedOptionList?.nonEmpty() == true) {
-        fdp.options?.uninterpretedOptionList?.find { f ->
-            f.nameList.singleOrNull()?.namePart == paramName
-        }?.stringValue?.toStringUtf8().toOption()
+private fun typePClass(
+    protoTypeName: String,
+    ctx: ProtocolContext,
+    type: PType
+): PClass {
+    val fullyProtoQualified = protoTypeName.startsWith(".")
+
+    return if (fullyProtoQualified) {
+        requalifyProtoType(protoTypeName, ctx)
     } else {
-        fdp.`package`.emptyToNone()
+        newTypeNameFromPascal(protoTypeName).let {
+            if (it.isEmpty()) {
+                PClass.fromClass(type.protoktFieldType)
+            } else {
+                PClass.fromName(it)
+            }
+        }
     }
+}
+
+private fun requalifyProtoType(typeName: String, ctx: ProtocolContext): PClass {
+    val withOverriddenGoogleProtoPackage =
+        PClass.fromName(
+            overrideGoogleProtobuf(typeName.removePrefix("."), rootGoogleProto)
+        )
+
+    val withOverriddenReservedName =
+        PClass(
+            newTypeNameFromPascal(withOverriddenGoogleProtoPackage.simpleName),
+            withOverriddenGoogleProtoPackage.ppackage,
+            withOverriddenGoogleProtoPackage.enclosing
+        )
+
+    return if (ctx.respectJavaPackage()) {
+        PClass.fromName(
+            withOverriddenReservedName.nestedName
+        ).qualify(ctx.ppackage(typeName))
+    } else {
+        withOverriddenReservedName
+    }
+}

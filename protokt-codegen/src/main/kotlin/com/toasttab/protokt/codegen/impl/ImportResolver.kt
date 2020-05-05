@@ -22,7 +22,7 @@ import com.toasttab.protokt.codegen.EnumType
 import com.toasttab.protokt.codegen.Field
 import com.toasttab.protokt.codegen.MessageType
 import com.toasttab.protokt.codegen.Oneof
-import com.toasttab.protokt.codegen.PluginContext
+import com.toasttab.protokt.codegen.ProtocolContext
 import com.toasttab.protokt.codegen.ServiceType
 import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.Type
@@ -42,7 +42,7 @@ import com.toasttab.protokt.rt.Unknown
 import com.toasttab.protokt.rt.processUnknown
 
 class ImportResolver(
-    private val ctx: PluginContext,
+    private val ctx: ProtocolContext,
     private val pkg: PPackage
 ) {
     private val enumImports: ImmutableSet<Import> =
@@ -77,7 +77,7 @@ class ImportResolver(
         when (t) {
             is MessageType -> imports(t)
             is EnumType -> enumImports
-            is ServiceType -> ServiceImportResolver(t, ctx).imports()
+            is ServiceType -> ServiceImportResolver(t).imports()
         }
 
     private fun imports(m: MessageType): ImmutableSet<Import> =

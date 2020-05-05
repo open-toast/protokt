@@ -22,11 +22,6 @@ import com.toasttab.protokt.rt.PType
 abstract class RenderersTemplate : StTemplate(StGroup.Renderers)
 
 object Renderers {
-    object TypeToNative : RenderersTemplate() {
-        fun render(type: PType) =
-            renderArgs(type)
-    }
-
     object Read : RenderersTemplate() {
         fun render(type: PType, builder: String) =
             renderArgs(type, builder)

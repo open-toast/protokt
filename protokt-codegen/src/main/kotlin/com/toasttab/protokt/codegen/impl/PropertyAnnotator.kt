@@ -103,7 +103,7 @@ private constructor(
                 } else {
                     interceptTypeName(
                         f,
-                        f.typePClass(ctx).renderName(ctx.pkg),
+                        f.typePClass.renderName(ctx.pkg),
                         ctx
                     )
                 }

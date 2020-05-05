@@ -15,32 +15,6 @@
 
 import "options.stg"
 
-// Render mappers for kotlin specific code.
-// DO NOT MODIFY
-
-// PTYPE->kotlin type map, accessed <kotlinTypeNames.(type)>
-kotlinTypeNames ::= [
-    "BOOL": "kotlin.Boolean",
-    "BYTES": "com.toasttab.protokt.rt.Bytes",
-    "DOUBLE": "kotlin.Double",
-    "ENUM": "error(\"No standard type name for enum\")",
-    "FIXED32": "kotlin.Int",
-    "FIXED64": "kotlin.Long",
-    "FLOAT": "kotlin.Float",
-    "INT32": "kotlin.Int",
-    "INT64": "kotlin.Long",
-    "MESSAGE": "error(\"No standard type name for message\")",
-    "SFIXED32": "kotlin.Int",
-    "SFIXED64": "kotlin.Long",
-    "SINT32": "kotlin.Int",
-    "SINT64": "kotlin.Long",
-    "STRING": "kotlin.String",
-    "UINT32": "kotlin.Int",
-    "UINT64": "kotlin.Long",
-    default : "cannot find val"
-]
-
-// PTYPE->kotlin default values, accessed <kotlinDefaultValues.(type)>
 kotlinDefaultValues ::= [
     "BOOL": "false",
     "BYTES": "Bytes.empty",
@@ -61,7 +35,6 @@ kotlinDefaultValues ::= [
     "STRING": "\"\""
 ]
 
-// PTYPE->kotlin read functions, accessed <readFunctions.(type)>
 readFunctions ::= [
     "BOOL": "readBool",
     "BYTES": "readBytes",
@@ -83,7 +56,6 @@ readFunctions ::= [
     default : "throw new RuntimeException"
 ]
 
-// PTYPE -> box
 boxFunction ::= [
     "INT32": true,
     "INT64": true,
@@ -98,7 +70,6 @@ boxFunction ::= [
     default: false
 ]
 
-// PTYPE -> boxed type
 boxer ::= [
     "INT32": "Int32",
     "INT64": "Int64",
@@ -141,8 +112,6 @@ isGeneratedType ::= ["MESSAGE": true, "ENUM": true, default: false]
 
 isBytes ::= ["BYTES": true, "STRING": true, default: false]
 
-typeToNative(type) ::= "<kotlinTypeNames.(type)>"
-
 read(type, builder) ::= "<readFunctions.(type)>(<builder>)"
 
 box(type, def) ::= "<if (boxFunction.(type))><boxer.(type)>(<def>)<else><def><endif>"
@@ -151,7 +120,6 @@ boxMap(type, box) ::= "<if (isMessage.(type))><box>(it.key, it.value)<else><endi
 
 nullable ::= ["MESSAGE":"?", default:""]
 
-// the deserializer has different rules with regards to null values
 deserializeType(p) ::= <%
     <if (p.repeated || p.map)>
         Mutable

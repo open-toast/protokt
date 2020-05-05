@@ -18,8 +18,10 @@ package com.toasttab.protokt.codegen.impl
 import arrow.core.None
 import arrow.core.Some
 import arrow.syntax.function.memoize
-import com.toasttab.protokt.codegen.PluginContext
+import com.toasttab.protokt.codegen.ProtocolContext
 import com.toasttab.protokt.codegen.StandardField
+import com.toasttab.protokt.codegen.classpath
+import com.toasttab.protokt.codegen.fileName
 import com.toasttab.protokt.codegen.impl.ClassLookup.converters
 import com.toasttab.protokt.codegen.impl.ClassLookup.getClass
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
@@ -52,7 +54,7 @@ internal object Wrapper {
 
     fun <R> StandardField.foldWrap(
         pkg: PPackage,
-        ctx: PluginContext,
+        ctx: ProtocolContext,
         ifEmpty: () -> R,
         ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
     ) =
@@ -76,7 +78,7 @@ internal object Wrapper {
                                         "$name: $type"
                                 }
                             },
-                            { getClass(typePClass(ctx), ctx) }
+                            { getClass(typePClass, ctx) }
                         )
                     )
                 }
@@ -165,11 +167,11 @@ internal object Wrapper {
     private fun converter(wrapper: KClass<*>, wrapped: KClass<*>, ctx: Context) =
         converter(wrapper, wrapped, ctx.desc.context)
 
-    val converter = { wrapper: KClass<*>, wrapped: KClass<*>, ctx: PluginContext ->
-        converters(ctx.classpath).find {
+    val converter = { wrapper: KClass<*>, wrapped: KClass<*>, ctx: ProtocolContext ->
+        converters(ctx.classpath()).find {
             it.wrapper == wrapper && it.wrapped == wrapped
         } ?: throw Exception(
-            "${ctx.fileName}: No converter found for wrapper type " +
+            "${ctx.fileName()}: No converter found for wrapper type " +
                 "${wrapper.qualifiedName} from type ${wrapped.qualifiedName}"
         )
     }.memoize()

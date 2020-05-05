@@ -23,12 +23,13 @@ import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.TypeDesc
 import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
+import com.toasttab.protokt.codegen.respectJavaPackage
 import com.toasttab.protokt.codegen.template.Renderers.ConcatWithScope
 
 internal fun resolveMapEntry(m: MessageType, ctx: Context) =
     MapTypeParams(
-        (m.fields[0] as StandardField).unqualifiedTypeName(ctx),
-        (m.fields[1] as StandardField).unqualifiedNestedTypeName(ctx)
+        (m.fields[0] as StandardField).unqualifiedTypeName,
+        (m.fields[1] as StandardField).typePClass.renderName(ctx.pkg)
     )
 
 internal data class MapTypeParams(
@@ -57,5 +58,5 @@ internal fun kotlinPackage(ast: AST<TypeDesc>) =
     resolvePackage(
         ast.data.desc.options,
         ast.data.desc.packageName,
-        ast.data.desc.context.respectJavaPackage
+        ast.data.desc.context.respectJavaPackage()
     )

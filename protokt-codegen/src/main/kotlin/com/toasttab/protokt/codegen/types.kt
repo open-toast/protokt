@@ -20,9 +20,12 @@ import arrow.core.Option
 import com.google.protobuf.DescriptorProtos
 import com.google.protobuf.DescriptorProtos.DescriptorProto
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
+import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.ext.Protokt
 import com.toasttab.protokt.rt.PType
+import com.toasttab.protokt.shared.KOTLIN_EXTRA_CLASSPATH
+import com.toasttab.protokt.shared.RESPECT_JAVA_PACKAGE
 
 sealed class Type
 
@@ -81,8 +84,8 @@ class ServiceOptions(
 
 class Method(
     val name: String,
-    val inputType: String,
-    val outputType: String,
+    val inputType: PClass,
+    val outputType: PClass,
     val clientStreaming: Boolean,
     val serverStreaming: Boolean,
     val deprecated: Boolean,
@@ -101,6 +104,7 @@ class StandardField(
     val name: String,
     val fieldName: String,
     val type: PType,
+    val typePClass: PClass,
     val repeated: Boolean,
     val optional: Boolean,
     val packed: Boolean,
@@ -156,6 +160,21 @@ class ProtocolContext(
     val allPackagesByTypeName: Map<String, PPackage>
 )
 
+fun ProtocolContext.fileName() =
+    fdp.name
+
+fun ProtocolContext.classpath() =
+    params.getOrDefault(KOTLIN_EXTRA_CLASSPATH, "").split(";")
+
+fun respectJavaPackage(params: Map<String, String>) =
+    params.getValue(RESPECT_JAVA_PACKAGE).toBoolean()
+
+fun ProtocolContext.respectJavaPackage() =
+    respectJavaPackage(params)
+
+fun ProtocolContext.ppackage(typeName: String) =
+    allPackagesByTypeName.getValue(typeName)
+
 fun ProtocolContext.findLocal(
     name: String,
     parent: Option<DescriptorProto> = None
@@ -184,19 +203,9 @@ class FileDesc(
     val packageName: String,
     val version: Int,
     val options: FileOptions,
-    val context: PluginContext,
+    val context: ProtocolContext,
     val sourceCodeInfo: DescriptorProtos.SourceCodeInfo
 )
-
-class PluginContext(
-    val classpath: List<String>,
-    val respectJavaPackage: Boolean,
-    val fileName: String,
-    private val allPackagesByTypeName: Map<String, PPackage>
-) {
-    fun ppackage(typeName: String) =
-        allPackagesByTypeName.getValue(typeName)
-}
 
 class FileOptions(
     val default: DescriptorProtos.FileOptions,

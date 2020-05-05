@@ -20,7 +20,8 @@ import arrow.core.None
 import arrow.core.Some
 import arrow.core.getOrHandle
 import arrow.syntax.function.memoize
-import com.toasttab.protokt.codegen.PluginContext
+import com.toasttab.protokt.codegen.ProtocolContext
+import com.toasttab.protokt.codegen.classpath
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.ext.Converter
 import java.io.File
@@ -28,10 +29,10 @@ import java.net.URLClassLoader
 
 internal object ClassLookup {
     val getClass =
-        { pClass: PClass, ctx: PluginContext ->
+        { pClass: PClass, ctx: ProtocolContext ->
             fun loadClass(pClass: PClass) =
                 Either.catchingAll {
-                    getClassLoader(ctx.classpath)
+                    getClassLoader(ctx.classpath())
                         .loadClass(pClass.qualifiedName)
                         .kotlin
                 }
@@ -68,7 +69,7 @@ internal object ClassLookup {
     }.memoize()
 
     val getClassOrNone =
-        { pClass: PClass, ctx: PluginContext ->
+        { pClass: PClass, ctx: ProtocolContext ->
             try {
                 Some(getClass(pClass, ctx))
             } catch (_: Exception) {
