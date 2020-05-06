@@ -18,18 +18,18 @@ package com.toasttab.protokt.codegen.impl
 import com.github.andrewoma.dexx.kollection.ImmutableSet
 import com.github.andrewoma.dexx.kollection.immutableSetOf
 import com.github.andrewoma.dexx.kollection.toImmutableSet
-import com.toasttab.protokt.codegen.EnumType
-import com.toasttab.protokt.codegen.Field
-import com.toasttab.protokt.codegen.MessageType
-import com.toasttab.protokt.codegen.Oneof
-import com.toasttab.protokt.codegen.ProtocolContext
-import com.toasttab.protokt.codegen.ServiceType
-import com.toasttab.protokt.codegen.StandardField
-import com.toasttab.protokt.codegen.Type
-import com.toasttab.protokt.codegen.TypeDesc
 import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.impl.ClassLookup.getClassOrNone
 import com.toasttab.protokt.codegen.model.PPackage
+import com.toasttab.protokt.codegen.protoc.Enum
+import com.toasttab.protokt.codegen.protoc.Field
+import com.toasttab.protokt.codegen.protoc.Message
+import com.toasttab.protokt.codegen.protoc.Oneof
+import com.toasttab.protokt.codegen.protoc.ProtocolContext
+import com.toasttab.protokt.codegen.protoc.Service
+import com.toasttab.protokt.codegen.protoc.StandardField
+import com.toasttab.protokt.codegen.protoc.TopLevelType
+import com.toasttab.protokt.codegen.protoc.TypeDesc
 import com.toasttab.protokt.rt.KtDeserializer
 import com.toasttab.protokt.rt.KtEnum
 import com.toasttab.protokt.rt.KtEnumDeserializer
@@ -73,14 +73,14 @@ class ImportResolver(
             .filterClassesWithSameNameAsOneofFieldTypeIn(astList)
             .filterDuplicateSimpleNames(pkg) { getClassOrNone(it, ctx) }
 
-    private fun imports(t: Type): ImmutableSet<Import> =
+    private fun imports(t: TopLevelType): ImmutableSet<Import> =
         when (t) {
-            is MessageType -> imports(t)
-            is EnumType -> enumImports
-            is ServiceType -> ServiceImportResolver(t).imports()
+            is Message -> imports(t)
+            is Enum -> enumImports
+            is Service -> ServiceImportResolver(t).imports()
         }
 
-    private fun imports(m: MessageType): ImmutableSet<Import> =
+    private fun imports(m: Message): ImmutableSet<Import> =
         messageImports +
             m.nestedTypes.flatMapToSet { imports(it) } +
             m.fields.flatMapToSet { imports(it) }

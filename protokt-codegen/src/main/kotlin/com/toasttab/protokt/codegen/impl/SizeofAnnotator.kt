@@ -18,14 +18,14 @@ package com.toasttab.protokt.codegen.impl
 import arrow.core.None
 import arrow.core.Option
 import arrow.core.Some
-import com.toasttab.protokt.codegen.MessageType
-import com.toasttab.protokt.codegen.Oneof
-import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.impl.NonNullable.hasNonNullOption
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptFieldSizeof
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptSizeof
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
+import com.toasttab.protokt.codegen.protoc.Message
+import com.toasttab.protokt.codegen.protoc.Oneof
+import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.codegen.template.ConditionalParams
 import com.toasttab.protokt.codegen.template.Message.Message.SizeofInfo
 import com.toasttab.protokt.codegen.template.Renderers.ConcatWithScope
@@ -35,7 +35,7 @@ import com.toasttab.protokt.codegen.template.Renderers.Sizeof.Options
 
 internal class SizeofAnnotator
 private constructor(
-    private val msg: MessageType,
+    private val msg: Message,
     private val ctx: Context
 ) {
     private fun annotateSizeof(): List<SizeofInfo> {
@@ -116,7 +116,7 @@ private constructor(
         }
 
     companion object {
-        fun annotateSizeof(msg: MessageType, ctx: Context) =
+        fun annotateSizeof(msg: Message, ctx: Context) =
             SizeofAnnotator(msg, ctx).annotateSizeof()
     }
 }

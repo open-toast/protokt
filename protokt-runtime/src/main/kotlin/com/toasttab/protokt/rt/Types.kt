@@ -15,39 +15,32 @@
 
 package com.toasttab.protokt.rt
 
-import kotlin.reflect.KClass
+interface Boxed {
+    val value: Number
+}
 
-/*
- * Inline classes are experimental
- * see:
- * https://kotlinlang.org/docs/reference/inline-classes.html
- * https://kotlinexpertise.com/kotlin-inline-classes/
- */
-inline class Tag(val value: Int)
+inline class Tag(override val value: Int) : Boxed
 
-inline class Int32(val value: Int)
+inline class Int32(override val value: Int) : Boxed
 
-inline class Fixed32(val value: Int)
+inline class Fixed32(override val value: Int) : Boxed
 
-inline class SFixed32(val value: Int)
+inline class SFixed32(override val value: Int) : Boxed
 
-inline class UInt32(val value: Int)
+inline class UInt32(override val value: Int) : Boxed
 
-inline class SInt32(val value: Int)
+inline class SInt32(override val value: Int) : Boxed
 
-inline class Int64(val value: Long)
+inline class Int64(override val value: Long) : Boxed
 
-inline class Fixed64(val value: Long)
+inline class Fixed64(override val value: Long) : Boxed
 
-inline class SFixed64(val value: Long)
+inline class SFixed64(override val value: Long) : Boxed
 
-inline class UInt64(val value: Long)
+inline class UInt64(override val value: Long) : Boxed
 
-inline class SInt64(val value: Long)
+inline class SInt64(override val value: Long) : Boxed
 
-/**
- * ByteArray wrapper to provide equality
- */
 class Bytes(internal val value: ByteArray) {
     val bytes
         get() = value.clone()
@@ -105,42 +98,4 @@ class BytesSlice(
     companion object {
         val empty = BytesSlice(ByteArray(0), 0, 0)
     }
-}
-
-enum class PType(
-    val kotlinRepresentation: KClass<*>? = null,
-    val inlineRepresentation: KClass<*>? = null
-) {
-    BOOL(Boolean::class),
-    BYTES(ByteArray::class),
-    DOUBLE(Double::class),
-    ENUM,
-    FIXED32(Int::class, Fixed32::class),
-    FIXED64(Long::class, Fixed64::class),
-    FLOAT(Float::class),
-    INT32(Int::class, Int32::class),
-    INT64(Long::class, Int64::class),
-    MESSAGE,
-    SFIXED32(Int::class, SFixed32::class),
-    SFIXED64(Long::class, SFixed64::class),
-    SINT32(Int::class, SInt32::class),
-    SINT64(Long::class, SInt64::class),
-    STRING(String::class),
-    UINT32(Int::class, UInt32::class),
-    UINT64(Long::class, UInt64::class);
-
-    val protoktFieldType
-        get() = when (this) {
-            BYTES -> Bytes::class
-            else ->
-                requireNotNull(kotlinRepresentation) {
-                    "no protokt field type for $this"
-                }
-        }
-
-    val packed
-        get() =
-            this != BYTES &&
-                this != MESSAGE &&
-                this != STRING
 }

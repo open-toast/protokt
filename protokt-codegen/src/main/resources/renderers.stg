@@ -56,52 +56,6 @@ readFunctions ::= [
     default : "throw new RuntimeException"
 ]
 
-boxFunction ::= [
-    "INT32": true,
-    "INT64": true,
-    "SINT32": true,
-    "SINT64": true,
-    "UINT32": true,
-    "UINT64": true,
-    "SFIXED32": true,
-    "SFIXED64": true,
-    "FIXED32": true,
-    "FIXED64": true,
-    default: false
-]
-
-boxer ::= [
-    "INT32": "Int32",
-    "INT64": "Int64",
-    "SINT32": "SInt32",
-    "SINT64": "SInt64",
-    "UINT32": "UInt32",
-    "UINT64": "UInt64",
-    "SFIXED32": "SFixed32",
-    "SFIXED64": "SFixed64",
-    "FIXED32": "Fixed32",
-    "FIXED64": "Fixed64",
-    default: ""
-]
-
-isScalar ::= [
-    "BOOL": true,
-    "STRING": true,
-    "FLOAT": true,
-    "DOUBLE": true,
-    "INT32": true,
-    "INT64": true,
-    "SINT32": true,
-    "SINT64": true,
-    "UINT32": true,
-    "UINT64": true,
-    "SFIXED32": true,
-    "SFIXED64": true,
-    "FIXED32": true,
-    "FIXED64": true,
-    default: false
-]
-
 isMessage ::= ["MESSAGE": true, default: false]
 
 isEnum ::= ["ENUM": true, default: false]
@@ -114,7 +68,7 @@ isBytes ::= ["BYTES": true, "STRING": true, default: false]
 
 read(type, builder) ::= "<readFunctions.(type)>(<builder>)"
 
-box(type, def) ::= "<if (boxFunction.(type))><boxer.(type)>(<def>)<else><def><endif>"
+box(type, def) ::= "<if (type.boxed)><type.boxer>(<def>)<else><def><endif>"
 
 boxMap(type, box) ::= "<if (isMessage.(type))><box>(it.key, it.value)<else><endif>"
 
@@ -187,7 +141,7 @@ defaultValue(field, type, name) ::= <%
 
 defaultConstructorExp() ::= <%
     <if (
-        ((isScalar.(p.messageType) || isBytes.(p.messageType)) && !p.wrapped) ||
+        ((p.messageType.scalar || isBytes.(p.messageType)) && !p.wrapped) ||
         p.repeated ||
         p.nullable ||
         isEnum.(p.messageType)
@@ -201,7 +155,7 @@ nonDefaultValue(field, name) ::= <%
     <elseif (isBytes.(field.type))>(<name>.isNotEmpty())<\ >
     <elseif (isMessage.(field.type))>(<field.fieldName> != null)<\ >
     <elseif (isEnum.(field.type))>(<name>.value != 0)<\ >
-    <elseif (isScalar.(field.type))>
+    <elseif (field.type.scalar)>
         <if (isBool.(field.type))>(<name>)<\ >
         <else>(<name> != <kotlinDefaultValues.(field.type)>)<\ >
         <endif>

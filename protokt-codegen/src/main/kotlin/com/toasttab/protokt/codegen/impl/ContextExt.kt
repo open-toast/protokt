@@ -18,8 +18,8 @@ package com.toasttab.protokt.codegen.impl
 import arrow.core.Option
 import arrow.core.extensions.list.foldable.firstOption
 import arrow.core.toOption
-import com.toasttab.protokt.codegen.MessageType
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
+import com.toasttab.protokt.codegen.protoc.Message
 
 internal fun Context.stripRootMessageNamePrefix(s: String) =
     stripPrefix(enclosingMessage.firstOption(), s)
@@ -27,7 +27,7 @@ internal fun Context.stripRootMessageNamePrefix(s: String) =
 internal fun Context.stripEnclosingMessageNamePrefix(s: String) =
     stripPrefix(enclosingMessage.lastOrNull().toOption(), s)
 
-private fun stripPrefix(o: Option<MessageType>, s: String) =
+private fun stripPrefix(o: Option<Message>, s: String) =
     o.map { it.name }
         .fold(
             { s },

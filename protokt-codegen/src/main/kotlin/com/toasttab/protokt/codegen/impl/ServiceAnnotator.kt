@@ -15,38 +15,38 @@
 
 package com.toasttab.protokt.codegen.impl
 
-import com.toasttab.protokt.codegen.Method
-import com.toasttab.protokt.codegen.ServiceType
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
+import com.toasttab.protokt.codegen.protoc.Method
+import com.toasttab.protokt.codegen.protoc.Service
 import com.toasttab.protokt.codegen.template.Services.Descriptor
 import com.toasttab.protokt.codegen.template.Services.Method as MethodTemplate
 import com.toasttab.protokt.codegen.template.Services.Method.MethodOptions
 import com.toasttab.protokt.codegen.template.Services.MethodType
-import com.toasttab.protokt.codegen.template.Services.Service
+import com.toasttab.protokt.codegen.template.Services.Service as ServiceTemplate
 import com.toasttab.protokt.codegen.template.Services.Service.MethodInfo
 
 internal object ServiceAnnotator {
-    fun annotateService(s: ServiceType, ctx: Context) =
-        Service.render(
+    fun annotateService(s: Service, ctx: Context) =
+        ServiceTemplate.render(
             name = s.name,
             qualifiedName = renderQualifiedName(s, ctx),
             descriptor = renderDescriptor(s),
             methods = renderMethods(s, ctx)
         )
 
-    private fun renderQualifiedName(s: ServiceType, ctx: Context) =
+    private fun renderQualifiedName(s: Service, ctx: Context) =
         if (ctx.pkg.default) {
             s.name
         } else {
             "${ctx.pkg}.${s.name}"
         }
 
-    private fun renderDescriptor(s: ServiceType) =
+    private fun renderDescriptor(s: Service) =
         Descriptor.render(
             methods = s.methods.map { it.name.decapitalize() }
         )
 
-    private fun renderMethods(s: ServiceType, ctx: Context) =
+    private fun renderMethods(s: Service, ctx: Context) =
         s.methods.map { renderMethod(it, ctx) }
 
     private fun renderMethod(m: Method, ctx: Context) =

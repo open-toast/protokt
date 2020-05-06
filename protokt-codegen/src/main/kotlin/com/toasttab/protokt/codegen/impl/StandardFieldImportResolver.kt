@@ -17,11 +17,11 @@ package com.toasttab.protokt.codegen.impl
 
 import com.github.andrewoma.dexx.kollection.ImmutableSet
 import com.github.andrewoma.dexx.kollection.immutableSetOf
-import com.toasttab.protokt.codegen.ProtocolContext
-import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.impl.Wrapper.converter
 import com.toasttab.protokt.codegen.impl.Wrapper.foldWrap
 import com.toasttab.protokt.codegen.model.PPackage
+import com.toasttab.protokt.codegen.protoc.ProtocolContext
+import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.rt.Bytes
 import com.toasttab.protokt.rt.BytesSlice
 import com.toasttab.protokt.rt.UInt32
@@ -34,7 +34,7 @@ class StandardFieldImportResolver(
     fun imports(): ImmutableSet<Import> =
         listImports() +
             mapImports() +
-            ptypeImports() +
+            fieldTypeImports() +
             wrapperTypeImports()
 
     private fun listImports() =
@@ -59,7 +59,7 @@ class StandardFieldImportResolver(
             setOf()
         }
 
-    private fun ptypeImports() =
+    private fun fieldTypeImports() =
         f.type.inlineRepresentation?.let {
             listOf(pclass(it))
         } ?: emptyList()

@@ -17,19 +17,19 @@ package com.toasttab.protokt.codegen.impl
 
 import arrow.core.Some
 import com.github.andrewoma.dexx.kollection.immutableListOf
-import com.toasttab.protokt.codegen.AnnotatedType
-import com.toasttab.protokt.codegen.EnumType
-import com.toasttab.protokt.codegen.FileDesc
-import com.toasttab.protokt.codegen.MessageType
-import com.toasttab.protokt.codegen.ServiceType
-import com.toasttab.protokt.codegen.Type
-import com.toasttab.protokt.codegen.TypeDesc
 import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.algebra.Annotator
 import com.toasttab.protokt.codegen.impl.EnumAnnotator.annotateEnum
 import com.toasttab.protokt.codegen.impl.MessageAnnotator.annotateMessage
 import com.toasttab.protokt.codegen.impl.ServiceAnnotator.annotateService
 import com.toasttab.protokt.codegen.model.PPackage
+import com.toasttab.protokt.codegen.protoc.AnnotatedType
+import com.toasttab.protokt.codegen.protoc.Enum
+import com.toasttab.protokt.codegen.protoc.FileDesc
+import com.toasttab.protokt.codegen.protoc.Message
+import com.toasttab.protokt.codegen.protoc.Service
+import com.toasttab.protokt.codegen.protoc.TopLevelType
+import com.toasttab.protokt.codegen.protoc.TypeDesc
 
 /**
  * STAnnotator is an implementation of a side effect free function.
@@ -45,7 +45,7 @@ object STAnnotator : Annotator<AST<TypeDesc>> {
     const val protoktRtPkg = "com.toasttab.protokt.rt"
 
     data class Context(
-        val enclosingMessage: List<MessageType>,
+        val enclosingMessage: List<Message>,
         val pkg: PPackage,
         val desc: FileDesc
     )
@@ -70,14 +70,14 @@ object STAnnotator : Annotator<AST<TypeDesc>> {
             )
         )
 
-    fun annotate(type: Type, ctx: Context): String =
+    fun annotate(type: TopLevelType, ctx: Context): String =
         when (type) {
-            is MessageType ->
+            is Message ->
                 annotateMessage(
                     type,
                     ctx.copy(enclosingMessage = ctx.enclosingMessage + type)
                 )
-            is EnumType -> annotateEnum(type, ctx)
-            is ServiceType -> annotateService(type, ctx)
+            is Enum -> annotateEnum(type, ctx)
+            is Service -> annotateService(type, ctx)
         }
 }

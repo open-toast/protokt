@@ -32,9 +32,13 @@ configure<JavaApplication> {
 
 dependencies {
     implementation(files(buildSrcClasses))
+
     implementation(project(":extensions:protokt-extensions-api"))
     implementation(project(":protokt-runtime"))
     implementation(project(":protokt-runtime-grpc"))
+
+    implementation(kotlin("reflect"))
+
     libraries.arrow.forEach { implementation(it) }
     implementation(libraries.grpcStub)
     implementation(libraries.kollection)

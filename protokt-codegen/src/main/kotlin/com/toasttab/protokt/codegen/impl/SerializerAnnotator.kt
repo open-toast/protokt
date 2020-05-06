@@ -18,12 +18,12 @@ package com.toasttab.protokt.codegen.impl
 import arrow.core.None
 import arrow.core.Option
 import arrow.core.Some
-import com.toasttab.protokt.codegen.MessageType
-import com.toasttab.protokt.codegen.Oneof
-import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.impl.NonNullable.hasNonNullOption
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
+import com.toasttab.protokt.codegen.protoc.Message
+import com.toasttab.protokt.codegen.protoc.Oneof
+import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.codegen.template.ConditionalParams
 import com.toasttab.protokt.codegen.template.Message.Message.SerializerInfo
 import com.toasttab.protokt.codegen.template.Renderers.ConcatWithScope
@@ -33,7 +33,7 @@ import com.toasttab.protokt.codegen.template.Renderers.Serialize.Options
 
 internal class SerializerAnnotator
 private constructor(
-    private val msg: MessageType,
+    private val msg: Message,
     private val ctx: Context
 ) {
     private fun annotateSerializer(): List<SerializerInfo> {
@@ -114,7 +114,7 @@ private constructor(
         val fieldAccess: String
     )
 
-    private fun MessageType.sortedFields() =
+    private fun Message.sortedFields() =
         fields.sortedBy {
             when (it) {
                 is StandardField -> it
@@ -132,7 +132,7 @@ private constructor(
         )
 
     companion object {
-        fun annotateSerializer(msg: MessageType, ctx: Context) =
+        fun annotateSerializer(msg: Message, ctx: Context) =
             SerializerAnnotator(msg, ctx).annotateSerializer()
     }
 }

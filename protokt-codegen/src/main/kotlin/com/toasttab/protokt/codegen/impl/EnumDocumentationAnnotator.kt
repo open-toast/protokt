@@ -17,13 +17,13 @@ package com.toasttab.protokt.codegen.impl
 
 import com.google.protobuf.DescriptorProtos.DescriptorProto.ENUM_TYPE_FIELD_NUMBER
 import com.google.protobuf.DescriptorProtos.EnumDescriptorProto.VALUE_FIELD_NUMBER
-import com.toasttab.protokt.codegen.EnumType
 import com.toasttab.protokt.codegen.impl.MessageDocumentationAnnotator.baseLocation
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
+import com.toasttab.protokt.codegen.protoc.Enum
 
 internal class EnumDocumentationAnnotator
 private constructor(
-    enum: EnumType,
+    enum: Enum,
     private val ctx: Context
 ) {
     private val enumPath = listOf(ENUM_TYPE_FIELD_NUMBER, enum.index)
@@ -32,17 +32,17 @@ private constructor(
         baseLocation(ctx, enumPath)
             .cleanDocumentation()
 
-    private fun annotateEnumFieldDocumentation(value: EnumType.Value) =
+    private fun annotateEnumFieldDocumentation(value: Enum.Value) =
         baseLocation(ctx, enumPath + listOf(VALUE_FIELD_NUMBER, value.index))
             .cleanDocumentation()
 
     companion object {
-        fun annotateEnumDocumentation(enum: EnumType, ctx: Context) =
+        fun annotateEnumDocumentation(enum: Enum, ctx: Context) =
             EnumDocumentationAnnotator(enum, ctx).annotateEnumDocumentation()
 
         fun annotateEnumFieldDocumentation(
-            enum: EnumType,
-            value: EnumType.Value,
+            enum: Enum,
+            value: Enum.Value,
             ctx: Context
         ) =
             EnumDocumentationAnnotator(enum, ctx)

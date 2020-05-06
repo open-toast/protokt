@@ -15,13 +15,13 @@
 
 package com.toasttab.protokt.codegen.impl
 
-import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
+import com.toasttab.protokt.codegen.protoc.StandardField
+import com.toasttab.protokt.codegen.protoc.wireFormat
 import com.toasttab.protokt.codegen.template.Renderers.Box
 import com.toasttab.protokt.codegen.template.Renderers.BoxMap
 import com.toasttab.protokt.codegen.template.Renderers.NonDefaultValue
-import com.toasttab.protokt.codegen.wireFormat
 
 internal val StandardField.tag
     get() = (number shl 3) or if (repeated && packed) 2 else wireFormat

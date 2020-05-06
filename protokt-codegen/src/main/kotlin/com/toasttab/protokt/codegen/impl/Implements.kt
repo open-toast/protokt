@@ -16,17 +16,17 @@
 package com.toasttab.protokt.codegen.impl
 
 import arrow.syntax.function.memoize
-import com.toasttab.protokt.codegen.MessageType
-import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.impl.ClassLookup.getClass
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.possiblyQualify
+import com.toasttab.protokt.codegen.protoc.Message
+import com.toasttab.protokt.codegen.protoc.StandardField
 
 internal object Implements {
     fun StandardField.overrides(
         ctx: Context,
-        msg: MessageType
+        msg: Message
     ) =
         msg.options.protokt.implements.emptyToNone().fold(
             { false },
@@ -43,10 +43,10 @@ internal object Implements {
     private fun String.delegates() =
         contains(" by ")
 
-    val MessageType.doesImplement
+    val Message.doesImplement
         get() = options.protokt.implements.isNotEmpty()
 
-    val MessageType.implements
+    val Message.implements
         get() = options.protokt.implements
 }
 

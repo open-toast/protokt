@@ -22,11 +22,11 @@ import com.google.protobuf.DescriptorProtos.DescriptorProto
 import com.google.protobuf.DescriptorProtos.EnumDescriptorProto
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest
-import com.toasttab.protokt.codegen.FileOptions
-import com.toasttab.protokt.codegen.fileOptions
 import com.toasttab.protokt.codegen.impl.STAnnotator.protoktPkg
 import com.toasttab.protokt.codegen.impl.STAnnotator.rootGoogleProto
 import com.toasttab.protokt.codegen.model.PPackage
+import com.toasttab.protokt.codegen.protoc.FileOptions
+import com.toasttab.protokt.codegen.protoc.fileOptions
 
 fun packagesByTypeName(
     req: CodeGeneratorRequest,

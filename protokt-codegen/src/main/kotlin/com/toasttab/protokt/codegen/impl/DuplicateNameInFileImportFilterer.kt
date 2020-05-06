@@ -16,9 +16,9 @@
 package com.toasttab.protokt.codegen.impl
 
 import com.google.common.annotations.VisibleForTesting
-import com.toasttab.protokt.codegen.MessageType
-import com.toasttab.protokt.codegen.TypeDesc
 import com.toasttab.protokt.codegen.algebra.AST
+import com.toasttab.protokt.codegen.protoc.Message
+import com.toasttab.protokt.codegen.protoc.TypeDesc
 
 fun Sequence<Import>.filterClassesWithSameNameAsMessageIn(
     asts: List<AST<TypeDesc>>
@@ -34,14 +34,14 @@ internal fun Sequence<Import>.filterClassesWithSameNameAsMessageIn(
 private fun allMessageNames(asts: List<AST<TypeDesc>>) =
     asts.asSequence().flatMap {
         when (val t = it.data.type.rawType) {
-            is MessageType -> names(t)
+            is Message -> names(t)
             else -> emptySequence()
         }
     }
 
-private fun names(m: MessageType): Sequence<String> =
+private fun names(m: Message): Sequence<String> =
     sequenceOf(m.name) +
         m.nestedTypes
             .asSequence()
-            .filterIsInstance<MessageType>()
+            .filterIsInstance<Message>()
             .flatMap { names(it) }

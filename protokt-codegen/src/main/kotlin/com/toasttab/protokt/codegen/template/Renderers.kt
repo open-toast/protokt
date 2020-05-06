@@ -15,25 +15,25 @@
 
 package com.toasttab.protokt.codegen.template
 
-import com.toasttab.protokt.codegen.Field
-import com.toasttab.protokt.codegen.StandardField
-import com.toasttab.protokt.rt.PType
+import com.toasttab.protokt.codegen.model.FieldType
+import com.toasttab.protokt.codegen.protoc.Field
+import com.toasttab.protokt.codegen.protoc.StandardField
 
 abstract class RenderersTemplate : StTemplate(StGroup.Renderers)
 
 object Renderers {
     object Read : RenderersTemplate() {
-        fun render(type: PType, builder: String) =
+        fun render(type: FieldType, builder: String) =
             renderArgs(type, builder)
     }
 
     object Box : RenderersTemplate() {
-        fun render(type: PType, def: String) =
+        fun render(type: FieldType, def: String) =
             renderArgs(type, def)
     }
 
     object BoxMap : RenderersTemplate() {
-        fun render(type: PType, box: String) =
+        fun render(type: FieldType, box: String) =
             renderArgs(type, box)
     }
 
@@ -43,7 +43,7 @@ object Renderers {
     }
 
     object DefaultValue : RenderersTemplate() {
-        fun render(field: Field, type: PType, name: String) =
+        fun render(field: Field, type: FieldType, name: String) =
             renderArgs(field, type, name)
     }
 

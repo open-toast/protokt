@@ -20,9 +20,9 @@ import arrow.core.None
 import arrow.core.Some
 import arrow.core.getOrHandle
 import arrow.syntax.function.memoize
-import com.toasttab.protokt.codegen.ProtocolContext
-import com.toasttab.protokt.codegen.classpath
 import com.toasttab.protokt.codegen.model.PClass
+import com.toasttab.protokt.codegen.protoc.ProtocolContext
+import com.toasttab.protokt.codegen.protoc.classpath
 import com.toasttab.protokt.ext.Converter
 import java.io.File
 import java.net.URLClassLoader

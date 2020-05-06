@@ -19,25 +19,25 @@ import arrow.core.None
 import arrow.core.Option
 import arrow.core.Some
 import arrow.core.getOrElse
-import com.toasttab.protokt.codegen.MessageType
-import com.toasttab.protokt.codegen.Oneof
-import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.impl.MessageAnnotator.idealMaxWidth
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptReadFn
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapperName
+import com.toasttab.protokt.codegen.model.FieldType
+import com.toasttab.protokt.codegen.protoc.Message
+import com.toasttab.protokt.codegen.protoc.Oneof
+import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.codegen.template.Message.Message.DeserializerInfo
 import com.toasttab.protokt.codegen.template.Message.Message.DeserializerInfo.Assignment
 import com.toasttab.protokt.codegen.template.Oneof as OneofTemplate
 import com.toasttab.protokt.codegen.template.Renderers.Deserialize
 import com.toasttab.protokt.codegen.template.Renderers.Deserialize.Options
 import com.toasttab.protokt.codegen.template.Renderers.Read
-import com.toasttab.protokt.rt.PType
 
 internal class DeserializerAnnotator
 private constructor(
-    private val msg: MessageType,
+    private val msg: Message,
     private val ctx: Context
 ) {
     private fun annotateDeserializer(): List<DeserializerInfo> =
@@ -103,7 +103,7 @@ private constructor(
                 }
         )
 
-    private fun MessageType.flattenedSortedFields() =
+    private fun Message.flattenedSortedFields() =
         fields.flatMap {
             when (it) {
                 is StandardField ->
@@ -130,8 +130,7 @@ private constructor(
             type = type,
             builder =
                 when (type) {
-                    PType.ENUM,
-                    PType.MESSAGE -> stripQualification(ctx, this)
+                    FieldType.ENUM, FieldType.MESSAGE -> stripQualification(ctx, this)
                     else -> ""
                 }
         )
@@ -152,7 +151,7 @@ private constructor(
     }
 
     companion object {
-        fun annotateDeserializer(msg: MessageType, ctx: Context) =
+        fun annotateDeserializer(msg: Message, ctx: Context) =
             DeserializerAnnotator(msg, ctx).annotateDeserializer()
     }
 }

@@ -17,11 +17,11 @@ package com.toasttab.protokt.codegen.impl
 
 import com.google.protobuf.DescriptorProtos.DescriptorProto.FIELD_FIELD_NUMBER
 import com.google.protobuf.DescriptorProtos.DescriptorProto.ONEOF_DECL_FIELD_NUMBER
-import com.toasttab.protokt.codegen.Field
-import com.toasttab.protokt.codegen.Oneof
-import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.impl.MessageDocumentationAnnotator.baseLocation
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
+import com.toasttab.protokt.codegen.protoc.Field
+import com.toasttab.protokt.codegen.protoc.Oneof
+import com.toasttab.protokt.codegen.protoc.StandardField
 
 internal class PropertyDocumentationAnnotator
 private constructor(

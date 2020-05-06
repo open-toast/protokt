@@ -13,43 +13,43 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen
+package com.toasttab.protokt.codegen.protoc
 
 import arrow.core.None
 import arrow.core.Option
 import com.google.protobuf.DescriptorProtos
 import com.google.protobuf.DescriptorProtos.DescriptorProto
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
+import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.ext.Protokt
-import com.toasttab.protokt.rt.PType
 import com.toasttab.protokt.shared.KOTLIN_EXTRA_CLASSPATH
 import com.toasttab.protokt.shared.RESPECT_JAVA_PACKAGE
 
-sealed class Type
+sealed class TopLevelType
 
-class MessageType(
+class Message(
     val name: String,
     val fields: List<Field>,
-    val nestedTypes: List<Type>,
+    val nestedTypes: List<TopLevelType>,
     val mapEntry: Boolean,
     val options: MessageOptions,
     val index: Int,
     val fullProtobufTypeName: String
-) : Type()
+) : TopLevelType()
 
 data class MessageOptions(
     val default: DescriptorProtos.MessageOptions,
     val protokt: Protokt.ProtoktMessageOptions
 )
 
-class EnumType(
+class Enum(
     val name: String,
     val options: EnumOptions,
     val values: List<Value>,
     val index: Int
-) : Type() {
+) : TopLevelType() {
     class Value(
         val number: Int,
         val name: String,
@@ -69,13 +69,13 @@ class EnumValueOptions(
     val protokt: Protokt.ProtoktEnumValueOptions
 )
 
-class ServiceType(
+class Service(
     val name: String,
     val type: String,
     val methods: List<Method>,
     val deprecated: Boolean,
     val options: ServiceOptions
-) : Type()
+) : TopLevelType()
 
 class ServiceOptions(
     val default: DescriptorProtos.ServiceOptions,
@@ -103,7 +103,7 @@ class StandardField(
     val number: Int,
     val name: String,
     val fieldName: String,
-    val type: PType,
+    val type: FieldType,
     val typePClass: PClass,
     val repeated: Boolean,
     val optional: Boolean,
@@ -120,25 +120,26 @@ class FieldOptions(
 )
 
 val StandardField.wireFormat
-    get() = when (type) {
-        PType.BOOL,
-        PType.ENUM,
-        PType.INT32,
-        PType.INT64,
-        PType.SINT32,
-        PType.SINT64,
-        PType.UINT32,
-        PType.UINT64 -> 0
-        PType.DOUBLE,
-        PType.FIXED64,
-        PType.SFIXED64 -> 1
-        PType.BYTES,
-        PType.MESSAGE,
-        PType.STRING -> 2
-        PType.FLOAT,
-        PType.FIXED32,
-        PType.SFIXED32 -> 5
-    }
+    get() =
+        when (type) {
+            FieldType.BOOL,
+            FieldType.ENUM,
+            FieldType.INT32,
+            FieldType.INT64,
+            FieldType.SINT32,
+            FieldType.SINT64,
+            FieldType.UINT32,
+            FieldType.UINT64 -> 0
+            FieldType.DOUBLE,
+            FieldType.FIXED64,
+            FieldType.SFIXED64 -> 1
+            FieldType.BYTES,
+            FieldType.MESSAGE,
+            FieldType.STRING -> 2
+            FieldType.FLOAT,
+            FieldType.FIXED32,
+            FieldType.SFIXED32 -> 5
+        }
 
 class Oneof(
     val name: String,
@@ -214,11 +215,11 @@ class FileOptions(
 
 class Protocol(
     val desc: FileDesc,
-    val types: List<Type>
+    val types: List<TopLevelType>
 )
 
 class AnnotatedType(
-    val rawType: Type,
+    val rawType: TopLevelType,
     val code: Option<String> = None
 )
 

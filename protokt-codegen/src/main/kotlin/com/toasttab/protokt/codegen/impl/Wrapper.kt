@@ -18,17 +18,18 @@ package com.toasttab.protokt.codegen.impl
 import arrow.core.None
 import arrow.core.Some
 import arrow.syntax.function.memoize
-import com.toasttab.protokt.codegen.ProtocolContext
-import com.toasttab.protokt.codegen.StandardField
-import com.toasttab.protokt.codegen.classpath
-import com.toasttab.protokt.codegen.fileName
 import com.toasttab.protokt.codegen.impl.ClassLookup.converters
 import com.toasttab.protokt.codegen.impl.ClassLookup.getClass
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.WellKnownTypes.wrapWithWellKnownInterception
+import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.model.possiblyQualify
+import com.toasttab.protokt.codegen.protoc.ProtocolContext
+import com.toasttab.protokt.codegen.protoc.StandardField
+import com.toasttab.protokt.codegen.protoc.classpath
+import com.toasttab.protokt.codegen.protoc.fileName
 import com.toasttab.protokt.codegen.template.Options.AccessField
 import com.toasttab.protokt.codegen.template.Options.BytesSlice
 import com.toasttab.protokt.codegen.template.Options.DefaultBytesSlice
@@ -38,7 +39,6 @@ import com.toasttab.protokt.codegen.template.Options.WrapField
 import com.toasttab.protokt.codegen.template.Renderers.ConcatWithScope
 import com.toasttab.protokt.codegen.template.Renderers.FieldSizeof
 import com.toasttab.protokt.ext.OptimizedSizeofConverter
-import com.toasttab.protokt.rt.PType
 import kotlin.reflect.KClass
 
 internal object Wrapper {
@@ -249,7 +249,7 @@ internal object Wrapper {
         ifNotSingularMessage: () -> R,
         ifSingularMessage: () -> R
     ) =
-        if (type == PType.MESSAGE && !repeated) {
+        if (type == FieldType.MESSAGE && !repeated) {
             ifSingularMessage()
         } else {
             ifNotSingularMessage()

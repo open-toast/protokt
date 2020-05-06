@@ -17,16 +17,16 @@ package com.toasttab.protokt.codegen.impl
 
 import arrow.core.None
 import arrow.core.Some
-import com.toasttab.protokt.codegen.MessageType
-import com.toasttab.protokt.codegen.Oneof
-import com.toasttab.protokt.codegen.StandardField
-import com.toasttab.protokt.codegen.TypeDesc
 import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
-import com.toasttab.protokt.codegen.respectJavaPackage
+import com.toasttab.protokt.codegen.protoc.Message
+import com.toasttab.protokt.codegen.protoc.Oneof
+import com.toasttab.protokt.codegen.protoc.StandardField
+import com.toasttab.protokt.codegen.protoc.TypeDesc
+import com.toasttab.protokt.codegen.protoc.respectJavaPackage
 import com.toasttab.protokt.codegen.template.Renderers.ConcatWithScope
 
-internal fun resolveMapEntry(m: MessageType, ctx: Context) =
+internal fun resolveMapEntry(m: Message, ctx: Context) =
     MapTypeParams(
         (m.fields[0] as StandardField).unqualifiedTypeName,
         (m.fields[1] as StandardField).typePClass.renderName(ctx.pkg)

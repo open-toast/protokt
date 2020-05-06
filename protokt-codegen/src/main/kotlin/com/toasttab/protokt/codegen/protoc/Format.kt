@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen
+package com.toasttab.protokt.codegen.protoc
 
 internal object Keywords {
     val reserved =
@@ -49,6 +49,7 @@ internal object Keywords {
             "messageSize",
             "emptyList"
         )
+
     val kotlinReserved =
         setOf(
             "as",

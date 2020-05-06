@@ -20,10 +20,6 @@ import arrow.core.Option
 import arrow.core.Some
 import arrow.core.getOrElse
 import arrow.core.toOption
-import com.toasttab.protokt.codegen.Field
-import com.toasttab.protokt.codegen.MessageType
-import com.toasttab.protokt.codegen.Oneof
-import com.toasttab.protokt.codegen.StandardField
 import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
 import com.toasttab.protokt.codegen.impl.Implements.overrides
 import com.toasttab.protokt.codegen.impl.NonNullable.hasNonNullOption
@@ -33,16 +29,20 @@ import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptDefaultValue
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptTypeName
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
+import com.toasttab.protokt.codegen.model.FieldType
+import com.toasttab.protokt.codegen.protoc.Field
+import com.toasttab.protokt.codegen.protoc.Message
+import com.toasttab.protokt.codegen.protoc.Oneof
+import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.codegen.template.Message.Message.PropertyInfo
 import com.toasttab.protokt.codegen.template.Oneof as OneofTemplate
 import com.toasttab.protokt.codegen.template.Renderers.DefaultValue
 import com.toasttab.protokt.codegen.template.Renderers.Standard
 import com.toasttab.protokt.codegen.template.Renderers.Type
-import com.toasttab.protokt.rt.PType
 
 internal class PropertyAnnotator
 private constructor(
-    private val msg: MessageType,
+    private val msg: Message,
     private val ctx: Context
 ) {
     private fun annotateProperties(): List<PropertyInfo> {
@@ -116,16 +116,16 @@ private constructor(
 
     private fun findType(
         tn: String,
-        msg: MessageType
-    ): Option<MessageType> {
+        msg: Message
+    ): Option<Message> {
         val n = tn.split(".").let { if (it.isEmpty()) tn else it.last() }
         return msg.nestedTypes.find {
             when (it) {
-                is MessageType ->
+                is Message ->
                     if (it.name == n) Some(it) else findType(n, it)
                 else -> None
             }.isDefined()
-        }.toOption().map { f -> f as MessageType }
+        }.toOption().map { f -> f as Message }
     }
 
     private fun Field.defaultValue() =
@@ -137,7 +137,7 @@ private constructor(
                         field = this,
                         type = type,
                         name =
-                            if (type == PType.ENUM) {
+                            if (type == FieldType.ENUM) {
                                 typePClass.renderName(ctx.pkg)
                             } else {
                                 ""
@@ -150,7 +150,7 @@ private constructor(
         }
 
     companion object {
-        fun annotateProperties(msg: MessageType, ctx: Context) =
+        fun annotateProperties(msg: Message, ctx: Context) =
             PropertyAnnotator(msg, ctx).annotateProperties()
     }
 }
