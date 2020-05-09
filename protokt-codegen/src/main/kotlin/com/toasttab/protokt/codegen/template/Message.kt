@@ -58,7 +58,7 @@ object Message {
             val defaultValue: String,
             val nullable: Boolean,
             val nonNullOption: Boolean,
-            val messageType: String = "",
+            val fieldType: String = "",
             val repeated: Boolean = false,
             val map: Boolean = false,
             val oneOf: Boolean = false,

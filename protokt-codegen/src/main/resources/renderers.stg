@@ -80,7 +80,7 @@ deserializeType(p) ::= <%
 %>
 
 deserializeValue(p) ::= <%
-    <if (p.repeated || isMessage.(p.messageType) || p.wrapped)>
+    <if (p.repeated || isMessage.(p.fieldType) || p.wrapped)>
         null
     <else>
         <p.defaultValue>
@@ -112,7 +112,7 @@ deserializeWrapper(p) ::= <%
 
 deserializeVar(p) ::= <%
     <p.name>
-    <if (isMessage.(p.messageType) || p.repeated || p.oneOf || p.nullable || p.wrapped)>
+    <if (isMessage.(p.fieldType) || p.repeated || p.oneOf || p.nullable || p.wrapped)>
     : <deserializeType(p)>
     <endif>
     <\ >= <deserializeValue(p)>
@@ -129,17 +129,6 @@ defaultValue(field, type, name) ::= <%
         <name><kotlinDefaultValues.(type)>
     <else>
         <kotlinDefaultValues.(type)>
-    <endif>
-%>
-
-defaultConstructorExp() ::= <%
-    <if (
-        ((p.messageType.scalar || isBytes.(p.messageType)) && !p.wrapped) ||
-        p.repeated ||
-        p.nullable ||
-        isEnum.(p.messageType)
-    )>
-        <\ >= <p.defaultValue>
     <endif>
 %>
 

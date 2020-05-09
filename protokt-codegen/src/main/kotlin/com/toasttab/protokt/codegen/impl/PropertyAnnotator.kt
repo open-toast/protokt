@@ -61,7 +61,7 @@ private constructor(
                             deserializeType = deserializeType(it, type),
                             dslPropertyType = dslPropertyType(it, type),
                             defaultValue = it.defaultValue(ctx),
-                            messageType = it.type.toString(),
+                            fieldType = it.type.toString(),
                             repeated = it.repeated,
                             map = it.map,
                             nullable = it.nullable,
