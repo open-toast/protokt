@@ -76,10 +76,7 @@ deserializeType(p) ::= <%
     <if (p.repeated || p.map)>
         Mutable
     <endif>
-    <p.type>
-    <if ((p.wrapped && !isMessage.(p.messageType)) || p.nonNullOption || p.repeated)>
-        ?
-    <endif>
+    <p.deserializeType>
 %>
 
 deserializeValue(p) ::= <%
@@ -204,19 +201,11 @@ deserialize(field, read, lhs, options) ::= <<
 
 deserializerRead(read) ::= "deserializer.<read>"
 
-standard(field, any, nullable) ::= <%
+standard(field, any) ::= <%
     <if (field.map)>
         Map\<<any.kType>, <any.vType>>
     <elseif (field.repeated)>
         List\<<any>>
-    <else>
-        <type(field, any, nullable, false)>
-    <endif>
-%>
-
-type(field, any, nullable, oneof) ::= <%
-    <if ((oneof || isMessage.(field.type)) && nullable)>
-        <any>?
     <else>
         <any>
     <endif>

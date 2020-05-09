@@ -17,8 +17,8 @@ import "renderers.stg"
 
 entry(name, key, value) ::= <<
 private class <name>(
-    val key: <key.fieldType>,
-    val value: <value.fieldType>
+    val key: <key.propertyType>,
+    val value: <value.propertyType>
 ) : KtMessage {
     override val messageSize
         get() = sizeof(key, value)
@@ -35,7 +35,7 @@ private class <name>(
 
 entryCompanion() ::= <<
 companion object Deserializer : KtDeserializer\<<name>\> {
-    fun sizeof(key: <key.fieldType>, value: <value.fieldType>) =
+    fun sizeof(key: <key.propertyType>, value: <value.propertyType>) =
         <key.sizeof> + <value.sizeof>
 
     override fun deserialize(deserializer: KtMessageDeserializer): <name> {
@@ -62,7 +62,6 @@ deserializeVar(p) ::= <%
 
 orDefault(p) ::= <%
     <if (isMessage.(p.messageType))>
-        ?: <value.fieldType> {}
+        ?: <value.propertyType> {}
     <endif>
 %>
-

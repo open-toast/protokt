@@ -25,9 +25,9 @@ object Entry {
             renderArgs(name, key, value)
 
         class PropertyInfo(
-            val fieldType: String,
+            val propertyType: String,
             val messageType: String,
-            val type: String,
+            val deserializeType: String,
             val sizeof: String,
             val serialize: String,
             val defaultValue: String,
@@ -35,7 +35,7 @@ object Entry {
         )
 
         class DeserializerInfo(
-            val tag: Int,
+            val tag: String,
             val assignment: String
         )
     }

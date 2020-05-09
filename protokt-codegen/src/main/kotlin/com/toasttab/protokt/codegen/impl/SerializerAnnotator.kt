@@ -18,7 +18,7 @@ package com.toasttab.protokt.codegen.impl
 import arrow.core.None
 import arrow.core.Option
 import arrow.core.Some
-import com.toasttab.protokt.codegen.impl.NonNullable.hasNonNullOption
+import com.toasttab.protokt.codegen.impl.Nullability.hasNonNullOption
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
 import com.toasttab.protokt.codegen.protoc.Message
@@ -47,7 +47,7 @@ private constructor(
                         listOf(
                             ConditionalParams(
                                 it.nonDefault(ctx),
-                                serializeString(it, ctx)
+                                serializeString(it)
                             )
                         )
                     )
@@ -64,64 +64,63 @@ private constructor(
         }
     }
 
+    private fun serializeString(
+        f: StandardField,
+        t: Option<String> = None
+    ): String {
+        val fieldAccess =
+            t.fold(
+                {
+                    interceptValueAccess(
+                        f,
+                        ctx,
+                        if (f.repeated) {
+                            IterationVar.render()
+                        } else {
+                            f.fieldName
+                        }
+                    )
+                },
+                {
+                    interceptValueAccess(
+                        f,
+                        ctx,
+                        ConcatWithScope.render(
+                            scope = it,
+                            value = f.fieldName
+                        )
+                    )
+                }
+            )
+
+        return Serialize.render(
+            field = f,
+            name = f.fieldName,
+            tag = f.tag,
+            box =
+                if (f.map) {
+                    f.boxMap(ctx)
+                } else {
+                    f.box(fieldAccess)
+                },
+            options =
+                Options(
+                    fieldAccess = fieldAccess
+                )
+        )
+    }
+
     private fun oneOfSer(f: Oneof, ff: StandardField, type: String) =
         ConditionalParams(
             ConcatWithScope.render(
                 scope = oneOfScope(f, type, ctx),
                 value = f.fieldTypeNames.getValue(ff.name)
             ),
-            serializeString(ff, ctx, Some(f.fieldName))
+            serializeString(ff, Some(f.fieldName))
         )
 
     companion object {
         fun annotateSerializer(msg: Message, ctx: Context) =
             SerializerAnnotator(msg, ctx).annotateSerializer()
-
-        fun serializeString(
-            f: StandardField,
-            ctx: Context,
-            t: Option<String> = None
-        ): String {
-            val fieldAccess =
-                t.fold(
-                    {
-                        interceptValueAccess(
-                            f,
-                            ctx,
-                            if (f.repeated) {
-                                IterationVar.render()
-                            } else {
-                                f.fieldName
-                            }
-                        )
-                    },
-                    {
-                        interceptValueAccess(
-                            f,
-                            ctx,
-                            ConcatWithScope.render(
-                                scope = it,
-                                value = f.fieldName
-                            )
-                        )
-                    }
-                )
-
-            return Serialize.render(
-                field = f,
-                name = f.fieldName,
-                tag = f.tag,
-                box =
-                    if (f.map) {
-                        f.boxMap(ctx)
-                    } else {
-                        f.box(fieldAccess)
-                    },
-                options =
-                    Options(
-                        fieldAccess = fieldAccess
-                    )
-            )
-        }
     }
 }

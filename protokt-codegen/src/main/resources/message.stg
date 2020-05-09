@@ -29,7 +29,7 @@ private constructor(
     <blockComment(p.documentation)><\\>
     <deprecated(p)><\\>
     <messagePropertyOverrides()><\\>
-    val <p.name>: <p.type><\\>
+    val <p.name>: <p.propertyType><\\>
     }; separator=",\n"><if (properties)>,<endif>
     val unknown: Map\<Int, Unknown> = emptyMap()
 ) : KtMessage<messageImplements()> {

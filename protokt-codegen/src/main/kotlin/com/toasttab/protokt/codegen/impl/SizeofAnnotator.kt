@@ -18,7 +18,7 @@ package com.toasttab.protokt.codegen.impl
 import arrow.core.None
 import arrow.core.Option
 import arrow.core.Some
-import com.toasttab.protokt.codegen.impl.NonNullable.hasNonNullOption
+import com.toasttab.protokt.codegen.impl.Nullability.hasNonNullOption
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptFieldSizeof
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptSizeof
@@ -44,12 +44,12 @@ private constructor(
                 is StandardField ->
                     SizeofInfo(
                         true,
-                        "",
+                        it.fieldName,
                         !it.hasNonNullOption,
                         listOf(
                             ConditionalParams(
                                 it.nonDefault(ctx),
-                                sizeOfString(it, ctx, None)
+                                sizeOfString(it, None)
                             )
                         )
                     )
@@ -64,6 +64,34 @@ private constructor(
         }
     }
 
+    private fun sizeOfString(
+        f: StandardField,
+        oneOfFieldAccess: Option<String>
+    ): String {
+        val name =
+            oneOfFieldAccess.fold(
+                {
+                    if (f.repeated) {
+                        f.fieldName
+                    } else {
+                        interceptSizeof(f, f.fieldName, ctx)
+                    }
+                },
+                { it }
+            )
+        return Sizeof.render(
+            name = name,
+            field = f,
+            type = f.unqualifiedNestedTypeName(ctx),
+            options =
+                Options(
+                    fieldSizeof = interceptFieldSizeof(f, name, ctx),
+                    fieldAccess =
+                        interceptValueAccess(f, ctx, IterationVar.render())
+                )
+        )
+    }
+
     private fun oneofSize(f: Oneof, type: String) =
         f.fields.map {
             ConditionalParams(
@@ -73,7 +101,6 @@ private constructor(
                 ),
                 sizeOfString(
                     it,
-                    ctx,
                     Some(
                         interceptSizeof(
                             it,
@@ -91,34 +118,5 @@ private constructor(
     companion object {
         fun annotateSizeof(msg: Message, ctx: Context) =
             SizeofAnnotator(msg, ctx).annotateSizeof()
-
-        fun sizeOfString(
-            f: StandardField,
-            ctx: Context,
-            oneOfFieldAccess: Option<String>
-        ): String {
-            val name =
-                oneOfFieldAccess.fold(
-                    {
-                        if (f.repeated) {
-                            f.fieldName
-                        } else {
-                            interceptSizeof(f, f.fieldName, ctx)
-                        }
-                    },
-                    { it }
-                )
-            return Sizeof.render(
-                name = name,
-                field = f,
-                type = f.unqualifiedNestedTypeName(ctx),
-                options =
-                    Options(
-                        fieldSizeof = interceptFieldSizeof(f, name, ctx),
-                        fieldAccess =
-                        interceptValueAccess(f, ctx, IterationVar.render())
-                    )
-            )
-        }
     }
 }

@@ -60,7 +60,7 @@ override fun invoke(dsl: <message.name>Dsl.() -> Unit) =
 dslVar(p) ::= <%
     <p.name>
     <if (isMessage.(p.messageType) || p.oneOf || p.nullable || p.wrapped || p.repeated || p.map)>
-        : <dslType(p)>
+        : <p.dslPropertyType>
     <endif>
 
     <\ >= <dslValue(p)>
@@ -69,13 +69,6 @@ dslVar(p) ::= <%
         <\n><t()>set(newValue) { field = copyMap(newValue) }
     <elseif (p.repeated)>
         <\n><t()>set(newValue) { field = copyList(newValue) }
-    <endif>
-%>
-
-dslType(p) ::= <%
-    <p.type>
-    <if (((p.wrapped && !isMessage.(p.messageType)) || p.nonNullOption) && !p.repeated)>
-        ?
     <endif>
 %>
 

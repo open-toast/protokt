@@ -52,35 +52,42 @@ object Message {
 
         class PropertyInfo(
             val name: String,
-            val type: String,
+            val propertyType: String,
+            val deserializeType: String,
+            val dslPropertyType: String,
             val defaultValue: String,
+            val nullable: Boolean,
+            val nonNullOption: Boolean,
             val messageType: String = "",
             val repeated: Boolean = false,
             val map: Boolean = false,
             val oneOf: Boolean = false,
-            val nullable: Boolean = true,
             val wrapped: Boolean = false,
-            val nonNullOption: Boolean,
             val overrides: Boolean = false,
             val documentation: List<String>,
             val deprecation: Deprecation.RenderOptions? = null
         )
 
+        interface FieldWriteInfo {
+            val fieldName: String
+            val conditionals: List<ConditionalParams>
+        }
+
         class SizeofInfo(
             val std: Boolean,
-            val fieldName: String,
+            override val fieldName: String,
             val skipDefaultValue: Boolean,
             /** A singleton list for standard fields; one per type for enum fields */
-            val conditionals: List<ConditionalParams>
-        )
+            override val conditionals: List<ConditionalParams>
+        ) : FieldWriteInfo
 
         class SerializerInfo(
             val std: Boolean,
-            val fieldName: String,
+            override val fieldName: String,
             val skipDefaultValue: Boolean,
             /** A singleton list for standard fields; one per type for enum fields */
-            val conditionals: List<ConditionalParams>
-        )
+            override val conditionals: List<ConditionalParams>
+        ) : FieldWriteInfo
 
         class DeserializerInfo(
             val std: Boolean,
