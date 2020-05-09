@@ -154,9 +154,5 @@ private constructor(
     companion object {
         fun annotateProperties(msg: Message, ctx: Context) =
             PropertyAnnotator(msg, ctx).annotateProperties()
-
-        fun annotateProperty(f: StandardField, msg: Message, ctx: Context) =
-            PropertyAnnotator(msg, ctx).annotateProperties()
-                .single { it.name == f.fieldName }
     }
 }

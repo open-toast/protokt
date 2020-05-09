@@ -16,7 +16,7 @@
 package com.toasttab.protokt.codegen.impl
 
 import com.toasttab.protokt.codegen.impl.DeserializerAnnotator.Companion.annotateDeserializer
-import com.toasttab.protokt.codegen.impl.PropertyAnnotator.Companion.annotateProperty
+import com.toasttab.protokt.codegen.impl.PropertyAnnotator.Companion.annotateProperties
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.SerializerAnnotator.Companion.annotateSerializer
 import com.toasttab.protokt.codegen.impl.SizeofAnnotator.Companion.annotateSizeof
@@ -31,69 +31,69 @@ private constructor(
     private val msg: Message,
     private val ctx: Context
 ) {
-    private fun annotateMapEntry() =
-        resolveMapEntry(msg).let { entryInfo ->
-            annotateDeserializer(msg, ctx).let { desInfo ->
-                annotateSizeof(msg, ctx).let { sizeInfo ->
-                    annotateSerializer(msg, ctx).let { serInfo ->
-                        Entry.render(
-                            name = msg.name,
-                            key =
-                                prop(
-                                    entryInfo.key,
-                                    entryInfo.key.unqualifiedTypeName,
-                                    sizeInfo,
-                                    serInfo,
-                                    desInfo
-                                ),
-                            value =
-                                prop(
-                                    entryInfo.value,
-                                    entryInfo.value.typePClass.renderName(ctx.pkg),
-                                    sizeInfo,
-                                    serInfo,
-                                    desInfo
-                                )
-                        )
-                    }
-                }
-            }
-        }
+    private fun annotateMapEntry(): String {
+        val entryInfo = resolveMapEntry(msg)
+        val desInfo = annotateDeserializer(msg, ctx)
+        val sizeInfo = annotateSizeof(msg, ctx)
+        val serInfo = annotateSerializer(msg, ctx)
+        val propInfo = annotateProperties(msg, ctx)
+
+        return Entry.render(
+            name = msg.name,
+            key =
+                prop(
+                    entryInfo.key,
+                    entryInfo.key.unqualifiedTypeName,
+                    sizeInfo,
+                    serInfo,
+                    desInfo,
+                    propInfo
+                ),
+            value =
+                prop(
+                    entryInfo.value,
+                    entryInfo.value.typePClass.renderName(ctx.pkg),
+                    sizeInfo,
+                    serInfo,
+                    desInfo,
+                    propInfo
+                )
+        )
+    }
 
     private fun prop(
         f: StandardField,
         type: String,
         sizeofInfo: List<MessageTemplate.SizeofInfo>,
         serializerInfo: List<MessageTemplate.SerializerInfo>,
-        deserializerInfo: List<MessageTemplate.DeserializerInfo>
+        deserializerInfo: List<MessageTemplate.DeserializerInfo>,
+        propInfo: List<MessageTemplate.PropertyInfo>
     ) =
-        annotateProperty(f, msg, ctx).let { propInfo ->
-            Entry.PropertyInfo(
-                propertyType = type,
-                messageType = f.type.toString(),
-                deserializeType = propInfo.deserializeType,
-                sizeof = sizeofInfo.consequent(f),
-                serialize = serializerInfo.consequent(f),
-                defaultValue = propInfo.defaultValue,
-                deserialize =
-                    deserializerInfo.single {
-                        it.assignment.fieldName == f.fieldName
-                    }.let {
-                        DeserializerInfo(
-                            tag = it.tag,
-                            assignment = it.assignment.value
-                        )
-                    }
-            )
-        }
+        Entry.PropertyInfo(
+            propertyType = type,
+            messageType = f.type.toString(),
+            deserializeType = propInfo.single(f).deserializeType,
+            sizeof = sizeofInfo.consequent(f),
+            serialize = serializerInfo.consequent(f),
+            defaultValue = propInfo.single(f).defaultValue,
+            deserialize =
+                deserializerInfo.single(f).let {
+                    DeserializerInfo(
+                        tag = it.tag,
+                        assignment = it.assignment.value
+                    )
+                }
+        )
+
+    private fun <T : MessageTemplate.FieldInfo> List<T>.single(
+        f: StandardField
+    ) =
+        single { it.name == f.fieldName }
 
     private fun List<MessageTemplate.FieldWriteInfo>.consequent(
         f: StandardField
     ) =
-        single { it.fieldName == f.fieldName }
-            .conditionals
-            .single()
-            .consequent
+        single(f).conditionals.single().consequent
 
     companion object {
         fun annotateMapEntry(msg: Message, ctx: Context) =

@@ -50,8 +50,12 @@ object Message {
             val fullTypeName: String
         )
 
+        interface FieldInfo {
+            val name: String
+        }
+
         class PropertyInfo(
-            val name: String,
+            override val name: String,
             val propertyType: String,
             val deserializeType: String,
             val dslPropertyType: String,
@@ -66,11 +70,14 @@ object Message {
             val overrides: Boolean = false,
             val documentation: List<String>,
             val deprecation: Deprecation.RenderOptions? = null
-        )
+        ) : FieldInfo
 
-        interface FieldWriteInfo {
+        interface FieldWriteInfo : FieldInfo {
             val fieldName: String
             val conditionals: List<ConditionalParams>
+
+            override val name: String
+                get() = fieldName
         }
 
         class SizeofInfo(
@@ -94,12 +101,15 @@ object Message {
             val repeated: Boolean,
             val tag: String,
             val assignment: Assignment
-        ) {
+        ) : FieldInfo {
             class Assignment(
                 val fieldName: String,
                 val value: String,
                 val long: Boolean
             )
+
+            override val name
+                get() = assignment.fieldName
         }
 
         class Options(
