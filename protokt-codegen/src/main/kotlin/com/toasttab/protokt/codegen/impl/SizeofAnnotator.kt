@@ -49,7 +49,7 @@ private constructor(
                         listOf(
                             ConditionalParams(
                                 it.nonDefault(ctx),
-                                sizeOfString(it, None)
+                                sizeOfString(it, ctx, None)
                             )
                         )
                     )
@@ -64,34 +64,6 @@ private constructor(
         }
     }
 
-    private fun sizeOfString(
-        f: StandardField,
-        oneOfFieldAccess: Option<String>
-    ): String {
-        val name =
-            oneOfFieldAccess.fold(
-                {
-                    if (f.repeated) {
-                        f.fieldName
-                    } else {
-                        interceptSizeof(f, f.fieldName, ctx)
-                    }
-                },
-                { it }
-            )
-        return Sizeof.render(
-            name = name,
-            field = f,
-            type = f.unqualifiedNestedTypeName(ctx),
-            options =
-                Options(
-                    fieldSizeof = interceptFieldSizeof(f, name, ctx),
-                    fieldAccess =
-                        interceptValueAccess(f, ctx, IterationVar.render())
-                )
-        )
-    }
-
     private fun oneofSize(f: Oneof, type: String) =
         f.fields.map {
             ConditionalParams(
@@ -101,6 +73,7 @@ private constructor(
                 ),
                 sizeOfString(
                     it,
+                    ctx,
                     Some(
                         interceptSizeof(
                             it,
@@ -118,5 +91,34 @@ private constructor(
     companion object {
         fun annotateSizeof(msg: Message, ctx: Context) =
             SizeofAnnotator(msg, ctx).annotateSizeof()
+
+        fun sizeOfString(
+            f: StandardField,
+            ctx: Context,
+            oneOfFieldAccess: Option<String>
+        ): String {
+            val name =
+                oneOfFieldAccess.fold(
+                    {
+                        if (f.repeated) {
+                            f.fieldName
+                        } else {
+                            interceptSizeof(f, f.fieldName, ctx)
+                        }
+                    },
+                    { it }
+                )
+            return Sizeof.render(
+                name = name,
+                field = f,
+                type = f.unqualifiedNestedTypeName(ctx),
+                options =
+                    Options(
+                        fieldSizeof = interceptFieldSizeof(f, name, ctx),
+                        fieldAccess =
+                        interceptValueAccess(f, ctx, IterationVar.render())
+                    )
+            )
+        }
     }
 }

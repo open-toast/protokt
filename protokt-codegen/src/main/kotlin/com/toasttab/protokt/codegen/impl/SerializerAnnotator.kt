@@ -37,7 +37,7 @@ private constructor(
     private val ctx: Context
 ) {
     private fun annotateSerializer(): List<SerializerInfo> {
-        return msg.sortedFields().map {
+        return msg.fields.map {
             when (it) {
                 is StandardField ->
                     SerializerInfo(
@@ -47,7 +47,7 @@ private constructor(
                         listOf(
                             ConditionalParams(
                                 it.nonDefault(ctx),
-                                serializeString(it)
+                                serializeString(it, ctx)
                             )
                         )
                     )
@@ -64,75 +64,64 @@ private constructor(
         }
     }
 
-    private fun serializeString(
-        f: StandardField,
-        t: Option<String> = None
-    ): String {
-        val fieldAccess =
-            t.fold(
-                {
-                    interceptValueAccess(
-                        f,
-                        ctx,
-                        if (f.repeated) {
-                            IterationVar.render()
-                        } else {
-                            f.fieldName
-                        }
-                    )
-                },
-                {
-                    interceptValueAccess(
-                        f,
-                        ctx,
-                        ConcatWithScope.render(
-                            scope = it,
-                            value = f.fieldName
-                        )
-                    )
-                }
-            )
-
-        return Serialize.render(
-            field = f,
-            name = f.fieldName,
-            tag = f.tag,
-            box =
-                if (f.map) {
-                    f.boxMap(ctx)
-                } else {
-                    f.box(fieldAccess)
-                },
-            options =
-                Options(
-                    fieldAccess = fieldAccess
-                )
-        )
-    }
-
-    private data class SerializerOptions(
-        val fieldAccess: String
-    )
-
-    private fun Message.sortedFields() =
-        fields.sortedBy {
-            when (it) {
-                is StandardField -> it
-                is Oneof -> it.fields.first()
-            }.number
-        }
-
     private fun oneOfSer(f: Oneof, ff: StandardField, type: String) =
         ConditionalParams(
             ConcatWithScope.render(
                 scope = oneOfScope(f, type, ctx),
                 value = f.fieldTypeNames.getValue(ff.name)
             ),
-            serializeString(ff, Some(f.fieldName))
+            serializeString(ff, ctx, Some(f.fieldName))
         )
 
     companion object {
         fun annotateSerializer(msg: Message, ctx: Context) =
             SerializerAnnotator(msg, ctx).annotateSerializer()
+
+        fun serializeString(
+            f: StandardField,
+            ctx: Context,
+            t: Option<String> = None
+        ): String {
+            val fieldAccess =
+                t.fold(
+                    {
+                        interceptValueAccess(
+                            f,
+                            ctx,
+                            if (f.repeated) {
+                                IterationVar.render()
+                            } else {
+                                f.fieldName
+                            }
+                        )
+                    },
+                    {
+                        interceptValueAccess(
+                            f,
+                            ctx,
+                            ConcatWithScope.render(
+                                scope = it,
+                                value = f.fieldName
+                            )
+                        )
+                    }
+                )
+
+            return Serialize.render(
+                field = f,
+                name = f.fieldName,
+                tag = f.tag,
+                box =
+                    if (f.map) {
+                        f.boxMap(ctx)
+                    } else {
+                        f.box(fieldAccess)
+                    },
+                options =
+                    Options(
+                        fieldAccess = fieldAccess
+                    )
+            )
+        }
     }
 }

@@ -40,8 +40,7 @@ import com.toasttab.protokt.codegen.template.Renderers.DefaultValue
 import com.toasttab.protokt.codegen.template.Renderers.Standard
 import com.toasttab.protokt.codegen.template.Renderers.Type
 
-internal class PropertyAnnotator
-private constructor(
+internal class PropertyAnnotator(
     private val msg: Message,
     private val ctx: Context
 ) {
@@ -55,7 +54,7 @@ private constructor(
                     PropertyInfo(
                         name = it.fieldName,
                         type = annotateStandard(it),
-                        defaultValue = it.defaultValue(),
+                        defaultValue = defaultValue(it),
                         messageType = it.type.toString(),
                         repeated = it.repeated,
                         map = it.map,
@@ -83,7 +82,7 @@ private constructor(
                                 nullable = nullable,
                                 any = it.name
                             ),
-                        defaultValue = it.defaultValue(),
+                        defaultValue = defaultValue(it),
                         oneOf = true,
                         nullable = nullable,
                         nonNullOption = it.hasNonNullOption,
@@ -93,7 +92,7 @@ private constructor(
         }
     }
 
-    private fun annotateStandard(f: StandardField) =
+    fun annotateStandard(f: StandardField) =
         Standard.render(
             field = f,
             nullable = f.nullable,
@@ -128,17 +127,17 @@ private constructor(
         }.toOption().map { f -> f as Message }
     }
 
-    private fun Field.defaultValue() =
-        when (this) {
+    fun defaultValue(f: Field) =
+        when (f) {
             is StandardField ->
                 interceptDefaultValue(
-                    this,
+                    f,
                     DefaultValue.render(
-                        field = this,
-                        type = type,
+                        field = f,
+                        type = f.type,
                         name =
-                            if (type == FieldType.ENUM) {
-                                typePClass.renderName(ctx.pkg)
+                            if (f.type == FieldType.ENUM) {
+                                f.typePClass.renderName(ctx.pkg)
                             } else {
                                 ""
                             }

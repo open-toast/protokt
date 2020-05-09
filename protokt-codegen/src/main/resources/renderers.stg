@@ -96,22 +96,20 @@ requireNotNullMessage(p) ::= <%
     "<p.name> specified nonnull with (protokt.<if (p.oneOf)>oneof<else>property<endif>).non_null but was null"
 %>
 
-deserializeWrapper(v) ::= <%
+deserializeWrapper(p) ::= <%
     <if (p.nonNullOption)>
         requireNotNull(<p.name>) {<\n>
             <t()><requireNotNullMessage(p)><\n>
         }
     <else>
         <if (p.map)>
-            finishMap(<v>)
+            finishMap(<p.name>)
         <elseif (p.repeated)>
-            finishList(<v>)
+            finishList(<p.name>)
         <else>
-            <v>
+            <p.name>
             <if (p.wrapped && !p.nullable)>
                 <\ >?: <p.defaultValue>
-            <elseif (entry.entry && isMessage.(p.messageType))>
-                <\ >?: <entry.vType> {}
             <endif>
         <endif>
     <endif>

@@ -18,40 +18,25 @@ import "dsl.stg"
 import "options.stg"
 import "renderers.stg"
 
-message(message, entry, serialize, deserialize, plus, sizeof, nested, properties, oneofs, options) ::= <<
+message(message, entry, serialize, deserialize, sizeof, nested, properties, oneofs, options) ::= <<
 <blockComment(message.documentation)><\\>
 <suppressDeprecation(message)><\\>
 <deprecated(message)><\\>
-<if (entry.entry)><\\>
-private <\\>
-<else><\\>
 @KtGeneratedMessage("<message.fullTypeName>")
-<endif><\\>
 class <message.name><if (!entry.entry)><\n>private constructor<endif>(
-<if (entry.entry)>
-    val key: <entry.kType>,
-    val value: <entry.vType>
-) : KtMessage {
-<else>
-    <properties:{p |<\\>
-        <blockComment(p.documentation)><\\>
-        <deprecated(p)><\\>
-        <messagePropertyOverrides()><\\>
-        val <p.name>: <p.type><\\>
-    }; separator=",\n"><if (properties)>,<endif>
+<properties:{p |<\\>
+    <blockComment(p.documentation)><\\>
+    <deprecated(p)><\\>
+    <messagePropertyOverrides()><\\>
+    val <p.name>: <p.type><\\>
+}; separator=",\n"><if (properties)>,<endif>
     val unknown: Map\<Int, Unknown> = emptyMap()
 ) : KtMessage<messageImplements()> {
-<endif>
     <if (oneofs)>
     <oneofs:{it |<it>}; separator="\n\n">
     <else>
     <endif>
-    override val messageSize<\\>
-    <if (entry.entry)>
-        get() = sizeof(key, value)<\n>
-    <else><\\>
-        <\ >by lazy { sizeof() }
-    <endif>
+    override val messageSize by lazy { sizeof() }
 
     override fun serialize(serializer: KtMessageSerializer) {
         <serialize:{it | <\\>
@@ -72,14 +57,11 @@ class <message.name><if (!entry.entry)><\n>private constructor<endif>(
                 \}<\\>
             <endif><\\>
         }; separator="\n">
-        <if (!entry.entry)><\\>
-        if (unknown.isNotEmpty()) {<\n><\\>
-            <t()>serializer.writeUnknown(unknown)<\n><\\>
+        if (unknown.isNotEmpty()) {
+            serializer.writeUnknown(unknown)
         }
-        <endif>
     }
 
-    <if (!entry.entry)>
     private fun sizeof(): Int {
         var res = 0
         <sizeof:{it | <\\>
@@ -139,7 +121,6 @@ class <message.name><if (!entry.entry)><\n>private constructor<endif>(
         <endif>
 
     <dsl()>
-    <endif>
 
     <companion()>
     <if (nested)>

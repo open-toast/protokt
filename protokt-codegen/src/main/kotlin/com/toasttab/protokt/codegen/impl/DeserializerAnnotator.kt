@@ -48,7 +48,7 @@ private constructor(
                 field.tagList.joinToString(),
                 oneOf.fold(
                     {
-                        deserializeString(field).let { value ->
+                        deserializeString(field, ctx).let { value ->
                             Assignment(
                                 field.fieldName,
                                 value,
@@ -86,23 +86,6 @@ private constructor(
         return value.length > spaceLeft
     }
 
-    private fun deserializeString(f: StandardField) =
-        Deserialize.render(
-            field = f,
-            read = interceptReadFn(f, f.readFn()),
-            lhs = f.fieldName,
-            options =
-                if (f.wrapped) {
-                    Options(
-                        wrapName = wrapperName(f, ctx).getOrElse { "" },
-                        type = f.type.toString(),
-                        oneof = true
-                    )
-                } else {
-                    null
-                }
-        )
-
     private fun Message.flattenedSortedFields() =
         fields.flatMap {
             when (it) {
@@ -122,36 +105,53 @@ private constructor(
         OneofTemplate.Deserialize.render(
             oneof = f.name,
             name = f.fieldTypeNames.getValue(ff.name),
-            read = deserializeString(ff)
+            read = deserializeString(ff, ctx)
         )
-
-    private fun StandardField.readFn() =
-        Read.render(
-            type = type,
-            builder =
-                when (type) {
-                    FieldType.ENUM, FieldType.MESSAGE -> stripQualification(ctx, this)
-                    else -> ""
-                }
-        )
-
-    private fun stripQualification(ctx: Context, f: StandardField) =
-        stripEnclosingMessageName(f.typePClass.renderName(ctx.pkg), ctx)
-
-    private fun stripEnclosingMessageName(s: String, ctx: Context): String {
-        var stripped = s
-        for (enclosing in ctx.enclosingMessage.reversed()) {
-            if (stripped.startsWith(enclosing.name)) {
-                stripped = stripped.removePrefix("${enclosing.name}.")
-            } else {
-                break
-            }
-        }
-        return stripped
-    }
 
     companion object {
         fun annotateDeserializer(msg: Message, ctx: Context) =
             DeserializerAnnotator(msg, ctx).annotateDeserializer()
+
+        fun deserializeString(f: StandardField, ctx: Context) =
+            Deserialize.render(
+                field = f,
+                read = interceptReadFn(f, f.readFn(ctx)),
+                lhs = f.fieldName,
+                options =
+                    if (f.wrapped) {
+                        Options(
+                            wrapName = wrapperName(f, ctx).getOrElse { "" },
+                            type = f.type.toString(),
+                            oneof = true
+                        )
+                    } else {
+                        null
+                    }
+            )
+
+        private fun StandardField.readFn(ctx: Context) =
+            Read.render(
+                type = type,
+                builder =
+                    when (type) {
+                        FieldType.ENUM, FieldType.MESSAGE -> stripQualification(ctx, this)
+                        else -> ""
+                    }
+            )
+
+        private fun stripQualification(ctx: Context, f: StandardField) =
+            stripEnclosingMessageName(f.typePClass.renderName(ctx.pkg), ctx)
+
+        private fun stripEnclosingMessageName(s: String, ctx: Context): String {
+            var stripped = s
+            for (enclosing in ctx.enclosingMessage.reversed()) {
+                if (stripped.startsWith(enclosing.name)) {
+                    stripped = stripped.removePrefix("${enclosing.name}.")
+                } else {
+                    break
+                }
+            }
+            return stripped
+        }
     }
 }

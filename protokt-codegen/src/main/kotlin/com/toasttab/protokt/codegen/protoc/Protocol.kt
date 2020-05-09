@@ -175,7 +175,13 @@ private fun toMessage(
     val fieldList = toFields(ctx, desc, names + typeName)
     return Message(
         name = typeName,
-        fields = fieldList,
+        fields =
+            fieldList.sortedBy {
+                when (it) {
+                    is StandardField -> it
+                    is Oneof -> it.fields.first()
+                }.number
+            },
         nestedTypes = toTypeList(ctx, desc.enumTypeList, desc.nestedTypeList),
         mapEntry = desc.options?.mapEntry == true,
         options =

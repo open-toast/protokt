@@ -21,7 +21,6 @@ object Message {
     object Message : StTemplate(StGroup.Message) {
         fun render(
             message: MessageInfo,
-            entry: MapEntryInfo,
             serialize: List<SerializerInfo>,
             deserialize: List<DeserializerInfo>,
             sizeof: List<SizeofInfo>,
@@ -32,7 +31,6 @@ object Message {
         ) =
             renderArgs(
                 message,
-                entry,
                 serialize,
                 deserialize,
                 sizeof,
@@ -50,12 +48,6 @@ object Message {
             val deprecation: Deprecation.RenderOptions?,
             val suppressDeprecation: Boolean,
             val fullTypeName: String
-        )
-
-        class MapEntryInfo(
-            val entry: Boolean,
-            val kType: String,
-            val vType: String
         )
 
         class PropertyInfo(
