@@ -18,18 +18,19 @@ import "dsl.stg"
 import "options.stg"
 import "renderers.stg"
 
-message(message, entry, serialize, deserialize, sizeof, nested, properties, oneofs, options) ::= <<
+message(message, serialize, deserialize, sizeof, nested, properties, oneofs, options) ::= <<
 <blockComment(message.documentation)><\\>
 <suppressDeprecation(message)><\\>
 <deprecated(message)><\\>
 @KtGeneratedMessage("<message.fullTypeName>")
-class <message.name><if (!entry.entry)><\n>private constructor<endif>(
-<properties:{p |<\\>
+class <message.name>
+private constructor(
+    <properties:{p |<\\>
     <blockComment(p.documentation)><\\>
     <deprecated(p)><\\>
     <messagePropertyOverrides()><\\>
     val <p.name>: <p.type><\\>
-}; separator=",\n"><if (properties)>,<endif>
+    }; separator=",\n"><if (properties)>,<endif>
     val unknown: Map\<Int, Unknown> = emptyMap()
 ) : KtMessage<messageImplements()> {
     <if (oneofs)>
@@ -42,7 +43,7 @@ class <message.name><if (!entry.entry)><\n>private constructor<endif>(
         <serialize:{it | <\\>
             <if (it.std)><\\>
                 <it.conditionals:{n |<\\>
-                <if (it.skipDefaultValue && !entry.entry)><\\>
+                <if (it.skipDefaultValue)><\\>
                     if <n.condition>{<\n><\\>
                         <t()><n.consequent><\n><\\>
                     \}<\\>

@@ -19,34 +19,24 @@ object Entry {
     object Entry : StTemplate(StGroup.Entry) {
         fun render(
             name: String,
-            entry: EntryInfo,
-            properties: List<PropertyInfo>,
-            serialize: List<String>,
-            deserialize: List<DeserializerInfo>,
-            sizeof: List<String>
+            key: PropertyInfo,
+            value: PropertyInfo
         ) =
-            renderArgs(name, entry, properties, serialize, deserialize, sizeof)
-
-        class EntryInfo(
-            val kType: String,
-            val vType: String
-        )
+            renderArgs(name, key, value)
 
         class PropertyInfo(
-            val name: String,
+            val fieldType: String,
             val messageType: String,
             val type: String,
-            val defaultValue: String
+            val sizeof: String,
+            val serialize: String,
+            val defaultValue: String,
+            val deserialize: DeserializerInfo
         )
 
         class DeserializerInfo(
             val tag: Int,
-            val assignment: Assignment
-        ) {
-            class Assignment(
-                val fieldName: String,
-                val value: String
-            )
-        }
+            val assignment: String
+        )
     }
 }

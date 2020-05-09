@@ -72,8 +72,6 @@ box(type, def) ::= "<if (type.boxed)><type.boxer>(<def>)<else><def><endif>"
 
 boxMap(type, box) ::= "<if (isMessage.(type))><box>(it.key, it.value)<else><endif>"
 
-nullable ::= ["MESSAGE":"?", default:""]
-
 deserializeType(p) ::= <%
     <if (p.repeated || p.map)>
         Mutable

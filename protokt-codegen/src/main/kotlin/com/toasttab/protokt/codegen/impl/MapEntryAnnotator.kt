@@ -24,7 +24,6 @@ import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.codegen.template.Entry.Entry
 import com.toasttab.protokt.codegen.template.Entry.Entry.DeserializerInfo
-import com.toasttab.protokt.codegen.template.Entry.Entry.EntryInfo
 
 class MapEntryAnnotator
 private constructor(
@@ -32,54 +31,30 @@ private constructor(
     private val ctx: Context
 ) {
     private fun annotateMapEntry() =
-        resolveMapEntry(msg, ctx).let { (k, v) ->
+        resolveMapEntry(msg).let {
             Entry.render(
                 name = msg.name,
-                entry = EntryInfo(k, v),
-                properties = annotateProperties(),
-                serialize = annotateSerializer(),
-                deserialize = annotateDeserializer(),
-                sizeof = annotateSizeof()
+                key = prop(it.key, it.key.unqualifiedTypeName),
+                value = prop(it.value, it.value.typePClass.renderName(ctx.pkg))
             )
         }
 
-    private fun annotateProperties() =
+    private fun prop(f: StandardField, type: String) =
         PropertyAnnotator(msg, ctx).let { annotator ->
-            msg.fields
-                .map { it as StandardField }
-                .map {
-                    Entry.PropertyInfo(
-                        name = it.fieldName,
-                        type = annotator.annotateStandard(it),
-                        messageType = it.type.toString(),
-                        defaultValue = annotator.defaultValue(it)
+            Entry.PropertyInfo(
+                fieldType = type,
+                messageType = f.type.toString(),
+                type = annotator.annotateStandard(f),
+                sizeof = sizeOfString(f, ctx, None),
+                serialize = serializeString(f, ctx),
+                defaultValue = annotator.defaultValue(f),
+                deserialize =
+                    DeserializerInfo(
+                        tag = f.tag,
+                        assignment = deserializeString(f, ctx)
                     )
-                }
+            )
         }
-
-    private fun annotateSerializer() =
-        msg.fields
-            .map { it as StandardField }
-            .map { serializeString(it, ctx) }
-
-    private fun annotateDeserializer() =
-        msg.fields
-            .map { it as StandardField }
-            .map {
-                DeserializerInfo(
-                    tag = it.tag,
-                    assignment =
-                        DeserializerInfo.Assignment(
-                            it.fieldName,
-                            deserializeString(it, ctx)
-                        )
-                )
-            }
-
-    private fun annotateSizeof() =
-        msg.fields
-            .map { it as StandardField }
-            .map { sizeOfString(it, ctx, None) }
 
     companion object {
         fun annotateMapEntry(msg: Message, ctx: Context) =

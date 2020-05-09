@@ -15,16 +15,17 @@
 
 import "renderers.stg"
 
-entry(name, entry, properties, serialize, deserialize, sizeof) ::= <<
+entry(name, key, value) ::= <<
 private class <name>(
-    val key: <entry.kType>,
-    val value: <entry.vType>
+    val key: <key.fieldType>,
+    val value: <value.fieldType>
 ) : KtMessage {
     override val messageSize
         get() = sizeof(key, value)
 
     override fun serialize(serializer: KtMessageSerializer) {
-        <serialize:{it|<it>}; separator="\n">
+        <key.serialize>
+        <value.serialize>
     }
 
     <entryCompanion()>
@@ -34,26 +35,34 @@ private class <name>(
 
 entryCompanion() ::= <<
 companion object Deserializer : KtDeserializer\<<name>\> {
-    fun sizeof(key: <entry.kType>, value: <entry.vType>) =
-        <sizeof:{it|<it>}; separator=" + ">
+    fun sizeof(key: <key.fieldType>, value: <value.fieldType>) =
+        <key.sizeof> + <value.sizeof>
 
     override fun deserialize(deserializer: KtMessageDeserializer): <name> {
-        <properties:{p | var <deserializeVar(p)>}; separator="\n">
+        var key<deserializeVar(key)>
+        var value<deserializeVar(value)>
 
         while (true) {
             when (deserializer.readTag()) {
-                0 -> return <name>(<properties:{p | <deserializeWrapper(p)>}; separator=", ">)
-                <deserialize:{d | <d.tag> -> <d.assignment.fieldName> = <d.assignment.value>}; separator="\n">
+                0 -> return <name>(key, value <orDefault(value)>)
+                <key.deserialize.tag> -> key = <key.deserialize.assignment>
+                <value.deserialize.tag> -> value = <value.deserialize.assignment>
             }
         }
     }
 }
 >>
 
-deserializeWrapper(p) ::= <%
-    <p.name>
+deserializeVar(p) ::= <%
     <if (isMessage.(p.messageType))>
-        <\ >?: <entry.vType> {}
+        : <deserializeType(p)>
+    <endif>
+    <\ >= <deserializeValue(p)>
+%>
+
+orDefault(p) ::= <%
+    <if (isMessage.(p.messageType))>
+        ?: <value.fieldType> {}
     <endif>
 %>
 

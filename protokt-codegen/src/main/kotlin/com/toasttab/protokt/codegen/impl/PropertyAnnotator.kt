@@ -110,7 +110,7 @@ internal class PropertyAnnotator(
 
     private fun typeParams(n: String) =
         findType(n, msg)
-            .map { resolveMapEntry(it, ctx) }
+            .map { resolveMapEntryTypes(it, ctx) }
             .getOrElse { error("missing type params") }
 
     private fun findType(
