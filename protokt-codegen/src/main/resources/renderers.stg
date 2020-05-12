@@ -72,20 +72,15 @@ box(type, def) ::= "<if (type.boxed)><type.boxer>(<def>)<else><def><endif>"
 
 boxMap(type, box) ::= "<if (isMessage.(type))><box>(it.key, it.value)<else><endif>"
 
-nullable ::= ["MESSAGE":"?", default:""]
-
 deserializeType(p) ::= <%
     <if (p.repeated || p.map)>
         Mutable
     <endif>
-    <p.type>
-    <if ((p.wrapped && !isMessage.(p.messageType)) || p.nonNullOption || p.repeated)>
-        ?
-    <endif>
+    <p.deserializeType>
 %>
 
 deserializeValue(p) ::= <%
-    <if (p.repeated || isMessage.(p.messageType) || p.wrapped)>
+    <if (p.repeated || isMessage.(p.fieldType) || p.wrapped)>
         null
     <else>
         <p.defaultValue>
@@ -96,22 +91,20 @@ requireNotNullMessage(p) ::= <%
     "<p.name> specified nonnull with (protokt.<if (p.oneOf)>oneof<else>property<endif>).non_null but was null"
 %>
 
-deserializeWrapper(v) ::= <%
+deserializeWrapper(p) ::= <%
     <if (p.nonNullOption)>
         requireNotNull(<p.name>) {<\n>
             <t()><requireNotNullMessage(p)><\n>
         }
     <else>
         <if (p.map)>
-            finishMap(<v>)
+            finishMap(<p.name>)
         <elseif (p.repeated)>
-            finishList(<v>)
+            finishList(<p.name>)
         <else>
-            <v>
+            <p.name>
             <if (p.wrapped && !p.nullable)>
                 <\ >?: <p.defaultValue>
-            <elseif (entry.entry && isMessage.(p.messageType))>
-                <\ >?: <entry.vType> {}
             <endif>
         <endif>
     <endif>
@@ -119,7 +112,7 @@ deserializeWrapper(v) ::= <%
 
 deserializeVar(p) ::= <%
     <p.name>
-    <if (isMessage.(p.messageType) || p.repeated || p.oneOf || p.nullable || p.wrapped)>
+    <if (isMessage.(p.fieldType) || p.repeated || p.oneOf || p.nullable || p.wrapped)>
     : <deserializeType(p)>
     <endif>
     <\ >= <deserializeValue(p)>
@@ -136,17 +129,6 @@ defaultValue(field, type, name) ::= <%
         <name><kotlinDefaultValues.(type)>
     <else>
         <kotlinDefaultValues.(type)>
-    <endif>
-%>
-
-defaultConstructorExp() ::= <%
-    <if (
-        ((p.messageType.scalar || isBytes.(p.messageType)) && !p.wrapped) ||
-        p.repeated ||
-        p.nullable ||
-        isEnum.(p.messageType)
-    )>
-        <\ >= <p.defaultValue>
     <endif>
 %>
 
@@ -208,19 +190,11 @@ deserialize(field, read, lhs, options) ::= <<
 
 deserializerRead(read) ::= "deserializer.<read>"
 
-standard(field, any, nullable) ::= <%
+standard(field, any) ::= <%
     <if (field.map)>
         Map\<<any.kType>, <any.vType>>
     <elseif (field.repeated)>
         List\<<any>>
-    <else>
-        <type(field, any, nullable, false)>
-    <endif>
-%>
-
-type(field, any, nullable, oneof) ::= <%
-    <if ((oneof || isMessage.(field.type)) && nullable)>
-        <any>?
     <else>
         <any>
     <endif>

@@ -37,7 +37,7 @@ class <message.name>Dsl {
                 requireNotNull(<p.name>) {<\n><\\>
                     <t()><t()><requireNotNullMessage(p)><\n><\\>
                 <t()>\}<\\>
-            <elseif (p.wrapped && !isMessage.(p.messageType) && !p.repeated)><\\>
+            <elseif (p.wrapped && !isMessage.(p.fieldType) && !p.repeated)><\\>
                 requireNotNull(<p.name>) {<\n><\\>
                     <t()><t()>"<p.name> is a wrapped primitive, was not specified, and has no default value"<\n><\\>
                 <t()>\}<\\>
@@ -59,8 +59,8 @@ override fun invoke(dsl: <message.name>Dsl.() -> Unit) =
 
 dslVar(p) ::= <%
     <p.name>
-    <if (isMessage.(p.messageType) || p.oneOf || p.nullable || p.wrapped || p.repeated || p.map)>
-        : <dslType(p)>
+    <if (isMessage.(p.fieldType) || p.oneOf || p.nullable || p.wrapped || p.repeated || p.map)>
+        : <p.dslPropertyType>
     <endif>
 
     <\ >= <dslValue(p)>
@@ -72,19 +72,12 @@ dslVar(p) ::= <%
     <endif>
 %>
 
-dslType(p) ::= <%
-    <p.type>
-    <if (((p.wrapped && !isMessage.(p.messageType)) || p.nonNullOption) && !p.repeated)>
-        ?
-    <endif>
-%>
-
 dslValue(p) ::= <%
     <if (p.map)>
         emptyMap()
     <elseif (p.repeated)>
         emptyList()
-    <elseif (isMessage.(p.messageType) || p.wrapped)>
+    <elseif (isMessage.(p.fieldType) || p.wrapped)>
         null
     <else>
         <p.defaultValue>

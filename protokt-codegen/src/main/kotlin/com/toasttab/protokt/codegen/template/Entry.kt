@@ -15,16 +15,28 @@
 
 package com.toasttab.protokt.codegen.template
 
-sealed class StGroup {
-    val fileName
-        get() = "${this::class.java.simpleName.decapitalize()}.stg"
+object Entry {
+    object Entry : StTemplate(StGroup.Entry) {
+        fun render(
+            name: String,
+            key: PropertyInfo,
+            value: PropertyInfo
+        ) =
+            renderArgs(name, key, value)
 
-    object Entry : StGroup()
-    object Enum : StGroup()
-    object Header : StGroup()
-    object Oneof : StGroup()
-    object Message : StGroup()
-    object Options : StGroup()
-    object Renderers : StGroup()
-    object Services : StGroup()
+        class PropertyInfo(
+            val propertyType: String,
+            val messageType: String,
+            val deserializeType: String,
+            val sizeof: String,
+            val serialize: String,
+            val defaultValue: String,
+            val deserialize: DeserializerInfo
+        )
+
+        class DeserializerInfo(
+            val tag: String,
+            val assignment: String
+        )
+    }
 }

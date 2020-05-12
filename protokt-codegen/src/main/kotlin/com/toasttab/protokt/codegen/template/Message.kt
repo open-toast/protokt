@@ -21,7 +21,6 @@ object Message {
     object Message : StTemplate(StGroup.Message) {
         fun render(
             message: MessageInfo,
-            entry: MapEntryInfo,
             serialize: List<SerializerInfo>,
             deserialize: List<DeserializerInfo>,
             sizeof: List<SizeofInfo>,
@@ -32,7 +31,6 @@ object Message {
         ) =
             renderArgs(
                 message,
-                entry,
                 serialize,
                 deserialize,
                 sizeof,
@@ -52,55 +50,66 @@ object Message {
             val fullTypeName: String
         )
 
-        class MapEntryInfo(
-            val entry: Boolean,
-            val kType: String,
-            val vType: String
-        )
+        interface FieldInfo {
+            val name: String
+        }
 
         class PropertyInfo(
-            val name: String,
-            val type: String,
+            override val name: String,
+            val propertyType: String,
+            val deserializeType: String,
+            val dslPropertyType: String,
             val defaultValue: String,
-            val messageType: String = "",
+            val nullable: Boolean,
+            val nonNullOption: Boolean,
+            val fieldType: String = "",
             val repeated: Boolean = false,
             val map: Boolean = false,
             val oneOf: Boolean = false,
-            val nullable: Boolean = true,
             val wrapped: Boolean = false,
-            val nonNullOption: Boolean,
             val overrides: Boolean = false,
             val documentation: List<String>,
             val deprecation: Deprecation.RenderOptions? = null
-        )
+        ) : FieldInfo
+
+        interface FieldWriteInfo : FieldInfo {
+            val fieldName: String
+            val conditionals: List<ConditionalParams>
+
+            override val name: String
+                get() = fieldName
+        }
 
         class SizeofInfo(
             val std: Boolean,
-            val fieldName: String,
+            override val fieldName: String,
             val skipDefaultValue: Boolean,
             /** A singleton list for standard fields; one per type for enum fields */
-            val conditionals: List<ConditionalParams>
-        )
+            override val conditionals: List<ConditionalParams>
+        ) : FieldWriteInfo
 
         class SerializerInfo(
             val std: Boolean,
-            val fieldName: String,
+            override val fieldName: String,
             val skipDefaultValue: Boolean,
             /** A singleton list for standard fields; one per type for enum fields */
-            val conditionals: List<ConditionalParams>
-        )
+            override val conditionals: List<ConditionalParams>
+        ) : FieldWriteInfo
 
         class DeserializerInfo(
             val std: Boolean,
             val repeated: Boolean,
             val tag: String,
             val assignment: Assignment
-        ) {
+        ) : FieldInfo {
             class Assignment(
                 val fieldName: String,
                 val value: String,
                 val long: Boolean
             )
+
+            override val name
+                get() = assignment.fieldName
         }
 
         class Options(

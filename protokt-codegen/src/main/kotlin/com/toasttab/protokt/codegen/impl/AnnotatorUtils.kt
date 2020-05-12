@@ -26,15 +26,28 @@ import com.toasttab.protokt.codegen.protoc.TypeDesc
 import com.toasttab.protokt.codegen.protoc.respectJavaPackage
 import com.toasttab.protokt.codegen.template.Renderers.ConcatWithScope
 
-internal fun resolveMapEntry(m: Message, ctx: Context) =
-    MapTypeParams(
-        (m.fields[0] as StandardField).unqualifiedTypeName,
-        (m.fields[1] as StandardField).typePClass.renderName(ctx.pkg)
+internal fun resolveMapEntry(m: Message) =
+    MapEntryInfo(
+        (m.fields[0] as StandardField),
+        (m.fields[1] as StandardField)
     )
 
-internal data class MapTypeParams(
+internal fun resolveMapEntryTypes(m: Message, ctx: Context) =
+    resolveMapEntry(m).let {
+        MapTypeParams(
+            it.key.unqualifiedTypeName,
+            it.value.typePClass.renderName(ctx.pkg)
+        )
+    }
+
+internal class MapTypeParams(
     val kType: String,
     val vType: String
+)
+
+internal class MapEntryInfo(
+    val key: StandardField,
+    val value: StandardField
 )
 
 internal fun oneOfScope(f: Oneof, type: String, ctx: Context) =

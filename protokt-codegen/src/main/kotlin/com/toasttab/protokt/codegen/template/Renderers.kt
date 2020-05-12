@@ -86,18 +86,8 @@ object Renderers {
     }
 
     object Standard : RenderersTemplate() {
-        fun render(field: StandardField, any: Any, nullable: Boolean) =
-            renderArgs(field, any, nullable)
-    }
-
-    object Type : RenderersTemplate() {
-        fun render(
-            field: String? = null,
-            any: String,
-            nullable: Boolean,
-            oneof: Boolean
-        ) =
-            renderArgs(field, any, nullable, oneof)
+        fun render(field: StandardField, any: Any) =
+            renderArgs(field, any)
     }
 
     object Sizeof : RenderersTemplate() {

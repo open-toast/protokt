@@ -130,15 +130,15 @@ private constructor(
             type = type,
             builder =
                 when (type) {
-                    FieldType.ENUM, FieldType.MESSAGE -> stripQualification(ctx, this)
+                    FieldType.ENUM, FieldType.MESSAGE -> stripQualification(this)
                     else -> ""
                 }
         )
 
-    private fun stripQualification(ctx: Context, f: StandardField) =
-        stripEnclosingMessageName(f.typePClass.renderName(ctx.pkg), ctx)
+    private fun stripQualification(f: StandardField) =
+        stripEnclosingMessageName(f.typePClass.renderName(ctx.pkg))
 
-    private fun stripEnclosingMessageName(s: String, ctx: Context): String {
+    private fun stripEnclosingMessageName(s: String): String {
         var stripped = s
         for (enclosing in ctx.enclosingMessage.reversed()) {
             if (stripped.startsWith(enclosing.name)) {

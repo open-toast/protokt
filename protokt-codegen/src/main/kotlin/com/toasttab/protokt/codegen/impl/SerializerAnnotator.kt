@@ -18,7 +18,7 @@ package com.toasttab.protokt.codegen.impl
 import arrow.core.None
 import arrow.core.Option
 import arrow.core.Some
-import com.toasttab.protokt.codegen.impl.NonNullable.hasNonNullOption
+import com.toasttab.protokt.codegen.impl.Nullability.hasNonNullOption
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
 import com.toasttab.protokt.codegen.protoc.Message
@@ -37,7 +37,7 @@ private constructor(
     private val ctx: Context
 ) {
     private fun annotateSerializer(): List<SerializerInfo> {
-        return msg.sortedFields().map {
+        return msg.fields.map {
             when (it) {
                 is StandardField ->
                     SerializerInfo(
@@ -109,18 +109,6 @@ private constructor(
                 )
         )
     }
-
-    private data class SerializerOptions(
-        val fieldAccess: String
-    )
-
-    private fun Message.sortedFields() =
-        fields.sortedBy {
-            when (it) {
-                is StandardField -> it
-                is Oneof -> it.fields.first()
-            }.number
-        }
 
     private fun oneOfSer(f: Oneof, ff: StandardField, type: String) =
         ConditionalParams(

@@ -22,7 +22,7 @@ import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
 import com.toasttab.protokt.codegen.impl.DeserializerAnnotator.Companion.annotateDeserializer
 import com.toasttab.protokt.codegen.impl.Implements.doesImplement
 import com.toasttab.protokt.codegen.impl.Implements.implements
-import com.toasttab.protokt.codegen.impl.MapEntryAnnotator.annotateMapEntry
+import com.toasttab.protokt.codegen.impl.MapEntryAnnotator.Companion.annotateMapEntry
 import com.toasttab.protokt.codegen.impl.MessageDocumentationAnnotator.annotateMessageDocumentation
 import com.toasttab.protokt.codegen.impl.OneofAnnotator.Companion.annotateOneOfs
 import com.toasttab.protokt.codegen.impl.PropertyAnnotator.Companion.annotateProperties
@@ -43,17 +43,20 @@ internal object MessageAnnotator {
         msg: Message,
         ctx: Context
     ) =
-        MessageTemplate.render(
-            message = messageInfo(msg, ctx),
-            entry = annotateMapEntry(msg, ctx),
-            properties = annotateProperties(msg, ctx),
-            oneofs = annotateOneOfs(msg, ctx),
-            sizeof = annotateSizeof(msg, ctx),
-            serialize = annotateSerializer(msg, ctx),
-            deserialize = annotateDeserializer(msg, ctx),
-            nested = nestedTypes(msg, ctx),
-            options = options(msg, ctx)
-        )
+        if (msg.mapEntry) {
+            annotateMapEntry(msg, ctx)
+        } else {
+            MessageTemplate.render(
+                message = messageInfo(msg, ctx),
+                properties = annotateProperties(msg, ctx),
+                oneofs = annotateOneOfs(msg, ctx),
+                sizeof = annotateSizeof(msg, ctx),
+                serialize = annotateSerializer(msg, ctx),
+                deserialize = annotateDeserializer(msg, ctx),
+                nested = nestedTypes(msg, ctx),
+                options = options(msg, ctx)
+            )
+        }
 
     private fun nestedTypes(msg: Message, ctx: Context) =
         msg.nestedTypes.map { annotate(it, ctx) }
@@ -65,13 +68,13 @@ internal object MessageAnnotator {
             implements = msg.implements,
             documentation = annotateMessageDocumentation(ctx),
             deprecation =
-            if (msg.options.default.deprecated) {
-                renderOptions(
-                    msg.options.protokt.deprecationMessage
-                )
-            } else {
-                null
-            },
+                if (msg.options.default.deprecated) {
+                    renderOptions(
+                        msg.options.protokt.deprecationMessage
+                    )
+                } else {
+                    null
+                },
             suppressDeprecation = msg.hasDeprecation &&
                 (!enclosingDeprecation(ctx) ||
                     ctx.enclosingMessage.firstOption()

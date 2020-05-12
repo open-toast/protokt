@@ -22,8 +22,12 @@ import arrow.core.getOrElse
 import arrow.core.toOption
 import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
 import com.toasttab.protokt.codegen.impl.Implements.overrides
-import com.toasttab.protokt.codegen.impl.NonNullable.hasNonNullOption
-import com.toasttab.protokt.codegen.impl.NonNullable.nullable
+import com.toasttab.protokt.codegen.impl.Nullability.deserializeType
+import com.toasttab.protokt.codegen.impl.Nullability.dslPropertyType
+import com.toasttab.protokt.codegen.impl.Nullability.hasNonNullOption
+import com.toasttab.protokt.codegen.impl.Nullability.nullable
+import com.toasttab.protokt.codegen.impl.Nullability.propertyType
+import com.toasttab.protokt.codegen.impl.Nullability.renderNullableType
 import com.toasttab.protokt.codegen.impl.PropertyDocumentationAnnotator.Companion.annotatePropertyDocumentation
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptDefaultValue
@@ -38,7 +42,6 @@ import com.toasttab.protokt.codegen.template.Message.Message.PropertyInfo
 import com.toasttab.protokt.codegen.template.Oneof as OneofTemplate
 import com.toasttab.protokt.codegen.template.Renderers.DefaultValue
 import com.toasttab.protokt.codegen.template.Renderers.Standard
-import com.toasttab.protokt.codegen.template.Renderers.Type
 
 internal class PropertyAnnotator
 private constructor(
@@ -48,44 +51,44 @@ private constructor(
     private fun annotateProperties(): List<PropertyInfo> {
         return msg.fields.map {
             val documentation = annotatePropertyDocumentation(it, ctx)
-            val nullable = it.nullable
 
             when (it) {
                 is StandardField -> {
-                    PropertyInfo(
-                        name = it.fieldName,
-                        type = annotateStandard(it),
-                        defaultValue = it.defaultValue(),
-                        messageType = it.type.toString(),
-                        repeated = it.repeated,
-                        map = it.map,
-                        nullable = nullable,
-                        overrides = it.overrides(ctx, msg),
-                        wrapped = it.wrapped,
-                        nonNullOption = it.hasNonNullOption,
-                        documentation = documentation,
-                        deprecation =
-                            if (it.options.default.deprecated) {
-                                renderOptions(
-                                    it.options.protokt.deprecationMessage
-                                )
-                            } else {
-                                null
-                            }
-                    )
+                    annotateStandard(it).let { type ->
+                        PropertyInfo(
+                            name = it.fieldName,
+                            propertyType = propertyType(it, type),
+                            deserializeType = deserializeType(it, type),
+                            dslPropertyType = dslPropertyType(it, type),
+                            defaultValue = it.defaultValue(ctx),
+                            fieldType = it.type.toString(),
+                            repeated = it.repeated,
+                            map = it.map,
+                            nullable = it.nullable,
+                            nonNullOption = it.hasNonNullOption,
+                            overrides = it.overrides(ctx, msg),
+                            wrapped = it.wrapped,
+                            documentation = documentation,
+                            deprecation =
+                                if (it.options.default.deprecated) {
+                                    renderOptions(
+                                        it.options.protokt.deprecationMessage
+                                    )
+                                } else {
+                                    null
+                                }
+                        )
+                    }
                 }
                 is Oneof ->
                     PropertyInfo(
                         name = it.fieldName,
-                        type =
-                            Type.render(
-                                oneof = true,
-                                nullable = nullable,
-                                any = it.name
-                            ),
-                        defaultValue = it.defaultValue(),
+                        propertyType = propertyType(it),
+                        deserializeType = it.renderNullableType(),
+                        dslPropertyType = it.renderNullableType(),
+                        defaultValue = it.defaultValue(ctx),
                         oneOf = true,
-                        nullable = nullable,
+                        nullable = it.nullable,
                         nonNullOption = it.hasNonNullOption,
                         documentation = documentation
                     )
@@ -96,7 +99,6 @@ private constructor(
     private fun annotateStandard(f: StandardField) =
         Standard.render(
             field = f,
-            nullable = f.nullable,
             any =
                 if (f.map) {
                     typeParams(f.protoTypeName)
@@ -111,7 +113,7 @@ private constructor(
 
     private fun typeParams(n: String) =
         findType(n, msg)
-            .map { resolveMapEntry(it, ctx) }
+            .map { resolveMapEntryTypes(it, ctx) }
             .getOrElse { error("missing type params") }
 
     private fun findType(
@@ -128,7 +130,7 @@ private constructor(
         }.toOption().map { f -> f as Message }
     }
 
-    private fun Field.defaultValue() =
+    private fun Field.defaultValue(ctx: Context) =
         when (this) {
             is StandardField ->
                 interceptDefaultValue(
