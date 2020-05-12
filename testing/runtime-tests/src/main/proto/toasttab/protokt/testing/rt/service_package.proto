@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2020 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,14 +13,10 @@
  * limitations under the License.
  */
 
-localProtokt()
-pureKotlin()
+syntax = "proto3";
 
-dependencies {
-    implementation(kotlin("reflect"))
-    implementation(project(":testing:protobuf-java"))
+package toasttab.protokt.testing.rt;
 
-    testImplementation(project(":protokt-runtime-grpc"))
-    testImplementation(libraries.jackson)
-    testImplementation(libraries.protobuf)
-}
+option java_package = "com.toasttab.protokt.testing.rt";
+
+service TestService {}
