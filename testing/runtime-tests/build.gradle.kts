@@ -18,9 +18,10 @@ pureKotlin()
 
 dependencies {
     implementation(kotlin("reflect"))
+    implementation(project(":protokt-runtime-grpc"))
     implementation(project(":testing:protobuf-java"))
+    implementation(libraries.grpcStub)
 
-    testImplementation(project(":protokt-runtime-grpc"))
     testImplementation(libraries.jackson)
     testImplementation(libraries.protobuf)
 }
