@@ -13,11 +13,9 @@
  * limitations under the License.
  */
 
-import com.toasttab.protokt.shared.kotlin
-import com.toasttab.protokt.shared.main
 import io.codearte.gradle.nexus.NexusStagingExtension
 import org.gradle.api.Project
-import org.gradle.api.plugins.JavaPluginConvention
+import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
@@ -108,11 +106,8 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
     }
 
     if (defaultJars) {
-        tasks.register<Jar>("sourcesJar") {
-            dependsOn("classes")
-
-            from(this@enablePublishing.the<JavaPluginConvention>().sourceSets.main.kotlin)
-            archiveClassifier.set("sources")
+        configure<JavaPluginExtension> {
+            withSourcesJar()
         }
 
         tasks.register<Jar>("javadocJar") {
@@ -124,10 +119,9 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
             publications {
                 create<MavenPublication>("sources") {
                     from(components.getByName("java"))
-                    artifact(tasks.getByName("sourcesJar"))
                     artifact(tasks.getByName("javadocJar"))
                     artifactId = project.name
-                    version = "$version"
+                    version = "${project.version}"
                     groupId = "$group"
                 }
             }
