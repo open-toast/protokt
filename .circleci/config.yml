@@ -17,11 +17,11 @@ jobs:
 
       - run:
           name: build and test
-          command: ./gradlew clean check publishToIntegrationRepository --stacktrace --no-daemon
+          command: ./gradlew clean check publishToIntegrationRepository --stacktrace
 
       - run:
           name: integration tests
-          command: cd gradle-plugin-integration-test && ./gradlew clean build --stacktrace --no-daemon
+          command: cd gradle-plugin-integration-test && ./gradlew clean build --stacktrace
 
       - save_cache:
           paths:
