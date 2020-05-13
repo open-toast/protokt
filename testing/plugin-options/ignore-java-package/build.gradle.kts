@@ -30,3 +30,8 @@ sourceSets {
 protokt {
     respectJavaPackage = false
 }
+
+dependencies {
+    implementation(project(":protokt-runtime-grpc"))
+    implementation(libraries.grpcStub)
+}

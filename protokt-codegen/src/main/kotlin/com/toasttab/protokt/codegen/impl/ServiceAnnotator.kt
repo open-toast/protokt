@@ -38,7 +38,7 @@ internal object ServiceAnnotator {
         if (ctx.pkg.default) {
             s.name
         } else {
-            "${ctx.pkg}.${s.name}"
+            "${ctx.desc.packageName}.${s.name}"
         }
 
     private fun renderDescriptor(s: Service) =

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2020 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,15 +13,15 @@
  * limitations under the License.
  */
 
-localProtokt()
-pureKotlin()
+package com.toasttab.protokt.testing.rt
 
-dependencies {
-    implementation(kotlin("reflect"))
-    implementation(project(":protokt-runtime-grpc"))
-    implementation(project(":testing:protobuf-java"))
-    implementation(libraries.grpcStub)
+import com.google.common.truth.Truth.assertThat
+import org.junit.jupiter.api.Test
 
-    testImplementation(libraries.jackson)
-    testImplementation(libraries.protobuf)
+class ServicePackageTest {
+    @Test
+    fun `service has protobuf package`() {
+        assertThat(TestServiceGrpc.SERVICE_NAME.substringBeforeLast("."))
+            .isEqualTo("toasttab.protokt.testing.rt")
+    }
 }
