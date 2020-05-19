@@ -22,10 +22,13 @@ import com.google.protobuf.gradle.plugins
 import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
 import com.google.protobuf.gradle.remove
+import java.io.File
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginConvention
+import org.gradle.api.tasks.bundling.Jar
 import org.gradle.internal.os.OperatingSystem
 import org.gradle.kotlin.dsl.apply
+import org.gradle.kotlin.dsl.named
 import org.gradle.kotlin.dsl.the
 
 const val KOTLIN_EXTRA_CLASSPATH = "kotlin_extra_classpath"
@@ -37,8 +40,7 @@ internal fun configureProtobufPlugin(project: Project, ext: ProtoktExtension, bi
     project.protobuf {
         generatedFilesBaseDir = "${project.buildDir}/generated-sources"
 
-        project.the<JavaPluginConvention>().sourceSets.main.kotlin
-            .srcDirs.add(project.file("$generatedFilesBaseDir/main/protokt"))
+        configureSources(project, generatedFilesBaseDir)
 
         protoc {
             artifact = "com.google.protobuf:protoc:${ext.protocVersion}"
@@ -70,6 +72,22 @@ internal fun configureProtobufPlugin(project: Project, ext: ProtoktExtension, bi
                         }
                     }
                 }
+            }
+        }
+    }
+}
+
+private fun configureSources(project: Project, generatedSourcesPath: String) {
+    val protoktDir = "$generatedSourcesPath/main/protokt"
+
+    project.the<JavaPluginConvention>()
+        .sourceSets.main.kotlin.srcDirs
+        .add(File(protoktDir))
+
+    project.afterEvaluate {
+        if (project.tasks.findByName("sourcesJar") != null) {
+            tasks.named<Jar>("sourcesJar").configure {
+                from(protoktDir)
             }
         }
     }
