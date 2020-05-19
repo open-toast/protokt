@@ -66,9 +66,9 @@ class ImportResolver(
     fun resolveImports(astList: List<AST<TypeDesc>>) =
         astList.flatMapToSet { imports(it.data.type.rawType) }
             .asSequence()
-            .filterNot { it.pkg == pkg }
             .filterNot { it.pkg == PPackage.KOTLIN }
             .filterNot { it is Import.Class && it.pClass.simpleName == "Any" }
+            .filterClassesWithSamePackageName(pkg)
             .filterClassesWithSameNameAsMessageIn(astList)
             .filterClassesWithSameNameAsOneofFieldTypeIn(astList)
             .filterDuplicateSimpleNames(pkg) { getClassOrNone(it, ctx) }
