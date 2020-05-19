@@ -17,8 +17,8 @@ syntax = "proto3";
 
 package com.toasttab.protokt.testing.rt;
 
-import "com/toasttab/protokt/testing/rt/other/defines_nested_enum.proto";
+import "com/toasttab/protokt/testing/rt/defines_nested_enum.proto";
 
-message UsesNestedEnum {
-  DefinesNestedEnum.SamePackageNestedEnum value = 1;
+message UsesNestedEnumInDifferentFileSamePackage {
+  DefinesNestedEnum.NestedEnum value = 1;
 }

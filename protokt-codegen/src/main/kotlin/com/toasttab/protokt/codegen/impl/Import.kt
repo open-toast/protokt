@@ -24,41 +24,32 @@ sealed class Import {
     abstract val qualifiedName: String
     abstract val simpleName: String
     abstract val pkg: PPackage
+    abstract val nested: Boolean
 
     data class Class(val pClass: PClass) : Import() {
-        override val qualifiedName
-            get() = pClass.qualifiedName
-
-        override val pkg: PPackage
-            get() = pClass.ppackage
-
-        override val simpleName: String
-            get() = pClass.simpleName
+        override val qualifiedName = pClass.qualifiedName
+        override val pkg = pClass.ppackage
+        override val simpleName = pClass.simpleName
+        override val nested = pClass.enclosing.isDefined()
     }
 
     data class PackageMethod(
         override val pkg: PPackage,
         val name: String
     ) : Import() {
-        override val qualifiedName
-            get() = pkg.qualify(name)
-
-        override val simpleName: String
-            get() = name
+        override val qualifiedName = pkg.qualify(name)
+        override val simpleName = name
+        override val nested = false
     }
 
     data class ClassMethod(
         val enclosingClass: PClass,
         val name: String
     ) : Import() {
-        override val pkg: PPackage
-            get() = enclosingClass.ppackage
-
-        override val qualifiedName: String
-            get() = "${enclosingClass.qualifiedName}.$name"
-
-        override val simpleName: String
-            get() = name
+        override val pkg = enclosingClass.ppackage
+        override val qualifiedName = "${enclosingClass.qualifiedName}.$name"
+        override val simpleName = name
+        override val nested = true
     }
 }
 

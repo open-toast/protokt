@@ -18,7 +18,7 @@ syntax = "proto3";
 package com.toasttab.protokt.testing.rt;
 
 message DefinesNestedEnum {
-  enum SamePackageNestedEnum {
+  enum NestedEnum {
     ZEROTH = 0;
     FIRST = 1;
   }

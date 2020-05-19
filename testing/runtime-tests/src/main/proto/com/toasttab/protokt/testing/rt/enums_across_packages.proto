@@ -20,5 +20,5 @@ package com.toasttab.protokt.testing.rt;
 import "com/toasttab/protokt/testing/rt/other/other_package.proto";
 
 message UsesOtherPackageEnum {
-  com.toasttab.protokt.testing.rt.other.OtherPackageMessage.OtherPackageEnum enum = 1;
+  other.OtherPackageMessage.OtherPackageEnum enum = 1;
 }
