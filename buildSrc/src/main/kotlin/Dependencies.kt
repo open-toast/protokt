@@ -16,27 +16,27 @@
 import com.toasttab.protokt.shared.DEFAULT_PROTOBUF_VERSION
 
 object versions {
-    const val arrow = "0.10.4"
-    const val autoService = "1.0-rc6"
-    const val grpc = "1.28.0"
-    const val jackson = "2.10.2"
+    const val arrow = "0.10.5"
+    const val autoService = "1.0-rc7"
+    const val grpc = "1.29.0"
+    const val jackson = "2.11.0"
     const val kollection = "0.7"
-    const val kotlin = "1.3.61"
-    const val kotlinxCoroutines = "1.2.1"
+    const val kotlin = "1.3.72"
+    const val kotlinxCoroutines = "1.3.7"
     const val protobuf = DEFAULT_PROTOBUF_VERSION
-    const val protobufPlugin = "0.8.11"
+    const val protobufPlugin = "0.8.12"
     const val stringTemplate = "4.3"
 
     // Test
     const val datasets = "0.1.0"
     const val gradleDownload = "4.0.4"
     const val jmh = "1.23"
-    const val junit = "5.6.0"
+    const val junit = "5.6.2"
     const val truth = "1.0.1"
     const val wire = "3.0.0-alpha01"
 
     // Third Party
-    const val protoGoogleCommonProtos = "1.17.0"
+    const val protoGoogleCommonProtos = "1.18.0"
 }
 
 object libraries {
