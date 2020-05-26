@@ -13,10 +13,10 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.util
+package com.toasttab.protokt.testing.util
 
-import com.toasttab.protokt.util.ProcessOutput.Src.ERR
-import com.toasttab.protokt.util.ProcessOutput.Src.OUT
+import com.toasttab.protokt.testing.util.ProcessOutput.Src.ERR
+import com.toasttab.protokt.testing.util.ProcessOutput.Src.OUT
 import java.io.File
 import java.nio.file.Path
 import java.util.concurrent.TimeUnit
@@ -29,12 +29,13 @@ fun String.runCommand(
     workingDir: Path,
     env: Map<String, String> = emptyMap()
 ): ProcessOutput {
-    val proc = ProcessBuilder(*split("\\s".toRegex()).toTypedArray())
-        .directory(workingDir.toFile())
-        .redirectOutput(ProcessBuilder.Redirect.PIPE)
-        .redirectError(ProcessBuilder.Redirect.PIPE)
-        .apply { environment().putAll(env) }
-        .start()
+    val proc =
+        ProcessBuilder(*split("\\s".toRegex()).toTypedArray())
+            .directory(workingDir.toFile())
+            .redirectOutput(ProcessBuilder.Redirect.PIPE)
+            .redirectError(ProcessBuilder.Redirect.PIPE)
+            .apply { environment().putAll(env) }
+            .start()
 
     if (!proc.waitFor(60, TimeUnit.SECONDS)) {
         fail("Process '$this' took too long")

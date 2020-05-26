@@ -47,6 +47,8 @@ dependencies {
     implementation(libraries.protobuf)
     implementation(libraries.stringTemplate)
 
+    testImplementation(project(":testing:util"))
+
     testImplementation(libraries.junit)
     testImplementation(libraries.truth)
 }

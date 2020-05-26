@@ -15,9 +15,9 @@
 
 package com.toasttab.protokt.conformance
 
-import com.toasttab.protokt.util.ProcessOutput.Src.ERR
-import com.toasttab.protokt.util.projectRoot
-import com.toasttab.protokt.util.runCommand
+import com.toasttab.protokt.testing.util.ProcessOutput.Src.ERR
+import com.toasttab.protokt.testing.util.projectRoot
+import com.toasttab.protokt.testing.util.runCommand
 import java.nio.file.Paths
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail

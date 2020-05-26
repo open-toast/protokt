@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2020 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,10 +14,5 @@
  */
 
 dependencies {
-    testImplementation(project(":testing:util"))
-    testImplementation(libraries.protobuf)
-}
-
-tasks.named("test") {
-    dependsOn(":testing:conformance-driver:installDist")
+    implementation(libraries.junit)
 }
