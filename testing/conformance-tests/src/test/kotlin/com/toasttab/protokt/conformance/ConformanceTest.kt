@@ -26,27 +26,24 @@ class ConformanceTest {
     @Test
     fun `run conformance tests`() {
         command
-            .runCommand(
-                Paths.get(projectRoot, "conformance-driver"),
-                libPathOverride
-            )
+            .runCommand(Paths.get(projectRoot, "conformance-driver"))
             .orFail("Conformance tests failed", ERR)
 
         println("Conformance tests passed")
     }
 }
 
-private fun pivotOs(mac: String, linux: String) =
+private val binPath =
     with(System.getProperty("os.name")) {
         when {
-            contains("Mac") -> mac
-            contains("Linux") -> linux
+            contains("Mac") -> "darwin"
+            contains("Linux") -> "ubuntu-16.04-x86_64"
             else -> fail("Unsupported OS")
         }
     }
 
 private val binDir =
-    Paths.get("bin", pivotOs("darwin", "ubuntu-16.04-x86_64")).toString()
+    Paths.get("bin", binPath).toString()
 
 private val baseCommand =
     Paths.get(binDir, "conformance-test-runner")
@@ -56,11 +53,8 @@ private val conformanceDriver =
         "build", "install", "protokt-conformance", "bin", "protokt-conformance"
     )
 
-private val command =
-    "$baseCommand --enforce_recommended $conformanceDriver"
+private val failureList =
+    "--failure_list failure_list_kt.txt"
 
-private val libPathOverride =
-    mapOf(
-        pivotOs("DYLD_LIBRARY_PATH", "LD_LIBRARY_PATH")
-            to Paths.get(binDir, ".libs").toString()
-    )
+private val command =
+    "$baseCommand --enforce_recommended $failureList $conformanceDriver"
