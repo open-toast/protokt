@@ -48,6 +48,7 @@ include(
     "testing:plugin-options:ignore-java-package",
     "testing:protobuf-java",
     "testing:runtime-tests",
+    "testing:util",
 
     "benchmarks",
     "benchmarks:schema",

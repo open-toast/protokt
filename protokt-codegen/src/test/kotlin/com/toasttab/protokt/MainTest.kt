@@ -15,9 +15,9 @@
 
 package com.toasttab.protokt
 
-import com.toasttab.protokt.util.ProcessOutput.Src.ERR
-import com.toasttab.protokt.util.projectRoot
-import com.toasttab.protokt.util.runCommand
+import com.toasttab.protokt.testing.util.ProcessOutput.Src.ERR
+import com.toasttab.protokt.testing.util.projectRoot
+import com.toasttab.protokt.testing.util.runCommand
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.nio.file.Paths

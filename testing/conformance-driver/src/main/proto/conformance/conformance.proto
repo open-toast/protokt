@@ -52,9 +52,35 @@ option java_package = "com.google.protobuf.conformance";
 //     iOS apps, where fork/stdin/stdout are not available.
 
 enum WireFormat {
-    UNSPECIFIED = 0;
-    PROTOBUF = 1;
-    JSON = 2;
+  UNSPECIFIED = 0;
+  PROTOBUF = 1;
+  JSON = 2;
+  JSPB = 3;  // Google internal only. Opensource testees just skip it.
+  TEXT_FORMAT = 4;
+}
+
+enum TestCategory {
+  UNSPECIFIED_TEST = 0;
+  BINARY_TEST = 1;  // Test binary wire format.
+  JSON_TEST = 2;    // Test json wire format.
+  // Similar to JSON_TEST. However, during parsing json, testee should ignore
+  // unknown fields. This feature is optional. Each implementation can descide
+  // whether to support it.  See
+  // https://developers.google.com/protocol-buffers/docs/proto3#json_options
+  // for more detail.
+  JSON_IGNORE_UNKNOWN_PARSING_TEST = 3;
+  // Test jspb wire format. Google internal only. Opensource testees just skip it.
+  JSPB_TEST = 4;
+  // Test text format. For cpp, java and python, testees can already deal with
+  // this type. Testees of other languages can simply skip it.
+  TEXT_FORMAT_TEST = 5;
+}
+
+// The conformance runner will request a list of failures as the first request.
+// This will be known by message_type == "conformance.FailureSet", a conformance
+// test should return a serialized FailureSet in protobuf_payload.
+message FailureSet {
+  repeated string failure = 1;
 }
 
 // Represents a single test case's input.  The testee should:
@@ -63,57 +89,87 @@ enum WireFormat {
 //   2. parse the protobuf or JSON payload in "payload" (which may fail)
 //   3. if the parse succeeded, serialize the message in the requested format.
 message ConformanceRequest {
-    // The payload (whether protobuf of JSON) is always for a
-    // protobuf_test_messages.proto3.TestAllTypes proto (as defined in
-    // src/google/protobuf/proto3_test_messages.proto).
-    //
-    // TODO(haberman): if/when we expand the conformance tests to support proto2,
-    // we will want to include a field that lets the payload/response be a
-    // protobuf_test_messages.proto2.TestAllTypes message instead.
-    oneof payload {
-        bytes protobuf_payload = 1;
-        string json_payload = 2;
-    }
+  // The payload (whether protobuf of JSON) is always for a
+  // protobuf_test_messages.proto3.TestAllTypes proto (as defined in
+  // src/google/protobuf/proto3_test_messages.proto).
+  //
+  // TODO(haberman): if/when we expand the conformance tests to support proto2,
+  // we will want to include a field that lets the payload/response be a
+  // protobuf_test_messages.proto2.TestAllTypes message instead.
+  oneof payload {
+    bytes protobuf_payload = 1;
+    string json_payload = 2;
+    // Google internal only.  Opensource testees just skip it.
+    string jspb_payload = 7;
+    string text_payload = 8;
+  }
 
-    // Which format should the testee serialize its message to?
-    WireFormat requested_output_format = 3;
+  // Which format should the testee serialize its message to?
+  WireFormat requested_output_format = 3;
 
-    // The full name for the test message to use; for the moment, either:
-    // protobuf_test_messages.proto3.TestAllTypesProto3 or
-    // protobuf_test_messages.proto2.TestAllTypesProto2.
-    string message_type = 4;
+  // The full name for the test message to use; for the moment, either:
+  // protobuf_test_messages.proto3.TestAllTypesProto3 or
+  // protobuf_test_messages.proto2.TestAllTypesProto2.
+  string message_type = 4;
+
+  // Each test is given a specific test category. Some category may need
+  // spedific support in testee programs. Refer to the definition of TestCategory
+  // for more information.
+  TestCategory test_category = 5;
+
+  // Specify details for how to encode jspb.
+  JspbEncodingConfig jspb_encoding_options = 6;
+
+  // This can be used in json and text format. If true, testee should print
+  // unknown fields instead of ignore. This feature is optional.
+  bool print_unknown_fields = 9;
 }
 
 // Represents a single test case's output.
 message ConformanceResponse {
-    oneof result {
-        // This string should be set to indicate parsing failed.  The string can
-        // provide more information about the parse error if it is available.
-        //
-        // Setting this string does not necessarily mean the testee failed the
-        // test.  Some of the test cases are intentionally invalid input.
-        string parse_error = 1;
+  oneof result {
+    // This string should be set to indicate parsing failed.  The string can
+    // provide more information about the parse error if it is available.
+    //
+    // Setting this string does not necessarily mean the testee failed the
+    // test.  Some of the test cases are intentionally invalid input.
+    string parse_error = 1;
 
-        // If the input was successfully parsed but errors occurred when
-        // serializing it to the requested output format, set the error message in
-        // this field.
-        string serialize_error = 6;
+    // If the input was successfully parsed but errors occurred when
+    // serializing it to the requested output format, set the error message in
+    // this field.
+    string serialize_error = 6;
 
-        // This should be set if some other error occurred.  This will always
-        // indicate that the test failed.  The string can provide more information
-        // about the failure.
-        string runtime_error = 2;
+    // This should be set if some other error occurred.  This will always
+    // indicate that the test failed.  The string can provide more information
+    // about the failure.
+    string runtime_error = 2;
 
-        // If the input was successfully parsed and the requested output was
-        // protobuf, serialize it to protobuf and set it in this field.
-        bytes protobuf_payload = 3;
+    // If the input was successfully parsed and the requested output was
+    // protobuf, serialize it to protobuf and set it in this field.
+    bytes protobuf_payload = 3;
 
-        // If the input was successfully parsed and the requested output was JSON,
-        // serialize to JSON and set it in this field.
-        string json_payload = 4;
+    // If the input was successfully parsed and the requested output was JSON,
+    // serialize to JSON and set it in this field.
+    string json_payload = 4;
 
-        // For when the testee skipped the test, likely because a certain feature
-        // wasn't supported, like JSON input/output.
-        string skipped = 5;
-    }
+    // For when the testee skipped the test, likely because a certain feature
+    // wasn't supported, like JSON input/output.
+    string skipped = 5;
+
+    // If the input was successfully parsed and the requested output was JSPB,
+    // serialize to JSPB and set it in this field. JSPB is google internal only
+    // format. Opensource testees can just skip it.
+    string jspb_payload = 7;
+
+    // If the input was successfully parsed and the requested output was
+    // TEXT_FORMAT, serialize to TEXT_FORMAT and set it in this field.
+    string text_payload = 8;
+  }
+}
+
+// Encoding options for jspb format.
+message JspbEncodingConfig {
+  // Encode the value field of Any as jspb array if true, otherwise binary.
+  bool use_jspb_array_any_format = 1;
 }

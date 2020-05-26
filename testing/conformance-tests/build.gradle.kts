@@ -14,13 +14,10 @@
  */
 
 dependencies {
+    testImplementation(project(":testing:util"))
     testImplementation(libraries.protobuf)
 }
 
 tasks.named("test") {
     dependsOn(":testing:conformance-driver:installDist")
-}
-
-sourceSets.test {
-    java.srcDir("../../protokt-codegen/src/test/kotlin/com/toasttab/protokt/util")
 }

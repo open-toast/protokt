@@ -15,9 +15,9 @@
 
 package com.toasttab.protokt.conformance
 
-import com.toasttab.protokt.util.ProcessOutput.Src.ERR
-import com.toasttab.protokt.util.projectRoot
-import com.toasttab.protokt.util.runCommand
+import com.toasttab.protokt.testing.util.ProcessOutput.Src.ERR
+import com.toasttab.protokt.testing.util.projectRoot
+import com.toasttab.protokt.testing.util.runCommand
 import java.nio.file.Paths
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
@@ -36,7 +36,7 @@ class ConformanceTest {
     }
 }
 
-private fun pivotOs(mac: String, linux: String) =
+private fun <T> pivotOs(mac: T, linux: T) =
     with(System.getProperty("os.name")) {
         when {
             contains("Mac") -> mac
@@ -56,11 +56,14 @@ private val conformanceDriver =
         "build", "install", "protokt-conformance", "bin", "protokt-conformance"
     )
 
+private val failureList =
+    "--failure_list failure_list_kt.txt"
+
 private val command =
-    "$baseCommand --enforce_recommended $conformanceDriver"
+    "$baseCommand --enforce_recommended $failureList $conformanceDriver"
 
 private val libPathOverride =
-    mapOf(
-        pivotOs("DYLD_LIBRARY_PATH", "LD_LIBRARY_PATH")
-            to Paths.get(binDir, ".libs").toString()
+    pivotOs(
+        emptyMap(),
+        mapOf("LD_LIBRARY_PATH" to Paths.get(binDir, ".libs").toString())
     )
