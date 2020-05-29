@@ -321,8 +321,10 @@ private fun toStandard(
             repeated = fdp.label == LABEL_REPEATED,
             optional = !alwaysRequired && fdp.label == LABEL_OPTIONAL,
             packed =
-                type.packed &&
-                    (ctx.fdp.syntax == "proto3" || fdp.options?.packed == true),
+                type.packable &&
+                    (ctx.fdp.syntax == "proto3" &&
+                        (!fdp.options.hasPacked() ||
+                        (fdp.options.hasPacked() && fdp.options.packed))),
             map =
                 fdp.label == LABEL_REPEATED &&
                     fdp.type == FieldDescriptorProto.Type.TYPE_MESSAGE &&
@@ -334,7 +336,7 @@ private fun toStandard(
             options =
                 FieldOptions(
                     fdp.options,
-                    fdp.options.getExtension(Protokt.property)
+                    fdp.options.extensionOrDefault(Protokt.property)
                 ),
             protoTypeName = fdp.typeName,
             typePClass = typePClass(fdp.typeName, ctx, type),

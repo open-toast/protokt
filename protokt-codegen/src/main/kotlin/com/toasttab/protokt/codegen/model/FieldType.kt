@@ -49,7 +49,7 @@ enum class FieldType(
                 }
         }
 
-    val packed
+    val packable
         get() =
             type != Nonscalar.Bytes &&
                 type != Nonscalar.Message &&
