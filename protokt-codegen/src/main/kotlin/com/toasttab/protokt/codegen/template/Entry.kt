@@ -35,7 +35,7 @@ object Entry {
         )
 
         class DeserializerInfo(
-            val tag: String,
+            val tag: Int,
             val assignment: String
         )
     }

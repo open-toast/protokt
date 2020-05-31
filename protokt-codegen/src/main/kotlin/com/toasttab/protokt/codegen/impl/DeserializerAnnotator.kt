@@ -28,6 +28,7 @@ import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Oneof
 import com.toasttab.protokt.codegen.protoc.StandardField
+import com.toasttab.protokt.codegen.protoc.Tag
 import com.toasttab.protokt.codegen.template.Message.Message.DeserializerInfo
 import com.toasttab.protokt.codegen.template.Message.Message.DeserializerInfo.Assignment
 import com.toasttab.protokt.codegen.template.Oneof as OneofTemplate
@@ -41,32 +42,37 @@ private constructor(
     private val ctx: Context
 ) {
     private fun annotateDeserializer(): List<DeserializerInfo> =
-        msg.flattenedSortedFields().map { (field, oneOf) ->
-            DeserializerInfo(
-                oneOf.isEmpty(),
-                field.repeated,
-                field.tagList.joinToString(),
-                oneOf.fold(
-                    {
-                        deserializeString(field).let { value ->
-                            Assignment(
-                                field.fieldName,
-                                value,
-                                long(field, value)
-                            )
+        msg.flattenedSortedFields().flatMap { (field, oneOf) ->
+            field.tagList.map { tag ->
+                DeserializerInfo(
+                    oneOf.isEmpty(),
+                    field.repeated,
+                    tag.value,
+                    oneOf.fold(
+                        {
+                            deserializeString(
+                                field,
+                                tag is Tag.Packed
+                            ).let { value ->
+                                Assignment(
+                                    field.fieldName,
+                                    value,
+                                    long(field, value)
+                                )
+                            }
+                        },
+                        {
+                            oneofDes(it, field).let { value ->
+                                Assignment(
+                                    it.fieldName,
+                                    value,
+                                    long(field, value)
+                                )
+                            }
                         }
-                    },
-                    {
-                        oneofDes(it, field).let { value ->
-                            Assignment(
-                                it.fieldName,
-                                value,
-                                long(field, value)
-                            )
-                        }
-                    }
+                    )
                 )
-            )
+            }
         }
 
     private fun long(field: StandardField, value: String): Boolean {
@@ -86,11 +92,12 @@ private constructor(
         return value.length > spaceLeft
     }
 
-    private fun deserializeString(f: StandardField) =
+    private fun deserializeString(f: StandardField, packed: Boolean) =
         Deserialize.render(
             field = f,
             read = interceptReadFn(f, f.readFn()),
             lhs = f.fieldName,
+            packed = packed,
             options =
                 if (f.wrapped) {
                     Options(
@@ -122,7 +129,7 @@ private constructor(
         OneofTemplate.Deserialize.render(
             oneof = f.name,
             name = f.fieldTypeNames.getValue(ff.name),
-            read = deserializeString(ff)
+            read = deserializeString(ff, false)
         )
 
     private fun StandardField.readFn() =

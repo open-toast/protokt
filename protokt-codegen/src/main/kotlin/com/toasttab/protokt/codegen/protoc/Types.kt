@@ -227,3 +227,17 @@ class TypeDesc(
     val desc: FileDesc,
     val type: AnnotatedType
 )
+
+sealed class Tag(val value: Int) : Comparable<Tag> {
+    class Packed(
+        number: Int
+    ) : Tag((number shl 3) or 2)
+
+    class Unpacked(
+        number: Int,
+        wireFormat: Int
+    ) : Tag((number shl 3) or wireFormat)
+
+    override fun compareTo(other: Tag) =
+        value.compareTo(other.value)
+}
