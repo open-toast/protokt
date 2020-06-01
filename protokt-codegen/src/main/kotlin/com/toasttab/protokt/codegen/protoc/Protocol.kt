@@ -321,8 +321,16 @@ private fun toStandard(
             repeated = fdp.label == LABEL_REPEATED,
             optional = !alwaysRequired && fdp.label == LABEL_OPTIONAL,
             packed =
-                type.packed &&
-                    (ctx.fdp.syntax == "proto3" || fdp.options?.packed == true),
+                type.packable &&
+                    // marginal support for proto2
+                    ((ctx.fdp.syntax == "proto2" && fdp.options.packed) ||
+                        // packed if: proto3 and `packed` isn't set, or proto3
+                        // and `packed` is true. If proto3, only explicitly
+                        // setting `packed` to false disables packing, since
+                        // the default value for an unset boolean is false.
+                        (ctx.fdp.syntax == "proto3" &&
+                            (!fdp.options.hasPacked() ||
+                                (fdp.options.hasPacked() && fdp.options.packed)))),
             map =
                 fdp.label == LABEL_REPEATED &&
                     fdp.type == FieldDescriptorProto.Type.TYPE_MESSAGE &&
@@ -334,7 +342,7 @@ private fun toStandard(
             options =
                 FieldOptions(
                     fdp.options,
-                    fdp.options.getExtension(Protokt.property)
+                    fdp.options.extensionOrDefault(Protokt.property)
                 ),
             protoTypeName = fdp.typeName,
             typePClass = typePClass(fdp.typeName, ctx, type),

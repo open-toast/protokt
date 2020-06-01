@@ -96,7 +96,7 @@ private constructor(
         return Serialize.render(
             field = f,
             name = f.fieldName,
-            tag = f.tag,
+            tag = f.tag.value,
             box =
                 if (f.map) {
                     f.boxMap(ctx)

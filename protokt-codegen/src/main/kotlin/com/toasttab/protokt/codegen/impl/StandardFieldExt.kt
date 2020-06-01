@@ -18,28 +18,45 @@ package com.toasttab.protokt.codegen.impl
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
 import com.toasttab.protokt.codegen.protoc.StandardField
+import com.toasttab.protokt.codegen.protoc.Tag
 import com.toasttab.protokt.codegen.protoc.wireFormat
 import com.toasttab.protokt.codegen.template.Renderers.Box
 import com.toasttab.protokt.codegen.template.Renderers.BoxMap
 import com.toasttab.protokt.codegen.template.Renderers.NonDefaultValue
 
 internal val StandardField.tag
-    get() = (number shl 3) or if (repeated && packed) 2 else wireFormat
+    get() =
+        if (repeated && packed) {
+            Tag.Packed(number)
+        } else {
+            Tag.Unpacked(number, wireFormat)
+        }
 
 internal val StandardField.tagList
     get() =
         tag.let {
             if (repeated) {
-                // (via pb-and-k) As a special case for repeateds, we have
-                // to also catch the other (packed or non-packed) versions.
-                setOf(
+                // For repeated fields, catch the other (packed or non-packed)
+                // possiblity.
+                keepIfDifferent(
                     it,
-                    (number shl 3) or (if (packed) wireFormat else 2)
+                    if (packed) {
+                        Tag.Unpacked(number, wireFormat)
+                    } else {
+                        Tag.Packed(number)
+                    }
                 )
             } else {
-                setOf(it)
+                listOf(it)
             }
         }.sorted()
+
+private fun keepIfDifferent(tag: Tag, other: Tag) =
+    if (tag.value == other.value) {
+        listOf(tag)
+    } else {
+        listOf(tag, other)
+    }
 
 internal val StandardField.deprecated
     get() = options.default.deprecated

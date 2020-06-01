@@ -74,9 +74,10 @@ object Renderers {
             field: StandardField,
             read: String,
             lhs: String,
+            packed: Boolean,
             options: Options?
         ) =
-            renderArgs(field, read, lhs, options)
+            renderArgs(field, read, lhs, packed, options)
 
         class Options(
             val wrapName: String,

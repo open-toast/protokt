@@ -99,7 +99,7 @@ object Message {
         class DeserializerInfo(
             val std: Boolean,
             val repeated: Boolean,
-            val tag: String,
+            val tag: Int,
             val assignment: Assignment
         ) : FieldInfo {
             class Assignment(
