@@ -22,6 +22,6 @@ enablePublishing()
 dependencies {
     protobuf(libraries.protoGoogleCommonProtos)
 
-    implementation(project(":protokt-runtime-grpc"))
-    implementation(libraries.grpcStub)
+    api(project(":protokt-runtime-grpc"))
+    api(libraries.grpcStub)
 }
