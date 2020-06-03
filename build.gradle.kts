@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-import com.toasttab.protokt.shared.MANIFEST_VERSION_PROPERTY
+import com.toasttab.protokt.gradle.MANIFEST_VERSION_PROPERTY
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {

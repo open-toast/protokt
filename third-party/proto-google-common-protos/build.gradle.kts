@@ -14,14 +14,16 @@
  */
 
 import com.google.protobuf.gradle.protobuf
+import com.toasttab.protokt.gradle.protokt
 
 localProtokt()
 pureKotlin()
 enablePublishing()
 
+protokt {
+    generateGrpc = false
+}
+
 dependencies {
     protobuf(libraries.protoGoogleCommonProtos)
-
-    api(project(":protokt-runtime-grpc"))
-    api(libraries.grpcStub)
 }

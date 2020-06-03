@@ -29,10 +29,18 @@ internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
         HeaderAccumulator.write(astList, imports) { header.append(it + "\n") }
 
         val body = StringBuilder()
-        astList.forEach { it.data.type.code.map { s -> body.append(s + "\n") } }
+        astList.forEach {
+            it.data.type.code.map { s ->
+                if (s.isNotBlank()) {
+                    body.append(s + "\n")
+                }
+            }
+        }
 
-        acc(header.toString())
-        acc(ImportReplacer.replaceImports(body.toString(), imports))
+        if (body.isNotBlank()) {
+            acc(header.toString())
+            acc(ImportReplacer.replaceImports(body.toString(), imports))
+        }
     }
 
     private fun collectPossibleImports(astList: List<AST<TypeDesc>>): Set<Import> =

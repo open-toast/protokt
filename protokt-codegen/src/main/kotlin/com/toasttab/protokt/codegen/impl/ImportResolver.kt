@@ -20,6 +20,8 @@ import com.github.andrewoma.dexx.kollection.immutableSetOf
 import com.github.andrewoma.dexx.kollection.toImmutableSet
 import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.impl.ClassLookup.getClassOrNone
+import com.toasttab.protokt.codegen.impl.STAnnotator.grpc
+import com.toasttab.protokt.codegen.impl.STAnnotator.nonGrpc
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.protoc.Enum
 import com.toasttab.protokt.codegen.protoc.Field
@@ -75,10 +77,13 @@ class ImportResolver(
 
     private fun imports(t: TopLevelType): ImmutableSet<Import> =
         when (t) {
-            is Message -> imports(t)
-            is Enum -> enumImports
-            is Service -> ServiceImportResolver(t).imports()
+            is Message -> nonGrpc(ctx, immutableSetOf()) { imports(t) }
+            is Enum -> nonGrpc(ctx, immutableSetOf()) { enumImports }
+            is Service -> grpc(ctx, immutableSetOf()) { serviceImports(t) }
         }
+
+    private fun serviceImports(s: Service) =
+        ServiceImportResolver(s).imports()
 
     private fun imports(m: Message): ImmutableSet<Import> =
         messageImports +

@@ -22,7 +22,6 @@ import arrow.core.getOrHandle
 import arrow.syntax.function.memoize
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.protoc.ProtocolContext
-import com.toasttab.protokt.codegen.protoc.classpath
 import com.toasttab.protokt.ext.Converter
 import java.io.File
 import java.net.URLClassLoader
@@ -32,7 +31,7 @@ internal object ClassLookup {
         { pClass: PClass, ctx: ProtocolContext ->
             fun loadClass(pClass: PClass) =
                 Either.catchingAll {
-                    getClassLoader(ctx.classpath())
+                    getClassLoader(ctx.classpath)
                         .loadClass(pClass.qualifiedName)
                         .kotlin
                 }

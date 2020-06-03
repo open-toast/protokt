@@ -13,8 +13,14 @@
  * limitations under the License.
  */
 
+import com.toasttab.protokt.gradle.protokt
+
 localProtokt()
 pureKotlin()
+
+protokt {
+    generateGrpc = true
+}
 
 dependencies {
     implementation(kotlin("reflect"))

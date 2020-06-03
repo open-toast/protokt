@@ -77,14 +77,14 @@ internal object MessageAnnotator {
                 },
             suppressDeprecation = msg.hasDeprecation &&
                 (!enclosingDeprecation(ctx) ||
-                    ctx.enclosingMessage.firstOption()
+                    ctx.enclosing.firstOption()
                         .fold({ false }, { it == msg })),
             fullTypeName = msg.fullProtobufTypeName
         )
 
     private fun options(msg: Message, ctx: Context): Options {
         val lengthAsOneLine =
-            ctx.enclosingMessage.size * 4 +
+            ctx.enclosing.size * 4 +
                 4 + // companion indentation
                 63 + // `override fun deserialize(deserializer: KtMessageDeserializer): `
                 msg.name.length +

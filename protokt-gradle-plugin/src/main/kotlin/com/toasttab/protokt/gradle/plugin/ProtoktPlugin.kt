@@ -15,8 +15,8 @@
 
 package com.toasttab.protokt.gradle.plugin
 
-import com.toasttab.protokt.shared.EXTENSIONS
-import com.toasttab.protokt.shared.configureProtokt
+import com.toasttab.protokt.gradle.EXTENSIONS
+import com.toasttab.protokt.gradle.configureProtokt
 import com.toasttab.protokt.util.getProtoktVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project

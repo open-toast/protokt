@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-import com.toasttab.protokt.shared.protoktExtensions
+import com.toasttab.protokt.gradle.protoktExtensions
 
 apply(plugin = "kotlin-kapt")
 

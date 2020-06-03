@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-import com.toasttab.protokt.shared.DEFAULT_PROTOBUF_VERSION
+import com.toasttab.protokt.gradle.DEFAULT_PROTOBUF_VERSION
 
 object versions {
     const val arrow = "0.10.5"

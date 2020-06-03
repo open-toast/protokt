@@ -77,7 +77,7 @@ private constructor(
 
     private fun long(field: StandardField, value: String): Boolean {
         val spaceTaken =
-            (ctx.enclosingMessage.size * 4) + // outer indentation
+            (ctx.enclosing.size * 4) + // outer indentation
                 4 + // companion object
                 4 + // fun deserialize
                 4 + // while (true)
@@ -147,7 +147,7 @@ private constructor(
 
     private fun stripEnclosingMessageName(s: String): String {
         var stripped = s
-        for (enclosing in ctx.enclosingMessage.reversed()) {
+        for (enclosing in ctx.enclosing.reversed()) {
             if (stripped.startsWith(enclosing.name)) {
                 stripped = stripped.removePrefix("${enclosing.name}.")
             } else {

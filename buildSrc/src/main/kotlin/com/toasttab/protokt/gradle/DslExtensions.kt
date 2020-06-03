@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.shared
+package com.toasttab.protokt.gradle
 
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Dependency

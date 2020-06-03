@@ -23,11 +23,11 @@ import com.toasttab.protokt.codegen.protoc.StandardField
 
 object Deprecation {
     fun enclosingDeprecation(ctx: Context): Boolean {
-        return if (ctx.enclosingMessage.isEmpty()) {
+        return if (ctx.enclosing.isEmpty()) {
             false
         } else {
-            ctx.enclosingMessage
-                .subList(0, ctx.enclosingMessage.size)
+            ctx.enclosing
+                .subList(0, ctx.enclosing.size)
                 .any { it.hasDeprecation }
         }
     }
