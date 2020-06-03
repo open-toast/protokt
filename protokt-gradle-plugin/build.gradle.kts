@@ -18,13 +18,6 @@ plugins {
     id("com.gradle.plugin-publish") version "0.11.0"
 }
 
-tasks.named<Jar>("jar") {
-    from(buildSrcClasses) {
-        include("com/toasttab/**")
-        include("META-INF/**")
-    }
-}
-
 gradlePlugin {
     setAutomatedPublishing(false)
 
@@ -56,10 +49,9 @@ tasks.named("publishPlugins") {
 }
 
 enablePublishing()
+dependOnBuildSrcClasses()
 
 dependencies {
     implementation(gradleApi())
     implementation(libraries.protobufPlugin)
-
-    implementation(files(buildSrcClasses))
 }

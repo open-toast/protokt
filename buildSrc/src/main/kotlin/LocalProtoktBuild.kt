@@ -16,13 +16,12 @@
 import com.toasttab.protokt.shared.EXTENSIONS
 import com.toasttab.protokt.shared.configureProtokt
 import org.gradle.api.Project
+import org.gradle.api.tasks.bundling.Jar
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.named
 import org.gradle.kotlin.dsl.project
 import org.gradle.kotlin.dsl.withType
-
-val Project.buildSrcClasses
-    get() = "${rootProject.projectDir}/buildSrc/build/classes/kotlin/main"
 
 fun Project.localProtokt() {
     configureProtokt(this) {
@@ -45,5 +44,20 @@ fun Project.localProtokt() {
 fun Project.pureKotlin() {
     tasks.withType<JavaCompile> {
         enabled = false
+    }
+}
+
+fun Project.dependOnBuildSrcClasses() {
+    val buildSrcClasses = "${rootProject.projectDir}/buildSrc/build/classes/kotlin/main"
+
+    tasks.named<Jar>("jar") {
+        from(buildSrcClasses) {
+            include("com/toasttab/**")
+            include("META-INF/**")
+        }
+    }
+
+    dependencies {
+        add("implementation", files(buildSrcClasses))
     }
 }

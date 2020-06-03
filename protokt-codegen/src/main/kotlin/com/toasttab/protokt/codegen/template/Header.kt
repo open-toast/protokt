@@ -19,7 +19,11 @@ import com.toasttab.protokt.codegen.model.PPackage
 
 object Header {
     object Header : StTemplate(StGroup.Header) {
-        fun render(`package`: PPackage?, imports: List<String>) =
-            renderArgs(`package`, imports)
+        fun render(
+            `package`: PPackage?,
+            imports: List<String>,
+            version: String
+        ) =
+            renderArgs(`package`, imports, version)
     }
 }

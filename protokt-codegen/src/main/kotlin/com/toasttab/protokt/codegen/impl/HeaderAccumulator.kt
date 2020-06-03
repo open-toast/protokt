@@ -19,6 +19,7 @@ import arrow.core.firstOrNone
 import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.protoc.TypeDesc
+import com.toasttab.protokt.codegen.protoc.version
 import com.toasttab.protokt.codegen.template.Header.Header
 
 internal object HeaderAccumulator {
@@ -38,8 +39,8 @@ internal object HeaderAccumulator {
                                 it
                             }
                         },
-                    imports =
-                        imports.map { it.qualifiedName }.sorted()
+                    imports = imports.map { it.qualifiedName }.sorted(),
+                    version = f.data.desc.context.version()
                 )
             )
         }

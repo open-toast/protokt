@@ -30,9 +30,9 @@ configure<JavaApplication> {
     mainClassName = "com.toasttab.protokt.MainKt"
 }
 
-dependencies {
-    implementation(files(buildSrcClasses))
+dependOnBuildSrcClasses()
 
+dependencies {
     implementation(project(":extensions:protokt-extensions-api"))
     implementation(project(":protokt-runtime"))
     implementation(project(":protokt-runtime-grpc"))

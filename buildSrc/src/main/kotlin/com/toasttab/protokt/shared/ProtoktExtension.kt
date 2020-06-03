@@ -16,28 +16,30 @@
 package com.toasttab.protokt.shared
 
 import java.util.jar.JarInputStream
+import kotlin.reflect.KClass
 
 const val DEFAULT_PROTOBUF_VERSION = "3.12.1"
 const val MANIFEST_VERSION_PROPERTY = "Implementation-Version"
 
 open class ProtoktExtension {
     var protocVersion = DEFAULT_PROTOBUF_VERSION
-    var toolsVersion: String? = null
     var publishProto = false
     var respectJavaPackage = true
 
     val version by lazy {
-        toolsVersion
-            ?: ProtoktExtension::class.java
-                .protectionDomain
-                .codeSource
-                .location
-                .openStream()
-                .use {
-                    JarInputStream(it)
-                        .manifest
-                        .mainAttributes
-                        .getValue(MANIFEST_VERSION_PROPERTY)
-                }
+        getProtoktVersion(ProtoktExtension::class)
     }
 }
+
+fun getProtoktVersion(klass: KClass<*>): String =
+    klass.java
+        .protectionDomain
+        .codeSource
+        .location
+        .openStream()
+        .use {
+            JarInputStream(it)
+                .manifest
+                .mainAttributes
+                .getValue(MANIFEST_VERSION_PROPERTY)
+        }
