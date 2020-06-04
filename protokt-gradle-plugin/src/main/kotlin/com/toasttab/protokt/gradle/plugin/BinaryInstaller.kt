@@ -15,7 +15,7 @@
 
 package com.toasttab.protokt.gradle.plugin
 
-import com.toasttab.protokt.shared.CODEGEN_NAME
+import com.toasttab.protokt.gradle.CODEGEN_NAME
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Dependency
 

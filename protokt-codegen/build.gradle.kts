@@ -16,7 +16,7 @@
 import com.google.protobuf.gradle.proto
 import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
-import com.toasttab.protokt.shared.CODEGEN_NAME
+import com.toasttab.protokt.gradle.CODEGEN_NAME
 
 plugins {
     application

@@ -21,12 +21,6 @@ import com.google.protobuf.DescriptorProtos
 import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.ext.Protokt
-<<<<<<< HEAD
-import com.toasttab.protokt.shared.KOTLIN_EXTRA_CLASSPATH
-import com.toasttab.protokt.shared.RESPECT_JAVA_PACKAGE
-import com.toasttab.protokt.util.getProtoktVersion
-=======
->>>>>>> add options to generate only gRPC and not to generate gRPC code
 
 sealed class TopLevelType
 

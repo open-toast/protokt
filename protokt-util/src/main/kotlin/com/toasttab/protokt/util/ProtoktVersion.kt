@@ -15,7 +15,7 @@
 
 package com.toasttab.protokt.util
 
-import com.toasttab.protokt.shared.MANIFEST_VERSION_PROPERTY
+import com.toasttab.protokt.gradle.MANIFEST_VERSION_PROPERTY
 import java.util.jar.JarInputStream
 import kotlin.reflect.KClass
 

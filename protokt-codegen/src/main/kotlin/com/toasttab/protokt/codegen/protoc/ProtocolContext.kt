@@ -17,6 +17,7 @@ package com.toasttab.protokt.codegen.protoc
 
 import arrow.core.None
 import arrow.core.Option
+import arrow.core.extensions.list.foldable.find
 import com.google.protobuf.DescriptorProtos.DescriptorProto
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.toasttab.protokt.codegen.model.PPackage
@@ -50,21 +51,23 @@ fun ProtocolContext.findLocal(
     name: String,
     parent: Option<DescriptorProto> = None
 ): Option<DescriptorProto> {
-    val (typeList, typeName) = parent.fold(
-        {
-            fdp.messageTypeList.filterNotNull() to
-                name.removePrefix(".${fdp.`package`}.")
-        },
-        {
-            it.nestedTypeList.filterNotNull() to name
-        })
+    val (typeList, typeName) =
+        parent.fold(
+            {
+                fdp.messageTypeList.filterNotNull() to
+                    name.removePrefix(".${fdp.`package`}.")
+            },
+            { it.nestedTypeList.filterNotNull() to name }
+        )
 
     typeName.indexOf('.').let { idx ->
-        if (idx == -1) return Option.fromNullable(
-            typeList.find { it.name == typeName })
-        return findLocal(
-            typeName.substring(idx + 1),
-            Option.fromNullable(
-                typeList.find { it.name == typeName.substring(0, idx) }))
+        return if (idx == -1) {
+            typeList.find { it.name == typeName }
+        } else {
+            findLocal(
+                typeName.substring(idx + 1),
+                typeList.find { it.name == typeName.substring(0, idx) }
+            )
+        }
     }
 }
