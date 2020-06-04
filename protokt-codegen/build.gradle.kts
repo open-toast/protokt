@@ -31,10 +31,10 @@ configure<JavaApplication> {
 }
 
 dependencies {
-    implementation(project(":util"))
     implementation(project(":extensions:protokt-extensions-api"))
     implementation(project(":protokt-runtime"))
     implementation(project(":protokt-runtime-grpc"))
+    implementation(project(":protokt-util"))
 
     implementation(kotlin("reflect"))
 

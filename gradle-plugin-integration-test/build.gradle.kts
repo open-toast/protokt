@@ -25,13 +25,13 @@ plugins {
 
 buildscript {
     repositories {
-        maven(url = "${rootProject.projectDir}/../build/repos/integration")
+        maven(url = "$projectDir/../build/repos/integration")
         gradlePluginPortal()
         jcenter()
     }
 
     dependencies {
-        classpath("com.toasttab.protokt:protokt-gradle-plugin:${rootProject.version}")
+        classpath("com.toasttab.protokt:protokt-gradle-plugin:$version")
     }
 }
 
@@ -66,7 +66,7 @@ tasks.withType<Test> {
 }
 
 repositories {
-    maven(url = "${projectDir}/../build/repos/integration")
+    maven(url = "$projectDir/../build/repos/integration")
     jcenter()
 }
 
@@ -85,5 +85,5 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.6.2")
     testImplementation("com.google.protobuf:protobuf-javalite:3.12.1")
-    testImplementation("com.toasttab.protokt:util:$version")
+    testImplementation("com.toasttab.protokt:protokt-util:$version")
 }
