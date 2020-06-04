@@ -17,21 +17,24 @@ package com.toasttab.protokt.gradle.plugin
 
 import com.toasttab.protokt.shared.EXTENSIONS
 import com.toasttab.protokt.shared.configureProtokt
+import com.toasttab.protokt.util.getProtoktVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
+val protoktVersion by lazy { getProtoktVersion(ProtoktPlugin::class) }
+
 class ProtoktPlugin : Plugin<Project> {
     override fun apply(project: Project) {
-        configureProtokt(project) { ext ->
+        configureProtokt(project) {
             project.configurations.named(EXTENSIONS) {
                 it.dependencies.add(
                     project.dependencies.create(
-                        "com.toasttab.protokt:protokt-core:${ext.version}"
+                        "com.toasttab.protokt:protokt-core:$protoktVersion"
                     )
                 )
             }
 
-            binaryFromArtifact(project, ext.version)
+            binaryFromArtifact(project)
         }
     }
 }

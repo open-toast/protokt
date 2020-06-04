@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2020 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,12 +13,6 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.shared
-
-const val DEFAULT_PROTOBUF_VERSION = "3.12.1"
-
-open class ProtoktExtension {
-    var protocVersion = DEFAULT_PROTOBUF_VERSION
-    var publishProto = false
-    var respectJavaPackage = true
+dependencies {
+    api(files(buildSrcClasses))
 }

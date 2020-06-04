@@ -18,17 +18,18 @@ package com.toasttab.protokt.shared
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.create
 
+const val CODEGEN_NAME = "protoc-gen-protokt"
+
 const val EXTENSIONS = "protoktExtensions"
 
-fun configureProtokt(
-    project: Project,
-    resolveBinary: (ext: ProtoktExtension) -> String
-) {
+const val MANIFEST_VERSION_PROPERTY = "Implementation-Version"
+
+fun configureProtokt(project: Project, resolveBinary: () -> String) {
     createExtensionConfiguration(project)
 
     val ext = project.extensions.create<ProtoktExtension>("protokt")
 
-    configureProtobufPlugin(project, ext, resolveBinary(ext))
+    configureProtobufPlugin(project, ext, resolveBinary())
     configurePublishingTasks(project, ext)
 }
 

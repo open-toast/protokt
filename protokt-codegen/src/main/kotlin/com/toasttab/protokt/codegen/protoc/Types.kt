@@ -26,7 +26,7 @@ import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.ext.Protokt
 import com.toasttab.protokt.shared.KOTLIN_EXTRA_CLASSPATH
 import com.toasttab.protokt.shared.RESPECT_JAVA_PACKAGE
-import com.toasttab.protokt.shared.getProtoktVersion
+import com.toasttab.protokt.util.getProtoktVersion
 
 sealed class TopLevelType
 

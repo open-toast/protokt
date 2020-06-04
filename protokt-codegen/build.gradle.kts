@@ -16,23 +16,22 @@
 import com.google.protobuf.gradle.proto
 import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
+import com.toasttab.protokt.shared.CODEGEN_NAME
 
 plugins {
     application
-    idea
     id("com.google.protobuf")
 }
 
 enablePublishing(defaultJars = false)
 
 configure<JavaApplication> {
-    applicationName = "protoc-gen-protokt"
+    applicationName = CODEGEN_NAME
     mainClassName = "com.toasttab.protokt.MainKt"
 }
 
-dependOnBuildSrcClasses()
-
 dependencies {
+    implementation(project(":util"))
     implementation(project(":extensions:protokt-extensions-api"))
     implementation(project(":protokt-runtime"))
     implementation(project(":protokt-runtime-grpc"))

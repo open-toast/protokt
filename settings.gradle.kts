@@ -33,6 +33,7 @@ include(
     "protokt-runtime-grpc",
     "protokt-gradle-plugin",
     "protokt-wkt",
+    "util",
 
     "extensions",
     "extensions:protokt-extensions-api",

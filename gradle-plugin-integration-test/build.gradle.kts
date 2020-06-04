@@ -19,8 +19,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     idea
-    kotlin("jvm") version "1.3.50"
-    id("com.diffplug.gradle.spotless") version "3.25.0"
+    kotlin("jvm") version "1.3.72"
+    id("com.diffplug.gradle.spotless") version "4.2.0"
 }
 
 buildscript {
@@ -31,7 +31,6 @@ buildscript {
     }
 
     dependencies {
-        classpath("com.diffplug.spotless:spotless-plugin-gradle:3.25.0")
         classpath("com.toasttab.protokt:protokt-gradle-plugin:${rootProject.version}")
     }
 }
@@ -83,6 +82,6 @@ dependencies {
     protoktExtensions("com.toasttab.protokt:protokt-extensions:${rootProject.version}")
 
     implementation(kotlin("stdlib-jdk8"))
-    testImplementation("org.junit.jupiter:junit-jupiter:5.5.2")
-    testImplementation("com.google.protobuf:protobuf-javalite:3.10.0")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.6.2")
+    testImplementation("com.google.protobuf:protobuf-javalite:3.12.1")
 }

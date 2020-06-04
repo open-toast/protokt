@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2020 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,12 +13,21 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.shared
+package com.toasttab.protokt.util
 
-const val DEFAULT_PROTOBUF_VERSION = "3.12.1"
+import com.toasttab.protokt.shared.MANIFEST_VERSION_PROPERTY
+import java.util.jar.JarInputStream
+import kotlin.reflect.KClass
 
-open class ProtoktExtension {
-    var protocVersion = DEFAULT_PROTOBUF_VERSION
-    var publishProto = false
-    var respectJavaPackage = true
-}
+fun getProtoktVersion(klass: KClass<*>): String =
+    klass.java
+        .protectionDomain
+        .codeSource
+        .location
+        .openStream()
+        .use {
+            JarInputStream(it)
+                .manifest
+                .mainAttributes
+                .getValue(MANIFEST_VERSION_PROPERTY)
+        }
