@@ -13,6 +13,8 @@
  * limitations under the License.
  */
 
+enablePublishing()
+
 dependencies {
     api(files(buildSrcClasses))
 }

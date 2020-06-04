@@ -62,11 +62,11 @@ tasks.withType<KotlinCompile> {
 }
 
 tasks.withType<Test> {
-    systemProperty("version", "${project.version}")
+    systemProperty("version", version.toString())
 }
 
 repositories {
-    maven(url = "${rootProject.projectDir}/../build/repos/integration")
+    maven(url = "${projectDir}/../build/repos/integration")
     jcenter()
 }
 
@@ -79,9 +79,11 @@ protokt {
 }
 
 dependencies {
-    protoktExtensions("com.toasttab.protokt:protokt-extensions:${rootProject.version}")
+    protoktExtensions("com.toasttab.protokt:protokt-extensions:$version")
 
     implementation(kotlin("stdlib-jdk8"))
+
     testImplementation("org.junit.jupiter:junit-jupiter:5.6.2")
     testImplementation("com.google.protobuf:protobuf-javalite:3.12.1")
+    testImplementation("com.toasttab.protokt:util:$version")
 }
