@@ -6,7 +6,8 @@ jobs:
     docker:
       - image: circleci/openjdk:11.0.3-jdk-stretch
     environment:
-      JVM_OPTS: -Xmx3200m
+      _JAVA_OPTIONS: "-Xmx3g"
+      GRADLE_OPTS: "-Dorg.gradle.daemon=false"
     steps:
       - checkout
 
@@ -17,11 +18,11 @@ jobs:
 
       - run:
           name: build and test
-          command: ./gradlew clean check publishToIntegrationRepository --stacktrace --no-daemon
+          command: ./gradlew clean check publishToIntegrationRepository --stacktrace
 
       - run:
           name: integration tests
-          command: cd gradle-plugin-integration-test && ./gradlew clean build --stacktrace --no-daemon
+          command: cd gradle-plugin-integration-test && ./gradlew clean build --stacktrace
 
       - save_cache:
           paths:
