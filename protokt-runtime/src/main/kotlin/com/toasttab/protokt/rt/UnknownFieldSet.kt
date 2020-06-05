@@ -75,16 +75,30 @@ private constructor(
         unknownValue: UnknownValue,
         fieldNumber: Int
     ) {
+        write(fieldNumber, wireFormat(unknownValue))
         when (unknownValue) {
-            is VarintVal -> write(fieldNumber, 0).write(unknownValue.value)
-            is Fixed32Val -> write(fieldNumber, 5).write(unknownValue.value)
-            is Fixed64Val -> write(fieldNumber, 1).write(unknownValue.value)
-            is LengthDelimitedVal -> write(fieldNumber, 2).write(unknownValue.value)
+            is VarintVal -> write(unknownValue.value)
+            is Fixed32Val -> write(unknownValue.value)
+            is Fixed64Val -> write(unknownValue.value)
+            is LengthDelimitedVal -> write(unknownValue.value)
         }
     }
 
-    private fun KtMessageSerializer.write(fieldNumber: Int, wireType: Int) =
-        write(Tag((fieldNumber shl 3) or wireType))
+    // In theory we ought to be able to simply call `unknownValue.value.wireFormat`.
+    // If you actually try to do that, you get a ClassCastException along the lines of
+    // `class java.lang.Long cannot be cast to class com.toasttab.protokt.rt.UInt64`.
+    // This would appear to be a bug in Kotlin.
+    private fun wireFormat(unknownValue: UnknownValue) =
+        when (unknownValue) {
+            is VarintVal -> unknownValue.value
+            is Fixed32Val -> unknownValue.value
+            is Fixed64Val -> unknownValue.value
+            is LengthDelimitedVal -> unknownValue.value
+            else -> error("unsupported type: ${unknownValue::class.simpleName}")
+        }.wireFormat
+
+    private fun KtMessageSerializer.write(fieldNumber: Int, wireFormat: Int) =
+        write(Tag((fieldNumber shl 3) or wireFormat))
 
     override fun equals(other: Any?) =
         other is Field &&

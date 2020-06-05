@@ -30,6 +30,8 @@ import java.io.InputStream
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import kotlinx.coroutines.runBlocking
+import java.io.PrintWriter
+import java.io.StringWriter
 
 const val proto3 = "protobuf_test_messages.proto3.TestAllTypesProto3"
 
@@ -61,7 +63,7 @@ private fun io(stdin: InputStream, size: Int) =
             }
         }
     }.mapLeft { e ->
-        Result.ParseError("ParseError, ${e.message}")
+        parseError(e)
     }.fold(
         { identity(it) },
         {
@@ -79,7 +81,7 @@ private fun io(stdin: InputStream, size: Int) =
                             )
                         }
                     }.mapLeft { e ->
-                        Result.ParseError("Parse Error, ${e.message}") as Result
+                        parseError(e)
                     }.fold(
                         { f -> identity(f) },
                         { f -> identity(f) }
@@ -90,6 +92,12 @@ private fun io(stdin: InputStream, size: Int) =
             }
         }
     )
+
+private fun parseError(t: Throwable): Result {
+    val writer = StringWriter()
+    t.printStackTrace(PrintWriter(writer))
+    return Result.ParseError("Parse Error, $writer")
+}
 
 private fun readSizeLE(ist: InputStream) =
     IO {

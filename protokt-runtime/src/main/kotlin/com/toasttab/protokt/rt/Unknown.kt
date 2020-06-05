@@ -36,25 +36,27 @@ private constructor(
 }
 
 interface UnknownValue {
+    val value: Serialized
+
     fun size(): Int
 }
 
-inline class VarintVal(val value: UInt64) : UnknownValue {
+inline class VarintVal(override val value: UInt64) : UnknownValue {
     override fun size() =
         sizeof(value)
 }
 
-inline class Fixed32Val(val value: Fixed32) : UnknownValue {
+inline class Fixed32Val(override val value: Fixed32) : UnknownValue {
     override fun size() =
         sizeof(value)
 }
 
-inline class Fixed64Val(val value: Fixed64) : UnknownValue {
+inline class Fixed64Val(override val value: Fixed64) : UnknownValue {
     override fun size() =
         sizeof(value)
 }
 
-inline class LengthDelimitedVal(val value: Bytes) : UnknownValue {
+inline class LengthDelimitedVal(override val value: Bytes) : UnknownValue {
     override fun size() =
         sizeof(value)
 }

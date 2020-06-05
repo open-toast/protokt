@@ -115,26 +115,7 @@ class FieldOptions(
 )
 
 val StandardField.wireFormat
-    get() =
-        when (type) {
-            FieldType.BOOL,
-            FieldType.ENUM,
-            FieldType.INT32,
-            FieldType.INT64,
-            FieldType.SINT32,
-            FieldType.SINT64,
-            FieldType.UINT32,
-            FieldType.UINT64 -> 0
-            FieldType.DOUBLE,
-            FieldType.FIXED64,
-            FieldType.SFIXED64 -> 1
-            FieldType.BYTES,
-            FieldType.MESSAGE,
-            FieldType.STRING -> 2
-            FieldType.FLOAT,
-            FieldType.FIXED32,
-            FieldType.SFIXED32 -> 5
-        }
+    get() = type.wireFormat
 
 class Oneof(
     val name: String,

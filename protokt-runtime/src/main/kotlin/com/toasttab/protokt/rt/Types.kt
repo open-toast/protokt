@@ -15,33 +15,76 @@
 
 package com.toasttab.protokt.rt
 
-interface Boxed {
-    val value: Number
+inline class Tag(val value: Int)
+
+interface Serialized {
+    val wireFormat: Int
 }
 
-inline class Tag(override val value: Int) : Boxed
+interface Boxed : Serialized {
+    val value: Number
 
-inline class Int32(override val value: Int) : Boxed
+    val wireType: Serialized
 
-inline class Fixed32(override val value: Int) : Boxed
+    override val wireFormat
+        get() = wireType.wireFormat
+}
 
-inline class SFixed32(override val value: Int) : Boxed
+interface WireType0 : Serialized {
+    override val wireFormat
+        get() = 0
+}
 
-inline class UInt32(override val value: Int) : Boxed
+interface WireType1 : Serialized {
+    override val wireFormat
+        get() = 1
+}
 
-inline class SInt32(override val value: Int) : Boxed
+interface WireType2 : Serialized {
+    override val wireFormat
+        get() = 2
+}
 
-inline class Int64(override val value: Long) : Boxed
+interface WireType5 : Serialized {
+    override val wireFormat
+        get() = 5
+}
 
-inline class Fixed64(override val value: Long) : Boxed
+interface BoxedInstanceType0 : Boxed {
+    override val wireType
+        get() = BoxedInstanceType0
 
-inline class SFixed64(override val value: Long) : Boxed
+    companion object : WireType0
+}
 
-inline class UInt64(override val value: Long) : Boxed
+interface BoxedInstanceType1 : Boxed {
+    override val wireType
+        get() = BoxedInstanceType1
 
-inline class SInt64(override val value: Long) : Boxed
+    companion object : WireType1
+}
 
-class Bytes(internal val value: ByteArray) {
+interface BoxedInstanceType5 : Boxed {
+    override val wireType
+        get() = BoxedInstanceType5
+
+    companion object : WireType5
+}
+
+inline class Int32(override val value: Int) : BoxedInstanceType0
+inline class Int64(override val value: Long) : BoxedInstanceType0
+inline class SInt32(override val value: Int) : BoxedInstanceType0
+inline class SInt64(override val value: Long) : BoxedInstanceType0
+inline class UInt32(override val value: Int) : BoxedInstanceType0
+inline class UInt64(override val value: Long) : BoxedInstanceType0
+
+inline class Fixed64(override val value: Long) : BoxedInstanceType1
+inline class SFixed64(override val value: Long) : BoxedInstanceType1
+
+inline class Fixed32(override val value: Int) : BoxedInstanceType5
+inline class SFixed32(override val value: Int) : BoxedInstanceType5
+
+class Bytes(internal val value: ByteArray) : WireType2 {
     val bytes
         get() = value.clone()
 

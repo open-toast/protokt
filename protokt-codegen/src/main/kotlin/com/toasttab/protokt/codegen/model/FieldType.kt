@@ -16,8 +16,15 @@
 package com.toasttab.protokt.codegen.model
 
 import com.toasttab.protokt.rt.Bytes
+import com.toasttab.protokt.rt.Serialized
+import com.toasttab.protokt.rt.WireType0
+import com.toasttab.protokt.rt.WireType1
+import com.toasttab.protokt.rt.WireType2
+import com.toasttab.protokt.rt.WireType5
 import kotlin.reflect.KClass
+import kotlin.reflect.full.companionObjectInstance
 import kotlin.reflect.full.declaredMemberProperties
+import kotlin.reflect.full.superclasses
 
 enum class FieldType(
     private val type: TypeImpl
@@ -61,6 +68,9 @@ enum class FieldType(
     val boxed
         get() = type.inlineRepresentation != null
 
+    val wireFormat
+        get() = type.wireFormat
+
     val boxer
         get() =
             requireNotNull(type.inlineRepresentation) {
@@ -74,7 +84,7 @@ enum class FieldType(
         get() = type.inlineRepresentation
 }
 
-private sealed class TypeImpl {
+private sealed class TypeImpl : Serialized {
     open val kotlinRepresentation: KClass<*>? = null
     open val inlineRepresentation: KClass<*>? = null
 
@@ -86,10 +96,10 @@ private sealed class Nonscalar(
 ) : TypeImpl() {
     override val scalar = false
 
-    object Enum : Nonscalar()
-    object Message : Nonscalar()
-    object Bytes : Nonscalar(ByteArray::class)
-    object String : Nonscalar(kotlin.String::class)
+    object Enum : Nonscalar(), WireType0
+    object Message : Nonscalar(), WireType2
+    object Bytes : Nonscalar(ByteArray::class), WireType2
+    object String : Nonscalar(kotlin.String::class), WireType2
 }
 
 private sealed class Scalar(
@@ -97,19 +107,24 @@ private sealed class Scalar(
 ) : TypeImpl() {
     override val scalar = true
 
-    object Bool : Scalar(Boolean::class)
-    object Double : Scalar(kotlin.Double::class)
-    object Float : Scalar(kotlin.Float::class)
+    object Bool : Scalar(Boolean::class), WireType0
+    object Double : Scalar(kotlin.Double::class), WireType1
+    object Float : Scalar(kotlin.Float::class), WireType5
 }
 
 private sealed class Boxed(
-    override val inlineRepresentation: KClass<*>
+    override val inlineRepresentation: KClass<out com.toasttab.protokt.rt.Boxed>
 ) : Scalar() {
     override val kotlinRepresentation
         get() = inlineRepresentation.declaredMemberProperties
             .single { it.name == com.toasttab.protokt.rt.Boxed::value.name }
             .returnType
             .classifier as KClass<*>
+
+    override val wireFormat: Int
+        get() =
+            (inlineRepresentation.superclasses.first().companionObjectInstance as Serialized)
+                .wireFormat
 
     object Fixed32 : Boxed(com.toasttab.protokt.rt.Fixed32::class)
     object Fixed64 : Boxed(com.toasttab.protokt.rt.Fixed64::class)
