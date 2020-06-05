@@ -22,8 +22,9 @@ object Header {
         fun render(
             `package`: PPackage?,
             imports: List<String>,
-            version: String
+            version: String,
+            fileName: String
         ) =
-            renderArgs(`package`, imports, version)
+            renderArgs(`package`, imports, version, fileName)
     }
 }
