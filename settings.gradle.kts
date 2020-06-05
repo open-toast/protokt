@@ -59,5 +59,6 @@ include(
     "benchmarks:util",
 
     "third-party",
-    "third-party:proto-google-common-protos"
+    "third-party:proto-google-common-protos",
+    "third-party:proto-google-common-protos-grpc"
 )

@@ -22,10 +22,10 @@ import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.protoc.Message
 
 internal fun Context.stripRootMessageNamePrefix(s: String) =
-    stripPrefix(enclosingMessage.firstOption(), s)
+    stripPrefix(enclosing.firstOption(), s)
 
 internal fun Context.stripEnclosingMessageNamePrefix(s: String) =
-    stripPrefix(enclosingMessage.lastOrNull().toOption(), s)
+    stripPrefix(enclosing.lastOrNull().toOption(), s)
 
 private fun stripPrefix(o: Option<Message>, s: String) =
     o.map { it.name }

@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.shared
+package com.toasttab.protokt.gradle
 
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.create
@@ -30,7 +30,6 @@ fun configureProtokt(project: Project, resolveBinary: () -> String) {
     val ext = project.extensions.create<ProtoktExtension>("protokt")
 
     configureProtobufPlugin(project, ext, resolveBinary())
-    configurePublishingTasks(project, ext)
 }
 
 private fun createExtensionConfiguration(project: Project) {

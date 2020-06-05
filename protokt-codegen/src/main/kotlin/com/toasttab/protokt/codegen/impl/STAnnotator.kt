@@ -27,6 +27,7 @@ import com.toasttab.protokt.codegen.protoc.AnnotatedType
 import com.toasttab.protokt.codegen.protoc.Enum
 import com.toasttab.protokt.codegen.protoc.FileDesc
 import com.toasttab.protokt.codegen.protoc.Message
+import com.toasttab.protokt.codegen.protoc.ProtocolContext
 import com.toasttab.protokt.codegen.protoc.Service
 import com.toasttab.protokt.codegen.protoc.TopLevelType
 import com.toasttab.protokt.codegen.protoc.TypeDesc
@@ -45,7 +46,7 @@ object STAnnotator : Annotator<AST<TypeDesc>> {
     const val protoktRtPkg = "com.toasttab.protokt.rt"
 
     data class Context(
-        val enclosingMessage: List<Message>,
+        val enclosing: List<Message>,
         val pkg: PPackage,
         val desc: FileDesc
     )
@@ -73,11 +74,38 @@ object STAnnotator : Annotator<AST<TypeDesc>> {
     fun annotate(type: TopLevelType, ctx: Context): String =
         when (type) {
             is Message ->
-                annotateMessage(
-                    type,
-                    ctx.copy(enclosingMessage = ctx.enclosingMessage + type)
-                )
-            is Enum -> annotateEnum(type, ctx)
-            is Service -> annotateService(type, ctx)
+                nonGrpc(ctx) {
+                    annotateMessage(
+                        type,
+                        ctx.copy(enclosing = ctx.enclosing + type)
+                    )
+                }
+            is Enum ->
+                nonGrpc(ctx) {
+                    annotateEnum(type, ctx)
+                }
+            is Service ->
+                grpc(ctx) {
+                    annotateService(type, ctx)
+                }
+        }
+
+    private fun nonGrpc(ctx: Context, gen: () -> String) =
+        nonGrpc(ctx.desc.context, "", gen)
+
+    private fun grpc(ctx: Context, gen: () -> String) =
+        grpc(ctx.desc.context, "", gen)
+
+    fun <T> nonGrpc(ctx: ProtocolContext, default: T, gen: () -> T) =
+        boolGen(!ctx.onlyGenerateGrpc, default, gen)
+
+    fun <T> grpc(ctx: ProtocolContext, default: T, gen: () -> T) =
+        boolGen(ctx.generateGrpc || ctx.onlyGenerateGrpc, default, gen)
+
+    private fun <T> boolGen(bool: Boolean, default: T, gen: () -> T) =
+        if (bool) {
+            gen()
+        } else {
+            default
         }
 }

@@ -13,9 +13,9 @@
  * limitations under the License.
  */
 
-import com.toasttab.protokt.shared.CODEGEN_NAME
-import com.toasttab.protokt.shared.EXTENSIONS
-import com.toasttab.protokt.shared.configureProtokt
+import com.toasttab.protokt.gradle.CODEGEN_NAME
+import com.toasttab.protokt.gradle.EXTENSIONS
+import com.toasttab.protokt.gradle.configureProtokt
 import org.gradle.api.Project
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.kotlin.dsl.dependencies

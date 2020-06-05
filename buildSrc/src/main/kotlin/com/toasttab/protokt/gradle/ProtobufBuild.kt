@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.shared
+package com.toasttab.protokt.gradle
 
 import com.google.protobuf.gradle.builtins
 import com.google.protobuf.gradle.generateProtoTasks
@@ -33,6 +33,8 @@ import org.gradle.kotlin.dsl.the
 
 const val KOTLIN_EXTRA_CLASSPATH = "kotlin_extra_classpath"
 const val RESPECT_JAVA_PACKAGE = "respect_java_package"
+const val GENERATE_GRPC = "generate_grpc"
+const val ONLY_GENERATE_GRPC = "only_generate_grpc"
 
 internal fun configureProtobufPlugin(project: Project, ext: ProtoktExtension, binaryPath: String) {
     project.apply(plugin = "com.google.protobuf")
@@ -69,6 +71,8 @@ internal fun configureProtobufPlugin(project: Project, ext: ProtoktExtension, bi
 
                             option("$KOTLIN_EXTRA_CLASSPATH=$classpath")
                             option("$RESPECT_JAVA_PACKAGE=${ext.respectJavaPackage}")
+                            option("$GENERATE_GRPC=${ext.generateGrpc}")
+                            option("$ONLY_GENERATE_GRPC=${ext.onlyGenerateGrpc}")
                         }
                     }
                 }

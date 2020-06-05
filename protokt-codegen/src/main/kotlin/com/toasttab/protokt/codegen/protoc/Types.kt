@@ -18,15 +18,9 @@ package com.toasttab.protokt.codegen.protoc
 import arrow.core.None
 import arrow.core.Option
 import com.google.protobuf.DescriptorProtos
-import com.google.protobuf.DescriptorProtos.DescriptorProto
-import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.model.PClass
-import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.ext.Protokt
-import com.toasttab.protokt.shared.KOTLIN_EXTRA_CLASSPATH
-import com.toasttab.protokt.shared.RESPECT_JAVA_PACKAGE
-import com.toasttab.protokt.util.getProtoktVersion
 
 sealed class TopLevelType
 
@@ -155,53 +149,6 @@ class OneofOptions(
     val default: DescriptorProtos.OneofOptions,
     val protokt: Protokt.ProtoktOneofOptions
 )
-
-class ProtocolContext(
-    val fdp: FileDescriptorProto,
-    val params: Map<String, String>,
-    val allPackagesByTypeName: Map<String, PPackage>
-)
-
-fun ProtocolContext.fileName() =
-    fdp.name
-
-fun ProtocolContext.classpath() =
-    params.getOrDefault(KOTLIN_EXTRA_CLASSPATH, "").split(";")
-
-fun respectJavaPackage(params: Map<String, String>) =
-    params.getValue(RESPECT_JAVA_PACKAGE).toBoolean()
-
-fun ProtocolContext.respectJavaPackage() =
-    respectJavaPackage(params)
-
-fun ProtocolContext.version() =
-    getProtoktVersion(ProtocolContext::class)
-
-fun ProtocolContext.ppackage(typeName: String) =
-    allPackagesByTypeName.getValue(typeName)
-
-fun ProtocolContext.findLocal(
-    name: String,
-    parent: Option<DescriptorProto> = None
-): Option<DescriptorProto> {
-    val (typeList, typeName) = parent.fold(
-        {
-            fdp.messageTypeList.filterNotNull() to
-                name.removePrefix(".${fdp.`package`}.")
-        },
-        {
-            it.nestedTypeList.filterNotNull() to name
-        })
-
-    typeName.indexOf('.').let { idx ->
-        if (idx == -1) return Option.fromNullable(
-            typeList.find { it.name == typeName })
-        return findLocal(
-            typeName.substring(idx + 1),
-            Option.fromNullable(
-                typeList.find { it.name == typeName.substring(0, idx) }))
-    }
-}
 
 class FileDesc(
     val name: String,

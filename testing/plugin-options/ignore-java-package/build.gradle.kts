@@ -14,7 +14,7 @@
  */
 
 import com.google.protobuf.gradle.proto
-import com.toasttab.protokt.shared.protokt
+import com.toasttab.protokt.gradle.protokt
 
 localProtokt()
 pureKotlin()

@@ -13,12 +13,13 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.shared
+package com.toasttab.protokt.gradle
 
 const val DEFAULT_PROTOBUF_VERSION = "3.12.1"
 
 open class ProtoktExtension {
     var protocVersion = DEFAULT_PROTOBUF_VERSION
-    var publishProto = false
     var respectJavaPackage = true
+    var generateGrpc = false
+    var onlyGenerateGrpc = false
 }

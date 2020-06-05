@@ -28,8 +28,6 @@ import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.model.possiblyQualify
 import com.toasttab.protokt.codegen.protoc.ProtocolContext
 import com.toasttab.protokt.codegen.protoc.StandardField
-import com.toasttab.protokt.codegen.protoc.classpath
-import com.toasttab.protokt.codegen.protoc.fileName
 import com.toasttab.protokt.codegen.template.Options.AccessField
 import com.toasttab.protokt.codegen.template.Options.BytesSlice
 import com.toasttab.protokt.codegen.template.Options.DefaultBytesSlice
@@ -168,10 +166,10 @@ internal object Wrapper {
         converter(wrapper, wrapped, ctx.desc.context)
 
     val converter = { wrapper: KClass<*>, wrapped: KClass<*>, ctx: ProtocolContext ->
-        converters(ctx.classpath()).find {
+        converters(ctx.classpath).find {
             it.wrapper == wrapper && it.wrapped == wrapped
         } ?: throw Exception(
-            "${ctx.fileName()}: No converter found for wrapper type " +
+            "${ctx.fileName}: No converter found for wrapper type " +
                 "${wrapper.qualifiedName} from type ${wrapped.qualifiedName}"
         )
     }.memoize()

@@ -15,6 +15,7 @@
 
 package com.toasttab.protokt
 
+import arrow.core.None
 import arrow.core.Some
 import arrow.core.extensions.list.foldable.nonEmpty
 import arrow.fx.IO
@@ -50,11 +51,11 @@ internal fun main(bytes: ByteArray, out: OutputStream) = IO {
                 toProtocol(
                     ProtocolContext(
                         it,
-                        params,
                         packagesByTypeName(
                             req,
                             respectJavaPackage(params)
-                        )
+                        ),
+                        params
                     )
                 ),
                 STAnnotator,
@@ -66,13 +67,17 @@ internal fun main(bytes: ByteArray, out: OutputStream) = IO {
             )
             g { s -> code.append(s) }
 
-            Some(
-                PluginProtos.CodeGeneratorResponse.File
-                    .newBuilder()
-                    .setContent(code.toString())
-                    .setName(it.newFileName(it.`package`))
-                    .build()
-            )
+            if (code.isNotBlank()) {
+                Some(
+                    PluginProtos.CodeGeneratorResponse.File
+                        .newBuilder()
+                        .setContent(code.toString())
+                        .setName(it.newFileName(it.`package`))
+                        .build()
+                )
+            } else {
+                None
+            }
         }.flatten()
 
     if (files.nonEmpty()) {

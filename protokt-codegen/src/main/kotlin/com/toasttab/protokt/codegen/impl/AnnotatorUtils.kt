@@ -23,7 +23,6 @@ import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Oneof
 import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.codegen.protoc.TypeDesc
-import com.toasttab.protokt.codegen.protoc.respectJavaPackage
 import com.toasttab.protokt.codegen.template.Renderers.ConcatWithScope
 
 internal fun resolveMapEntry(m: Message) =
@@ -71,5 +70,5 @@ internal fun kotlinPackage(ast: AST<TypeDesc>) =
     resolvePackage(
         ast.data.desc.options,
         ast.data.desc.packageName,
-        ast.data.desc.context.respectJavaPackage()
+        ast.data.desc.context.respectJavaPackage
     )

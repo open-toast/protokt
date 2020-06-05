@@ -13,8 +13,7 @@
  * limitations under the License.
  */
 
-import com.toasttab.protokt.shared.protokt
-import com.toasttab.protokt.shared.protoktExtensions
+import com.toasttab.protokt.gradle.protoktExtensions
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -72,10 +71,6 @@ repositories {
 
 tasks.withType<Test> {
     useJUnitPlatform()
-}
-
-protokt {
-    publishProto = true
 }
 
 dependencies {

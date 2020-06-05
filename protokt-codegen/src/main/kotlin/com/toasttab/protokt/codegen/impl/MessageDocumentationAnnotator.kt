@@ -34,7 +34,7 @@ internal object MessageDocumentationAnnotator {
     private fun basePath(ctx: Context): List<Int> {
         val path = mutableListOf<Int>()
 
-        ctx.enclosingMessage.forEachIndexed { idx, it ->
+        ctx.enclosing.forEachIndexed { idx, it ->
             if (idx == 0) {
                 path.add(MESSAGE_TYPE_FIELD_NUMBER)
                 path.add(it.index)
