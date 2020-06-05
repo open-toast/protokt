@@ -54,7 +54,11 @@ class StandardFieldImportResolver(
 
     private fun mapImports() =
         if (f.map) {
-            setOf(rtMethod("sizeofMap"))
+            setOf(
+                rtMethod("copyMap"),
+                rtMethod("finishMap"),
+                rtMethod("sizeofMap")
+            )
         } else {
             setOf()
         }

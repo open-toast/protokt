@@ -31,13 +31,13 @@ private constructor(
     <messagePropertyOverrides()><\\>
     val <p.name>: <p.propertyType><\\>
     }; separator=",\n"><if (properties)>,<endif>
-    val unknown: Map\<Int, Unknown> = emptyMap()
+    val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : KtMessage<messageImplements()> {
     <if (oneofs)>
     <oneofs:{it |<it>}; separator="\n\n">
     <else>
     <endif>
-    override val messageSize by lazy { sizeof() }
+    override val messageSize by lazy { messageSize() }
 
     override fun serialize(serializer: KtMessageSerializer) {
         <serialize:{it | <\\>
@@ -58,12 +58,12 @@ private constructor(
                 \}<\\>
             <endif><\\>
         }; separator="\n">
-        if (unknown.isNotEmpty()) {
-            serializer.writeUnknown(unknown)
+        if (unknownFields.isNotEmpty()) {
+            serializer.writeUnknown(unknownFields)
         }
     }
 
-    private fun sizeof(): Int {
+    private fun messageSize(): Int {
         var res = 0
         <sizeof:{it | <\\>
         <if(it.std)><\\>
@@ -86,7 +86,7 @@ private constructor(
             \}<\\>
         <endif><\\>
         }; separator="\n">
-        res += unknown.values.sumBy { it.sizeof() }
+        res += unknownFields.size()
         return res
     }
 
@@ -94,12 +94,12 @@ private constructor(
         other is <message.name> &&
             <properties:{p | other.<p.name> == <p.name>}; separator=" &&\n"><\\>
             <if (properties)> &&<endif>
-            other.unknown == unknown
+            other.unknownFields == unknownFields
 
     override fun hashCode()<\\>
     <if (properties)><\\>
     : Int {
-        var result = unknown.hashCode()
+        var result = unknownFields.hashCode()
         <properties:{p | <\\>
         result = 31 * result + <p.name>.hashCode()<\\>
         }; separator="\n">
@@ -108,7 +108,7 @@ private constructor(
 
     <else><\\>
     <\ >=
-    <t()>unknown.hashCode()
+    <t()>unknownFields.hashCode()
     <endif>
 
     override fun toString(): String =
@@ -116,9 +116,9 @@ private constructor(
         <if (properties)><\\>
         " +
             <properties:{p | "<p.name>=$<p.name>}; separator=", \" +\n">, " +
-            "unknown=$unknown)"<\n>
+            "unknownFields=$unknownFields)"<\n>
         <else><\\>
-            unknown=$unknown)"
+            unknownFields=$unknownFields)"
         <endif>
 
     <dsl()>

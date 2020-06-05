@@ -49,7 +49,7 @@ bytesSlice() ::= "BytesSlice"
 
 readBytesSlice() ::= "readBytesSlice()"
 
-defaultBytesSlice() ::= "BytesSlice.empty"
+defaultBytesSlice() ::= "BytesSlice.empty()"
 
 messageImplements() ::= <%
     <if (message.doesImplement)><\\>

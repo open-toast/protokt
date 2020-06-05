@@ -32,6 +32,7 @@ import com.toasttab.protokt.codegen.protoc.Service
 import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.codegen.protoc.TopLevelType
 import com.toasttab.protokt.codegen.protoc.TypeDesc
+import com.toasttab.protokt.rt.FieldBuilder
 import com.toasttab.protokt.rt.KtDeserializer
 import com.toasttab.protokt.rt.KtEnum
 import com.toasttab.protokt.rt.KtEnumDeserializer
@@ -40,7 +41,7 @@ import com.toasttab.protokt.rt.KtMessage
 import com.toasttab.protokt.rt.KtMessageDeserializer
 import com.toasttab.protokt.rt.KtMessageSerializer
 import com.toasttab.protokt.rt.Tag
-import com.toasttab.protokt.rt.Unknown
+import com.toasttab.protokt.rt.UnknownFieldSet
 import com.toasttab.protokt.rt.processUnknown
 
 class ImportResolver(
@@ -56,14 +57,11 @@ class ImportResolver(
             KtDeserializer::class,
             KtMessageDeserializer::class,
             KtMessageSerializer::class,
-            Unknown::class,
+            FieldBuilder::class,
+            UnknownFieldSet::class,
             KtGeneratedMessage::class
         ).map { pclass(it) }.toImmutableSet() +
-            setOf(
-                rtMethod("copyMap"),
-                rtMethod("finishMap"),
-                rtMethod(::processUnknown)
-            )
+            rtMethod(::processUnknown)
 
     fun resolveImports(astList: List<AST<TypeDesc>>) =
         astList.flatMapToSet { imports(it.data.type.rawType) }

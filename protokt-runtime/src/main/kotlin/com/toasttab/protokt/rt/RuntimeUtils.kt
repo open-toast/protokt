@@ -19,21 +19,16 @@ import java.util.Collections
 
 fun processUnknown(
     deserializer: KtMessageDeserializer,
-    unknown: MutableMap<Int, Unknown>
+    unknown: MutableMap<Int, FieldBuilder>
 ) {
     val unk = deserializer.readUnknown()
-    unknown[unk.fieldNum] = unknown[unk.fieldNum].let {
-        when (it) {
-            null -> unk
-            else ->
-                when (val v = it.value) {
-                    is ListVal ->
-                        Unknown(unk.fieldNum, ListVal(v.value + unk.value))
-                    else ->
-                        Unknown(unk.fieldNum, ListVal(listOf(v, unk.value)))
-                }
+    unknown[unk.fieldNumber] =
+        unknown[unk.fieldNumber].let {
+            when (it) {
+                null -> FieldBuilder().add(unk.value)
+                else -> it.add(unk.value)
+            }
         }
-    }
 }
 
 fun <K, V> finishMap(map: Map<K, V>?): Map<K, V> =

@@ -18,12 +18,14 @@ package com.toasttab.protokt.testing.rt
 import com.google.common.truth.Truth.assertThat
 import com.google.protobuf.ByteString
 import com.google.protobuf.Timestamp as JavaTimestamp
-import com.google.protobuf.UnknownFieldSet
+import com.google.protobuf.UnknownFieldSet as JavaUnknownFieldSet
 import com.toasttab.protokt.Timestamp
 import com.toasttab.protokt.pack
 import com.toasttab.protokt.rt.Bytes
+import com.toasttab.protokt.rt.FieldBuilder
 import com.toasttab.protokt.rt.Unknown
-import com.toasttab.protokt.rt.VarIntVal
+import com.toasttab.protokt.rt.UnknownFieldSet
+import com.toasttab.protokt.rt.VarintVal
 import com.toasttab.protokt.testing.rt.Test as KtTest
 import com.toasttab.protokt.unpack
 import org.junit.jupiter.api.Test
@@ -33,18 +35,22 @@ class CollectionTest {
     val s1 = Bytes("this is another test".toByteArray())
     val kotlinTest = KtTest { `val` = s0 }
     val kotlinTest2 = KtTest { `val` = s1 }
-    val unknowns = listOf(Unknown(666, 555), Unknown(777, 444))
+    val unknowns = listOf(Unknown.varint(666, 555), Unknown.varint(777, 444))
     val kotlinTest3 =
         KtTest {
             `val` = s1
-            unknown = unknowns.map { it.fieldNum to it }.toMap()
+            unknownFields = UnknownFieldSet.from(
+                unknowns.map {
+                    it.fieldNumber to FieldBuilder().add(it.value)
+                }.toMap()
+            )
         }
-    val unknownFieldSet = UnknownFieldSet.newBuilder().let { f ->
+    val unknownFieldSet = JavaUnknownFieldSet.newBuilder().let { f ->
         unknowns.forEach {
             f.addField(
-                it.fieldNum,
-                UnknownFieldSet.Field.newBuilder()
-                    .addVarint((it.value as VarIntVal).value).build()
+                it.fieldNumber,
+                JavaUnknownFieldSet.Field.newBuilder()
+                    .addVarint((it.value as VarintVal).value.value).build()
             )
         }
         f.build()

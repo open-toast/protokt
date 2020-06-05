@@ -61,7 +61,10 @@ class Bytes(internal val value: ByteArray) {
         value.contentToString()
 
     companion object {
-        val empty = Bytes(ByteArray(0))
+        private val EMPTY = Bytes(ByteArray(0))
+
+        fun empty() =
+            EMPTY
     }
 }
 
@@ -96,6 +99,9 @@ class BytesSlice(
         asSequence().joinToString(prefix = "[", postfix = "]")
 
     companion object {
-        val empty = BytesSlice(ByteArray(0), 0, 0)
+        private val EMPTY = BytesSlice(ByteArray(0), 0, 0)
+
+        fun empty() =
+            EMPTY
     }
 }

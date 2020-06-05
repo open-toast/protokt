@@ -17,7 +17,7 @@ import "options.stg"
 
 kotlinDefaultValues ::= [
     "BOOL": "false",
-    "BYTES": "Bytes.empty",
+    "BYTES": "Bytes.empty()",
     "DOUBLE": "0.0",
     "ENUM": ".from(0)",
     "MESSAGE": "null",
