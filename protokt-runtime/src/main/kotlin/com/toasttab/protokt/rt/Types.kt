@@ -21,13 +21,17 @@ interface Serialized {
     val wireFormat: Int
 }
 
-interface Boxed : Serialized {
-    val value: Number
-
+interface InstanceSerialized {
     val wireType: Serialized
+}
 
+interface DelegatingSerialized : Serialized, InstanceSerialized {
     override val wireFormat
         get() = wireType.wireFormat
+}
+
+interface Boxed : DelegatingSerialized {
+    val value: Number
 }
 
 interface WireType0 : Serialized {
@@ -48,6 +52,13 @@ interface WireType2 : Serialized {
 interface WireType5 : Serialized {
     override val wireFormat
         get() = 5
+}
+
+interface InstanceWithWireType2 : DelegatingSerialized {
+    override val wireType
+        get() = InstanceWithWireType2
+
+    companion object : WireType2
 }
 
 interface BoxedInstanceType0 : Boxed {
@@ -84,7 +95,7 @@ inline class SFixed64(override val value: Long) : BoxedInstanceType1
 inline class Fixed32(override val value: Int) : BoxedInstanceType5
 inline class SFixed32(override val value: Int) : BoxedInstanceType5
 
-class Bytes(internal val value: ByteArray) : WireType2 {
+class Bytes(internal val value: ByteArray) : InstanceWithWireType2 {
     val bytes
         get() = value.clone()
 

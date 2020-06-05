@@ -114,9 +114,6 @@ class FieldOptions(
     val protokt: Protokt.ProtoktFieldOptions
 )
 
-val StandardField.wireFormat
-    get() = type.wireFormat
-
 class Oneof(
     val name: String,
     val fieldName: String,

@@ -98,8 +98,11 @@ private sealed class Nonscalar(
 
     object Enum : Nonscalar(), WireType0
     object Message : Nonscalar(), WireType2
-    object Bytes : Nonscalar(ByteArray::class), WireType2
     object String : Nonscalar(kotlin.String::class), WireType2
+    object Bytes : Nonscalar(ByteArray::class) {
+        override val wireFormat =
+            classToWireFormat(com.toasttab.protokt.rt.Bytes::class)
+    }
 }
 
 private sealed class Scalar(
@@ -113,18 +116,15 @@ private sealed class Scalar(
 }
 
 private sealed class Boxed(
-    override val inlineRepresentation: KClass<out com.toasttab.protokt.rt.Boxed>
+    final override val inlineRepresentation: KClass<out com.toasttab.protokt.rt.Boxed>
 ) : Scalar() {
-    override val kotlinRepresentation
-        get() = inlineRepresentation.declaredMemberProperties
+    override val kotlinRepresentation =
+        inlineRepresentation.declaredMemberProperties
             .single { it.name == com.toasttab.protokt.rt.Boxed::value.name }
             .returnType
             .classifier as KClass<*>
 
-    override val wireFormat: Int
-        get() =
-            (inlineRepresentation.superclasses.first().companionObjectInstance as Serialized)
-                .wireFormat
+    override val wireFormat = classToWireFormat(inlineRepresentation)
 
     object Fixed32 : Boxed(com.toasttab.protokt.rt.Fixed32::class)
     object Fixed64 : Boxed(com.toasttab.protokt.rt.Fixed64::class)
@@ -137,3 +137,9 @@ private sealed class Boxed(
     object UInt32 : Boxed(com.toasttab.protokt.rt.UInt32::class)
     object UInt64 : Boxed(com.toasttab.protokt.rt.UInt64::class)
 }
+
+private fun classToWireFormat(klass: KClass<out Serialized>) =
+    (klass.superclasses
+        .first { Serialized::class.java.isAssignableFrom(it.java) }
+        .companionObjectInstance as Serialized
+    ).wireFormat
