@@ -27,10 +27,10 @@ repositories {
 }
 
 dependencies {
-    implementation("com.diffplug.spotless:spotless-plugin-gradle:3.25.0")
-    implementation("com.google.protobuf:protobuf-gradle-plugin:0.8.10")
+    implementation("com.diffplug.spotless:spotless-plugin-gradle:4.2.0")
+    implementation("com.google.protobuf:protobuf-gradle-plugin:0.8.12")
     implementation("io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.21.2")
-    implementation("com.google.guava:guava:28.1-jre")
+    implementation("com.google.guava:guava:29.0-jre")
     implementation("ru.vyarus:gradle-animalsniffer-plugin:1.5.0")
     implementation(kotlin("gradle-plugin-api"))
 }

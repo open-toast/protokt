@@ -13,6 +13,7 @@
  * limitations under the License.
  */
 
+import com.toasttab.protokt.shared.CODEGEN_NAME
 import com.toasttab.protokt.shared.EXTENSIONS
 import com.toasttab.protokt.shared.configureProtokt
 import org.gradle.api.Project
@@ -32,7 +33,7 @@ fun Project.localProtokt() {
             }
         }
 
-        "$rootDir/protokt-codegen/build/install/protoc-gen-protokt/bin/protoc-gen-protokt"
+        "$rootDir/protokt-codegen/build/install/$CODEGEN_NAME/bin/$CODEGEN_NAME"
     }
 
     afterEvaluate {

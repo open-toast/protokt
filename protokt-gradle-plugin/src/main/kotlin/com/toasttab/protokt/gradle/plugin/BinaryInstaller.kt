@@ -15,30 +15,24 @@
 
 package com.toasttab.protokt.gradle.plugin
 
+import com.toasttab.protokt.shared.CODEGEN_NAME
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Dependency
 
 private const val CODEGEN_CONFIGURATION = "protoktCodegen"
-private const val CODEGEN_NAME = "protoc-gen-protokt"
 
-internal fun binaryFromArtifact(project: Project, protoktVersion: String): String {
+internal fun binaryFromArtifact(project: Project): String {
     project.afterEvaluate {
-        installBinary(
-            project,
-            protoktVersion,
-            configureArtifact(project, protoktVersion)
-        )
+        installBinary(project, configureArtifact(project))
     }
 
-    val target = getTargetDirectory(project, protoktVersion)
-
-    return "$target/bin/$CODEGEN_NAME"
+    return "${getTargetDirectory(project)}/bin/$CODEGEN_NAME"
 }
 
-private fun installBinary(project: Project, version: String, artifact: Dependency) {
-    val targetDir = getTargetDirectory(project, version)
+private fun installBinary(project: Project, artifact: Dependency) {
+    val targetDir = getTargetDirectory(project)
 
-    if (version.endsWith("-SNAPSHOT") || !targetDir.exists()) {
+    if (protoktVersion.endsWith("-SNAPSHOT") || !targetDir.exists()) {
         targetDir.mkdirs()
 
         val toolsArchive = project.zipTree(
@@ -52,18 +46,20 @@ private fun installBinary(project: Project, version: String, artifact: Dependenc
     }
 }
 
-private fun configureArtifact(project: Project, version: String): Dependency {
+private fun configureArtifact(project: Project): Dependency {
     project.configurations.create(CODEGEN_CONFIGURATION)
 
-    return project.dependencies.add(CODEGEN_CONFIGURATION, mapOf(
+    return project.dependencies.add(
+        CODEGEN_CONFIGURATION,
+        mapOf(
             "group" to "com.toasttab.protokt",
             "name" to "protokt-codegen",
-            "version" to version,
+            "version" to protoktVersion,
             "classifier" to "dist",
             "ext" to "zip"
         )
     )!!
 }
 
-private fun getTargetDirectory(project: Project, version: String) =
-    project.file("${project.rootDir}/.gradle/tools/$CODEGEN_NAME-$version")
+private fun getTargetDirectory(project: Project) =
+    project.file("${project.rootDir}/.gradle/tools/$CODEGEN_NAME-$protoktVersion")

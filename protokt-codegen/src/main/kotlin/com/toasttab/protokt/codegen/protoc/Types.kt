@@ -26,6 +26,7 @@ import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.ext.Protokt
 import com.toasttab.protokt.shared.KOTLIN_EXTRA_CLASSPATH
 import com.toasttab.protokt.shared.RESPECT_JAVA_PACKAGE
+import com.toasttab.protokt.util.getProtoktVersion
 
 sealed class TopLevelType
 
@@ -172,6 +173,9 @@ fun respectJavaPackage(params: Map<String, String>) =
 
 fun ProtocolContext.respectJavaPackage() =
     respectJavaPackage(params)
+
+fun ProtocolContext.version() =
+    getProtoktVersion(ProtocolContext::class)
 
 fun ProtocolContext.ppackage(typeName: String) =
     allPackagesByTypeName.getValue(typeName)

@@ -58,8 +58,7 @@ tasks.named("publishPlugins") {
 enablePublishing()
 
 dependencies {
+    implementation(project(":protokt-util"))
     implementation(gradleApi())
     implementation(libraries.protobufPlugin)
-
-    implementation(files(buildSrcClasses))
 }

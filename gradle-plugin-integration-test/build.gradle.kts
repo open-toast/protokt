@@ -19,20 +19,19 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     idea
-    kotlin("jvm") version "1.3.50"
-    id("com.diffplug.gradle.spotless") version "3.25.0"
+    kotlin("jvm") version "1.3.72"
+    id("com.diffplug.gradle.spotless") version "4.2.0"
 }
 
 buildscript {
     repositories {
-        maven(url = "${rootProject.projectDir}/../build/repos/integration")
+        maven(url = "$projectDir/../build/repos/integration")
         gradlePluginPortal()
         jcenter()
     }
 
     dependencies {
-        classpath("com.diffplug.spotless:spotless-plugin-gradle:3.25.0")
-        classpath("com.toasttab.protokt:protokt-gradle-plugin:${rootProject.version}")
+        classpath("com.toasttab.protokt:protokt-gradle-plugin:$version")
     }
 }
 
@@ -63,11 +62,11 @@ tasks.withType<KotlinCompile> {
 }
 
 tasks.withType<Test> {
-    systemProperty("version", "${project.version}")
+    systemProperty("version", version.toString())
 }
 
 repositories {
-    maven(url = "${rootProject.projectDir}/../build/repos/integration")
+    maven(url = "$projectDir/../build/repos/integration")
     jcenter()
 }
 
@@ -80,9 +79,11 @@ protokt {
 }
 
 dependencies {
-    protoktExtensions("com.toasttab.protokt:protokt-extensions:${rootProject.version}")
+    protoktExtensions("com.toasttab.protokt:protokt-extensions:$version")
 
     implementation(kotlin("stdlib-jdk8"))
-    testImplementation("org.junit.jupiter:junit-jupiter:5.5.2")
-    testImplementation("com.google.protobuf:protobuf-javalite:3.10.0")
+
+    testImplementation("org.junit.jupiter:junit-jupiter:5.6.2")
+    testImplementation("com.google.protobuf:protobuf-javalite:3.12.1")
+    testImplementation("com.toasttab.protokt:protokt-util:$version")
 }

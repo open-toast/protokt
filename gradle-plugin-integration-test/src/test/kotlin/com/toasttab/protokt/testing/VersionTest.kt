@@ -16,7 +16,7 @@
 package com.toasttab.protokt.testing
 
 import com.toasttab.protokt.rt.KtMessage
-import java.util.jar.JarInputStream
+import com.toasttab.protokt.util.getProtoktVersion
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -24,10 +24,7 @@ class VersionTest {
     @Test
     fun `runtime version should match project version`() {
         val version = System.getProperty("version")
-
-        val runtimeVersion = KtMessage::class.java.protectionDomain.codeSource.location.openStream().use {
-            JarInputStream(it).manifest.mainAttributes.getValue("Implementation-Version")
-        }
+        val runtimeVersion = getProtoktVersion(KtMessage::class)
 
         assertEquals(version, runtimeVersion)
     }
