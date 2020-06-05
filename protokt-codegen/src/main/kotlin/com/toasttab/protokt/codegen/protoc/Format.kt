@@ -15,6 +15,8 @@
 
 package com.toasttab.protokt.codegen.protoc
 
+import com.toasttab.protokt.codegen.model.PPackage
+
 internal object Keywords {
     val reserved =
         setOf(
@@ -133,8 +135,8 @@ internal fun newEnumValueName(preferred: String, set: Set<String>): String {
     return name
 }
 
-internal fun newFileName(pkg: String?, name: String): String {
-    return (pkg?.replace('.', '/')?.plus('/') ?: "")
-        .plus(name.substringAfterLast('/').removeSuffix(".proto"))
-        .plus(".kt")
+internal fun fileName(pkg: PPackage?, name: String): String {
+    return (pkg?.toString()?.replace('.', '/')?.plus('/') ?: "") +
+        name.substringAfterLast('/').removeSuffix(".proto") +
+        ".kt"
 }

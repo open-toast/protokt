@@ -76,9 +76,6 @@ val FileDescriptorProto.fileOptions
             options.extensionOrDefault(Protokt.file)
         )
 
-fun FileDescriptorProto.newFileName(name: String) =
-    newFileName(name, this.name)
-
 private fun toFieldType(type: FieldDescriptorProto.Type) =
     when (type) {
         FieldDescriptorProto.Type.TYPE_BOOL -> FieldType.BOOL

@@ -18,78 +18,96 @@ package com.toasttab.protokt
 import arrow.core.None
 import arrow.core.Some
 import arrow.core.extensions.list.foldable.nonEmpty
-import arrow.fx.IO
 import arrow.syntax.collections.flatten
+import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.google.protobuf.ExtensionRegistry
-import com.google.protobuf.compiler.PluginProtos
+import com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest
+import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse
 import com.toasttab.protokt.codegen.generate
 import com.toasttab.protokt.codegen.impl.STAnnotator
 import com.toasttab.protokt.codegen.impl.STEffects
 import com.toasttab.protokt.codegen.impl.packagesByTypeName
+import com.toasttab.protokt.codegen.impl.resolvePackage
 import com.toasttab.protokt.codegen.protoc.ProtocolContext
-import com.toasttab.protokt.codegen.protoc.newFileName
+import com.toasttab.protokt.codegen.protoc.fileName
 import com.toasttab.protokt.codegen.protoc.respectJavaPackage
 import com.toasttab.protokt.codegen.protoc.toProtocol
 import com.toasttab.protokt.ext.Protokt
 import java.io.OutputStream
 import kotlin.system.exitProcess
 
-// Code generator entry point
 fun main() =
     main(System.`in`.use { it.readBytes() }, System.out)
 
-internal fun main(bytes: ByteArray, out: OutputStream) = IO {
-    val req = toCodeGeneratorRequest(bytes)
+internal fun main(bytes: ByteArray, out: OutputStream) {
+    val req = parseCodeGeneratorRequest(bytes)
     val params = parseParams(req)
     val filesToGenerate = req.fileToGenerateList.toSet()
 
     val files = req.protoFileList
         .filter { filesToGenerate.contains(it.name) }
-        .map {
-            val code = StringBuilder()
-            val g = generate(
-                toProtocol(
-                    ProtocolContext(
-                        it,
-                        packagesByTypeName(
-                            req,
-                            respectJavaPackage(params)
-                        ),
-                        params
-                    )
-                ),
-                STAnnotator,
-                STEffects,
-                { t ->
-                    t.printStackTrace(System.err)
-                    exitProcess(-1)
-                }
-            )
-            g { s -> code.append(s) }
-
-            if (code.isNotBlank()) {
-                Some(
-                    PluginProtos.CodeGeneratorResponse.File
-                        .newBuilder()
-                        .setContent(code.toString())
-                        .setName(it.newFileName(it.`package`))
-                        .build()
-                )
-            } else {
-                None
-            }
-        }.flatten()
+        .map { response(it, generate(it, req.protoFileList, params), params) }
+        .flatten()
 
     if (files.nonEmpty()) {
-        PluginProtos.CodeGeneratorResponse
-            .newBuilder()
+        CodeGeneratorResponse.newBuilder()
             .addAllFile(files)
             .build()
             .writeTo(out)
     }
-}.unsafeRunSync()
+}
 
-private fun parseParams(req: PluginProtos.CodeGeneratorRequest) =
+private fun generate(
+    fdp: FileDescriptorProto,
+    protoFileList: List<FileDescriptorProto>,
+    params: Map<String, String>
+): String {
+    val code = StringBuilder()
+    val g = generate(
+        toProtocol(
+            ProtocolContext(
+                fdp,
+                packagesByTypeName(
+                    protoFileList,
+                    respectJavaPackage(params)
+                ),
+                params
+            )
+        ),
+        STAnnotator,
+        STEffects,
+        { t ->
+            t.printStackTrace(System.err)
+            exitProcess(-1)
+        }
+    )
+    g { s -> code.append(s) }
+
+    return code.toString()
+}
+
+private fun response(
+    fdp: FileDescriptorProto,
+    code: String,
+    params: Map<String, String>
+) =
+    if (code.isNotBlank()) {
+        Some(
+            CodeGeneratorResponse.File
+                .newBuilder()
+                .setContent(code)
+                .setName(
+                    fileName(
+                        resolvePackage(fdp, respectJavaPackage(params)),
+                        fdp.name
+                    )
+                ).build()
+        )
+    } else {
+        None
+    }
+
+private fun parseParams(req: CodeGeneratorRequest) =
     if (req.parameter == null || req.parameter.isEmpty()) {
         emptyMap()
     } else {
@@ -99,8 +117,8 @@ private fun parseParams(req: PluginProtos.CodeGeneratorRequest) =
             .toMap()
     }
 
-private fun toCodeGeneratorRequest(bytes: ByteArray) =
-    PluginProtos.CodeGeneratorRequest.parseFrom(
+private fun parseCodeGeneratorRequest(bytes: ByteArray) =
+    CodeGeneratorRequest.parseFrom(
         bytes,
         ExtensionRegistry.newInstance()
             .also { Protokt.registerAllExtensions(it) }
