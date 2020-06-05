@@ -38,7 +38,7 @@ interface KtMessageSerializer {
     fun write(e: KtEnum)
     fun write(m: KtMessage)
     fun write(t: Tag): KtMessageSerializer
-    fun writeUnknown(u: Map<Int, Unknown>)
+    fun writeUnknown(u: UnknownFieldSet)
 }
 
 fun serializer(stream: CodedOutputStream): KtMessageSerializer {
@@ -101,24 +101,11 @@ fun serializer(stream: CodedOutputStream): KtMessageSerializer {
             stream.write(b.array, b.offset, b.length)
         }
 
-        override fun writeUnknown(u: Map<Int, Unknown>) {
-            u.forEach { (k, v) -> write(k, v.value) }
+        override fun writeUnknown(u: UnknownFieldSet) {
+            u.unknownFields.forEach { (k, v) -> v.write(k, this) }
         }
 
         override fun write(t: Tag) =
             also { stream.writeUInt32NoTag(t.value) }
-
-        private fun write(f: Int, wt: Int) =
-            write(Tag(computeTag(f, wt)))
-
-        private fun write(f: Int, v: UnknownValue) {
-            when (v) {
-                is VarIntVal -> write(f, wireType(v.value::class)).write(v.value)
-                is Fixed32Val -> write(f, wireType(v.value::class)).write(v.value)
-                is Fixed64Val -> write(f, wireType(v.value::class)).write(v.value)
-                is LengthDelimitedVal -> write(f, wireType(v.value::class)).write(v.value)
-                is ListVal -> v.value.forEach { write(f, it) }
-            }
-        }
     }
 }

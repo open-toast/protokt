@@ -26,7 +26,7 @@ import com.google.common.truth.Truth.assertThat
 import com.toasttab.protokt.rt.KtEnum
 import com.toasttab.protokt.rt.KtEnumDeserializer
 import com.toasttab.protokt.rt.KtMessage
-import com.toasttab.protokt.rt.Unknown
+import com.toasttab.protokt.rt.UnknownFieldSet
 import org.junit.jupiter.api.Test
 
 class JsonDeserializationTest {
@@ -44,19 +44,19 @@ class JsonDeserializationTest {
                     )
             )
             .registerModule(KotlinModule())
-            .addMixIn(KtMessage::class.java, KtMixin::class.java)
+            .addMixIn(KtMessage::class.java, KtMessageMixin::class.java)
 
-    // Cannot simple annotate messageSize with @delegate:Transient, as lazy properties' getters
+    // Cannot simply annotate messageSize with @delegate:Transient, as lazy properties' getters
     // don't properly inherit the annotation. For now this seems to be the only way to always
     // exclude messageSize from being serialized.
-    private abstract class KtMixin(
+    private abstract class KtMessageMixin(
         @Suppress("UNUSED")
         @get:JsonIgnore
         val messageSize: Int,
 
         @Suppress("UNUSED")
         @get:JsonIgnore
-        val unknown: Map<Int, Unknown>
+        val unknownFields: UnknownFieldSet
     )
 
     @Test

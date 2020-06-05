@@ -35,6 +35,7 @@ import com.toasttab.protokt.codegen.protoc.Service
 import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.codegen.protoc.TopLevelType
 import com.toasttab.protokt.codegen.protoc.TypeDesc
+import com.toasttab.protokt.rt.FieldBuilder
 import com.toasttab.protokt.rt.KtDeserializer
 import com.toasttab.protokt.rt.KtEnum
 import com.toasttab.protokt.rt.KtEnumDeserializer
@@ -46,6 +47,7 @@ import com.toasttab.protokt.rt.Tag
 import com.toasttab.protokt.rt.Unknown
 import com.toasttab.protokt.rt.copyMap
 import com.toasttab.protokt.rt.finishMap
+import com.toasttab.protokt.rt.UnknownFieldSet
 import com.toasttab.protokt.rt.processUnknown
 import com.toasttab.protokt.rt.sizeof
 import kotlin.reflect.KCallable
@@ -63,7 +65,8 @@ class ImportResolver(
             KtDeserializer::class,
             KtMessageDeserializer::class,
             KtMessageSerializer::class,
-            Unknown::class,
+            FieldBuilder::class,
+            UnknownFieldSet::class,
             KtGeneratedMessage::class
         ).map { pclass(it) }.toImmutableSet() +
             setOf(
@@ -108,20 +111,6 @@ class ImportResolver(
         transform: (T) -> Iterable<R>
     ): ImmutableSet<R> =
         fold(immutableSetOf()) { s, e -> s + transform(e) }
-}
-
-private val COPY_MAP = copyMap<Any, Any>()
-
-private fun <K, V> copyMap(): KCallable<*> {
-    val copyMap: (Map<K, V>) -> Map<K, V> = ::copyMap
-    return copyMap as KCallable<*>
-}
-
-private val FINISH_MAP = finishMap<Any, Any>()
-
-private fun <K, V> finishMap(): KCallable<*> {
-    val finishMap: (Map<K, V>?) -> Map<K, V> = ::finishMap
-    return finishMap as KCallable<*>
 }
 
 private val SIZEOF = sizeof()

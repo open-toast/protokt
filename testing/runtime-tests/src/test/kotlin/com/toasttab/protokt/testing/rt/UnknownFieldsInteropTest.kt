@@ -19,14 +19,11 @@ import com.google.common.truth.Truth.assertThat
 import com.google.protobuf.ByteString
 import com.google.protobuf.UnknownFieldSet
 import com.toasttab.protokt.rt.Bytes
-import com.toasttab.protokt.rt.Fixed32
 import com.toasttab.protokt.rt.Fixed32Val
-import com.toasttab.protokt.rt.Fixed64
 import com.toasttab.protokt.rt.Fixed64Val
 import com.toasttab.protokt.rt.LengthDelimitedVal
-import com.toasttab.protokt.rt.UInt64
 import com.toasttab.protokt.rt.Unknown
-import com.toasttab.protokt.rt.VarIntVal
+import com.toasttab.protokt.rt.VarintVal
 import com.toasttab.protokt.testing.rt.Test as KtTest
 import com.toasttab.protokt.testing.rt.TestOuterClass.Test as JavaTest
 import org.junit.jupiter.api.Test
@@ -41,15 +38,15 @@ class UnknownFieldsInteropTest {
             .build()
 
     private val unknowns = listOf(
-        Unknown(111, VarIntVal(UInt64(111))),
-        Unknown(222, Fixed32Val(Fixed32(222))),
-        Unknown(333, Fixed64Val(Fixed64(333))),
-        Unknown(444, LengthDelimitedVal(Bytes("some string".toByteArray())))
+        Unknown.varint(111, 111),
+        Unknown.fixed32(222, 222),
+        Unknown.fixed64(333, 333),
+        Unknown.lengthDelimited(444, "some string".toByteArray())
     )
 
     private val protoktWithUnknowns =
         protoktSimple.copy {
-            unknown = unknowns.associateBy { it.fieldNum }
+            unknown = unknowns.associateBy { it.fieldNumber }
         }
 
     private val javaWithUnknowns =
@@ -58,10 +55,10 @@ class UnknownFieldsInteropTest {
                 UnknownFieldSet.newBuilder().apply {
                     unknowns.forEach {
                         addField(
-                            it.fieldNum,
+                            it.fieldNumber,
                             UnknownFieldSet.Field.newBuilder().apply {
                                 when (val v = it.value) {
-                                    is VarIntVal -> addVarint(v.value.value)
+                                    is VarintVal -> addVarint(v.value.value)
                                     is Fixed32Val -> addFixed32(v.value.value)
                                     is Fixed64Val -> addFixed64(v.value.value)
                                     is LengthDelimitedVal ->

@@ -46,6 +46,9 @@ class BytesSlice(
         asSequence().joinToString(prefix = "[", postfix = "]")
 
     companion object {
-        val empty = BytesSlice(ByteArray(0), 0, 0)
+        private val EMPTY = BytesSlice(ByteArray(0), 0, 0)
+
+        fun empty() =
+            EMPTY
     }
 }

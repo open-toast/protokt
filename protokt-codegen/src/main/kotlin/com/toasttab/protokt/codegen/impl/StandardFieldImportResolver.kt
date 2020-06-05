@@ -30,7 +30,9 @@ import com.toasttab.protokt.rt.BytesSlice
 import com.toasttab.protokt.rt.Tag
 import com.toasttab.protokt.rt.UInt32
 import com.toasttab.protokt.rt.copyList
+import com.toasttab.protokt.rt.copyMap
 import com.toasttab.protokt.rt.finishList
+import com.toasttab.protokt.rt.finishMap
 import com.toasttab.protokt.rt.sizeofMap
 import kotlin.reflect.KCallable
 
@@ -62,7 +64,11 @@ class StandardFieldImportResolver(
 
     private fun mapImports() =
         if (f.map) {
-            setOf(rtMethod(SIZEOF_MAP))
+            setOf(
+                rtMethod(SIZEOF_MAP),
+                rtMethod(COPY_MAP),
+                rtMethod(FINISH_MAP)
+            )
         } else {
             setOf()
         }
@@ -117,4 +123,18 @@ private val SIZEOF_MAP = sizeofMap<Any, Any>()
 private fun <K, V> sizeofMap(): KCallable<*> {
     val sizeofMap: (Map<K, V>, Tag, (K, V) -> Int) -> Int = ::sizeofMap
     return sizeofMap as KCallable<*>
+}
+
+private val COPY_MAP = copyMap<Any, Any>()
+
+private fun <K, V> copyMap(): KCallable<*> {
+    val copyMap: (Map<K, V>) -> Map<K, V> = ::copyMap
+    return copyMap as KCallable<*>
+}
+
+private val FINISH_MAP = finishMap<Any, Any>()
+
+private fun <K, V> finishMap(): KCallable<*> {
+    val finishMap: (Map<K, V>?) -> Map<K, V> = ::finishMap
+    return finishMap as KCallable<*>
 }

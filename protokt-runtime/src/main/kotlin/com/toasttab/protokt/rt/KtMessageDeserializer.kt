@@ -114,16 +114,16 @@ fun deserializer(
 
         override fun readUnknown(): Unknown {
             val tag = stream.lastTag
-            val fieldNum = WireFormat.getTagFieldNumber(tag)
+            val fieldNumber = WireFormat.getTagFieldNumber(tag)
             return when (WireFormat.getTagWireType(tag)) {
                 WireFormat.WIRETYPE_VARINT ->
-                    Unknown(fieldNum, VarIntVal(UInt64(stream.readInt64())))
+                    Unknown.varint(fieldNumber, stream.readInt64())
                 WireFormat.WIRETYPE_FIXED64 ->
-                    Unknown(fieldNum, Fixed64Val(Fixed64(stream.readFixed64())))
+                    Unknown.fixed64(fieldNumber, stream.readFixed64())
                 WireFormat.WIRETYPE_LENGTH_DELIMITED ->
-                    Unknown(fieldNum, LengthDelimitedVal(Bytes(stream.readByteArray())))
+                    Unknown.lengthDelimited(fieldNumber, stream.readByteArray())
                 WireFormat.WIRETYPE_FIXED32 ->
-                    Unknown(fieldNum, Fixed32Val(Fixed32(stream.readFixed32())))
+                    Unknown.fixed32(fieldNumber, stream.readFixed32())
                 WireFormat.WIRETYPE_START_GROUP ->
                     throw UnsupportedOperationException("WIRETYPE_START_GROUP")
                 WireFormat.WIRETYPE_END_GROUP ->
