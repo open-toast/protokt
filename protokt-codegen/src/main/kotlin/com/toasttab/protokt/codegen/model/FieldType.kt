@@ -138,8 +138,19 @@ private sealed class Boxed(
     object UInt64 : Boxed(com.toasttab.protokt.rt.UInt64::class)
 }
 
-private fun classToWireFormat(klass: KClass<out Serialized>) =
-    (klass.superclasses
-        .first { Serialized::class.java.isAssignableFrom(it.java) }
+private fun classToWireFormat(klass: KClass<*>) =
+    (allSuperclasses(klass)
+        .first { hasSerializedCompanion(it) }
         .companionObjectInstance as Serialized
     ).wireFormat
+
+private fun allSuperclasses(klass: KClass<*>): Set<KClass<*>> =
+    klass.superclasses.let {
+        it + it.flatMap { supe -> allSuperclasses(supe) }
+    }.toSet()
+
+private fun hasSerializedCompanion(klass: KClass<*>) =
+    klass.companionObjectInstance.let {
+        it != null &&
+        Serialized::class.java.isAssignableFrom(it::class.java)
+    }

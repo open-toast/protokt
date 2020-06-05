@@ -27,11 +27,11 @@ import com.toasttab.protokt.conformance.WireFormat
 import com.toasttab.protokt.rt.Bytes
 import com.toasttab.protokt_test_messages.proto3.TestAllTypesProto3
 import java.io.InputStream
+import java.io.PrintWriter
+import java.io.StringWriter
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import kotlinx.coroutines.runBlocking
-import java.io.PrintWriter
-import java.io.StringWriter
 
 const val proto3 = "protobuf_test_messages.proto3.TestAllTypesProto3"
 
