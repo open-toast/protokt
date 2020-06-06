@@ -23,8 +23,8 @@ inline class LengthDelimitedVal(val value: ByteArray) : UnknownValue {
     override fun size() = sizeof(value)
 }
 
-inline class VarIntVal(val value: Long) : UnknownValue {
-    override fun size() = sizeof(UInt64(value))
+inline class VarIntVal(val value: UInt64) : UnknownValue {
+    override fun size() = sizeof(value)
 }
 
 inline class Fixed32Val(val value: Fixed32) : UnknownValue {
@@ -46,7 +46,7 @@ data class Unknown(val fieldNum: Int, val value: UnknownValue) {
             if (fixed) {
                 Fixed64Val(Fixed64(v))
             } else {
-                VarIntVal(v)
+                VarIntVal(UInt64(v))
             }
         )
 
@@ -56,7 +56,7 @@ data class Unknown(val fieldNum: Int, val value: UnknownValue) {
             if (fixed) {
                 Fixed32Val(Fixed32(v))
             } else {
-                VarIntVal(v.toLong())
+                VarIntVal(UInt64(v.toLong()))
             }
         )
 

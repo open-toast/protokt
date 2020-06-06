@@ -21,6 +21,7 @@ import com.google.protobuf.DescriptorProtos
 import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.ext.Protokt
+import com.toasttab.protokt.rt.computeTag
 
 sealed class TopLevelType
 
@@ -114,28 +115,6 @@ class FieldOptions(
     val protokt: Protokt.ProtoktFieldOptions
 )
 
-val StandardField.wireFormat
-    get() =
-        when (type) {
-            FieldType.BOOL,
-            FieldType.ENUM,
-            FieldType.INT32,
-            FieldType.INT64,
-            FieldType.SINT32,
-            FieldType.SINT64,
-            FieldType.UINT32,
-            FieldType.UINT64 -> 0
-            FieldType.DOUBLE,
-            FieldType.FIXED64,
-            FieldType.SFIXED64 -> 1
-            FieldType.BYTES,
-            FieldType.MESSAGE,
-            FieldType.STRING -> 2
-            FieldType.FLOAT,
-            FieldType.FIXED32,
-            FieldType.SFIXED32 -> 5
-        }
-
 class Oneof(
     val name: String,
     val fieldName: String,
@@ -182,12 +161,12 @@ class TypeDesc(
 sealed class Tag(val value: Int) : Comparable<Tag> {
     class Packed(
         number: Int
-    ) : Tag((number shl 3) or 2)
+    ) : Tag(computeTag(number, 2))
 
     class Unpacked(
         number: Int,
         wireFormat: Int
-    ) : Tag((number shl 3) or wireFormat)
+    ) : Tag(computeTag(number, wireFormat))
 
     override fun compareTo(other: Tag) =
         value.compareTo(other.value)

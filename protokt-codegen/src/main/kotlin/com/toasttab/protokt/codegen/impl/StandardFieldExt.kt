@@ -19,7 +19,6 @@ import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
 import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.codegen.protoc.Tag
-import com.toasttab.protokt.codegen.protoc.wireFormat
 import com.toasttab.protokt.codegen.template.Renderers.Box
 import com.toasttab.protokt.codegen.template.Renderers.BoxMap
 import com.toasttab.protokt.codegen.template.Renderers.NonDefaultValue
@@ -29,7 +28,7 @@ internal val StandardField.tag
         if (repeated && packed) {
             Tag.Packed(number)
         } else {
-            Tag.Unpacked(number, wireFormat)
+            Tag.Unpacked(number, type.wireType)
         }
 
 internal val StandardField.tagList
@@ -41,7 +40,7 @@ internal val StandardField.tagList
                 keepIfDifferent(
                     it,
                     if (packed) {
-                        Tag.Unpacked(number, wireFormat)
+                        Tag.Unpacked(number, type.wireType)
                     } else {
                         Tag.Packed(number)
                     }

@@ -16,6 +16,9 @@
 package com.toasttab.protokt.codegen.model
 
 import com.toasttab.protokt.rt.Bytes
+import com.toasttab.protokt.rt.KtEnum
+import com.toasttab.protokt.rt.KtMessage
+import com.toasttab.protokt.rt.wireType
 import kotlin.reflect.KClass
 import kotlin.reflect.full.declaredMemberProperties
 
@@ -67,6 +70,9 @@ enum class FieldType(
                 "no boxer for $this"
             }.java.simpleName
 
+    val wireType
+        get() = type.wireType
+
     val kotlinRepresentation
         get() = type.kotlinRepresentation
 
@@ -77,19 +83,26 @@ enum class FieldType(
 private sealed class TypeImpl {
     open val kotlinRepresentation: KClass<*>? = null
     open val inlineRepresentation: KClass<*>? = null
+    open val ktRepresentation: KClass<*>? = null
 
     abstract val scalar: Boolean
+
+    val wireType
+        get() = wireType(
+            (inlineRepresentation ?: ktRepresentation ?: kotlinRepresentation)!!
+        )
 }
 
 private sealed class Nonscalar(
-    override val kotlinRepresentation: KClass<*>? = null
+    override val kotlinRepresentation: KClass<*>? = null,
+    override val ktRepresentation: KClass<*>? = null
 ) : TypeImpl() {
     override val scalar = false
 
-    object Enum : Nonscalar()
-    object Message : Nonscalar()
-    object Bytes : Nonscalar(ByteArray::class)
+    object Enum : Nonscalar(ktRepresentation = KtEnum::class)
+    object Message : Nonscalar(ktRepresentation = KtMessage::class)
     object String : Nonscalar(kotlin.String::class)
+    object Bytes : Nonscalar(ByteArray::class, com.toasttab.protokt.rt.Bytes::class)
 }
 
 private sealed class Scalar(

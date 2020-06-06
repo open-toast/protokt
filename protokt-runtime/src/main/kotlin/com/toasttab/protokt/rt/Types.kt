@@ -19,8 +19,6 @@ interface Boxed {
     val value: Number
 }
 
-inline class Tag(override val value: Int) : Boxed
-
 inline class Int32(override val value: Int) : Boxed
 
 inline class Fixed32(override val value: Int) : Boxed
