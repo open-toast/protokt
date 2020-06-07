@@ -15,12 +15,14 @@
 
 package com.toasttab.protokt.codegen.impl
 
+import arrow.core.None
 import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
 import com.toasttab.protokt.codegen.impl.PropertyDocumentationAnnotator.Companion.annotatePropertyDocumentation
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptTypeName
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
 import com.toasttab.protokt.codegen.model.PClass
+import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.model.possiblyQualify
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Oneof
@@ -127,9 +129,24 @@ private constructor(
     }
 
     private fun options(oneof: Oneof) =
-        oneof.options.protokt.implements.let {
-            OneofTemplate.Options(it.isNotEmpty(), it)
+        oneof.options.protokt.implements.emptyToNone().fold(
+            { OneofTemplate.Options(false) },
+            { OneofTemplate.Options(true, possiblyQualify(it)) }
+        )
+
+    private fun possiblyQualify(implements: String) =
+        if (PClass.fromName(implements).ppackage == PPackage.DEFAULT) {
+            if (implements in namespaceNeighbors()) {
+                PClass(implements, ctx.pkg, None).qualifiedName
+            } else {
+                implements
+            }
+        } else {
+            implements
         }
+
+    private fun namespaceNeighbors() =
+        msg.fields.filterIsInstance<Oneof>().map { it.name }
 
     companion object {
         fun annotateOneOfs(msg: Message, ctx: Context) =

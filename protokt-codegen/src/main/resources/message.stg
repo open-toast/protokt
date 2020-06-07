@@ -35,6 +35,7 @@ private constructor(
 ) : KtMessage<messageImplements()> {
     <if (oneofs)>
     <oneofs:{it |<it>}; separator="\n\n">
+
     <else>
     <endif>
     override val messageSize by lazy { sizeof() }

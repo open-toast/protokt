@@ -25,7 +25,6 @@ sealed class <name> <oneofDoesImplement()>{
     val <types.(k).fieldName>: <types.(k).type>
 ) : <name>()<oneofImplements()>}; separator="\n\n">
 }
-
 >>
 
 defaultValue() ::= "null"
