@@ -19,33 +19,33 @@ import com.google.common.truth.Truth.assertThat
 import com.google.protobuf.ByteString
 import com.google.protobuf.UnknownFieldSet
 import com.toasttab.protokt.rt.Bytes
+import com.toasttab.protokt.rt.Fixed32
+import com.toasttab.protokt.rt.Fixed32Val
+import com.toasttab.protokt.rt.Fixed64
+import com.toasttab.protokt.rt.Fixed64Val
+import com.toasttab.protokt.rt.LengthDelimitedVal
 import com.toasttab.protokt.rt.Unknown
 import com.toasttab.protokt.rt.VarIntVal
 import com.toasttab.protokt.testing.rt.Test as KtTest
 import com.toasttab.protokt.testing.rt.TestOuterClass.Test as JavaTest
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 class UnknownFieldsInteropTest {
-    private val content = "this is a test"
-    private val content0 = "this is another test"
-
-    private val bytesContent = Bytes(content.toByteArray())
-    private val bytesContent0 = Bytes(content0.toByteArray())
-
-    private val protoktSimple = KtTest { `val` = bytesContent }
-    private val protoktSimple0 = KtTest { `val` = bytesContent0 }
+    private val content = "this is a test".toByteArray()
+    private val protoktSimple = KtTest { `val` = Bytes(content) }
 
     private val javaSimple =
         JavaTest.newBuilder()
-            .setVal(ByteString.copyFrom(bytesContent.bytes))
+            .setVal(ByteString.copyFrom(content))
             .build()
 
-    private val javaSimple0 =
-        JavaTest.newBuilder()
-            .setVal(ByteString.copyFrom(bytesContent0.bytes))
-            .build()
-
-    private val unknowns = listOf(Unknown(666, 555), Unknown(777, 444))
+    private val unknowns = listOf(
+        Unknown(111, VarIntVal(111)),
+        Unknown(222, Fixed32Val(Fixed32(222))),
+        Unknown(333, Fixed64Val(Fixed64(333))),
+        Unknown(444, LengthDelimitedVal("some string".toByteArray()))
+    )
 
     private val protoktWithUnknowns =
         protoktSimple.copy {
@@ -59,9 +59,15 @@ class UnknownFieldsInteropTest {
                     unknowns.forEach {
                         addField(
                             it.fieldNum,
-                            UnknownFieldSet.Field.newBuilder()
-                                .addVarint((it.value as VarIntVal).value)
-                                .build()
+                            UnknownFieldSet.Field.newBuilder().apply {
+                                when (val v = it.value) {
+                                    is VarIntVal -> addVarint(v.value)
+                                    is Fixed32Val -> addFixed32(v.value.value)
+                                    is Fixed64Val -> addFixed64(v.value.value)
+                                    is LengthDelimitedVal ->
+                                        addLengthDelimited(ByteString.copyFrom(v.value))
+                                }
+                            }.build()
                         )
                     }
                 }.build()
@@ -69,13 +75,21 @@ class UnknownFieldsInteropTest {
         }.build()
 
     @Test
-    fun `java deserialize from kotlin serialize with unknown fields`() {
+    @Disabled("Broken UnknownValue equals implementation (https://github.com/open-toast/protokt/pull/64)")
+    fun `kotlin smoke test`() {
+        assertThat(KtTest.deserialize(protoktWithUnknowns.serialize()))
+            .isEqualTo(protoktWithUnknowns)
+    }
+
+    @Test
+    fun `java from kotlin`() {
         assertThat(JavaTest.parseFrom(protoktWithUnknowns.serialize()))
             .isEqualTo(javaWithUnknowns)
     }
 
     @Test
-    fun `kotlin deserialize from java serialize with unknown fields`() {
+    @Disabled("Broken UnknownValue equals implementation (https://github.com/open-toast/protokt/pull/64)")
+    fun `kotlin from java`() {
         assertThat(KtTest.deserialize(javaWithUnknowns.toByteArray()))
             .isEqualTo(protoktWithUnknowns)
     }

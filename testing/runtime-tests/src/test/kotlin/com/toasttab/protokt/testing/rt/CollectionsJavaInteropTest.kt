@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2020 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -187,9 +187,7 @@ class CollectionsJavaInteropTest {
             fun `java from kotlin well-known type`() {
                 assertThat(
                     JavaRepeatedWktTest.parseFrom(
-                        RepeatedWktTest.deserialize(
-                            RepeatedWktTest { list = protoktWktList }.serialize()
-                        ).serialize()
+                        RepeatedWktTest { list = protoktWktList }.serialize()
                     ).listList
                 ).containsExactlyElementsIn(javaWktList).inOrder()
             }
