@@ -59,10 +59,11 @@ private constructor(
     val fixed64: List<Fixed64Val>,
     val lengthDelimited: List<LengthDelimitedVal>
 ) {
+    private val size
+        get() = varint.size + fixed32.size + fixed64.size + lengthDelimited.size
+
     fun size(fieldNumber: Int) =
-        (sizeof(Tag(fieldNumber)) *
-            (varint.size + fixed32.size + fixed64.size + lengthDelimited.size)) +
-            asSequence().sumBy { it.size() }
+        (sizeof(Tag(fieldNumber)) * size) + asSequence().sumBy { it.size() }
 
     private fun asSequence(): Sequence<UnknownValue> =
         (varint.asSequence() + fixed32 + fixed64 + lengthDelimited)
@@ -87,11 +88,10 @@ private constructor(
         write(Tag((fieldNumber shl 3) or wireType))
 
     override fun equals(other: Any?) =
-        other is Field &&
-            asSequence().zip(other.asSequence()).all { (l, r) -> l == r }
+        equalsUsingSequence(other, { size }) { asSequence() }
 
     override fun hashCode() =
-        asSequence().fold(1) { hash, elt -> 31 * hash + elt.hashCode() }
+        hashCodeUsingSequence { asSequence() }
 
     override fun toString(): String =
         "Field(" +

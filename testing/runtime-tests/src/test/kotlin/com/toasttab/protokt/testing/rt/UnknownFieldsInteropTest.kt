@@ -17,12 +17,14 @@ package com.toasttab.protokt.testing.rt
 
 import com.google.common.truth.Truth.assertThat
 import com.google.protobuf.ByteString
-import com.google.protobuf.UnknownFieldSet
+import com.google.protobuf.UnknownFieldSet as JavaUnknownFieldSet
 import com.toasttab.protokt.rt.Bytes
+import com.toasttab.protokt.rt.FieldBuilder
 import com.toasttab.protokt.rt.Fixed32Val
 import com.toasttab.protokt.rt.Fixed64Val
 import com.toasttab.protokt.rt.LengthDelimitedVal
-import com.toasttab.protokt.rt.Unknown
+import com.toasttab.protokt.rt.NumberedUnknownValue
+import com.toasttab.protokt.rt.UnknownFieldSet
 import com.toasttab.protokt.rt.VarintVal
 import com.toasttab.protokt.testing.rt.Test as KtTest
 import com.toasttab.protokt.testing.rt.TestOuterClass.Test as JavaTest
@@ -38,25 +40,30 @@ class UnknownFieldsInteropTest {
             .build()
 
     private val unknowns = listOf(
-        Unknown.varint(111, 111),
-        Unknown.fixed32(222, 222),
-        Unknown.fixed64(333, 333),
-        Unknown.lengthDelimited(444, "some string".toByteArray())
+        NumberedUnknownValue.varint(111, 111),
+        NumberedUnknownValue.fixed32(222, 222),
+        NumberedUnknownValue.fixed64(333, 333),
+        NumberedUnknownValue.lengthDelimited(444, "some string".toByteArray())
     )
 
     private val protoktWithUnknowns =
         protoktSimple.copy {
-            unknown = unknowns.associateBy { it.fieldNumber }
+            unknownFields =
+                UnknownFieldSet.from(
+                    unknowns.associate {
+                        it.fieldNumber to FieldBuilder().add(it.value)
+                    }
+                )
         }
 
     private val javaWithUnknowns =
         javaSimple.toBuilder().apply {
             setUnknownFields(
-                UnknownFieldSet.newBuilder().apply {
+                JavaUnknownFieldSet.newBuilder().apply {
                     unknowns.forEach {
                         addField(
                             it.fieldNumber,
-                            UnknownFieldSet.Field.newBuilder().apply {
+                            JavaUnknownFieldSet.Field.newBuilder().apply {
                                 when (val v = it.value) {
                                     is VarintVal -> addVarint(v.value.value)
                                     is Fixed32Val -> addFixed32(v.value.value)

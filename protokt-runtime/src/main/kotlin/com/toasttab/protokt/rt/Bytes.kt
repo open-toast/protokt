@@ -35,6 +35,9 @@ class Bytes(internal val value: ByteArray) {
         value.contentToString()
 
     companion object {
-        val empty = Bytes(ByteArray(0))
+        private val EMPTY = Bytes(ByteArray(0))
+
+        fun empty() =
+            EMPTY
     }
 }

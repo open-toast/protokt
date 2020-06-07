@@ -15,23 +15,23 @@
 
 package com.toasttab.protokt.rt
 
-class Unknown
+class NumberedUnknownValue
 private constructor(
     val fieldNumber: Int,
     val value: UnknownValue
 ) {
     companion object {
         fun varint(fieldNumber: Int, varint: Long) =
-            Unknown(fieldNumber, VarintVal(UInt64(varint)))
+            NumberedUnknownValue(fieldNumber, VarintVal(UInt64(varint)))
 
         fun fixed32(fieldNumber: Int, fixed32: Int) =
-            Unknown(fieldNumber, Fixed32Val(Fixed32(fixed32)))
+            NumberedUnknownValue(fieldNumber, Fixed32Val(Fixed32(fixed32)))
 
         fun fixed64(fieldNumber: Int, fixed64: Long) =
-            Unknown(fieldNumber, Fixed64Val(Fixed64(fixed64)))
+            NumberedUnknownValue(fieldNumber, Fixed64Val(Fixed64(fixed64)))
 
         fun lengthDelimited(fieldNumber: Int, bytes: ByteArray) =
-            Unknown(fieldNumber, LengthDelimitedVal(Bytes(bytes)))
+            NumberedUnknownValue(fieldNumber, LengthDelimitedVal(Bytes(bytes)))
     }
 }
 

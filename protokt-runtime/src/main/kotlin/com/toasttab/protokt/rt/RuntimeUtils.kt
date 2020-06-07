@@ -58,3 +58,15 @@ fun <T> copyList(list: List<T>): List<T> =
     } else {
         Collections.unmodifiableList(ArrayList(list))
     }
+
+internal inline fun <reified T> T.equalsUsingSequence(
+    other: Any?,
+    size: T.() -> Int,
+    asSequence: T.() -> Sequence<*>
+) =
+    other is T &&
+        size() == other.size() &&
+        asSequence().zip(other.asSequence()).all { (l, r) -> l == r }
+
+internal inline fun hashCodeUsingSequence(asSequence: () -> Sequence<*>) =
+    asSequence().fold(1) { hash, elt -> 31 * hash + elt.hashCode() }
