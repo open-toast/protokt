@@ -24,6 +24,7 @@ import com.toasttab.protokt.rt.Fixed32Val
 import com.toasttab.protokt.rt.Fixed64
 import com.toasttab.protokt.rt.Fixed64Val
 import com.toasttab.protokt.rt.LengthDelimitedVal
+import com.toasttab.protokt.rt.UInt64
 import com.toasttab.protokt.rt.Unknown
 import com.toasttab.protokt.rt.VarIntVal
 import com.toasttab.protokt.testing.rt.Test as KtTest
@@ -41,7 +42,7 @@ class UnknownFieldsInteropTest {
             .build()
 
     private val unknowns = listOf(
-        Unknown(111, VarIntVal(111)),
+        Unknown(111, VarIntVal(UInt64(111))),
         Unknown(222, Fixed32Val(Fixed32(222))),
         Unknown(333, Fixed64Val(Fixed64(333))),
         Unknown(444, LengthDelimitedVal("some string".toByteArray()))
@@ -61,7 +62,7 @@ class UnknownFieldsInteropTest {
                             it.fieldNum,
                             UnknownFieldSet.Field.newBuilder().apply {
                                 when (val v = it.value) {
-                                    is VarIntVal -> addVarint(v.value)
+                                    is VarIntVal -> addVarint(v.value.value)
                                     is Fixed32Val -> addFixed32(v.value.value)
                                     is Fixed64Val -> addFixed64(v.value.value)
                                     is LengthDelimitedVal ->

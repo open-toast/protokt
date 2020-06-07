@@ -17,7 +17,7 @@ package com.toasttab.protokt.rt
 
 import kotlin.reflect.KClass
 
-private val type0 =
+private val TYPE_0 by lazy {
     listOf(
         Boolean::class,
         KtEnum::class,
@@ -28,33 +28,38 @@ private val type0 =
         UInt32::class,
         UInt64::class
     )
+}
 
-private val type1 =
+private val TYPE_1 by lazy {
     listOf(
         Double::class,
         Fixed64::class,
         SFixed64::class
     )
+}
 
-private val type2 =
+private val TYPE_2 by lazy {
     listOf(
         Bytes::class,
         KtMessage::class,
         String::class
     )
+}
 
-private val type5 =
+private val TYPE_5 by lazy {
     listOf(
         Float::class,
         Fixed32::class,
         SFixed32::class
     )
+}
 
-private val wireTypes =
-    type0.associateWith { 0 } +
-        type1.associateWith { 1 } +
-        type2.associateWith { 2 } +
-        type5.associateWith { 5 }
+private val WIRE_TYPES by lazy {
+    TYPE_0.associateWith { 0 } +
+        TYPE_1.associateWith { 1 } +
+        TYPE_2.associateWith { 2 } +
+        TYPE_5.associateWith { 5 }
+}
 
 fun wireType(klass: KClass<*>) =
-    wireTypes.getValue(klass)
+    WIRE_TYPES.getValue(klass)

@@ -117,7 +117,7 @@ fun deserializer(
             val fieldNum = WireFormat.getTagFieldNumber(tag)
             return when (WireFormat.getTagWireType(tag)) {
                 WireFormat.WIRETYPE_VARINT ->
-                    Unknown(fieldNum, VarIntVal(stream.readInt64()))
+                    Unknown(fieldNum, VarIntVal(UInt64(stream.readInt64())))
                 WireFormat.WIRETYPE_FIXED64 ->
                     Unknown(fieldNum, Fixed64Val(Fixed64(stream.readFixed64())))
                 WireFormat.WIRETYPE_LENGTH_DELIMITED ->
