@@ -23,7 +23,7 @@ import com.google.common.truth.Truth.assertThat
 import com.toasttab.protokt.Timestamp
 import org.junit.jupiter.api.Test
 
-class ValidationTest {
+class MessageJavaInteropTest {
     val timestamp = Timestamp { seconds = System.currentTimeMillis() * 1000 }
     val phoneNumber =
         Person.PhoneNumber {

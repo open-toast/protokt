@@ -45,6 +45,10 @@ message RepeatedPackedTest {
   repeated int64 list = 1 [packed = true];
 }
 
+message RepeatedUnpackedTest {
+  repeated int64 list = 1 [packed = false];
+}
+
 message RepeatedWktTest {
   repeated google.protobuf.Timestamp list = 1;
 }
