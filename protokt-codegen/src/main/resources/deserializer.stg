@@ -16,14 +16,14 @@
 import "dsl.stg"
 import "renderers.stg"
 
-companion() ::= <<
+deserializer() ::= <<
 companion object Deserializer : KtDeserializer\<<message.name>\>, (<message.name>Dsl.() -> Unit) -> <message.name> {
     override fun deserialize(<\\>
     <if (options.longDeserializer)><\n><t()><t()><endif><\\>
     deserializer: KtMessageDeserializer<\\>
     <if (options.longDeserializer)><\n><t()><endif>): <message.name> {
         <properties:{p | var <deserializeVar(p)>}; separator="\n">
-        var unknownFields: MutableMap\<Int, FieldBuilder>? = null
+        var unknownFields: UnknownFieldSet.Builder? = null
 
         while (true) {
             when (deserializer.readTag()) {
@@ -37,8 +37,8 @@ companion object Deserializer : KtDeserializer\<<message.name>\>, (<message.name
                 <if ((!d.std || d.repeated || d.assignment.long))><\n><t()><else><\ ><endif><\\>
                 <d.assignment.value>}; separator="\n">
                 else -> unknownFields =
-                    (unknownFields ?: mutableMapOf()).also {
-                        processUnknown(deserializer, it)
+                    (unknownFields ?: UnknownFieldSet.Builder()).also {
+                        it.add(deserializer.readUnknown())
                     }
             }
         }

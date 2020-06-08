@@ -19,11 +19,10 @@ import com.google.common.truth.Truth.assertThat
 import com.google.protobuf.ByteString
 import com.google.protobuf.UnknownFieldSet as JavaUnknownFieldSet
 import com.toasttab.protokt.rt.Bytes
-import com.toasttab.protokt.rt.FieldBuilder
 import com.toasttab.protokt.rt.Fixed32Val
 import com.toasttab.protokt.rt.Fixed64Val
 import com.toasttab.protokt.rt.LengthDelimitedVal
-import com.toasttab.protokt.rt.NumberedUnknownValue
+import com.toasttab.protokt.rt.UnknownField
 import com.toasttab.protokt.rt.UnknownFieldSet
 import com.toasttab.protokt.rt.VarintVal
 import com.toasttab.protokt.testing.rt.Test as KtTest
@@ -40,20 +39,18 @@ class UnknownFieldsInteropTest {
             .build()
 
     private val unknowns = listOf(
-        NumberedUnknownValue.varint(111, 111),
-        NumberedUnknownValue.fixed32(222, 222),
-        NumberedUnknownValue.fixed64(333, 333),
-        NumberedUnknownValue.lengthDelimited(444, "some string".toByteArray())
+        UnknownField.varint(111, 111),
+        UnknownField.fixed32(222, 222),
+        UnknownField.fixed64(333, 333),
+        UnknownField.lengthDelimited(444, "some string".toByteArray())
     )
 
     private val protoktWithUnknowns =
         protoktSimple.copy {
             unknownFields =
-                UnknownFieldSet.from(
-                    unknowns.associate {
-                        it.fieldNumber to FieldBuilder().add(it.value)
-                    }
-                )
+                UnknownFieldSet.Builder()
+                    .apply { unknowns.forEach { add(it) } }
+                    .build()
         }
 
     private val javaWithUnknowns =

@@ -41,113 +41,117 @@ private constructor(
         fun empty() =
             EMPTY
 
-        fun from(unknownFields: Map<Int, FieldBuilder>?) =
-            if (unknownFields == null) {
-                EMPTY
-            } else {
-                UnknownFieldSet(
-                    copyMap(unknownFields.mapValues { (_, v) -> Field.from(v) })
-                )
-            }
-    }
-}
-
-class Field
-private constructor(
-    val varint: List<VarintVal>,
-    val fixed32: List<Fixed32Val>,
-    val fixed64: List<Fixed64Val>,
-    val lengthDelimited: List<LengthDelimitedVal>
-) {
-    private val size
-        get() = varint.size + fixed32.size + fixed64.size + lengthDelimited.size
-
-    fun size(fieldNumber: Int) =
-        (sizeof(Tag(fieldNumber)) * size) + asSequence().sumBy { it.size() }
-
-    private fun asSequence(): Sequence<UnknownValue> =
-        (varint.asSequence() + fixed32 + fixed64 + lengthDelimited)
-
-    fun write(fieldNumber: Int, serializer: KtMessageSerializer) {
-        asSequence().forEach { serializer.write(it, fieldNumber) }
+        fun from(builder: Builder?) =
+            builder?.build() ?: EMPTY
     }
 
-    private fun KtMessageSerializer.write(
-        unknownValue: UnknownValue,
-        fieldNumber: Int
+    class Builder {
+        private val map = mutableMapOf<Int, Field.Builder>()
+
+        fun add(unknown: UnknownField) {
+            map.getOrPut(unknown.fieldNumber) { Field.Builder() }
+                .add(unknown.value)
+        }
+
+        fun build() =
+            UnknownFieldSet(finishMap(map.mapValues { (_, v) -> v.build() }))
+    }
+
+    class Field
+    private constructor(
+        val varint: List<VarintVal>,
+        val fixed32: List<Fixed32Val>,
+        val fixed64: List<Fixed64Val>,
+        val lengthDelimited: List<LengthDelimitedVal>
     ) {
-        when (unknownValue) {
-            is VarintVal -> write(fieldNumber, 0).write(unknownValue.value)
-            is Fixed32Val -> write(fieldNumber, 5).write(unknownValue.value)
-            is Fixed64Val -> write(fieldNumber, 1).write(unknownValue.value)
-            is LengthDelimitedVal -> write(fieldNumber, 2).write(unknownValue.value)
-        }
-    }
+        private val size
+            get() = varint.size + fixed32.size + fixed64.size + lengthDelimited.size
 
-    private fun KtMessageSerializer.write(fieldNumber: Int, wireType: Int) =
-        write(Tag((fieldNumber shl 3) or wireType))
+        fun size(fieldNumber: Int) =
+            (sizeof(Tag(fieldNumber)) * size) + asSequence().sumBy { it.size() }
 
-    override fun equals(other: Any?) =
-        equalsUsingSequence(other, { size }) { asSequence() }
+        private fun asSequence(): Sequence<UnknownValue> =
+            (varint.asSequence() + fixed32 + fixed64 + lengthDelimited)
 
-    override fun hashCode() =
-        hashCodeUsingSequence { asSequence() }
-
-    override fun toString(): String =
-        "Field(" +
-            "varint=$varint, " +
-            "fixed32=$fixed32, " +
-            "fixed64=$fixed64, " +
-            "lengthDelimited=$lengthDelimited)"
-
-    companion object {
-        fun from(builder: FieldBuilder) =
-            Field(
-                finishList(builder.varint),
-                finishList(builder.fixed32),
-                finishList(builder.fixed64),
-                finishList(builder.lengthDelimited)
-            )
-    }
-}
-
-class FieldBuilder {
-    internal var varint: MutableList<VarintVal>? = null
-    internal var fixed32: MutableList<Fixed32Val>? = null
-    internal var fixed64: MutableList<Fixed64Val>? = null
-    internal var lengthDelimited: MutableList<LengthDelimitedVal>? = null
-
-    private fun varint() =
-        varint.let {
-            it ?: mutableListOf<VarintVal>()
-                .apply { varint = this }
+        fun write(fieldNumber: Int, serializer: KtMessageSerializer) {
+            asSequence().forEach { serializer.write(it, fieldNumber) }
         }
 
-    private fun fixed32() =
-        fixed32.let {
-            it ?: mutableListOf<Fixed32Val>()
-                .apply { fixed32 = this }
-        }
-
-    private fun fixed64() =
-        fixed64.let {
-            it ?: mutableListOf<Fixed64Val>()
-                .apply { fixed64 = this }
-        }
-
-    private fun lengthDelimited() =
-        lengthDelimited.let {
-            it ?: mutableListOf<LengthDelimitedVal>()
-                .apply { lengthDelimited = this }
-        }
-
-    fun add(unknown: UnknownValue) =
-        apply {
-            when (unknown) {
-                is VarintVal -> varint().add(unknown)
-                is Fixed32Val -> fixed32().add(unknown)
-                is Fixed64Val -> fixed64().add(unknown)
-                is LengthDelimitedVal -> lengthDelimited().add(unknown)
+        private fun KtMessageSerializer.write(
+            unknownValue: UnknownValue,
+            fieldNumber: Int
+        ) {
+            when (unknownValue) {
+                is VarintVal -> write(fieldNumber, 0).write(unknownValue.value)
+                is Fixed32Val -> write(fieldNumber, 5).write(unknownValue.value)
+                is Fixed64Val -> write(fieldNumber, 1).write(unknownValue.value)
+                is LengthDelimitedVal -> write(fieldNumber, 2).write(unknownValue.value)
             }
         }
+
+        private fun KtMessageSerializer.write(fieldNumber: Int, wireType: Int) =
+            write(Tag((fieldNumber shl 3) or wireType))
+
+        override fun equals(other: Any?) =
+            equalsUsingSequence(other, { size }) { asSequence() }
+
+        override fun hashCode() =
+            hashCodeUsingSequence { asSequence() }
+
+        override fun toString(): String =
+            "Field(" +
+                "varint=$varint, " +
+                "fixed32=$fixed32, " +
+                "fixed64=$fixed64, " +
+                "lengthDelimited=$lengthDelimited)"
+
+        class Builder
+        internal constructor() {
+            private var varint: MutableList<VarintVal>? = null
+            private var fixed32: MutableList<Fixed32Val>? = null
+            private var fixed64: MutableList<Fixed64Val>? = null
+            private var lengthDelimited: MutableList<LengthDelimitedVal>? = null
+
+            private fun varint() =
+                varint.let {
+                    it ?: mutableListOf<VarintVal>()
+                        .apply { varint = this }
+                }
+
+            private fun fixed32() =
+                fixed32.let {
+                    it ?: mutableListOf<Fixed32Val>()
+                        .apply { fixed32 = this }
+                }
+
+            private fun fixed64() =
+                fixed64.let {
+                    it ?: mutableListOf<Fixed64Val>()
+                        .apply { fixed64 = this }
+                }
+
+            private fun lengthDelimited() =
+                lengthDelimited.let {
+                    it ?: mutableListOf<LengthDelimitedVal>()
+                        .apply { lengthDelimited = this }
+                }
+
+            fun add(unknown: UnknownValue) {
+                when (unknown) {
+                    is VarintVal -> varint().add(unknown)
+                    is Fixed32Val -> fixed32().add(unknown)
+                    is Fixed64Val -> fixed64().add(unknown)
+                    is LengthDelimitedVal -> lengthDelimited().add(unknown)
+                }
+            }
+
+            fun build() =
+                Field(
+                    finishList(varint),
+                    finishList(fixed32),
+                    finishList(fixed64),
+                    finishList(lengthDelimited)
+                )
+        }
+    }
 }

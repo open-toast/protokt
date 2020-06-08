@@ -17,20 +17,6 @@ package com.toasttab.protokt.rt
 
 import java.util.Collections
 
-fun processUnknown(
-    deserializer: KtMessageDeserializer,
-    unknown: MutableMap<Int, FieldBuilder>
-) {
-    val unk = deserializer.readUnknown()
-    unknown[unk.fieldNumber] =
-        unknown[unk.fieldNumber].let {
-            when (it) {
-                null -> FieldBuilder().add(unk.value)
-                else -> it.add(unk.value)
-            }
-        }
-}
-
 fun <K, V> finishMap(map: Map<K, V>?): Map<K, V> =
     if (map.isNullOrEmpty()) {
         emptyMap()

@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-import "companion.stg"
+import "deserializer.stg"
 import "dsl.stg"
 import "options.stg"
 import "renderers.stg"
@@ -124,7 +124,7 @@ private constructor(
 
     <dsl()>
 
-    <companion()>
+    <deserializer()>
     <if (nested)>
 
     <nested:{n | <n>}; separator="\n"><\\>

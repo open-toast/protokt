@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2020 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,23 +15,23 @@
 
 package com.toasttab.protokt.rt
 
-class NumberedUnknownValue
+class UnknownField
 private constructor(
     val fieldNumber: Int,
     val value: UnknownValue
 ) {
     companion object {
         fun varint(fieldNumber: Int, varint: Long) =
-            NumberedUnknownValue(fieldNumber, VarintVal(UInt64(varint)))
+            UnknownField(fieldNumber, VarintVal(UInt64(varint)))
 
         fun fixed32(fieldNumber: Int, fixed32: Int) =
-            NumberedUnknownValue(fieldNumber, Fixed32Val(Fixed32(fixed32)))
+            UnknownField(fieldNumber, Fixed32Val(Fixed32(fixed32)))
 
         fun fixed64(fieldNumber: Int, fixed64: Long) =
-            NumberedUnknownValue(fieldNumber, Fixed64Val(Fixed64(fixed64)))
+            UnknownField(fieldNumber, Fixed64Val(Fixed64(fixed64)))
 
         fun lengthDelimited(fieldNumber: Int, bytes: ByteArray) =
-            NumberedUnknownValue(fieldNumber, LengthDelimitedVal(Bytes(bytes)))
+            UnknownField(fieldNumber, LengthDelimitedVal(Bytes(bytes)))
     }
 }
 

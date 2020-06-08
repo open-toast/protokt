@@ -37,7 +37,7 @@ interface KtMessageDeserializer {
     fun readUInt32(): Int
     fun readUInt64(): Long
     fun readTag(): Int
-    fun readUnknown(): NumberedUnknownValue
+    fun readUnknown(): UnknownField
     fun readRepeated(packed: Boolean, acc: KtMessageDeserializer.() -> Unit)
     fun <T : KtEnum> readEnum(e: KtEnumDeserializer<T>): T
     fun <T : KtMessage> readMessage(m: KtDeserializer<T>): T
@@ -112,18 +112,18 @@ fun deserializer(
                 BytesSlice(stream.readByteArray())
             }
 
-        override fun readUnknown(): NumberedUnknownValue {
+        override fun readUnknown(): UnknownField {
             val tag = stream.lastTag
             val fieldNumber = WireFormat.getTagFieldNumber(tag)
             return when (WireFormat.getTagWireType(tag)) {
                 WireFormat.WIRETYPE_VARINT ->
-                    NumberedUnknownValue.varint(fieldNumber, stream.readInt64())
+                    UnknownField.varint(fieldNumber, stream.readInt64())
                 WireFormat.WIRETYPE_FIXED64 ->
-                    NumberedUnknownValue.fixed64(fieldNumber, stream.readFixed64())
+                    UnknownField.fixed64(fieldNumber, stream.readFixed64())
                 WireFormat.WIRETYPE_LENGTH_DELIMITED ->
-                    NumberedUnknownValue.lengthDelimited(fieldNumber, stream.readByteArray())
+                    UnknownField.lengthDelimited(fieldNumber, stream.readByteArray())
                 WireFormat.WIRETYPE_FIXED32 ->
-                    NumberedUnknownValue.fixed32(fieldNumber, stream.readFixed32())
+                    UnknownField.fixed32(fieldNumber, stream.readFixed32())
                 WireFormat.WIRETYPE_START_GROUP ->
                     throw UnsupportedOperationException("WIRETYPE_START_GROUP")
                 WireFormat.WIRETYPE_END_GROUP ->
