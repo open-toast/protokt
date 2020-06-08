@@ -19,7 +19,7 @@ interface UnknownValue {
     fun size(): Int
 }
 
-inline class LengthDelimitedVal(val value: ByteArray) : UnknownValue {
+inline class LengthDelimitedVal(val value: Bytes) : UnknownValue {
     override fun size() = sizeof(value)
 }
 
@@ -61,7 +61,7 @@ data class Unknown(val fieldNum: Int, val value: UnknownValue) {
         )
 
     constructor(fieldNum: Int, ba: ByteArray) :
-        this(fieldNum, LengthDelimitedVal(ba))
+        this(fieldNum, LengthDelimitedVal(Bytes(ba)))
 
     constructor(fieldNum: Int, str: String) :
         this(fieldNum, str.toByteArray())

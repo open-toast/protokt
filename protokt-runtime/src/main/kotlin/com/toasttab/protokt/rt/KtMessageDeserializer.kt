@@ -121,7 +121,7 @@ fun deserializer(
                 WireFormat.WIRETYPE_FIXED64 ->
                     Unknown(fieldNum, Fixed64Val(Fixed64(stream.readFixed64())))
                 WireFormat.WIRETYPE_LENGTH_DELIMITED ->
-                    Unknown(fieldNum, LengthDelimitedVal(stream.readByteArray()))
+                    Unknown(fieldNum, LengthDelimitedVal(Bytes(stream.readByteArray())))
                 WireFormat.WIRETYPE_FIXED32 ->
                     Unknown(fieldNum, Fixed32Val(Fixed32(stream.readFixed32())))
                 WireFormat.WIRETYPE_START_GROUP ->

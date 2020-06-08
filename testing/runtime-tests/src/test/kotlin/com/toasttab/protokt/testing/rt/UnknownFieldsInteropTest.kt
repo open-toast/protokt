@@ -29,7 +29,6 @@ import com.toasttab.protokt.rt.Unknown
 import com.toasttab.protokt.rt.VarIntVal
 import com.toasttab.protokt.testing.rt.Test as KtTest
 import com.toasttab.protokt.testing.rt.TestOuterClass.Test as JavaTest
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 class UnknownFieldsInteropTest {
@@ -45,7 +44,7 @@ class UnknownFieldsInteropTest {
         Unknown(111, VarIntVal(UInt64(111))),
         Unknown(222, Fixed32Val(Fixed32(222))),
         Unknown(333, Fixed64Val(Fixed64(333))),
-        Unknown(444, LengthDelimitedVal("some string".toByteArray()))
+        Unknown(444, LengthDelimitedVal(Bytes("some string".toByteArray())))
     )
 
     private val protoktWithUnknowns =
@@ -66,7 +65,9 @@ class UnknownFieldsInteropTest {
                                     is Fixed32Val -> addFixed32(v.value.value)
                                     is Fixed64Val -> addFixed64(v.value.value)
                                     is LengthDelimitedVal ->
-                                        addLengthDelimited(ByteString.copyFrom(v.value))
+                                        addLengthDelimited(
+                                            ByteString.copyFrom(v.value.bytes)
+                                        )
                                 }
                             }.build()
                         )
@@ -76,7 +77,6 @@ class UnknownFieldsInteropTest {
         }.build()
 
     @Test
-    @Disabled("Broken UnknownValue equals implementation (https://github.com/open-toast/protokt/pull/64)")
     fun `kotlin smoke test`() {
         assertThat(KtTest.deserialize(protoktWithUnknowns.serialize()))
             .isEqualTo(protoktWithUnknowns)
@@ -89,7 +89,6 @@ class UnknownFieldsInteropTest {
     }
 
     @Test
-    @Disabled("Broken UnknownValue equals implementation (https://github.com/open-toast/protokt/pull/64)")
     fun `kotlin from java`() {
         assertThat(KtTest.deserialize(javaWithUnknowns.toByteArray()))
             .isEqualTo(protoktWithUnknowns)

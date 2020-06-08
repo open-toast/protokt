@@ -17,5 +17,5 @@ package com.toasttab.protokt.rt
 
 inline class Tag(val value: Int)
 
-fun computeTag(fieldNumber: Int, wireFormat: Int) =
-    (fieldNumber shl 3) or wireFormat
+fun computeTag(fieldNumber: Int, wireType: Int) =
+    (fieldNumber shl 3) or wireType
