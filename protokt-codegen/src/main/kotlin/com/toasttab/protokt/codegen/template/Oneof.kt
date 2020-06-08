@@ -32,8 +32,7 @@ object Oneof {
         )
 
         class Options(
-            val doesImplement: Boolean,
-            val implements: String = ""
+            val implements: String?
         )
     }
 

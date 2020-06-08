@@ -129,9 +129,11 @@ private constructor(
     }
 
     private fun options(oneof: Oneof) =
-        oneof.options.protokt.implements.emptyToNone().fold(
-            { OneofTemplate.Options(false) },
-            { OneofTemplate.Options(true, possiblyQualify(it)) }
+        OneofTemplate.Options(
+            oneof.options.protokt.implements.emptyToNone().fold(
+                { null },
+                { possiblyQualify(it) }
+            )
         )
 
     private fun possiblyQualify(implements: String) =
