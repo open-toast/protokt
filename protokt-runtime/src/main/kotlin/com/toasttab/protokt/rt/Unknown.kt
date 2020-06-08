@@ -19,12 +19,12 @@ interface UnknownValue {
     fun size(): Int
 }
 
-inline class LengthDelimitedVal(val value: ByteArray) : UnknownValue {
+inline class LengthDelimitedVal(val value: Bytes) : UnknownValue {
     override fun size() = sizeof(value)
 }
 
-inline class VarIntVal(val value: Long) : UnknownValue {
-    override fun size() = sizeof(UInt64(value))
+inline class VarIntVal(val value: UInt64) : UnknownValue {
+    override fun size() = sizeof(value)
 }
 
 inline class Fixed32Val(val value: Fixed32) : UnknownValue {
@@ -46,7 +46,7 @@ data class Unknown(val fieldNum: Int, val value: UnknownValue) {
             if (fixed) {
                 Fixed64Val(Fixed64(v))
             } else {
-                VarIntVal(v)
+                VarIntVal(UInt64(v))
             }
         )
 
@@ -56,12 +56,12 @@ data class Unknown(val fieldNum: Int, val value: UnknownValue) {
             if (fixed) {
                 Fixed32Val(Fixed32(v))
             } else {
-                VarIntVal(v.toLong())
+                VarIntVal(UInt64(v.toLong()))
             }
         )
 
     constructor(fieldNum: Int, ba: ByteArray) :
-        this(fieldNum, LengthDelimitedVal(ba))
+        this(fieldNum, LengthDelimitedVal(Bytes(ba)))
 
     constructor(fieldNum: Int, str: String) :
         this(fieldNum, str.toByteArray())

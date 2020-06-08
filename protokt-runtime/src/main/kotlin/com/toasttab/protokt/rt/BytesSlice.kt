@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2020 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,56 +14,6 @@
  */
 
 package com.toasttab.protokt.rt
-
-interface Boxed {
-    val value: Number
-}
-
-inline class Tag(override val value: Int) : Boxed
-
-inline class Int32(override val value: Int) : Boxed
-
-inline class Fixed32(override val value: Int) : Boxed
-
-inline class SFixed32(override val value: Int) : Boxed
-
-inline class UInt32(override val value: Int) : Boxed
-
-inline class SInt32(override val value: Int) : Boxed
-
-inline class Int64(override val value: Long) : Boxed
-
-inline class Fixed64(override val value: Long) : Boxed
-
-inline class SFixed64(override val value: Long) : Boxed
-
-inline class UInt64(override val value: Long) : Boxed
-
-inline class SInt64(override val value: Long) : Boxed
-
-class Bytes(internal val value: ByteArray) {
-    val bytes
-        get() = value.clone()
-
-    fun isNotEmpty() =
-        value.isNotEmpty()
-
-    fun isEmpty() =
-        value.isEmpty()
-
-    override fun equals(other: Any?) =
-        other is Bytes && value.contentEquals(other.value)
-
-    override fun hashCode() =
-        value.contentHashCode()
-
-    override fun toString() =
-        value.contentToString()
-
-    companion object {
-        val empty = Bytes(ByteArray(0))
-    }
-}
 
 class BytesSlice(
     internal val array: ByteArray,

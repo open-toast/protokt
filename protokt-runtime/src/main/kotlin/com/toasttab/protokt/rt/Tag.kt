@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2020 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,7 @@
 
 package com.toasttab.protokt.rt
 
-@Target(AnnotationTarget.CLASS)
-annotation class KtGeneratedMessage(
-    /**
-     * The full protocol buffer type name of this message
-     * used for packing into an Any.
-     */
-    val fullTypeName: String
-)
+inline class Tag(val value: Int)
+
+fun computeTag(fieldNumber: Int, wireType: Int) =
+    (fieldNumber shl 3) or wireType

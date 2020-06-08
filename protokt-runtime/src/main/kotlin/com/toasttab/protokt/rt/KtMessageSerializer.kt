@@ -109,14 +109,14 @@ fun serializer(stream: CodedOutputStream): KtMessageSerializer {
             also { stream.writeUInt32NoTag(t.value) }
 
         private fun write(f: Int, wt: Int) =
-            write(Tag((f shl 3) or wt))
+            write(Tag(computeTag(f, wt)))
 
         private fun write(f: Int, v: UnknownValue) {
             when (v) {
-                is VarIntVal -> write(f, 0).write(UInt64(v.value))
-                is Fixed32Val -> write(f, 5).write(v.value)
-                is Fixed64Val -> write(f, 1).write(v.value)
-                is LengthDelimitedVal -> write(f, 2).write(v.value)
+                is VarIntVal -> write(f, wireType(v.value::class)).write(v.value)
+                is Fixed32Val -> write(f, wireType(v.value::class)).write(v.value)
+                is Fixed64Val -> write(f, wireType(v.value::class)).write(v.value)
+                is LengthDelimitedVal -> write(f, wireType(v.value::class)).write(v.value)
                 is ListVal -> v.value.forEach { write(f, it) }
             }
         }
