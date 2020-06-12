@@ -61,18 +61,6 @@ messagePropertyOverrides() ::= <%
     <if (p.overrides)>override <endif>
 %>
 
-oneofDoesImplement() ::= <%
-    <if (options.doesImplement)>
-        : <options.implements><\ >
-    <endif>
-%>
-
-oneofImplements() ::= <%
-    <if (options.doesImplement)>
-        , <options.implements> by <types.(k).fieldName><\ >
-    <endif>
-%>
-
 deprecated(any) ::= <%
     <if (any.deprecation)>
         @Deprecated(

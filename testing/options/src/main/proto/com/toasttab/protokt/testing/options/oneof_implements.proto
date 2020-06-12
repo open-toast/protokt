@@ -43,4 +43,17 @@ message ContainsOneofThatImplements {
     ImplementsOneof1 implements_one = 1;
     ImplementsOneof2 implements_two = 2;
   }
+
+  // name conflict
+  oneof OneofModel {
+    option (.protokt.oneof).implements = "OneofModel";
+
+    ImplementsOneof1 implements_one_with_name_conflict = 3;
+  }
+
+  oneof OneofModelFullyQualified {
+    option (.protokt.oneof).implements = "com.toasttab.protokt.testing.options.OneofModel";
+
+    ImplementsOneof1 implements_one_with_full_qualification = 4;
+  }
 }

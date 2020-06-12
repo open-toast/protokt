@@ -13,7 +13,6 @@
  * limitations under the License.
  */
 
-import "options.stg"
 import "renderers.stg"
 
 oneof(name, types, options) ::= <<
@@ -25,9 +24,20 @@ sealed class <name> <oneofDoesImplement()>{
     val <types.(k).fieldName>: <types.(k).type>
 ) : <name>()<oneofImplements()>}; separator="\n\n">
 }
-
 >>
 
 defaultValue() ::= "null"
 
 deserialize(oneof, name, read) ::= "<oneof>.<name>(<read>)"
+
+oneofDoesImplement() ::= <%
+    <if (options.implements)>
+        : <options.implements><\ >
+    <endif>
+%>
+
+oneofImplements() ::= <%
+    <if (options.implements)>
+        , <options.implements> by <types.(k).fieldName><\ >
+    <endif>
+%>
