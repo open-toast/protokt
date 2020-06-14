@@ -19,12 +19,20 @@ import com.github.andrewoma.dexx.kollection.ImmutableSet
 import com.github.andrewoma.dexx.kollection.immutableSetOf
 import com.toasttab.protokt.codegen.impl.Wrapper.converter
 import com.toasttab.protokt.codegen.impl.Wrapper.foldWrap
+import com.toasttab.protokt.codegen.model.Import
 import com.toasttab.protokt.codegen.model.PPackage
+import com.toasttab.protokt.codegen.model.pclass
+import com.toasttab.protokt.codegen.model.rtMethod
 import com.toasttab.protokt.codegen.protoc.ProtocolContext
 import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.rt.Bytes
 import com.toasttab.protokt.rt.BytesSlice
+import com.toasttab.protokt.rt.Tag
 import com.toasttab.protokt.rt.UInt32
+import com.toasttab.protokt.rt.copyList
+import com.toasttab.protokt.rt.finishList
+import com.toasttab.protokt.rt.sizeofMap
+import kotlin.reflect.KCallable
 
 class StandardFieldImportResolver(
     private val f: StandardField,
@@ -40,8 +48,8 @@ class StandardFieldImportResolver(
     private fun listImports() =
         if (f.repeated && !f.map) {
             immutableSetOf(
-                rtMethod("copyList"),
-                rtMethod("finishList")
+                rtMethod(COPY_LIST),
+                rtMethod(FINISH_LIST)
             ) +
                 if (f.packed) {
                     immutableSetOf(pclass(UInt32::class))
@@ -54,7 +62,7 @@ class StandardFieldImportResolver(
 
     private fun mapImports() =
         if (f.map) {
-            setOf(rtMethod("sizeofMap"))
+            setOf(rtMethod(SIZEOF_MAP))
         } else {
             setOf()
         }
@@ -88,4 +96,25 @@ class StandardFieldImportResolver(
 
         return set
     }
+}
+
+private val FINISH_LIST = finishList<Any>()
+
+private fun <T> finishList(): KCallable<*> {
+    val finishList: (List<T>?) -> List<T> = ::finishList
+    return finishList as KCallable<*>
+}
+
+private val COPY_LIST = copyList<Any>()
+
+private fun <T> copyList(): KCallable<*> {
+    val copyList: (List<T>) -> List<T> = ::copyList
+    return copyList as KCallable<*>
+}
+
+private val SIZEOF_MAP = sizeofMap<Any, Any>()
+
+private fun <K, V> sizeofMap(): KCallable<*> {
+    val sizeofMap: (Map<K, V>, Tag, (K, V) -> Int) -> Int = ::sizeofMap
+    return sizeofMap as KCallable<*>
 }

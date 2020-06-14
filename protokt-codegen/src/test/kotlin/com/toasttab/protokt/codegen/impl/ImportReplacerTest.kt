@@ -17,7 +17,10 @@ package com.toasttab.protokt.codegen.impl
 
 import com.google.common.truth.Truth.assertThat
 import com.toasttab.protokt.codegen.impl.ImportReplacer.replaceImports
+import com.toasttab.protokt.codegen.model.Import
 import com.toasttab.protokt.codegen.model.PClass
+import com.toasttab.protokt.codegen.model.pclass
+import com.toasttab.protokt.codegen.model.rtMethod
 import com.toasttab.protokt.grpc.KtMarshaller
 import com.toasttab.protokt.rt.processUnknown
 import io.grpc.MethodDescriptor
@@ -91,7 +94,7 @@ class ImportReplacerTest {
                 code,
                 setOf(
                     pclass(MethodDescriptor::class),
-                    pclass(MethodDescriptor.MethodType::class),
+                    pclass(MethodType::class),
                     Import.ClassMethod(
                         PClass.fromClass(MethodDescriptor::class),
                         "generateFullMethodName"

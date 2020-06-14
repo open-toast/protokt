@@ -17,6 +17,7 @@ package com.toasttab.protokt.codegen.impl
 
 import arrow.core.firstOrNone
 import com.toasttab.protokt.codegen.algebra.AST
+import com.toasttab.protokt.codegen.model.Import
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.protoc.TypeDesc
 import com.toasttab.protokt.codegen.template.Header.Header

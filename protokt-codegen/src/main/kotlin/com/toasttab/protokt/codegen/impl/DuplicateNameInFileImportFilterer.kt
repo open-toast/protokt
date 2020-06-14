@@ -17,6 +17,7 @@ package com.toasttab.protokt.codegen.impl
 
 import com.google.common.annotations.VisibleForTesting
 import com.toasttab.protokt.codegen.algebra.AST
+import com.toasttab.protokt.codegen.model.Import
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.TypeDesc
 
