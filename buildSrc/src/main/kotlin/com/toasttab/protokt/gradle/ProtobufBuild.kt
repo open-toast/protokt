@@ -63,13 +63,7 @@ internal fun configureProtobufPlugin(project: Project, ext: ProtoktExtension, bi
                 task.plugins {
                     id("protokt") {
                         project.afterEvaluate {
-                            val classpath =
-                                project.configurations
-                                    .getByName(EXTENSIONS)
-                                    .asPath
-                                    .replace(':', ';')
-
-                            option("$KOTLIN_EXTRA_CLASSPATH=$classpath")
+                            option("$KOTLIN_EXTRA_CLASSPATH=${project.extraClasspath()}")
                             option("$RESPECT_JAVA_PACKAGE=${ext.respectJavaPackage}")
                             option("$GENERATE_GRPC=${ext.generateGrpc}")
                             option("$ONLY_GENERATE_GRPC=${ext.onlyGenerateGrpc}")
@@ -80,6 +74,11 @@ internal fun configureProtobufPlugin(project: Project, ext: ProtoktExtension, bi
         }
     }
 }
+
+private fun Project.extraClasspath() =
+    (configurations.getByName(EXTENSIONS) + configurations.getByName(TEST_EXTENSIONS))
+        .asPath
+        .replace(':', ';')
 
 private fun configureSources(project: Project, generatedSourcesPath: String) {
     val protoktDir = "$generatedSourcesPath/main/protokt"

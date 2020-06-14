@@ -43,8 +43,9 @@ include(
 
     "testing:conformance-driver",
     "testing:conformance-tests",
-    "testing:options-api",
     "testing:options",
+    "testing:options-api",
+    "testing:options-test-configurations",
     "testing:plugin-options",
     "testing:plugin-options:ignore-java-package",
     "testing:protobuf-java",

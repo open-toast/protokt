@@ -22,20 +22,28 @@ const val CODEGEN_NAME = "protoc-gen-protokt"
 
 const val EXTENSIONS = "protoktExtensions"
 
+const val TEST_EXTENSIONS = "testProtoktExtensions"
+
 const val MANIFEST_VERSION_PROPERTY = "Implementation-Version"
 
 fun configureProtokt(project: Project, resolveBinary: () -> String) {
-    createExtensionConfiguration(project)
+    createExtensionConfigurations(project)
 
     val ext = project.extensions.create<ProtoktExtension>("protokt")
 
     configureProtobufPlugin(project, ext, resolveBinary())
 }
 
-private fun createExtensionConfiguration(project: Project) {
+private fun createExtensionConfigurations(project: Project) {
     val extensionsConfiguration = project.configurations.create(EXTENSIONS)
 
     project.configurations.named("api") {
         extendsFrom(extensionsConfiguration)
+    }
+
+    val testExtensionsConfiguration = project.configurations.create(TEST_EXTENSIONS)
+
+    project.configurations.named("testApi") {
+        extendsFrom(testExtensionsConfiguration)
     }
 }
