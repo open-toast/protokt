@@ -19,6 +19,7 @@ import arrow.core.firstOrNone
 import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.algebra.Accumulator
 import com.toasttab.protokt.codegen.algebra.Effects
+import com.toasttab.protokt.codegen.model.Import
 import com.toasttab.protokt.codegen.protoc.TypeDesc
 
 internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {

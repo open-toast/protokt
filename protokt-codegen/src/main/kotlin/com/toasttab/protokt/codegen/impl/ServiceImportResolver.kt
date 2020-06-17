@@ -17,7 +17,9 @@ package com.toasttab.protokt.codegen.impl
 
 import com.github.andrewoma.dexx.kollection.ImmutableSet
 import com.github.andrewoma.dexx.kollection.immutableSetOf
+import com.toasttab.protokt.codegen.model.Import
 import com.toasttab.protokt.codegen.model.PClass
+import com.toasttab.protokt.codegen.model.pclass
 import com.toasttab.protokt.codegen.protoc.Method
 import com.toasttab.protokt.codegen.protoc.Service
 import com.toasttab.protokt.grpc.KtMarshaller

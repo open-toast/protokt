@@ -16,6 +16,7 @@
 package com.toasttab.protokt.codegen.impl
 
 import com.toasttab.protokt.codegen.algebra.AST
+import com.toasttab.protokt.codegen.model.Import
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Oneof

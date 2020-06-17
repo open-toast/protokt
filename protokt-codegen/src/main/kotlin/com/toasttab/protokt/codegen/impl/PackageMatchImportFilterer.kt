@@ -15,6 +15,7 @@
 
 package com.toasttab.protokt.codegen.impl
 
+import com.toasttab.protokt.codegen.model.Import
 import com.toasttab.protokt.codegen.model.PPackage
 
 fun Sequence<Import>.filterClassesWithSamePackageName(pkg: PPackage) =

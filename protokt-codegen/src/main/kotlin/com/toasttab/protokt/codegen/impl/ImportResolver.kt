@@ -22,7 +22,10 @@ import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.impl.ClassLookup.getClassOrNone
 import com.toasttab.protokt.codegen.impl.STAnnotator.grpc
 import com.toasttab.protokt.codegen.impl.STAnnotator.nonGrpc
+import com.toasttab.protokt.codegen.model.Import
 import com.toasttab.protokt.codegen.model.PPackage
+import com.toasttab.protokt.codegen.model.pclass
+import com.toasttab.protokt.codegen.model.rtMethod
 import com.toasttab.protokt.codegen.protoc.Enum
 import com.toasttab.protokt.codegen.protoc.Field
 import com.toasttab.protokt.codegen.protoc.Message
@@ -41,7 +44,11 @@ import com.toasttab.protokt.rt.KtMessageDeserializer
 import com.toasttab.protokt.rt.KtMessageSerializer
 import com.toasttab.protokt.rt.Tag
 import com.toasttab.protokt.rt.Unknown
+import com.toasttab.protokt.rt.copyMap
+import com.toasttab.protokt.rt.finishMap
 import com.toasttab.protokt.rt.processUnknown
+import com.toasttab.protokt.rt.sizeof
+import kotlin.reflect.KCallable
 
 class ImportResolver(
     private val ctx: ProtocolContext,
@@ -60,8 +67,8 @@ class ImportResolver(
             KtGeneratedMessage::class
         ).map { pclass(it) }.toImmutableSet() +
             setOf(
-                rtMethod("copyMap"),
-                rtMethod("finishMap"),
+                rtMethod(COPY_MAP),
+                rtMethod(FINISH_MAP),
                 rtMethod(::processUnknown)
             )
 
@@ -91,7 +98,7 @@ class ImportResolver(
             m.fields.flatMapToSet { imports(it) }
 
     private fun imports(f: Field): ImmutableSet<Import> =
-        immutableSetOf(pclass(Tag::class), rtMethod("sizeof")) +
+        immutableSetOf(pclass(Tag::class), rtMethod(SIZEOF)) +
             when (f) {
                 is StandardField -> StandardFieldImportResolver(f, ctx, pkg).imports()
                 is Oneof -> f.fields.flatMapToSet { imports(it) }
@@ -101,4 +108,25 @@ class ImportResolver(
         transform: (T) -> Iterable<R>
     ): ImmutableSet<R> =
         fold(immutableSetOf()) { s, e -> s + transform(e) }
+}
+
+private val COPY_MAP = copyMap<Any, Any>()
+
+private fun <K, V> copyMap(): KCallable<*> {
+    val copyMap: (Map<K, V>) -> Map<K, V> = ::copyMap
+    return copyMap as KCallable<*>
+}
+
+private val FINISH_MAP = finishMap<Any, Any>()
+
+private fun <K, V> finishMap(): KCallable<*> {
+    val finishMap: (Map<K, V>?) -> Map<K, V> = ::finishMap
+    return finishMap as KCallable<*>
+}
+
+private val SIZEOF = sizeof()
+
+private fun sizeof(): KCallable<*> {
+    val sizeof: (String) -> Int = ::sizeof
+    return sizeof as KCallable<*>
 }

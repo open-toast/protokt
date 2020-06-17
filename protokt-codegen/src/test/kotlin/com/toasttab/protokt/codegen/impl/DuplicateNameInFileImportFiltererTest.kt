@@ -16,6 +16,7 @@
 package com.toasttab.protokt.codegen.impl
 
 import com.google.common.truth.Truth.assertThat
+import com.toasttab.protokt.codegen.model.Import
 import com.toasttab.protokt.codegen.model.PClass
 import org.junit.jupiter.api.Test
 

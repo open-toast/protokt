@@ -13,10 +13,8 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.impl
+package com.toasttab.protokt.codegen.model
 
-import com.toasttab.protokt.codegen.model.PClass
-import com.toasttab.protokt.codegen.model.PPackage
 import kotlin.reflect.KCallable
 import kotlin.reflect.KClass
 
@@ -55,9 +53,6 @@ sealed class Import {
 
 fun method(pkg: String, name: String): Import =
     Import.PackageMethod(PPackage.fromString(pkg), name)
-
-fun rtMethod(name: String): Import =
-    Import.PackageMethod(PPackage.PROTOKT_RT, name)
 
 fun rtMethod(callable: KCallable<*>): Import =
     Import.PackageMethod(PPackage.PROTOKT_RT, callable.name)

@@ -17,6 +17,7 @@ package com.toasttab.protokt.codegen.impl
 
 import arrow.core.None
 import arrow.core.Option
+import com.toasttab.protokt.codegen.model.Import
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.PPackage
 import kotlin.reflect.KClass

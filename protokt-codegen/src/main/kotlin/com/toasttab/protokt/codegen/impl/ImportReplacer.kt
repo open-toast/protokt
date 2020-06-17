@@ -15,6 +15,8 @@
 
 package com.toasttab.protokt.codegen.impl
 
+import com.toasttab.protokt.codegen.model.Import
+
 object ImportReplacer {
     fun replaceImports(code: String, imports: Set<Import>) =
         imports
