@@ -187,10 +187,10 @@ deserialize(field, read, lhs, options, packed) ::= <%
         <deserializeMap()>
     <elseif (field.repeated)>
         (<lhs> ?: mutableListOf()).apply {<\n>
-            <t()>deserializer.readRepeated(<packed>) {<\n>
-                <t()><t()>add(<wrapDeserializeRead(options, deserializerRead(read))>)<\n>
-            <t()>}<\n>
-        }<\n>
+            <t()><t()>deserializer.readRepeated(<packed>) {<\n>
+                <t()><t()><t()>add(<wrapDeserializeRead(options, deserializerRead(read))>)<\n>
+            <t()><t()>}<\n>
+        <t()>}
     <else>
         <wrapDeserializeRead(options, deserializerRead(read))>
     <endif>
@@ -208,7 +208,7 @@ deserializeMap() ::= <%
                     <endif>
                     , it.value) }<\n>
         <t()><t()>}<\n>
-    <t()>}<\n>
+    <t()>}
 %>
 
 deserializeMapKey() ::= "it.key"

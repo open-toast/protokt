@@ -241,19 +241,6 @@ object Wrapper {
             { BytesSlice.render() }
         )
 
-    fun interceptMapKeyTypeName(f: StandardField, t: String, ctx: Context) =
-        f.options.protokt.keyWrap.emptyToNone()
-            .map {
-                getClass(
-                    PClass.fromName(it).possiblyQualify(ctx.pkg),
-                    ctx.desc.context
-                )
-            }
-            .fold(
-                { t },
-                { unqualifiedWrap(it, ctx.pkg) }
-            )
-
     private fun <R> StandardField.foldBytesSlice(
         ifNotSlice: () -> R,
         ifSlice: () -> R
@@ -274,15 +261,34 @@ object Wrapper {
             ifNotSingularMessage()
         }
 
-    fun mapKeyConverter(f: StandardField, m: Message, ctx: Context) =
-        f.keyWrap.emptyToNone()
-            .map {
-                getClass(
-                    PClass.fromName(it).possiblyQualify(ctx.pkg),
-                    ctx.desc.context
-                )
-            }
+    private fun <R> StandardField.foldKeyWrap(
+        ctx: Context,
+        ifEmpty: () -> R,
+        ifSome: (wrapper: KClass<*>) -> R
+    ) =
+        keyWrap.emptyToNone()
             .fold(
+                { ifEmpty() },
+                {
+                    ifSome(
+                        getClass(
+                            PClass.fromName(it).possiblyQualify(ctx.pkg),
+                            ctx.desc.context
+                        )
+                    )
+                }
+            )
+
+    fun interceptMapKeyTypeName(f: StandardField, t: String, ctx: Context) =
+        f.foldKeyWrap(
+            ctx,
+                { t },
+                { unqualifiedWrap(it, ctx.pkg) }
+            )
+
+    fun mapKeyConverter(f: StandardField, m: Message, ctx: Context) =
+        f.foldKeyWrap(
+            ctx,
                 { null },
                 {
                     unqualifiedWrap(
