@@ -167,4 +167,36 @@ class WrapperTypesTest {
         assertThat(thrown).hasMessageThat()
             .isEqualTo("instant specified nonnull with (protokt.property).non_null but was null")
     }
+
+    @Test
+    fun `round trip preserves repeated wrapped types`() {
+        val list = listOf(UUID.randomUUID())
+
+        val obj =
+            RepeatedWrappers {
+                uuids = list
+                uuidsWrapped = list
+            }
+
+        assertThat(obj.uuids).isEqualTo(list)
+        assertThat(obj.uuidsWrapped).isEqualTo(list)
+
+        assertThat(RepeatedWrappers.deserialize(obj.serialize()))
+            .isEqualTo(obj)
+    }
+
+    @Test
+    fun `round trip preserves map wrapped types`() {
+        val map = mapOf(StringBox("some-string") to UUID.randomUUID())
+
+        val obj =
+            MapWrappers {
+                mapStringUuid = map
+            }
+
+        assertThat(obj.mapStringUuid).isEqualTo(map)
+
+        assertThat(MapWrappers.deserialize(obj.serialize()))
+            .isEqualTo(obj)
+    }
 }
