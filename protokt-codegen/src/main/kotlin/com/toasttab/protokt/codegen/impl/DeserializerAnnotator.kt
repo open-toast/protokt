@@ -104,7 +104,7 @@ private constructor(
                 if (f.wrapped || f.keyWrapped) {
                     Options(
                         wrapName = wrapperName(f, ctx).getOrElse { "" },
-                        keyWrap = mapKeyConverter(f, msg, ctx),
+                        keyWrap = mapKeyConverter(f, ctx),
                         type = f.type.toString(),
                         oneof = true
                     )

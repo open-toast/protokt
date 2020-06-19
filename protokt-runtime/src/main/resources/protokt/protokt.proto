@@ -101,6 +101,23 @@ message ProtoktFieldOptions {
   //
   // Scoping rules  are the same as those for declaring regular field wrapper types.
   string key_wrap = 5;
+
+  // Expose a wrapper class instead of a raw protobuf type for the value type of
+  // a map.
+  //
+  // For example:
+  //
+  // message Foo {
+  //   map<int32, strig> map = 1 [(protokt.property).value_wrap = "com.foo.FooId"];
+  // }
+  //
+  // data class FooId(val value: String)
+  //
+  // will yield:
+  // class Foo(val map: Map<Int, FooId>) ...
+  //
+  // Scoping rules  are the same as those for declaring regular field wrapper types.
+  string value_wrap = 6;
 }
 
 extend google.protobuf.FieldOptions {

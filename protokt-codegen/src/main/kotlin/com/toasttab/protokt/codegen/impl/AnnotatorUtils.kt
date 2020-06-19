@@ -21,6 +21,7 @@ import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptMapKeyTypeName
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptTypeName
+import com.toasttab.protokt.codegen.protoc.MapEntry
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Oneof
 import com.toasttab.protokt.codegen.protoc.StandardField
@@ -28,13 +29,13 @@ import com.toasttab.protokt.codegen.protoc.TypeDesc
 import com.toasttab.protokt.codegen.template.Renderers.ConcatWithScope
 
 fun resolveMapEntry(m: Message) =
-    MapEntryInfo(
+    MapEntry(
         (m.fields[0] as StandardField),
         (m.fields[1] as StandardField)
     )
 
-fun resolveMapEntryTypes(f: StandardField, m: Message, ctx: Context) =
-    resolveMapEntry(m).let {
+fun resolveMapEntryTypes(f: StandardField, ctx: Context) =
+    f.mapEntry!!.let {
         MapTypeParams(
             interceptMapKeyTypeName(f, it.key.unqualifiedTypeName, ctx),
             interceptTypeName(f, it.value.typePClass.renderName(ctx.pkg), ctx)
@@ -46,29 +47,7 @@ class MapTypeParams(
     val vType: String
 )
 
-class MapEntryInfo(
-    val key: StandardField,
-    val value: StandardField
-)
-
-fun findMapEntryMessage(
-    tn: String,
-    msg: Message
-): Message =
-    findMapEntryMessageInternal(tn, msg)!!
-
-private fun findMapEntryMessageInternal(
-    tn: String,
-    msg: Message
-): Message? {
-    val n = tn.split(".").let { if (it.isEmpty()) tn else it.last() }
-    return msg.nestedTypes.find {
-        it is Message &&
-            (it.name == n || findMapEntryMessageInternal(n, it) != null)
-    } as? Message
-}
-
-internal fun oneOfScope(f: Oneof, type: String, ctx: Context) =
+fun oneOfScope(f: Oneof, type: String, ctx: Context) =
     ctx.stripEnclosingMessageNamePrefix(
         ctx.stripRootMessageNamePrefix(
             ConcatWithScope.render(

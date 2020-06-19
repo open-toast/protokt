@@ -89,7 +89,7 @@ private constructor(
                     fieldSizeof = interceptFieldSizeof(f, name, ctx),
                     fieldAccess =
                         interceptValueAccess(f, ctx, IterationVar.render()),
-                    keyAccess = mapKeyConverter(f, msg, ctx)
+                    keyAccess = mapKeyConverter(f, ctx)
                 )
         )
     }

@@ -16,6 +16,7 @@
 package com.toasttab.protokt.codegen.impl
 
 import arrow.core.None
+import arrow.core.Option
 import arrow.core.Some
 import arrow.syntax.function.memoize
 import com.toasttab.protokt.codegen.impl.ClassLookup.converters
@@ -26,7 +27,6 @@ import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.model.possiblyQualify
-import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.ProtocolContext
 import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.codegen.template.Options.AccessField
@@ -44,57 +44,75 @@ object Wrapper {
     val StandardField.wrapped
         get() = wrapWithWellKnownInterception.isDefined()
 
-    val StandardField.keyWrap
-        get() = options.protokt.keyWrap
+    private val StandardField.keyWrap
+        get() = options.protokt.keyWrap.emptyToNone()
 
     val StandardField.keyWrapped
-        get() = keyWrap.emptyToNone().isDefined()
+        get() = keyWrap.isDefined()
+
+    private val StandardField.valueWrap
+        get() = options.protokt.valueWrap.emptyToNone()
+
+    val StandardField.valueWrapped
+        get() = valueWrap.isDefined()
 
     private fun <R> StandardField.foldWrap(
-        ctx: Context,
+        wrap: Option<String>,
+        pkg: PPackage,
+        ctx: ProtocolContext,
+        getWrapped: (StandardField) -> KClass<*>,
         ifEmpty: () -> R,
         ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
     ) =
-        foldWrap(ctx.pkg, ctx.desc.context, ifEmpty, ifSome)
+        wrap.fold(
+            ifEmpty,
+            {
+                ifSome(
+                    getClass(PClass.fromName(it).possiblyQualify(pkg), ctx),
+                    getWrapped(this)
+                )
+            }
+        )
 
-    fun <R> StandardField.foldWrap(
+    fun <R> StandardField.foldFieldWrap(
         pkg: PPackage,
         ctx: ProtocolContext,
         ifEmpty: () -> R,
         ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
     ) =
-        wrapWithWellKnownInterception
-            .map {
-                getClass(
-                    PClass.fromName(it).possiblyQualify(pkg),
-                    ctx
+        foldWrap(
+            wrapWithWellKnownInterception,
+            pkg,
+            ctx,
+            {
+                protoTypeName.emptyToNone().fold(
+                    {
+                        // Protobuf primitives have no typeName
+                        requireNotNull(type.kotlinRepresentation) {
+                            "no kotlin representation for type of " +
+                                "$name: $type"
+                        }
+                    },
+                    { getClass(typePClass, ctx) }
                 )
-            }
-            .fold(
-                ifEmpty,
-                {
-                    ifSome(
-                        it,
-                        protoTypeName.emptyToNone().fold(
-                            {
-                                // Protobuf primitives have no typeName
-                                requireNotNull(type.kotlinRepresentation) {
-                                    "no kotlin representation for type of " +
-                                        "$name: $type"
-                                }
-                            },
-                            { getClass(typePClass, ctx) }
-                        )
-                    )
-                }
-            )
+            },
+            ifEmpty,
+            ifSome
+        )
+
+    private fun <R> StandardField.foldFieldWrap(
+        ctx: Context,
+        ifEmpty: () -> R,
+        ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
+    ) =
+        foldFieldWrap(ctx.pkg, ctx.desc.context, ifEmpty, ifSome)
 
     fun interceptSizeof(
         f: StandardField,
         s: String,
         ctx: Context
     ) =
-        f.foldWrap(
+        f.foldFieldWrap(
             ctx,
             { interceptValueAccess(f, ctx, s) },
             { wrapper, wrapped ->
@@ -114,7 +132,7 @@ object Wrapper {
         s: String,
         ctx: Context
     ) =
-        f.foldWrap(
+        f.foldFieldWrap(
             ctx,
             {
                 FieldSizeof.render(
@@ -149,7 +167,7 @@ object Wrapper {
         ctx: Context,
         s: String = f.fieldName
     ) =
-        f.foldWrap(
+        f.foldFieldWrap(
             ctx,
             { s },
             { wrapper, wrapped ->
@@ -200,7 +218,7 @@ object Wrapper {
         )
 
     fun wrapperName(f: StandardField, ctx: Context) =
-        f.foldWrap(
+        f.foldFieldWrap(
             ctx,
             { None },
             { wrapper, wrapped ->
@@ -232,7 +250,7 @@ object Wrapper {
     fun interceptTypeName(f: StandardField, t: String, ctx: Context) =
         f.foldBytesSlice(
             {
-                f.foldWrap(
+                f.foldFieldWrap(
                     ctx,
                     { t },
                     { wrapper, _ -> unqualifiedWrap(wrapper, ctx.pkg) }
@@ -264,43 +282,66 @@ object Wrapper {
     private fun <R> StandardField.foldKeyWrap(
         ctx: Context,
         ifEmpty: () -> R,
-        ifSome: (wrapper: KClass<*>) -> R
+        ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
     ) =
-        keyWrap.emptyToNone()
-            .fold(
-                { ifEmpty() },
-                {
-                    ifSome(
-                        getClass(
-                            PClass.fromName(it).possiblyQualify(ctx.pkg),
-                            ctx.desc.context
-                        )
-                    )
-                }
-            )
+        foldWrap(
+            keyWrap,
+            ctx.pkg,
+            ctx.desc.context,
+            { mapEntry!!.key.type.kotlinRepresentation!! },
+            ifEmpty,
+            ifSome
+        )
 
     fun interceptMapKeyTypeName(f: StandardField, t: String, ctx: Context) =
         f.foldKeyWrap(
             ctx,
-                { t },
-                { unqualifiedWrap(it, ctx.pkg) }
-            )
+            { t },
+            { wrapper, _ -> unqualifiedWrap(wrapper, ctx.pkg) }
+        )
 
-    fun mapKeyConverter(f: StandardField, m: Message, ctx: Context) =
+    fun mapKeyConverter(f: StandardField, ctx: Context) =
         f.foldKeyWrap(
             ctx,
-                { null },
-                {
-                    unqualifiedWrap(
-                        converter(
-                            it,
-                            resolveMapEntry(
-                                findMapEntryMessage(f.protoTypeName, m)
-                            ).key.type.kotlinRepresentation!!,
-                            ctx
-                        )::class,
-                        ctx.pkg
-                    )
-                }
-            )
+            { null },
+            { wrapper, wrapped ->
+                unqualifiedWrap(
+                    converter(wrapper, wrapped, ctx)::class,
+                    ctx.pkg
+                )
+            }
+        )
+
+    private fun <R> StandardField.foldValueWrap(
+        ctx: Context,
+        ifEmpty: () -> R,
+        ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
+    ) =
+        foldWrap(
+            valueWrap,
+            ctx.pkg,
+            ctx.desc.context,
+            { mapEntry!!.key.type.kotlinRepresentation!! },
+            ifEmpty,
+            ifSome
+        )
+
+    fun interceptMapValueTypeName(f: StandardField, t: String, ctx: Context) =
+        f.foldValueWrap(
+            ctx,
+            { t },
+            { wrapper, _ -> unqualifiedWrap(wrapper, ctx.pkg) }
+        )
+
+    fun mapValueConverter(f: StandardField, ctx: Context) =
+        f.foldValueWrap(
+            ctx,
+            { null },
+            { wrapper, wrapped ->
+                unqualifiedWrap(
+                    converter(wrapper, wrapped, ctx)::class,
+                    ctx.pkg
+                )
+            }
+        )
 }

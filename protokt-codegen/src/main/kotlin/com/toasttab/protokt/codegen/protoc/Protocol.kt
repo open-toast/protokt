@@ -16,10 +16,12 @@
 package com.toasttab.protokt.codegen.protoc
 
 import arrow.core.None
+import arrow.core.Option
 import arrow.core.Some
 import arrow.core.Tuple2
 import arrow.core.Tuple3
 import arrow.core.Tuple4
+import arrow.core.extensions.list.foldable.find
 import com.github.andrewoma.dexx.kollection.ImmutableList
 import com.github.andrewoma.dexx.kollection.ImmutableSet
 import com.github.andrewoma.dexx.kollection.immutableListOf
@@ -38,6 +40,7 @@ import com.google.protobuf.GeneratedMessage.GeneratedExtension
 import com.google.protobuf.GeneratedMessageV3.ExtendableMessage
 import com.toasttab.protokt.codegen.impl.STAnnotator.rootGoogleProto
 import com.toasttab.protokt.codegen.impl.overrideGoogleProtobuf
+import com.toasttab.protokt.codegen.impl.resolveMapEntry
 import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.ext.Protokt
@@ -328,13 +331,22 @@ private fun toStandard(
                         (ctx.fdp.syntax == "proto3" &&
                             (!fdp.options.hasPacked() ||
                                 (fdp.options.hasPacked() && fdp.options.packed)))),
-            map =
-                fdp.label == LABEL_REPEATED &&
-                    fdp.type == FieldDescriptorProto.Type.TYPE_MESSAGE &&
-                    ctx.findLocal(fdp.typeName).fold(
-                        { false },
-                        { it.options.mapEntry }
-                    ),
+            mapEntry =
+                if (fdp.label == LABEL_REPEATED &&
+                    fdp.type == FieldDescriptorProto.Type.TYPE_MESSAGE
+                ) {
+                    findMapEntry(ctx.fdp, fdp.typeName).filter { it.options.mapEntry }
+                        .fold(
+                            { null },
+                            {
+                                resolveMapEntry(
+                                    toMessage(-1, ctx, it, usedFieldNames)
+                                )
+                            }
+                        )
+                } else {
+                    null
+                },
             fieldName = newFieldName(fdp.name, usedFieldNames),
             options =
                 FieldOptions(
@@ -346,6 +358,33 @@ private fun toStandard(
             index = idx
         )
     }
+
+private fun findMapEntry(
+    fdp: FileDescriptorProto,
+    name: String,
+    parent: Option<DescriptorProto> = None
+): Option<DescriptorProto> {
+    val (typeList, typeName) =
+        parent.fold(
+            {
+                fdp.messageTypeList.filterNotNull() to
+                    name.removePrefix(".${fdp.`package`}.")
+            },
+            { it.nestedTypeList.filterNotNull() to name }
+        )
+
+    typeName.indexOf('.').let { idx ->
+        return if (idx == -1) {
+            typeList.find { it.name == typeName }
+        } else {
+            findMapEntry(
+                fdp,
+                typeName.substring(idx + 1),
+                typeList.find { it.name == typeName.substring(0, idx) }
+            )
+        }
+    }
+}
 
 private fun typePClass(
     protoTypeName: String,

@@ -96,11 +96,7 @@ private constructor(
             field = f,
             any =
                 if (f.map) {
-                    resolveMapEntryTypes(
-                        f,
-                        findMapEntryMessage(f.protoTypeName, msg),
-                        ctx
-                    )
+                    resolveMapEntryTypes(f, ctx)
                 } else {
                     interceptTypeName(
                         f,
