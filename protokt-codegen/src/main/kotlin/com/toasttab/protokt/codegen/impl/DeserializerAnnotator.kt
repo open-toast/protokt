@@ -21,6 +21,7 @@ import arrow.core.Some
 import arrow.core.getOrElse
 import com.toasttab.protokt.codegen.impl.MessageAnnotator.idealMaxWidth
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
+import com.toasttab.protokt.codegen.impl.Wrapper.interceptMapKeyAccess
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptReadFn
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapperName
@@ -99,9 +100,10 @@ private constructor(
             lhs = f.fieldName,
             packed = packed,
             options =
-                if (f.wrapped) {
+                if (f.wrapped || f.options.protokt.keyWrap.isNotEmpty()) {
                     Options(
                         wrapName = wrapperName(f, ctx).getOrElse { "" },
+                        keyWrap = interceptMapKeyAccess(f, msg, ctx),
                         type = f.type.toString(),
                         oneof = true
                     )

@@ -182,24 +182,36 @@ serializer.write(Tag(<tag>)).write(<box>)<\\>
 <endif>
 >>
 
-deserialize(field, read, lhs, options, packed) ::= <<
-<if (field.map)>
-(<lhs> ?: mutableMapOf()).apply {
-        deserializer.readRepeated(false) {
-            <read>
-                .let { put(it.key, it.value) }
-        }
-    }<\\>
-<elseif (field.repeated)>
-(<lhs> ?: mutableListOf()).apply {
-        deserializer.readRepeated(<packed>) {
-            add(<wrapDeserializeRead(options, deserializerRead(read))>)
-        }
-    }<\\>
-<else>
-<wrapDeserializeRead(options, deserializerRead(read))><\\>
-<endif>
->>
+deserialize(field, read, lhs, options, packed) ::= <%
+    <if (field.map)>
+        <deserializeMap()>
+    <elseif (field.repeated)>
+        (<lhs> ?: mutableListOf()).apply {<\n>
+            <t()>deserializer.readRepeated(<packed>) {<\n>
+                <t()><t()>add(<wrapDeserializeRead(options, deserializerRead(read))>)<\n>
+            <t()>}<\n>
+        }<\n>
+    <else>
+        <wrapDeserializeRead(options, deserializerRead(read))>
+    <endif>
+%>
+
+deserializeMap() ::= <%
+    (<lhs> ?: mutableMapOf()).apply {<\n>
+        <t()><t()>deserializer.readRepeated(false) {<\n>
+            <t()><t()><t()><read><\n>
+                <t()><t()><t()><t()>.let { put(
+                    <if (options.keyWrap)>
+                        <wrapField(options.keyWrap, deserializeMapKey())>
+                    <else>
+                        <deserializeMapKey()>
+                    <endif>
+                    , it.value) }<\n>
+        <t()><t()>}<\n>
+    <t()>}<\n>
+%>
+
+deserializeMapKey() ::= "it.key"
 
 deserializerRead(read) ::= "deserializer.<read>"
 

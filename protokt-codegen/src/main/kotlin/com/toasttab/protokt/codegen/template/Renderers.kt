@@ -81,6 +81,7 @@ object Renderers {
 
         class Options(
             val wrapName: String,
+            val keyWrap: String?,
             val type: String,
             val oneof: Boolean
         )

@@ -41,7 +41,7 @@ import com.toasttab.protokt.codegen.template.Renderers.FieldSizeof
 import com.toasttab.protokt.ext.OptimizedSizeofConverter
 import kotlin.reflect.KClass
 
-internal object Wrapper {
+object Wrapper {
     val StandardField.wrapped
         get() = wrapWithWellKnownInterception.isDefined()
 
