@@ -16,9 +16,7 @@
 package com.toasttab.protokt.codegen.impl
 
 import arrow.core.None
-import arrow.core.Option
 import arrow.core.Some
-import arrow.core.toOption
 import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptMapKeyTypeName
@@ -29,13 +27,13 @@ import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.codegen.protoc.TypeDesc
 import com.toasttab.protokt.codegen.template.Renderers.ConcatWithScope
 
-internal fun resolveMapEntry(m: Message) =
+fun resolveMapEntry(m: Message) =
     MapEntryInfo(
         (m.fields[0] as StandardField),
         (m.fields[1] as StandardField)
     )
 
-internal fun resolveMapEntryTypes(f: StandardField, m: Message, ctx: Context) =
+fun resolveMapEntryTypes(f: StandardField, m: Message, ctx: Context) =
     resolveMapEntry(m).let {
         MapTypeParams(
             interceptMapKeyTypeName(f, it.key.unqualifiedTypeName, ctx),
@@ -43,28 +41,31 @@ internal fun resolveMapEntryTypes(f: StandardField, m: Message, ctx: Context) =
         )
     }
 
-internal class MapTypeParams(
+class MapTypeParams(
     val kType: String,
     val vType: String
 )
 
-internal class MapEntryInfo(
+class MapEntryInfo(
     val key: StandardField,
     val value: StandardField
 )
 
-internal fun findType(
+fun findMapEntryMessage(
     tn: String,
     msg: Message
-): Option<Message> {
+): Message =
+    findMapEntryMessageInternal(tn, msg)!!
+
+private fun findMapEntryMessageInternal(
+    tn: String,
+    msg: Message
+): Message? {
     val n = tn.split(".").let { if (it.isEmpty()) tn else it.last() }
     return msg.nestedTypes.find {
-        when (it) {
-            is Message ->
-                if (it.name == n) Some(it) else findType(n, it)
-            else -> None
-        }.isDefined()
-    }.toOption().map { f -> f as Message }
+        it is Message &&
+            (it.name == n || findMapEntryMessageInternal(n, it) != null)
+    } as? Message
 }
 
 internal fun oneOfScope(f: Oneof, type: String, ctx: Context) =
@@ -77,14 +78,14 @@ internal fun oneOfScope(f: Oneof, type: String, ctx: Context) =
         )
     )
 
-internal fun String.emptyToNone() =
+fun String.emptyToNone() =
     if (isEmpty()) {
         None
     } else {
         Some(this)
     }
 
-internal fun kotlinPackage(ast: AST<TypeDesc>) =
+fun kotlinPackage(ast: AST<TypeDesc>) =
     resolvePackage(
         ast.data.desc.options,
         ast.data.desc.packageName,

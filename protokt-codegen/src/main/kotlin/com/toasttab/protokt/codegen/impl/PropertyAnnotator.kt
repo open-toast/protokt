@@ -15,11 +15,7 @@
 
 package com.toasttab.protokt.codegen.impl
 
-import arrow.core.None
-import arrow.core.Option
-import arrow.core.Some
 import arrow.core.getOrElse
-import arrow.core.toOption
 import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
 import com.toasttab.protokt.codegen.impl.Implements.overrides
 import com.toasttab.protokt.codegen.impl.Nullability.deserializeType
@@ -112,9 +108,7 @@ private constructor(
         )
 
     private fun typeParams(f: StandardField) =
-        findType(f.protoTypeName, msg)
-            .map { resolveMapEntryTypes(f, it, ctx) }
-            .getOrElse { error("missing type params") }
+        resolveMapEntryTypes(f, findMapEntryMessage(f.protoTypeName, msg), ctx)
 
     private fun Field.defaultValue(ctx: Context) =
         when (this) {

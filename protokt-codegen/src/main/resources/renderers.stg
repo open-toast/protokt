@@ -70,11 +70,11 @@ read(type, builder) ::= "<readFunctions.(type)>(<builder>)"
 
 box(type, def) ::= "<if (type.boxed)><type.boxer>(<def>)<else><def><endif>"
 
-boxMap(type, box, keyAccess) ::= <%
+boxMap(type, box, keyWrap) ::= <%
     <if (isMessage.(type))>
         <box>(
-        <if (keyAccess)>
-            <accessField(keyAccess, keyAccess())>
+        <if (keyWrap)>
+            <accessField(keyWrap, keyAccess())>
         <else>
             <keyAccess()>
         <endif>

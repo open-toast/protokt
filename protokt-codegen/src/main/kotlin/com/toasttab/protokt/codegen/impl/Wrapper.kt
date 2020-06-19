@@ -17,7 +17,6 @@ package com.toasttab.protokt.codegen.impl
 
 import arrow.core.None
 import arrow.core.Some
-import arrow.core.getOrElse
 import arrow.syntax.function.memoize
 import com.toasttab.protokt.codegen.impl.ClassLookup.converters
 import com.toasttab.protokt.codegen.impl.ClassLookup.getClass
@@ -44,6 +43,12 @@ import kotlin.reflect.KClass
 object Wrapper {
     val StandardField.wrapped
         get() = wrapWithWellKnownInterception.isDefined()
+
+    val StandardField.keyWrap
+        get() = options.protokt.keyWrap
+
+    val StandardField.keyWrapped
+        get() = keyWrap.emptyToNone().isDefined()
 
     private fun <R> StandardField.foldWrap(
         ctx: Context,
@@ -249,31 +254,6 @@ object Wrapper {
                 { unqualifiedWrap(it, ctx.pkg) }
             )
 
-    fun interceptMapKeyAccess(f: StandardField, m: Message, ctx: Context) =
-        f.options.protokt.keyWrap.emptyToNone()
-            .map {
-                getClass(
-                    PClass.fromName(it).possiblyQualify(ctx.pkg),
-                    ctx.desc.context
-                )
-            }
-            .fold(
-                { null },
-                {
-                    unqualifiedWrap(
-                        converter(
-                            it,
-                            findType(f.protoTypeName, m)
-                                .map { resolveMapEntry(it) }
-                                .map { it.key.type.kotlinRepresentation!! }
-                                .getOrElse { error("") },
-                            ctx
-                        )::class,
-                        ctx.pkg
-                    )
-                }
-            )
-
     private fun <R> StandardField.foldBytesSlice(
         ifNotSlice: () -> R,
         ifSlice: () -> R
@@ -293,4 +273,28 @@ object Wrapper {
         } else {
             ifNotSingularMessage()
         }
+
+    fun mapKeyConverter(f: StandardField, m: Message, ctx: Context) =
+        f.keyWrap.emptyToNone()
+            .map {
+                getClass(
+                    PClass.fromName(it).possiblyQualify(ctx.pkg),
+                    ctx.desc.context
+                )
+            }
+            .fold(
+                { null },
+                {
+                    unqualifiedWrap(
+                        converter(
+                            it,
+                            resolveMapEntry(
+                                findMapEntryMessage(f.protoTypeName, m)
+                            ).key.type.kotlinRepresentation!!,
+                            ctx
+                        )::class,
+                        ctx.pkg
+                    )
+                }
+            )
 }

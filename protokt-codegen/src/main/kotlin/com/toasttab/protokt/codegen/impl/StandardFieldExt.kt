@@ -16,7 +16,7 @@
 package com.toasttab.protokt.codegen.impl
 
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
-import com.toasttab.protokt.codegen.impl.Wrapper.interceptMapKeyAccess
+import com.toasttab.protokt.codegen.impl.Wrapper.mapKeyConverter
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.StandardField
@@ -72,7 +72,7 @@ internal fun StandardField.boxMap(m: Message, ctx: Context) =
     BoxMap.render(
         type = type,
         box = unqualifiedNestedTypeName(ctx),
-        keyAccess = interceptMapKeyAccess(this, m, ctx)
+        keyWrap = mapKeyConverter(this, m, ctx)
     )
 
 internal fun StandardField.box(s: String) =
