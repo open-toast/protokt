@@ -249,7 +249,7 @@ internal object Wrapper {
                 { unqualifiedWrap(it, ctx.pkg) }
             )
 
-    fun interceptMapKeyValueAccess(f: StandardField, m: Message, ctx: Context) =
+    fun interceptMapKeyAccess(f: StandardField, m: Message, ctx: Context) =
         f.options.protokt.keyWrap.emptyToNone()
             .map {
                 getClass(

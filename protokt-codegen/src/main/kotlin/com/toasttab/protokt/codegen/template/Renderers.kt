@@ -102,7 +102,8 @@ object Renderers {
 
         class Options(
             val fieldSizeof: String,
-            val fieldAccess: Any
+            val fieldAccess: Any,
+            val keyAccess: String?
         )
     }
 

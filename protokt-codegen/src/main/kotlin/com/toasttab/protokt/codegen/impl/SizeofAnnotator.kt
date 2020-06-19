@@ -21,6 +21,7 @@ import arrow.core.Some
 import com.toasttab.protokt.codegen.impl.Nullability.hasNonNullOption
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptFieldSizeof
+import com.toasttab.protokt.codegen.impl.Wrapper.interceptMapKeyAccess
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptSizeof
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
 import com.toasttab.protokt.codegen.protoc.Message
@@ -87,7 +88,8 @@ private constructor(
                 Options(
                     fieldSizeof = interceptFieldSizeof(f, name, ctx),
                     fieldAccess =
-                        interceptValueAccess(f, ctx, IterationVar.render())
+                        interceptValueAccess(f, ctx, IterationVar.render()),
+                    keyAccess = interceptMapKeyAccess(f, msg, ctx)
                 )
         )
     }

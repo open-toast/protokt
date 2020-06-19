@@ -213,23 +213,31 @@ standard(field, any) ::= <%
     <endif>
 %>
 
-sizeof(name, field, type, options) ::= <<
-<if(field.map)><\\>
-sizeofMap(<name>, Tag(<field.number>)) { k, v ->
-        <type>.sizeof(k, v)
-    }<\\>
-<elseif(field.repeated && field.packed)><\\>
-sizeof(Tag(<field.number>)) +
-    <name>
-        .sumBy { sizeof(<box(field.type, iterationVar())>) }
-        .let { it + sizeof(UInt32(it)) }<\\>
-<elseif(field.repeated && !field.map)><\\>
-(sizeof(Tag(<field.number>)) * <name>.size) +
-        <name>.sumBy { sizeof(<box(field.type, options.fieldAccess)>) }<\\>
-<else><\\>
-sizeof(Tag(<field.number>)) + <options.fieldSizeof><\\>
-<endif>
->>
+sizeof(name, field, type, options) ::= <%
+    <if(field.map)>
+        sizeofMap(<name>, Tag(<field.number>)) { k, v -><\n>
+            <t()><t()><type>.sizeof(
+            <if (options.keyAccess)>
+                <accessField(options.keyAccess, sizeofMapKey())>
+            <else>
+                <sizeofMapKey()>
+            <endif>
+            , v)<\n>
+        <t()>}
+    <elseif(field.repeated && field.packed)>
+        sizeof(Tag(<field.number>)) +<\n>
+            <t()><t()><name><\n>
+                <t()><t()><t()>.sumBy { sizeof(<box(field.type, iterationVar())>) }<\n>
+                <t()><t()><t()>.let { it + sizeof(UInt32(it)) }
+    <elseif(field.repeated && !field.map)>
+        (sizeof(Tag(<field.number>)) * <name>.size) +<\n>
+            <t()><t()><name>.sumBy { sizeof(<box(field.type, options.fieldAccess)>) }
+    <else>
+        sizeof(Tag(<field.number>)) + <options.fieldSizeof>
+    <endif>
+%>
+
+sizeofMapKey() ::= "k"
 
 fieldSizeof(field, name) ::= <%
     sizeof(<box(field.type, name)>)
