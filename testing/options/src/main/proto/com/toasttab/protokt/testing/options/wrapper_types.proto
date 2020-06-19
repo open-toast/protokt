@@ -100,4 +100,8 @@ message MapWrapperModel {
   map<string, int32> map = 1 [
     (.protokt.property).key_wrap = "StringBox"
   ];
+
+  map<int32, int32> map_int = 2 [
+    (.protokt.property).key_wrap = "IntBox"
+  ];
 }
