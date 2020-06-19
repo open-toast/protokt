@@ -33,8 +33,8 @@ object Renderers {
     }
 
     object BoxMap : RenderersTemplate() {
-        fun render(type: FieldType, box: String) =
-            renderArgs(type, box)
+        fun render(type: FieldType, box: String, keyAccess: String?) =
+            renderArgs(type, box, keyAccess)
     }
 
     object ConcatWithScope : RenderersTemplate() {

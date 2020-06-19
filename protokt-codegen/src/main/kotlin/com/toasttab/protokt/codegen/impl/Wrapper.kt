@@ -17,6 +17,7 @@ package com.toasttab.protokt.codegen.impl
 
 import arrow.core.None
 import arrow.core.Some
+import arrow.core.getOrElse
 import arrow.syntax.function.memoize
 import com.toasttab.protokt.codegen.impl.ClassLookup.converters
 import com.toasttab.protokt.codegen.impl.ClassLookup.getClass
@@ -26,6 +27,7 @@ import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.model.possiblyQualify
+import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.ProtocolContext
 import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.codegen.template.Options.AccessField
@@ -148,9 +150,10 @@ internal object Wrapper {
             { wrapper, wrapped ->
                 AccessField.render(
                     wrapName =
-                        PClass.fromClass(
-                            converter(wrapper, wrapped, ctx)::class
-                        ).renderName(ctx.pkg),
+                        unqualifiedWrap(
+                            converter(wrapper, wrapped, ctx)::class,
+                            ctx.pkg
+                        ),
                     arg = s
                 )
             }
@@ -232,6 +235,44 @@ internal object Wrapper {
             },
             { BytesSlice.render() }
         )
+
+    fun interceptMapKeyTypeName(f: StandardField, t: String, ctx: Context) =
+        f.options.protokt.keyWrap.emptyToNone()
+            .map {
+                getClass(
+                    PClass.fromName(it).possiblyQualify(ctx.pkg),
+                    ctx.desc.context
+                )
+            }
+            .fold(
+                { t },
+                { unqualifiedWrap(it, ctx.pkg) }
+            )
+
+    fun interceptMapKeyValueAccess(f: StandardField, m: Message, ctx: Context) =
+        f.options.protokt.keyWrap.emptyToNone()
+            .map {
+                getClass(
+                    PClass.fromName(it).possiblyQualify(ctx.pkg),
+                    ctx.desc.context
+                )
+            }
+            .fold(
+                { null },
+                {
+                    unqualifiedWrap(
+                        converter(
+                            it,
+                            findType(f.protoTypeName, m)
+                                .map { resolveMapEntry(it) }
+                                .map { it.key.type.kotlinRepresentation!! }
+                                .getOrElse { error("") },
+                            ctx
+                        )::class,
+                        ctx.pkg
+                    )
+                }
+            )
 
     private fun <R> StandardField.foldBytesSlice(
         ifNotSlice: () -> R,

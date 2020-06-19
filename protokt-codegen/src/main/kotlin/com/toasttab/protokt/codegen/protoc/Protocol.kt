@@ -333,7 +333,7 @@ private fun toStandard(
                     fdp.type == FieldDescriptorProto.Type.TYPE_MESSAGE &&
                     ctx.findLocal(fdp.typeName).fold(
                         { false },
-                        { it.options?.mapEntry == true }
+                        { it.options.mapEntry }
                     ),
             fieldName = newFieldName(fdp.name, usedFieldNames),
             options =

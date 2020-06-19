@@ -101,7 +101,7 @@ private constructor(
             field = f,
             any =
                 if (f.map) {
-                    typeParams(f.protoTypeName)
+                    typeParams(f)
                 } else {
                     interceptTypeName(
                         f,
@@ -111,24 +111,10 @@ private constructor(
                 }
         )
 
-    private fun typeParams(n: String) =
-        findType(n, msg)
-            .map { resolveMapEntryTypes(it, ctx) }
+    private fun typeParams(f: StandardField) =
+        findType(f.protoTypeName, msg)
+            .map { resolveMapEntryTypes(f, it, ctx) }
             .getOrElse { error("missing type params") }
-
-    private fun findType(
-        tn: String,
-        msg: Message
-    ): Option<Message> {
-        val n = tn.split(".").let { if (it.isEmpty()) tn else it.last() }
-        return msg.nestedTypes.find {
-            when (it) {
-                is Message ->
-                    if (it.name == n) Some(it) else findType(n, it)
-                else -> None
-            }.isDefined()
-        }.toOption().map { f -> f as Message }
-    }
 
     private fun Field.defaultValue(ctx: Context) =
         when (this) {

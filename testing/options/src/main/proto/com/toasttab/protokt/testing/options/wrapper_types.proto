@@ -95,3 +95,9 @@ message RepeatedWrapperModel {
     (.protokt.property).wrap = "java.util.UUID"
   ];
 }
+
+message MapWrapperModel {
+  map<string, int32> map = 1 [
+    (.protokt.property).key_wrap = "StringBox"
+  ];
+}

@@ -99,7 +99,7 @@ private constructor(
             tag = f.tag.value,
             box =
                 if (f.map) {
-                    f.boxMap(ctx)
+                    f.boxMap(msg, ctx)
                 } else {
                     f.box(fieldAccess)
                 },

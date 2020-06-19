@@ -70,7 +70,20 @@ read(type, builder) ::= "<readFunctions.(type)>(<builder>)"
 
 box(type, def) ::= "<if (type.boxed)><type.boxer>(<def>)<else><def><endif>"
 
-boxMap(type, box) ::= "<if (isMessage.(type))><box>(it.key, it.value)<else><endif>"
+boxMap(type, box, keyAccess) ::= <%
+    <if (isMessage.(type))>
+        <box>(
+        <if (keyAccess)>
+            <accessField(keyAccess, keyAccess())>
+        <else>
+            <keyAccess()>
+        <endif>
+        , it.value)
+    <else>
+    <endif>
+%>
+
+keyAccess() ::= "it.key"
 
 deserializeType(p) ::= <%
     <if (p.repeated || p.map)>

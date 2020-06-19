@@ -16,9 +16,13 @@
 package com.toasttab.protokt.codegen.impl
 
 import arrow.core.None
+import arrow.core.Option
 import arrow.core.Some
+import arrow.core.toOption
 import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
+import com.toasttab.protokt.codegen.impl.Wrapper.interceptMapKeyTypeName
+import com.toasttab.protokt.codegen.impl.Wrapper.interceptTypeName
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Oneof
 import com.toasttab.protokt.codegen.protoc.StandardField
@@ -31,11 +35,11 @@ internal fun resolveMapEntry(m: Message) =
         (m.fields[1] as StandardField)
     )
 
-internal fun resolveMapEntryTypes(m: Message, ctx: Context) =
+internal fun resolveMapEntryTypes(f: StandardField, m: Message, ctx: Context) =
     resolveMapEntry(m).let {
         MapTypeParams(
-            it.key.unqualifiedTypeName,
-            it.value.typePClass.renderName(ctx.pkg)
+            interceptMapKeyTypeName(f, it.key.unqualifiedTypeName, ctx),
+            interceptTypeName(f, it.value.typePClass.renderName(ctx.pkg), ctx)
         )
     }
 
@@ -48,6 +52,20 @@ internal class MapEntryInfo(
     val key: StandardField,
     val value: StandardField
 )
+
+internal fun findType(
+    tn: String,
+    msg: Message
+): Option<Message> {
+    val n = tn.split(".").let { if (it.isEmpty()) tn else it.last() }
+    return msg.nestedTypes.find {
+        when (it) {
+            is Message ->
+                if (it.name == n) Some(it) else findType(n, it)
+            else -> None
+        }.isDefined()
+    }.toOption().map { f -> f as Message }
+}
 
 internal fun oneOfScope(f: Oneof, type: String, ctx: Context) =
     ctx.stripEnclosingMessageNamePrefix(
