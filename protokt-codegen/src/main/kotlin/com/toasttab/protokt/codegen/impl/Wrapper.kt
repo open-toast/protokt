@@ -60,7 +60,7 @@ object Wrapper {
         wrap: Option<String>,
         pkg: PPackage,
         ctx: ProtocolContext,
-        getWrapped: (StandardField) -> KClass<*>,
+        getWrappedField: (StandardField) -> StandardField,
         ifEmpty: () -> R,
         ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
     ) =
@@ -69,7 +69,18 @@ object Wrapper {
             {
                 ifSome(
                     getClass(PClass.fromName(it).possiblyQualify(pkg), ctx),
-                    getWrapped(this)
+                    getWrappedField(this).let { field ->
+                        field.protoTypeName.emptyToNone().fold(
+                            {
+                                // Protobuf primitives have no typeName
+                                requireNotNull(field.type.kotlinRepresentation) {
+                                    "no kotlin representation for type of " +
+                                        "${field.name}: ${field.type}"
+                                }
+                            },
+                            { getClass(field.typePClass, ctx) }
+                        )
+                    }
                 )
             }
         )
@@ -84,18 +95,7 @@ object Wrapper {
             wrapWithWellKnownInterception,
             pkg,
             ctx,
-            {
-                protoTypeName.emptyToNone().fold(
-                    {
-                        // Protobuf primitives have no typeName
-                        requireNotNull(type.kotlinRepresentation) {
-                            "no kotlin representation for type of " +
-                                "$name: $type"
-                        }
-                    },
-                    { getClass(typePClass, ctx) }
-                )
-            },
+            { it },
             ifEmpty,
             ifSome
         )
@@ -146,11 +146,7 @@ object Wrapper {
                         OptimizedSizeofConverter<*, *>
                 ) {
                     ConcatWithScope.render(
-                        scope =
-                            unqualifiedWrap(
-                                converterClass(wrapper, wrapped, ctx),
-                                ctx.pkg
-                            ),
+                        scope = unqualifiedConverterWrap(wrapper, wrapped, ctx),
                         value = Sizeof.render(arg = s)
                     )
                 } else {
@@ -172,33 +168,11 @@ object Wrapper {
             { s },
             { wrapper, wrapped ->
                 AccessField.render(
-                    wrapName =
-                        unqualifiedWrap(
-                            converter(wrapper, wrapped, ctx)::class,
-                            ctx.pkg
-                        ),
+                    wrapName = unqualifiedConverterWrap(wrapper, wrapped, ctx),
                     arg = s
                 )
             }
         )
-
-    private fun unqualifiedWrap(wrap: KClass<*>, pkg: PPackage) =
-        PClass.fromClass(wrap).renderName(pkg)
-
-    private fun converterClass(wrapper: KClass<*>, wrapped: KClass<*>, ctx: Context) =
-        converter(wrapper, wrapped, ctx)::class
-
-    private fun converter(wrapper: KClass<*>, wrapped: KClass<*>, ctx: Context) =
-        converter(wrapper, wrapped, ctx.desc.context)
-
-    val converter = { wrapper: KClass<*>, wrapped: KClass<*>, ctx: ProtocolContext ->
-        converters(ctx.classpath).find {
-            it.wrapper == wrapper && it.wrapped == wrapped
-        } ?: throw Exception(
-            "${ctx.fileName}: No converter found for wrapper type " +
-                "${wrapper.qualifiedName} from type ${wrapped.qualifiedName}"
-        )
-    }.memoize()
 
     private fun interceptDeserializedValue(
         f: StandardField,
@@ -222,11 +196,7 @@ object Wrapper {
             ctx,
             { None },
             { wrapper, wrapped ->
-                Some(
-                    unqualifiedWrap(
-                        converterClass(wrapper, wrapped, ctx), ctx.pkg
-                    )
-                )
+                Some(unqualifiedConverterWrap(wrapper, wrapped, ctx))
             }
         )
 
@@ -288,7 +258,7 @@ object Wrapper {
             keyWrap,
             ctx.pkg,
             ctx.desc.context,
-            { mapEntry!!.key.type.kotlinRepresentation!! },
+            { mapEntry!!.key },
             ifEmpty,
             ifSome
         )
@@ -321,7 +291,7 @@ object Wrapper {
             valueWrap,
             ctx.pkg,
             ctx.desc.context,
-            { mapEntry!!.key.type.kotlinRepresentation!! },
+            { mapEntry!!.value },
             ifEmpty,
             ifSome
         )
@@ -338,10 +308,32 @@ object Wrapper {
             ctx,
             { null },
             { wrapper, wrapped ->
-                unqualifiedWrap(
-                    converter(wrapper, wrapped, ctx)::class,
-                    ctx.pkg
-                )
+                unqualifiedConverterWrap(wrapper, wrapped, ctx)
             }
         )
+
+    private fun unqualifiedConverterWrap(
+        wrapper: KClass<*>,
+        wrapped: KClass<*>,
+        ctx: Context
+    ) =
+        unqualifiedWrap(
+            converter(wrapper, wrapped, ctx)::class,
+            ctx.pkg
+        )
+
+    private fun unqualifiedWrap(wrap: KClass<*>, pkg: PPackage) =
+        PClass.fromClass(wrap).renderName(pkg)
+
+    private fun converter(wrapper: KClass<*>, wrapped: KClass<*>, ctx: Context) =
+        converter(wrapper, wrapped, ctx.desc.context)
+
+    val converter = { wrapper: KClass<*>, wrapped: KClass<*>, ctx: ProtocolContext ->
+        converters(ctx.classpath).find {
+            it.wrapper == wrapper && it.wrapped == wrapped
+        } ?: throw Exception(
+            "${ctx.fileName}: No converter found for wrapper type " +
+                "${wrapper.qualifiedName} from type ${wrapped.qualifiedName}"
+        )
+    }.memoize()
 }

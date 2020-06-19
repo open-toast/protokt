@@ -64,26 +64,44 @@ isBool ::= ["BOOL": true, default: false]
 
 isGeneratedType ::= ["MESSAGE": true, "ENUM": true, default: false]
 
-isBytes ::= ["BYTES": true, "STRING": true, default: false]
+isBytes ::= ["BYTES": true, default: false]
+
+isString ::= ["STRING": true, default: false]
 
 read(type, builder) ::= "<readFunctions.(type)>(<builder>)"
 
 box(type, def) ::= "<if (type.boxed)><type.boxer>(<def>)<else><def><endif>"
 
-boxMap(type, box, keyWrap) ::= <%
+boxMap(type, box, options) ::= <%
     <if (isMessage.(type))>
         <box>(
-        <if (keyWrap)>
-            <accessField(keyWrap, keyAccess())>
+        <if (options.keyWrap)>
+            <accessField(options.keyWrap, keyAccess())>
         <else>
             <keyAccess()>
         <endif>
-        , it.value)
+        ,<\ >
+        <if (options.valueWrap)>
+            <maybeConstructBytes(accessField(options.valueWrap, valueAccess()))>
+        <else>
+            <valueAccess()>
+        <endif>
+        )
     <else>
     <endif>
 %>
 
 keyAccess() ::= "it.key"
+
+valueAccess() ::= "it.value"
+
+maybeConstructBytes(arg) ::= <%
+    <if (isBytes.(options.valueType))>
+        Bytes(<arg>)
+    <else>
+        <arg>
+    <endif>
+%>
 
 deserializeType(p) ::= <%
     <if (p.repeated || p.map)>
@@ -147,7 +165,7 @@ defaultValue(field, type, name) ::= <%
 
 nonDefaultValue(field, name) ::= <%
     <if (field.repeated)>(<field.fieldName>.isNotEmpty())<\ >
-    <elseif (isBytes.(field.type))>(<name>.isNotEmpty())<\ >
+    <elseif (isBytes.(field.type) || isString.(field.type))>(<name>.isNotEmpty())<\ >
     <elseif (isMessage.(field.type))>(<field.fieldName> != null)<\ >
     <elseif (isEnum.(field.type))>(<name>.value != 0)<\ >
     <elseif (field.type.scalar)>
@@ -202,16 +220,20 @@ deserializeMap() ::= <%
             <t()><t()><t()><read><\n>
                 <t()><t()><t()><t()>.let { put(
                     <if (options.keyWrap)>
-                        <wrapField(options.keyWrap, deserializeMapKey())>
+                        <wrapField(options.keyWrap, keyAccess())>
                     <else>
-                        <deserializeMapKey()>
+                        <keyAccess()>
                     <endif>
-                    , it.value) }<\n>
+                    ,<\ >
+                    <if (options.valueWrap)>
+                        <wrapField(options.valueWrap, valueAccess(), options.valueType, true)>
+                    <else>
+                        <valueAccess()>
+                    <endif>
+                    ) }<\n>
         <t()><t()>}<\n>
     <t()>}
 %>
-
-deserializeMapKey() ::= "it.key"
 
 deserializerRead(read) ::= "deserializer.<read>"
 
@@ -249,11 +271,19 @@ sizeofMap() ::= <%
         <else>
             <sizeofMapKey()>
         <endif>
-        , v)<\n>
+        ,<\ >
+        <if (options.valueAccess)>
+            <maybeConstructBytes(accessField(options.valueAccess, sizeofMapValue()))>
+        <else>
+            <sizeofMapValue()>
+        <endif>
+        )<\n>
     <t()>}
 %>
 
 sizeofMapKey() ::= "k"
+
+sizeofMapValue() ::= "v"
 
 fieldSizeof(field, name) ::= <%
     sizeof(<box(field.type, name)>)

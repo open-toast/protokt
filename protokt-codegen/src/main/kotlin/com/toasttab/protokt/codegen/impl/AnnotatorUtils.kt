@@ -20,7 +20,7 @@ import arrow.core.Some
 import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptMapKeyTypeName
-import com.toasttab.protokt.codegen.impl.Wrapper.interceptTypeName
+import com.toasttab.protokt.codegen.impl.Wrapper.interceptMapValueTypeName
 import com.toasttab.protokt.codegen.protoc.MapEntry
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Oneof
@@ -38,7 +38,7 @@ fun resolveMapEntryTypes(f: StandardField, ctx: Context) =
     f.mapEntry!!.let {
         MapTypeParams(
             interceptMapKeyTypeName(f, it.key.unqualifiedTypeName, ctx),
-            interceptTypeName(f, it.value.typePClass.renderName(ctx.pkg), ctx)
+            interceptMapValueTypeName(f, it.value.typePClass.renderName(ctx.pkg), ctx)
         )
     }
 
