@@ -227,15 +227,7 @@ standard(field, any) ::= <%
 
 sizeof(name, field, type, options) ::= <%
     <if(field.map)>
-        sizeofMap(<name>, Tag(<field.number>)) { k, v -><\n>
-            <t()><t()><type>.sizeof(
-            <if (options.keyAccess)>
-                <accessField(options.keyAccess, sizeofMapKey())>
-            <else>
-                <sizeofMapKey()>
-            <endif>
-            , v)<\n>
-        <t()>}
+        <sizeofMap()>
     <elseif(field.repeated && field.packed)>
         sizeof(Tag(<field.number>)) +<\n>
             <t()><t()><name><\n>
@@ -247,6 +239,18 @@ sizeof(name, field, type, options) ::= <%
     <else>
         sizeof(Tag(<field.number>)) + <options.fieldSizeof>
     <endif>
+%>
+
+sizeofMap() ::= <%
+    sizeofMap(<name>, Tag(<field.number>)) { k, v -><\n>
+        <t()><t()><type>.sizeof(
+        <if (options.keyAccess)>
+            <accessField(options.keyAccess, sizeofMapKey())>
+        <else>
+            <sizeofMapKey()>
+        <endif>
+        , v)<\n>
+    <t()>}
 %>
 
 sizeofMapKey() ::= "k"
