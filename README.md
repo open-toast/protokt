@@ -255,7 +255,7 @@ builder and not assignment. Mutating the builder does a similar copy operation.
 
 By default, the Kotlin package of a generated file is the same as the protobuf
 package. Second in precedence is the declared `java_package` option, which can
-be disabled by settings the `respectJavaPackage` property to `false` in the
+be disabled by setting the `respectJavaPackage` property to `false` in the
 Gradle configuration block:
 
 ```groovy
@@ -268,7 +268,7 @@ Disabling this option at the code-generator level can be helpful when migrating
 a codebase already using third-party protobuf with the `java_package` option in
 use to prevent duplicate class issues.
 
-Highest precedence is given to `(protokt.file).kotlin_package` option:
+Highest precedence is given to the `(protokt.file).kotlin_package` option:
 
 ```proto
 syntax = "proto3";
