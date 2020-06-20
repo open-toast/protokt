@@ -55,7 +55,7 @@ apply plugin: 'com.toasttab.protokt'
 
 This will automatically download and install protokt, apply the Google protobuf
 plugin, and configure all the necessary boilerplate. By default it will also add
-`protokt-core` to the api scope of the project. You must explicitly choose to
+`protokt-core` to the `api` scope of the project. You must explicitly choose to
 depend on `protobuf-java` or `protobuf-javalite`:
 
 ```groovy
@@ -298,7 +298,7 @@ InputStream, or others.
 Protokt represents enum fields as sealed classes with an integer value and name.
 Protobuf enums cannot be represented as Kotlin enum classes since Kotlin enum
 classes are closed and cannot represent unknown values. The Protocol Buffers
-specifications requires that unknown enum values are preserved for
+specification requires that unknown enum values are preserved for
 reserialization, so this compromise enables exhaustive case switching while
 allowing representation of unknown values.
 
@@ -306,16 +306,7 @@ allowing representation of unknown values.
 sealed class PhoneType(
     override val value: Int,
     override val name: String
-) : KtEnum {
-    override fun equals(other: Any?) =
-        other is PhoneType && other.value == value
-
-    override fun hashCode() =
-        value
-
-    override fun toString() =
-        name
-
+) : KtEnum() {
     object MOBILE : PhoneType(0, "MOBILE")
 
     object HOME : PhoneType(1, "HOME")
@@ -409,7 +400,7 @@ object InstantConverter : Converter<Instant, Timestamp> {
 ```kotlin
 class WrapperModel
 private constructor(
-    val instant: java.time.Instant?,
+    val instant: Instant?,
     ...
 ) : KtMessage {
     ...
@@ -421,7 +412,7 @@ private constructor(
     }
 
     override fun deserialize(deserializer: KtMessageDeserializer): WrapperModel {
-        var instant: java.time.Instant? = null
+        var instant: Instant? = null
         ...
         while (true) {
             when (deserializer.readTag()) {
@@ -431,7 +422,7 @@ private constructor(
                         ...
                     )
                 8 -> instant =
-                    InstantConverter.wrap(deserializer.readMessage(com.toasttab.protokt.Timestamp))
+                    InstantConverter.wrap(deserializer.readMessage(Timestamp))
                 ...
             }
         }
@@ -441,7 +432,14 @@ private constructor(
 
 Each converter must be registered in a
 `META-INF/services/com.toasttab.protokt.ext.Converter`
-classpath resource following the standard `ServiceLoader` convention.
+classpath resource following the standard `ServiceLoader` convention. For
+example, Google's (AutoService)[https://github.com/google/auto/tree/master/service]
+can register converters with an annotation:
+
+```kotlin
+@AutoService(Converter::class)
+object InstantConverter : Converter<Instant, Timestamp> { ... }
+```
 
 Converters can also implement the `OptimizedSizeofConverter` interface adding
 `sizeof()`, which allows them to optimize the calculation of the wrapper's size
@@ -487,7 +485,7 @@ dependency:
 
 ```groovy
 dependencies {
-  implementation 'com.toasttab.protokt:protokt-extensions:<version>'
+  protoktExtensions 'com.toasttab.protokt:protokt-extensions:<version>'
 }
 ```
 
@@ -518,7 +516,7 @@ repeated bytes uuid = 1 [
 Wrapper types should be immutable.
 
 #### Nonnull fields
-If there is a message that has no meaning whatsoever when a particular field is missing, you
+If a message has no meaning whatsoever when a particular field is missing, you
 can emulate proto2's `required` key word by using the `(protokt.property).non_null` option:
 
 ```proto
@@ -614,8 +612,8 @@ that specifies a third-party server for communication. For flexibility, this
 configuration will be modifiable by the server and versioned by a simple integer.
 To hasten subsequent loading of the configuration, a client may save a resolved
 version of the configuration with the same version and an additional field
-storing the InetAddress representing location of the server. Since the
-InetAddress may change over time, the client-resolved version of the config will
+storing an InetAddress representing location of the server. Since the
+server address may change over time, the client-resolved version of the config will
 retain a copy of the original server copy. We can model this domain with protokt:
 
 Given the Config interface:
