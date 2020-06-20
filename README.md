@@ -433,7 +433,7 @@ private constructor(
 Each converter must be registered in a
 `META-INF/services/com.toasttab.protokt.ext.Converter`
 classpath resource following the standard `ServiceLoader` convention. For
-example, Google's (AutoService)[https://github.com/google/auto/tree/master/service]
+example, Google's [AutoService](https://github.com/google/auto/tree/master/service)
 can register converters with an annotation:
 
 ```kotlin
