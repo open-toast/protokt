@@ -23,7 +23,7 @@ import "google/protobuf/wrappers.proto";
 import "protokt/ext/inet_socket_address.proto";
 import "protokt/protokt.proto";
 
-message WrapperModel {
+message Wrappers {
   bytes id = 1 [
     (.protokt.property).wrap = "Id"
   ];
@@ -56,7 +56,7 @@ message WrapperModel {
   ];
 }
 
-message OneOfWrapperModel {
+message OneofWrappers {
   oneof wrapped_oneof {
     option (.protokt.oneof).non_null = true;
 
@@ -86,12 +86,50 @@ message OneOfWrapperModel {
   }
 }
 
-message RepeatedWrapperModel {
+message RepeatedWrappers {
   repeated bytes uuids = 1 [
     (.protokt.property).wrap = "java.util.UUID"
   ];
 
   repeated google.protobuf.BytesValue uuidsWrapped = 2 [
     (.protokt.property).wrap = "java.util.UUID"
+  ];
+}
+
+message MapWrappers {
+  map<string, int32> map_string_key_wrapped = 1 [
+    (.protokt.property).key_wrap = "StringBox"
+  ];
+
+  map<int32, int32> map_int_key_wrapped = 2 [
+    (.protokt.property).key_wrap = "IntBox"
+  ];
+
+  map<string, string> map_string_value_wrapped = 3 [
+    (.protokt.property).value_wrap = "StringBox"
+  ];
+
+  map<int32, int32> map_int_value_wrapped = 4 [
+    (.protokt.property).value_wrap = "IntBox"
+  ];
+
+  map<string, string> map_string_double_wrapped = 5 [
+    (.protokt.property).key_wrap = "StringBox",
+    (.protokt.property).value_wrap = "StringBox"
+  ];
+
+  map<int32, int32> map_int_double_wrapped = 6 [
+    (.protokt.property).key_wrap = "IntBox",
+    (.protokt.property).value_wrap = "IntBox"
+  ];
+
+  map<string, bytes> map_string_uuid = 7 [
+    (.protokt.property).key_wrap = "StringBox",
+    (.protokt.property).value_wrap = "java.util.UUID"
+  ];
+
+  map<string, .protokt.ext.InetSocketAddress> map_string_socket_address = 8 [
+    (.protokt.property).key_wrap = "StringBox",
+    (.protokt.property).value_wrap = "java.net.InetSocketAddress"
   ];
 }

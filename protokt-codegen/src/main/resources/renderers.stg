@@ -64,13 +64,44 @@ isBool ::= ["BOOL": true, default: false]
 
 isGeneratedType ::= ["MESSAGE": true, "ENUM": true, default: false]
 
-isBytes ::= ["BYTES": true, "STRING": true, default: false]
+isBytes ::= ["BYTES": true, default: false]
+
+isString ::= ["STRING": true, default: false]
 
 read(type, builder) ::= "<readFunctions.(type)>(<builder>)"
 
 box(type, def) ::= "<if (type.boxed)><type.boxer>(<def>)<else><def><endif>"
 
-boxMap(type, box) ::= "<if (isMessage.(type))><box>(it.key, it.value)<else><endif>"
+boxMap(type, box, options) ::= <%
+    <if (isMessage.(type))>
+        <box>(
+        <if (options.keyWrap)>
+            <accessField(options.keyWrap, keyAccess())>
+        <else>
+            <keyAccess()>
+        <endif>
+        ,<\ >
+        <if (options.valueWrap)>
+            <maybeConstructBytes(accessField(options.valueWrap, valueAccess()))>
+        <else>
+            <valueAccess()>
+        <endif>
+        )
+    <else>
+    <endif>
+%>
+
+keyAccess() ::= "it.key"
+
+valueAccess() ::= "it.value"
+
+maybeConstructBytes(arg) ::= <%
+    <if (isBytes.(options.valueType))>
+        Bytes(<arg>)
+    <else>
+        <arg>
+    <endif>
+%>
 
 deserializeType(p) ::= <%
     <if (p.repeated || p.map)>
@@ -134,7 +165,7 @@ defaultValue(field, type, name) ::= <%
 
 nonDefaultValue(field, name) ::= <%
     <if (field.repeated)>(<field.fieldName>.isNotEmpty())<\ >
-    <elseif (isBytes.(field.type))>(<name>.isNotEmpty())<\ >
+    <elseif (isBytes.(field.type) || isString.(field.type))>(<name>.isNotEmpty())<\ >
     <elseif (isMessage.(field.type))>(<field.fieldName> != null)<\ >
     <elseif (isEnum.(field.type))>(<name>.value != 0)<\ >
     <elseif (field.type.scalar)>
@@ -169,24 +200,40 @@ serializer.write(Tag(<tag>)).write(<box>)<\\>
 <endif>
 >>
 
-deserialize(field, read, lhs, options, packed) ::= <<
-<if (field.map)>
-(<lhs> ?: mutableMapOf()).apply {
-        deserializer.readRepeated(false) {
-            <read>
-                .let { put(it.key, it.value) }
-        }
-    }<\\>
-<elseif (field.repeated)>
-(<lhs> ?: mutableListOf()).apply {
-        deserializer.readRepeated(<packed>) {
-            add(<wrapDeserializeRead(options, deserializerRead(read))>)
-        }
-    }<\\>
-<else>
-<wrapDeserializeRead(options, deserializerRead(read))><\\>
-<endif>
->>
+deserialize(field, read, lhs, options, packed) ::= <%
+    <if (field.map)>
+        <deserializeMap()>
+    <elseif (field.repeated)>
+        (<lhs> ?: mutableListOf()).apply {<\n>
+            <t()><t()>deserializer.readRepeated(<packed>) {<\n>
+                <t()><t()><t()>add(<wrapDeserializeRead(options, deserializerRead(read))>)<\n>
+            <t()><t()>}<\n>
+        <t()>}
+    <else>
+        <wrapDeserializeRead(options, deserializerRead(read))>
+    <endif>
+%>
+
+deserializeMap() ::= <%
+    (<lhs> ?: mutableMapOf()).apply {<\n>
+        <t()><t()>deserializer.readRepeated(false) {<\n>
+            <t()><t()><t()><read><\n>
+                <t()><t()><t()><t()>.let { put(
+                    <if (options.keyWrap)>
+                        <wrapField(options.keyWrap, keyAccess())>
+                    <else>
+                        <keyAccess()>
+                    <endif>
+                    ,<\ >
+                    <if (options.valueWrap)>
+                        <wrapField(options.valueWrap, valueAccess(), options.valueType, true)>
+                    <else>
+                        <valueAccess()>
+                    <endif>
+                    ) }<\n>
+        <t()><t()>}<\n>
+    <t()>}
+%>
 
 deserializerRead(read) ::= "deserializer.<read>"
 
@@ -200,23 +247,43 @@ standard(field, any) ::= <%
     <endif>
 %>
 
-sizeof(name, field, type, options) ::= <<
-<if(field.map)><\\>
-sizeofMap(<name>, Tag(<field.number>)) { k, v ->
-        <type>.sizeof(k, v)
-    }<\\>
-<elseif(field.repeated && field.packed)><\\>
-sizeof(Tag(<field.number>)) +
-    <name>
-        .sumBy { sizeof(<box(field.type, iterationVar())>) }
-        .let { it + sizeof(UInt32(it)) }<\\>
-<elseif(field.repeated && !field.map)><\\>
-(sizeof(Tag(<field.number>)) * <name>.size) +
-        <name>.sumBy { sizeof(<box(field.type, options.fieldAccess)>) }<\\>
-<else><\\>
-sizeof(Tag(<field.number>)) + <options.fieldSizeof><\\>
-<endif>
->>
+sizeof(name, field, type, options) ::= <%
+    <if(field.map)>
+        <sizeofMap()>
+    <elseif(field.repeated && field.packed)>
+        sizeof(Tag(<field.number>)) +<\n>
+            <t()><t()><name><\n>
+                <t()><t()><t()>.sumBy { sizeof(<box(field.type, iterationVar())>) }<\n>
+                <t()><t()><t()>.let { it + sizeof(UInt32(it)) }
+    <elseif(field.repeated && !field.map)>
+        (sizeof(Tag(<field.number>)) * <name>.size) +<\n>
+            <t()><t()><name>.sumBy { sizeof(<box(field.type, options.fieldAccess)>) }
+    <else>
+        sizeof(Tag(<field.number>)) + <options.fieldSizeof>
+    <endif>
+%>
+
+sizeofMap() ::= <%
+    sizeofMap(<name>, Tag(<field.number>)) { k, v -><\n>
+        <t()><t()><type>.sizeof(
+        <if (options.keyAccess)>
+            <accessField(options.keyAccess, sizeofMapKey())>
+        <else>
+            <sizeofMapKey()>
+        <endif>
+        ,<\ >
+        <if (options.valueAccess)>
+            <maybeConstructBytes(accessField(options.valueAccess, sizeofMapValue()))>
+        <else>
+            <sizeofMapValue()>
+        <endif>
+        )<\n>
+    <t()>}
+%>
+
+sizeofMapKey() ::= "k"
+
+sizeofMapValue() ::= "v"
 
 fieldSizeof(field, name) ::= <%
     sizeof(<box(field.type, name)>)

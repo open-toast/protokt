@@ -18,7 +18,7 @@ package com.toasttab.protokt.codegen.impl
 import com.github.andrewoma.dexx.kollection.ImmutableSet
 import com.github.andrewoma.dexx.kollection.immutableSetOf
 import com.toasttab.protokt.codegen.impl.Wrapper.converter
-import com.toasttab.protokt.codegen.impl.Wrapper.foldWrap
+import com.toasttab.protokt.codegen.impl.Wrapper.foldFieldWrap
 import com.toasttab.protokt.codegen.model.Import
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.model.pclass
@@ -81,7 +81,7 @@ class StandardFieldImportResolver(
             set.add(Import.Class(f.typePClass))
         }
 
-        f.foldWrap(
+        f.foldFieldWrap(
             pkg,
             ctx,
             { },

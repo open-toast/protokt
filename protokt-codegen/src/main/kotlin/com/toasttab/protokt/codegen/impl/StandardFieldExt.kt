@@ -17,6 +17,8 @@ package com.toasttab.protokt.codegen.impl
 
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
+import com.toasttab.protokt.codegen.impl.Wrapper.mapKeyConverter
+import com.toasttab.protokt.codegen.impl.Wrapper.mapValueConverter
 import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.codegen.protoc.Tag
 import com.toasttab.protokt.codegen.template.Renderers.Box
@@ -69,7 +71,12 @@ internal fun StandardField.nonDefault(ctx: Context) =
 internal fun StandardField.boxMap(ctx: Context) =
     BoxMap.render(
         type = type,
-        box = unqualifiedNestedTypeName(ctx)
+        box = unqualifiedNestedTypeName(ctx),
+        options = BoxMap.Options(
+            keyWrap = mapKeyConverter(this, ctx),
+            valueWrap = mapValueConverter(this, ctx),
+            valueType = mapEntry!!.value.type
+        )
     )
 
 internal fun StandardField.box(s: String) =

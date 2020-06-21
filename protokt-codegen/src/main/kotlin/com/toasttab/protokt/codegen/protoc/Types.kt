@@ -104,11 +104,19 @@ class StandardField(
     val repeated: Boolean,
     val optional: Boolean,
     val packed: Boolean,
-    val map: Boolean,
+    val mapEntry: MapEntry?,
     val protoTypeName: String,
     val options: FieldOptions,
     val index: Int
-) : Field()
+) : Field() {
+    val map
+        get() = mapEntry != null
+}
+
+class MapEntry(
+    val key: StandardField,
+    val value: StandardField
+)
 
 class FieldOptions(
     val default: DescriptorProtos.FieldOptions,

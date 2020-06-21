@@ -33,8 +33,8 @@ companion object Deserializer : KtDeserializer\<<message.name>\>, (<message.name
                         <if (properties)>,<endif>
                         finishMap(unknown)
                     )
-                <deserialize:{d | <d.tag> -> <d.assignment.fieldName> = <\\>
-                <if ((!d.std || d.repeated || d.assignment.long))><\n><t()><endif><\\>
+                <deserialize:{d | <d.tag> -> <d.assignment.fieldName> =<\\>
+                <if ((!d.std || d.repeated || d.assignment.long))><\n><t()><else><\ ><endif><\\>
                 <d.assignment.value>}; separator="\n">
                 else -> unknown =
                     (unknown ?: mutableMapOf()).also {

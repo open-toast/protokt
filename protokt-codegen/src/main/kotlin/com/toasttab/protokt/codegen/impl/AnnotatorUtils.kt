@@ -19,37 +19,35 @@ import arrow.core.None
 import arrow.core.Some
 import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
+import com.toasttab.protokt.codegen.impl.Wrapper.interceptMapKeyTypeName
+import com.toasttab.protokt.codegen.impl.Wrapper.interceptMapValueTypeName
+import com.toasttab.protokt.codegen.protoc.MapEntry
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Oneof
 import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.codegen.protoc.TypeDesc
 import com.toasttab.protokt.codegen.template.Renderers.ConcatWithScope
 
-internal fun resolveMapEntry(m: Message) =
-    MapEntryInfo(
+fun resolveMapEntry(m: Message) =
+    MapEntry(
         (m.fields[0] as StandardField),
         (m.fields[1] as StandardField)
     )
 
-internal fun resolveMapEntryTypes(m: Message, ctx: Context) =
-    resolveMapEntry(m).let {
+fun resolveMapEntryTypes(f: StandardField, ctx: Context) =
+    f.mapEntry!!.let {
         MapTypeParams(
-            it.key.unqualifiedTypeName,
-            it.value.typePClass.renderName(ctx.pkg)
+            interceptMapKeyTypeName(f, it.key.unqualifiedTypeName, ctx),
+            interceptMapValueTypeName(f, it.value.typePClass.renderName(ctx.pkg), ctx)
         )
     }
 
-internal class MapTypeParams(
+class MapTypeParams(
     val kType: String,
     val vType: String
 )
 
-internal class MapEntryInfo(
-    val key: StandardField,
-    val value: StandardField
-)
-
-internal fun oneOfScope(f: Oneof, type: String, ctx: Context) =
+fun oneOfScope(f: Oneof, type: String, ctx: Context) =
     ctx.stripEnclosingMessageNamePrefix(
         ctx.stripRootMessageNamePrefix(
             ConcatWithScope.render(
@@ -59,14 +57,14 @@ internal fun oneOfScope(f: Oneof, type: String, ctx: Context) =
         )
     )
 
-internal fun String.emptyToNone() =
+fun String.emptyToNone() =
     if (isEmpty()) {
         None
     } else {
         Some(this)
     }
 
-internal fun kotlinPackage(ast: AST<TypeDesc>) =
+fun kotlinPackage(ast: AST<TypeDesc>) =
     resolvePackage(
         ast.data.desc.options,
         ast.data.desc.packageName,

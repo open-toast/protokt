@@ -15,11 +15,6 @@
 
 package com.toasttab.protokt.codegen.impl
 
-import arrow.core.None
-import arrow.core.Option
-import arrow.core.Some
-import arrow.core.getOrElse
-import arrow.core.toOption
 import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
 import com.toasttab.protokt.codegen.impl.Implements.overrides
 import com.toasttab.protokt.codegen.impl.Nullability.deserializeType
@@ -101,7 +96,7 @@ private constructor(
             field = f,
             any =
                 if (f.map) {
-                    typeParams(f.protoTypeName)
+                    resolveMapEntryTypes(f, ctx)
                 } else {
                     interceptTypeName(
                         f,
@@ -110,25 +105,6 @@ private constructor(
                     )
                 }
         )
-
-    private fun typeParams(n: String) =
-        findType(n, msg)
-            .map { resolveMapEntryTypes(it, ctx) }
-            .getOrElse { error("missing type params") }
-
-    private fun findType(
-        tn: String,
-        msg: Message
-    ): Option<Message> {
-        val n = tn.split(".").let { if (it.isEmpty()) tn else it.last() }
-        return msg.nestedTypes.find {
-            when (it) {
-                is Message ->
-                    if (it.name == n) Some(it) else findType(n, it)
-                else -> None
-            }.isDefined()
-        }.toOption().map { f -> f as Message }
-    }
 
     private fun Field.defaultValue(ctx: Context) =
         when (this) {

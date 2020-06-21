@@ -33,8 +33,14 @@ object Renderers {
     }
 
     object BoxMap : RenderersTemplate() {
-        fun render(type: FieldType, box: String) =
-            renderArgs(type, box)
+        fun render(type: FieldType, box: String, options: Options) =
+            renderArgs(type, box, options)
+
+        class Options(
+            val keyWrap: String?,
+            val valueWrap: String?,
+            val valueType: FieldType
+        )
     }
 
     object ConcatWithScope : RenderersTemplate() {
@@ -81,6 +87,9 @@ object Renderers {
 
         class Options(
             val wrapName: String,
+            val keyWrap: String?,
+            val valueWrap: String?,
+            val valueType: FieldType?,
             val type: String,
             val oneof: Boolean
         )
@@ -102,7 +111,10 @@ object Renderers {
 
         class Options(
             val fieldSizeof: String,
-            val fieldAccess: Any
+            val fieldAccess: Any,
+            val keyAccess: String?,
+            val valueAccess: String?,
+            val valueType: FieldType?
         )
     }
 
