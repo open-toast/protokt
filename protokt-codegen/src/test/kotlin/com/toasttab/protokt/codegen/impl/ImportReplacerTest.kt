@@ -19,8 +19,8 @@ import com.google.common.truth.Truth.assertThat
 import com.toasttab.protokt.codegen.impl.ImportReplacer.replaceImports
 import com.toasttab.protokt.codegen.model.Import
 import com.toasttab.protokt.codegen.model.PClass
+import com.toasttab.protokt.codegen.model.method
 import com.toasttab.protokt.codegen.model.pclass
-import com.toasttab.protokt.codegen.model.rtMethod
 import com.toasttab.protokt.grpc.KtMarshaller
 import io.grpc.MethodDescriptor
 import io.grpc.MethodDescriptor.MethodType
@@ -32,7 +32,10 @@ class ImportReplacerTest {
         val code = "com.toasttab.protokt.rt.finishMap(m)"
 
         assertThat(
-            replaceImports(code, setOf(rtMethod("finishMap")))
+            replaceImports(
+                code,
+                setOf(method("com.toasttab.protokt.rt", "finishMap"))
+            )
         ).isEqualTo(
             "finishMap(m)"
         )
