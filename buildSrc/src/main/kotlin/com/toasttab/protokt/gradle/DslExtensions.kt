@@ -30,6 +30,9 @@ fun Project.protokt(cfg: ProtoktExtension.() -> Unit) = project.configure(cfg)
 fun DependencyHandler.protoktExtensions(dependencyNotation: Any): Dependency? =
     add(EXTENSIONS, dependencyNotation)
 
+fun DependencyHandler.testProtoktExtensions(dependencyNotation: Any): Dependency? =
+    add(TEST_EXTENSIONS, dependencyNotation)
+
 val SourceSet.kotlin: SourceDirectorySet
     get() =
         (this as HasConvention)

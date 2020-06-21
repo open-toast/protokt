@@ -15,6 +15,7 @@
 
 package com.toasttab.protokt.gradle
 
+import com.google.protobuf.gradle.GenerateProtoTask
 import com.google.protobuf.gradle.builtins
 import com.google.protobuf.gradle.generateProtoTasks
 import com.google.protobuf.gradle.id
@@ -24,6 +25,7 @@ import com.google.protobuf.gradle.protoc
 import com.google.protobuf.gradle.remove
 import java.io.File
 import org.gradle.api.Project
+import org.gradle.api.file.FileCollection
 import org.gradle.api.plugins.JavaPluginConvention
 import org.gradle.api.tasks.bundling.Jar
 import org.gradle.internal.os.OperatingSystem
@@ -63,13 +65,7 @@ internal fun configureProtobufPlugin(project: Project, ext: ProtoktExtension, bi
                 task.plugins {
                     id("protokt") {
                         project.afterEvaluate {
-                            val classpath =
-                                project.configurations
-                                    .getByName(EXTENSIONS)
-                                    .asPath
-                                    .replace(':', ';')
-
-                            option("$KOTLIN_EXTRA_CLASSPATH=$classpath")
+                            option("$KOTLIN_EXTRA_CLASSPATH=${extraClasspath(project, task)}")
                             option("$RESPECT_JAVA_PACKAGE=${ext.respectJavaPackage}")
                             option("$GENERATE_GRPC=${ext.generateGrpc}")
                             option("$ONLY_GENERATE_GRPC=${ext.onlyGenerateGrpc}")
@@ -79,6 +75,16 @@ internal fun configureProtobufPlugin(project: Project, ext: ProtoktExtension, bi
             }
         }
     }
+}
+
+private fun extraClasspath(project: Project, task: GenerateProtoTask): String {
+    var extensions: FileCollection = project.configurations.getByName(EXTENSIONS)
+
+    if (task.isTest) {
+        extensions += project.configurations.getByName(TEST_EXTENSIONS)
+    }
+
+    return extensions.asPath.replace(':', ';')
 }
 
 private fun configureSources(project: Project, generatedSourcesPath: String) {
