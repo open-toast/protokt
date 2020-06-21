@@ -56,11 +56,10 @@ object Wrapper {
     val StandardField.valueWrapped
         get() = valueWrap.isDefined()
 
-    private fun <R> StandardField.foldWrap(
+    fun <R> StandardField.foldWrap(
         wrap: Option<String>,
         pkg: PPackage,
         ctx: ProtocolContext,
-        getWrappedField: (StandardField) -> StandardField,
         ifEmpty: () -> R,
         ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
     ) =
@@ -69,35 +68,18 @@ object Wrapper {
             {
                 ifSome(
                     getClass(PClass.fromName(it).possiblyQualify(pkg), ctx),
-                    getWrappedField(this).let { field ->
-                        field.protoTypeName.emptyToNone().fold(
-                            {
-                                // Protobuf primitives have no typeName
-                                requireNotNull(field.type.kotlinRepresentation) {
-                                    "no kotlin representation for type of " +
-                                        "${field.name}: ${field.type}"
-                                }
-                            },
-                            { getClass(field.typePClass, ctx) }
-                        )
-                    }
+                    protoTypeName.emptyToNone().fold(
+                        {
+                            // Protobuf primitives have no typeName
+                            requireNotNull(type.kotlinRepresentation) {
+                                "no kotlin representation for type of " +
+                                    "$name: $type"
+                            }
+                        },
+                        { getClass(typePClass, ctx) }
+                    )
                 )
             }
-        )
-
-    fun <R> StandardField.foldFieldWrap(
-        pkg: PPackage,
-        ctx: ProtocolContext,
-        ifEmpty: () -> R,
-        ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
-    ) =
-        foldWrap(
-            wrapWithWellKnownInterception,
-            pkg,
-            ctx,
-            { it },
-            ifEmpty,
-            ifSome
         )
 
     private fun <R> StandardField.foldFieldWrap(
@@ -105,7 +87,13 @@ object Wrapper {
         ifEmpty: () -> R,
         ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
     ) =
-        foldFieldWrap(ctx.pkg, ctx.desc.context, ifEmpty, ifSome)
+        foldWrap(
+            wrapWithWellKnownInterception,
+            ctx.pkg,
+            ctx.desc.context,
+            ifEmpty,
+            ifSome
+        )
 
     fun interceptSizeof(
         f: StandardField,
@@ -249,20 +237,13 @@ object Wrapper {
             ifNotSingularMessage()
         }
 
-    fun <R> StandardField.foldKeyWrap(
-        pkg: PPackage,
-        ctx: ProtocolContext,
-        ifEmpty: () -> R,
-        ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
-    ) =
-        foldWrap(keyWrap, pkg, ctx, { mapEntry!!.key }, ifEmpty, ifSome)
-
     private fun <R> StandardField.foldKeyWrap(
         ctx: Context,
         ifEmpty: () -> R,
         ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
     ) =
-        foldKeyWrap(ctx.pkg, ctx.desc.context, ifEmpty, ifSome)
+        mapEntry?.key
+            ?.foldWrap(keyWrap, ctx.pkg, ctx.desc.context, ifEmpty, ifSome)
 
     fun interceptMapKeyTypeName(f: StandardField, t: String, ctx: Context) =
         f.foldKeyWrap(
@@ -283,20 +264,13 @@ object Wrapper {
             }
         )
 
-    fun <R> StandardField.foldValueWrap(
-        pkg: PPackage,
-        ctx: ProtocolContext,
-        ifEmpty: () -> R,
-        ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
-    ) =
-        foldWrap(valueWrap, pkg, ctx, { mapEntry!!.value }, ifEmpty, ifSome)
-
     private fun <R> StandardField.foldValueWrap(
         ctx: Context,
         ifEmpty: () -> R,
         ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
     ) =
-        foldValueWrap(ctx.pkg, ctx.desc.context, ifEmpty, ifSome)
+        mapEntry?.value
+            ?.foldWrap(valueWrap, ctx.pkg, ctx.desc.context, ifEmpty, ifSome)
 
     fun interceptMapValueTypeName(f: StandardField, t: String, ctx: Context) =
         f.foldValueWrap(

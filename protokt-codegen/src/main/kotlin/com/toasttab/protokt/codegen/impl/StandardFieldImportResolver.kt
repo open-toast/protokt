@@ -17,10 +17,11 @@ package com.toasttab.protokt.codegen.impl
 
 import com.github.andrewoma.dexx.kollection.ImmutableSet
 import com.github.andrewoma.dexx.kollection.immutableSetOf
+import com.toasttab.protokt.codegen.impl.WellKnownTypes.wrapWithWellKnownInterception
 import com.toasttab.protokt.codegen.impl.Wrapper.converter
-import com.toasttab.protokt.codegen.impl.Wrapper.foldFieldWrap
-import com.toasttab.protokt.codegen.impl.Wrapper.foldKeyWrap
-import com.toasttab.protokt.codegen.impl.Wrapper.foldValueWrap
+import com.toasttab.protokt.codegen.impl.Wrapper.foldWrap
+import com.toasttab.protokt.codegen.impl.Wrapper.keyWrap
+import com.toasttab.protokt.codegen.impl.Wrapper.valueWrap
 import com.toasttab.protokt.codegen.model.Import
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.model.pclass
@@ -35,7 +36,6 @@ import com.toasttab.protokt.rt.copyList
 import com.toasttab.protokt.rt.finishList
 import com.toasttab.protokt.rt.sizeofMap
 import kotlin.reflect.KCallable
-import kotlin.reflect.KClass
 
 class StandardFieldImportResolver(
     private val f: StandardField,
@@ -84,15 +84,13 @@ class StandardFieldImportResolver(
             set.add(Import.Class(f.typePClass))
         }
 
-        val addWrappers = fun(
-            fn: (
-                pkg: PPackage,
-                ctx: ProtocolContext,
-                ifEmpty: () -> Unit,
-                ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> Unit
-            ) -> Unit
-        ) {
-            fn(
+        listOf(
+            f.wrapWithWellKnownInterception to f,
+            f.keyWrap to f.mapEntry?.key,
+            f.valueWrap to f.mapEntry?.value
+        ).forEach { (wrap, field) ->
+            field?.foldWrap(
+                wrap,
                 pkg,
                 ctx,
                 { },
@@ -105,10 +103,6 @@ class StandardFieldImportResolver(
                 }
             )
         }
-
-        addWrappers { p, c, e, s -> f.foldFieldWrap(p, c, e, s) }
-        addWrappers { p, c, e, s -> f.foldKeyWrap(p, c, e, s) }
-        addWrappers { p, c, e, s -> f.foldValueWrap(p, c, e, s) }
 
         return set
     }
