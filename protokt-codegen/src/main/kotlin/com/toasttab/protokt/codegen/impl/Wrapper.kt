@@ -207,13 +207,7 @@ object Wrapper {
 
     fun interceptTypeName(f: StandardField, t: String, ctx: Context) =
         f.foldBytesSlice(
-            {
-                f.foldFieldWrap(
-                    ctx,
-                    { t },
-                    { wrapper, _ -> unqualifiedWrap(wrapper, ctx.pkg) }
-                )
-            },
+            { f.foldFieldWrap(ctx, { t }, unqualifiedWrap(ctx)) },
             { BytesSlice.render() }
         )
 
@@ -246,11 +240,7 @@ object Wrapper {
             ?.foldWrap(keyWrap, ctx.pkg, ctx.desc.context, ifEmpty, ifSome)
 
     fun interceptMapKeyTypeName(f: StandardField, t: String, ctx: Context) =
-        f.foldKeyWrap(
-            ctx,
-            { t },
-            { wrapper, _ -> unqualifiedWrap(wrapper, ctx.pkg) }
-        )
+        f.foldKeyWrap(ctx, { t }, unqualifiedWrap(ctx))
 
     fun mapKeyConverter(f: StandardField, ctx: Context) =
         f.foldKeyWrap(
@@ -273,11 +263,7 @@ object Wrapper {
             ?.foldWrap(valueWrap, ctx.pkg, ctx.desc.context, ifEmpty, ifSome)
 
     fun interceptMapValueTypeName(f: StandardField, t: String, ctx: Context) =
-        f.foldValueWrap(
-            ctx,
-            { t },
-            { wrapper, _ -> unqualifiedWrap(wrapper, ctx.pkg) }
-        )
+        f.foldValueWrap(ctx, { t }, unqualifiedWrap(ctx))
 
     fun mapValueConverter(f: StandardField, ctx: Context) =
         f.foldValueWrap(
@@ -298,6 +284,10 @@ object Wrapper {
             ctx.pkg
         )
 
+    private fun unqualifiedWrap(ctx: Context) =
+        fun(wrapper: KClass<*>, _: Any) =
+            unqualifiedWrap(wrapper, ctx.pkg)
+
     private fun unqualifiedWrap(wrap: KClass<*>, pkg: PPackage) =
         PClass.fromClass(wrap).renderName(pkg)
 
@@ -307,7 +297,7 @@ object Wrapper {
     val converter = { wrapper: KClass<*>, wrapped: KClass<*>, ctx: ProtocolContext ->
         converters(ctx.classpath).find {
             it.wrapper == wrapper && it.wrapped == wrapped
-        } ?: throw Exception(
+        } ?: error(
             "${ctx.fileName}: No converter found for wrapper type " +
                 "${wrapper.qualifiedName} from type ${wrapped.qualifiedName}"
         )
