@@ -44,23 +44,22 @@ object Wrapper {
     val StandardField.wrapped
         get() = wrapWithWellKnownInterception.isDefined()
 
-    private val StandardField.keyWrap
+    val StandardField.keyWrap
         get() = options.protokt.keyWrap.emptyToNone()
 
     val StandardField.keyWrapped
         get() = keyWrap.isDefined()
 
-    private val StandardField.valueWrap
+    val StandardField.valueWrap
         get() = options.protokt.valueWrap.emptyToNone()
 
     val StandardField.valueWrapped
         get() = valueWrap.isDefined()
 
-    private fun <R> StandardField.foldWrap(
+    fun <R> StandardField.foldWrap(
         wrap: Option<String>,
         pkg: PPackage,
         ctx: ProtocolContext,
-        getWrappedField: (StandardField) -> StandardField,
         ifEmpty: () -> R,
         ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
     ) =
@@ -69,35 +68,18 @@ object Wrapper {
             {
                 ifSome(
                     getClass(PClass.fromName(it).possiblyQualify(pkg), ctx),
-                    getWrappedField(this).let { field ->
-                        field.protoTypeName.emptyToNone().fold(
-                            {
-                                // Protobuf primitives have no typeName
-                                requireNotNull(field.type.kotlinRepresentation) {
-                                    "no kotlin representation for type of " +
-                                        "${field.name}: ${field.type}"
-                                }
-                            },
-                            { getClass(field.typePClass, ctx) }
-                        )
-                    }
+                    protoTypeName.emptyToNone().fold(
+                        {
+                            // Protobuf primitives have no typeName
+                            requireNotNull(type.kotlinRepresentation) {
+                                "no kotlin representation for type of " +
+                                    "$name: $type"
+                            }
+                        },
+                        { getClass(typePClass, ctx) }
+                    )
                 )
             }
-        )
-
-    fun <R> StandardField.foldFieldWrap(
-        pkg: PPackage,
-        ctx: ProtocolContext,
-        ifEmpty: () -> R,
-        ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
-    ) =
-        foldWrap(
-            wrapWithWellKnownInterception,
-            pkg,
-            ctx,
-            { it },
-            ifEmpty,
-            ifSome
         )
 
     private fun <R> StandardField.foldFieldWrap(
@@ -105,7 +87,13 @@ object Wrapper {
         ifEmpty: () -> R,
         ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
     ) =
-        foldFieldWrap(ctx.pkg, ctx.desc.context, ifEmpty, ifSome)
+        foldWrap(
+            wrapWithWellKnownInterception,
+            ctx.pkg,
+            ctx.desc.context,
+            ifEmpty,
+            ifSome
+        )
 
     fun interceptSizeof(
         f: StandardField,
@@ -254,14 +242,8 @@ object Wrapper {
         ifEmpty: () -> R,
         ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
     ) =
-        foldWrap(
-            keyWrap,
-            ctx.pkg,
-            ctx.desc.context,
-            { mapEntry!!.key },
-            ifEmpty,
-            ifSome
-        )
+        mapEntry?.key
+            ?.foldWrap(keyWrap, ctx.pkg, ctx.desc.context, ifEmpty, ifSome)
 
     fun interceptMapKeyTypeName(f: StandardField, t: String, ctx: Context) =
         f.foldKeyWrap(
@@ -287,14 +269,8 @@ object Wrapper {
         ifEmpty: () -> R,
         ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
     ) =
-        foldWrap(
-            valueWrap,
-            ctx.pkg,
-            ctx.desc.context,
-            { mapEntry!!.value },
-            ifEmpty,
-            ifSome
-        )
+        mapEntry?.value
+            ?.foldWrap(valueWrap, ctx.pkg, ctx.desc.context, ifEmpty, ifSome)
 
     fun interceptMapValueTypeName(f: StandardField, t: String, ctx: Context) =
         f.foldValueWrap(

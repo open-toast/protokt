@@ -17,8 +17,11 @@ package com.toasttab.protokt.codegen.impl
 
 import com.github.andrewoma.dexx.kollection.ImmutableSet
 import com.github.andrewoma.dexx.kollection.immutableSetOf
+import com.toasttab.protokt.codegen.impl.WellKnownTypes.wrapWithWellKnownInterception
 import com.toasttab.protokt.codegen.impl.Wrapper.converter
-import com.toasttab.protokt.codegen.impl.Wrapper.foldFieldWrap
+import com.toasttab.protokt.codegen.impl.Wrapper.foldWrap
+import com.toasttab.protokt.codegen.impl.Wrapper.keyWrap
+import com.toasttab.protokt.codegen.impl.Wrapper.valueWrap
 import com.toasttab.protokt.codegen.model.Import
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.model.pclass
@@ -81,18 +84,25 @@ class StandardFieldImportResolver(
             set.add(Import.Class(f.typePClass))
         }
 
-        f.foldFieldWrap(
-            pkg,
-            ctx,
-            { },
-            { wrapper, wrapped ->
-                if (wrapped == ByteArray::class) {
-                    set.add(pclass(Bytes::class))
+        listOf(
+            f.wrapWithWellKnownInterception to f,
+            f.keyWrap to f.mapEntry?.key,
+            f.valueWrap to f.mapEntry?.value
+        ).forEach { (wrap, field) ->
+            field?.foldWrap(
+                wrap,
+                pkg,
+                ctx,
+                { },
+                { wrapper, wrapped ->
+                    if (wrapped == ByteArray::class) {
+                        set.add(pclass(Bytes::class))
+                    }
+                    set.add(pclass(wrapper))
+                    set.add(pclass(converter(wrapper, wrapped, ctx)::class))
                 }
-                set.add(pclass(wrapper))
-                set.add(pclass(converter(wrapper, wrapped, ctx)::class))
-            }
-        )
+            )
+        }
 
         return set
     }

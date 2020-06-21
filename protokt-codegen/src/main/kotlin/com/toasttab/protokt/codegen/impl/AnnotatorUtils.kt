@@ -37,8 +37,8 @@ fun resolveMapEntry(m: Message) =
 fun resolveMapEntryTypes(f: StandardField, ctx: Context) =
     f.mapEntry!!.let {
         MapTypeParams(
-            interceptMapKeyTypeName(f, it.key.unqualifiedTypeName, ctx),
-            interceptMapValueTypeName(f, it.value.typePClass.renderName(ctx.pkg), ctx)
+            interceptMapKeyTypeName(f, it.key.unqualifiedTypeName, ctx)!!,
+            interceptMapValueTypeName(f, it.value.typePClass.renderName(ctx.pkg), ctx)!!
         )
     }
 
