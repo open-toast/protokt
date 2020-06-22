@@ -13,17 +13,24 @@
  * limitations under the License.
  */
 
+import com.google.protobuf.gradle.protobuf
+
 apply(plugin = "kotlin-kapt")
 
+localProtokt()
+pureKotlin()
 enablePublishing()
 compatibleWithAndroid()
 
 dependencies {
     api(project(":extensions:protokt-extensions-api"))
     api(project(":protokt-runtime"))
-    api(project(":protokt-wkt"))
+
+    protobuf(libraries.protobuf)
+    compileOnly(libraries.protobuf)
 
     implementation(libraries.autoServiceAnnotations)
+    implementation(libraries.kotlinReflect)
 
     add("kapt", libraries.autoService)
 }
