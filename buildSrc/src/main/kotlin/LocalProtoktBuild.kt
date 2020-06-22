@@ -27,7 +27,7 @@ val Project.buildSrcClasses
 
 fun Project.localProtokt() {
     configureProtokt(this) {
-        if (name !in setOf("protokt-wkt", "protokt-core")) {
+        if (name != "protokt-core") {
             dependencies {
                 add(EXTENSIONS, project(":protokt-core"))
             }

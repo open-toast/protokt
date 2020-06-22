@@ -36,7 +36,10 @@ private fun installBinary(project: Project, artifact: Dependency) {
         targetDir.mkdirs()
 
         val toolsArchive = project.zipTree(
-            project.configurations.getByName(CODEGEN_CONFIGURATION).fileCollection(artifact).singleFile
+            project.configurations
+                .getByName(CODEGEN_CONFIGURATION)
+                .fileCollection(artifact)
+                .singleFile
         )
 
         project.copy {
@@ -62,4 +65,6 @@ private fun configureArtifact(project: Project): Dependency {
 }
 
 private fun getTargetDirectory(project: Project) =
-    project.file("${project.rootDir}/.gradle/tools/$CODEGEN_NAME-$protoktVersion")
+    project.file(
+        "${project.rootDir}/.gradle/tools/$CODEGEN_NAME-$protoktVersion"
+    )
