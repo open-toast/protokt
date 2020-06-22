@@ -43,10 +43,7 @@ import com.toasttab.protokt.rt.KtMessage
 import com.toasttab.protokt.rt.KtMessageDeserializer
 import com.toasttab.protokt.rt.KtMessageSerializer
 import com.toasttab.protokt.rt.Tag
-import com.toasttab.protokt.rt.Unknown
-import com.toasttab.protokt.rt.copyMap
-import com.toasttab.protokt.rt.finishMap
-import com.toasttab.protokt.rt.processUnknown
+import com.toasttab.protokt.rt.UnknownFieldSet
 import com.toasttab.protokt.rt.sizeof
 import kotlin.reflect.KCallable
 
@@ -63,14 +60,9 @@ class ImportResolver(
             KtDeserializer::class,
             KtMessageDeserializer::class,
             KtMessageSerializer::class,
-            Unknown::class,
+            UnknownFieldSet::class,
             KtGeneratedMessage::class
-        ).map { pclass(it) }.toImmutableSet() +
-            setOf(
-                rtMethod(COPY_MAP),
-                rtMethod(FINISH_MAP),
-                rtMethod(::processUnknown)
-            )
+        ).map { pclass(it) }.toImmutableSet()
 
     fun resolveImports(astList: List<AST<TypeDesc>>) =
         astList.flatMapToSet { imports(it.data.type.rawType) }
@@ -108,20 +100,6 @@ class ImportResolver(
         transform: (T) -> Iterable<R>
     ): ImmutableSet<R> =
         fold(immutableSetOf()) { s, e -> s + transform(e) }
-}
-
-private val COPY_MAP = copyMap<Any, Any>()
-
-private fun <K, V> copyMap(): KCallable<*> {
-    val copyMap: (Map<K, V>) -> Map<K, V> = ::copyMap
-    return copyMap as KCallable<*>
-}
-
-private val FINISH_MAP = finishMap<Any, Any>()
-
-private fun <K, V> finishMap(): KCallable<*> {
-    val finishMap: (Map<K, V>?) -> Map<K, V> = ::finishMap
-    return finishMap as KCallable<*>
 }
 
 private val SIZEOF = sizeof()

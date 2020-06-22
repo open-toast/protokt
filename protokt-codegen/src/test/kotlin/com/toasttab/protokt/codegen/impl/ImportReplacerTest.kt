@@ -19,10 +19,9 @@ import com.google.common.truth.Truth.assertThat
 import com.toasttab.protokt.codegen.impl.ImportReplacer.replaceImports
 import com.toasttab.protokt.codegen.model.Import
 import com.toasttab.protokt.codegen.model.PClass
+import com.toasttab.protokt.codegen.model.method
 import com.toasttab.protokt.codegen.model.pclass
-import com.toasttab.protokt.codegen.model.rtMethod
 import com.toasttab.protokt.grpc.KtMarshaller
-import com.toasttab.protokt.rt.processUnknown
 import io.grpc.MethodDescriptor
 import io.grpc.MethodDescriptor.MethodType
 import org.junit.jupiter.api.Test
@@ -30,12 +29,15 @@ import org.junit.jupiter.api.Test
 class ImportReplacerTest {
     @Test
     fun `method import is replaced`() {
-        val code = "com.toasttab.protokt.rt.processUnknown(m)"
+        val code = "com.toasttab.protokt.rt.finishMap(m)"
 
         assertThat(
-            replaceImports(code, setOf(rtMethod(::processUnknown)))
+            replaceImports(
+                code,
+                setOf(method("com.toasttab.protokt.rt", "finishMap"))
+            )
         ).isEqualTo(
-            "processUnknown(m)"
+            "finishMap(m)"
         )
     }
 

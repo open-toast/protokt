@@ -16,14 +16,14 @@
 import "dsl.stg"
 import "renderers.stg"
 
-companion() ::= <<
+deserializer() ::= <<
 companion object Deserializer : KtDeserializer\<<message.name>\>, (<message.name>Dsl.() -> Unit) -> <message.name> {
     override fun deserialize(<\\>
     <if (options.longDeserializer)><\n><t()><t()><endif><\\>
     deserializer: KtMessageDeserializer<\\>
     <if (options.longDeserializer)><\n><t()><endif>): <message.name> {
         <properties:{p | var <deserializeVar(p)>}; separator="\n">
-        var unknown: MutableMap\<Int, Unknown>? = null
+        var unknownFields: UnknownFieldSet.Builder? = null
 
         while (true) {
             when (deserializer.readTag()) {
@@ -31,14 +31,14 @@ companion object Deserializer : KtDeserializer\<<message.name>\>, (<message.name
                     return <message.name>(
                         <properties:{p | <deserializeWrapper(p)>}; separator=",\n"><\\>
                         <if (properties)>,<endif>
-                        finishMap(unknown)
+                        UnknownFieldSet.from(unknownFields)
                     )
                 <deserialize:{d | <d.tag> -> <d.assignment.fieldName> =<\\>
                 <if ((!d.std || d.repeated || d.assignment.long))><\n><t()><else><\ ><endif><\\>
                 <d.assignment.value>}; separator="\n">
-                else -> unknown =
-                    (unknown ?: mutableMapOf()).also {
-                        processUnknown(deserializer, it)
+                else -> unknownFields =
+                    (unknownFields ?: UnknownFieldSet.Builder()).also {
+                        it.add(deserializer.readUnknown())
                     }
             }
         }

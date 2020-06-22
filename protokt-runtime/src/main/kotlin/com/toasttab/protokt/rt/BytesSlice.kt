@@ -35,17 +35,18 @@ class BytesSlice(
     }
 
     override fun equals(other: Any?) =
-        other is BytesSlice &&
-            length == other.length &&
-            asSequence().zip(other.asSequence()).all { (l, r) -> l == r }
+        equalsUsingSequence(other, { length }) { asSequence() }
 
     override fun hashCode() =
-        asSequence().fold(1) { hash, elt -> 31 * hash + elt }
+        hashCodeUsingSequence { asSequence() }
 
     override fun toString() =
         asSequence().joinToString(prefix = "[", postfix = "]")
 
     companion object {
-        val empty = BytesSlice(ByteArray(0), 0, 0)
+        private val EMPTY = BytesSlice(ByteArray(0), 0, 0)
+
+        fun empty() =
+            EMPTY
     }
 }

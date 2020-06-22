@@ -17,25 +17,6 @@ package com.toasttab.protokt.rt
 
 import java.util.Collections
 
-fun processUnknown(
-    deserializer: KtMessageDeserializer,
-    unknown: MutableMap<Int, Unknown>
-) {
-    val unk = deserializer.readUnknown()
-    unknown[unk.fieldNum] = unknown[unk.fieldNum].let {
-        when (it) {
-            null -> unk
-            else ->
-                when (val v = it.value) {
-                    is ListVal ->
-                        Unknown(unk.fieldNum, ListVal(v.value + unk.value))
-                    else ->
-                        Unknown(unk.fieldNum, ListVal(listOf(v, unk.value)))
-                }
-        }
-    }
-}
-
 fun <K, V> finishMap(map: Map<K, V>?): Map<K, V> =
     if (map.isNullOrEmpty()) {
         emptyMap()
@@ -63,3 +44,15 @@ fun <T> copyList(list: List<T>): List<T> =
     } else {
         Collections.unmodifiableList(ArrayList(list))
     }
+
+internal inline fun <reified T> T.equalsUsingSequence(
+    other: Any?,
+    size: T.() -> Int,
+    asSequence: T.() -> Sequence<*>
+) =
+    other is T &&
+        size() == other.size() &&
+        asSequence().zip(other.asSequence()).all { (l, r) -> l == r }
+
+internal inline fun hashCodeUsingSequence(asSequence: () -> Sequence<*>) =
+    asSequence().fold(1) { hash, elt -> 31 * hash + elt.hashCode() }

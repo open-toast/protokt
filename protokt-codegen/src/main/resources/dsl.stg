@@ -19,14 +19,13 @@ dsl() ::= <<
 fun copy(dsl: <message.name>Dsl.() -> Unit) =
     <message.name> {
         <properties:{p | <p.name> = this@<message.name>.<p.name>}; separator="\n">
-        unknown = this@<message.name>.unknown
+        unknownFields = this@<message.name>.unknownFields
         dsl()
     }
 
 class <message.name>Dsl {
     <properties:{p | <deprecated(p)>var <dslVar(p)>}; separator="\n">
-    var unknown: Map\<Int, Unknown> = emptyMap()
-        set(newValue) { field = copyMap(newValue) }
+    var unknownFields = UnknownFieldSet.empty()
 
     fun build() =
         <message.name>(
@@ -46,7 +45,7 @@ class <message.name>Dsl {
             <endif><\\>
         }; separator=",\n">,
         <endif>
-            unknown
+            unknownFields
         )
 }
 >>
