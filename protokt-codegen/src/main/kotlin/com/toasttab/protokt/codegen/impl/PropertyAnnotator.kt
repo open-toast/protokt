@@ -82,7 +82,7 @@ private constructor(
                         deserializeType = it.renderNullableType(),
                         dslPropertyType = it.renderNullableType(),
                         defaultValue = it.defaultValue(ctx),
-                        oneOf = true,
+                        oneof = true,
                         nullable = it.nullable,
                         nonNullOption = it.hasNonNullOption,
                         documentation = documentation

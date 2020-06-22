@@ -65,7 +65,7 @@ object Message {
             val fieldType: String = "",
             val repeated: Boolean = false,
             val map: Boolean = false,
-            val oneOf: Boolean = false,
+            val oneof: Boolean = false,
             val wrapped: Boolean = false,
             val overrides: Boolean = false,
             val documentation: List<String>,

@@ -84,7 +84,7 @@ class WrapperTypesTest {
     }
 
     @Test
-    fun `round trip should preserve generic wrapper oneOf`() {
+    fun `round trip should preserve generic wrapper oneof`() {
         val deserialized = OneofWrappers.deserialize(
             OneofWrappers {
                 wrappedOneof = OneofWrappers.WrappedOneof.IdOneof(model.id)
@@ -97,7 +97,7 @@ class WrapperTypesTest {
     }
 
     @Test
-    fun `round trip should preserve uuid oneOf`() {
+    fun `round trip should preserve uuid oneof`() {
         val deserialized = OneofWrappers.deserialize(
             OneofWrappers {
                 wrappedOneof = OneofWrappers.WrappedOneof.UuidOneof(model.uuid)
@@ -110,7 +110,7 @@ class WrapperTypesTest {
     }
 
     @Test
-    fun `round trip should preserve ip address oneOf`() {
+    fun `round trip should preserve ip address oneof`() {
         val deserialized = OneofWrappers.deserialize(
             OneofWrappers {
                 wrappedOneof = OneofWrappers.WrappedOneof.IpAddressOneof(model.ipAddress)
@@ -123,7 +123,7 @@ class WrapperTypesTest {
     }
 
     @Test
-    fun `round trip should preserve instant oneOf`() {
+    fun `round trip should preserve instant oneof`() {
         val deserialized = OneofWrappers.deserialize(
             OneofWrappers {
                 wrappedOneof = OneofWrappers.WrappedOneof.InstantOneof(model.instant)
@@ -136,7 +136,7 @@ class WrapperTypesTest {
     }
 
     @Test
-    fun `round trip should preserve socket address oneOf`() {
+    fun `round trip should preserve socket address oneof`() {
         val deserialized = OneofWrappers.deserialize(
             OneofWrappers {
                 wrappedOneof = OneofWrappers.WrappedOneof.SocketAddressOneof(model.socketAddress)
@@ -146,16 +146,6 @@ class WrapperTypesTest {
         assertThat(
             (deserialized.wrappedOneof as OneofWrappers.WrappedOneof.SocketAddressOneof).socketAddressOneof
         ).isEqualTo(model.socketAddress)
-    }
-
-    @Test
-    fun `wrapped primitive should not be nullable`() {
-        val thrown = assertThrows<IllegalArgumentException> {
-            model.copy { id = null }
-        }
-
-        assertThat(thrown).hasMessageThat()
-            .isEqualTo("id is a wrapped primitive, was not specified, and has no default value")
     }
 
     @Test
