@@ -23,10 +23,12 @@ import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.ext.Protokt
 import com.toasttab.protokt.rt.computeTag
 
-sealed class TopLevelType
+sealed class TopLevelType {
+    abstract val name: String
+}
 
 class Message(
-    val name: String,
+    override val name: String,
     val fields: List<Field>,
     val nestedTypes: List<TopLevelType>,
     val mapEntry: Boolean,
@@ -41,7 +43,7 @@ data class MessageOptions(
 )
 
 class Enum(
-    val name: String,
+    override val name: String,
     val options: EnumOptions,
     val values: List<Value>,
     val index: Int
@@ -66,7 +68,7 @@ class EnumValueOptions(
 )
 
 class Service(
-    val name: String,
+    override val name: String,
     val type: String,
     val methods: List<Method>,
     val deprecated: Boolean,

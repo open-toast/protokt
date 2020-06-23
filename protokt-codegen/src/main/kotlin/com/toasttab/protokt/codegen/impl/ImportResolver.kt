@@ -72,6 +72,7 @@ class ImportResolver(
             .filterClassesWithSamePackageName(pkg)
             .filterClassesWithSameNameAsMessageIn(astList)
             .filterClassesWithSameNameAsOneofFieldTypeIn(astList)
+            .filterNestedClassesDefinedLocally(astList)
             .filterDuplicateSimpleNames(pkg) { getClassOrNone(it, ctx) }
 
     private fun imports(t: TopLevelType): ImmutableSet<Import> =
