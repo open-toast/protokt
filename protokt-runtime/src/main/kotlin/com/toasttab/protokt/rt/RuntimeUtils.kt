@@ -47,12 +47,12 @@ fun <T> copyList(list: List<T>): List<T> =
 
 internal inline fun <reified T> T.equalsUsingSequence(
     other: Any?,
-    size: T.() -> Int,
-    asSequence: T.() -> Sequence<*>
+    size: (T) -> Int,
+    asSequence: (T) -> Sequence<*>
 ) =
     other is T &&
-        size() == other.size() &&
-        asSequence().zip(other.asSequence()).all { (l, r) -> l == r }
+        size(this) == size(other) &&
+        asSequence(this).zip(asSequence(other)).all { (l, r) -> l == r }
 
-internal inline fun hashCodeUsingSequence(asSequence: () -> Sequence<*>) =
-    asSequence().fold(1) { hash, elt -> 31 * hash + elt.hashCode() }
+internal fun hashCodeUsingSequence(asSequence: Sequence<*>) =
+    asSequence.fold(1) { hash, elt -> 31 * hash + elt.hashCode() }

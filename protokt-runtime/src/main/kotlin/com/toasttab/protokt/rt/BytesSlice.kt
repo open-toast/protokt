@@ -35,10 +35,10 @@ class BytesSlice(
     }
 
     override fun equals(other: Any?) =
-        equalsUsingSequence(other, { length }) { asSequence() }
+        equalsUsingSequence(other, { it.length }) { it.asSequence() }
 
     override fun hashCode() =
-        hashCodeUsingSequence { asSequence() }
+        hashCodeUsingSequence(asSequence())
 
     override fun toString() =
         asSequence().joinToString(prefix = "[", postfix = "]")

@@ -93,10 +93,10 @@ private constructor(
             write(Tag((fieldNumber shl 3) or wireType))
 
         override fun equals(other: Any?) =
-            equalsUsingSequence(other, { size }) { asSequence() }
+            equalsUsingSequence(other, { it.size }) { it.asSequence() }
 
         override fun hashCode() =
-            hashCodeUsingSequence { asSequence() }
+            hashCodeUsingSequence(asSequence())
 
         override fun toString(): String =
             "Field(" +
