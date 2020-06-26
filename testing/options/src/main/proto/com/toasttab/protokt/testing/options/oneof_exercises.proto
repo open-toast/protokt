@@ -25,7 +25,7 @@ import "protokt/protokt.proto";
 
 message OneofExerciseModelWithWrapper {
   oneof oneof {
-    // Needs full qualification: com.toasttab.testing.options.CachingId
+    // Needs full qualification: com.toasttab.protokt.testing.options.CachingId
     bytes caching_id = 1 [
       (.protokt.property).wrap = "CachingId"
     ];

@@ -15,7 +15,7 @@
 
 syntax = "proto3";
 
-package com.toasttab.protokt.testing.rt;
+package com.toasttab.protokt.testing.rt.oneof;
 
 // This file exercises oneofs whose names are the same as their
 // generated sealed class type names. If the code generator does
@@ -40,7 +40,7 @@ message OneofExerciseModel {
 
 message OneofExerciseModel2 {
   oneof oneof {
-    // Needs full qualification: com.toasttab.model.OneofExerciseModel
+    // Needs full qualification: com.toasttab.protokt.testing.rt.oneof.OneofExerciseModel
     OneofExerciseModel oneof_exercise_model = 1;
   }
 }

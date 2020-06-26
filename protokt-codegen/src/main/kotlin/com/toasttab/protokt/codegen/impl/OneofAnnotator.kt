@@ -124,11 +124,7 @@ private constructor(
                     pClass.nestedName
                 }
             } else {
-                if (oneofFieldTypeName == pClass.nestedName) {
-                    pClass.nestedName
-                } else {
-                    pClass.simpleName
-                }
+                pClass.simpleName
             }
         }
     }
