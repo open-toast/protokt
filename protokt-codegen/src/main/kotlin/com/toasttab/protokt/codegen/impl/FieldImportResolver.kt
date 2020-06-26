@@ -17,7 +17,6 @@ package com.toasttab.protokt.codegen.impl
 
 import com.github.andrewoma.dexx.kollection.ImmutableSet
 import com.github.andrewoma.dexx.kollection.immutableSetOf
-import com.toasttab.protokt.codegen.impl.Nullability.hasNonNullOption
 import com.toasttab.protokt.codegen.model.Import
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.model.pclass
@@ -27,7 +26,6 @@ import com.toasttab.protokt.codegen.protoc.Oneof
 import com.toasttab.protokt.codegen.protoc.ProtocolContext
 import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.rt.Tag
-import com.toasttab.protokt.rt.nonNullWasNull
 import com.toasttab.protokt.rt.sizeof
 import kotlin.reflect.KCallable
 
@@ -38,18 +36,10 @@ class FieldImportResolver(
 ) {
     fun imports(): ImmutableSet<Import> =
         immutableSetOf(pclass(Tag::class), rtMethod(SIZEOF)) +
-            validationImports() +
             when (f) {
                 is StandardField -> standardImports(f)
                 is Oneof -> f.fields.flatMap { standardImports(it) }
             }
-
-    private fun validationImports() =
-        if (f.hasNonNullOption) {
-            setOf(rtMethod(::nonNullWasNull))
-        } else {
-            emptySet()
-        }
 
     private fun standardImports(field: StandardField) =
         StandardFieldImportResolver(field, ctx, pkg).imports()
