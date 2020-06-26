@@ -121,9 +121,7 @@ deserializeValue(p) ::= <%
 requireNotNull(p) ::= <<
 requireNotNull(<p.name>) {
     StringBuilder("<p.name>")
-        .append(" specified nonnull with (protokt.")
-        .append("<if (p.oneof)>oneof<else>property<endif>")
-        .append(").non_null but was null")
+        .append(" specified nonnull with (protokt.<if (p.oneof)>oneof<else>property<endif>).non_null but was null")
 }
 >>
 
