@@ -59,9 +59,7 @@ private constructor(
                 \}<\\>
             <endif><\\>
         }; separator="\n">
-        if (unknownFields.isNotEmpty()) {
-            serializer.writeUnknown(unknownFields)
-        }
+        serializer.writeUnknown(unknownFields)
     }
 
     private fun messageSize(): Int {

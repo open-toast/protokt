@@ -118,7 +118,7 @@ deserializeValue(p) ::= <%
     <endif>
 %>
 
-requireNotNullMessage(p) ::= <<
+requireNotNull(p) ::= <<
 requireNotNull(<p.name>) {
     StringBuilder("<p.name>")
         .append(" specified nonnull with (protokt.")
@@ -129,7 +129,7 @@ requireNotNull(<p.name>) {
 
 deserializeWrapper(p) ::= <%
     <if (p.nonNullOption)>
-        <requireNotNullMessage(p)>
+        <requireNotNull(p)>
     <else>
         <if (p.map)>
             finishMap(<p.name>)
