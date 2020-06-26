@@ -91,6 +91,7 @@ private constructor(
             PClass.fromName(fieldType).let {
                 // If a wrapper type is specified and it shares a name with the
                 // oneof, it must be fully qualified.
+                // See testing/options/src/main/proto/com/toasttab/protokt/testing/options/oneof_exercises.proto
                 if (unqualifiedType.simpleName == it.simpleName) {
                     it.possiblyQualify(ctx.pkg).qualifiedName
                 } else {
@@ -109,21 +110,25 @@ private constructor(
         val pClass = f.typePClass
 
         // Cannot strip qualifiers for field type in a different package
+        // See testing/runtime-tests/src/main/proto/com/toasttab/protokt/testing/rt/oneof/oneof_packages.proto
         val requiresQualifiedTypeName = pClass.ppackage != ctx.pkg
 
         return if (requiresQualifiedTypeName) {
             pClass.renderName(ctx.pkg)
         } else {
-            if (oneofFieldTypeName == pClass.nestedName) {
-                // Oneof field name shares name of its type
-                if (oneofFieldTypeName == pClass.simpleName) {
-                    // Oneof field name shares name of its enclosing type
+            // See testing/runtime-tests/src/main/proto/com/toasttab/protokt/testing/rt/oneof/oneof_exercises.proto
+            if (oneofFieldTypeName == pClass.simpleName) {
+                if (oneofFieldTypeName == pClass.nestedName) {
                     pClass.qualifiedName
+                } else {
+                    pClass.nestedName
+                }
+            } else {
+                if (oneofFieldTypeName == pClass.nestedName) {
+                    pClass.nestedName
                 } else {
                     pClass.simpleName
                 }
-            } else {
-                pClass.nestedName
             }
         }
     }

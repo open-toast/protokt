@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2020 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,19 +15,32 @@
 
 syntax = "proto3";
 
-package com.toasttab.protokt.testing.options;
-
-import "protokt/protokt.proto";
+package com.toasttab.protokt.testing.rt;
 
 // This file exercises oneofs whose names are the same as their
 // generated sealed class type names. If the code generator does
 // not handle them properly then compilation will fail.
 
-message OneofExerciseModelWithWrapper {
+message OneofExerciseModel {
   oneof oneof {
-    // Needs full qualification: com.toasttab.testing.options.CachingId
-    bytes caching_id = 1 [
-      (.protokt.property).wrap = "CachingId"
-    ];
+    // Needs partial qualification: OneofExerciseModel.Model
+    Model model = 1;
+  }
+
+  oneof oneof2 {
+    // Does not need partial qualification: Model
+    // This will still compile if qualified but may show a warning in IDEs
+    Model not_named_model = 2;
+  }
+
+  message Model {
+    bytes id = 1;
+  }
+}
+
+message OneofExerciseModel2 {
+  oneof oneof {
+    // Needs full qualification: com.toasttab.model.OneofExerciseModel
+    OneofExerciseModel oneof_exercise_model = 1;
   }
 }
