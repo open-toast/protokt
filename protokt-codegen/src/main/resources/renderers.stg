@@ -118,15 +118,16 @@ deserializeValue(p) ::= <%
     <endif>
 %>
 
-requireNotNullMessage(p) ::= <%
-    "<p.name> specified nonnull with (protokt.<if (p.oneOf)>oneof<else>property<endif>).non_null but was null"
-%>
+requireNotNull(p) ::= <<
+requireNotNull(<p.name>) {
+    StringBuilder("<p.name>")
+        .append(" specified nonnull with (protokt.<if (p.oneof)>oneof<else>property<endif>).non_null but was null")
+}
+>>
 
 deserializeWrapper(p) ::= <%
     <if (p.nonNullOption)>
-        requireNotNull(<p.name>) {<\n>
-            <t()><requireNotNullMessage(p)><\n>
-        }
+        <requireNotNull(p)>
     <else>
         <if (p.map)>
             finishMap(<p.name>)
@@ -143,7 +144,7 @@ deserializeWrapper(p) ::= <%
 
 deserializeVar(p) ::= <%
     <p.name>
-    <if (isMessage.(p.fieldType) || p.repeated || p.oneOf || p.nullable || p.wrapped)>
+    <if (isMessage.(p.fieldType) || p.repeated || p.oneof || p.nullable || p.wrapped)>
     : <deserializeType(p)>
     <endif>
     <\ >= <deserializeValue(p)>

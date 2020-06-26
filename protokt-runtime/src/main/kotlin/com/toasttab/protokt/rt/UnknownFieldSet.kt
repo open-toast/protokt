@@ -19,9 +19,6 @@ class UnknownFieldSet
 private constructor(
     val unknownFields: Map<Int, Field>
 ) {
-    fun isNotEmpty() =
-        unknownFields.isNotEmpty()
-
     fun size() =
         unknownFields.entries.sumBy { (k, v) -> v.size(k) }
 

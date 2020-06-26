@@ -25,14 +25,11 @@ import com.toasttab.protokt.codegen.impl.STAnnotator.nonGrpc
 import com.toasttab.protokt.codegen.model.Import
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.model.pclass
-import com.toasttab.protokt.codegen.model.rtMethod
 import com.toasttab.protokt.codegen.protoc.Enum
 import com.toasttab.protokt.codegen.protoc.Field
 import com.toasttab.protokt.codegen.protoc.Message
-import com.toasttab.protokt.codegen.protoc.Oneof
 import com.toasttab.protokt.codegen.protoc.ProtocolContext
 import com.toasttab.protokt.codegen.protoc.Service
-import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.codegen.protoc.TopLevelType
 import com.toasttab.protokt.codegen.protoc.TypeDesc
 import com.toasttab.protokt.rt.KtDeserializer
@@ -42,10 +39,7 @@ import com.toasttab.protokt.rt.KtGeneratedMessage
 import com.toasttab.protokt.rt.KtMessage
 import com.toasttab.protokt.rt.KtMessageDeserializer
 import com.toasttab.protokt.rt.KtMessageSerializer
-import com.toasttab.protokt.rt.Tag
 import com.toasttab.protokt.rt.UnknownFieldSet
-import com.toasttab.protokt.rt.sizeof
-import kotlin.reflect.KCallable
 
 class ImportResolver(
     private val ctx: ProtocolContext,
@@ -91,21 +85,10 @@ class ImportResolver(
             m.fields.flatMapToSet { imports(it) }
 
     private fun imports(f: Field): ImmutableSet<Import> =
-        immutableSetOf(pclass(Tag::class), rtMethod(SIZEOF)) +
-            when (f) {
-                is StandardField -> StandardFieldImportResolver(f, ctx, pkg).imports()
-                is Oneof -> f.fields.flatMapToSet { imports(it) }
-            }
+        FieldImportResolver(f, ctx, pkg).imports()
 
     private inline fun <T, R : Any> Iterable<T>.flatMapToSet(
         transform: (T) -> Iterable<R>
     ): ImmutableSet<R> =
         fold(immutableSetOf()) { s, e -> s + transform(e) }
-}
-
-private val SIZEOF = sizeof()
-
-private fun sizeof(): KCallable<*> {
-    val sizeof: (String) -> Int = ::sizeof
-    return sizeof as KCallable<*>
 }

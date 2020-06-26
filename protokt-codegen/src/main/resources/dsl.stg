@@ -29,26 +29,21 @@ class <message.name>Dsl {
 
     fun build() =
         <message.name>(
-        <if (properties)><\\>
-        <properties:{p | <\\>
-            <t()><\\>
-            <if (p.nonNullOption)><\\>
-                requireNotNull(<p.name>) {<\n><\\>
-                    <t()><t()><requireNotNullMessage(p)><\n><\\>
-                <t()>\}<\\>
-            <elseif (p.wrapped && !isMessage.(p.fieldType) && !p.repeated)><\\>
-                requireNotNull(<p.name>) {<\n><\\>
-                    <t()><t()>"<p.name> is a wrapped primitive, was not specified, and has no default value"<\n><\\>
-                <t()>\}<\\>
-            <else><\\>
-                <p.name><\\>
-            <endif><\\>
-        }; separator=",\n">,
-        <endif>
+            <if (properties)><\\>
+                <properties:{p | <dslConstructorParam()>}; separator=",\n">,
+            <endif>
             unknownFields
         )
 }
 >>
+
+dslConstructorParam() ::= <%
+    <if (p.nonNullOption || (p.wrapped && !isMessage.(p.fieldType) && !p.repeated))>
+        <deserializeWrapper(p)>
+    <else>
+        <p.name>
+    <endif>
+%>
 
 dslInvoke() ::= <<
 override fun invoke(dsl: <message.name>Dsl.() -> Unit) =
@@ -58,7 +53,7 @@ override fun invoke(dsl: <message.name>Dsl.() -> Unit) =
 
 dslVar(p) ::= <%
     <p.name>
-    <if (isMessage.(p.fieldType) || p.oneOf || p.nullable || p.wrapped || p.repeated || p.map)>
+    <if (isMessage.(p.fieldType) || p.oneof || p.nullable || p.wrapped || p.repeated || p.map)>
         : <p.dslPropertyType>
     <endif>
 
