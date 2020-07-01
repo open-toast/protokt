@@ -8,17 +8,22 @@ Protocol Buffer compiler and runtime for Kotlin.
 Supports only version 3 of the Protocol Buffers language.
 
 #### Features
-- Idiomatic and concise Kotlin builder DSL
-- Protokt-specific options: non-null types, wrapper types, interface implementation,
+- Idiomatic and concise [Kotlin builder DSL](#generated-code)
+- Protokt-specific options: [non-null types](#nonnull-fields),
+[wrapper types](#wrapper-types),
+[interface implementation](#interface-implementation),
 and more
 - Representation of the well-known types as Kotlin nullable types: `StringValue`
 is represented as `String?`, etc.
 - Built on Protobuf's Java library: usage of CodedInputStream and
 CodedOutputStream for best performance
+- gRPC [method descriptor and service descriptor generation](#grpc-code-generation)
+for use with [grpc-java](#integrating-with-grpcs-java-api) or 
+[grpc-kotlin](#integrating-with-grpcs-kotlin-api)
 
 #### Not yet implemented
 
-- Support for gRPC service and client generation (*In progress!*)
+- Full support for gRPC service and client generation (*In progress!*)
 - Kotlin native support (**Looking for contributors**)
 - Kotlin JS support (**Looking for contributors**)
 - Protobuf JSON support 
@@ -513,6 +518,14 @@ repeated bytes uuid = 1 [
 ];
 ```
 
+And they can also be used for map keys and values:
+```proto
+map<string, protokt.ext.InetSocketAddress> map_string_socket_address = 1 [
+  (protokt.property).key_wrap = "StringBox",
+  (protokt.property).value_wrap = "java.net.InetSocketAddress"
+];
+```
+
 Wrapper types should be immutable.
 
 #### Nonnull fields
@@ -744,7 +757,181 @@ message SliceModel {
 }
 ```
 
-#### IntelliJ integration
+### gRPC code generation
+
+Protokt will generate code for gRPC method and service descriptors when the
+`generateGrpc` option is enabled:
+
+```groovy
+protokt {
+  generateGrpc = true
+}
+```
+
+Protokt will _only_ generate gRPC code with the `onlyGenerateGrpc` option:
+
+```groovy
+protokt {
+  onlyGenerateGrpc = true
+}
+```
+
+Protokt does not yet generate full client and server stubs. It does generate the
+components necessary to integrate with gRPC's Java and Kotlin APIs.
+
+#### Generated gRPC code
+
+Consider gRPC's canonical Health service:
+
+```proto
+syntax = "proto3";
+
+package grpc.health.v1;
+
+message HealthCheckRequest {
+  string service = 1;
+}
+
+message HealthCheckResponse {
+  enum ServingStatus {
+    UNKNOWN = 0;
+    SERVING = 1;
+    NOT_SERVING = 2;
+  }
+  ServingStatus status = 1;
+}
+
+service Health {
+  rpc Check(HealthCheckRequest) returns (HealthCheckResponse);
+}
+```
+
+In addition to the request and response types, protokt will generate a service
+descriptor and method descriptors for each method on the service:
+
+```kotlin
+object HealthGrpc {
+    const val SERVICE_NAME = "grpc.health.v1.Health"
+
+    val serviceDescriptor: ServiceDescriptor by lazy {
+        ServiceDescriptor.newBuilder(SERVICE_NAME)
+            .addMethod(checkMethod)
+            .build()
+    }
+
+    val checkMethod: MethodDescriptor<HealthCheckRequest, HealthCheckResponse> by lazy {
+        MethodDescriptor.newBuilder<HealthCheckRequest, HealthCheckResponse>()
+            .setType(MethodType.UNARY)
+            .setFullMethodName(generateFullMethodName(SERVICE_NAME, "Check"))
+            .setRequestMarshaller(KtMarshaller(HealthCheckRequest))
+            .setResponseMarshaller(KtMarshaller(HealthCheckResponse))
+            .build()
+    }
+}
+```
+
+Both grpc-java and grpc-kotlin expose server stubs for implementation via
+abstract classes. Since protokt does not generate full stubs, it does not 
+dictate implementation approach. An additional style of implementation via
+constructor-injected method implementations is included in the examples below.
+These two implementation styles can emulate each other, so the choice of which
+to use is perhaps a matter of taste.
+
+#### Integrating with gRPC's Java API
+
+A gRPC service using grpc-java (and therefore using StreamObservers for
+asynchronous communication):
+
+```kotlin
+typealias CheckMethod = UnaryMethod<HealthCheckRequest, HealthCheckResponse>
+
+class HealthCheckService(
+    private val check: CheckMethod
+) : BindableService {
+    override fun bindService() =
+        ServerServiceDefinition.builder(HealthGrpc.serviceDescriptor)
+            .addMethod(HealthGrpc.checkMethod, asyncUnaryCall(check))
+            .build()
+}
+```
+
+Or for the abstract class flavor:
+
+```kotlin
+abstract class HealthCheckService : BindableService {
+    override fun bindService() =
+        ServerServiceDefinition.builder(serviceDescriptor)
+            .addMethod(checkMethod, asyncUnaryCall(::check))
+            .build()
+
+    open fun check(
+        request: HealthCheckRequest,
+        responseObserver: StreamObserver<HealthCheckResponse>
+    ): Unit =
+        throw UNIMPLEMENTED.asException()
+}
+```
+
+Calling methods from a client:
+
+```kotlin
+fun checkHealth(): HealthCheckResponse =
+    ClientCalls.blockingUnaryCall(
+        channel.newCall(HealthGrpc.checkMethod, CallOptions.DEFAULT),
+        HealthCheckRequest { service = "foo" }
+    )
+```
+
+#### Integrating with gRPC's Kotlin API
+
+At the time of writing grpc-kotlin is still experimental. These examples
+compile against grpc-kotlin 0.1.4. Its APIs are subject to change.
+
+To use the coroutine-based implementations provided by grpc-kotlin:
+
+```kotlin
+typealias CheckMethod = suspend (HealthCheckRequest) -> HealthCheckResponse
+
+class HealthCheckService(
+    private val check: CheckMethod
+) : AbstractCoroutineServerImpl() {
+    override fun bindService() =
+        ServerServiceDefinition.builder(serviceDescriptor)
+            .addMethod(unaryServerMethodDefinition(context, HealthGrpc.checkMethod, check))
+            .build()
+}
+```
+
+Or for the abstract class flavor:
+
+```kotlin
+abstract class HealthCheckService : AbstractCoroutineServerImpl() {
+    override fun bindService() =
+        ServerServiceDefinition.builder(serviceDescriptor)
+            .addMethod(unaryServerMethodDefinition(context, HealthGrpc.checkMethod, ::check))
+            .build()
+    
+    open suspend fun check(request: HealthCheckRequest): HealthCheckResponse =
+        throw UNIMPLEMENTED.asException()
+}
+```
+
+Note that extending AbstractCoroutineServerImpl is not necessary if you provide
+a custom CoroutineContext. Instead you can implement BindableService directly as
+when implementing a server for grpc-java.
+
+Calling methods from a client:
+
+```kotlin
+suspend fun checkHealth(): HealthCheckResponse =
+    ClientCalls.unaryRpc(
+        channel,
+        HealthGrpc.checkMethod,
+        HealthCheckRequest { service = "foo" }
+    )
+```
+
+### IntelliJ integration
 
 If IntelliJ doesn't automatically detect the generated files as source files,
 you may be missing the `idea` plugin. Apply the `idea` plugin to your Gradle
@@ -756,7 +943,7 @@ plugins {
 }
 ```
 
-#### Command line code generation
+### Command line code generation
 
 ```bash
 protokt$ ./gradlew assemble
