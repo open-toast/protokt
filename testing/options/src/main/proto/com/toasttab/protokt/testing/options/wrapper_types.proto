@@ -54,6 +54,10 @@ message Wrappers {
     (.protokt.property).wrap = "java.time.Duration",
     (.protokt.property).non_null = true
   ];
+
+  string local_date = 8 [
+    (.protokt.property).wrap = "java.time.LocalDate"
+  ];
 }
 
 message OneofWrappers {
@@ -76,12 +80,20 @@ message OneofWrappers {
       (.protokt.property).wrap = "CachingId"
     ];
 
-    google.protobuf.Timestamp instant_oneof = 5 [
+    .protokt.ext.InetSocketAddress socket_address_oneof = 5 [
+      (.protokt.property).wrap = "java.net.InetSocketAddress"
+    ];
+
+    google.protobuf.Timestamp instant_oneof = 6 [
       (.protokt.property).wrap = "java.time.Instant"
     ];
 
-    .protokt.ext.InetSocketAddress socket_address_oneof = 6 [
-      (.protokt.property).wrap = "java.net.InetSocketAddress"
+    google.protobuf.Duration duration_oneof = 7 [
+      (.protokt.property).wrap = "java.time.Duration"
+    ];
+
+    string local_date_oneof = 8 [
+      (.protokt.property).wrap = "java.time.LocalDate"
     ];
   }
 }
