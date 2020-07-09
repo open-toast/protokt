@@ -16,10 +16,12 @@
 package com.toasttab.protokt.testing.options
 
 import com.google.common.truth.Truth.assertThat
+import com.toasttab.protokt.testing.options.OneofWrappers.WrappedOneof
 import java.net.InetAddress
 import java.net.InetSocketAddress
 import java.time.Duration
 import java.time.Instant
+import java.time.LocalDate
 import java.util.UUID
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -34,6 +36,7 @@ class WrapperTypesTest {
             socketAddress = InetSocketAddress(InetAddress.getLocalHost(), 8080)
             instant = Instant.now()
             duration = Duration.ofSeconds(5)
+            localDate = LocalDate.of(1950, 10, 4)
         }
 
     @Test
@@ -84,15 +87,22 @@ class WrapperTypesTest {
     }
 
     @Test
-    fun `round trip should preserve generic wrapper oneof`() {
+    fun `round trip should preserve localdate`() {
+        val deserialized = Wrappers.deserialize(model.serialize())
+
+        assertThat(deserialized.localDate).isEqualTo(model.localDate)
+    }
+
+    @Test
+    fun `round trip should preserve id oneof`() {
         val deserialized = OneofWrappers.deserialize(
             OneofWrappers {
-                wrappedOneof = OneofWrappers.WrappedOneof.IdOneof(model.id)
+                wrappedOneof = WrappedOneof.IdOneof(model.id)
             }.serialize()
         )
 
         assertThat(
-            (deserialized.wrappedOneof as OneofWrappers.WrappedOneof.IdOneof).idOneof
+            (deserialized.wrappedOneof as WrappedOneof.IdOneof).idOneof
         ).isEqualTo(model.id)
     }
 
@@ -100,12 +110,12 @@ class WrapperTypesTest {
     fun `round trip should preserve uuid oneof`() {
         val deserialized = OneofWrappers.deserialize(
             OneofWrappers {
-                wrappedOneof = OneofWrappers.WrappedOneof.UuidOneof(model.uuid)
+                wrappedOneof = WrappedOneof.UuidOneof(model.uuid)
             }.serialize()
         )
 
         assertThat(
-            (deserialized.wrappedOneof as OneofWrappers.WrappedOneof.UuidOneof).uuidOneof
+            (deserialized.wrappedOneof as WrappedOneof.UuidOneof).uuidOneof
         ).isEqualTo(model.uuid)
     }
 
@@ -113,39 +123,78 @@ class WrapperTypesTest {
     fun `round trip should preserve ip address oneof`() {
         val deserialized = OneofWrappers.deserialize(
             OneofWrappers {
-                wrappedOneof = OneofWrappers.WrappedOneof.IpAddressOneof(model.ipAddress)
+                wrappedOneof = WrappedOneof.IpAddressOneof(model.ipAddress)
             }.serialize()
         )
 
         assertThat(
-            (deserialized.wrappedOneof as OneofWrappers.WrappedOneof.IpAddressOneof).ipAddressOneof
+            (deserialized.wrappedOneof as WrappedOneof.IpAddressOneof).ipAddressOneof
         ).isEqualTo(model.ipAddress)
     }
 
     @Test
-    fun `round trip should preserve instant oneof`() {
+    fun `round trip should preserve caching id oneof`() {
         val deserialized = OneofWrappers.deserialize(
             OneofWrappers {
-                wrappedOneof = OneofWrappers.WrappedOneof.InstantOneof(model.instant)
+                wrappedOneof = WrappedOneof.CachingIdOneof(model.cachingId)
             }.serialize()
         )
 
         assertThat(
-            (deserialized.wrappedOneof as OneofWrappers.WrappedOneof.InstantOneof).instantOneof
-        ).isEqualTo(model.instant)
+            (deserialized.wrappedOneof as WrappedOneof.CachingIdOneof).cachingIdOneof
+        ).isEqualTo(model.cachingId)
     }
 
     @Test
     fun `round trip should preserve socket address oneof`() {
         val deserialized = OneofWrappers.deserialize(
             OneofWrappers {
-                wrappedOneof = OneofWrappers.WrappedOneof.SocketAddressOneof(model.socketAddress)
+                wrappedOneof = WrappedOneof.SocketAddressOneof(model.socketAddress)
             }.serialize()
         )
 
         assertThat(
-            (deserialized.wrappedOneof as OneofWrappers.WrappedOneof.SocketAddressOneof).socketAddressOneof
+            (deserialized.wrappedOneof as WrappedOneof.SocketAddressOneof).socketAddressOneof
         ).isEqualTo(model.socketAddress)
+    }
+
+    @Test
+    fun `round trip should preserve instant oneof`() {
+        val deserialized = OneofWrappers.deserialize(
+            OneofWrappers {
+                wrappedOneof = WrappedOneof.InstantOneof(model.instant)
+            }.serialize()
+        )
+
+        assertThat(
+            (deserialized.wrappedOneof as WrappedOneof.InstantOneof).instantOneof
+        ).isEqualTo(model.instant)
+    }
+
+    @Test
+    fun `round trip should preserve duration oneof`() {
+        val deserialized = OneofWrappers.deserialize(
+            OneofWrappers {
+                wrappedOneof = WrappedOneof.DurationOneof(model.duration)
+            }.serialize()
+        )
+
+        assertThat(
+            (deserialized.wrappedOneof as WrappedOneof.DurationOneof).durationOneof
+        ).isEqualTo(model.duration)
+    }
+
+    @Test
+    fun `round trip should preserve localdate oneof`() {
+        val deserialized = OneofWrappers.deserialize(
+            OneofWrappers {
+                wrappedOneof = WrappedOneof.LocalDateOneof(model.localDate)
+            }.serialize()
+        )
+
+        assertThat(
+            (deserialized.wrappedOneof as WrappedOneof.LocalDateOneof).localDateOneof
+        ).isEqualTo(model.localDate)
     }
 
     @Test
