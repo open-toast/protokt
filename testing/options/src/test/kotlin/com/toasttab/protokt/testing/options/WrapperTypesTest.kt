@@ -37,6 +37,8 @@ class WrapperTypesTest {
             instant = Instant.now()
             duration = Duration.ofSeconds(5)
             localDate = LocalDate.of(1950, 10, 4)
+            nullableUuid = UUID.randomUUID()
+            nullableLocalDate = LocalDate.of(1950, 10, 4)
         }
 
     @Test
@@ -91,6 +93,36 @@ class WrapperTypesTest {
         val deserialized = Wrappers.deserialize(model.serialize())
 
         assertThat(deserialized.localDate).isEqualTo(model.localDate)
+    }
+
+    @Test
+    fun `round trip should preserve nullable uuid`() {
+        val deserialized = Wrappers.deserialize(model.serialize())
+
+        assertThat(deserialized.nullableUuid).isEqualTo(model.nullableUuid)
+    }
+
+    @Test
+    fun `round trip should preserve nullable uuid when null`() {
+        val deserialized =
+            Wrappers.deserialize(model.copy { nullableUuid = null }.serialize())
+
+        assertThat(deserialized.nullableUuid).isNull()
+    }
+
+    @Test
+    fun `round trip should preserve nullable localdate`() {
+        val deserialized = Wrappers.deserialize(model.serialize())
+
+        assertThat(deserialized.nullableLocalDate).isEqualTo(model.nullableLocalDate)
+    }
+
+    @Test
+    fun `round trip should preserve nullable localdate when null`() {
+        val deserialized =
+            Wrappers.deserialize(model.copy { nullableLocalDate = null }.serialize())
+
+        assertThat(deserialized.nullableLocalDate).isNull()
     }
 
     @Test
