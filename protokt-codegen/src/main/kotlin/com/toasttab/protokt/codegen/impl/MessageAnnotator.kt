@@ -24,7 +24,7 @@ import com.toasttab.protokt.codegen.impl.Implements.doesImplement
 import com.toasttab.protokt.codegen.impl.Implements.implements
 import com.toasttab.protokt.codegen.impl.MapEntryAnnotator.Companion.annotateMapEntry
 import com.toasttab.protokt.codegen.impl.MessageDocumentationAnnotator.annotateMessageDocumentation
-import com.toasttab.protokt.codegen.impl.OneofAnnotator.Companion.annotateOneOfs
+import com.toasttab.protokt.codegen.impl.OneofAnnotator.Companion.annotateOneofs
 import com.toasttab.protokt.codegen.impl.PropertyAnnotator.Companion.annotateProperties
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.STAnnotator.annotate
@@ -49,7 +49,7 @@ internal object MessageAnnotator {
             MessageTemplate.render(
                 message = messageInfo(msg, ctx),
                 properties = annotateProperties(msg, ctx),
-                oneofs = annotateOneOfs(msg, ctx),
+                oneofs = annotateOneofs(msg, ctx),
                 sizeof = annotateSizeof(msg, ctx),
                 serialize = annotateSerializer(msg, ctx),
                 deserialize = annotateDeserializer(msg, ctx),

@@ -71,7 +71,7 @@ dslValue(p) ::= <%
         emptyMap()
     <elseif (p.repeated)>
         emptyList()
-    <elseif (isMessage.(p.fieldType) || p.wrapped)>
+    <elseif (isMessage.(p.fieldType) || p.wrapped || p.nullable)>
         null
     <else>
         <p.defaultValue>

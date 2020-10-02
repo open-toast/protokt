@@ -23,6 +23,7 @@ import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.google.protobuf.ExtensionRegistry
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse
+import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.Feature
 import com.toasttab.protokt.codegen.generate
 import com.toasttab.protokt.codegen.impl.STAnnotator
 import com.toasttab.protokt.codegen.impl.STEffects
@@ -51,6 +52,7 @@ internal fun main(bytes: ByteArray, out: OutputStream) {
 
     if (files.nonEmpty()) {
         CodeGeneratorResponse.newBuilder()
+            .setSupportedFeatures(Feature.FEATURE_PROTO3_OPTIONAL.number.toLong())
             .addAllFile(files)
             .build()
             .writeTo(out)

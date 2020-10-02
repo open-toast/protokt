@@ -111,7 +111,7 @@ deserializeType(p) ::= <%
 %>
 
 deserializeValue(p) ::= <%
-    <if (p.repeated || isMessage.(p.fieldType) || p.wrapped)>
+    <if (p.repeated || isMessage.(p.fieldType) || p.wrapped || p.nullable)>
         null
     <else>
         <p.defaultValue>
@@ -159,19 +159,29 @@ defaultValue(field, type, name) ::= <%
         emptyList()
     <elseif (isGeneratedType.(type))>
         <name><kotlinDefaultValues.(type)>
+    <elseif (field.nullable)>
+        null
     <else>
         <kotlinDefaultValues.(type)>
     <endif>
 %>
 
 nonDefaultValue(field, name) ::= <%
-    <if (field.repeated)>(<field.fieldName>.isNotEmpty())<\ >
-    <elseif (isBytes.(field.type) || isString.(field.type))>(<name>.isNotEmpty())<\ >
-    <elseif (isMessage.(field.type))>(<field.fieldName> != null)<\ >
-    <elseif (isEnum.(field.type))>(<name>.value != 0)<\ >
+    <if ((isMessage.(field.type) && !field.repeated) || field.optional)>
+        (<field.fieldName> != null)<\ >
+    <elseif (field.repeated)>
+        (<field.fieldName>.isNotEmpty())<\ >
+    <elseif (isBytes.(field.type) || isString.(field.type))>
+        (<proto2Check()><name>.isNotEmpty())<\ >
+    <elseif (isMessage.(field.type))>
+        (<field.fieldName> != null)<\ >
+    <elseif (isEnum.(field.type))>
+        (<name>.value != 0)<\ >
     <elseif (field.type.scalar)>
-        <if (isBool.(field.type))>(<name>)<\ >
-        <else>(<name> != <kotlinDefaultValues.(field.type)>)<\ >
+        <if (isBool.(field.type))>
+            (<name>)<\ >
+        <else>
+            (<name> != <kotlinDefaultValues.(field.type)>)<\ >
         <endif>
     <endif>
 %>

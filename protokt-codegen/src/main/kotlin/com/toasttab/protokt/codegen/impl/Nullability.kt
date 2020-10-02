@@ -36,7 +36,7 @@ internal object Nullability {
     private val Field.isKotlinRepresentationNullable
         get() =
             when (this) {
-                is StandardField -> type == FieldType.MESSAGE && !repeated
+                is StandardField -> (type == FieldType.MESSAGE && !repeated) || optional
                 is Oneof -> true
             }
 
