@@ -129,11 +129,26 @@ private fun appendUnderscores(orig: String, set: Set<String>): String {
     return name
 }
 
-internal fun newEnumValueName(preferred: String, set: Set<String>): String {
-    var name = preferred.toUpperCase()
-    while (set.contains(name)) name += '_'
+internal fun newEnumValueName(
+    enumTypeNamePrefix: String?,
+    preferred: String,
+    set: Set<String>
+): String {
+    var name = preferred
+
+    if (enumTypeNamePrefix != null) {
+        name = name.removePrefix(enumTypeNamePrefix)
+    }
+
+    while (set.contains(name)) {
+        name += '_'
+    }
+
     return name
 }
+
+internal fun camelToUpperSnake(str: String) =
+    str.replace(Regex("(?<=[a-z])([A-Z0-9])"), "_$1").toUpperCase()
 
 internal fun fileName(pkg: PPackage?, name: String): String {
     return (pkg?.toString()?.replace('.', '/')?.plus('/') ?: "") +

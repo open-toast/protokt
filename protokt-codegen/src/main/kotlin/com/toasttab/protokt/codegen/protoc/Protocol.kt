@@ -36,23 +36,12 @@ import com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Label.LABEL_REP
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.google.protobuf.DescriptorProtos.OneofDescriptorProto
 import com.google.protobuf.DescriptorProtos.ServiceDescriptorProto
-import com.google.protobuf.GeneratedMessage.GeneratedExtension
-import com.google.protobuf.GeneratedMessageV3.ExtendableMessage
 import com.toasttab.protokt.codegen.impl.STAnnotator.rootGoogleProto
 import com.toasttab.protokt.codegen.impl.overrideGoogleProtobuf
 import com.toasttab.protokt.codegen.impl.resolveMapEntry
 import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.ext.Protokt
-
-private fun <I, E : ExtendableMessage<E>> E.extensionOrDefault(
-    ext: GeneratedExtension<E, I>
-) =
-    if (hasExtension(ext)) {
-        getExtension(ext)
-    } else {
-        ext.defaultValue
-    }
 
 fun toProtocol(ctx: ProtocolContext) =
     Protocol(
@@ -76,7 +65,7 @@ val FileDescriptorProto.fileOptions
     get() =
         FileOptions(
             options,
-            options.extensionOrDefault(Protokt.file)
+            options.getExtension(Protokt.file)
         )
 
 private fun toFieldType(type: FieldDescriptorProto.Type) =
@@ -134,15 +123,22 @@ private fun toEnum(
     names: ImmutableSet<String>
 ): Enum {
     val typeName = newTypeNameFromCamel(desc.name, names)
+
+    val enumTypeNamePrefixToStrip =
+        (camelToUpperSnake(desc.name) + '_')
+            .takeIf { prefix ->
+                desc.valueList.all { it.name.startsWith(prefix) }
+            }
+
     return Enum(
         name = typeName,
-        values = desc.valueList.toList().foldIndexed(
+        values = desc.valueList.foldIndexed(
             Tuple2(
                 names + typeName,
                 immutableListOf<Enum.Value>()
             )
         ) { enumIdx, acc, t ->
-            val n = newEnumValueName(t.name, acc.a)
+            val n = newEnumValueName(enumTypeNamePrefixToStrip, t.name, acc.a)
             val v =
                 Enum.Value(
                     t.number,
@@ -150,7 +146,7 @@ private fun toEnum(
                     n,
                     EnumValueOptions(
                         t.options,
-                        t.options.extensionOrDefault(Protokt.enumValue)
+                        t.options.getExtension(Protokt.enumValue)
                     ),
                     enumIdx
                 )
@@ -160,7 +156,7 @@ private fun toEnum(
         options =
             EnumOptions(
                 desc.options,
-                desc.options.extensionOrDefault(Protokt.enum_)
+                desc.options.getExtension(Protokt.enum_)
             )
     )
 }
@@ -187,7 +183,7 @@ private fun toMessage(
         options =
             MessageOptions(
                 desc.options,
-                desc.options.extensionOrDefault(Protokt.class_)
+                desc.options.getExtension(Protokt.class_)
             ),
         index = idx,
         fullProtobufTypeName = "${ctx.fdp.`package`}.${desc.name}"
@@ -207,7 +203,7 @@ private fun toService(
         options =
             ServiceOptions(
                 desc.options,
-                desc.options.extensionOrDefault(Protokt.service)
+                desc.options.getExtension(Protokt.service)
             )
     )
 
@@ -224,7 +220,7 @@ private fun toMethod(
         desc.options.deprecated,
         MethodOptions(
             desc.options,
-            desc.options.extensionOrDefault(Protokt.method)
+            desc.options.getExtension(Protokt.method)
         )
     )
 
@@ -299,7 +295,7 @@ private fun toOneof(
         options =
             OneofOptions(
                 oneof.options,
-                oneof.options.extensionOrDefault(Protokt.oneof)
+                oneof.options.getExtension(Protokt.oneof)
             ),
         // index relative to all oneofs in this message
         index = idx - fields.filterIsInstance<StandardField>().count()
@@ -351,7 +347,7 @@ private fun toStandard(
             options =
                 FieldOptions(
                     fdp.options,
-                    fdp.options.extensionOrDefault(Protokt.property)
+                    fdp.options.getExtension(Protokt.property)
                 ),
             protoTypeName = fdp.typeName,
             typePClass = typePClass(fdp.typeName, ctx, type),
