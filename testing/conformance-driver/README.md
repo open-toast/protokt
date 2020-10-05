@@ -28,7 +28,7 @@ root@38f7a53696b9:/tmp# cd conformance/
 root@38f7a53696b9:/tmp/conformance# make
 root@38f7a53696b9:/tmp/conformance# exit
 protobuf % cp conformance/.libs/conformance-test-runner ../protokt/testing/conformance-driver/bin/ubuntu-16.04-x86_64/conformance-test-runner
-protobuf % cp src/.libs/libprotobuf.so.23 ../protokt/testing/conformance-driver/bin/ubuntu-16.04-x86_64/.libs/libprotobuf.so.23
+protobuf % cp src/.libs/libprotobuf.so.24 ../protokt/testing/conformance-driver/bin/ubuntu-16.04-x86_64/.libs/libprotobuf.so.24
 ```
 
 Note that the integer suffix on `libprotobuf.so` may change, and the need to

@@ -19,7 +19,6 @@ import arrow.core.Either
 import arrow.core.None
 import arrow.core.identity
 import arrow.core.toOption
-import arrow.fx.IO
 import com.toasttab.protokt.conformance.ConformanceRequest
 import com.toasttab.protokt.conformance.ConformanceResponse
 import com.toasttab.protokt.conformance.ConformanceResponse.Result
@@ -39,15 +38,13 @@ fun main() {
     while (true) readSizeLE(stdin).fold(
         { return },
         {
-            IO {
-                ConformanceResponse {
-                    result = io(stdin, it)
-                }.serialize().also { bytes ->
-                    stdout.write(int2BytesLE(bytes.size))
-                    stdout.write(bytes)
-                    stdout.flush()
-                }
-            }.unsafeRunSync()
+            ConformanceResponse {
+                result = io(stdin, it)
+            }.serialize().also { bytes ->
+                stdout.write(int2BytesLE(bytes.size))
+                stdout.write(bytes)
+                stdout.flush()
+            }
         }
     )
 }
@@ -92,12 +89,13 @@ private fun io(stdin: InputStream, size: Int) =
     )
 
 private fun readSizeLE(ist: InputStream) =
-    IO {
-        ByteArray(4).let {
-            if (ist.read(it) == 4) bytes2IntLE(it).toOption()
-            else None
+    ByteArray(4).let {
+        if (ist.read(it) == 4) {
+            bytes2IntLE(it).toOption()
+        } else {
+            None
         }
-    }.unsafeRunSync()
+    }
 
 private fun isRequestOk(request: ConformanceRequest) =
     request.messageType == proto3 &&
