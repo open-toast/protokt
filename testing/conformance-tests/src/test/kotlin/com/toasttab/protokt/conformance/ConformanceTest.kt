@@ -63,7 +63,7 @@ private val command =
     "$baseCommand --enforce_recommended $failureList $conformanceDriver"
 
 private val libPathOverride =
-    pivotOs(
-        emptyMap(),
-        mapOf("LD_LIBRARY_PATH" to Paths.get(binDir, ".libs").toString())
+    mapOf(
+        pivotOs("DYLD_LIBRARY_PATH", "LD_LIBRARY_PATH") to
+            Paths.get(binDir, ".libs").toString()
     )
