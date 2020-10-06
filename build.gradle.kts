@@ -24,7 +24,6 @@ buildscript {
 
     dependencies {
         classpath(libraries.kotlinPlugin)
-        classpath(libraries.protobufPlugin)
     }
 }
 

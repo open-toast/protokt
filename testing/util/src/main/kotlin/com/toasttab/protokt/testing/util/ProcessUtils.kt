@@ -29,6 +29,8 @@ fun String.runCommand(
     workingDir: Path,
     env: Map<String, String> = emptyMap()
 ): ProcessOutput {
+    println("Executing $this in $workingDir with $env")
+
     val proc =
         ProcessBuilder(*split("\\s".toRegex()).toTypedArray())
             .directory(workingDir.toFile())

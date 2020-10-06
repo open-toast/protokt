@@ -11,9 +11,11 @@ Mac conformance tests:
 protobuf % ./configure
 protobuf % make clean
 protobuf % make
-protobuf % cd conformance/
+protobuf % cd conformance
 conformance % make
-conformance % cp .libs/conformance-test-runner ../../protokt/testing/conformance-driver/bin/darwin/conformance-test-runner
+conformance % cd ..
+protobuf % cp conformance/.libs/conformance-test-runner ../protokt/testing/conformance-driver/bin/darwin/conformance-test-runner
+protobuf % cp src/.libs/libprotobuf.24.dylib ../protokt/testing/conformance-driver/bin/darwin/.libs/libprotobuf.24.dylib
 ```
 
 Ubuntu conformance tests:
@@ -24,12 +26,12 @@ root@38f7a53696b9:/# cd tmp/
 root@38f7a53696b9:/tmp# ./configure
 root@38f7a53696b9:/tmp# make clean
 root@38f7a53696b9:/tmp# make
-root@38f7a53696b9:/tmp# cd conformance/
+root@38f7a53696b9:/tmp# cd conformance
 root@38f7a53696b9:/tmp/conformance# make
 root@38f7a53696b9:/tmp/conformance# exit
 protobuf % cp conformance/.libs/conformance-test-runner ../protokt/testing/conformance-driver/bin/ubuntu-16.04-x86_64/conformance-test-runner
 protobuf % cp src/.libs/libprotobuf.so.24 ../protokt/testing/conformance-driver/bin/ubuntu-16.04-x86_64/.libs/libprotobuf.so.24
 ```
 
-Note that the integer suffix on `libprotobuf.so` may change, and the need to
-copy it may disappear as it has for running the conformance tests on Mac.
+Note that the version numbers on `libprotobuf.so.xx` and `libprotobuf.xx.dylib`
+may change.
