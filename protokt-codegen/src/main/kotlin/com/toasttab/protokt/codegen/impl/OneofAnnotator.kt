@@ -34,7 +34,7 @@ private constructor(
     private val msg: Message,
     private val ctx: Context
 ) {
-    private fun annotateOneOfs() =
+    private fun annotateOneofs() =
         msg.fields.map {
             when (it) {
                 is Oneof ->
@@ -152,7 +152,7 @@ private constructor(
         msg.fields.filterIsInstance<Oneof>().map { it.name }
 
     companion object {
-        fun annotateOneOfs(msg: Message, ctx: Context) =
-            OneofAnnotator(msg, ctx).annotateOneOfs()
+        fun annotateOneofs(msg: Message, ctx: Context) =
+            OneofAnnotator(msg, ctx).annotateOneofs()
     }
 }

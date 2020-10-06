@@ -59,7 +59,7 @@ private constructor(
                             fieldType = it.type.toString(),
                             repeated = it.repeated,
                             map = it.map,
-                            nullable = it.nullable,
+                            nullable = it.nullable || it.optional,
                             nonNullOption = it.hasNonNullOption,
                             overrides = it.overrides(ctx, msg),
                             wrapped = it.wrapped,

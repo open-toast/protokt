@@ -25,14 +25,14 @@ class NonNullableTest {
     fun `test declared nullability`() {
         assertThat(
             NonNullModel::class.declaredMemberProperties
-            .first { it.name == "nonNullStringValue" }
+            .single { it.name == "nonNullStringValue" }
             .returnType
             .isMarkedNullable
         ).isFalse()
 
         assertThat(
             NonNullModel::class.declaredMemberProperties
-            .first { it.name == "nonNullOneof" }
+            .single { it.name == "nonNullOneof" }
             .returnType
             .isMarkedNullable
         ).isFalse()

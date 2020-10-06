@@ -48,7 +48,6 @@ fun toProtocol(ctx: ProtocolContext) =
         FileDesc(
             name = ctx.fdp.name,
             packageName = ctx.fdp.`package`,
-            version = ctx.fdp.syntax?.removePrefix("proto")?.toIntOrNull() ?: 2,
             options = ctx.fdp.fileOptions,
             context = ctx,
             sourceCodeInfo = ctx.fdp.sourceCodeInfo
@@ -270,8 +269,13 @@ private fun toOneof(
     field: FieldDescriptorProto,
     typeNames: Set<String>,
     fields: ImmutableList<Field>
-): Oneof {
+): Field {
     val newName = newFieldName(oneof.name, typeNames)
+
+    if (field.proto3Optional) {
+        return toStandard(idx, ctx, field, typeNames)
+    }
+
     val standardTuple = desc.fieldList.filter {
         it.hasOneofIndex() && it.oneofIndex == field.oneofIndex
     }.foldIndexed(
@@ -309,22 +313,25 @@ private fun toStandard(
     usedFieldNames: Set<String>,
     alwaysRequired: Boolean = false
 ): StandardField =
-    toFieldType(checkNotNull(fdp.type) { "Missing field type" }).let { type ->
+    toFieldType(fdp.type).let { type ->
         StandardField(
             number = fdp.number,
             name = newFieldName(fdp.name, usedFieldNames),
             type = type,
             repeated = fdp.label == LABEL_REPEATED,
-            optional = !alwaysRequired && fdp.label == LABEL_OPTIONAL,
+            optional =
+                !alwaysRequired &&
+                    (fdp.label == LABEL_OPTIONAL && ctx.proto2) ||
+                    fdp.proto3Optional,
             packed =
                 type.packable &&
                     // marginal support for proto2
-                    ((ctx.fdp.syntax == "proto2" && fdp.options.packed) ||
+                    ((ctx.proto2 && fdp.options.packed) ||
                         // packed if: proto3 and `packed` isn't set, or proto3
                         // and `packed` is true. If proto3, only explicitly
                         // setting `packed` to false disables packing, since
                         // the default value for an unset boolean is false.
-                        (ctx.fdp.syntax == "proto3" &&
+                        (ctx.proto3 &&
                             (!fdp.options.hasPacked() ||
                                 (fdp.options.hasPacked() && fdp.options.packed)))),
             mapEntry =

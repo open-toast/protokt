@@ -142,7 +142,6 @@ class OneofOptions(
 class FileDesc(
     val name: String,
     val packageName: String,
-    val version: Int,
     val options: FileOptions,
     val context: ProtocolContext,
     val sourceCodeInfo: DescriptorProtos.SourceCodeInfo

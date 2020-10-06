@@ -35,6 +35,9 @@ class ProtocolContext(
 
     val fileName = fdp.name
     val version = getProtoktVersion(ProtocolContext::class)
+
+    val proto2 = !fdp.hasSyntax() || fdp.syntax == "proto2"
+    val proto3 = fdp.syntax == "proto3"
 }
 
 fun respectJavaPackage(params: Map<String, String>) =
