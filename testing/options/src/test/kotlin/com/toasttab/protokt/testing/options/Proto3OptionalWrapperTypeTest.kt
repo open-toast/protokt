@@ -16,18 +16,17 @@
 package com.toasttab.protokt.testing.options
 
 import com.google.common.truth.Truth.assertThat
+import com.toasttab.protokt.testing.rt.propertyType
 import java.time.LocalDate
 import kotlin.reflect.full.createType
-import kotlin.reflect.full.declaredMemberProperties
 import org.junit.jupiter.api.Test
 
 class Proto3OptionalWrapperTypeTest {
     @Test
     fun `optional primitive wrapper type should be nullable`() {
         assertThat(
-            TestProto3OptionalWrapperType::class.declaredMemberProperties
-                .single { it.name == "optionalLocalDate" }
-                .returnType
+            TestProto3OptionalWrapperType::class
+                .propertyType("optionalLocalDate")
         ).isEqualTo(LocalDate::class.createType(nullable = true))
     }
 

@@ -16,9 +16,9 @@
 package com.toasttab.protokt.testing.options.pkg
 
 import com.google.common.truth.Truth.assertThat
+import com.toasttab.protokt.testing.rt.propertyType
 import kotlin.reflect.KClass
-import kotlin.reflect.full.declaredMemberProperties
-import kotlin.reflect.jvm.jvmErasure
+import kotlin.reflect.full.createType
 import org.junit.jupiter.api.Test
 
 class SharedSimpleNamesAlternativePackageTest {
@@ -30,15 +30,11 @@ class SharedSimpleNamesAlternativePackageTest {
 
 fun checkDurationTypes(klass: KClass<*>) {
     assertThat(klass.propertyType("nativeDuration"))
-        .isEqualTo(com.toasttab.protokt.Duration::class)
+        .isEqualTo(com.toasttab.protokt.Duration::class.createType())
 
     assertThat(klass.propertyType("javaDuration"))
-        .isEqualTo(java.time.Duration::class)
+        .isEqualTo(java.time.Duration::class.createType())
 
     assertThat(klass.propertyType("superfluousDuration"))
-        .isEqualTo(com.toasttab.protokt.testing.options.Duration::class)
+        .isEqualTo(com.toasttab.protokt.testing.options.Duration::class.createType())
 }
-
-private fun KClass<*>.propertyType(name: String) =
-    declaredMemberProperties.single { it.name == name }
-        .returnType.jvmErasure

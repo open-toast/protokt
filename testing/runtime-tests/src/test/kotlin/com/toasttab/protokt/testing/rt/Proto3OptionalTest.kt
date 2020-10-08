@@ -16,31 +16,21 @@
 package com.toasttab.protokt.testing.rt
 
 import com.google.common.truth.Truth.assertThat
-import kotlin.reflect.full.declaredMemberProperties
 import org.junit.jupiter.api.Test
 
 class Proto3OptionalTest {
     @Test
     fun `optional primitive fields should be nullable`() {
         assertThat(
-            TestProto3Optional::class.declaredMemberProperties
-                .single { it.name == "optionalInt32" }
-                .returnType
-                .isMarkedNullable
+            TestProto3Optional::class.propertyIsMarkedNullable("optionalInt32")
         ).isTrue()
 
         assertThat(
-            TestProto3Optional::class.declaredMemberProperties
-                .single { it.name == "optionalString" }
-                .returnType
-                .isMarkedNullable
+            TestProto3Optional::class.propertyIsMarkedNullable("optionalString")
         ).isTrue()
 
         assertThat(
-            TestProto3Optional::class.declaredMemberProperties
-                .single { it.name == "optionalFoo" }
-                .returnType
-                .isMarkedNullable
+            TestProto3Optional::class.propertyIsMarkedNullable("optionalFoo")
         ).isTrue()
     }
 
