@@ -16,7 +16,7 @@
 package com.toasttab.protokt.testing.options
 
 import com.google.common.truth.Truth.assertThat
-import kotlin.reflect.full.declaredMemberProperties
+import com.toasttab.protokt.testing.rt.propertyIsMarkedNullable
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
@@ -24,17 +24,11 @@ class NonNullableTest {
     @Test
     fun `test declared nullability`() {
         assertThat(
-            NonNullModel::class.declaredMemberProperties
-            .single { it.name == "nonNullStringValue" }
-            .returnType
-            .isMarkedNullable
+            NonNullModel::class.propertyIsMarkedNullable("nonNullStringValue")
         ).isFalse()
 
         assertThat(
-            NonNullModel::class.declaredMemberProperties
-            .single { it.name == "nonNullOneof" }
-            .returnType
-            .isMarkedNullable
+            NonNullModel::class.propertyIsMarkedNullable("nonNullOneof")
         ).isFalse()
     }
 

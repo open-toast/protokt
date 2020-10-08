@@ -16,9 +16,9 @@
 package com.toasttab.protokt.testing.options
 
 import com.google.common.truth.Truth.assertThat
+import com.toasttab.protokt.testing.rt.propertyNamed
 import kotlin.reflect.KAnnotatedElement
 import kotlin.reflect.KClass
-import kotlin.reflect.full.declaredMemberProperties
 import org.junit.jupiter.api.Test
 
 @Suppress("DEPRECATION")
@@ -95,17 +95,15 @@ class DeprecatedTest {
         message: String
     ) {
         assertThat(
-            klass
-                .declaredMemberProperties.first { it.name == name }
-                .annotationClasses
+            klass.propertyNamed(name).annotationClasses
         ).contains(Deprecated::class)
 
         assertThat(
             klass
-                .declaredMemberProperties.first { it.name == name }
+                .propertyNamed(name)
                 .annotations
                 .filterIsInstance<Deprecated>()
-                .onlyElement()
+                .single()
                 .message
         ).isEqualTo(message)
     }
@@ -116,14 +114,9 @@ class DeprecatedTest {
         assertThat(
             klass.annotations
                 .filterIsInstance<Deprecated>()
-                .onlyElement()
+                .single()
                 .message
         ).isEqualTo(message)
-    }
-
-    private fun <T> Iterable<T>.onlyElement(): T {
-        assertThat(this).hasSize(1)
-        return first()
     }
 
     private val KAnnotatedElement.annotationClasses

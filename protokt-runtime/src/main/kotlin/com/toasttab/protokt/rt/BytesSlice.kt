@@ -35,7 +35,7 @@ class BytesSlice(
     }
 
     override fun equals(other: Any?) =
-        equalsUsingSequence(other, { it.length }) { it.asSequence() }
+        equalsUsingSequence(other, BytesSlice::length, BytesSlice::asSequence)
 
     override fun hashCode() =
         hashCodeUsingSequence(asSequence())
