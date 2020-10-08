@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test
 
 class Proto3OptionalTest {
     @Test
-    fun `optional scalar fields should be nullable`() {
+    fun `optional primitive fields should be nullable`() {
         assertThat(
             TestProto3Optional::class.declaredMemberProperties
                 .single { it.name == "optionalInt32" }
@@ -45,7 +45,7 @@ class Proto3OptionalTest {
     }
 
     @Test
-    fun `optional fields serialize otherwise default values`() {
+    fun `optional primitive fields serialize otherwise default values`() {
         val serialized =
             TestProto3Optional {
                 optionalInt32 = 0
@@ -59,7 +59,7 @@ class Proto3OptionalTest {
     }
 
     @Test
-    fun `optional fields don't serialize default values for nulls`() {
+    fun `optional primitive fields don't serialize default values for nulls`() {
         val serialized = TestProto3Optional { }.serialize()
 
         val deserialized = TestProto3Optional.deserialize(serialized)
