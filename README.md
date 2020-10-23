@@ -123,7 +123,7 @@ will produce:
  * Source: toasttab/protokt/sample/sample.proto
  */
 
-package com.toasttab.protokt.sample
+package toasttab.protokt.sample
 
 import com.toasttab.protokt.rt.KtDeserializer
 import com.toasttab.protokt.rt.KtGeneratedMessage
@@ -277,7 +277,7 @@ import "protokt/protokt.proto";
 
 package example;
 
-option (protokt.file).kotlin_package = "com.package";
+option (protokt.file).kotlin_package = "com.example";
 
 ...
 ```
@@ -566,7 +566,7 @@ message NonNullSampleMessage {
   oneof non_null_oneof {
     option (protokt.oneof).non_null = true;
 
-    string message = 2;
+    string message = 1;
   }
 }
 ```
@@ -689,11 +689,11 @@ message ServerSpecified {
 message ClientResolved {
   option (protokt.class).implements = "Config by config";
 
-  ServerSpecified config = 2 [
+  ServerSpecified config = 1 [
     (protokt.property).non_null = true
   ];
 
-  bytes last_known_address = 3 [
+  bytes last_known_address = 2 [
     (protokt.property).wrap = "java.net.InetAddress"
   ];
 }
