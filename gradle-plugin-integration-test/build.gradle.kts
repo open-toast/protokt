@@ -18,7 +18,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     idea
-    kotlin("jvm") version "1.3.72"
+    kotlin("jvm") version System.getProperty("kotlin.version", "1.3.72")
     id("com.diffplug.gradle.spotless") version "4.2.0"
 }
 
@@ -57,6 +57,9 @@ tasks.withType<KotlinCompile> {
     kotlinOptions {
         allWarningsAsErrors = true
         jvmTarget = "1.8"
+
+        apiVersion = System.getProperty("kotlin.api.version", "1.3")
+        languageVersion = apiVersion
     }
 }
 

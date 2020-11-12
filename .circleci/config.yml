@@ -21,8 +21,12 @@ jobs:
           command: ./gradlew clean check publishToIntegrationRepository --stacktrace
 
       - run:
-          name: integration tests
+          name: integration tests with kotlin 1.3
           command: cd gradle-plugin-integration-test && ./gradlew clean build --stacktrace
+
+      - run:
+          name: integration tests with kotlin 1.4
+          command: cd gradle-plugin-integration-test && ./gradlew clean build -Dkotlin.version=1.4.10 -Dkotlin.api.version=1.4 --stacktrace
 
       - save_cache:
           paths:
