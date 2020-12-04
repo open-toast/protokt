@@ -26,21 +26,14 @@ configure<JavaApplication> {
     executableDir = ".."
 }
 
-tasks.withType<JavaCompile> {
-    enabled = false
-}
-
 dependencies {
     protobuf(project(":benchmarks:schema"))
 
-    implementation(project(":benchmarks:util"))
+    implementation(libraries.kotlinReflect)
     implementation(libraries.protobuf)
+    implementation(project(":benchmarks:util"))
 }
 
 tasks.named("run") {
     dependsOn(":benchmarks:datasets")
-
-    parent?.tasks?.named("run") {
-        dependsOn(this@named)
-    }
 }

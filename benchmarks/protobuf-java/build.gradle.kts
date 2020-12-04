@@ -41,8 +41,4 @@ dependencies {
 
 tasks.named("run") {
     dependsOn(":benchmarks:datasets")
-
-    parent?.tasks?.named("run") {
-        dependsOn(this@named)
-    }
 }

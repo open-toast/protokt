@@ -46,7 +46,13 @@ tasks.register<Copy>("datasets") {
     into(file("$buildDir/datasets"))
 }
 
-tasks.register("run")
+tasks.register("run") {
+    dependsOn(
+        "protobuf-java:run",
+        "protokt:run",
+        "wire:run"
+    )
+}
 
 subprojects {
     apply(plugin = "java")
@@ -55,7 +61,6 @@ subprojects {
 
     dependencies {
         implementation(libraries.kotlinStdlib)
-        implementation(libraries.kotlinReflect)
         implementation(libraries.jmhCore)
         add("kapt", libraries.jmhGenerator)
     }
