@@ -9,7 +9,7 @@ executors:
   builder:
     working_directory: ~/code
     docker:
-      - image: cimg/openjdk:11
+      - image: cimg/openjdk:11.0
     environment:
       JAVA_OPTS: "-XX:MaxRAMPercentage=50"
       GRADLE_OPTS: "-Dorg.gradle.daemon=false"
