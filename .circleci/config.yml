@@ -57,7 +57,7 @@ jobs:
             equal: [ true, << pipeline.parameters.benchmarks >> ]
           steps:
             run:
-              name: benchmarks
+              name: Benchmarks
               command: ./gradlew benchmarks:run
 
       - write_cache
