@@ -1,33 +1,29 @@
 version: 2.1
 
-jobs:
-  build:
+parameters:
+  benchmarks:
+    type: boolean
+    default: false
+
+executors:
+  builder:
     working_directory: ~/code
     docker:
-      - image: circleci/openjdk:11.0.3-jdk-stretch
+      - image: cimg/openjdk:11
     environment:
       JAVA_OPTS: "-XX:MaxRAMPercentage=50"
       GRADLE_OPTS: "-Dorg.gradle.daemon=false"
-    steps:
-      - checkout
 
+commands:
+  read_cache:
+    steps:
       - restore_cache:
           key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
       - restore_cache:
           key: v1-gradle-cache-{{ checksum "build.gradle.kts" }}
 
-      - run:
-          name: build and test
-          command: ./gradlew clean check publishToIntegrationRepository --stacktrace
-
-      - run:
-          name: integration tests with kotlin 1.3
-          command: cd gradle-plugin-integration-test && ./gradlew clean build --stacktrace
-
-      - run:
-          name: integration tests with kotlin 1.4
-          command: cd gradle-plugin-integration-test && ./gradlew clean build -Dkotlin.version=1.4.10 -Dkotlin.api.version=1.4 --stacktrace
-
+  write_cache:
+    steps:
       - save_cache:
           paths:
             - ~/.gradle/wrapper
@@ -36,6 +32,35 @@ jobs:
           paths:
             - ~/.gradle/caches
           key: v1-gradle-cache-{{ checksum "build.gradle.kts" }}
+
+jobs:
+  build:
+    executor: builder
+    steps:
+      - checkout
+      - read_cache
+
+      - run:
+          name: Build and test
+          command: ./gradlew clean check publishToIntegrationRepository --stacktrace
+
+      - run:
+          name: Integration tests with kotlin 1.3
+          command: cd gradle-plugin-integration-test && ./gradlew clean build --stacktrace
+
+      - run:
+          name: Integration tests with kotlin 1.4
+          command: cd gradle-plugin-integration-test && ./gradlew clean build -Dkotlin.version=1.4.10 -Dkotlin.api.version=1.4 --stacktrace
+      
+      - when:
+          condition:
+            equal: [ true, << pipeline.parameters.benchmarks >> ]
+          steps:
+            run:
+              name: benchmarks
+              command: ./gradlew benchmarks:run
+
+      - write_cache
 
       - run:
           name: Save test results
@@ -49,13 +74,25 @@ jobs:
       - store_artifacts:
           path: ~/test-results/junit
 
+  
+  release:
+    executor: builder
+    steps:
+      - checkout
+      - read_cache
       - run:
-          name: Deploy (if release)
-          command: "if [[ \"$CIRCLE_BRANCH\" == master ]]; then ./gradlew publishToRemote closeAndReleaseRepository publishPlugins -Dorg.gradle.internal.http.socketTimeout=120000 -Dorg.gradle.internal.network.retry.max.attempts=1 -Dorg.gradle.internal.publish.checksums.insecure=true; else echo skipping publishing; fi"
+          name: Publish release
+          command: "./gradlew publishToRemote closeAndReleaseRepository publishPlugins -Dorg.gradle.internal.http.socketTimeout=120000 -Dorg.gradle.internal.network.retry.max.attempts=1 -Dorg.gradle.internal.publish.checksums.insecure=true"
 
 workflows:
   version: 2.1
   build:
     jobs:
-      - build:
+      - build
+      - release:
           context: OSS
+          filters:
+              tags:
+                only: /^\d+\.\d+\.\d+$/
+              branches:
+                ignore: /.*/ 
