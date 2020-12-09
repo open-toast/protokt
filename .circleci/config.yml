@@ -45,11 +45,11 @@ jobs:
           command: ./gradlew clean check publishToIntegrationRepository --stacktrace
 
       - run:
-          name: Integration tests with kotlin 1.3
+          name: Integration tests with Kotlin 1.3
           command: cd gradle-plugin-integration-test && ./gradlew clean build --stacktrace
 
       - run:
-          name: Integration tests with kotlin 1.4
+          name: Integration tests with Kotlin 1.4
           command: cd gradle-plugin-integration-test && ./gradlew clean build -Dkotlin.version=1.4.10 -Dkotlin.api.version=1.4 --stacktrace
       
       - when:
