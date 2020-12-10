@@ -172,7 +172,7 @@ nonDefaultValue(field, name) ::= <%
     <elseif (field.repeated)>
         (<field.fieldName>.isNotEmpty())<\ >
     <elseif (isBytes.(field.type) || isString.(field.type))>
-        (<proto2Check()><name>.isNotEmpty())<\ >
+        (<name>.isNotEmpty())<\ >
     <elseif (isMessage.(field.type))>
         (<field.fieldName> != null)<\ >
     <elseif (isEnum.(field.type))>
