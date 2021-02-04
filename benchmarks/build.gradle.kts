@@ -18,7 +18,7 @@ import de.undercouch.gradle.tasks.download.Download
 buildscript {
     repositories {
         gradlePluginPortal()
-        jcenter()
+        mavenCentral()
     }
 
     dependencies {

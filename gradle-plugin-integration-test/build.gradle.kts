@@ -26,7 +26,7 @@ buildscript {
     repositories {
         maven(url = "$projectDir/../build/repos/integration")
         gradlePluginPortal()
-        jcenter()
+        mavenCentral()
     }
 
     dependencies {
@@ -69,7 +69,7 @@ tasks.withType<Test> {
 
 repositories {
     maven(url = "$projectDir/../build/repos/integration")
-    jcenter()
+    mavenCentral()
 }
 
 tasks.withType<Test> {
