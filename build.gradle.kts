@@ -18,7 +18,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
         gradlePluginPortal()
     }
 
@@ -36,7 +36,7 @@ promoteStagingRepo()
 
 subprojects {
     repositories {
-        jcenter()
+        mavenCentral()
         maven(url = "https://dl.bintray.com/arrow-kt/arrow-kt/")
     }
 

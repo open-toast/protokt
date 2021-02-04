@@ -18,7 +18,7 @@ import com.squareup.wire.gradle.WireExtension
 buildscript {
     repositories {
         gradlePluginPortal()
-        jcenter()
+        mavenCentral()
     }
 
     dependencies {
