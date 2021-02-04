@@ -32,5 +32,6 @@ dependencies {
     implementation("io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.21.2")
     implementation("com.google.guava:guava:29.0-jre")
     implementation("ru.vyarus:gradle-animalsniffer-plugin:1.5.0")
+    implementation("org.jetbrains.kotlinx:binary-compatibility-validator:0.4.0")
     implementation(kotlin("gradle-plugin-api"))
 }
