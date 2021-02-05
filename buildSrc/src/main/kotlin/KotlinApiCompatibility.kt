@@ -16,15 +16,32 @@
 import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
+import org.gradle.api.tasks.Copy
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.create
+import org.gradle.kotlin.dsl.register
 
 fun Project.trackKotlinApiCompatibility() {
     apply(plugin = "binary-compatibility-validator")
 
     tasks.named("apiCheck") {
-        enabled = false
+        dependsOn("downloadPreviousApiSignatures")
+    }
+
+    tasks.register<Copy>("downloadPreviousApiSignatures") {
+        selfDependencyHack { group ->
+            val ktapiScope = project.configurations.create("ktapi")
+            dependencies.add("ktapi", "$group:${project.name}:[,${project.version}):ktapi@api")
+
+            from(ktapiScope.files)
+        }
+
+        rename {
+            "${project.name}.api"
+        }
+
+        into(projectDir.resolve("api"))
     }
 
     configure<PublishingExtension> {
@@ -41,5 +58,20 @@ fun Project.trackKotlinApiCompatibility() {
                 groupId = "$group"
             }
         }
+    }
+}
+
+/**
+ * Works around the Gradle bug https://github.com/gradle/gradle/issues/7706
+ * to declare a dependency on a published artifact from a prior version.
+ */
+private fun Project.selfDependencyHack(action: Project.(String) -> Unit) {
+    val originalGroup = group
+
+    try {
+        group = "_hack_"
+        action.invoke(this, "$originalGroup")
+    } finally {
+        group = originalGroup
     }
 }
