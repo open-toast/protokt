@@ -15,7 +15,7 @@
 
 package com.toasttab.protokt.gradle
 
-const val DEFAULT_PROTOBUF_VERSION = "3.14.0"
+const val DEFAULT_PROTOBUF_VERSION = "3.15.3"
 
 open class ProtoktExtension {
     var protocVersion = DEFAULT_PROTOBUF_VERSION
