@@ -24,6 +24,8 @@ import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
 import com.google.protobuf.gradle.remove
 import java.io.File
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 import org.gradle.api.Project
 import org.gradle.api.file.FileCollection
 import org.gradle.api.plugins.JavaPluginConvention
@@ -84,7 +86,7 @@ private fun extraClasspath(project: Project, task: GenerateProtoTask): String {
         extensions += project.configurations.getByName(TEST_EXTENSIONS)
     }
 
-    return extensions.asPath.replace(':', ';')
+    return extensions.joinToString(";") { URLEncoder.encode(it.path, StandardCharsets.UTF_8) }
 }
 
 private fun configureSources(project: Project, generatedSourcesPath: String) {
