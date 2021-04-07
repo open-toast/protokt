@@ -14,7 +14,6 @@
  */
 
 import com.toasttab.protokt.gradle.protoktExtensions
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     idea
@@ -49,31 +48,30 @@ spotless {
     }
 }
 
-tasks.withType<JavaCompile> {
-    enabled = false
-}
+tasks {
+    compileKotlin {
+        kotlinOptions {
+            allWarningsAsErrors = true
+            jvmTarget = "1.8"
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        allWarningsAsErrors = true
-        jvmTarget = "1.8"
-
-        apiVersion = System.getProperty("kotlin.api.version", "1.3")
-        languageVersion = apiVersion
+            apiVersion = System.getProperty("kotlin.api.version", "1.3")
+            languageVersion = apiVersion
+        }
     }
-}
 
-tasks.withType<Test> {
-    systemProperty("version", version.toString())
+    test {
+        systemProperty("version", version.toString())
+        useJUnitPlatform()
+    }
+
+    compileJava {
+        enabled = false
+    }
 }
 
 repositories {
     maven(url = "$projectDir/../build/repos/integration")
     mavenCentral()
-}
-
-tasks.withType<Test> {
-    useJUnitPlatform()
 }
 
 dependencies {

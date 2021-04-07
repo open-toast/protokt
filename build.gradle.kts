@@ -14,20 +14,23 @@
  */
 
 import com.toasttab.protokt.gradle.MANIFEST_VERSION_PROPERTY
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
     repositories {
         mavenCentral()
         gradlePluginPortal()
     }
+}
 
-    dependencies {
-        classpath(libraries.kotlinPlugin)
-    }
+plugins {
+    kotlin("jvm") version versions.kotlin
 }
 
 allprojects {
+    repositories {
+        mavenCentral()
+    }
+
     lint()
     group = "com.toasttab.protokt"
 }
@@ -35,44 +38,37 @@ allprojects {
 promoteStagingRepo()
 
 subprojects {
-    repositories {
-        mavenCentral()
-    }
-
     apply(plugin = "idea")
     apply(plugin = "kotlin")
 
     dependencies {
-        add("api", libraries.kotlinStdlib)
+        api(libraries.kotlinStdlib)
 
-        add("testImplementation", libraries.junit)
-        add("testImplementation", libraries.truth)
+        testImplementation(libraries.junit)
+        testImplementation(libraries.truth)
     }
 
     version = rootProject.version
 
-    tasks.withType<KotlinCompile> {
-        kotlinOptions {
-            allWarningsAsErrors = true
-            jvmTarget = "1.8"
-            freeCompilerArgs = listOf("-Xinline-classes")
+    tasks {
+        compileKotlin {
+            kotlinOptions {
+                allWarningsAsErrors = true
+                jvmTarget = "1.8"
+                freeCompilerArgs = listOf("-Xinline-classes")
+            }
         }
-    }
 
-    configure<JavaPluginExtension> {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
-    tasks.withType<Jar> {
-        manifest {
-            attributes(
-                MANIFEST_VERSION_PROPERTY to "${project.version}"
-            )
+        test {
+            useJUnitPlatform()
         }
-    }
 
-    tasks.withType<Test> {
-        useJUnitPlatform()
+        jar {
+            manifest {
+                attributes(
+                    MANIFEST_VERSION_PROPERTY to "${project.version}"
+                )
+            }
+        }
     }
 }
