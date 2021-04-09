@@ -14,6 +14,7 @@
  */
 
 import com.toasttab.protokt.gradle.MANIFEST_VERSION_PROPERTY
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
     repositories {
@@ -51,16 +52,12 @@ subprojects {
     version = rootProject.version
 
     tasks {
-        compileKotlin {
+        withType<KotlinCompile> {
             kotlinOptions {
                 allWarningsAsErrors = true
                 jvmTarget = "1.8"
                 freeCompilerArgs = listOf("-Xinline-classes")
             }
-        }
-
-        test {
-            useJUnitPlatform()
         }
 
         jar {

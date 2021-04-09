@@ -14,6 +14,7 @@
  */
 
 import com.toasttab.protokt.gradle.protoktExtensions
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     idea
@@ -49,7 +50,7 @@ spotless {
 }
 
 tasks {
-    compileKotlin {
+    withType<KotlinCompile> {
         kotlinOptions {
             allWarningsAsErrors = true
             jvmTarget = "1.8"
@@ -77,7 +78,7 @@ repositories {
 dependencies {
     protoktExtensions("com.toasttab.protokt:protokt-extensions:$version")
 
-    implementation(kotlin("stdlib-jdk8"))
+    implementation(kotlin("stdlib"))
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.6.2")
     testImplementation("com.google.protobuf:protobuf-javalite:3.12.1")
