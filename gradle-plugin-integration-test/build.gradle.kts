@@ -49,22 +49,25 @@ spotless {
     }
 }
 
-tasks.withType<JavaCompile> {
-    enabled = false
-}
+tasks {
+    withType<KotlinCompile> {
+        kotlinOptions {
+            allWarningsAsErrors = true
+            jvmTarget = "1.8"
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        allWarningsAsErrors = true
-        jvmTarget = "1.8"
-
-        apiVersion = System.getProperty("kotlin.api.version", "1.3")
-        languageVersion = apiVersion
+            apiVersion = System.getProperty("kotlin.api.version", "1.3")
+            languageVersion = apiVersion
+        }
     }
-}
 
-tasks.withType<Test> {
-    systemProperty("version", version.toString())
+    test {
+        systemProperty("version", version.toString())
+        useJUnitPlatform()
+    }
+
+    compileJava {
+        enabled = false
+    }
 }
 
 repositories {
@@ -72,14 +75,10 @@ repositories {
     mavenCentral()
 }
 
-tasks.withType<Test> {
-    useJUnitPlatform()
-}
-
 dependencies {
     protoktExtensions("com.toasttab.protokt:protokt-extensions:$version")
 
-    implementation(kotlin("stdlib-jdk8"))
+    implementation(kotlin("stdlib"))
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.6.2")
     testImplementation("com.google.protobuf:protobuf-javalite:3.12.1")
