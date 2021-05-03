@@ -42,8 +42,8 @@ internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
 
         if (body.isNotBlank()) {
             acc(header.toString())
+            body.append(fileDescriptor(astList.first().data.desc.context.fdp))
             acc(ImportReplacer.replaceImports(body.toString(), imports))
-            acc(fileDescriptor(astList.first().data.desc.context.fdp))
         }
     }
 

@@ -23,6 +23,7 @@ import com.toasttab.protokt.codegen.impl.ClassLookup.getClassOrNone
 import com.toasttab.protokt.codegen.impl.STAnnotator.grpc
 import com.toasttab.protokt.codegen.impl.STAnnotator.nonGrpc
 import com.toasttab.protokt.codegen.model.Import
+import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.model.pclass
 import com.toasttab.protokt.codegen.protoc.Enum
@@ -58,6 +59,13 @@ class ImportResolver(
             KtGeneratedMessage::class
         ).map { pclass(it) }.toImmutableSet()
 
+    private val fileImports: ImmutableSet<Import> =
+        immutableSetOf(
+            Import.Class(
+                PClass.fromName("com.toasttab.protokt.FileDescriptorProto")
+            )
+        )
+
     fun resolveImports(astList: List<AST<TypeDesc>>) =
         astList.flatMapToSet { imports(it.data.type.rawType) }
             .asSequence()
@@ -74,7 +82,7 @@ class ImportResolver(
             is Message -> nonGrpc(ctx, immutableSetOf()) { imports(t) }
             is Enum -> nonGrpc(ctx, immutableSetOf()) { enumImports }
             is Service -> grpc(ctx, immutableSetOf()) { serviceImports(t) }
-        }
+        } + fileImports
 
     private fun serviceImports(s: Service) =
         ServiceImportResolver(s).imports()
