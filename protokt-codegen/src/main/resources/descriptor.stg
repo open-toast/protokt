@@ -28,7 +28,8 @@ object <fileDescriptorObjectName> {
             }
         }
 
-        com.toasttab.protokt.FileDescriptorProto.deserialize(descriptorBytes)
+        FileDescriptorProto.deserialize(descriptorBytes)
     }
 }
+
 >>
