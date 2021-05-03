@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Toast Inc.
+ * Copyright (c) 2021 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,19 +13,15 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.template
+descriptor(fileName, parts) ::= <<
+object `<fileName>` {
+    val descriptor by lazy {
+        val descriptorData = arrayOf(
+            <parts:{lines | <lines:{l | "<l>"}; separator=" +\n">}; separator=",\n">
+        )
 
-sealed class StGroup {
-    val fileName
-        get() = "${this::class.java.simpleName.decapitalize()}.stg"
-
-    object Descriptor : StGroup()
-    object Entry : StGroup()
-    object Enum : StGroup()
-    object Header : StGroup()
-    object Message : StGroup()
-    object Oneof : StGroup()
-    object Options : StGroup()
-    object Renderers : StGroup()
-    object Services : StGroup()
+        val descriptorBytes = descriptorData.joinToString("").toByteArray(Charsets.ISO_8859_1)
+        com.toasttab.protokt.FileDescriptorProto.deserialize(descriptorBytes)
+    }
 }
+>>

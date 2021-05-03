@@ -16,11 +16,13 @@
 package com.toasttab.protokt.codegen.impl
 
 import arrow.core.firstOrNone
+import com.google.protobuf.DescriptorProtos
 import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.algebra.Accumulator
 import com.toasttab.protokt.codegen.algebra.Effects
 import com.toasttab.protokt.codegen.model.Import
 import com.toasttab.protokt.codegen.protoc.TypeDesc
+import com.toasttab.protokt.codegen.template.Descriptor
 
 internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
     override fun invoke(astList: List<AST<TypeDesc>>, acc: (String) -> Unit) {
@@ -41,6 +43,7 @@ internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
         if (body.isNotBlank()) {
             acc(header.toString())
             acc(ImportReplacer.replaceImports(body.toString(), imports))
+            acc(fileDescriptor(astList.first().data.desc.context.fdp))
         }
     }
 
@@ -53,4 +56,19 @@ internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
                         .resolveImports(astList)
                 }
             )
+
+    private fun fileDescriptor(fileDescriptorProto: DescriptorProtos.FileDescriptorProto) =
+        Descriptor.Descriptor.render(
+            fileDescriptorProto.name
+                .substringBefore(".proto")
+                .replace("_", "_us_")
+                .replace(".", "_dot_")
+                .replace(";", "_semi_")
+                .replace("[", "_sqb_")
+                .replace("<", "_lt_")
+                .replace(">", "_gt_")
+                .replace(":", "_cl_")
+                .replace('/', '_'),
+            encodeFileDescriptor(fileDescriptorProto.toBuilder().clearSourceCodeInfo().build())
+        )
 }

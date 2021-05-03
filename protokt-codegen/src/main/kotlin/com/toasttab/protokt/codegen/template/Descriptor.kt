@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Toast Inc.
+ * Copyright (c) 2021 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,17 +15,9 @@
 
 package com.toasttab.protokt.codegen.template
 
-sealed class StGroup {
-    val fileName
-        get() = "${this::class.java.simpleName.decapitalize()}.stg"
-
-    object Descriptor : StGroup()
-    object Entry : StGroup()
-    object Enum : StGroup()
-    object Header : StGroup()
-    object Message : StGroup()
-    object Oneof : StGroup()
-    object Options : StGroup()
-    object Renderers : StGroup()
-    object Services : StGroup()
+object Descriptor {
+    object Descriptor : StTemplate(StGroup.Descriptor) {
+        fun render(fileName: String, parts: List<List<String>>) =
+            renderArgs(fileName, parts)
+    }
 }

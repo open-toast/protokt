@@ -115,8 +115,7 @@ private fun parseParams(req: CodeGeneratorRequest) =
     } else {
         req.parameter
             .split(',')
-            .map { it.substringBefore('=') to it.substringAfter('=', "") }
-            .toMap()
+            .associate { it.substringBefore('=') to it.substringAfter('=', "") }
     }
 
 private fun parseCodeGeneratorRequest(bytes: ByteArray) =

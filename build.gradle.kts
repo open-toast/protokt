@@ -56,7 +56,7 @@ subprojects {
             kotlinOptions {
                 allWarningsAsErrors = true
                 jvmTarget = "1.8"
-                freeCompilerArgs = listOf("-Xinline-classes")
+                freeCompilerArgs = listOf("-Xinline-classes", "-Xopt-in=kotlin.ExperimentalUnsignedTypes")
             }
         }
 
