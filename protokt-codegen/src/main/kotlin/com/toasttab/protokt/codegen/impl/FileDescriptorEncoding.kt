@@ -11,25 +11,26 @@ private const val BYTES_PER_PART = BYTES_PER_LINE * LINES_PER_PART
 fun encodeFileDescriptor(fileDescriptorProto: DescriptorProtos.FileDescriptorProto): List<List<String>> {
     val parts = mutableListOf<MutableList<String>>()
     val bytes = fileDescriptorProto.toByteArray()
-    for (i in 0..bytes.size step BYTES_PER_LINE) {
+    for (i in bytes.indices step BYTES_PER_LINE) {
         if (i % BYTES_PER_PART == 0) {
             parts.add(mutableListOf())
         }
         parts.last().add(escape(bytes.drop(i).take(BYTES_PER_LINE)))
     }
-    return parts
+    return listOf(listOf(bytes.joinToString(separator = ",") { it.toString() }))
 }
 
 private fun escape(bytes: List<Byte>) =
     bytes.joinToString(separator = "") {
-        when (val c = it.toChar()) {
+        when (it.toChar()) {
             '\n' -> "\\n"
             '\r' -> "\\r"
             '\t' -> "\\t"
             '\"' -> "\\\""
             '\'' -> "\\'"
             '\\' -> "\\\\"
+            '\b' -> "\\b"
             '$' -> "\\\$"
-            else -> c.toString()
+            else -> "\\u" + it.toUByte().toString(16).padStart(4, '0')
         }
     }

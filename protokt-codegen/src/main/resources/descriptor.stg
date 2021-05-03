@@ -15,13 +15,13 @@
 
 descriptor(fileName, parts) ::= <<
 object `<fileName>` {
-    val descriptor by lazy {
+    //val descriptor by lazy {
         val descriptorData = arrayOf(
             <parts:{lines | <lines:{l | "<l>"}; separator=" +\n">}; separator=",\n">
         )
 
-        val descriptorBytes = descriptorData.joinToString("").toByteArray(Charsets.ISO_8859_1)
-        com.toasttab.protokt.FileDescriptorProto.deserialize(descriptorBytes)
-    }
+        val descriptorBytes = descriptorData.joinToString("").toByteArray()
+    //    com.toasttab.protokt.FileDescriptorProto.deserialize(descriptorBytes)
+    //}
 }
 >>

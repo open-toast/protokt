@@ -69,6 +69,33 @@ internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
                 .replace(">", "_gt_")
                 .replace(":", "_cl_")
                 .replace('/', '_'),
-            encodeFileDescriptor(fileDescriptorProto.toBuilder().clearSourceCodeInfo().build())
+            encodeFileDescriptor(
+                clearJsonInfo(
+                    fileDescriptorProto.toBuilder()
+                        .clearSourceCodeInfo()
+                        .build()
+                )
+            )
         )
+
+    private fun clearJsonInfo(fileDescriptorProto: DescriptorProtos.FileDescriptorProto) =
+        fileDescriptorProto.toBuilder()
+            .clearMessageType()
+            .addAllMessageType(clearJsonInfo(fileDescriptorProto.messageTypeList))
+            .build()
+
+    private fun clearJsonInfo(descriptorProtos: Iterable<DescriptorProtos.DescriptorProto>) =
+        descriptorProtos.map { dp ->
+            dp.toBuilder()
+                .clearField()
+                .addAllField(
+                    dp.fieldList
+                        .map { fdp ->
+                            fdp.toBuilder()
+                                .clearJsonName()
+                                .build()
+                        }
+                )
+                .build()
+        }
 }
