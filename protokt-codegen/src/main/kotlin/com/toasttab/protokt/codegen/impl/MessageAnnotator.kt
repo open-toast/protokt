@@ -54,6 +54,7 @@ internal object MessageAnnotator {
                 serialize = annotateSerializer(msg, ctx),
                 deserialize = annotateDeserializer(msg, ctx),
                 nested = nestedTypes(msg, ctx),
+                fileDescriptorName= generateFileDescriptorName(ctx.desc.context.fdp),
                 options = options(msg, ctx)
             )
         }

@@ -59,16 +59,7 @@ internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
 
     private fun fileDescriptor(fileDescriptorProto: DescriptorProtos.FileDescriptorProto) =
         Descriptor.Descriptor.render(
-            fileDescriptorProto.name
-                .substringBefore(".proto")
-                .replace("_", "_us_")
-                .replace(".", "_dot_")
-                .replace(";", "_semi_")
-                .replace("[", "_sqb_")
-                .replace("<", "_lt_")
-                .replace(">", "_gt_")
-                .replace(":", "_cl_")
-                .replace('/', '_'),
+            generateFileDescriptorName(fileDescriptorProto),
             encodeFileDescriptor(
                 clearJsonInfo(
                     fileDescriptorProto.toBuilder()

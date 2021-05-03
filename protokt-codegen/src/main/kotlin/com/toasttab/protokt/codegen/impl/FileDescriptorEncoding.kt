@@ -16,6 +16,7 @@
 package com.toasttab.protokt.codegen.impl
 
 import com.google.protobuf.DescriptorProtos
+import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 
 // For the Java implementation of descriptor encoding, see:
 // https://github.com/protocolbuffers/protobuf/blob/5e84a6169cf0f9716c9285c95c860bcb355dbdc1/src/google/protobuf/compiler/java/java_shared_code_generator.cc#L119
@@ -44,9 +45,7 @@ private const val BYTES_PER_PART = BYTES_PER_LINE * LINES_PER_PART
 // This makes huge bytecode files and can easily hit the compiler's internal
 // code size limits (error "code to large").  String literals are apparently
 // embedded raw, which is what we want.
-fun encodeFileDescriptor(
-    fileDescriptorProto: DescriptorProtos.FileDescriptorProto
-): List<List<String>> {
+fun encodeFileDescriptor(fileDescriptorProto: FileDescriptorProto): List<List<String>> {
     val parts = mutableListOf<MutableList<String>>()
     val bytes = fileDescriptorProto.toByteArray()
     for (i in bytes.indices step BYTES_PER_LINE) {
@@ -71,7 +70,19 @@ private fun escape(bytes: Sequence<Byte>) =
             '$' -> "\\\$"
 
             // Unlike for Java, all other characters are representable directly
-            // in Kotlin source
+            // in Kotlin source.
             else -> c.toString()
         }
     }
+
+fun generateFileDescriptorName(fileDescriptorProto: FileDescriptorProto) =
+    fileDescriptorProto.name
+        .substringBefore(".proto")
+        .replace("_", "_us_")
+        .replace(".", "_dot_")
+        .replace(";", "_semi_")
+        .replace("[", "_sqb_")
+        .replace("<", "_lt_")
+        .replace(">", "_gt_")
+        .replace(":", "_cl_")
+        .replace('/', '_')

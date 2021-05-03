@@ -27,6 +27,7 @@ object Message {
             properties: List<PropertyInfo>,
             oneofs: List<String>,
             nested: List<String>,
+            fileDescriptorName: String,
             options: Options
         ) =
             renderArgs(
@@ -37,6 +38,7 @@ object Message {
                 properties,
                 oneofs,
                 nested,
+                fileDescriptorName,
                 options
             )
 

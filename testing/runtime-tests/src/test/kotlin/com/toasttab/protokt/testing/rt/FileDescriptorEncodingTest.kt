@@ -17,34 +17,58 @@ package com.toasttab.protokt.testing.rt
 
 import com.google.common.truth.Truth.assertThat
 import com.google.protobuf.DescriptorProtos
+import com.google.protobuf.Descriptors
+import com.google.protobuf.GeneratedMessageV3
+import com.toasttab.protokt.Api
 import com.toasttab.protokt.FileDescriptorProto
-import com.toasttab.protokt.google_protobuf_descriptor
+import com.toasttab.protokt.Type
+import com.toasttab.protokt.rt.KtDeserializer
 import org.junit.jupiter.api.Test
+import kotlin.reflect.KClass
+import kotlin.reflect.KProperty1
 
 class FileDescriptorEncodingTest {
+    // Assert against a sampling of generated descriptors.
     @Test
     fun `encoding of file descriptors is equal`() {
+        assertDescriptorsAreEqual(com.toasttab.protokt.Any, com.google.protobuf.Any::class)
+        assertDescriptorsAreEqual(Api, com.google.protobuf.Api::class)
+        assertDescriptorsAreEqual(FileDescriptorProto, DescriptorProtos.FileDescriptorProto::class)
+        assertDescriptorsAreEqual(Type, com.google.protobuf.Type::class)
+
+        // todo: get a really big type descriptor that doesn't fit in one string
+    }
+
+    private fun assertDescriptorsAreEqual(
+        protokt: KtDeserializer<*>,
+        googleMessageClass: KClass<out GeneratedMessageV3>
+    ) {
+        val googleDescriptor =
+            googleMessageClass.java.getMethod("getDescriptor")
+                .invoke(null)
+                .let { it as Descriptors.Descriptor }
+                .file
+                .toProto()
+
+        val protoktDescriptor =
+            protokt::class
+                .propertyNamed("fileDescriptor")
+                .let {
+                    @Suppress("UNCHECKED_CAST")
+                    it as KProperty1<Any, FileDescriptorProto>
+                }
+                .get(protokt)
+
         assertThat(
-            google_protobuf_descriptor.descriptor
+            protoktDescriptor
         ).isEqualTo(
-            FileDescriptorProto.deserialize(
-                DescriptorProtos.FileDescriptorProto
-                    .getDescriptor()
-                    .file
-                    .toProto()
-                    .toByteArray()
-            )
+            FileDescriptorProto.deserialize(googleDescriptor.toByteArray())
         )
 
         assertThat(
             DescriptorProtos.FileDescriptorProto.parseFrom(
-                google_protobuf_descriptor.descriptor.serialize()
+                protoktDescriptor.serialize()
             )
-        ).isEqualTo(
-            DescriptorProtos.FileDescriptorProto
-                .getDescriptor()
-                .file
-                .toProto()
-        )
+        ).isEqualTo(googleDescriptor)
     }
 }

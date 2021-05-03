@@ -26,6 +26,7 @@ import com.toasttab.protokt.codegen.model.Import
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.model.pclass
+import com.toasttab.protokt.codegen.model.possiblyQualify
 import com.toasttab.protokt.codegen.protoc.Enum
 import com.toasttab.protokt.codegen.protoc.Field
 import com.toasttab.protokt.codegen.protoc.Message
@@ -65,6 +66,7 @@ class ImportResolver(
                 PClass.fromName("com.toasttab.protokt.FileDescriptorProto")
             )
         )
+
 
     fun resolveImports(astList: List<AST<TypeDesc>>) =
         astList.flatMapToSet { imports(it.data.type.rawType) }
