@@ -46,6 +46,7 @@ companion object Deserializer : KtDeserializer\<<message.name>\>, (<message.name
 
     <dslInvoke()>
 
-    val fileDescriptor = `<fileDescriptorName>`.descriptor
+    val fileDescriptor
+        get() = `<fileDescriptorName>`.descriptor
 }
 >>
