@@ -84,7 +84,7 @@ internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
             .addAllMessageType(clearJsonInfo(fileDescriptorProto.messageTypeList))
             .build()
 
-    private fun clearJsonInfo(descriptorProtos: Iterable<DescriptorProtos.DescriptorProto>) =
+    private fun clearJsonInfo(descriptorProtos: Iterable<DescriptorProtos.DescriptorProto>): Iterable<DescriptorProtos.DescriptorProto> =
         descriptorProtos.map { dp ->
             dp.toBuilder()
                 .clearField()
@@ -95,6 +95,10 @@ internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
                                 .clearJsonName()
                                 .build()
                         }
+                )
+                .clearNestedType()
+                .addAllNestedType(
+                    clearJsonInfo(dp.nestedTypeList)
                 )
                 .build()
         }

@@ -13,19 +13,31 @@ import org.junit.jupiter.api.Test
 class FileDescriptorEncodingTest {
     @Test
     fun `encoding of file descriptors is equal`() {
-        val arr = google_protobuf_any.descriptorData.single().split(",").map { it.toByte() }
+        val arr0 = google_protobuf_descriptor.descriptorData[0]
+            .split(",")
+            .map { it.toByte() }
+            .also { println(it) }
+            .also { println(it.map { it.toChar() }) }
             .toByteArray()
+            .also { println(it.size) }
+
 
         assertThat(
-            FileDescriptorProto.deserialize(arr)
+            FileDescriptorProto.deserialize(arr0)
         ).isEqualTo(
             FileDescriptorProto.deserialize(
-                Any
+                DescriptorProtos.FileDescriptorProto
                     .getDescriptor()
                     .file
                     .toProto()
                     .toByteArray()
             )
         )
+
+        val data = google_protobuf_descriptor.descriptorData[1]
+        val arr = ByteArray(data.length)
+        data.forEachIndexed { idx, char -> arr[idx] = char.toByte() }
+
+        assertThat(arr.asList()).isEqualTo(arr0.asList())
     }
 }

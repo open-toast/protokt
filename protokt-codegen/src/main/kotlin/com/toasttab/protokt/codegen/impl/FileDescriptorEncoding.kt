@@ -17,12 +17,19 @@ fun encodeFileDescriptor(fileDescriptorProto: DescriptorProtos.FileDescriptorPro
         }
         parts.last().add(escape(bytes.drop(i).take(BYTES_PER_LINE)))
     }
-    return listOf(listOf(bytes.joinToString(separator = ",") { it.toString() }))
+    return listOf(
+        listOf(
+            bytes.joinToString(separator = ",") { it.toString() }
+        ),
+        listOf(
+            bytes.joinToString("") { escape(listOf(it)) }
+        )
+    )
 }
 
 private fun escape(bytes: List<Byte>) =
     bytes.joinToString(separator = "") {
-        when (it.toChar()) {
+        when (val c = it.toChar()) {
             '\n' -> "\\n"
             '\r' -> "\\r"
             '\t' -> "\\t"
@@ -31,6 +38,6 @@ private fun escape(bytes: List<Byte>) =
             '\\' -> "\\\\"
             '\b' -> "\\b"
             '$' -> "\\\$"
-            else -> "\\u" + it.toUByte().toString(16).padStart(4, '0')
+            else -> c.toString()
         }
     }
