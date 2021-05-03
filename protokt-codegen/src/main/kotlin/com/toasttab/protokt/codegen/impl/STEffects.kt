@@ -59,7 +59,7 @@ internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
 
     private fun fileDescriptor(fileDescriptorProto: DescriptorProtos.FileDescriptorProto) =
         Descriptor.Descriptor.render(
-            generateFileDescriptorName(fileDescriptorProto),
+            generateFileDescriptorObjectName(fileDescriptorProto),
             encodeFileDescriptor(
                 clearJsonInfo(
                     fileDescriptorProto.toBuilder()

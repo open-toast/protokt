@@ -17,7 +17,7 @@ package com.toasttab.protokt.codegen.template
 
 object Descriptor {
     object Descriptor : StTemplate(StGroup.Descriptor) {
-        fun render(fileName: String, parts: List<List<String>>) =
-            renderArgs(fileName, parts)
+        fun render(fileDescriptorObjectName: String, parts: List<List<String>>) =
+            renderArgs(fileDescriptorObjectName, parts)
     }
 }

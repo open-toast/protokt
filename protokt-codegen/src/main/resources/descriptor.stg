@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-descriptor(fileName, parts) ::= <<
-object `<fileName>` {
+descriptor(fileDescriptorObjectName, parts) ::= <<
+object <fileDescriptorObjectName> {
     val descriptor by lazy {
         val descriptorData = arrayOf(
             <parts:{lines | <lines:{l | "<l>"}; separator=" +\n">}; separator=",\n">

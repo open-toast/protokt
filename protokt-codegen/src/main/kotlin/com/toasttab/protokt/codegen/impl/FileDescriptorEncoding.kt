@@ -75,7 +75,7 @@ private fun escape(bytes: Sequence<Byte>) =
         }
     }
 
-fun generateFileDescriptorName(fileDescriptorProto: FileDescriptorProto) =
+fun generateFileDescriptorObjectName(fileDescriptorProto: FileDescriptorProto) =
     fileDescriptorProto.name
         .substringBefore(".proto")
         .replace("_", "_us_")
@@ -86,3 +86,16 @@ fun generateFileDescriptorName(fileDescriptorProto: FileDescriptorProto) =
         .replace(">", "_gt_")
         .replace(":", "_cl_")
         .replace('/', '_')
+        .let {
+            if (!it.first().isJavaIdentifierStart()) {
+                it.replaceRange(0..1, "_${it.first()}")
+            } else  {
+                it
+            }
+        }.let {
+            if (it.any { c -> !c.isJavaIdentifierPart() }) {
+                "`$it`"
+            } else {
+                it
+            }
+        }
