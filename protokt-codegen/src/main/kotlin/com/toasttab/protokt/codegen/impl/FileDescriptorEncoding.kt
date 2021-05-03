@@ -15,7 +15,6 @@
 
 package com.toasttab.protokt.codegen.impl
 
-import com.google.protobuf.DescriptorProtos
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 
 // For the Java implementation of descriptor encoding, see:
@@ -32,7 +31,6 @@ private const val LINES_PER_PART = 400
 // Every block of bytes, start a new string literal, in order to avoid the
 // 64k length limit. Note that this value needs to be <64k.
 private const val BYTES_PER_PART = BYTES_PER_LINE * LINES_PER_PART
-
 
 // Notes from the Java version:
 // Embed the descriptor.  We simply serialize the entire FileDescriptorProto
@@ -89,7 +87,7 @@ fun generateFileDescriptorObjectName(fileDescriptorProto: FileDescriptorProto) =
         .let {
             if (!it.first().isJavaIdentifierStart()) {
                 it.replaceRange(0..1, "_${it.first()}")
-            } else  {
+            } else {
                 it
             }
         }.let {

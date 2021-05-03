@@ -23,9 +23,9 @@ import com.toasttab.protokt.Api
 import com.toasttab.protokt.FileDescriptorProto
 import com.toasttab.protokt.Type
 import com.toasttab.protokt.rt.KtDeserializer
-import org.junit.jupiter.api.Test
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
+import org.junit.jupiter.api.Test
 
 class FileDescriptorEncodingTest {
     // Assert against a sampling of generated descriptors.
