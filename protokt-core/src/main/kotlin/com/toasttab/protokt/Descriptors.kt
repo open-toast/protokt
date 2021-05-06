@@ -22,7 +22,7 @@ class Descriptor(
 
     val nestedTypes =
         proto.nestedType.mapIndexed { idx, proto ->
-            Descriptor(proto.nestedType[idx], file, idx, this)
+            Descriptor(proto, file, idx, this)
         }.let { finishList(it) }
 
     val name

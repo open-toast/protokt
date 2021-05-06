@@ -21,9 +21,11 @@ import com.google.protobuf.Descriptors
 import com.google.protobuf.GeneratedMessageV3
 import com.toasttab.protokt.Api
 import com.toasttab.protokt.Descriptor
+import com.toasttab.protokt.DescriptorProto
 import com.toasttab.protokt.FileDescriptorProto
 import com.toasttab.protokt.Type
 import com.toasttab.protokt.rt.KtDeserializer
+import com.toasttab.protokt.testing.rt.DeeplyNested1.DeeplyNested2.DeeplyNested3.DeeplyNested4
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 import org.junit.jupiter.api.Test
@@ -36,6 +38,10 @@ class FileDescriptorEncodingTest {
         assertDescriptorsAreEqual(Api, com.google.protobuf.Api::class)
         assertDescriptorsAreEqual(FileDescriptorProto, DescriptorProtos.FileDescriptorProto::class)
         assertDescriptorsAreEqual(Type, com.google.protobuf.Type::class)
+
+        // nested types
+        assertDescriptorsAreEqual(DescriptorProto.ExtensionRange, DescriptorProtos.DescriptorProto.ExtensionRange::class)
+        assertDescriptorsAreEqual(DeeplyNested4, DeeplyNested.DeeplyNested1.DeeplyNested2.DeeplyNested3.DeeplyNested4::class)
 
         // todo: get a really big type descriptor that doesn't fit in one string
     }
