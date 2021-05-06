@@ -3,6 +3,7 @@
 .gradle
 build
 out
+.DS_Store
 
 .idea
 *.iml

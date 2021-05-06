@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2021 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,16 +16,21 @@
 package com.toasttab.protokt.testing.rt
 
 import com.google.common.truth.Truth.assertThat
-import com.toasttab.protokt.rt.KtGeneratedMessage
+import com.toasttab.protokt.Any
+import com.toasttab.protokt.Timestamp
+import com.toasttab.protokt.pack
+import com.toasttab.protokt.unpack
 import org.junit.jupiter.api.Test
 
-class GeneratedMessageAnnotationTest {
+class AnyTest {
     @Test
-    fun `messages have KtGeneratedMessage annotation`() {
-        assertThat(RootMessage {}.annotationClasses)
-            .contains(KtGeneratedMessage::class)
-    }
+    fun `test any pack and unpack`() {
+        val timestamp = Timestamp { seconds = 1 }
+        val packed = Any.pack(timestamp)
 
-    private val Any.annotationClasses
-        get() = this::class.annotations.map { it.annotationClass }
+        assertThat(packed.typeUrl)
+            .isEqualTo("type.googleapis.com/google.protobuf.Timestamp")
+
+        assertThat(packed.unpack(Timestamp)).isEqualTo(timestamp)
+    }
 }
