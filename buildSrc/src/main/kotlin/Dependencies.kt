@@ -38,7 +38,7 @@ object versions {
     const val wire = "3.5.0"
 
     // Third Party
-    const val protoGoogleCommonProtos = "1.18.0"
+    const val protoGoogleCommonProtos = "2.1.0"
 }
 
 object libraries {

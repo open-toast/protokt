@@ -16,13 +16,32 @@
 package com.toasttab.protokt.testing.pluginoptions
 
 import com.google.common.truth.Truth.assertThat
+import com.toasttab.protokt.google_protobuf_timestamp
 import org.junit.jupiter.api.Test
+import toasttab.protokt.testing.ijp.toasttab_testing_ijp_will_us_be_us_imported
+import toasttab.protokt.testing.otherijp.toasttab_testing_otherijp_uses_us_import
 import tutorial.Person
+import tutorial.tutorial_addressbook
 
 class IgnoreJavaPackageTest {
     @Test
     fun `java_package option is ignored when plugin option requests it`() {
         assertThat(Person::class.java.`package`.name)
             .isEqualTo("tutorial")
+    }
+
+    @Test
+    fun `descriptor dependencies reference correctly qualified entities`() {
+        assertThat(
+            toasttab_testing_otherijp_uses_us_import.descriptor.dependencies
+        ).contains(
+            toasttab_testing_ijp_will_us_be_us_imported.descriptor
+        )
+
+        assertThat(
+            tutorial_addressbook.descriptor.dependencies
+        ).contains(
+            google_protobuf_timestamp.descriptor
+        )
     }
 }

@@ -47,6 +47,26 @@ fun packagesByTypeName(
     return map
 }
 
+fun packagesByFileName(
+    protoFileList: List<FileDescriptorProto>,
+    respectJavaPackage: Boolean
+): Map<String, PPackage> {
+    val map = mutableMapOf<String, PPackage>()
+
+    protoFileList.forEach { fdp ->
+        fdp.messageTypeList.forEach { dp ->
+            gatherPackages(fdp, dp, emptyList(), respectJavaPackage, map)
+        }
+
+        fdp.enumTypeList.forEach { edp ->
+            map[edp.foreignFullyQualifiedName(fdp)] =
+                resolvePackage(fdp, respectJavaPackage)
+        }
+    }
+
+    return map
+}
+
 private fun EnumDescriptorProto.foreignFullyQualifiedName(
     fdp: FileDescriptorProto
 ) =

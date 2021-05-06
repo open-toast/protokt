@@ -74,7 +74,10 @@ private fun escape(bytes: Sequence<Byte>) =
     }
 
 fun generateFileDescriptorObjectName(fileDescriptorProto: FileDescriptorProto) =
-    fileDescriptorProto.name
+    generateFileDescriptorObjectName(fileDescriptorProto.name)
+
+fun generateFileDescriptorObjectName(name: String) =
+    name
         .substringBefore(".proto")
         .replace("_", "_us_")
         .replace(".", "_dot_")

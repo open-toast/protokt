@@ -28,6 +28,8 @@ import java.nio.charset.StandardCharsets
 class ProtocolContext(
     val fdp: FileDescriptorProto,
     val allPackagesByTypeName: Map<String, PPackage>,
+    val allPackagesByFileName: Map<String, PPackage>,
+    val allFilesByName: Map<String, FileDescriptorProto>,
     params: Map<String, String>
 ) {
     val classpath = params.getOrDefault(KOTLIN_EXTRA_CLASSPATH, "").split(";").map {
@@ -47,6 +49,3 @@ class ProtocolContext(
 
 fun respectJavaPackage(params: Map<String, String>) =
     params.getValue(RESPECT_JAVA_PACKAGE).toBoolean()
-
-fun ProtocolContext.ppackage(typeName: String) =
-    allPackagesByTypeName.getValue(typeName)

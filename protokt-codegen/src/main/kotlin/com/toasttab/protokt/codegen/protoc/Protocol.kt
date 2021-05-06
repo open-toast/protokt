@@ -429,7 +429,7 @@ private fun requalifyProtoType(typeName: String, ctx: ProtocolContext): PClass {
     return if (ctx.respectJavaPackage) {
         PClass.fromName(
             withOverriddenReservedName.nestedName
-        ).qualify(ctx.ppackage(typeName))
+        ).qualify(ctx.allPackagesByTypeName.getValue(typeName))
     } else {
         withOverriddenReservedName
     }

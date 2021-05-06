@@ -13,13 +13,22 @@
  * limitations under the License.
  */
 
-descriptor(fileDescriptorObjectName, parts) ::= <<
+descriptor(fileDescriptorObjectName, parts, dependencies, longDependencies) ::= <<
 object <fileDescriptorObjectName> {
     val descriptor by lazy {
         val descriptorData = arrayOf(
             <parts:{lines | <lines:{l | "<l>"}; separator=" +\n">}; separator=",\n">
         )
-        FileDescriptor.fromData(descriptorData, emptyList())
+        FileDescriptor.fromData(
+            descriptorData,
+            <if (longDependencies)>
+            listOf(
+                <dependencies:{d | <d>.descriptor}; separator=",\n">
+            )
+            <else>
+            listOf(<dependencies:{d | <d>.descriptor}; separator=", ">)
+            <endif>
+        )
     }
 }
 

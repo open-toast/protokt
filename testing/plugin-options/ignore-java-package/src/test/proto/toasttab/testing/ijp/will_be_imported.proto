@@ -13,21 +13,10 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.template
+syntax = "proto3";
 
-object Descriptor {
-    object Descriptor : StTemplate(StGroup.Descriptor) {
-        fun render(
-            fileDescriptorObjectName: String,
-            parts: List<List<String>>,
-            dependencies: List<String>,
-            longDependencies: Boolean
-        ) =
-            renderArgs(
-                fileDescriptorObjectName,
-                parts,
-                dependencies,
-                longDependencies
-            )
-    }
-}
+package toasttab.protokt.testing.ijp;
+
+option java_package = "com.toasttab.protokt.testing.ijp";
+
+message Foo {}

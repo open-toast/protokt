@@ -21,12 +21,25 @@ import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.algebra.Accumulator
 import com.toasttab.protokt.codegen.algebra.Effects
 import com.toasttab.protokt.codegen.model.Import
+import com.toasttab.protokt.codegen.model.PPackage
+import com.toasttab.protokt.codegen.protoc.ProtocolContext
 import com.toasttab.protokt.codegen.protoc.TypeDesc
 import com.toasttab.protokt.codegen.template.Descriptor
 
 internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
     override fun invoke(astList: List<AST<TypeDesc>>, acc: (String) -> Unit) {
-        val imports = collectPossibleImports(astList)
+        val imports = mutableSetOf<Import>()
+
+        val templateAndImports =
+            if (astList.isNotEmpty()) {
+                val anAst = astList.first()
+                fileDescriptor(anAst.data.desc.context, kotlinPackage(anAst))
+            } else {
+                FdpTemplateAndImports("", emptySet())
+            }
+
+        imports.addAll(templateAndImports.imports.map { Import.Literal(it) })
+        imports.addAll(collectPossibleImports(astList))
 
         val header = StringBuilder()
         HeaderAccumulator.write(astList, imports) { header.append(it + "\n") }
@@ -42,7 +55,7 @@ internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
 
         if (body.isNotBlank()) {
             acc(header.toString())
-            body.append(fileDescriptor(astList.first().data.desc.context.fdp))
+            body.append(templateAndImports.fdpTemplate)
             acc(ImportReplacer.replaceImports(body.toString(), imports))
         }
     }
@@ -57,17 +70,48 @@ internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
                 }
             )
 
-    private fun fileDescriptor(fileDescriptorProto: DescriptorProtos.FileDescriptorProto) =
-        Descriptor.Descriptor.render(
-            generateFileDescriptorObjectName(fileDescriptorProto),
-            encodeFileDescriptor(
-                clearJsonInfo(
-                    fileDescriptorProto.toBuilder()
-                        .clearSourceCodeInfo()
-                        .build()
-                )
+    private class FdpTemplateAndImports(
+        val fdpTemplate: String,
+        val imports: Set<String>
+    )
+
+    private fun fileDescriptor(
+        ctx: ProtocolContext,
+        pkg: PPackage
+    ): FdpTemplateAndImports {
+        val imports = mutableSetOf<String>()
+
+        val template =
+            Descriptor.Descriptor.render(
+                generateFileDescriptorObjectName(ctx.fdp),
+                encodeFileDescriptor(
+                    clearJsonInfo(
+                        ctx.fdp.toBuilder()
+                            .clearSourceCodeInfo()
+                            .build()
+                    )
+                ),
+                ctx.fdp.dependencyList
+                    .filter {
+                        // We don't generate anything for files without any of the
+                        // following; e.g., a file containing only extensions.
+                        ctx.allFilesByName.getValue(it).let { fdp ->
+                            fdp.messageTypeCount +
+                                fdp.enumTypeCount +
+                                fdp.serviceCount > 0
+                        }
+                    }.map {
+                        val depPkg = ctx.allPackagesByFileName.getValue(it)
+                        val descriptorObjectName = generateFileDescriptorObjectName(it)
+                        if (!depPkg.default && depPkg != pkg) {
+                            imports.add("$depPkg.$descriptorObjectName")
+                        }
+                        descriptorObjectName
+                    },
+                ctx.fdp.dependencyCount > 1
             )
-        )
+        return FdpTemplateAndImports(template, imports)
+    }
 
     private fun clearJsonInfo(fileDescriptorProto: DescriptorProtos.FileDescriptorProto) =
         fileDescriptorProto.toBuilder()

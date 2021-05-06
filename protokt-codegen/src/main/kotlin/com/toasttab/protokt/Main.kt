@@ -47,7 +47,13 @@ internal fun main(bytes: ByteArray, out: OutputStream) {
 
     val files = req.protoFileList
         .filter { filesToGenerate.contains(it.name) }
-        .map { response(it, generate(it, req.protoFileList, params), params) }
+        .map {
+            response(
+                it,
+                generate(it, req.protoFileList, filesToGenerate, params),
+                params
+            )
+        }
         .flatten()
 
     if (files.nonEmpty()) {
@@ -62,6 +68,7 @@ internal fun main(bytes: ByteArray, out: OutputStream) {
 private fun generate(
     fdp: FileDescriptorProto,
     protoFileList: List<FileDescriptorProto>,
+    filesToGenerate: Set<String>,
     params: Map<String, String>
 ): String {
     val code = StringBuilder()
@@ -73,6 +80,15 @@ private fun generate(
                     protoFileList,
                     respectJavaPackage(params)
                 ),
+                protoFileList.associate {
+                    it.name to
+                        resolvePackage(
+                            it,
+                            it.name !in filesToGenerate ||
+                                respectJavaPackage(params)
+                        )
+                },
+                protoFileList.associateBy { it.name },
                 params
             )
         ),

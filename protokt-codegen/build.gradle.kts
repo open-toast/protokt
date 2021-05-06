@@ -84,7 +84,7 @@ protobuf {
 sourceSets {
     main {
         proto {
-            srcDir("../protokt-runtime/src/main/resources/protokt")
+            srcDir("../protokt-runtime/src/main/resources")
         }
     }
 }
