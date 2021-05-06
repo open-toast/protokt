@@ -35,6 +35,7 @@ import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.template.Message.Message as MessageTemplate
 import com.toasttab.protokt.codegen.template.Message.Message.MessageInfo
 import com.toasttab.protokt.codegen.template.Message.Message.Options
+import com.toasttab.protokt.codegen.template.Message.Message.ReflectInfo
 
 internal object MessageAnnotator {
     val idealMaxWidth = 100
@@ -54,7 +55,7 @@ internal object MessageAnnotator {
                 serialize = annotateSerializer(msg, ctx),
                 deserialize = annotateDeserializer(msg, ctx),
                 nested = nestedTypes(msg, ctx),
-                fileDescriptorObjectName = generateFileDescriptorObjectName(ctx.desc.context.fdp),
+                reflect = reflectInfo(msg, ctx),
                 options = options(msg, ctx)
             )
         }
@@ -79,8 +80,7 @@ internal object MessageAnnotator {
             suppressDeprecation = msg.hasDeprecation &&
                 (!enclosingDeprecation(ctx) ||
                     ctx.enclosing.firstOption()
-                        .fold({ false }, { it == msg })),
-            fullTypeName = msg.fullProtobufTypeName
+                        .fold({ false }, { it == msg }))
         )
 
     private fun options(msg: Message, ctx: Context): Options {
@@ -96,4 +96,11 @@ internal object MessageAnnotator {
             longDeserializer = lengthAsOneLine > idealMaxWidth
         )
     }
+
+    private fun reflectInfo(msg: Message, ctx: Context) =
+        ReflectInfo(
+            fileDescriptorObjectName = generateFileDescriptorObjectName(ctx.desc.context.fdp),
+            index = msg.index,
+            parentName = msg.parentName
+        )
 }

@@ -56,6 +56,7 @@ fun toProtocol(ctx: ProtocolContext) =
             ctx,
             ctx.fdp.enumTypeList,
             ctx.fdp.messageTypeList,
+            null,
             ctx.fdp.serviceList
         )
     )
@@ -93,6 +94,7 @@ private fun toTypeList(
     ctx: ProtocolContext,
     enums: List<EnumDescriptorProto>,
     messages: List<DescriptorProto>,
+    parentName: String? = null,
     services: List<ServiceDescriptorProto> = emptyList()
 ): ImmutableList<TopLevelType> =
     enums.foldIndexed(
@@ -105,7 +107,7 @@ private fun toTypeList(
     messages.foldIndexed(
         Tuple2(immutableSetOf<String>(), immutableListOf<TopLevelType>())
     ) { idx, acc, t ->
-        val m = toMessage(idx, ctx, t, acc.a)
+        val m = toMessage(idx, ctx, t, acc.a, parentName)
         Tuple2(acc.a + m.name, acc.b + m)
     }.b +
 
@@ -164,7 +166,8 @@ private fun toMessage(
     idx: Int,
     ctx: ProtocolContext,
     desc: DescriptorProto,
-    names: Set<String>
+    names: Set<String>,
+    parentName: String?
 ): Message {
     val typeName = newTypeNameFromPascal(desc.name, names)
     val fieldList = toFields(ctx, desc, names + typeName)
@@ -177,7 +180,8 @@ private fun toMessage(
                     is Oneof -> it.fields.first()
                 }.number
             },
-        nestedTypes = toTypeList(ctx, desc.enumTypeList, desc.nestedTypeList),
+        nestedTypes =
+            toTypeList(ctx, desc.enumTypeList, desc.nestedTypeList, typeName),
         mapEntry = desc.options?.mapEntry == true,
         options =
             MessageOptions(
@@ -185,7 +189,7 @@ private fun toMessage(
                 desc.options.getExtension(Protokt.class_)
             ),
         index = idx,
-        fullProtobufTypeName = "${ctx.fdp.`package`}.${desc.name}"
+        parentName = parentName
     )
 }
 
@@ -343,7 +347,7 @@ private fun toStandard(
                             { null },
                             {
                                 resolveMapEntry(
-                                    toMessage(-1, ctx, it, usedFieldNames)
+                                    toMessage(-1, ctx, it, usedFieldNames, null)
                                 )
                             }
                         )

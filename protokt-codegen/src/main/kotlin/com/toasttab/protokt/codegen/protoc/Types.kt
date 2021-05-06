@@ -34,7 +34,7 @@ class Message(
     val mapEntry: Boolean,
     val options: MessageOptions,
     val index: Int,
-    val fullProtobufTypeName: String
+    val parentName: String?
 ) : TopLevelType()
 
 data class MessageOptions(

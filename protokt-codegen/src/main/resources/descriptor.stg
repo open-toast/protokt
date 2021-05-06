@@ -19,16 +19,7 @@ object <fileDescriptorObjectName> {
         val descriptorData = arrayOf(
             <parts:{lines | <lines:{l | "<l>"}; separator=" +\n">}; separator=",\n">
         )
-
-        val descriptorBytes = ByteArray(descriptorData.sumBy { it.length })
-        var idx = 0
-        descriptorData.forEach { part ->
-            part.forEach { char ->
-                descriptorBytes[idx++] = char.toByte()
-            }
-        }
-
-        FileDescriptorProto.deserialize(descriptorBytes)
+        FileDescriptor.fromData(descriptorData, emptyList())
     }
 }
 

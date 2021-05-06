@@ -36,7 +36,6 @@ import com.toasttab.protokt.codegen.protoc.TypeDesc
 import com.toasttab.protokt.rt.KtDeserializer
 import com.toasttab.protokt.rt.KtEnum
 import com.toasttab.protokt.rt.KtEnumDeserializer
-import com.toasttab.protokt.rt.KtGeneratedMessage
 import com.toasttab.protokt.rt.KtMessage
 import com.toasttab.protokt.rt.KtMessageDeserializer
 import com.toasttab.protokt.rt.KtMessageSerializer
@@ -55,16 +54,14 @@ class ImportResolver(
             KtDeserializer::class,
             KtMessageDeserializer::class,
             KtMessageSerializer::class,
-            UnknownFieldSet::class,
-            KtGeneratedMessage::class
+            UnknownFieldSet::class
         ).map { pclass(it) }.toImmutableSet()
 
-    private val fileImports: ImmutableSet<Import> =
-        immutableSetOf(
-            Import.Class(
-                PClass.fromName("com.toasttab.protokt.FileDescriptorProto")
-            )
-        )
+    private val fileImports =
+        setOf(
+            "com.toasttab.protokt.FileDescriptor",
+            "com.toasttab.protokt.Descriptor"
+        ).map { Import.Class(PClass.fromName(it)) }
 
     fun resolveImports(astList: List<AST<TypeDesc>>) =
         astList.flatMapToSet { imports(it.data.type.rawType) }

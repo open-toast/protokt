@@ -20,6 +20,7 @@ import com.google.protobuf.DescriptorProtos
 import com.google.protobuf.Descriptors
 import com.google.protobuf.GeneratedMessageV3
 import com.toasttab.protokt.Api
+import com.toasttab.protokt.Descriptor
 import com.toasttab.protokt.FileDescriptorProto
 import com.toasttab.protokt.Type
 import com.toasttab.protokt.rt.KtDeserializer
@@ -52,12 +53,14 @@ class FileDescriptorEncodingTest {
 
         val protoktDescriptor =
             protokt::class
-                .propertyNamed("fileDescriptor")
+                .propertyNamed("descriptor")
                 .let {
                     @Suppress("UNCHECKED_CAST")
-                    it as KProperty1<Any, FileDescriptorProto>
+                    it as KProperty1<Any, Descriptor>
                 }
                 .get(protokt)
+                .file
+                .proto
 
         assertThat(
             protoktDescriptor
