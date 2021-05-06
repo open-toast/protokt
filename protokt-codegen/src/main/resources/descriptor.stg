@@ -19,6 +19,7 @@ object <fileDescriptorObjectName> {
         val descriptorData = arrayOf(
             <parts:{lines | <lines:{l | "<l>"}; separator=" +\n">}; separator=",\n">
         )
+
         FileDescriptor.fromData(
             descriptorData,
             <if (longDependencies)>
