@@ -138,4 +138,21 @@ class FileDescriptorEncodingTest {
             .invoke(null)
             .let { it as Descriptors.Descriptor }
             .file
+
+    @Test
+    fun `check enum descriptors`() {
+        // top-level enum
+        assertThat(
+            DescriptorProtos.EnumDescriptorProto.parseFrom(
+                com.toasttab.protokt.Syntax.descriptor.proto.serialize()
+            )
+        ).isEqualTo(com.google.protobuf.Syntax.getDescriptor().toProto())
+
+        // nested enum
+        assertThat(
+            DescriptorProtos.EnumDescriptorProto.parseFrom(
+                com.toasttab.protokt.Field.Cardinality.descriptor.proto.serialize()
+            )
+        ).isEqualTo(com.google.protobuf.Field.Cardinality.getDescriptor().toProto())
+    }
 }

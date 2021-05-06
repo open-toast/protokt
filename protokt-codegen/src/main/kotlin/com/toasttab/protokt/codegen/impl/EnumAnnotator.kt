@@ -51,16 +51,20 @@ internal object EnumAnnotator {
             options =
                 EnumOptions(
                     documentation = annotateEnumDocumentation(e, ctx),
-                    deprecation =
-                    if (e.options.default.deprecated) {
-                        renderOptions(
-                            e.options.protokt.deprecationMessage
-                        )
-                    } else {
-                        null
-                    },
-                    suppressDeprecation =
-                    (e.hasDeprecation && !enclosingDeprecation(ctx))
+                    deprecation = enumDeprecation(e),
+                    suppressDeprecation = (e.hasDeprecation && !enclosingDeprecation(ctx)),
+                    parentName = e.parentName,
+                    index = e.index,
+                    fileDescriptorObjectName = generateFileDescriptorObjectName(ctx.desc.context.fdp)
                 )
         )
+
+    private fun enumDeprecation(e: Enum) =
+        if (e.options.default.deprecated) {
+            renderOptions(
+                e.options.protokt.deprecationMessage
+            )
+        } else {
+            null
+        }
 }

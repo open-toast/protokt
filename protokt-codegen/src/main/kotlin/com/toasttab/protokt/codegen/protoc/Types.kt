@@ -46,6 +46,7 @@ class Enum(
     override val name: String,
     val options: EnumOptions,
     val values: List<Value>,
+    val parentName: String?,
     val index: Int
 ) : TopLevelType() {
     class Value(

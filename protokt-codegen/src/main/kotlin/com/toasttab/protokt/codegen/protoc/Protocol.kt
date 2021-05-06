@@ -100,7 +100,7 @@ private fun toTypeList(
     enums.foldIndexed(
         Tuple2(immutableSetOf<String>(), immutableListOf<TopLevelType>())
     ) { idx, acc, t ->
-        val e = toEnum(idx, t, acc.a)
+        val e = toEnum(idx, t, acc.a, parentName)
         Tuple2(acc.a + e.name, acc.b + e)
     }.b +
 
@@ -121,7 +121,8 @@ private fun toTypeList(
 private fun toEnum(
     idx: Int,
     desc: EnumDescriptorProto,
-    names: ImmutableSet<String>
+    names: ImmutableSet<String>,
+    parentName: String?
 ): Enum {
     val typeName = newTypeNameFromCamel(desc.name, names)
 
@@ -158,7 +159,8 @@ private fun toEnum(
             EnumOptions(
                 desc.options,
                 desc.options.getExtension(Protokt.enum_)
-            )
+            ),
+        parentName = parentName
     )
 }
 

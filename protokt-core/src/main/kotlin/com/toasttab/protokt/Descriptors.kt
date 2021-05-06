@@ -2,6 +2,37 @@ package com.toasttab.protokt
 
 import com.toasttab.protokt.rt.finishList
 
+class FileDescriptor(
+    val proto: FileDescriptorProto,
+    val dependencies: List<FileDescriptor>
+) {
+    val enumTypes =
+        proto.enumType.mapIndexed { idx, proto ->
+            EnumDescriptor(proto, this, idx)
+        }.let { finishList(it) }
+
+    companion object {
+        fun fromData(
+            data: Array<String>,
+            dependencies: List<FileDescriptor>
+        ): FileDescriptor {
+            val descriptorBytes = ByteArray(data.sumBy { it.length })
+            var idx = 0
+
+            data.forEach { part ->
+                part.forEach { char ->
+                    descriptorBytes[idx++] = char.toByte()
+                }
+            }
+
+            return FileDescriptor(
+                FileDescriptorProto.deserialize(descriptorBytes),
+                finishList(dependencies)
+            )
+        }
+    }
+}
+
 class Descriptor(
     val proto: DescriptorProto,
     val file: FileDescriptor,
@@ -25,8 +56,10 @@ class Descriptor(
             Descriptor(proto, file, idx, this)
         }.let { finishList(it) }
 
-    val name
-        get() = proto.name
+    val enumTypes =
+        proto.enumType.mapIndexed { idx, proto ->
+            EnumDescriptor(proto, file, idx)
+        }.let { finishList(it) }
 
     private companion object {
         fun computeFullName(
@@ -47,28 +80,8 @@ class Descriptor(
     }
 }
 
-class FileDescriptor(
-    val proto: FileDescriptorProto,
-    val dependencies: List<FileDescriptor>
-) {
-    companion object {
-        fun fromData(
-            data: Array<String>,
-            dependencies: List<FileDescriptor>
-        ): FileDescriptor {
-            val descriptorBytes = ByteArray(data.sumBy { it.length })
-            var idx = 0
-
-            data.forEach { part ->
-                part.forEach { char ->
-                    descriptorBytes[idx++] = char.toByte()
-                }
-            }
-
-            return FileDescriptor(
-                FileDescriptorProto.deserialize(descriptorBytes),
-                finishList(dependencies)
-            )
-        }
-    }
-}
+class EnumDescriptor(
+    val proto: EnumDescriptorProto,
+    val file: FileDescriptor,
+    val index: Int
+)
