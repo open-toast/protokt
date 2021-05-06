@@ -73,7 +73,8 @@ class Service(
     val type: String,
     val methods: List<Method>,
     val deprecated: Boolean,
-    val options: ServiceOptions
+    val options: ServiceOptions,
+    val index: Int
 ) : TopLevelType()
 
 class ServiceOptions(

@@ -85,16 +85,16 @@ object STAnnotator : Annotator<AST<TypeDesc>> {
                     annotateEnum(type, ctx)
                 }
             is Service ->
-                grpc(ctx) {
-                    annotateService(type, ctx)
-                }
+                annotateService(
+                    type,
+                    ctx,
+                    ctx.desc.context.generateGrpc ||
+                        ctx.desc.context.onlyGenerateGrpc
+                )
         }
 
     private fun nonGrpc(ctx: Context, gen: () -> String) =
         nonGrpc(ctx.desc.context, "", gen)
-
-    private fun grpc(ctx: Context, gen: () -> String) =
-        grpc(ctx.desc.context, "", gen)
 
     fun <T> nonGrpc(ctx: ProtocolContext, default: T, gen: () -> T) =
         boolGen(!ctx.onlyGenerateGrpc, default, gen)

@@ -155,4 +155,17 @@ class FileDescriptorEncodingTest {
             )
         ).isEqualTo(com.google.protobuf.Field.Cardinality.getDescriptor().toProto())
     }
+
+    @Test
+    fun `check service descriptors`() {
+        assertThat(
+            DescriptorProtos.ServiceDescriptorProto.parseFrom(
+                FooService.descriptor.proto.serialize()
+            )
+        ).isEqualTo(
+            HasAService.getDescriptor().findServiceByName(
+                FooService.descriptor.proto.name
+            ).toProto()
+        )
+    }
 }

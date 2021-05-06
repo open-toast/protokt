@@ -24,14 +24,22 @@ import com.toasttab.protokt.codegen.template.Services.Method.MethodOptions
 import com.toasttab.protokt.codegen.template.Services.MethodType
 import com.toasttab.protokt.codegen.template.Services.Service as ServiceTemplate
 import com.toasttab.protokt.codegen.template.Services.Service.MethodInfo
+import com.toasttab.protokt.codegen.template.Services.Service.ReflectInfo
 
 internal object ServiceAnnotator {
-    fun annotateService(s: Service, ctx: Context) =
+    fun annotateService(s: Service, ctx: Context, generateService: Boolean) =
         ServiceTemplate.render(
+            generateService = generateService,
+            generateDescriptor = !ctx.desc.context.onlyGenerateGrpc,
             name = s.name,
             qualifiedName = renderQualifiedName(s, ctx),
-            descriptor = renderDescriptor(s),
-            methods = renderMethods(s, ctx)
+            grpcDescriptor = renderDescriptor(s),
+            methods = renderMethods(s, ctx),
+            reflectInfo =
+                ReflectInfo(
+                    s.index,
+                    generateFileDescriptorObjectName(ctx.desc.context.fdp)
+                )
         )
 
     private fun renderQualifiedName(s: Service, ctx: Context) =

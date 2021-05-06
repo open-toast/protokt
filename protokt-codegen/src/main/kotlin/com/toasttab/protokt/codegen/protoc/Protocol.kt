@@ -111,10 +111,10 @@ private fun toTypeList(
         Tuple2(acc.a + m.name, acc.b + m)
     }.b +
 
-    services.fold(
+    services.foldIndexed(
         Tuple2(immutableSetOf<String>(), immutableListOf<TopLevelType>())
-    ) { acc, t ->
-        val s = toService(t, ctx, acc.a)
+    ) { idx, acc, t ->
+        val s = toService(idx, t, ctx, acc.a)
         Tuple2(acc.a + s.type, acc.b + s)
     }.b
 
@@ -196,6 +196,7 @@ private fun toMessage(
 }
 
 private fun toService(
+    idx: Int,
     desc: ServiceDescriptorProto,
     ctx: ProtocolContext,
     names: Set<String>
@@ -209,7 +210,8 @@ private fun toService(
             ServiceOptions(
                 desc.options,
                 desc.options.getExtension(Protokt.service)
-            )
+            ),
+        index = idx
     )
 
 private fun toMethod(

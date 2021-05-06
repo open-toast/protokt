@@ -59,8 +59,7 @@ class ImportResolver(
 
     private val fileImports =
         setOf(
-            "com.toasttab.protokt.FileDescriptor",
-            "com.toasttab.protokt.Descriptor"
+            "com.toasttab.protokt.FileDescriptor"
         ).map { Import.Class(PClass.fromName(it)) }
 
     fun resolveImports(astList: List<AST<TypeDesc>>) =

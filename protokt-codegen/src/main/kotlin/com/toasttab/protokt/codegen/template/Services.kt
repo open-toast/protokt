@@ -20,12 +20,23 @@ abstract class ServicesTemplate : StTemplate(StGroup.Services)
 object Services {
     object Service : ServicesTemplate() {
         fun render(
+            generateService: Boolean,
+            generateDescriptor: Boolean,
             name: String,
             qualifiedName: String,
-            descriptor: String,
-            methods: List<MethodInfo>
+            grpcDescriptor: String,
+            methods: List<MethodInfo>,
+            reflectInfo: ReflectInfo
         ) =
-            renderArgs(name, qualifiedName, descriptor, methods)
+            renderArgs(
+                generateService,
+                generateDescriptor,
+                name,
+                qualifiedName,
+                grpcDescriptor,
+                methods,
+                reflectInfo
+            )
 
         class MethodInfo(
             val name: String,
@@ -33,6 +44,11 @@ object Services {
             val body: String,
             val `in`: String,
             val `out`: String
+        )
+
+        class ReflectInfo(
+            val index: Int,
+            val fileDescriptorObjectName: String
         )
     }
 

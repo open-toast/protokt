@@ -79,6 +79,12 @@ internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
         ctx: ProtocolContext,
         pkg: PPackage
     ): FdpTemplateAndImports {
+        // If we're only generating services, the file descriptor will
+        // already exist in the non-gRPC file
+        if (ctx.onlyGenerateGrpc) {
+            return FdpTemplateAndImports("", emptySet())
+        }
+
         val imports = mutableSetOf<String>()
 
         val template =

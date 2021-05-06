@@ -50,11 +50,7 @@ companion object Deserializer : KtDeserializer\<<message.name>\>, (<message.name
         <if (reflect.parentName)>
         <reflect.parentName>.descriptor.nestedTypes[<reflect.index>]
         <else>
-        Descriptor(
-            <reflect.fileDescriptorObjectName>.descriptor.proto.messageType[<reflect.index>],
-            <reflect.fileDescriptorObjectName>.descriptor,
-            <reflect.index>
-        )
+        <reflect.fileDescriptorObjectName>.descriptor.messageTypes[<reflect.index>]
         <endif>
     }
 }

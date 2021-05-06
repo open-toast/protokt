@@ -6,9 +6,19 @@ class FileDescriptor(
     val proto: FileDescriptorProto,
     val dependencies: List<FileDescriptor>
 ) {
+    val messageTypes =
+        proto.messageType.mapIndexed { idx, proto ->
+            Descriptor(proto, this, idx)
+        }.let { finishList(it) }
+
     val enumTypes =
         proto.enumType.mapIndexed { idx, proto ->
             EnumDescriptor(proto, this, idx)
+        }.let { finishList(it) }
+
+    val services =
+        proto.service.mapIndexed { idx, proto ->
+            ServiceDescriptor(proto, this, idx)
         }.let { finishList(it) }
 
     companion object {
@@ -60,24 +70,6 @@ class Descriptor(
         proto.enumType.mapIndexed { idx, proto ->
             EnumDescriptor(proto, file, idx)
         }.let { finishList(it) }
-
-    private companion object {
-        fun computeFullName(
-            file: FileDescriptor,
-            parent: Descriptor?,
-            name: String
-        ): String {
-            if (parent != null) {
-                return "${parent.fullName}.$name"
-            }
-
-            file.proto.`package`?.takeIf { it.isNotEmpty() }?.let {
-                return "$it.$name"
-            }
-
-            return name
-        }
-    }
 }
 
 class EnumDescriptor(
@@ -85,3 +77,27 @@ class EnumDescriptor(
     val file: FileDescriptor,
     val index: Int
 )
+
+class ServiceDescriptor(
+    val proto: ServiceDescriptorProto,
+    val file: FileDescriptor,
+    val index: Int
+) {
+    val fullName = computeFullName(file, null, proto.name.orEmpty())
+}
+
+private fun computeFullName(
+    file: FileDescriptor,
+    parent: Descriptor?,
+    name: String
+): String {
+    if (parent != null) {
+        return "${parent.fullName}.$name"
+    }
+
+    file.proto.`package`?.takeIf { it.isNotEmpty() }?.let {
+        return "$it.$name"
+    }
+
+    return name
+}

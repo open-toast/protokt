@@ -15,18 +15,28 @@
 
 import "renderers.stg"
 
-service(name, qualifiedName, descriptor, methods) ::= <<
+service(generateService, generateDescriptor, name, qualifiedName, grpcDescriptor, methods, reflectInfo) ::= <<
+<if (generateService)><\\>
 object <name>Grpc {
     const val SERVICE_NAME = "<qualifiedName>"
 
     val serviceDescriptor: io.grpc.ServiceDescriptor by lazy {
-        <descriptor>
+        <grpcDescriptor>
     }
 
     <methods : { m | val <m.lowerName>Method: io.grpc.MethodDescriptor\<<m.in>, <m.out>\> by lazy {
     <m.body><\n><\\>
     \}}; separator="\n\n">
 }
+
+<endif><\\>
+<if (generateDescriptor)><\\>
+object <name> {
+    val descriptor by lazy {
+        <reflectInfo.fileDescriptorObjectName>.descriptor.services[<reflectInfo.index>]
+    }
+}
+<endif><\\>
 >>
 
 descriptor(methods) ::= <<
