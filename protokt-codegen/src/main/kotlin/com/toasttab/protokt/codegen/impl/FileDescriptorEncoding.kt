@@ -56,7 +56,7 @@ fun encodeFileDescriptor(fileDescriptorProto: FileDescriptorProto): List<List<St
 }
 
 private fun escape(bytes: Sequence<Byte>) =
-    bytes.joinToString(separator = "") {
+    bytes.joinToString("") {
         when (val c = it.toChar()) {
             '\n' -> "\\n"
             '\r' -> "\\r"
@@ -67,8 +67,7 @@ private fun escape(bytes: Sequence<Byte>) =
             '\b' -> "\\b"
             '$' -> "\\\$"
 
-            // Unlike for Java, all other characters are representable directly
-            // in Kotlin source.
+            // All other characters are representable directly in Kotlin source.
             else -> c.toString()
         }
     }
