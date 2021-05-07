@@ -178,7 +178,7 @@ internal fun generateFdpObjectNames(
                 fdp.serviceList.map { s -> s.name }).toSet()
 
         while (name in usedNames || name in topLevelNames) {
-           name += "_"
+            name += "_"
         }
 
         usedNames.add(name)

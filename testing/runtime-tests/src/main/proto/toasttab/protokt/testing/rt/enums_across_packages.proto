@@ -15,28 +15,10 @@
 
 syntax = "proto3";
 
-package com.toasttab.protokt.testing.rt;
+package toasttab.protokt.testing.rt;
 
-enum AnEnumType {
-  AN_ENUM_TYPE_UNSPECIFIED = 0;
-  AN_ENUM_TYPE_FIRST = 1;
-  AN_ENUM_TYPE_SECOND = 2;
-}
+import "toasttab/protokt/testing/rt/other/other_package.proto";
 
-enum AnEnumTypeNotPrefixed {
-  AN_ENUM_TYPE_NOT_PREFIXED_UNSPECIFIED = 0;
-  AN_ENUM_TYPE_NOT_PREFIXED_FIRST = 1;
-  SECOND = 2;
-}
-
-enum AnEnumTypeNoTerminalUnderscore {
-  AN_ENUM_TYPE_NO_TERMINAL_UNDERSCOREUNSPECIFIED = 0;
-  AN_ENUM_TYPE_NO_TERMINAL_UNDERSCOREFIRST = 1;
-  AN_ENUM_TYPE_NO_TERMINAL_UNDERSCORESECOND = 2;
-}
-
-enum AnEnumTypeLowerCase {
-  AN_ENUM_TYPE_LOWER_CASE_UNSPECIFIED = 0;
-  AN_ENUM_TYPE_LOWER_CASE_FIRST = 1;
-  AN_ENUM_TYPE_lower_CASE_SECOND = 2;
+message UsesOtherPackageEnum {
+  other.OtherPackageMessage.OtherPackageEnum enum = 1;
 }

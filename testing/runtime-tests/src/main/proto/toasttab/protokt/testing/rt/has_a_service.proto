@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Toast Inc.
+ * Copyright (c) 2021 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,10 +15,12 @@
 
 syntax = "proto3";
 
-package com.toasttab.protokt.testing.rt.oneof;
+package toasttab.protokt.testing.rt;
 
-message MessageName {
-  oneof message_name {
-    string child = 1;
-  }
+import "toasttab/protokt/testing/rt/test.proto";
+
+option java_package = "com.toasttab.protokt.testing.rt.other";
+
+service FooService {
+  rpc GetFoo(Test) returns (Test2);
 }

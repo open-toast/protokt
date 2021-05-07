@@ -26,11 +26,13 @@ import com.toasttab.protokt.FileDescriptor
 import com.toasttab.protokt.FileDescriptorProto
 import com.toasttab.protokt.Type
 import com.toasttab.protokt.rt.KtDeserializer
-import com.toasttab.protokt.testing.rt.other.DeeplyNested1.DeeplyNested2.DeeplyNested3.DeeplyNested4
-import com.toasttab.protokt.testing.rt.other.FooService
+import com.toasttab.protokt.testing.rt.other.DeeplyNested
+import com.toasttab.protokt.testing.rt.other.HasAService
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 import org.junit.jupiter.api.Test
+import toasttab.protokt.testing.rt.DeeplyNested1.DeeplyNested2.DeeplyNested3.DeeplyNested4
+import toasttab.protokt.testing.rt.FooService
 
 // Assert against a sampling of generated descriptors.
 class FileDescriptorEncodingTest {

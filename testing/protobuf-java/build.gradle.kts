@@ -25,10 +25,9 @@ dependencies {
 }
 
 sourceSets {
-    test {
+    main {
         proto {
             srcDir("${project.rootDir}/testing/runtime-tests/src/main/proto")
-            srcDir("${project.rootDir}/protokt-runtime/src/main/resources")
         }
     }
 }

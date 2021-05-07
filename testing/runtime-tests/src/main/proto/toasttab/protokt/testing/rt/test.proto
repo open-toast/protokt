@@ -15,7 +15,9 @@
 
 syntax = "proto3";
 
-package com.toasttab.protokt.testing.rt;
+package toasttab.protokt.testing.rt;
+
+option java_package = "com.toasttab.protokt.testing.rt";
 
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/any.proto";

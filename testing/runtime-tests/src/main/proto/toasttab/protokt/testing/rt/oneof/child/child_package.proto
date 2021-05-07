@@ -15,26 +15,6 @@
 
 syntax = "proto3";
 
-package com.toasttab.protokt.testing.rt;
+package toasttab.protokt.testing.rt.oneof.child;
 
-import "google/protobuf/wrappers.proto";
-
-message RootMessage {
-  string field = 1;
-
-  oneof OneofField {
-    string name = 3;
-  }
-}
-
-enum AnEnum {
-  FIRST = 0;
-}
-
-message ToDeserialize {
-  google.protobuf.StringValue string_value = 1;
-
-  RootMessage message = 2;
-
-  AnEnum enum = 3;
-}
+message ChildPackageMessage {}

@@ -15,18 +15,10 @@
 
 syntax = "proto3";
 
-package com.toasttab.protokt.testing.rt;
+package toasttab.protokt.testing.rt.oneof;
 
-import "google/protobuf/wrappers.proto";
-
-message WellKnownTypes {
-  google.protobuf.DoubleValue double = 1;
-  google.protobuf.FloatValue float = 2;
-  google.protobuf.Int64Value int64 = 3;
-  google.protobuf.UInt64Value uint64 = 4;
-  google.protobuf.Int32Value int32 = 5;
-  google.protobuf.UInt32Value uint32 = 6;
-  google.protobuf.BoolValue bool = 7;
-  google.protobuf.StringValue string = 8;
-  google.protobuf.BytesValue bytes = 9;
+message MessageName {
+  oneof message_name {
+    string child = 1;
+  }
 }

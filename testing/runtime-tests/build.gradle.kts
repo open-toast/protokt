@@ -14,18 +14,16 @@
  */
 
 import com.toasttab.protokt.gradle.protokt
-import com.toasttab.protokt.gradle.protoktExtensions
 
 localProtokt()
 pureKotlin()
 
 protokt {
     generateGrpc = true
+    respectJavaPackage = false
 }
 
 dependencies {
-    protoktExtensions(project(":extensions:publish"))
-
     implementation(kotlin("reflect"))
     implementation(project(":protokt-runtime-grpc"))
     implementation(project(":testing:protobuf-java"))

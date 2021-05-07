@@ -15,7 +15,7 @@
 
 syntax = "proto3";
 
-package com.toasttab.protokt.testing.rt.oneof;
+package toasttab.protokt.testing.rt.oneof;
 
 // This file exercises oneofs whose names are the same as their
 // generated sealed class type names. If the code generator does

@@ -15,16 +15,16 @@
 
 package com.toasttab.protokt.testing.rt
 
-import com.example.tutorial.AddressBook
 import com.example.tutorial.AddressBookProtos.AddressBook as JavaAddressBook
 import com.example.tutorial.AddressBookProtos.Person as JavaPerson
 import com.example.tutorial.AddressBookProtos.Person.PhoneNumber as JavaPhoneNumber
-import com.example.tutorial.Person
 import com.google.common.truth.Truth.assertThat
 import com.google.protobuf.Timestamp as JavaTimestamp
 import com.toasttab.protokt.Timestamp
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import tutorial.AddressBook
+import tutorial.Person
 
 class MessageJavaInteropTest {
     private val timestamp =

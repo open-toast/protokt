@@ -15,7 +15,7 @@
 
 syntax = "proto3";
 
-package com.toasttab.protokt.testing.rt;
+package toasttab.protokt.testing.rt;
 
 // This is the root message for testing documentation.
 // This line is line two.

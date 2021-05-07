@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Toast Inc.
+ * Copyright (c) 2020 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,16 +15,11 @@
 
 syntax = "proto3";
 
-package com.toasttab.protokt.testing.rt;
+package toasttab.protokt.testing.rt;
 
-import "protokt/protokt.proto";
-
-option (.protokt.file).kotlin_package = "com.toasttab.protokt.testing.rt.other";
-
-message DeeplyNested1 {
-  message DeeplyNested2 {
-    message DeeplyNested3 {
-      message DeeplyNested4 {}
-    }
+message DefinesNestedEnum {
+  enum NestedEnum {
+    ZEROTH = 0;
+    FIRST = 1;
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Toast Inc.
+ * Copyright (c) 2020 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +15,6 @@
 
 syntax = "proto3";
 
-package com.toasttab.protokt.testing.rt;
+package toasttab.protokt.testing.rt.other;
 
-import "com/toasttab/protokt/testing/rt/test.proto";
-import "protokt/protokt.proto";
-
-option (.protokt.file).kotlin_package = "com.toasttab.protokt.testing.rt.other";
-
-service FooService {
-  rpc GetFoo(Test) returns (Test2);
-}
+message Model {}

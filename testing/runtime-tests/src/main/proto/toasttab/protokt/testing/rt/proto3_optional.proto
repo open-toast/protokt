@@ -15,10 +15,14 @@
 
 syntax = "proto3";
 
-package com.toasttab.protokt.testing.rt;
+package toasttab.protokt.testing.rt;
 
-import "com/toasttab/protokt/testing/rt/defines_nested_enum.proto";
+message TestProto3Optional {
+  optional int32 optional_int32 = 1;
+  optional string optional_string = 2;
 
-message UsesNestedEnumInDifferentFileSamePackage {
-  DefinesNestedEnum.NestedEnum value = 1;
+  // doesn't do anything, but must be supported
+  optional Foo optional_foo = 3;
 }
+
+message Foo {}

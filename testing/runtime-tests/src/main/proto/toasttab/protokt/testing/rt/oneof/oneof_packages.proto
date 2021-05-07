@@ -15,10 +15,10 @@
 
 syntax = "proto3";
 
-package com.toasttab.protokt.testing.rt.oneof;
+package toasttab.protokt.testing.rt.oneof;
 
-import "com/toasttab/protokt/testing/rt/oneof/child/child_package.proto";
-import "com/toasttab/protokt/testing/rt/other/other_package.proto";
+import "toasttab/protokt/testing/rt/oneof/child/child_package.proto";
+import "toasttab/protokt/testing/rt/other/other_package.proto";
 
 // This file exercises oneofs that reference messages from different packages.
 // If the code generator does not handle them properly then compilation will fail.
@@ -26,13 +26,13 @@ import "com/toasttab/protokt/testing/rt/other/other_package.proto";
 message OneofExerciseModelWithChildPackage {
   oneof implementing_oneof {
     // Needs full qualification
-    com.toasttab.protokt.testing.rt.oneof.child.ChildPackageMessage child = 1;
+    toasttab.protokt.testing.rt.oneof.child.ChildPackageMessage child = 1;
   }
 }
 
 message OneOfExerciseModelWithDifferentPackage {
   oneof implementing_oneof {
     // Needs full qualification
-    com.toasttab.protokt.testing.rt.other.OtherPackageMessage other = 1;
+    toasttab.protokt.testing.rt.other.OtherPackageMessage other = 1;
   }
 }

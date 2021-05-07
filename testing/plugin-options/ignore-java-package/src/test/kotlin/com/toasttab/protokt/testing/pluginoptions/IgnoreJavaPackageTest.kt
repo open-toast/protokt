@@ -16,12 +16,12 @@
 package com.toasttab.protokt.testing.pluginoptions
 
 import com.google.common.truth.Truth.assertThat
-import com.toasttab.protokt.Timestamp
+import com.toasttab.protokt.TimestampProto
 import org.junit.jupiter.api.Test
 import toasttab.protokt.testing.ijp.WillBeImported
 import toasttab.protokt.testing.otherijp.UsesImport
+import tutorial.AddressBookProtos
 import tutorial.Person
-import tutorial.Addressbook
 
 class IgnoreJavaPackageTest {
     @Test
@@ -39,9 +39,9 @@ class IgnoreJavaPackageTest {
         )
 
         assertThat(
-            Addressbook.descriptor.dependencies
+            AddressBookProtos.descriptor.dependencies
         ).contains(
-            Timestamp.descriptor
+            TimestampProto.descriptor
         )
     }
 }
