@@ -89,7 +89,7 @@ internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
 
         val template =
             Descriptor.Descriptor.render(
-                generateFileDescriptorObjectName(ctx.fdp),
+                ctx.fileDescriptorObjectName,
                 encodeFileDescriptor(
                     clearJsonInfo(
                         ctx.fdp.toBuilder()
@@ -108,7 +108,8 @@ internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
                         }
                     }.map {
                         val depPkg = ctx.allPackagesByFileName.getValue(it)
-                        val descriptorObjectName = generateFileDescriptorObjectName(it)
+                        val descriptorObjectName =
+                            ctx.allDescriptorClassNamesByDescriptorName.getValue(it)
                         if (!depPkg.default && depPkg != pkg) {
                             imports.add("$depPkg.$descriptorObjectName")
                         }

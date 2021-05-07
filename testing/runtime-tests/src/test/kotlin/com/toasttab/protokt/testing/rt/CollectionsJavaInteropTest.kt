@@ -46,7 +46,7 @@ class CollectionsJavaInteropTest {
     private val protoktSimple0 = KtTest { `val` = bytesContent0 }
 
     private val javaSimple =
-        JavaTest.newBuilder()
+        TestOuterClass.Test.newBuilder()
             .setVal(ByteString.copyFrom(bytesContent.bytes))
             .build()
 

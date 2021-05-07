@@ -17,6 +17,10 @@ syntax = "proto3";
 
 package com.toasttab.protokt.testing.rt;
 
+import "protokt/protokt.proto";
+
+option (.protokt.file).kotlin_package = "com.toasttab.protokt.testing.rt.other";
+
 message DeeplyNested1 {
   message DeeplyNested2 {
     message DeeplyNested3 {

@@ -31,6 +31,7 @@ import com.toasttab.protokt.codegen.impl.packagesByTypeName
 import com.toasttab.protokt.codegen.impl.resolvePackage
 import com.toasttab.protokt.codegen.protoc.ProtocolContext
 import com.toasttab.protokt.codegen.protoc.fileName
+import com.toasttab.protokt.codegen.protoc.generateFdpObjectNames
 import com.toasttab.protokt.codegen.protoc.respectJavaPackage
 import com.toasttab.protokt.codegen.protoc.toProtocol
 import com.toasttab.protokt.ext.Protokt
@@ -89,6 +90,7 @@ private fun generate(
                         )
                 },
                 protoFileList.associateBy { it.name },
+                generateFdpObjectNames(protoFileList),
                 params
             )
         ),

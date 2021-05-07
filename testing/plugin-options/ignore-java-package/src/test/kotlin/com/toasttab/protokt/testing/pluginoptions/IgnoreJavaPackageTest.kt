@@ -16,12 +16,12 @@
 package com.toasttab.protokt.testing.pluginoptions
 
 import com.google.common.truth.Truth.assertThat
-import com.toasttab.protokt.google_protobuf_timestamp
+import com.toasttab.protokt.Timestamp
 import org.junit.jupiter.api.Test
-import toasttab.protokt.testing.ijp.toasttab_testing_ijp_will_us_be_us_imported
-import toasttab.protokt.testing.otherijp.toasttab_testing_otherijp_uses_us_import
+import toasttab.protokt.testing.ijp.WillBeImported
+import toasttab.protokt.testing.otherijp.UsesImport
 import tutorial.Person
-import tutorial.tutorial_addressbook
+import tutorial.Addressbook
 
 class IgnoreJavaPackageTest {
     @Test
@@ -33,15 +33,15 @@ class IgnoreJavaPackageTest {
     @Test
     fun `descriptor dependencies reference correctly qualified entities`() {
         assertThat(
-            toasttab_testing_otherijp_uses_us_import.descriptor.dependencies
+            UsesImport.descriptor.dependencies
         ).contains(
-            toasttab_testing_ijp_will_us_be_us_imported.descriptor
+            WillBeImported.descriptor
         )
 
         assertThat(
-            tutorial_addressbook.descriptor.dependencies
+            Addressbook.descriptor.dependencies
         ).contains(
-            google_protobuf_timestamp.descriptor
+            Timestamp.descriptor
         )
     }
 }

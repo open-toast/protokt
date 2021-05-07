@@ -99,7 +99,7 @@ internal object MessageAnnotator {
 
     private fun reflectInfo(msg: Message, ctx: Context) =
         ReflectInfo(
-            fileDescriptorObjectName = generateFileDescriptorObjectName(ctx.desc.context.fdp),
+            fileDescriptorObjectName = ctx.desc.context.fileDescriptorObjectName,
             index = msg.index,
             parentName = msg.parentName
         )

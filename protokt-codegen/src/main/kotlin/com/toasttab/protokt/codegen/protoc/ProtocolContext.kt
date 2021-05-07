@@ -30,11 +30,13 @@ class ProtocolContext(
     val allPackagesByTypeName: Map<String, PPackage>,
     val allPackagesByFileName: Map<String, PPackage>,
     val allFilesByName: Map<String, FileDescriptorProto>,
+    val allDescriptorClassNamesByDescriptorName: Map<String, String>,
     params: Map<String, String>
 ) {
-    val classpath = params.getOrDefault(KOTLIN_EXTRA_CLASSPATH, "").split(";").map {
-        URLDecoder.decode(it, StandardCharsets.UTF_8)
-    }
+    val classpath =
+        params.getOrDefault(KOTLIN_EXTRA_CLASSPATH, "").split(";").map {
+            URLDecoder.decode(it, StandardCharsets.UTF_8)
+        }
 
     val respectJavaPackage = respectJavaPackage(params)
     val generateGrpc = params.getValue(GENERATE_GRPC).toBoolean()
@@ -45,6 +47,9 @@ class ProtocolContext(
 
     val proto2 = !fdp.hasSyntax() || fdp.syntax == "proto2"
     val proto3 = fdp.syntax == "proto3"
+
+    val fileDescriptorObjectName =
+        allDescriptorClassNamesByDescriptorName.getValue(fdp.name)
 }
 
 fun respectJavaPackage(params: Map<String, String>) =

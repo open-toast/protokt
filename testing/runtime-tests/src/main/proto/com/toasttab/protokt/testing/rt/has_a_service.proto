@@ -18,6 +18,9 @@ syntax = "proto3";
 package com.toasttab.protokt.testing.rt;
 
 import "com/toasttab/protokt/testing/rt/test.proto";
+import "protokt/protokt.proto";
+
+option (.protokt.file).kotlin_package = "com.toasttab.protokt.testing.rt.other";
 
 service FooService {
   rpc GetFoo(Test) returns (Test2);

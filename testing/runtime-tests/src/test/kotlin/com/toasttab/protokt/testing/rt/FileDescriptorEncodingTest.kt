@@ -26,7 +26,8 @@ import com.toasttab.protokt.FileDescriptor
 import com.toasttab.protokt.FileDescriptorProto
 import com.toasttab.protokt.Type
 import com.toasttab.protokt.rt.KtDeserializer
-import com.toasttab.protokt.testing.rt.DeeplyNested1.DeeplyNested2.DeeplyNested3.DeeplyNested4
+import com.toasttab.protokt.testing.rt.other.DeeplyNested1.DeeplyNested2.DeeplyNested3.DeeplyNested4
+import com.toasttab.protokt.testing.rt.other.FooService
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 import org.junit.jupiter.api.Test

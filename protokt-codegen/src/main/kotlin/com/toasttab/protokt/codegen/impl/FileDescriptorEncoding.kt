@@ -71,31 +71,3 @@ private fun escape(bytes: Sequence<Byte>) =
             else -> c.toString()
         }
     }
-
-fun generateFileDescriptorObjectName(fileDescriptorProto: FileDescriptorProto) =
-    generateFileDescriptorObjectName(fileDescriptorProto.name)
-
-fun generateFileDescriptorObjectName(name: String) =
-    name
-        .substringBefore(".proto")
-        .replace("_", "_us_")
-        .replace(".", "_dot_")
-        .replace(";", "_semi_")
-        .replace("[", "_sqb_")
-        .replace("<", "_lt_")
-        .replace(">", "_gt_")
-        .replace(":", "_cl_")
-        .replace('/', '_')
-        .let {
-            if (!it.first().isJavaIdentifierStart()) {
-                it.replaceRange(0..1, "_${it.first()}")
-            } else {
-                it
-            }
-        }.let {
-            if (it.any { c -> !c.isJavaIdentifierPart() }) {
-                "`$it`"
-            } else {
-                it
-            }
-        }

@@ -38,7 +38,7 @@ internal object ServiceAnnotator {
             reflectInfo =
                 ReflectInfo(
                     s.index,
-                    generateFileDescriptorObjectName(ctx.desc.context.fdp)
+                    ctx.desc.context.fileDescriptorObjectName
                 )
         )
 
