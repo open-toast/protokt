@@ -27,11 +27,9 @@ import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.Feature
 import com.toasttab.protokt.codegen.generate
 import com.toasttab.protokt.codegen.impl.STAnnotator
 import com.toasttab.protokt.codegen.impl.STEffects
-import com.toasttab.protokt.codegen.impl.packagesByTypeName
 import com.toasttab.protokt.codegen.impl.resolvePackage
 import com.toasttab.protokt.codegen.protoc.ProtocolContext
 import com.toasttab.protokt.codegen.protoc.fileName
-import com.toasttab.protokt.codegen.protoc.generateFdpObjectNames
 import com.toasttab.protokt.codegen.protoc.respectJavaPackage
 import com.toasttab.protokt.codegen.protoc.toProtocol
 import com.toasttab.protokt.ext.Protokt
@@ -74,26 +72,7 @@ private fun generate(
 ): String {
     val code = StringBuilder()
     val g = generate(
-        toProtocol(
-            ProtocolContext(
-                fdp,
-                packagesByTypeName(
-                    protoFileList,
-                    respectJavaPackage(params)
-                ),
-                protoFileList.associate {
-                    it.name to
-                        resolvePackage(
-                            it,
-                            it.name !in filesToGenerate ||
-                                respectJavaPackage(params)
-                        )
-                },
-                protoFileList.associateBy { it.name },
-                generateFdpObjectNames(protoFileList, respectJavaPackage(params)),
-                params
-            )
-        ),
+        toProtocol(ProtocolContext(fdp, params, filesToGenerate, protoFileList)),
         STAnnotator,
         STEffects,
         { t ->
