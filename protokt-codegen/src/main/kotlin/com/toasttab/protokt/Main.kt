@@ -90,7 +90,7 @@ private fun generate(
                         )
                 },
                 protoFileList.associateBy { it.name },
-                generateFdpObjectNames(protoFileList),
+                generateFdpObjectNames(protoFileList, respectJavaPackage(params)),
                 params
             )
         ),

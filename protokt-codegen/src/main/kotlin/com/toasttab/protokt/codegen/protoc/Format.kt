@@ -16,6 +16,7 @@
 package com.toasttab.protokt.codegen.protoc
 
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
+import com.toasttab.protokt.codegen.impl.resolvePackage
 import com.toasttab.protokt.codegen.model.PPackage
 
 internal object Keywords {
@@ -158,7 +159,8 @@ internal fun fileName(pkg: PPackage?, name: String): String {
 }
 
 internal fun generateFdpObjectNames(
-    files: List<FileDescriptorProto>
+    files: List<FileDescriptorProto>,
+    respectJavaPackage: Boolean
 ): Map<String, String> {
     val usedNames = mutableSetOf<String>()
     val names = mutableMapOf<String, String>()
@@ -173,9 +175,14 @@ internal fun generateFdpObjectNames(
                     .capitalize()
 
         val topLevelNames =
-            (fdp.enumTypeList.map { e -> e.name } +
-                fdp.messageTypeList.map { m -> m.name } +
-                fdp.serviceList.map { s -> s.name }).toSet()
+            files.filter {
+                resolvePackage(it, respectJavaPackage) ==
+                    resolvePackage(fdp, respectJavaPackage)
+            }.flatMapTo(mutableSetOf<String>()) {
+                fdp.enumTypeList.map { e -> e.name } +
+                    fdp.messageTypeList.map { m -> m.name } +
+                    fdp.serviceList.map { s -> s.name }
+            }
 
         while (name in usedNames || name in topLevelNames) {
             name += "_"
