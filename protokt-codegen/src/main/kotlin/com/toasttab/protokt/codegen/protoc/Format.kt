@@ -167,7 +167,8 @@ internal fun generateFdpObjectNames(
 
     files.forEach { fdp ->
         var name =
-            fdp.options.javaOuterClassname.takeIf { it.isNotEmpty() }
+            fdp.fileOptions.protokt.fileDescriptorObjectName.takeIf { it.isNotEmpty() }
+                ?: fdp.fileOptions.default.javaOuterClassname.takeIf { it.isNotEmpty() }
                 ?: fdp.name
                     .substringBefore(".proto")
                     .substringAfterLast('/')
