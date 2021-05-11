@@ -80,7 +80,7 @@ dependencies {
 
     implementation(kotlin("stdlib"))
 
-    testImplementation("org.junit.jupiter:junit-jupiter:5.6.2")
-    testImplementation("com.google.protobuf:protobuf-javalite:3.12.1")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.7.1")
+    testImplementation("com.google.protobuf:protobuf-javalite:3.16.0")
     testImplementation("com.toasttab.protokt:protokt-util:$version")
 }
