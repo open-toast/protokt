@@ -18,7 +18,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     idea
-    kotlin("jvm") version System.getProperty("kotlin.version", "1.3.72")
+    kotlin("jvm") version System.getProperty("kotlin.version", "1.4.32")
     id("com.diffplug.gradle.spotless") version "4.2.0"
 }
 
