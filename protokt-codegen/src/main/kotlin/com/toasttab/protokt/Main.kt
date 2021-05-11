@@ -15,21 +15,19 @@
 
 package com.toasttab.protokt
 
-import arrow.core.None
-import arrow.core.Some
-import arrow.core.extensions.list.foldable.nonEmpty
-import arrow.syntax.collections.flatten
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.google.protobuf.ExtensionRegistry
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.Feature
-import com.toasttab.protokt.codegen.generate
+import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.impl.STAnnotator
 import com.toasttab.protokt.codegen.impl.STEffects
 import com.toasttab.protokt.codegen.impl.packagesByTypeName
 import com.toasttab.protokt.codegen.impl.resolvePackage
+import com.toasttab.protokt.codegen.protoc.AnnotatedType
 import com.toasttab.protokt.codegen.protoc.ProtocolContext
+import com.toasttab.protokt.codegen.protoc.TypeDesc
 import com.toasttab.protokt.codegen.protoc.fileName
 import com.toasttab.protokt.codegen.protoc.respectJavaPackage
 import com.toasttab.protokt.codegen.protoc.toProtocol
@@ -38,7 +36,12 @@ import java.io.OutputStream
 import kotlin.system.exitProcess
 
 fun main() =
-    main(System.`in`.use { it.readBytes() }, System.out)
+    try {
+        main(System.`in`.use { it.readBytes() }, System.out)
+    } catch (t: Throwable) {
+        t.printStackTrace(System.err)
+        exitProcess(-1)
+    }
 
 internal fun main(bytes: ByteArray, out: OutputStream) {
     val req = parseCodeGeneratorRequest(bytes)
@@ -47,10 +50,9 @@ internal fun main(bytes: ByteArray, out: OutputStream) {
 
     val files = req.protoFileList
         .filter { filesToGenerate.contains(it.name) }
-        .map { response(it, generate(it, req.protoFileList, params), params) }
-        .flatten()
+        .mapNotNull { response(it, generate(it, req.protoFileList, params), params) }
 
-    if (files.nonEmpty()) {
+    if (files.isNotEmpty()) {
         CodeGeneratorResponse.newBuilder()
             .setSupportedFeatures(Feature.FEATURE_PROTO3_OPTIONAL.number.toLong())
             .addAllFile(files)
@@ -65,7 +67,7 @@ private fun generate(
     params: Map<String, String>
 ): String {
     val code = StringBuilder()
-    val g = generate(
+    val protocol =
         toProtocol(
             ProtocolContext(
                 fdp,
@@ -75,15 +77,12 @@ private fun generate(
                 ),
                 params
             )
-        ),
-        STAnnotator,
-        STEffects,
-        { t ->
-            t.printStackTrace(System.err)
-            exitProcess(-1)
+        )
+    STEffects(
+        protocol.types.map {
+            STAnnotator(AST(TypeDesc(protocol.desc, AnnotatedType(it))))
         }
-    )
-    g { s -> code.append(s) }
+    ) { s -> code.append(s) }
 
     return code.toString()
 }
@@ -93,20 +92,16 @@ private fun response(
     code: String,
     params: Map<String, String>
 ) =
-    if (code.isNotBlank()) {
-        Some(
-            CodeGeneratorResponse.File
-                .newBuilder()
-                .setContent(code)
-                .setName(
-                    fileName(
-                        resolvePackage(fdp, respectJavaPackage(params)),
-                        fdp.name
-                    )
-                ).build()
-        )
-    } else {
-        None
+    code.takeIf { it.isNotBlank() }?.let {
+        CodeGeneratorResponse.File
+            .newBuilder()
+            .setContent(code)
+            .setName(
+                fileName(
+                    resolvePackage(fdp, respectJavaPackage(params)),
+                    fdp.name
+                )
+            ).build()
     }
 
 private fun parseParams(req: CodeGeneratorRequest) =

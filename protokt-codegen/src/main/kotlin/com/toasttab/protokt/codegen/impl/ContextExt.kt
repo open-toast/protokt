@@ -16,13 +16,13 @@
 package com.toasttab.protokt.codegen.impl
 
 import arrow.core.Option
-import arrow.core.extensions.list.foldable.firstOption
+import arrow.core.firstOrNone
 import arrow.core.toOption
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.protoc.Message
 
 internal fun Context.stripRootMessageNamePrefix(s: String) =
-    stripPrefix(enclosing.firstOption(), s)
+    stripPrefix(enclosing.firstOrNone(), s)
 
 internal fun Context.stripEnclosingMessageNamePrefix(s: String) =
     stripPrefix(enclosing.lastOrNull().toOption(), s)

@@ -19,7 +19,7 @@ import arrow.core.Either
 import arrow.core.None
 import arrow.core.Some
 import arrow.core.getOrHandle
-import arrow.syntax.function.memoize
+import arrow.core.memoize
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.protoc.ProtocolContext
 import com.toasttab.protokt.ext.Converter
@@ -47,9 +47,9 @@ internal object ClassLookup {
         f: () -> R
     ): Either<Throwable, R> =
         try {
-            right(f())
+            Either.Right(f())
         } catch (t: Throwable) {
-            left(t)
+            Either.Left(t)
         }
 
     val getClassLoader = { classpath: List<String> ->

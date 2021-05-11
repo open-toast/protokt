@@ -24,9 +24,7 @@ configure<JavaApplication> {
 }
 
 dependencies {
-    libraries.arrow.forEach {
-        implementation(it)
-    }
+    implementation(libraries.arrow)
     implementation(libraries.kotlinxCoroutinesCore)
     implementation(libraries.protobuf)
 }

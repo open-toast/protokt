@@ -76,7 +76,7 @@ private fun io(stdin: InputStream, size: Int) =
                             )
                         }
                     }.mapLeft { e ->
-                        Result.ParseError("Parse Error, ${e.message}") as Result
+                        Result.ParseError("Parse Error, ${e.message}")
                     }.fold(
                         { f -> identity(f) },
                         { f -> identity(f) }
