@@ -17,7 +17,6 @@ package com.toasttab.protokt.conformance.driver
 
 import arrow.core.Either
 import arrow.core.None
-import arrow.core.identity
 import arrow.core.toOption
 import com.toasttab.protokt.conformance.ConformanceRequest
 import com.toasttab.protokt.conformance.ConformanceResponse
@@ -60,10 +59,10 @@ private fun io(stdin: InputStream, size: Int) =
     }.mapLeft { e ->
         Result.ParseError("ParseError, ${e.message}")
     }.fold(
-        { identity(it) },
-        {
-            if (isRequestOk(it)) {
-                (it.payload as ConformanceRequest.Payload.ProtobufPayload)
+        { it },
+        { req ->
+            if (isRequestOk(req)) {
+                (req.payload as ConformanceRequest.Payload.ProtobufPayload)
                 .protobufPayload.bytes.let { bytes ->
                     runBlocking {
                         Either.catch {
@@ -78,8 +77,8 @@ private fun io(stdin: InputStream, size: Int) =
                     }.mapLeft { e ->
                         Result.ParseError("Parse Error, ${e.message}")
                     }.fold(
-                        { f -> identity(f) },
-                        { f -> identity(f) }
+                        { it },
+                        { it }
                     )
                 }
             } else {

@@ -78,11 +78,13 @@ private fun generate(
                 params
             )
         )
+    
     STEffects(
         protocol.types.map {
             STAnnotator(AST(TypeDesc(protocol.desc, AnnotatedType(it))))
-        }
-    ) { s -> code.append(s) }
+        },
+        code::append
+    )
 
     return code.toString()
 }
