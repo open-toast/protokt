@@ -20,7 +20,6 @@ import com.google.protobuf.ExtensionRegistry
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.Feature
-import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.impl.STAnnotator
 import com.toasttab.protokt.codegen.impl.STEffects
 import com.toasttab.protokt.codegen.impl.packagesByTypeName
@@ -79,9 +78,9 @@ private fun generate(
             )
         )
 
-    STEffects(
+    STEffects.apply(
         protocol.types.map {
-            STAnnotator(AST(TypeDesc(protocol.desc, AnnotatedType(it))))
+            STAnnotator.apply(TypeDesc(protocol.desc, AnnotatedType(it)))
         },
         code::append
     )

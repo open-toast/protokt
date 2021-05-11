@@ -15,7 +15,6 @@
 
 package com.toasttab.protokt.codegen.impl
 
-import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.model.Import
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.protoc.Message
@@ -23,16 +22,16 @@ import com.toasttab.protokt.codegen.protoc.Oneof
 import com.toasttab.protokt.codegen.protoc.TypeDesc
 
 fun Sequence<Import>.filterClassesWithSameNameAsOneofFieldTypeIn(
-    asts: List<AST<TypeDesc>>
+    descs: List<TypeDesc>
 ) =
     filterNot {
         it is Import.Class &&
-            allOneofFieldTypes(asts).contains(it.pClass.simpleName)
+            allOneofFieldTypes(descs).contains(it.pClass.simpleName)
     }
 
-private fun allOneofFieldTypes(asts: List<AST<TypeDesc>>) =
-    asts.asSequence().flatMap {
-        when (val t = it.data.type.rawType) {
+private fun allOneofFieldTypes(descs: List<TypeDesc>) =
+    descs.asSequence().flatMap {
+        when (val t = it.type.rawType) {
             is Message -> typeNames(t)
             else -> emptySequence()
         }

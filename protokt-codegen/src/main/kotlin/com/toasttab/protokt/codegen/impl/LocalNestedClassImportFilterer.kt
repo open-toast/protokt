@@ -15,7 +15,6 @@
 
 package com.toasttab.protokt.codegen.impl
 
-import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.model.Import
 import com.toasttab.protokt.codegen.protoc.Enum
 import com.toasttab.protokt.codegen.protoc.Message
@@ -41,14 +40,14 @@ import com.toasttab.protokt.codegen.protoc.TypeDesc
  * These imports _are_ necessary in other files or equivalently when used in
  * messages other than that in which they are defined.
  */
-fun Sequence<Import>.filterNestedClassesDefinedLocally(asts: List<AST<TypeDesc>>) =
+fun Sequence<Import>.filterNestedClassesDefinedLocally(descs: List<TypeDesc>) =
     filterNot {
         it is Import.Class && it.nested &&
-            astsUsing(it, asts).containsOnly(astDefining(it, asts))
+            descsUsing(it, descs).containsOnly(descsDefining(it, descs))
     }
 
-private fun astsUsing(import: Import.Class, asts: List<AST<TypeDesc>>) =
-    asts.filter { searchTypes(it.data.type.rawType, import) }.toSet()
+private fun descsUsing(import: Import.Class, descs: List<TypeDesc>) =
+    descs.filter { searchTypes(it.type.rawType, import) }.toSet()
 
 private fun searchTypes(t: TopLevelType, import: Import.Class): Boolean =
     t is Message &&
@@ -63,9 +62,9 @@ private fun searchFields(msg: Message, import: Import.Class) =
         }
     }
 
-private fun astDefining(import: Import.Class, asts: List<AST<TypeDesc>>) =
-    asts.filter {
-        it.data.type.rawType.let { t ->
+private fun descsDefining(import: Import.Class, descs: List<TypeDesc>) =
+    descs.filter {
+        it.type.rawType.let { t ->
             import.pkg == kotlinPackage(it) &&
                 t is Message && searchMessage(t, t.name, import)
         }
