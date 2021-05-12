@@ -16,7 +16,6 @@
 package com.toasttab.protokt.codegen.impl
 
 import arrow.core.firstOrNone
-import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.model.Import
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.protoc.TypeDesc
@@ -24,11 +23,11 @@ import com.toasttab.protokt.codegen.template.Header.Header
 
 object HeaderAccumulator {
     fun write(
-        astList: List<AST<TypeDesc>>,
+        descs: List<TypeDesc>,
         imports: Set<Import>,
         acc: (String) -> Unit
     ) {
-        astList.firstOrNone().map { f ->
+        descs.firstOrNone().map { f ->
             acc(
                 Header.render(
                     `package` =
@@ -40,8 +39,8 @@ object HeaderAccumulator {
                             }
                         },
                     imports = imports.map { it.qualifiedName }.sorted(),
-                    version = f.data.desc.context.version,
-                    fileName = f.data.desc.name
+                    version = f.desc.context.version,
+                    fileName = f.desc.name
                 )
             )
         }

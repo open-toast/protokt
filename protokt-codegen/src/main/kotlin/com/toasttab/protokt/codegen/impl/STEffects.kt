@@ -16,22 +16,19 @@
 package com.toasttab.protokt.codegen.impl
 
 import arrow.core.firstOrNone
-import com.toasttab.protokt.codegen.algebra.AST
-import com.toasttab.protokt.codegen.algebra.Accumulator
-import com.toasttab.protokt.codegen.algebra.Effects
 import com.toasttab.protokt.codegen.model.Import
 import com.toasttab.protokt.codegen.protoc.TypeDesc
 
-internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
-    override fun invoke(astList: List<AST<TypeDesc>>, acc: (String) -> Unit) {
-        val imports = collectPossibleImports(astList)
+internal object STEffects {
+    fun apply(descs: List<TypeDesc>, acc: (String) -> Unit) {
+        val imports = collectPossibleImports(descs)
 
         val header = StringBuilder()
-        HeaderAccumulator.write(astList, imports) { header.append(it + "\n") }
+        HeaderAccumulator.write(descs, imports) { header.append(it + "\n") }
 
         val body = StringBuilder()
-        astList.forEach {
-            it.data.type.code.map { s ->
+        descs.forEach {
+            it.type.code.map { s ->
                 if (s.isNotBlank()) {
                     body.append(s + "\n")
                 }
@@ -44,13 +41,13 @@ internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
         }
     }
 
-    private fun collectPossibleImports(astList: List<AST<TypeDesc>>): Set<Import> =
-        astList.firstOrNone()
+    private fun collectPossibleImports(descs: List<TypeDesc>): Set<Import> =
+        descs.firstOrNone()
             .fold(
                 { emptySet() },
                 {
-                    ImportResolver(it.data.desc.context, kotlinPackage(it))
-                        .resolveImports(astList)
+                    ImportResolver(it.desc.context, kotlinPackage(it))
+                        .resolveImports(descs)
                 }
             )
 }

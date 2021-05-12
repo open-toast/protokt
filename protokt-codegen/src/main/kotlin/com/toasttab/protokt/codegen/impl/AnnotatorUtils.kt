@@ -17,7 +17,6 @@ package com.toasttab.protokt.codegen.impl
 
 import arrow.core.None
 import arrow.core.Some
-import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptMapKeyTypeName
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptMapValueTypeName
@@ -64,9 +63,9 @@ fun String.emptyToNone() =
         Some(this)
     }
 
-fun kotlinPackage(ast: AST<TypeDesc>) =
+fun kotlinPackage(data: TypeDesc) =
     resolvePackage(
-        ast.data.desc.options,
-        ast.data.desc.packageName,
-        ast.data.desc.context.respectJavaPackage
+        data.desc.options,
+        data.desc.packageName,
+        data.desc.context.respectJavaPackage
     )

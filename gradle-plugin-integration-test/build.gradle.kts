@@ -18,8 +18,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     idea
-    kotlin("jvm") version System.getProperty("kotlin.version", "1.3.72")
-    id("com.diffplug.gradle.spotless") version "4.2.0"
+    kotlin("jvm") version System.getProperty("kotlin.version", "1.4.32")
+    id("com.diffplug.spotless") version "5.12.4"
 }
 
 buildscript {
@@ -55,7 +55,7 @@ tasks {
             allWarningsAsErrors = true
             jvmTarget = "1.8"
 
-            apiVersion = System.getProperty("kotlin.api.version", "1.3")
+            apiVersion = System.getProperty("kotlin.api.version", "1.4")
             languageVersion = apiVersion
         }
     }
@@ -80,7 +80,7 @@ dependencies {
 
     implementation(kotlin("stdlib"))
 
-    testImplementation("org.junit.jupiter:junit-jupiter:5.6.2")
-    testImplementation("com.google.protobuf:protobuf-javalite:3.12.1")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.7.1")
+    testImplementation("com.google.protobuf:protobuf-javalite:3.16.0")
     testImplementation("com.toasttab.protokt:protokt-util:$version")
 }

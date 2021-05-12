@@ -38,7 +38,7 @@ dependencies {
 
     implementation(kotlin("reflect"))
 
-    libraries.arrow.forEach { implementation(it) }
+    implementation(libraries.arrow)
     implementation(libraries.grpcStub)
     implementation(libraries.kollection)
     implementation(libraries.kotlinReflect)

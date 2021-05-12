@@ -16,15 +16,14 @@
 package com.toasttab.protokt.codegen.impl
 
 import com.google.common.annotations.VisibleForTesting
-import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.model.Import
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.TypeDesc
 
 fun Sequence<Import>.filterClassesWithSameNameAsMessageIn(
-    asts: List<AST<TypeDesc>>
+    descs: List<TypeDesc>
 ) =
-    filterClassesWithSameNameAsMessageIn(allMessageNames(asts))
+    filterClassesWithSameNameAsMessageIn(allMessageNames(descs))
 
 @VisibleForTesting
 internal fun Sequence<Import>.filterClassesWithSameNameAsMessageIn(
@@ -32,9 +31,9 @@ internal fun Sequence<Import>.filterClassesWithSameNameAsMessageIn(
 ) =
     filterNot { it is Import.Class && names.contains(it.pClass.simpleName) }
 
-private fun allMessageNames(asts: List<AST<TypeDesc>>) =
-    asts.asSequence().flatMap {
-        when (val t = it.data.type.rawType) {
+private fun allMessageNames(descs: List<TypeDesc>) =
+    descs.asSequence().flatMap {
+        when (val t = it.type.rawType) {
             is Message -> names(t)
             else -> emptySequence()
         }

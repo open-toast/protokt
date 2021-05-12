@@ -15,7 +15,7 @@
 
 package com.toasttab.protokt.codegen.impl
 
-import arrow.core.extensions.list.foldable.firstOption
+import arrow.core.firstOrNone
 import com.toasttab.protokt.codegen.impl.Deprecation.enclosingDeprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.hasDeprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
@@ -77,7 +77,7 @@ internal object MessageAnnotator {
                 },
             suppressDeprecation = msg.hasDeprecation &&
                 (!enclosingDeprecation(ctx) ||
-                    ctx.enclosing.firstOption()
+                    ctx.enclosing.firstOrNone()
                         .fold({ false }, { it == msg })),
             fullTypeName = msg.fullProtobufTypeName
         )
