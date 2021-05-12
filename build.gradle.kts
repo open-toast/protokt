@@ -60,6 +60,10 @@ subprojects {
             }
         }
 
+        withType<Test> {
+            useJUnitPlatform()
+        }
+
         jar {
             manifest {
                 attributes(
