@@ -61,8 +61,8 @@ private constructor(
         val fixed64: List<Fixed64Val>,
         val lengthDelimited: List<LengthDelimitedVal>
     ) {
-        private val size
-            get() = varint.size + fixed32.size + fixed64.size + lengthDelimited.size
+        private val size =
+            varint.size + fixed32.size + fixed64.size + lengthDelimited.size
 
         fun size(fieldNumber: Int) =
             (sizeof(Tag(fieldNumber)) * size) + asSequence().sumBy { it.size() }
