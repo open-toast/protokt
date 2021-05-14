@@ -13,18 +13,48 @@
  * limitations under the License.
  */
 
+import kotlinx.validation.ApiCompareCompareTask
+import kotlinx.validation.ApiValidationExtension
 import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
+import org.gradle.api.tasks.Copy
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.create
+import org.gradle.kotlin.dsl.named
+import org.gradle.kotlin.dsl.register
 
-fun Project.trackKotlinApiCompatibility() {
+fun Project.trackKotlinApiCompatibility(validate: Boolean = true) {
     apply(plugin = "binary-compatibility-validator")
 
-    tasks.named("apiCheck") {
-        enabled = false
+    configure<ApiValidationExtension> {
+        validationDisabled = !validate
+    }
+
+    if (validate) {
+        val apiDir = buildDir.resolve("reference-api")
+
+        tasks.named<ApiCompareCompareTask>("apiCheck") {
+            projectApiDir = apiDir
+
+            dependsOn("downloadPreviousApiSignatures")
+        }
+
+        tasks.register<Copy>("downloadPreviousApiSignatures") {
+            selfDependencyHack { group ->
+                val ktapiScope = project.configurations.create("ktapi")
+                dependencies.add("ktapi", "$group:${project.name}:latest.release:ktapi@api")
+
+                from(ktapiScope.files)
+            }
+
+            rename {
+                "${project.name}.api"
+            }
+
+            into(apiDir)
+        }
     }
 
     configure<PublishingExtension> {
@@ -41,5 +71,20 @@ fun Project.trackKotlinApiCompatibility() {
                 groupId = "$group"
             }
         }
+    }
+}
+
+/**
+ * Works around the Gradle bug https://github.com/gradle/gradle/issues/7706
+ * to declare a dependency on a published artifact from a prior version.
+ */
+private fun Project.selfDependencyHack(action: Project.(String) -> Unit) {
+    val originalGroup = group
+
+    try {
+        group = "_hack_gradle_issues_7706_"
+        action.invoke(this, "$originalGroup")
+    } finally {
+        group = originalGroup
     }
 }
