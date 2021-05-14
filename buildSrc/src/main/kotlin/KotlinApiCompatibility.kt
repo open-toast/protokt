@@ -14,7 +14,6 @@
  */
 
 import kotlinx.validation.ApiCompareCompareTask
-import kotlinx.validation.ApiValidationExtension
 import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
@@ -28,16 +27,11 @@ import org.gradle.kotlin.dsl.register
 fun Project.trackKotlinApiCompatibility(validate: Boolean = true) {
     apply(plugin = "binary-compatibility-validator")
 
-    configure<ApiValidationExtension> {
-        validationDisabled = !validate
-    }
-
     if (validate) {
         val apiDir = buildDir.resolve("reference-api")
 
         tasks.named<ApiCompareCompareTask>("apiCheck") {
             projectApiDir = apiDir
-
             dependsOn("downloadPreviousApiSignatures")
         }
 
@@ -54,6 +48,10 @@ fun Project.trackKotlinApiCompatibility(validate: Boolean = true) {
             }
 
             into(apiDir)
+        }
+    } else {
+        tasks.named<ApiCompareCompareTask>("apiCheck") {
+            enabled = false
         }
     }
 
