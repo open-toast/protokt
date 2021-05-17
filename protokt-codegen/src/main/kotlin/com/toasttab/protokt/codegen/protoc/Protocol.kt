@@ -18,10 +18,8 @@ package com.toasttab.protokt.codegen.protoc
 import arrow.core.None
 import arrow.core.Option
 import arrow.core.Some
-import arrow.core.Tuple2
-import arrow.core.Tuple3
 import arrow.core.Tuple4
-import arrow.core.extensions.list.foldable.find
+import arrow.core.firstOrNone
 import com.github.andrewoma.dexx.kollection.ImmutableList
 import com.github.andrewoma.dexx.kollection.ImmutableSet
 import com.github.andrewoma.dexx.kollection.immutableListOf
@@ -98,25 +96,25 @@ private fun toTypeList(
     services: List<ServiceDescriptorProto> = emptyList()
 ): ImmutableList<TopLevelType> =
     enums.foldIndexed(
-        Tuple2(immutableSetOf<String>(), immutableListOf<TopLevelType>())
+        Pair(immutableSetOf<String>(), immutableListOf<TopLevelType>())
     ) { idx, acc, t ->
-        val e = toEnum(idx, t, acc.a, parentName)
-        Tuple2(acc.a + e.name, acc.b + e)
-    }.b +
+        val e = toEnum(idx, t, acc.first, parentName)
+        Pair(acc.first + e.name, acc.second + e)
+    }.second +
 
     messages.foldIndexed(
-        Tuple2(immutableSetOf<String>(), immutableListOf<TopLevelType>())
+        Pair(immutableSetOf<String>(), immutableListOf<TopLevelType>())
     ) { idx, acc, t ->
-        val m = toMessage(idx, ctx, t, acc.a, parentName)
-        Tuple2(acc.a + m.name, acc.b + m)
-    }.b +
+        val m = toMessage(idx, ctx, t, acc.first, parentName)
+        Pair(acc.first + m.name, acc.second + m)
+    }.second +
 
     services.foldIndexed(
-        Tuple2(immutableSetOf<String>(), immutableListOf<TopLevelType>())
+        Pair(immutableSetOf<String>(), immutableListOf<TopLevelType>())
     ) { idx, acc, t ->
-        val s = toService(idx, t, ctx, acc.a)
-        Tuple2(acc.a + s.type, acc.b + s)
-    }.b
+        val s = toService(idx, t, ctx, acc.first)
+        Pair(acc.first + s.type, acc.second + s)
+    }.second
 
 private fun toEnum(
     idx: Int,
@@ -135,12 +133,12 @@ private fun toEnum(
     return Enum(
         name = typeName,
         values = desc.valueList.foldIndexed(
-            Tuple2(
+            Pair(
                 names + typeName,
                 immutableListOf<Enum.Value>()
             )
         ) { enumIdx, acc, t ->
-            val n = newEnumValueName(enumTypeNamePrefixToStrip, t.name, acc.a)
+            val n = newEnumValueName(enumTypeNamePrefixToStrip, t.name, acc.first)
             val v =
                 Enum.Value(
                     t.number,
@@ -152,8 +150,8 @@ private fun toEnum(
                     ),
                     enumIdx
                 )
-            Tuple2(acc.a + n, acc.b + v)
-        }.b,
+            Pair(acc.first + n, acc.second + v)
+        }.second,
         index = idx,
         options =
             EnumOptions(
@@ -251,23 +249,23 @@ private fun toFields(
                 val i = if (t.hasOneofIndex()) Some(t.oneofIndex) else None
                 i.fold({
                     val f = toStandard(idx, ctx, t, emptySet())
-                    Tuple4(acc.a + f.fieldName, acc.b, acc.c, acc.d + f)
+                    Tuple4(acc.first + f.fieldName, acc.second, acc.third, acc.fourth + f)
                 }, {
-                    if (it in acc.b || desc.oneofDeclList.isEmpty()) {
+                    if (it in acc.second || desc.oneofDeclList.isEmpty()) {
                         acc
                     } else {
                         val ood = desc.getOneofDecl(it)
                         Tuple4(
-                            acc.a,
-                            acc.b + it,
-                            acc.c + ood.name,
-                            acc.d + toOneof(idx, ctx, desc, ood, t, acc.a, acc.d)
+                            acc.first,
+                            acc.second + it,
+                            acc.third + ood.name,
+                            acc.fourth + toOneof(idx, ctx, desc, ood, t, acc.first, acc.fourth)
                         )
                     }
                 })
             }
         }
-    }.d
+    }.fourth
 
 private fun toOneof(
     idx: Int,
@@ -287,23 +285,23 @@ private fun toOneof(
     val standardTuple = desc.fieldList.filter {
         it.hasOneofIndex() && it.oneofIndex == field.oneofIndex
     }.foldIndexed(
-        Tuple3(
+        Triple(
             immutableMapOf<String, String>(),
             immutableSetOf<String>(),
             immutableListOf<StandardField>()
         ), { oneofIdx, acc, t ->
-            val ftn = newTypeNameFromCamel(t.name, acc.b)
-            Tuple3(
-                acc.a + (newFieldName(t.name, acc.b) to ftn),
-                acc.b + ftn,
-                acc.c + toStandard(idx + oneofIdx, ctx, t, emptySet(), true)
+            val ftn = newTypeNameFromCamel(t.name, acc.second)
+            Triple(
+                acc.first + (newFieldName(t.name, acc.second) to ftn),
+                acc.second + ftn,
+                acc.third + toStandard(idx + oneofIdx, ctx, t, emptySet(), true)
             )
     })
     return Oneof(
         name = newTypeNameFromCamel(oneof.name, typeNames),
-        fieldTypeNames = standardTuple.a,
+        fieldTypeNames = standardTuple.first,
         fieldName = newName,
-        fields = standardTuple.c,
+        fields = standardTuple.third,
         options =
             OneofOptions(
                 oneof.options,
@@ -386,12 +384,12 @@ private fun findMapEntry(
 
     typeName.indexOf('.').let { idx ->
         return if (idx == -1) {
-            typeList.find { it.name == typeName }
+            typeList.firstOrNone { it.name == typeName }
         } else {
             findMapEntry(
                 fdp,
                 typeName.substring(idx + 1),
-                typeList.find { it.name == typeName.substring(0, idx) }
+                typeList.firstOrNone { it.name == typeName.substring(0, idx) }
             )
         }
     }

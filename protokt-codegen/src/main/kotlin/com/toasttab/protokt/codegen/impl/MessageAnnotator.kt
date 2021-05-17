@@ -15,7 +15,7 @@
 
 package com.toasttab.protokt.codegen.impl
 
-import arrow.core.extensions.list.foldable.firstOption
+import arrow.core.firstOrNone
 import com.toasttab.protokt.codegen.impl.Deprecation.enclosingDeprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.hasDeprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
@@ -79,8 +79,7 @@ internal object MessageAnnotator {
                 },
             suppressDeprecation = msg.hasDeprecation &&
                 (!enclosingDeprecation(ctx) ||
-                    ctx.enclosing.firstOption()
-                        .fold({ false }, { it == msg }))
+                    ctx.enclosing.firstOrNone().fold({ false }, { it == msg }))
         )
 
     private fun options(msg: Message, ctx: Context): Options {

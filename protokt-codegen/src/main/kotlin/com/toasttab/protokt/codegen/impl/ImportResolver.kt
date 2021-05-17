@@ -18,7 +18,6 @@ package com.toasttab.protokt.codegen.impl
 import com.github.andrewoma.dexx.kollection.ImmutableSet
 import com.github.andrewoma.dexx.kollection.immutableSetOf
 import com.github.andrewoma.dexx.kollection.toImmutableSet
-import com.toasttab.protokt.codegen.algebra.AST
 import com.toasttab.protokt.codegen.impl.ClassLookup.getClassOrNone
 import com.toasttab.protokt.codegen.impl.STAnnotator.grpc
 import com.toasttab.protokt.codegen.impl.STAnnotator.nonGrpc
@@ -62,15 +61,15 @@ class ImportResolver(
             "com.toasttab.protokt.FileDescriptor"
         ).map { Import.Class(PClass.fromName(it)) }
 
-    fun resolveImports(astList: List<AST<TypeDesc>>) =
-        astList.flatMapToSet { imports(it.data.type.rawType) }
+    fun resolveImports(descs: List<TypeDesc>) =
+        descs.flatMapToSet { imports(it.type.rawType) }
             .asSequence()
             .filterNot { it.pkg == PPackage.KOTLIN }
             .filterNot { it is Import.Class && it.pClass.simpleName == "Any" }
             .filterClassesWithSamePackageName(pkg)
-            .filterClassesWithSameNameAsMessageIn(astList)
-            .filterClassesWithSameNameAsOneofFieldTypeIn(astList)
-            .filterNestedClassesDefinedLocally(astList)
+            .filterClassesWithSameNameAsMessageIn(descs)
+            .filterClassesWithSameNameAsOneofFieldTypeIn(descs)
+            .filterNestedClassesDefinedLocally(descs)
             .filterDuplicateSimpleNames(pkg) { getClassOrNone(it, ctx) }
 
     private fun imports(t: TopLevelType): ImmutableSet<Import> =

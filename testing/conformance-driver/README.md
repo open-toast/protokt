@@ -15,7 +15,7 @@ protobuf % cd conformance
 conformance % make
 conformance % cd ..
 protobuf % cp conformance/.libs/conformance-test-runner ../protokt/testing/conformance-driver/bin/darwin/conformance-test-runner
-protobuf % cp src/.libs/libprotobuf.26.dylib ../protokt/testing/conformance-driver/bin/darwin/.libs/libprotobuf.26.dylib
+protobuf % cp src/.libs/libprotobuf.27.dylib ../protokt/testing/conformance-driver/bin/darwin/.libs/libprotobuf.27.dylib
 ```
 
 Ubuntu conformance tests:
@@ -30,7 +30,7 @@ root@38f7a53696b9:/tmp# cd conformance
 root@38f7a53696b9:/tmp/conformance# make
 root@38f7a53696b9:/tmp/conformance# exit
 protobuf % cp conformance/.libs/conformance-test-runner ../protokt/testing/conformance-driver/bin/ubuntu-16.04-x86_64/conformance-test-runner
-protobuf % cp src/.libs/libprotobuf.so.26 ../protokt/testing/conformance-driver/bin/ubuntu-16.04-x86_64/.libs/libprotobuf.so.26
+protobuf % cp src/.libs/libprotobuf.so.27 ../protokt/testing/conformance-driver/bin/ubuntu-16.04-x86_64/.libs/libprotobuf.so.27
 ```
 
 Note that the version numbers on `libprotobuf.so.xx` and `libprotobuf.xx.dylib`

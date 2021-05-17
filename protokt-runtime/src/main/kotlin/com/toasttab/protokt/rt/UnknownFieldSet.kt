@@ -90,7 +90,7 @@ private constructor(
             write(Tag((fieldNumber shl 3) or wireType))
 
         override fun equals(other: Any?) =
-            equalsUsingSequence(other, Field::size, Field::asSequence)
+            equalsUsingSequence(other, { it.size }, Field::asSequence)
 
         override fun hashCode() =
             hashCodeUsingSequence(asSequence())

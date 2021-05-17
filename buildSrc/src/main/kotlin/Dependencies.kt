@@ -16,20 +16,20 @@
 import com.toasttab.protokt.gradle.DEFAULT_PROTOBUF_VERSION
 
 object versions {
-    const val arrow = "0.10.5"
+    const val arrow = "0.13.2"
     const val autoService = "1.0-rc7"
-    const val grpc = "1.32.1"
+    const val grpc = "1.37.0"
     const val kollection = "0.7"
-    const val kotlin = "1.3.72"
-    const val kotlinxCoroutines = "1.3.7"
+    const val kotlin = "1.4.32"
+    const val kotlinxCoroutines = "1.3.9"
     const val protobuf = DEFAULT_PROTOBUF_VERSION
-    const val protobufPlugin = "0.8.13"
+    const val protobufPlugin = "0.8.16"
     const val stringTemplate = "4.3.1"
 
     // Test
-    const val jackson = "2.11.3"
-    const val junit = "5.7.0"
-    const val truth = "1.1"
+    const val jackson = "2.12.3"
+    const val junit = "5.7.1"
+    const val truth = "1.1.2"
 
     // Benchmarks
     const val datasets = "0.1.0"
@@ -42,12 +42,7 @@ object versions {
 }
 
 object libraries {
-    val arrow = listOf(
-        "io.arrow-kt:arrow-core:${versions.arrow}",
-        "io.arrow-kt:arrow-fx:${versions.arrow}",
-        "io.arrow-kt:arrow-syntax:${versions.arrow}",
-        "io.arrow-kt:arrow-free:${versions.arrow}"
-    )
+    val arrow = "io.arrow-kt:arrow-core:${versions.arrow}"
 
     const val autoService = "com.google.auto.service:auto-service:${versions.autoService}"
     const val autoServiceAnnotations = "com.google.auto.service:auto-service-annotations:${versions.autoService}"

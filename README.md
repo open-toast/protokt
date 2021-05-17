@@ -24,19 +24,19 @@ for use with [grpc-java](#integrating-with-grpcs-java-api) or
 
 #### Not yet implemented
 
-- Full support for gRPC service and client generation (*In progress!*)
-- Kotlin native support (**Looking for contributors**)
-- Kotlin JS support (**Looking for contributors**)
+- Reflection support (in progress)
+- Kotlin/Native support
+- Kotlin/JS support
 - Protobuf JSON support 
 
 See examples in [testing](testing).
 
 #### Compatibility
 
-The Gradle plugin requires Java 8+, Gradle 5.6+ and runs on recent versions of
+The Gradle plugin requires Java 8+ and Gradle 5.6+. It runs on recent versions of
 MacOS, Linux, and Windows.
 
-The runtime and generated code are compatible with Java 8+ and Android 4.4+. 
+The runtime and generated code are compatible with Kotlin 1.4+, Java 8+, and Android 4.4+. 
 
 ### Usage
 
@@ -101,7 +101,7 @@ compileJava.enabled = false
 
 #### Generated Code
 
-Generated code is placed in `<buildDir>/generated-sources/main/protokt`.
+Generated code is placed in `<buildDir>/generated-sources/<sourceSet.name>/protokt`.
 
 A simple example:
 
@@ -331,7 +331,7 @@ sealed class PhoneType(
 
 ##### Naming
 
-To keep enums ergonomic while promoting protobuf best-practices, enums that have
+To keep enums ergonomic while promoting protobuf best practices, enums that have
 all values
 [prefixed with the enum type name](https://developers.google.com/protocol-buffers/docs/style#enums)
 will have that prefix stripped in their Kotlin representations.
@@ -544,12 +544,12 @@ simple name, as done with `StringBox` in the map example above.
 
 _N.b. Well-known type nullability is implemented with
 [predefined wrapper types](protokt-core/src/main/kotlin/com/toasttab/protokt)
-for each *Value message defined in
+for each message defined in
 [wrappers.proto](https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/wrappers.proto)._
 
 #### Nonnull fields
-If a message has no meaning whatsoever when a particular field is missing, you
-can emulate proto2's `required` key word by using the
+If a message has no meaning whatsoever when a particular nonscalar field is
+missing, you can emulate proto2's `required` key word by using the
 `(protokt.property).non_null` option:
 
 ```proto
@@ -760,6 +760,7 @@ fun printVersion(config: MyObjectWithConfig.Config) {
     println(config.version)
 }
 ```
+
 #### BytesSlice
 
 When reading messages that contain other serialized messages as `bytes` fields,
@@ -990,6 +991,7 @@ protokt$ protoc \
 ```
 
 ### Contribution
+
 To enable rapid development of the code generator, the protobuf conformance
 tests have been compiled and included in the `testing` project. They run on Mac
 OS 10.14+ and Ubuntu 16.04 x86-64 as part of normal Gradle builds.
@@ -1007,7 +1009,7 @@ to trigger regeneration of the protobuf files with the fresh plugin.
 [Oleg Golberg](mailto:ogolberg@toasttab.com),
 [Patty Neckowicz](mailto:pneckowicz@toasttab.com),
 [Frank Moda](mailto:frank@toasttab.com) and
-[everyone in the commit history](../../commits/master).
+[everyone in the commit history](../../commits/main).
 
 Thanks to the Google Kotlin team for their
 [Kotlin API Design](https://github.com/lowasser/protobuf/blob/master/kotlin-design.md)

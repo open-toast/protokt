@@ -17,36 +17,33 @@ package com.toasttab.protokt.codegen.impl
 
 import arrow.core.firstOrNone
 import com.google.protobuf.DescriptorProtos
-import com.toasttab.protokt.codegen.algebra.AST
-import com.toasttab.protokt.codegen.algebra.Accumulator
-import com.toasttab.protokt.codegen.algebra.Effects
 import com.toasttab.protokt.codegen.model.Import
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.protoc.ProtocolContext
 import com.toasttab.protokt.codegen.protoc.TypeDesc
 import com.toasttab.protokt.codegen.template.Descriptor
 
-internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
-    override fun invoke(astList: List<AST<TypeDesc>>, acc: (String) -> Unit) {
-        val imports = mutableSetOf<Import>()
+internal object STEffects {
+    fun apply(descs: List<TypeDesc>, acc: (String) -> Unit) {
+        val imports = collectPossibleImports(descs)
 
         val templateAndImports =
-            if (astList.isNotEmpty()) {
-                val anAst = astList.first()
-                fileDescriptor(anAst.data.desc.context, kotlinPackage(anAst))
+            if (descs.isNotEmpty()) {
+                val aDesc = descs.first()
+                fileDescriptor(aDesc.desc.context, kotlinPackage(aDesc))
             } else {
                 FdpTemplateAndImports("", emptySet())
             }
 
         imports.addAll(templateAndImports.imports.map { Import.Literal(it) })
-        imports.addAll(collectPossibleImports(astList))
+        imports.addAll(collectPossibleImports(descs))
 
         val header = StringBuilder()
-        HeaderAccumulator.write(astList, imports) { header.append(it + "\n") }
+        HeaderAccumulator.write(descs, imports) { header.append(it + "\n") }
 
         val body = StringBuilder()
-        astList.forEach {
-            it.data.type.code.map { s ->
+        descs.forEach {
+            it.type.code.map { s ->
                 if (s.isNotBlank()) {
                     body.append(s + "\n")
                 }
@@ -60,15 +57,15 @@ internal object STEffects : Effects<AST<TypeDesc>, Accumulator<String>> {
         }
     }
 
-    private fun collectPossibleImports(astList: List<AST<TypeDesc>>): Set<Import> =
-        astList.firstOrNone()
+    private fun collectPossibleImports(descs: List<TypeDesc>) =
+        descs.firstOrNone()
             .fold(
-                { emptySet() },
+                { setOf() },
                 {
-                    ImportResolver(it.data.desc.context, kotlinPackage(it))
-                        .resolveImports(astList)
+                    ImportResolver(it.desc.context, kotlinPackage(it))
+                        .resolveImports(descs)
                 }
-            )
+            ).toMutableSet()
 
     private class FdpTemplateAndImports(
         val fdpTemplate: String,

@@ -17,8 +17,6 @@ package com.toasttab.protokt.codegen.impl
 
 import arrow.core.Some
 import com.github.andrewoma.dexx.kollection.immutableListOf
-import com.toasttab.protokt.codegen.algebra.AST
-import com.toasttab.protokt.codegen.algebra.Annotator
 import com.toasttab.protokt.codegen.impl.EnumAnnotator.annotateEnum
 import com.toasttab.protokt.codegen.impl.MessageAnnotator.annotateMessage
 import com.toasttab.protokt.codegen.impl.ServiceAnnotator.annotateService
@@ -37,7 +35,7 @@ import com.toasttab.protokt.codegen.protoc.TypeDesc
  * The input is an AST<TypeDesc> and its output is a NEW AST<TypeDesc> that has
  * a NEW fully constructed AnnotatedType attached to each AST node.
  */
-object STAnnotator : Annotator<AST<TypeDesc>> {
+object STAnnotator {
     const val rootGoogleProto = "google.protobuf"
     const val googleProto = ".google.protobuf"
 
@@ -51,25 +49,23 @@ object STAnnotator : Annotator<AST<TypeDesc>> {
         val desc: FileDesc
     )
 
-    override fun invoke(ast: AST<TypeDesc>) =
-        AST(
+    fun apply(data: TypeDesc) =
             TypeDesc(
-                ast.data.desc,
+                data.desc,
                 AnnotatedType(
-                    ast.data.type.rawType,
+                    data.type.rawType,
                     Some(
                         annotate(
-                            ast.data.type.rawType,
+                            data.type.rawType,
                             Context(
                                 immutableListOf(),
-                                kotlinPackage(ast),
-                                ast.data.desc
+                                kotlinPackage(data),
+                                data.desc
                             )
                         )
                     )
                 )
             )
-        )
 
     fun annotate(type: TopLevelType, ctx: Context): String =
         when (type) {
