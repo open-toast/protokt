@@ -110,6 +110,14 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
             withSourcesJar()
         }
 
+        afterEvaluate {
+            if (tasks.findByName("generateProto") != null) {
+                tasks.named("sourcesJar").configure {
+                    dependsOn("generateProto")
+                }
+            }
+        }
+
         tasks.register<Jar>("javadocJar") {
             from("$rootDir/README.md")
             archiveClassifier.set("javadoc")
