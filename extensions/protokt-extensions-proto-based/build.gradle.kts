@@ -19,7 +19,7 @@ apply(plugin = "kotlin-kapt")
 
 localProtokt()
 enablePublishing()
-trackKotlinApiCompatibility(validate = false)
+trackKotlinApiCompatibility()
 
 dependencies {
     implementation(project(":extensions:protokt-extensions-api"))

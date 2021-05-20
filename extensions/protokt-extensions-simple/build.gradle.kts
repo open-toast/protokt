@@ -16,7 +16,7 @@
 apply(plugin = "kotlin-kapt")
 
 enablePublishing()
-trackKotlinApiCompatibility(validate = false)
+trackKotlinApiCompatibility()
 
 dependencies {
     implementation(project(":protokt-core"))
