@@ -14,7 +14,7 @@
  */
 
 enablePublishing()
-trackKotlinApiCompatibility(validate = false)
+trackKotlinApiCompatibility()
 
 dependencies {
     compileOnly(libraries.protobuf)
