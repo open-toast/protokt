@@ -31,7 +31,7 @@ class ProtocolContext(
     params: Map<String, String>
 ) {
     val classpath = params.getOrDefault(KOTLIN_EXTRA_CLASSPATH, "").split(";").map {
-        URLDecoder.decode(it, StandardCharsets.UTF_8)
+        URLDecoder.decode(it, "UTF-8")
     }
 
     val respectJavaPackage = respectJavaPackage(params)

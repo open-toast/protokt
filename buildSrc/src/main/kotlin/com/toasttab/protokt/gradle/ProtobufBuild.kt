@@ -86,7 +86,7 @@ private fun extraClasspath(project: Project, task: GenerateProtoTask): String {
         extensions += project.configurations.getByName(TEST_EXTENSIONS)
     }
 
-    return extensions.joinToString(";") { URLEncoder.encode(it.path, StandardCharsets.UTF_8) }
+    return extensions.joinToString(";") { URLEncoder.encode(it.path, "UTF-8") }
 }
 
 private fun configureSources(project: Project, generatedSourcesPath: String) {
