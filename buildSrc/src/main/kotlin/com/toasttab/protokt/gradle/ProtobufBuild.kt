@@ -25,7 +25,6 @@ import com.google.protobuf.gradle.protoc
 import com.google.protobuf.gradle.remove
 import java.io.File
 import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
 import org.gradle.api.Project
 import org.gradle.api.file.FileCollection
 import org.gradle.api.plugins.JavaPluginConvention
