@@ -25,7 +25,6 @@ import com.toasttab.protokt.gradle.ONLY_GENERATE_GRPC
 import com.toasttab.protokt.gradle.RESPECT_JAVA_PACKAGE
 import com.toasttab.protokt.util.getProtoktVersion
 import java.net.URLDecoder
-import java.nio.charset.StandardCharsets
 
 class ProtocolContext(
     val fdp: FileDescriptorProto,
@@ -35,7 +34,7 @@ class ProtocolContext(
 ) {
     val classpath =
         params.getOrDefault(KOTLIN_EXTRA_CLASSPATH, "").split(";").map {
-            URLDecoder.decode(it, StandardCharsets.UTF_8)
+            URLDecoder.decode(it, "UTF-8")
         }
 
     val respectJavaPackage = respectJavaPackage(params)

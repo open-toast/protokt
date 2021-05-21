@@ -13,8 +13,13 @@
  * limitations under the License.
  */
 
+<<<<<<< HEAD
 import com.diffplug.gradle.spotless.SpotlessExtension
 import org.gradle.api.tasks.compile.JavaCompile
+=======
+import com.toasttab.protokt.gradle.protoktExtensions
+import org.gradle.util.VersionNumber
+>>>>>>> main
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -52,10 +57,16 @@ subprojects {
     apply(plugin = "org.jetbrains.kotlin.jvm")
     apply(plugin = "com.toasttab.protokt")
 
+<<<<<<< HEAD
     configure<SpotlessExtension> {
         kotlin {
             ktlint()
             targetExclude("**/generated-sources/**")
+=======
+            apiVersion = System.getProperty("kotlin.version")?.let { v ->
+                VersionNumber.parse(v).run { "$major.$minor" }
+            } ?: "1.4"
+>>>>>>> main
         }
     }
 
