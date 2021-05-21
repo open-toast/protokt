@@ -13,7 +13,6 @@
  * limitations under the License.
  */
 
-import com.toasttab.protokt.gradle.ProtoktExtension
 import com.toasttab.protokt.gradle.kotlin
 
 protokt {
