@@ -14,6 +14,7 @@
  */
 
 import com.toasttab.protokt.gradle.protoktExtensions
+import org.gradle.util.VersionNumber
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -55,8 +56,9 @@ tasks {
             allWarningsAsErrors = true
             jvmTarget = "1.8"
 
-            apiVersion = System.getProperty("kotlin.api.version", "1.4")
-            languageVersion = apiVersion
+            apiVersion = System.getProperty("kotlin.version")?.let { v ->
+                VersionNumber.parse(v).run { "$major.$minor" }
+            } ?: "1.4"
         }
     }
 

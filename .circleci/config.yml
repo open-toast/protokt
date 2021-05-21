@@ -7,9 +7,13 @@ parameters:
 
 executors:
   builder:
+    parameters:
+      java: 
+        type: string
+        default: "11.0"
     working_directory: ~/code
     docker:
-      - image: cimg/openjdk:11.0
+      - image: cimg/openjdk:<<parameters.java>>
     environment:
       JAVA_OPTS: "-XX:MaxRAMPercentage=50"
       GRADLE_OPTS: "-Dorg.gradle.daemon=false"
@@ -44,21 +48,18 @@ jobs:
           name: Build and test
           command: ./gradlew clean check publishToIntegrationRepository --stacktrace
 
-      - run:
-          name: Integration tests with Kotlin 1.4
-          command: cd gradle-plugin-integration-test && ./gradlew clean build -Dkotlin.version=1.4.32 -Dkotlin.api.version=1.4 --stacktrace
+      - persist_to_workspace:
+          root: build/repos
+          paths: 
+            - integration
 
-      - run:
-          name: Integration tests with Kotlin 1.5
-          command: cd gradle-plugin-integration-test && ./gradlew clean build -Dkotlin.version=1.5.0 -Dkotlin.api.version=1.5 --stacktrace
-
-      - when:
-          condition:
-            equal: [ true, << pipeline.parameters.benchmarks >> ]
-          steps:
-            run:
-              name: Benchmarks
-              command: ./gradlew benchmarks:run
+      # - when:
+      #     condition:
+      #       equal: [ true, << pipeline.parameters.benchmarks >> ]
+      #     steps:
+      #       run:
+      #         name: Benchmarks
+      #         command: ./gradlew benchmarks:run
 
       - write_cache
 
@@ -74,6 +75,27 @@ jobs:
       - store_artifacts:
           path: ~/test-results/junit
 
+  integration:
+    parameters:
+      java:
+        type: string
+      kotlin:
+        type: string
+
+    executor: 
+      name: builder
+      java: <<parameters.java>>
+
+    steps:
+      - checkout
+      - read_cache
+
+      - attach_workspace:
+        at: build/repos
+
+      - run:
+          name: Integration tests
+          command: cd gradle-plugin-integration-test && ./gradlew clean build -Dkotlin.version=<<parameters.kotlin>> --stacktrace
 
   release:
     executor: builder
@@ -86,9 +108,15 @@ jobs:
 
 workflows:
   version: 2.1
+
   build:
     jobs:
       - build
+      - integration:
+        matrix:
+          parameters:
+            java: ["8.0", "11.0"]
+            kotlin: ["1.5.0", "1.4.32"]
       - release:
           context: OSS
           filters:
