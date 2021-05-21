@@ -52,13 +52,13 @@ jobs:
           paths: 
             - integration
 
-      # - when:
-      #     condition:
-      #       equal: [ true, << pipeline.parameters.benchmarks >> ]
-      #     steps:
-      #       run:
-      #         name: Benchmarks
-      #         command: ./gradlew benchmarks:run
+      - when:
+         condition:
+           equal: [ true, << pipeline.parameters.benchmarks >> ]
+         steps:
+           run:
+             name: Benchmarks
+             command: ./gradlew benchmarks:run
 
       - write_cache
 
@@ -112,6 +112,7 @@ workflows:
     jobs:
       - build
       - integration:
+          name: integration-jdk-<<matrix.jdk>>-kotlin-<<matrix.kotlin>>
           requires:
             - build
           matrix:
