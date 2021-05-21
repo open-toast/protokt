@@ -15,6 +15,7 @@
 
 package com.toasttab.protokt.gradle
 
+import org.gradle.api.Action
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.artifacts.dsl.DependencyHandler
@@ -39,6 +40,10 @@ val SourceSet.kotlin: SourceDirectorySet
             .convention
             .getPlugin(KotlinSourceSet::class.java)
             .kotlin
+
+fun SourceSet.kotlin(action: Action<SourceDirectorySet>) {
+    action.execute(kotlin)
+}
 
 val SourceSetContainer.main: SourceSet
     get() =

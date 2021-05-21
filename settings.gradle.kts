@@ -29,6 +29,7 @@ rootProject.name = "protokt"
 include(
     "protokt-codegen",
     "protokt-core",
+    "protokt-core-lite",
     "protokt-runtime",
     "protokt-runtime-grpc",
     "protokt-gradle-plugin",

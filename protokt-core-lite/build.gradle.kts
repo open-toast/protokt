@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2021 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 
 import com.google.protobuf.gradle.proto
 import com.google.protobuf.gradle.protobuf
-import com.toasttab.protokt.gradle.kotlin
+import com.toasttab.protokt.gradle.protokt
 
 apply(plugin = "kotlin-kapt")
 
@@ -23,6 +23,10 @@ localProtokt()
 pureKotlin()
 enablePublishing()
 compatibleWithAndroid()
+
+protokt {
+    lite = true
+}
 
 dependencies {
     api(project(":extensions:protokt-extensions-api"))
@@ -32,7 +36,6 @@ dependencies {
     compileOnly(libraries.protobuf)
 
     implementation(libraries.autoServiceAnnotations)
-    implementation(libraries.kotlinReflect)
 
     add("kapt", libraries.autoService)
 }
@@ -41,9 +44,6 @@ sourceSets {
     main {
         proto {
             srcDir("../protokt-runtime/src/main/resources")
-        }
-        kotlin {
-            srcDir("../protokt-core-lite/src/main/kotlin")
         }
     }
 }

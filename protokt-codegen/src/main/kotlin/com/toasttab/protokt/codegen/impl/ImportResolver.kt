@@ -56,7 +56,7 @@ class ImportResolver(
             UnknownFieldSet::class
         ).map { pclass(it) }.toImmutableSet()
 
-    private val fileImports =
+    private val descriptorImports =
         setOf(
             "com.toasttab.protokt.FileDescriptor"
         ).map { Import.Class(PClass.fromName(it)) }
@@ -77,7 +77,12 @@ class ImportResolver(
             is Message -> nonGrpc(ctx, immutableSetOf()) { imports(t) }
             is Enum -> nonGrpc(ctx, immutableSetOf()) { enumImports }
             is Service -> grpc(ctx, immutableSetOf()) { serviceImports(t) }
-        } + fileImports
+        } +
+            if (!ctx.lite) {
+                descriptorImports
+            } else {
+                emptySet()
+            }
 
     private fun serviceImports(s: Service) =
         ServiceImportResolver(s).imports()

@@ -43,8 +43,8 @@ private fun installBinary(project: Project, artifact: Dependency) {
         )
 
         project.copy {
-            it.from(toolsArchive)
-            it.into(targetDir.parent)
+            from(toolsArchive)
+            into(targetDir.parent)
         }
     }
 }
