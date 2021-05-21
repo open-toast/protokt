@@ -8,14 +8,13 @@ parameters:
 executors:
   builder:
     parameters:
-      java: 
+      jdk:
         type: string
         default: "11.0"
     working_directory: ~/code
     docker:
-      - image: cimg/openjdk:<<parameters.java>>
+      - image: cimg/openjdk:<<parameters.jdk>>
     environment:
-      JAVA_OPTS: "-XX:MaxRAMPercentage=50"
       GRADLE_OPTS: "-Dorg.gradle.daemon=false"
 
 commands:
@@ -77,14 +76,16 @@ jobs:
 
   integration:
     parameters:
-      java:
+      jdk:
         type: string
       kotlin:
         type: string
 
+    name: integration-jdk-<<parameters.jdk>-kotlin-<<parameters.kotlin>>
+
     executor: 
       name: builder
-      java: <<parameters.java>>
+      jdk: <<parameters.jdk>>
 
     steps:
       - checkout
@@ -117,7 +118,7 @@ workflows:
             - build
           matrix:
             parameters:
-              java: ["8.0", "11.0"]
+              jdk: ["8.0", "11.0"]
               kotlin: ["1.5.0", "1.4.32"]
       - release:
           context: OSS
