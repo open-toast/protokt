@@ -17,10 +17,10 @@ package com.toasttab.protokt.gradle.plugin
 
 import com.toasttab.protokt.gradle.EXTENSIONS
 import com.toasttab.protokt.gradle.configureProtokt
+import com.toasttab.protokt.gradle.resolveProtoktCoreDep
 import com.toasttab.protokt.util.getProtoktVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import resolveProtoktCoreDep
 
 val protoktVersion by lazy { getProtoktVersion(ProtoktPlugin::class) }
 

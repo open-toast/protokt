@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2021 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,20 +13,14 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        gradlePluginPortal()
-    }
-    dependencies {
-        classpath("gradle.plugin.net.vivin:gradle-semantic-build-versioning:4.0.0")
-    }
+import com.toasttab.protokt.gradle.protoktExtensions
+
+dependencies {
+    protoktExtensions("com.toasttab.protokt:protokt-extensions:$version")
+
+    implementation(kotlin("stdlib"))
+
+    testImplementation("org.junit.jupiter:junit-jupiter:5.7.1")
+    testImplementation("com.google.protobuf:protobuf-java:3.16.0")
+    testImplementation("com.toasttab.protokt:protokt-util:$version")
 }
-
-apply(plugin = "net.vivin.gradle-semantic-build-versioning")
-
-rootProject.name = "gradle-plugin-integration-test"
-
-listOf(
-    "regular",
-    "lite"
-).forEach { include(it) }

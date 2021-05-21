@@ -13,13 +13,12 @@
  * limitations under the License.
  */
 
-import com.toasttab.protokt.gradle.protoktExtensions
+import com.diffplug.gradle.spotless.SpotlessExtension
+import org.gradle.api.tasks.compile.JavaCompile
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     idea
-    kotlin("jvm") version System.getProperty("kotlin.version", "1.4.32")
-    id("com.diffplug.spotless") version "5.12.4"
 }
 
 buildscript {
@@ -31,56 +30,58 @@ buildscript {
 
     dependencies {
         classpath("com.toasttab.protokt:protokt-gradle-plugin:$version")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${System.getProperty("kotlin.version", "1.4.32")}")
+        classpath("com.diffplug.spotless:spotless-plugin-gradle:5.12.5")
     }
 }
 
-group = "com.toasttab.protokt.integration"
+allprojects {
+    group = "com.toasttab.protokt.integration"
+    version = rootProject.version
 
-apply(plugin = "com.toasttab.protokt")
+    apply(plugin = "com.diffplug.spotless")
 
-spotless {
-    kotlin {
-        ktlint()
-        targetExclude("**/generated-sources/**")
-    }
-
-    kotlinGradle {
-        ktlint()
+    configure<SpotlessExtension> {
+        kotlinGradle {
+            ktlint()
+        }
     }
 }
 
-tasks {
-    withType<KotlinCompile> {
-        kotlinOptions {
-            allWarningsAsErrors = true
-            jvmTarget = "1.8"
+subprojects {
+    apply(plugin = "org.jetbrains.kotlin.jvm")
+    apply(plugin = "com.toasttab.protokt")
 
-            apiVersion = System.getProperty("kotlin.api.version", "1.4")
-            languageVersion = apiVersion
+    configure<SpotlessExtension> {
+        kotlin {
+            ktlint()
+            targetExclude("**/generated-sources/**")
         }
     }
 
-    test {
-        systemProperty("version", version.toString())
-        useJUnitPlatform()
+    repositories {
+        maven(url = "${rootProject.projectDir}/../build/repos/integration")
+        mavenCentral()
     }
 
-    compileJava {
-        enabled = false
+    tasks {
+        withType<KotlinCompile> {
+            kotlinOptions {
+                allWarningsAsErrors = true
+                jvmTarget = "1.8"
+
+                apiVersion = System.getProperty("kotlin.api.version", "1.4")
+                languageVersion = apiVersion
+            }
+        }
+
+        withType<Test> {
+            systemProperty("version", version.toString())
+            useJUnitPlatform()
+        }
+
+        withType<JavaCompile> {
+            enabled = false
+        }
     }
-}
-
-repositories {
-    maven(url = "$projectDir/../build/repos/integration")
-    mavenCentral()
-}
-
-dependencies {
-    protoktExtensions("com.toasttab.protokt:protokt-extensions:$version")
-
-    implementation(kotlin("stdlib"))
-
-    testImplementation("org.junit.jupiter:junit-jupiter:5.7.1")
-    testImplementation("com.google.protobuf:protobuf-javalite:3.16.0")
-    testImplementation("com.toasttab.protokt:protokt-util:$version")
 }

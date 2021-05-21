@@ -15,13 +15,12 @@
 
 import com.toasttab.protokt.gradle.CODEGEN_NAME
 import com.toasttab.protokt.gradle.EXTENSIONS
-import com.toasttab.protokt.gradle.ProtoktExtension
 import com.toasttab.protokt.gradle.configureProtokt
+import com.toasttab.protokt.gradle.resolveProtoktCoreDep
 import org.gradle.api.Project
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.project
-import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
 
 val Project.buildSrcClasses
@@ -52,10 +51,3 @@ fun Project.pureKotlin() {
         enabled = false
     }
 }
-
-fun Project.resolveProtoktCoreDep() =
-    if (the<ProtoktExtension>().lite) {
-        "protokt-core-lite"
-    } else {
-        "protokt-core"
-    }

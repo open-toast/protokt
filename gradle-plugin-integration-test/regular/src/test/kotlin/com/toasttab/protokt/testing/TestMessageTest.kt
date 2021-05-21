@@ -13,20 +13,22 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        gradlePluginPortal()
-    }
-    dependencies {
-        classpath("gradle.plugin.net.vivin:gradle-semantic-build-versioning:4.0.0")
+package com.toasttab.protokt.testing
+
+import java.time.Instant
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
+
+class TestMessageTest {
+    @Test
+    fun `serialization should preserve the timestamp field`() {
+        val message = TestMessage {
+            timestamp = Instant.parse("2007-12-03T10:15:30.00Z")
+        }
+
+        assertEquals(
+            message.timestamp,
+            TestMessage.deserialize(message.serialize()).timestamp
+        )
     }
 }
-
-apply(plugin = "net.vivin.gradle-semantic-build-versioning")
-
-rootProject.name = "gradle-plugin-integration-test"
-
-listOf(
-    "regular",
-    "lite"
-).forEach { include(it) }

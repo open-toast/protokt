@@ -17,6 +17,7 @@ package com.toasttab.protokt.gradle
 
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.create
+import org.gradle.kotlin.dsl.the
 
 const val CODEGEN_NAME = "protoc-gen-protokt"
 
@@ -47,3 +48,10 @@ private fun createExtensionConfigurations(project: Project) {
         extendsFrom(testExtensionsConfiguration)
     }
 }
+
+fun Project.resolveProtoktCoreDep() =
+    if (the<ProtoktExtension>().lite) {
+        "protokt-core-lite"
+    } else {
+        "protokt-core"
+    }
