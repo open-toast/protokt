@@ -14,6 +14,7 @@
  */
 
 import com.toasttab.protokt.gradle.ProtoktExtension
+import com.toasttab.protokt.gradle.kotlin
 
 protokt {
     lite = true
@@ -27,4 +28,17 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.7.1")
     testImplementation("com.google.protobuf:protobuf-javalite:3.16.0")
     testImplementation("com.toasttab.protokt:protokt-util:$version")
+}
+
+sourceSets {
+    main {
+        proto {
+            srcDir("../regular/src/main/proto")
+        }
+    }
+    test {
+        kotlin {
+            srcDir("../regular/src/test/kotlin")
+        }
+    }
 }
