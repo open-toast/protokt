@@ -55,7 +55,8 @@ internal object EnumAnnotator {
                     suppressDeprecation = (e.hasDeprecation && !enclosingDeprecation(ctx)),
                     parentName = e.parentName,
                     index = e.index,
-                    fileDescriptorObjectName = ctx.desc.context.fileDescriptorObjectName
+                    fileDescriptorObjectName = ctx.desc.context.fileDescriptorObjectName,
+                    reflect = !ctx.desc.context.lite
                 )
         )
 

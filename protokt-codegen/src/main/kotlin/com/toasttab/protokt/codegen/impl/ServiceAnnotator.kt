@@ -17,6 +17,7 @@ package com.toasttab.protokt.codegen.impl
 
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.protoc.Method
+import com.toasttab.protokt.codegen.protoc.ProtocolContext
 import com.toasttab.protokt.codegen.protoc.Service
 import com.toasttab.protokt.codegen.template.Services.Descriptor
 import com.toasttab.protokt.codegen.template.Services.Method as MethodTemplate
@@ -30,7 +31,7 @@ internal object ServiceAnnotator {
     fun annotateService(s: Service, ctx: Context, generateService: Boolean) =
         ServiceTemplate.render(
             generateService = generateService,
-            generateDescriptor = !ctx.desc.context.onlyGenerateGrpc,
+            generateDescriptor = generateDescriptor(ctx.desc.context),
             name = s.name,
             qualifiedName = renderQualifiedName(s, ctx),
             grpcDescriptor = renderDescriptor(s),
@@ -41,6 +42,9 @@ internal object ServiceAnnotator {
                     ctx.desc.context.fileDescriptorObjectName
                 )
         )
+
+    private fun generateDescriptor(ctx: ProtocolContext) =
+        !ctx.onlyGenerateGrpc && !ctx.lite
 
     private fun renderQualifiedName(s: Service, ctx: Context) =
         if (ctx.pkg.default) {

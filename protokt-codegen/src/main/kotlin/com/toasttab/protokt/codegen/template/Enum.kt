@@ -38,7 +38,8 @@ object Enum {
             val suppressDeprecation: Boolean,
             val index: Int,
             val parentName: String?,
-            val fileDescriptorObjectName: String
+            val fileDescriptorObjectName: String,
+            val reflect: Boolean
         )
     }
 }

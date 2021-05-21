@@ -47,6 +47,7 @@ include(
     "testing:options-test-configurations",
     "testing:plugin-options",
     "testing:plugin-options:ignore-java-package",
+    "testing:plugin-options:lite",
     "testing:protobuf-java",
     "testing:runtime-tests",
     "testing:util",

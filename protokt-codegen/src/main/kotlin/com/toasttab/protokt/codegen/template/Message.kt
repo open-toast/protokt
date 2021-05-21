@@ -27,7 +27,7 @@ object Message {
             properties: List<PropertyInfo>,
             oneofs: List<String>,
             nested: List<String>,
-            reflect: ReflectInfo,
+            reflect: ReflectInfo?,
             options: Options
         ) =
             renderArgs(

@@ -45,6 +45,7 @@ companion object Deserializer : KtDeserializer\<<message.name>\>, (<message.name
     }
 
     <dslInvoke()>
+    <if (reflect)>
 
     val descriptor by lazy {
         <if (reflect.parentName)>
@@ -53,5 +54,6 @@ companion object Deserializer : KtDeserializer\<<message.name>\>, (<message.name
         <reflect.fileDescriptorObjectName>.descriptor.messageTypes[<reflect.index>]
         <endif>
     }
+    <endif>
 }
 >>

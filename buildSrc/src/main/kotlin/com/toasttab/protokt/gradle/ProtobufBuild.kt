@@ -39,6 +39,7 @@ const val KOTLIN_EXTRA_CLASSPATH = "kotlin_extra_classpath"
 const val RESPECT_JAVA_PACKAGE = "respect_java_package"
 const val GENERATE_GRPC = "generate_grpc"
 const val ONLY_GENERATE_GRPC = "only_generate_grpc"
+const val LITE = "lite"
 
 internal fun configureProtobufPlugin(project: Project, ext: ProtoktExtension, binaryPath: String) {
     project.apply(plugin = "com.google.protobuf")
@@ -71,6 +72,7 @@ internal fun configureProtobufPlugin(project: Project, ext: ProtoktExtension, bi
                             option("$RESPECT_JAVA_PACKAGE=${ext.respectJavaPackage}")
                             option("$GENERATE_GRPC=${ext.generateGrpc}")
                             option("$ONLY_GENERATE_GRPC=${ext.onlyGenerateGrpc}")
+                            option("$LITE=${ext.lite}")
                         }
                     }
                 }

@@ -20,6 +20,7 @@ import com.toasttab.protokt.codegen.impl.packagesByTypeName
 import com.toasttab.protokt.codegen.impl.resolvePackage
 import com.toasttab.protokt.gradle.GENERATE_GRPC
 import com.toasttab.protokt.gradle.KOTLIN_EXTRA_CLASSPATH
+import com.toasttab.protokt.gradle.LITE
 import com.toasttab.protokt.gradle.ONLY_GENERATE_GRPC
 import com.toasttab.protokt.gradle.RESPECT_JAVA_PACKAGE
 import com.toasttab.protokt.util.getProtoktVersion
@@ -40,6 +41,7 @@ class ProtocolContext(
     val respectJavaPackage = respectJavaPackage(params)
     val generateGrpc = params.getValue(GENERATE_GRPC).toBoolean()
     val onlyGenerateGrpc = params.getValue(ONLY_GENERATE_GRPC).toBoolean()
+    val lite = params.getValue(LITE).toBoolean()
 
     val fileName = fdp.name
     val version = getProtoktVersion(ProtocolContext::class)

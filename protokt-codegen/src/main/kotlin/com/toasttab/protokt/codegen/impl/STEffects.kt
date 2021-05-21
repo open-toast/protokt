@@ -78,7 +78,7 @@ internal object STEffects {
     ): FdpTemplateAndImports {
         // If we're only generating services, the file descriptor will
         // already exist in the non-gRPC file
-        if (ctx.onlyGenerateGrpc) {
+        if (ctx.onlyGenerateGrpc || ctx.lite) {
             return FdpTemplateAndImports("", emptySet())
         }
 

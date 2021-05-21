@@ -97,9 +97,13 @@ internal object MessageAnnotator {
     }
 
     private fun reflectInfo(msg: Message, ctx: Context) =
-        ReflectInfo(
-            fileDescriptorObjectName = ctx.desc.context.fileDescriptorObjectName,
-            index = msg.index,
-            parentName = msg.parentName
-        )
+        if (ctx.desc.context.lite) {
+            null
+        } else {
+            ReflectInfo(
+                fileDescriptorObjectName = ctx.desc.context.fileDescriptorObjectName,
+                index = msg.index,
+                parentName = msg.parentName
+            )
+        }
 }
