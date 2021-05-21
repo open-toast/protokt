@@ -81,8 +81,6 @@ jobs:
       kotlin:
         type: string
 
-    name: integration-jdk-<<parameters.jdk>-kotlin-<<parameters.kotlin>>
-
     executor: 
       name: builder
       jdk: <<parameters.jdk>>
