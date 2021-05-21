@@ -113,6 +113,8 @@ workflows:
     jobs:
       - build
       - integration:
+          requires:
+            - build
           matrix:
             parameters:
               java: ["8.0", "11.0"]
