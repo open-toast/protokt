@@ -34,7 +34,7 @@ import com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Label.LABEL_REP
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.google.protobuf.DescriptorProtos.OneofDescriptorProto
 import com.google.protobuf.DescriptorProtos.ServiceDescriptorProto
-import com.toasttab.protokt.codegen.impl.STAnnotator.rootGoogleProto
+import com.toasttab.protokt.codegen.impl.Annotator.rootGoogleProto
 import com.toasttab.protokt.codegen.impl.overrideGoogleProtobuf
 import com.toasttab.protokt.codegen.impl.resolveMapEntry
 import com.toasttab.protokt.codegen.model.FieldType

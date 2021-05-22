@@ -16,6 +16,8 @@
 package com.toasttab.protokt.codegen.impl
 
 import arrow.core.firstOrNone
+import com.toasttab.protokt.codegen.impl.Annotator.Context
+import com.toasttab.protokt.codegen.impl.Annotator.annotate
 import com.toasttab.protokt.codegen.impl.Deprecation.enclosingDeprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.hasDeprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
@@ -26,8 +28,6 @@ import com.toasttab.protokt.codegen.impl.MapEntryAnnotator.Companion.annotateMap
 import com.toasttab.protokt.codegen.impl.MessageDocumentationAnnotator.annotateMessageDocumentation
 import com.toasttab.protokt.codegen.impl.OneofAnnotator.Companion.annotateOneofs
 import com.toasttab.protokt.codegen.impl.PropertyAnnotator.Companion.annotateProperties
-import com.toasttab.protokt.codegen.impl.STAnnotator.Context
-import com.toasttab.protokt.codegen.impl.STAnnotator.annotate
 import com.toasttab.protokt.codegen.impl.SerializerAnnotator.Companion.annotateSerializer
 import com.toasttab.protokt.codegen.impl.SizeofAnnotator.Companion.annotateSizeof
 import com.toasttab.protokt.codegen.model.PPackage

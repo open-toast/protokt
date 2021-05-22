@@ -35,7 +35,7 @@ import com.toasttab.protokt.codegen.protoc.TypeDesc
  * The input is an AST<TypeDesc> and its output is a NEW AST<TypeDesc> that has
  * a NEW fully constructed AnnotatedType attached to each AST node.
  */
-object STAnnotator {
+object Annotator {
     const val rootGoogleProto = "google.protobuf"
     const val googleProto = ".google.protobuf"
 

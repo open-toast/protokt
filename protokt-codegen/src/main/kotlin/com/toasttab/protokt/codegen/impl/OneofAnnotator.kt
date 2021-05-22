@@ -16,9 +16,9 @@
 package com.toasttab.protokt.codegen.impl
 
 import arrow.core.None
+import com.toasttab.protokt.codegen.impl.Annotator.Context
 import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
 import com.toasttab.protokt.codegen.impl.PropertyDocumentationAnnotator.Companion.annotatePropertyDocumentation
-import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptTypeName
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
 import com.toasttab.protokt.codegen.model.PClass

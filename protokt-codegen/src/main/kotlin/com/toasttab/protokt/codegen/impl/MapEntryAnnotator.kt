@@ -15,9 +15,9 @@
 
 package com.toasttab.protokt.codegen.impl
 
+import com.toasttab.protokt.codegen.impl.Annotator.Context
 import com.toasttab.protokt.codegen.impl.DeserializerAnnotator.Companion.annotateDeserializer
 import com.toasttab.protokt.codegen.impl.PropertyAnnotator.Companion.annotateProperties
-import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.SerializerAnnotator.Companion.annotateSerializer
 import com.toasttab.protokt.codegen.impl.SizeofAnnotator.Companion.annotateSizeof
 import com.toasttab.protokt.codegen.protoc.Message

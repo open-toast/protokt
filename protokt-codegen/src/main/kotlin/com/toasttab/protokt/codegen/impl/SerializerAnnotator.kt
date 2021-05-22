@@ -18,8 +18,8 @@ package com.toasttab.protokt.codegen.impl
 import arrow.core.None
 import arrow.core.Option
 import arrow.core.Some
+import com.toasttab.protokt.codegen.impl.Annotator.Context
 import com.toasttab.protokt.codegen.impl.Nullability.hasNonNullOption
-import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Oneof

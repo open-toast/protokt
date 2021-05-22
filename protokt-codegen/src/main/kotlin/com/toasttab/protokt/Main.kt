@@ -20,8 +20,10 @@ import com.google.protobuf.ExtensionRegistry
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.Feature
-import com.toasttab.protokt.codegen.impl.STAnnotator
-import com.toasttab.protokt.codegen.impl.STEffects
+import com.toasttab.protokt.codegen.impl.Accumulator
+import com.toasttab.protokt.codegen.impl.Annotator
+import com.toasttab.protokt.codegen.impl.FileDescriptorResolver
+import com.toasttab.protokt.codegen.impl.ImportResolver
 import com.toasttab.protokt.codegen.impl.resolvePackage
 import com.toasttab.protokt.codegen.protoc.AnnotatedType
 import com.toasttab.protokt.codegen.protoc.ProtocolContext
@@ -82,10 +84,15 @@ private fun generate(
             )
         )
 
-    STEffects.apply(
+    val annotatedTypes =
         protocol.types.map {
-            STAnnotator.apply(TypeDesc(protocol.desc, AnnotatedType(it)))
-        },
+            Annotator.apply(TypeDesc(protocol.desc, AnnotatedType(it)))
+        }
+
+    Accumulator.apply(
+        annotatedTypes,
+        ImportResolver.resolveImports(annotatedTypes),
+        FileDescriptorResolver.fileDescriptor(annotatedTypes),
         code::append
     )
 

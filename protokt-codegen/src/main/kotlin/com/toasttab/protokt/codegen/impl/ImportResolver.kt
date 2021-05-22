@@ -15,12 +15,13 @@
 
 package com.toasttab.protokt.codegen.impl
 
+import arrow.core.firstOrNone
 import com.github.andrewoma.dexx.kollection.ImmutableSet
 import com.github.andrewoma.dexx.kollection.immutableSetOf
 import com.github.andrewoma.dexx.kollection.toImmutableSet
+import com.toasttab.protokt.codegen.impl.Annotator.grpc
+import com.toasttab.protokt.codegen.impl.Annotator.nonGrpc
 import com.toasttab.protokt.codegen.impl.ClassLookup.getClassOrNone
-import com.toasttab.protokt.codegen.impl.STAnnotator.grpc
-import com.toasttab.protokt.codegen.impl.STAnnotator.nonGrpc
 import com.toasttab.protokt.codegen.model.Import
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.PPackage
@@ -61,7 +62,7 @@ class ImportResolver(
             "com.toasttab.protokt.FileDescriptor"
         ).map { Import.Class(PClass.fromName(it)) }
 
-    fun resolveImports(descs: List<TypeDesc>) =
+    private fun resolveImports(descs: List<TypeDesc>) =
         descs.flatMapToSet { imports(it.type.rawType) }
             .asSequence()
             .filterNot { it.pkg == PPackage.KOTLIN }
@@ -99,4 +100,16 @@ class ImportResolver(
         transform: (T) -> Iterable<R>
     ): ImmutableSet<R> =
         fold(immutableSetOf()) { s, e -> s + transform(e) }
+
+    companion object {
+        fun resolveImports(descs: List<TypeDesc>) =
+            descs.firstOrNone()
+                .fold(
+                    { emptySet() },
+                    {
+                        ImportResolver(it.desc.context, kotlinPackage(it))
+                            .resolveImports(descs)
+                    }
+                )
+    }
 }
