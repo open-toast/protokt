@@ -84,15 +84,12 @@ private fun generate(
             )
         )
 
-    val annotatedTypes =
-        protocol.types.map {
-            Annotator.apply(TypeDesc(protocol.desc, AnnotatedType(it)))
-        }
+    val descs = protocol.types.map { TypeDesc(protocol.desc, AnnotatedType(it)) }
 
     Accumulator.apply(
-        annotatedTypes,
-        ImportResolver.resolveImports(annotatedTypes),
-        FileDescriptorResolver.resolveFileDescriptor(annotatedTypes),
+        descs.map(Annotator::apply),
+        ImportResolver.resolveImports(descs),
+        FileDescriptorResolver.resolveFileDescriptor(descs),
         code::append
     )
 
