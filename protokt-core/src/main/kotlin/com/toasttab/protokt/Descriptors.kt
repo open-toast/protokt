@@ -37,7 +37,7 @@ class FileDescriptor(
         }.let { finishList(it) }
 
     companion object {
-        fun fromData(
+        fun buildFrom(
             data: Array<String>,
             dependencies: List<FileDescriptor>
         ): FileDescriptor {

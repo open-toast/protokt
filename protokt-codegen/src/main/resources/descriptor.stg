@@ -20,7 +20,7 @@ object <fileDescriptorObjectName> {
             <parts:{lines | <lines:{l | "<l>"}; separator=" +\n">}; separator=",\n">
         )
 
-        FileDescriptor.fromData(
+        FileDescriptor.buildFrom(
             descriptorData,
             <if (longDependencies)>
             listOf(
