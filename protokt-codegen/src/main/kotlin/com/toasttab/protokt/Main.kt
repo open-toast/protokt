@@ -92,7 +92,7 @@ private fun generate(
     Accumulator.apply(
         annotatedTypes,
         ImportResolver.resolveImports(annotatedTypes),
-        FileDescriptorResolver.fileDescriptor(annotatedTypes),
+        FileDescriptorResolver.resolveFileDescriptor(annotatedTypes),
         code::append
     )
 

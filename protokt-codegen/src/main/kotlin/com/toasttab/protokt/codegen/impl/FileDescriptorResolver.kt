@@ -27,13 +27,13 @@ class FileDescriptorInfo(
 )
 
 object FileDescriptorResolver {
-    fun fileDescriptor(descs: List<TypeDesc>) =
+    fun resolveFileDescriptor(descs: List<TypeDesc>) =
         descs.firstOrNull()?.let {
             val aDesc = descs.first()
-            fileDescriptor(aDesc.desc.context, kotlinPackage(aDesc))
+            resolveFileDescriptor(aDesc.desc.context, kotlinPackage(aDesc))
         }
 
-    private fun fileDescriptor(
+    private fun resolveFileDescriptor(
         ctx: ProtocolContext,
         pkg: PPackage
     ): FileDescriptorInfo? {
