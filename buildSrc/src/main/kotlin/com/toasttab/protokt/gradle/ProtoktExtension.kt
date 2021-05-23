@@ -38,8 +38,8 @@ open class ProtoktExtension {
 
     /**
      * Whether or not to _only_ generate gRPC-specific code. Useful to generate
-     * libraries that have already had a version compile with `generateGrpc` set
-     * to `false`.
+     * libraries that have already had a version compiled with `generateGrpc`
+     * set to `false`.
      */
     var onlyGenerateGrpc = false
 
