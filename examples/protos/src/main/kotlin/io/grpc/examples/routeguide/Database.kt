@@ -13,17 +13,16 @@
  * limitations under the License.
  */
 
-import com.toasttab.protokt.gradle.protokt
+package io.grpc.examples.routeguide
 
-localProtokt()
-pureKotlin()
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.fasterxml.jackson.module.kotlin.readValue
 
-protokt {
-    generateGrpc = true
-}
-
-dependencies {
-    implementation(project(":protokt-runtime-grpc"))
-    implementation(libraries.grpcStub)
-    implementation(libraries.jackson)
+object Database {
+    fun features(): List<Feature> {
+        return javaClass.getResourceAsStream("route_guide_db.json").use {
+            ObjectMapper().registerModule(KotlinModule()).readValue<FeatureDatabase>(it!!.reader())
+        }.feature
+    }
 }

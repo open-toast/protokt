@@ -40,7 +40,6 @@ include(
     "examples:grpc-kotlin",
     "examples:grpc-kotlin-lite",
     "examples:protos",
-    "examples:server-common",
 
     "extensions",
     "extensions:protokt-extensions-api",

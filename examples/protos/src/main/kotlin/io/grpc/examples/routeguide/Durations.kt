@@ -13,17 +13,17 @@
  * limitations under the License.
  */
 
-import com.toasttab.protokt.gradle.protokt
+package io.grpc.examples.routeguide
 
-localProtokt()
-pureKotlin()
+import com.toasttab.protokt.Duration
 
-protokt {
-    generateGrpc = true
-}
+private const val MICROS_PER_SECOND = 1000000
+private const val NANOS_PER_MICROSECOND = 1000
 
-dependencies {
-    implementation(project(":protokt-runtime-grpc"))
-    implementation(libraries.grpcStub)
-    implementation(libraries.jackson)
+object Durations {
+    fun fromMicros(microseconds: Long) =
+        Duration {
+            seconds = microseconds / MICROS_PER_SECOND
+            nanos = (microseconds % MICROS_PER_SECOND * NANOS_PER_MICROSECOND).toInt()
+        }
 }
