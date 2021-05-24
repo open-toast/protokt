@@ -21,7 +21,9 @@ import io.grpc.kotlin.ClientCalls
 import java.io.Closeable
 import java.util.concurrent.TimeUnit
 
-class AnimalsClient(private val channel: ManagedChannel) : Closeable {
+class AnimalsClient(
+    private val channel: ManagedChannel
+) : Closeable {
     suspend fun bark() {
         val request = BarkRequest { }
         val response = ClientCalls.unaryRpc(channel, DogGrpc.barkMethod, request)

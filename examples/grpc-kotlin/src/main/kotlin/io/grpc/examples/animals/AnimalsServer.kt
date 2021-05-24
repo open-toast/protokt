@@ -20,7 +20,9 @@ import io.grpc.ServerServiceDefinition
 import io.grpc.kotlin.AbstractCoroutineServerImpl
 import io.grpc.kotlin.ServerCalls.unaryServerMethodDefinition
 
-class AnimalsServer constructor(private val port: Int) {
+class AnimalsServer(
+    private val port: Int
+) {
     private val server =
         ServerBuilder
             .forPort(port)

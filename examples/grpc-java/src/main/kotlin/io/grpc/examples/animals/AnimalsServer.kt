@@ -21,7 +21,9 @@ import io.grpc.ServerServiceDefinition
 import io.grpc.stub.ServerCalls
 import io.grpc.stub.StreamObserver
 
-class AnimalsServer constructor(private val port: Int) {
+class AnimalsServer(
+    private val port: Int
+) {
     private val server =
         ServerBuilder
             .forPort(port)

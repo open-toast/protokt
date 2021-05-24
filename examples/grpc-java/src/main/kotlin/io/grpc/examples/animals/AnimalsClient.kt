@@ -23,7 +23,9 @@ import io.grpc.stub.ClientCalls
 import java.io.Closeable
 import java.util.concurrent.TimeUnit
 
-class AnimalsClient(private val channel: ManagedChannel) : Closeable {
+class AnimalsClient(
+    private val channel: ManagedChannel
+) : Closeable {
     fun bark() {
         val request = BarkRequest { }
         val response = unaryCall(DogGrpc.barkMethod, request)
