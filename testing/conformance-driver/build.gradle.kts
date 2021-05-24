@@ -26,5 +26,5 @@ configure<JavaApplication> {
 dependencies {
     implementation(libraries.arrow)
     implementation(libraries.kotlinxCoroutinesCore)
-    implementation(libraries.protobuf)
+    implementation(libraries.protobufJava)
 }

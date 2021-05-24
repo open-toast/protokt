@@ -24,6 +24,7 @@ dependencies {
     implementation(libraries.grpcStub)
 
     runtimeOnly(libraries.grpcNetty)
+    runtimeOnly(libraries.protobufJava)
 }
 
 tasks.register<JavaExec>("HelloWorldServer") {
@@ -42,6 +43,24 @@ tasks.register<JavaExec>("AnimalsServer") {
     dependsOn("classes")
     classpath = sourceSets["main"].runtimeClasspath
     main = "io.grpc.examples.animals.AnimalsServerKt"
+}
+
+tasks.register<JavaExec>("HelloWorldClient") {
+    dependsOn("classes")
+    classpath = sourceSets["main"].runtimeClasspath
+    main = "io.grpc.examples.helloworld.HelloWorldClientKt"
+}
+
+tasks.register<JavaExec>("RouteGuideClient") {
+    dependsOn("classes")
+    classpath = sourceSets["main"].runtimeClasspath
+    main = "io.grpc.examples.routeguide.RouteGuideClientKt"
+}
+
+tasks.register<JavaExec>("AnimalsClient") {
+    dependsOn("classes")
+    classpath = sourceSets["main"].runtimeClasspath
+    main = "io.grpc.examples.animals.AnimalsClientKt"
 }
 
 val helloWorldServerStartScripts = tasks.register<CreateStartScripts>("helloWorldServerStartScripts") {
@@ -65,8 +84,33 @@ val animalsServerStartScripts = tasks.register<CreateStartScripts>("animalsServe
     classpath = tasks.named<CreateStartScripts>("startScripts").get().classpath
 }
 
+val helloWorldClientStartScripts = tasks.register<CreateStartScripts>("helloWorldClientStartScripts") {
+    mainClassName = "io.grpc.examples.helloworld.HelloWorldClientKt"
+    applicationName = "hello-world-client"
+    outputDir = tasks.named<CreateStartScripts>("startScripts").get().outputDir
+    classpath = tasks.named<CreateStartScripts>("startScripts").get().classpath
+}
+
+val routeGuideClientStartScripts = tasks.register<CreateStartScripts>("routeGuideClientStartScripts") {
+    mainClassName = "io.grpc.examples.routeguide.RouteGuideClientKt"
+    applicationName = "route-guide-client"
+    outputDir = tasks.named<CreateStartScripts>("startScripts").get().outputDir
+    classpath = tasks.named<CreateStartScripts>("startScripts").get().classpath
+}
+
+val animalsClientStartScripts = tasks.register<CreateStartScripts>("animalsClientStartScripts") {
+    mainClassName = "io.grpc.examples.animals.AnimalsClientKt"
+    applicationName = "route-guide-client"
+    outputDir = tasks.named<CreateStartScripts>("startScripts").get().outputDir
+    classpath = tasks.named<CreateStartScripts>("startScripts").get().classpath
+}
+
 tasks.named("startScripts") {
     dependsOn(helloWorldServerStartScripts)
     dependsOn(routeGuideServerStartScripts)
     dependsOn(animalsServerStartScripts)
+
+    dependsOn(helloWorldClientStartScripts)
+    dependsOn(routeGuideClientStartScripts)
+    dependsOn(animalsClientStartScripts)
 }

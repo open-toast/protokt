@@ -59,7 +59,7 @@ object libraries {
     const val kotlinxCoroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.kotlinxCoroutines}"
 
     const val protobufPlugin = "com.google.protobuf:protobuf-gradle-plugin:${versions.protobufPlugin}"
-    const val protobuf = "com.google.protobuf:protobuf-java:${versions.protobuf}"
+    const val protobufJava = "com.google.protobuf:protobuf-java:${versions.protobuf}"
     const val protoc = "com.google.protobuf:protoc:${versions.protobuf}"
 
     const val stringTemplate = "org.antlr:ST4:${versions.stringTemplate}"

@@ -21,7 +21,7 @@ apply(plugin = "java")
 apply(plugin = "com.google.protobuf")
 
 dependencies {
-    implementation(libraries.protobuf)
+    implementation(libraries.protobufJava)
 }
 
 sourceSets {
