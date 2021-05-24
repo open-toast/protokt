@@ -34,7 +34,7 @@ protokt % ./gradlew :examples:grpc-[java|kotlin]:AnimalsClient --args=sheep
 
 ### Greeter
 
-Start a server, either grpc-java- or grpc-kotlin-based:
+Start a server, either based on grpc-java or grpc-kotlin bindings:
 
 ```sh
 protokt % ./gradlew :examples:grpc-[java|kotlin]:HelloWorldServer
@@ -48,7 +48,7 @@ protokt % ./gradlew :examples:grpc-[java|kotlin]:HelloWorldClient
 
 ### Route Guide
 
-Start a server, either grpc-java- or grpc-kotlin-based:
+Start a server, either based on grpc-java or grpc-kotlin bindings:
 
 ```sh
 protokt % ./gradlew :examples:grpc-[java|kotlin]:RouteGuideServer
