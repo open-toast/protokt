@@ -18,7 +18,8 @@ import com.toasttab.protokt.gradle.DEFAULT_PROTOBUF_VERSION
 object versions {
     const val arrow = "0.13.2"
     const val autoService = "1.0-rc7"
-    const val grpc = "1.37.0"
+    const val grpc = "1.38.0"
+    const val grpcKotlin = "1.1.0"
     const val kollection = "0.7"
     const val kotlin = "1.4.32"
     const val kotlinxCoroutines = "1.3.9"
@@ -47,6 +48,8 @@ object libraries {
     const val autoService = "com.google.auto.service:auto-service:${versions.autoService}"
     const val autoServiceAnnotations = "com.google.auto.service:auto-service-annotations:${versions.autoService}"
 
+    const val grpcKotlin = "io.grpc:grpc-kotlin-stub:${versions.grpcKotlin}"
+    const val grpcNetty = "io.grpc:grpc-netty:${versions.grpc}"
     const val grpcStub = "io.grpc:grpc-stub:${versions.grpc}"
 
     const val kollection = "com.github.andrewoma.dexx:kollection:${versions.kollection}"
