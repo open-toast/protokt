@@ -46,11 +46,11 @@ class RouteGuideServer(
         server.start()
         println("Server started, listening on $port")
         Runtime.getRuntime().addShutdownHook(
-                Thread {
-                    println("*** shutting down gRPC server since JVM is shutting down")
-                    this@RouteGuideServer.stop()
-                    println("*** server shut down")
-                }
+            Thread {
+                println("*** shutting down gRPC server since JVM is shutting down")
+                this@RouteGuideServer.stop()
+                println("*** server shut down")
+            }
         )
     }
 
@@ -81,7 +81,7 @@ class RouteGuideServer(
             features.find { it.location == request } ?: Feature { location = request }
 
         fun listFeatures(request: Rectangle): Flow<Feature> =
-                features.asFlow().filter { it.exists() && it.location!! in request }
+            features.asFlow().filter { it.exists() && it.location!! in request }
 
         suspend fun recordRoute(requests: Flow<Point>): RouteSummary {
             var pointCount = 0

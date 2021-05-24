@@ -46,11 +46,11 @@ class RouteGuideServer(
         server.start()
         println("Server started, listening on $port")
         Runtime.getRuntime().addShutdownHook(
-                Thread {
-                    println("*** shutting down gRPC server since JVM is shutting down")
-                    this@RouteGuideServer.stop()
-                    println("*** server shut down")
-                }
+            Thread {
+                println("*** shutting down gRPC server since JVM is shutting down")
+                this@RouteGuideServer.stop()
+                println("*** server shut down")
+            }
         )
     }
 
