@@ -20,7 +20,7 @@ is represented as `String?`, etc.
 CodedOutputStream for best performance
 - gRPC [method descriptor and service descriptor generation](#grpc-code-generation)
 for use with [grpc-java](#integrating-with-grpcs-java-api) or 
-[grpc-kotlin](#integrating-with-grpcs-kotlin-api)
+[grpc-kotlin](#integrating-with-grpcs-kotlin-api) (see examples  in [examples](examples))
 
 #### Not yet implemented
 
@@ -906,9 +906,6 @@ fun checkHealth(): HealthCheckResponse =
 
 #### Integrating with gRPC's Kotlin API
 
-At the time of writing grpc-kotlin is still experimental. These examples
-compile against grpc-kotlin 0.1.4. Its APIs are subject to change.
-
 To use the coroutine-based implementations provided by grpc-kotlin:
 
 ```kotlin
@@ -967,10 +964,10 @@ plugins {
 
 ### Command line code generation
 
-```bash
-protokt$ ./gradlew assemble
+```sh
+protokt % ./gradlew assemble
 
-protokt$ protoc \
+protokt % protoc \
     --plugin=protoc-gen-custom=protokt-codegen/build/install/protoc-gen-protokt/bin/protoc-gen-protokt \
     --custom_out=<output-directory> \
     -I<path-to-proto-file-containing-directory> \
@@ -981,8 +978,8 @@ protokt$ protoc \
 For example, to generate files in `protokt/foo` from a file called `test.proto`
 located at `protokt/test.proto`:
 
-```bash
-protokt$ protoc \
+```sh
+protokt % protoc \
     --plugin=protoc-gen-custom=protokt-codegen/build/install/protoc-gen-protokt/bin/protoc-gen-protokt \
     --custom_out=foo \
     -I. \

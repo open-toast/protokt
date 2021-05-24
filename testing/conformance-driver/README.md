@@ -1,13 +1,13 @@
 Steps taken to build conformance tests (assumed running on a Mac):
 
-```
+```sh
 git clone git@github.com:protocolbuffers/protobuf
 cd protobuf/
 ```
 
 Mac conformance tests:
 
-```
+```sh
 protobuf % ./configure
 protobuf % make clean
 protobuf % make
@@ -19,7 +19,8 @@ protobuf % cp src/.libs/libprotobuf.26.dylib ../protokt/testing/conformance-driv
 ```
 
 Ubuntu conformance tests:
-```
+
+```sh
 protobuf % docker run -v $(pwd):/tmp -t -i ubuntu:16.04 /bin/bash
 root@38f7a53696b9:/# apt-get update && apt-get install build-essential
 root@38f7a53696b9:/# cd tmp/
