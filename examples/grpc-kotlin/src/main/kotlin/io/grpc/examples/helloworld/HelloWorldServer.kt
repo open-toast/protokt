@@ -17,6 +17,7 @@ package io.grpc.examples.helloworld
 
 import io.grpc.ServerBuilder
 import io.grpc.ServerServiceDefinition
+import io.grpc.examples.helloworld.GreeterGrpc.sayHelloMethod
 import io.grpc.kotlin.AbstractCoroutineServerImpl
 import io.grpc.kotlin.ServerCalls.unaryServerMethodDefinition
 
@@ -52,10 +53,10 @@ class HelloWorldServer(
     private class HelloWorldService : AbstractCoroutineServerImpl() {
         override fun bindService() =
             ServerServiceDefinition.builder(GreeterGrpc.serviceDescriptor)
-                .addMethod(unaryServerMethodDefinition(context, GreeterGrpc.sayHelloMethod, ::sayHello))
+                .addMethod(unaryServerMethodDefinition(context, sayHelloMethod, ::sayHello))
                 .build()
 
-        /* suspend */ fun sayHello(request: HelloRequest) =
+        suspend fun sayHello(request: HelloRequest) =
             HelloReply { message = "Hello ${request.name}" }
     }
 }

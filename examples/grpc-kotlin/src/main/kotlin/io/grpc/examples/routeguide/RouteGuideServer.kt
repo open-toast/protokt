@@ -17,9 +17,12 @@ package io.grpc.examples.routeguide
 
 import com.google.common.base.Stopwatch
 import com.google.common.base.Ticker
-import io.grpc.Server
 import io.grpc.ServerBuilder
 import io.grpc.ServerServiceDefinition
+import io.grpc.examples.routeguide.RouteGuideGrpc.getFeatureMethod
+import io.grpc.examples.routeguide.RouteGuideGrpc.listFeaturesMethod
+import io.grpc.examples.routeguide.RouteGuideGrpc.recordRouteMethod
+import io.grpc.examples.routeguide.RouteGuideGrpc.routeChatMethod
 import io.grpc.kotlin.AbstractCoroutineServerImpl
 import io.grpc.kotlin.ServerCalls.bidiStreamingServerMethodDefinition
 import io.grpc.kotlin.ServerCalls.clientStreamingServerMethodDefinition
@@ -35,13 +38,16 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flow
 
 /**
- * Kotlin adaptation of RouteGuideServer from the Kotlin gRPC example.
+ * Protokt adaptation of RouteGuideServer from the Kotlin gRPC example.
  */
 class RouteGuideServer(
-    val port: Int,
-    val features: Collection<Feature> = Database.features(),
-    val server: Server = ServerBuilder.forPort(port).addService(RouteGuideService(features)).build()
+    private val port: Int
 ) {
+    private val server =
+        ServerBuilder.forPort(port)
+            .addService(RouteGuideService(Database.features()))
+            .build()
+
     fun start() {
         server.start()
         println("Server started, listening on $port")
@@ -68,15 +74,15 @@ class RouteGuideServer(
     ) : AbstractCoroutineServerImpl() {
         override fun bindService() =
             ServerServiceDefinition.builder(RouteGuideGrpc.serviceDescriptor)
-                .addMethod(unaryServerMethodDefinition(context, RouteGuideGrpc.getFeatureMethod, ::getFeature))
-                .addMethod(serverStreamingServerMethodDefinition(context, RouteGuideGrpc.listFeaturesMethod, ::listFeatures))
-                .addMethod(clientStreamingServerMethodDefinition(context, RouteGuideGrpc.recordRouteMethod, ::recordRoute))
-                .addMethod(bidiStreamingServerMethodDefinition(context, RouteGuideGrpc.routeChatMethod, ::routeChat))
+                .addMethod(unaryServerMethodDefinition(context, getFeatureMethod, ::getFeature))
+                .addMethod(serverStreamingServerMethodDefinition(context, listFeaturesMethod, ::listFeatures))
+                .addMethod(clientStreamingServerMethodDefinition(context, recordRouteMethod, ::recordRoute))
+                .addMethod(bidiStreamingServerMethodDefinition(context, routeChatMethod, ::routeChat))
                 .build()
 
         private val routeNotes = ConcurrentHashMap<Point, MutableList<RouteNote>>()
 
-        /* suspend */ fun getFeature(request: Point): Feature =
+        suspend fun getFeature(request: Point): Feature =
             // No feature was found, return an unnamed feature.
             features.find { it.location == request } ?: Feature { location = request }
 

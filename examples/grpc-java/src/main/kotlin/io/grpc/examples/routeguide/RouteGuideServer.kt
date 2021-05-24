@@ -18,10 +18,13 @@ package io.grpc.examples.routeguide
 import com.google.common.base.Stopwatch
 import com.google.common.base.Ticker
 import io.grpc.BindableService
-import io.grpc.Server
 import io.grpc.ServerBuilder
 import io.grpc.ServerServiceDefinition
 import io.grpc.Status
+import io.grpc.examples.routeguide.RouteGuideGrpc.getFeatureMethod
+import io.grpc.examples.routeguide.RouteGuideGrpc.listFeaturesMethod
+import io.grpc.examples.routeguide.RouteGuideGrpc.recordRouteMethod
+import io.grpc.examples.routeguide.RouteGuideGrpc.routeChatMethod
 import io.grpc.stub.ServerCalls.asyncBidiStreamingCall
 import io.grpc.stub.ServerCalls.asyncClientStreamingCall
 import io.grpc.stub.ServerCalls.asyncServerStreamingCall
@@ -35,13 +38,16 @@ import java.util.logging.Logger
 private val logger = Logger.getLogger(RouteGuideServer::class.java.simpleName)
 
 /**
- * Kotlin adaptation of RouteGuideServer from the Java gRPC example.
+ * Protokt adaptation of RouteGuideServer from the Java gRPC example.
  */
 class RouteGuideServer(
-    val port: Int,
-    val features: Collection<Feature> = Database.features(),
-    val server: Server = ServerBuilder.forPort(port).addService(RouteGuideService(features)).build()
+    private val port: Int
 ) {
+    private val server =
+        ServerBuilder.forPort(port)
+            .addService(RouteGuideService(Database.features()))
+            .build()
+
     fun start() {
         server.start()
         println("Server started, listening on $port")
@@ -68,10 +74,10 @@ class RouteGuideServer(
     ) : BindableService {
         override fun bindService() =
             ServerServiceDefinition.builder(RouteGuideGrpc.serviceDescriptor)
-                .addMethod(RouteGuideGrpc.getFeatureMethod, asyncUnaryCall(::getFeature))
-                .addMethod(RouteGuideGrpc.listFeaturesMethod, asyncServerStreamingCall(::listFeatures))
-                .addMethod(RouteGuideGrpc.recordRouteMethod, asyncClientStreamingCall(::recordRoute))
-                .addMethod(RouteGuideGrpc.routeChatMethod, asyncBidiStreamingCall(::routeChat))
+                .addMethod(getFeatureMethod, asyncUnaryCall(::getFeature))
+                .addMethod(listFeaturesMethod, asyncServerStreamingCall(::listFeatures))
+                .addMethod(recordRouteMethod, asyncClientStreamingCall(::recordRoute))
+                .addMethod(routeChatMethod, asyncBidiStreamingCall(::routeChat))
                 .build()
 
         private val routeNotes = ConcurrentHashMap<Point, MutableList<RouteNote>>()

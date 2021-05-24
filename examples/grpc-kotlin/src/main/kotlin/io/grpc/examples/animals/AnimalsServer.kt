@@ -17,6 +17,9 @@ package io.grpc.examples.animals
 
 import io.grpc.ServerBuilder
 import io.grpc.ServerServiceDefinition
+import io.grpc.examples.animals.DogGrpc.barkMethod
+import io.grpc.examples.animals.PigGrpc.oinkMethod
+import io.grpc.examples.animals.SheepGrpc.baaMethod
 import io.grpc.kotlin.AbstractCoroutineServerImpl
 import io.grpc.kotlin.ServerCalls.unaryServerMethodDefinition
 
@@ -54,30 +57,30 @@ class AnimalsServer(
     private class DogService : AbstractCoroutineServerImpl() {
         override fun bindService() =
             ServerServiceDefinition.builder(DogGrpc.serviceDescriptor)
-                .addMethod(unaryServerMethodDefinition(context, DogGrpc.barkMethod, ::bark))
+                .addMethod(unaryServerMethodDefinition(context, barkMethod, ::bark))
                 .build()
 
-        /* suspend */ fun bark(@Suppress("UNUSED_PARAMETER") request: BarkRequest) =
+        suspend fun bark(@Suppress("UNUSED_PARAMETER") request: BarkRequest) =
             BarkReply { message = "Bark!" }
     }
 
     private class PigService : AbstractCoroutineServerImpl() {
         override fun bindService() =
             ServerServiceDefinition.builder(PigGrpc.serviceDescriptor)
-                .addMethod(unaryServerMethodDefinition(context, PigGrpc.oinkMethod, ::oink))
+                .addMethod(unaryServerMethodDefinition(context, oinkMethod, ::oink))
                 .build()
 
-        /* suspend */ fun oink(@Suppress("UNUSED_PARAMETER") request: OinkRequest) =
+        suspend fun oink(@Suppress("UNUSED_PARAMETER") request: OinkRequest) =
             OinkReply { message = "Oink!" }
     }
 
     private class SheepService : AbstractCoroutineServerImpl() {
         override fun bindService() =
             ServerServiceDefinition.builder(SheepGrpc.serviceDescriptor)
-                .addMethod(unaryServerMethodDefinition(context, SheepGrpc.baaMethod, ::baa))
+                .addMethod(unaryServerMethodDefinition(context, baaMethod, ::baa))
                 .build()
 
-        /* suspend */ fun baa(@Suppress("UNUSED_PARAMETER") request: BaaRequest) =
+        suspend fun baa(@Suppress("UNUSED_PARAMETER") request: BaaRequest) =
             BaaReply { message = "Baa!" }
     }
 }
