@@ -2,7 +2,7 @@
 
 ## Examples
 
-This directory contains several Protokt gRPC examples.
+This directory contains several protokt gRPC examples.
 
 ## File organization
 
@@ -18,7 +18,7 @@ The example sources are organized into the following top-level folders:
 
 ### Animals
 
-Start a server, either grpc-java- or grpc-kotlin-based:
+Start a server, either based on grpc-java or grpc-kotlin bindings:
 
 ```sh
 protokt % ./gradlew :examples:grpc-[java|kotlin]:AnimalsServer
