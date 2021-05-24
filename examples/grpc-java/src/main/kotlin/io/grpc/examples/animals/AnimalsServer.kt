@@ -15,10 +15,11 @@
 
 package io.grpc.examples.animals
 
+import io.grpc.BindableService
 import io.grpc.ServerBuilder
 import io.grpc.ServerServiceDefinition
-import io.grpc.kotlin.AbstractCoroutineServerImpl
-import io.grpc.kotlin.ServerCalls.unaryServerMethodDefinition
+import io.grpc.stub.ServerCalls
+import io.grpc.stub.StreamObserver
 
 class AnimalsServer constructor(private val port: Int) {
     private val server =
@@ -33,11 +34,11 @@ class AnimalsServer constructor(private val port: Int) {
         server.start()
         println("Server started, listening on $port")
         Runtime.getRuntime().addShutdownHook(
-                Thread {
-                    println("*** shutting down gRPC server since JVM is shutting down")
-                    this@AnimalsServer.stop()
-                    println("*** server shut down")
-                }
+            Thread {
+                println("*** shutting down gRPC server since JVM is shutting down")
+                this@AnimalsServer.stop()
+                println("*** server shut down")
+            }
         )
     }
 
@@ -49,34 +50,49 @@ class AnimalsServer constructor(private val port: Int) {
         server.awaitTermination()
     }
 
-    private class DogService : AbstractCoroutineServerImpl() {
+    private class DogService : BindableService {
         override fun bindService() =
             ServerServiceDefinition.builder(DogGrpc.serviceDescriptor)
-                .addMethod(unaryServerMethodDefinition(context, DogGrpc.barkMethod, ::bark))
+                .addMethod(DogGrpc.barkMethod, ServerCalls.asyncUnaryCall(::bark))
                 .build()
 
-        /* suspend */ fun bark(@Suppress("UNUSED_PARAMETER") request: BarkRequest) =
-            BarkReply { message = "Bark!" }
+        fun bark(
+            @Suppress("UNUSED_PARAMETER") request: BarkRequest,
+            responseObserver: StreamObserver<BarkReply>
+        ) {
+            responseObserver.onNext(BarkReply { message = "Bark!" })
+            responseObserver.onCompleted()
+        }
     }
 
-    private class PigService : AbstractCoroutineServerImpl() {
+    private class PigService : BindableService {
         override fun bindService() =
             ServerServiceDefinition.builder(PigGrpc.serviceDescriptor)
-                .addMethod(unaryServerMethodDefinition(context, PigGrpc.oinkMethod, ::oink))
+                .addMethod(PigGrpc.oinkMethod, ServerCalls.asyncUnaryCall(::oink))
                 .build()
 
-        /* suspend */ fun oink(@Suppress("UNUSED_PARAMETER") request: OinkRequest) =
-            OinkReply { message = "Oink!" }
+        fun oink(
+            @Suppress("UNUSED_PARAMETER") request: OinkRequest,
+            responseObserver: StreamObserver<OinkReply>
+        ) {
+            responseObserver.onNext(OinkReply { message = "Oink!" })
+            responseObserver.onCompleted()
+        }
     }
 
-    private class SheepService : AbstractCoroutineServerImpl() {
+    private class SheepService : BindableService {
         override fun bindService() =
             ServerServiceDefinition.builder(SheepGrpc.serviceDescriptor)
-                .addMethod(unaryServerMethodDefinition(context, SheepGrpc.baaMethod, ::baa))
+                .addMethod(SheepGrpc.baaMethod, ServerCalls.asyncUnaryCall(::baa))
                 .build()
 
-        /* suspend */ fun baa(@Suppress("UNUSED_PARAMETER") request: BaaRequest) =
-            BaaReply { message = "Baa!" }
+        fun baa(
+            @Suppress("UNUSED_PARAMETER") request: BaaRequest,
+            responseObserver: StreamObserver<BaaReply>
+        ) {
+            responseObserver.onNext(BaaReply { message = "Baa!" })
+            responseObserver.onCompleted()
+        }
     }
 }
 
