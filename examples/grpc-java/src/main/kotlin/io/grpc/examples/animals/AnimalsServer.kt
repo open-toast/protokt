@@ -18,7 +18,7 @@ package io.grpc.examples.animals
 import io.grpc.BindableService
 import io.grpc.ServerBuilder
 import io.grpc.ServerServiceDefinition
-import io.grpc.stub.ServerCalls
+import io.grpc.stub.ServerCalls.asyncUnaryCall
 import io.grpc.stub.StreamObserver
 
 class AnimalsServer(
@@ -55,7 +55,7 @@ class AnimalsServer(
     private class DogService : BindableService {
         override fun bindService() =
             ServerServiceDefinition.builder(DogGrpc.serviceDescriptor)
-                .addMethod(DogGrpc.barkMethod, ServerCalls.asyncUnaryCall(::bark))
+                .addMethod(DogGrpc.barkMethod, asyncUnaryCall(::bark))
                 .build()
 
         fun bark(
@@ -70,7 +70,7 @@ class AnimalsServer(
     private class PigService : BindableService {
         override fun bindService() =
             ServerServiceDefinition.builder(PigGrpc.serviceDescriptor)
-                .addMethod(PigGrpc.oinkMethod, ServerCalls.asyncUnaryCall(::oink))
+                .addMethod(PigGrpc.oinkMethod, asyncUnaryCall(::oink))
                 .build()
 
         fun oink(
@@ -85,7 +85,7 @@ class AnimalsServer(
     private class SheepService : BindableService {
         override fun bindService() =
             ServerServiceDefinition.builder(SheepGrpc.serviceDescriptor)
-                .addMethod(SheepGrpc.baaMethod, ServerCalls.asyncUnaryCall(::baa))
+                .addMethod(SheepGrpc.baaMethod, asyncUnaryCall(::baa))
                 .build()
 
         fun baa(

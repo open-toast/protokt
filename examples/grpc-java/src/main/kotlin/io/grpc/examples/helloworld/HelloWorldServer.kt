@@ -18,7 +18,7 @@ package io.grpc.examples.helloworld
 import io.grpc.BindableService
 import io.grpc.ServerBuilder
 import io.grpc.ServerServiceDefinition
-import io.grpc.stub.ServerCalls
+import io.grpc.stub.ServerCalls.asyncUnaryCall
 import io.grpc.stub.StreamObserver
 
 class HelloWorldServer(
@@ -53,7 +53,7 @@ class HelloWorldServer(
     private class HelloWorldService : BindableService {
         override fun bindService() =
             ServerServiceDefinition.builder(GreeterGrpc.serviceDescriptor)
-                .addMethod(GreeterGrpc.sayHelloMethod, ServerCalls.asyncUnaryCall(::sayHello))
+                .addMethod(GreeterGrpc.sayHelloMethod, asyncUnaryCall(::sayHello))
                 .build()
 
         fun sayHello(request: HelloRequest, responseObserver: StreamObserver<HelloReply>) {

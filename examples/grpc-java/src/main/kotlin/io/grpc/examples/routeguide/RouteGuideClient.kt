@@ -15,32 +15,40 @@
 
 package io.grpc.examples.routeguide
 
+import io.grpc.CallOptions
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
-import io.grpc.kotlin.ClientCalls
+import io.grpc.Status
+import io.grpc.stub.ClientCalls
+import io.grpc.stub.StreamObserver
 import java.io.Closeable
+import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
+import java.util.logging.Logger
 import kotlin.random.Random
 import kotlin.random.nextLong
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
 
 class RouteGuideClient(
     private val channel: ManagedChannel
 ) : Closeable {
+    private val logger = Logger.getLogger(RouteGuideClient::class.java.simpleName)
     private val random = Random(314159)
 
     override fun close() {
         channel.shutdown().awaitTermination(5, TimeUnit.SECONDS)
     }
 
-    suspend fun getFeature(latitude: Int, longitude: Int) {
+    fun getFeature(latitude: Int, longitude: Int) {
         println("*** GetFeature: lat=$latitude lon=$longitude")
 
         val request = point(latitude, longitude)
-        val feature = ClientCalls.unaryRpc(channel, RouteGuideGrpc.getFeatureMethod, request)
+        val feature =
+            ClientCalls.blockingUnaryCall(
+                channel,
+                RouteGuideGrpc.getFeatureMethod,
+                CallOptions.DEFAULT,
+                request
+            )
 
         if (feature.exists()) {
             println("Found feature called \"${feature.name}\" at ${feature.location?.toStr()}")
@@ -49,7 +57,7 @@ class RouteGuideClient(
         }
     }
 
-    suspend fun listFeatures(lowLat: Int, lowLon: Int, hiLat: Int, hiLon: Int) {
+    fun listFeatures(lowLat: Int, lowLon: Int, hiLat: Int, hiLon: Int) {
         println("*** ListFeatures: lowLat=$lowLat lowLon=$lowLon hiLat=$hiLat liLon=$hiLon")
 
         val request =
@@ -58,50 +66,94 @@ class RouteGuideClient(
                 hi = point(hiLat, hiLon)
             }
         var i = 1
-        ClientCalls.serverStreamingRpc(
+        ClientCalls.blockingServerStreamingCall(
             channel,
             RouteGuideGrpc.listFeaturesMethod,
+            CallOptions.DEFAULT,
             request
-        ).collect { feature ->
+        ).forEach { feature ->
             println("Result #${i++}: $feature")
         }
     }
 
-    suspend fun recordRoute(points: Flow<Point>) {
+    fun recordRoute(points: Sequence<Point>) {
         println("*** RecordRoute")
-        val summary = ClientCalls.clientStreamingRpc(channel, RouteGuideGrpc.recordRouteMethod, points)
-        println("Finished trip with ${summary.pointCount} points.")
-        println("Passed ${summary.featureCount} features.")
-        println("Travelled ${summary.distance} meters.")
-        val duration = summary.elapsedTime?.seconds
-        println("It took $duration seconds.")
+        val latch = CountDownLatch(1)
+        val requestObserver =
+            ClientCalls.asyncClientStreamingCall(
+                channel.newCall(RouteGuideGrpc.recordRouteMethod, CallOptions.DEFAULT),
+                object : StreamObserver<RouteSummary> {
+                    override fun onNext(summary: RouteSummary) {
+                        println("Finished trip with ${summary.pointCount} points.")
+                        println("Passed ${summary.featureCount} features.")
+                        println("Travelled ${summary.distance} meters.")
+                        val duration = summary.elapsedTime?.seconds
+                        println("It took $duration seconds.")
+                    }
+
+                    override fun onError(t: Throwable) {
+                        logger.info { "RecordRoute failed: ${Status.fromThrowable(t)}" }
+                        latch.countDown()
+                    }
+
+                    override fun onCompleted() {
+                        latch.countDown()
+                    }
+                }
+            )
+
+        points.forEach(requestObserver::onNext)
+        requestObserver.onCompleted()
+
+        if (!latch.await(1, TimeUnit.MINUTES)) {
+            logger.info { "Could not finish RecordRoute in one minute" }
+        }
     }
 
-    fun generateRoutePoints(features: List<Feature>, numPoints: Int): Flow<Point> =
-        flow {
-            for (i in 1..numPoints) {
+    fun generateRoutePoints(features: List<Feature>, numPoints: Int) =
+        sequence {
+            (1..numPoints).map {
                 val feature = features.random(random)
                 println("Visiting point ${feature.location?.toStr()}")
-                emit(feature.location!!)
-                delay(timeMillis = random.nextLong(500L..1500L))
+                yield(feature.location!!)
+                Thread.sleep(random.nextLong(500L..1500L))
             }
         }
 
-    suspend fun routeChat() {
+    fun routeChat() {
         println("*** RouteChat")
+        val latch = CountDownLatch(1)
+
+        val requestObserver =
+            ClientCalls.asyncBidiStreamingCall(
+                channel.newCall(RouteGuideGrpc.routeChatMethod, CallOptions.DEFAULT),
+                object : StreamObserver<RouteNote> {
+                    override fun onNext(note: RouteNote) {
+                        println("Got message \"${note.message}\" at ${note.location?.toStr()}")
+                    }
+
+                    override fun onError(t: Throwable?) {
+                        latch.countDown()
+                    }
+
+                    override fun onCompleted() {
+                        latch.countDown()
+                        println("Finished RouteChat")
+                    }
+                }
+            )
+
         val requests = generateOutgoingNotes()
-        ClientCalls.bidiStreamingRpc(
-            channel,
-            RouteGuideGrpc.routeChatMethod,
-            requests
-        ).collect { note ->
-            println("Got message \"${note.message}\" at ${note.location?.toStr()}")
+        requests.forEach(requestObserver::onNext)
+        requestObserver.onCompleted()
+
+        if (!latch.await(1, TimeUnit.MINUTES)) {
+            logger.info { "Could not finish RouteChat in one minute" }
         }
-        println("Finished RouteChat")
     }
 
-    private fun generateOutgoingNotes(): Flow<RouteNote> =
-        flow {
+    private fun generateOutgoingNotes(): Sequence<RouteNote> =
+        sequence {
             val notes = listOf(
                 RouteNote {
                     message = "First message"
@@ -126,13 +178,13 @@ class RouteGuideClient(
             )
             for (note in notes) {
                 println("Sending message \"${note.message}\" at ${note.location?.toStr()}")
-                emit(note)
-                delay(500)
+                yield(note)
+                Thread.sleep(500)
             }
         }
 }
 
-suspend fun main() {
+fun main() {
     val features = Database.features()
 
     val channel = ManagedChannelBuilder.forAddress("localhost", 8980).usePlaintext().build()
