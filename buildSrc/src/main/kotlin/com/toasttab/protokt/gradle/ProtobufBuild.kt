@@ -27,10 +27,11 @@ import java.io.File
 import java.net.URLEncoder
 import org.gradle.api.Project
 import org.gradle.api.file.FileCollection
-import org.gradle.api.plugins.JavaPluginConvention
+import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.api.tasks.bundling.Jar
 import org.gradle.internal.os.OperatingSystem
 import org.gradle.kotlin.dsl.apply
+import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.named
 import org.gradle.kotlin.dsl.the
 
@@ -91,8 +92,9 @@ private fun extraClasspath(project: Project, task: GenerateProtoTask): String {
 private fun configureSources(project: Project, generatedSourcesPath: String) {
     val protoktDir = "$generatedSourcesPath/main/protokt"
 
-    project.the<JavaPluginConvention>()
-        .sourceSets.main.kotlin.srcDirs
+    project.the<SourceSetContainer>()["main"]
+        .java
+        .srcDirs
         .add(File(protoktDir))
 
     project.afterEvaluate {

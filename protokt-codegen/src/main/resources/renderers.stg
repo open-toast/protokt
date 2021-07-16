@@ -192,7 +192,7 @@ serialize(field, name, tag, box, options) ::= <<
 <if (field.repeated && field.packed)>
 serializer
         .write(Tag(<tag>))
-        .write(UInt32(<name>.sumBy { sizeof(<box(field.type, iterationVar())>) }))
+        .write(UInt32(<name>.sumOf { sizeof(<box(field.type, iterationVar())>) }))
     <name>.forEach {
         serializer.write(<box(field.type, options.fieldAccess)>)
     }<\\>
@@ -264,11 +264,11 @@ sizeof(name, field, type, options) ::= <%
     <elseif(field.repeated && field.packed)>
         sizeof(Tag(<field.number>)) +<\n>
             <t()><t()><name><\n>
-                <t()><t()><t()>.sumBy { sizeof(<box(field.type, iterationVar())>) }<\n>
+                <t()><t()><t()>.sumOf { sizeof(<box(field.type, iterationVar())>) }<\n>
                 <t()><t()><t()>.let { it + sizeof(UInt32(it)) }
     <elseif(field.repeated && !field.map)>
         (sizeof(Tag(<field.number>)) * <name>.size) +<\n>
-            <t()><t()><name>.sumBy { sizeof(<box(field.type, options.fieldAccess)>) }
+            <t()><t()><name>.sumOf { sizeof(<box(field.type, options.fieldAccess)>) }
     <else>
         sizeof(Tag(<field.number>)) + <options.fieldSizeof>
     <endif>
