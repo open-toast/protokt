@@ -18,12 +18,7 @@ package com.toasttab.protokt.gradle
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.artifacts.dsl.DependencyHandler
-import org.gradle.api.file.SourceDirectorySet
-import org.gradle.api.internal.HasConvention
-import org.gradle.api.tasks.SourceSet
-import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.kotlin.dsl.configure
-import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 
 fun Project.protokt(cfg: ProtoktExtension.() -> Unit) = project.configure(cfg)
 
@@ -32,14 +27,3 @@ fun DependencyHandler.protoktExtensions(dependencyNotation: Any): Dependency? =
 
 fun DependencyHandler.testProtoktExtensions(dependencyNotation: Any): Dependency? =
     add(TEST_EXTENSIONS, dependencyNotation)
-
-val SourceSet.kotlin: SourceDirectorySet
-    get() =
-        (this as HasConvention)
-            .convention
-            .getPlugin(KotlinSourceSet::class.java)
-            .kotlin
-
-val SourceSetContainer.main: SourceSet
-    get() =
-        getByName("main")
