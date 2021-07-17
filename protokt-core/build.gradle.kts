@@ -15,7 +15,6 @@
 
 import com.google.protobuf.gradle.proto
 import com.google.protobuf.gradle.protobuf
-import com.toasttab.protokt.gradle.kotlin
 
 apply(plugin = "kotlin-kapt")
 
@@ -43,7 +42,7 @@ sourceSets {
         proto {
             srcDir("../protokt-runtime/src/main/resources")
         }
-        kotlin {
+        java {
             srcDir("../protokt-core-lite/src/main/kotlin")
         }
     }
