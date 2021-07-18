@@ -15,12 +15,19 @@
 
 import com.toasttab.protokt.gradle.protoktExtensions
 
+spotless {
+    kotlin {
+        ktlint()
+        targetExclude("**/generated-sources/**")
+    }
+}
+
 dependencies {
     protoktExtensions("com.toasttab.protokt:protokt-extensions:$version")
 
     implementation(kotlin("stdlib"))
 
-    testImplementation("org.junit.jupiter:junit-jupiter:5.7.1")
-    testImplementation("com.google.protobuf:protobuf-java:3.16.0")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.7.2")
+    testImplementation("com.google.protobuf:protobuf-java:3.17.0")
     testImplementation("com.toasttab.protokt:protokt-util:$version")
 }

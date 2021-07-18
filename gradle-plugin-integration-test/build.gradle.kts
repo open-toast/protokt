@@ -32,7 +32,7 @@ buildscript {
     dependencies {
         classpath("com.toasttab.protokt:protokt-gradle-plugin:$version")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${System.getProperty("kotlin.version", "1.4.32")}")
-        classpath("com.diffplug.spotless:spotless-plugin-gradle:5.12.5")
+        classpath("com.diffplug.spotless:spotless-plugin-gradle:5.14.1")
     }
 }
 
@@ -52,13 +52,6 @@ allprojects {
 subprojects {
     apply(plugin = "org.jetbrains.kotlin.jvm")
     apply(plugin = "com.toasttab.protokt")
-
-    configure<SpotlessExtension> {
-        kotlin {
-            ktlint()
-            targetExclude("**/generated-sources/**")
-        }
-    }
 
     repositories {
         maven(url = "${rootProject.projectDir}/../build/repos/integration")

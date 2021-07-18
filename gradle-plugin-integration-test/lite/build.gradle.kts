@@ -13,8 +13,6 @@
  * limitations under the License.
  */
 
-import com.toasttab.protokt.gradle.kotlin
-
 protokt {
     lite = true
 }
@@ -24,8 +22,8 @@ dependencies {
 
     implementation(kotlin("stdlib"))
 
-    testImplementation("org.junit.jupiter:junit-jupiter:5.7.1")
-    testImplementation("com.google.protobuf:protobuf-javalite:3.16.0")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.7.2")
+    testImplementation("com.google.protobuf:protobuf-javalite:3.17.0")
     testImplementation("com.toasttab.protokt:protokt-util:$version")
 }
 
@@ -36,7 +34,7 @@ sourceSets {
         }
     }
     test {
-        kotlin {
+        java {
             srcDir("../regular/src/test/kotlin")
         }
     }
