@@ -14,7 +14,7 @@
  */
 
 android {
-    compileSdkVersion(29)
+    compileSdkVersion(31)
 }
 
 localProtokt()

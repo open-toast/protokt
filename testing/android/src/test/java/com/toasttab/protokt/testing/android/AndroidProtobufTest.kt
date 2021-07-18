@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test
 
 class AndroidProtobufTest {
     @Test
-    fun `can use protobuf lite on main android protos`() {
+    fun `can use protobuf lite on android protos`() {
         assertThat(
             TestMessage.deserialize(TestMessage { foo = "foo" }.serialize()).foo
         ).isEqualTo("foo")

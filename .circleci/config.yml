@@ -10,10 +10,10 @@ executors:
     parameters:
       jdk:
         type: string
-        default: "11.0"
+        default: "11"
     working_directory: ~/code
     docker:
-      - image: alvrme/alpine-android:android-31-jdk11-v2021.07.14
+      - image: alvrme/alpine-android:android-31-jdk<<parameters.jdk>>
     environment:
       GRADLE_OPTS: "-Dorg.gradle.daemon=false"
 
@@ -117,7 +117,7 @@ workflows:
             - build
           matrix:
             parameters:
-              jdk: ["8.0", "11.0"]
+              jdk: ["8", "11"]
               kotlin: ["1.5.0", "1.4.32"]
       - release:
           context: OSS
