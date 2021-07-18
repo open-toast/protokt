@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2021 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,9 +13,17 @@
  * limitations under the License.
  */
 
-enablePublishing()
-trackKotlinApiCompatibility()
+package io.grpc.examples.routeguide
 
-dependencies {
-    compileOnly(libraries.protobufJava)
+import com.toasttab.protokt.Duration
+
+private const val MICROS_PER_SECOND = 1000000
+private const val NANOS_PER_MICROSECOND = 1000
+
+object Durations {
+    fun fromMicros(microseconds: Long) =
+        Duration {
+            seconds = microseconds / MICROS_PER_SECOND
+            nanos = (microseconds % MICROS_PER_SECOND * NANOS_PER_MICROSECOND).toInt()
+        }
 }

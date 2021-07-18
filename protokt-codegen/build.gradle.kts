@@ -43,7 +43,7 @@ dependencies {
     implementation(libraries.kollection)
     implementation(libraries.kotlinReflect)
     implementation(libraries.kotlinxCoroutinesCore)
-    implementation(libraries.protobuf)
+    implementation(libraries.protobufJava)
     implementation(libraries.stringTemplate)
 
     testImplementation(project(":testing:testing-util"))

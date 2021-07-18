@@ -29,8 +29,8 @@ dependencies {
     api(project(":extensions:protokt-extensions-api"))
     api(project(":protokt-runtime"))
 
-    protobuf(libraries.protobuf)
-    compileOnly(libraries.protobuf)
+    protobuf(libraries.protobufJava)
+    compileOnly(libraries.protobufJava)
 
     implementation(libraries.autoServiceAnnotations)
     implementation(libraries.kotlinReflect)

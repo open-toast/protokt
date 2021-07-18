@@ -22,7 +22,7 @@ plugins {
 }
 
 dependencies {
-    implementation(libraries.protobuf)
+    implementation(libraries.protobufJava)
 }
 
 sourceSets {
