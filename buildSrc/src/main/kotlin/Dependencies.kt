@@ -39,9 +39,6 @@ object versions {
 
     // Third Party
     const val protoGoogleCommonProtos = "1.18.0"
-
-    // Android
-    const val android = "4.1.0"
 }
 
 object libraries {
@@ -80,7 +77,4 @@ object libraries {
 
     // Third Party
     const val protoGoogleCommonProtos = "com.google.api.grpc:proto-google-common-protos:${versions.protoGoogleCommonProtos}"
-
-    // Android
-    const val android = "com.android.tools.build:gradle:${versions.android}"
 }

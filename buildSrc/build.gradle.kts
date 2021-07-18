@@ -18,12 +18,14 @@ plugins {
 }
 
 repositories {
+    google()
     gradlePluginPortal()
     mavenCentral()
 }
 
 dependencies {
-    implementation("com.diffplug.spotless:spotless-plugin-gradle:5.12.4")
+    implementation("com.android.tools.build:gradle:4.1.0")
+    implementation("com.diffplug.spotless:spotless-plugin-gradle:5.14.1")
     implementation("com.google.protobuf:protobuf-gradle-plugin:0.8.16")
     implementation("io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.30.0")
     implementation("com.google.guava:guava:30.1.1-jre")

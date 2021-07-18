@@ -13,10 +13,8 @@
  * limitations under the License.
  */
 
-plugins {
-    id("com.android.library")
-}
-
 android {
     compileSdkVersion(29)
 }
+
+localProtokt()

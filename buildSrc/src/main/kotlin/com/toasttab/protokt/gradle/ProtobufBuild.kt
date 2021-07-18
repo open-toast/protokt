@@ -15,6 +15,7 @@
 
 package com.toasttab.protokt.gradle
 
+import com.android.build.gradle.LibraryExtension
 import com.google.protobuf.gradle.GenerateProtoTask
 import com.google.protobuf.gradle.builtins
 import com.google.protobuf.gradle.generateProtoTasks
@@ -22,7 +23,6 @@ import com.google.protobuf.gradle.id
 import com.google.protobuf.gradle.plugins
 import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
-import com.google.protobuf.gradle.remove
 import java.io.File
 import java.net.URLEncoder
 import org.gradle.api.Project
@@ -31,6 +31,7 @@ import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.api.tasks.bundling.Jar
 import org.gradle.internal.os.OperatingSystem
 import org.gradle.kotlin.dsl.apply
+import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.named
 import org.gradle.kotlin.dsl.the
@@ -44,9 +45,8 @@ internal fun configureProtobufPlugin(project: Project, ext: ProtoktExtension, bi
     project.apply(plugin = "com.google.protobuf")
 
     project.protobuf {
-        generatedFilesBaseDir = "${project.buildDir}/generated-sources"
-
-        configureSources(project, generatedFilesBaseDir)
+        val generatedFileBaseDirFile = project.buildDir.resolve("generated-sources")
+        generatedFilesBaseDir = generatedFileBaseDirFile.absolutePath
 
         protoc {
             artifact = "com.google.protobuf:protoc:${ext.protocVersion}"
@@ -61,8 +61,10 @@ internal fun configureProtobufPlugin(project: Project, ext: ProtoktExtension, bi
         generateProtoTasks {
             for (task in all()) {
                 task.builtins {
-                    remove("java")
+                    findByName("java")?.run(::remove)
                 }
+
+                configureSources(project, task, generatedFileBaseDirFile)
 
                 task.plugins {
                     id("protokt") {
@@ -89,13 +91,27 @@ private fun extraClasspath(project: Project, task: GenerateProtoTask): String {
     return extensions.joinToString(";") { URLEncoder.encode(it.path, "UTF-8") }
 }
 
-private fun configureSources(project: Project, generatedSourcesPath: String) {
-    val protoktDir = "$generatedSourcesPath/main/protokt"
+private fun configureSources(
+    project: Project,
+    task: GenerateProtoTask,
+    generatedSourcesPath: File
+) {
+    val sourceSetName =
+        if (task.isTest) {
+            "test"
+        } else {
+            "main"
+        }
 
-    project.the<SourceSetContainer>()["main"]
-        .java
-        .srcDirs
-        .add(File(protoktDir))
+    val protoktDir = generatedSourcesPath.resolve(sourceSetName).resolve("protokt")
+
+    if (task.isAndroidProject.get()) {
+        project.configure<LibraryExtension> {
+            sourceSets[sourceSetName].java.srcDir(protoktDir)
+        }
+    } else {
+        project.the<SourceSetContainer>()[sourceSetName].java.srcDir(protoktDir)
+    }
 
     project.afterEvaluate {
         if (project.tasks.findByName("sourcesJar") != null) {

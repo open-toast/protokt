@@ -22,10 +22,6 @@ buildscript {
         gradlePluginPortal()
         google()
     }
-
-    dependencies {
-        classpath(libraries.android)
-    }
 }
 
 plugins {
@@ -34,6 +30,7 @@ plugins {
 
 allprojects {
     repositories {
+        google()
         mavenCentral()
     }
 
