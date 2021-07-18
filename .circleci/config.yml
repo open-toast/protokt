@@ -7,13 +7,9 @@ parameters:
 
 executors:
   builder:
-    parameters:
-      jdk:
-        type: string
-        default: "11.0.7"
     working_directory: ~/code
     docker:
-      - image: cmdline-tools-2.1-adoptjdk<<parameters.jdk>>
+      - image: alvrme/alpine-android:android-31-jdk11-v2021.07.14
     environment:
       GRADLE_OPTS: "-Dorg.gradle.daemon=false"
 
