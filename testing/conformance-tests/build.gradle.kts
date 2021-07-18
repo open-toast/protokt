@@ -14,7 +14,7 @@
  */
 
 dependencies {
-    testImplementation(project(":testing:util"))
+    testImplementation(project(":testing:testing-util"))
     testImplementation(libraries.protobuf)
 }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2021 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,28 +13,10 @@
  * limitations under the License.
  */
 
-import com.google.protobuf.gradle.proto
-import com.google.protobuf.gradle.protobuf
-import com.google.protobuf.gradle.protoc
-
 plugins {
-    id("com.google.protobuf")
+    id("com.android.library")
 }
 
-dependencies {
-    implementation(libraries.protobuf)
-}
-
-sourceSets {
-    main {
-        proto {
-            srcDir("${project.rootDir}/testing/runtime-tests/src/main/proto")
-        }
-    }
-}
-
-protobuf {
-    protoc {
-        artifact = libraries.protoc
-    }
+android {
+    compileSdkVersion(29)
 }

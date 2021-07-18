@@ -13,11 +13,13 @@
  * limitations under the License.
  */
 
-apply(plugin = "kotlin-kapt")
+plugins {
+    kotlin("kapt")
+}
 
 dependencies {
     implementation(project(":protokt-core"))
     implementation(libraries.autoServiceAnnotations)
 
-    add("kapt", libraries.autoService)
+    kapt(libraries.autoService)
 }

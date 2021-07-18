@@ -22,7 +22,7 @@ plugins {
 localProtokt()
 
 configure<JavaApplication> {
-    mainClassName = "com.toasttab.protokt.benchmarks.ProtoktBenchmarksKt"
+    mainClass.set("com.toasttab.protokt.benchmarks.ProtoktBenchmarksKt")
     executableDir = ".."
 }
 
@@ -31,7 +31,7 @@ dependencies {
 
     implementation(libraries.kotlinReflect)
     implementation(libraries.protobuf)
-    implementation(project(":benchmarks:util"))
+    implementation(project(":benchmarks:benchmarks-util"))
 }
 
 tasks.named("run") {

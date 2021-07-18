@@ -39,10 +39,13 @@ object versions {
 
     // Third Party
     const val protoGoogleCommonProtos = "1.18.0"
+
+    // Android
+    const val android = "4.1.0"
 }
 
 object libraries {
-    val arrow = "io.arrow-kt:arrow-core:${versions.arrow}"
+    const val arrow = "io.arrow-kt:arrow-core:${versions.arrow}"
 
     const val autoService = "com.google.auto.service:auto-service:${versions.autoService}"
     const val autoServiceAnnotations = "com.google.auto.service:auto-service-annotations:${versions.autoService}"
@@ -77,4 +80,7 @@ object libraries {
 
     // Third Party
     const val protoGoogleCommonProtos = "com.google.api.grpc:proto-google-common-protos:${versions.protoGoogleCommonProtos}"
+
+    // Android
+    const val android = "com.android.tools.build:gradle:${versions.android}"
 }

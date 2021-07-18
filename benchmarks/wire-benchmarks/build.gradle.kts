@@ -17,7 +17,6 @@ import com.squareup.wire.gradle.WireExtension
 
 buildscript {
     repositories {
-        gradlePluginPortal()
         mavenCentral()
     }
 
@@ -26,16 +25,19 @@ buildscript {
     }
 }
 
-apply(plugin = "com.squareup.wire")
-apply(plugin = "application")
+plugins {
+    application
+}
 
-configure<JavaApplication> {
-    mainClassName = "com.toasttab.protokt.benchmarks.WireBenchmarksKt"
+apply(plugin = "com.squareup.wire")
+
+application {
+    mainClass.set("com.toasttab.protokt.benchmarks.WireBenchmarksKt")
     executableDir = ".."
 }
 
 dependencies {
-    implementation(project(":benchmarks:util"))
+    implementation(project(":benchmarks:benchmarks-util"))
     implementation(libraries.wireRuntime)
 }
 

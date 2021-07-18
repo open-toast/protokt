@@ -40,6 +40,8 @@ include(
     "extensions:protokt-extensions-proto-based",
     "extensions:publish",
 
+    "testing:android",
+    "testing:android-test-configurations",
     "testing:conformance-driver",
     "testing:conformance-tests",
     "testing:options",
@@ -49,14 +51,14 @@ include(
     "testing:plugin-options:ignore-java-package",
     "testing:protobuf-java",
     "testing:runtime-tests",
-    "testing:util",
+    "testing:testing-util",
 
     "benchmarks",
+    "benchmarks:benchmarks-util",
+    "benchmarks:protobuf-java-benchmarks",
+    "benchmarks:protokt-benchmarks",
     "benchmarks:schema",
-    "benchmarks:wire",
-    "benchmarks:protokt",
-    "benchmarks:protobuf-java",
-    "benchmarks:util",
+    "benchmarks:wire-benchmarks",
 
     "third-party",
     "third-party:proto-google-common-protos",

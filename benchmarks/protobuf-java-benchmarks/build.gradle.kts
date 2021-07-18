@@ -33,7 +33,7 @@ protobuf {
 }
 
 dependencies {
-    implementation(project(":benchmarks:util"))
+    implementation(project(":benchmarks:benchmarks-util"))
     implementation(libraries.protobuf)
 
     protobuf(project(":benchmarks:schema"))
