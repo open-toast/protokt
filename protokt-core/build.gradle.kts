@@ -22,7 +22,7 @@ localProtokt()
 pureKotlin()
 enablePublishing()
 compatibleWithAndroid()
-trackKotlinApiCompatibility()
+trackKotlinApiCompatibility(false)
 
 dependencies {
     api(project(":extensions:protokt-extensions-api"))
