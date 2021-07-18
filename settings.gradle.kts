@@ -35,6 +35,13 @@ include(
     "protokt-gradle-plugin",
     "protokt-util",
 
+    "examples",
+    "examples:grpc-java",
+    "examples:grpc-java-lite",
+    "examples:grpc-kotlin",
+    "examples:grpc-kotlin-lite",
+    "examples:protos",
+
     "extensions",
     "extensions:protokt-extensions-api",
     "extensions:protokt-extensions-simple",

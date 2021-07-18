@@ -15,7 +15,7 @@
 
 dependencies {
     testImplementation(project(":testing:util"))
-    testImplementation(libraries.protobuf)
+    testImplementation(libraries.protobufJava)
 }
 
 tasks.named("test") {

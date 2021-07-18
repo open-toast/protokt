@@ -31,5 +31,5 @@ dependencies {
 
     testImplementation(kotlin("reflect"))
     testImplementation(project(":testing:runtime-tests"))
-    testImplementation(libraries.protobuf)
+    testImplementation(libraries.protobufJava)
 }

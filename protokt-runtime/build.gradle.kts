@@ -18,5 +18,5 @@ compatibleWithAndroid()
 trackKotlinApiCompatibility()
 
 dependencies {
-    compileOnly(libraries.protobuf)
+    compileOnly(libraries.protobufJava)
 }
