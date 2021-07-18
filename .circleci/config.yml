@@ -10,6 +10,7 @@ executors:
     parameters:
       jdk:
         type: string
+        default: "11.0"
     working_directory: ~/code
     docker:
       - image: alvrme/alpine-android:android-31-jdk11-v2021.07.14
