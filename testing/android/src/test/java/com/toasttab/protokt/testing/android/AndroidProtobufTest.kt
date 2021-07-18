@@ -13,15 +13,16 @@
  * limitations under the License.
  */
 
-android {
-    compileSdkVersion(29)
+package com.toasttab.protokt.testing.android
 
-    sourceSets["test"].java.srcDir("../android/src/test/java")
-}
+import com.google.common.truth.Truth.assertThat
+import org.junit.jupiter.api.Test
 
-localProtokt()
-pureKotlin()
-
-dependencies {
-    testImplementation(libraries.protobufLite)
+class AndroidProtobufTest {
+    @Test
+    fun `can use protobuf lite on main android protos`() {
+        assertThat(
+            TestMessage.deserialize(TestMessage { foo = "foo" }.serialize()).foo
+        ).isEqualTo("foo")
+    }
 }

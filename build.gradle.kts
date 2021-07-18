@@ -22,6 +22,10 @@ buildscript {
         gradlePluginPortal()
         google()
     }
+
+    dependencies {
+        classpath(libraries.androidGradle)
+    }
 }
 
 plugins {

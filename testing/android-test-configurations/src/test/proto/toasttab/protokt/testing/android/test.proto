@@ -13,15 +13,12 @@
  * limitations under the License.
  */
 
-android {
-    compileSdkVersion(29)
+syntax = "proto3";
 
-    sourceSets["test"].java.srcDir("../android/src/test/java")
-}
+package toasttab.protokt.testing.android;
 
-localProtokt()
-pureKotlin()
+option java_package = "com.toasttab.protokt.testing.android";
 
-dependencies {
-    testImplementation(libraries.protobufLite)
+message TestMessage {
+  string foo = 1;
 }

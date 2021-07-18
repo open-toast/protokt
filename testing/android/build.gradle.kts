@@ -17,4 +17,8 @@ android {
     compileSdkVersion(29)
 }
 
-// localProtokt()
+localProtokt()
+
+dependencies {
+    testImplementation(libraries.protobufLite)
+}

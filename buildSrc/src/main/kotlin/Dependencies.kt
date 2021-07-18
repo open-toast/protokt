@@ -39,6 +39,9 @@ object versions {
 
     // Third Party
     const val protoGoogleCommonProtos = "1.18.0"
+
+    // Android
+    const val androidGradle = "4.1.0"
 }
 
 object libraries {
@@ -57,6 +60,7 @@ object libraries {
 
     const val protobufPlugin = "com.google.protobuf:protobuf-gradle-plugin:${versions.protobufPlugin}"
     const val protobuf = "com.google.protobuf:protobuf-java:${versions.protobuf}"
+    const val protobufLite = "com.google.protobuf:protobuf-javalite:${versions.protobuf}"
     const val protoc = "com.google.protobuf:protoc:${versions.protobuf}"
 
     const val stringTemplate = "org.antlr:ST4:${versions.stringTemplate}"
@@ -77,4 +81,7 @@ object libraries {
 
     // Third Party
     const val protoGoogleCommonProtos = "com.google.api.grpc:proto-google-common-protos:${versions.protoGoogleCommonProtos}"
+
+    // Android
+    const val androidGradle = "com.android.tools.build:gradle:${versions.androidGradle}"
 }
