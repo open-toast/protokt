@@ -10,10 +10,10 @@ executors:
     parameters:
       jdk:
         type: string
-        default: "11.0"
+        default: "11.0.7"
     working_directory: ~/code
     docker:
-      - image: cimg/openjdk:<<parameters.jdk>>
+      - image: cmdline-tools-2.1-adoptjdk<<parameters.jdk>>
     environment:
       GRADLE_OPTS: "-Dorg.gradle.daemon=false"
 
@@ -49,7 +49,7 @@ jobs:
 
       - persist_to_workspace:
           root: build/repos
-          paths: 
+          paths:
             - integration
 
       - when:
@@ -81,7 +81,7 @@ jobs:
       kotlin:
         type: string
 
-    executor: 
+    executor:
       name: builder
       jdk: <<parameters.jdk>>
 
