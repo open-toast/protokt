@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2021 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,9 +13,16 @@
  * limitations under the License.
  */
 
-enablePublishing()
-trackKotlinApiCompatibility()
+package io.grpc.examples.routeguide
 
-dependencies {
-    compileOnly(libraries.protobufJava)
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.fasterxml.jackson.module.kotlin.readValue
+
+object Database {
+    fun features(): List<Feature> {
+        return javaClass.getResourceAsStream("route_guide_db.json").use {
+            ObjectMapper().registerModule(KotlinModule()).readValue<FeatureDatabase>(it!!.reader())
+        }.feature
+    }
 }
