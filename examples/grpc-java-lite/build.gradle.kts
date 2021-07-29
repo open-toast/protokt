@@ -27,11 +27,8 @@ protokt {
 dependencies {
     protobuf(project(":examples:protos"))
 
-    implementation(project(":protokt-runtime-grpc"))
-    implementation(libraries.grpcStub)
     implementation(libraries.jackson)
 
-    runtimeOnly(libraries.grpcNetty)
     runtimeOnly(libraries.protobufLite)
 }
 

@@ -15,11 +15,8 @@
 
 dependencies {
     implementation(project(":examples:protos"))
-    implementation(project(":protokt-runtime-grpc"))
     implementation(libraries.grpcKotlin)
-    implementation(libraries.grpcStub)
     implementation(libraries.kotlinxCoroutinesCore)
 
-    runtimeOnly(libraries.grpcNetty)
     runtimeOnly(libraries.protobufJava)
 }

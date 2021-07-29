@@ -15,6 +15,13 @@
 
 subprojects {
     if (name.contains("grpc")) {
+        dependencies {
+            implementation(project(":protokt-runtime-grpc"))
+            implementation(libraries.grpcStub)
+
+            runtimeOnly(libraries.grpcNetty)
+        }
+
         apply(plugin = "application")
 
         tasks.register<JavaExec>("HelloWorldServer") {
