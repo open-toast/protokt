@@ -10,9 +10,9 @@ The example sources are organized into the following top-level folders:
 
 - [protos](protos): `.proto` files (shared across examples)
 - [grpc-java](grpc-java): implementation of client and server using grpc-java bindings
-- [grpc-java-lite](grpc-java-lite): implementation of client using grpc-java bindings and protokt-lite (TODO)
+- [grpc-java-lite](grpc-java-lite): implementation of client using grpc-java bindings and protokt-lite
 - [grpc-kotlin](grpc-kotlin): implementation of client and server using grpc-kotlin bindings
-- [grpc-kotlin-lite](grpc-kotlin-lite): implementation of client using grpc-kotlin bindings and protokt-lite (TODO)
+- [grpc-kotlin-lite](grpc-kotlin-lite): implementation of client using grpc-kotlin bindings and protokt-lite
 
 ## Instructions for running examples
 
