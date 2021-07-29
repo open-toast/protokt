@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2021 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,16 @@
  * limitations under the License.
  */
 
-plugins {
-    kotlin("kapt")
-}
+package com.toasttab.protokt.testing.android
 
-dependencies {
-    implementation(project(":protokt-core"))
-    implementation(libraries.autoServiceAnnotations)
+import com.google.common.truth.Truth.assertThat
+import org.junit.jupiter.api.Test
 
-    kapt(libraries.autoService)
+class AndroidProtobufTest {
+    @Test
+    fun `can use protobuf lite on android protos`() {
+        assertThat(
+            TestMessage.deserialize(TestMessage { foo = "foo" }.serialize()).foo
+        ).isEqualTo("foo")
+    }
 }

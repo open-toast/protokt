@@ -13,44 +13,25 @@
  * limitations under the License.
  */
 
-import com.squareup.wire.gradle.WireExtension
+import com.google.protobuf.gradle.protobuf
 
-buildscript {
-    repositories {
-        gradlePluginPortal()
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath(libraries.wireGradle)
-    }
+plugins {
+    application
 }
 
-apply(plugin = "com.squareup.wire")
-apply(plugin = "application")
+localProtokt()
 
 configure<JavaApplication> {
-    mainClassName = "com.toasttab.protokt.benchmarks.WireBenchmarksKt"
+    mainClass.set("com.toasttab.protokt.benchmarks.ProtoktBenchmarksKt")
     executableDir = ".."
 }
 
 dependencies {
-    implementation(project(":benchmarks:util"))
-    implementation(libraries.wireRuntime)
-}
+    protobuf(project(":benchmarks:schema"))
 
-configure<WireExtension> {
-    sourcePath("../schema/src/main/resources")
-
-    kotlin {
-        out = "$buildDir/generated-sources/proto/main/java"
-    }
-}
-
-sourceSets {
-    main {
-        java.srcDirs.add(file("$buildDir/generated-sources/proto/main/java"))
-    }
+    implementation(libraries.kotlinReflect)
+    implementation(libraries.protobufJava)
+    implementation(project(":benchmarks:benchmarks-util"))
 }
 
 tasks.named("run") {

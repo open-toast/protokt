@@ -20,6 +20,11 @@ buildscript {
     repositories {
         mavenCentral()
         gradlePluginPortal()
+        google()
+    }
+
+    dependencies {
+        classpath(libraries.androidGradle)
     }
 }
 
@@ -29,6 +34,7 @@ plugins {
 
 allprojects {
     repositories {
+        google()
         mavenCentral()
     }
 
@@ -40,7 +46,12 @@ promoteStagingRepo()
 
 subprojects {
     apply(plugin = "idea")
-    apply(plugin = "kotlin")
+    if (name.contains("android")) {
+        apply(plugin = "com.android.library")
+        apply(plugin = "kotlin-android")
+    } else {
+        apply(plugin = "kotlin")
+    }
 
     dependencies {
         api(libraries.kotlinStdlib)
@@ -64,7 +75,7 @@ subprojects {
             useJUnitPlatform()
         }
 
-        jar {
+        withType<Jar> {
             manifest {
                 attributes(
                     MANIFEST_VERSION_PROPERTY to "${project.version}"
