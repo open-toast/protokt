@@ -13,11 +13,33 @@
  * limitations under the License.
  */
 
+import com.google.protobuf.gradle.protobuf
+import com.toasttab.protokt.gradle.protokt
+
+localProtokt()
+pureKotlin()
+
+protokt {
+    generateGrpc = true
+    lite = true
+}
+
 dependencies {
-    implementation(project(":examples:protos"))
+    protobuf(project(":examples:protos"))
+
     implementation(project(":protokt-runtime-grpc"))
     implementation(libraries.grpcStub)
+    implementation(libraries.jackson)
 
     runtimeOnly(libraries.grpcNetty)
-    runtimeOnly(libraries.protobufJava)
+    runtimeOnly(libraries.protobufLite)
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir("../grpc-java/src/main/kotlin")
+            srcDir("../protos/src/main/kotlin")
+        }
+    }
 }
