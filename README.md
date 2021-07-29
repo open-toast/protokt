@@ -8,9 +8,42 @@ Protocol Buffer compiler and runtime for Kotlin.
 
 Supports only version 3 of the Protocol Buffers language.
 
-#### Features
+* [Overview](#overview)
+  + [Features](#features)
+  + [Not yet implemented](#not-yet-implemented)
+  + [Compatibility](#compatibility)
+* [Usage](#usage)
+  + [Gradle](#gradle)
+  + [Generated Code](#generated-code)
+* [Runtime Notes](#runtime-notes)
+  + [Package](#package)
+  + [Message](#message)
+  + [Enums](#enums)
+    - [Representation](#representation)
+    - [Naming](#naming)
+  + [Other Notes](#other-notes)
+* [Extensions](#extensions)
+  + [Wrapper Types](#wrapper-types)
+  + [Non-null fields](#non-null-fields)
+  + [Interface implementation](#interface-implementation)
+    - [Messages](#messages)
+    - [Oneof Fields](#oneof-fields)
+  + [BytesSlice](#bytesslice)
+* [gRPC code generation](#grpc-code-generation)
+  + [Generated gRPC code](#generated-grpc-code)
+  + [Integrating with gRPC's Java API](#integrating-with-grpcs-java-api)
+  + [Integrating with gRPC's Kotlin API](#integrating-with-grpcs-kotlin-api)
+* [IntelliJ integration](#intellij-integration)
+* [Command line code generation](#command-line-code-generation)
+* [Contribution](#contribution)
+* [Acknowledgements](#acknowledgements)
+  + [Authors](#authors)
+
+## Overview
+
+### Features
 - Idiomatic and concise [Kotlin builder DSL](#generated-code)
-- Protokt-specific options: [non-null types](#nonnull-fields),
+- Protokt-specific options: [non-null types](#non-null-fields),
 [wrapper types](#wrapper-types),
 [interface implementation](#interface-implementation),
 and more
@@ -22,25 +55,25 @@ CodedOutputStream for best performance
 for use with [grpc-java](#integrating-with-grpcs-java-api) or 
 [grpc-kotlin](#integrating-with-grpcs-kotlin-api) (see examples  in [examples](examples))
 
-#### Not yet implemented
+### Not yet implemented
 
 - Reflection support (in progress)
 - Kotlin/Native support
 - Kotlin/JS support
 - Protobuf JSON support 
 
-See examples in [testing](testing).
-
-#### Compatibility
+### Compatibility
 
 The Gradle plugin requires Java 8+ and Gradle 5.6+. It runs on recent versions of
 MacOS, Linux, and Windows.
 
 The runtime and generated code are compatible with Kotlin 1.4+, Java 8+, and Android 4.4+. 
 
-### Usage
+## Usage
 
-#### Gradle
+See examples in [testing](testing).
+
+### Gradle
 
 ```groovy
 plugins {
@@ -99,13 +132,13 @@ or:
 compileJava.enabled = false
 ```
 
-#### Generated Code
+### Generated Code
 
 Generated code is placed in `<buildDir>/generated-sources/<sourceSet.name>/protokt`.
 
 A simple example:
 
-```proto
+```protobuf
 syntax = "proto3";
 
 package toasttab.protokt.sample;
@@ -249,9 +282,9 @@ any escaping mutability of the provided collection. The Java protobuf
 implementation takes a similar approach; it only exposes mutation methods on the
 builder and not assignment. Mutating the builder does a similar copy operation.
 
-### Runtime Notes
+## Runtime Notes
 
-#### Package
+### Package
 
 By default, the Kotlin package of a generated file is the same as the protobuf
 package. Second in precedence is the declared `java_package` option, which can
@@ -270,7 +303,7 @@ use to prevent duplicate class issues.
 
 Highest precedence is given to the `(protokt.file).kotlin_package` option:
 
-```proto
+```protobuf
 syntax = "proto3";
 
 import "protokt/protokt.proto";
@@ -282,7 +315,7 @@ option (protokt.file).kotlin_package = "com.example";
 ...
 ```
 
-#### Message
+### Message
 
 Each protokt message implements the `KtMessage` interface. `KtMessage` defines
 the `serialize()` method and its overloads which can serialize to a byte array,
@@ -293,9 +326,9 @@ Each protokt message has a companion object `Deserializer` that implements the
 overloads to construct an instance of the message from a byte array, a Java
 InputStream, or others.
 
-#### Enums
+### Enums
 
-##### Representation
+#### Representation
 
 Protokt represents enum fields as sealed classes with an integer value and name.
 Protobuf enums cannot be represented as Kotlin enum classes since Kotlin enum
@@ -329,14 +362,14 @@ sealed class PhoneType(
 }
 ```
 
-##### Naming
+#### Naming
 
 To keep enums ergonomic while promoting protobuf best practices, enums that have
 all values
 [prefixed with the enum type name](https://developers.google.com/protocol-buffers/docs/style#enums)
 will have that prefix stripped in their Kotlin representations.
 
-#### Other Notes
+### Other Notes
 
 - `optimize_for` is ignored.
 - `repeated` fields are represented as Lists.
@@ -347,13 +380,13 @@ single property.
 akin to `protobuf-java`'s `ByteString`.
 - Protokt implements proto3's `optional`.
 
-### Extensions
+## Extensions
 
 See examples of each option in the [options](testing/options/src/main/proto)
 project. All protokt-specific options require importing `protokt/protokt.proto`
 in the protocol file.
 
-#### Wrapper Types
+### Wrapper Types
 
 Sometimes a field on a protobuf message corresponds to a concrete nonprimitive
 type. In standard protobuf the user would be responsible for this extra
@@ -363,7 +396,7 @@ types. Some standard types are implemented in [extensions](extensions).
 
 Wrap a field by invoking the `(protokt.property).wrap` option:
 
-```proto
+```protobuf
 message WrapperMessage {
   google.protobuf.Timestamp instant = 1 [
     (protokt.property).wrap = "java.time.Instant"
@@ -510,7 +543,7 @@ determine what behavior should be in these cases. To represent nullable
 primitive wrappers use well-known types or Proto3's `optional`. For example for
 a nullable UUID:
 
-```proto
+```protobuf
 google.protobuf.BytesValue uuid = 1 [
   (protokt.property).wrap = "java.util.UUID"
 ];
@@ -523,14 +556,14 @@ optional bytes optional_uuid = 2 [
 
 Wrapper types can be repeated:
 
-```proto
+```protobuf
 repeated bytes uuid = 1 [
   (protokt.property).wrap = "java.util.UUID"
 ];
 ```
 
 And they can also be used for map keys and values:
-```proto
+```protobuf
 map<string, protokt.ext.InetSocketAddress> map_string_socket_address = 1 [
   (protokt.property).key_wrap = "StringBox",
   (protokt.property).value_wrap = "java.net.InetSocketAddress"
@@ -547,12 +580,12 @@ _N.b. Well-known type nullability is implemented with
 for each message defined in
 [wrappers.proto](https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/wrappers.proto)._
 
-#### Nonnull fields
-If a message has no meaning whatsoever when a particular nonscalar field is
+### Non-null fields
+If a message has no meaning whatsoever when a particular non-scalar field is
 missing, you can emulate proto2's `required` key word by using the
 `(protokt.property).non_null` option:
 
-```proto
+```protobuf
 message Sample {}
 
 message NonNullSampleMessage {
@@ -567,7 +600,7 @@ without using Kotlin's `!!`.
 
 Oneof fields can also be declared non-null:
 
-```proto
+```protobuf
 message NonNullSampleMessage {
   oneof non_null_oneof {
     option (protokt.oneof).non_null = true;
@@ -580,9 +613,9 @@ message NonNullSampleMessage {
 Note that deserialization of a message with a non-nullable field will fail if the
 message being decoded does not contain an instance of the required field.
 
-#### Interface implementation
+### Interface implementation
 
-##### Messages
+#### Messages
 
 To avoid the need to create domain-specific objects from protobuf messages you
 can declare that a protobuf message implements a custom interface with
@@ -596,7 +629,7 @@ interface Model {
 }
 ```
 
-```proto
+```protobuf
 package com.protokt.sample;
 
 message ImplementsSampleMessage {
@@ -622,7 +655,7 @@ Messages can also implement interfaces by delegation to one of their fields;
 in this case the delegated interface need not live in a separate project, as
 protokt requires no inspection of it:
 
-```proto
+```protobuf
 message ImplementsWithDelegate {
   option (protokt.class).implements = "Model2 by modelTwo";
 
@@ -634,7 +667,7 @@ message ImplementsWithDelegate {
 
 Note that the `by` clause references the field by its lower camel case name.
 
-##### Oneof Fields
+#### Oneof Fields
 
 Oneof fields can declare that they implement an interface with the 
 `(protokt.oneof).implements` option. Each possible field type of the oneof must
@@ -761,7 +794,7 @@ fun printVersion(config: MyObjectWithConfig.Config) {
 }
 ```
 
-#### BytesSlice
+### BytesSlice
 
 When reading messages that contain other serialized messages as `bytes` fields,
 protokt can keep a reference to the originating byte array to prevent a large
@@ -769,7 +802,7 @@ copy operation on deserialization. This can be desirable when the wrapping
 message is short-lived or a thin metadata shim and doesn't include much memory
 overhead:
 
-```proto
+```protobuf
 message SliceModel {
   int64 version = 1;
 
@@ -779,7 +812,7 @@ message SliceModel {
 }
 ```
 
-### gRPC code generation
+## gRPC code generation
 
 Protokt will generate code for gRPC method and service descriptors when the
 `generateGrpc` option is enabled:
@@ -801,11 +834,11 @@ protokt {
 Protokt does not yet generate full client and server stubs. It does generate the
 components necessary to integrate with gRPC's Java and Kotlin APIs.
 
-#### Generated gRPC code
+### Generated gRPC code
 
 Consider gRPC's canonical Health service:
 
-```proto
+```protobuf
 syntax = "proto3";
 
 package grpc.health.v1;
@@ -859,7 +892,7 @@ constructor-injected method implementations is included in the examples below.
 These two implementation styles can emulate each other, so the choice of which
 to use is perhaps a matter of taste.
 
-#### Integrating with gRPC's Java API
+### Integrating with gRPC's Java API
 
 A gRPC service using grpc-java (and therefore using StreamObservers for
 asynchronous communication):
@@ -904,7 +937,7 @@ fun checkHealth(): HealthCheckResponse =
     )
 ```
 
-#### Integrating with gRPC's Kotlin API
+### Integrating with gRPC's Kotlin API
 
 To use the coroutine-based implementations provided by grpc-kotlin:
 
@@ -950,7 +983,7 @@ suspend fun checkHealth(): HealthCheckResponse =
     )
 ```
 
-### IntelliJ integration
+## IntelliJ integration
 
 If IntelliJ doesn't automatically detect the generated files as source files,
 you may be missing the `idea` plugin. Apply the `idea` plugin to your Gradle
@@ -962,7 +995,7 @@ plugins {
 }
 ```
 
-### Command line code generation
+## Command line code generation
 
 ```sh
 protokt % ./gradlew assemble
@@ -987,7 +1020,11 @@ protokt % protoc \
     test.proto
 ```
 
-### Contribution
+## Contribution
+
+Community contributions are welcome. See the 
+[contribution guidelines](CONTRIBUTING.md) and the project
+[code of conduct](CODE-OF-CONDUCT.md).
 
 To enable rapid development of the code generator, the protobuf conformance
 tests have been compiled and included in the `testing` project. They run on Mac
@@ -997,9 +1034,9 @@ When integration testing the Gradle plugin, note that after changing the plugin
 and republishing it to the integration repository, `./gradlew clean` is needed
 to trigger regeneration of the protobuf files with the fresh plugin.
 
-### Acknowledgements
+## Acknowledgements
 
-#### Authors
+### Authors
 
 [Ben Gordon](mailto:ben.gordon@toasttab.com),
 [Andrew Parmet](mailto:andrew.parmet@toasttab.com),
