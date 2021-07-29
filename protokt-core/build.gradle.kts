@@ -16,7 +16,9 @@
 import com.google.protobuf.gradle.proto
 import com.google.protobuf.gradle.protobuf
 
-apply(plugin = "kotlin-kapt")
+plugins {
+    kotlin("kapt")
+}
 
 localProtokt()
 pureKotlin()
@@ -34,7 +36,7 @@ dependencies {
     implementation(libraries.autoServiceAnnotations)
     implementation(libraries.kotlinReflect)
 
-    add("kapt", libraries.autoService)
+    kapt(libraries.autoService)
 }
 
 sourceSets {

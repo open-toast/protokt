@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2021 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,12 @@
  * limitations under the License.
  */
 
-plugins {
-    kotlin("kapt")
-}
+syntax = "proto3";
 
-dependencies {
-    implementation(project(":protokt-core"))
-    implementation(libraries.autoServiceAnnotations)
+package toasttab.protokt.testing.android;
 
-    kapt(libraries.autoService)
+option java_package = "com.toasttab.protokt.testing.android";
+
+message TestMessage {
+  string foo = 1;
 }

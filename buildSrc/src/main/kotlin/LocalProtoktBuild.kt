@@ -13,6 +13,7 @@
  * limitations under the License.
  */
 
+import com.google.protobuf.gradle.GenerateProtoTask
 import com.toasttab.protokt.gradle.CODEGEN_NAME
 import com.toasttab.protokt.gradle.EXTENSIONS
 import com.toasttab.protokt.gradle.configureProtokt
@@ -40,7 +41,7 @@ fun Project.localProtokt() {
     }
 
     afterEvaluate {
-        tasks.named("generateProto") {
+        tasks.withType<GenerateProtoTask> {
             dependsOn(":protokt-codegen:installDist")
         }
     }

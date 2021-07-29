@@ -40,10 +40,13 @@ object versions {
 
     // Third Party
     const val protoGoogleCommonProtos = "2.3.2"
+
+    // Android
+    const val androidGradle = "4.1.0"
 }
 
 object libraries {
-    val arrow = "io.arrow-kt:arrow-core:${versions.arrow}"
+    const val arrow = "io.arrow-kt:arrow-core:${versions.arrow}"
 
     const val autoService = "com.google.auto.service:auto-service:${versions.autoService}"
     const val autoServiceAnnotations = "com.google.auto.service:auto-service-annotations:${versions.autoService}"
@@ -60,6 +63,7 @@ object libraries {
 
     const val protobufPlugin = "com.google.protobuf:protobuf-gradle-plugin:${versions.protobufPlugin}"
     const val protobufJava = "com.google.protobuf:protobuf-java:${versions.protobuf}"
+    const val protobufLite = "com.google.protobuf:protobuf-javalite:${versions.protobuf}"
     const val protoc = "com.google.protobuf:protoc:${versions.protobuf}"
 
     const val stringTemplate = "org.antlr:ST4:${versions.stringTemplate}"
@@ -80,4 +84,7 @@ object libraries {
 
     // Third Party
     const val protoGoogleCommonProtos = "com.google.api.grpc:proto-google-common-protos:${versions.protoGoogleCommonProtos}"
+
+    // Android
+    const val androidGradle = "com.android.tools.build:gradle:${versions.androidGradle}"
 }

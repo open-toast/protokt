@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2021 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,32 +13,15 @@
  * limitations under the License.
  */
 
-import com.google.protobuf.gradle.protobuf
-import com.google.protobuf.gradle.protoc
+android {
+    compileSdkVersion(31)
 
-plugins {
-    id("com.google.protobuf")
-    application
+    sourceSets["test"].java.srcDir("../android/src/test/java")
 }
 
-configure<JavaApplication> {
-    mainClassName = "com.toasttab.protokt.benchmarks.ProtobufBenchmarksKt"
-    executableDir = ".."
-}
-
-protobuf {
-    protoc {
-        artifact = libraries.protoc
-    }
-}
+localProtokt()
+pureKotlin()
 
 dependencies {
-    implementation(project(":benchmarks:util"))
-    implementation(libraries.protobufJava)
-
-    protobuf(project(":benchmarks:schema"))
-}
-
-tasks.named("run") {
-    dependsOn(":benchmarks:datasets")
+    testImplementation(libraries.protobufLite)
 }

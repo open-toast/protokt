@@ -13,13 +13,32 @@
  * limitations under the License.
  */
 
+import com.google.protobuf.gradle.protobuf
+import com.google.protobuf.gradle.protoc
+
 plugins {
-    kotlin("kapt")
+    id("com.google.protobuf")
+    application
+}
+
+configure<JavaApplication> {
+    mainClassName = "com.toasttab.protokt.benchmarks.ProtobufBenchmarksKt"
+    executableDir = ".."
+}
+
+protobuf {
+    protoc {
+        artifact = libraries.protoc
+    }
 }
 
 dependencies {
-    implementation(project(":protokt-core"))
-    implementation(libraries.autoServiceAnnotations)
+    implementation(project(":benchmarks:benchmarks-util"))
+    implementation(libraries.protobufJava)
 
-    kapt(libraries.autoService)
+    protobuf(project(":benchmarks:schema"))
+}
+
+tasks.named("run") {
+    dependsOn(":benchmarks:datasets")
 }
