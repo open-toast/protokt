@@ -58,7 +58,7 @@ inline fun DependencyHandler.testProtoktExtensions(
     dependencyConfiguration: ExternalModuleDependency.() -> Unit
 ): ExternalModuleDependency =
     add(
-        TEST_EXTENSIONS, 
+        TEST_EXTENSIONS,
         create(dependencyNotation) as ExternalModuleDependency,
         dependencyConfiguration
     )
