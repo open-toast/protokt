@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2021 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,16 @@
 
 syntax = "proto3";
 
-package com.toasttab.protokt.testing.options;
+package toasttab.protokt.testing.options;
 
-import "protokt/protokt.proto";
+import "google/protobuf/any.proto";
 
-message SliceModel {
-  bytes slice = 1 [
-    (.protokt.property).bytes_slice = true
-  ];
+option java_package = "com.toasttab.protokt.testing.options";
+
+message StringListWrapper {
+  repeated string value = 1;
+}
+
+message AnyListWrapper {
+  repeated google.protobuf.Any value = 1;
 }

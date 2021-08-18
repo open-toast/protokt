@@ -61,7 +61,7 @@ object Wrapper {
         pkg: PPackage,
         ctx: ProtocolContext,
         ifEmpty: () -> R,
-        ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
+        ifSome: (wrapper: KClass<*>, wrapped: KClass<*>, wrapperString: String) -> R
     ) =
         wrap.fold(
             ifEmpty,
@@ -77,7 +77,8 @@ object Wrapper {
                             }
                         },
                         { getClass(typePClass, ctx) }
-                    )
+                    ),
+                    it
                 )
             }
         )
@@ -91,9 +92,8 @@ object Wrapper {
             wrapWithWellKnownInterception,
             ctx.pkg,
             ctx.desc.context,
-            ifEmpty,
-            ifSome
-        )
+            ifEmpty
+        ) { wrapper, wrapped, _ -> ifSome(wrapper, wrapped) }
 
     fun interceptSizeof(
         f: StandardField,
@@ -237,7 +237,12 @@ object Wrapper {
         ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
     ) =
         mapEntry?.key
-            ?.foldWrap(keyWrap, ctx.pkg, ctx.desc.context, ifEmpty, ifSome)
+            ?.foldWrap(
+                keyWrap,
+                ctx.pkg,
+                ctx.desc.context,
+                ifEmpty
+            ) { wrapper, wrapped, _ -> ifSome(wrapper, wrapped) }
 
     fun interceptMapKeyTypeName(f: StandardField, t: String, ctx: Context) =
         f.foldKeyWrap(ctx, { t }, unqualifiedWrap(ctx))
@@ -257,19 +262,32 @@ object Wrapper {
     private fun <R> StandardField.foldValueWrap(
         ctx: Context,
         ifEmpty: () -> R,
-        ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
+        ifSome: (wrapper: KClass<*>, wrapped: KClass<*>, wrapperString: String) -> R
     ) =
         mapEntry?.value
             ?.foldWrap(valueWrap, ctx.pkg, ctx.desc.context, ifEmpty, ifSome)
 
     fun interceptMapValueTypeName(f: StandardField, t: String, ctx: Context) =
-        f.foldValueWrap(ctx, { t }, unqualifiedWrap(ctx))
+        f.foldValueWrap(
+            ctx,
+            { t },
+            { wrapper, wrapped, wrapString ->
+                unqualifiedWrap(
+                    ctx,
+                    if (wrapString.contains('<')) {
+                        "<${wrapString.substringAfter('<')}"
+                    } else {
+                        null
+                    }
+                )(wrapper, wrapped)
+            }
+        )
 
     fun mapValueConverter(f: StandardField, ctx: Context) =
         f.foldValueWrap(
             ctx,
             { null },
-            { wrapper, wrapped ->
+            { wrapper, wrapped, _ ->
                 unqualifiedConverterWrap(wrapper, wrapped, ctx)
             }
         )
@@ -281,15 +299,16 @@ object Wrapper {
     ) =
         unqualifiedWrap(
             converter(wrapper, wrapped, ctx)::class,
-            ctx.pkg
+            ctx.pkg,
+            null
         )
 
-    private fun unqualifiedWrap(ctx: Context) =
+    private fun unqualifiedWrap(ctx: Context, parameterization: String? = null) =
         fun(wrapper: KClass<*>, _: Any) =
-            unqualifiedWrap(wrapper, ctx.pkg)
+            unqualifiedWrap(wrapper, ctx.pkg, parameterization)
 
-    private fun unqualifiedWrap(wrap: KClass<*>, pkg: PPackage) =
-        PClass.fromClass(wrap).renderName(pkg)
+    private fun unqualifiedWrap(wrap: KClass<*>, pkg: PPackage, parameterization: String? = null) =
+        PClass.fromClass(wrap).renderName(pkg) + parameterization.orEmpty()
 
     private fun converter(wrapper: KClass<*>, wrapped: KClass<*>, ctx: Context) =
         converter(wrapper, wrapped, ctx.desc.context)

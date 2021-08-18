@@ -15,10 +15,29 @@
 
 syntax = "proto3";
 
-package toasttab.protokt.codegen.testing;
+package toasttab.protokt.testing.options;
 
+import "google/protobuf/wrappers.proto";
 import "protokt/protokt.proto";
 
-option java_package = "com.toasttab.protokt.codegen.testing";
+option java_package = "com.toasttab.protokt.testing.options";
 
-message TestModel {}
+message NonNullModel {
+  google.protobuf.StringValue non_null_string_value = 1 [
+    (.protokt.property).non_null = true
+  ];
+
+  oneof non_null_oneof {
+    option (.protokt.oneof).non_null = true;
+
+    string message = 2;
+  }
+}
+
+message NonNullModelMirror {
+  google.protobuf.StringValue non_null_string_value = 1;
+
+  oneof non_null_oneof {
+    string message = 2;
+  }
+}

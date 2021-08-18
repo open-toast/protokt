@@ -15,13 +15,16 @@
 
 syntax = "proto3";
 
-package com.toasttab.protokt.testing.options;
+package toasttab.protokt.testing.options;
 
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
 import "protokt/ext/inet_socket_address.proto";
 import "protokt/protokt.proto";
+import "toasttab/protokt/testing/options/wrapper_types_api.proto";
+
+option java_package = "com.toasttab.protokt.testing.options";
 
 message Wrappers {
   bytes id = 1 [
@@ -159,5 +162,13 @@ message MapWrappers {
   map<string, .protokt.ext.InetSocketAddress> map_string_socket_address = 8 [
     (.protokt.property).key_wrap = "StringBox",
     (.protokt.property).value_wrap = "java.net.InetSocketAddress"
+  ];
+
+  map<string, StringListWrapper> map_string_list_wrapper = 9 [
+    (.protokt.property).value_wrap = "java.util.List<String>"
+  ];
+
+  map<string, AnyListWrapper> map_any_list_wrapper = 10 [
+    (.protokt.property).value_wrap = "java.util.List<com.toasttab.protokt.Any>"
   ];
 }

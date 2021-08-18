@@ -28,6 +28,7 @@ fun getProtoktVersion(klass: KClass<*>): String =
         .use {
             JarInputStream(it)
                 .manifest
-                .mainAttributes
-                .getValue(MANIFEST_VERSION_PROPERTY)
+                ?.mainAttributes
+                ?.getValue(MANIFEST_VERSION_PROPERTY)
+                ?: "unknown"
         }

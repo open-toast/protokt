@@ -100,7 +100,7 @@ class StandardFieldImportResolver(
                 pkg,
                 ctx,
                 { },
-                { wrapper, wrapped ->
+                { wrapper, wrapped, _ ->
                     if (wrapped == ByteArray::class) {
                         set.add(pclass(Bytes::class))
                     }

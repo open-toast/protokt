@@ -32,7 +32,7 @@ internal object ClassLookup {
             fun loadClass(pClass: PClass) =
                 Either.catchingAll {
                     getClassLoader(ctx.classpath)
-                        .loadClass(pClass.qualifiedName)
+                        .loadClass(pClass.qualifiedName.substringBefore('<'))
                         .kotlin
                 }
 

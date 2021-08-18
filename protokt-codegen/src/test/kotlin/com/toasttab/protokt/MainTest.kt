@@ -15,6 +15,10 @@
 
 package com.toasttab.protokt
 
+import com.google.protobuf.compiler.PluginProtos
+import com.toasttab.protokt.gradle.GENERATE_GRPC
+import com.toasttab.protokt.gradle.ONLY_GENERATE_GRPC
+import com.toasttab.protokt.gradle.RESPECT_JAVA_PACKAGE
 import com.toasttab.protokt.testing.util.ProcessOutput.Src.ERR
 import com.toasttab.protokt.testing.util.projectRoot
 import com.toasttab.protokt.testing.util.runCommand
@@ -25,8 +29,18 @@ import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 class MainTest {
+    /** Enable this test if you want to step through the code generator.
+     * Note that you'll have to make a code change to allow the manifest in
+     * ProtoktVersion to be null, e.g.
+     *
+     *     JarInputStream(it)
+     *         .manifest
+     *         ?.mainAttributes
+     *         ?.getValue(MANIFEST_VERSION_PROPERTY)
+     *         ?: "unknown"
+     */
     @Test
-    @Disabled // Enable this test if you want to step through the code generator
+    @Disabled
     fun `step through code generation with debugger`() {
         generatedFile.delete()
 
@@ -43,7 +57,20 @@ class MainTest {
             ).orFail("Failed to generate code generator request", ERR)
 
         val out = ByteArrayOutputStream()
-        main(generatedFile.readBytes(), out)
+        main(
+            PluginProtos.CodeGeneratorRequest.parseFrom(generatedFile.readBytes())
+                .toBuilder()
+                .setParameter(
+                    mapOf(
+                        GENERATE_GRPC to true,
+                        RESPECT_JAVA_PACKAGE to true,
+                        ONLY_GENERATE_GRPC to false
+                    ).entries.joinToString(separator = ",") { "${it.key}=${it.value}" }
+                )
+                .build()
+                .toByteArray(),
+            out
+        )
         println(out.toString())
     }
 }

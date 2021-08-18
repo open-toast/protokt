@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2020 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,19 +15,14 @@
 
 syntax = "proto3";
 
-package com.toasttab.protokt.testing.options;
+package toasttab.protokt.testing.options;
 
 import "protokt/protokt.proto";
 
-// This file exercises oneofs whose names are the same as their
-// generated sealed class type names. If the code generator does
-// not handle them properly then compilation will fail.
+option java_package = "com.toasttab.protokt.testing.options";
 
-message OneofExerciseModelWithWrapper {
-  oneof oneof {
-    // Needs full qualification: com.toasttab.protokt.testing.options.CachingId
-    bytes caching_id = 1 [
-      (.protokt.property).wrap = "CachingId"
-    ];
-  }
+message TestProto3OptionalWrapperType {
+  optional string optional_local_date = 1 [
+    (.protokt.property).wrap = "java.time.LocalDate"
+  ];
 }

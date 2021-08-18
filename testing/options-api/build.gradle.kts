@@ -17,8 +17,10 @@ plugins {
     kotlin("kapt")
 }
 
+localProtokt()
+pureKotlin()
+
 dependencies {
-    implementation(project(":protokt-core"))
     implementation(libraries.autoServiceAnnotations)
 
     kapt(libraries.autoService)

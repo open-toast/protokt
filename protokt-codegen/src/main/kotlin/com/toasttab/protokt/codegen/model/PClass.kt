@@ -63,7 +63,7 @@ data class PClass(
         fun fromName(name: String) =
             PPackage.fromClassName(name).let {
                 PClass(
-                    name.substringAfterLast('.'),
+                    name.substringBefore('<').substringAfterLast('.'),
                     it,
                     enclosing(name, it)
                 )

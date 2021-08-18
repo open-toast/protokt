@@ -15,11 +15,18 @@
 
 syntax = "proto3";
 
-package com.toasttab.protokt.testing.options.pkg;
+package toasttab.protokt.testing.options;
 
 import "protokt/protokt.proto";
 
-option java_package = "com.toasttab.model.javapkg";
-option (.protokt.file).kotlin_package = "com.toasttab.protokt.testing.options.kotlinpkg";
+option java_package = "com.toasttab.protokt.testing.options";
 
-message Model {}
+message In {}
+message Out {}
+
+service CustomMarshallerService {
+  rpc CustomMarshallersMethod(In) returns (Out) {
+    option (.protokt.method).request_marshaller = "InMarshaller";
+    option (.protokt.method).response_marshaller = "OutMarshaller";
+  };
+}
