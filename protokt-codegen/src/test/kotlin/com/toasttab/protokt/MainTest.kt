@@ -29,7 +29,8 @@ import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 class MainTest {
-    /** Enable this test if you want to step through the code generator.
+    /**
+     * Enable this test if you want to step through the code generator.
      * Note that you'll have to make a code change to allow the manifest in
      * ProtoktVersion to be null, e.g.
      *
