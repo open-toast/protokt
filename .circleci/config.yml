@@ -117,8 +117,8 @@ workflows:
             - build
           matrix:
             parameters:
-              jdk: ["8", "11"]
-              kotlin: ["1.5.0", "1.4.32"]
+              jdk: ["8", "11", "17"]
+              kotlin: ["1.5.30", "1.4.32"]
       - release:
           context: OSS
           filters:
