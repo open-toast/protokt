@@ -41,23 +41,23 @@ private constructor(
         return Entry.render(
             name = msg.name,
             key =
-                prop(
-                    entryInfo.key,
-                    entryInfo.key.unqualifiedTypeName,
-                    sizeInfo,
-                    serInfo,
-                    desInfo,
-                    propInfo
-                ),
+            prop(
+                entryInfo.key,
+                entryInfo.key.unqualifiedTypeName,
+                sizeInfo,
+                serInfo,
+                desInfo,
+                propInfo
+            ),
             value =
-                prop(
-                    entryInfo.value,
-                    entryInfo.value.typePClass.renderName(ctx.pkg),
-                    sizeInfo,
-                    serInfo,
-                    desInfo,
-                    propInfo
-                )
+            prop(
+                entryInfo.value,
+                entryInfo.value.typePClass.renderName(ctx.pkg),
+                sizeInfo,
+                serInfo,
+                desInfo,
+                propInfo
+            )
         )
     }
 
@@ -77,12 +77,12 @@ private constructor(
             serialize = serializerInfo.consequent(f),
             defaultValue = propInfo.single(f).defaultValue,
             deserialize =
-                deserializerInfo.single(f).let {
-                    DeserializerInfo(
-                        tag = it.tag,
-                        assignment = it.assignment.value
-                    )
-                }
+            deserializerInfo.single(f).let {
+                DeserializerInfo(
+                    tag = it.tag,
+                    assignment = it.assignment.value
+                )
+            }
         )
 
     private fun <T : MessageTemplate.FieldInfo> List<T>.single(

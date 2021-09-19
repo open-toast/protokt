@@ -31,13 +31,13 @@ object HeaderAccumulator {
             acc(
                 Header.render(
                     `package` =
-                        kotlinPackage(f).let {
-                            if (it == PPackage.DEFAULT) {
-                                null
-                            } else {
-                                it
-                            }
-                        },
+                    kotlinPackage(f).let {
+                        if (it == PPackage.DEFAULT) {
+                            null
+                        } else {
+                            it
+                        }
+                    },
                     imports = imports.map { it.qualifiedName }.sorted(),
                     version = f.desc.context.version,
                     fileName = f.desc.name

@@ -16,9 +16,9 @@
 package com.toasttab.protokt.ext
 
 import com.google.common.truth.Truth.assertThat
+import org.junit.jupiter.api.Test
 import java.net.InetAddress
 import java.net.InetSocketAddress
-import org.junit.jupiter.api.Test
 
 class InetSocketAddressConverterTest {
     @Test

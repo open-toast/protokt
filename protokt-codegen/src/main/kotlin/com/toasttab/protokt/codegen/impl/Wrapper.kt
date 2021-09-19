@@ -106,7 +106,7 @@ object Wrapper {
             { wrapper, wrapped ->
                 if (
                     converter(wrapper, wrapped, ctx) is
-                        OptimizedSizeofConverter<*, *>
+                    OptimizedSizeofConverter<*, *>
                 ) {
                     s
                 } else {
@@ -131,7 +131,7 @@ object Wrapper {
             { wrapper, wrapped ->
                 if (
                     converter(wrapper, wrapped, ctx) is
-                        OptimizedSizeofConverter<*, *>
+                    OptimizedSizeofConverter<*, *>
                 ) {
                     ConcatWithScope.render(
                         scope = unqualifiedConverterWrap(wrapper, wrapped, ctx),

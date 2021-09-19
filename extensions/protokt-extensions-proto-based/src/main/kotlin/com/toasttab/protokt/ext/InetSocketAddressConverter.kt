@@ -19,7 +19,7 @@ import com.google.auto.service.AutoService
 
 @AutoService(Converter::class)
 object InetSocketAddressConverter :
-        Converter<java.net.InetSocketAddress, InetSocketAddress> {
+    Converter<java.net.InetSocketAddress, InetSocketAddress> {
 
     override val wrapper = java.net.InetSocketAddress::class
 

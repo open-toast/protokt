@@ -15,11 +15,11 @@
 
 package com.toasttab.protokt.benchmarks
 
-import java.io.File
-import kotlin.reflect.KClass
 import org.openjdk.jmh.results.format.ResultFormatType
 import org.openjdk.jmh.runner.Runner
 import org.openjdk.jmh.runner.options.OptionsBuilder
+import java.io.File
+import kotlin.reflect.KClass
 
 fun readData(dataset: String) = File("../build/datasets/dataset-$dataset").inputStream().buffered()
 

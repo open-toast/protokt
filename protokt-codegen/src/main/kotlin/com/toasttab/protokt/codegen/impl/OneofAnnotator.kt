@@ -73,13 +73,13 @@ private constructor(
             ),
             documentation = annotatePropertyDocumentation(f, ctx),
             deprecation =
-                if (f.options.default.deprecated) {
-                    renderOptions(
-                        f.options.protokt.deprecationMessage
-                    )
-                } else {
-                    null
-                }
+            if (f.options.default.deprecated) {
+                renderOptions(
+                    f.options.protokt.deprecationMessage
+                )
+            } else {
+                null
+            }
         )
 
     private fun qualifyWrapperType(

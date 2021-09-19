@@ -98,15 +98,15 @@ private constructor(
             name = f.fieldName,
             tag = f.tag.value,
             box =
-                if (f.map) {
-                    f.boxMap(ctx)
-                } else {
-                    f.box(fieldAccess)
-                },
+            if (f.map) {
+                f.boxMap(ctx)
+            } else {
+                f.box(fieldAccess)
+            },
             options =
-                Options(
-                    fieldAccess = fieldAccess
-                )
+            Options(
+                fieldAccess = fieldAccess
+            )
         )
     }
 

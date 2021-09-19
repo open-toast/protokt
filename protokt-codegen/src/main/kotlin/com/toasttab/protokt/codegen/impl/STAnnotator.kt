@@ -50,22 +50,22 @@ object STAnnotator {
     )
 
     fun apply(data: TypeDesc) =
-            TypeDesc(
-                data.desc,
-                AnnotatedType(
-                    data.type.rawType,
-                    Some(
-                        annotate(
-                            data.type.rawType,
-                            Context(
-                                immutableListOf(),
-                                kotlinPackage(data),
-                                data.desc
-                            )
+        TypeDesc(
+            data.desc,
+            AnnotatedType(
+                data.type.rawType,
+                Some(
+                    annotate(
+                        data.type.rawType,
+                        Context(
+                            immutableListOf(),
+                            kotlinPackage(data),
+                            data.desc
                         )
                     )
                 )
             )
+        )
 
     fun annotate(type: TopLevelType, ctx: Context): String =
         when (type) {

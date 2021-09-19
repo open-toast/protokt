@@ -34,9 +34,9 @@ import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Oneof
 import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.codegen.template.Message.Message.PropertyInfo
-import com.toasttab.protokt.codegen.template.Oneof as OneofTemplate
 import com.toasttab.protokt.codegen.template.Renderers.DefaultValue
 import com.toasttab.protokt.codegen.template.Renderers.Standard
+import com.toasttab.protokt.codegen.template.Oneof as OneofTemplate
 
 internal class PropertyAnnotator
 private constructor(
@@ -65,13 +65,13 @@ private constructor(
                             wrapped = it.wrapped,
                             documentation = documentation,
                             deprecation =
-                                if (it.options.default.deprecated) {
-                                    renderOptions(
-                                        it.options.protokt.deprecationMessage
-                                    )
-                                } else {
-                                    null
-                                }
+                            if (it.options.default.deprecated) {
+                                renderOptions(
+                                    it.options.protokt.deprecationMessage
+                                )
+                            } else {
+                                null
+                            }
                         )
                     }
                 }
@@ -95,15 +95,15 @@ private constructor(
         Standard.render(
             field = f,
             any =
-                if (f.map) {
-                    resolveMapEntryTypes(f, ctx)
-                } else {
-                    interceptTypeName(
-                        f,
-                        f.typePClass.renderName(ctx.pkg),
-                        ctx
-                    )
-                }
+            if (f.map) {
+                resolveMapEntryTypes(f, ctx)
+            } else {
+                interceptTypeName(
+                    f,
+                    f.typePClass.renderName(ctx.pkg),
+                    ctx
+                )
+            }
         )
 
     private fun Field.defaultValue(ctx: Context) =
@@ -115,11 +115,11 @@ private constructor(
                         field = this,
                         type = type,
                         name =
-                            if (type == FieldType.ENUM) {
-                                typePClass.renderName(ctx.pkg)
-                            } else {
-                                ""
-                            }
+                        if (type == FieldType.ENUM) {
+                            typePClass.renderName(ctx.pkg)
+                        } else {
+                            ""
+                        }
                     ),
                     ctx
                 )

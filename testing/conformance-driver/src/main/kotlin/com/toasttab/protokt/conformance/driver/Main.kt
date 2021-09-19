@@ -24,10 +24,10 @@ import com.toasttab.protokt.conformance.ConformanceResponse.Result
 import com.toasttab.protokt.conformance.WireFormat
 import com.toasttab.protokt.rt.Bytes
 import com.toasttab.protokt_test_messages.proto3.TestAllTypesProto3
+import kotlinx.coroutines.runBlocking
 import java.io.InputStream
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
-import kotlinx.coroutines.runBlocking
 
 const val proto3 = "protobuf_test_messages.proto3.TestAllTypesProto3"
 
@@ -63,24 +63,24 @@ private fun io(stdin: InputStream, size: Int) =
         { req ->
             if (isRequestOk(req)) {
                 (req.payload as ConformanceRequest.Payload.ProtobufPayload)
-                .protobufPayload.bytes.let { bytes ->
-                    runBlocking {
-                        Either.catch {
-                            Result.ProtobufPayload(
-                                Bytes(
-                                    TestAllTypesProto3
-                                        .deserialize(bytes)
-                                        .serialize()
+                    .protobufPayload.bytes.let { bytes ->
+                        runBlocking {
+                            Either.catch {
+                                Result.ProtobufPayload(
+                                    Bytes(
+                                        TestAllTypesProto3
+                                            .deserialize(bytes)
+                                            .serialize()
+                                    )
                                 )
-                            )
-                        }
-                    }.mapLeft { e ->
-                        Result.ParseError("Parse Error, ${e.message}")
-                    }.fold(
-                        { it },
-                        { it }
-                    )
-                }
+                            }
+                        }.mapLeft { e ->
+                            Result.ParseError("Parse Error, ${e.message}")
+                        }.fold(
+                            { it },
+                            { it }
+                        )
+                    }
             } else {
                 Result.Skipped("Only proto3 supported.")
             }
@@ -98,8 +98,8 @@ private fun readSizeLE(ist: InputStream) =
 
 private fun isRequestOk(request: ConformanceRequest) =
     request.messageType == proto3 &&
-    request.requestedOutputFormat == WireFormat.PROTOBUF &&
-    request.payload is ConformanceRequest.Payload.ProtobufPayload
+        request.requestedOutputFormat == WireFormat.PROTOBUF &&
+        request.payload is ConformanceRequest.Payload.ProtobufPayload
 
 private fun int2BytesLE(size: Int) =
     ByteArray(4).also {

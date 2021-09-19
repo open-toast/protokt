@@ -35,10 +35,10 @@ import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.codegen.protoc.Tag
 import com.toasttab.protokt.codegen.template.Message.Message.DeserializerInfo
 import com.toasttab.protokt.codegen.template.Message.Message.DeserializerInfo.Assignment
-import com.toasttab.protokt.codegen.template.Oneof as OneofTemplate
 import com.toasttab.protokt.codegen.template.Renderers.Deserialize
 import com.toasttab.protokt.codegen.template.Renderers.Deserialize.Options
 import com.toasttab.protokt.codegen.template.Renderers.Read
+import com.toasttab.protokt.codegen.template.Oneof as OneofTemplate
 
 internal class DeserializerAnnotator
 private constructor(
@@ -103,18 +103,18 @@ private constructor(
             lhs = f.fieldName,
             packed = packed,
             options =
-                if (f.wrapped || f.keyWrapped || f.valueWrapped) {
-                    Options(
-                        wrapName = wrapperName(f, ctx).getOrElse { "" },
-                        keyWrap = mapKeyConverter(f, ctx),
-                        valueWrap = mapValueConverter(f, ctx),
-                        valueType = f.mapEntry?.value?.type,
-                        type = f.type.toString(),
-                        oneof = true
-                    )
-                } else {
-                    null
-                }
+            if (f.wrapped || f.keyWrapped || f.valueWrapped) {
+                Options(
+                    wrapName = wrapperName(f, ctx).getOrElse { "" },
+                    keyWrap = mapKeyConverter(f, ctx),
+                    valueWrap = mapValueConverter(f, ctx),
+                    valueType = f.mapEntry?.value?.type,
+                    type = f.type.toString(),
+                    oneof = true
+                )
+            } else {
+                null
+            }
         )
 
     private fun Message.flattenedSortedFields() =
@@ -143,10 +143,10 @@ private constructor(
         Read.render(
             type = type,
             builder =
-                when (type) {
-                    FieldType.ENUM, FieldType.MESSAGE -> stripQualification(this)
-                    else -> ""
-                }
+            when (type) {
+                FieldType.ENUM, FieldType.MESSAGE -> stripQualification(this)
+                else -> ""
+            }
         )
 
     private fun stripQualification(f: StandardField) =

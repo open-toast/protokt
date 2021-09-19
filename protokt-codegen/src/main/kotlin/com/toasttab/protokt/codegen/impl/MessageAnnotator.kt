@@ -32,9 +32,9 @@ import com.toasttab.protokt.codegen.impl.SerializerAnnotator.Companion.annotateS
 import com.toasttab.protokt.codegen.impl.SizeofAnnotator.Companion.annotateSizeof
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.protoc.Message
-import com.toasttab.protokt.codegen.template.Message.Message as MessageTemplate
 import com.toasttab.protokt.codegen.template.Message.Message.MessageInfo
 import com.toasttab.protokt.codegen.template.Message.Message.Options
+import com.toasttab.protokt.codegen.template.Message.Message as MessageTemplate
 
 internal object MessageAnnotator {
     val idealMaxWidth = 100
@@ -68,17 +68,19 @@ internal object MessageAnnotator {
             implements = msg.implements,
             documentation = annotateMessageDocumentation(ctx),
             deprecation =
-                if (msg.options.default.deprecated) {
-                    renderOptions(
-                        msg.options.protokt.deprecationMessage
-                    )
-                } else {
-                    null
-                },
+            if (msg.options.default.deprecated) {
+                renderOptions(
+                    msg.options.protokt.deprecationMessage
+                )
+            } else {
+                null
+            },
             suppressDeprecation = msg.hasDeprecation &&
-                (!enclosingDeprecation(ctx) ||
-                    ctx.enclosing.firstOrNone()
-                        .fold({ false }, { it == msg })),
+                (
+                    !enclosingDeprecation(ctx) ||
+                        ctx.enclosing.firstOrNone()
+                            .fold({ false }, { it == msg })
+                    ),
             fullTypeName = msg.fullProtobufTypeName
         )
 

@@ -100,19 +100,19 @@ private fun toTypeList(
         Pair(acc.first + e.name, acc.second + e)
     }.second +
 
-    messages.foldIndexed(
-        Pair(immutableSetOf<String>(), immutableListOf<TopLevelType>())
-    ) { idx, acc, t ->
-        val m = toMessage(idx, ctx, t, acc.first)
-        Pair(acc.first + m.name, acc.second + m)
-    }.second +
+        messages.foldIndexed(
+            Pair(immutableSetOf<String>(), immutableListOf<TopLevelType>())
+        ) { idx, acc, t ->
+            val m = toMessage(idx, ctx, t, acc.first)
+            Pair(acc.first + m.name, acc.second + m)
+        }.second +
 
-    services.fold(
-        Pair(immutableSetOf<String>(), immutableListOf<TopLevelType>())
-    ) { acc, t ->
-        val s = toService(t, ctx, acc.first)
-        Pair(acc.first + s.type, acc.second + s)
-    }.second
+        services.fold(
+            Pair(immutableSetOf<String>(), immutableListOf<TopLevelType>())
+        ) { acc, t ->
+            val s = toService(t, ctx, acc.first)
+            Pair(acc.first + s.type, acc.second + s)
+        }.second
 
 private fun toEnum(
     idx: Int,
@@ -151,10 +151,10 @@ private fun toEnum(
         }.second,
         index = idx,
         options =
-            EnumOptions(
-                desc.options,
-                desc.options.getExtension(Protokt.enum_)
-            )
+        EnumOptions(
+            desc.options,
+            desc.options.getExtension(Protokt.enum_)
+        )
     )
 }
 
@@ -169,19 +169,19 @@ private fun toMessage(
     return Message(
         name = typeName,
         fields =
-            fieldList.sortedBy {
-                when (it) {
-                    is StandardField -> it
-                    is Oneof -> it.fields.first()
-                }.number
-            },
+        fieldList.sortedBy {
+            when (it) {
+                is StandardField -> it
+                is Oneof -> it.fields.first()
+            }.number
+        },
         nestedTypes = toTypeList(ctx, desc.enumTypeList, desc.nestedTypeList),
         mapEntry = desc.options?.mapEntry == true,
         options =
-            MessageOptions(
-                desc.options,
-                desc.options.getExtension(Protokt.class_)
-            ),
+        MessageOptions(
+            desc.options,
+            desc.options.getExtension(Protokt.class_)
+        ),
         index = idx,
         fullProtobufTypeName = "${ctx.fdp.`package`}.${desc.name}"
     )
@@ -198,10 +198,10 @@ private fun toService(
         methods = desc.methodList.map { toMethod(it, ctx) },
         deprecated = desc.options.deprecated,
         options =
-            ServiceOptions(
-                desc.options,
-                desc.options.getExtension(Protokt.service)
-            )
+        ServiceOptions(
+            desc.options,
+            desc.options.getExtension(Protokt.service)
+        )
     )
 
 private fun toMethod(
@@ -281,24 +281,26 @@ private fun toOneof(
             immutableMapOf<String, String>(),
             immutableSetOf<String>(),
             immutableListOf<StandardField>()
-        ), { oneofIdx, acc, t ->
+        ),
+        { oneofIdx, acc, t ->
             val ftn = newTypeNameFromCamel(t.name, acc.second)
             Triple(
                 acc.first + (newFieldName(t.name, acc.second) to ftn),
                 acc.second + ftn,
                 acc.third + toStandard(idx + oneofIdx, ctx, t, emptySet(), true)
             )
-    })
+        }
+    )
     return Oneof(
         name = newTypeNameFromCamel(oneof.name, typeNames),
         fieldTypeNames = standardTuple.first,
         fieldName = newName,
         fields = standardTuple.third,
         options =
-            OneofOptions(
-                oneof.options,
-                oneof.options.getExtension(Protokt.oneof)
-            ),
+        OneofOptions(
+            oneof.options,
+            oneof.options.getExtension(Protokt.oneof)
+        ),
         // index relative to all oneofs in this message
         index = idx - fields.filterIsInstance<StandardField>().count()
     )
@@ -318,42 +320,48 @@ private fun toStandard(
             type = type,
             repeated = fdp.label == LABEL_REPEATED,
             optional =
-                !alwaysRequired &&
-                    (fdp.label == LABEL_OPTIONAL && ctx.proto2) ||
-                    fdp.proto3Optional,
+            !alwaysRequired &&
+                (fdp.label == LABEL_OPTIONAL && ctx.proto2) ||
+                fdp.proto3Optional,
             packed =
-                type.packable &&
-                    // marginal support for proto2
-                    ((ctx.proto2 && fdp.options.packed) ||
+            type.packable &&
+                // marginal support for proto2
+                (
+                    (ctx.proto2 && fdp.options.packed) ||
                         // packed if: proto3 and `packed` isn't set, or proto3
                         // and `packed` is true. If proto3, only explicitly
                         // setting `packed` to false disables packing, since
                         // the default value for an unset boolean is false.
-                        (ctx.proto3 &&
-                            (!fdp.options.hasPacked() ||
-                                (fdp.options.hasPacked() && fdp.options.packed)))),
+                        (
+                            ctx.proto3 &&
+                                (
+                                    !fdp.options.hasPacked() ||
+                                        (fdp.options.hasPacked() && fdp.options.packed)
+                                    )
+                            )
+                    ),
             mapEntry =
-                if (fdp.label == LABEL_REPEATED &&
-                    fdp.type == FieldDescriptorProto.Type.TYPE_MESSAGE
-                ) {
-                    findMapEntry(ctx.fdp, fdp.typeName).filter { it.options.mapEntry }
-                        .fold(
-                            { null },
-                            {
-                                resolveMapEntry(
-                                    toMessage(-1, ctx, it, usedFieldNames)
-                                )
-                            }
-                        )
-                } else {
-                    null
-                },
+            if (fdp.label == LABEL_REPEATED &&
+                fdp.type == FieldDescriptorProto.Type.TYPE_MESSAGE
+            ) {
+                findMapEntry(ctx.fdp, fdp.typeName).filter { it.options.mapEntry }
+                    .fold(
+                        { null },
+                        {
+                            resolveMapEntry(
+                                toMessage(-1, ctx, it, usedFieldNames)
+                            )
+                        }
+                    )
+            } else {
+                null
+            },
             fieldName = newFieldName(fdp.name, usedFieldNames),
             options =
-                FieldOptions(
-                    fdp.options,
-                    fdp.options.getExtension(Protokt.property)
-                ),
+            FieldOptions(
+                fdp.options,
+                fdp.options.getExtension(Protokt.property)
+            ),
             protoTypeName = fdp.typeName,
             typePClass = typePClass(fdp.typeName, ctx, type),
             index = idx

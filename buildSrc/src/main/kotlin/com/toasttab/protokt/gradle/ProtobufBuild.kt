@@ -22,13 +22,13 @@ import com.google.protobuf.gradle.id
 import com.google.protobuf.gradle.plugins
 import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
-import java.net.URLEncoder
 import org.gradle.api.Project
 import org.gradle.api.file.FileCollection
 import org.gradle.api.tasks.bundling.Jar
 import org.gradle.internal.os.OperatingSystem
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.named
+import java.net.URLEncoder
 
 const val KOTLIN_EXTRA_CLASSPATH = "kotlin_extra_classpath"
 const val RESPECT_JAVA_PACKAGE = "respect_java_package"
