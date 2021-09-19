@@ -41,8 +41,6 @@ private constructor(
     private val msg: Message,
     private val ctx: Context
 ) {
-    val idealMaxWidth = 100
-
     fun annotateMessage() =
         if (msg.mapEntry) {
             annotateMapEntry(msg, ctx)
@@ -98,11 +96,13 @@ private constructor(
 
         return Options(
             wellKnownType = ctx.pkg == PPackage.PROTOKT,
-            longDeserializer = lengthAsOneLine > idealMaxWidth
+            longDeserializer = lengthAsOneLine > IDEAL_MAX_WIDTH
         )
     }
 
     companion object {
+        const val IDEAL_MAX_WIDTH = 100
+
         fun annotateMessage(msg: Message, ctx: Context) =
             MessageAnnotator(msg, ctx).annotateMessage()
     }

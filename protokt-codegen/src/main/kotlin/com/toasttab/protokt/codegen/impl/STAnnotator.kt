@@ -17,8 +17,8 @@ package com.toasttab.protokt.codegen.impl
 
 import arrow.core.Some
 import com.github.andrewoma.dexx.kollection.immutableListOf
-import com.toasttab.protokt.codegen.impl.EnumAnnotator.annotateEnum
-import com.toasttab.protokt.codegen.impl.MessageAnnotator.annotateMessage
+import com.toasttab.protokt.codegen.impl.EnumAnnotator.Companion.annotateEnum
+import com.toasttab.protokt.codegen.impl.MessageAnnotator.Companion.annotateMessage
 import com.toasttab.protokt.codegen.impl.ServiceAnnotator.annotateService
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.protoc.AnnotatedType

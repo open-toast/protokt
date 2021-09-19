@@ -19,7 +19,7 @@ import arrow.core.None
 import arrow.core.Option
 import arrow.core.Some
 import arrow.core.getOrElse
-import com.toasttab.protokt.codegen.impl.MessageAnnotator.idealMaxWidth
+import com.toasttab.protokt.codegen.impl.MessageAnnotator.Companion.IDEAL_MAX_WIDTH
 import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptReadFn
 import com.toasttab.protokt.codegen.impl.Wrapper.keyWrapped
@@ -91,7 +91,7 @@ private constructor(
                 field.name.length +
                 3 // ` = `
 
-        val spaceLeft = idealMaxWidth - spaceTaken
+        val spaceLeft = IDEAL_MAX_WIDTH - spaceTaken
 
         return value.length > spaceLeft
     }
