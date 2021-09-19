@@ -72,15 +72,17 @@ private constructor(
                 )
             ),
             documentation = annotatePropertyDocumentation(f, ctx),
-            deprecation =
-            if (f.options.default.deprecated) {
-                renderOptions(
-                    f.options.protokt.deprecationMessage
-                )
-            } else {
-                null
-            }
+            deprecation = deprecation(f)
         )
+
+    private fun deprecation(f: StandardField) =
+        if (f.options.default.deprecated) {
+            renderOptions(
+                f.options.protokt.deprecationMessage
+            )
+        } else {
+            null
+        }
 
     private fun qualifyWrapperType(
         f: StandardField,

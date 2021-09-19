@@ -64,14 +64,7 @@ private constructor(
                             overrides = it.overrides(ctx, msg),
                             wrapped = it.wrapped,
                             documentation = documentation,
-                            deprecation =
-                            if (it.options.default.deprecated) {
-                                renderOptions(
-                                    it.options.protokt.deprecationMessage
-                                )
-                            } else {
-                                null
-                            }
+                            deprecation = deprecation(it)
                         )
                     }
                 }
@@ -90,6 +83,15 @@ private constructor(
             }
         }
     }
+
+    private fun deprecation(f: StandardField) =
+        if (f.options.default.deprecated) {
+            renderOptions(
+                f.options.protokt.deprecationMessage
+            )
+        } else {
+            null
+        }
 
     private fun annotateStandard(f: StandardField) =
         Standard.render(
@@ -114,17 +116,19 @@ private constructor(
                     DefaultValue.render(
                         field = this,
                         type = type,
-                        name =
-                        if (type == FieldType.ENUM) {
-                            typePClass.renderName(ctx.pkg)
-                        } else {
-                            ""
-                        }
+                        name = name(this)
                     ),
                     ctx
                 )
             is Oneof ->
                 OneofTemplate.DefaultValue.render()
+        }
+
+    private fun name(f: StandardField) =
+        if (f.type == FieldType.ENUM) {
+            f.typePClass.renderName(ctx.pkg)
+        } else {
+            ""
         }
 
     companion object {

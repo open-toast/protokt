@@ -150,8 +150,7 @@ private fun toEnum(
             Pair(acc.first + n, acc.second + v)
         }.second,
         index = idx,
-        options =
-        EnumOptions(
+        options = EnumOptions(
             desc.options,
             desc.options.getExtension(Protokt.enum_)
         )
@@ -168,8 +167,7 @@ private fun toMessage(
     val fieldList = toFields(ctx, desc, names + typeName)
     return Message(
         name = typeName,
-        fields =
-        fieldList.sortedBy {
+        fields = fieldList.sortedBy {
             when (it) {
                 is StandardField -> it
                 is Oneof -> it.fields.first()
@@ -177,8 +175,7 @@ private fun toMessage(
         },
         nestedTypes = toTypeList(ctx, desc.enumTypeList, desc.nestedTypeList),
         mapEntry = desc.options?.mapEntry == true,
-        options =
-        MessageOptions(
+        options = MessageOptions(
             desc.options,
             desc.options.getExtension(Protokt.class_)
         ),
@@ -197,8 +194,7 @@ private fun toService(
         type = newTypeNameFromPascal(desc.name, names),
         methods = desc.methodList.map { toMethod(it, ctx) },
         deprecated = desc.options.deprecated,
-        options =
-        ServiceOptions(
+        options = ServiceOptions(
             desc.options,
             desc.options.getExtension(Protokt.service)
         )
@@ -296,8 +292,7 @@ private fun toOneof(
         fieldTypeNames = standardTuple.first,
         fieldName = newName,
         fields = standardTuple.third,
-        options =
-        OneofOptions(
+        options = OneofOptions(
             oneof.options,
             oneof.options.getExtension(Protokt.oneof)
         ),
@@ -319,46 +314,11 @@ private fun toStandard(
             name = newFieldName(fdp.name, usedFieldNames),
             type = type,
             repeated = fdp.label == LABEL_REPEATED,
-            optional =
-            !alwaysRequired &&
-                (fdp.label == LABEL_OPTIONAL && ctx.proto2) ||
-                fdp.proto3Optional,
-            packed =
-            type.packable &&
-                // marginal support for proto2
-                (
-                    (ctx.proto2 && fdp.options.packed) ||
-                        // packed if: proto3 and `packed` isn't set, or proto3
-                        // and `packed` is true. If proto3, only explicitly
-                        // setting `packed` to false disables packing, since
-                        // the default value for an unset boolean is false.
-                        (
-                            ctx.proto3 &&
-                                (
-                                    !fdp.options.hasPacked() ||
-                                        (fdp.options.hasPacked() && fdp.options.packed)
-                                    )
-                            )
-                    ),
-            mapEntry =
-            if (fdp.label == LABEL_REPEATED &&
-                fdp.type == FieldDescriptorProto.Type.TYPE_MESSAGE
-            ) {
-                findMapEntry(ctx.fdp, fdp.typeName).filter { it.options.mapEntry }
-                    .fold(
-                        { null },
-                        {
-                            resolveMapEntry(
-                                toMessage(-1, ctx, it, usedFieldNames)
-                            )
-                        }
-                    )
-            } else {
-                null
-            },
+            optional = optional(alwaysRequired, fdp, ctx),
+            packed = packed(type, fdp, ctx),
+            mapEntry = mapEntry(usedFieldNames, fdp, ctx),
             fieldName = newFieldName(fdp.name, usedFieldNames),
-            options =
-            FieldOptions(
+            options = FieldOptions(
                 fdp.options,
                 fdp.options.getExtension(Protokt.property)
             ),
@@ -366,6 +326,46 @@ private fun toStandard(
             typePClass = typePClass(fdp.typeName, ctx, type),
             index = idx
         )
+    }
+
+private fun optional(alwaysRequired: Boolean, fdp: FieldDescriptorProto, ctx: ProtocolContext) =
+    !alwaysRequired &&
+        (fdp.label == LABEL_OPTIONAL && ctx.proto2) ||
+        fdp.proto3Optional
+
+private fun packed(type: FieldType, fdp: FieldDescriptorProto, ctx: ProtocolContext) =
+    type.packable &&
+        // marginal support for proto2
+        (
+            (ctx.proto2 && fdp.options.packed) ||
+                // packed if: proto3 and `packed` isn't set, or proto3
+                // and `packed` is true. If proto3, only explicitly
+                // setting `packed` to false disables packing, since
+                // the default value for an unset boolean is false.
+                (
+                    ctx.proto3 &&
+                        (
+                            !fdp.options.hasPacked() ||
+                                (fdp.options.hasPacked() && fdp.options.packed)
+                            )
+                    )
+            )
+
+private fun mapEntry(usedFieldNames: Set<String>, fdp: FieldDescriptorProto, ctx: ProtocolContext) =
+    if (fdp.label == LABEL_REPEATED &&
+        fdp.type == FieldDescriptorProto.Type.TYPE_MESSAGE
+    ) {
+        findMapEntry(ctx.fdp, fdp.typeName).filter { it.options.mapEntry }
+            .fold(
+                { null },
+                {
+                    resolveMapEntry(
+                        toMessage(-1, ctx, it, usedFieldNames)
+                    )
+                }
+            )
+    } else {
+        null
     }
 
 private fun findMapEntry(

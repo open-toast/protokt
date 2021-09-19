@@ -40,8 +40,7 @@ private constructor(
 
         return Entry.render(
             name = msg.name,
-            key =
-            prop(
+            key = prop(
                 entryInfo.key,
                 entryInfo.key.unqualifiedTypeName,
                 sizeInfo,
@@ -49,8 +48,7 @@ private constructor(
                 desInfo,
                 propInfo
             ),
-            value =
-            prop(
+            value = prop(
                 entryInfo.value,
                 entryInfo.value.typePClass.renderName(ctx.pkg),
                 sizeInfo,
@@ -76,14 +74,19 @@ private constructor(
             sizeof = sizeofInfo.consequent(f),
             serialize = serializerInfo.consequent(f),
             defaultValue = propInfo.single(f).defaultValue,
-            deserialize =
-            deserializerInfo.single(f).let {
-                DeserializerInfo(
-                    tag = it.tag,
-                    assignment = it.assignment.value
-                )
-            }
+            deserialize = deserialize(deserializerInfo, f)
         )
+
+    private fun deserialize(
+        deserializerInfo: List<MessageTemplate.DeserializerInfo>,
+        f: StandardField
+    ) =
+        deserializerInfo.single(f).let {
+            DeserializerInfo(
+                tag = it.tag,
+                assignment = it.assignment.value
+            )
+        }
 
     private fun <T : MessageTemplate.FieldInfo> List<T>.single(
         f: StandardField

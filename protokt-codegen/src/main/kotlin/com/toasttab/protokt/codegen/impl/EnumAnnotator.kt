@@ -26,41 +26,52 @@ import com.toasttab.protokt.codegen.template.Enum.Enum.EnumInfo
 import com.toasttab.protokt.codegen.template.Enum.Enum.EnumOptions
 import com.toasttab.protokt.codegen.template.Enum.Enum as EnumTemplate
 
-internal object EnumAnnotator {
-    fun annotateEnum(
-        e: Enum,
-        ctx: Context
-    ) =
+class EnumAnnotator
+private constructor(
+    val e: Enum,
+    val ctx: Context
+) {
+    fun annotateEnum() =
         EnumTemplate.render(
             name = e.name,
-            map =
-            e.values.associate {
-                it.number to
-                    EnumInfo(
-                        it.valueName,
-                        annotateEnumFieldDocumentation(e, it, ctx),
-                        if (it.options.default.deprecated) {
-                            renderOptions(
-                                it.options.protokt.deprecationMessage
-                            )
-                        } else {
-                            null
-                        }
-                    )
-            },
-            options =
-            EnumOptions(
-                documentation = annotateEnumDocumentation(e, ctx),
-                deprecation =
-                if (e.options.default.deprecated) {
-                    renderOptions(
-                        e.options.protokt.deprecationMessage
-                    )
-                } else {
-                    null
-                },
-                suppressDeprecation =
-                (e.hasDeprecation && !enclosingDeprecation(ctx))
-            )
+            map = enumMap(),
+            options = enumOptions()
         )
+
+    private fun enumMap() =
+        e.values.associate {
+            it.number to
+                EnumInfo(
+                    it.valueName,
+                    annotateEnumFieldDocumentation(e, it, ctx),
+                    if (it.options.default.deprecated) {
+                        renderOptions(
+                            it.options.protokt.deprecationMessage
+                        )
+                    } else {
+                        null
+                    }
+                )
+        }
+
+    private fun enumOptions() =
+        EnumOptions(
+            documentation = annotateEnumDocumentation(e, ctx),
+            deprecation = enumDeprecation(),
+            suppressDeprecation = e.hasDeprecation && !enclosingDeprecation(ctx)
+        )
+
+    private fun enumDeprecation() =
+        if (e.options.default.deprecated) {
+            renderOptions(
+                e.options.protokt.deprecationMessage
+            )
+        } else {
+            null
+        }
+
+    companion object {
+        fun annotateEnum(e: Enum, ctx: Context) =
+            EnumAnnotator(e, ctx).annotateEnum()
+    }
 }

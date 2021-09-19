@@ -97,18 +97,17 @@ private constructor(
             field = f,
             name = f.fieldName,
             tag = f.tag.value,
-            box =
-            if (f.map) {
-                f.boxMap(ctx)
-            } else {
-                f.box(fieldAccess)
-            },
-            options =
-            Options(
-                fieldAccess = fieldAccess
-            )
+            box = box(f, fieldAccess),
+            options = Options(fieldAccess = fieldAccess)
         )
     }
+
+    private fun box(f: StandardField, fieldAccess: String) =
+        if (f.map) {
+            f.boxMap(ctx)
+        } else {
+            f.box(fieldAccess)
+        }
 
     private fun oneOfSer(f: Oneof, ff: StandardField, type: String) =
         ConditionalParams(

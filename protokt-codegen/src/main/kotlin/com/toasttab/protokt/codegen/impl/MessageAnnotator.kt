@@ -36,53 +36,57 @@ import com.toasttab.protokt.codegen.template.Message.Message.MessageInfo
 import com.toasttab.protokt.codegen.template.Message.Message.Options
 import com.toasttab.protokt.codegen.template.Message.Message as MessageTemplate
 
-internal object MessageAnnotator {
+class MessageAnnotator
+private constructor(
+    private val msg: Message,
+    private val ctx: Context
+) {
     val idealMaxWidth = 100
 
-    fun annotateMessage(
-        msg: Message,
-        ctx: Context
-    ) =
+    fun annotateMessage() =
         if (msg.mapEntry) {
             annotateMapEntry(msg, ctx)
         } else {
             MessageTemplate.render(
-                message = messageInfo(msg, ctx),
+                message = messageInfo(),
                 properties = annotateProperties(msg, ctx),
                 oneofs = annotateOneofs(msg, ctx),
                 sizeof = annotateSizeof(msg, ctx),
                 serialize = annotateSerializer(msg, ctx),
                 deserialize = annotateDeserializer(msg, ctx),
-                nested = nestedTypes(msg, ctx),
+                nested = nestedTypes(),
                 options = options(msg, ctx)
             )
         }
 
-    private fun nestedTypes(msg: Message, ctx: Context) =
+    private fun nestedTypes() =
         msg.nestedTypes.map { annotate(it, ctx) }
 
-    private fun messageInfo(msg: Message, ctx: Context) =
+    private fun messageInfo() =
         MessageInfo(
             name = msg.name,
             doesImplement = msg.doesImplement,
             implements = msg.implements,
             documentation = annotateMessageDocumentation(ctx),
-            deprecation =
-            if (msg.options.default.deprecated) {
-                renderOptions(
-                    msg.options.protokt.deprecationMessage
-                )
-            } else {
-                null
-            },
-            suppressDeprecation = msg.hasDeprecation &&
-                (
-                    !enclosingDeprecation(ctx) ||
-                        ctx.enclosing.firstOrNone()
-                            .fold({ false }, { it == msg })
-                    ),
+            deprecation = deprecation(),
+            suppressDeprecation = suppressDeprecation(),
             fullTypeName = msg.fullProtobufTypeName
         )
+
+    private fun deprecation() =
+        if (msg.options.default.deprecated) {
+            renderOptions(
+                msg.options.protokt.deprecationMessage
+            )
+        } else {
+            null
+        }
+
+    private fun suppressDeprecation() =
+        msg.hasDeprecation && (!enclosingDeprecation(ctx) || messageIsTopLevel())
+
+    private fun messageIsTopLevel() =
+        ctx.enclosing.firstOrNone().fold({ false }, { it == msg })
 
     private fun options(msg: Message, ctx: Context): Options {
         val lengthAsOneLine =
@@ -96,5 +100,10 @@ internal object MessageAnnotator {
             wellKnownType = ctx.pkg == PPackage.PROTOKT,
             longDeserializer = lengthAsOneLine > idealMaxWidth
         )
+    }
+
+    companion object {
+        fun annotateMessage(msg: Message, ctx: Context) =
+            MessageAnnotator(msg, ctx).annotateMessage()
     }
 }

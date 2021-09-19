@@ -24,7 +24,6 @@ import com.toasttab.protokt.conformance.ConformanceResponse.Result
 import com.toasttab.protokt.conformance.WireFormat
 import com.toasttab.protokt.rt.Bytes
 import com.toasttab.protokt_test_messages.proto3.TestAllTypesProto3
-import kotlinx.coroutines.runBlocking
 import java.io.InputStream
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
@@ -49,12 +48,10 @@ fun main() {
 }
 
 private fun io(stdin: InputStream, size: Int) =
-    runBlocking {
-        Either.catch {
-            ByteArray(size).let { bytes ->
-                require(stdin.read(bytes) == bytes.size)
-                ConformanceRequest.deserialize(bytes)
-            }
+    Either.catch {
+        ByteArray(size).let { bytes ->
+            require(stdin.read(bytes) == bytes.size)
+            ConformanceRequest.deserialize(bytes)
         }
     }.mapLeft { e ->
         Result.ParseError("ParseError, ${e.message}")
@@ -64,16 +61,14 @@ private fun io(stdin: InputStream, size: Int) =
             if (isRequestOk(req)) {
                 (req.payload as ConformanceRequest.Payload.ProtobufPayload)
                     .protobufPayload.bytes.let { bytes ->
-                        runBlocking {
-                            Either.catch {
-                                Result.ProtobufPayload(
-                                    Bytes(
-                                        TestAllTypesProto3
-                                            .deserialize(bytes)
-                                            .serialize()
-                                    )
+                        Either.catch {
+                            Result.ProtobufPayload(
+                                Bytes(
+                                    TestAllTypesProto3
+                                        .deserialize(bytes)
+                                        .serialize()
                                 )
-                            }
+                            )
                         }.mapLeft { e ->
                             Result.ParseError("Parse Error, ${e.message}")
                         }.fold(

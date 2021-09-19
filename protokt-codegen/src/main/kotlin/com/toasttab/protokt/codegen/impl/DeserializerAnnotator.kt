@@ -102,20 +102,22 @@ private constructor(
             read = interceptReadFn(f, f.readFn()),
             lhs = f.fieldName,
             packed = packed,
-            options =
-            if (f.wrapped || f.keyWrapped || f.valueWrapped) {
-                Options(
-                    wrapName = wrapperName(f, ctx).getOrElse { "" },
-                    keyWrap = mapKeyConverter(f, ctx),
-                    valueWrap = mapValueConverter(f, ctx),
-                    valueType = f.mapEntry?.value?.type,
-                    type = f.type.toString(),
-                    oneof = true
-                )
-            } else {
-                null
-            }
+            options = deserializeOptions(f)
         )
+
+    private fun deserializeOptions(f: StandardField) =
+        if (f.wrapped || f.keyWrapped || f.valueWrapped) {
+            Options(
+                wrapName = wrapperName(f, ctx).getOrElse { "" },
+                keyWrap = mapKeyConverter(f, ctx),
+                valueWrap = mapValueConverter(f, ctx),
+                valueType = f.mapEntry?.value?.type,
+                type = f.type.toString(),
+                oneof = true
+            )
+        } else {
+            null
+        }
 
     private fun Message.flattenedSortedFields() =
         fields.flatMap {
@@ -142,12 +144,14 @@ private constructor(
     private fun StandardField.readFn() =
         Read.render(
             type = type,
-            builder =
-            when (type) {
-                FieldType.ENUM, FieldType.MESSAGE -> stripQualification(this)
-                else -> ""
-            }
+            builder = readFnBuilder(type)
         )
+
+    private fun StandardField.readFnBuilder(type: FieldType) =
+        when (type) {
+            FieldType.ENUM, FieldType.MESSAGE -> stripQualification(this)
+            else -> ""
+        }
 
     private fun stripQualification(f: StandardField) =
         stripEnclosingMessageName(f.typePClass.renderName(ctx.pkg))
