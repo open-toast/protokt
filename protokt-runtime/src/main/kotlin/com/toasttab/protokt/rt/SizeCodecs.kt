@@ -16,14 +16,12 @@
 package com.toasttab.protokt.rt
 
 import com.google.protobuf.CodedOutputStream
-import com.google.protobuf.MessageLite
 
 fun sizeof(enum: KtEnum) = sizeof(Int32(enum.value))
 fun sizeof(msg: KtMessage) = sizeof(UInt32(msg.messageSize)) + msg.messageSize
-fun sizeof(msg: MessageLite) = CodedOutputStream.computeMessageSizeNoTag(msg)
 fun sizeof(b: Bytes) = CodedOutputStream.computeByteArraySizeNoTag(b.value)
 fun sizeof(b: BytesSlice) = sizeof(UInt32(b.length)) + b.length
-fun sizeof(ba: ByteArray) = CodedOutputStream.computeByteArraySizeNoTag(ba)
+fun sizeof(b: ByteArray) = CodedOutputStream.computeByteArraySizeNoTag(b)
 fun sizeof(s: String) = CodedOutputStream.computeStringSizeNoTag(s)
 fun sizeof(b: Boolean) = CodedOutputStream.computeBoolSizeNoTag(b)
 fun sizeof(l: Int64) = CodedOutputStream.computeInt64SizeNoTag(l.value)
@@ -36,8 +34,8 @@ fun sizeof(l: SFixed64) = CodedOutputStream.computeSFixed64SizeNoTag(l.value)
 fun sizeof(i: Int32) = CodedOutputStream.computeInt32SizeNoTag(i.value)
 fun sizeof(i: UInt32) = CodedOutputStream.computeUInt32SizeNoTag(i.value)
 fun sizeof(i: SInt32) = CodedOutputStream.computeSInt32SizeNoTag(i.value)
-fun sizeof(i: UInt64) = CodedOutputStream.computeUInt64SizeNoTag(i.value)
-fun sizeof(i: SInt64): Int = CodedOutputStream.computeSInt64SizeNoTag(i.value)
+fun sizeof(l: UInt64) = CodedOutputStream.computeUInt64SizeNoTag(l.value)
+fun sizeof(l: SInt64): Int = CodedOutputStream.computeSInt64SizeNoTag(l.value)
 fun sizeof(t: Tag) = CodedOutputStream.computeTagSize(t.value)
 
 fun <K, V> sizeofMap(
