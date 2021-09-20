@@ -34,9 +34,9 @@ import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Oneof
 import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.codegen.template.Message.Message.PropertyInfo
-import com.toasttab.protokt.codegen.template.Oneof as OneofTemplate
 import com.toasttab.protokt.codegen.template.Renderers.DefaultValue
 import com.toasttab.protokt.codegen.template.Renderers.Standard
+import com.toasttab.protokt.codegen.template.Oneof as OneofTemplate
 
 internal class PropertyAnnotator
 private constructor(

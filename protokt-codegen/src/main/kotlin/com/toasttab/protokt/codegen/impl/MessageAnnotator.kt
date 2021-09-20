@@ -32,10 +32,10 @@ import com.toasttab.protokt.codegen.impl.SerializerAnnotator.Companion.annotateS
 import com.toasttab.protokt.codegen.impl.SizeofAnnotator.Companion.annotateSizeof
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.protoc.Message
-import com.toasttab.protokt.codegen.template.Message.Message as MessageTemplate
 import com.toasttab.protokt.codegen.template.Message.Message.MessageInfo
 import com.toasttab.protokt.codegen.template.Message.Message.Options
 import com.toasttab.protokt.codegen.template.Message.Message.ReflectInfo
+import com.toasttab.protokt.codegen.template.Message.Message as MessageTemplate
 
 class MessageAnnotator
 private constructor(

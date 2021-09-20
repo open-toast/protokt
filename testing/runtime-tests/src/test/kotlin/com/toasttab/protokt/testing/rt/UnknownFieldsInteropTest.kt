@@ -17,7 +17,6 @@ package com.toasttab.protokt.testing.rt
 
 import com.google.common.truth.Truth.assertThat
 import com.google.protobuf.ByteString
-import com.google.protobuf.UnknownFieldSet as JavaUnknownFieldSet
 import com.toasttab.protokt.rt.Bytes
 import com.toasttab.protokt.rt.Fixed32Val
 import com.toasttab.protokt.rt.Fixed64Val
@@ -25,8 +24,9 @@ import com.toasttab.protokt.rt.LengthDelimitedVal
 import com.toasttab.protokt.rt.UnknownField
 import com.toasttab.protokt.rt.UnknownFieldSet
 import com.toasttab.protokt.rt.VarintVal
-import com.toasttab.protokt.testing.rt.TestOuterClass.Test as JavaTest
 import org.junit.jupiter.api.Test
+import com.google.protobuf.UnknownFieldSet as JavaUnknownFieldSet
+import com.toasttab.protokt.testing.rt.TestOuterClass.Test as JavaTest
 import toasttab.protokt.testing.rt.Test as KtTest
 
 class UnknownFieldsInteropTest {

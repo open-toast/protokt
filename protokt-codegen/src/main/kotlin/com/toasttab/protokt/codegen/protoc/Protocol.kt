@@ -102,19 +102,19 @@ private fun toTypeList(
         Pair(acc.first + e.name, acc.second + e)
     }.second +
 
-    messages.foldIndexed(
-        Pair(immutableSetOf<String>(), immutableListOf<TopLevelType>())
-    ) { idx, acc, t ->
-        val m = toMessage(idx, ctx, t, acc.first, parentName)
-        Pair(acc.first + m.name, acc.second + m)
-    }.second +
+        messages.foldIndexed(
+            Pair(immutableSetOf<String>(), immutableListOf<TopLevelType>())
+        ) { idx, acc, t ->
+            val m = toMessage(idx, ctx, t, acc.first, parentName)
+            Pair(acc.first + m.name, acc.second + m)
+        }.second +
 
-    services.foldIndexed(
-        Pair(immutableSetOf<String>(), immutableListOf<TopLevelType>())
-    ) { idx, acc, t ->
-        val s = toService(idx, t, ctx, acc.first)
-        Pair(acc.first + s.type, acc.second + s)
-    }.second
+        services.foldIndexed(
+            Pair(immutableSetOf<String>(), immutableListOf<TopLevelType>())
+        ) { idx, acc, t ->
+            val s = toService(idx, t, ctx, acc.first)
+            Pair(acc.first + s.type, acc.second + s)
+        }.second
 
 private fun toEnum(
     idx: Int,

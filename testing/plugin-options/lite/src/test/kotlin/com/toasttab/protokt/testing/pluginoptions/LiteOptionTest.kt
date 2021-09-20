@@ -16,11 +16,11 @@
 package com.toasttab.protokt.testing.pluginoptions
 
 import com.google.common.truth.Truth.assertThat
-import kotlin.reflect.full.declaredMemberProperties
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import toasttab.protokt.testing.lite.LiteEnum
 import toasttab.protokt.testing.lite.LiteMessage
+import kotlin.reflect.full.declaredMemberProperties
 
 class LiteOptionTest {
     @Test

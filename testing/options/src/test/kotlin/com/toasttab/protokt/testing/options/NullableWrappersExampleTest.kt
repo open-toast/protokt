@@ -17,13 +17,13 @@ package com.toasttab.protokt.testing.options
 
 import com.google.common.truth.Truth.assertThat
 import com.toasttab.protokt.testing.rt.propertyIsMarkedNullable
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertDoesNotThrow
 import java.net.InetAddress
 import java.net.InetSocketAddress
 import java.time.Duration
 import java.time.Instant
 import java.util.UUID
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertDoesNotThrow
 
 class NullableWrappersExampleTest {
     @Test

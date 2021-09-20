@@ -17,20 +17,10 @@ package com.toasttab.protokt.testing.rt
 
 import com.google.common.truth.Truth.assertThat
 import com.google.protobuf.ByteString
-import com.google.protobuf.Timestamp as JavaTimestamp
 import com.toasttab.protokt.Timestamp
 import com.toasttab.protokt.pack
 import com.toasttab.protokt.rt.Bytes
-import com.toasttab.protokt.testing.rt.TestOuterClass.ListTest as JavaListTest
-import com.toasttab.protokt.testing.rt.TestOuterClass.MapTest as JavaMapTest
-import com.toasttab.protokt.testing.rt.TestOuterClass.RepeatedAnyTest as JavaRepeatedAnyTest
-import com.toasttab.protokt.testing.rt.TestOuterClass.RepeatedPackedTest as JavaRepeatedPackedTest
-import com.toasttab.protokt.testing.rt.TestOuterClass.RepeatedTest as JavaRepeatedTest
-import com.toasttab.protokt.testing.rt.TestOuterClass.RepeatedUnpackedTest as JavaRepeatedUnpackedTest
-import com.toasttab.protokt.testing.rt.TestOuterClass.RepeatedWktTest as JavaRepeatedWktTest
-import com.toasttab.protokt.testing.rt.TestOuterClass.Test as JavaTest
 import com.toasttab.protokt.unpack
-import kotlin.random.Random
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import toasttab.protokt.testing.rt.ListTest
@@ -40,6 +30,16 @@ import toasttab.protokt.testing.rt.RepeatedPackedTest
 import toasttab.protokt.testing.rt.RepeatedTest
 import toasttab.protokt.testing.rt.RepeatedUnpackedTest
 import toasttab.protokt.testing.rt.RepeatedWktTest
+import kotlin.random.Random
+import com.google.protobuf.Timestamp as JavaTimestamp
+import com.toasttab.protokt.testing.rt.TestOuterClass.ListTest as JavaListTest
+import com.toasttab.protokt.testing.rt.TestOuterClass.MapTest as JavaMapTest
+import com.toasttab.protokt.testing.rt.TestOuterClass.RepeatedAnyTest as JavaRepeatedAnyTest
+import com.toasttab.protokt.testing.rt.TestOuterClass.RepeatedPackedTest as JavaRepeatedPackedTest
+import com.toasttab.protokt.testing.rt.TestOuterClass.RepeatedTest as JavaRepeatedTest
+import com.toasttab.protokt.testing.rt.TestOuterClass.RepeatedUnpackedTest as JavaRepeatedUnpackedTest
+import com.toasttab.protokt.testing.rt.TestOuterClass.RepeatedWktTest as JavaRepeatedWktTest
+import com.toasttab.protokt.testing.rt.TestOuterClass.Test as JavaTest
 import toasttab.protokt.testing.rt.Test as KtTest
 
 class CollectionsJavaInteropTest {

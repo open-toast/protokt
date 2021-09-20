@@ -15,8 +15,8 @@
 
 package com.toasttab.protokt.codegen.template
 
-import kotlin.reflect.full.declaredMemberFunctions
 import org.stringtemplate.v4.STGroupFile
+import kotlin.reflect.full.declaredMemberFunctions
 
 private val stGroupFiles =
     StGroup::class.sealedSubclasses

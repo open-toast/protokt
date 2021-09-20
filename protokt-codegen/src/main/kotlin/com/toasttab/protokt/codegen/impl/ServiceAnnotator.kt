@@ -20,12 +20,12 @@ import com.toasttab.protokt.codegen.protoc.Method
 import com.toasttab.protokt.codegen.protoc.ProtocolContext
 import com.toasttab.protokt.codegen.protoc.Service
 import com.toasttab.protokt.codegen.template.Services.Descriptor
-import com.toasttab.protokt.codegen.template.Services.Method as MethodTemplate
 import com.toasttab.protokt.codegen.template.Services.Method.MethodOptions
 import com.toasttab.protokt.codegen.template.Services.MethodType
-import com.toasttab.protokt.codegen.template.Services.Service as ServiceTemplate
 import com.toasttab.protokt.codegen.template.Services.Service.MethodInfo
 import com.toasttab.protokt.codegen.template.Services.Service.ReflectInfo
+import com.toasttab.protokt.codegen.template.Services.Method as MethodTemplate
+import com.toasttab.protokt.codegen.template.Services.Service as ServiceTemplate
 
 internal object ServiceAnnotator {
     fun annotateService(s: Service, ctx: Context, generateService: Boolean) =
@@ -37,10 +37,10 @@ internal object ServiceAnnotator {
             grpcDescriptor = renderDescriptor(s),
             methods = renderMethods(s, ctx),
             reflectInfo =
-                ReflectInfo(
-                    s.index,
-                    ctx.desc.context.fileDescriptorObjectName
-                )
+            ReflectInfo(
+                s.index,
+                ctx.desc.context.fileDescriptorObjectName
+            )
         )
 
     private fun generateDescriptor(ctx: ProtocolContext) =

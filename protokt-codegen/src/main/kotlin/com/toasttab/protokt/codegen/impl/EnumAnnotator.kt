@@ -22,9 +22,9 @@ import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
 import com.toasttab.protokt.codegen.impl.EnumDocumentationAnnotator.Companion.annotateEnumDocumentation
 import com.toasttab.protokt.codegen.impl.EnumDocumentationAnnotator.Companion.annotateEnumFieldDocumentation
 import com.toasttab.protokt.codegen.protoc.Enum
-import com.toasttab.protokt.codegen.template.Enum.Enum as EnumTemplate
 import com.toasttab.protokt.codegen.template.Enum.Enum.EnumInfo
 import com.toasttab.protokt.codegen.template.Enum.Enum.EnumOptions
+import com.toasttab.protokt.codegen.template.Enum.Enum as EnumTemplate
 
 class EnumAnnotator
 private constructor(

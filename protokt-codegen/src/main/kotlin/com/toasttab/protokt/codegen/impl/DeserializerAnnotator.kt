@@ -35,10 +35,10 @@ import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.codegen.protoc.Tag
 import com.toasttab.protokt.codegen.template.Message.Message.DeserializerInfo
 import com.toasttab.protokt.codegen.template.Message.Message.DeserializerInfo.Assignment
-import com.toasttab.protokt.codegen.template.Oneof as OneofTemplate
 import com.toasttab.protokt.codegen.template.Renderers.Deserialize
 import com.toasttab.protokt.codegen.template.Renderers.Deserialize.Options
 import com.toasttab.protokt.codegen.template.Renderers.Read
+import com.toasttab.protokt.codegen.template.Oneof as OneofTemplate
 
 internal class DeserializerAnnotator
 private constructor(

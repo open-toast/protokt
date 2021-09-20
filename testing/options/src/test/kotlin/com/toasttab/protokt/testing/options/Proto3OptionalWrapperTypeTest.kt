@@ -17,9 +17,9 @@ package com.toasttab.protokt.testing.options
 
 import com.google.common.truth.Truth.assertThat
 import com.toasttab.protokt.testing.rt.propertyType
+import org.junit.jupiter.api.Test
 import java.time.LocalDate
 import kotlin.reflect.full.createType
-import org.junit.jupiter.api.Test
 
 class Proto3OptionalWrapperTypeTest {
     @Test
