@@ -69,12 +69,6 @@ configure<PublishingExtension> {
     }
 }
 
-idea {
-    module {
-        generatedSourceDirs.add(file("$buildDir/generated/source/proto"))
-    }
-}
-
 protobuf {
     protoc {
         artifact = libraries.protoc
