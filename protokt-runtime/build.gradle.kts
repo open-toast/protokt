@@ -15,7 +15,7 @@
 
 enablePublishing()
 compatibleWithAndroid()
-trackKotlinApiCompatibility(false)
+trackKotlinApiCompatibility()
 
 dependencies {
     compileOnly(libraries.protobufJava)
