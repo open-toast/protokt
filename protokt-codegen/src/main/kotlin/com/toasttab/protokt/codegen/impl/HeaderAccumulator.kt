@@ -27,22 +27,24 @@ object HeaderAccumulator {
         imports: Set<Import>,
         acc: (String) -> Unit
     ) {
-        descs.firstOrNone().map { f ->
+        descs.firstOrNone().map {
             acc(
                 Header.render(
-                    `package` =
-                        kotlinPackage(f).let {
-                            if (it == PPackage.DEFAULT) {
-                                null
-                            } else {
-                                it
-                            }
-                        },
-                    imports = imports.map { it.qualifiedName }.sorted(),
-                    version = f.desc.context.version,
-                    fileName = f.desc.name
+                    `package` = `package`(it),
+                    imports = imports.map(Import::qualifiedName).sorted(),
+                    version = it.desc.context.version,
+                    fileName = it.desc.name
                 )
             )
         }
     }
+
+    private fun `package`(desc: TypeDesc) =
+        kotlinPackage(desc).let {
+            if (it == PPackage.DEFAULT) {
+                null
+            } else {
+                it
+            }
+        }
 }

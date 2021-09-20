@@ -17,10 +17,14 @@ package com.toasttab.protokt.testing.rt
 
 import com.google.common.truth.Truth.assertThat
 import com.google.protobuf.ByteString
-import com.google.protobuf.Timestamp as JavaTimestamp
 import com.toasttab.protokt.Timestamp
 import com.toasttab.protokt.pack
 import com.toasttab.protokt.rt.Bytes
+import com.toasttab.protokt.unpack
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
+import kotlin.random.Random
+import com.google.protobuf.Timestamp as JavaTimestamp
 import com.toasttab.protokt.testing.rt.Test as KtTest
 import com.toasttab.protokt.testing.rt.TestOuterClass.ListTest as JavaListTest
 import com.toasttab.protokt.testing.rt.TestOuterClass.MapTest as JavaMapTest
@@ -30,10 +34,6 @@ import com.toasttab.protokt.testing.rt.TestOuterClass.RepeatedTest as JavaRepeat
 import com.toasttab.protokt.testing.rt.TestOuterClass.RepeatedUnpackedTest as JavaRepeatedUnpackedTest
 import com.toasttab.protokt.testing.rt.TestOuterClass.RepeatedWktTest as JavaRepeatedWktTest
 import com.toasttab.protokt.testing.rt.TestOuterClass.Test as JavaTest
-import com.toasttab.protokt.unpack
-import kotlin.random.Random
-import org.junit.jupiter.api.Nested
-import org.junit.jupiter.api.Test
 
 class CollectionsJavaInteropTest {
     private val content = "this is a test"

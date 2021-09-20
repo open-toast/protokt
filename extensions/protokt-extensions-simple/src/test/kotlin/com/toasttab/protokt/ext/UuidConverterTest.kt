@@ -16,9 +16,9 @@
 package com.toasttab.protokt.ext
 
 import com.google.common.truth.Truth.assertThat
-import java.util.UUID
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import java.util.UUID
 
 class UuidConverterTest {
     @Test

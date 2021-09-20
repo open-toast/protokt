@@ -20,7 +20,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     idea
     kotlin("jvm") version System.getProperty("kotlin.version", "1.4.32")
-    id("com.diffplug.spotless") version "5.12.4"
+    id("com.diffplug.spotless") version "5.15.0"
 }
 
 buildscript {

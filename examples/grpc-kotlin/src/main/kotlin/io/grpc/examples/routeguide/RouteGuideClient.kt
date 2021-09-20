@@ -20,14 +20,14 @@ package io.grpc.examples.routeguide
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import io.grpc.kotlin.ClientCalls
-import java.io.Closeable
-import java.util.concurrent.TimeUnit
-import kotlin.random.Random
-import kotlin.random.nextLong
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
+import java.io.Closeable
+import java.util.concurrent.TimeUnit
+import kotlin.random.Random
+import kotlin.random.nextLong
 
 class RouteGuideClient(
     private val channel: ManagedChannel
