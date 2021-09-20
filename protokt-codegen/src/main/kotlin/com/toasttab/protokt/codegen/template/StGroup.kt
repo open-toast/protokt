@@ -19,11 +19,12 @@ sealed class StGroup {
     val fileName
         get() = "${this::class.java.simpleName.decapitalize()}.stg"
 
+    object Descriptor : StGroup()
     object Entry : StGroup()
     object Enum : StGroup()
     object Header : StGroup()
-    object Oneof : StGroup()
     object Message : StGroup()
+    object Oneof : StGroup()
     object Options : StGroup()
     object Renderers : StGroup()
     object Services : StGroup()

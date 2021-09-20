@@ -15,13 +15,15 @@
 
 package com.toasttab.protokt.codegen.impl
 
+import arrow.core.firstOrNone
 import com.github.andrewoma.dexx.kollection.ImmutableSet
 import com.github.andrewoma.dexx.kollection.immutableSetOf
 import com.github.andrewoma.dexx.kollection.toImmutableSet
+import com.toasttab.protokt.codegen.impl.Annotator.grpc
+import com.toasttab.protokt.codegen.impl.Annotator.nonGrpc
 import com.toasttab.protokt.codegen.impl.ClassLookup.getClassOrNone
-import com.toasttab.protokt.codegen.impl.STAnnotator.grpc
-import com.toasttab.protokt.codegen.impl.STAnnotator.nonGrpc
 import com.toasttab.protokt.codegen.model.Import
+import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.model.pclass
 import com.toasttab.protokt.codegen.protoc.Enum
@@ -34,7 +36,6 @@ import com.toasttab.protokt.codegen.protoc.TypeDesc
 import com.toasttab.protokt.rt.KtDeserializer
 import com.toasttab.protokt.rt.KtEnum
 import com.toasttab.protokt.rt.KtEnumDeserializer
-import com.toasttab.protokt.rt.KtGeneratedMessage
 import com.toasttab.protokt.rt.KtMessage
 import com.toasttab.protokt.rt.KtMessageDeserializer
 import com.toasttab.protokt.rt.KtMessageSerializer
@@ -53,11 +54,15 @@ class ImportResolver(
             KtDeserializer::class,
             KtMessageDeserializer::class,
             KtMessageSerializer::class,
-            UnknownFieldSet::class,
-            KtGeneratedMessage::class
+            UnknownFieldSet::class
         ).map { pclass(it) }.toImmutableSet()
 
-    fun resolveImports(descs: List<TypeDesc>) =
+    private val descriptorImports =
+        setOf(
+            "com.toasttab.protokt.FileDescriptor"
+        ).map { Import.Class(PClass.fromName(it)) }
+
+    private fun resolveImports(descs: List<TypeDesc>) =
         descs.flatMapToSet { imports(it.type.rawType) }
             .asSequence()
             .filterNot { it.pkg == PPackage.KOTLIN }
@@ -73,7 +78,12 @@ class ImportResolver(
             is Message -> nonGrpc(ctx, immutableSetOf()) { imports(t) }
             is Enum -> nonGrpc(ctx, immutableSetOf()) { enumImports }
             is Service -> grpc(ctx, immutableSetOf()) { serviceImports(t) }
-        }
+        } +
+            if (!ctx.lite) {
+                descriptorImports
+            } else {
+                emptySet()
+            }
 
     private fun serviceImports(s: Service) =
         ServiceImportResolver(s).imports()
@@ -90,4 +100,16 @@ class ImportResolver(
         transform: (T) -> Iterable<R>
     ): ImmutableSet<R> =
         fold(immutableSetOf()) { s, e -> s + transform(e) }
+
+    companion object {
+        fun resolveImports(descs: List<TypeDesc>) =
+            descs.firstOrNone()
+                .fold(
+                    { emptySet() },
+                    {
+                        ImportResolver(it.desc.context, kotlinPackage(it))
+                            .resolveImports(descs)
+                    }
+                )
+    }
 }

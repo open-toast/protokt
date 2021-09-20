@@ -20,9 +20,10 @@ import com.google.protobuf.ExtensionRegistry
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.Feature
-import com.toasttab.protokt.codegen.impl.STAnnotator
-import com.toasttab.protokt.codegen.impl.STEffects
-import com.toasttab.protokt.codegen.impl.packagesByTypeName
+import com.toasttab.protokt.codegen.impl.Accumulator
+import com.toasttab.protokt.codegen.impl.Annotator
+import com.toasttab.protokt.codegen.impl.FileDescriptorResolver
+import com.toasttab.protokt.codegen.impl.ImportResolver
 import com.toasttab.protokt.codegen.impl.resolvePackage
 import com.toasttab.protokt.codegen.protoc.AnnotatedType
 import com.toasttab.protokt.codegen.protoc.ProtocolContext
@@ -49,7 +50,13 @@ internal fun main(bytes: ByteArray, out: OutputStream) {
 
     val files = req.protoFileList
         .filter { filesToGenerate.contains(it.name) }
-        .mapNotNull { response(it, generate(it, req.protoFileList, params), params) }
+        .mapNotNull {
+            response(
+                it,
+                generate(it, req.protoFileList, filesToGenerate, params),
+                params
+            )
+        }
 
     if (files.isNotEmpty()) {
         CodeGeneratorResponse.newBuilder()
@@ -63,6 +70,7 @@ internal fun main(bytes: ByteArray, out: OutputStream) {
 private fun generate(
     fdp: FileDescriptorProto,
     protoFileList: List<FileDescriptorProto>,
+    filesToGenerate: Set<String>,
     params: Map<String, String>
 ): String {
     val code = StringBuilder()
@@ -70,18 +78,18 @@ private fun generate(
         toProtocol(
             ProtocolContext(
                 fdp,
-                packagesByTypeName(
-                    protoFileList,
-                    respectJavaPackage(params)
-                ),
-                params
+                params,
+                filesToGenerate,
+                protoFileList
             )
         )
 
-    STEffects.apply(
-        protocol.types.map {
-            STAnnotator.apply(TypeDesc(protocol.desc, AnnotatedType(it)))
-        },
+    val descs = protocol.types.map { TypeDesc(protocol.desc, AnnotatedType(it)) }
+
+    Accumulator.apply(
+        descs.map(Annotator::apply),
+        ImportResolver.resolveImports(descs),
+        FileDescriptorResolver.resolveFileDescriptor(descs),
         code::append
     )
 
@@ -111,8 +119,7 @@ private fun parseParams(req: CodeGeneratorRequest) =
     } else {
         req.parameter
             .split(',')
-            .map { it.substringBefore('=') to it.substringAfter('=', "") }
-            .toMap()
+            .associate { it.substringBefore('=') to it.substringAfter('=', "") }
     }
 
 private fun parseCodeGeneratorRequest(bytes: ByteArray) =

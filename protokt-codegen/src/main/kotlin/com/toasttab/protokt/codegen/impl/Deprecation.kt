@@ -15,7 +15,7 @@
 
 package com.toasttab.protokt.codegen.impl
 
-import com.toasttab.protokt.codegen.impl.STAnnotator.Context
+import com.toasttab.protokt.codegen.impl.Annotator.Context
 import com.toasttab.protokt.codegen.protoc.Enum
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Oneof

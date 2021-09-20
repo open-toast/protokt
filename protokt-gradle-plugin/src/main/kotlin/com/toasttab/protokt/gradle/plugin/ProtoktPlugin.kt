@@ -17,6 +17,7 @@ package com.toasttab.protokt.gradle.plugin
 
 import com.toasttab.protokt.gradle.EXTENSIONS
 import com.toasttab.protokt.gradle.configureProtokt
+import com.toasttab.protokt.gradle.resolveProtoktCoreDep
 import com.toasttab.protokt.util.getProtoktVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -26,12 +27,14 @@ val protoktVersion by lazy { getProtoktVersion(ProtoktPlugin::class) }
 class ProtoktPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         configureProtokt(project) {
-            project.configurations.named(EXTENSIONS) {
-                it.dependencies.add(
-                    project.dependencies.create(
-                        "com.toasttab.protokt:protokt-core:$protoktVersion"
+            project.afterEvaluate {
+                project.configurations.named(EXTENSIONS) {
+                    dependencies.add(
+                        project.dependencies.create(
+                            "com.toasttab.protokt:${project.resolveProtoktCoreDep()}:$protoktVersion"
+                        )
                     )
-                )
+                }
             }
 
             binaryFromArtifact(project)

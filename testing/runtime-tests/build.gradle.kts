@@ -20,6 +20,7 @@ pureKotlin()
 
 protokt {
     generateGrpc = true
+    respectJavaPackage = false
 }
 
 dependencies {

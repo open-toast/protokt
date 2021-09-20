@@ -14,7 +14,7 @@
  */
 
 plugins {
-    `java-gradle-plugin`
+    `kotlin-dsl`
     id("com.gradle.plugin-publish") version "0.11.0"
 }
 
@@ -26,7 +26,7 @@ tasks.named<Jar>("jar") {
 }
 
 gradlePlugin {
-    setAutomatedPublishing(false)
+    isAutomatedPublishing = false
 
     plugins {
         create("protokt") {

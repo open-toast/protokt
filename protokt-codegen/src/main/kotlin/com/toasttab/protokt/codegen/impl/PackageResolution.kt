@@ -21,8 +21,8 @@ import arrow.core.orElse
 import com.google.protobuf.DescriptorProtos.DescriptorProto
 import com.google.protobuf.DescriptorProtos.EnumDescriptorProto
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
-import com.toasttab.protokt.codegen.impl.STAnnotator.protoktPkg
-import com.toasttab.protokt.codegen.impl.STAnnotator.rootGoogleProto
+import com.toasttab.protokt.codegen.impl.Annotator.protoktPkg
+import com.toasttab.protokt.codegen.impl.Annotator.rootGoogleProto
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.protoc.FileOptions
 import com.toasttab.protokt.codegen.protoc.fileOptions

@@ -24,7 +24,7 @@ object versions {
     const val kotlin = "1.4.32"
     const val kotlinxCoroutines = "1.3.9"
     const val protobuf = DEFAULT_PROTOBUF_VERSION
-    const val protobufPlugin = "0.8.16"
+    const val protobufPlugin = "0.8.17"
     const val stringTemplate = "4.3.1"
 
     // Test
@@ -39,7 +39,7 @@ object versions {
     const val wire = "3.5.0"
 
     // Third Party
-    const val protoGoogleCommonProtos = "1.18.0"
+    const val protoGoogleCommonProtos = "2.3.2"
 
     // Android
     const val androidGradle = "4.1.0"

@@ -16,7 +16,11 @@
 package com.toasttab.protokt.testing.pluginoptions
 
 import com.google.common.truth.Truth.assertThat
+import com.toasttab.protokt.TimestampProto
 import org.junit.jupiter.api.Test
+import toasttab.protokt.testing.ijp.WillBeImported
+import toasttab.protokt.testing.otherijp.UsesImport
+import tutorial.AddressBookProtos
 import tutorial.Person
 
 class IgnoreJavaPackageTest {
@@ -24,5 +28,20 @@ class IgnoreJavaPackageTest {
     fun `java_package option is ignored when plugin option requests it`() {
         assertThat(Person::class.java.`package`.name)
             .isEqualTo("tutorial")
+    }
+
+    @Test
+    fun `descriptor dependencies reference correctly qualified entities`() {
+        assertThat(
+            UsesImport.descriptor.dependencies
+        ).contains(
+            WillBeImported.descriptor
+        )
+
+        assertThat(
+            AddressBookProtos.descriptor.dependencies
+        ).contains(
+            TimestampProto.descriptor
+        )
     }
 }

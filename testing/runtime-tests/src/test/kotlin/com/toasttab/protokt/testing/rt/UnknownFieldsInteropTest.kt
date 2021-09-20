@@ -26,8 +26,8 @@ import com.toasttab.protokt.rt.UnknownFieldSet
 import com.toasttab.protokt.rt.VarintVal
 import org.junit.jupiter.api.Test
 import com.google.protobuf.UnknownFieldSet as JavaUnknownFieldSet
-import com.toasttab.protokt.testing.rt.Test as KtTest
 import com.toasttab.protokt.testing.rt.TestOuterClass.Test as JavaTest
+import toasttab.protokt.testing.rt.Test as KtTest
 
 class UnknownFieldsInteropTest {
     private val content = "this is a test".toByteArray()

@@ -38,6 +38,16 @@ sealed class <name>(
                 <map.keys:{k | <k> -> <map.(k).valueName>}; separator="\n">
                 else -> UNRECOGNIZED(value)
             }
+        <if (options.reflect)>
+
+        val descriptor by lazy {
+            <if (options.parentName)>
+            <options.parentName>.descriptor.enumTypes[<options.index>]
+            <else>
+            <options.fileDescriptorObjectName>.descriptor.enumTypes[<options.index>]
+            <endif>
+        }
+        <endif>
     }
 }
 

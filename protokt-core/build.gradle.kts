@@ -13,6 +13,7 @@
  * limitations under the License.
  */
 
+import com.google.protobuf.gradle.proto
 import com.google.protobuf.gradle.protobuf
 
 plugins {
@@ -23,7 +24,7 @@ localProtokt()
 pureKotlin()
 enablePublishing()
 compatibleWithAndroid()
-trackKotlinApiCompatibility()
+trackKotlinApiCompatibility(false)
 
 dependencies {
     api(project(":extensions:protokt-extensions-api"))
@@ -36,4 +37,15 @@ dependencies {
     implementation(libraries.kotlinReflect)
 
     kapt(libraries.autoService)
+}
+
+sourceSets {
+    main {
+        proto {
+            srcDir("../protokt-runtime/src/main/resources")
+        }
+        java {
+            srcDir("../protokt-core-lite/src/main/kotlin")
+        }
+    }
 }

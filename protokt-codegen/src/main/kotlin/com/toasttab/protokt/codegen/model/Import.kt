@@ -49,6 +49,13 @@ sealed class Import {
         override val simpleName = name
         override val nested = true
     }
+
+    data class Literal(val value: String) : Import() {
+        override val qualifiedName = value
+        override val simpleName = value.substringAfterLast('.')
+        override val pkg = PPackage.fromString(value.substringBeforeLast('.'))
+        override val nested = false // unknown, really
+    }
 }
 
 fun method(pkg: String, name: String): Import =

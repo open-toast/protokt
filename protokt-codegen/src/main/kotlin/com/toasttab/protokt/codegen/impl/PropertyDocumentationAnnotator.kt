@@ -17,8 +17,8 @@ package com.toasttab.protokt.codegen.impl
 
 import com.google.protobuf.DescriptorProtos.DescriptorProto.FIELD_FIELD_NUMBER
 import com.google.protobuf.DescriptorProtos.DescriptorProto.ONEOF_DECL_FIELD_NUMBER
+import com.toasttab.protokt.codegen.impl.Annotator.Context
 import com.toasttab.protokt.codegen.impl.MessageDocumentationAnnotator.baseLocation
-import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.protoc.Field
 import com.toasttab.protokt.codegen.protoc.Oneof
 import com.toasttab.protokt.codegen.protoc.StandardField

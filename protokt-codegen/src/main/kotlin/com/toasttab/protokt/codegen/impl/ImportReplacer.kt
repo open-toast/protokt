@@ -18,7 +18,7 @@ package com.toasttab.protokt.codegen.impl
 import com.toasttab.protokt.codegen.model.Import
 
 object ImportReplacer {
-    fun replaceImports(code: String, imports: Set<Import>) =
+    fun replaceImports(code: CharSequence, imports: Set<Import>) =
         imports
             // replace longer imports first, as they might be clobbered
             // by parent imports with the same prefix
