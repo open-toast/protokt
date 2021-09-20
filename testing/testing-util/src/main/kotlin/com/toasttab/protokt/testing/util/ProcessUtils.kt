@@ -17,10 +17,10 @@ package com.toasttab.protokt.testing.util
 
 import com.toasttab.protokt.testing.util.ProcessOutput.Src.ERR
 import com.toasttab.protokt.testing.util.ProcessOutput.Src.OUT
+import org.junit.jupiter.api.fail
 import java.io.File
 import java.nio.file.Path
 import java.util.concurrent.TimeUnit
-import org.junit.jupiter.api.fail
 
 val projectRoot =
     File(System.getProperty("user.dir")).parentFile.absolutePath

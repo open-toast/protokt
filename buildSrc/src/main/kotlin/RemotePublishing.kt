@@ -154,9 +154,11 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
 
         val publishingExtension = project.the<PublishingExtension>()
 
-        dependsOn(tasks.withType<PublishToMavenRepository>().matching {
-            it.repository == publishingExtension.repositories.getByName("integration")
-        })
+        dependsOn(
+            tasks.withType<PublishToMavenRepository>().matching {
+                it.repository == publishingExtension.repositories.getByName("integration")
+            }
+        )
     }
 
     tasks.register("publishToRemote") {
@@ -166,9 +168,11 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
         if (enabled) {
             val publishingExtension = project.the<PublishingExtension>()
 
-            dependsOn(tasks.withType<PublishToMavenRepository>().matching {
-                it.repository == publishingExtension.repositories.getByName("remote")
-            })
+            dependsOn(
+                tasks.withType<PublishToMavenRepository>().matching {
+                    it.repository == publishingExtension.repositories.getByName("remote")
+                }
+            )
         }
     }
 }

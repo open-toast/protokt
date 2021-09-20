@@ -51,8 +51,7 @@ private fun descsUsing(import: Import.Class, descs: List<TypeDesc>) =
 
 private fun searchTypes(t: TopLevelType, import: Import.Class): Boolean =
     t is Message &&
-        (searchFields(t, import) ||
-            t.nestedTypes.any { searchTypes(it, import) })
+        (searchFields(t, import) || t.nestedTypes.any { searchTypes(it, import) })
 
 private fun searchFields(msg: Message, import: Import.Class) =
     msg.fields.any {
