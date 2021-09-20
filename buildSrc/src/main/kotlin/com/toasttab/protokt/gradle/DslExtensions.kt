@@ -28,13 +28,13 @@ fun Project.protokt(cfg: ProtoktExtension.() -> Unit) = project.configure(cfg)
 fun DependencyHandler.protoktExtensions(dependencyNotation: Any): Dependency? =
     add(EXTENSIONS, dependencyNotation)
 
-inline fun <T : ModuleDependency> DependencyHandler.protoktExtensions(
+fun <T : ModuleDependency> DependencyHandler.protoktExtensions(
     dependencyNotation: T,
     dependencyConfiguration: T.() -> Unit
 ): Dependency =
     add(EXTENSIONS, dependencyNotation, dependencyConfiguration)
 
-inline fun DependencyHandler.protoktExtensions(
+fun DependencyHandler.protoktExtensions(
     dependencyNotation: String,
     dependencyConfiguration: ExternalModuleDependency.() -> Unit
 ): ExternalModuleDependency =
@@ -47,13 +47,13 @@ inline fun DependencyHandler.protoktExtensions(
 fun DependencyHandler.testProtoktExtensions(dependencyNotation: Any): Dependency? =
     add(TEST_EXTENSIONS, dependencyNotation)
 
-inline fun <T : ModuleDependency> DependencyHandler.testProtoktExtensions(
+fun <T : ModuleDependency> DependencyHandler.testProtoktExtensions(
     dependencyNotation: T,
     dependencyConfiguration: T.() -> Unit
 ): Dependency =
     add(TEST_EXTENSIONS, dependencyNotation, dependencyConfiguration)
 
-inline fun DependencyHandler.testProtoktExtensions(
+fun DependencyHandler.testProtoktExtensions(
     dependencyNotation: String,
     dependencyConfiguration: ExternalModuleDependency.() -> Unit
 ): ExternalModuleDependency =

@@ -16,6 +16,8 @@
 package com.toasttab.protokt.codegen.impl
 
 import arrow.core.firstOrNone
+import com.toasttab.protokt.codegen.impl.Annotator.Context
+import com.toasttab.protokt.codegen.impl.Annotator.annotate
 import com.toasttab.protokt.codegen.impl.Deprecation.enclosingDeprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.hasDeprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
@@ -26,14 +28,13 @@ import com.toasttab.protokt.codegen.impl.MapEntryAnnotator.Companion.annotateMap
 import com.toasttab.protokt.codegen.impl.MessageDocumentationAnnotator.annotateMessageDocumentation
 import com.toasttab.protokt.codegen.impl.OneofAnnotator.Companion.annotateOneofs
 import com.toasttab.protokt.codegen.impl.PropertyAnnotator.Companion.annotateProperties
-import com.toasttab.protokt.codegen.impl.STAnnotator.Context
-import com.toasttab.protokt.codegen.impl.STAnnotator.annotate
 import com.toasttab.protokt.codegen.impl.SerializerAnnotator.Companion.annotateSerializer
 import com.toasttab.protokt.codegen.impl.SizeofAnnotator.Companion.annotateSizeof
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.template.Message.Message.MessageInfo
 import com.toasttab.protokt.codegen.template.Message.Message.Options
+import com.toasttab.protokt.codegen.template.Message.Message.ReflectInfo
 import com.toasttab.protokt.codegen.template.Message.Message as MessageTemplate
 
 class MessageAnnotator
@@ -53,7 +54,8 @@ private constructor(
                 serialize = annotateSerializer(msg, ctx),
                 deserialize = annotateDeserializer(msg, ctx),
                 nested = nestedTypes(),
-                options = options(msg, ctx)
+                reflect = reflectInfo(),
+                options = options()
             )
         }
 
@@ -67,8 +69,7 @@ private constructor(
             implements = msg.implements,
             documentation = annotateMessageDocumentation(ctx),
             deprecation = deprecation(),
-            suppressDeprecation = suppressDeprecation(),
-            fullTypeName = msg.fullProtobufTypeName
+            suppressDeprecation = suppressDeprecation()
         )
 
     private fun deprecation() =
@@ -86,7 +87,7 @@ private constructor(
     private fun messageIsTopLevel() =
         ctx.enclosing.firstOrNone().fold({ false }, { it == msg })
 
-    private fun options(msg: Message, ctx: Context): Options {
+    private fun options(): Options {
         val lengthAsOneLine =
             ctx.enclosing.size * 4 +
                 4 + // companion indentation
@@ -99,6 +100,17 @@ private constructor(
             longDeserializer = lengthAsOneLine > IDEAL_MAX_WIDTH
         )
     }
+
+    private fun reflectInfo() =
+        if (ctx.desc.context.lite) {
+            null
+        } else {
+            ReflectInfo(
+                fileDescriptorObjectName = ctx.desc.context.fileDescriptorObjectName,
+                index = msg.index,
+                parentName = msg.parentName
+            )
+        }
 
     companion object {
         const val IDEAL_MAX_WIDTH = 100

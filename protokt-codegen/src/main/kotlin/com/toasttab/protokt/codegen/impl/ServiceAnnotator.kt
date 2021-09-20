@@ -15,24 +15,36 @@
 
 package com.toasttab.protokt.codegen.impl
 
-import com.toasttab.protokt.codegen.impl.STAnnotator.Context
+import com.toasttab.protokt.codegen.impl.Annotator.Context
 import com.toasttab.protokt.codegen.protoc.Method
+import com.toasttab.protokt.codegen.protoc.ProtocolContext
 import com.toasttab.protokt.codegen.protoc.Service
 import com.toasttab.protokt.codegen.template.Services.Descriptor
 import com.toasttab.protokt.codegen.template.Services.Method.MethodOptions
 import com.toasttab.protokt.codegen.template.Services.MethodType
 import com.toasttab.protokt.codegen.template.Services.Service.MethodInfo
+import com.toasttab.protokt.codegen.template.Services.Service.ReflectInfo
 import com.toasttab.protokt.codegen.template.Services.Method as MethodTemplate
 import com.toasttab.protokt.codegen.template.Services.Service as ServiceTemplate
 
 internal object ServiceAnnotator {
-    fun annotateService(s: Service, ctx: Context) =
+    fun annotateService(s: Service, ctx: Context, generateService: Boolean) =
         ServiceTemplate.render(
+            generateService = generateService,
+            generateDescriptor = generateDescriptor(ctx.desc.context),
             name = s.name,
             qualifiedName = renderQualifiedName(s, ctx),
-            descriptor = renderDescriptor(s),
-            methods = renderMethods(s, ctx)
+            grpcDescriptor = renderDescriptor(s),
+            methods = renderMethods(s, ctx),
+            reflectInfo =
+            ReflectInfo(
+                s.index,
+                ctx.desc.context.fileDescriptorObjectName
+            )
         )
+
+    private fun generateDescriptor(ctx: ProtocolContext) =
+        !ctx.onlyGenerateGrpc && !ctx.lite
 
     private fun renderQualifiedName(s: Service, ctx: Context) =
         if (ctx.pkg.default) {

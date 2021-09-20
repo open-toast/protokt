@@ -29,6 +29,7 @@ rootProject.name = "protokt"
 include(
     "protokt-codegen",
     "protokt-core",
+    "protokt-core-lite",
     "protokt-runtime",
     "protokt-runtime-grpc",
     "protokt-gradle-plugin",
@@ -56,6 +57,7 @@ include(
     "testing:options-test-configurations",
     "testing:plugin-options",
     "testing:plugin-options:ignore-java-package",
+    "testing:plugin-options:lite",
     "testing:protobuf-java",
     "testing:runtime-tests",
     "testing:testing-util",

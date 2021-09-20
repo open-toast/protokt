@@ -15,6 +15,8 @@
 
 package com.toasttab.protokt.codegen.protoc
 
+import com.google.protobuf.DescriptorProtos.FileDescriptorProto
+import com.toasttab.protokt.codegen.impl.resolvePackage
 import com.toasttab.protokt.codegen.model.PPackage
 
 internal object Keywords {
@@ -154,4 +156,42 @@ internal fun fileName(pkg: PPackage?, name: String): String {
     return (pkg?.toString()?.replace('.', '/')?.plus('/') ?: "") +
         name.substringAfterLast('/').removeSuffix(".proto") +
         ".kt"
+}
+
+internal fun generateFdpObjectNames(
+    files: List<FileDescriptorProto>,
+    respectJavaPackage: Boolean
+): Map<String, String> {
+    val usedNames = mutableSetOf<String>()
+    val names = mutableMapOf<String, String>()
+
+    files.forEach { fdp ->
+        var name =
+            fdp.fileOptions.protokt.fileDescriptorObjectName.takeIf { it.isNotEmpty() }
+                ?: fdp.fileOptions.default.javaOuterClassname.takeIf { it.isNotEmpty() }
+                ?: fdp.name
+                    .substringBefore(".proto")
+                    .substringAfterLast('/')
+                    .let(::snakeToCamel)
+                    .capitalize()
+
+        val topLevelNames =
+            files.filter {
+                resolvePackage(it, respectJavaPackage) ==
+                    resolvePackage(fdp, respectJavaPackage)
+            }.flatMapTo(mutableSetOf<String>()) {
+                fdp.enumTypeList.map { e -> e.name } +
+                    fdp.messageTypeList.map { m -> m.name } +
+                    fdp.serviceList.map { s -> s.name }
+            }
+
+        while (name in usedNames || name in topLevelNames) {
+            name += "_"
+        }
+
+        usedNames.add(name)
+        names[fdp.name] = name
+    }
+
+    return names
 }

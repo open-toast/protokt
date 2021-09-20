@@ -25,3 +25,8 @@ buildscript {
 apply(plugin = "net.vivin.gradle-semantic-build-versioning")
 
 rootProject.name = "gradle-plugin-integration-test"
+
+listOf(
+    "regular",
+    "lite"
+).forEach { include(it) }

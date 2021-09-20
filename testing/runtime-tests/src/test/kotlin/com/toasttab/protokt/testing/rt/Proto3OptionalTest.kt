@@ -17,6 +17,7 @@ package com.toasttab.protokt.testing.rt
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
+import toasttab.protokt.testing.rt.TestProto3Optional
 
 class Proto3OptionalTest {
     @Test

@@ -19,8 +19,8 @@ import arrow.core.None
 import arrow.core.Option
 import arrow.core.Some
 import arrow.core.getOrElse
+import com.toasttab.protokt.codegen.impl.Annotator.Context
 import com.toasttab.protokt.codegen.impl.MessageAnnotator.Companion.IDEAL_MAX_WIDTH
-import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptReadFn
 import com.toasttab.protokt.codegen.impl.Wrapper.keyWrapped
 import com.toasttab.protokt.codegen.impl.Wrapper.mapKeyConverter

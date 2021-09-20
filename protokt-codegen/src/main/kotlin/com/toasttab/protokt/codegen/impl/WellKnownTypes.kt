@@ -17,7 +17,7 @@ package com.toasttab.protokt.codegen.impl
 
 import arrow.core.None
 import arrow.core.orElse
-import com.toasttab.protokt.codegen.impl.STAnnotator.googleProto
+import com.toasttab.protokt.codegen.impl.Annotator.googleProto
 import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.codegen.template.Options.JavaClassNameForWellKnownType
 

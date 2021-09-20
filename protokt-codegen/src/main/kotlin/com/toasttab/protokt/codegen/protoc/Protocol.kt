@@ -34,7 +34,7 @@ import com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Label.LABEL_REP
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.google.protobuf.DescriptorProtos.OneofDescriptorProto
 import com.google.protobuf.DescriptorProtos.ServiceDescriptorProto
-import com.toasttab.protokt.codegen.impl.STAnnotator.rootGoogleProto
+import com.toasttab.protokt.codegen.impl.Annotator.rootGoogleProto
 import com.toasttab.protokt.codegen.impl.overrideGoogleProtobuf
 import com.toasttab.protokt.codegen.impl.resolveMapEntry
 import com.toasttab.protokt.codegen.model.FieldType
@@ -54,6 +54,7 @@ fun toProtocol(ctx: ProtocolContext) =
             ctx,
             ctx.fdp.enumTypeList,
             ctx.fdp.messageTypeList,
+            null,
             ctx.fdp.serviceList
         )
     )
@@ -91,33 +92,35 @@ private fun toTypeList(
     ctx: ProtocolContext,
     enums: List<EnumDescriptorProto>,
     messages: List<DescriptorProto>,
+    parentName: String? = null,
     services: List<ServiceDescriptorProto> = emptyList()
 ): ImmutableList<TopLevelType> =
     enums.foldIndexed(
         Pair(immutableSetOf<String>(), immutableListOf<TopLevelType>())
     ) { idx, acc, t ->
-        val e = toEnum(idx, t, acc.first)
+        val e = toEnum(idx, t, acc.first, parentName)
         Pair(acc.first + e.name, acc.second + e)
     }.second +
 
         messages.foldIndexed(
             Pair(immutableSetOf<String>(), immutableListOf<TopLevelType>())
         ) { idx, acc, t ->
-            val m = toMessage(idx, ctx, t, acc.first)
+            val m = toMessage(idx, ctx, t, acc.first, parentName)
             Pair(acc.first + m.name, acc.second + m)
         }.second +
 
-        services.fold(
+        services.foldIndexed(
             Pair(immutableSetOf<String>(), immutableListOf<TopLevelType>())
-        ) { acc, t ->
-            val s = toService(t, ctx, acc.first)
+        ) { idx, acc, t ->
+            val s = toService(idx, t, ctx, acc.first)
             Pair(acc.first + s.type, acc.second + s)
         }.second
 
 private fun toEnum(
     idx: Int,
     desc: EnumDescriptorProto,
-    names: ImmutableSet<String>
+    names: ImmutableSet<String>,
+    parentName: String?
 ): Enum {
     val typeName = newTypeNameFromCamel(desc.name, names)
 
@@ -153,7 +156,8 @@ private fun toEnum(
         options = EnumOptions(
             desc.options,
             desc.options.getExtension(Protokt.enum_)
-        )
+        ),
+        parentName = parentName
     )
 }
 
@@ -161,7 +165,8 @@ private fun toMessage(
     idx: Int,
     ctx: ProtocolContext,
     desc: DescriptorProto,
-    names: Set<String>
+    names: Set<String>,
+    parentName: String?
 ): Message {
     val typeName = newTypeNameFromPascal(desc.name, names)
     val fieldList = toFields(ctx, desc, names + typeName)
@@ -173,18 +178,19 @@ private fun toMessage(
                 is Oneof -> it.fields.first()
             }.number
         },
-        nestedTypes = toTypeList(ctx, desc.enumTypeList, desc.nestedTypeList),
+        nestedTypes = toTypeList(ctx, desc.enumTypeList, desc.nestedTypeList, typeName),
         mapEntry = desc.options?.mapEntry == true,
         options = MessageOptions(
             desc.options,
             desc.options.getExtension(Protokt.class_)
         ),
         index = idx,
-        fullProtobufTypeName = "${ctx.fdp.`package`}.${desc.name}"
+        parentName = parentName
     )
 }
 
 private fun toService(
+    idx: Int,
     desc: ServiceDescriptorProto,
     ctx: ProtocolContext,
     names: Set<String>
@@ -197,7 +203,8 @@ private fun toService(
         options = ServiceOptions(
             desc.options,
             desc.options.getExtension(Protokt.service)
-        )
+        ),
+        index = idx
     )
 
 private fun toMethod(
@@ -342,13 +349,7 @@ private fun packed(type: FieldType, fdp: FieldDescriptorProto, ctx: ProtocolCont
                 // and `packed` is true. If proto3, only explicitly
                 // setting `packed` to false disables packing, since
                 // the default value for an unset boolean is false.
-                (
-                    ctx.proto3 &&
-                        (
-                            !fdp.options.hasPacked() ||
-                                (fdp.options.hasPacked() && fdp.options.packed)
-                            )
-                    )
+                (ctx.proto3 && (!fdp.options.hasPacked() || (fdp.options.hasPacked() && fdp.options.packed)))
             )
 
 private fun mapEntry(usedFieldNames: Set<String>, fdp: FieldDescriptorProto, ctx: ProtocolContext) =
@@ -360,7 +361,7 @@ private fun mapEntry(usedFieldNames: Set<String>, fdp: FieldDescriptorProto, ctx
                 { null },
                 {
                     resolveMapEntry(
-                        toMessage(-1, ctx, it, usedFieldNames)
+                        toMessage(-1, ctx, it, usedFieldNames, null)
                     )
                 }
             )
@@ -431,7 +432,7 @@ private fun requalifyProtoType(typeName: String, ctx: ProtocolContext): PClass {
     return if (ctx.respectJavaPackage) {
         PClass.fromName(
             withOverriddenReservedName.nestedName
-        ).qualify(ctx.ppackage(typeName))
+        ).qualify(ctx.allPackagesByTypeName.getValue(typeName))
     } else {
         withOverriddenReservedName
     }

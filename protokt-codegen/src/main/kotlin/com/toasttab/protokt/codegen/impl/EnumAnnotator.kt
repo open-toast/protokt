@@ -15,12 +15,12 @@
 
 package com.toasttab.protokt.codegen.impl
 
+import com.toasttab.protokt.codegen.impl.Annotator.Context
 import com.toasttab.protokt.codegen.impl.Deprecation.enclosingDeprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.hasDeprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
 import com.toasttab.protokt.codegen.impl.EnumDocumentationAnnotator.Companion.annotateEnumDocumentation
 import com.toasttab.protokt.codegen.impl.EnumDocumentationAnnotator.Companion.annotateEnumFieldDocumentation
-import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.protoc.Enum
 import com.toasttab.protokt.codegen.template.Enum.Enum.EnumInfo
 import com.toasttab.protokt.codegen.template.Enum.Enum.EnumOptions
@@ -58,7 +58,11 @@ private constructor(
         EnumOptions(
             documentation = annotateEnumDocumentation(e, ctx),
             deprecation = enumDeprecation(),
-            suppressDeprecation = e.hasDeprecation && !enclosingDeprecation(ctx)
+            suppressDeprecation = (e.hasDeprecation && !enclosingDeprecation(ctx)),
+            parentName = e.parentName,
+            index = e.index,
+            fileDescriptorObjectName = ctx.desc.context.fileDescriptorObjectName,
+            reflect = !ctx.desc.context.lite
         )
 
     private fun enumDeprecation() =

@@ -26,8 +26,8 @@ import com.toasttab.protokt.rt.SInt32
 import com.toasttab.protokt.rt.SInt64
 import com.toasttab.protokt.rt.UInt32
 import com.toasttab.protokt.rt.UInt64
-import kotlin.reflect.full.declaredMemberProperties
 import org.junit.jupiter.api.Test
+import kotlin.reflect.full.declaredMemberProperties
 
 class NumberTypesFieldNameRegressionTest {
     @Test

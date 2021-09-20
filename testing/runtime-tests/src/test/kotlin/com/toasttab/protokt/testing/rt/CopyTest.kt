@@ -15,9 +15,9 @@
 
 package com.toasttab.protokt.testing.rt
 
-import com.example.tutorial.Person
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
+import tutorial.Person
 
 class CopyTest {
     @Test

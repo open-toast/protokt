@@ -17,8 +17,8 @@ package com.toasttab.protokt.codegen.impl
 
 import com.google.protobuf.DescriptorProtos.DescriptorProto.ENUM_TYPE_FIELD_NUMBER
 import com.google.protobuf.DescriptorProtos.EnumDescriptorProto.VALUE_FIELD_NUMBER
+import com.toasttab.protokt.codegen.impl.Annotator.Context
 import com.toasttab.protokt.codegen.impl.MessageDocumentationAnnotator.baseLocation
-import com.toasttab.protokt.codegen.impl.STAnnotator.Context
 import com.toasttab.protokt.codegen.protoc.Enum
 
 internal class EnumDocumentationAnnotator

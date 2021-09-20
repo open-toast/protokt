@@ -16,9 +16,11 @@
 package com.toasttab.protokt.codegen.protoc
 
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
-import com.toasttab.protokt.codegen.model.PPackage
+import com.toasttab.protokt.codegen.impl.packagesByTypeName
+import com.toasttab.protokt.codegen.impl.resolvePackage
 import com.toasttab.protokt.gradle.GENERATE_GRPC
 import com.toasttab.protokt.gradle.KOTLIN_EXTRA_CLASSPATH
+import com.toasttab.protokt.gradle.LITE
 import com.toasttab.protokt.gradle.ONLY_GENERATE_GRPC
 import com.toasttab.protokt.gradle.RESPECT_JAVA_PACKAGE
 import com.toasttab.protokt.util.getProtoktVersion
@@ -26,26 +28,47 @@ import java.net.URLDecoder
 
 class ProtocolContext(
     val fdp: FileDescriptorProto,
-    val allPackagesByTypeName: Map<String, PPackage>,
-    params: Map<String, String>
+    params: Map<String, String>,
+    val filesToGenerate: Set<String>,
+    allFiles: List<FileDescriptorProto>
 ) {
-    val classpath = params.getOrDefault(KOTLIN_EXTRA_CLASSPATH, "").split(";").map {
-        URLDecoder.decode(it, "UTF-8")
-    }
+    val classpath =
+        params.getOrDefault(KOTLIN_EXTRA_CLASSPATH, "").split(";").map {
+            URLDecoder.decode(it, "UTF-8")
+        }
 
     val respectJavaPackage = respectJavaPackage(params)
     val generateGrpc = params.getValue(GENERATE_GRPC).toBoolean()
     val onlyGenerateGrpc = params.getValue(ONLY_GENERATE_GRPC).toBoolean()
+    val lite = params.getValue(LITE).toBoolean()
 
     val fileName = fdp.name
     val version = getProtoktVersion(ProtocolContext::class)
 
     val proto2 = !fdp.hasSyntax() || fdp.syntax == "proto2"
     val proto3 = fdp.syntax == "proto3"
+
+    val allPackagesByTypeName =
+        packagesByTypeName(allFiles, respectJavaPackage(params))
+
+    val allPackagesByFileName =
+        allFiles.associate {
+            it.name to
+                resolvePackage(
+                    it,
+                    it.name !in filesToGenerate ||
+                        respectJavaPackage(params)
+                )
+        }
+
+    val allFilesByName = allFiles.associateBy { it.name }
+
+    val allDescriptorClassNamesByDescriptorName =
+        generateFdpObjectNames(allFiles, respectJavaPackage(params))
+
+    val fileDescriptorObjectName =
+        allDescriptorClassNamesByDescriptorName.getValue(fdp.name)
 }
 
 fun respectJavaPackage(params: Map<String, String>) =
     params.getValue(RESPECT_JAVA_PACKAGE).toBoolean()
-
-fun ProtocolContext.ppackage(typeName: String) =
-    allPackagesByTypeName.getValue(typeName)

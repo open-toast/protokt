@@ -21,15 +21,15 @@ The example sources are organized into the following top-level folders:
 Start a server, either based on grpc-java or grpc-kotlin bindings:
 
 ```sh
-protokt % ./gradlew :examples:grpc-[java|kotlin]:AnimalsServer
+protokt % ./gradlew :examples:grpc-[java|kotlin|java-lite|kotlin-lite]:AnimalsServer
 ```
 
 In another console, run either client against the "dog", "pig", and "sheep" services:
 
 ```sh
-protokt % ./gradlew :examples:grpc-[java|kotlin]:AnimalsClient --args=dog
-protokt % ./gradlew :examples:grpc-[java|kotlin]:AnimalsClient --args=pig
-protokt % ./gradlew :examples:grpc-[java|kotlin]:AnimalsClient --args=sheep
+protokt % ./gradlew :examples:grpc-[java|kotlin|java-lite|kotlin-lite]:AnimalsClient --args=dog
+protokt % ./gradlew :examples:grpc-[java|kotlin|java-lite|kotlin-lite]:AnimalsClient --args=pig
+protokt % ./gradlew :examples:grpc-[java|kotlin|java-lite|kotlin-lite]:AnimalsClient --args=sheep
 ```
 
 ### Greeter
@@ -37,13 +37,13 @@ protokt % ./gradlew :examples:grpc-[java|kotlin]:AnimalsClient --args=sheep
 Start a server, either based on grpc-java or grpc-kotlin bindings:
 
 ```sh
-protokt % ./gradlew :examples:grpc-[java|kotlin]:HelloWorldServer
+protokt % ./gradlew :examples:grpc-[java|kotlin|java-lite|kotlin-lite]:HelloWorldServer
 ```
 
-In another console, run either client:
+In another console, run any client:
 
 ```sh
-protokt % ./gradlew :examples:grpc-[java|kotlin]:HelloWorldClient
+protokt % ./gradlew :examples:grpc-[java|kotlin|java-lite|kotlin-lite]:HelloWorldClient
 ```
 
 ### Route Guide
@@ -51,11 +51,11 @@ protokt % ./gradlew :examples:grpc-[java|kotlin]:HelloWorldClient
 Start a server, either based on grpc-java or grpc-kotlin bindings:
 
 ```sh
-protokt % ./gradlew :examples:grpc-[java|kotlin]:RouteGuideServer
+protokt % ./gradlew :examples:grpc-[java|kotlin|java-lite|kotlin-lite]:RouteGuideServer
 ```
 
 In another console, run either client:
 
 ```sh
-protokt % ./gradlew :examples:grpc-[java|kotlin]:RouteGuideClient
+protokt % ./gradlew :examples:grpc-[java|kotlin|java-lite|kotlin-lite]:RouteGuideClient
 ```

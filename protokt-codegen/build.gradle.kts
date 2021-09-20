@@ -69,12 +69,6 @@ configure<PublishingExtension> {
     }
 }
 
-idea {
-    module {
-        generatedSourceDirs.add(file("$buildDir/generated/source/proto"))
-    }
-}
-
 protobuf {
     protoc {
         artifact = libraries.protoc
@@ -84,7 +78,7 @@ protobuf {
 sourceSets {
     main {
         proto {
-            srcDir("../protokt-runtime/src/main/resources/protokt")
+            srcDir("../protokt-runtime/src/main/resources")
         }
     }
 }
