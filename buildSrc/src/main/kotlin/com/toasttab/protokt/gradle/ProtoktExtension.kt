@@ -24,14 +24,13 @@ open class ProtoktExtension {
     var protocVersion = DEFAULT_PROTOBUF_VERSION
 
     /**
-     * Whether or not to respect protobuf's `java_package` option while
-     * generating code
+     * Whether to respect protobuf's `java_package` option while generating code
      */
     var respectJavaPackage = true
 
     /**
-     * Whether or not to generate gRPC-specific code such as MethodDescriptors
-     * and ServiceDescriptors. If enabled, the project will have to import gRPC's
+     * Whether to generate gRPC-specific code such as MethodDescriptors and
+     * ServiceDescriptors. If enabled, the project will have to import gRPC's
      * stub dependency to compile.
      */
     var generateGrpc = false
