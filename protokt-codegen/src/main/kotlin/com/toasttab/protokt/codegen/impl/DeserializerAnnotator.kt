@@ -20,7 +20,7 @@ import arrow.core.Option
 import arrow.core.Some
 import arrow.core.getOrElse
 import com.toasttab.protokt.codegen.impl.Annotator.Context
-import com.toasttab.protokt.codegen.impl.MessageAnnotator.idealMaxWidth
+import com.toasttab.protokt.codegen.impl.MessageAnnotator.Companion.IDEAL_MAX_WIDTH
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptReadFn
 import com.toasttab.protokt.codegen.impl.Wrapper.keyWrapped
 import com.toasttab.protokt.codegen.impl.Wrapper.mapKeyConverter
@@ -91,7 +91,7 @@ private constructor(
                 field.name.length +
                 3 // ` = `
 
-        val spaceLeft = idealMaxWidth - spaceTaken
+        val spaceLeft = IDEAL_MAX_WIDTH - spaceTaken
 
         return value.length > spaceLeft
     }
@@ -102,20 +102,22 @@ private constructor(
             read = interceptReadFn(f, f.readFn()),
             lhs = f.fieldName,
             packed = packed,
-            options =
-                if (f.wrapped || f.keyWrapped || f.valueWrapped) {
-                    Options(
-                        wrapName = wrapperName(f, ctx).getOrElse { "" },
-                        keyWrap = mapKeyConverter(f, ctx),
-                        valueWrap = mapValueConverter(f, ctx),
-                        valueType = f.mapEntry?.value?.type,
-                        type = f.type.toString(),
-                        oneof = true
-                    )
-                } else {
-                    null
-                }
+            options = deserializeOptions(f)
         )
+
+    private fun deserializeOptions(f: StandardField) =
+        if (f.wrapped || f.keyWrapped || f.valueWrapped) {
+            Options(
+                wrapName = wrapperName(f, ctx).getOrElse { "" },
+                keyWrap = mapKeyConverter(f, ctx),
+                valueWrap = mapValueConverter(f, ctx),
+                valueType = f.mapEntry?.value?.type,
+                type = f.type.toString(),
+                oneof = true
+            )
+        } else {
+            null
+        }
 
     private fun Message.flattenedSortedFields() =
         fields.flatMap {
@@ -142,12 +144,14 @@ private constructor(
     private fun StandardField.readFn() =
         Read.render(
             type = type,
-            builder =
-                when (type) {
-                    FieldType.ENUM, FieldType.MESSAGE -> stripQualification(this)
-                    else -> ""
-                }
+            builder = readFnBuilder(type)
         )
+
+    private fun StandardField.readFnBuilder(type: FieldType) =
+        when (type) {
+            FieldType.ENUM, FieldType.MESSAGE -> stripQualification(this)
+            else -> ""
+        }
 
     private fun stripQualification(f: StandardField) =
         stripEnclosingMessageName(f.typePClass.renderName(ctx.pkg))

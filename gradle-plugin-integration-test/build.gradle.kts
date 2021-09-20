@@ -20,6 +20,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     idea
+    kotlin("jvm") version System.getProperty("kotlin.version", "1.4.32")
+    id("com.diffplug.spotless") version "5.15.0"
 }
 
 buildscript {
@@ -31,8 +33,6 @@ buildscript {
 
     dependencies {
         classpath("com.toasttab.protokt:protokt-gradle-plugin:$version")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${System.getProperty("kotlin.version", "1.4.32")}")
-        classpath("com.diffplug.spotless:spotless-plugin-gradle:5.14.1")
     }
 }
 

@@ -120,7 +120,7 @@ private sealed class Boxed(
 ) : Scalar() {
     override val kotlinRepresentation
         get() = inlineRepresentation.declaredMemberProperties
-            .single { it.name == com.toasttab.protokt.rt.Boxed::value.name }
+            .single { it.name == com.toasttab.protokt.rt.Fixed32::value.name }
             .returnType
             .classifier as KClass<*>
 

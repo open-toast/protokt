@@ -17,8 +17,8 @@ package com.toasttab.protokt.codegen.impl
 
 import arrow.core.Some
 import com.github.andrewoma.dexx.kollection.immutableListOf
-import com.toasttab.protokt.codegen.impl.EnumAnnotator.annotateEnum
-import com.toasttab.protokt.codegen.impl.MessageAnnotator.annotateMessage
+import com.toasttab.protokt.codegen.impl.EnumAnnotator.Companion.annotateEnum
+import com.toasttab.protokt.codegen.impl.MessageAnnotator.Companion.annotateMessage
 import com.toasttab.protokt.codegen.impl.ServiceAnnotator.annotateService
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.protoc.AnnotatedType
@@ -50,22 +50,22 @@ object Annotator {
     )
 
     fun apply(data: TypeDesc) =
-            TypeDesc(
-                data.desc,
-                AnnotatedType(
-                    data.type.rawType,
-                    Some(
-                        annotate(
-                            data.type.rawType,
-                            Context(
-                                immutableListOf(),
-                                kotlinPackage(data),
-                                data.desc
-                            )
+        TypeDesc(
+            data.desc,
+            AnnotatedType(
+                data.type.rawType,
+                Some(
+                    annotate(
+                        data.type.rawType,
+                        Context(
+                            immutableListOf(),
+                            kotlinPackage(data),
+                            data.desc
                         )
                     )
                 )
             )
+        )
 
     fun annotate(type: TopLevelType, ctx: Context): String =
         when (type) {

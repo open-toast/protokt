@@ -85,15 +85,13 @@ private constructor(
             name = name,
             field = f,
             type = f.unqualifiedNestedTypeName(ctx),
-            options =
-                Options(
-                    fieldSizeof = interceptFieldSizeof(f, name, ctx),
-                    fieldAccess =
-                        interceptValueAccess(f, ctx, IterationVar.render()),
-                    keyAccess = mapKeyConverter(f, ctx),
-                    valueAccess = mapValueConverter(f, ctx),
-                    valueType = f.mapEntry?.value?.type
-                )
+            options = Options(
+                fieldSizeof = interceptFieldSizeof(f, name, ctx),
+                fieldAccess = interceptValueAccess(f, ctx, IterationVar.render()),
+                keyAccess = mapKeyConverter(f, ctx),
+                valueAccess = mapValueConverter(f, ctx),
+                valueType = f.mapEntry?.value?.type
+            )
         )
     }
 

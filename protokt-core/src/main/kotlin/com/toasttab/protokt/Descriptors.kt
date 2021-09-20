@@ -24,17 +24,17 @@ class FileDescriptor(
     val messageTypes =
         proto.messageType.mapIndexed { idx, proto ->
             Descriptor(proto, this, idx)
-        }.let { finishList(it) }
+        }.let(::finishList)
 
     val enumTypes =
         proto.enumType.mapIndexed { idx, proto ->
             EnumDescriptor(proto, this, idx)
-        }.let { finishList(it) }
+        }.let(::finishList)
 
     val services =
         proto.service.mapIndexed { idx, proto ->
             ServiceDescriptor(proto, this, idx)
-        }.let { finishList(it) }
+        }.let(::finishList)
 
     companion object {
         fun buildFrom(
@@ -79,12 +79,12 @@ class Descriptor(
     val nestedTypes =
         proto.nestedType.mapIndexed { idx, proto ->
             Descriptor(proto, file, idx, this)
-        }.let { finishList(it) }
+        }.let(::finishList)
 
     val enumTypes =
         proto.enumType.mapIndexed { idx, proto ->
             EnumDescriptor(proto, file, idx)
-        }.let { finishList(it) }
+        }.let(::finishList)
 }
 
 class EnumDescriptor(
