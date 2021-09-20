@@ -63,3 +63,6 @@ private val WIRE_TYPES by lazy {
 
 fun wireType(klass: KClass<*>) =
     WIRE_TYPES.getValue(klass)
+
+fun computeTag(fieldNumber: Int, wireType: Int) =
+    (fieldNumber shl 3) or wireType
