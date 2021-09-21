@@ -39,7 +39,7 @@ object versions {
     const val wire = "3.5.0"
 
     // Third Party
-    const val protoGoogleCommonProtos = "2.3.2"
+    const val protoGoogleCommonProtos = "2.5.0"
 
     // Android
     const val androidGradle = "4.1.0"
