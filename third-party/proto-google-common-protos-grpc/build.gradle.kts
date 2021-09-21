@@ -25,7 +25,9 @@ protokt {
 }
 
 dependencies {
-    protobuf(libraries.protoGoogleCommonProtos)
+    protobuf(libraries.protoGoogleCommonProtos) {
+        exclude(group = "com.google.protobuf", module = "protobuf-java")
+    }
 
     api(project(":protokt-runtime-grpc"))
     api(project(":third-party:proto-google-common-protos"))
