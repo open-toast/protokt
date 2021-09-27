@@ -71,5 +71,6 @@ include(
 
     "third-party",
     "third-party:proto-google-common-protos",
-    "third-party:proto-google-common-protos-grpc"
+    "third-party:proto-google-common-protos-grpc",
+    "third-party:proto-google-common-protos-lite"
 )
