@@ -54,7 +54,6 @@ fun toProtocol(ctx: ProtocolContext) =
             ctx,
             ctx.fdp.enumTypeList,
             ctx.fdp.messageTypeList,
-            null,
             ctx.fdp.serviceList
         )
     )
@@ -92,20 +91,19 @@ private fun toTypeList(
     ctx: ProtocolContext,
     enums: List<EnumDescriptorProto>,
     messages: List<DescriptorProto>,
-    parentName: String? = null,
     services: List<ServiceDescriptorProto> = emptyList()
 ): ImmutableList<TopLevelType> =
     enums.foldIndexed(
         Pair(immutableSetOf<String>(), immutableListOf<TopLevelType>())
     ) { idx, acc, t ->
-        val e = toEnum(idx, t, acc.first, parentName)
+        val e = toEnum(idx, t, acc.first)
         Pair(acc.first + e.name, acc.second + e)
     }.second +
 
         messages.foldIndexed(
             Pair(immutableSetOf<String>(), immutableListOf<TopLevelType>())
         ) { idx, acc, t ->
-            val m = toMessage(idx, ctx, t, acc.first, parentName)
+            val m = toMessage(idx, ctx, t, acc.first)
             Pair(acc.first + m.name, acc.second + m)
         }.second +
 
@@ -119,8 +117,7 @@ private fun toTypeList(
 private fun toEnum(
     idx: Int,
     desc: EnumDescriptorProto,
-    names: ImmutableSet<String>,
-    parentName: String?
+    names: ImmutableSet<String>
 ): Enum {
     val typeName = newTypeNameFromCamel(desc.name, names)
 
@@ -156,8 +153,7 @@ private fun toEnum(
         options = EnumOptions(
             desc.options,
             desc.options.getExtension(Protokt.enum_)
-        ),
-        parentName = parentName
+        )
     )
 }
 
@@ -165,8 +161,7 @@ private fun toMessage(
     idx: Int,
     ctx: ProtocolContext,
     desc: DescriptorProto,
-    names: Set<String>,
-    parentName: String?
+    names: Set<String>
 ): Message {
     val typeName = newTypeNameFromPascal(desc.name, names)
     val fieldList = toFields(ctx, desc, names + typeName)
@@ -178,14 +173,13 @@ private fun toMessage(
                 is Oneof -> it.fields.first()
             }.number
         },
-        nestedTypes = toTypeList(ctx, desc.enumTypeList, desc.nestedTypeList, typeName),
+        nestedTypes = toTypeList(ctx, desc.enumTypeList, desc.nestedTypeList),
         mapEntry = desc.options?.mapEntry == true,
         options = MessageOptions(
             desc.options,
             desc.options.getExtension(Protokt.class_)
         ),
-        index = idx,
-        parentName = parentName
+        index = idx
     )
 }
 
@@ -361,7 +355,7 @@ private fun mapEntry(usedFieldNames: Set<String>, fdp: FieldDescriptorProto, ctx
                 { null },
                 {
                     resolveMapEntry(
-                        toMessage(-1, ctx, it, usedFieldNames, null)
+                        toMessage(-1, ctx, it, usedFieldNames)
                     )
                 }
             )
