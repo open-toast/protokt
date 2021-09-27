@@ -41,8 +41,11 @@ private fun typeUrl(typeUrlPrefix: String, msg: KtMessage): String {
             "$typeUrlPrefix/"
         }
 
+    @Suppress("DEPRECATION")
     val typeNameFromAnnotation =
-        msg::class.findAnnotation<KtGeneratedMessage>()?.fullTypeName
+        msg::class.findAnnotation<KtGeneratedMessage>()
+            ?.fullTypeName
+            ?.takeIf { it.isNotEmpty() }
 
     return if (typeNameFromAnnotation != null) {
         prefix + typeNameFromAnnotation
@@ -71,16 +74,21 @@ inline fun <reified T : KtMessage> Any.unpack(deserializer: KtDeserializer<T>): 
     return deserializer.deserialize(value)
 }
 
+@Suppress("DEPRECATION")
 inline fun <reified T : KtMessage> Any.isA() =
     typeUrl.substringAfterLast('/') ==
-        T::class.findAnnotation<KtGeneratedMessage>()?.fullTypeName
-            ?: T::class.companionObjectInstance!!.let { deserializer ->
-                deserializer::class.declaredMemberProperties
-                    .single { it.name == "descriptor" }
-                    .let {
-                        @Suppress("UNCHECKED_CAST")
-                        it as KProperty1<kotlin.Any, Descriptor>
-                    }
-                    .get(deserializer)
-                    .fullName
-            }
+        (
+            T::class.findAnnotation<KtGeneratedMessage>()
+                ?.fullTypeName
+                ?.takeIf { it.isNotEmpty() }
+                ?: T::class.companionObjectInstance!!.let { deserializer ->
+                    deserializer::class.declaredMemberProperties
+                        .single { it.name == "descriptor" }
+                        .let {
+                            @Suppress("UNCHECKED_CAST")
+                            it as KProperty1<kotlin.Any, Descriptor>
+                        }
+                        .get(deserializer)
+                        .fullName
+                }
+            )
