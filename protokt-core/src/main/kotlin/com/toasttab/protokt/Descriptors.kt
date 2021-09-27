@@ -17,10 +17,6 @@ package com.toasttab.protokt
 
 import com.toasttab.protokt.rt.finishList
 
-fun foo() {
-    DescriptorProto.ExtensionRange.descriptor
-}
-
 class FileDescriptor(
     val proto: FileDescriptorProto,
     val dependencies: List<FileDescriptor>
