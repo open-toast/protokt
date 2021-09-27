@@ -179,7 +179,8 @@ private fun toMessage(
             desc.options,
             desc.options.getExtension(Protokt.class_)
         ),
-        index = idx
+        index = idx,
+        fullProtobufTypeName = "${ctx.fdp.`package`}.${desc.name}"
     )
 }
 

@@ -22,7 +22,7 @@ message(message, serialize, deserialize, sizeof, nested, properties, oneofs, opt
 <blockComment(message.documentation)><\\>
 <suppressDeprecation(message.suppressDeprecation)><\\>
 <deprecated(message)><\\>
-@KtGeneratedMessage
+@KtGeneratedMessage("<message.fullTypeName>")
 class <message.name>
 private constructor(
     <properties:{p |<\\>

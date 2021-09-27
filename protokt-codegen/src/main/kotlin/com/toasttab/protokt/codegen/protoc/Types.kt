@@ -33,7 +33,8 @@ class Message(
     val nestedTypes: List<TopLevelType>,
     val mapEntry: Boolean,
     val options: MessageOptions,
-    val index: Int
+    val index: Int,
+    val fullProtobufTypeName: String
 ) : TopLevelType()
 
 data class MessageOptions(

@@ -67,7 +67,8 @@ private constructor(
             implements = msg.implements,
             documentation = annotateMessageDocumentation(ctx),
             deprecation = deprecation(),
-            suppressDeprecation = suppressDeprecation()
+            suppressDeprecation = suppressDeprecation(),
+            fullTypeName = msg.fullProtobufTypeName
         )
 
     private fun deprecation() =

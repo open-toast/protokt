@@ -46,7 +46,8 @@ object Message {
             val implements: String,
             val documentation: List<String>,
             val deprecation: Deprecation.RenderOptions?,
-            val suppressDeprecation: Boolean
+            val suppressDeprecation: Boolean,
+            val fullTypeName: String
         )
 
         interface FieldInfo {
