@@ -63,7 +63,6 @@ internal fun configureProtobufPlugin(project: Project, ext: ProtoktExtension, bi
 
                 task.plugins {
                     id("protokt") {
-
                         project.afterEvaluate {
                             option("$KOTLIN_EXTRA_CLASSPATH=${extraClasspath(project, task)}")
                             option("$RESPECT_JAVA_PACKAGE=${ext.respectJavaPackage}")
