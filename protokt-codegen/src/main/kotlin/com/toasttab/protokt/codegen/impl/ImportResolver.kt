@@ -36,6 +36,7 @@ import com.toasttab.protokt.codegen.protoc.TypeDesc
 import com.toasttab.protokt.rt.KtDeserializer
 import com.toasttab.protokt.rt.KtEnum
 import com.toasttab.protokt.rt.KtEnumDeserializer
+import com.toasttab.protokt.rt.KtGeneratedMessage
 import com.toasttab.protokt.rt.KtMessage
 import com.toasttab.protokt.rt.KtMessageDeserializer
 import com.toasttab.protokt.rt.KtMessageSerializer
@@ -54,6 +55,7 @@ class ImportResolver(
             KtDeserializer::class,
             KtMessageDeserializer::class,
             KtMessageSerializer::class,
+            KtGeneratedMessage::class,
             UnknownFieldSet::class
         ).map { pclass(it) }.toImmutableSet()
 
