@@ -162,8 +162,19 @@ internal fun generateFdpObjectNames(
     files: List<FileDescriptorProto>,
     respectJavaPackage: Boolean
 ): Map<String, String> {
-    val usedNames = mutableSetOf<String>()
     val names = mutableMapOf<String, String>()
+
+    val usedNames =
+        files.flatMapTo(mutableSetOf()) { fdp ->
+            files.filter {
+                resolvePackage(it, respectJavaPackage) ==
+                    resolvePackage(fdp, respectJavaPackage)
+            }.flatMapTo(mutableSetOf()) {
+                fdp.enumTypeList.map { e -> e.name } +
+                    fdp.messageTypeList.map { m -> m.name } +
+                    fdp.serviceList.map { s -> s.name }
+            }
+        }
 
     files.forEach { fdp ->
         var name =
@@ -175,17 +186,7 @@ internal fun generateFdpObjectNames(
                     .let(::snakeToCamel)
                     .capitalize()
 
-        val topLevelNames =
-            files.filter {
-                resolvePackage(it, respectJavaPackage) ==
-                    resolvePackage(fdp, respectJavaPackage)
-            }.flatMapTo(mutableSetOf<String>()) {
-                fdp.enumTypeList.map { e -> e.name } +
-                    fdp.messageTypeList.map { m -> m.name } +
-                    fdp.serviceList.map { s -> s.name }
-            }
-
-        while (name in usedNames || name in topLevelNames) {
+        while (name in usedNames) {
             name += "_"
         }
 
