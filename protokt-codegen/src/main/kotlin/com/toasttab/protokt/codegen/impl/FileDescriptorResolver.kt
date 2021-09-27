@@ -37,9 +37,7 @@ private constructor(
     private val pkg = kotlinPackage(descs.first())
 
     private fun resolveFileDescriptor(): FileDescriptorInfo? {
-        // If we're only generating services, the file descriptor will
-        // already exist in the non-gRPC file
-        if (ctx.onlyGenerateGrpc || ctx.lite) {
+        if (ctx.lite) {
             return null
         }
 
@@ -130,8 +128,8 @@ private constructor(
                     qualification(containingTypes),
                     ctx.fileDescriptorObjectName,
                     enum.index,
-                    containingTypes.any { it.options.default.deprecated }
-                        || enum.options.default.deprecated
+                    containingTypes.any { it.options.default.deprecated } ||
+                        enum.options.default.deprecated
                 )
             }
 
@@ -159,8 +157,8 @@ private constructor(
                     qualification(containingTypes),
                     ctx.fileDescriptorObjectName,
                     msg.index,
-                    containingTypes.any { it.options.default.deprecated }
-                        || msg.options.default.deprecated
+                    containingTypes.any { it.options.default.deprecated } ||
+                        msg.options.default.deprecated
                 )
             }
 

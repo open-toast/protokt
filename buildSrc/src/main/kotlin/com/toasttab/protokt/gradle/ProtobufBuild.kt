@@ -35,6 +35,7 @@ const val RESPECT_JAVA_PACKAGE = "respect_java_package"
 const val GENERATE_GRPC = "generate_grpc"
 const val ONLY_GENERATE_GRPC = "only_generate_grpc"
 const val LITE = "lite"
+const val ONLY_GENERATE_DESCRIPTORS = "only_generate_descriptors"
 
 internal fun configureProtobufPlugin(project: Project, ext: ProtoktExtension, binaryPath: String) {
     project.apply(plugin = "com.google.protobuf")
@@ -69,6 +70,7 @@ internal fun configureProtobufPlugin(project: Project, ext: ProtoktExtension, bi
                             option("$GENERATE_GRPC=${ext.generateGrpc}")
                             option("$ONLY_GENERATE_GRPC=${ext.onlyGenerateGrpc}")
                             option("$LITE=${ext.lite}")
+                            option("$ONLY_GENERATE_DESCRIPTORS=${ext.onlyGenerateDescriptors}")
                         }
                     }
                 }

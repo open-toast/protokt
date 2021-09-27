@@ -36,17 +36,24 @@ open class ProtoktExtension {
     var generateGrpc = false
 
     /**
-     * Whether or not to _only_ generate gRPC-specific code. Useful to generate
+     * Whether to _only_ generate gRPC-specific code. Useful to generate
      * libraries that have already had a version compiled with `generateGrpc`
      * set to `false`.
      */
     var onlyGenerateGrpc = false
 
     /**
-     * Whether or not to generate embedded descriptors for runtime reflective
+     * Whether to generate embedded descriptors for runtime reflective
      * access. Beware: if this option is enabled and any generated file depends
      * on a file generated in a different run of the code generator in which
      * this option was not enabled, the generated code will fail to compile.
      */
     var lite = false
+
+    /**
+     * Whether to _only_ generate descriptor code. Useful to generate
+     * libraries that have already had a version compiled with `lite`
+     * set to `true`.
+     */
+    var onlyGenerateDescriptors = false
 }

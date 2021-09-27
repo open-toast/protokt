@@ -71,14 +71,18 @@ object Annotator {
         when (type) {
             is Message ->
                 nonGrpc(ctx) {
-                    annotateMessage(
-                        type,
-                        ctx.copy(enclosing = ctx.enclosing + type)
-                    )
+                    nonDescriptors(ctx) {
+                        annotateMessage(
+                            type,
+                            ctx.copy(enclosing = ctx.enclosing + type)
+                        )
+                    }
                 }
             is Enum ->
                 nonGrpc(ctx) {
-                    annotateEnum(type, ctx)
+                    nonDescriptors(ctx) {
+                        annotateEnum(type, ctx)
+                    }
                 }
             is Service ->
                 annotateService(
@@ -88,6 +92,12 @@ object Annotator {
                         ctx.desc.context.onlyGenerateGrpc
                 )
         }
+
+    private fun nonDescriptors(ctx: Context, gen: () -> String) =
+        nonDescriptors(ctx.desc.context, "", gen)
+
+    fun <T> nonDescriptors(ctx: ProtocolContext, default: T, gen: () -> T) =
+        boolGen(!ctx.onlyGenerateDescriptors, default, gen)
 
     private fun nonGrpc(ctx: Context, gen: () -> String) =
         nonGrpc(ctx.desc.context, "", gen)
