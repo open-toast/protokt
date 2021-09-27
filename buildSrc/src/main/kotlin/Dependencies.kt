@@ -16,9 +16,9 @@
 import com.toasttab.protokt.gradle.DEFAULT_PROTOBUF_VERSION
 
 object versions {
-    const val arrow = "0.13.2"
-    const val autoService = "1.0-rc7"
-    const val grpc = "1.38.0"
+    const val arrow = "1.0.0"
+    const val autoService = "1.0"
+    const val grpc = "1.41.0"
     const val grpcKotlin = "1.1.0"
     const val kollection = "0.7"
     const val kotlin = "1.4.32"
@@ -30,7 +30,7 @@ object versions {
     // Test
     const val jackson = "2.12.3"
     const val junit = "5.7.1"
-    const val truth = "1.1.2"
+    const val truth = "1.1.3"
 
     // Benchmarks
     const val datasets = "0.1.0"
