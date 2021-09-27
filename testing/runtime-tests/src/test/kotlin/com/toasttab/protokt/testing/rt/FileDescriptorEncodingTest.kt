@@ -26,27 +26,26 @@ import com.toasttab.protokt.FileDescriptor
 import com.toasttab.protokt.FileDescriptorProto
 import com.toasttab.protokt.Type
 import com.toasttab.protokt.descriptor
-import com.toasttab.protokt.rt.KtDeserializer
 import com.toasttab.protokt.testing.rt.other.DeeplyNested
 import com.toasttab.protokt.testing.rt.other.HasAService
 import org.junit.jupiter.api.Test
 import toasttab.protokt.testing.rt.DeeplyNested1.DeeplyNested2.DeeplyNested3.DeeplyNested4
 import toasttab.protokt.testing.rt.FooService
+import toasttab.protokt.testing.rt.descriptor
 import kotlin.reflect.KClass
-import kotlin.reflect.KProperty1
 
 // Assert against a sampling of generated descriptors.
 class FileDescriptorEncodingTest {
     @Test
     fun `encoding of file descriptors is equal`() {
-        assertFileDescriptorsAreEqual(com.toasttab.protokt.Any, com.google.protobuf.Any::class)
-        assertFileDescriptorsAreEqual(Api, com.google.protobuf.Api::class)
-        assertFileDescriptorsAreEqual(FileDescriptorProto, DescriptorProtos.FileDescriptorProto::class)
-        assertFileDescriptorsAreEqual(Type, com.google.protobuf.Type::class)
+        assertFileDescriptorsAreEqual(com.toasttab.protokt.Any.descriptor, com.google.protobuf.Any::class)
+        assertFileDescriptorsAreEqual(Api.descriptor, com.google.protobuf.Api::class)
+        assertFileDescriptorsAreEqual(FileDescriptorProto.descriptor, DescriptorProtos.FileDescriptorProto::class)
+        assertFileDescriptorsAreEqual(Type.descriptor, com.google.protobuf.Type::class)
 
         // nested types
-        assertFileDescriptorsAreEqual(DescriptorProto.ExtensionRange, DescriptorProtos.DescriptorProto.ExtensionRange::class)
-        assertFileDescriptorsAreEqual(DeeplyNested4, DeeplyNested.DeeplyNested1.DeeplyNested2.DeeplyNested3.DeeplyNested4::class)
+        assertFileDescriptorsAreEqual(DescriptorProto.ExtensionRange.descriptor, DescriptorProtos.DescriptorProto.ExtensionRange::class)
+        assertFileDescriptorsAreEqual(DeeplyNested4.descriptor, DeeplyNested.DeeplyNested1.DeeplyNested2.DeeplyNested3.DeeplyNested4::class)
 
         // todo: get a really big type descriptor that doesn't fit in one string
 
@@ -64,39 +63,39 @@ class FileDescriptorEncodingTest {
     }
 
     private fun assertFileDescriptorsAreEqual(
-        protokt: KtDeserializer<*>,
+        protoktDescriptor: Descriptor,
         google: KClass<out GeneratedMessageV3>
     ) {
         assertThat(
-            protokt.descriptor().proto
+            protoktDescriptor.file.proto
         ).isEqualTo(
             FileDescriptorProto.deserialize(google.descriptor().toProto().toByteArray())
         )
 
         assertThat(
             DescriptorProtos.FileDescriptorProto.parseFrom(
-                protokt.descriptor().proto.serialize()
+                protoktDescriptor.file.proto.serialize()
             )
         ).isEqualTo(google.descriptor().toProto())
     }
 
     @Test
     fun `check re-encoding to protobuf-java FDP`() {
-        assertEqualComponents(com.toasttab.protokt.Any, com.google.protobuf.Any::class)
-        assertEqualComponents(Api, com.google.protobuf.Api::class)
-        assertEqualComponents(FileDescriptorProto, DescriptorProtos.FileDescriptorProto::class)
-        assertEqualComponents(Type, com.google.protobuf.Type::class)
+        assertEqualComponents(com.toasttab.protokt.Any.descriptor, com.google.protobuf.Any::class)
+        assertEqualComponents(Api.descriptor, com.google.protobuf.Api::class)
+        assertEqualComponents(FileDescriptorProto.descriptor, DescriptorProtos.FileDescriptorProto::class)
+        assertEqualComponents(Type.descriptor, com.google.protobuf.Type::class)
 
         // nested types
-        assertEqualComponents(DescriptorProto.ExtensionRange, DescriptorProtos.DescriptorProto.ExtensionRange::class)
-        assertEqualComponents(DeeplyNested4, DeeplyNested.DeeplyNested1.DeeplyNested2.DeeplyNested3.DeeplyNested4::class)
+        assertEqualComponents(DescriptorProto.ExtensionRange.descriptor, DescriptorProtos.DescriptorProto.ExtensionRange::class)
+        assertEqualComponents(DeeplyNested4.descriptor, DeeplyNested.DeeplyNested1.DeeplyNested2.DeeplyNested3.DeeplyNested4::class)
     }
 
     fun assertEqualComponents(
-        protokt: KtDeserializer<*>,
+        protokt: Descriptor,
         google: KClass<out GeneratedMessageV3>
     ) {
-        val asProtoDesc = protokt.descriptor().toProtobufJavaDescriptor()
+        val asProtoDesc = protokt.file.toProtobufJavaDescriptor()
 
         assertThat(asProtoDesc.toProto())
             .isEqualTo(google.descriptor().toProto())
@@ -126,16 +125,6 @@ class FileDescriptorEncodingTest {
             dependencies.map { it.toProtobufJavaDescriptor() }.toTypedArray(),
             true
         )
-
-    fun KtDeserializer<*>.descriptor() =
-        this::class
-            .propertyNamed("descriptor")
-            .let {
-                @Suppress("UNCHECKED_CAST")
-                it as KProperty1<Any, Descriptor>
-            }
-            .get(this)
-            .file
 
     fun KClass<out GeneratedMessageV3>.descriptor() =
         java.getMethod("getDescriptor")
