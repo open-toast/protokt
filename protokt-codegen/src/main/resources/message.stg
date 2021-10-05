@@ -18,11 +18,11 @@ import "dsl.stg"
 import "options.stg"
 import "renderers.stg"
 
-message(message, serialize, deserialize, sizeof, nested, properties, oneofs, reflect, options) ::= <<
+message(message, serialize, deserialize, sizeof, nested, properties, oneofs, options) ::= <<
 <blockComment(message.documentation)><\\>
-<suppressDeprecation(message)><\\>
+<suppressDeprecation(message.suppressDeprecation)><\\>
 <deprecated(message)><\\>
-@KtGeneratedMessage
+@KtGeneratedMessage("<message.fullTypeName>")
 class <message.name>
 private constructor(
     <properties:{p |<\\>

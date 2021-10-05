@@ -31,7 +31,7 @@ internal object Accumulator {
             } ?: imports
 
         val header = StringBuilder()
-        HeaderAccumulator.write(descs, accumulatedImports, header::appendLine)
+        HeaderAccumulator.write(descs, accumulatedImports, header::append)
 
         val body = StringBuilder()
         descs.forEach {
@@ -42,7 +42,7 @@ internal object Accumulator {
             }
         }
 
-        if (body.isNotBlank()) {
+        if (body.isNotBlank() || fileDescriptorInfo != null) {
             acc(header)
             fileDescriptorInfo?.run { body.append(fdp) }
             acc(ImportReplacer.replaceImports(body, accumulatedImports))

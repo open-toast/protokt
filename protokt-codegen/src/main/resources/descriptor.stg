@@ -13,7 +13,9 @@
  * limitations under the License.
  */
 
-descriptor(fileDescriptorObjectName, parts, dependencies, longDependencies) ::= <<
+import "options.stg"
+
+descriptor(fileDescriptorObjectName, parts, dependencies, longDependencies, descriptorExtensionProperties) ::= <<
 object <fileDescriptorObjectName> {
     val descriptor by lazy {
         val descriptorData = arrayOf(
@@ -33,4 +35,27 @@ object <fileDescriptorObjectName> {
     }
 }
 
+<descriptorExtensionProperties: {p | <p>}; separator="\n">
+>>
+
+messageDescriptorProperty(topLevel, typeName, qualification, fileDescriptorObjectName, index, suppressDeprecation) ::= <<
+<suppressDeprecation(suppressDeprecation)><\\>
+val <qualification><typeName>.Deserializer.descriptor
+    get() = <\\>
+        <if (topLevel)><\\>
+        <fileDescriptorObjectName>.descriptor.messageTypes[<index>]
+        <else><\\>
+        <qualification>descriptor.nestedTypes[<index>]
+        <endif>
+>>
+
+enumDescriptorProperty(topLevel, typeName, qualification, fileDescriptorObjectName, index, suppressDeprecation) ::= <<
+<suppressDeprecation(suppressDeprecation)><\\>
+val <qualification><typeName>.Deserializer.descriptor
+    get() = <\\>
+        <if (topLevel)><\\>
+        <fileDescriptorObjectName>.descriptor.enumTypes[<index>]
+        <else><\\>
+        <qualification>descriptor.enumTypes[<index>]
+        <endif>
 >>

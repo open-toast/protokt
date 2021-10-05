@@ -21,13 +21,53 @@ object Descriptor {
             fileDescriptorObjectName: String,
             parts: List<List<String>>,
             dependencies: List<String>,
-            longDependencies: Boolean
+            longDependencies: Boolean,
+            descriptorExtensionProperties: List<String>
         ) =
             renderArgs(
                 fileDescriptorObjectName,
                 parts,
                 dependencies,
-                longDependencies
+                longDependencies,
+                descriptorExtensionProperties
+            )
+    }
+
+    object MessageDescriptorProperty : StTemplate(StGroup.Descriptor) {
+        fun render(
+            topLevel: Boolean,
+            typeName: String,
+            qualification: String?,
+            fileDescriptorObjectName: String,
+            index: Int,
+            suppressDeprecation: Boolean
+        ) =
+            renderArgs(
+                topLevel,
+                typeName,
+                qualification,
+                fileDescriptorObjectName,
+                index,
+                suppressDeprecation
+            )
+    }
+
+    object EnumDescriptorProperty : StTemplate(StGroup.Descriptor) {
+        fun render(
+            topLevel: Boolean,
+            typeName: String,
+            qualification: String?,
+            fileDescriptorObjectName: String,
+            index: Int,
+            suppressDeprecation: Boolean
+        ) =
+            renderArgs(
+                topLevel,
+                typeName,
+                qualification,
+                fileDescriptorObjectName,
+                index,
+                suppressDeprecation
             )
     }
 }

@@ -27,13 +27,13 @@ object HeaderAccumulator {
         imports: Set<Import>,
         acc: (String) -> Unit
     ) {
-        descs.firstOrNone().map {
+        descs.firstOrNone().map { desc ->
             acc(
                 Header.render(
-                    `package` = `package`(it),
-                    imports = imports.map(Import::qualifiedName).sorted(),
-                    version = it.desc.context.version,
-                    fileName = it.desc.name
+                    `package` = `package`(desc),
+                    imports = imports.map(Import::qualifiedName).sorted().takeIf { it.isNotEmpty() },
+                    version = desc.desc.context.version,
+                    fileName = desc.desc.name
                 )
             )
         }

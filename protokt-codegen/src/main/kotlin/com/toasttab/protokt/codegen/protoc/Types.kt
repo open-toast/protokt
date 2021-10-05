@@ -34,7 +34,7 @@ class Message(
     val mapEntry: Boolean,
     val options: MessageOptions,
     val index: Int,
-    val parentName: String?
+    val fullProtobufTypeName: String
 ) : TopLevelType()
 
 data class MessageOptions(
@@ -46,7 +46,6 @@ class Enum(
     override val name: String,
     val options: EnumOptions,
     val values: List<Value>,
-    val parentName: String?,
     val index: Int
 ) : TopLevelType() {
     class Value(

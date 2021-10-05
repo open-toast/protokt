@@ -58,11 +58,7 @@ private constructor(
         EnumOptions(
             documentation = annotateEnumDocumentation(e, ctx),
             deprecation = enumDeprecation(),
-            suppressDeprecation = (e.hasDeprecation && !enclosingDeprecation(ctx)),
-            parentName = e.parentName,
-            index = e.index,
-            fileDescriptorObjectName = ctx.desc.context.fileDescriptorObjectName,
-            reflect = !ctx.desc.context.lite
+            suppressDeprecation = (e.hasDeprecation && !enclosingDeprecation(ctx))
         )
 
     private fun enumDeprecation() =

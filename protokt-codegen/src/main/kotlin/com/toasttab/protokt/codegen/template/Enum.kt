@@ -35,11 +35,7 @@ object Enum {
         class EnumOptions(
             val documentation: List<String>,
             val deprecation: Deprecation.RenderOptions?,
-            val suppressDeprecation: Boolean,
-            val index: Int,
-            val parentName: String?,
-            val fileDescriptorObjectName: String,
-            val reflect: Boolean
+            val suppressDeprecation: Boolean
         )
     }
 }

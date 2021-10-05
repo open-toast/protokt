@@ -15,6 +15,7 @@
 
 import com.google.protobuf.gradle.proto
 import com.google.protobuf.gradle.protobuf
+import com.toasttab.protokt.gradle.protokt
 
 plugins {
     kotlin("kapt")
@@ -24,11 +25,15 @@ localProtokt()
 pureKotlin()
 enablePublishing()
 compatibleWithAndroid()
-trackKotlinApiCompatibility()
+trackKotlinApiCompatibility(false)
+
+protokt {
+    onlyGenerateDescriptors = true
+}
 
 dependencies {
     api(project(":extensions:protokt-extensions-api"))
-    api(project(":protokt-runtime"))
+    api(project(":protokt-core-lite"))
 
     protobuf(libraries.protobufJava)
     compileOnly(libraries.protobufJava)
@@ -43,9 +48,6 @@ sourceSets {
     main {
         proto {
             srcDir("../protokt-runtime/src/main/resources")
-        }
-        java {
-            srcDir("../protokt-core-lite/src/main/kotlin")
         }
     }
 }
