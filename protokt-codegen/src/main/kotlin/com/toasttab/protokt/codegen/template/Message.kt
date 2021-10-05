@@ -27,7 +27,6 @@ object Message {
             properties: List<PropertyInfo>,
             oneofs: List<String>,
             nested: List<String>,
-            reflect: ReflectInfo?,
             options: Options
         ) =
             renderArgs(
@@ -38,7 +37,6 @@ object Message {
                 properties,
                 oneofs,
                 nested,
-                reflect,
                 options
             )
 
@@ -48,7 +46,8 @@ object Message {
             val implements: String,
             val documentation: List<String>,
             val deprecation: Deprecation.RenderOptions?,
-            val suppressDeprecation: Boolean
+            val suppressDeprecation: Boolean,
+            val fullTypeName: String
         )
 
         interface FieldInfo {
@@ -112,12 +111,6 @@ object Message {
             override val name
                 get() = assignment.fieldName
         }
-
-        data class ReflectInfo(
-            val fileDescriptorObjectName: String,
-            val index: Int,
-            val parentName: String?
-        )
 
         class Options(
             val wellKnownType: Boolean,

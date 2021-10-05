@@ -20,6 +20,5 @@ header(package, imports, version, fileName) ::= <<
  */
 
 <if (package)>package <package><\n><\n><endif><\\>
-<imports : { it | import <it>}; separator="\n">
-
+<if (imports)><imports : { it | import <it>}; separator="\n"><\n><\n><endif><\\>
 >>

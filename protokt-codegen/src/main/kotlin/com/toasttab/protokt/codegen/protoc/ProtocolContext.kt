@@ -21,6 +21,7 @@ import com.toasttab.protokt.codegen.impl.resolvePackage
 import com.toasttab.protokt.gradle.GENERATE_GRPC
 import com.toasttab.protokt.gradle.KOTLIN_EXTRA_CLASSPATH
 import com.toasttab.protokt.gradle.LITE
+import com.toasttab.protokt.gradle.ONLY_GENERATE_DESCRIPTORS
 import com.toasttab.protokt.gradle.ONLY_GENERATE_GRPC
 import com.toasttab.protokt.gradle.RESPECT_JAVA_PACKAGE
 import com.toasttab.protokt.util.getProtoktVersion
@@ -29,7 +30,7 @@ import java.net.URLDecoder
 class ProtocolContext(
     val fdp: FileDescriptorProto,
     params: Map<String, String>,
-    val filesToGenerate: Set<String>,
+    private val filesToGenerate: Set<String>,
     allFiles: List<FileDescriptorProto>
 ) {
     val classpath =
@@ -41,6 +42,7 @@ class ProtocolContext(
     val generateGrpc = params.getValue(GENERATE_GRPC).toBoolean()
     val onlyGenerateGrpc = params.getValue(ONLY_GENERATE_GRPC).toBoolean()
     val lite = params.getValue(LITE).toBoolean()
+    val onlyGenerateDescriptors = params.getValue(ONLY_GENERATE_DESCRIPTORS).toBoolean()
 
     val fileName = fdp.name
     val version = getProtoktVersion(ProtocolContext::class)

@@ -20,6 +20,5 @@ annotation class KtGeneratedMessage(
     /**
      * The full protocol buffer type name of this message used for packing into an Any.
      */
-    @Deprecated("Use the generated descriptor")
-    val fullTypeName: String = ""
+    val fullTypeName: String
 )

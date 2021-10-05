@@ -21,7 +21,7 @@ object Header {
     object Header : StTemplate(StGroup.Header) {
         fun render(
             `package`: PPackage?,
-            imports: List<String>,
+            imports: List<String>?,
             version: String,
             fileName: String
         ) =

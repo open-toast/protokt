@@ -20,6 +20,7 @@ import com.github.andrewoma.dexx.kollection.ImmutableSet
 import com.github.andrewoma.dexx.kollection.immutableSetOf
 import com.github.andrewoma.dexx.kollection.toImmutableSet
 import com.toasttab.protokt.codegen.impl.Annotator.grpc
+import com.toasttab.protokt.codegen.impl.Annotator.nonDescriptors
 import com.toasttab.protokt.codegen.impl.Annotator.nonGrpc
 import com.toasttab.protokt.codegen.impl.ClassLookup.getClassOrNone
 import com.toasttab.protokt.codegen.model.Import
@@ -77,11 +78,17 @@ class ImportResolver(
 
     private fun imports(t: TopLevelType): ImmutableSet<Import> =
         when (t) {
-            is Message -> nonGrpc(ctx, immutableSetOf()) { imports(t) }
-            is Enum -> nonGrpc(ctx, immutableSetOf()) { enumImports }
+            is Message ->
+                nonGrpc(ctx, immutableSetOf()) {
+                    nonDescriptors(ctx, immutableSetOf()) { imports(t) }
+                }
+            is Enum ->
+                nonGrpc(ctx, immutableSetOf()) {
+                    nonDescriptors(ctx, immutableSetOf(), ::enumImports)
+                }
             is Service -> grpc(ctx, immutableSetOf()) { serviceImports(t) }
         } +
-            if (!ctx.lite) {
+            if (!ctx.lite || ctx.onlyGenerateDescriptors) {
                 descriptorImports
             } else {
                 emptySet()

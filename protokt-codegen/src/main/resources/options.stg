@@ -73,8 +73,8 @@ deprecated(any) ::= <%
     <endif>
 %>
 
-suppressDeprecation(any) ::= <%
-    <if (any.suppressDeprecation)>
+suppressDeprecation(suppress) ::= <%
+    <if (suppress)>
         @Suppress("DEPRECATION")<\n>
     <endif>
 %>

@@ -34,7 +34,6 @@ import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.template.Message.Message.MessageInfo
 import com.toasttab.protokt.codegen.template.Message.Message.Options
-import com.toasttab.protokt.codegen.template.Message.Message.ReflectInfo
 import com.toasttab.protokt.codegen.template.Message.Message as MessageTemplate
 
 class MessageAnnotator
@@ -54,7 +53,6 @@ private constructor(
                 serialize = annotateSerializer(msg, ctx),
                 deserialize = annotateDeserializer(msg, ctx),
                 nested = nestedTypes(),
-                reflect = reflectInfo(),
                 options = options()
             )
         }
@@ -69,7 +67,8 @@ private constructor(
             implements = msg.implements,
             documentation = annotateMessageDocumentation(ctx),
             deprecation = deprecation(),
-            suppressDeprecation = suppressDeprecation()
+            suppressDeprecation = suppressDeprecation(),
+            fullTypeName = msg.fullProtobufTypeName
         )
 
     private fun deprecation() =
@@ -100,17 +99,6 @@ private constructor(
             longDeserializer = lengthAsOneLine > IDEAL_MAX_WIDTH
         )
     }
-
-    private fun reflectInfo() =
-        if (ctx.desc.context.lite) {
-            null
-        } else {
-            ReflectInfo(
-                fileDescriptorObjectName = ctx.desc.context.fileDescriptorObjectName,
-                index = msg.index,
-                parentName = msg.parentName
-            )
-        }
 
     companion object {
         const val IDEAL_MAX_WIDTH = 100
