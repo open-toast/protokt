@@ -69,6 +69,12 @@ subprojects {
                 jvmTarget = "1.8"
                 freeCompilerArgs = listOf("-Xinline-classes")
             }
+            doFirst {
+                exec {
+                    commandLine("which")
+                    args = listOf("protoc")
+                }
+            }
         }
 
         withType<Test> {
