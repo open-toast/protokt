@@ -19,13 +19,13 @@ import com.toasttab.protokt.gradle.EXTENSIONS
 import com.toasttab.protokt.gradle.configureProtokt
 import com.toasttab.protokt.gradle.resolveProtoktCoreDep
 import org.gradle.api.Project
+import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.project
+import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
-
-val Project.buildSrcClasses
-    get() = "${rootProject.projectDir}/buildSrc/build/classes/kotlin/main"
 
 fun Project.localProtokt() {
     configureProtokt(this) {
@@ -44,6 +44,13 @@ fun Project.localProtokt() {
         tasks.withType<GenerateProtoTask> {
             dependsOn(":protokt-codegen:installDist")
         }
+    }
+}
+
+fun Project.includeCommonGradleSource(filePattern: String) {
+    the<SourceSetContainer>()["main"].java {
+        srcDir(rootProject.file("buildSrc/src/main/kotlin"))
+        include("com/toasttab/protokt/gradle/$filePattern")
     }
 }
 

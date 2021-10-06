@@ -15,6 +15,4 @@
 
 enablePublishing()
 
-dependencies {
-    api(files(buildSrcClasses))
-}
+includeCommonGradleSource("ProtoktExtension.kt")

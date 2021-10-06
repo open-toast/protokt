@@ -82,10 +82,3 @@ sourceSets {
         }
     }
 }
-
-tasks.named<Jar>("jar") {
-    from(buildSrcClasses) {
-        include("com/toasttab/**")
-        include("META-INF/**")
-    }
-}

@@ -23,7 +23,7 @@ localProtokt()
 pureKotlin()
 enablePublishing()
 compatibleWithAndroid()
-trackKotlinApiCompatibility()
+trackKotlinApiCompatibility(false)
 
 protokt {
     lite = true

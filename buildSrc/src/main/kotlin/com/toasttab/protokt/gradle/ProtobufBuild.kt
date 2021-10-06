@@ -30,13 +30,6 @@ import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.named
 import java.net.URLEncoder
 
-const val KOTLIN_EXTRA_CLASSPATH = "kotlin_extra_classpath"
-const val RESPECT_JAVA_PACKAGE = "respect_java_package"
-const val GENERATE_GRPC = "generate_grpc"
-const val ONLY_GENERATE_GRPC = "only_generate_grpc"
-const val LITE = "lite"
-const val ONLY_GENERATE_DESCRIPTORS = "only_generate_descriptors"
-
 internal fun configureProtobufPlugin(project: Project, ext: ProtoktExtension, binaryPath: String) {
     project.apply(plugin = "com.google.protobuf")
 
