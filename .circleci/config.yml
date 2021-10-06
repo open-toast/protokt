@@ -126,7 +126,9 @@ workflows:
   build:
     jobs:
       - protobuf
-      - build
+      - build:
+          requires:
+            - protobuf
       - integration:
           name: integration-jdk-<<matrix.jdk>>-kotlin-<<matrix.kotlin>>
           requires:
