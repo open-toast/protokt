@@ -115,7 +115,7 @@ jobs:
       - run:
           name: Install protoc
           command: |
-            apt-get install curl
+            apk add curl
             archive=protoc-<<parameters.version>>-linux-x86_64
             curl -O -L https://github.com/protocolbuffers/protobuf/releases/download/v<<parameters.version>>/$archive.zip
             sudo unzip -d '/usr/local' $archive.zip 'bin/*' 'include/*'
