@@ -24,6 +24,8 @@ commands:
           key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
       - restore_cache:
           key: v1-gradle-cache-{{ checksum "build.gradle.kts" }}
+      - restore_cache:
+          key: v1-protoc-{{ checksum "/usr/local/bin/protoc" }}
 
   write_cache:
     steps:
@@ -35,6 +37,10 @@ commands:
           paths:
             - ~/.gradle/caches
           key: v1-gradle-cache-{{ checksum "build.gradle.kts" }}
+      - save_cache:
+          paths:
+            - /usr/local/bin/protoc
+          key: v1-protoc-{{ checksum "/usr/local/bin/protoc" }}
 
 jobs:
   build:
