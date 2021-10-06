@@ -1,8 +1,5 @@
 version: 2.1
 
-orbs:
-  protobuf: izumin5210/protobuf@0.1.0
-
 parameters:
   benchmarks:
     type: boolean
@@ -108,12 +105,28 @@ jobs:
           name: Publish release
           command: "./gradlew publishToRemote closeAndReleaseRepository publishPlugins -Dorg.gradle.internal.http.socketTimeout=120000 -Dorg.gradle.internal.network.retry.max.attempts=1 -Dorg.gradle.internal.publish.checksums.insecure=true"
 
+  protobuf:
+    executor: builder
+    parameters:
+      version:
+        default: 3.18.0
+        type: string
+    steps:
+      - run:
+        name: '[protobuf] Install'
+        command: |
+          archive=protoc-<<parameters.version>>-linux-x86_64
+          curl -O -L https://github.com/protocolbuffers/protobuf/releases/download/v<<parameters.version>>/$archive.zip
+          sudo unzip -d '/usr/local' $archive.zip 'bin/*' 'include/*'
+          rm -rf $archive.zip
+
+
 workflows:
   version: 2.1
 
   build:
     jobs:
-      - protobuf/install
+      - protobuf
       - build
       - integration:
           name: integration-jdk-<<matrix.jdk>>-kotlin-<<matrix.kotlin>>
