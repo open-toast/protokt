@@ -24,8 +24,6 @@ commands:
           key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
       - restore_cache:
           key: v1-gradle-cache-{{ checksum "build.gradle.kts" }}
-      - restore_cache:
-          key: v1-protoc-{{ checksum "/usr/local/bin/protoc" }}
 
   write_cache:
     steps:
@@ -37,10 +35,22 @@ commands:
           paths:
             - ~/.gradle/caches
           key: v1-gradle-cache-{{ checksum "build.gradle.kts" }}
-      - save_cache:
-          paths:
-            - /usr/local/bin/protoc
-          key: v1-protoc-{{ checksum "/usr/local/bin/protoc" }}
+
+  install_protoc:
+    parameters:
+      version:
+        default: 3.18.0
+        type: string
+    steps:
+      - run:
+          command: |
+            apk add curl
+            archive=protoc-<<parameters.version>>-linux-x86_64
+            curl -O -L https://github.com/protocolbuffers/protobuf/releases/download/v<<parameters.version>>/$archive.zip
+            unzip -d '/usr/local' $archive.zip 'bin/*' 'include/*'
+            rm -rf $archive.zip
+            protoc --version
+
 
 jobs:
   build:
@@ -48,6 +58,7 @@ jobs:
     steps:
       - checkout
       - read_cache
+      - install_protoc
 
       - run:
           name: Build and test
@@ -111,32 +122,12 @@ jobs:
           name: Publish release
           command: "./gradlew publishToRemote closeAndReleaseRepository publishPlugins -Dorg.gradle.internal.http.socketTimeout=120000 -Dorg.gradle.internal.network.retry.max.attempts=1 -Dorg.gradle.internal.publish.checksums.insecure=true"
 
-  protobuf:
-    executor: builder
-    parameters:
-      version:
-        default: 3.18.0
-        type: string
-    steps:
-      - run:
-          name: Install protoc
-          command: |
-            apk add curl
-            archive=protoc-<<parameters.version>>-linux-x86_64
-            curl -O -L https://github.com/protocolbuffers/protobuf/releases/download/v<<parameters.version>>/$archive.zip
-            unzip -d '/usr/local' $archive.zip 'bin/*' 'include/*'
-            rm -rf $archive.zip
-            protoc --version
-
 workflows:
   version: 2.1
 
   build:
     jobs:
-      - protobuf
-      - build:
-          requires:
-            - protobuf
+      - build
       - integration:
           name: integration-jdk-<<matrix.jdk>>-kotlin-<<matrix.kotlin>>
           requires:
