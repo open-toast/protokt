@@ -39,10 +39,10 @@ class ProtocolContext(
         }
 
     val respectJavaPackage = respectJavaPackage(params)
-    val generateGrpc = params.getValue(GENERATE_GRPC).toBoolean()
-    val onlyGenerateGrpc = params.getValue(ONLY_GENERATE_GRPC).toBoolean()
-    val lite = params.getValue(LITE).toBoolean()
-    val onlyGenerateDescriptors = params.getValue(ONLY_GENERATE_DESCRIPTORS).toBoolean()
+    val generateGrpc = params.getOrDefault(GENERATE_GRPC, false)
+    val onlyGenerateGrpc = params.getOrDefault(ONLY_GENERATE_GRPC, false)
+    val lite = params.getOrDefault(LITE, false)
+    val onlyGenerateDescriptors = params.getOrDefault(ONLY_GENERATE_DESCRIPTORS, false)
 
     val fileName = fdp.name
     val version = getProtoktVersion(ProtocolContext::class)
@@ -73,4 +73,7 @@ class ProtocolContext(
 }
 
 fun respectJavaPackage(params: Map<String, String>) =
-    params.getValue(RESPECT_JAVA_PACKAGE).toBoolean()
+    params.getOrDefault(RESPECT_JAVA_PACKAGE, true)
+
+private fun Map<String, String>.getOrDefault(key: String, default: Boolean) =
+    get(key)?.toBoolean() ?: default

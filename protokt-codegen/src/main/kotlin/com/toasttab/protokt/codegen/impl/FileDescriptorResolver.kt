@@ -37,7 +37,7 @@ private constructor(
     private val pkg = kotlinPackage(descs.first())
 
     private fun resolveFileDescriptor(): FileDescriptorInfo? {
-        if (ctx.lite) {
+        if (ctx.lite || ctx.onlyGenerateGrpc) {
             return null
         }
 
