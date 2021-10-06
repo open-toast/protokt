@@ -118,7 +118,7 @@ jobs:
             apk add curl
             archive=protoc-<<parameters.version>>-linux-x86_64
             curl -O -L https://github.com/protocolbuffers/protobuf/releases/download/v<<parameters.version>>/$archive.zip
-            sudo unzip -d '/usr/local' $archive.zip 'bin/*' 'include/*'
+            unzip -d '/usr/local' $archive.zip 'bin/*' 'include/*'
             rm -rf $archive.zip
 
 workflows:
