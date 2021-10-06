@@ -52,7 +52,6 @@ commands:
             rm -rf $archive.zip
             protoc --version
 
-
 jobs:
   build:
     executor: builder
