@@ -120,6 +120,7 @@ jobs:
             curl -O -L https://github.com/protocolbuffers/protobuf/releases/download/v<<parameters.version>>/$archive.zip
             unzip -d '/usr/local' $archive.zip 'bin/*' 'include/*'
             rm -rf $archive.zip
+            protoc --version
 
 workflows:
   version: 2.1
