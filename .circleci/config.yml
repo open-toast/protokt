@@ -43,6 +43,7 @@ commands:
         type: string
     steps:
       - run:
+          name: Install protoc
           command: |
             apk add curl
             archive=protoc-<<parameters.version>>-linux-x86_64
