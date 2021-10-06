@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  protobuf: izumin5210/protobuf@0.1.0
+
 parameters:
   benchmarks:
     type: boolean
@@ -110,6 +113,7 @@ workflows:
 
   build:
     jobs:
+      - protobuf/install
       - build
       - integration:
           name: integration-jdk-<<matrix.jdk>>-kotlin-<<matrix.kotlin>>
