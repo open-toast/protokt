@@ -64,19 +64,13 @@ class MainTest {
     }
 }
 
-private fun buildPluginOptions(extension: ProtoktExtension): String {
-    val options =
+private fun buildPluginOptions(extension: ProtoktExtension) =
+    "--custom_opt=" +
         extension::class.declaredMemberProperties
             .filter { it.returnType.classifier as KClass<*> == Boolean::class }
-
-    return if (options.isEmpty()) {
-        ""
-    } else {
-        "--custom_opt=" + options.joinToString(",") {
-            LOWER_CAMEL.to(LOWER_UNDERSCORE, it.name) + "=${it.call(extension)}"
-        }
-    }
-}
+            .joinToString(",") {
+                LOWER_CAMEL.to(LOWER_UNDERSCORE, it.name) + "=${it.call(extension)}"
+            }
 
 private fun buildPluginOptions(extension: ProtoktExtension) =
     "--custom_opt=" +
