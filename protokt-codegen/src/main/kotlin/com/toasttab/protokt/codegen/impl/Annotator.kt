@@ -15,8 +15,8 @@
 
 package com.toasttab.protokt.codegen.impl
 
-import arrow.core.Some
 import com.github.andrewoma.dexx.kollection.immutableListOf
+import com.squareup.kotlinpoet.TypeSpec
 import com.toasttab.protokt.codegen.impl.EnumAnnotator.Companion.annotateEnum
 import com.toasttab.protokt.codegen.impl.MessageAnnotator.Companion.annotateMessage
 import com.toasttab.protokt.codegen.impl.ServiceAnnotator.annotateService
@@ -25,6 +25,7 @@ import com.toasttab.protokt.codegen.protoc.AnnotatedType
 import com.toasttab.protokt.codegen.protoc.Enum
 import com.toasttab.protokt.codegen.protoc.FileDesc
 import com.toasttab.protokt.codegen.protoc.Message
+import com.toasttab.protokt.codegen.protoc.Protocol
 import com.toasttab.protokt.codegen.protoc.ProtocolContext
 import com.toasttab.protokt.codegen.protoc.Service
 import com.toasttab.protokt.codegen.protoc.TopLevelType
@@ -49,25 +50,25 @@ object Annotator {
         val desc: FileDesc
     )
 
-    fun apply(data: TypeDesc) =
-        TypeDesc(
-            data.desc,
-            AnnotatedType(
-                data.type.rawType,
-                Some(
+    fun apply(protocol: Protocol) =
+        protocol.types.map {
+            TypeDesc(
+                protocol.desc,
+                AnnotatedType(
+                    it,
                     annotate(
-                        data.type.rawType,
+                        it,
                         Context(
                             immutableListOf(),
-                            kotlinPackage(data),
-                            data.desc
+                            kotlinPackage(protocol),
+                            protocol.desc
                         )
                     )
                 )
             )
-        )
+        }
 
-    fun annotate(type: TopLevelType, ctx: Context): String =
+    fun annotate(type: TopLevelType, ctx: Context): TypeSpec =
         when (type) {
             is Message ->
                 nonGrpc(ctx) {

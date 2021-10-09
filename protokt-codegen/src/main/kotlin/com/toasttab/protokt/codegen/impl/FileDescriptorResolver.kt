@@ -19,8 +19,8 @@ import com.google.protobuf.DescriptorProtos
 import com.squareup.kotlinpoet.FileSpec
 import com.toasttab.protokt.codegen.protoc.Enum
 import com.toasttab.protokt.codegen.protoc.Message
+import com.toasttab.protokt.codegen.protoc.Protocol
 import com.toasttab.protokt.codegen.protoc.TopLevelType
-import com.toasttab.protokt.codegen.protoc.TypeDesc
 import com.toasttab.protokt.codegen.template.Descriptor.Descriptor
 import com.toasttab.protokt.codegen.template.Descriptor.EnumDescriptorProperty
 import com.toasttab.protokt.codegen.template.Descriptor.MessageDescriptorProperty
@@ -32,10 +32,10 @@ class FileDescriptorInfo(
 
 class FileDescriptorResolver
 private constructor(
-    private val descs: List<TypeDesc>
+    private val protocol: Protocol
 ) {
-    private val ctx = descs.first().desc.context
-    private val pkg = kotlinPackage(descs.first())
+    private val ctx = protocol.desc.context
+    private val pkg = kotlinPackage(protocol)
 
     private fun resolveFileDescriptor(): FileDescriptorInfo? {
         if (ctx.lite || ctx.onlyGenerateGrpc) {
@@ -121,7 +121,7 @@ private constructor(
     }
 
     private fun enumDescriptorExtensionProperties() =
-        descs.flatMap { findEnums(emptyList(), it.type.rawType) }
+        protocol.types.flatMap { findEnums(emptyList(), it) }
             .map { (enum, containingTypes) ->
                 EnumDescriptorProperty.render(
                     containingTypes.isEmpty(),
@@ -150,7 +150,7 @@ private constructor(
         m.nestedTypes.flatMap { findEnums(enclosingMessages, it) }
 
     private fun messageDescriptorExtensionProperties() =
-        descs.flatMap { findMessages(emptyList(), it.type.rawType) }
+        protocol.types.flatMap { findMessages(emptyList(), it) }
             .map { (msg, containingTypes) ->
                 MessageDescriptorProperty.render(
                     containingTypes.isEmpty(),
@@ -190,9 +190,9 @@ private constructor(
         }
 
     companion object {
-        fun resolveFileDescriptor(descs: List<TypeDesc>) =
-            if (descs.isNotEmpty()) {
-                FileDescriptorResolver(descs).resolveFileDescriptor()
+        fun resolveFileDescriptor(protocol: Protocol) =
+            if (protocol.types.isNotEmpty()) {
+                FileDescriptorResolver(protocol).resolveFileDescriptor()
             } else {
                 null
             }

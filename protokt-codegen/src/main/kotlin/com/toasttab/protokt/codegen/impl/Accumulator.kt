@@ -25,26 +25,25 @@ internal object Accumulator {
         imports: Set<Import>,
         fileDescriptorInfo: FileDescriptorInfo?
     ): FileSpec? {
+        if (descs.isEmpty()) {
+            return null
+        }
+
         val accumulatedImports =
             fileDescriptorInfo?.let {
                 imports + it.imports.map(Import::Literal)
             } ?: imports
 
-        val builder = HeaderAccumulator.startFile(descs, accumulatedImports)
+        val builder = HeaderAccumulator.startFile(descs.first(), accumulatedImports)
 
-        val body = StringBuilder()
         descs.forEach {
-            it.type.code.map { s ->
-                if (s.isNotBlank()) {
-                    body.appendLine(s)
-                }
-            }
+            builder.addType(it.type.typeSpec)
         }
 
-        if (body.isNotBlank() || fileDescriptorInfo != null) {
-            fileDescriptorInfo?.run { body.append(fdp) }
+        if (descs.isNotEmpty() || fileDescriptorInfo != null) {
+            // fileDescriptorInfo?.run { body.append(fdp) }
         }
 
-        return builder?.build()
+        return builder.build()
     }
 }

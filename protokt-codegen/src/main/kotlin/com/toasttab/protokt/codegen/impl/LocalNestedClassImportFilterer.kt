@@ -16,12 +16,12 @@
 package com.toasttab.protokt.codegen.impl
 
 import com.toasttab.protokt.codegen.model.Import
+import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.protoc.Enum
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Oneof
 import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.codegen.protoc.TopLevelType
-import com.toasttab.protokt.codegen.protoc.TypeDesc
 
 /**
  * All classes defined in the scope of a message that are used as a field type
@@ -40,14 +40,14 @@ import com.toasttab.protokt.codegen.protoc.TypeDesc
  * These imports _are_ necessary in other files or equivalently when used in
  * messages other than that in which they are defined.
  */
-fun Sequence<Import>.filterNestedClassesDefinedLocally(descs: List<TypeDesc>) =
+fun Sequence<Import>.filterNestedClassesDefinedLocally(pkg: PPackage, types: List<TopLevelType>) =
     filterNot {
         it is Import.Class && it.nested &&
-            descsUsing(it, descs).containsOnly(descsDefining(it, descs))
+            descsUsing(it, types).containsOnly(descsDefining(pkg, it, types))
     }
 
-private fun descsUsing(import: Import.Class, descs: List<TypeDesc>) =
-    descs.filter { searchTypes(it.type.rawType, import) }.toSet()
+private fun descsUsing(import: Import.Class, types: List<TopLevelType>) =
+    types.filter { searchTypes(it, import) }.toSet()
 
 private fun searchTypes(t: TopLevelType, import: Import.Class): Boolean =
     t is Message &&
@@ -61,10 +61,10 @@ private fun searchFields(msg: Message, import: Import.Class) =
         }
     }
 
-private fun descsDefining(import: Import.Class, descs: List<TypeDesc>) =
-    descs.filter {
-        it.type.rawType.let { t ->
-            import.pkg == kotlinPackage(it) &&
+private fun descsDefining(pkg: PPackage, import: Import.Class, types: List<TopLevelType>) =
+    types.filter {
+        it.let { t ->
+            import.pkg == pkg &&
                 t is Message && searchMessage(t, t.name, import)
         }
     }.let {

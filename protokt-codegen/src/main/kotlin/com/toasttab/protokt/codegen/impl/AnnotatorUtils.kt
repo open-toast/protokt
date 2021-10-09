@@ -20,9 +20,11 @@ import arrow.core.Some
 import com.toasttab.protokt.codegen.impl.Annotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptMapKeyTypeName
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptMapValueTypeName
+import com.toasttab.protokt.codegen.protoc.FileDesc
 import com.toasttab.protokt.codegen.protoc.MapEntry
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Oneof
+import com.toasttab.protokt.codegen.protoc.Protocol
 import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.codegen.protoc.TypeDesc
 import com.toasttab.protokt.codegen.template.Renderers.ConcatWithScope
@@ -64,8 +66,14 @@ fun String.emptyToNone() =
     }
 
 fun kotlinPackage(data: TypeDesc) =
+    kotlinPackage(data.desc)
+
+fun kotlinPackage(protocol: Protocol) =
+    kotlinPackage(protocol.desc)
+
+fun kotlinPackage(desc: FileDesc) =
     resolvePackage(
-        data.desc.options,
-        data.desc.packageName,
-        data.desc.context.respectJavaPackage
+        desc.options,
+        desc.packageName,
+        desc.context.respectJavaPackage
     )

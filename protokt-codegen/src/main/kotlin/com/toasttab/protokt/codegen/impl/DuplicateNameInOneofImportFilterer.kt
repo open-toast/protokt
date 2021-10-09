@@ -19,20 +19,20 @@ import com.toasttab.protokt.codegen.model.Import
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Oneof
-import com.toasttab.protokt.codegen.protoc.TypeDesc
+import com.toasttab.protokt.codegen.protoc.TopLevelType
 
 fun Sequence<Import>.filterClassesWithSameNameAsOneofFieldTypeIn(
-    descs: List<TypeDesc>
+    types: List<TopLevelType>
 ) =
     filterNot {
         it is Import.Class &&
-            allOneofFieldTypes(descs).contains(it.pClass.simpleName)
+            allOneofFieldTypes(types).contains(it.pClass.simpleName)
     }
 
-private fun allOneofFieldTypes(descs: List<TypeDesc>) =
-    descs.asSequence().flatMap {
-        when (val t = it.type.rawType) {
-            is Message -> typeNames(t)
+private fun allOneofFieldTypes(types: List<TopLevelType>) =
+    types.asSequence().flatMap {
+        when (it) {
+            is Message -> typeNames(it)
             else -> emptySequence()
         }
     }

@@ -25,9 +25,7 @@ import com.toasttab.protokt.codegen.impl.Annotator
 import com.toasttab.protokt.codegen.impl.FileDescriptorResolver
 import com.toasttab.protokt.codegen.impl.ImportResolver
 import com.toasttab.protokt.codegen.impl.resolvePackage
-import com.toasttab.protokt.codegen.protoc.AnnotatedType
 import com.toasttab.protokt.codegen.protoc.ProtocolContext
-import com.toasttab.protokt.codegen.protoc.TypeDesc
 import com.toasttab.protokt.codegen.protoc.fileName
 import com.toasttab.protokt.codegen.protoc.respectJavaPackage
 import com.toasttab.protokt.codegen.protoc.toProtocol
@@ -80,12 +78,10 @@ private fun generate(
             )
         )
 
-    val descs = protocol.types.map { TypeDesc(protocol.desc, AnnotatedType(it)) }
-
     return Accumulator.buildFile(
-        descs.map(Annotator::apply),
-        ImportResolver.resolveImports(descs),
-        FileDescriptorResolver.resolveFileDescriptor(descs)
+        Annotator.apply(protocol),
+        ImportResolver.resolveImports(protocol),
+        FileDescriptorResolver.resolveFileDescriptor(protocol)
     )?.toString()
 }
 

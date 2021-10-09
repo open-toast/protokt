@@ -30,10 +30,10 @@ import com.toasttab.protokt.codegen.model.pclass
 import com.toasttab.protokt.codegen.protoc.Enum
 import com.toasttab.protokt.codegen.protoc.Field
 import com.toasttab.protokt.codegen.protoc.Message
+import com.toasttab.protokt.codegen.protoc.Protocol
 import com.toasttab.protokt.codegen.protoc.ProtocolContext
 import com.toasttab.protokt.codegen.protoc.Service
 import com.toasttab.protokt.codegen.protoc.TopLevelType
-import com.toasttab.protokt.codegen.protoc.TypeDesc
 import com.toasttab.protokt.rt.KtDeserializer
 import com.toasttab.protokt.rt.KtEnum
 import com.toasttab.protokt.rt.KtEnumDeserializer
@@ -65,15 +65,15 @@ class ImportResolver(
             "com.toasttab.protokt.FileDescriptor"
         ).map { Import.Class(PClass.fromName(it)) }
 
-    private fun resolveImports(descs: List<TypeDesc>) =
-        descs.flatMapToSet { imports(it.type.rawType) }
+    private fun resolveImports(types: List<TopLevelType>) =
+        types.flatMapToSet { imports(it) }
             .asSequence()
             .filterNot { it.pkg == PPackage.KOTLIN }
             .filterNot { it is Import.Class && it.pClass.simpleName == "Any" }
             .filterClassesWithSamePackageName(pkg)
-            .filterClassesWithSameNameAsMessageIn(descs)
-            .filterClassesWithSameNameAsOneofFieldTypeIn(descs)
-            .filterNestedClassesDefinedLocally(descs)
+            .filterClassesWithSameNameAsMessageIn(types)
+            .filterClassesWithSameNameAsOneofFieldTypeIn(types)
+            .filterNestedClassesDefinedLocally(pkg, types)
             .filterDuplicateSimpleNames(pkg) { getClassOrNone(it, ctx) }
 
     private fun imports(t: TopLevelType): ImmutableSet<Import> =
@@ -111,13 +111,15 @@ class ImportResolver(
         fold(immutableSetOf()) { s, e -> s + transform(e) }
 
     companion object {
-        fun resolveImports(descs: List<TypeDesc>) =
-            descs.firstOrNone()
+        fun resolveImports(protocol: Protocol) =
+            protocol.types.firstOrNone()
                 .fold(
                     { emptySet() },
                     {
-                        ImportResolver(it.desc.context, kotlinPackage(it))
-                            .resolveImports(descs)
+                        ImportResolver(
+                            protocol.desc.context,
+                            kotlinPackage(protocol)
+                        ).resolveImports(protocol.types)
                     }
                 )
     }

@@ -15,9 +15,8 @@
 
 package com.toasttab.protokt.codegen.protoc
 
-import arrow.core.None
-import arrow.core.Option
 import com.google.protobuf.DescriptorProtos
+import com.squareup.kotlinpoet.TypeSpec
 import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.ext.Protokt
@@ -160,7 +159,7 @@ class Protocol(
 
 class AnnotatedType(
     val rawType: TopLevelType,
-    val code: Option<String> = None
+    val typeSpec: TypeSpec
 )
 
 class TypeDesc(
