@@ -22,6 +22,7 @@ object versions {
     const val grpcKotlin = "1.1.0"
     const val kollection = "0.7"
     const val kotlin = "1.4.32"
+    const val kotlinPoet = "1.8.0"
     const val kotlinxCoroutines = "1.3.9"
     const val protobuf = DEFAULT_PROTOBUF_VERSION
     const val protobufPlugin = "0.8.17"
@@ -57,6 +58,7 @@ object libraries {
 
     const val kollection = "com.github.andrewoma.dexx:kollection:${versions.kollection}"
 
+    const val kotlinPoet = "com.squareup:kotlinpoet:${versions.kotlinPoet}"
     const val kotlinReflect = "org.jetbrains.kotlin:kotlin-reflect:${versions.kotlin}"
     const val kotlinStdlib = "org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlin}"
     const val kotlinxCoroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.kotlinxCoroutines}"

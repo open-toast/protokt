@@ -16,6 +16,7 @@
 package com.toasttab.protokt.codegen.impl
 
 import com.google.protobuf.DescriptorProtos
+import com.squareup.kotlinpoet.FileSpec
 import com.toasttab.protokt.codegen.protoc.Enum
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.TopLevelType
@@ -26,7 +27,7 @@ import com.toasttab.protokt.codegen.template.Descriptor.MessageDescriptorPropert
 
 class FileDescriptorInfo(
     val fdp: String,
-    val imports: Set<String>
+    val imports: Set<FileSpec.Builder.() -> Unit>
 )
 
 class FileDescriptorResolver
@@ -90,11 +91,11 @@ private constructor(
 
     private class DependenciesAndImports(
         val dependencies: List<String>,
-        val imports: Set<String>
+        val imports: Set<FileSpec.Builder.() -> Unit>
     )
 
     private fun dependencies(): DependenciesAndImports {
-        val imports = mutableSetOf<String>()
+        val imports = mutableSetOf<FileSpec.Builder.() -> Unit>()
 
         val dependencies =
             ctx.fdp.dependencyList
@@ -111,7 +112,7 @@ private constructor(
                     val descriptorObjectName =
                         ctx.allDescriptorClassNamesByDescriptorName.getValue(it)
                     if (!depPkg.default && depPkg != pkg) {
-                        imports.add("$depPkg.$descriptorObjectName")
+                        imports.add { addImport(depPkg.toString(), descriptorObjectName) }
                     }
                     descriptorObjectName
                 }

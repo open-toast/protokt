@@ -18,7 +18,6 @@ package com.toasttab.protokt.codegen.impl
 import com.github.andrewoma.dexx.kollection.ImmutableSet
 import com.github.andrewoma.dexx.kollection.immutableSetOf
 import com.toasttab.protokt.codegen.model.Import
-import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.pclass
 import com.toasttab.protokt.codegen.protoc.Method
 import com.toasttab.protokt.codegen.protoc.Service
@@ -38,10 +37,9 @@ class ServiceImportResolver(
             setOf(
                 pclass(MethodDescriptor::class),
                 pclass(MethodDescriptor.MethodType::class),
-                Import.ClassMethod(
-                    PClass.fromClass(MethodDescriptor::class),
-                    "generateFullMethodName"
-                )
+                Import.ClassMethod {
+                    addImport(MethodDescriptor::class, "generateFullMethodName")
+                }
             ) +
                 service.methods.flatMap { methodImports(it) } +
                 possibleKtMarshaller(service.methods)

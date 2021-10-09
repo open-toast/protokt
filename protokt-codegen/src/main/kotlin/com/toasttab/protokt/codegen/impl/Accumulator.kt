@@ -15,23 +15,22 @@
 
 package com.toasttab.protokt.codegen.impl
 
+import com.squareup.kotlinpoet.FileSpec
 import com.toasttab.protokt.codegen.model.Import
 import com.toasttab.protokt.codegen.protoc.TypeDesc
 
 internal object Accumulator {
-    fun apply(
+    fun buildFile(
         descs: List<TypeDesc>,
         imports: Set<Import>,
-        fileDescriptorInfo: FileDescriptorInfo?,
-        acc: (CharSequence) -> Unit
-    ) {
+        fileDescriptorInfo: FileDescriptorInfo?
+    ): FileSpec? {
         val accumulatedImports =
             fileDescriptorInfo?.let {
                 imports + it.imports.map(Import::Literal)
             } ?: imports
 
-        val header = StringBuilder()
-        HeaderAccumulator.write(descs, accumulatedImports, header::append)
+        val builder = HeaderAccumulator.startFile(descs, accumulatedImports)
 
         val body = StringBuilder()
         descs.forEach {
@@ -43,9 +42,9 @@ internal object Accumulator {
         }
 
         if (body.isNotBlank() || fileDescriptorInfo != null) {
-            acc(header)
             fileDescriptorInfo?.run { body.append(fdp) }
-            acc(ImportReplacer.replaceImports(body, accumulatedImports))
         }
+
+        return builder?.build()
     }
 }

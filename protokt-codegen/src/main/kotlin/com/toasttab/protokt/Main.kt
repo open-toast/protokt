@@ -51,11 +51,8 @@ internal fun main(bytes: ByteArray, out: OutputStream) {
     val files = req.protoFileList
         .filter { filesToGenerate.contains(it.name) }
         .mapNotNull {
-            response(
-                it,
-                generate(it, req.protoFileList, filesToGenerate, params),
-                params
-            )
+            val code = generate(it, req.protoFileList, filesToGenerate, params)
+            code?.let { s -> response(it, s, params) }
         }
 
     if (files.isNotEmpty()) {
@@ -72,8 +69,7 @@ private fun generate(
     protoFileList: List<FileDescriptorProto>,
     filesToGenerate: Set<String>,
     params: Map<String, String>
-): String {
-    val code = StringBuilder()
+): String? {
     val protocol =
         toProtocol(
             ProtocolContext(
@@ -86,14 +82,11 @@ private fun generate(
 
     val descs = protocol.types.map { TypeDesc(protocol.desc, AnnotatedType(it)) }
 
-    Accumulator.apply(
+    return Accumulator.buildFile(
         descs.map(Annotator::apply),
         ImportResolver.resolveImports(descs),
-        FileDescriptorResolver.resolveFileDescriptor(descs),
-        code::append
-    )
-
-    return code.toString()
+        FileDescriptorResolver.resolveFileDescriptor(descs)
+    )?.toString()
 }
 
 private fun response(
