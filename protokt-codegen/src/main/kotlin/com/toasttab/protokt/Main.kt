@@ -82,8 +82,17 @@ private fun generate(
         Annotator.apply(protocol),
         ImportResolver.resolveImports(protocol),
         FileDescriptorResolver.resolveFileDescriptor(protocol)
-    )?.toString()
+    )?.toString()?.let(::tidy)
 }
+
+// strips Explicit API mode declarations
+// https://kotlinlang.org/docs/whatsnew14.html#explicit-api-mode-for-library-authors
+private fun tidy(code: String) =
+    code
+        // https://stackoverflow.com/a/64970734
+        .replace("public ", "")
+        // https://github.com/square/kotlinpoet/pull/932
+        .replace("): Unit", ")")
 
 private fun response(
     fdp: FileDescriptorProto,

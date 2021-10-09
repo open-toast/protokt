@@ -16,7 +16,13 @@
 package com.toasttab.protokt.codegen.impl
 
 import arrow.core.firstOrNone
+import com.squareup.kotlinpoet.AnnotationSpec
+import com.squareup.kotlinpoet.CodeBlock
+import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.ParameterSpec
+import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
+import com.squareup.kotlinpoet.TypeVariableName
 import com.toasttab.protokt.codegen.impl.Annotator.Context
 import com.toasttab.protokt.codegen.impl.Annotator.annotate
 import com.toasttab.protokt.codegen.impl.Deprecation.enclosingDeprecation
@@ -35,6 +41,10 @@ import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.template.Message.Message.MessageInfo
 import com.toasttab.protokt.codegen.template.Message.Message.Options
+import com.toasttab.protokt.codegen.template.Message.Message.PropertyInfo
+import com.toasttab.protokt.rt.KtGeneratedMessage
+import com.toasttab.protokt.rt.KtMessage
+import com.toasttab.protokt.rt.UnknownFieldSet
 import com.toasttab.protokt.codegen.template.Message.Message as MessageTemplate
 
 class MessageAnnotator
@@ -46,6 +56,8 @@ private constructor(
         if (msg.mapEntry) {
             annotateMapEntry(msg, ctx)
         } else {
+            val properties = annotateProperties(msg, ctx)
+            val messageInfo = messageInfo()
             MessageTemplate.render(
                 message = messageInfo(),
                 properties = annotateProperties(msg, ctx),
@@ -57,17 +69,79 @@ private constructor(
                 options = options()
             )
             TypeSpec.classBuilder(msg.name)
-                .addModifiers()
-                .apply {
-                    msg.nestedTypes
-                        .mapNotNull { annotate(it, ctx) }
-                        .forEach(::addType)
-                }
+                .handleAnnotations(messageInfo)
+                .addKdoc(formatDoc(messageInfo.documentation))
+                .handleConstructor(properties)
+                .addTypes(msg.nestedTypes.mapNotNull { annotate(it, ctx) })
                 .build()
         }
 
-    //private fun nestedTypes() =
-      //  msg.nestedTypes.map { annotate(it, ctx) }
+    private fun TypeSpec.Builder.handleAnnotations(
+        messageInfo: MessageInfo
+    ) = apply {
+        addAnnotation(
+            AnnotationSpec.builder(KtGeneratedMessage::class)
+                .addMember("\"" + msg.fullProtobufTypeName + "\"")
+                .build()
+        )
+        if (messageInfo.deprecation != null) {
+            addAnnotation(
+                AnnotationSpec.builder(Deprecated::class)
+                    .apply {
+                        if (messageInfo.deprecation.message != null) {
+                            addMember("\"" + messageInfo.deprecation.message + "\"")
+                        }
+                    }
+                    .build()
+            )
+        }
+    }
+
+    private fun TypeSpec.Builder.handleConstructor(
+        properties: List<PropertyInfo>
+    ) = apply {
+        addSuperinterface(KtMessage::class)
+        addProperties(
+            properties.map {
+                PropertySpec.builder(it.name, TypeVariableName(it.propertyType))
+                    .initializer(it.name)
+                    .addKdoc(formatDoc(it.documentation))
+                    .build()
+            }
+        )
+        addProperty(
+            PropertySpec.builder("unknownFields", UnknownFieldSet::class)
+                .initializer("unknownFields")
+                .build()
+        )
+        primaryConstructor(
+            FunSpec.constructorBuilder()
+                .addParameters(
+                    properties.map {
+                        ParameterSpec(it.name, TypeVariableName(it.propertyType))
+                    }
+                )
+                .addParameter(
+                    ParameterSpec.builder("unknownFields", UnknownFieldSet::class)
+                        .defaultValue("UnknownFieldSet.empty()")
+                        .build()
+                )
+                .build()
+        )
+    }
+
+    private fun formatDoc(lines: List<String>) =
+        // escape the entire comment block
+        CodeBlock.of(
+            "%L",
+            lines.joinToString(" ") {
+                if (it.isBlank()) {
+                    "\n\n"
+                } else {
+                    it.removePrefix(" ")
+                }
+            }
+        )
 
     private fun messageInfo() =
         MessageInfo(
