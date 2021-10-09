@@ -31,11 +31,6 @@ import com.toasttab.protokt.codegen.protoc.Service
 import com.toasttab.protokt.codegen.protoc.TopLevelType
 import com.toasttab.protokt.codegen.protoc.TypeDesc
 
-/**
- * STAnnotator is an implementation of a side effect free function.
- * The input is an AST<TypeDesc> and its output is a NEW AST<TypeDesc> that has
- * a NEW fully constructed AnnotatedType attached to each AST node.
- */
 object Annotator {
     const val rootGoogleProto = "google.protobuf"
     const val googleProto = ".google.protobuf"
@@ -51,24 +46,23 @@ object Annotator {
     )
 
     fun apply(protocol: Protocol) =
-        protocol.types.map {
-            TypeDesc(
-                protocol.desc,
-                AnnotatedType(
+        protocol.types.mapNotNull {
+            val annotated =
+                annotate(
                     it,
-                    annotate(
-                        it,
-                        Context(
-                            immutableListOf(),
-                            kotlinPackage(protocol),
-                            protocol.desc
-                        )
+                    Context(
+                        immutableListOf(),
+                        kotlinPackage(protocol),
+                        protocol.desc
                     )
                 )
-            )
+
+            annotated?.let { type ->
+                TypeDesc(protocol.desc, AnnotatedType(it, type))
+            }
         }
 
-    fun annotate(type: TopLevelType, ctx: Context): TypeSpec =
+    fun annotate(type: TopLevelType, ctx: Context): TypeSpec? =
         when (type) {
             is Message ->
                 nonGrpc(ctx) {
@@ -94,14 +88,14 @@ object Annotator {
                 )
         }
 
-    private fun nonDescriptors(ctx: Context, gen: () -> String) =
-        nonDescriptors(ctx.desc.context, "", gen)
+    private fun <T> nonDescriptors(ctx: Context, gen: () -> T) =
+        nonDescriptors(ctx.desc.context, null, gen)
 
     fun <T> nonDescriptors(ctx: ProtocolContext, default: T, gen: () -> T) =
         boolGen(!ctx.onlyGenerateDescriptors, default, gen)
 
-    private fun nonGrpc(ctx: Context, gen: () -> String) =
-        nonGrpc(ctx.desc.context, "", gen)
+    private fun <T> nonGrpc(ctx: Context, gen: () -> T) =
+        nonGrpc(ctx.desc.context, null, gen)
 
     fun <T> nonGrpc(ctx: ProtocolContext, default: T, gen: () -> T) =
         boolGen(!ctx.onlyGenerateGrpc, default, gen)

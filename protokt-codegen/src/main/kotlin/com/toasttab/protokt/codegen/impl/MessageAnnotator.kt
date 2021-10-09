@@ -16,6 +16,7 @@
 package com.toasttab.protokt.codegen.impl
 
 import arrow.core.firstOrNone
+import com.squareup.kotlinpoet.TypeSpec
 import com.toasttab.protokt.codegen.impl.Annotator.Context
 import com.toasttab.protokt.codegen.impl.Annotator.annotate
 import com.toasttab.protokt.codegen.impl.Deprecation.enclosingDeprecation
@@ -52,13 +53,21 @@ private constructor(
                 sizeof = annotateSizeof(msg, ctx),
                 serialize = annotateSerializer(msg, ctx),
                 deserialize = annotateDeserializer(msg, ctx),
-                nested = nestedTypes(),
+                nested = listOf(), // nestedTypes(),
                 options = options()
             )
+            TypeSpec.classBuilder(msg.name)
+                .addModifiers()
+                .apply {
+                    msg.nestedTypes
+                        .mapNotNull { annotate(it, ctx) }
+                        .forEach(::addType)
+                }
+                .build()
         }
 
-    private fun nestedTypes() =
-        msg.nestedTypes.map { annotate(it, ctx) }
+    //private fun nestedTypes() =
+      //  msg.nestedTypes.map { annotate(it, ctx) }
 
     private fun messageInfo() =
         MessageInfo(

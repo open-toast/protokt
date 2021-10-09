@@ -15,6 +15,7 @@
 
 package com.toasttab.protokt.codegen.impl
 
+import com.squareup.kotlinpoet.TypeSpec
 import com.toasttab.protokt.codegen.impl.Annotator.Context
 import com.toasttab.protokt.codegen.protoc.Method
 import com.toasttab.protokt.codegen.protoc.ProtocolContext
@@ -28,7 +29,7 @@ import com.toasttab.protokt.codegen.template.Services.Method as MethodTemplate
 import com.toasttab.protokt.codegen.template.Services.Service as ServiceTemplate
 
 internal object ServiceAnnotator {
-    fun annotateService(s: Service, ctx: Context, generateService: Boolean) =
+    fun annotateService(s: Service, ctx: Context, generateService: Boolean): TypeSpec {
         ServiceTemplate.render(
             generateService = generateService,
             generateDescriptor = generateDescriptor(ctx.desc.context),
@@ -42,6 +43,10 @@ internal object ServiceAnnotator {
                 ctx.desc.context.fileDescriptorObjectName
             )
         )
+
+        return TypeSpec.classBuilder(s.name + "Grpc")
+            .build()
+    }
 
     private fun generateDescriptor(ctx: ProtocolContext) =
         !ctx.onlyGenerateGrpc && !ctx.lite

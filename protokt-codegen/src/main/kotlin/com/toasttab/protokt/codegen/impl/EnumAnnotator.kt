@@ -15,6 +15,7 @@
 
 package com.toasttab.protokt.codegen.impl
 
+import com.squareup.kotlinpoet.TypeSpec
 import com.toasttab.protokt.codegen.impl.Annotator.Context
 import com.toasttab.protokt.codegen.impl.Deprecation.enclosingDeprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.hasDeprecation
@@ -31,12 +32,15 @@ private constructor(
     val e: Enum,
     val ctx: Context
 ) {
-    fun annotateEnum() =
+    fun annotateEnum(): TypeSpec {
         EnumTemplate.render(
             name = e.name,
             map = enumMap(),
             options = enumOptions()
         )
+        return TypeSpec.classBuilder(e.name)
+            .build()
+    }
 
     private fun enumMap() =
         e.values.associate {

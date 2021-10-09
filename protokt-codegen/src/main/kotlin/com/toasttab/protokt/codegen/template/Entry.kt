@@ -16,14 +16,7 @@
 package com.toasttab.protokt.codegen.template
 
 object Entry {
-    object Entry : StTemplate(StGroup.Entry) {
-        fun render(
-            name: String,
-            key: PropertyInfo,
-            value: PropertyInfo
-        ) =
-            renderArgs(name, key, value)
-
+    object Entry {
         class PropertyInfo(
             val propertyType: String,
             val messageType: String,
