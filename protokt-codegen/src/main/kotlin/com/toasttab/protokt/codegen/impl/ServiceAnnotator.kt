@@ -15,7 +15,12 @@
 
 package com.toasttab.protokt.codegen.impl
 
+import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
+import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
+import com.squareup.kotlinpoet.TypeVariableName
+import com.squareup.kotlinpoet.asTypeName
 import com.toasttab.protokt.codegen.impl.Annotator.Context
 import com.toasttab.protokt.codegen.protoc.Method
 import com.toasttab.protokt.codegen.protoc.ProtocolContext
@@ -25,6 +30,8 @@ import com.toasttab.protokt.codegen.template.Services.Method.MethodOptions
 import com.toasttab.protokt.codegen.template.Services.MethodType
 import com.toasttab.protokt.codegen.template.Services.Service.MethodInfo
 import com.toasttab.protokt.codegen.template.Services.Service.ReflectInfo
+import io.grpc.MethodDescriptor
+import io.grpc.ServiceDescriptor
 import com.toasttab.protokt.codegen.template.Services.Method as MethodTemplate
 import com.toasttab.protokt.codegen.template.Services.Service as ServiceTemplate
 
@@ -44,9 +51,58 @@ internal object ServiceAnnotator {
             )
         )
 
-        return TypeSpec.classBuilder(s.name + "Grpc")
+        return TypeSpec.objectBuilder(s.name + "Grpc")
+            .addProperty(
+                PropertySpec.builder("SERVICE_NAME", String::class)
+                    .addModifiers(KModifier.CONST)
+                    .initializer("\"" + renderQualifiedName(s, ctx) + "\"")
+                    .build()
+            )
+            .addProperty(
+                PropertySpec.builder("serviceDescriptor", ServiceDescriptor::class)
+                    .delegate(
+                        """
+                            |lazy {
+                            |  ServiceDescriptor.newBuilder(SERVICE_NAME)
+                            |${serviceLines(s)}
+                            |}
+                        """.trimMargin()
+                    )
+                    .build()
+            )
+            .addProperties(
+                s.methods.map {
+                    PropertySpec.builder(
+                        it.name.decapitalize()+ "Method",
+                        MethodDescriptor::class
+                            .asTypeName()
+                            .parameterizedBy(
+                                TypeVariableName(it.inputType.renderName(ctx.pkg)),
+                                TypeVariableName(it.outputType.renderName(ctx.pkg))
+                            )
+                    )
+                        .delegate(
+                            """
+                                |lazy {
+                                |  MethodDescriptor.newBuilder<${it.inputType.renderName(ctx.pkg)}, ${it.outputType.renderName(ctx.pkg)}>()
+                                |    .setType(MethodDescriptor.MethodType.${methodType(it)})
+                                |    .setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "${it.name}"))
+                                |    .setRequestMarshaller(${it.options.protokt.requestMarshaller.ifEmpty { "com.toasttab.protokt.grpc.KtMarshaller" }}(${it.inputType.renderName(ctx.pkg)}))
+                                |    .setResponseMarshaller(${it.options.protokt.responseMarshaller.ifEmpty { "com.toasttab.protokt.grpc.KtMarshaller" }}(${it.outputType.renderName(ctx.pkg)}))
+                                |    .build()
+                                |}
+                            """.trimMargin()
+                        )
+                        .build()
+                }
+            )
             .build()
     }
+
+    private fun serviceLines(s: Service) =
+        s.methods.joinToString("\n") {
+            "    .addMethod(${it.name.decapitalize()}Method)"
+        } + "\n    .build()"
 
     private fun generateDescriptor(ctx: ProtocolContext) =
         !ctx.onlyGenerateGrpc && !ctx.lite
