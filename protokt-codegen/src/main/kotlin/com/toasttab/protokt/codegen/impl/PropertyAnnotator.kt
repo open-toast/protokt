@@ -52,6 +52,7 @@ private constructor(
                     annotateStandard(it).let { type ->
                         PropertyInfo(
                             name = it.fieldName,
+                            pClass = it.typePClass,
                             propertyType = propertyType(it, type),
                             deserializeType = deserializeType(it, type),
                             dslPropertyType = dslPropertyType(it, type),
@@ -106,7 +107,13 @@ private constructor(
                     ctx
                 )
             }
-        )
+        ).let {
+            if (it == "Any") {
+                f.typePClass.qualifiedName
+            } else {
+                it
+            }
+        }
 
     private fun Field.defaultValue(ctx: Context) =
         when (this) {

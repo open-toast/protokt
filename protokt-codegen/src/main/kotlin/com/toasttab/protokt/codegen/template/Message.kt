@@ -16,6 +16,7 @@
 package com.toasttab.protokt.codegen.template
 
 import com.toasttab.protokt.codegen.impl.Deprecation
+import com.toasttab.protokt.codegen.model.PClass
 
 object Message {
     object Message : StTemplate(StGroup.Message) {
@@ -62,6 +63,7 @@ object Message {
             val defaultValue: String,
             val nullable: Boolean,
             val nonNullOption: Boolean,
+            val pClass: PClass? = null,
             val fieldType: String = "",
             val repeated: Boolean = false,
             val map: Boolean = false,
