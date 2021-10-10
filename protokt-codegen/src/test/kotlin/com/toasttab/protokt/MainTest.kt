@@ -72,14 +72,6 @@ private fun buildPluginOptions(extension: ProtoktExtension) =
                 LOWER_CAMEL.to(LOWER_UNDERSCORE, it.name) + "=${it.call(extension)}"
             }
 
-private fun buildPluginOptions(extension: ProtoktExtension) =
-    "--custom_opt=" +
-        extension::class.declaredMemberProperties
-            .filter { it.returnType.classifier as KClass<*> == Boolean::class }
-            .joinToString(",") {
-                LOWER_CAMEL.to(LOWER_UNDERSCORE, it.name) + "=${it.call(extension)}"
-            }
-
 private val codegenTestingResources =
     Path.of(
         "protokt-codegen", "src", "test", "resources",

@@ -17,12 +17,9 @@ package com.toasttab.protokt.codegen.impl
 
 import com.google.common.truth.Truth.assertThat
 import com.toasttab.protokt.codegen.impl.ImportReplacer.replaceImports
-import com.toasttab.protokt.codegen.model.Import
-import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.method
 import com.toasttab.protokt.codegen.model.pclass
 import com.toasttab.protokt.grpc.KtMarshaller
-import io.grpc.MethodDescriptor
 import io.grpc.MethodDescriptor.MethodType
 import org.junit.jupiter.api.Test
 
@@ -60,55 +57,6 @@ class ImportReplacerTest {
             replaceImports(code, setOf(pclass(MethodType::class)))
         ).isEqualTo(
             "MethodType.UNARY"
-        )
-    }
-
-    @Test
-    fun `class method import is replaced`() {
-        val code = "io.grpc.MethodDescriptor.generateFullMethodName(xyz)"
-
-        assertThat(
-            replaceImports(
-                code,
-                setOf(
-                    Import.ClassMethod(
-                        PClass.fromClass(MethodDescriptor::class),
-                        "generateFullMethodName"
-                    )
-                )
-            )
-        ).isEqualTo(
-            "generateFullMethodName(xyz)"
-        )
-    }
-
-    @Test
-    fun `related imports don't clobber each other`() {
-        val code =
-            """
-            io.grpc.MethodDescriptor.generateFullMethodName(xyz)
-            io.grpc.MethodDescriptor.MethodType.UNARY
-            io.grpc.MethodDescriptor.newBuilder<InT, OutT>()                
-            """.trimIndent()
-
-        assertThat(
-            replaceImports(
-                code,
-                setOf(
-                    pclass(MethodDescriptor::class),
-                    pclass(MethodType::class),
-                    Import.ClassMethod(
-                        PClass.fromClass(MethodDescriptor::class),
-                        "generateFullMethodName"
-                    )
-                )
-            )
-        ).isEqualTo(
-            """
-            generateFullMethodName(xyz)
-            MethodType.UNARY
-            MethodDescriptor.newBuilder<InT, OutT>()                
-            """.trimIndent()
         )
     }
 }
