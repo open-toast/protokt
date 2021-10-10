@@ -21,6 +21,8 @@ import arrow.core.Some
 import arrow.core.getOrElse
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.LambdaTypeName
+import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.TypeVariableName
@@ -65,6 +67,21 @@ private constructor(
                     .asTypeName()
                     .parameterizedBy(TypeVariableName(msg.name))
             )
+            .addSuperinterface(
+                LambdaTypeName.get(
+                    null,
+                    listOf(
+                        ParameterSpec.unnamed(
+                            LambdaTypeName.get(
+                                TypeVariableName("${msg.name}Dsl"),
+                                emptyList(),
+                                Unit::class.asTypeName()
+                            )
+                        )
+                    ),
+                    TypeVariableName(msg.name)
+                )
+            )
             .addFunction(
                 FunSpec.builder("deserialize")
                     .addModifiers(KModifier.OVERRIDE)
@@ -95,6 +112,21 @@ private constructor(
                             |}
                         """.trimMargin()
                     )
+                    .build()
+            )
+            .addFunction(
+                FunSpec.builder("invoke")
+                    .addModifiers(KModifier.OVERRIDE)
+                    .returns(TypeVariableName(msg.name))
+                    .addParameter(
+                        "dsl",
+                        LambdaTypeName.get(
+                            TypeVariableName("${msg.name}Dsl"),
+                            emptyList(),
+                            Unit::class.asTypeName()
+                        )
+                    )
+                    .addCode("return ${msg.name}Dsl().apply(dsl).build()")
                     .build()
             )
             .build()
