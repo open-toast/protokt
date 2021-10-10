@@ -39,6 +39,13 @@ private constructor(
     private val msg: Message,
     private val ctx: Context
 ) {
+    private val resultVarName =
+        if (msg.fields.any { it.fieldName == "result" }) {
+            "_result"
+        } else {
+            "result"
+        }
+
     private fun annotateMessageSizeNew(): FunSpec {
         val fieldSizes =
             msg.fields.map {
@@ -47,7 +54,7 @@ private constructor(
                         if (!it.hasNonNullOption) {
                             """
                                 |if ${it.nonDefault(ctx)} {
-                                |  result += ${sizeOfString(it)}
+                                |  $resultVarName += ${sizeOfString(it)}
                                 |}
                             """.trimMargin()
                         } else {
@@ -76,10 +83,10 @@ private constructor(
                     "return unknownFields.size()"
                 } else {
                     """
-                        |var result = 0
+                        |var $resultVarName = 0
                         |${fieldSizes.joinToString("\n")}
-                        |result += unknownFields.size()
-                        |return result
+                        |$resultVarName += unknownFields.size()
+                        |return $resultVarName
                     """.trimMargin()
                 }
             )
@@ -103,7 +110,7 @@ private constructor(
 
     private fun oneofSizeOfString(o: Oneof, f: StandardField) =
         if (!o.hasNonNullOption) {
-            "result += "
+            "$resultVarName += "
         } else {
             ""
         } +

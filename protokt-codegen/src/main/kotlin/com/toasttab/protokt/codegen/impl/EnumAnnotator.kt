@@ -144,7 +144,7 @@ private constructor(
     }
 
     private fun enumLines() =
-        e.values.joinToString("\n") {
+        e.values.distinctBy { it.number }.joinToString("\n") {
             "  " + it.number + " -> " + it.name
         }
 

@@ -95,12 +95,14 @@ class MethodOptions(
     val protokt: Protokt.ProtoktMethodOptions
 )
 
-sealed class Field
+sealed class Field {
+    abstract val fieldName: String
+}
 
 class StandardField(
     val number: Int,
     val name: String,
-    val fieldName: String,
+    override val fieldName: String,
     val type: FieldType,
     val typePClass: PClass,
     val repeated: Boolean,
@@ -127,7 +129,7 @@ class FieldOptions(
 
 class Oneof(
     val name: String,
-    val fieldName: String,
+    override val fieldName: String,
     val fields: List<StandardField>,
     val fieldTypeNames: Map<String, String>,
     val options: OneofOptions,
