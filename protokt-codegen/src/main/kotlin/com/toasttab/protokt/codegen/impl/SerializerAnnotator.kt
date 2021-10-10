@@ -66,10 +66,14 @@ private constructor(
             .addModifiers(KModifier.OVERRIDE)
             .addParameter("serializer", KtMessageSerializer::class)
             .addCode(
-                """
-                    |${fieldSerializations.joinToString("\n")}
-                    |serializer.writeUnknown(unknownFields)
-                """.trimMargin()
+                if (fieldSerializations.isEmpty()) {
+                    "serializer.writeUnknown(unknownFields)"
+                } else {
+                    """
+                        |${fieldSerializations.joinToString("\n")}
+                        |serializer.writeUnknown(unknownFields)
+                    """.trimMargin()
+                }
             )
             .build()
     }

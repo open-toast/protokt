@@ -72,12 +72,16 @@ private constructor(
             .addModifiers(KModifier.PRIVATE)
             .returns(Int::class)
             .addCode(
-                """
-                    |var result = 0
-                    |${fieldSizes.joinToString("\n")}
-                    |result += unknownFields.size()
-                    |return result
-                """.trimMargin()
+                if (fieldSizes.isEmpty()) {
+                    "return unknownFields.size()"
+                } else {
+                    """
+                        |var result = 0
+                        |${fieldSizes.joinToString("\n")}
+                        |result += unknownFields.size()
+                        |return result
+                    """.trimMargin()
+                }
             )
             .build()
     }

@@ -24,6 +24,7 @@ import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.TypeVariableName
+import com.squareup.kotlinpoet.asTypeName
 import com.toasttab.protokt.codegen.impl.Annotator.Context
 import com.toasttab.protokt.codegen.impl.Annotator.annotate
 import com.toasttab.protokt.codegen.impl.Deprecation.enclosingDeprecation
@@ -76,6 +77,8 @@ private constructor(
                 .handleMessageSize()
                 .addFunction(annotateMessageSizeNew(msg, ctx))
                 .addFunction(annotateSerializerNew(msg, ctx))
+                .handleEquals(properties)
+                .handleHashCode(properties)
                 .addTypes(msg.nestedTypes.mapNotNull { annotate(it, ctx) })
                 .build()
         }
@@ -134,14 +137,64 @@ private constructor(
         )
     }
 
-    private fun TypeSpec.Builder.handleMessageSize() = apply {
+    private fun TypeSpec.Builder.handleMessageSize() =
         addProperty(
             PropertySpec.builder("messageSize", Int::class)
                 .addModifiers(KModifier.OVERRIDE)
                 .delegate("lazy { messageSize() }")
                 .build()
         )
-    }
+
+    private fun TypeSpec.Builder.handleEquals(
+        properties: List<PropertyInfo>
+    ) =
+        addFunction(
+            FunSpec.builder(Any::equals.name)
+                .returns(Boolean::class)
+                .addModifiers(KModifier.OVERRIDE)
+                .addParameter("other", Any::class.asTypeName().copy(nullable = true))
+                .addCode(
+                    if (properties.isEmpty()) {
+                        "return other is ${msg.name} && other.unknownFields == unknownFields".replace(" ", "·")
+                    } else {
+                        """
+                            |return other is ${msg.name} &&·
+                            |${equalsLines(properties)}
+                            |  other.unknownFields == unknownFields
+                        """.trimMargin()
+                    }
+                )
+                .build()
+        )
+
+    private fun equalsLines(properties: List<PropertyInfo>) =
+        properties.joinToString(" &&\n") { "  other.${it.name} == ${it.name}" } + " &&"
+
+    private fun TypeSpec.Builder.handleHashCode(
+        properties: List<PropertyInfo>
+    ) =
+        addFunction(
+            FunSpec.builder(Any::hashCode.name)
+                .returns(Int::class)
+                .addModifiers(KModifier.OVERRIDE)
+                .addCode(
+                    if (properties.isEmpty()) {
+                        "return unknownFields.hashCode()"
+                    } else {
+                        """
+                            |var result = unknownFields.hashCode()
+                            |${hashCodeLines(properties)}
+                            |return result
+                        """.trimMargin()
+                    }
+                )
+                .build()
+        )
+
+    private fun hashCodeLines(properties: List<PropertyInfo>) =
+        properties.joinToString("\n") {
+            "result = 31 * result + ${it.name}.hashCode()"
+        }
 
     private fun formatDoc(lines: List<String>) =
         CodeBlock.of(
