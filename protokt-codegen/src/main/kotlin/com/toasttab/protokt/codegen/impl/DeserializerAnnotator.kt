@@ -101,6 +101,7 @@ private constructor(
                             |    0 ->
                             |      return ${msg.name}(
                             |        ${constructorLines(properties)}
+                            |        UnknownFieldSet.from(unknownFields)
                             |      )
                             |${assignmentLines(deserializerInfo)}
                             |    else ->
@@ -133,9 +134,10 @@ private constructor(
     }
 
     private fun constructorLines(properties: List<PropertyInfo>) =
-        properties.joinToString(",\n        ") {
-            deserializeWrapper(it)
+        properties.joinToString("\n        ") {
+            deserializeWrapper(it) + ","
         }
+
 
     private fun assignmentLines(deserializerInfo: List<DeserializerInfo>) =
         deserializerInfo.joinToString("\n") {
