@@ -79,6 +79,7 @@ private constructor(
                 .addFunction(annotateSerializerNew(msg, ctx))
                 .handleEquals(properties)
                 .handleHashCode(properties)
+                .handleToString(properties)
                 .addTypes(msg.nestedTypes.mapNotNull { annotate(it, ctx) })
                 .build()
         }
@@ -168,7 +169,7 @@ private constructor(
         )
 
     private fun equalsLines(properties: List<PropertyInfo>) =
-        properties.joinToString(" &&\n") { "  other.${it.name} == ${it.name}" } + " &&"
+        properties.joinToString("\n") { "  other.${it.name} == ${it.name} &&" }
 
     private fun TypeSpec.Builder.handleHashCode(
         properties: List<PropertyInfo>
@@ -194,6 +195,32 @@ private constructor(
     private fun hashCodeLines(properties: List<PropertyInfo>) =
         properties.joinToString("\n") {
             "result = 31 * result + ${it.name}.hashCode()"
+        }
+
+    private fun TypeSpec.Builder.handleToString(
+        properties: List<PropertyInfo>
+    ) =
+        addFunction(
+            FunSpec.builder(Any::toString.name)
+                .returns(String::class)
+                .addModifiers(KModifier.OVERRIDE)
+                .addCode(
+                    if (properties.isEmpty()) {
+                        "return \"${msg.name}(unknownFields=\$unknownFields)\""
+                    } else {
+                        """
+                            |return "${msg.name}(" +
+                            |${toStringLines(properties)}
+                            |  "unknownFields=${"$"}unknownFields)"
+                        """.trimMargin()
+                    }
+                )
+                .build()
+        )
+
+    private fun toStringLines(properties: List<PropertyInfo>) =
+        properties.joinToString("\n") {
+            "  \"${it.name}=\$${it.name}\" +"
         }
 
     private fun formatDoc(lines: List<String>) =
