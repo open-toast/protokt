@@ -40,7 +40,7 @@ private constructor(
     private val ctx: Context
 ) {
     private fun annotateSerializerNew(): FunSpec {
-        val serializerInfo =
+        val fieldSerializations =
             msg.fields.map {
                 when (it) {
                     is StandardField ->
@@ -67,7 +67,7 @@ private constructor(
             .addParameter("serializer", KtMessageSerializer::class)
             .addCode(
                 """
-                    |${serializerInfo.joinToString("\n")}
+                    |${fieldSerializations.joinToString("\n")}
                     |serializer.writeUnknown(unknownFields)
                 """.trimMargin()
             )

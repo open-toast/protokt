@@ -37,7 +37,7 @@ import com.toasttab.protokt.codegen.impl.MessageDocumentationAnnotator.annotateM
 import com.toasttab.protokt.codegen.impl.OneofAnnotator.Companion.annotateOneofs
 import com.toasttab.protokt.codegen.impl.PropertyAnnotator.Companion.annotateProperties
 import com.toasttab.protokt.codegen.impl.SerializerAnnotator.Companion.annotateSerializerNew
-import com.toasttab.protokt.codegen.impl.SizeofAnnotator.Companion.annotateSizeof
+import com.toasttab.protokt.codegen.impl.MessageSizeAnnotator.Companion.annotateMessageSizeNew
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.template.Message.Message.MessageInfo
@@ -63,7 +63,7 @@ private constructor(
                 message = messageInfo(),
                 properties = annotateProperties(msg, ctx),
                 oneofs = annotateOneofs(msg, ctx),
-                sizeof = annotateSizeof(msg, ctx),
+                sizeof = listOf(), // annotateMessageSizeOld(msg, ctx),
                 serialize = listOf(), // annotateSerializer(msg, ctx),
                 deserialize = annotateDeserializer(msg, ctx),
                 nested = listOf(), // nestedTypes(),
@@ -74,6 +74,7 @@ private constructor(
                 .addKdoc(formatDoc(messageInfo.documentation))
                 .handleConstructor(properties)
                 .handleMessageSize()
+                .addFunction(annotateMessageSizeNew(msg, ctx))
                 .addFunction(annotateSerializerNew(msg, ctx))
                 .addTypes(msg.nestedTypes.mapNotNull { annotate(it, ctx) })
                 .build()

@@ -267,8 +267,7 @@ sizeof(name, field, type, options) ::= <%
                 <t()><t()><t()>.sumOf { sizeof(<box(field.type, iterationVar())>) }<\n>
                 <t()><t()><t()>.let { it + sizeof(UInt32(it)) }
     <elseif(field.repeated && !field.map)>
-        (sizeof(Tag(<field.number>)) * <name>.size) +<\n>
-            <t()><t()><name>.sumOf { sizeof(<box(field.type, options.fieldAccess)>) }
+        (sizeof(Tag(<field.number>)) * <name>.size) + <name>.sumOf { sizeof(<box(field.type, options.fieldAccess)>) }
     <else>
         sizeof(Tag(<field.number>)) + <options.fieldSizeof>
     <endif>
@@ -276,7 +275,7 @@ sizeof(name, field, type, options) ::= <%
 
 sizeofMap() ::= <%
     sizeofMap(<name>, Tag(<field.number>)) { k, v -><\n>
-        <t()><t()><type>.sizeof(
+        <t()><type>.sizeof(
         <if (options.keyAccess)>
             <accessField(options.keyAccess, sizeofMapKey())>
         <else>
@@ -289,7 +288,7 @@ sizeofMap() ::= <%
             <sizeofMapValue()>
         <endif>
         )<\n>
-    <t()>}
+    <\ ><\ >}
 %>
 
 sizeofMapKey() ::= "k"

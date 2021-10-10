@@ -15,9 +15,8 @@
 
 package com.toasttab.protokt.codegen.impl
 
-import arrow.core.None
-import arrow.core.Option
-import arrow.core.Some
+import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.KModifier
 import com.toasttab.protokt.codegen.impl.Annotator.Context
 import com.toasttab.protokt.codegen.impl.Nullability.hasNonNullOption
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptFieldSizeof
@@ -35,12 +34,70 @@ import com.toasttab.protokt.codegen.template.Renderers.IterationVar
 import com.toasttab.protokt.codegen.template.Renderers.Sizeof
 import com.toasttab.protokt.codegen.template.Renderers.Sizeof.Options
 
-internal class SizeofAnnotator
+internal class MessageSizeAnnotator
 private constructor(
     private val msg: Message,
     private val ctx: Context
 ) {
-    private fun annotateSizeof(): List<SizeofInfo> {
+    private fun annotateMessageSizeNew(): FunSpec {
+        val fieldSizes =
+            msg.fields.map {
+                when (it) {
+                    is StandardField ->
+                        if (!it.hasNonNullOption) {
+                            """
+                                |if ${it.nonDefault(ctx)} {
+                                |  result += ${sizeOfString(it)}
+                                |}
+                            """.trimMargin()
+                        } else {
+                            sizeOfString(it)
+                        }
+                    is Oneof ->
+                        if (it.hasNonNullOption) {
+                            // TODO: verify indentation is correct for this case
+                            "result +=\n"
+                        } else {
+                            ""
+                        } +
+                        """
+                            |when (${it.fieldName}) {
+                            |${conditionals(it)}
+                            |}
+                        """.trimMargin()
+                }
+            }
+
+        return FunSpec.builder("messageSize")
+            .addModifiers(KModifier.PRIVATE)
+            .returns(Int::class)
+            .addCode(
+                """
+                    |var result = 0
+                    |${fieldSizes.joinToString("\n")}
+                    |result += unknownFields.size()
+                    |return result
+                """.trimMargin()
+            )
+            .build()
+    }
+
+    private fun conditionals(f: Oneof) =
+        f.fields
+            .sortedBy { it.number }.joinToString("\n") {
+                """
+                    |  is ${condition(f, it, msg.name)} ->
+                    |    ${sizeOfString(it, f.fieldName)}
+                """.trimMargin()
+            }
+
+    private fun condition(f: Oneof, ff: StandardField, type: String) =
+        ConcatWithScope.render(
+            scope = oneOfScope(f, type, ctx),
+            value = f.fieldTypeNames.getValue(ff.name)
+        )
+
+    private fun annotateMessageSizeOld(): List<SizeofInfo> {
         return msg.fields.map {
             when (it) {
                 is StandardField ->
@@ -51,7 +108,7 @@ private constructor(
                         listOf(
                             ConditionalParams(
                                 it.nonDefault(ctx),
-                                sizeOfString(it, None)
+                                sizeOfString(it)
                             )
                         )
                     )
@@ -68,19 +125,15 @@ private constructor(
 
     private fun sizeOfString(
         f: StandardField,
-        oneOfFieldAccess: Option<String>
+        oneOfFieldAccess: String? = null
     ): String {
         val name =
-            oneOfFieldAccess.fold(
-                {
-                    if (f.repeated) {
-                        f.fieldName
-                    } else {
-                        interceptSizeof(f, f.fieldName, ctx)
-                    }
-                },
-                { it }
-            )
+            oneOfFieldAccess
+                ?: if (f.repeated) {
+                    f.fieldName
+                } else {
+                    interceptSizeof(f, f.fieldName, ctx)
+                }
         return Sizeof.render(
             name = name,
             field = f,
@@ -104,22 +157,23 @@ private constructor(
                 ),
                 sizeOfString(
                     it,
-                    Some(
-                        interceptSizeof(
-                            it,
-                            ConcatWithScope.render(
-                                scope = f.fieldName,
-                                value = it.fieldName
-                            ),
-                            ctx
-                        )
+                    interceptSizeof(
+                        it,
+                        ConcatWithScope.render(
+                            scope = f.fieldName,
+                            value = it.fieldName
+                        ),
+                        ctx
                     )
                 )
             )
         }
 
     companion object {
-        fun annotateSizeof(msg: Message, ctx: Context) =
-            SizeofAnnotator(msg, ctx).annotateSizeof()
+        fun annotateMessageSizeOld(msg: Message, ctx: Context) =
+            MessageSizeAnnotator(msg, ctx).annotateMessageSizeOld()
+
+        fun annotateMessageSizeNew(msg: Message, ctx: Context) =
+            MessageSizeAnnotator(msg, ctx).annotateMessageSizeNew()
     }
 }
