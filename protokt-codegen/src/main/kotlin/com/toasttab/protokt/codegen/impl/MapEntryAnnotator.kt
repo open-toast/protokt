@@ -23,7 +23,7 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.TypeVariableName
 import com.squareup.kotlinpoet.asTypeName
 import com.toasttab.protokt.codegen.impl.Annotator.Context
-import com.toasttab.protokt.codegen.impl.DeserializerAnnotator.Companion.annotateDeserializer
+import com.toasttab.protokt.codegen.impl.DeserializerAnnotator.Companion.annotateDeserializerOld
 import com.toasttab.protokt.codegen.impl.PropertyAnnotator.Companion.annotateProperties
 import com.toasttab.protokt.codegen.impl.SerializerAnnotator.Companion.annotateSerializerOld
 import com.toasttab.protokt.codegen.impl.MessageSizeAnnotator.Companion.annotateMessageSizeOld
@@ -46,7 +46,7 @@ private constructor(
 ) {
     private fun annotateMapEntry(): TypeSpec {
         val entryInfo = resolveMapEntry(msg)
-        val desInfo = annotateDeserializer(msg, ctx)
+        val desInfo = annotateDeserializerOld(msg, ctx)
         val sizeInfo = annotateMessageSizeOld(msg, ctx)
         val serInfo = annotateSerializerOld(msg, ctx)
         val propInfo = annotateProperties(msg, ctx)

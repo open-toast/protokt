@@ -19,8 +19,15 @@ import arrow.core.None
 import arrow.core.Option
 import arrow.core.Some
 import arrow.core.getOrElse
+import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
+import com.squareup.kotlinpoet.TypeSpec
+import com.squareup.kotlinpoet.TypeVariableName
+import com.squareup.kotlinpoet.asTypeName
 import com.toasttab.protokt.codegen.impl.Annotator.Context
 import com.toasttab.protokt.codegen.impl.MessageAnnotator.Companion.IDEAL_MAX_WIDTH
+import com.toasttab.protokt.codegen.impl.PropertyAnnotator.Companion.annotateProperties
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptReadFn
 import com.toasttab.protokt.codegen.impl.Wrapper.keyWrapped
 import com.toasttab.protokt.codegen.impl.Wrapper.mapKeyConverter
@@ -38,6 +45,8 @@ import com.toasttab.protokt.codegen.template.Message.Message.DeserializerInfo.As
 import com.toasttab.protokt.codegen.template.Renderers.Deserialize
 import com.toasttab.protokt.codegen.template.Renderers.Deserialize.Options
 import com.toasttab.protokt.codegen.template.Renderers.Read
+import com.toasttab.protokt.rt.KtDeserializer
+import com.toasttab.protokt.rt.KtMessageDeserializer
 import com.toasttab.protokt.codegen.template.Oneof as OneofTemplate
 
 internal class DeserializerAnnotator
@@ -45,7 +54,41 @@ private constructor(
     private val msg: Message,
     private val ctx: Context
 ) {
-    private fun annotateDeserializer(): List<DeserializerInfo> =
+    private fun annotateDeserializerNew(): TypeSpec {
+        val deserializerInfo = annotateDeserializerOld()
+        val propertyInfo = annotateProperties(msg, ctx)
+
+        return TypeSpec.companionObjectBuilder("Deserializer")
+            .addSuperinterface(
+                KtDeserializer::class
+                    .asTypeName()
+                    .parameterizedBy(TypeVariableName(msg.name))
+            )
+            .addFunction(
+                FunSpec.builder("deserialize")
+                    .addModifiers(KModifier.OVERRIDE)
+                    .addParameter("deserializer", KtMessageDeserializer::class)
+                    .returns(TypeVariableName(msg.name))
+                    .addCode(
+                        """
+                            var key${deserializeVar(entryInfo.key, propInfo.single(entryInfo.key))}
+                            var value${deserializeVar(entryInfo.value, propInfo.single(entryInfo.value))}
+                    
+                            while (true) {
+                              when (deserializer.readTag()) {
+                                0 -> return ${msg.name}(key, value${orDefault(entryInfo.value, valProp)})
+                                ${keyProp.deserialize.tag} -> key = ${keyProp.deserialize.assignment}
+                                ${valProp.deserialize.tag} -> value = ${valProp.deserialize.assignment}
+                              }
+                            }
+                        """.trimIndent()
+                    )
+                    .build()
+            )
+            .build()
+    }
+
+    private fun annotateDeserializerOld(): List<DeserializerInfo> =
         msg.flattenedSortedFields().flatMap { (field, oneOf) ->
             field.tagList.map { tag ->
                 DeserializerInfo(
@@ -169,7 +212,10 @@ private constructor(
     }
 
     companion object {
-        fun annotateDeserializer(msg: Message, ctx: Context) =
-            DeserializerAnnotator(msg, ctx).annotateDeserializer()
+        fun annotateDeserializerOld(msg: Message, ctx: Context) =
+            DeserializerAnnotator(msg, ctx).annotateDeserializerOld()
+
+        fun annotateDeserializerNew(msg: Message, ctx: Context) =
+            DeserializerAnnotator(msg, ctx).annotateDeserializerNew()
     }
 }
