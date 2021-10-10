@@ -42,6 +42,7 @@ import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.codegen.protoc.Tag
 import com.toasttab.protokt.codegen.template.Message.Message.DeserializerInfo
 import com.toasttab.protokt.codegen.template.Message.Message.DeserializerInfo.Assignment
+import com.toasttab.protokt.codegen.template.Message.Message.PropertyInfo
 import com.toasttab.protokt.codegen.template.Renderers.Deserialize
 import com.toasttab.protokt.codegen.template.Renderers.Deserialize.Options
 import com.toasttab.protokt.codegen.template.Renderers.Read
@@ -56,7 +57,7 @@ private constructor(
 ) {
     private fun annotateDeserializerNew(): TypeSpec {
         val deserializerInfo = annotateDeserializerOld()
-        val propertyInfo = annotateProperties(msg, ctx)
+        val properties = annotateProperties(msg, ctx)
 
         return TypeSpec.companionObjectBuilder("Deserializer")
             .addSuperinterface(
@@ -70,23 +71,52 @@ private constructor(
                     .addParameter("deserializer", KtMessageDeserializer::class)
                     .returns(TypeVariableName(msg.name))
                     .addCode(
+                        if (properties.isNotEmpty()) {
+                            properties.joinToString("\n") { "var " + deserializeVar(it) } + "\n"
+                        } else {
+                            ""
+                        } +
                         """
-                            var key${deserializeVar(entryInfo.key, propInfo.single(entryInfo.key))}
-                            var value${deserializeVar(entryInfo.value, propInfo.single(entryInfo.value))}
-                    
-                            while (true) {
-                              when (deserializer.readTag()) {
-                                0 -> return ${msg.name}(key, value${orDefault(entryInfo.value, valProp)})
-                                ${keyProp.deserialize.tag} -> key = ${keyProp.deserialize.assignment}
-                                ${valProp.deserialize.tag} -> value = ${valProp.deserialize.assignment}
-                              }
-                            }
-                        """.trimIndent()
+                            |var unknownFields: UnknownFieldSet.Builder? = null
+                            |
+                            |while (true) {
+                            |  when (deserializer.readTag()) {
+                            |    0 ->
+                            |      return ${msg.name}(
+                            |        ${constructorLines(properties)}
+                            |      )
+                            |${assignmentLines(deserializerInfo)}
+                            |    else ->
+                            |      unknownFields =
+                            |        (unknownFields ?: UnknownFieldSet.Builder()).also {
+                            |          it.add(deserializer.readUnknown())
+                            |        }
+                            |  }
+                            |}
+                        """.trimMargin()
                     )
                     .build()
             )
             .build()
     }
+
+    private fun constructorLines(properties: List<PropertyInfo>) =
+        properties.joinToString(",\n        ") {
+            deserializeWrapper(it)
+        }
+
+    private fun assignmentLines(deserializerInfo: List<DeserializerInfo>) =
+        deserializerInfo.joinToString("\n") {
+            if (!it.std || it.repeated) {
+                """
+                    |    ${it.tag} ->
+                    |      ${it.assignment.fieldName} =
+                    |        ${it.assignment.value}
+                """.trimMargin()
+            } else {
+                "    ${it.tag} -> ${it.assignment.fieldName} = ${it.assignment.value}"
+            }
+        }
 
     private fun annotateDeserializerOld(): List<DeserializerInfo> =
         msg.flattenedSortedFields().flatMap { (field, oneOf) ->
