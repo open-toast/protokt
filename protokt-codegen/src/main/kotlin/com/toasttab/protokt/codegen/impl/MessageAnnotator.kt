@@ -115,6 +115,19 @@ private constructor(
                 PropertySpec.builder(it.name, TypeVariableName(it.propertyType))
                     .initializer(it.name)
                     .addKdoc(formatDoc(it.documentation))
+                    .apply {
+                        if (it.deprecation != null) {
+                            addAnnotation(
+                                AnnotationSpec.builder(Deprecated::class)
+                                    .apply {
+                                        if (it.deprecation.message != null) {
+                                            addMember("\"" + it.deprecation.message + "\"")
+                                        }
+                                    }
+                                    .build()
+                            )
+                        }
+                    }
                     .build()
             }
         )
