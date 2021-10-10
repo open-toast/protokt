@@ -40,11 +40,12 @@ class MainTest {
             }
 
         listOf(
-            "protoc",
+            System.getenv("PROTOC_PATH") ?: "protoc",
             "--plugin=protoc-gen-custom=$binGenerator",
             "--custom_out=.", // ignored
             "-I$codegenTestingProto",
             "-I$runtimeResources",
+            "-I$includeProtos",
             buildPluginOptions(ext),
             "$testProto"
         ).joinToString(" ")
@@ -100,3 +101,6 @@ private val generatedFile =
             "com", "toasttab", "protokt", "test-proto-bin-request.bin"
         ).toString()
     )
+
+private val includeProtos =
+    File(projectRoot, "protokt-codegen/build/extracted-include-protos/main")
