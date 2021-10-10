@@ -15,16 +15,10 @@
 
 syntax = "proto3";
 
-package com.toasttab.protokt.codegen.testing;
+package toasttab.protokt.codegen.testing;
 
 import "protokt/protokt.proto";
 
-option (.protokt.file).kotlin_package = "com.toasttab.test";
-
-message SliceModel {
-  option (.protokt.class).implements = "";
-
-  bytes slice = 1 [
-    (.protokt.property).bytes_slice = true
-  ];
+message TestMessage {
+  string value = 1;
 }

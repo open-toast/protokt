@@ -15,6 +15,8 @@
 
 package com.toasttab.protokt.codegen.protoc
 
+import com.google.common.base.CaseFormat.LOWER_CAMEL
+import com.google.common.base.CaseFormat.LOWER_UNDERSCORE
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.toasttab.protokt.codegen.impl.packagesByTypeName
 import com.toasttab.protokt.codegen.impl.resolvePackage
@@ -23,9 +25,11 @@ import com.toasttab.protokt.gradle.KOTLIN_EXTRA_CLASSPATH
 import com.toasttab.protokt.gradle.LITE
 import com.toasttab.protokt.gradle.ONLY_GENERATE_DESCRIPTORS
 import com.toasttab.protokt.gradle.ONLY_GENERATE_GRPC
+import com.toasttab.protokt.gradle.ProtoktExtension
 import com.toasttab.protokt.gradle.RESPECT_JAVA_PACKAGE
 import com.toasttab.protokt.util.getProtoktVersion
 import java.net.URLDecoder
+import kotlin.reflect.full.declaredMemberProperties
 
 class ProtocolContext(
     val fdp: FileDescriptorProto,
@@ -39,10 +43,10 @@ class ProtocolContext(
         }
 
     val respectJavaPackage = respectJavaPackage(params)
-    val generateGrpc = params.getValue(GENERATE_GRPC).toBoolean()
-    val onlyGenerateGrpc = params.getValue(ONLY_GENERATE_GRPC).toBoolean()
-    val lite = params.getValue(LITE).toBoolean()
-    val onlyGenerateDescriptors = params.getValue(ONLY_GENERATE_DESCRIPTORS).toBoolean()
+    val generateGrpc = params.getOrDefault(GENERATE_GRPC)
+    val onlyGenerateGrpc = params.getOrDefault(ONLY_GENERATE_GRPC)
+    val lite = params.getOrDefault(LITE)
+    val onlyGenerateDescriptors = params.getOrDefault(ONLY_GENERATE_DESCRIPTORS)
 
     val fileName = fdp.name
     val version = getProtoktVersion(ProtocolContext::class)
@@ -73,4 +77,15 @@ class ProtocolContext(
 }
 
 fun respectJavaPackage(params: Map<String, String>) =
-    params.getValue(RESPECT_JAVA_PACKAGE).toBoolean()
+    params.getOrDefault(RESPECT_JAVA_PACKAGE)
+
+private fun Map<String, String>.getOrDefault(key: String): Boolean {
+    val defaultExtension = ProtoktExtension()
+
+    val defaultValue =
+        defaultExtension::class.declaredMemberProperties
+            .single { it.name == LOWER_UNDERSCORE.to(LOWER_CAMEL, key) }
+            .call(defaultExtension) as Boolean
+
+    return get(key)?.toBoolean() ?: defaultValue
+}
