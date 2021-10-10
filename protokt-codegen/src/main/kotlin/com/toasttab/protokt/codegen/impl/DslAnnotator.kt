@@ -96,6 +96,19 @@ class DslAnnotator(
                 )
                 .addFunction(
                     FunSpec.builder("build")
+                        .returns(TypeVariableName(msg.name))
+                        .addCode(
+                            if (properties.isEmpty()) {
+                                "return ${msg.name}(unknownFields)"
+                            } else {
+                                """
+                                    |return ${msg.name}(
+                                    |${buildLines()}
+                                    |  unknownFields
+                                    |)
+                                """.trimMargin()
+                            }
+                        )
                         .build()
                 )
                 .build()
@@ -105,6 +118,11 @@ class DslAnnotator(
     private fun dslLines() =
         properties.joinToString("\n") {
             "  ${it.name} = this@${msg.name}.${it.name}"
+        }
+
+    private fun buildLines() =
+        properties.joinToString("\n") {
+            "  ${it.name},"
         }
 }
 
