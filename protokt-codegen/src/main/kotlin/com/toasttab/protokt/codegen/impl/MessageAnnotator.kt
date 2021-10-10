@@ -19,6 +19,7 @@ import arrow.core.firstOrNone
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
@@ -35,7 +36,7 @@ import com.toasttab.protokt.codegen.impl.MapEntryAnnotator.Companion.annotateMap
 import com.toasttab.protokt.codegen.impl.MessageDocumentationAnnotator.annotateMessageDocumentation
 import com.toasttab.protokt.codegen.impl.OneofAnnotator.Companion.annotateOneofs
 import com.toasttab.protokt.codegen.impl.PropertyAnnotator.Companion.annotateProperties
-import com.toasttab.protokt.codegen.impl.SerializerAnnotator.Companion.annotateSerializer
+import com.toasttab.protokt.codegen.impl.SerializerAnnotator.Companion.annotateSerializerNew
 import com.toasttab.protokt.codegen.impl.SizeofAnnotator.Companion.annotateSizeof
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.protoc.Message
@@ -63,7 +64,7 @@ private constructor(
                 properties = annotateProperties(msg, ctx),
                 oneofs = annotateOneofs(msg, ctx),
                 sizeof = annotateSizeof(msg, ctx),
-                serialize = annotateSerializer(msg, ctx),
+                serialize = listOf(), // annotateSerializer(msg, ctx),
                 deserialize = annotateDeserializer(msg, ctx),
                 nested = listOf(), // nestedTypes(),
                 options = options()
@@ -72,6 +73,8 @@ private constructor(
                 .handleAnnotations(messageInfo)
                 .addKdoc(formatDoc(messageInfo.documentation))
                 .handleConstructor(properties)
+                .handleMessageSize()
+                .addFunction(annotateSerializerNew(msg, ctx))
                 .addTypes(msg.nestedTypes.mapNotNull { annotate(it, ctx) })
                 .build()
         }
@@ -130,10 +133,18 @@ private constructor(
         )
     }
 
+    private fun TypeSpec.Builder.handleMessageSize() = apply {
+        addProperty(
+            PropertySpec.builder("messageSize", Int::class)
+                .addModifiers(KModifier.OVERRIDE)
+                .delegate("lazy { messageSize() }")
+                .build()
+        )
+    }
+
     private fun formatDoc(lines: List<String>) =
-        // escape the entire comment block
         CodeBlock.of(
-            "%L",
+            "%L", // escape the entire comment block
             lines.joinToString(" ") {
                 if (it.isBlank()) {
                     "\n\n"

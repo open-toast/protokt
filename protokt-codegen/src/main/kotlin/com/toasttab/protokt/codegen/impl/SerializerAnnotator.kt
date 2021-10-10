@@ -18,6 +18,8 @@ package com.toasttab.protokt.codegen.impl
 import arrow.core.None
 import arrow.core.Option
 import arrow.core.Some
+import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.KModifier
 import com.toasttab.protokt.codegen.impl.Annotator.Context
 import com.toasttab.protokt.codegen.impl.Nullability.hasNonNullOption
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
@@ -30,13 +32,58 @@ import com.toasttab.protokt.codegen.template.Renderers.ConcatWithScope
 import com.toasttab.protokt.codegen.template.Renderers.IterationVar
 import com.toasttab.protokt.codegen.template.Renderers.Serialize
 import com.toasttab.protokt.codegen.template.Renderers.Serialize.Options
+import com.toasttab.protokt.rt.KtMessageSerializer
 
 internal class SerializerAnnotator
 private constructor(
     private val msg: Message,
     private val ctx: Context
 ) {
-    private fun annotateSerializer(): List<SerializerInfo> {
+    private fun annotateSerializerNew(): FunSpec {
+        val serializerInfo =
+            msg.fields.map {
+                when (it) {
+                    is StandardField ->
+                        if (!it.hasNonNullOption) {
+                            """
+                                |if ${it.nonDefault(ctx)} {
+                                |  ${serializeString(it)}
+                                |}
+                            """.trimMargin()
+                        } else {
+                            serializeString(it)
+                        }
+                    is Oneof ->
+                        """
+                            |when (${it.fieldName}) {
+                            |${conditionals(it)}
+                            |}
+                        """.trimMargin()
+                }
+            }
+
+        return FunSpec.builder("serialize")
+            .addModifiers(KModifier.OVERRIDE)
+            .addParameter("serializer", KtMessageSerializer::class)
+            .addCode(
+                """
+                    |${serializerInfo.joinToString("\n")}
+                    |serializer.writeUnknown(unknownFields)
+                """.trimMargin()
+            )
+            .build()
+    }
+
+    private fun conditionals(f: Oneof) =
+        f.fields
+            .sortedBy { it.number }.joinToString("\n") {
+                """
+                    |  is ${oneOfSer(f, it, msg.name).condition} ->
+                    |    ${serializeString(it, Some(f.fieldName))}
+                """.trimMargin()
+            }
+
+    private fun annotateSerializerOld(): List<SerializerInfo> {
         return msg.fields.map {
             when (it) {
                 is StandardField ->
@@ -119,7 +166,10 @@ private constructor(
         )
 
     companion object {
-        fun annotateSerializer(msg: Message, ctx: Context) =
-            SerializerAnnotator(msg, ctx).annotateSerializer()
+        fun annotateSerializerOld(msg: Message, ctx: Context) =
+            SerializerAnnotator(msg, ctx).annotateSerializerOld()
+
+        fun annotateSerializerNew(msg: Message, ctx: Context) =
+            SerializerAnnotator(msg, ctx).annotateSerializerNew()
     }
 }

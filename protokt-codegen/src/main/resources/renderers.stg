@@ -198,14 +198,14 @@ serializer
     }<\\>
 <elseif (field.map)>
 <name>.entries.forEach {
-        serializer
-            .write(Tag(<tag>))
-            .write(<box>)
-    }<\\>
+    serializer
+      .write(Tag(<tag>))
+      .write(<box>)
+  }<\\>
 <elseif (field.repeated)>
 <name>.forEach {
-        serializer.write(Tag(<tag>)).write(<box(field.type, options.fieldAccess)>)
-    }<\\>
+    serializer.write(Tag(<tag>)).write(<box(field.type, options.fieldAccess)>)
+  }<\\>
 <else>
 serializer.write(Tag(<tag>)).write(<box>)<\\>
 <endif>
