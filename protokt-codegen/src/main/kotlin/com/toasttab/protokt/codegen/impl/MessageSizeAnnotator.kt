@@ -91,7 +91,7 @@ private constructor(
             .sortedBy { it.number }.joinToString("\n") {
                 """
                     |  is ${condition(f, it, msg.name)} ->
-                    |    ${sizeOfString(it, f.fieldName)}
+                    |    ${oneofSizeOfString(f, it)}
                 """.trimMargin()
             }
 
@@ -99,6 +99,24 @@ private constructor(
         ConcatWithScope.render(
             scope = oneOfScope(f, type, ctx),
             value = f.fieldTypeNames.getValue(ff.name)
+        )
+
+    private fun oneofSizeOfString(o: Oneof, f: StandardField) =
+        if (!o.hasNonNullOption) {
+            "result += "
+        } else {
+            ""
+        } +
+        sizeOfString(
+            f,
+            interceptSizeof(
+                f,
+                ConcatWithScope.render(
+                    scope = o.fieldName,
+                    value = f.fieldName
+                ),
+                ctx
+            )
         )
 
     private fun annotateMessageSizeOld(): List<SizeofInfo> {

@@ -63,7 +63,7 @@ private constructor(
             MessageTemplate.render(
                 message = messageInfo(),
                 properties = annotateProperties(msg, ctx),
-                oneofs = annotateOneofs(msg, ctx),
+                oneofs = listOf(), // annotateOneofs(msg, ctx),
                 sizeof = listOf(), // annotateMessageSizeOld(msg, ctx),
                 serialize = listOf(), // annotateSerializer(msg, ctx),
                 deserialize = listOf(), // annotateDeserializerNew(msg, ctx),
@@ -72,8 +72,13 @@ private constructor(
             )
             TypeSpec.classBuilder(msg.name)
                 .handleAnnotations(messageInfo)
-                .addKdoc(formatDoc(messageInfo.documentation))
+                .apply {
+                    if (messageInfo.documentation.isNotEmpty()) {
+                        addKdoc(formatDoc(messageInfo.documentation))
+                    }
+                }
                 .handleConstructor(properties)
+                .addTypes(annotateOneofs(msg, ctx))
                 .handleMessageSize()
                 .addFunction(annotateMessageSizeNew(msg, ctx))
                 .addFunction(annotateSerializerNew(msg, ctx))
@@ -115,7 +120,11 @@ private constructor(
             properties.map {
                 PropertySpec.builder(it.name, TypeVariableName(it.propertyType))
                     .initializer(it.name)
-                    .addKdoc(formatDoc(it.documentation))
+                    .apply {
+                        if (it.documentation.isNotEmpty()) {
+                            addKdoc(formatDoc(it.documentation))
+                        }
+                    }
                     .apply {
                         if (it.deprecation != null) {
                             addAnnotation(
@@ -238,18 +247,6 @@ private constructor(
             "  \"${it.name}=\$${it.name}\" +"
         }
 
-    private fun formatDoc(lines: List<String>) =
-        CodeBlock.of(
-            "%L", // escape the entire comment block
-            lines.joinToString(" ") {
-                if (it.isBlank()) {
-                    "\n\n"
-                } else {
-                    it.removePrefix(" ")
-                }
-            }
-        )
-
     private fun messageInfo() =
         MessageInfo(
             name = msg.name,
@@ -297,3 +294,15 @@ private constructor(
             MessageAnnotator(msg, ctx).annotateMessage()
     }
 }
+
+fun formatDoc(lines: List<String>) =
+    CodeBlock.of(
+        "%L", // escape the entire comment block
+        lines.joinToString(" ") {
+            if (it.isBlank()) {
+                "\n\n"
+            } else {
+                it.removePrefix(" ")
+            }
+        }
+    )

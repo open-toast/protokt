@@ -16,6 +16,12 @@
 package com.toasttab.protokt.codegen.impl
 
 import arrow.core.None
+import com.squareup.kotlinpoet.AnnotationSpec
+import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.PropertySpec
+import com.squareup.kotlinpoet.TypeSpec
+import com.squareup.kotlinpoet.TypeVariableName
 import com.toasttab.protokt.codegen.impl.Annotator.Context
 import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
 import com.toasttab.protokt.codegen.impl.PropertyDocumentationAnnotator.Companion.annotatePropertyDocumentation
@@ -34,7 +40,7 @@ private constructor(
     private val msg: Message,
     private val ctx: Context
 ) {
-    private fun annotateOneofs() =
+    private fun annotateOneofs(): List<TypeSpec> {
         msg.fields.map {
             when (it) {
                 is Oneof ->
@@ -46,6 +52,62 @@ private constructor(
                 else -> ""
             }
         }.filter { it.isNotEmpty() }
+
+        return msg.fields.filterIsInstance<Oneof>().map {
+            val options = options(it)
+            val types = it.fields.associate { ff -> oneof(it, ff) }
+
+            TypeSpec.classBuilder(it.name)
+                .addModifiers(KModifier.SEALED)
+                .apply {
+                    if (options.implements != null) {
+                        addSuperinterface(TypeVariableName(options.implements))
+                    }
+                }
+                .addTypes(
+                    types.map { (k, v) ->
+                        TypeSpec.classBuilder(k)
+                            .addModifiers(KModifier.DATA)
+                            .superclass(TypeVariableName(it.name))
+                            .apply {
+                                if (v.documentation.isNotEmpty()) {
+                                    addKdoc(formatDoc(v.documentation))
+                                }
+                            }
+                            .apply {
+                                if (v.deprecation != null) {
+                                    addAnnotation(
+                                        AnnotationSpec.builder(Deprecated::class)
+                                            .apply {
+                                                if (v.deprecation.message != null) {
+                                                    addMember("\"" + v.deprecation.message + "\"")
+                                                }
+                                            }
+                                            .build()
+                                    )
+                                }
+                            }
+                            .apply {
+                                if (options.implements != null) {
+                                    addSuperinterface(TypeVariableName(options.implements), "by $k")
+                                }
+                            }
+                            .addProperty(
+                                PropertySpec.builder(v.fieldName, TypeVariableName(v.type))
+                                    .initializer(v.fieldName)
+                                    .build()
+                            )
+                            .primaryConstructor(
+                                FunSpec.constructorBuilder()
+                                    .addParameter(v.fieldName, TypeVariableName(v.type))
+                                    .build()
+                            )
+                            .build()
+                    }
+                )
+                .build()
+        }
+    }
 
     private fun oneof(f: Oneof, ff: StandardField) =
         f.fieldTypeNames.getValue(ff.name).let { oneofFieldTypeName ->
