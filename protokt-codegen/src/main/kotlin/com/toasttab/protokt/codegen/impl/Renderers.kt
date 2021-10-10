@@ -37,7 +37,7 @@ fun deserializeWrapper(p: PropertyInfo) =
         if (p.map) {
             "finishMap(${p.name})"
         } else if (p.repeated) {
-            "finishList(${p.name}"
+            "finishList(${p.name})"
         } else {
             p.name +
                 if (p.wrapped && !p.nullable) {

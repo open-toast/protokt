@@ -107,7 +107,7 @@ private constructor(
 
     private fun assignmentLines(deserializerInfo: List<DeserializerInfo>) =
         deserializerInfo.joinToString("\n") {
-            if (!it.std || it.repeated) {
+            if (it.repeated) {
                 """
                     |    ${it.tag} ->
                     |      ${it.assignment.fieldName} =
