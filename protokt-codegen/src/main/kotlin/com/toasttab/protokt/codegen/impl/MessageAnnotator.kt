@@ -80,6 +80,7 @@ private constructor(
                 .handleEquals(properties)
                 .handleHashCode(properties)
                 .handleToString(properties)
+                .handleDsl(msg, properties)
                 .addTypes(msg.nestedTypes.mapNotNull { annotate(it, ctx) })
                 .build()
         }
