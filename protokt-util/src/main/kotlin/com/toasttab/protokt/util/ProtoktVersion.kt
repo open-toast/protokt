@@ -28,6 +28,8 @@ fun getProtoktVersion(klass: KClass<*>): String =
         .use {
             JarInputStream(it)
                 .manifest
-                .mainAttributes
-                .getValue(MANIFEST_VERSION_PROPERTY)
+                // TODO: manifest is null when running MainTest. Is it possible to create it?
+                ?.mainAttributes
+                ?.getValue(MANIFEST_VERSION_PROPERTY)
+                ?: "<unknown>"
         }

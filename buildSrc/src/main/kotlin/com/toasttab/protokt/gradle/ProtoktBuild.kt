@@ -25,8 +25,6 @@ const val EXTENSIONS = "protoktExtensions"
 
 const val TEST_EXTENSIONS = "testProtoktExtensions"
 
-const val MANIFEST_VERSION_PROPERTY = "Implementation-Version"
-
 fun configureProtokt(project: Project, resolveBinary: () -> String) {
     createExtensionConfigurations(project)
 

@@ -23,7 +23,7 @@ import java.nio.file.Path
 import java.util.concurrent.TimeUnit
 
 val projectRoot =
-    File(System.getProperty("user.dir")).parentFile.absolutePath
+    File(System.getProperty("user.dir")).parentFile
 
 fun String.runCommand(
     workingDir: Path,

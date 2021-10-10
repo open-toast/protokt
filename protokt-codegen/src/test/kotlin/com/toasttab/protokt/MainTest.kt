@@ -15,41 +15,65 @@
 
 package com.toasttab.protokt
 
+import com.google.common.base.CaseFormat.LOWER_CAMEL
+import com.google.common.base.CaseFormat.LOWER_UNDERSCORE
+import com.google.protobuf.compiler.PluginProtos
+import com.toasttab.protokt.gradle.ProtoktExtension
 import com.toasttab.protokt.testing.util.ProcessOutput.Src.ERR
 import com.toasttab.protokt.testing.util.projectRoot
 import com.toasttab.protokt.testing.util.runCommand
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import java.io.ByteArrayOutputStream
 import java.io.File
-import java.nio.file.Paths
+import java.nio.file.Path
+import kotlin.reflect.KClass
+import kotlin.reflect.full.declaredMemberProperties
 
 class MainTest {
     @Test
-    @Disabled // Enable this test if you want to step through the code generator
     fun `step through code generation with debugger`() {
         generatedFile.delete()
 
+        val ext =
+            ProtoktExtension().apply {
+                // set any plugin options here
+            }
+
         listOf(
-            "protoc",
+            System.getenv("PROTOC_PATH") ?: "protoc",
             "--plugin=protoc-gen-custom=$binGenerator",
             "--custom_out=.", // ignored
             "-I$codegenTestingProto",
             "-I$runtimeResources",
+            "-I$includeProtos",
+            buildPluginOptions(ext),
             "$testProto"
         ).joinToString(" ")
             .runCommand(
-                Paths.get(projectRoot)
+                projectRoot.toPath()
             ).orFail("Failed to generate code generator request", ERR)
 
         val out = ByteArrayOutputStream()
         main(generatedFile.readBytes(), out)
-        println(out.toString())
+        PluginProtos.CodeGeneratorResponse.parseFrom(out.toByteArray())
+            .fileList
+            .forEach {
+                println(it.name)
+                println(it.content)
+            }
     }
 }
 
+private fun buildPluginOptions(extension: ProtoktExtension) =
+    "--custom_opt=" +
+        extension::class.declaredMemberProperties
+            .filter { it.returnType.classifier as KClass<*> == Boolean::class }
+            .joinToString(",") {
+                LOWER_CAMEL.to(LOWER_UNDERSCORE, it.name) + "=${it.call(extension)}"
+            }
+
 private val codegenTestingResources =
-    Paths.get(
+    Path.of(
         "protokt-codegen", "src", "test", "resources",
         "com", "toasttab", "protokt", "codegen", "testing"
     )
@@ -58,22 +82,25 @@ private val binGenerator =
     File(codegenTestingResources.toFile(), "bin-generator")
 
 private val codegenTestingProto =
-    Paths.get(
+    Path.of(
         "protokt-codegen", "src", "test", "proto",
-        "com", "toasttab", "protokt", "codegen", "testing"
+        "toasttab", "protokt", "codegen", "testing"
     )
 
 private val testProto =
     File(codegenTestingProto.toFile(), "test.proto")
 
 private val runtimeResources =
-    Paths.get("protokt-runtime", "src", "main", "resources")
+    Path.of("protokt-runtime", "src", "main", "resources")
 
 private val generatedFile =
     File(
         projectRoot,
-        Paths.get(
+        Path.of(
             "protokt-codegen", "src", "test", "resources",
             "com", "toasttab", "protokt", "test-proto-bin-request.bin"
         ).toString()
     )
+
+private val includeProtos =
+    File(projectRoot, "protokt-codegen/build/extracted-include-protos/main")

@@ -20,14 +20,15 @@ import com.toasttab.protokt.testing.util.projectRoot
 import com.toasttab.protokt.testing.util.runCommand
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
-import java.nio.file.Paths
+import java.io.File
+import java.nio.file.Path
 
 class ConformanceTest {
     @Test
     fun `run conformance tests`() {
         command
             .runCommand(
-                Paths.get(projectRoot, "conformance-driver"),
+                File(projectRoot, "conformance-driver").toPath(),
                 libPathOverride
             )
             .orFail("Conformance tests failed", ERR)
@@ -46,13 +47,13 @@ private fun <T> pivotOs(mac: T, linux: T) =
     }
 
 private val binDir =
-    Paths.get("bin", pivotOs("darwin", "ubuntu-16.04-x86_64")).toString()
+    Path.of("bin", pivotOs("darwin", "ubuntu-16.04-x86_64")).toString()
 
 private val baseCommand =
-    Paths.get(binDir, "conformance-test-runner")
+    Path.of(binDir, "conformance-test-runner")
 
 private val conformanceDriver =
-    Paths.get(
+    Path.of(
         "build", "install", "protokt-conformance", "bin", "protokt-conformance"
     )
 
@@ -65,5 +66,5 @@ private val command =
 private val libPathOverride =
     mapOf(
         pivotOs("DYLD_LIBRARY_PATH", "LD_LIBRARY_PATH") to
-            Paths.get(binDir, ".libs").toString()
+            Path.of(binDir, ".libs").toString()
     )
