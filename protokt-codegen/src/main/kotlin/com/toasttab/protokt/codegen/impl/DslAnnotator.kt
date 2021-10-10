@@ -60,7 +60,7 @@ class DslAnnotator(
             TypeSpec.classBuilder(msg.name + "Dsl")
                 .addProperties(
                     properties.map {
-                        PropertySpec.builder(it.name, TypeVariableName(it.dslPropertyType.removeSuffix("?")).copy(nullable = it.nullable))
+                        PropertySpec.builder(it.name.removePrefix("`").removeSuffix("`"), TypeVariableName(it.dslPropertyType.removeSuffix("?")).copy(nullable = it.nullable))
                             .mutable(true)
                             .apply {
                                 if (it.deprecation != null) {
@@ -69,6 +69,8 @@ class DslAnnotator(
                                             .apply {
                                                 if (it.deprecation.message != null) {
                                                     addMember("\"" + it.deprecation.message + "\"")
+                                                } else {
+                                                    addMember("\"deprecated in proto\"")
                                                 }
                                             }
                                             .build()

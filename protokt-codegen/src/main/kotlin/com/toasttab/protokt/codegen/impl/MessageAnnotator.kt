@@ -77,6 +77,15 @@ private constructor(
                         addKdoc(formatDoc(messageInfo.documentation))
                     }
                 }
+                .apply {
+                    if (messageInfo.suppressDeprecation) {
+                        addAnnotation(
+                            AnnotationSpec.builder(Suppress::class)
+                                .addMember("\"DEPRECATION\"")
+                                .build()
+                        )
+                    }
+                }
                 .handleConstructor(properties)
                 .addTypes(annotateOneofs(msg, ctx))
                 .handleMessageSize()
@@ -105,6 +114,8 @@ private constructor(
                     .apply {
                         if (messageInfo.deprecation.message != null) {
                             addMember("\"" + messageInfo.deprecation.message + "\"")
+                        } else {
+                            addMember("\"deprecated in proto\"")
                         }
                     }
                     .build()
@@ -118,7 +129,7 @@ private constructor(
         addSuperinterface(KtMessage::class)
         addProperties(
             properties.map {
-                PropertySpec.builder(it.name, TypeVariableName(it.propertyType))
+                PropertySpec.builder(it.name.removePrefix("`").removeSuffix("`"), TypeVariableName(it.propertyType))
                     .initializer(it.name)
                     .apply {
                         if (it.documentation.isNotEmpty()) {
@@ -132,6 +143,8 @@ private constructor(
                                     .apply {
                                         if (it.deprecation.message != null) {
                                             addMember("\"" + it.deprecation.message + "\"")
+                                        } else {
+                                            addMember("\"deprecated in proto\"")
                                         }
                                     }
                                     .build()
@@ -150,7 +163,7 @@ private constructor(
             FunSpec.constructorBuilder()
                 .addParameters(
                     properties.map {
-                        ParameterSpec(it.name, TypeVariableName(it.propertyType))
+                        ParameterSpec(it.name.removePrefix("`").removeSuffix("`"), TypeVariableName(it.propertyType))
                     }
                 )
                 .addParameter(

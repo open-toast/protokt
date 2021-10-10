@@ -73,7 +73,7 @@ private constructor(
                 if (options.suppressDeprecation) {
                     addAnnotation(
                         AnnotationSpec.builder(Suppress::class)
-                            .addMember("DEPRECATION")
+                            .addMember("\"DEPRECATION\"")
                             .build()
                     )
                 }
