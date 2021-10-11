@@ -36,29 +36,12 @@ commands:
             - ~/.gradle/caches
           key: v1-gradle-cache-{{ checksum "build.gradle.kts" }}
 
-  install_protoc:
-    parameters:
-      version:
-        default: 3.18.0
-        type: string
-    steps:
-      - run:
-          name: Install protoc
-          command: |
-            apk add curl
-            archive=protoc-<<parameters.version>>-linux-x86_64
-            curl -O -L https://github.com/protocolbuffers/protobuf/releases/download/v<<parameters.version>>/$archive.zip
-            unzip -d '/usr/local' $archive.zip 'bin/*' 'include/*'
-            rm -rf $archive.zip
-            protoc --version
-
 jobs:
   build:
     executor: builder
     steps:
       - checkout
       - read_cache
-      - install_protoc
 
       - run:
           name: Build and test
