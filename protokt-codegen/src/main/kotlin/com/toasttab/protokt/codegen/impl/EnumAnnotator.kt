@@ -104,6 +104,21 @@ private constructor(
                         .superclass(TypeVariableName(e.name))
                         .addSuperclassConstructorParameter(it.number.toString())
                         .addSuperclassConstructorParameter("\"${it.name}\"")
+                        .apply {
+                            if (it.options.default.deprecated) {
+                                addAnnotation(
+                                    AnnotationSpec.builder(Deprecated::class)
+                                        .apply {
+                                            if (it.options.protokt.deprecationMessage.isNotEmpty()) {
+                                                addMember("\"" + it.options.protokt.deprecationMessage + "\"")
+                                            } else {
+                                                addMember("\"deprecated in proto\"")
+                                            }
+                                        }
+                                        .build()
+                                )
+                            }
+                        }
                         .build()
                 }
             )
