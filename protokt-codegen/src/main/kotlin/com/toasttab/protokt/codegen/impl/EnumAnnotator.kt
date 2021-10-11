@@ -100,7 +100,7 @@ private constructor(
             )
             .addTypes(
                 e.values.map {
-                    TypeSpec.objectBuilder(it.name)
+                    TypeSpec.objectBuilder(it.valueName)
                         .superclass(TypeVariableName(e.name))
                         .addSuperclassConstructorParameter(it.number.toString())
                         .addSuperclassConstructorParameter("\"${it.name}\"")
@@ -162,7 +162,7 @@ private constructor(
 
     private fun enumLines() =
         e.values.distinctBy { it.number }.joinToString("\n") {
-            "  " + it.number + " -> " + it.name
+            "  " + it.number + " -> " + it.valueName
         }
 
     private fun enumMap() =

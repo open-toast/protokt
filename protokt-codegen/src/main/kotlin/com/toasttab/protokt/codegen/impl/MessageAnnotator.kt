@@ -96,7 +96,7 @@ private constructor(
                 .handleToString(properties)
                 .handleDsl(msg, properties)
                 .addType(annotateDeserializerNew(msg, ctx))
-                .addTypes(msg.nestedTypes.mapNotNull { annotate(it, ctx) })
+                .addTypes(msg.nestedTypes.flatMap { annotate(it, ctx) })
                 .build()
         }
 

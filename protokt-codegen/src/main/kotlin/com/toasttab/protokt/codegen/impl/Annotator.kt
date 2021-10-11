@@ -46,7 +46,7 @@ object Annotator {
     )
 
     fun apply(protocol: Protocol) =
-        protocol.types.mapNotNull {
+        protocol.types.flatMap {
             val annotated =
                 annotate(
                     it,
@@ -57,26 +57,30 @@ object Annotator {
                     )
                 )
 
-            annotated?.let { type ->
+            annotated.map { type ->
                 TypeDesc(protocol.desc, AnnotatedType(it, type))
             }
         }
 
-    fun annotate(type: TopLevelType, ctx: Context): TypeSpec? =
+    fun annotate(type: TopLevelType, ctx: Context): Iterable<TypeSpec> =
         when (type) {
             is Message ->
                 nonGrpc(ctx) {
                     nonDescriptors(ctx) {
-                        annotateMessage(
-                            type,
-                            ctx.copy(enclosing = ctx.enclosing + type)
+                        listOf(
+                            annotateMessage(
+                                type,
+                                ctx.copy(enclosing = ctx.enclosing + type)
+                            )
                         )
                     }
                 }
             is Enum ->
                 nonGrpc(ctx) {
                     nonDescriptors(ctx) {
-                        annotateEnum(type, ctx)
+                        listOf(
+                            annotateEnum(type, ctx)
+                        )
                     }
                 }
             is Service ->
@@ -88,14 +92,14 @@ object Annotator {
                 )
         }
 
-    private fun <T> nonDescriptors(ctx: Context, gen: () -> T) =
-        nonDescriptors(ctx.desc.context, null, gen)
+    private fun <T> nonDescriptors(ctx: Context, gen: () -> Iterable<T>) =
+        nonDescriptors(ctx.desc.context, emptyList(), gen)
 
     fun <T> nonDescriptors(ctx: ProtocolContext, default: T, gen: () -> T) =
         boolGen(!ctx.onlyGenerateDescriptors, default, gen)
 
-    private fun <T> nonGrpc(ctx: Context, gen: () -> T) =
-        nonGrpc(ctx.desc.context, null, gen)
+    private fun <T> nonGrpc(ctx: Context, gen: () -> Iterable<T>) =
+        nonGrpc(ctx.desc.context, emptyList(), gen)
 
     fun <T> nonGrpc(ctx: ProtocolContext, default: T, gen: () -> T) =
         boolGen(!ctx.onlyGenerateGrpc, default, gen)

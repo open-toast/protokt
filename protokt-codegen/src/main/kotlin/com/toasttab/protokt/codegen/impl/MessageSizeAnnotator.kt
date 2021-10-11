@@ -40,10 +40,12 @@ private constructor(
     private val ctx: Context
 ) {
     private val resultVarName =
-        if (msg.fields.any { it.fieldName == "result" }) {
-            "_result"
-        } else {
-            "result"
+        run {
+            var name = "result"
+            while (msg.fields.any { it.fieldName == name }) {
+                name += "_"
+            }
+            name
         }
 
     private fun annotateMessageSizeNew(): FunSpec {
@@ -58,12 +60,12 @@ private constructor(
                                 |}
                             """.trimMargin()
                         } else {
-                            sizeOfString(it)
+                            "$resultVarName += ${sizeOfString(it)}"
                         }.replace(" ", "·")
                     is Oneof ->
                         if (it.hasNonNullOption) {
                             // TODO: verify indentation is correct for this case
-                            "result +=\n"
+                            "$resultVarName +=\n"
                         } else {
                             ""
                         } +
