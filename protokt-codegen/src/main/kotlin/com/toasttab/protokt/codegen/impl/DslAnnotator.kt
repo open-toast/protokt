@@ -60,7 +60,7 @@ class DslAnnotator(
             TypeSpec.classBuilder(msg.name + "Dsl")
                 .addProperties(
                     properties.map {
-                        PropertySpec.builder(it.name.removePrefix("`").removeSuffix("`"), TypeVariableName(it.dslPropertyType.removeSuffix("?")).copy(nullable = it.nullable))
+                        PropertySpec.builder(it.name.removePrefix("`").removeSuffix("`"), TypeVariableName(it.dslPropertyType).copy(nullable = it.nullable && !it.dslPropertyType.endsWith("?")))
                             .mutable(true)
                             .apply {
                                 if (it.deprecation != null) {
@@ -139,7 +139,7 @@ class DslAnnotator(
 
     private fun buildLines() =
         properties.joinToString("\n") {
-            "  ${it.name},"
+            "  ${deserializeWrapper(it)},"
         }
 }
 

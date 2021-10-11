@@ -89,11 +89,6 @@ private constructor(
                                     )
                                 }
                             }
-                            .apply {
-                                if (options.implements != null) {
-                                    addSuperinterface(TypeVariableName(options.implements), "by $k")
-                                }
-                            }
                             .addProperty(
                                 PropertySpec.builder(v.fieldName, TypeVariableName(v.type))
                                     .initializer(v.fieldName)
@@ -104,6 +99,11 @@ private constructor(
                                     .addParameter(v.fieldName, TypeVariableName(v.type))
                                     .build()
                             )
+                            .apply {
+                                if (options.implements != null) {
+                                    addSuperinterface(TypeVariableName(options.implements), v.fieldName)
+                                }
+                            }
                             .build()
                     }
                 )

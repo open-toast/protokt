@@ -59,7 +59,7 @@ private constructor(
                             """.trimMargin()
                         } else {
                             sizeOfString(it)
-                        }
+                        }.replace(" ", "·")
                     is Oneof ->
                         if (it.hasNonNullOption) {
                             // TODO: verify indentation is correct for this case

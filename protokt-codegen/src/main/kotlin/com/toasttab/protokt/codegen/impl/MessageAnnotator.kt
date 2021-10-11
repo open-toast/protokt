@@ -161,6 +161,7 @@ private constructor(
         )
         primaryConstructor(
             FunSpec.constructorBuilder()
+                .addModifiers(KModifier.PRIVATE)
                 .addParameters(
                     properties.map {
                         ParameterSpec(it.name.removePrefix("`").removeSuffix("`"), TypeVariableName(it.propertyType))
