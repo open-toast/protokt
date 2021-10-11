@@ -132,6 +132,11 @@ private constructor(
                 PropertySpec.builder(it.name.removePrefix("`").removeSuffix("`"), TypeVariableName(it.propertyType))
                     .initializer(it.name)
                     .apply {
+                        if (it.overrides) {
+                            addModifiers(KModifier.OVERRIDE)
+                        }
+                    }
+                    .apply {
                         if (it.documentation.isNotEmpty()) {
                             addKdoc(formatDoc(it.documentation))
                         }
@@ -174,6 +179,16 @@ private constructor(
                 )
                 .build()
         )
+        if (msg.doesImplement) {
+            if (msg.implements.contains(" by ")) {
+                addSuperinterface(
+                    TypeVariableName(msg.implements.substringBefore(" by ")),
+                    msg.implements.substringAfter(" by ")
+                )
+            } else {
+                addSuperinterface(TypeVariableName(msg.implements))
+            }
+        }
     }
 
     private fun TypeSpec.Builder.handleMessageSize() =

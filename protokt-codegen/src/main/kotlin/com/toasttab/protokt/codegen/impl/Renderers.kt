@@ -28,7 +28,7 @@ fun deserializeVar(p: PropertyInfo) =
 fun deserializeWrapper(p: PropertyInfo) =
     if (p.nonNullOption) {
         """
-            requireNotNull(<${p.name}) {
+            requireNotNull(${p.name}) {
                 StringBuilder("${p.name}")
                     .append(" specified nonnull with (protokt.${if (p.oneof) "oneof" else "property" }).non_null but was null")
             }
