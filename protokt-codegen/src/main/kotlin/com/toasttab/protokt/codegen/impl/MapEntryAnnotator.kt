@@ -24,9 +24,9 @@ import com.squareup.kotlinpoet.TypeVariableName
 import com.squareup.kotlinpoet.asTypeName
 import com.toasttab.protokt.codegen.impl.Annotator.Context
 import com.toasttab.protokt.codegen.impl.DeserializerAnnotator.Companion.annotateDeserializerOld
+import com.toasttab.protokt.codegen.impl.MessageSizeAnnotator.Companion.annotateMessageSizeOld
 import com.toasttab.protokt.codegen.impl.PropertyAnnotator.Companion.annotateProperties
 import com.toasttab.protokt.codegen.impl.SerializerAnnotator.Companion.annotateSerializerOld
-import com.toasttab.protokt.codegen.impl.MessageSizeAnnotator.Companion.annotateMessageSizeOld
 import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.StandardField
@@ -75,12 +75,12 @@ private constructor(
             .addModifiers(KModifier.PRIVATE)
             .addSuperinterface(KtMessage::class)
             .addProperty(
-                PropertySpec.builder("key",TypeVariableName(keyProp.propertyType))
+                PropertySpec.builder("key", TypeVariableName(keyProp.propertyType))
                     .initializer("key")
                     .build()
             )
             .addProperty(
-                PropertySpec.builder("value",TypeVariableName(valProp.propertyType))
+                PropertySpec.builder("value", TypeVariableName(valProp.propertyType))
                     .initializer("value")
                     .build()
             )
@@ -120,7 +120,8 @@ private constructor(
                     .addSuperinterface(
                         KtDeserializer::class
                             .asTypeName()
-                            .parameterizedBy(TypeVariableName(msg.name)))
+                            .parameterizedBy(TypeVariableName(msg.name))
+                    )
                     .addFunction(
                         FunSpec.builder("sizeof")
                             .addParameter("key", TypeVariableName(keyProp.propertyType))

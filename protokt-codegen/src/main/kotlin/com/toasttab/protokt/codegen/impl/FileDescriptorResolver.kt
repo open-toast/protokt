@@ -164,11 +164,11 @@ private constructor(
                         FunSpec.getterBuilder()
                             .addCode(
                                 "return " +
-                                if (containingTypes.isEmpty()) {
-                                    ctx.fileDescriptorObjectName + ".descriptor.enumTypes[${enum.index}]"
-                                } else {
-                                    (qualification(containingTypes) ?: "") + "descriptor.enumTypes[${enum.index}]"
-                                }
+                                    if (containingTypes.isEmpty()) {
+                                        ctx.fileDescriptorObjectName + ".descriptor.enumTypes[${enum.index}]"
+                                    } else {
+                                        (qualification(containingTypes) ?: "") + "descriptor.enumTypes[${enum.index}]"
+                                    }
                             )
                             .build()
                     )
@@ -211,11 +211,11 @@ private constructor(
                         FunSpec.getterBuilder()
                             .addCode(
                                 "return " +
-                                if (containingTypes.isEmpty()) {
-                                    ctx.fileDescriptorObjectName + ".descriptor.messageTypes[${msg.index}]"
-                                } else {
-                                    (qualification(containingTypes) ?: "") + "descriptor.nestedTypes[${msg.index}]"
-                                }
+                                    if (containingTypes.isEmpty()) {
+                                        ctx.fileDescriptorObjectName + ".descriptor.messageTypes[${msg.index}]"
+                                    } else {
+                                        (qualification(containingTypes) ?: "") + "descriptor.nestedTypes[${msg.index}]"
+                                    }
                             )
                             .build()
                     )

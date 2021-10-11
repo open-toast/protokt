@@ -43,17 +43,19 @@ class DslAnnotator(
                     )
                 )
                 .addCode(
-                    ("return " + msg.name + " {\n" +
-                        if (properties.isEmpty()) {
-                            ""
-                        } else {
-                            dslLines() + "\n"
-                        } +
-                        """
+                    (
+                        "return " + msg.name + " {\n" +
+                            if (properties.isEmpty()) {
+                                ""
+                            } else {
+                                dslLines() + "\n"
+                            } +
+                            """
                        |  unknownFields = this@${msg.name}.unknownFields
                        |  dsl()
                        |}
-                   """.trimMargin()).replace(" ", "·")
+                   """.trimMargin()
+                        ).replace(" ", "·")
                 )
                 .build()
         )

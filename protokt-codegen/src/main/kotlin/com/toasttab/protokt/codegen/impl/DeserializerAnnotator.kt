@@ -93,7 +93,7 @@ private constructor(
                         } else {
                             ""
                         } +
-                        """
+                            """
                             |var unknownFields: UnknownFieldSet.Builder? = null
                             |
                             |while (true) {
@@ -136,7 +136,6 @@ private constructor(
         properties.joinToString("") {
             deserializeWrapper(it) + ",\n        "
         } + "UnknownFieldSet.from(unknownFields)"
-
 
     private fun assignmentLines(deserializerInfo: List<DeserializerInfo>) =
         deserializerInfo.joinToString("\n") {

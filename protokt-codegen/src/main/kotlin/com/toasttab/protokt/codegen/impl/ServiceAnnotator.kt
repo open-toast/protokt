@@ -69,9 +69,9 @@ internal object ServiceAnnotator {
                                     """
                                 |lazy {
                                 |  MethodDescriptor.newBuilder<${it.inputType.renderName(ctx.pkg)}, ${
-                                        it.outputType.renderName(
-                                            ctx.pkg
-                                        )
+                                    it.outputType.renderName(
+                                        ctx.pkg
+                                    )
                                     }>()
                                 |    .setType(MethodDescriptor.MethodType.${methodType(it)})
                                 |    .setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "${it.name}"))

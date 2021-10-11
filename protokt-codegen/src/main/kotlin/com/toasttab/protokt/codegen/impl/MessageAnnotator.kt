@@ -35,10 +35,10 @@ import com.toasttab.protokt.codegen.impl.Implements.doesImplement
 import com.toasttab.protokt.codegen.impl.Implements.implements
 import com.toasttab.protokt.codegen.impl.MapEntryAnnotator.Companion.annotateMapEntry
 import com.toasttab.protokt.codegen.impl.MessageDocumentationAnnotator.annotateMessageDocumentation
+import com.toasttab.protokt.codegen.impl.MessageSizeAnnotator.Companion.annotateMessageSizeNew
 import com.toasttab.protokt.codegen.impl.OneofAnnotator.Companion.annotateOneofs
 import com.toasttab.protokt.codegen.impl.PropertyAnnotator.Companion.annotateProperties
 import com.toasttab.protokt.codegen.impl.SerializerAnnotator.Companion.annotateSerializerNew
-import com.toasttab.protokt.codegen.impl.MessageSizeAnnotator.Companion.annotateMessageSizeNew
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.template.Message.Message.MessageInfo

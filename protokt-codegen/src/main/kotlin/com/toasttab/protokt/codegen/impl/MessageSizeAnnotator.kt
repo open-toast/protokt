@@ -69,7 +69,7 @@ private constructor(
                         } else {
                             ""
                         } +
-                        """
+                            """
                             |when (${it.fieldName}) {
                             |${conditionals(it)}
                             |}
@@ -116,17 +116,17 @@ private constructor(
         } else {
             ""
         } +
-        sizeOfString(
-            f,
-            interceptSizeof(
+            sizeOfString(
                 f,
-                ConcatWithScope.render(
-                    scope = o.fieldName,
-                    value = f.fieldName
-                ),
-                ctx
+                interceptSizeof(
+                    f,
+                    ConcatWithScope.render(
+                        scope = o.fieldName,
+                        value = f.fieldName
+                    ),
+                    ctx
+                )
             )
-        )
 
     private fun annotateMessageSizeOld(): List<SizeofInfo> {
         return msg.fields.map {
