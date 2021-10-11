@@ -75,12 +75,12 @@ private constructor(
             .addModifiers(KModifier.PRIVATE)
             .addSuperinterface(KtMessage::class)
             .addProperty(
-                PropertySpec.builder("key",TypeVariableName(entryInfo.key.unqualifiedTypeName))
+                PropertySpec.builder("key",TypeVariableName(keyProp.propertyType))
                     .initializer("key")
                     .build()
             )
             .addProperty(
-                PropertySpec.builder("value",TypeVariableName(entryInfo.value.unqualifiedTypeName))
+                PropertySpec.builder("value",TypeVariableName(valProp.propertyType))
                     .initializer("value")
                     .build()
             )
@@ -88,11 +88,11 @@ private constructor(
                 FunSpec.constructorBuilder()
                     .addParameter(
                         "key",
-                        TypeVariableName(entryInfo.key.unqualifiedTypeName)
+                        TypeVariableName(keyProp.propertyType)
                     )
                     .addParameter(
                         "value",
-                        TypeVariableName(entryInfo.value.unqualifiedTypeName)
+                        TypeVariableName(valProp.propertyType)
                     )
                     .build()
             )
@@ -123,8 +123,8 @@ private constructor(
                             .parameterizedBy(TypeVariableName(msg.name)))
                     .addFunction(
                         FunSpec.builder("sizeof")
-                            .addParameter("key", TypeVariableName(entryInfo.key.unqualifiedTypeName))
-                            .addParameter("value", TypeVariableName(entryInfo.value.unqualifiedTypeName))
+                            .addParameter("key", TypeVariableName(keyProp.propertyType))
+                            .addParameter("value", TypeVariableName(valProp.propertyType))
                             .addCode(
                                 "return ${sizeInfo.consequent(entryInfo.key)} + ${sizeInfo.consequent(entryInfo.value)}".replace(" ", "·")
                             )
