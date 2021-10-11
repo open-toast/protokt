@@ -16,18 +16,22 @@
 package com.toasttab.protokt.codegen.impl
 
 import com.google.protobuf.DescriptorProtos
+import com.squareup.kotlinpoet.AnnotationSpec
+import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
+import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.PropertySpec
+import com.squareup.kotlinpoet.TypeSpec
+import com.squareup.kotlinpoet.TypeVariableName
 import com.toasttab.protokt.codegen.protoc.Enum
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Protocol
 import com.toasttab.protokt.codegen.protoc.TopLevelType
-import com.toasttab.protokt.codegen.template.Descriptor.Descriptor
-import com.toasttab.protokt.codegen.template.Descriptor.EnumDescriptorProperty
-import com.toasttab.protokt.codegen.template.Descriptor.MessageDescriptorProperty
 
 class FileDescriptorInfo(
-    val fdp: String,
-    val imports: Set<FileSpec.Builder.() -> Unit>
+    val fdp: TypeSpec,
+    val imports: Set<FileSpec.Builder.() -> Unit>,
+    val properties: List<PropertySpec>
 )
 
 class FileDescriptorResolver
@@ -44,16 +48,43 @@ private constructor(
 
         val dependenciesAndImports = dependencies()
 
-        val template =
-            Descriptor.render(
-                ctx.fileDescriptorObjectName,
-                fileDescriptorParts(),
-                dependenciesAndImports.dependencies,
-                ctx.fdp.dependencyCount > 1,
-                enumDescriptorExtensionProperties() + messageDescriptorExtensionProperties()
-            )
-        return FileDescriptorInfo(template, dependenciesAndImports.imports)
+        val type =
+            TypeSpec.objectBuilder(ctx.fileDescriptorObjectName)
+                .addProperty(
+                    PropertySpec.builder("descriptor", ClassName("com.toasttab.protokt", "FileDescriptor"))
+                        .delegate(
+                            """
+                                |lazy {
+                                |  val descriptorData = arrayOf(
+                                |%L
+                                |  )
+                                |
+                                |  %T.buildFrom(
+                                |    descriptorData,
+                                |    listOf(
+                                |${dependencyLines(dependenciesAndImports.dependencies)}
+                                |    )
+                                |  )
+                                |}
+                            """.trimMargin(),
+                            descriptorLines(),
+                            ClassName("com.toasttab.protokt", "FileDescriptor")
+                        )
+                        .build()
+                )
+                .build()
+
+        val properties = enumDescriptorExtensionProperties() + messageDescriptorExtensionProperties()
+
+        return FileDescriptorInfo(type, dependenciesAndImports.imports, properties)
     }
+
+    private fun descriptorLines() =
+        fileDescriptorParts().joinToString(",\n") {
+            it.joinToString(" +\n") { line ->
+                "\"" + line + "\""
+            }
+        }
 
     private fun fileDescriptorParts() =
         encodeFileDescriptor(
@@ -63,6 +94,9 @@ private constructor(
                     .build()
             )
         )
+
+    private fun dependencyLines(dependencies: List<String>) =
+        dependencies.joinToString(",\n") { "$it.descriptor" }
 
     private fun clearJsonInfo(fileDescriptorProto: DescriptorProtos.FileDescriptorProto) =
         fileDescriptorProto.toBuilder()
@@ -113,6 +147,7 @@ private constructor(
                         ctx.allDescriptorClassNamesByDescriptorName.getValue(it)
                     if (!depPkg.default && depPkg != pkg) {
                         imports.add { addImport(depPkg.toString(), descriptorObjectName) }
+                        imports.add { addImport("com.toasttab.protokt", "FileDescriptor") }
                     }
                     descriptorObjectName
                 }
@@ -123,15 +158,33 @@ private constructor(
     private fun enumDescriptorExtensionProperties() =
         protocol.types.flatMap { findEnums(emptyList(), it) }
             .map { (enum, containingTypes) ->
-                EnumDescriptorProperty.render(
-                    containingTypes.isEmpty(),
-                    enum.name,
-                    qualification(containingTypes),
-                    ctx.fileDescriptorObjectName,
-                    enum.index,
-                    containingTypes.any { it.options.default.deprecated } ||
-                        enum.options.default.deprecated
-                )
+                PropertySpec.builder("descriptor", ClassName("com.toasttab.protokt", "EnumDescriptor"))
+                    .receiver(TypeVariableName((qualification(containingTypes) ?: "") + enum.name + ".Deserializer"))
+                    .getter(
+                        FunSpec.getterBuilder()
+                            .addCode(
+                                "return " +
+                                if (containingTypes.isEmpty()) {
+                                    ctx.fileDescriptorObjectName + ".descriptor.enumTypes[${enum.index}]"
+                                } else {
+                                    (qualification(containingTypes) ?: "") + "descriptor.enumTypes[${enum.index}]"
+                                }
+                            )
+                            .build()
+                    )
+                    .apply {
+                        if (
+                            containingTypes.any { it.options.default.deprecated } ||
+                            enum.options.default.deprecated
+                        ) {
+                            addAnnotation(
+                                AnnotationSpec.builder(Suppress::class)
+                                    .addMember("\"DEPRECATION\"")
+                                    .build()
+                            )
+                        }
+                    }
+                    .build()
             }
 
     private data class EnumInfo(
@@ -152,15 +205,33 @@ private constructor(
     private fun messageDescriptorExtensionProperties() =
         protocol.types.flatMap { findMessages(emptyList(), it) }
             .map { (msg, containingTypes) ->
-                MessageDescriptorProperty.render(
-                    containingTypes.isEmpty(),
-                    msg.name,
-                    qualification(containingTypes),
-                    ctx.fileDescriptorObjectName,
-                    msg.index,
-                    containingTypes.any { it.options.default.deprecated } ||
-                        msg.options.default.deprecated
-                )
+                PropertySpec.builder("descriptor", ClassName("com.toasttab.protokt", "Descriptor"))
+                    .receiver(TypeVariableName((qualification(containingTypes) ?: "") + msg.name + ".Deserializer"))
+                    .getter(
+                        FunSpec.getterBuilder()
+                            .addCode(
+                                "return " +
+                                if (containingTypes.isEmpty()) {
+                                    ctx.fileDescriptorObjectName + ".descriptor.messageTypes[${msg.index}]"
+                                } else {
+                                    (qualification(containingTypes) ?: "") + "descriptor.nestedTypes[${msg.index}]"
+                                }
+                            )
+                            .build()
+                    )
+                    .apply {
+                        if (
+                            containingTypes.any { it.options.default.deprecated } ||
+                            msg.options.default.deprecated
+                        ) {
+                            addAnnotation(
+                                AnnotationSpec.builder(Suppress::class)
+                                    .addMember("\"DEPRECATION\"")
+                                    .build()
+                            )
+                        }
+                    }
+                    .build()
             }
 
     private data class MessageInfo(

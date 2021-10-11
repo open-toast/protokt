@@ -79,7 +79,7 @@ private fun generate(
         )
 
     return Accumulator.buildFile(
-        Annotator.apply(protocol),
+        protocol,
         ImportResolver.resolveImports(protocol),
         FileDescriptorResolver.resolveFileDescriptor(protocol)
     )?.toString()?.let(::tidy)
