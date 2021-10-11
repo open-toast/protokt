@@ -63,6 +63,8 @@ private constructor(
                             .apply {
                                 if (options.deprecation.message != null) {
                                     addMember("\"" + options.deprecation.message + "\"")
+                                } else {
+                                    addMember("\"deprecated in proto\"")
                                 }
                             }
                             .build()

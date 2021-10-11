@@ -22,6 +22,8 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.TypeVariableName
 import com.squareup.kotlinpoet.asTypeName
 import com.toasttab.protokt.codegen.impl.Annotator.Context
+import com.toasttab.protokt.codegen.model.PClass
+import com.toasttab.protokt.codegen.model.possiblyQualify
 import com.toasttab.protokt.codegen.protoc.Method
 import com.toasttab.protokt.codegen.protoc.ProtocolContext
 import com.toasttab.protokt.codegen.protoc.Service
@@ -87,8 +89,8 @@ internal object ServiceAnnotator {
                                 |  MethodDescriptor.newBuilder<${it.inputType.renderName(ctx.pkg)}, ${it.outputType.renderName(ctx.pkg)}>()
                                 |    .setType(MethodDescriptor.MethodType.${methodType(it)})
                                 |    .setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "${it.name}"))
-                                |    .setRequestMarshaller(${it.options.protokt.requestMarshaller.ifEmpty { "com.toasttab.protokt.grpc.KtMarshaller" }}(${it.inputType.renderName(ctx.pkg)}))
-                                |    .setResponseMarshaller(${it.options.protokt.responseMarshaller.ifEmpty { "com.toasttab.protokt.grpc.KtMarshaller" }}(${it.outputType.renderName(ctx.pkg)}))
+                                |    .setRequestMarshaller(${it.qualifiedRequestMarshaller(ctx)})
+                                |    .setResponseMarshaller(${it.qualifiedResponseMarshaller(ctx)})
                                 |    .build()
                                 |}
                             """.trimMargin()
@@ -98,6 +100,22 @@ internal object ServiceAnnotator {
             )
             .build()
     }
+
+    private fun Method.qualifiedRequestMarshaller(ctx: Context) =
+        options.protokt.requestMarshaller.takeIf { it.isNotEmpty() }
+            ?.let {
+                PClass.fromName(options.protokt.requestMarshaller)
+                    .possiblyQualify(ctx.pkg)
+                    .qualifiedName
+            } ?: "com.toasttab.protokt.grpc.KtMarshaller(${inputType.renderName(ctx.pkg)})"
+
+    private fun Method.qualifiedResponseMarshaller(ctx: Context) =
+        options.protokt.responseMarshaller.takeIf { it.isNotEmpty() }
+            ?.let {
+                PClass.fromName(options.protokt.responseMarshaller)
+                    .possiblyQualify(ctx.pkg)
+                    .qualifiedName
+            } ?: "com.toasttab.protokt.grpc.KtMarshaller(${outputType.renderName(ctx.pkg)})"
 
     private fun serviceLines(s: Service) =
         s.methods.joinToString("\n") {

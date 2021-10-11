@@ -90,9 +90,14 @@ private fun generate(
 private fun tidy(code: String) =
     code
         // https://stackoverflow.com/a/64970734
-        .replace("public ", "")
+        .replace("public class ", "class ")
+        .replace("public val ", "val ")
+        .replace("public var ", "var ")
+        .replace("public fun ", "fun ")
+        .replace("public object ", "object ")
+        .replace("public companion ", "companion ")
         // https://github.com/square/kotlinpoet/pull/932
-        .replace("): Unit", ")")
+        .replace("): Unit {", ") {")
 
 private fun response(
     fdp: FileDescriptorProto,

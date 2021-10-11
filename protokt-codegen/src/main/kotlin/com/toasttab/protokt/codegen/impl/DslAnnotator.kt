@@ -33,6 +33,7 @@ class DslAnnotator(
     fun addDsl(builder: TypeSpec.Builder) {
         builder.addFunction(
             FunSpec.builder("copy")
+                .returns(TypeVariableName(msg.name))
                 .addParameter(
                     "dsl",
                     LambdaTypeName.get(
@@ -42,7 +43,7 @@ class DslAnnotator(
                     )
                 )
                 .addCode(
-                    msg.name + " {\n" +
+                    ("return " + msg.name + " {\n" +
                         if (properties.isEmpty()) {
                             ""
                         } else {
@@ -52,7 +53,7 @@ class DslAnnotator(
                        |  unknownFields = this@${msg.name}.unknownFields
                        |  dsl()
                        |}
-                   """.trimMargin()
+                   """.trimMargin()).replace(" ", "·")
                 )
                 .build()
         )
