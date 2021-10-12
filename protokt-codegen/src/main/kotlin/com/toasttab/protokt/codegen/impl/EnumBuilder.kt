@@ -71,8 +71,8 @@ class EnumBuilder(
         }
 
     private fun TypeSpec.Builder.addConstructor() {
-        addProperty(overrideProperty("value", Int::class))
-        addProperty(overrideProperty("name", String::class))
+        addProperty(constructorProperty("value", Int::class, override = true))
+        addProperty(constructorProperty("name", String::class, override = true))
         primaryConstructor(
             FunSpec.constructorBuilder()
                 .addParameter("value", Int::class)

@@ -30,8 +30,6 @@ import com.toasttab.protokt.codegen.impl.SerializerAnnotator.Companion.annotateS
 import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.StandardField
-import com.toasttab.protokt.codegen.template.Entry.Entry
-import com.toasttab.protokt.codegen.template.Entry.Entry.DeserializerInfo
 import com.toasttab.protokt.codegen.template.Message.Message.PropertyInfo
 import com.toasttab.protokt.rt.KtDeserializer
 import com.toasttab.protokt.rt.KtMessage
@@ -44,117 +42,103 @@ private constructor(
     private val msg: Message,
     private val ctx: Context
 ) {
+    private val entryInfo = resolveMapEntry(msg)
+    private val keyPropertyType = TypeVariableName(entryInfo.key.unqualifiedTypeName)
+    private val valPropertyType = TypeVariableName(entryInfo.value.typePClass.qualifiedName)
+
     private fun annotateMapEntry(): TypeSpec {
-        val entryInfo = resolveMapEntry(msg)
-        val desInfo = annotateDeserializerOld(msg, ctx)
-        val sizeInfo = annotateMessageSizeOld(msg, ctx)
+        return TypeSpec.classBuilder(msg.name).apply {
+            addModifiers(KModifier.PRIVATE)
+            addSuperinterface(KtMessage::class)
+            addProperty(constructorProperty("key", keyPropertyType))
+            addProperty(constructorProperty("value", valPropertyType))
+            addConstructor()
+            addMessageSize()
+            addSerialize()
+            addDeserializer()
+        }.build()
+    }
+
+    private fun TypeSpec.Builder.addConstructor() {
+        primaryConstructor(
+            FunSpec.constructorBuilder()
+                .addParameter("key", keyPropertyType)
+                .addParameter("value", valPropertyType)
+                .build()
+        )
+    }
+
+    private fun TypeSpec.Builder.addMessageSize() {
+        addProperty(
+            PropertySpec.builder(KtMessage::messageSize.name, Int::class)
+                .addModifiers(KModifier.OVERRIDE)
+                .getter(
+                    FunSpec.getterBuilder()
+                        .addCode("return sizeof(key, value)".bindSpaces())
+                        .build()
+                )
+                .build()
+        )
+    }
+
+    private fun TypeSpec.Builder.addSerialize() {
         val serInfo = annotateSerializerOld(msg, ctx)
+        addFunction(
+            FunSpec.builder("serialize")
+                .addModifiers(KModifier.OVERRIDE)
+                .addParameter("serializer", KtMessageSerializer::class)
+                .addCode(serInfo.consequent(entryInfo.key))
+                .addCode("\n")
+                .addCode(serInfo.consequent(entryInfo.value))
+                .build()
+        )
+    }
+
+    private fun TypeSpec.Builder.addDeserializer() {
         val propInfo = annotateProperties(msg, ctx)
+        val sizeInfo = annotateMessageSizeOld(msg, ctx)
+        val keyDeserialize = annotateDeserializerOld(msg, ctx).single(entryInfo.key)
+        val valDeserialize = annotateDeserializerOld(msg, ctx).single(entryInfo.value)
 
-        val keyProp =
-            prop(
-                entryInfo.key,
-                entryInfo.key.unqualifiedTypeName,
-                sizeInfo,
-                serInfo,
-                desInfo,
-                propInfo
-            )
-
-        val valProp =
-            prop(
-                entryInfo.value,
-                entryInfo.value.typePClass.renderName(ctx.pkg),
-                sizeInfo,
-                serInfo,
-                desInfo,
-                propInfo
-            )
-
-        return TypeSpec.classBuilder(msg.name)
-            .addModifiers(KModifier.PRIVATE)
-            .addSuperinterface(KtMessage::class)
-            .addProperty(
-                PropertySpec.builder("key", TypeVariableName(keyProp.propertyType))
-                    .initializer("key")
-                    .build()
-            )
-            .addProperty(
-                PropertySpec.builder("value", TypeVariableName(valProp.propertyType))
-                    .initializer("value")
-                    .build()
-            )
-            .primaryConstructor(
-                FunSpec.constructorBuilder()
-                    .addParameter(
-                        "key",
-                        TypeVariableName(keyProp.propertyType)
-                    )
-                    .addParameter(
-                        "value",
-                        TypeVariableName(valProp.propertyType)
-                    )
-                    .build()
-            )
-            .addProperty(
-                PropertySpec.builder(KtMessage::messageSize.name, Int::class)
-                    .addModifiers(KModifier.OVERRIDE)
-                    .getter(
-                        FunSpec.getterBuilder()
-                            .addCode("return sizeof(key, value)")
-                            .build()
-                    )
-                    .build()
-            )
-            .addFunction(
-                FunSpec.builder("serialize")
-                    .addModifiers(KModifier.OVERRIDE)
-                    .addParameter("serializer", KtMessageSerializer::class)
-                    .addCode(serInfo.consequent(entryInfo.key))
-                    .addCode("\n")
-                    .addCode(serInfo.consequent(entryInfo.value))
-                    .build()
-            )
-            .addType(
-                TypeSpec.companionObjectBuilder("Deserializer")
-                    .addSuperinterface(
-                        KtDeserializer::class
-                            .asTypeName()
-                            .parameterizedBy(TypeVariableName(msg.name))
-                    )
-                    .addFunction(
-                        FunSpec.builder("sizeof")
-                            .addParameter("key", TypeVariableName(keyProp.propertyType))
-                            .addParameter("value", TypeVariableName(valProp.propertyType))
-                            .addCode(
-                                "return ${sizeInfo.consequent(entryInfo.key)} + ${sizeInfo.consequent(entryInfo.value)}".replace(" ", "·")
-                            )
-                            .build()
-                    )
-                    .addFunction(
-                        FunSpec.builder("deserialize")
-                            .addModifiers(KModifier.OVERRIDE)
-                            .addParameter("deserializer", KtMessageDeserializer::class)
-                            .returns(TypeVariableName(msg.name))
-                            .addCode(
-                                """
-                                    var key${deserializeVar(entryInfo.key, propInfo.single(entryInfo.key))}
-                                    var value${deserializeVar(entryInfo.value, propInfo.single(entryInfo.value))}
-                            
-                                    while (true) {
-                                      when (deserializer.readTag()) {
-                                        0 -> return ${msg.name}(key, value${orDefault(entryInfo.value, valProp)})
-                                        ${keyProp.deserialize.tag} -> key = ${keyProp.deserialize.assignment}
-                                        ${valProp.deserialize.tag} -> value = ${valProp.deserialize.assignment}
-                                      }
-                                    }
-                                """.trimIndent()
-                            )
-                            .build()
-                    )
-                    .build()
-            )
-            .build()
+        addType(
+            TypeSpec.companionObjectBuilder("Deserializer")
+                .addSuperinterface(
+                    KtDeserializer::class
+                        .asTypeName()
+                        .parameterizedBy(TypeVariableName(msg.name))
+                )
+                .addFunction(
+                    FunSpec.builder("sizeof")
+                        .addParameter("key", keyPropertyType)
+                        .addParameter("value", valPropertyType)
+                        .addCode(
+                            "return ${sizeInfo.consequent(entryInfo.key)} + ${sizeInfo.consequent(entryInfo.value)}".bindSpaces()
+                        )
+                        .build()
+                )
+                .addFunction(
+                    FunSpec.builder("deserialize")
+                        .addModifiers(KModifier.OVERRIDE)
+                        .addParameter("deserializer", KtMessageDeserializer::class)
+                        .returns(TypeVariableName(msg.name))
+                        .addCode(
+                            """
+                                var key${deserializeVar(entryInfo.key, propInfo.single(entryInfo.key))}
+                                var value${deserializeVar(entryInfo.value, propInfo.single(entryInfo.value))}
+                        
+                                while (true) {
+                                  when (deserializer.readTag()) {
+                                    0 -> return ${msg.name}(key, value${orDefault(entryInfo.value)})
+                                    ${keyDeserialize.tag} -> key = ${keyDeserialize.assignment.value}
+                                    ${valDeserialize.tag} -> value = ${valDeserialize.assignment.value}
+                                  }
+                                }
+                            """.bindIndent()
+                        )
+                        .build()
+                )
+                .build()
+        )
     }
 
     private fun deserializeVar(f: StandardField, p: PropertyInfo) =
@@ -164,40 +148,11 @@ private constructor(
             ""
         } + " = " + deserializeValue(p)
 
-    private fun orDefault(f: StandardField, p: Entry.PropertyInfo) =
+    private fun orDefault(f: StandardField) =
         if (f.type == FieldType.MESSAGE) {
-            " ?: " + p.propertyType + " {}"
+            " ?: $valPropertyType {}"
         } else {
             ""
-        }
-
-    private fun prop(
-        f: StandardField,
-        type: String,
-        sizeofInfo: List<MessageTemplate.SizeofInfo>,
-        serializerInfo: List<MessageTemplate.SerializerInfo>,
-        deserializerInfo: List<MessageTemplate.DeserializerInfo>,
-        propInfo: List<PropertyInfo>
-    ) =
-        Entry.PropertyInfo(
-            propertyType = type,
-            messageType = f.type.toString(),
-            deserializeType = propInfo.single(f).deserializeType,
-            sizeof = sizeofInfo.consequent(f),
-            serialize = serializerInfo.consequent(f),
-            defaultValue = propInfo.single(f).defaultValue,
-            deserialize = deserialize(deserializerInfo, f)
-        )
-
-    private fun deserialize(
-        deserializerInfo: List<MessageTemplate.DeserializerInfo>,
-        f: StandardField
-    ) =
-        deserializerInfo.single(f).let {
-            DeserializerInfo(
-                tag = it.tag,
-                assignment = it.assignment.value
-            )
         }
 
     private fun <T : MessageTemplate.FieldInfo> List<T>.single(

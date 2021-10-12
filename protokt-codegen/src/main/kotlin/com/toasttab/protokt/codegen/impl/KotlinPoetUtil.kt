@@ -17,6 +17,7 @@ package com.toasttab.protokt.codegen.impl
 
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec
+import com.squareup.kotlinpoet.TypeName
 import kotlin.reflect.KClass
 
 fun String.bindSpaces() =
@@ -25,8 +26,21 @@ fun String.bindSpaces() =
 fun String.bindMargin() =
     trimMargin().bindSpaces()
 
-fun overrideProperty(name: String, type: KClass<*>) =
-    PropertySpec.builder(name, type)
-        .addModifiers(KModifier.OVERRIDE)
-        .initializer(name)
-        .build()
+fun String.bindIndent() =
+    trimIndent().bindSpaces()
+
+fun constructorProperty(name: String, type: KClass<*>, override: Boolean = false) =
+    PropertySpec.builder(name, type).apply {
+        initializer(name)
+        if (override) {
+            addModifiers(KModifier.OVERRIDE)
+        }
+    }.build()
+
+fun constructorProperty(name: String, type: TypeName, override: Boolean = false) =
+    PropertySpec.builder(name, type).apply {
+        initializer(name)
+        if (override) {
+            addModifiers(KModifier.OVERRIDE)
+        }
+    }.build()
