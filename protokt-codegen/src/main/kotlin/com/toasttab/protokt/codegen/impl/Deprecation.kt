@@ -15,6 +15,8 @@
 
 package com.toasttab.protokt.codegen.impl
 
+import com.squareup.kotlinpoet.AnnotationSpec
+import com.squareup.kotlinpoet.TypeSpec
 import com.toasttab.protokt.codegen.impl.Annotator.Context
 import com.toasttab.protokt.codegen.protoc.Enum
 import com.toasttab.protokt.codegen.protoc.Message
@@ -60,4 +62,33 @@ object Deprecation {
     class RenderOptions(
         val message: String?
     )
+
+    fun TypeSpec.Builder.handleDeprecation(deprecated: Boolean, message: String) {
+        if (deprecated) {
+            addAnnotation(
+                AnnotationSpec.builder(Deprecated::class)
+                    .handleDeprecationMessage(message)
+                    .build()
+            )
+        }
+    }
+
+    private fun AnnotationSpec.Builder.handleDeprecationMessage(message: String) =
+        apply {
+            if (message.isNotEmpty()) {
+                addMember("\"" + message + "\"")
+            } else {
+                addMember("\"deprecated in proto\"")
+            }
+        }
+
+    fun TypeSpec.Builder.handleDeprecationSuppression(hasDeprecation: Boolean, ctx: Context) {
+        if (hasDeprecation && !enclosingDeprecation(ctx)) {
+            addAnnotation(
+                AnnotationSpec.builder(Suppress::class)
+                    .addMember("\"DEPRECATION\"")
+                    .build()
+            )
+        }
+    }
 }

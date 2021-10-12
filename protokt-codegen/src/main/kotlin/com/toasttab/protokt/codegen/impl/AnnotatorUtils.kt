@@ -26,7 +26,6 @@ import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Oneof
 import com.toasttab.protokt.codegen.protoc.Protocol
 import com.toasttab.protokt.codegen.protoc.StandardField
-import com.toasttab.protokt.codegen.protoc.TypeDesc
 import com.toasttab.protokt.codegen.template.Renderers.ConcatWithScope
 
 fun resolveMapEntry(m: Message) =
@@ -64,9 +63,6 @@ fun String.emptyToNone() =
     } else {
         Some(this)
     }
-
-fun kotlinPackage(data: TypeDesc) =
-    kotlinPackage(data.desc)
 
 fun kotlinPackage(protocol: Protocol) =
     kotlinPackage(protocol.desc)

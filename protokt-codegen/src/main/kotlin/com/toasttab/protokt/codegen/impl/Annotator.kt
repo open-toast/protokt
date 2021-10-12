@@ -77,7 +77,7 @@ object Annotator {
             is Enum ->
                 nonGrpc(ctx) {
                     nonDescriptors(ctx) {
-                        listOf(EnumAnnotator(type, ctx).annotateEnum())
+                        listOf(EnumBuilder(type, ctx).build())
                     }
                 }
             is Service ->
