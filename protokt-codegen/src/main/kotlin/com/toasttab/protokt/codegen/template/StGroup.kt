@@ -20,7 +20,6 @@ sealed class StGroup {
         get() = "${this::class.java.simpleName.decapitalize()}.stg"
 
     object Descriptor : StGroup()
-    object Enum : StGroup()
     object Header : StGroup()
     object Message : StGroup()
     object Oneof : StGroup()

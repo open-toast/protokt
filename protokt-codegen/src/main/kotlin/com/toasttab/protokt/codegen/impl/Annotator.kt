@@ -17,7 +17,6 @@ package com.toasttab.protokt.codegen.impl
 
 import com.github.andrewoma.dexx.kollection.immutableListOf
 import com.squareup.kotlinpoet.TypeSpec
-import com.toasttab.protokt.codegen.impl.EnumAnnotator.Companion.annotateEnum
 import com.toasttab.protokt.codegen.impl.MessageAnnotator.Companion.annotateMessage
 import com.toasttab.protokt.codegen.impl.ServiceAnnotator.annotateService
 import com.toasttab.protokt.codegen.model.PPackage
@@ -78,9 +77,7 @@ object Annotator {
             is Enum ->
                 nonGrpc(ctx) {
                     nonDescriptors(ctx) {
-                        listOf(
-                            annotateEnum(type, ctx)
-                        )
+                        listOf(EnumAnnotator(type, ctx).annotateEnum())
                     }
                 }
             is Service ->

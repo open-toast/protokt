@@ -28,41 +28,32 @@ import com.toasttab.protokt.codegen.impl.Deprecation.enclosingDeprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.hasDeprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
 import com.toasttab.protokt.codegen.impl.EnumDocumentationAnnotator.Companion.annotateEnumDocumentation
-import com.toasttab.protokt.codegen.impl.EnumDocumentationAnnotator.Companion.annotateEnumFieldDocumentation
 import com.toasttab.protokt.codegen.protoc.Enum
-import com.toasttab.protokt.codegen.template.Enum.Enum.EnumInfo
-import com.toasttab.protokt.codegen.template.Enum.Enum.EnumOptions
 import com.toasttab.protokt.rt.KtEnum
 import com.toasttab.protokt.rt.KtEnumDeserializer
-import com.toasttab.protokt.codegen.template.Enum.Enum as EnumTemplate
 
-class EnumAnnotator
-private constructor(
+class EnumAnnotator(
     val e: Enum,
     val ctx: Context
 ) {
     fun annotateEnum(): TypeSpec {
-        val options = enumOptions()
-        EnumTemplate.render(
-            name = e.name,
-            map = enumMap(),
-            options = enumOptions()
-        )
         return TypeSpec.classBuilder(e.name)
             .addModifiers(KModifier.SEALED)
             .superclass(KtEnum::class)
             .apply {
-                if (options.documentation.isNotEmpty()) {
-                    addKdoc(formatDoc(options.documentation))
+                val documentation = annotateEnumDocumentation(e, ctx)
+                if (documentation.isNotEmpty()) {
+                    addKdoc(formatDoc(documentation))
                 }
             }
             .apply {
-                if (options.deprecation != null) {
+                val deprecation = enumDeprecation()
+                if (deprecation != null) {
                     addAnnotation(
                         AnnotationSpec.builder(Deprecated::class)
                             .apply {
-                                if (options.deprecation.message != null) {
-                                    addMember("\"" + options.deprecation.message + "\"")
+                                if (deprecation.message != null) {
+                                    addMember("\"" + deprecation.message + "\"")
                                 } else {
                                     addMember("\"deprecated in proto\"")
                                 }
@@ -72,7 +63,7 @@ private constructor(
                 }
             }
             .apply {
-                if (options.suppressDeprecation) {
+                if (e.hasDeprecation && !enclosingDeprecation(ctx)) {
                     addAnnotation(
                         AnnotationSpec.builder(Suppress::class)
                             .addMember("\"DEPRECATION\"")
@@ -144,6 +135,7 @@ private constructor(
                     .addFunction(
                         FunSpec.builder("from")
                             .addModifiers(KModifier.OVERRIDE)
+                            .returns(TypeVariableName(e.name))
                             .addParameter("value", Int::class)
                             .addCode(
                                 """
@@ -165,29 +157,6 @@ private constructor(
             "  " + it.number + " -> " + it.valueName
         }
 
-    private fun enumMap() =
-        e.values.associate {
-            it.number to
-                EnumInfo(
-                    it.valueName,
-                    annotateEnumFieldDocumentation(e, it, ctx),
-                    if (it.options.default.deprecated) {
-                        renderOptions(
-                            it.options.protokt.deprecationMessage
-                        )
-                    } else {
-                        null
-                    }
-                )
-        }
-
-    private fun enumOptions() =
-        EnumOptions(
-            documentation = annotateEnumDocumentation(e, ctx),
-            deprecation = enumDeprecation(),
-            suppressDeprecation = (e.hasDeprecation && !enclosingDeprecation(ctx))
-        )
-
     private fun enumDeprecation() =
         if (e.options.default.deprecated) {
             renderOptions(
@@ -196,9 +165,4 @@ private constructor(
         } else {
             null
         }
-
-    companion object {
-        fun annotateEnum(e: Enum, ctx: Context) =
-            EnumAnnotator(e, ctx).annotateEnum()
-    }
 }
