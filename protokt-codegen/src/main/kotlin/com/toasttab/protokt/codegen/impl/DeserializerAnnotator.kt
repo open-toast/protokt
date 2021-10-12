@@ -57,7 +57,7 @@ private constructor(
     private val msg: Message,
     private val ctx: Context
 ) {
-    private fun annotateDeserializerNew(): TypeSpec {
+    private fun annotateDeserializer(): TypeSpec {
         val deserializerInfo = annotateDeserializerOld()
         val properties = annotateProperties(msg, ctx)
 
@@ -161,6 +161,7 @@ private constructor(
                         {
                             deserializeString(
                                 field,
+                                ctx,
                                 tag is Tag.Packed
                             ).let { value ->
                                 Assignment(
@@ -201,29 +202,6 @@ private constructor(
         return value.length > spaceLeft
     }
 
-    private fun deserializeString(f: StandardField, packed: Boolean) =
-        Deserialize.render(
-            field = f,
-            read = interceptReadFn(f, f.readFn()),
-            lhs = f.fieldName,
-            packed = packed,
-            options = deserializeOptions(f)
-        )
-
-    private fun deserializeOptions(f: StandardField) =
-        if (f.wrapped || f.keyWrapped || f.valueWrapped) {
-            Options(
-                wrapName = wrapperName(f, ctx).getOrElse { "" },
-                keyWrap = mapKeyConverter(f, ctx),
-                valueWrap = mapValueConverter(f, ctx),
-                valueType = f.mapEntry?.value?.type,
-                type = f.type.toString(),
-                oneof = true
-            )
-        } else {
-            null
-        }
-
     private fun Message.flattenedSortedFields() =
         fields.flatMap {
             when (it) {
@@ -243,41 +221,61 @@ private constructor(
         OneofTemplate.Deserialize.render(
             oneof = f.name,
             name = f.fieldTypeNames.getValue(ff.name),
-            read = deserializeString(ff, false)
+            read = deserializeString(ff, ctx, false)
         )
-
-    private fun StandardField.readFn() =
-        Read.render(
-            type = type,
-            builder = readFnBuilder(type)
-        )
-
-    private fun StandardField.readFnBuilder(type: FieldType) =
-        when (type) {
-            FieldType.ENUM, FieldType.MESSAGE -> stripQualification(this)
-            else -> ""
-        }
-
-    private fun stripQualification(f: StandardField) =
-        stripEnclosingMessageName(f.typePClass.renderName(ctx.pkg))
-
-    private fun stripEnclosingMessageName(s: String): String {
-        var stripped = s
-        for (enclosing in ctx.enclosing.reversed()) {
-            if (stripped.startsWith(enclosing.name)) {
-                stripped = stripped.removePrefix("${enclosing.name}.")
-            } else {
-                break
-            }
-        }
-        return stripped
-    }
 
     companion object {
-        fun annotateDeserializerOld(msg: Message, ctx: Context) =
-            DeserializerAnnotator(msg, ctx).annotateDeserializerOld()
-
-        fun annotateDeserializerNew(msg: Message, ctx: Context) =
-            DeserializerAnnotator(msg, ctx).annotateDeserializerNew()
+        fun annotateDeserializer(msg: Message, ctx: Context) =
+            DeserializerAnnotator(msg, ctx).annotateDeserializer()
     }
 }
+
+fun deserializeString(f: StandardField, ctx: Context, packed: Boolean) =
+    Deserialize.render(
+        field = f,
+        read = interceptReadFn(f, f.readFn(ctx)),
+        lhs = f.fieldName,
+        packed = packed,
+        options = deserializeOptions(f, ctx)
+    )
+
+private fun StandardField.readFn(ctx: Context) =
+    Read.render(
+        type = type,
+        builder = readFnBuilder(type, ctx)
+    )
+
+private fun StandardField.readFnBuilder(type: FieldType, ctx: Context) =
+    when (type) {
+        FieldType.ENUM, FieldType.MESSAGE -> stripQualification(this, ctx)
+        else -> ""
+    }
+
+private fun stripQualification(f: StandardField, ctx: Context) =
+    stripEnclosingMessageName(f.typePClass.renderName(ctx.pkg), ctx)
+
+private fun stripEnclosingMessageName(s: String, ctx: Context): String {
+    var stripped = s
+    for (enclosing in ctx.enclosing.reversed()) {
+        if (stripped.startsWith(enclosing.name)) {
+            stripped = stripped.removePrefix("${enclosing.name}.")
+        } else {
+            break
+        }
+    }
+    return stripped
+}
+
+private fun deserializeOptions(f: StandardField, ctx: Context) =
+    if (f.wrapped || f.keyWrapped || f.valueWrapped) {
+        Options(
+            wrapName = wrapperName(f, ctx).getOrElse { "" },
+            keyWrap = mapKeyConverter(f, ctx),
+            valueWrap = mapValueConverter(f, ctx),
+            valueType = f.mapEntry?.value?.type,
+            type = f.type.toString(),
+            oneof = true
+        )
+    } else {
+        null
+    }

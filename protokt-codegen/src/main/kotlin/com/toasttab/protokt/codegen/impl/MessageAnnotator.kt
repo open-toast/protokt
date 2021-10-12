@@ -30,7 +30,7 @@ import com.toasttab.protokt.codegen.impl.Annotator.annotate
 import com.toasttab.protokt.codegen.impl.Deprecation.enclosingDeprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.hasDeprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
-import com.toasttab.protokt.codegen.impl.DeserializerAnnotator.Companion.annotateDeserializerNew
+import com.toasttab.protokt.codegen.impl.DeserializerAnnotator.Companion.annotateDeserializer
 import com.toasttab.protokt.codegen.impl.Implements.doesImplement
 import com.toasttab.protokt.codegen.impl.Implements.implements
 import com.toasttab.protokt.codegen.impl.MapEntryAnnotator.Companion.annotateMapEntry
@@ -95,7 +95,7 @@ private constructor(
                 .handleHashCode(properties)
                 .handleToString(properties)
                 .handleDsl(msg, properties)
-                .addType(annotateDeserializerNew(msg, ctx))
+                .addType(annotateDeserializer(msg, ctx))
                 .addTypes(msg.nestedTypes.flatMap { annotate(it, ctx) })
                 .build()
         }

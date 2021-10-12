@@ -23,7 +23,6 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.TypeVariableName
 import com.squareup.kotlinpoet.asTypeName
 import com.toasttab.protokt.codegen.impl.Annotator.Context
-import com.toasttab.protokt.codegen.impl.DeserializerAnnotator.Companion.annotateDeserializerOld
 import com.toasttab.protokt.codegen.impl.MessageSizeAnnotator.Companion.annotateMessageSizeOld
 import com.toasttab.protokt.codegen.impl.PropertyAnnotator.Companion.annotateProperties
 import com.toasttab.protokt.codegen.impl.SerializerAnnotator.Companion.annotateSerializerOld
@@ -46,8 +45,8 @@ private constructor(
     private val keyPropertyType = TypeVariableName(entryInfo.key.unqualifiedTypeName)
     private val valPropertyType = TypeVariableName(entryInfo.value.typePClass.qualifiedName)
 
-    private fun annotateMapEntry(): TypeSpec {
-        return TypeSpec.classBuilder(msg.name).apply {
+    private fun annotateMapEntry() =
+        TypeSpec.classBuilder(msg.name).apply {
             addModifiers(KModifier.PRIVATE)
             addSuperinterface(KtMessage::class)
             addProperty(constructorProperty("key", keyPropertyType))
@@ -57,7 +56,6 @@ private constructor(
             addSerialize()
             addDeserializer()
         }.build()
-    }
 
     private fun TypeSpec.Builder.addConstructor() {
         primaryConstructor(
@@ -97,8 +95,6 @@ private constructor(
     private fun TypeSpec.Builder.addDeserializer() {
         val propInfo = annotateProperties(msg, ctx)
         val sizeInfo = annotateMessageSizeOld(msg, ctx)
-        val keyDeserialize = annotateDeserializerOld(msg, ctx).single(entryInfo.key)
-        val valDeserialize = annotateDeserializerOld(msg, ctx).single(entryInfo.value)
 
         addType(
             TypeSpec.companionObjectBuilder("Deserializer")
@@ -129,8 +125,8 @@ private constructor(
                                 while (true) {
                                   when (deserializer.readTag()) {
                                     0 -> return ${msg.name}(key, value${orDefault(entryInfo.value)})
-                                    ${keyDeserialize.tag} -> key = ${keyDeserialize.assignment.value}
-                                    ${valDeserialize.tag} -> value = ${valDeserialize.assignment.value}
+                                    ${entryInfo.key.tag.value} -> key = ${deserializeString(entryInfo.key, ctx, false)}
+                                    ${entryInfo.value.tag.value} -> value = ${deserializeString(entryInfo.value, ctx, false)}
                                   }
                                 }
                             """.bindIndent()
