@@ -41,7 +41,7 @@ object HeaderAccumulator {
                         is Import.PackageMethod -> addImport(it.pkg.toString(), it.name)
                     }
                 }
-            }
+            }.indent("    ")
 
     private fun `package`(protocol: Protocol) =
         kotlinPackage(protocol).let {

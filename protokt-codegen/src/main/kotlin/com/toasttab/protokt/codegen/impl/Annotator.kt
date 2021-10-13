@@ -30,6 +30,9 @@ import com.toasttab.protokt.codegen.protoc.Service
 import com.toasttab.protokt.codegen.protoc.TopLevelType
 import com.toasttab.protokt.codegen.protoc.TypeDesc
 
+/**
+ * Annotates an unannotated AST. This effectively converts the protobuf AST to a Kotlin AST.
+ */
 object Annotator {
     const val rootGoogleProto = "google.protobuf"
     const val googleProto = ".google.protobuf"

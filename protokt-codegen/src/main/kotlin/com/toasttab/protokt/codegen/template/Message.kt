@@ -19,28 +19,11 @@ import com.toasttab.protokt.codegen.impl.Deprecation
 import com.toasttab.protokt.codegen.model.PClass
 
 object Message {
-    object Message : StTemplate(StGroup.Message) {
-        fun render(
-            message: MessageInfo,
-            serialize: List<SerializerInfo>,
-            deserialize: List<DeserializerInfo>,
-            sizeof: List<SizeofInfo>,
-            properties: List<PropertyInfo>,
-            oneofs: List<String>,
-            nested: List<String>,
-            options: Options
-        ) =
-            renderArgs(
-                message,
-                serialize,
-                deserialize,
-                sizeof,
-                properties,
-                oneofs,
-                nested,
-                options
-            )
+    object Message  {
 
+        /**
+         * Contains metadata about the message. Does not contain information about the contents of the message.
+         */
         class MessageInfo(
             val name: String,
             val doesImplement: Boolean,
@@ -55,6 +38,9 @@ object Message {
             val name: String
         }
 
+        /**
+         * Contains type information about a protobuf field (or oneof) that is relevant to the Kotlin interface
+         */
         class PropertyInfo(
             override val name: String,
             val propertyType: String,
@@ -74,6 +60,9 @@ object Message {
             val deprecation: Deprecation.RenderOptions? = null
         ) : FieldInfo
 
+        /**
+         * Information relevant to reading and writing a message (and other stuff outside the standard access interface?)
+         */
         interface FieldWriteInfo : FieldInfo {
             val fieldName: String
             val conditionals: List<ConditionalParams>

@@ -60,16 +60,7 @@ private constructor(
         } else {
             val properties = annotateProperties(msg, ctx)
             val messageInfo = messageInfo()
-            MessageTemplate.render(
-                message = messageInfo(),
-                properties = annotateProperties(msg, ctx),
-                oneofs = listOf(), // annotateOneofs(msg, ctx),
-                sizeof = listOf(), // annotateMessageSizeOld(msg, ctx),
-                serialize = listOf(), // annotateSerializer(msg, ctx),
-                deserialize = listOf(), // annotateDeserializerNew(msg, ctx),
-                nested = listOf(), // nestedTypes(),
-                options = options()
-            )
+
             TypeSpec.classBuilder(msg.name)
                 .handleAnnotations(messageInfo)
                 .apply {

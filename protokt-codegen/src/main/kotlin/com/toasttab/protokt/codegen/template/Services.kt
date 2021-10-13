@@ -15,66 +15,13 @@
 
 package com.toasttab.protokt.codegen.template
 
+import com.toasttab.protokt.codegen.protoc.Method
+
 abstract class ServicesTemplate : StTemplate(StGroup.Services)
 
 object Services {
-    object Service : ServicesTemplate() {
-        fun render(
-            generateService: Boolean,
-            generateDescriptor: Boolean,
-            name: String,
-            qualifiedName: String,
-            grpcDescriptor: String,
-            methods: List<MethodInfo>,
-            reflectInfo: ReflectInfo
-        ) =
-            renderArgs(
-                generateService,
-                generateDescriptor,
-                name,
-                qualifiedName,
-                grpcDescriptor,
-                methods,
-                reflectInfo
-            )
-
-        class MethodInfo(
-            val name: String,
-            val lowerName: String,
-            val body: String,
-            val `in`: String,
-            val `out`: String
-        )
-
-        class ReflectInfo(
-            val index: Int,
-            val fileDescriptorObjectName: String
-        )
-    }
-
-    object Descriptor : ServicesTemplate() {
-        fun render(methods: List<String>) =
-            renderArgs(methods)
-    }
-
-    object Method : ServicesTemplate() {
-        fun render(
-            name: String,
-            type: String,
-            `in`: String,
-            out: String,
-            options: MethodOptions
-        ) =
-            renderArgs(name, type, `in`, out, options)
-
-        class MethodOptions(
-            val requestMarshaller: String?,
-            val responseMarshaller: String?
-        )
-    }
-
     object MethodType : ServicesTemplate() {
-        fun render(method: com.toasttab.protokt.codegen.protoc.Method) =
+        fun render(method: Method) =
             renderArgs(method)
     }
 }

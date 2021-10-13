@@ -15,63 +15,6 @@
 
 import "renderers.stg"
 
-service(generateService, generateDescriptor, name, qualifiedName, grpcDescriptor, methods, reflectInfo) ::= <<
-<if (generateService)><\\>
-object <name>Grpc {
-    const val SERVICE_NAME = "<qualifiedName>"
-
-    val serviceDescriptor: io.grpc.ServiceDescriptor by lazy {
-        <grpcDescriptor>
-    }
-
-    <methods : { m | val <m.lowerName>Method: io.grpc.MethodDescriptor\<<m.in>, <m.out>\> by lazy {
-    <m.body><\n><\\>
-    \}}; separator="\n\n">
-}
-
-<endif><\\>
-<if (generateDescriptor)><\\>
-object <name> {
-    val descriptor by lazy {
-        <reflectInfo.fileDescriptorObjectName>.descriptor.services[<reflectInfo.index>]
-    }
-}
-<endif><\\>
->>
-
-descriptor(methods) ::= <<
-io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
-    <methods : { m | .addMethod(<m>Method)}; separator="\n">
-    .build()
->>
-
-method(name, type, in, out, options) ::= <<
-io.grpc.MethodDescriptor.newBuilder\<<in>, <out>\>()
-    .setType(io.grpc.MethodDescriptor.MethodType.<type>)
-    .setFullMethodName(io.grpc.MethodDescriptor.generateFullMethodName(SERVICE_NAME, "<name>"))
-    .setRequestMarshaller(<requestMarshaller()>)
-    .setResponseMarshaller(<responseMarshaller()>)
-    .build()
->>
-
-requestMarshaller() ::= <%
-    <if (options.requestMarshaller)>
-        <options.requestMarshaller>
-    <else>
-        <defaultMarshaller()>(<in>)
-    <endif>
-%>
-
-responseMarshaller() ::= <%
-    <if (options.responseMarshaller)>
-        <options.responseMarshaller>
-    <else>
-        <defaultMarshaller()>(<out>)
-    <endif>
-%>
-
-defaultMarshaller() ::= "com.toasttab.protokt.grpc.KtMarshaller"
-
 methodType(method) ::= <%
     <if (method.clientStreaming)>
         <if (method.serverStreaming)>

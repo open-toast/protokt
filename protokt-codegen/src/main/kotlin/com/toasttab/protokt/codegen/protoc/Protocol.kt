@@ -41,6 +41,9 @@ import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.ext.Protokt
 
+/**
+ * Converts a message in the format used by protoc to the unannotated AST used by protokt.
+ */
 fun toProtocol(ctx: ProtocolContext) =
     Protocol(
         FileDesc(

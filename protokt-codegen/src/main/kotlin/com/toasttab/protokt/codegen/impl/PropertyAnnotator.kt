@@ -38,6 +38,9 @@ import com.toasttab.protokt.codegen.template.Renderers.DefaultValue
 import com.toasttab.protokt.codegen.template.Renderers.Standard
 import com.toasttab.protokt.codegen.template.Oneof as OneofTemplate
 
+/**
+ *
+ */
 internal class PropertyAnnotator
 private constructor(
     private val msg: Message,

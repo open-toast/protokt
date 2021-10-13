@@ -17,11 +17,8 @@ package com.toasttab.protokt.codegen.template
 
 sealed class StGroup {
     val fileName
-        get() = "${this::class.java.simpleName.decapitalize()}.stg"
+        get() = "${this::class.java.simpleName.decapitalize(java.util.Locale.ROOT)}.stg"
 
-    object Descriptor : StGroup()
-    object Header : StGroup()
-    object Message : StGroup()
     object Oneof : StGroup()
     object Options : StGroup()
     object Renderers : StGroup()
