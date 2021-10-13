@@ -47,7 +47,6 @@ import com.toasttab.protokt.codegen.template.Message.Message.PropertyInfo
 import com.toasttab.protokt.rt.KtGeneratedMessage
 import com.toasttab.protokt.rt.KtMessage
 import com.toasttab.protokt.rt.UnknownFieldSet
-import com.toasttab.protokt.codegen.template.Message.Message as MessageTemplate
 
 class MessageAnnotator
 private constructor(

@@ -19,7 +19,7 @@ import com.toasttab.protokt.codegen.impl.Deprecation
 import com.toasttab.protokt.codegen.model.PClass
 
 object Message {
-    object Message  {
+    object Message {
 
         /**
          * Contains metadata about the message. Does not contain information about the contents of the message.
