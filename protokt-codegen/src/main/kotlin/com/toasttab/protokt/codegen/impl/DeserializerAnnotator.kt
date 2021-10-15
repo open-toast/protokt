@@ -97,18 +97,18 @@ private constructor(
                             |var unknownFields: UnknownFieldSet.Builder? = null
                             |
                             |while (true) {
-                            |  when (deserializer.readTag()) {
-                            |    0 ->
-                            |      return ${msg.name}(
-                            |        ${constructorLines(properties)}
-                            |      )
+                            |    when (deserializer.readTag()) {
+                            |        0 ->
+                            |            return ${msg.name}(
+                            |                ${constructorLines(properties)}
+                            |            )
                             |${assignmentLines(deserializerInfo)}
-                            |    else ->
-                            |      unknownFields =
-                            |        (unknownFields ?: UnknownFieldSet.Builder()).also {
-                            |          it.add(deserializer.readUnknown())
-                            |        }
-                            |  }
+                            |        else ->
+                            |            unknownFields =
+                            |                (unknownFields ?: UnknownFieldSet.Builder()).also {
+                            |                    it.add(deserializer.readUnknown())
+                            |                }
+                            |    }
                             |}
                         """.trimMargin()
                     )
@@ -134,19 +134,19 @@ private constructor(
 
     private fun constructorLines(properties: List<PropertyInfo>) =
         properties.joinToString("") {
-            deserializeWrapper(it) + ",\n        "
+            deserializeWrapper(it) + ",\n                "
         } + "UnknownFieldSet.from(unknownFields)"
 
     private fun assignmentLines(deserializerInfo: List<DeserializerInfo>) =
         deserializerInfo.joinToString("\n") {
             if (it.repeated) {
                 """
-                    |    ${it.tag} ->
-                    |      ${it.assignment.fieldName} =
-                    |        ${it.assignment.value}
+                    |        ${it.tag} ->
+                    |            ${it.assignment.fieldName} =
+                    |                ${it.assignment.value}
                 """.trimMargin()
             } else {
-                "    ${it.tag} -> ${it.assignment.fieldName} = ${it.assignment.value}"
+                "        ${it.tag} -> ${it.assignment.fieldName} = ${it.assignment.value}"
             }
         }
 

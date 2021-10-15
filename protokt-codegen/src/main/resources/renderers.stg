@@ -194,18 +194,18 @@ serializer
         .write(Tag(<tag>))
         .write(UInt32(<name>.sumOf { sizeof(<box(field.type, iterationVar())>) }))
     <name>.forEach {
-        serializer.write(<box(field.type, options.fieldAccess)>)
-    }<\\>
+          serializer.write(<box(field.type, options.fieldAccess)>)
+      }<\\>
 <elseif (field.map)>
 <name>.entries.forEach {
     serializer
-      .write(Tag(<tag>))
-      .write(<box>)
+        .write(Tag(<tag>))
+        .write(<box>)
   }<\\>
 <elseif (field.repeated)>
 <name>.forEach {
-    serializer.write(Tag(<tag>)).write(<box(field.type, options.fieldAccess)>)
-  }<\\>
+        serializer.write(Tag(<tag>)).write(<box(field.type, options.fieldAccess)>)
+    }<\\>
 <else>
 serializer.write(Tag(<tag>)).write(<box>)<\\>
 <endif>
@@ -216,9 +216,9 @@ deserialize(field, read, lhs, options, packed) ::= <%
         <deserializeMap()>
     <elseif (field.repeated)>
         (<lhs> ?: mutableListOf()).apply {<\n>
-            <\ ><\ ><t()><t()>deserializer.readRepeated(<packed>) {<\n>
-                <t()><t()><t()>add(<wrapDeserializeRead(options, deserializerRead(read))>)<\n>
-            <\ ><\ ><t()><t()>}<\n>
+            <t()><t()><t()><t()><t()>deserializer.readRepeated(<packed>) {<\n>
+                <t()><t()><t()><t()><t()><t()>add(<wrapDeserializeRead(options, deserializerRead(read))>)<\n>
+            <t()><t()><t()><t()><t()>}<\n>
         <t()>}
     <else>
         <wrapDeserializeRead(options, deserializerRead(read))>
@@ -227,9 +227,9 @@ deserialize(field, read, lhs, options, packed) ::= <%
 
 deserializeMap() ::= <%
     (<lhs> ?: mutableMapOf()).apply {<\n>
-        <\ ><\ ><t()><t()>deserializer.readRepeated(false) {<\n>
-            <t()><t()><t()><read><\n>
-                <\ ><\ ><t()><t()><t()>.let { put(
+        <t()><t()><t()><t()><t()>deserializer.readRepeated(false) {<\n>
+            <t()><t()><t()><t()><t()><t()><read><\n>
+                <t()><t()><t()><t()><t()><t()><t()>.let { put(
                     <if (options.keyWrap)>
                         <wrapField(options.keyWrap, keyAccess())>
                     <else>
@@ -242,8 +242,8 @@ deserializeMap() ::= <%
                         <valueAccess()>
                     <endif>
                     ) }<\n>
-        <\ ><\ ><t()><t()>}<\n>
-    <t()><t()>}
+        <t()><t()><t()><t()><t()>}<\n>
+    <t()><t()><t()><t()>}
 %>
 
 deserializerRead(read) ::= "deserializer.<read>"

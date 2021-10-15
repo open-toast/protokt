@@ -28,6 +28,7 @@ import com.squareup.kotlinpoet.asTypeName
 import com.toasttab.protokt.codegen.impl.Annotator.Context
 import com.toasttab.protokt.codegen.impl.Annotator.annotate
 import com.toasttab.protokt.codegen.impl.Deprecation.enclosingDeprecation
+import com.toasttab.protokt.codegen.impl.Deprecation.handleDeprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.hasDeprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
 import com.toasttab.protokt.codegen.impl.DeserializerAnnotator.Companion.annotateDeserializer
@@ -39,10 +40,8 @@ import com.toasttab.protokt.codegen.impl.MessageSizeAnnotator.Companion.annotate
 import com.toasttab.protokt.codegen.impl.OneofAnnotator.Companion.annotateOneofs
 import com.toasttab.protokt.codegen.impl.PropertyAnnotator.Companion.annotateProperties
 import com.toasttab.protokt.codegen.impl.SerializerAnnotator.Companion.annotateSerializerNew
-import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.template.Message.Message.MessageInfo
-import com.toasttab.protokt.codegen.template.Message.Message.Options
 import com.toasttab.protokt.codegen.template.Message.Message.PropertyInfo
 import com.toasttab.protokt.rt.KtGeneratedMessage
 import com.toasttab.protokt.rt.KtMessage
@@ -98,19 +97,7 @@ private constructor(
                 .addMember("\"" + msg.fullProtobufTypeName + "\"")
                 .build()
         )
-        if (messageInfo.deprecation != null) {
-            addAnnotation(
-                AnnotationSpec.builder(Deprecated::class)
-                    .apply {
-                        if (messageInfo.deprecation.message != null) {
-                            addMember("\"" + messageInfo.deprecation.message + "\"")
-                        } else {
-                            addMember("\"deprecated in proto\"")
-                        }
-                    }
-                    .build()
-            )
-        }
+        handleDeprecation(messageInfo.deprecation)
     }
 
     private fun TypeSpec.Builder.handleConstructor(
@@ -131,21 +118,7 @@ private constructor(
                             addKdoc(formatDoc(it.documentation))
                         }
                     }
-                    .apply {
-                        if (it.deprecation != null) {
-                            addAnnotation(
-                                AnnotationSpec.builder(Deprecated::class)
-                                    .apply {
-                                        if (it.deprecation.message != null) {
-                                            addMember("\"" + it.deprecation.message + "\"")
-                                        } else {
-                                            addMember("\"deprecated in proto\"")
-                                        }
-                                    }
-                                    .build()
-                            )
-                        }
-                    }
+                    .handleDeprecation(it.deprecation)
                     .build()
             }
         )
@@ -204,7 +177,7 @@ private constructor(
                         """
                             |return other is ${msg.name} &&·
                             |${equalsLines(properties)}
-                            |  other.unknownFields == unknownFields
+                            |    other.unknownFields == unknownFields
                         """.trimMargin()
                     }
                 )
@@ -212,7 +185,7 @@ private constructor(
         )
 
     private fun equalsLines(properties: List<PropertyInfo>) =
-        properties.joinToString("\n") { "  other.${it.name} == ${it.name} &&" }
+        properties.joinToString("\n") { "    other.${it.name} == ${it.name} &&" }
 
     private fun TypeSpec.Builder.handleHashCode(
         properties: List<PropertyInfo>
@@ -254,7 +227,7 @@ private constructor(
                         """
                             |return "${msg.name}(" +
                             |${toStringLines(properties)}
-                            |  "unknownFields=${"$"}unknownFields)"
+                            |    "unknownFields=${"$"}unknownFields)"
                         """.trimMargin()
                     }
                 )
@@ -263,7 +236,7 @@ private constructor(
 
     private fun toStringLines(properties: List<PropertyInfo>) =
         properties.joinToString("\n") {
-            "  \"${it.name}=\$${it.name}\" +"
+            "    \"${it.name}=\$${it.name}\" +"
         }
 
     private fun messageInfo() =
@@ -291,20 +264,6 @@ private constructor(
 
     private fun messageIsTopLevel() =
         ctx.enclosing.firstOrNone().fold({ false }, { it == msg })
-
-    private fun options(): Options {
-        val lengthAsOneLine =
-            ctx.enclosing.size * 4 +
-                4 + // companion indentation
-                63 + // `override fun deserialize(deserializer: KtMessageDeserializer): `
-                msg.name.length +
-                2 // ` {`
-
-        return Options(
-            wellKnownType = ctx.pkg == PPackage.PROTOKT,
-            longDeserializer = lengthAsOneLine > IDEAL_MAX_WIDTH
-        )
-    }
 
     companion object {
         const val IDEAL_MAX_WIDTH = 100

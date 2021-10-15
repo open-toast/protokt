@@ -56,7 +56,7 @@ private constructor(
                         if (!it.hasNonNullOption) {
                             """
                                 |if ${it.nonDefault(ctx)} {
-                                |  $resultVarName += ${sizeOfString(it)}
+                                |    $resultVarName += ${sizeOfString(it)}
                                 |}
                             """.trimMargin()
                         } else {
@@ -99,8 +99,8 @@ private constructor(
         f.fields
             .sortedBy { it.number }.joinToString("\n") {
                 """
-                    |  is ${condition(f, it, msg.name)} ->
-                    |    ${oneofSizeOfString(f, it)}
+                    |    is ${condition(f, it, msg.name)} ->
+                    |        ${oneofSizeOfString(f, it)}
                 """.trimMargin()
             }
 

@@ -16,6 +16,7 @@
 package com.toasttab.protokt.codegen.impl
 
 import com.squareup.kotlinpoet.AnnotationSpec
+import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.toasttab.protokt.codegen.impl.Annotator.Context
 import com.toasttab.protokt.codegen.protoc.Enum
@@ -62,6 +63,28 @@ object Deprecation {
     class RenderOptions(
         val message: String?
     )
+
+    fun PropertySpec.Builder.handleDeprecation(renderOptions: RenderOptions?) =
+        apply {
+            if (renderOptions != null) {
+                addAnnotation(
+                    AnnotationSpec.builder(Deprecated::class)
+                        .handleDeprecationMessage(renderOptions.message.orEmpty())
+                        .build()
+                )
+            }
+        }
+
+    fun TypeSpec.Builder.handleDeprecation(renderOptions: RenderOptions?) =
+        apply {
+            if (renderOptions != null) {
+                addAnnotation(
+                    AnnotationSpec.builder(Deprecated::class)
+                        .handleDeprecationMessage(renderOptions.message.orEmpty())
+                        .build()
+                )
+            }
+        }
 
     fun TypeSpec.Builder.handleDeprecation(deprecated: Boolean, message: String) {
         if (deprecated) {
