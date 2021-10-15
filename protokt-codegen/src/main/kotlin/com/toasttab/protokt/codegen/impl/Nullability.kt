@@ -15,6 +15,8 @@
 
 package com.toasttab.protokt.codegen.impl
 
+import com.squareup.kotlinpoet.TypeName
+import com.squareup.kotlinpoet.TypeVariableName
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
 import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.protoc.Field
@@ -48,43 +50,40 @@ internal object Nullability {
 
     fun propertyType(o: Oneof) =
         if (o.hasNonNullOption) {
-            o.name
+            TypeVariableName(o.name)
         } else {
             o.renderNullableType()
         }
 
-    fun propertyType(f: StandardField, type: String) =
+    fun propertyType(f: StandardField, type: TypeName) =
         if (f.nullable) {
-            renderNullable(type)
+            type.copy(nullable = true)
         } else {
             type
         }
 
-    fun deserializeType(f: StandardField, type: String) =
+    fun deserializeType(f: StandardField, type: TypeName) =
         if (
             f.repeated ||
             f.nullable ||
             f.isKotlinRepresentationNullable ||
             f.isWrappedNonRepeatedPrimitive
         ) {
-            renderNullable(type)
+            type.copy(nullable = true)
         } else {
             type
         }
 
-    fun dslPropertyType(f: StandardField, type: String) =
+    fun dslPropertyType(f: StandardField, type: TypeName) =
         if (
             f.isKotlinRepresentationNullable ||
             f.isWrappedNonRepeatedPrimitive
         ) {
-            renderNullable(type)
+            type.copy(nullable = true)
         } else {
             type
         }
 
     fun Oneof.renderNullableType() =
-        renderNullable(name)
-
-    private fun renderNullable(s: String) =
-        "$s?"
+        TypeVariableName(name).copy(nullable = true)
 }

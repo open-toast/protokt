@@ -119,7 +119,7 @@ private constructor(
         addSuperinterface(KtMessage::class)
         addProperties(
             properties.map {
-                PropertySpec.builder(it.name.removePrefix("`").removeSuffix("`"), TypeVariableName(it.propertyType))
+                PropertySpec.builder(it.name.removePrefix("`").removeSuffix("`"), it.propertyType)
                     .initializer(it.name)
                     .apply {
                         if (it.overrides) {
@@ -159,7 +159,7 @@ private constructor(
                 .addModifiers(KModifier.PRIVATE)
                 .addParameters(
                     properties.map {
-                        ParameterSpec(it.name.removePrefix("`").removeSuffix("`"), TypeVariableName(it.propertyType))
+                        ParameterSpec(it.name.removePrefix("`").removeSuffix("`"), it.propertyType)
                     }
                 )
                 .addParameter(

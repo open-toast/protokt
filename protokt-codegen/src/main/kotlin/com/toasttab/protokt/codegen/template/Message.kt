@@ -15,6 +15,7 @@
 
 package com.toasttab.protokt.codegen.template
 
+import com.squareup.kotlinpoet.TypeName
 import com.toasttab.protokt.codegen.impl.Deprecation
 import com.toasttab.protokt.codegen.model.PClass
 
@@ -43,9 +44,9 @@ object Message {
          */
         class PropertyInfo(
             override val name: String,
-            val propertyType: String,
-            val deserializeType: String,
-            val dslPropertyType: String,
+            val propertyType: TypeName,
+            val deserializeType: TypeName,
+            val dslPropertyType: TypeName,
             val defaultValue: String,
             val nullable: Boolean,
             val nonNullOption: Boolean,

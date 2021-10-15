@@ -15,6 +15,10 @@
 
 package com.toasttab.protokt.codegen.impl
 
+import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
+import com.squareup.kotlinpoet.TypeName
+import com.squareup.kotlinpoet.TypeVariableName
+import com.squareup.kotlinpoet.asTypeName
 import com.toasttab.protokt.codegen.impl.Annotator.Context
 import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
 import com.toasttab.protokt.codegen.impl.Implements.overrides
@@ -35,7 +39,6 @@ import com.toasttab.protokt.codegen.protoc.Oneof
 import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.codegen.template.Message.Message.PropertyInfo
 import com.toasttab.protokt.codegen.template.Renderers.DefaultValue
-import com.toasttab.protokt.codegen.template.Renderers.Standard
 import com.toasttab.protokt.codegen.template.Oneof as OneofTemplate
 
 /**
@@ -97,24 +100,33 @@ private constructor(
             null
         }
 
-    private fun annotateStandard(f: StandardField) =
-        Standard.render(
-            field = f,
-            any =
-            if (f.map) {
-                resolveMapEntryTypes(f, ctx)
-            } else {
-                interceptTypeName(
-                    f,
-                    f.typePClass.renderName(ctx.pkg),
-                    ctx
+    private fun annotateStandard(f: StandardField): TypeName =
+        if (f.map) {
+            val mapTypes = resolveMapEntryTypes(f, ctx)
+            Map::class
+                .asTypeName()
+                .parameterizedBy(
+                    TypeVariableName(mapTypes.kType),
+                    TypeVariableName(mapTypes.vType)
                 )
-            }
-        ).let {
-            if (it == "Any") {
-                f.typePClass.qualifiedName
+        } else {
+            val parameter =
+                TypeVariableName(
+                    interceptTypeName(
+                        f,
+                        f.typePClass.renderName(ctx.pkg),
+                        ctx
+                    )
+                )
+
+            if (f.repeated) {
+                List::class.asTypeName().parameterizedBy(parameter)
             } else {
-                it
+                if (parameter.name == "Any") {
+                    TypeVariableName(f.typePClass.qualifiedName)
+                } else {
+                    parameter
+                }
             }
         }
 

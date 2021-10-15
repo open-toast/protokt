@@ -63,7 +63,7 @@ class DslAnnotator(
             TypeSpec.classBuilder(msg.name + "Dsl")
                 .addProperties(
                     properties.map {
-                        PropertySpec.builder(it.name.removePrefix("`").removeSuffix("`"), TypeVariableName(it.dslPropertyType).copy(nullable = it.nullable && !it.dslPropertyType.endsWith("?")))
+                        PropertySpec.builder(it.name.removePrefix("`").removeSuffix("`"), it.dslPropertyType)
                             .mutable(true)
                             .apply {
                                 if (it.deprecation != null) {

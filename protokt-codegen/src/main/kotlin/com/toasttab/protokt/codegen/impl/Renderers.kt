@@ -1,13 +1,19 @@
 package com.toasttab.protokt.codegen.impl
 
+import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.ParameterizedTypeName
+import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.toasttab.protokt.codegen.template.Message.Message.PropertyInfo
 
 fun deserializeType(p: PropertyInfo) =
     if (p.repeated || p.map) {
-        "Mutable"
+        p.deserializeType as ParameterizedTypeName
+        ClassName(p.deserializeType.rawType.packageName, "Mutable" + p.deserializeType.rawType.simpleName)
+            .parameterizedBy(p.deserializeType.typeArguments)
+            .copy(nullable = true)
     } else {
-        ""
-    } + p.deserializeType
+        p.deserializeType
+    }
 
 fun deserializeValue(p: PropertyInfo) =
     if (p.repeated || p.wrapped || p.nullable || p.fieldType == "MESSAGE") {

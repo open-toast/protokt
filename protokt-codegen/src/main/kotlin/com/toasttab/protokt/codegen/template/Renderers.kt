@@ -95,11 +95,6 @@ object Renderers {
         )
     }
 
-    object Standard : RenderersTemplate() {
-        fun render(field: StandardField, any: Any) =
-            renderArgs(field, any)
-    }
-
     object Sizeof : RenderersTemplate() {
         fun render(
             name: String,

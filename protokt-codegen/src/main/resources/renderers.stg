@@ -248,16 +248,6 @@ deserializeMap() ::= <%
 
 deserializerRead(read) ::= "deserializer.<read>"
 
-standard(field, any) ::= <%
-    <if (field.map)>
-        Map\<<any.kType>, <any.vType>>
-    <elseif (field.repeated)>
-        List\<<any>>
-    <else>
-        <any>
-    <endif>
-%>
-
 sizeof(name, field, type, options) ::= <%
     <if(field.map)>
         <sizeofMap()>
