@@ -75,17 +75,6 @@ object Deprecation {
             }
         }
 
-    fun TypeSpec.Builder.handleDeprecation(renderOptions: RenderOptions?) =
-        apply {
-            if (renderOptions != null) {
-                addAnnotation(
-                    AnnotationSpec.builder(Deprecated::class)
-                        .handleDeprecationMessage(renderOptions.message.orEmpty())
-                        .build()
-                )
-            }
-        }
-
     fun TypeSpec.Builder.handleDeprecation(deprecated: Boolean, message: String) {
         if (deprecated) {
             addAnnotation(
@@ -99,19 +88,23 @@ object Deprecation {
     private fun AnnotationSpec.Builder.handleDeprecationMessage(message: String) =
         apply {
             if (message.isNotEmpty()) {
-                addMember("\"" + message + "\"")
+                addMember(message.embed())
             } else {
-                addMember("\"deprecated in proto\"")
+                addMember("deprecated in proto".embed())
             }
         }
 
     fun TypeSpec.Builder.handleDeprecationSuppression(hasDeprecation: Boolean, ctx: Context) {
         if (hasDeprecation && !enclosingDeprecation(ctx)) {
-            addAnnotation(
-                AnnotationSpec.builder(Suppress::class)
-                    .addMember("\"DEPRECATION\"")
-                    .build()
-            )
+            addDeprecationSuppression()
         }
+    }
+
+    fun TypeSpec.Builder.addDeprecationSuppression() {
+        addAnnotation(
+            AnnotationSpec.builder(Suppress::class)
+                .addMember("DEPRECATION".embed())
+                .build()
+        )
     }
 }

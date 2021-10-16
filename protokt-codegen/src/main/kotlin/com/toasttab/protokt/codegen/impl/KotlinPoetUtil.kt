@@ -20,6 +20,9 @@ import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeName
 import kotlin.reflect.KClass
 
+fun String.embed() =
+    "\"" + this + "\""
+
 fun String.bindSpaces() =
     replace(" ", "·")
 

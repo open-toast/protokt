@@ -21,20 +21,6 @@ import com.toasttab.protokt.codegen.model.PClass
 
 object Message {
     object Message {
-
-        /**
-         * Contains metadata about the message. Does not contain information about the contents of the message.
-         */
-        class MessageInfo(
-            val name: String,
-            val doesImplement: Boolean,
-            val implements: String,
-            val documentation: List<String>,
-            val deprecation: Deprecation.RenderOptions?,
-            val suppressDeprecation: Boolean,
-            val fullTypeName: String
-        )
-
         interface FieldInfo {
             val name: String
         }
