@@ -15,6 +15,7 @@
 
 package com.toasttab.protokt.codegen.impl
 
+import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeName
@@ -47,3 +48,9 @@ fun constructorProperty(name: String, type: TypeName, override: Boolean = false)
             addModifiers(KModifier.OVERRIDE)
         }
     }.build()
+
+fun TypeName.toParamName() =
+    toString().replace(".", "_")
+
+fun namedCodeBlock(format: String, arguments: Map<String, *>) =
+    CodeBlock.builder().addNamed(format, arguments).build()

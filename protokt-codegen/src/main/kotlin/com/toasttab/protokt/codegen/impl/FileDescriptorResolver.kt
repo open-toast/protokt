@@ -50,29 +50,27 @@ private constructor(
                 .addProperty(
                     PropertySpec.builder("descriptor", ClassName("com.toasttab.protokt", "FileDescriptor"))
                         .delegate(
-                            """
-                                |lazy {
-                                |  val descriptorData = arrayOf(
-                                |%L
-                                |  )
-                                |
-                                |  %T.buildFrom(
-                                |    descriptorData,
-                                |    listOf(
-                                |${dependencyLines(dependencies)}
-                                |    )
-                                |  )
-                                |}
-                            """.trimMargin(),
-                            // todo: named params
-                            *(
-                                listOf(
-                                    descriptorLines(),
-                                    ClassName("com.toasttab.protokt", "FileDescriptor")
-                                ) + dependencies
-                                ).toTypedArray()
-                        )
-                        .build()
+                            namedCodeBlock(
+                                """
+                                    |lazy {
+                                    |    val descriptorData = arrayOf(
+                                    |%descriptorData:L
+                                    |    )
+                                    |
+                                    |    %fileDescriptor:T.buildFrom(
+                                    |        descriptorData,
+                                    |        listOf(
+                                    |${dependencyLines(dependencies)}
+                                    |        )
+                                    |    )
+                                    |}
+                                """.bindMargin(),
+                                mapOf(
+                                    "descriptorData" to descriptorLines(),
+                                    "fileDescriptor" to ClassName("com.toasttab.protokt", "FileDescriptor")
+                                ) + dependencies.associateBy { it.toParamName() }
+                            )
+                        ).build()
                 )
                 .build()
 
@@ -83,9 +81,7 @@ private constructor(
 
     private fun descriptorLines() =
         fileDescriptorParts().joinToString(",\n") {
-            it.joinToString(" +\n") { line ->
-                "\"" + line + "\""
-            }
+            "        " + it.joinToString(" +\n        ") { line -> line.embed() }
         }
 
     private fun fileDescriptorParts() =
@@ -98,7 +94,7 @@ private constructor(
         )
 
     private fun dependencyLines(dependencies: List<TypeName>) =
-        dependencies.joinToString(",\n") { "%T.descriptor" }
+        dependencies.joinToString(",\n") { "%${it.toParamName()}:T.descriptor" }
 
     private fun clearJsonInfo(fileDescriptorProto: DescriptorProtos.FileDescriptorProto) =
         fileDescriptorProto.toBuilder()
