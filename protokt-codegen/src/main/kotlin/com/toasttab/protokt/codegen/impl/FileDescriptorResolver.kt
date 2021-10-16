@@ -159,7 +159,7 @@ private constructor(
         protocol.types.flatMap { findEnums(emptyList(), it) }
             .map { (enum, containingTypes) ->
                 PropertySpec.builder("descriptor", ClassName("com.toasttab.protokt", "EnumDescriptor"))
-                    .receiver(TypeVariableName((qualification(containingTypes) ?: "") + enum.name + ".Deserializer"))
+                    .receiver(enum.deserializerTypeName)
                     .getter(
                         FunSpec.getterBuilder()
                             .addCode(

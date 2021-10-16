@@ -136,7 +136,7 @@ internal object ServiceAnnotator {
         if (ctx.pkg.default) {
             s.name
         } else {
-            "${ctx.desc.packageName}.${s.name}"
+            "${ctx.desc.protoPackage}.${s.name}"
         }
 
     private fun methodType(m: Method) =

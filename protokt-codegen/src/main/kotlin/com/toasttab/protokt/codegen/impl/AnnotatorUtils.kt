@@ -70,6 +70,6 @@ fun kotlinPackage(protocol: Protocol) =
 fun kotlinPackage(desc: FileDesc) =
     resolvePackage(
         desc.options,
-        desc.packageName,
+        desc.protoPackage,
         desc.context.respectJavaPackage
     )

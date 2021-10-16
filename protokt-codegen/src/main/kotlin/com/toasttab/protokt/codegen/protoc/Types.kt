@@ -16,9 +16,11 @@
 package com.toasttab.protokt.codegen.protoc
 
 import com.google.protobuf.DescriptorProtos
+import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
 import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.model.PClass
+import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.ext.Protokt
 import com.toasttab.protokt.rt.computeTag
 
@@ -43,6 +45,8 @@ data class MessageOptions(
 
 class Enum(
     override val name: String,
+    val typeName: TypeName,
+    val deserializerTypeName: TypeName,
     val options: EnumOptions,
     val values: List<Value>,
     val index: Int
@@ -143,7 +147,8 @@ class OneofOptions(
 
 class FileDesc(
     val name: String,
-    val packageName: String,
+    val protoPackage: String,
+    val kotlinPackage: PPackage,
     val options: FileOptions,
     val context: ProtocolContext,
     val sourceCodeInfo: DescriptorProtos.SourceCodeInfo
