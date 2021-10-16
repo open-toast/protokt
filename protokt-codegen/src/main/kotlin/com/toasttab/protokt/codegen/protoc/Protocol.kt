@@ -198,7 +198,9 @@ private fun toMessage(
             desc.options.getExtension(Protokt.class_)
         ),
         index = idx,
-        fullProtobufTypeName = "${ctx.fdp.`package`}.${desc.name}"
+        fullProtobufTypeName = "${ctx.fdp.`package`}.${desc.name}",
+        typeName = ClassName(pkg.toString(), enclosingMessages + typeName),
+        deserializerTypeName = ClassName(pkg.toString(), enclosingMessages + typeName + "Deserializer")
     )
 }
 

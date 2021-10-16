@@ -30,6 +30,8 @@ sealed class TopLevelType {
 
 class Message(
     override val name: String,
+    val typeName: TypeName,
+    val deserializerTypeName: TypeName,
     val fields: List<Field>,
     val nestedTypes: List<TopLevelType>,
     val mapEntry: Boolean,

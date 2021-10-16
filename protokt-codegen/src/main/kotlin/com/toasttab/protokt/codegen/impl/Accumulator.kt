@@ -30,12 +30,7 @@ internal object Accumulator {
             return null
         }
 
-        val accumulatedImports =
-            fileDescriptorInfo?.let {
-                imports + it.imports.map(Import::Literal)
-            } ?: imports
-
-        val builder = HeaderAccumulator.startFile(protocol, accumulatedImports)
+        val builder = HeaderAccumulator.startFile(protocol, imports)
 
         descs.forEach {
             builder.addType(it.type.typeSpec)
