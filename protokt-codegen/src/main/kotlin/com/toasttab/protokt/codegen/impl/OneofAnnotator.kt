@@ -127,13 +127,15 @@ private constructor(
                 PClass.fromName(oneofFieldTypeName),
                 interceptTypeName(
                     f,
-                    inferOneofFieldTypeName(
-                        ctx,
-                        f,
-                        oneofFieldTypeName
+                    TypeVariableName(
+                        inferOneofFieldTypeName(
+                            ctx,
+                            f,
+                            oneofFieldTypeName
+                        )
                     ),
                     ctx
-                )
+                ).toString()
             ),
             documentation = annotatePropertyDocumentation(f, ctx),
             deprecation = deprecation(f)

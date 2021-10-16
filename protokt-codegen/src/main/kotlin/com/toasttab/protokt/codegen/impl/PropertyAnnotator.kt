@@ -17,7 +17,6 @@ package com.toasttab.protokt.codegen.impl
 
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeName
-import com.squareup.kotlinpoet.TypeVariableName
 import com.squareup.kotlinpoet.asTypeName
 import com.toasttab.protokt.codegen.impl.Annotator.Context
 import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
@@ -41,9 +40,6 @@ import com.toasttab.protokt.codegen.template.Message.Message.PropertyInfo
 import com.toasttab.protokt.codegen.template.Renderers.DefaultValue
 import com.toasttab.protokt.codegen.template.Oneof as OneofTemplate
 
-/**
- *
- */
 internal class PropertyAnnotator
 private constructor(
     private val msg: Message,
@@ -106,27 +102,21 @@ private constructor(
             Map::class
                 .asTypeName()
                 .parameterizedBy(
-                    TypeVariableName(mapTypes.kType),
-                    TypeVariableName(mapTypes.vType)
+                    mapTypes.kType,
+                    mapTypes.vType
                 )
         } else {
             val parameter =
-                TypeVariableName(
-                    interceptTypeName(
-                        f,
-                        f.typePClass.renderName(ctx.pkg),
-                        ctx
-                    )
+                interceptTypeName(
+                    f,
+                    f.typePClass.toTypeName(),
+                    ctx
                 )
 
             if (f.repeated) {
                 List::class.asTypeName().parameterizedBy(parameter)
             } else {
-                if (parameter.name == "Any") {
-                    TypeVariableName(f.typePClass.qualifiedName)
-                } else {
-                    parameter
-                }
+                parameter
             }
         }
 
@@ -148,7 +138,7 @@ private constructor(
 
     private fun name(f: StandardField) =
         if (f.type == FieldType.ENUM) {
-            f.typePClass.renderName(ctx.pkg)
+            f.typePClass.qualifiedName
         } else {
             ""
         }

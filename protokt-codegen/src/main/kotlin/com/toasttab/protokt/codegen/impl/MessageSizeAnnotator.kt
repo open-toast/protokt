@@ -172,8 +172,8 @@ private constructor(
             options = Options(
                 fieldSizeof = interceptFieldSizeof(f, name, ctx),
                 fieldAccess = interceptValueAccess(f, ctx, IterationVar.render()),
-                keyAccess = mapKeyConverter(f, ctx),
-                valueAccess = mapValueConverter(f, ctx),
+                keyAccess = mapKeyConverter(f, ctx)?.toString(),
+                valueAccess = mapValueConverter(f, ctx)?.toString(),
                 valueType = f.mapEntry?.value?.type
             )
         )

@@ -17,6 +17,7 @@ package com.toasttab.protokt.codegen.impl
 
 import arrow.core.None
 import arrow.core.Some
+import com.squareup.kotlinpoet.TypeName
 import com.toasttab.protokt.codegen.impl.Annotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptMapKeyTypeName
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptMapValueTypeName
@@ -37,14 +38,14 @@ fun resolveMapEntry(m: Message) =
 fun resolveMapEntryTypes(f: StandardField, ctx: Context) =
     f.mapEntry!!.let {
         MapTypeParams(
-            interceptMapKeyTypeName(f, it.key.unqualifiedTypeName, ctx)!!,
-            interceptMapValueTypeName(f, it.value.typePClass.renderName(ctx.pkg), ctx)!!
+            interceptMapKeyTypeName(f, it.key.typePClass.toTypeName(), ctx)!!,
+            interceptMapValueTypeName(f, it.value.typePClass.toTypeName(), ctx)!!
         )
     }
 
 class MapTypeParams(
-    val kType: String,
-    val vType: String
+    val kType: TypeName,
+    val vType: TypeName
 )
 
 fun oneOfScope(f: Oneof, type: String, ctx: Context) =

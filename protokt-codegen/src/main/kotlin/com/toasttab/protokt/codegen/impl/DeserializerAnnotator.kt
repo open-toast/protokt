@@ -233,45 +233,30 @@ private constructor(
 fun deserializeString(f: StandardField, ctx: Context, packed: Boolean) =
     Deserialize.render(
         field = f,
-        read = interceptReadFn(f, f.readFn(ctx)),
+        read = interceptReadFn(f, f.readFn()),
         lhs = f.fieldName,
         packed = packed,
         options = deserializeOptions(f, ctx)
     )
 
-private fun StandardField.readFn(ctx: Context) =
+private fun StandardField.readFn() =
     Read.render(
         type = type,
-        builder = readFnBuilder(type, ctx)
+        builder = readFnBuilder(type)
     )
 
-private fun StandardField.readFnBuilder(type: FieldType, ctx: Context) =
+private fun StandardField.readFnBuilder(type: FieldType) =
     when (type) {
-        FieldType.ENUM, FieldType.MESSAGE -> stripQualification(this, ctx)
+        FieldType.ENUM, FieldType.MESSAGE -> typePClass.qualifiedName
         else -> ""
     }
-
-private fun stripQualification(f: StandardField, ctx: Context) =
-    stripEnclosingMessageName(f.typePClass.renderName(ctx.pkg), ctx)
-
-private fun stripEnclosingMessageName(s: String, ctx: Context): String {
-    var stripped = s
-    for (enclosing in ctx.enclosing.reversed()) {
-        if (stripped.startsWith(enclosing.name)) {
-            stripped = stripped.removePrefix("${enclosing.name}.")
-        } else {
-            break
-        }
-    }
-    return stripped
-}
 
 private fun deserializeOptions(f: StandardField, ctx: Context) =
     if (f.wrapped || f.keyWrapped || f.valueWrapped) {
         Options(
-            wrapName = wrapperName(f, ctx).getOrElse { "" },
-            keyWrap = mapKeyConverter(f, ctx),
-            valueWrap = mapValueConverter(f, ctx),
+            wrapName = wrapperName(f, ctx).map { it.toString() }.getOrElse { "" },
+            keyWrap = mapKeyConverter(f, ctx)?.toString(),
+            valueWrap = mapValueConverter(f, ctx)?.toString(),
             valueType = f.mapEntry?.value?.type,
             type = f.type.toString(),
             oneof = true

@@ -73,8 +73,8 @@ internal fun StandardField.boxMap(ctx: Context) =
         type = type,
         box = unqualifiedNestedTypeName(ctx),
         options = BoxMap.Options(
-            keyWrap = mapKeyConverter(this, ctx),
-            valueWrap = mapValueConverter(this, ctx),
+            keyWrap = mapKeyConverter(this, ctx)?.toString(),
+            valueWrap = mapValueConverter(this, ctx)?.toString(),
             valueType = mapEntry!!.value.type
         )
     )

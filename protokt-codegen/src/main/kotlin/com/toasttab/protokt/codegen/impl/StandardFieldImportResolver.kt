@@ -18,7 +18,6 @@ package com.toasttab.protokt.codegen.impl
 import com.github.andrewoma.dexx.kollection.ImmutableSet
 import com.github.andrewoma.dexx.kollection.immutableSetOf
 import com.toasttab.protokt.codegen.impl.WellKnownTypes.wrapWithWellKnownInterception
-import com.toasttab.protokt.codegen.impl.Wrapper.converter
 import com.toasttab.protokt.codegen.impl.Wrapper.foldWrap
 import com.toasttab.protokt.codegen.impl.Wrapper.keyWrap
 import com.toasttab.protokt.codegen.impl.Wrapper.valueWrap
@@ -29,7 +28,6 @@ import com.toasttab.protokt.codegen.model.rtMethod
 import com.toasttab.protokt.codegen.protoc.ProtocolContext
 import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.rt.Bytes
-import com.toasttab.protokt.rt.BytesSlice
 import com.toasttab.protokt.rt.Tag
 import com.toasttab.protokt.rt.UInt32
 import com.toasttab.protokt.rt.copyList
@@ -84,12 +82,6 @@ class StandardFieldImportResolver(
     private fun wrapperTypeImports(): Set<Import> {
         val set = mutableSetOf<Import>()
 
-        if (f.options.protokt.bytesSlice) {
-            set.add(pclass(BytesSlice::class))
-        } else {
-            set.add(Import.Class(f.typePClass))
-        }
-
         listOf(
             f.wrapWithWellKnownInterception to f,
             f.keyWrap to f.mapEntry?.key,
@@ -100,12 +92,10 @@ class StandardFieldImportResolver(
                 pkg,
                 ctx,
                 { },
-                { wrapper, wrapped ->
+                { _, wrapped ->
                     if (wrapped == ByteArray::class) {
                         set.add(pclass(Bytes::class))
                     }
-                    set.add(pclass(wrapper))
-                    set.add(pclass(converter(wrapper, wrapped, ctx)::class))
                 }
             )
         }

@@ -42,8 +42,8 @@ private constructor(
     private val ctx: Context
 ) {
     private val entryInfo = resolveMapEntry(msg)
-    private val keyPropertyType = TypeVariableName(entryInfo.key.unqualifiedTypeName)
-    private val valPropertyType = TypeVariableName(entryInfo.value.typePClass.qualifiedName)
+    private val keyPropertyType = entryInfo.key.typePClass.toTypeName()
+    private val valPropertyType = entryInfo.value.typePClass.toTypeName()
 
     private fun annotateMapEntry() =
         TypeSpec.classBuilder(msg.name).apply {
