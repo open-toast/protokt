@@ -23,7 +23,6 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
-import com.squareup.kotlinpoet.TypeVariableName
 import com.squareup.kotlinpoet.asTypeName
 import com.toasttab.protokt.codegen.impl.Annotator.Context
 import com.toasttab.protokt.codegen.impl.Annotator.annotate
@@ -32,8 +31,7 @@ import com.toasttab.protokt.codegen.impl.Deprecation.enclosingDeprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.handleDeprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.hasDeprecation
 import com.toasttab.protokt.codegen.impl.DeserializerAnnotator.Companion.annotateDeserializer
-import com.toasttab.protokt.codegen.impl.Implements.doesImplement
-import com.toasttab.protokt.codegen.impl.Implements.implements
+import com.toasttab.protokt.codegen.impl.Implements.handleSuperInterface
 import com.toasttab.protokt.codegen.impl.MapEntryAnnotator.Companion.annotateMapEntry
 import com.toasttab.protokt.codegen.impl.MessageDocumentationAnnotator.annotateMessageDocumentation
 import com.toasttab.protokt.codegen.impl.MessageSizeAnnotator.Companion.annotateMessageSizeNew
@@ -135,16 +133,7 @@ private constructor(
                 )
                 .build()
         )
-        if (msg.doesImplement) {
-            if (msg.implements.contains(" by ")) {
-                addSuperinterface(
-                    TypeVariableName(msg.implements.substringBefore(" by ")),
-                    msg.implements.substringAfter(" by ")
-                )
-            } else {
-                addSuperinterface(TypeVariableName(msg.implements))
-            }
-        }
+        handleSuperInterface(msg, ctx)
     }
 
     private fun TypeSpec.Builder.handleMessageSize() =

@@ -18,6 +18,8 @@ package com.toasttab.protokt.codegen.model
 import arrow.core.None
 import arrow.core.Option
 import arrow.core.Some
+import com.github.andrewoma.dexx.kollection.immutableListOf
+import com.squareup.kotlinpoet.ClassName
 import kotlin.reflect.KClass
 
 data class PClass(
@@ -55,6 +57,12 @@ data class PClass(
             fromName(pkg.qualify(nestedName))
         }
     }
+
+    fun toTypeName() =
+        ClassName(ppackage.toString(), names())
+
+    private fun names(): List<String> =
+        enclosing.fold({ immutableListOf(simpleName) }, { it.names() + simpleName })
 
     companion object {
         fun fromClass(klass: KClass<*>) =

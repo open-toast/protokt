@@ -15,7 +15,8 @@
 
 package com.toasttab.protokt.codegen.impl
 
-import arrow.core.memoize
+import com.squareup.kotlinpoet.TypeSpec
+import com.squareup.kotlinpoet.TypeVariableName
 import com.toasttab.protokt.codegen.impl.Annotator.Context
 import com.toasttab.protokt.codegen.impl.ClassLookup.getClass
 import com.toasttab.protokt.codegen.model.PClass
@@ -28,33 +29,38 @@ internal object Implements {
         ctx: Context,
         msg: Message
     ) =
-        msg.options.protokt.implements.emptyToNone().fold(
-            { false },
-            {
-                !it.delegates() &&
-                    PropertyOverrideChecker.classIncludesProperty(
-                        PClass.fromName(it).possiblyQualify(ctx.pkg),
-                        fieldName,
-                        ctx
+        msg.superInterface(ctx)
+            ?.let { classIncludesProperty(it, fieldName, ctx) }
+            ?: false
+
+    private fun classIncludesProperty(pClass: PClass, prop: String, ctx: Context) =
+        getClass(pClass, ctx.desc.context)
+            .members.map { m -> m.name }
+            .contains(prop)
+
+    fun TypeSpec.Builder.handleSuperInterface(msg: Message, ctx: Context) =
+        apply {
+            if (msg.options.protokt.implements.isNotEmpty()) {
+                if (msg.options.protokt.implements.delegates()) {
+                    addSuperinterface(
+                        TypeVariableName(msg.options.protokt.implements.substringBefore(" by ")),
+                        msg.options.protokt.implements.substringAfter(" by ")
                     )
+                } else {
+                    addSuperinterface(msg.superInterface(ctx)!!.toTypeName())
+                }
             }
-        )
+        }
 
     private fun String.delegates() =
         contains(" by ")
 
-    val Message.doesImplement
-        get() = options.protokt.implements.isNotEmpty()
-
-    val Message.implements
-        get() = options.protokt.implements
-}
-
-private object PropertyOverrideChecker {
-    val classIncludesProperty =
-        { pClass: PClass, prop: String, ctx: Context ->
-            getClass(pClass, ctx.desc.context)
-                .members.map { m -> m.name }
-                .contains(prop)
-        }.memoize()
+    private fun Message.superInterface(ctx: Context) =
+        options.protokt.implements.let {
+            if (it.isNotEmpty() && !it.delegates()) {
+                PClass.fromName(it).possiblyQualify(ctx.pkg)
+            } else {
+                null
+            }
+        }
 }
