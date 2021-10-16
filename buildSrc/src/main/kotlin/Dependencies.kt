@@ -21,15 +21,15 @@ object versions {
     const val grpc = "1.41.0"
     const val grpcKotlin = "1.1.0"
     const val kollection = "0.7"
-    const val kotlin = "1.4.32"
-    const val kotlinPoet = "1.8.0"
+    const val kotlin = "1.5.0"
+    const val kotlinPoet = "1.10.1"
     const val kotlinxCoroutines = "1.3.9"
     const val protobuf = DEFAULT_PROTOBUF_VERSION
     const val protobufPlugin = "0.8.17"
     const val stringTemplate = "4.3.1"
 
     // Test
-    const val jackson = "2.12.3"
+    const val jackson = "2.13.0"
     const val junit = "5.7.1"
     const val truth = "1.1.3"
 
@@ -37,7 +37,7 @@ object versions {
     const val datasets = "0.1.0"
     const val gradleDownload = "4.1.1"
     const val jmh = "1.26"
-    const val wire = "3.5.0"
+    const val wire = "4.0.0-alpha.12"
 
     // Third Party
     const val protoGoogleCommonProtos = "2.5.0"

@@ -22,7 +22,9 @@ import com.fasterxml.jackson.module.kotlin.readValue
 object Database {
     fun features(): List<Feature> {
         return javaClass.getResourceAsStream("route_guide_db.json").use {
-            ObjectMapper().registerModule(KotlinModule()).readValue<FeatureDatabase>(it!!.reader())
+            ObjectMapper()
+                .registerModule(KotlinModule.Builder().build())
+                .readValue<FeatureDatabase>(it!!.reader())
         }.feature
     }
 }
