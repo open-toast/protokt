@@ -13,21 +13,26 @@
  * limitations under the License.
  */
 
-enablePublishing(defaultJars = false)
+import com.toasttab.protokt.gradle.protokt
+import com.toasttab.protokt.gradle.protoktExtensions
 
-dependencies {
-    api(project(":extensions:protokt-extensions-simple"))
-    api(project(":extensions:protokt-extensions-proto-based"))
-    api(project(":extensions:protokt-extensions-api"))
+plugins {
+    kotlin("kapt")
 }
 
-configure<PublishingExtension> {
-    publications {
-        create<MavenPublication>("extensionsJar") {
-            from(project.components["java"])
-            artifactId = "protokt-extensions"
-            version = "${rootProject.version}"
-            groupId = "${rootProject.group}"
-        }
-    }
+localProtokt()
+enablePublishing()
+trackKotlinApiCompatibility(false)
+
+protokt {
+    lite = true
+}
+
+dependencies {
+    implementation(project(":extensions:protokt-extensions-api"))
+    implementation(libraries.autoServiceAnnotations)
+
+    kapt(libraries.autoService)
+
+    protoktExtensions(project(":extensions:protokt-extensions-simple"))
 }

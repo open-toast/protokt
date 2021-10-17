@@ -13,19 +13,11 @@
  * limitations under the License.
  */
 
-import com.toasttab.protokt.gradle.protoktExtensions
-
-apply(plugin = "kotlin-kapt")
-
-localProtokt()
 enablePublishing()
-trackKotlinApiCompatibility(false)
+trackKotlinApiCompatibility()
 
 dependencies {
-    implementation(project(":extensions:protokt-extensions-api"))
-    implementation(libraries.autoServiceAnnotations)
-
-    add("kapt", libraries.autoService)
-
-    protoktExtensions(project(":extensions:protokt-extensions-simple"))
+    api(project(":extensions:protokt-extensions-simple"))
+    api(project(":extensions:protokt-extensions-proto"))
+    api(project(":extensions:protokt-extensions-api"))
 }

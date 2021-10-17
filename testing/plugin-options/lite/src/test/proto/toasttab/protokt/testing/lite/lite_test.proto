@@ -18,6 +18,8 @@ syntax = "proto3";
 package toasttab.protokt.testing.lite;
 
 import "google/protobuf/wrappers.proto";
+import "protokt/ext/inet_socket_address.proto";
+import "protokt/protokt.proto";
 
 message LiteMessage {}
 
@@ -37,4 +39,6 @@ message WellKnownTypesLite {
   google.protobuf.BoolValue bool = 7;
   google.protobuf.StringValue string = 8;
   google.protobuf.BytesValue bytes = 9;
+
+  .protokt.ext.InetSocketAddress address = 10 [(.protokt.property).wrap = "java.net.InetSocketAddress"];
 }
