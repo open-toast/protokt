@@ -14,7 +14,7 @@
  */
 
 enablePublishing()
-trackKotlinApiCompatibility()
+trackKotlinApiCompatibility(false)
 
 dependencies {
     api(project(":extensions:protokt-extensions-simple"))
