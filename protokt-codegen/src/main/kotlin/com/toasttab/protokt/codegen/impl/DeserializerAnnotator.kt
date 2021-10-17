@@ -25,7 +25,6 @@ import com.squareup.kotlinpoet.LambdaTypeName
 import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeSpec
-import com.squareup.kotlinpoet.TypeVariableName
 import com.squareup.kotlinpoet.asTypeName
 import com.toasttab.protokt.codegen.impl.Annotator.Context
 import com.toasttab.protokt.codegen.impl.MessageAnnotator.Companion.IDEAL_MAX_WIDTH
@@ -65,7 +64,7 @@ private constructor(
             .addSuperinterface(
                 KtDeserializer::class
                     .asTypeName()
-                    .parameterizedBy(TypeVariableName(msg.name))
+                    .parameterizedBy(msg.typeName)
             )
             .addSuperinterface(
                 LambdaTypeName.get(
@@ -73,20 +72,20 @@ private constructor(
                     listOf(
                         ParameterSpec.unnamed(
                             LambdaTypeName.get(
-                                TypeVariableName("${msg.name}Dsl"),
+                                msg.dslTypeName,
                                 emptyList(),
                                 Unit::class.asTypeName()
                             )
                         )
                     ),
-                    TypeVariableName(msg.name)
+                    msg.typeName
                 )
             )
             .addFunction(
                 FunSpec.builder("deserialize")
                     .addModifiers(KModifier.OVERRIDE)
                     .addParameter("deserializer", KtMessageDeserializer::class)
-                    .returns(TypeVariableName(msg.name))
+                    .returns(msg.typeName)
                     .addCode(
                         if (properties.isNotEmpty()) {
                             properties.joinToString("\n") { "var " + deserializeVar(it) } + "\n"
@@ -117,11 +116,11 @@ private constructor(
             .addFunction(
                 FunSpec.builder("invoke")
                     .addModifiers(KModifier.OVERRIDE)
-                    .returns(TypeVariableName(msg.name))
+                    .returns(msg.typeName)
                     .addParameter(
                         "dsl",
                         LambdaTypeName.get(
-                            TypeVariableName("${msg.name}Dsl"),
+                            msg.dslTypeName,
                             emptyList(),
                             Unit::class.asTypeName()
                         )

@@ -21,7 +21,6 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeSpec
-import com.squareup.kotlinpoet.TypeVariableName
 import com.squareup.kotlinpoet.asTypeName
 import com.toasttab.protokt.codegen.impl.Annotator.Context
 import com.toasttab.protokt.codegen.impl.Deprecation.handleDeprecation
@@ -85,7 +84,7 @@ class EnumBuilder(
         addTypes(
             e.values.map {
                 TypeSpec.objectBuilder(it.valueName).apply {
-                    superclass(TypeVariableName(e.name))
+                    superclass(e.typeName)
                     addKDoc(it)
                     addSuperclassConstructorParameter(it.number.toString())
                     addSuperclassConstructorParameter("\"${it.valueName}\"")
@@ -95,7 +94,7 @@ class EnumBuilder(
         )
         addType(
             TypeSpec.classBuilder("UNRECOGNIZED")
-                .superclass(TypeVariableName(e.name))
+                .superclass(e.typeName)
                 .addSuperclassConstructorParameter("value")
                 .addSuperclassConstructorParameter("\"UNRECOGNIZED\"")
                 .primaryConstructor(
@@ -113,12 +112,12 @@ class EnumBuilder(
                 .addSuperinterface(
                     KtEnumDeserializer::class
                         .asTypeName()
-                        .parameterizedBy(TypeVariableName(e.name))
+                        .parameterizedBy(e.typeName)
                 )
                 .addFunction(
                     FunSpec.builder("from")
                         .addModifiers(KModifier.OVERRIDE)
-                        .returns(TypeVariableName(e.name))
+                        .returns(e.typeName)
                         .addParameter("value", Int::class)
                         .addCode(
                             """

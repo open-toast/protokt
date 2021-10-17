@@ -20,7 +20,6 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
-import com.squareup.kotlinpoet.TypeVariableName
 import com.squareup.kotlinpoet.asTypeName
 import com.toasttab.protokt.codegen.impl.Annotator.Context
 import com.toasttab.protokt.codegen.model.PClass
@@ -61,8 +60,8 @@ internal object ServiceAnnotator {
                                 MethodDescriptor::class
                                     .asTypeName()
                                     .parameterizedBy(
-                                        TypeVariableName(it.inputType.renderName(ctx.pkg)),
-                                        TypeVariableName(it.outputType.renderName(ctx.pkg))
+                                        it.inputType.toTypeName(),
+                                        it.outputType.toTypeName()
                                     )
                             )
                                 .delegate(

@@ -15,14 +15,15 @@
 
 package com.toasttab.protokt.codegen.impl
 
+import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.TypeSpec
-import com.squareup.kotlinpoet.TypeVariableName
 import com.toasttab.protokt.codegen.impl.Annotator.Context
 import com.toasttab.protokt.codegen.impl.ClassLookup.getClass
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.possiblyQualify
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.StandardField
+import com.toasttab.protokt.codegen.template.Oneof
 
 internal object Implements {
     fun StandardField.overrides(
@@ -38,12 +39,25 @@ internal object Implements {
             .members.map { m -> m.name }
             .contains(prop)
 
+    fun TypeSpec.Builder.handleSuperInterface(options: Oneof.Oneof.Options, v: Oneof.Oneof.Info? = null) =
+        apply {
+            if (options.implements != null) {
+                // TODO: qualify this with the package or allow it to be literal?
+                if (v == null) {
+                    addSuperinterface(ClassName.bestGuess(options.implements))
+                } else {
+                    addSuperinterface(ClassName.bestGuess(options.implements), v.fieldName)
+                }
+            }
+        }
+
     fun TypeSpec.Builder.handleSuperInterface(msg: Message, ctx: Context) =
         apply {
             if (msg.options.protokt.implements.isNotEmpty()) {
                 if (msg.options.protokt.implements.delegates()) {
                     addSuperinterface(
-                        TypeVariableName(msg.options.protokt.implements.substringBefore(" by ")),
+                        // TODO: parameterize this by the ctx package?
+                        ClassName.bestGuess(msg.options.protokt.implements.substringBefore(" by ")),
                         msg.options.protokt.implements.substringAfter(" by ")
                     )
                 } else {

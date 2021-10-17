@@ -20,7 +20,6 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.LambdaTypeName
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
-import com.squareup.kotlinpoet.TypeVariableName
 import com.squareup.kotlinpoet.asTypeName
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.template.Message.Message.PropertyInfo
@@ -33,11 +32,11 @@ class DslAnnotator(
     fun addDsl(builder: TypeSpec.Builder) {
         builder.addFunction(
             FunSpec.builder("copy")
-                .returns(TypeVariableName(msg.name))
+                .returns(msg.typeName)
                 .addParameter(
                     "dsl",
                     LambdaTypeName.get(
-                        TypeVariableName(msg.name + "Dsl"),
+                        msg.dslTypeName,
                         emptyList(),
                         Unit::class.asTypeName()
                     )
@@ -116,7 +115,7 @@ class DslAnnotator(
                 )
                 .addFunction(
                     FunSpec.builder("build")
-                        .returns(TypeVariableName(msg.name))
+                        .returns(msg.typeName)
                         .addCode(
                             if (properties.isEmpty()) {
                                 "return ${msg.name}(unknownFields)"

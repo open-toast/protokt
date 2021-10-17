@@ -16,7 +16,6 @@
 package com.toasttab.protokt.codegen.impl
 
 import com.squareup.kotlinpoet.TypeName
-import com.squareup.kotlinpoet.TypeVariableName
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
 import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.protoc.Field
@@ -50,9 +49,9 @@ internal object Nullability {
 
     fun propertyType(o: Oneof) =
         if (o.hasNonNullOption) {
-            TypeVariableName(o.name)
+            o.typeName
         } else {
-            o.renderNullableType()
+            o.typeName.copy(nullable = true)
         }
 
     fun propertyType(f: StandardField, type: TypeName) =
@@ -83,7 +82,4 @@ internal object Nullability {
         } else {
             type
         }
-
-    fun Oneof.renderNullableType() =
-        TypeVariableName(name).copy(nullable = true)
 }

@@ -182,7 +182,7 @@ private fun toMessage(
     enclosingMessages: List<String>
 ): Message {
     val typeName = newTypeNameFromPascal(desc.name, names)
-    val fieldList = toFields(ctx, pkg, desc, names + typeName)
+    val fieldList = toFields(ctx, pkg, desc, enclosingMessages + typeName, names + typeName)
     return Message(
         name = typeName,
         fields = fieldList.sortedBy {
@@ -200,7 +200,8 @@ private fun toMessage(
         index = idx,
         fullProtobufTypeName = "${ctx.fdp.`package`}.${desc.name}",
         typeName = ClassName(pkg.toString(), enclosingMessages + typeName),
-        deserializerTypeName = ClassName(pkg.toString(), enclosingMessages + typeName + "Deserializer")
+        deserializerTypeName = ClassName(pkg.toString(), enclosingMessages + typeName + "Deserializer"),
+        dslTypeName = ClassName(pkg.toString(), enclosingMessages + typeName + "${typeName}Dsl")
     )
 }
 
@@ -243,6 +244,7 @@ private fun toFields(
     ctx: ProtocolContext,
     pkg: PPackage,
     desc: DescriptorProto,
+    enclosingMessages: List<String>,
     typeNames: Set<String>,
     ids: Set<Int> = immutableSetOf()
 ): ImmutableList<Field> =
@@ -270,7 +272,7 @@ private fun toFields(
                             acc.first,
                             acc.second + it,
                             acc.third + ood.name,
-                            acc.fourth + toOneof(idx, ctx, pkg, desc, ood, t, acc.first, acc.fourth)
+                            acc.fourth + toOneof(idx, ctx, pkg, enclosingMessages, desc, ood, t, acc.first, acc.fourth)
                         )
                     }
                 })
@@ -282,6 +284,7 @@ private fun toOneof(
     idx: Int,
     ctx: ProtocolContext,
     pkg: PPackage,
+    enclosingMessages: List<String>,
     desc: DescriptorProto,
     oneof: OneofDescriptorProto,
     field: FieldDescriptorProto,
@@ -311,8 +314,10 @@ private fun toOneof(
             )
         }
     )
+    val name = newTypeNameFromCamel(oneof.name, typeNames)
     return Oneof(
-        name = newTypeNameFromCamel(oneof.name, typeNames),
+        name = name,
+        typeName = ClassName(pkg.toString(), enclosingMessages + name),
         fieldTypeNames = standardTuple.first,
         fieldName = newName,
         fields = standardTuple.third,

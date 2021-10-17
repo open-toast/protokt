@@ -32,6 +32,7 @@ class Message(
     override val name: String,
     val typeName: TypeName,
     val deserializerTypeName: TypeName,
+    val dslTypeName: TypeName,
     val fields: List<Field>,
     val nestedTypes: List<TopLevelType>,
     val mapEntry: Boolean,
@@ -135,6 +136,7 @@ class FieldOptions(
 
 class Oneof(
     val name: String,
+    val typeName: TypeName,
     override val fieldName: String,
     val fields: List<StandardField>,
     val fieldTypeNames: Map<String, String>,

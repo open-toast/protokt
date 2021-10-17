@@ -26,7 +26,6 @@ import com.toasttab.protokt.codegen.impl.Nullability.dslPropertyType
 import com.toasttab.protokt.codegen.impl.Nullability.hasNonNullOption
 import com.toasttab.protokt.codegen.impl.Nullability.nullable
 import com.toasttab.protokt.codegen.impl.Nullability.propertyType
-import com.toasttab.protokt.codegen.impl.Nullability.renderNullableType
 import com.toasttab.protokt.codegen.impl.PropertyDocumentationAnnotator.Companion.annotatePropertyDocumentation
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptDefaultValue
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptTypeName
@@ -75,8 +74,8 @@ private constructor(
                     PropertyInfo(
                         name = it.fieldName,
                         propertyType = propertyType(it),
-                        deserializeType = it.renderNullableType(),
-                        dslPropertyType = it.renderNullableType(),
+                        deserializeType = it.typeName.copy(nullable = true),
+                        dslPropertyType = it.typeName.copy(nullable = true),
                         defaultValue = it.defaultValue(ctx),
                         oneof = true,
                         nullable = it.nullable,

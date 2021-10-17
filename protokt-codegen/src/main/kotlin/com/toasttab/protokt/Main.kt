@@ -96,6 +96,8 @@ private fun tidy(code: String) =
         .replace("public object ", "object ")
         .replace("public companion ", "companion ")
         .replace("public override ", "override ")
+        .replace("public sealed ", "sealed ")
+        .replace("public data ", "data ")
         // https://github.com/square/kotlinpoet/pull/932
         .replace("): Unit {", ") {")
 

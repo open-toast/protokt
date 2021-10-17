@@ -24,12 +24,12 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.TypeVariableName
 import com.toasttab.protokt.codegen.impl.Annotator.Context
 import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
+import com.toasttab.protokt.codegen.impl.Implements.handleSuperInterface
 import com.toasttab.protokt.codegen.impl.PropertyDocumentationAnnotator.Companion.annotatePropertyDocumentation
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptTypeName
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.PPackage
-import com.toasttab.protokt.codegen.model.possiblyQualify
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Oneof
 import com.toasttab.protokt.codegen.protoc.StandardField
@@ -59,16 +59,12 @@ private constructor(
 
             TypeSpec.classBuilder(it.name)
                 .addModifiers(KModifier.SEALED)
-                .apply {
-                    if (options.implements != null) {
-                        addSuperinterface(TypeVariableName(options.implements))
-                    }
-                }
+                .handleSuperInterface(options)
                 .addTypes(
                     types.map { (k, v) ->
                         TypeSpec.classBuilder(k)
                             .addModifiers(KModifier.DATA)
-                            .superclass(TypeVariableName(it.name))
+                            .superclass(it.typeName)
                             .apply {
                                 if (v.documentation.isNotEmpty()) {
                                     addKdoc(formatDoc(v.documentation))
@@ -90,20 +86,16 @@ private constructor(
                                 }
                             }
                             .addProperty(
-                                PropertySpec.builder(v.fieldName, TypeVariableName(v.type))
+                                PropertySpec.builder(v.fieldName, v.type)
                                     .initializer(v.fieldName)
                                     .build()
                             )
                             .primaryConstructor(
                                 FunSpec.constructorBuilder()
-                                    .addParameter(v.fieldName, TypeVariableName(v.type))
+                                    .addParameter(v.fieldName, v.type)
                                     .build()
                             )
-                            .apply {
-                                if (options.implements != null) {
-                                    addSuperinterface(TypeVariableName(options.implements), v.fieldName)
-                                }
-                            }
+                            .handleSuperInterface(options, v)
                             .build()
                     }
                 )
@@ -122,9 +114,8 @@ private constructor(
     ) =
         OneofTemplate.Info(
             fieldName = f.name,
-            type = qualifyWrapperType(
-                f,
-                PClass.fromName(oneofFieldTypeName),
+            type =
+            if (f.wrapped) {
                 interceptTypeName(
                     f,
                     TypeVariableName(
@@ -135,8 +126,10 @@ private constructor(
                         )
                     ),
                     ctx
-                ).toString()
-            ),
+                )
+            } else {
+                f.typePClass.toTypeName()
+            },
             documentation = annotatePropertyDocumentation(f, ctx),
             deprecation = deprecation(f)
         )
@@ -148,26 +141,6 @@ private constructor(
             )
         } else {
             null
-        }
-
-    private fun qualifyWrapperType(
-        f: StandardField,
-        unqualifiedType: PClass,
-        fieldType: String
-    ) =
-        if (f.wrapped) {
-            PClass.fromName(fieldType).let {
-                // If a wrapper type is specified and it shares a name with the
-                // oneof, it must be fully qualified.
-                // See testing/options/src/main/proto/com/toasttab/protokt/testing/options/oneof_exercises.proto
-                if (unqualifiedType.simpleName == it.simpleName) {
-                    it.possiblyQualify(ctx.pkg).qualifiedName
-                } else {
-                    fieldType
-                }
-            }
-        } else {
-            fieldType
         }
 
     private fun inferOneofFieldTypeName(

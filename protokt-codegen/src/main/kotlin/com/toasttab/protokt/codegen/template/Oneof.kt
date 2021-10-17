@@ -15,6 +15,7 @@
 
 package com.toasttab.protokt.codegen.template
 
+import com.squareup.kotlinpoet.TypeName
 import com.toasttab.protokt.codegen.impl.Deprecation
 
 abstract class OneofTemplate : StTemplate(StGroup.Oneof)
@@ -26,7 +27,7 @@ object Oneof {
 
         class Info(
             val fieldName: String,
-            val type: String,
+            val type: TypeName,
             val documentation: List<String>,
             val deprecation: Deprecation.RenderOptions?
         )
