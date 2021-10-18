@@ -18,7 +18,7 @@ import com.toasttab.protokt.gradle.protokt
 
 localProtokt()
 enablePublishing()
-trackKotlinApiCompatibility(false)
+trackKotlinApiCompatibility()
 
 protokt {
     onlyGenerateDescriptors = true
