@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Toast Inc.
+ * Copyright (c) 2019 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,11 +13,26 @@
  * limitations under the License.
  */
 
+import com.toasttab.protokt.gradle.protokt
+import com.toasttab.protokt.gradle.protoktExtensions
+
+plugins {
+    kotlin("kapt")
+}
+
+localProtokt()
 enablePublishing()
 trackKotlinApiCompatibility(false)
 
+protokt {
+    lite = true
+}
+
 dependencies {
-    api(project(":extensions:protokt-extensions-simple"))
-    api(project(":extensions:protokt-extensions-proto-lite"))
-    api(project(":extensions:protokt-extensions-api"))
+    protoktExtensions(project(":extensions:protokt-extensions-simple"))
+
+    implementation(project(":extensions:protokt-extensions-api"))
+    implementation(libraries.autoServiceAnnotations)
+
+    kapt(libraries.autoService)
 }

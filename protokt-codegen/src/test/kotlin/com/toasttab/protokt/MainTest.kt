@@ -91,7 +91,7 @@ private val testProto =
     File(codegenTestingProto.toFile(), "test.proto")
 
 private val extensionsProto =
-    Path.of("extensions", "protokt-extensions-proto-lite", "src", "main", "proto")
+    Path.of("extensions", "protokt-extensions-lite", "src", "main", "proto")
 
 private val generatedFile =
     File(

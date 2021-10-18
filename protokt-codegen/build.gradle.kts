@@ -87,7 +87,7 @@ tasks.withType<Test> {
 sourceSets {
     main {
         proto {
-            srcDir("../extensions/protokt-extensions-proto-lite/src/main/proto")
+            srcDir("../extensions/protokt-extensions-lite/src/main/proto")
         }
     }
 }

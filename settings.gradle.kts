@@ -45,8 +45,6 @@ include(
     "extensions",
     "extensions:protokt-extensions-api",
     "extensions:protokt-extensions-simple",
-    "extensions:protokt-extensions-proto",
-    "extensions:protokt-extensions-proto-lite",
     "extensions:protokt-extensions",
     "extensions:protokt-extensions-lite",
 

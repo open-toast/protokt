@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2021 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,11 +13,25 @@
  * limitations under the License.
  */
 
+import com.google.protobuf.gradle.proto
+import com.toasttab.protokt.gradle.protokt
+
+localProtokt()
 enablePublishing()
 trackKotlinApiCompatibility(false)
 
+protokt {
+    onlyGenerateDescriptors = true
+}
+
 dependencies {
-    api(project(":extensions:protokt-extensions-simple"))
-    api(project(":extensions:protokt-extensions-proto"))
-    api(project(":extensions:protokt-extensions-api"))
+    api(project(":extensions:protokt-extensions-lite"))
+}
+
+sourceSets {
+    main {
+        proto {
+            srcDir("../protokt-extensions-lite/src/main/proto")
+        }
+    }
 }
