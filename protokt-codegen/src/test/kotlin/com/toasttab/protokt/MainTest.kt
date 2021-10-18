@@ -44,7 +44,7 @@ class MainTest {
             "--plugin=protoc-gen-custom=$binGenerator",
             "--custom_out=.", // ignored
             "-I$codegenTestingProto",
-            "-I$runtimeResources",
+            "-I$extensionsProto",
             "-I$includeProtos",
             buildPluginOptions(ext),
             "$testProto"
@@ -90,8 +90,8 @@ private val codegenTestingProto =
 private val testProto =
     File(codegenTestingProto.toFile(), "test.proto")
 
-private val runtimeResources =
-    Path.of("protokt-runtime", "src", "main", "resources")
+private val extensionsProto =
+    Path.of("extensions", "protokt-extensions-lite", "src", "main", "proto")
 
 private val generatedFile =
     File(

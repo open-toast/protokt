@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2021 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,21 +13,25 @@
  * limitations under the License.
  */
 
-enablePublishing(defaultJars = false)
+import com.google.protobuf.gradle.proto
+import com.toasttab.protokt.gradle.protokt
 
-dependencies {
-    api(project(":extensions:protokt-extensions-simple"))
-    api(project(":extensions:protokt-extensions-proto-based"))
-    api(project(":extensions:protokt-extensions-api"))
+localProtokt()
+enablePublishing()
+trackKotlinApiCompatibility(false)
+
+protokt {
+    onlyGenerateDescriptors = true
 }
 
-configure<PublishingExtension> {
-    publications {
-        create<MavenPublication>("extensionsJar") {
-            from(project.components["java"])
-            artifactId = "protokt-extensions"
-            version = "${rootProject.version}"
-            groupId = "${rootProject.group}"
+dependencies {
+    api(project(":extensions:protokt-extensions-lite"))
+}
+
+sourceSets {
+    main {
+        proto {
+            srcDir("../protokt-extensions-lite/src/main/proto")
         }
     }
 }

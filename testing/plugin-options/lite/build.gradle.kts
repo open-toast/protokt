@@ -14,6 +14,7 @@
  */
 
 import com.toasttab.protokt.gradle.protokt
+import com.toasttab.protokt.gradle.protoktExtensions
 
 localProtokt()
 pureKotlin()
@@ -23,5 +24,6 @@ protokt {
 }
 
 dependencies {
+    protoktExtensions(project(":extensions:protokt-extensions-lite"))
     testImplementation(kotlin("reflect"))
 }

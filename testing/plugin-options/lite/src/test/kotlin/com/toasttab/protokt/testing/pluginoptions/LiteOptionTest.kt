@@ -15,12 +15,8 @@
 
 package com.toasttab.protokt.testing.pluginoptions
 
-import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import toasttab.protokt.testing.lite.LiteEnum
-import toasttab.protokt.testing.lite.LiteMessage
-import kotlin.reflect.full.declaredMemberProperties
 
 class LiteOptionTest {
     @Test
@@ -31,23 +27,16 @@ class LiteOptionTest {
     }
 
     @Test
-    fun `enum has no descriptor reference`() {
-        assertThat(
-            LiteEnum.Deserializer::class.declaredMemberProperties.map { it.name }
-        ).doesNotContain("descriptor")
-    }
-
-    @Test
-    fun `message has no descriptor reference`() {
-        assertThat(
-            LiteMessage.Deserializer::class.declaredMemberProperties.map { it.name }
-        ).doesNotContain("descriptor")
-    }
-
-    @Test
     fun `service descriptor doesn't exist`() {
         assertThrows<ClassNotFoundException> {
             Class.forName("toasttab.protokt.testing.lite.LiteService")
+        }
+    }
+
+    @Test
+    fun `protokt descriptor isn't available`() {
+        assertThrows<ClassNotFoundException> {
+            Class.forName("com.toasttab.protokt.ext.Protokt")
         }
     }
 }
