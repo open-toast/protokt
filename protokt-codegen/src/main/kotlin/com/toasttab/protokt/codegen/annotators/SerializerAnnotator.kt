@@ -145,7 +145,6 @@ private constructor(
             "sizeof" to runtimeFunction("sizeof")
         )
         return when {
-
             f.repeated && f.packed -> buildCodeBlock {
                 map += "boxed" to f.box("it")
                 addNamed(

@@ -18,7 +18,6 @@ package com.toasttab.protokt.codegen.annotators
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
-import com.squareup.kotlinpoet.buildCodeBlock
 import com.toasttab.protokt.codegen.annotators.Annotator.Context
 import com.toasttab.protokt.codegen.impl.Nullability.hasNonNullOption
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptFieldSizeof
@@ -26,6 +25,7 @@ import com.toasttab.protokt.codegen.impl.Wrapper.interceptSizeof
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
 import com.toasttab.protokt.codegen.impl.Wrapper.mapKeyConverter
 import com.toasttab.protokt.codegen.impl.Wrapper.mapValueConverter
+import com.toasttab.protokt.codegen.impl.namedCodeBlock
 import com.toasttab.protokt.codegen.impl.runtimeFunction
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Oneof
@@ -164,42 +164,36 @@ private constructor(
         return when {
             f.map -> sizeOfMap(f, name)
             f.repeated && f.packed -> {
-                buildCodeBlock {
-                    addNamed(
-                        "%sizeof:M(%tag:T(${f.number})) + " +
-                            "$name.sumOf·{ %sizeof:M(${f.box("it")}) }.let·{ it + %sizeof:M(%uInt32:T(it)) }",
-                        mapOf(
-                            "sizeof" to runtimeFunction("sizeof"),
-                            "tag" to Tag::class,
-                            "uInt32" to UInt32::class
-                        )
+                namedCodeBlock(
+                    "%sizeof:M(%tag:T(${f.number})) + " +
+                        "$name.sumOf·{ %sizeof:M(${f.box("it")}) }.let·{ it + %sizeof:M(%uInt32:T(it)) }",
+                    mapOf(
+                        "sizeof" to runtimeFunction("sizeof"),
+                        "tag" to Tag::class,
+                        "uInt32" to UInt32::class
                     )
-                }
+                )
             }
             f.repeated -> {
-                buildCodeBlock {
-                    addNamed(
-                        "(%sizeof:M(%tag:T(${f.number})) * $name.size) + " +
-                            "$name.sumOf { %sizeof:M(%boxedAccess:L) }",
-                        mapOf(
-                            "sizeof" to runtimeFunction("sizeof"),
-                            "tag" to Tag::class,
-                            "boxedAccess" to f.box(interceptValueAccess(f, ctx, "it"))
-                        )
+                namedCodeBlock(
+                    "(%sizeof:M(%tag:T(${f.number})) * $name.size) + " +
+                        "$name.sumOf { %sizeof:M(%boxedAccess:L) }",
+                    mapOf(
+                        "sizeof" to runtimeFunction("sizeof"),
+                        "tag" to Tag::class,
+                        "boxedAccess" to f.box(interceptValueAccess(f, ctx, "it"))
                     )
-                }
+                )
             }
             else -> {
-                buildCodeBlock {
-                    addNamed(
-                        "%sizeof:M(%tag:T(${f.number})) + %access:L",
-                        mapOf(
-                            "sizeof" to runtimeFunction("sizeof"),
-                            "tag" to Tag::class,
-                            "access" to interceptFieldSizeof(f, name, ctx)
-                        )
+                namedCodeBlock(
+                    "%sizeof:M(%tag:T(${f.number})) + %access:L",
+                    mapOf(
+                        "sizeof" to runtimeFunction("sizeof"),
+                        "tag" to Tag::class,
+                        "access" to interceptFieldSizeof(f, name, ctx)
                     )
-                }
+                )
             }
         }
     }

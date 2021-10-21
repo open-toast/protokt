@@ -127,10 +127,11 @@ private constructor(
             .build()
     }
 
-    private fun constructorLines(properties: List<PropertyInfo>) = buildCodeBlock {
-        properties.forEach() { add("%L,\n", deserializeWrapper(it)) }
-        add("%T.from(unknownFields)", UnknownFieldSet::class)
-    }
+    private fun constructorLines(properties: List<PropertyInfo>) =
+        buildCodeBlock {
+            properties.forEach { add("%L,\n", deserializeWrapper(it)) }
+            add("%T.from(unknownFields)", UnknownFieldSet::class)
+        }
 
     private fun annotateDeserializerOld(): List<DeserializerInfo> =
         msg.flattenedSortedFields().flatMap { (field, oneOf) ->
