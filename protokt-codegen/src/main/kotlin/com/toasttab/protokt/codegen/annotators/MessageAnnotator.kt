@@ -15,7 +15,6 @@
 
 package com.toasttab.protokt.codegen.annotators
 
-import arrow.core.firstOrNone
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
@@ -228,7 +227,7 @@ private constructor(
         msg.hasDeprecation && (!enclosingDeprecation(ctx) || messageIsTopLevel())
 
     private fun messageIsTopLevel() =
-        ctx.enclosing.firstOrNone().fold({ false }, { it == msg })
+        msg.typeName.simpleNames.size == 1
 
     companion object {
         fun annotateMessage(msg: Message, ctx: Context) =

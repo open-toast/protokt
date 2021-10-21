@@ -19,8 +19,6 @@ import com.squareup.kotlinpoet.TypeName
 import com.toasttab.protokt.codegen.annotators.Annotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptMapKeyTypeName
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptMapValueTypeName
-import com.toasttab.protokt.codegen.impl.stripEnclosingMessageNamePrefix
-import com.toasttab.protokt.codegen.impl.stripRootMessageNamePrefix
 import com.toasttab.protokt.codegen.protoc.MapEntry
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Oneof
@@ -45,7 +43,5 @@ class MapTypeParams(
     val vType: TypeName
 )
 
-fun oneOfScope(f: Oneof, type: String, ctx: Context) =
-    ctx.stripEnclosingMessageNamePrefix(
-        ctx.stripRootMessageNamePrefix("$type.${f.name}")
-    )
+fun oneOfScope(f: Oneof, type: String) =
+    "$type.${f.name}"

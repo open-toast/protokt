@@ -21,7 +21,6 @@ import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
 import com.toasttab.protokt.codegen.impl.Wrapper.mapKeyConverter
 import com.toasttab.protokt.codegen.impl.Wrapper.mapValueConverter
 import com.toasttab.protokt.codegen.impl.defaultValue
-import com.toasttab.protokt.codegen.impl.stripRootMessageNamePrefix
 import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.codegen.protoc.Tag
@@ -98,6 +97,3 @@ internal fun StandardField.box(s: String) = if (type.boxed) CodeBlock.of("%T($s)
 
 internal val StandardField.unqualifiedTypeName
     get() = typePClass.nestedName
-
-internal fun StandardField.unqualifiedNestedTypeName(ctx: Context) =
-    ctx.stripRootMessageNamePrefix(unqualifiedTypeName)

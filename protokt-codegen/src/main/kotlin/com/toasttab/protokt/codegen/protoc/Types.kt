@@ -16,6 +16,7 @@
 package com.toasttab.protokt.codegen.protoc
 
 import com.google.protobuf.DescriptorProtos
+import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
 import com.toasttab.protokt.codegen.model.FieldType
@@ -30,7 +31,7 @@ sealed class TopLevelType {
 
 class Message(
     override val name: String,
-    val typeName: TypeName,
+    val typeName: ClassName,
     val deserializerTypeName: TypeName,
     val dslTypeName: TypeName,
     val fields: List<Field>,

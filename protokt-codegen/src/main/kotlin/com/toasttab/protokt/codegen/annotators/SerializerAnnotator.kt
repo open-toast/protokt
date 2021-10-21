@@ -178,7 +178,7 @@ private constructor(
     private fun oneOfSer(f: Oneof, ff: StandardField, type: String) =
         ConditionalParams(
             CodeBlock.of(
-                "%L.%L", oneOfScope(f, type, ctx), f.fieldTypeNames.getValue(ff.fieldName)
+                "%L.%L", oneOfScope(f, type), f.fieldTypeNames.getValue(ff.fieldName)
             ),
             serializeString(ff, Some(f.fieldName))
         )

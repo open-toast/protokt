@@ -106,7 +106,7 @@ private constructor(
             }
 
     private fun condition(f: Oneof, ff: StandardField, type: String) =
-        "${oneOfScope(f, type, ctx)}.${f.fieldTypeNames.getValue(ff.fieldName)}"
+        "${oneOfScope(f, type)}.${f.fieldTypeNames.getValue(ff.fieldName)}"
 
     private fun oneofSizeOfString(o: Oneof, f: StandardField) =
         if (!o.hasNonNullOption) {
@@ -198,9 +198,10 @@ private constructor(
         val key = mapKeyConverter(f, ctx)?.let { "$it.unwrap(k)" } ?: "k"
         val value = mapValueConverter(f, ctx)?.let { CodeBlock.of("$it.unwrap(v)") }?.let { f.maybeConstructBytes(it) } ?: "v"
         return CodeBlock.of(
-            "%M($name, %T(${f.number})) { k, v -> ${f.unqualifiedNestedTypeName(ctx)}.sizeof(%L, %L)}",
+            "%M($name, %T(${f.number})) { k, v -> %T.sizeof(%L, %L)}",
             runtimeFunction("sizeofMap"),
             Tag::class,
+            f.typePClass.toTypeName(),
             key,
             value
         )
@@ -209,7 +210,7 @@ private constructor(
     private fun oneofSize(f: Oneof, type: String) =
         f.fields.map {
             ConditionalParams(
-                CodeBlock.of("%L.%L", oneOfScope(f, type, ctx), f.fieldTypeNames.getValue(it.fieldName)),
+                CodeBlock.of("%L.%L", oneOfScope(f, type), f.fieldTypeNames.getValue(it.fieldName)),
                 sizeOfString(
                     it,
                     interceptSizeof(
