@@ -13,12 +13,13 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.impl
+package com.toasttab.protokt.codegen.annotators
 
 import com.github.andrewoma.dexx.kollection.immutableListOf
 import com.squareup.kotlinpoet.TypeSpec
-import com.toasttab.protokt.codegen.impl.MessageAnnotator.Companion.annotateMessage
-import com.toasttab.protokt.codegen.impl.ServiceAnnotator.annotateService
+import com.toasttab.protokt.codegen.annotators.MessageAnnotator.Companion.annotateMessage
+import com.toasttab.protokt.codegen.annotators.ServiceAnnotator.annotateService
+import com.toasttab.protokt.codegen.impl.EnumBuilder
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.protoc.AnnotatedType
 import com.toasttab.protokt.codegen.protoc.Enum

@@ -17,13 +17,13 @@ package com.toasttab.protokt.codegen.impl
 
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.TypeSpec
-import com.toasttab.protokt.codegen.impl.Annotator.Context
+import com.toasttab.protokt.codegen.annotators.Annotator.Context
+import com.toasttab.protokt.codegen.annotators.OneofAnnotator
 import com.toasttab.protokt.codegen.impl.ClassLookup.getClass
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.possiblyQualify
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.StandardField
-import com.toasttab.protokt.codegen.template.Oneof
 
 internal object Implements {
     fun StandardField.overrides(
@@ -39,7 +39,7 @@ internal object Implements {
             .members.map { m -> m.name }
             .contains(prop)
 
-    fun TypeSpec.Builder.handleSuperInterface(options: Oneof.Oneof.Options, v: Oneof.Oneof.Info? = null) =
+    fun TypeSpec.Builder.handleSuperInterface(options: OneofAnnotator.Options, v: OneofAnnotator.Info? = null) =
         apply {
             if (options.implements != null) {
                 // TODO: qualify this with the package or allow it to be literal?

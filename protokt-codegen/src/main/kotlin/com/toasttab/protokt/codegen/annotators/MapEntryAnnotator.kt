@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.impl
+package com.toasttab.protokt.codegen.annotators
 
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
@@ -21,10 +21,13 @@ import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
-import com.toasttab.protokt.codegen.impl.Annotator.Context
-import com.toasttab.protokt.codegen.impl.MessageSizeAnnotator.Companion.annotateMessageSizeOld
-import com.toasttab.protokt.codegen.impl.PropertyAnnotator.Companion.annotateProperties
-import com.toasttab.protokt.codegen.impl.SerializerAnnotator.Companion.annotateSerializerOld
+import com.toasttab.protokt.codegen.annotators.Annotator.Context
+import com.toasttab.protokt.codegen.annotators.MessageSizeAnnotator.Companion.annotateMessageSizeOld
+import com.toasttab.protokt.codegen.annotators.PropertyAnnotator.Companion.annotateProperties
+import com.toasttab.protokt.codegen.annotators.SerializerAnnotator.Companion.annotateSerializerOld
+import com.toasttab.protokt.codegen.impl.bindIndent
+import com.toasttab.protokt.codegen.impl.bindSpaces
+import com.toasttab.protokt.codegen.impl.constructorProperty
 import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.StandardField

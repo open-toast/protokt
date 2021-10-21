@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.impl
+package com.toasttab.protokt.codegen.annotators
 
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.KModifier
@@ -21,12 +21,11 @@ import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
-import com.toasttab.protokt.codegen.impl.Annotator.Context
+import com.toasttab.protokt.codegen.annotators.Annotator.Context
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.possiblyQualify
 import com.toasttab.protokt.codegen.protoc.Method
 import com.toasttab.protokt.codegen.protoc.Service
-import com.toasttab.protokt.codegen.template.Services.MethodType
 import io.grpc.MethodDescriptor
 import io.grpc.ServiceDescriptor
 
@@ -138,6 +137,10 @@ internal object ServiceAnnotator {
             "${ctx.desc.protoPackage}.${s.name}"
         }
 
-    private fun methodType(m: Method) =
-        MethodType.render(method = m)
+    private fun methodType(m: Method) = when {
+        m.clientStreaming && m.serverStreaming -> "BIDI_STREAMING"
+        m.clientStreaming -> "CLIENT_STREAMING"
+        m.serverStreaming -> "SERVER_STREAMING"
+        else -> "UNARY"
+    }
 }

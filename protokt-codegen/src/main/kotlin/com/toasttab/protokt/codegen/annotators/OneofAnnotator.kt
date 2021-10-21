@@ -13,27 +13,29 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.impl
+package com.toasttab.protokt.codegen.annotators
 
 import arrow.core.None
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec
+import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.TypeVariableName
-import com.toasttab.protokt.codegen.impl.Annotator.Context
+import com.toasttab.protokt.codegen.annotators.Annotator.Context
+import com.toasttab.protokt.codegen.annotators.PropertyDocumentationAnnotator.Companion.annotatePropertyDocumentation
+import com.toasttab.protokt.codegen.impl.Deprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
 import com.toasttab.protokt.codegen.impl.Implements.handleSuperInterface
-import com.toasttab.protokt.codegen.impl.PropertyDocumentationAnnotator.Companion.annotatePropertyDocumentation
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptTypeName
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
+import com.toasttab.protokt.codegen.impl.emptyToNone
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Oneof
 import com.toasttab.protokt.codegen.protoc.StandardField
-import com.toasttab.protokt.codegen.template.Oneof.Oneof as OneofTemplate
 
 internal class OneofAnnotator
 private constructor(
@@ -41,17 +43,6 @@ private constructor(
     private val ctx: Context
 ) {
     private fun annotateOneofs(): List<TypeSpec> {
-        msg.fields.map {
-            when (it) {
-                is Oneof ->
-                    OneofTemplate.render(
-                        name = it.name,
-                        types = it.fields.associate { ff -> oneof(it, ff) },
-                        options = options(it)
-                    )
-                else -> ""
-            }
-        }.filter { it.isNotEmpty() }
 
         return msg.fields.filterIsInstance<Oneof>().map {
             val options = options(it)
@@ -104,7 +95,7 @@ private constructor(
     }
 
     private fun oneof(f: Oneof, ff: StandardField) =
-        f.fieldTypeNames.getValue(ff.name).let { oneofFieldTypeName ->
+        f.fieldTypeNames.getValue(ff.fieldName).let { oneofFieldTypeName ->
             oneofFieldTypeName to info(ff, oneofFieldTypeName)
         }
 
@@ -112,8 +103,8 @@ private constructor(
         f: StandardField,
         oneofFieldTypeName: String
     ) =
-        OneofTemplate.Info(
-            fieldName = f.name,
+        Info(
+            fieldName = f.fieldName,
             type =
             if (f.wrapped) {
                 interceptTypeName(
@@ -171,7 +162,7 @@ private constructor(
     }
 
     private fun options(oneof: Oneof) =
-        OneofTemplate.Options(
+        Options(
             oneof.options.protokt.implements.emptyToNone().fold(
                 { null },
                 { possiblyQualify(it) }
@@ -196,4 +187,15 @@ private constructor(
         fun annotateOneofs(msg: Message, ctx: Context) =
             OneofAnnotator(msg, ctx).annotateOneofs()
     }
+
+    internal class Info(
+        val fieldName: String,
+        val type: TypeName,
+        val documentation: List<String>,
+        val deprecation: Deprecation.RenderOptions?
+    )
+
+    internal class Options(
+        val implements: String?
+    )
 }

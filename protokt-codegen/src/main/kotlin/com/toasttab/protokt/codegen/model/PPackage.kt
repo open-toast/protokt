@@ -15,8 +15,8 @@
 
 package com.toasttab.protokt.codegen.model
 
-import com.toasttab.protokt.codegen.impl.Annotator.protoktPkg
-import com.toasttab.protokt.codegen.impl.Annotator.protoktRtPkg
+import com.toasttab.protokt.codegen.annotators.Annotator.protoktPkg
+import com.toasttab.protokt.codegen.annotators.Annotator.protoktRtPkg
 
 class PPackage
 private constructor(

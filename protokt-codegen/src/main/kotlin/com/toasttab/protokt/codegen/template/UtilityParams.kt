@@ -15,7 +15,9 @@
 
 package com.toasttab.protokt.codegen.template
 
+import com.squareup.kotlinpoet.CodeBlock
+
 class ConditionalParams(
-    val condition: String,
-    val consequent: String
+    val condition: CodeBlock,
+    val consequent: CodeBlock
 )

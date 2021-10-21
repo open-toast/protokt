@@ -13,12 +13,14 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.impl
+package com.toasttab.protokt.codegen.annotators
 
+import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.asTypeName
-import com.toasttab.protokt.codegen.impl.Annotator.Context
+import com.toasttab.protokt.codegen.annotators.Annotator.Context
+import com.toasttab.protokt.codegen.annotators.PropertyDocumentationAnnotator.Companion.annotatePropertyDocumentation
 import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
 import com.toasttab.protokt.codegen.impl.Implements.overrides
 import com.toasttab.protokt.codegen.impl.Nullability.deserializeType
@@ -26,18 +28,16 @@ import com.toasttab.protokt.codegen.impl.Nullability.dslPropertyType
 import com.toasttab.protokt.codegen.impl.Nullability.hasNonNullOption
 import com.toasttab.protokt.codegen.impl.Nullability.nullable
 import com.toasttab.protokt.codegen.impl.Nullability.propertyType
-import com.toasttab.protokt.codegen.impl.PropertyDocumentationAnnotator.Companion.annotatePropertyDocumentation
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptDefaultValue
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptTypeName
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
+import com.toasttab.protokt.codegen.impl.defaultValue
 import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.protoc.Field
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Oneof
 import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.codegen.template.Message.Message.PropertyInfo
-import com.toasttab.protokt.codegen.template.Renderers.DefaultValue
-import com.toasttab.protokt.codegen.template.Oneof as OneofTemplate
 
 internal class PropertyAnnotator
 private constructor(
@@ -124,23 +124,23 @@ private constructor(
             is StandardField ->
                 interceptDefaultValue(
                     this,
-                    DefaultValue.render(
-                        field = this,
-                        type = type,
-                        name = name(this)
-                    ),
+                    when {
+                        this.map -> CodeBlock.of("emptyMap()")
+                        this.repeated -> CodeBlock.of("emptyList()")
+                        type == FieldType.MESSAGE -> CodeBlock.of("null")
+                        type == FieldType.ENUM -> CodeBlock.of("%T.from(0)", this.typePClass.toTypeName())
+                        this.nullable -> CodeBlock.of("null")
+                        else -> this.type.defaultValue
+                    },
                     ctx
                 )
-            is Oneof ->
-                OneofTemplate.DefaultValue.render()
+            is Oneof -> CodeBlock.of("null")
         }
 
-    private fun name(f: StandardField) =
-        if (f.type == FieldType.ENUM) {
-            f.typePClass.qualifiedName
-        } else {
-            ""
-        }
+    private fun name(f: StandardField) = when (f.type) {
+        FieldType.ENUM -> f.typePClass.qualifiedName
+        else -> ""
+    }
 
     companion object {
         fun annotateProperties(msg: Message, ctx: Context) =

@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.impl
+package com.toasttab.protokt.codegen.annotators
 
 import arrow.core.firstOrNone
 import com.squareup.kotlinpoet.AnnotationSpec
@@ -24,20 +24,23 @@ import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
-import com.toasttab.protokt.codegen.impl.Annotator.Context
-import com.toasttab.protokt.codegen.impl.Annotator.annotate
+import com.toasttab.protokt.codegen.annotators.Annotator.Context
+import com.toasttab.protokt.codegen.annotators.Annotator.annotate
+import com.toasttab.protokt.codegen.annotators.DeserializerAnnotator.Companion.annotateDeserializer
+import com.toasttab.protokt.codegen.annotators.MapEntryAnnotator.Companion.annotateMapEntry
+import com.toasttab.protokt.codegen.annotators.MessageDocumentationAnnotator.annotateMessageDocumentation
+import com.toasttab.protokt.codegen.annotators.MessageSizeAnnotator.Companion.annotateMessageSizeNew
+import com.toasttab.protokt.codegen.annotators.OneofAnnotator.Companion.annotateOneofs
+import com.toasttab.protokt.codegen.annotators.PropertyAnnotator.Companion.annotateProperties
+import com.toasttab.protokt.codegen.annotators.SerializerAnnotator.Companion.annotateSerializerNew
 import com.toasttab.protokt.codegen.impl.Deprecation.addDeprecationSuppression
 import com.toasttab.protokt.codegen.impl.Deprecation.enclosingDeprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.handleDeprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.hasDeprecation
-import com.toasttab.protokt.codegen.impl.DeserializerAnnotator.Companion.annotateDeserializer
 import com.toasttab.protokt.codegen.impl.Implements.handleSuperInterface
-import com.toasttab.protokt.codegen.impl.MapEntryAnnotator.Companion.annotateMapEntry
-import com.toasttab.protokt.codegen.impl.MessageDocumentationAnnotator.annotateMessageDocumentation
-import com.toasttab.protokt.codegen.impl.MessageSizeAnnotator.Companion.annotateMessageSizeNew
-import com.toasttab.protokt.codegen.impl.OneofAnnotator.Companion.annotateOneofs
-import com.toasttab.protokt.codegen.impl.PropertyAnnotator.Companion.annotateProperties
-import com.toasttab.protokt.codegen.impl.SerializerAnnotator.Companion.annotateSerializerNew
+import com.toasttab.protokt.codegen.impl.bindMargin
+import com.toasttab.protokt.codegen.impl.bindSpaces
+import com.toasttab.protokt.codegen.impl.embed
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.template.Message.Message.PropertyInfo
 import com.toasttab.protokt.rt.KtGeneratedMessage

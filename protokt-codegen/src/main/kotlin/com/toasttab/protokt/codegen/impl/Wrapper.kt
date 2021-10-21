@@ -19,9 +19,11 @@ import arrow.core.None
 import arrow.core.Option
 import arrow.core.Some
 import arrow.core.memoize
+import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.asTypeName
-import com.toasttab.protokt.codegen.impl.Annotator.Context
+import com.toasttab.protokt.codegen.annotators.Annotator.Context
+import com.toasttab.protokt.codegen.annotators.box
 import com.toasttab.protokt.codegen.impl.ClassLookup.converters
 import com.toasttab.protokt.codegen.impl.ClassLookup.getClass
 import com.toasttab.protokt.codegen.impl.WellKnownTypes.wrapWithWellKnownInterception
@@ -31,13 +33,6 @@ import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.model.possiblyQualify
 import com.toasttab.protokt.codegen.protoc.ProtocolContext
 import com.toasttab.protokt.codegen.protoc.StandardField
-import com.toasttab.protokt.codegen.template.Options.AccessField
-import com.toasttab.protokt.codegen.template.Options.DefaultBytesSlice
-import com.toasttab.protokt.codegen.template.Options.ReadBytesSlice
-import com.toasttab.protokt.codegen.template.Options.Sizeof
-import com.toasttab.protokt.codegen.template.Options.WrapField
-import com.toasttab.protokt.codegen.template.Renderers.ConcatWithScope
-import com.toasttab.protokt.codegen.template.Renderers.FieldSizeof
 import com.toasttab.protokt.ext.OptimizedSizeofConverter
 import com.toasttab.protokt.rt.BytesSlice
 import kotlin.reflect.KClass
@@ -75,7 +70,7 @@ object Wrapper {
                             // Protobuf primitives have no typeName
                             requireNotNull(type.kotlinRepresentation) {
                                 "no kotlin representation for type of " +
-                                    "$name: $type"
+                                    "$fieldName: $type"
                             }
                         },
                         { getClass(typePClass, ctx) }
@@ -125,25 +120,16 @@ object Wrapper {
         f.foldFieldWrap(
             ctx,
             {
-                FieldSizeof.render(
-                    field = f,
-                    name = s
-                )
+                CodeBlock.of("%M(%L)", runtimeFunction("sizeof"), f.box(s))
             },
             { wrapper, wrapped ->
                 if (
                     converter(wrapper, wrapped, ctx) is
                     OptimizedSizeofConverter<*, *>
                 ) {
-                    ConcatWithScope.render(
-                        scope = unqualifiedConverterWrap(wrapper, wrapped, ctx).toString(),
-                        value = Sizeof.render(arg = s)
-                    )
+                    CodeBlock.of("%T.sizeof(%L)", unqualifiedConverterWrap(wrapper, wrapped, ctx), s)
                 } else {
-                    FieldSizeof.render(
-                        field = f,
-                        name = s
-                    )
+                    CodeBlock.of("%M(%L)", runtimeFunction("sizeof"), f.box(s))
                 }
             }
         )
@@ -157,29 +143,32 @@ object Wrapper {
             ctx,
             { s },
             { wrapper, wrapped ->
-                AccessField.render(
-                    wrapName = unqualifiedConverterWrap(wrapper, wrapped, ctx).toString(),
-                    arg = s
-                )
+                "${unqualifiedConverterWrap(wrapper, wrapped, ctx)}.unwrap($s)"
             }
         )
 
     private fun interceptDeserializedValue(
         f: StandardField,
-        s: String,
+        s: CodeBlock,
         ctx: Context
     ) =
         wrapperName(f, ctx).fold(
             { s },
             {
-                WrapField.render(
+                wrapField(
                     wrapName = it.toString(),
                     arg = s,
-                    type = f.type,
+                    f = f.type,
                     oneof = true
                 )
             }
         )
+
+    fun wrapField(wrapName: String, arg: CodeBlock, f: FieldType?, oneof: Boolean) = when {
+        f == FieldType.BYTES -> CodeBlock.of("%L.wrap(%L.bytes)", wrapName, arg)
+        f == FieldType.MESSAGE && !oneof -> CodeBlock.of("%L.wrap(%L!!)", wrapName, arg)
+        else -> CodeBlock.of("%L.wrap(%L)", wrapName, arg)
+    }
 
     fun wrapperName(f: StandardField, ctx: Context) =
         f.foldFieldWrap(
@@ -193,10 +182,10 @@ object Wrapper {
     fun interceptReadFn(f: StandardField, s: String) =
         f.foldBytesSlice(
             { s },
-            { ReadBytesSlice.render() }
+            { "readBytesSlice()" }
         )
 
-    fun interceptDefaultValue(f: StandardField, s: String, ctx: Context) =
+    fun interceptDefaultValue(f: StandardField, s: CodeBlock, ctx: Context) =
         f.foldBytesSlice(
             {
                 f.foldSingularMessage(
@@ -204,7 +193,7 @@ object Wrapper {
                     { s }
                 )
             },
-            { DefaultBytesSlice.render() }
+            { CodeBlock.of("%T.empty()", BytesSlice::class) }
         )
 
     fun interceptTypeName(f: StandardField, t: TypeName, ctx: Context): TypeName =

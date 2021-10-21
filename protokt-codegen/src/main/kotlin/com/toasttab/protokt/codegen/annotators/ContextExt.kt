@@ -18,7 +18,7 @@ package com.toasttab.protokt.codegen.impl
 import arrow.core.Option
 import arrow.core.firstOrNone
 import arrow.core.toOption
-import com.toasttab.protokt.codegen.impl.Annotator.Context
+import com.toasttab.protokt.codegen.annotators.Annotator.Context
 import com.toasttab.protokt.codegen.protoc.Message
 
 internal fun Context.stripRootMessageNamePrefix(s: String) =

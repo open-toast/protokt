@@ -35,9 +35,9 @@ import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.google.protobuf.DescriptorProtos.OneofDescriptorProto
 import com.google.protobuf.DescriptorProtos.ServiceDescriptorProto
 import com.squareup.kotlinpoet.ClassName
-import com.toasttab.protokt.codegen.impl.Annotator.rootGoogleProto
+import com.toasttab.protokt.codegen.annotators.Annotator.rootGoogleProto
+import com.toasttab.protokt.codegen.annotators.resolveMapEntry
 import com.toasttab.protokt.codegen.impl.overrideGoogleProtobuf
-import com.toasttab.protokt.codegen.impl.resolveMapEntry
 import com.toasttab.protokt.codegen.impl.resolvePackage
 import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.model.PClass
@@ -341,7 +341,6 @@ private fun toStandard(
     toFieldType(fdp.type).let { type ->
         StandardField(
             number = fdp.number,
-            name = newFieldName(fdp.name, usedFieldNames),
             type = type,
             repeated = fdp.label == LABEL_REPEATED,
             optional = optional(alwaysRequired, fdp, ctx),

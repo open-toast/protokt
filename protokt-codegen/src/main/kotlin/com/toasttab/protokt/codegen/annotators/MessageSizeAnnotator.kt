@@ -13,26 +13,27 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.impl
+package com.toasttab.protokt.codegen.annotators
 
+import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
-import com.toasttab.protokt.codegen.impl.Annotator.Context
+import com.squareup.kotlinpoet.buildCodeBlock
+import com.toasttab.protokt.codegen.annotators.Annotator.Context
 import com.toasttab.protokt.codegen.impl.Nullability.hasNonNullOption
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptFieldSizeof
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptSizeof
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
 import com.toasttab.protokt.codegen.impl.Wrapper.mapKeyConverter
 import com.toasttab.protokt.codegen.impl.Wrapper.mapValueConverter
+import com.toasttab.protokt.codegen.impl.runtimeFunction
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Oneof
 import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.codegen.template.ConditionalParams
 import com.toasttab.protokt.codegen.template.Message.Message.SizeofInfo
-import com.toasttab.protokt.codegen.template.Renderers.ConcatWithScope
-import com.toasttab.protokt.codegen.template.Renderers.IterationVar
-import com.toasttab.protokt.codegen.template.Renderers.Sizeof
-import com.toasttab.protokt.codegen.template.Renderers.Sizeof.Options
+import com.toasttab.protokt.rt.Tag
+import com.toasttab.protokt.rt.UInt32
 
 internal class MessageSizeAnnotator
 private constructor(
@@ -105,10 +106,7 @@ private constructor(
             }
 
     private fun condition(f: Oneof, ff: StandardField, type: String) =
-        ConcatWithScope.render(
-            scope = oneOfScope(f, type, ctx),
-            value = f.fieldTypeNames.getValue(ff.name)
-        )
+        "${oneOfScope(f, type, ctx)}.${f.fieldTypeNames.getValue(ff.fieldName)}"
 
     private fun oneofSizeOfString(o: Oneof, f: StandardField) =
         if (!o.hasNonNullOption) {
@@ -120,10 +118,7 @@ private constructor(
                 f,
                 interceptSizeof(
                     f,
-                    ConcatWithScope.render(
-                        scope = o.fieldName,
-                        value = f.fieldName
-                    ),
+                    "${o.fieldName}.${f.fieldName}",
                     ctx
                 )
             )
@@ -157,7 +152,7 @@ private constructor(
     private fun sizeOfString(
         f: StandardField,
         oneOfFieldAccess: String? = null
-    ): String {
+    ): CodeBlock {
         val name =
             oneOfFieldAccess
                 ?: if (f.repeated) {
@@ -165,35 +160,71 @@ private constructor(
                 } else {
                     interceptSizeof(f, f.fieldName, ctx)
                 }
-        return Sizeof.render(
-            name = name,
-            field = f,
-            type = f.unqualifiedNestedTypeName(ctx),
-            options = Options(
-                fieldSizeof = interceptFieldSizeof(f, name, ctx),
-                fieldAccess = interceptValueAccess(f, ctx, IterationVar.render()),
-                keyAccess = mapKeyConverter(f, ctx)?.toString(),
-                valueAccess = mapValueConverter(f, ctx)?.toString(),
-                valueType = f.mapEntry?.value?.type
-            )
+
+        return when {
+            f.map -> sizeOfMap(f, name)
+            f.repeated && f.packed -> {
+                val map = mutableMapOf<String, Any>(
+                    "sizeof" to runtimeFunction("sizeof"),
+                    "tag" to Tag::class,
+                    "uInt32" to UInt32::class
+                )
+                buildCodeBlock {
+                    addNamed(
+                        "%sizeof:M(%tag:T(${f.number})) + " +
+                            "$name.sumOf·{ %sizeof:M(${f.box("it")}) }.let·{ it + %sizeof:M(%uInt32:T(it)) }",
+                        map
+                    )
+                }
+            }
+            f.repeated -> {
+                val map = mutableMapOf(
+                    "sizeof" to runtimeFunction("sizeof"),
+                    "tag" to Tag::class,
+                    "boxedAccess" to f.box(interceptValueAccess(f, ctx, "it"))
+                )
+                buildCodeBlock {
+                    addNamed(
+                        "(%sizeof:M(%tag:T(${f.number})) * $name.size) + " +
+                            "$name.sumOf { %sizeof:M(%boxedAccess:L) }",
+                        map
+                    )
+                }
+            }
+            else -> {
+                val map = mutableMapOf(
+                    "sizeof" to runtimeFunction("sizeof"),
+                    "tag" to Tag::class,
+                    "access" to interceptFieldSizeof(f, name, ctx)
+                )
+                buildCodeBlock {
+                    addNamed("%sizeof:M(%tag:T(${f.number})) + %access:L", map)
+                }
+            }
+        }
+    }
+
+    private fun sizeOfMap(f: StandardField, name: String): CodeBlock {
+        val key = mapKeyConverter(f, ctx)?.let { "$it.unwrap(k)" } ?: "k"
+        val value = mapValueConverter(f, ctx)?.let { CodeBlock.of("$it.unwrap(v)") }?.let { f.maybeConstructBytes(it) } ?: "v"
+        return CodeBlock.of(
+            "%M($name, %T(${f.number})) { k, v -> ${f.unqualifiedNestedTypeName(ctx)}.sizeof(%L, %L)}",
+            runtimeFunction("sizeofMap"),
+            Tag::class,
+            key,
+            value
         )
     }
 
     private fun oneofSize(f: Oneof, type: String) =
         f.fields.map {
             ConditionalParams(
-                ConcatWithScope.render(
-                    scope = oneOfScope(f, type, ctx),
-                    value = f.fieldTypeNames.getValue(it.name)
-                ),
+                CodeBlock.of("%L.%L", oneOfScope(f, type, ctx), f.fieldTypeNames.getValue(it.fieldName)),
                 sizeOfString(
                     it,
                     interceptSizeof(
                         it,
-                        ConcatWithScope.render(
-                            scope = f.fieldName,
-                            value = it.fieldName
-                        ),
+                        "${f.fieldName}.${it.fieldName}",
                         ctx
                     )
                 )

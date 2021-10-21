@@ -22,11 +22,13 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
-import com.toasttab.protokt.codegen.impl.Annotator.Context
+import com.toasttab.protokt.codegen.annotators.Annotator.Context
+import com.toasttab.protokt.codegen.annotators.MessageDocumentationAnnotator.baseLocation
+import com.toasttab.protokt.codegen.annotators.cleanDocumentation
+import com.toasttab.protokt.codegen.annotators.formatDoc
 import com.toasttab.protokt.codegen.impl.Deprecation.handleDeprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.handleDeprecationSuppression
 import com.toasttab.protokt.codegen.impl.Deprecation.hasDeprecation
-import com.toasttab.protokt.codegen.impl.MessageDocumentationAnnotator.baseLocation
 import com.toasttab.protokt.codegen.protoc.Enum
 import com.toasttab.protokt.rt.KtEnum
 import com.toasttab.protokt.rt.KtEnumDeserializer

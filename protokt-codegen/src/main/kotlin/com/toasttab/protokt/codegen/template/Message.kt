@@ -15,6 +15,7 @@
 
 package com.toasttab.protokt.codegen.template
 
+import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.TypeName
 import com.toasttab.protokt.codegen.impl.Deprecation
 import com.toasttab.protokt.codegen.model.PClass
@@ -33,7 +34,7 @@ object Message {
             val propertyType: TypeName,
             val deserializeType: TypeName,
             val dslPropertyType: TypeName,
-            val defaultValue: String,
+            val defaultValue: CodeBlock,
             val nullable: Boolean,
             val nonNullOption: Boolean,
             val pClass: PClass? = null,

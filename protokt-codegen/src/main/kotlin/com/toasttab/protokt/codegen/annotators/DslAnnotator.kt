@@ -13,14 +13,17 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.impl
+package com.toasttab.protokt.codegen.annotators
 
 import com.squareup.kotlinpoet.AnnotationSpec
+import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.LambdaTypeName
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
+import com.squareup.kotlinpoet.buildCodeBlock
+import com.toasttab.protokt.codegen.impl.runtimeFunction
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.template.Message.Message.PropertyInfo
 import com.toasttab.protokt.rt.UnknownFieldSet
@@ -84,23 +87,23 @@ class DslAnnotator(
                                     setter(
                                         FunSpec.setterBuilder()
                                             .addParameter("newValue", Map::class)
-                                            .addCode("field = copyMap(newValue)")
+                                            .addCode("field = %M(newValue)", runtimeFunction("copyMap"))
                                             .build()
                                     )
                                 } else if (it.repeated) {
                                     setter(
                                         FunSpec.setterBuilder()
                                             .addParameter("newValue", List::class)
-                                            .addCode("field = copyList(newValue)")
+                                            .addCode("field = %M(newValue)", runtimeFunction("copyList"))
                                             .build()
                                     )
                                 }
                             }
                             .initializer(
                                 when {
-                                    it.map -> "emptyMap()"
-                                    it.repeated -> "emptyList()"
-                                    it.fieldType == "MESSAGE" || it.wrapped || it.nullable -> "null"
+                                    it.map -> CodeBlock.of("emptyMap()")
+                                    it.repeated -> CodeBlock.of("emptyList()")
+                                    it.fieldType == "MESSAGE" || it.wrapped || it.nullable -> CodeBlock.of("null")
                                     else -> it.defaultValue
                                 }
                             )
@@ -118,14 +121,9 @@ class DslAnnotator(
                         .returns(msg.typeName)
                         .addCode(
                             if (properties.isEmpty()) {
-                                "return ${msg.name}(unknownFields)"
+                                CodeBlock.of("return %L(unknownFields)", msg.name)
                             } else {
-                                """
-                                    |return ${msg.name}(
-                                    |${buildLines()}
-                                    |    unknownFields
-                                    |)
-                                """.trimMargin()
+                                CodeBlock.of("return %L(%L %L)", msg.name, buildLines(), "unknownFields")
                             }
                         )
                         .build()
@@ -140,8 +138,10 @@ class DslAnnotator(
         }
 
     private fun buildLines() =
-        properties.joinToString("\n") {
-            "    ${deserializeWrapper(it)},"
+        buildCodeBlock {
+            properties.forEach {
+                add("%L,\n", deserializeWrapper(it))
+            }
         }
 }
 

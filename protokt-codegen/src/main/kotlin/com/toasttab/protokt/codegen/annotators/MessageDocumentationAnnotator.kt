@@ -13,14 +13,15 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.impl
+package com.toasttab.protokt.codegen.annotators
 
 import arrow.core.Option
 import arrow.core.firstOrNone
 import com.google.protobuf.DescriptorProtos.DescriptorProto.NESTED_TYPE_FIELD_NUMBER
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto.MESSAGE_TYPE_FIELD_NUMBER
 import com.google.protobuf.DescriptorProtos.SourceCodeInfo.Location
-import com.toasttab.protokt.codegen.impl.Annotator.Context
+import com.toasttab.protokt.codegen.annotators.Annotator.Context
+import com.toasttab.protokt.codegen.impl.emptyToNone
 
 internal object MessageDocumentationAnnotator {
     fun annotateMessageDocumentation(ctx: Context) =

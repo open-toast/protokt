@@ -108,7 +108,6 @@ sealed class Field {
 
 class StandardField(
     val number: Int,
-    val name: String,
     override val fieldName: String,
     val type: FieldType,
     val typePClass: PClass,
@@ -124,16 +123,6 @@ class StandardField(
         get() = mapEntry != null
 }
 
-class MapEntry(
-    val key: StandardField,
-    val value: StandardField
-)
-
-class FieldOptions(
-    val default: DescriptorProtos.FieldOptions,
-    val protokt: Protokt.ProtoktFieldOptions
-)
-
 class Oneof(
     val name: String,
     val typeName: TypeName,
@@ -143,6 +132,16 @@ class Oneof(
     val options: OneofOptions,
     val index: Int
 ) : Field()
+
+class MapEntry(
+    val key: StandardField,
+    val value: StandardField
+)
+
+class FieldOptions(
+    val default: DescriptorProtos.FieldOptions,
+    val protokt: Protokt.ProtoktFieldOptions
+)
 
 class OneofOptions(
     val default: DescriptorProtos.OneofOptions,

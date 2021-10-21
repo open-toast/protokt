@@ -13,26 +13,27 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.impl
+package com.toasttab.protokt.codegen.annotators
 
 import arrow.core.None
 import arrow.core.Option
 import arrow.core.Some
+import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
-import com.toasttab.protokt.codegen.impl.Annotator.Context
+import com.squareup.kotlinpoet.buildCodeBlock
+import com.toasttab.protokt.codegen.annotators.Annotator.Context
 import com.toasttab.protokt.codegen.impl.Nullability.hasNonNullOption
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
+import com.toasttab.protokt.codegen.impl.runtimeFunction
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Oneof
 import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.codegen.template.ConditionalParams
 import com.toasttab.protokt.codegen.template.Message.Message.SerializerInfo
-import com.toasttab.protokt.codegen.template.Renderers.ConcatWithScope
-import com.toasttab.protokt.codegen.template.Renderers.IterationVar
-import com.toasttab.protokt.codegen.template.Renderers.Serialize
-import com.toasttab.protokt.codegen.template.Renderers.Serialize.Options
 import com.toasttab.protokt.rt.KtMessageSerializer
+import com.toasttab.protokt.rt.Tag
+import com.toasttab.protokt.rt.UInt32
 
 internal class SerializerAnnotator
 private constructor(
@@ -118,53 +119,71 @@ private constructor(
     private fun serializeString(
         f: StandardField,
         t: Option<String> = None
-    ): String {
+    ): CodeBlock {
         val fieldAccess =
             t.fold(
                 {
                     interceptValueAccess(
                         f,
                         ctx,
-                        if (f.repeated) {
-                            IterationVar.render()
-                        } else {
-                            f.fieldName
-                        }
+                        if (f.repeated) { "it" } else { f.fieldName }
                     )
                 },
                 {
                     interceptValueAccess(
                         f,
                         ctx,
-                        ConcatWithScope.render(
-                            scope = it,
-                            value = f.fieldName
-                        )
+                        "$it.${f.fieldName}"
                     )
                 }
             )
 
-        return Serialize.render(
-            field = f,
-            name = f.fieldName,
-            tag = f.tag.value,
-            box = box(f, fieldAccess),
-            options = Options(fieldAccess = fieldAccess)
+        val map = mutableMapOf(
+            "tag" to Tag::class,
+            "uInt32" to UInt32::class,
+            "name" to f.fieldName,
+            "sizeof" to runtimeFunction("sizeof")
         )
-    }
+        return when {
 
-    private fun box(f: StandardField, fieldAccess: String) =
-        if (f.map) {
-            f.boxMap(ctx)
-        } else {
-            f.box(fieldAccess)
+            f.repeated && f.packed -> buildCodeBlock {
+                map += "boxed" to f.box("it")
+                addNamed(
+                    "serializer.write(%tag:T(${f.tag.value}))" +
+                        ".write(%uInt32:T(%name:L.sumOf{%sizeof:M(%boxed:L)}))\n",
+                    map
+                )
+                addNamed("%name:L.forEach·{ serializer.write(%boxed:L) }", map)
+            }
+            f.map -> buildCodeBlock {
+                map += "boxed" to f.boxMap(ctx)
+                addNamed(
+                    "%name:L.entries.forEach { " +
+                        "serializer.write(%tag:T(${f.tag.value}))" +
+                        ".write(%boxed:L) }",
+                    map
+                )
+            }
+            f.repeated -> buildCodeBlock {
+                map += "boxed" to f.box(fieldAccess)
+                addNamed(
+                    "%name:L.forEach { " +
+                        "serializer.write(%tag:T(${f.tag.value})).write(%boxed:L) }",
+                    map
+                )
+            }
+
+            else -> buildCodeBlock {
+                map += "boxed" to f.box(fieldAccess)
+                addNamed("serializer.write(%tag:T(${f.tag.value})).write(%boxed:L)", map)
+            }
         }
+    }
 
     private fun oneOfSer(f: Oneof, ff: StandardField, type: String) =
         ConditionalParams(
-            ConcatWithScope.render(
-                scope = oneOfScope(f, type, ctx),
-                value = f.fieldTypeNames.getValue(ff.name)
+            CodeBlock.of(
+                "%L.%L", oneOfScope(f, type, ctx), f.fieldTypeNames.getValue(ff.fieldName)
             ),
             serializeString(ff, Some(f.fieldName))
         )
