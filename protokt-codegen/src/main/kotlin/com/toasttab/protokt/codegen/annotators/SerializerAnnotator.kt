@@ -93,9 +93,7 @@ private constructor(
             when (it) {
                 is StandardField ->
                     SerializerInfo(
-                        true,
                         it.fieldName,
-                        !it.hasNonNullOption,
                         listOf(
                             ConditionalParams(
                                 it.nonDefault(ctx),
@@ -105,9 +103,7 @@ private constructor(
                     )
                 is Oneof ->
                     SerializerInfo(
-                        false,
                         it.fieldName,
-                        !it.hasNonNullOption,
                         it.fields
                             .sortedBy { f -> f.number }
                             .map { f -> oneOfSer(it, f, msg.name) }

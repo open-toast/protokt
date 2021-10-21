@@ -128,9 +128,7 @@ private constructor(
             when (it) {
                 is StandardField ->
                     SizeofInfo(
-                        true,
                         it.fieldName,
-                        !it.hasNonNullOption,
                         listOf(
                             ConditionalParams(
                                 it.nonDefault(ctx),
@@ -140,9 +138,7 @@ private constructor(
                     )
                 is Oneof ->
                     SizeofInfo(
-                        false,
                         it.fieldName,
-                        !it.hasNonNullOption,
                         oneofSize(it, msg.name)
                     )
             }

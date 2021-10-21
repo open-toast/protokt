@@ -29,7 +29,6 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.toasttab.protokt.codegen.annotators.Annotator.Context
-import com.toasttab.protokt.codegen.annotators.MessageAnnotator.Companion.IDEAL_MAX_WIDTH
 import com.toasttab.protokt.codegen.annotators.PropertyAnnotator.Companion.annotateProperties
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptReadFn
 import com.toasttab.protokt.codegen.impl.Wrapper.keyWrapped
@@ -137,7 +136,6 @@ private constructor(
         msg.flattenedSortedFields().flatMap { (field, oneOf) ->
             field.tagList.map { tag ->
                 DeserializerInfo(
-                    oneOf.isEmpty(),
                     field.repeated,
                     tag.value,
                     oneOf.fold(
@@ -149,8 +147,7 @@ private constructor(
                             ).let { value ->
                                 Assignment(
                                     field.fieldName,
-                                    value,
-                                    long(field, value)
+                                    value
                                 )
                             }
                         },
@@ -158,8 +155,7 @@ private constructor(
                             oneofDes(it, field).let { value ->
                                 Assignment(
                                     it.fieldName,
-                                    value,
-                                    long(field, value)
+                                    value
                                 )
                             }
                         }
@@ -167,23 +163,6 @@ private constructor(
                 )
             }
         }
-
-    private fun long(field: StandardField, value: String): Boolean {
-        val spaceTaken =
-            (ctx.enclosing.size * 4) + // outer indentation
-                4 + // companion object
-                4 + // fun deserialize
-                4 + // while (true)
-                4 + // when (...)
-                field.tag.toString().length +
-                4 + // ` -> `
-                field.fieldName.length +
-                3 // ` = `
-
-        val spaceLeft = IDEAL_MAX_WIDTH - spaceTaken
-
-        return value.length > spaceLeft
-    }
 
     private fun Message.flattenedSortedFields() =
         fields.flatMap {

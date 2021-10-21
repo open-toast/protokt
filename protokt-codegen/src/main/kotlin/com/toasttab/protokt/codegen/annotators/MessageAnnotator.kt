@@ -231,8 +231,6 @@ private constructor(
         ctx.enclosing.firstOrNone().fold({ false }, { it == msg })
 
     companion object {
-        const val IDEAL_MAX_WIDTH = 100
-
         fun annotateMessage(msg: Message, ctx: Context) =
             MessageAnnotator(msg, ctx).annotateMessage()
     }

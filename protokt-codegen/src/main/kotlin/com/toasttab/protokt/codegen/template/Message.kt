@@ -26,9 +26,6 @@ object Message {
             val name: String
         }
 
-        /**
-         * Contains type information about a protobuf field (or oneof) that is relevant to the Kotlin interface
-         */
         class PropertyInfo(
             override val name: String,
             val propertyType: TypeName,
@@ -48,9 +45,6 @@ object Message {
             val deprecation: Deprecation.RenderOptions? = null
         ) : FieldInfo
 
-        /**
-         * Information relevant to reading and writing a message (and other stuff outside the standard access interface?)
-         */
         interface FieldWriteInfo : FieldInfo {
             val fieldName: String
             val conditionals: List<ConditionalParams>
@@ -60,40 +54,29 @@ object Message {
         }
 
         class SizeofInfo(
-            val std: Boolean,
             override val fieldName: String,
-            val skipDefaultValue: Boolean,
             /** A singleton list for standard fields; one per type for enum fields */
             override val conditionals: List<ConditionalParams>
         ) : FieldWriteInfo
 
         class SerializerInfo(
-            val std: Boolean,
             override val fieldName: String,
-            val skipDefaultValue: Boolean,
             /** A singleton list for standard fields; one per type for enum fields */
             override val conditionals: List<ConditionalParams>
         ) : FieldWriteInfo
 
         class DeserializerInfo(
-            val std: Boolean,
             val repeated: Boolean,
             val tag: Int,
             val assignment: Assignment
         ) : FieldInfo {
             class Assignment(
                 val fieldName: String,
-                val value: String,
-                val long: Boolean
+                val value: String
             )
 
             override val name
                 get() = assignment.fieldName
         }
-
-        class Options(
-            val wellKnownType: Boolean,
-            val longDeserializer: Boolean
-        )
     }
 }
