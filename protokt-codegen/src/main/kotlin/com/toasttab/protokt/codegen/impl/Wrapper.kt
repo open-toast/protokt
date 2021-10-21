@@ -86,7 +86,7 @@ object Wrapper {
     ) =
         foldWrap(
             wrapWithWellKnownInterception,
-            ctx.pkg,
+            ctx.desc.kotlinPackage,
             ctx.desc.context,
             ifEmpty,
             ifSome
@@ -228,7 +228,7 @@ object Wrapper {
         ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
     ) =
         mapEntry?.key
-            ?.foldWrap(keyWrap, ctx.pkg, ctx.desc.context, ifEmpty, ifSome)
+            ?.foldWrap(keyWrap, ctx.desc.kotlinPackage, ctx.desc.context, ifEmpty, ifSome)
 
     fun interceptMapKeyTypeName(f: StandardField, t: TypeName, ctx: Context) =
         f.foldKeyWrap(ctx, { t }, unqualifiedWrap())
@@ -246,7 +246,7 @@ object Wrapper {
         ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
     ) =
         mapEntry?.value
-            ?.foldWrap(valueWrap, ctx.pkg, ctx.desc.context, ifEmpty, ifSome)
+            ?.foldWrap(valueWrap, ctx.desc.kotlinPackage, ctx.desc.context, ifEmpty, ifSome)
 
     fun interceptMapValueTypeName(f: StandardField, t: TypeName, ctx: Context) =
         f.foldValueWrap(ctx, { t }, unqualifiedWrap())

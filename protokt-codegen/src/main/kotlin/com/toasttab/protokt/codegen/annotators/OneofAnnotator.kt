@@ -143,10 +143,10 @@ private constructor(
 
         // Cannot strip qualifiers for field type in a different package
         // See testing/runtime-tests/src/main/proto/com/toasttab/protokt/testing/rt/oneof/oneof_packages.proto
-        val requiresQualifiedTypeName = pClass.ppackage != ctx.pkg
+        val requiresQualifiedTypeName = pClass.ppackage != ctx.desc.kotlinPackage
 
         return if (requiresQualifiedTypeName) {
-            pClass.renderName(ctx.pkg)
+            pClass.renderName(ctx.desc.kotlinPackage)
         } else {
             // See testing/runtime-tests/src/main/proto/com/toasttab/protokt/testing/rt/oneof/oneof_exercises.proto
             if (oneofFieldTypeName == pClass.simpleName) {
@@ -172,7 +172,7 @@ private constructor(
     private fun possiblyQualify(implements: String) =
         if (PClass.fromName(implements).ppackage == PPackage.DEFAULT) {
             if (implements in namespaceNeighbors()) {
-                PClass(implements, ctx.pkg, None).qualifiedName
+                PClass(implements, ctx.desc.kotlinPackage, None).qualifiedName
             } else {
                 implements
             }

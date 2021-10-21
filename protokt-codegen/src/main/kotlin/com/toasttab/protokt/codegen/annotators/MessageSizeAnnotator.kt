@@ -164,41 +164,41 @@ private constructor(
         return when {
             f.map -> sizeOfMap(f, name)
             f.repeated && f.packed -> {
-                val map = mutableMapOf<String, Any>(
-                    "sizeof" to runtimeFunction("sizeof"),
-                    "tag" to Tag::class,
-                    "uInt32" to UInt32::class
-                )
                 buildCodeBlock {
                     addNamed(
                         "%sizeof:M(%tag:T(${f.number})) + " +
                             "$name.sumOf·{ %sizeof:M(${f.box("it")}) }.let·{ it + %sizeof:M(%uInt32:T(it)) }",
-                        map
+                        mapOf(
+                            "sizeof" to runtimeFunction("sizeof"),
+                            "tag" to Tag::class,
+                            "uInt32" to UInt32::class
+                        )
                     )
                 }
             }
             f.repeated -> {
-                val map = mutableMapOf(
-                    "sizeof" to runtimeFunction("sizeof"),
-                    "tag" to Tag::class,
-                    "boxedAccess" to f.box(interceptValueAccess(f, ctx, "it"))
-                )
                 buildCodeBlock {
                     addNamed(
                         "(%sizeof:M(%tag:T(${f.number})) * $name.size) + " +
                             "$name.sumOf { %sizeof:M(%boxedAccess:L) }",
-                        map
+                        mapOf(
+                            "sizeof" to runtimeFunction("sizeof"),
+                            "tag" to Tag::class,
+                            "boxedAccess" to f.box(interceptValueAccess(f, ctx, "it"))
+                        )
                     )
                 }
             }
             else -> {
-                val map = mutableMapOf(
-                    "sizeof" to runtimeFunction("sizeof"),
-                    "tag" to Tag::class,
-                    "access" to interceptFieldSizeof(f, name, ctx)
-                )
                 buildCodeBlock {
-                    addNamed("%sizeof:M(%tag:T(${f.number})) + %access:L", map)
+                    addNamed(
+                        "%sizeof:M(%tag:T(${f.number})) + %access:L",
+                        mapOf(
+                            "sizeof" to runtimeFunction("sizeof"),
+                            "tag" to Tag::class,
+                            "access" to interceptFieldSizeof(f, name, ctx)
+                        )
+                    )
                 }
             }
         }

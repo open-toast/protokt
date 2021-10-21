@@ -19,14 +19,11 @@ import com.squareup.kotlinpoet.TypeName
 import com.toasttab.protokt.codegen.annotators.Annotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptMapKeyTypeName
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptMapValueTypeName
-import com.toasttab.protokt.codegen.impl.resolvePackage
 import com.toasttab.protokt.codegen.impl.stripEnclosingMessageNamePrefix
 import com.toasttab.protokt.codegen.impl.stripRootMessageNamePrefix
-import com.toasttab.protokt.codegen.protoc.FileDesc
 import com.toasttab.protokt.codegen.protoc.MapEntry
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Oneof
-import com.toasttab.protokt.codegen.protoc.Protocol
 import com.toasttab.protokt.codegen.protoc.StandardField
 
 fun resolveMapEntry(m: Message) =
@@ -51,14 +48,4 @@ class MapTypeParams(
 fun oneOfScope(f: Oneof, type: String, ctx: Context) =
     ctx.stripEnclosingMessageNamePrefix(
         ctx.stripRootMessageNamePrefix("$type.${f.name}")
-    )
-
-fun kotlinPackage(protocol: Protocol) =
-    kotlinPackage(protocol.desc)
-
-fun kotlinPackage(desc: FileDesc) =
-    resolvePackage(
-        desc.options,
-        desc.protoPackage,
-        desc.context.respectJavaPackage
     )

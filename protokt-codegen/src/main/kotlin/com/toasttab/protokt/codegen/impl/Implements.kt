@@ -72,7 +72,7 @@ internal object Implements {
     private fun Message.superInterface(ctx: Context) =
         options.protokt.implements.let {
             if (it.isNotEmpty() && !it.delegates()) {
-                PClass.fromName(it).possiblyQualify(ctx.pkg)
+                PClass.fromName(it).possiblyQualify(ctx.desc.kotlinPackage)
             } else {
                 null
             }

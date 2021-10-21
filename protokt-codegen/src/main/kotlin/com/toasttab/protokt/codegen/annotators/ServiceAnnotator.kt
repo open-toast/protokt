@@ -66,11 +66,7 @@ internal object ServiceAnnotator {
                                 .delegate(
                                     """
                                 |lazy {
-                                |  MethodDescriptor.newBuilder<${it.inputType.renderName(ctx.pkg)}, ${
-                                    it.outputType.renderName(
-                                        ctx.pkg
-                                    )
-                                    }>()
+                                |  MethodDescriptor.newBuilder<${it.inputType.renderName(ctx.desc.kotlinPackage)}, ${it.outputType.renderName(ctx.desc.kotlinPackage)}>()
                                 |    .setType(MethodDescriptor.MethodType.${methodType(it)})
                                 |    .setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "${it.name}"))
                                 |    .setRequestMarshaller(${it.qualifiedRequestMarshaller(ctx)})
@@ -113,17 +109,17 @@ internal object ServiceAnnotator {
         options.protokt.requestMarshaller.takeIf { it.isNotEmpty() }
             ?.let {
                 PClass.fromName(options.protokt.requestMarshaller)
-                    .possiblyQualify(ctx.pkg)
+                    .possiblyQualify(ctx.desc.kotlinPackage)
                     .qualifiedName
-            } ?: "com.toasttab.protokt.grpc.KtMarshaller(${inputType.renderName(ctx.pkg)})"
+            } ?: "com.toasttab.protokt.grpc.KtMarshaller(${inputType.renderName(ctx.desc.kotlinPackage)})"
 
     private fun Method.qualifiedResponseMarshaller(ctx: Context) =
         options.protokt.responseMarshaller.takeIf { it.isNotEmpty() }
             ?.let {
                 PClass.fromName(options.protokt.responseMarshaller)
-                    .possiblyQualify(ctx.pkg)
+                    .possiblyQualify(ctx.desc.kotlinPackage)
                     .qualifiedName
-            } ?: "com.toasttab.protokt.grpc.KtMarshaller(${outputType.renderName(ctx.pkg)})"
+            } ?: "com.toasttab.protokt.grpc.KtMarshaller(${outputType.renderName(ctx.desc.kotlinPackage)})"
 
     private fun serviceLines(s: Service) =
         s.methods.joinToString("\n") {
@@ -131,7 +127,7 @@ internal object ServiceAnnotator {
         } + "\n    .build()"
 
     private fun renderQualifiedName(s: Service, ctx: Context) =
-        if (ctx.pkg.default) {
+        if (ctx.desc.kotlinPackage.default) {
             s.name
         } else {
             "${ctx.desc.protoPackage}.${s.name}"
