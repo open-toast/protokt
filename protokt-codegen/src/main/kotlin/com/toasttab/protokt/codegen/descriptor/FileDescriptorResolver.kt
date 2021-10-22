@@ -25,7 +25,6 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.toasttab.protokt.codegen.impl.bindMargin
 import com.toasttab.protokt.codegen.impl.embed
 import com.toasttab.protokt.codegen.impl.namedCodeBlock
-import com.toasttab.protokt.codegen.impl.toParamName
 import com.toasttab.protokt.codegen.protoc.Enum
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Protocol
@@ -58,13 +57,13 @@ private constructor(
                                 """
                                     |lazy {
                                     |    val descriptorData = arrayOf(
-                                    |%descriptorData:L
+                                    |        %descriptorData:L
                                     |    )
                                     |
                                     |    %fileDescriptor:T.buildFrom(
                                     |        descriptorData,
                                     |        listOf(
-                                    |${dependencyLines(dependencies)}
+                                    |            ${dependencyLines(dependencies)}
                                     |        )
                                     |    )
                                     |}
@@ -72,7 +71,7 @@ private constructor(
                                 mapOf(
                                     "descriptorData" to descriptorLines(),
                                     "fileDescriptor" to ClassName("com.toasttab.protokt", "FileDescriptor")
-                                ) + dependencies.associateBy { it.toParamName() }
+                                ) + dependencies.withIndex().associateBy { "param${it.index}" }.mapValues { it.value.value }
                             )
                         ).build()
                 )
@@ -98,7 +97,7 @@ private constructor(
         )
 
     private fun dependencyLines(dependencies: List<TypeName>) =
-        dependencies.joinToString(",\n") { "%${it.toParamName()}:T.descriptor" }
+        dependencies.withIndex().joinToString(",\n") { "%param${it.index}:T.descriptor" }
 
     private fun clearJsonInfo(fileDescriptorProto: DescriptorProtos.FileDescriptorProto) =
         fileDescriptorProto.toBuilder()
