@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Toast Inc.
+ * Copyright (c) 2021 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,11 +13,18 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.template
+syntax = "proto3";
 
-import com.squareup.kotlinpoet.CodeBlock
+package toasttab.protokt.testing.rt;
 
-class ConditionalParams(
-    val condition: CodeBlock,
-    val consequent: CodeBlock
-)
+message NamesOneofFoo {
+  Foo2 foo_field = 1;
+
+  oneof Foo2 {
+    Foo2 foo = 2;
+  }
+}
+
+enum Foo2 {
+  FOO = 0;
+}

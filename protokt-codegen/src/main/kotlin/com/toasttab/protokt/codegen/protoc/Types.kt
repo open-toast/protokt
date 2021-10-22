@@ -15,11 +15,13 @@
 
 package com.toasttab.protokt.codegen.protoc
 
-import arrow.core.None
-import arrow.core.Option
 import com.google.protobuf.DescriptorProtos
+import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.TypeName
+import com.squareup.kotlinpoet.TypeSpec
 import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.model.PClass
+import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.ext.Protokt
 import com.toasttab.protokt.rt.computeTag
 
@@ -29,6 +31,9 @@ sealed class TopLevelType {
 
 class Message(
     override val name: String,
+    val typeName: ClassName,
+    val deserializerTypeName: TypeName,
+    val dslTypeName: TypeName,
     val fields: List<Field>,
     val nestedTypes: List<TopLevelType>,
     val mapEntry: Boolean,
@@ -44,6 +49,8 @@ data class MessageOptions(
 
 class Enum(
     override val name: String,
+    val typeName: TypeName,
+    val deserializerTypeName: TypeName,
     val options: EnumOptions,
     val values: List<Value>,
     val index: Int
@@ -96,12 +103,13 @@ class MethodOptions(
     val protokt: Protokt.ProtoktMethodOptions
 )
 
-sealed class Field
+sealed class Field {
+    abstract val fieldName: String
+}
 
 class StandardField(
     val number: Int,
-    val name: String,
-    val fieldName: String,
+    override val fieldName: String,
     val type: FieldType,
     val typePClass: PClass,
     val repeated: Boolean,
@@ -116,6 +124,16 @@ class StandardField(
         get() = mapEntry != null
 }
 
+class Oneof(
+    val name: String,
+    val typeName: TypeName,
+    override val fieldName: String,
+    val fields: List<StandardField>,
+    val fieldTypeNames: Map<String, String>,
+    val options: OneofOptions,
+    val index: Int
+) : Field()
+
 class MapEntry(
     val key: StandardField,
     val value: StandardField
@@ -126,15 +144,6 @@ class FieldOptions(
     val protokt: Protokt.ProtoktFieldOptions
 )
 
-class Oneof(
-    val name: String,
-    val fieldName: String,
-    val fields: List<StandardField>,
-    val fieldTypeNames: Map<String, String>,
-    val options: OneofOptions,
-    val index: Int
-) : Field()
-
 class OneofOptions(
     val default: DescriptorProtos.OneofOptions,
     val protokt: Protokt.ProtoktOneofOptions
@@ -142,7 +151,8 @@ class OneofOptions(
 
 class FileDesc(
     val name: String,
-    val packageName: String,
+    val protoPackage: String,
+    val kotlinPackage: PPackage,
     val options: FileOptions,
     val context: ProtocolContext,
     val sourceCodeInfo: DescriptorProtos.SourceCodeInfo
@@ -160,7 +170,7 @@ class Protocol(
 
 class AnnotatedType(
     val rawType: TopLevelType,
-    val code: Option<String> = None
+    val typeSpec: TypeSpec
 )
 
 class TypeDesc(

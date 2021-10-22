@@ -34,29 +34,39 @@ import com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Label.LABEL_REP
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.google.protobuf.DescriptorProtos.OneofDescriptorProto
 import com.google.protobuf.DescriptorProtos.ServiceDescriptorProto
-import com.toasttab.protokt.codegen.impl.Annotator.rootGoogleProto
+import com.squareup.kotlinpoet.ClassName
+import com.toasttab.protokt.codegen.annotators.Annotator.rootGoogleProto
+import com.toasttab.protokt.codegen.annotators.resolveMapEntry
 import com.toasttab.protokt.codegen.impl.overrideGoogleProtobuf
-import com.toasttab.protokt.codegen.impl.resolveMapEntry
+import com.toasttab.protokt.codegen.impl.resolvePackage
 import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.model.PClass
+import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.ext.Protokt
 
-fun toProtocol(ctx: ProtocolContext) =
-    Protocol(
+/**
+ * Converts a message in the format used by protoc to the unannotated AST used by protokt.
+ */
+fun toProtocol(ctx: ProtocolContext): Protocol {
+    val kotlinPackage = resolvePackage(ctx.fdp.fileOptions, ctx.fdp.`package`, ctx.respectJavaPackage)
+    return Protocol(
         FileDesc(
             name = ctx.fdp.name,
-            packageName = ctx.fdp.`package`,
+            protoPackage = ctx.fdp.`package`,
+            kotlinPackage = kotlinPackage,
             options = ctx.fdp.fileOptions,
             context = ctx,
             sourceCodeInfo = ctx.fdp.sourceCodeInfo
         ),
         types = toTypeList(
             ctx,
+            kotlinPackage,
             ctx.fdp.enumTypeList,
             ctx.fdp.messageTypeList,
             ctx.fdp.serviceList
         )
     )
+}
 
 val FileDescriptorProto.fileOptions
     get() =
@@ -89,21 +99,23 @@ private fun toFieldType(type: FieldDescriptorProto.Type) =
 
 private fun toTypeList(
     ctx: ProtocolContext,
+    pkg: PPackage,
     enums: List<EnumDescriptorProto>,
     messages: List<DescriptorProto>,
-    services: List<ServiceDescriptorProto> = emptyList()
+    services: List<ServiceDescriptorProto> = emptyList(),
+    enclosingMessages: List<String> = emptyList()
 ): ImmutableList<TopLevelType> =
     enums.foldIndexed(
         Pair(immutableSetOf<String>(), immutableListOf<TopLevelType>())
     ) { idx, acc, t ->
-        val e = toEnum(idx, t, acc.first)
+        val e = toEnum(idx, t, acc.first, enclosingMessages, pkg.toString())
         Pair(acc.first + e.name, acc.second + e)
     }.second +
 
         messages.foldIndexed(
             Pair(immutableSetOf<String>(), immutableListOf<TopLevelType>())
         ) { idx, acc, t ->
-            val m = toMessage(idx, ctx, t, acc.first)
+            val m = toMessage(idx, ctx, pkg, t, acc.first, enclosingMessages)
             Pair(acc.first + m.name, acc.second + m)
         }.second +
 
@@ -117,7 +129,9 @@ private fun toTypeList(
 private fun toEnum(
     idx: Int,
     desc: EnumDescriptorProto,
-    names: ImmutableSet<String>
+    names: ImmutableSet<String>,
+    enclosingMessages: List<String>,
+    pkg: String
 ): Enum {
     val typeName = newTypeNameFromCamel(desc.name, names)
 
@@ -153,18 +167,22 @@ private fun toEnum(
         options = EnumOptions(
             desc.options,
             desc.options.getExtension(Protokt.enum_)
-        )
+        ),
+        typeName = ClassName(pkg, enclosingMessages + typeName),
+        deserializerTypeName = ClassName(pkg, enclosingMessages + typeName + "Deserializer")
     )
 }
 
 private fun toMessage(
     idx: Int,
     ctx: ProtocolContext,
+    pkg: PPackage,
     desc: DescriptorProto,
-    names: Set<String>
+    names: Set<String>,
+    enclosingMessages: List<String>
 ): Message {
     val typeName = newTypeNameFromPascal(desc.name, names)
-    val fieldList = toFields(ctx, desc, names + typeName)
+    val fieldList = toFields(ctx, pkg, desc, enclosingMessages + typeName, names + typeName)
     return Message(
         name = typeName,
         fields = fieldList.sortedBy {
@@ -173,14 +191,17 @@ private fun toMessage(
                 is Oneof -> it.fields.first()
             }.number
         },
-        nestedTypes = toTypeList(ctx, desc.enumTypeList, desc.nestedTypeList),
+        nestedTypes = toTypeList(ctx, pkg, desc.enumTypeList, desc.nestedTypeList, enclosingMessages = enclosingMessages + typeName),
         mapEntry = desc.options?.mapEntry == true,
         options = MessageOptions(
             desc.options,
             desc.options.getExtension(Protokt.class_)
         ),
         index = idx,
-        fullProtobufTypeName = "${ctx.fdp.`package`}.${desc.name}"
+        fullProtobufTypeName = "${ctx.fdp.`package`}.${desc.name}",
+        typeName = ClassName(pkg.toString(), enclosingMessages + typeName),
+        deserializerTypeName = ClassName(pkg.toString(), enclosingMessages + typeName + "Deserializer"),
+        dslTypeName = ClassName(pkg.toString(), enclosingMessages + typeName + "${typeName}Dsl")
     )
 }
 
@@ -221,7 +242,9 @@ private fun toMethod(
 
 private fun toFields(
     ctx: ProtocolContext,
+    pkg: PPackage,
     desc: DescriptorProto,
+    enclosingMessages: List<String>,
     typeNames: Set<String>,
     ids: Set<Int> = immutableSetOf()
 ): ImmutableList<Field> =
@@ -238,7 +261,7 @@ private fun toFields(
             else -> {
                 val i = if (t.hasOneofIndex()) Some(t.oneofIndex) else None
                 i.fold({
-                    val f = toStandard(idx, ctx, t, emptySet())
+                    val f = toStandard(idx, ctx, pkg, t, emptySet())
                     Tuple4(acc.first + f.fieldName, acc.second, acc.third, acc.fourth + f)
                 }, {
                     if (it in acc.second || desc.oneofDeclList.isEmpty()) {
@@ -249,7 +272,7 @@ private fun toFields(
                             acc.first,
                             acc.second + it,
                             acc.third + ood.name,
-                            acc.fourth + toOneof(idx, ctx, desc, ood, t, acc.first, acc.fourth)
+                            acc.fourth + toOneof(idx, ctx, pkg, enclosingMessages, desc, ood, t, acc.first, acc.fourth)
                         )
                     }
                 })
@@ -260,6 +283,8 @@ private fun toFields(
 private fun toOneof(
     idx: Int,
     ctx: ProtocolContext,
+    pkg: PPackage,
+    enclosingMessages: List<String>,
     desc: DescriptorProto,
     oneof: OneofDescriptorProto,
     field: FieldDescriptorProto,
@@ -269,7 +294,7 @@ private fun toOneof(
     val newName = newFieldName(oneof.name, typeNames)
 
     if (field.proto3Optional) {
-        return toStandard(idx, ctx, field, typeNames)
+        return toStandard(idx, ctx, pkg, field, typeNames)
     }
 
     val standardTuple = desc.fieldList.filter {
@@ -285,12 +310,14 @@ private fun toOneof(
             Triple(
                 acc.first + (newFieldName(t.name, acc.second) to ftn),
                 acc.second + ftn,
-                acc.third + toStandard(idx + oneofIdx, ctx, t, emptySet(), true)
+                acc.third + toStandard(idx + oneofIdx, ctx, pkg, t, emptySet(), true)
             )
         }
     )
+    val name = newTypeNameFromCamel(oneof.name, typeNames)
     return Oneof(
-        name = newTypeNameFromCamel(oneof.name, typeNames),
+        name = name,
+        typeName = ClassName(pkg.toString(), enclosingMessages + name),
         fieldTypeNames = standardTuple.first,
         fieldName = newName,
         fields = standardTuple.third,
@@ -306,6 +333,7 @@ private fun toOneof(
 private fun toStandard(
     idx: Int,
     ctx: ProtocolContext,
+    pkg: PPackage,
     fdp: FieldDescriptorProto,
     usedFieldNames: Set<String>,
     alwaysRequired: Boolean = false
@@ -313,12 +341,11 @@ private fun toStandard(
     toFieldType(fdp.type).let { type ->
         StandardField(
             number = fdp.number,
-            name = newFieldName(fdp.name, usedFieldNames),
             type = type,
             repeated = fdp.label == LABEL_REPEATED,
             optional = optional(alwaysRequired, fdp, ctx),
             packed = packed(type, fdp, ctx),
-            mapEntry = mapEntry(usedFieldNames, fdp, ctx),
+            mapEntry = mapEntry(usedFieldNames, fdp, ctx, pkg),
             fieldName = newFieldName(fdp.name, usedFieldNames),
             options = FieldOptions(
                 fdp.options,
@@ -347,7 +374,12 @@ private fun packed(type: FieldType, fdp: FieldDescriptorProto, ctx: ProtocolCont
                 (ctx.proto3 && (!fdp.options.hasPacked() || (fdp.options.hasPacked() && fdp.options.packed)))
             )
 
-private fun mapEntry(usedFieldNames: Set<String>, fdp: FieldDescriptorProto, ctx: ProtocolContext) =
+private fun mapEntry(
+    usedFieldNames: Set<String>,
+    fdp: FieldDescriptorProto,
+    ctx: ProtocolContext,
+    pkg: PPackage
+) =
     if (fdp.label == LABEL_REPEATED &&
         fdp.type == FieldDescriptorProto.Type.TYPE_MESSAGE
     ) {
@@ -356,7 +388,7 @@ private fun mapEntry(usedFieldNames: Set<String>, fdp: FieldDescriptorProto, ctx
                 { null },
                 {
                     resolveMapEntry(
-                        toMessage(-1, ctx, it, usedFieldNames)
+                        toMessage(-1, ctx, pkg, it, usedFieldNames, emptyList())
                     )
                 }
             )

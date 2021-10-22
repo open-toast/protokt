@@ -46,7 +46,7 @@ class JsonDeserializationTest {
                         EnumFieldDeserializer(AnEnum)
                     )
             )
-            .registerModule(KotlinModule())
+            .registerModule(KotlinModule.Builder().build())
             .addMixIn(KtMessage::class.java, KtMessageMixin::class.java)
 
     // Cannot simply annotate messageSize with @delegate:Transient, as lazy properties' getters

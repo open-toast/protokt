@@ -15,53 +15,26 @@
 
 package com.toasttab.protokt.codegen.template
 
+import com.squareup.kotlinpoet.CodeBlock
+import com.squareup.kotlinpoet.TypeName
 import com.toasttab.protokt.codegen.impl.Deprecation
+import com.toasttab.protokt.codegen.model.PClass
 
 object Message {
-    object Message : StTemplate(StGroup.Message) {
-        fun render(
-            message: MessageInfo,
-            serialize: List<SerializerInfo>,
-            deserialize: List<DeserializerInfo>,
-            sizeof: List<SizeofInfo>,
-            properties: List<PropertyInfo>,
-            oneofs: List<String>,
-            nested: List<String>,
-            options: Options
-        ) =
-            renderArgs(
-                message,
-                serialize,
-                deserialize,
-                sizeof,
-                properties,
-                oneofs,
-                nested,
-                options
-            )
-
-        class MessageInfo(
-            val name: String,
-            val doesImplement: Boolean,
-            val implements: String,
-            val documentation: List<String>,
-            val deprecation: Deprecation.RenderOptions?,
-            val suppressDeprecation: Boolean,
-            val fullTypeName: String
-        )
-
+    object Message {
         interface FieldInfo {
             val name: String
         }
 
         class PropertyInfo(
             override val name: String,
-            val propertyType: String,
-            val deserializeType: String,
-            val dslPropertyType: String,
-            val defaultValue: String,
+            val propertyType: TypeName,
+            val deserializeType: TypeName,
+            val dslPropertyType: TypeName,
+            val defaultValue: CodeBlock,
             val nullable: Boolean,
             val nonNullOption: Boolean,
+            val pClass: PClass? = null,
             val fieldType: String = "",
             val repeated: Boolean = false,
             val map: Boolean = false,
@@ -81,40 +54,29 @@ object Message {
         }
 
         class SizeofInfo(
-            val std: Boolean,
             override val fieldName: String,
-            val skipDefaultValue: Boolean,
             /** A singleton list for standard fields; one per type for enum fields */
             override val conditionals: List<ConditionalParams>
         ) : FieldWriteInfo
 
         class SerializerInfo(
-            val std: Boolean,
             override val fieldName: String,
-            val skipDefaultValue: Boolean,
             /** A singleton list for standard fields; one per type for enum fields */
             override val conditionals: List<ConditionalParams>
         ) : FieldWriteInfo
 
         class DeserializerInfo(
-            val std: Boolean,
             val repeated: Boolean,
             val tag: Int,
             val assignment: Assignment
         ) : FieldInfo {
             class Assignment(
                 val fieldName: String,
-                val value: String,
-                val long: Boolean
+                val value: String
             )
 
             override val name
                 get() = assignment.fieldName
         }
-
-        class Options(
-            val wellKnownType: Boolean,
-            val longDeserializer: Boolean
-        )
     }
 }

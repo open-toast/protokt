@@ -20,16 +20,9 @@ import com.google.protobuf.ExtensionRegistry
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.Feature
-import com.toasttab.protokt.codegen.impl.Accumulator
-import com.toasttab.protokt.codegen.impl.Annotator
-import com.toasttab.protokt.codegen.impl.FileDescriptorResolver
-import com.toasttab.protokt.codegen.impl.ImportResolver
-import com.toasttab.protokt.codegen.impl.resolvePackage
-import com.toasttab.protokt.codegen.protoc.AnnotatedType
+import com.squareup.kotlinpoet.FileSpec
+import com.toasttab.protokt.codegen.impl.FileBuilder
 import com.toasttab.protokt.codegen.protoc.ProtocolContext
-import com.toasttab.protokt.codegen.protoc.TypeDesc
-import com.toasttab.protokt.codegen.protoc.fileName
-import com.toasttab.protokt.codegen.protoc.respectJavaPackage
 import com.toasttab.protokt.codegen.protoc.toProtocol
 import com.toasttab.protokt.ext.Protokt
 import java.io.OutputStream
@@ -51,11 +44,8 @@ internal fun main(bytes: ByteArray, out: OutputStream) {
     val files = req.protoFileList
         .filter { filesToGenerate.contains(it.name) }
         .mapNotNull {
-            response(
-                it,
-                generate(it, req.protoFileList, filesToGenerate, params),
-                params
-            )
+            val fileSpec = generate(it, req.protoFileList, filesToGenerate, params)
+            fileSpec?.let(::response)
         }
 
     if (files.isNotEmpty()) {
@@ -72,9 +62,8 @@ private fun generate(
     protoFileList: List<FileDescriptorProto>,
     filesToGenerate: Set<String>,
     params: Map<String, String>
-): String {
-    val code = StringBuilder()
-    val protocol =
+): FileSpec? =
+    FileBuilder.buildFile(
         toProtocol(
             ProtocolContext(
                 fdp,
@@ -83,35 +72,31 @@ private fun generate(
                 protoFileList
             )
         )
-
-    val descs = protocol.types.map { TypeDesc(protocol.desc, AnnotatedType(it)) }
-
-    Accumulator.apply(
-        descs.map(Annotator::apply),
-        ImportResolver.resolveImports(descs),
-        FileDescriptorResolver.resolveFileDescriptor(descs),
-        code::append
     )
 
-    return code.toString()
-}
+private fun response(fileSpec: FileSpec) =
+    CodeGeneratorResponse.File
+        .newBuilder()
+        .setContent(fileSpec.toString().let(::tidy))
+        .setName(fileSpec.name)
+        .build()
 
-private fun response(
-    fdp: FileDescriptorProto,
-    code: String,
-    params: Map<String, String>
-) =
-    code.takeIf { it.isNotBlank() }?.let {
-        CodeGeneratorResponse.File
-            .newBuilder()
-            .setContent(code)
-            .setName(
-                fileName(
-                    resolvePackage(fdp, respectJavaPackage(params)),
-                    fdp.name
-                )
-            ).build()
-    }
+// strips Explicit API mode declarations
+// https://kotlinlang.org/docs/whatsnew14.html#explicit-api-mode-for-library-authors
+private fun tidy(code: String) =
+    code
+        // https://stackoverflow.com/a/64970734
+        .replace("public class ", "class ")
+        .replace("public val ", "val ")
+        .replace("public var ", "var ")
+        .replace("public fun ", "fun ")
+        .replace("public object ", "object ")
+        .replace("public companion ", "companion ")
+        .replace("public override ", "override ")
+        .replace("public sealed ", "sealed ")
+        .replace("public data ", "data ")
+        // https://github.com/square/kotlinpoet/pull/932
+        .replace("): Unit {", ") {")
 
 private fun parseParams(req: CodeGeneratorRequest) =
     if (req.parameter == null || req.parameter.isEmpty()) {
