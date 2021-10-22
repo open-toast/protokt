@@ -15,8 +15,10 @@
 
 package com.toasttab.protokt.codegen.impl
 
-import arrow.core.memoize
-import com.toasttab.protokt.codegen.impl.Annotator.Context
+import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.TypeSpec
+import com.toasttab.protokt.codegen.annotators.Annotator.Context
+import com.toasttab.protokt.codegen.annotators.OneofAnnotator
 import com.toasttab.protokt.codegen.impl.ClassLookup.getClass
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.possiblyQualify
@@ -28,33 +30,51 @@ internal object Implements {
         ctx: Context,
         msg: Message
     ) =
-        msg.options.protokt.implements.emptyToNone().fold(
-            { false },
-            {
-                !it.delegates() &&
-                    PropertyOverrideChecker.classIncludesProperty(
-                        PClass.fromName(it).possiblyQualify(ctx.pkg),
-                        fieldName,
-                        ctx
-                    )
+        msg.superInterface(ctx)
+            ?.let { classIncludesProperty(it, fieldName, ctx) }
+            ?: false
+
+    private fun classIncludesProperty(pClass: PClass, prop: String, ctx: Context) =
+        getClass(pClass, ctx.desc.context)
+            .members.map { m -> m.name }
+            .contains(prop)
+
+    fun TypeSpec.Builder.handleSuperInterface(options: OneofAnnotator.Options, v: OneofAnnotator.Info? = null) =
+        apply {
+            if (options.implements != null) {
+                // TODO: qualify this with the package or allow it to be literal?
+                if (v == null) {
+                    addSuperinterface(ClassName.bestGuess(options.implements))
+                } else {
+                    addSuperinterface(ClassName.bestGuess(options.implements), v.fieldName)
+                }
             }
-        )
+        }
+
+    fun TypeSpec.Builder.handleSuperInterface(msg: Message, ctx: Context) =
+        apply {
+            if (msg.options.protokt.implements.isNotEmpty()) {
+                if (msg.options.protokt.implements.delegates()) {
+                    addSuperinterface(
+                        // TODO: parameterize this by the ctx package?
+                        ClassName.bestGuess(msg.options.protokt.implements.substringBefore(" by ")),
+                        msg.options.protokt.implements.substringAfter(" by ")
+                    )
+                } else {
+                    addSuperinterface(msg.superInterface(ctx)!!.toTypeName())
+                }
+            }
+        }
 
     private fun String.delegates() =
         contains(" by ")
 
-    val Message.doesImplement
-        get() = options.protokt.implements.isNotEmpty()
-
-    val Message.implements
-        get() = options.protokt.implements
-}
-
-private object PropertyOverrideChecker {
-    val classIncludesProperty =
-        { pClass: PClass, prop: String, ctx: Context ->
-            getClass(pClass, ctx.desc.context)
-                .members.map { m -> m.name }
-                .contains(prop)
-        }.memoize()
+    private fun Message.superInterface(ctx: Context) =
+        options.protokt.implements.let {
+            if (it.isNotEmpty() && !it.delegates()) {
+                PClass.fromName(it).possiblyQualify(ctx.desc.kotlinPackage)
+            } else {
+                null
+            }
+        }
 }

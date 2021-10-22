@@ -21,14 +21,14 @@ object versions {
     const val grpc = "1.41.0"
     const val grpcKotlin = "1.1.0"
     const val kollection = "0.7"
-    const val kotlin = "1.4.32"
+    const val kotlin = "1.5.21"
+    const val kotlinPoet = "1.10.1"
     const val kotlinxCoroutines = "1.3.9"
     const val protobuf = DEFAULT_PROTOBUF_VERSION
     const val protobufPlugin = "0.8.17"
-    const val stringTemplate = "4.3.1"
 
     // Test
-    const val jackson = "2.12.3"
+    const val jackson = "2.13.0"
     const val junit = "5.7.1"
     const val truth = "1.1.3"
 
@@ -36,7 +36,7 @@ object versions {
     const val datasets = "0.1.0"
     const val gradleDownload = "4.1.1"
     const val jmh = "1.26"
-    const val wire = "3.5.0"
+    const val wire = "4.0.0-alpha.12"
 
     // Third Party
     const val protoGoogleCommonProtos = "2.5.0"
@@ -57,6 +57,7 @@ object libraries {
 
     const val kollection = "com.github.andrewoma.dexx:kollection:${versions.kollection}"
 
+    const val kotlinPoet = "com.squareup:kotlinpoet:${versions.kotlinPoet}"
     const val kotlinReflect = "org.jetbrains.kotlin:kotlin-reflect:${versions.kotlin}"
     const val kotlinStdlib = "org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlin}"
     const val kotlinxCoroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.kotlinxCoroutines}"
@@ -65,8 +66,6 @@ object libraries {
     const val protobufJava = "com.google.protobuf:protobuf-java:${versions.protobuf}"
     const val protobufLite = "com.google.protobuf:protobuf-javalite:${versions.protobuf}"
     const val protoc = "com.google.protobuf:protoc:${versions.protobuf}"
-
-    const val stringTemplate = "org.antlr:ST4:${versions.stringTemplate}"
 
     // Test
     const val jackson = "com.fasterxml.jackson.module:jackson-module-kotlin:${versions.jackson}"

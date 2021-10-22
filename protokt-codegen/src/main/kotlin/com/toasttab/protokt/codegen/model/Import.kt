@@ -15,6 +15,7 @@
 
 package com.toasttab.protokt.codegen.model
 
+import com.squareup.kotlinpoet.FileSpec
 import kotlin.reflect.KCallable
 import kotlin.reflect.KClass
 
@@ -41,19 +42,18 @@ sealed class Import {
     }
 
     data class ClassMethod(
-        val enclosingClass: PClass,
-        val name: String
+        val value: FileSpec.Builder.() -> Unit
     ) : Import() {
-        override val pkg = enclosingClass.ppackage
-        override val qualifiedName = "${enclosingClass.qualifiedName}.$name"
-        override val simpleName = name
+        override val pkg = PPackage.DEFAULT
+        override val qualifiedName = ""
+        override val simpleName = ""
         override val nested = true
     }
 
-    data class Literal(val value: String) : Import() {
-        override val qualifiedName = value
-        override val simpleName = value.substringAfterLast('.')
-        override val pkg = PPackage.fromString(value.substringBeforeLast('.'))
+    data class Literal(val value: FileSpec.Builder.() -> Unit) : Import() {
+        override val qualifiedName = ""
+        override val simpleName = ""
+        override val pkg = PPackage.DEFAULT
         override val nested = false // unknown, really
     }
 }

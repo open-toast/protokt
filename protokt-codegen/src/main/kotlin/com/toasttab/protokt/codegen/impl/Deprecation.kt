@@ -15,7 +15,11 @@
 
 package com.toasttab.protokt.codegen.impl
 
-import com.toasttab.protokt.codegen.impl.Annotator.Context
+import com.squareup.kotlinpoet.AnnotationSpec
+import com.squareup.kotlinpoet.PropertySpec
+import com.squareup.kotlinpoet.TypeSpec
+import com.toasttab.protokt.codegen.annotators.Annotator.Context
+import com.toasttab.protokt.codegen.annotators.deprecated
 import com.toasttab.protokt.codegen.protoc.Enum
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Oneof
@@ -60,4 +64,48 @@ object Deprecation {
     class RenderOptions(
         val message: String?
     )
+
+    fun PropertySpec.Builder.handleDeprecation(renderOptions: RenderOptions?) =
+        apply {
+            if (renderOptions != null) {
+                addAnnotation(
+                    AnnotationSpec.builder(Deprecated::class)
+                        .handleDeprecationMessage(renderOptions.message.orEmpty())
+                        .build()
+                )
+            }
+        }
+
+    fun TypeSpec.Builder.handleDeprecation(deprecated: Boolean, message: String) {
+        if (deprecated) {
+            addAnnotation(
+                AnnotationSpec.builder(Deprecated::class)
+                    .handleDeprecationMessage(message)
+                    .build()
+            )
+        }
+    }
+
+    private fun AnnotationSpec.Builder.handleDeprecationMessage(message: String) =
+        apply {
+            if (message.isNotEmpty()) {
+                addMember(message.embed())
+            } else {
+                addMember("deprecated in proto".embed())
+            }
+        }
+
+    fun TypeSpec.Builder.handleDeprecationSuppression(hasDeprecation: Boolean, ctx: Context) {
+        if (hasDeprecation && !enclosingDeprecation(ctx)) {
+            addDeprecationSuppression()
+        }
+    }
+
+    fun TypeSpec.Builder.addDeprecationSuppression() {
+        addAnnotation(
+            AnnotationSpec.builder(Suppress::class)
+                .addMember("DEPRECATION".embed())
+                .build()
+        )
+    }
 }

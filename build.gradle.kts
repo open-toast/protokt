@@ -68,6 +68,8 @@ subprojects {
                 allWarningsAsErrors = true
                 jvmTarget = "1.8"
                 freeCompilerArgs = listOf("-Xinline-classes")
+                languageVersion = "1.4"
+                apiVersion = "1.4"
             }
         }
 

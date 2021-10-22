@@ -68,7 +68,7 @@ enum class FieldType(
         get() =
             requireNotNull(type.inlineRepresentation) {
                 "no boxer for $this"
-            }.java.simpleName
+            }
 
     val wireType
         get() = type.wireType
@@ -95,14 +95,17 @@ private sealed class TypeImpl {
 
 private sealed class Nonscalar(
     override val kotlinRepresentation: KClass<*>? = null,
-    override val ktRepresentation: KClass<*>? = null
+    override val ktRepresentation: KClass<*>? = null,
 ) : TypeImpl() {
     override val scalar = false
 
     object Enum : Nonscalar(ktRepresentation = KtEnum::class)
     object Message : Nonscalar(ktRepresentation = KtMessage::class)
     object String : Nonscalar(kotlin.String::class)
-    object Bytes : Nonscalar(ByteArray::class, com.toasttab.protokt.rt.Bytes::class)
+    object Bytes : Nonscalar(
+        ByteArray::class,
+        com.toasttab.protokt.rt.Bytes::class
+    )
 }
 
 private sealed class Scalar(
