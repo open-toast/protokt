@@ -15,6 +15,8 @@
 
 syntax = "proto3";
 
+// This is in a different packages since the test was created because of a bug
+// that triggered with reserved keywords (specifically `data`) in the package name.
 package toasttab.protokt.testing.rt.data;
 
 option java_package = "com.toasttab.protokt.testing.rt.data.foo";
