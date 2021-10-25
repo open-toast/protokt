@@ -23,8 +23,8 @@ option java_multiple_files = true;
 
 
 message Foo {
-    optional bool data = 1;
-    optional bool null = 2;
-    optional bool abstract = 3;
-    optional bool continue = 4;
+  bool data = 1;
+  bool null = 2;
+  bool abstract = 3;
+  bool continue = 4;
 }

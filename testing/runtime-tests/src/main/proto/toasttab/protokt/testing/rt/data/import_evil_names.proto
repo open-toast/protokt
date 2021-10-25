@@ -20,6 +20,5 @@ package toasttab.protokt.testing.rt.data;
 import "toasttab/protokt/testing/rt/data/evil_names.proto";
 
 message Bar {
-    Foo foo = 1;
-
+  Foo foo = 1;
 }
