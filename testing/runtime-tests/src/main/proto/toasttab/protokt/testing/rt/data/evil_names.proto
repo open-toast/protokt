@@ -19,10 +19,6 @@ syntax = "proto3";
 // that triggered with reserved keywords (specifically `data`) in the package name.
 package toasttab.protokt.testing.rt.data;
 
-option java_package = "com.toasttab.protokt.testing.rt.data.foo";
-option java_outer_classname = "EvilNamesProto";
-option java_multiple_files = true;
-
 
 message Foo {
   bool data = 1;
