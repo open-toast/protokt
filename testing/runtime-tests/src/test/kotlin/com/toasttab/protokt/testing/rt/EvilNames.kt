@@ -22,7 +22,7 @@ import toasttab.protokt.testing.rt.data.ImportEvilNames
 class EvilNames {
     @Test
     fun `ensure package has reserved word in package name`() {
-        assertThat(EvilNames::class.qualifiedName?.contains(".data."))
-        assertThat(ImportEvilNames::class.qualifiedName?.contains(".data."))
+        assertThat(EvilNames::class.qualifiedName).contains(".data.")
+        assertThat(ImportEvilNames::class.qualifiedName).contains(".data.")
     }
 }
