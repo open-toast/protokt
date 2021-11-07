@@ -41,3 +41,6 @@ class Bytes(internal val value: ByteArray) {
             EMPTY
     }
 }
+
+fun Bytes.toBytesSlice() =
+    BytesSlice(value)
