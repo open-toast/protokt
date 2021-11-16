@@ -21,8 +21,8 @@ object versions {
     const val grpc = "1.41.0"
     const val grpcKotlin = "1.1.0"
     const val kollection = "0.7"
-    const val kotlin = "1.5.21"
-    const val kotlinPoet = "1.10.1"
+    const val kotlin = "1.4.32"
+    const val kotlinPoet = "1.8.0"
     const val kotlinxCoroutines = "1.3.9"
     const val protobuf = DEFAULT_PROTOBUF_VERSION
     const val protobufPlugin = "0.8.17"
