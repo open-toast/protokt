@@ -18,6 +18,7 @@ package com.toasttab.protokt.codegen.annotators
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.buildCodeBlock
 import com.toasttab.protokt.codegen.annotators.Annotator.Context
 import com.toasttab.protokt.codegen.impl.Nullability.hasNonNullOption
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptFieldSizeof
@@ -53,28 +54,32 @@ private constructor(
         val fieldSizes =
             msg.fields.map {
                 when (it) {
-                    is StandardField ->
-                        if (!it.hasNonNullOption) {
-                            """
-                                |if ${it.nonDefault(ctx)} {
-                                |    $resultVarName += ${sizeOfString(it)}
-                                |}
-                            """.trimMargin()
-                        } else {
-                            "$resultVarName += ${sizeOfString(it)}"
-                        }.replace(" ", "·")
-                    is Oneof ->
+                    is StandardField -> {
+                        val addFieldSize =
+                            sizeOfString(it)
+                                .prepend("$resultVarName +=")
+                                .append("\n") // TODO: Not sure why this is needed
+                                .toCodeBlock()
                         if (it.hasNonNullOption) {
-                            // TODO: verify indentation is correct for this case
-                            "$resultVarName +=\n"
+                            addFieldSize
                         } else {
-                            ""
-                        } +
-                            """
-                            |when (${it.fieldName}) {
-                            |${conditionals(it)}
-                            |}
-                        """.trimMargin()
+                            buildCodeBlock {
+                                beginControlFlow("if·${it.nonDefault(ctx)}")
+                                add(addFieldSize)
+                                endControlFlow()
+                            }
+                        }
+                    }
+                    is Oneof -> {
+                        buildCodeBlock {
+                            if (it.hasNonNullOption) {
+                                add("$resultVarName += ")
+                            }
+                            beginControlFlow("when·(${it.fieldName})")
+                            add(conditionals(it))
+                            endControlFlow()
+                        }
+                    }
                 }
             }
 
@@ -83,14 +88,14 @@ private constructor(
             .returns(Int::class)
             .addCode(
                 if (fieldSizes.isEmpty()) {
-                    "return unknownFields.size()"
+                    CodeBlock.of("return·unknownFields.size()")
                 } else {
-                    """
-                        |var $resultVarName = 0
-                        |${fieldSizes.joinToString("\n")}
-                        |$resultVarName += unknownFields.size()
-                        |return $resultVarName
-                    """.trimMargin()
+                    buildCodeBlock {
+                        addStatement("var·$resultVarName·=·0")
+                        fieldSizes.forEach { fs -> add(fs) }
+                        addStatement("$resultVarName·+=·unknownFields.size()")
+                        addStatement("return·$resultVarName")
+                    }
                 }
             )
             .build()
@@ -100,7 +105,7 @@ private constructor(
         f.fields
             .sortedBy { it.number }.joinToString("\n") {
                 """
-                    |    is ${condition(f, it, msg.name)} ->
+                    |    is·${condition(f, it, msg.name)}·->
                     |        ${oneofSizeOfString(f, it)}
                 """.trimMargin()
             }
@@ -109,19 +114,20 @@ private constructor(
         "${oneOfScope(f, type)}.${f.fieldTypeNames.getValue(ff.fieldName)}"
 
     private fun oneofSizeOfString(o: Oneof, f: StandardField) =
-        if (!o.hasNonNullOption) {
-            "$resultVarName += "
-        } else {
-            ""
-        } +
-            sizeOfString(
+        sizeOfString(
+            f,
+            interceptSizeof(
                 f,
-                interceptSizeof(
-                    f,
-                    "${o.fieldName}.${f.fieldName}",
-                    ctx
-                )
+                "${o.fieldName}.${f.fieldName}",
+                ctx
             )
+        ).let { s ->
+            if (!o.hasNonNullOption) {
+                s.prepend("$resultVarName·+=")
+            } else {
+                s
+            }
+        }.toCodeBlock()
 
     private fun annotateMessageSizeOld(): List<SizeofInfo> {
         return msg.fields.map {
@@ -132,7 +138,7 @@ private constructor(
                         listOf(
                             ConditionalParams(
                                 it.nonDefault(ctx),
-                                sizeOfString(it)
+                                sizeOfString(it).toCodeBlock()
                             )
                         )
                     )
@@ -145,10 +151,46 @@ private constructor(
         }
     }
 
+    private class CodeBlockComponents(
+        val formatWithNamedArgs: String,
+        val args: Map<String, Any> = emptyMap()
+    ) {
+        fun prepend(
+            formatWithNamedArgs: String,
+            args: Map<String, Any> = emptyMap()
+        ): CodeBlockComponents {
+            val intersect = args.keys.intersect(this.args.keys)
+            check(intersect.isEmpty()) {
+                "duplicate keys in args: $intersect"
+            }
+            return CodeBlockComponents(
+                formatWithNamedArgs + " " + this.formatWithNamedArgs,
+                args + this.args
+            )
+        }
+
+        fun append(
+            formatWithNamedArgs: String,
+            args: Map<String, Any> = emptyMap()
+        ): CodeBlockComponents {
+            val intersect = args.keys.intersect(this.args.keys)
+            check(intersect.isEmpty()) {
+                "duplicate keys in args: $intersect"
+            }
+            return CodeBlockComponents(
+                this.formatWithNamedArgs + " " + formatWithNamedArgs,
+                args + this.args
+            )
+        }
+
+        fun toCodeBlock() =
+            namedCodeBlock(formatWithNamedArgs, args)
+    }
+
     private fun sizeOfString(
         f: StandardField,
         oneOfFieldAccess: String? = null
-    ): CodeBlock {
+    ): CodeBlockComponents {
         val name =
             oneOfFieldAccess
                 ?: if (f.repeated) {
@@ -160,7 +202,7 @@ private constructor(
         return when {
             f.map -> sizeOfMap(f, name)
             f.repeated && f.packed -> {
-                namedCodeBlock(
+                CodeBlockComponents(
                     "%sizeof:M(%tag:T(${f.number})) + " +
                         "$name.sumOf·{ %sizeof:M(${f.box("it")}) }.let·{ it + %sizeof:M(%uInt32:T(it)) }",
                     mapOf(
@@ -171,9 +213,9 @@ private constructor(
                 )
             }
             f.repeated -> {
-                namedCodeBlock(
+                CodeBlockComponents(
                     "(%sizeof:M(%tag:T(${f.number})) * $name.size) + " +
-                        "$name.sumOf { %sizeof:M(%boxedAccess:L) }",
+                        "$name.sumOf·{ %sizeof:M(%boxedAccess:L) }",
                     mapOf(
                         "sizeof" to runtimeFunction("sizeof"),
                         "tag" to Tag::class,
@@ -182,7 +224,7 @@ private constructor(
                 )
             }
             else -> {
-                namedCodeBlock(
+                CodeBlockComponents(
                     "%sizeof:M(%tag:T(${f.number})) + %access:L",
                     mapOf(
                         "sizeof" to runtimeFunction("sizeof"),
@@ -194,16 +236,18 @@ private constructor(
         }
     }
 
-    private fun sizeOfMap(f: StandardField, name: String): CodeBlock {
+    private fun sizeOfMap(f: StandardField, name: String): CodeBlockComponents {
         val key = mapKeyConverter(f, ctx)?.let { "$it.unwrap(k)" } ?: "k"
         val value = mapValueConverter(f, ctx)?.let { CodeBlock.of("$it.unwrap(v)") }?.let { f.maybeConstructBytes(it) } ?: "v"
-        return CodeBlock.of(
-            "%M($name, %T(${f.number})) { k, v -> %T.sizeof(%L, %L)}",
-            runtimeFunction("sizeofMap"),
-            Tag::class,
-            f.typePClass.toTypeName(),
-            key,
-            value
+        return CodeBlockComponents(
+            "%arg1:M($name, %arg2:T(${f.number})) { k, v -> %arg3:T.sizeof(%arg4:L, %arg5:L)}",
+            mapOf(
+                "arg1" to runtimeFunction("sizeofMap"),
+                "arg2" to Tag::class,
+                "arg3" to f.typePClass.toTypeName(),
+                "arg4" to key,
+                "arg5" to value
+            )
         )
     }
 
@@ -218,7 +262,7 @@ private constructor(
                         "${f.fieldName}.${it.fieldName}",
                         ctx
                     )
-                )
+                ).toCodeBlock()
             )
         }
 

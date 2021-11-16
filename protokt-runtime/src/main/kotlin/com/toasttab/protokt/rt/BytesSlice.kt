@@ -50,3 +50,6 @@ class BytesSlice(
             EMPTY
     }
 }
+
+fun BytesSlice.toBytes() =
+    Bytes(array.sliceArray(offset until offset + length))

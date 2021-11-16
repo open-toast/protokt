@@ -55,9 +55,6 @@ fun buildFunSpec(name: String, funSpecBuilder: FunSpec.Builder.() -> Unit): FunS
     return FunSpec.builder(name).apply(funSpecBuilder).build()
 }
 
-fun TypeName.toParamName() =
-    toString().replace(".", "_")
-
 fun namedCodeBlock(format: String, arguments: Map<String, *>) =
     CodeBlock.builder().addNamed(format, arguments).build()
 

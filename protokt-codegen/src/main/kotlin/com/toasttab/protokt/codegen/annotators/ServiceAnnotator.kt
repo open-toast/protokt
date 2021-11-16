@@ -22,6 +22,7 @@ import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.toasttab.protokt.codegen.annotators.Annotator.Context
+import com.toasttab.protokt.codegen.impl.bindMargin
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.possiblyQualify
 import com.toasttab.protokt.codegen.protoc.Method
@@ -44,11 +45,11 @@ internal object ServiceAnnotator {
                         PropertySpec.builder("serviceDescriptor", ServiceDescriptor::class)
                             .delegate(
                                 """
-                            |lazy {
-                            |  ServiceDescriptor.newBuilder(SERVICE_NAME)
-                            |${serviceLines(s)}
-                            |}
-                        """.trimMargin()
+                                    |lazy {
+                                    |    ServiceDescriptor.newBuilder(SERVICE_NAME)
+                                    |${serviceLines(s)}
+                                    |}
+                                """.bindMargin()
                             )
                             .build()
                     )
@@ -65,15 +66,15 @@ internal object ServiceAnnotator {
                             )
                                 .delegate(
                                     """
-                                |lazy {
-                                |  MethodDescriptor.newBuilder<${it.inputType.renderName(ctx.desc.kotlinPackage)}, ${it.outputType.renderName(ctx.desc.kotlinPackage)}>()
-                                |    .setType(MethodDescriptor.MethodType.${methodType(it)})
-                                |    .setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "${it.name}"))
-                                |    .setRequestMarshaller(${it.qualifiedRequestMarshaller(ctx)})
-                                |    .setResponseMarshaller(${it.qualifiedResponseMarshaller(ctx)})
-                                |    .build()
-                                |}
-                            """.trimMargin()
+                                        |lazy {
+                                        |    MethodDescriptor.newBuilder<${it.inputType.renderName(ctx.desc.kotlinPackage)}, ${it.outputType.renderName(ctx.desc.kotlinPackage)}>()
+                                        |        .setType(MethodDescriptor.MethodType.${methodType(it)})
+                                        |        .setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "${it.name}"))
+                                        |        .setRequestMarshaller(${it.qualifiedRequestMarshaller(ctx)})
+                                        |        .setResponseMarshaller(${it.qualifiedResponseMarshaller(ctx)})
+                                        |        .build()
+                                        |}
+                                    """.bindMargin()
                                 )
                                 .build()
                         }
@@ -91,9 +92,9 @@ internal object ServiceAnnotator {
                             .delegate(
                                 """
                                     |lazy {
-                                    |  ${ctx.desc.context.fileDescriptorObjectName}.descriptor.services[${s.index}]
+                                    |    ${ctx.desc.context.fileDescriptorObjectName}.descriptor.services[${s.index}]
                                     |}
-                                """.trimMargin()
+                                """.bindMargin()
                             )
                             .build()
                     )
@@ -123,8 +124,8 @@ internal object ServiceAnnotator {
 
     private fun serviceLines(s: Service) =
         s.methods.joinToString("\n") {
-            "    .addMethod(${it.name.decapitalize()}Method)"
-        } + "\n    .build()"
+            "      .addMethod(${it.name.decapitalize()}Method)"
+        } + "\n        .build()"
 
     private fun renderQualifiedName(s: Service, ctx: Context) =
         if (ctx.desc.kotlinPackage.default) {
