@@ -57,7 +57,6 @@ for use with [grpc-java](#integrating-with-grpcs-java-api) or
 
 ### Not yet implemented
 
-- Reflection support (in progress)
 - Kotlin/Native support
 - Kotlin/JS support
 - Protobuf JSON support 
