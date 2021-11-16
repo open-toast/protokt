@@ -118,7 +118,7 @@ workflows:
           matrix:
             parameters:
               jdk: ["8", "11", "17"]
-              kotlin: ["1.4.32", "1.5.31", "1.6.0-RC"]
+              kotlin: ["1.4.32", "1.5.31", "1.6.0"]
             exclude:
               - jdk: "17"
                 kotlin: "1.4.32"
