@@ -15,7 +15,7 @@
 
 package com.toasttab.protokt.gradle
 
-const val DEFAULT_PROTOBUF_VERSION = "3.18.0"
+const val DEFAULT_PROTOBUF_VERSION = "3.19.1"
 
 const val MANIFEST_VERSION_PROPERTY = "Implementation-Version"
 
