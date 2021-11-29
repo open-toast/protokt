@@ -220,7 +220,7 @@ private constructor(
 
     private fun toStringLines(properties: List<PropertyInfo>) =
         properties.joinToString("\n") {
-            "    \"${it.name}=\$${it.name}\" +"
+            "    \"${it.name}=\$${it.name}, \" +"
         }.bindSpaces()
 
     private fun suppressDeprecation() =
