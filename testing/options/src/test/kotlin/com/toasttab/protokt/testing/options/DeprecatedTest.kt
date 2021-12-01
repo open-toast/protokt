@@ -66,6 +66,28 @@ class DeprecatedTest {
     }
 
     @Test
+    fun `deprecated message field with long message`() {
+        assertFieldDeprecation(
+            DeprecatedModel::class,
+            "longMessage",
+            "really really really really really really really really really " +
+                "really really really really really really really really really " +
+                "really really long message"
+        )
+    }
+
+    @Test
+    fun `deprecated message DSL field with long message`() {
+        assertFieldDeprecation(
+            DeprecatedModel.DeprecatedModelDsl::class,
+            "longMessage",
+            "really really really really really really really really really " +
+                "really really really really really really really really really " +
+                "really really long message"
+        )
+    }
+
+    @Test
     fun `deprecated oneof field`() {
         assertClassDeprecation(
             DeprecatedModel.DeprecatedOneof.Option::class,

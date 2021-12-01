@@ -59,7 +59,7 @@ object Deprecation {
                 values.any { it.options.default.deprecated }
 
     fun renderOptions(message: String) =
-        RenderOptions(message.ifBlank { null })
+        RenderOptions(message.ifBlank { null }?.bindSpaces())
 
     class RenderOptions(
         val message: String?
