@@ -46,46 +46,42 @@ private constructor(
                 when (it) {
                     is StandardField ->
                         if (!it.hasNonNullOption) {
-                            """
-                                |if ${it.nonDefault(ctx)} {
-                                |    ${serializeString(it)}
-                                |}
-                            """.trimMargin()
+                            buildCodeBlock {
+                                beginControlFlow("if ${it.nonDefault(ctx)}")
+                                add(serializeString(it))
+                                endControlFlow()
+                            }
                         } else {
                             serializeString(it)
                         }
                     is Oneof ->
-                        """
-                            |when (${it.fieldName}) {
-                            |${conditionals(it)}
-                            |}
-                        """.trimMargin()
+                        buildCodeBlock {
+                            beginControlFlow("when (${it.fieldName})")
+                            conditionals(it).forEach(::add)
+                            endControlFlow()
+                        }
                 }
             }
 
         return FunSpec.builder("serialize")
             .addModifiers(KModifier.OVERRIDE)
             .addParameter("serializer", KtMessageSerializer::class)
-            .addCode(
-                if (fieldSerializations.isEmpty()) {
-                    "serializer.writeUnknown(unknownFields)"
-                } else {
-                    """
-                        |${fieldSerializations.joinToString("\n")}
-                        |serializer.writeUnknown(unknownFields)
-                    """.trimMargin()
-                }
-            )
+            .apply {
+                fieldSerializations.forEach(::addCode)
+                addCode("serializer.writeUnknown(unknownFields)")
+            }
             .build()
     }
 
-    private fun conditionals(f: Oneof) =
+    private fun conditionals(f: Oneof): List<CodeBlock> =
         f.fields
-            .sortedBy { it.number }.joinToString("\n") {
-                """
-                    |    is ${oneOfSer(f, it, msg.name).condition} ->
-                    |        ${serializeString(it, Some(f.fieldName))}
-                """.trimMargin()
+            .sortedBy { it.number }
+            .map {
+                buildCodeBlock {
+                    beginControlFlow("is ${oneOfSer(f, it, msg.name).condition} ->")
+                    add(serializeString(it, Some(f.fieldName)))
+                    endControlFlow()
+                }
             }
 
     private fun annotateSerializerOld(): List<SerializerInfo> {
@@ -148,29 +144,29 @@ private constructor(
                         ".write(%uInt32:T(%name:L.sumOf{%sizeof:M(%boxed:L)}))\n",
                     map
                 )
-                addNamed("%name:L.forEach·{ serializer.write(%boxed:L) }", map)
+                addNamed("%name:L.forEach·{ serializer.write(%boxed:L) }\n", map)
             }
             f.map -> buildCodeBlock {
                 map += "boxed" to f.boxMap(ctx)
                 addNamed(
-                    "%name:L.entries.forEach { " +
+                    "%name:L.entries.forEach·{ " +
                         "serializer.write(%tag:T(${f.tag.value}))" +
-                        ".write(%boxed:L) }",
+                        ".write(%boxed:L) }\n",
                     map
                 )
             }
             f.repeated -> buildCodeBlock {
                 map += "boxed" to f.box(fieldAccess)
                 addNamed(
-                    "%name:L.forEach { " +
-                        "serializer.write(%tag:T(${f.tag.value})).write(%boxed:L) }",
+                    "%name:L.forEach·{ " +
+                        "serializer.write(%tag:T(${f.tag.value})).write(%boxed:L) }\n",
                     map
                 )
             }
 
             else -> buildCodeBlock {
                 map += "boxed" to f.box(fieldAccess)
-                addNamed("serializer.write(%tag:T(${f.tag.value})).write(%boxed:L)", map)
+                addNamed("serializer.write(%tag:T(${f.tag.value})).write(%boxed:L)\n", map)
             }
         }
     }

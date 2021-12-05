@@ -76,7 +76,7 @@ private constructor(
                                 add("$resultVarName += ")
                             }
                             beginControlFlow("when·(${it.fieldName})")
-                            add(conditionals(it))
+                            conditionals(it).forEach(::add)
                             endControlFlow()
                         }
                     }
@@ -103,11 +103,13 @@ private constructor(
 
     private fun conditionals(f: Oneof) =
         f.fields
-            .sortedBy { it.number }.joinToString("\n") {
-                """
-                    |    is·${condition(f, it, msg.name)}·->
-                    |        ${oneofSizeOfString(f, it)}
-                """.trimMargin()
+            .sortedBy { it.number }
+            .map {
+                buildCodeBlock {
+                    beginControlFlow("is·${condition(f, it, msg.name)}·->")
+                    add(oneofSizeOfString(f, it))
+                    endControlFlow()
+                }
             }
 
     private fun condition(f: Oneof, ff: StandardField, type: String) =
