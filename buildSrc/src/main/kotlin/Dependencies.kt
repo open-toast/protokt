@@ -25,11 +25,11 @@ object versions {
     const val kotlinPoet = "1.8.0"
     const val kotlinxCoroutines = "1.3.9"
     const val protobuf = DEFAULT_PROTOBUF_VERSION
-    const val protobufPlugin = "0.8.17"
+    const val protobufPlugin = "0.8.18"
 
     // Test
     const val jackson = "2.13.0"
-    const val junit = "5.7.1"
+    const val junit = "5.8.2"
     const val truth = "1.1.3"
 
     // Benchmarks

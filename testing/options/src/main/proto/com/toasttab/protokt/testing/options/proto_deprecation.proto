@@ -34,6 +34,11 @@ message DeprecatedModel {
     ];
   }
 
+  string long_message = 3 [
+    deprecated = true,
+    (.protokt.property).deprecation_message = "really really really really really really really really really really really really really really really really really really really really long message"
+  ];
+
   enum DeprecatedEnum {
     option deprecated = true;
     option (.protokt.enum).deprecation_message = "more deprecated";
