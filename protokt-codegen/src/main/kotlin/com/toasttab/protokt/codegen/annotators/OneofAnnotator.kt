@@ -77,13 +77,13 @@ private constructor(
                                 }
                             }
                             .addProperty(
-                                PropertySpec.builder(v.fieldName, v.type)
-                                    .initializer(v.fieldName)
+                                PropertySpec.builder(v.fieldName.removePrefix("`").removeSuffix("`"), v.type)
+                                    .initializer(v.fieldName.removePrefix("`").removeSuffix("`"))
                                     .build()
                             )
                             .primaryConstructor(
                                 FunSpec.constructorBuilder()
-                                    .addParameter(v.fieldName, v.type)
+                                    .addParameter(v.fieldName.removePrefix("`").removeSuffix("`"), v.type)
                                     .build()
                             )
                             .handleSuperInterface(options, v)
