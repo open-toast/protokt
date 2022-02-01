@@ -18,8 +18,8 @@ syntax = "proto3";
 package toasttab.protokt.testing.rt.oneof;
 
 message Example {
-    oneof my_oneof {
-        string null = 1;
-        string foo = 2;
-    }
+  oneof my_oneof {
+    string null = 1;
+    string foo = 2;
+  }
 }
