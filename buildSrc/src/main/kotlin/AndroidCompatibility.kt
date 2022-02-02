@@ -15,13 +15,19 @@
 
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
+import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
+import ru.vyarus.gradle.plugin.animalsniffer.AnimalSnifferExtension
 import ru.vyarus.gradle.plugin.animalsniffer.AnimalSnifferPlugin
 
 fun Project.compatibleWithAndroid(api: Int = 19) {
     apply<AnimalSnifferPlugin>()
 
+    configure<AnimalSnifferExtension> {
+        toolVersion = "1.21"
+    }
+
     dependencies {
-        add("signature", "com.toasttab.android:gummy-bears-api-$api:0.1.0@signature")
+        add("signature", "com.toasttab.android:gummy-bears-api-$api:0.4.0@signature")
     }
 }

@@ -27,7 +27,7 @@ dependencies {
     implementation("com.google.protobuf:protobuf-gradle-plugin:0.8.17")
     implementation("io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.30.0")
     implementation("com.google.guava:guava:30.1.1-jre")
-    implementation("ru.vyarus:gradle-animalsniffer-plugin:1.5.0")
+    implementation("ru.vyarus:gradle-animalsniffer-plugin:1.5.4")
     implementation("org.jetbrains.kotlinx:binary-compatibility-validator:0.7.0")
     implementation(kotlin("gradle-plugin-api"))
 }
