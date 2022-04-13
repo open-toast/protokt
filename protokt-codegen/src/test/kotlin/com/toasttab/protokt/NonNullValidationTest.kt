@@ -25,7 +25,7 @@ import org.junit.jupiter.params.provider.MethodSource
 class NonNullValidationTest : AbstractProtoktCodegenTest() {
     @ParameterizedTest
     @MethodSource("fieldTypes")
-    fun `file with non-null int32 complains`(fieldType: String, fieldTypeName: String?) {
+    fun `file with bad non-null option`(fieldType: String, fieldTypeName: String?) {
         val thrown = assertThrows<IllegalArgumentException> {
             runPlugin("non_null.proto") { replace("REPLACE", fieldType) }
         }
