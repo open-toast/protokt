@@ -41,9 +41,9 @@ dependencies {
 
     implementation(libraries.arrow)
     implementation(libraries.grpcStub)
-    implementation(libraries.kollection)
     implementation(libraries.kotlinPoet)
     implementation(libraries.kotlinReflect)
+    implementation(libraries.kotlinxCollections)
     implementation(libraries.kotlinxCoroutinesCore)
     implementation(libraries.protobufJava)
 

@@ -15,7 +15,6 @@
 
 package com.toasttab.protokt.codegen.annotators
 
-import com.github.andrewoma.dexx.kollection.immutableListOf
 import com.squareup.kotlinpoet.TypeSpec
 import com.toasttab.protokt.codegen.annotators.MessageAnnotator.Companion.annotateMessage
 import com.toasttab.protokt.codegen.annotators.ServiceAnnotator.annotateService
@@ -29,6 +28,7 @@ import com.toasttab.protokt.codegen.protoc.ProtocolContext
 import com.toasttab.protokt.codegen.protoc.Service
 import com.toasttab.protokt.codegen.protoc.TopLevelType
 import com.toasttab.protokt.codegen.protoc.TypeDesc
+import kotlinx.collections.immutable.persistentListOf
 
 /**
  * Annotates an unannotated AST. This effectively converts the protobuf AST to a Kotlin AST.
@@ -52,7 +52,7 @@ object Annotator {
                 annotate(
                     it,
                     Context(
-                        immutableListOf(),
+                        persistentListOf(),
                         protocol.desc
                     )
                 )
