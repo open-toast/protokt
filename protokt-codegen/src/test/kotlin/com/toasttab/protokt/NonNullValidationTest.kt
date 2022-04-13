@@ -57,9 +57,9 @@ class NonNullValidationTest : AbstractProtoktCodegenTest() {
                 ineligibleAnonymousTypes().map { "repeated ${it.name.toLowerCase()}" } +
                 listOf(
                     listOf("Foo", "enum"),
-                    listOf("repeated Foo", "repeated .toasttab.protokt.codegen.testing.TestMessageWithBadNonNulls.Foo"),
-                    listOf("repeated Bar", "repeated .toasttab.protokt.codegen.testing.TestMessageWithBadNonNulls.Bar"),
-                    listOf("map<int32, Foo>", "map<int32, .toasttab.protokt.codegen.testing.TestMessageWithBadNonNulls.Foo>")
+                    listOf("repeated Foo", "repeated .toasttab.protokt.codegen.testing.TestMessageWithBadNonNullOptionalField.Foo"),
+                    listOf("repeated Bar", "repeated .toasttab.protokt.codegen.testing.TestMessageWithBadNonNullOptionalField.Bar"),
+                    listOf("map<int32, Foo>", "map<int32, .toasttab.protokt.codegen.testing.TestMessageWithBadNonNullOptionalField.Foo>")
                 )
 
         private fun ineligibleAnonymousTypes() =
