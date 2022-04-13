@@ -75,9 +75,6 @@ enum class FieldType(
 
     val kotlinRepresentation
         get() = type.kotlinRepresentation
-
-    val inlineRepresentation
-        get() = type.inlineRepresentation
 }
 
 private sealed class TypeImpl {

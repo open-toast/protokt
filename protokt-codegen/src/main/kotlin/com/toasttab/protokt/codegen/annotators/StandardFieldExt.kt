@@ -94,6 +94,3 @@ internal fun StandardField.maybeConstructBytes(arg: CodeBlock) = when (mapEntry!
 }
 
 internal fun StandardField.box(s: String) = if (type.boxed) CodeBlock.of("%T($s)", type.boxer) else CodeBlock.of(s)
-
-internal val StandardField.unqualifiedTypeName
-    get() = typePClass.nestedName

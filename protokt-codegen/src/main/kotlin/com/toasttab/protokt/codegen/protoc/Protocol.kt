@@ -43,6 +43,7 @@ import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.ext.Protokt
+import com.toasttab.protokt.ext.Protokt.ProtoktFieldOptions
 
 /**
  * Converts a message in the format used by protoc to the unannotated AST used by protokt.
@@ -339,23 +340,66 @@ private fun toStandard(
     alwaysRequired: Boolean = false
 ): StandardField =
     toFieldType(fdp.type).let { type ->
+        val protoktOptions = fdp.options.getExtension(Protokt.property)
+        val repeated = fdp.label == LABEL_REPEATED
+        val mapEntry = mapEntry(usedFieldNames, fdp, ctx, pkg)
+
+        validateNonNullOption(fdp, type, protoktOptions, repeated, mapEntry)
+
         StandardField(
             number = fdp.number,
             type = type,
-            repeated = fdp.label == LABEL_REPEATED,
+            repeated = repeated,
             optional = optional(alwaysRequired, fdp, ctx),
             packed = packed(type, fdp, ctx),
-            mapEntry = mapEntry(usedFieldNames, fdp, ctx, pkg),
+            mapEntry = mapEntry,
             fieldName = newFieldName(fdp.name, usedFieldNames),
-            options = FieldOptions(
-                fdp.options,
-                fdp.options.getExtension(Protokt.property)
-            ),
+            options = FieldOptions(fdp.options, protoktOptions),
             protoTypeName = fdp.typeName,
             typePClass = typePClass(fdp.typeName, ctx, type),
             index = idx
         )
     }
+
+private fun validateNonNullOption(
+    fdp: FieldDescriptorProto,
+    type: FieldType,
+    protoktOptions: ProtoktFieldOptions,
+    repeated: Boolean,
+    mapEntry: MapEntry?
+) {
+    if (protoktOptions.nonNull) {
+        require(type == FieldType.MESSAGE && !repeated) {
+            fun FieldType.typeName() =
+                name.toLowerCase()
+
+            "(protokt.property).non_null is only applicable to message types " +
+                "and is incompatible with non-message type " +
+                when {
+                    mapEntry != null -> {
+                        fun name(field: StandardField) =
+                            if (field.type == FieldType.ENUM) {
+                                field.protoTypeName
+                            } else {
+                                field.type.typeName()
+                            }
+
+                        "map<${name(mapEntry.key)}, ${name(mapEntry.value)}>"
+                    }
+                    repeated -> {
+                        val typeName =
+                            when (type) {
+                                FieldType.ENUM, FieldType.MESSAGE -> fdp.typeName
+                                else -> type.typeName()
+                            }
+
+                        "repeated $typeName"
+                    }
+                    else -> type.typeName()
+                }
+        }
+    }
+}
 
 private fun optional(alwaysRequired: Boolean, fdp: FieldDescriptorProto, ctx: ProtocolContext) =
     !alwaysRequired &&
