@@ -36,7 +36,43 @@ class NonNullValidationTest : AbstractProtoktCodegenTest() {
             .hasMessageThat()
             .isEqualTo(
                 "(protokt.property).non_null is only applicable to message " +
-                    "types and is incompatible with non-message type " +
+                    "types and is inapplicable to non-message " +
+                    (fieldTypeName ?: fieldType)
+            )
+    }
+
+    @ParameterizedTest
+    @MethodSource("fieldTypesOneof")
+    fun `oneof type`(fieldType: String, fieldTypeName: String?) {
+        val thrown = assertThrows<IllegalArgumentException> {
+            runPlugin("non_null_oneof.proto") { replace("REPLACE", fieldType) }
+        }
+
+        println("Caught: $thrown")
+
+        assertThat(thrown)
+            .hasMessageThat()
+            .isEqualTo(
+                "(protokt.property).non_null is only applicable to top level " +
+                    "types and is inapplicable to oneof field " +
+                    (fieldTypeName ?: fieldType)
+            )
+    }
+
+    @ParameterizedTest
+    @MethodSource("fieldTypesOptional")
+    fun `optional field`(fieldType: String, fieldTypeName: String?) {
+        val thrown = assertThrows<IllegalArgumentException> {
+            runPlugin("non_null_optional.proto") { replace("REPLACE", fieldType) }
+        }
+
+        println("Caught: $thrown")
+
+        assertThat(thrown)
+            .hasMessageThat()
+            .isEqualTo(
+                "(protokt.property).non_null is not applicable to optional " +
+                    "fields and is inapplicable to optional " +
                     (fieldTypeName ?: fieldType)
             )
     }
@@ -44,7 +80,10 @@ class NonNullValidationTest : AbstractProtoktCodegenTest() {
     companion object {
         @JvmStatic
         fun fieldTypes() =
-            argLists().map {
+            mapToArgs(argLists())
+
+        private fun mapToArgs(list: List<*>) =
+            list.map {
                 if (it is String) {
                     Arguments.of(it, null)
                 } else {
@@ -57,9 +96,31 @@ class NonNullValidationTest : AbstractProtoktCodegenTest() {
                 ineligibleAnonymousTypes().map { "repeated ${it.name.toLowerCase()}" } +
                 listOf(
                     listOf("Foo", "enum"),
-                    listOf("repeated Foo", "repeated .toasttab.protokt.codegen.testing.TestMessageWithBadNonNullOptionalField.Foo"),
-                    listOf("repeated Bar", "repeated .toasttab.protokt.codegen.testing.TestMessageWithBadNonNullOptionalField.Bar"),
-                    listOf("map<int32, Foo>", "map<int32, .toasttab.protokt.codegen.testing.TestMessageWithBadNonNullOptionalField.Foo>")
+                    listOf("repeated Foo", "repeated .toasttab.protokt.codegen.testing.TestMessageWithBadNonNullField.Foo"),
+                    listOf("repeated Bar", "repeated .toasttab.protokt.codegen.testing.TestMessageWithBadNonNullField.Bar"),
+                    listOf("map<int32, Foo>", "map<int32, .toasttab.protokt.codegen.testing.TestMessageWithBadNonNullField.Foo>")
+                )
+
+        @JvmStatic
+        fun fieldTypesOptional() =
+            mapToArgs(argListsOptional())
+
+        private fun argListsOptional() =
+            ineligibleAnonymousTypes().map { it.name.toLowerCase() } +
+                listOf(
+                    listOf("Foo", ".toasttab.protokt.codegen.testing.TestMessageWithBadNonNullOptionalField.Foo"),
+                    listOf("Bar", ".toasttab.protokt.codegen.testing.TestMessageWithBadNonNullOptionalField.Bar"),
+                )
+
+        @JvmStatic
+        fun fieldTypesOneof() =
+            mapToArgs(argListsOneof())
+
+        private fun argListsOneof() =
+            ineligibleAnonymousTypes().map { it.name.toLowerCase() } +
+                listOf(
+                    listOf("Foo", ".toasttab.protokt.codegen.testing.TestMessageWithBadNonNullOneof.Foo"),
+                    listOf("Bar", ".toasttab.protokt.codegen.testing.TestMessageWithBadNonNullOneof.Bar"),
                 )
 
         private fun ineligibleAnonymousTypes() =

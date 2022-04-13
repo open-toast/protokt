@@ -43,7 +43,6 @@ import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.ext.Protokt
-import com.toasttab.protokt.ext.Protokt.ProtoktFieldOptions
 
 /**
  * Converts a message in the format used by protoc to the unannotated AST used by protokt.
@@ -337,20 +336,23 @@ private fun toStandard(
     pkg: PPackage,
     fdp: FieldDescriptorProto,
     usedFieldNames: Set<String>,
-    alwaysRequired: Boolean = false
+    withinOneof: Boolean = false
 ): StandardField =
     toFieldType(fdp.type).let { type ->
         val protoktOptions = fdp.options.getExtension(Protokt.property)
         val repeated = fdp.label == LABEL_REPEATED
         val mapEntry = mapEntry(usedFieldNames, fdp, ctx, pkg)
+        val optional = optional(fdp, ctx)
 
-        validateNonNullOption(fdp, type, protoktOptions, repeated, mapEntry)
+        if (protoktOptions.nonNull) {
+            validateNonNullOption(fdp, type, repeated, mapEntry, withinOneof, optional)
+        }
 
         StandardField(
             number = fdp.number,
             type = type,
             repeated = repeated,
-            optional = optional(alwaysRequired, fdp, ctx),
+            optional = !withinOneof && optional,
             packed = packed(type, fdp, ctx),
             mapEntry = mapEntry,
             fieldName = newFieldName(fdp.name, usedFieldNames),
@@ -364,46 +366,51 @@ private fun toStandard(
 private fun validateNonNullOption(
     fdp: FieldDescriptorProto,
     type: FieldType,
-    protoktOptions: ProtoktFieldOptions,
     repeated: Boolean,
-    mapEntry: MapEntry?
+    mapEntry: MapEntry?,
+    withinOneof: Boolean,
+    optional: Boolean
 ) {
-    if (protoktOptions.nonNull) {
-        require(type == FieldType.MESSAGE && !repeated) {
-            fun FieldType.typeName() =
-                name.toLowerCase()
+    fun FieldType.typeName() =
+        name.toLowerCase()
 
-            "(protokt.property).non_null is only applicable to message types " +
-                "and is incompatible with non-message type " +
-                when {
-                    mapEntry != null -> {
-                        fun name(field: StandardField) =
-                            if (field.type == FieldType.ENUM) {
-                                field.protoTypeName
-                            } else {
-                                field.type.typeName()
-                            }
-
-                        "map<${name(mapEntry.key)}, ${name(mapEntry.value)}>"
-                    }
-                    repeated -> {
-                        val typeName =
-                            when (type) {
-                                FieldType.ENUM, FieldType.MESSAGE -> fdp.typeName
-                                else -> type.typeName()
-                            }
-
-                        "repeated $typeName"
-                    }
-                    else -> type.typeName()
-                }
+    fun name(field: StandardField) =
+        if (field.type == FieldType.ENUM) {
+            field.protoTypeName
+        } else {
+            field.type.typeName()
         }
+
+    val typeName =
+        when (type) {
+            FieldType.ENUM, FieldType.MESSAGE -> fdp.typeName
+            else -> type.typeName()
+        }
+
+    require(!optional) {
+        "(protokt.property).non_null is not applicable to optional fields " +
+            "and is inapplicable to optional $typeName"
+    }
+    require(!withinOneof) {
+        "(protokt.property).non_null is only applicable to top level types " +
+            "and is inapplicable to oneof field $typeName"
+    }
+    require(type == FieldType.MESSAGE && !repeated) {
+        "(protokt.property).non_null is only applicable to message types " +
+            "and is inapplicable to non-message " +
+            when {
+                mapEntry != null ->
+                    "map<${name(mapEntry.key)}, ${name(mapEntry.value)}>"
+                repeated ->
+                    "repeated $typeName"
+                else ->
+                    type.typeName()
+            }
     }
 }
 
-private fun optional(alwaysRequired: Boolean, fdp: FieldDescriptorProto, ctx: ProtocolContext) =
-    !alwaysRequired &&
-        (fdp.label == LABEL_OPTIONAL && ctx.proto2) ||
+private fun optional(fdp: FieldDescriptorProto, ctx: ProtocolContext) =
+    (fdp.label == LABEL_OPTIONAL && ctx.proto2) ||
         fdp.proto3Optional
 
 private fun packed(type: FieldType, fdp: FieldDescriptorProto, ctx: ProtocolContext) =

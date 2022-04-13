@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2022 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,14 +13,14 @@
  * limitations under the License.
  */
 
-syntax = "proto3";
+syntax = "proto2";
 
 package toasttab.protokt.codegen.testing;
 
 import "protokt/protokt.proto";
 
-message TestMessageWithBadNonNullField {
-  REPLACE value = 1 [
+message TestMessageWithBadNonNullOptionalField {
+  optional REPLACE value = 1 [
     (.protokt.property).non_null = true
   ];
 
