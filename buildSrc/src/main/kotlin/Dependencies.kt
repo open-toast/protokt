@@ -20,9 +20,9 @@ object versions {
     const val autoService = "1.0.1"
     const val grpc = "1.41.0"
     const val grpcKotlin = "1.2.0"
-    const val kollection = "0.7"
     const val kotlin = "1.4.32"
     const val kotlinPoet = "1.8.0"
+    const val kotlinxCollections = "0.3.4"
     const val kotlinxCoroutines = "1.3.9"
     const val protobuf = DEFAULT_PROTOBUF_VERSION
     const val protobufPlugin = "0.8.18"
@@ -55,11 +55,10 @@ object libraries {
     const val grpcNetty = "io.grpc:grpc-netty:${versions.grpc}"
     const val grpcStub = "io.grpc:grpc-stub:${versions.grpc}"
 
-    const val kollection = "com.github.andrewoma.dexx:kollection:${versions.kollection}"
-
     const val kotlinPoet = "com.squareup:kotlinpoet:${versions.kotlinPoet}"
     const val kotlinReflect = "org.jetbrains.kotlin:kotlin-reflect:${versions.kotlin}"
     const val kotlinStdlib = "org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlin}"
+    const val kotlinxCollections = "org.jetbrains.kotlinx:kotlinx-collections-immutable:${versions.kotlinxCollections}"
     const val kotlinxCoroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.kotlinxCoroutines}"
 
     const val protobufPlugin = "com.google.protobuf:protobuf-gradle-plugin:${versions.protobufPlugin}"

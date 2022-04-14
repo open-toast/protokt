@@ -20,11 +20,6 @@ import arrow.core.Option
 import arrow.core.Some
 import arrow.core.Tuple4
 import arrow.core.firstOrNone
-import com.github.andrewoma.dexx.kollection.ImmutableList
-import com.github.andrewoma.dexx.kollection.ImmutableSet
-import com.github.andrewoma.dexx.kollection.immutableListOf
-import com.github.andrewoma.dexx.kollection.immutableMapOf
-import com.github.andrewoma.dexx.kollection.immutableSetOf
 import com.google.protobuf.DescriptorProtos
 import com.google.protobuf.DescriptorProtos.DescriptorProto
 import com.google.protobuf.DescriptorProtos.EnumDescriptorProto
@@ -43,6 +38,12 @@ import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.ext.Protokt
+import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.PersistentSet
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.persistentMapOf
+import kotlinx.collections.immutable.persistentSetOf
+import kotlinx.collections.immutable.plus
 
 /**
  * Converts a message in the format used by protoc to the unannotated AST used by protokt.
@@ -104,23 +105,23 @@ private fun toTypeList(
     messages: List<DescriptorProto>,
     services: List<ServiceDescriptorProto> = emptyList(),
     enclosingMessages: List<String> = emptyList()
-): ImmutableList<TopLevelType> =
+): PersistentList<TopLevelType> =
     enums.foldIndexed(
-        Pair(immutableSetOf<String>(), immutableListOf<TopLevelType>())
+        Pair(persistentSetOf<String>(), persistentListOf<TopLevelType>())
     ) { idx, acc, t ->
         val e = toEnum(idx, t, acc.first, enclosingMessages, pkg.toString())
         Pair(acc.first + e.name, acc.second + e)
     }.second +
 
         messages.foldIndexed(
-            Pair(immutableSetOf<String>(), immutableListOf<TopLevelType>())
+            Pair(persistentSetOf<String>(), persistentListOf<TopLevelType>())
         ) { idx, acc, t ->
             val m = toMessage(idx, ctx, pkg, t, acc.first, enclosingMessages)
             Pair(acc.first + m.name, acc.second + m)
         }.second +
 
         services.foldIndexed(
-            Pair(immutableSetOf<String>(), immutableListOf<TopLevelType>())
+            Pair(persistentSetOf<String>(), persistentListOf<TopLevelType>())
         ) { idx, acc, t ->
             val s = toService(idx, t, ctx, acc.first)
             Pair(acc.first + s.type, acc.second + s)
@@ -129,7 +130,7 @@ private fun toTypeList(
 private fun toEnum(
     idx: Int,
     desc: EnumDescriptorProto,
-    names: ImmutableSet<String>,
+    names: PersistentSet<String>,
     enclosingMessages: List<String>,
     pkg: String
 ): Enum {
@@ -146,7 +147,7 @@ private fun toEnum(
         values = desc.valueList.foldIndexed(
             Pair(
                 names + typeName,
-                immutableListOf<Enum.Value>()
+                persistentListOf<Enum.Value>()
             )
         ) { enumIdx, acc, t ->
             val n = newEnumValueName(enumTypeNamePrefixToStrip, t.name, acc.first)
@@ -246,14 +247,14 @@ private fun toFields(
     desc: DescriptorProto,
     enclosingMessages: List<String>,
     typeNames: Set<String>,
-    ids: Set<Int> = immutableSetOf()
-): ImmutableList<Field> =
+    ids: Set<Int> = persistentSetOf()
+): PersistentList<Field> =
     desc.fieldList.foldIndexed(
         Tuple4(
             typeNames,
             ids,
-            immutableSetOf<String>(),
-            immutableListOf<Field>()
+            persistentSetOf<String>(),
+            persistentListOf<Field>()
         )
     ) { idx, acc, t ->
         when (t.type) {
@@ -289,7 +290,7 @@ private fun toOneof(
     oneof: OneofDescriptorProto,
     field: FieldDescriptorProto,
     typeNames: Set<String>,
-    fields: ImmutableList<Field>
+    fields: PersistentList<Field>
 ): Field {
     val newName = newFieldName(oneof.name, typeNames)
 
@@ -301,9 +302,9 @@ private fun toOneof(
         it.hasOneofIndex() && it.oneofIndex == field.oneofIndex
     }.foldIndexed(
         Triple(
-            immutableMapOf<String, String>(),
-            immutableSetOf<String>(),
-            immutableListOf<StandardField>()
+            persistentMapOf<String, String>(),
+            persistentSetOf<String>(),
+            persistentListOf<StandardField>()
         ),
         { oneofIdx, acc, t ->
             val ftn = newTypeNameFromCamel(t.name, acc.second)
