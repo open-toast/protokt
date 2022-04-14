@@ -16,10 +16,10 @@
 import com.toasttab.protokt.gradle.DEFAULT_PROTOBUF_VERSION
 
 object versions {
-    const val arrow = "1.0.0"
-    const val autoService = "1.0"
+    const val arrow = "1.0.1"
+    const val autoService = "1.0.1"
     const val grpc = "1.41.0"
-    const val grpcKotlin = "1.1.0"
+    const val grpcKotlin = "1.2.0"
     const val kotlin = "1.4.32"
     const val kotlinPoet = "1.8.0"
     const val kotlinxCollections = "0.3.4"
@@ -39,10 +39,10 @@ object versions {
     const val wire = "4.0.0-alpha.12"
 
     // Third Party
-    const val protoGoogleCommonProtos = "2.5.0"
+    const val protoGoogleCommonProtos = "2.8.2"
 
     // Android
-    const val androidGradle = "4.1.0"
+    const val androidGradle = "7.1.0"
 }
 
 object libraries {
