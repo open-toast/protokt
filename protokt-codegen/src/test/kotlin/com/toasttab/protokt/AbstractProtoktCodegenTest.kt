@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2022 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,37 +17,54 @@ package com.toasttab.protokt
 
 import com.google.common.base.CaseFormat.LOWER_CAMEL
 import com.google.common.base.CaseFormat.LOWER_UNDERSCORE
+import com.google.common.io.Resources
 import com.google.protobuf.compiler.PluginProtos
 import com.toasttab.protokt.gradle.ProtoktExtension
 import com.toasttab.protokt.testing.util.ProcessOutput.Src.ERR
 import com.toasttab.protokt.testing.util.projectRoot
 import com.toasttab.protokt.testing.util.runCommand
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.io.TempDir
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.nio.file.Path
+import java.nio.file.Paths
 import kotlin.reflect.KClass
 import kotlin.reflect.full.declaredMemberProperties
 
-class MainTest {
-    @Test
-    fun `step through code generation with debugger`() {
-        generatedFile.delete()
+abstract class AbstractProtoktCodegenTest {
+    @TempDir
+    lateinit var testDir: File
 
-        val ext =
-            ProtoktExtension().apply {
-                // set any plugin options here
-            }
+    private val testFile
+        get() = File(testDir, "test_file.proto")
+
+    @BeforeEach
+    fun deleteGeneratedFile() {
+        generatedFile.delete()
+    }
+
+    protected fun runPlugin(
+        inputFile: String,
+        ext: ProtoktExtension = ProtoktExtension(),
+        transform: String.() -> String = { this }
+    ): PluginProtos.CodeGeneratorResponse {
+        testFile.writeText(
+            Paths.get(Resources.getResource(inputFile).toURI())
+                .toFile()
+                .readText()
+                .transform()
+        )
 
         listOf(
             System.getenv("PROTOC_PATH") ?: "protoc",
             "--plugin=protoc-gen-custom=$binGenerator",
             "--custom_out=.", // ignored
-            "-I$codegenTestingProto",
+            "-I$testDir",
             "-I$extensionsProto",
             "-I$includeProtos",
             buildPluginOptions(ext),
-            "$testProto"
+            "$testFile"
         ).joinToString(" ")
             .runCommand(
                 projectRoot.toPath()
@@ -55,12 +72,7 @@ class MainTest {
 
         val out = ByteArrayOutputStream()
         main(generatedFile.readBytes(), out)
-        PluginProtos.CodeGeneratorResponse.parseFrom(out.toByteArray())
-            .fileList
-            .forEach {
-                println(it.name)
-                println(it.content)
-            }
+        return PluginProtos.CodeGeneratorResponse.parseFrom(out.toByteArray())
     }
 }
 
@@ -81,17 +93,11 @@ private val codegenTestingResources =
 private val binGenerator =
     File(codegenTestingResources.toFile(), "bin-generator")
 
-private val codegenTestingProto =
-    Path.of(
-        "protokt-codegen", "src", "test", "proto",
-        "toasttab", "protokt", "codegen", "testing"
-    )
-
-private val testProto =
-    File(codegenTestingProto.toFile(), "test.proto")
-
 private val extensionsProto =
     Path.of("extensions", "protokt-extensions-lite", "src", "main", "proto")
+
+private val includeProtos =
+    File(projectRoot, "protokt-codegen/build/extracted-include-protos/main")
 
 private val generatedFile =
     File(
@@ -101,6 +107,3 @@ private val generatedFile =
             "com", "toasttab", "protokt", "test-proto-bin-request.bin"
         ).toString()
     )
-
-private val includeProtos =
-    File(projectRoot, "protokt-codegen/build/extracted-include-protos/main")
