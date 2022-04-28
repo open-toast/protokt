@@ -25,7 +25,6 @@ import org.openjdk.jmh.annotations.Scope
 import org.openjdk.jmh.annotations.Setup
 import org.openjdk.jmh.annotations.State
 import org.openjdk.jmh.infra.Blackhole
-import protokt.com.google.protobuf.benchmarks.BenchmarkDataset
 import protokt.com.toasttab.protokt.benchmarks.GenericMessage1
 import protokt.com.toasttab.protokt.benchmarks.GenericMessage4
 import java.util.concurrent.TimeUnit

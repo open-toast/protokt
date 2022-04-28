@@ -17,7 +17,6 @@ package com.toasttab.protokt
 
 import com.google.auto.service.AutoService
 import com.toasttab.protokt.ext.Converter
-import protokt.com.google.protobuf.BoolValue
 
 @AutoService(Converter::class)
 object BoolValueConverter : Converter<Boolean, BoolValue> {

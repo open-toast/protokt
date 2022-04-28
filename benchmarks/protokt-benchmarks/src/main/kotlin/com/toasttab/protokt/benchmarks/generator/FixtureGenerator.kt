@@ -16,10 +16,10 @@
 package com.toasttab.protokt.benchmarks.generator
 
 import com.google.protobuf.CodedOutputStream
+import com.toasttab.protokt.benchmarks.BenchmarkDataset
 import com.toasttab.protokt.rt.Bytes
 import com.toasttab.protokt.rt.KtMessage
 import com.toasttab.protokt.rt.serializer
-import protokt.com.google.protobuf.benchmarks.BenchmarkDataset
 import protokt.com.toasttab.protokt.benchmarks.GenericMessage1
 import protokt.com.toasttab.protokt.benchmarks.GenericMessage4
 import java.io.File

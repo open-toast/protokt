@@ -15,7 +15,7 @@
 
 package io.grpc.examples.routeguide
 
-import protokt.com.google.protobuf.Duration
+import com.toasttab.protokt.Duration
 
 private const val MICROS_PER_SECOND = 1000000
 private const val NANOS_PER_MICROSECOND = 1000

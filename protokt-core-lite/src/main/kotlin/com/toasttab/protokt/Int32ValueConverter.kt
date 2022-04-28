@@ -17,7 +17,6 @@ package com.toasttab.protokt
 
 import com.google.auto.service.AutoService
 import com.toasttab.protokt.ext.Converter
-import protokt.com.google.protobuf.Int32Value
 
 @AutoService(Converter::class)
 object Int32ValueConverter : Converter<Int, Int32Value> {
