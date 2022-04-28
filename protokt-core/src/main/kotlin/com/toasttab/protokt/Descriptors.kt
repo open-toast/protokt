@@ -16,6 +16,10 @@
 package com.toasttab.protokt
 
 import com.toasttab.protokt.rt.finishList
+import protokt.com.google.protobuf.DescriptorProto
+import protokt.com.google.protobuf.EnumDescriptorProto
+import protokt.com.google.protobuf.FileDescriptorProto
+import protokt.com.google.protobuf.ServiceDescriptorProto
 
 class FileDescriptor(
     val proto: FileDescriptorProto,

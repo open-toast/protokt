@@ -15,6 +15,7 @@
 
 dependencies {
     implementation(project(":examples:protos"))
+    implementation(project(mapOf("path" to ":examples:grpc-java-lite")))
 
     runtimeOnly(libraries.protobufJava)
 }

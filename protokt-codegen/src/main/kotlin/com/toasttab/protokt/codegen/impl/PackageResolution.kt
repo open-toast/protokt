@@ -16,6 +16,7 @@
 package com.toasttab.protokt.codegen.impl
 
 import arrow.core.None
+import arrow.core.Option
 import arrow.core.getOrElse
 import arrow.core.orElse
 import com.google.protobuf.DescriptorProtos.DescriptorProto
@@ -103,8 +104,12 @@ internal fun resolvePackage(
     respectJavaPackage: Boolean
 ) =
     fileOptions.protokt.kotlinPackage.emptyToNone()
-        .orElse { javaPackage(respectJavaPackage, fileOptions) }
-        .orElse { protoPackage.emptyToNone() }
+        .orElse {
+            addProtoktPackagePrefix(javaPackage(respectJavaPackage, fileOptions))
+        }
+        .orElse {
+            addProtoktPackagePrefix(protoPackage.emptyToNone())
+        }
         .map { overrideComGoogleProtobuf(it) }
         .getOrElse { PPackage.DEFAULT }
 
@@ -114,6 +119,11 @@ private fun javaPackage(respectJavaPackage: Boolean, fileOptions: FileOptions) =
     } else {
         None
     }
+
+// Adds a protokt-specific package prefix to prevent conflicts for projects that use both protokt
+// and another protobuf code generator (e.g. Google, Wire)
+private fun addProtoktPackagePrefix(packageName: Option<String>) =
+    packageName.map { "protokt.$it" }
 
 private fun overrideComGoogleProtobuf(type: String) =
     PPackage.fromString(overrideGoogleProtobuf(type, "com.$rootGoogleProto"))

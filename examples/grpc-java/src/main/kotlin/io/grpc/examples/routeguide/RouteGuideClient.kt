@@ -23,6 +23,12 @@ import io.grpc.ManagedChannelBuilder
 import io.grpc.Status
 import io.grpc.stub.ClientCalls
 import io.grpc.stub.StreamObserver
+import protokt.io.grpc.examples.routeguide.Feature
+import protokt.io.grpc.examples.routeguide.Point
+import protokt.io.grpc.examples.routeguide.Rectangle
+import protokt.io.grpc.examples.routeguide.RouteGuideGrpc
+import protokt.io.grpc.examples.routeguide.RouteNote
+import protokt.io.grpc.examples.routeguide.RouteSummary
 import java.io.Closeable
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit

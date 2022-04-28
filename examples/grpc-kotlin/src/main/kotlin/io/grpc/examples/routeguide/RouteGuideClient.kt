@@ -24,6 +24,11 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
+import protokt.io.grpc.examples.routeguide.Feature
+import protokt.io.grpc.examples.routeguide.Point
+import protokt.io.grpc.examples.routeguide.Rectangle
+import protokt.io.grpc.examples.routeguide.RouteGuideGrpc
+import protokt.io.grpc.examples.routeguide.RouteNote
 import java.io.Closeable
 import java.util.concurrent.TimeUnit
 import kotlin.random.Random

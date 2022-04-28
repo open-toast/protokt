@@ -21,10 +21,6 @@ import com.google.common.base.Stopwatch
 import com.google.common.base.Ticker
 import io.grpc.ServerBuilder
 import io.grpc.ServerServiceDefinition
-import io.grpc.examples.routeguide.RouteGuideGrpc.getFeatureMethod
-import io.grpc.examples.routeguide.RouteGuideGrpc.listFeaturesMethod
-import io.grpc.examples.routeguide.RouteGuideGrpc.recordRouteMethod
-import io.grpc.examples.routeguide.RouteGuideGrpc.routeChatMethod
 import io.grpc.kotlin.AbstractCoroutineServerImpl
 import io.grpc.kotlin.ServerCalls.bidiStreamingServerMethodDefinition
 import io.grpc.kotlin.ServerCalls.clientStreamingServerMethodDefinition
@@ -35,6 +31,16 @@ import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flow
+import protokt.io.grpc.examples.routeguide.Feature
+import protokt.io.grpc.examples.routeguide.Point
+import protokt.io.grpc.examples.routeguide.Rectangle
+import protokt.io.grpc.examples.routeguide.RouteGuideGrpc
+import protokt.io.grpc.examples.routeguide.RouteGuideGrpc.getFeatureMethod
+import protokt.io.grpc.examples.routeguide.RouteGuideGrpc.listFeaturesMethod
+import protokt.io.grpc.examples.routeguide.RouteGuideGrpc.recordRouteMethod
+import protokt.io.grpc.examples.routeguide.RouteGuideGrpc.routeChatMethod
+import protokt.io.grpc.examples.routeguide.RouteNote
+import protokt.io.grpc.examples.routeguide.RouteSummary
 import java.util.Collections
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.TimeUnit

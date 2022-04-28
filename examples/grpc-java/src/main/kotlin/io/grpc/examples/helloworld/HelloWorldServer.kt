@@ -22,6 +22,9 @@ import io.grpc.ServerBuilder
 import io.grpc.ServerServiceDefinition
 import io.grpc.stub.ServerCalls.asyncUnaryCall
 import io.grpc.stub.StreamObserver
+import protokt.io.grpc.examples.helloworld.GreeterGrpc
+import protokt.io.grpc.examples.helloworld.HelloReply
+import protokt.io.grpc.examples.helloworld.HelloRequest
 
 class HelloWorldServer(
     private val port: Int

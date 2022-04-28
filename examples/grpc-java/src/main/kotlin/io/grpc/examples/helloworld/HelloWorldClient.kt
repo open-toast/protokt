@@ -21,6 +21,8 @@ import io.grpc.CallOptions
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import io.grpc.stub.ClientCalls
+import protokt.io.grpc.examples.helloworld.GreeterGrpc
+import protokt.io.grpc.examples.helloworld.HelloRequest
 import java.io.Closeable
 import java.util.concurrent.TimeUnit
 

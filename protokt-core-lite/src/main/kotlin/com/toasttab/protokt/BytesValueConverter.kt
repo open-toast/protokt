@@ -18,6 +18,7 @@ package com.toasttab.protokt
 import com.google.auto.service.AutoService
 import com.toasttab.protokt.ext.Converter
 import com.toasttab.protokt.rt.Bytes
+import protokt.com.google.protobuf.BytesValue
 
 @AutoService(Converter::class)
 object BytesValueConverter : Converter<Bytes, BytesValue> {

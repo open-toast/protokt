@@ -18,6 +18,8 @@ package io.grpc.examples.routeguide
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.readValue
+import protokt.io.grpc.examples.routeguide.Feature
+import protokt.io.grpc.examples.routeguide.FeatureDatabase
 
 object Database {
     fun features(): List<Feature> {

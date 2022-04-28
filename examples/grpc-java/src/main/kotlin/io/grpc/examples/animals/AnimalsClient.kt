@@ -22,6 +22,12 @@ import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import io.grpc.MethodDescriptor
 import io.grpc.stub.ClientCalls
+import protokt.io.grpc.examples.animals.BaaRequest
+import protokt.io.grpc.examples.animals.BarkRequest
+import protokt.io.grpc.examples.animals.DogGrpc
+import protokt.io.grpc.examples.animals.OinkRequest
+import protokt.io.grpc.examples.animals.PigGrpc
+import protokt.io.grpc.examples.animals.SheepGrpc
 import java.io.Closeable
 import java.util.concurrent.TimeUnit
 

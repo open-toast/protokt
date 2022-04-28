@@ -17,6 +17,7 @@ package com.toasttab.protokt
 
 import com.google.auto.service.AutoService
 import com.toasttab.protokt.ext.Converter
+import protokt.com.google.protobuf.DoubleValue
 
 @AutoService(Converter::class)
 object DoubleValueConverter : Converter<Double, DoubleValue> {

@@ -19,9 +19,12 @@ package io.grpc.examples.helloworld
 
 import io.grpc.ServerBuilder
 import io.grpc.ServerServiceDefinition
-import io.grpc.examples.helloworld.GreeterGrpc.sayHelloMethod
 import io.grpc.kotlin.AbstractCoroutineServerImpl
 import io.grpc.kotlin.ServerCalls.unaryServerMethodDefinition
+import protokt.io.grpc.examples.helloworld.GreeterGrpc
+import protokt.io.grpc.examples.helloworld.GreeterGrpc.sayHelloMethod
+import protokt.io.grpc.examples.helloworld.HelloReply
+import protokt.io.grpc.examples.helloworld.HelloRequest
 
 class HelloWorldServer(
     private val port: Int

@@ -17,6 +17,9 @@
 
 package io.grpc.examples.routeguide
 
+import protokt.io.grpc.examples.routeguide.Feature
+import protokt.io.grpc.examples.routeguide.Point
+import protokt.io.grpc.examples.routeguide.Rectangle
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.pow

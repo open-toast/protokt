@@ -20,6 +20,8 @@ package io.grpc.examples.helloworld
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import io.grpc.kotlin.ClientCalls
+import protokt.io.grpc.examples.helloworld.GreeterGrpc
+import protokt.io.grpc.examples.helloworld.HelloRequest
 import java.io.Closeable
 import java.util.concurrent.TimeUnit
 

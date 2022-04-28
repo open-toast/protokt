@@ -16,7 +16,7 @@
 package com.toasttab.protokt.ext
 
 import com.google.auto.service.AutoService
-import com.toasttab.protokt.Duration
+import protokt.com.google.protobuf.Duration
 
 @AutoService(Converter::class)
 object DurationConverter : Converter<java.time.Duration, Duration> {

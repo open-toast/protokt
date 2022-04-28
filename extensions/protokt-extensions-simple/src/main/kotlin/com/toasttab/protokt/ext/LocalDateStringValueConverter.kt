@@ -16,7 +16,7 @@
 package com.toasttab.protokt.ext
 
 import com.google.auto.service.AutoService
-import com.toasttab.protokt.StringValue
+import protokt.com.google.protobuf.StringValue
 import java.time.LocalDate
 
 @AutoService(Converter::class)

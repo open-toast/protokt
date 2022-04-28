@@ -19,11 +19,20 @@ package io.grpc.examples.animals
 
 import io.grpc.ServerBuilder
 import io.grpc.ServerServiceDefinition
-import io.grpc.examples.animals.DogGrpc.barkMethod
-import io.grpc.examples.animals.PigGrpc.oinkMethod
-import io.grpc.examples.animals.SheepGrpc.baaMethod
 import io.grpc.kotlin.AbstractCoroutineServerImpl
 import io.grpc.kotlin.ServerCalls.unaryServerMethodDefinition
+import protokt.io.grpc.examples.animals.BaaReply
+import protokt.io.grpc.examples.animals.BaaRequest
+import protokt.io.grpc.examples.animals.BarkReply
+import protokt.io.grpc.examples.animals.BarkRequest
+import protokt.io.grpc.examples.animals.DogGrpc
+import protokt.io.grpc.examples.animals.DogGrpc.barkMethod
+import protokt.io.grpc.examples.animals.OinkReply
+import protokt.io.grpc.examples.animals.OinkRequest
+import protokt.io.grpc.examples.animals.PigGrpc
+import protokt.io.grpc.examples.animals.PigGrpc.oinkMethod
+import protokt.io.grpc.examples.animals.SheepGrpc
+import protokt.io.grpc.examples.animals.SheepGrpc.baaMethod
 
 class AnimalsServer(
     private val port: Int

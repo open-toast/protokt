@@ -22,6 +22,15 @@ import io.grpc.ServerBuilder
 import io.grpc.ServerServiceDefinition
 import io.grpc.stub.ServerCalls.asyncUnaryCall
 import io.grpc.stub.StreamObserver
+import protokt.io.grpc.examples.animals.BaaReply
+import protokt.io.grpc.examples.animals.BaaRequest
+import protokt.io.grpc.examples.animals.BarkReply
+import protokt.io.grpc.examples.animals.BarkRequest
+import protokt.io.grpc.examples.animals.DogGrpc
+import protokt.io.grpc.examples.animals.OinkReply
+import protokt.io.grpc.examples.animals.OinkRequest
+import protokt.io.grpc.examples.animals.PigGrpc
+import protokt.io.grpc.examples.animals.SheepGrpc
 
 class AnimalsServer(
     private val port: Int

@@ -17,6 +17,7 @@ package com.toasttab.protokt
 
 import com.google.auto.service.AutoService
 import com.toasttab.protokt.ext.Converter
+import protokt.com.google.protobuf.UInt64Value
 
 @AutoService(Converter::class)
 object UInt64ValueConverter : Converter<Long, UInt64Value> {
