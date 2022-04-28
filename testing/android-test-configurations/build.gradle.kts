@@ -24,4 +24,5 @@ pureKotlin()
 
 dependencies {
     testImplementation(libraries.protobufLite)
+    testImplementation(project(mapOf("path" to ":testing:android")))
 }
