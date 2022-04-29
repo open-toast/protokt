@@ -18,12 +18,12 @@ package com.toasttab.protokt.conformance.driver
 import arrow.core.Either
 import arrow.core.None
 import arrow.core.toOption
+import com.toasttab.protokt.conformance.ConformanceRequest
+import com.toasttab.protokt.conformance.ConformanceResponse
+import com.toasttab.protokt.conformance.ConformanceResponse.Result
+import com.toasttab.protokt.conformance.WireFormat
 import com.toasttab.protokt.rt.Bytes
-import protokt.com.google.protobuf.conformance.ConformanceRequest
-import protokt.com.google.protobuf.conformance.ConformanceResponse
-import protokt.com.google.protobuf.conformance.ConformanceResponse.Result
-import protokt.com.google.protobuf.conformance.WireFormat
-import protokt.com.google.protobuf_test_messages.proto3.TestAllTypesProto3
+import com.toasttab.protokt_test_messages.proto3.TestAllTypesProto3
 import java.io.InputStream
 import java.nio.ByteBuffer
 import java.nio.ByteOrder

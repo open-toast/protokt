@@ -16,8 +16,8 @@
 package com.toasttab.protokt.ext
 
 import com.google.auto.service.AutoService
+import com.toasttab.protokt.BytesValue
 import com.toasttab.protokt.rt.Bytes
-import protokt.com.google.protobuf.BytesValue
 import java.net.InetAddress
 
 @AutoService(Converter::class)
