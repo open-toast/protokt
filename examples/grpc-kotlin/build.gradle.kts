@@ -17,7 +17,6 @@ dependencies {
     implementation(project(":examples:protos"))
     implementation(libraries.grpcKotlin)
     implementation(libraries.kotlinxCoroutinesCore)
-    implementation(project(mapOf("path" to ":examples:grpc-java-lite")))
 
     runtimeOnly(libraries.protobufJava)
 }

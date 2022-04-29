@@ -25,7 +25,6 @@ protokt {
 }
 
 dependencies {
-    implementation(project(mapOf("path" to ":examples:protos")))
     protobuf(project(":examples:protos"))
 
     implementation(libraries.jackson)
