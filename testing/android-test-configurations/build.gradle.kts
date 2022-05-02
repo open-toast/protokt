@@ -1,3 +1,5 @@
+import com.toasttab.protokt.gradle.protoktExtensions
+
 /*
  * Copyright (c) 2021 Toast Inc.
  *
@@ -24,4 +26,6 @@ pureKotlin()
 
 dependencies {
     testImplementation(libraries.protobufLite)
+    testImplementation(project(mapOf("path" to ":testing:android")))
+    protoktExtensions(project(":extensions:protokt-extensions"))
 }

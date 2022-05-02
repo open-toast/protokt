@@ -133,7 +133,12 @@ private fun addProtoktPackagePrefix(packageName: String) =
 
 // Returns the overriden type value or null if no override occurred
 private fun overrideComGoogleProtobuf(type: String): Option<String> {
-    val overridenType = overrideGoogleProtobuf(type, "com.$rootGoogleProto")
+    // TODO: make double prefix check not needed by removing com. in advance
+    var overridenType = overrideGoogleProtobuf(type, "com.$rootGoogleProto")
+    if (overridenType != type) {
+        return Some(overridenType)
+    }
+    overridenType = overrideGoogleProtobuf(type, rootGoogleProto)
     if (overridenType != type) {
         return Some(overridenType)
     }

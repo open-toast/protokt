@@ -24,7 +24,7 @@ class ProtoktCodegenTest : AbstractProtoktCodegenTest() {
         runPlugin(
             "test.proto",
             ProtoktExtension().apply {
-                respectJavaPackage = false
+                respectJavaPackage = true
             }
         )
             .fileList

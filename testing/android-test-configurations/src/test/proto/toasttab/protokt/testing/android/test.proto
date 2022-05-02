@@ -17,7 +17,9 @@ syntax = "proto3";
 
 package toasttab.protokt.testing.android;
 
-option java_package = "com.toasttab.protokt.testing.android";
+import "protokt/protokt.proto";
+
+option (.protokt.file).kotlin_package = "com.toasttab.protokt.testing.android";
 
 message TestMessage {
   string foo = 1;
