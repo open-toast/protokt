@@ -43,5 +43,5 @@ message WellKnownTypesLite {
 
   .protokt.ext.InetSocketAddress address = 10 [(.protokt.property).wrap = "java.net.InetSocketAddress"];
 
-  google.type.Date date = 11;
+  google.type.Date date = 11 [(.protokt.property).wrap = "java.time.LocalDate"];
 }
