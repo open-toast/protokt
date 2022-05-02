@@ -16,7 +16,6 @@
 package com.toasttab.protokt.ext
 
 import com.google.auto.service.AutoService
-import protokt.com.toasttab.protokt.ext.InetSocketAddress
 
 @AutoService(Converter::class)
 object InetSocketAddressConverter :

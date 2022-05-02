@@ -15,13 +15,15 @@
 
 syntax = "proto3";
 
-package com.toasttab.protokt.testing.options;
+package toasttab.protokt.testing.options;
 
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
 import "protokt/ext/inet_socket_address.proto";
 import "protokt/protokt.proto";
+
+option (.protokt.file).kotlin_package = "com.toasttab.protokt.testing.options";
 
 message Wrappers {
   bytes id = 1 [

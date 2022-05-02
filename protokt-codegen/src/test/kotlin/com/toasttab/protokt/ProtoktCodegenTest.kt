@@ -15,12 +15,18 @@
 
 package com.toasttab.protokt
 
+import com.toasttab.protokt.gradle.ProtoktExtension
 import org.junit.jupiter.api.Test
 
 class ProtoktCodegenTest : AbstractProtoktCodegenTest() {
     @Test
     fun `step through code generation with debugger`() {
-        runPlugin("test.proto")
+        runPlugin(
+            "test.proto",
+            ProtoktExtension().apply {
+                respectJavaPackage = false
+            }
+        )
             .fileList
             .forEach {
                 println(it.name)

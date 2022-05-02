@@ -16,6 +16,8 @@
 package com.toasttab.protokt.codegen.impl
 
 import arrow.core.None
+import arrow.core.Option
+import arrow.core.Some
 import arrow.core.getOrElse
 import arrow.core.orElse
 import com.google.protobuf.DescriptorProtos.DescriptorProto
@@ -103,9 +105,17 @@ internal fun resolvePackage(
     respectJavaPackage: Boolean
 ) =
     fileOptions.protokt.kotlinPackage.emptyToNone()
-        .orElse { javaPackage(respectJavaPackage, fileOptions) }
-        .orElse { protoPackage.emptyToNone() }
-        .map { overrideComGoogleProtobuf(it) ?: addProtoktPackagePrefix(it) }
+        .orElse {
+            val inferredPackage =
+                javaPackage(respectJavaPackage, fileOptions)
+                    .orElse { protoPackage.emptyToNone() }
+
+            inferredPackage
+                .flatMap { overrideComGoogleProtobuf(it) }
+                .orElse {
+                    inferredPackage.map { addProtoktPackagePrefix(it) }
+                }
+        }
         .map { PPackage.fromString(it) }
         .getOrElse { PPackage.DEFAULT }
 
@@ -122,13 +132,13 @@ private fun addProtoktPackagePrefix(packageName: String) =
     "protokt.$packageName"
 
 // Returns the overriden type value or null if no override occurred
-private fun overrideComGoogleProtobuf(type: String): String? {
+private fun overrideComGoogleProtobuf(type: String): Option<String> {
     val overridenType = overrideGoogleProtobuf(type, "com.$rootGoogleProto")
     if (overridenType != type) {
-        return overridenType
+        return Some(overridenType)
     }
     // Path didn't match conditions for override
-    return null
+    return None
 }
 
 internal fun overrideGoogleProtobuf(type: String, prefix: String) =

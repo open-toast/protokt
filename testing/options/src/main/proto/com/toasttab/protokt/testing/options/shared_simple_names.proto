@@ -15,10 +15,12 @@
 
 syntax = "proto3";
 
-package com.toasttab.protokt.testing.options;
+package toasttab.protokt.testing.options;
 
 import "google/protobuf/duration.proto";
 import "protokt/protokt.proto";
+
+option (.protokt.file).kotlin_package = "com.toasttab.protokt.testing.options";
 
 message ImportsWrapperModel {
   google.protobuf.Duration native_duration = 1 [

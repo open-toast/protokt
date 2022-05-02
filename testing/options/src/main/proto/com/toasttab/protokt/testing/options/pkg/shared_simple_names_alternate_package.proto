@@ -20,6 +20,8 @@ package com.toasttab.protokt.testing.options.pkg;
 import "google/protobuf/duration.proto";
 import "protokt/protokt.proto";
 
+option (.protokt.file).kotlin_package = "com.toasttab.protokt.testing.options.pkg";
+
 message ImportsWrapperModel {
   google.protobuf.Duration native_duration = 1 [
     (.protokt.property).non_null = true

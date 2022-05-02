@@ -15,10 +15,12 @@
 
 syntax = "proto3";
 
-package com.toasttab.protokt.testing.options;
+package toasttab.protokt.testing.options;
 
 import "protokt/protokt.proto";
 
 option (.protokt.file).file_descriptor_object_name = "SomeOtherObjectName";
+
+option (.protokt.file).kotlin_package = "com.toasttab.protokt.testing.options";
 
 message FileDescriptorObjectNameTest {}

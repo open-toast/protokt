@@ -508,11 +508,7 @@ private fun requalifyProtoType(typeName: String, ctx: ProtocolContext): PClass {
             withOverriddenGoogleProtoPackage.enclosing
         )
 
-    return if (ctx.respectJavaPackage) {
-        PClass.fromName(
-            withOverriddenReservedName.nestedName
-        ).qualify(ctx.allPackagesByTypeName.getValue(typeName))
-    } else {
-        withOverriddenReservedName
-    }
+    return PClass.fromName(
+        withOverriddenReservedName.nestedName
+    ).qualify(ctx.allPackagesByTypeName.getValue(typeName))
 }
