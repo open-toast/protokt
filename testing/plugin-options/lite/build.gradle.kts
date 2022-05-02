@@ -24,7 +24,6 @@ protokt {
 }
 
 dependencies {
-    protoktExtensions(project(":extensions:protokt-extensions-lite"))
     protoktExtensions(project(":third-party:proto-google-common-protos-extensions-lite"))
 
     testImplementation(kotlin("reflect"))

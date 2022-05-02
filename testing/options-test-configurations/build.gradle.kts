@@ -23,7 +23,5 @@ dependencies {
     testProtoktExtensions(project(":testing:options-api"))
     testProtoktExtensions(project(":third-party:proto-google-common-protos-extensions"))
 
-    testImplementation(project(":third-party:proto-google-common-protos"))
-
     testProtobuf(project(":testing:options"))
 }
