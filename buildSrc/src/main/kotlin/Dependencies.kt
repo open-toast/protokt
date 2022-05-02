@@ -42,7 +42,7 @@ object versions {
     const val protoGoogleCommonProtos = "2.8.2"
 
     // Android
-    const val androidGradle = "4.1.0"
+    const val androidGradle = "7.1.0"
 }
 
 object libraries {
