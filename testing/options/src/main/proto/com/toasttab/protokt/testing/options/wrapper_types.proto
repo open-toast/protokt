@@ -20,6 +20,7 @@ package com.toasttab.protokt.testing.options;
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
+import "google/type/date.proto";
 import "protokt/ext/inet_socket_address.proto";
 import "protokt/protokt.proto";
 
@@ -66,6 +67,11 @@ message Wrappers {
   google.protobuf.StringValue nullable_local_date = 10 [
     (.protokt.property).wrap = "java.time.LocalDate"
   ];
+
+  google.type.Date google_date = 11 [
+    (.protokt.property).wrap = "java.time.LocalDate",
+    (.protokt.property).non_null = true
+  ];
 }
 
 message OneofWrappers {
@@ -109,6 +115,10 @@ message OneofWrappers {
     ];
 
     google.protobuf.StringValue nullable_local_date_oneof = 10 [
+      (.protokt.property).wrap = "java.time.LocalDate"
+    ];
+
+    google.type.Date google_date_oneof = 11 [
       (.protokt.property).wrap = "java.time.LocalDate"
     ];
   }

@@ -25,7 +25,7 @@ protokt {
 
 dependencies {
     protoktExtensions(project(":testing:options-api"))
-    protoktExtensions(project(":extensions:protokt-extensions"))
+    protoktExtensions(project(":third-party:proto-google-common-protos-extensions"))
 
     implementation(libraries.grpcStub)
 

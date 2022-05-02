@@ -39,6 +39,7 @@ class WrapperTypesTest {
             localDate = LocalDate.of(1950, 10, 4)
             nullableUuid = UUID.randomUUID()
             nullableLocalDate = LocalDate.of(1950, 10, 4)
+            googleDate = LocalDate.of(1950, 10, 4)
         }
 
     @Test
@@ -123,6 +124,13 @@ class WrapperTypesTest {
             Wrappers.deserialize(model.copy { nullableLocalDate = null }.serialize())
 
         assertThat(deserialized.nullableLocalDate).isNull()
+    }
+
+    @Test
+    fun `round trip should preserve google localdate`() {
+        val deserialized = Wrappers.deserialize(model.serialize())
+
+        assertThat(deserialized.googleDate).isEqualTo(model.googleDate)
     }
 
     @Test
@@ -227,6 +235,19 @@ class WrapperTypesTest {
         assertThat(
             (deserialized.wrappedOneof as WrappedOneof.LocalDateOneof).localDateOneof
         ).isEqualTo(model.localDate)
+    }
+
+    @Test
+    fun `round trip should preserve google localdate oneof`() {
+        val deserialized = OneofWrappers.deserialize(
+            OneofWrappers {
+                wrappedOneof = WrappedOneof.GoogleDateOneof(model.googleDate)
+            }.serialize()
+        )
+
+        assertThat(
+            (deserialized.wrappedOneof as WrappedOneof.GoogleDateOneof).googleDateOneof
+        ).isEqualTo(model.googleDate)
     }
 
     @Test

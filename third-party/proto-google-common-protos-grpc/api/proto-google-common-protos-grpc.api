@@ -1,0 +1,11 @@
+public final class com/google/longrunning/OperationsGrpc {
+	public static final field INSTANCE Lcom/google/longrunning/OperationsGrpc;
+	public static final field SERVICE_NAME Ljava/lang/String;
+	public final fun getCancelOperationMethod ()Lio/grpc/MethodDescriptor;
+	public final fun getDeleteOperationMethod ()Lio/grpc/MethodDescriptor;
+	public final fun getGetOperationMethod ()Lio/grpc/MethodDescriptor;
+	public final fun getListOperationsMethod ()Lio/grpc/MethodDescriptor;
+	public final fun getServiceDescriptor ()Lio/grpc/ServiceDescriptor;
+	public final fun getWaitOperationMethod ()Lio/grpc/MethodDescriptor;
+}
+
