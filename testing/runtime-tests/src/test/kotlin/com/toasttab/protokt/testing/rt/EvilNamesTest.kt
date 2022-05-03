@@ -17,8 +17,8 @@ package com.toasttab.protokt.testing.rt
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
-import toasttab.protokt.testing.rt.data.EvilNames
-import toasttab.protokt.testing.rt.data.ImportEvilNames
+import protokt.toasttab.protokt.testing.rt.data.EvilNames
+import protokt.toasttab.protokt.testing.rt.data.ImportEvilNames
 
 class EvilNamesTest {
     @Test

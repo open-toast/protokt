@@ -17,10 +17,10 @@ package com.toasttab.protokt.testing.rt
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
-import toasttab.protokt.testing.rt.HasAnEnum
-import toasttab.protokt.testing.rt.HasMoreEnum
-import toasttab.protokt.testing.rt.MoreEnum
-import toasttab.protokt.testing.rt.SomeEnum
+import protokt.toasttab.protokt.testing.rt.HasAnEnum
+import protokt.toasttab.protokt.testing.rt.HasMoreEnum
+import protokt.toasttab.protokt.testing.rt.MoreEnum
+import protokt.toasttab.protokt.testing.rt.SomeEnum
 
 class EnumTest {
     @Test

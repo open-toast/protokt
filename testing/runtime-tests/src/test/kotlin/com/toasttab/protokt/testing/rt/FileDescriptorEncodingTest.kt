@@ -29,9 +29,9 @@ import com.toasttab.protokt.descriptor
 import com.toasttab.protokt.testing.rt.other.DeeplyNested
 import com.toasttab.protokt.testing.rt.other.HasAService
 import org.junit.jupiter.api.Test
-import toasttab.protokt.testing.rt.DeeplyNested1.DeeplyNested2.DeeplyNested3.DeeplyNested4
-import toasttab.protokt.testing.rt.FooService
-import toasttab.protokt.testing.rt.descriptor
+import protokt.toasttab.protokt.testing.rt.DeeplyNested1.DeeplyNested2.DeeplyNested3.DeeplyNested4
+import protokt.toasttab.protokt.testing.rt.FooService
+import protokt.toasttab.protokt.testing.rt.descriptor
 import kotlin.reflect.KClass
 
 // Assert against a sampling of generated descriptors.

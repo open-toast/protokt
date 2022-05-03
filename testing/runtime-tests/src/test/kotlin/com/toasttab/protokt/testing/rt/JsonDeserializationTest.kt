@@ -28,9 +28,9 @@ import com.toasttab.protokt.rt.KtEnumDeserializer
 import com.toasttab.protokt.rt.KtMessage
 import com.toasttab.protokt.rt.UnknownFieldSet
 import org.junit.jupiter.api.Test
-import toasttab.protokt.testing.rt.AnEnum
-import toasttab.protokt.testing.rt.RootMessage
-import toasttab.protokt.testing.rt.ToDeserialize
+import protokt.toasttab.protokt.testing.rt.AnEnum
+import protokt.toasttab.protokt.testing.rt.RootMessage
+import protokt.toasttab.protokt.testing.rt.ToDeserialize
 
 class JsonDeserializationTest {
     private val mapper =
