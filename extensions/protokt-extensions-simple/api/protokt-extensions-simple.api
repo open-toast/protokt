@@ -48,6 +48,16 @@ public final class com/toasttab/protokt/ext/LocalDateConverter : com/toasttab/pr
 	public fun wrap (Ljava/lang/String;)Ljava/time/LocalDate;
 }
 
+public final class com/toasttab/protokt/ext/LocalDateStringConverter : com/toasttab/protokt/ext/Converter {
+	public static final field INSTANCE Lcom/toasttab/protokt/ext/LocalDateStringConverter;
+	public fun getWrapped ()Lkotlin/reflect/KClass;
+	public fun getWrapper ()Lkotlin/reflect/KClass;
+	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun unwrap (Ljava/time/LocalDate;)Ljava/lang/String;
+	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun wrap (Ljava/lang/String;)Ljava/time/LocalDate;
+}
+
 public final class com/toasttab/protokt/ext/LocalDateStringValueConverter : com/toasttab/protokt/ext/Converter {
 	public static final field INSTANCE Lcom/toasttab/protokt/ext/LocalDateStringValueConverter;
 	public fun getWrapped ()Lkotlin/reflect/KClass;

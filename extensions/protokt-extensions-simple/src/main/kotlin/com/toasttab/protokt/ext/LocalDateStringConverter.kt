@@ -16,18 +16,31 @@
 package com.toasttab.protokt.ext
 
 import com.google.auto.service.AutoService
-import com.toasttab.protokt.StringValue
 import java.time.LocalDate
 
 @AutoService(Converter::class)
-object LocalDateStringValueConverter : Converter<LocalDate, StringValue> {
+object LocalDateStringConverter : Converter<LocalDate, String> {
     override val wrapper = LocalDate::class
 
-    override val wrapped = StringValue::class
+    override val wrapped = String::class
 
-    override fun wrap(unwrapped: StringValue) =
-        LocalDateStringConverter.wrap(unwrapped.value)
+    override fun wrap(unwrapped: String): LocalDate =
+        LocalDate.parse(unwrapped)
 
     override fun unwrap(wrapped: LocalDate) =
-        StringValue { value = LocalDateStringConverter.unwrap(wrapped) }
+        wrapped.toString()
+}
+
+@AutoService(Converter::class)
+@Deprecated("use LocalDateStringConverter or upgrade protokt")
+object LocalDateConverter : Converter<LocalDate, String> {
+    override val wrapper = LocalDateStringConverter.wrapper
+
+    override val wrapped = LocalDateStringConverter.wrapped
+
+    override fun wrap(unwrapped: String) =
+        LocalDateStringConverter.wrap(unwrapped)
+
+    override fun unwrap(wrapped: LocalDate) =
+        LocalDateStringConverter.unwrap(wrapped)
 }

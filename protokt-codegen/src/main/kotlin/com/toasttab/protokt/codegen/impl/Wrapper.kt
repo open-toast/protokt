@@ -36,6 +36,7 @@ import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.ext.OptimizedSizeofConverter
 import com.toasttab.protokt.rt.BytesSlice
 import kotlin.reflect.KClass
+import kotlin.reflect.full.hasAnnotation
 
 object Wrapper {
     val StandardField.wrapped
@@ -278,11 +279,17 @@ object Wrapper {
         converter(wrapper, wrapped, ctx.desc.context)
 
     val converter = { wrapper: KClass<*>, wrapped: KClass<*>, ctx: ProtocolContext ->
-        converters(ctx.classpath).find {
-            it.wrapper == wrapper && it.wrapped == wrapped
-        } ?: error(
+        val converters =
+            converters(ctx.classpath)
+                .filter { it.wrapper == wrapper && it.wrapped == wrapped }
+
+        require(converters.isNotEmpty()) {
             "${ctx.fileName}: No converter found for wrapper type " +
                 "${wrapper.qualifiedName} from type ${wrapped.qualifiedName}"
-        )
+        }
+
+        converters
+            .filterNot { it::class.hasAnnotation<Deprecated>() }
+            .firstOrNull() ?: converters.first()
     }.memoize()
 }
