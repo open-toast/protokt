@@ -27,7 +27,7 @@ class IgnoreJavaPackageTest {
     @Test
     fun `java_package option is ignored when plugin option requests it`() {
         assertThat(Person::class.java.`package`.name)
-            .isEqualTo("tutorial")
+            .isEqualTo("protokt.tutorial")
     }
 
     @Test
