@@ -18,10 +18,10 @@ package com.toasttab.protokt.testing.pluginoptions
 import com.google.common.truth.Truth.assertThat
 import com.toasttab.protokt.TimestampProto
 import org.junit.jupiter.api.Test
-import toasttab.protokt.testing.ijp.WillBeImported
-import toasttab.protokt.testing.otherijp.UsesImport
-import tutorial.AddressBookProtos
-import tutorial.Person
+import protokt.toasttab.protokt.testing.ijp.WillBeImported
+import protokt.toasttab.protokt.testing.otherijp.UsesImport
+import protokt.tutorial.AddressBookProtos
+import protokt.tutorial.Person
 
 class IgnoreJavaPackageTest {
     @Test
