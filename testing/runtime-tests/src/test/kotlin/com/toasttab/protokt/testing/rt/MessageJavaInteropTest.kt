@@ -19,8 +19,8 @@ import com.google.common.truth.Truth.assertThat
 import com.toasttab.protokt.Timestamp
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import tutorial.AddressBook
-import tutorial.Person
+import protokt.tutorial.AddressBook
+import protokt.tutorial.Person
 import com.example.tutorial.AddressBookProtos.AddressBook as JavaAddressBook
 import com.example.tutorial.AddressBookProtos.Person as JavaPerson
 import com.example.tutorial.AddressBookProtos.Person.PhoneNumber as JavaPhoneNumber
