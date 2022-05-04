@@ -56,27 +56,62 @@ internal fun hashCodeUsingSequence(asSequence: Sequence<*>) =
     asSequence.fold(1) { hash, elt -> 31 * hash + elt.hashCode() }
 
 private class UnmodifiableList<T>(
-    private val list: List<T>
-) : List<T> by list {
+    private val delegate: List<T>
+) : List<T> by delegate {
     override fun equals(other: Any?) =
-        other == list
+        other == delegate
 
     override fun hashCode() =
-        list.hashCode()
+        delegate.hashCode()
 
     override fun toString() =
-        list.toString()
+        delegate.toString()
 }
 
 private class UnmodifiableMap<K, V>(
-    private val map: Map<K, V>
-) : Map<K, V> by map {
+    private val delegate: Map<K, V>
+) : Map<K, V> by delegate {
+    override val entries: Set<Map.Entry<K, V>>
+        get() = UnmodifiableSet(delegate.entries)
+
+    override val keys: Set<K>
+        get() = UnmodifiableSet(delegate.keys)
+
+    override val values: Collection<V>
+        get() = UnmodifiableCollection(delegate.values)
+
     override fun equals(other: Any?) =
-        other == map
+        other == delegate
 
     override fun hashCode() =
-        map.hashCode()
+        delegate.hashCode()
 
     override fun toString() =
-        map.toString()
+        delegate.toString()
+}
+
+private class UnmodifiableSet<T>(
+    private val delegate: Set<T>
+) : Set<T> by delegate {
+    override fun equals(other: Any?) =
+        other == delegate
+
+    override fun hashCode() =
+        delegate.hashCode()
+
+    override fun toString() =
+        delegate.toString()
+}
+
+private class UnmodifiableCollection<T>(
+    private val delegate: Collection<T>
+) : Collection<T> by delegate {
+    override fun equals(other: Any?) =
+        other == delegate
+
+    override fun hashCode() =
+        delegate.hashCode()
+
+    override fun toString() =
+        delegate.toString()
 }
