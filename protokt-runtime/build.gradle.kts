@@ -27,9 +27,13 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 compileOnly(libraries.protobufJava)
+            }
+        }
 
-                testImplementation(libraries.junit)
-                testImplementation(libraries.truth)
+        val commonTest by getting {
+            dependencies {
+                implementation(libraries.junit)
+                implementation(libraries.truth)
             }
         }
     }
