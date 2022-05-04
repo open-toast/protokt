@@ -17,5 +17,4 @@ plugins {
     idea
 }
 
-group = "com.toasttab.protokt"
 version = rootProject.version

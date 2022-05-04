@@ -18,6 +18,7 @@ plugins {
 }
 
 allprojects {
+    group = "com.toasttab.protokt"
     lint()
 }
 
