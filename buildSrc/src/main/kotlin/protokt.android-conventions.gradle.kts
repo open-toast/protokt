@@ -20,3 +20,7 @@ plugins {
 }
 
 javaBasedProjectConventions()
+
+repositories {
+    google()
+}
