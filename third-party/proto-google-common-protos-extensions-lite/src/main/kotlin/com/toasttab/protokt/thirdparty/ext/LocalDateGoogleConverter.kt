@@ -16,7 +16,7 @@
 package com.toasttab.protokt.thirdparty.ext
 
 import com.google.auto.service.AutoService
-import com.google.type.Date
+import protokt.com.google.type.Date
 import com.toasttab.protokt.ext.Converter
 import java.time.LocalDate
 
