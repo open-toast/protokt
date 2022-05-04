@@ -55,15 +55,3 @@ tasks.register("run") {
         "wire:run"
     )
 }
-
-subprojects {
-    apply(plugin = "java")
-    apply(plugin = "kotlin")
-    apply(plugin = "kotlin-kapt")
-
-    dependencies {
-        implementation(libraries.kotlinStdlib)
-        implementation(libraries.jmhCore)
-        "kapt"(libraries.jmhGenerator)
-    }
-}

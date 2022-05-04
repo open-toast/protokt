@@ -16,6 +16,7 @@
 import com.google.protobuf.gradle.protobuf
 
 plugins {
+    id("protokt.benchmarks-conventions")
     application
 }
 
@@ -29,7 +30,7 @@ configure<JavaApplication> {
 dependencies {
     protobuf(project(":benchmarks:schema"))
 
-    implementation(libraries.kotlinReflect)
+    implementation(kotlin("reflect"))
     implementation(libraries.protobufJava)
     implementation(project(":benchmarks:benchmarks-util"))
 }

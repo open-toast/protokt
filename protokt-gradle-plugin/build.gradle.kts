@@ -15,6 +15,7 @@
 
 plugins {
     `kotlin-dsl`
+    id("protokt.jvm-conventions")
     id("com.gradle.plugin-publish") version "0.11.0"
 }
 

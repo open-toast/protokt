@@ -20,8 +20,9 @@ import com.google.protobuf.gradle.protoc
 import com.toasttab.protokt.gradle.CODEGEN_NAME
 
 plugins {
-    application
+    id("protokt.jvm-conventions")
     id("com.google.protobuf")
+    application
 }
 
 enablePublishing(defaultJars = false)
@@ -42,7 +43,6 @@ dependencies {
     implementation(libraries.arrow)
     implementation(libraries.grpcStub)
     implementation(libraries.kotlinPoet)
-    implementation(libraries.kotlinReflect)
     implementation(libraries.kotlinxCollections)
     implementation(libraries.kotlinxCoroutinesCore)
     implementation(libraries.protobufJava)
