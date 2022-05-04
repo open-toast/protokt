@@ -71,13 +71,13 @@ private class UnmodifiableList<T>(
 private class UnmodifiableMap<K, V>(
     private val delegate: Map<K, V>
 ) : Map<K, V> by delegate {
-    override val entries: Set<Map.Entry<K, V>>
+    override val entries
         get() = UnmodifiableSet(delegate.entries)
 
-    override val keys: Set<K>
+    override val keys
         get() = UnmodifiableSet(delegate.keys)
 
-    override val values: Collection<V>
+    override val values
         get() = UnmodifiableCollection(delegate.values)
 
     override fun equals(other: Any?) =
