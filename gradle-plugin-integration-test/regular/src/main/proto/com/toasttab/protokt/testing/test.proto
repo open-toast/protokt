@@ -20,6 +20,8 @@ package com.toasttab.protokt.testing;
 import "protokt/protokt.proto";
 import "google/protobuf/timestamp.proto";
 
+option (.protokt.file).kotlin_package = "com.toasttab.protokt.testing";
+
 message TestMessage {
   google.protobuf.Timestamp timestamp = 1 [
     (.protokt.property).wrap = "java.time.Instant"

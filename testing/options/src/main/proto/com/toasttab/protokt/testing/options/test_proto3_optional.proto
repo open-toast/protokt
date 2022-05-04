@@ -15,7 +15,7 @@
 
 syntax = "proto3";
 
-package toasttab.protokt.testing.options;
+package com.toasttab.protokt.testing.options;
 
 import "protokt/protokt.proto";
 

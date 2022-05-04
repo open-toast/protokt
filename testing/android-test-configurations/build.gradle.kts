@@ -1,5 +1,3 @@
-import com.toasttab.protokt.gradle.protoktExtensions
-
 /*
  * Copyright (c) 2021 Toast Inc.
  *
@@ -14,6 +12,7 @@ import com.toasttab.protokt.gradle.protoktExtensions
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import com.toasttab.protokt.gradle.protoktExtensions
 
 android {
     compileSdkVersion(31)
