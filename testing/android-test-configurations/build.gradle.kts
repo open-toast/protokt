@@ -12,6 +12,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import com.toasttab.protokt.gradle.protokt
 import com.toasttab.protokt.gradle.protoktExtensions
 
 android {
@@ -23,8 +25,13 @@ android {
 localProtokt()
 pureKotlin()
 
+protokt {
+    lite = true
+}
+
 dependencies {
+    protoktExtensions(project(":extensions:protokt-extensions-lite"))
+
+    testImplementation(project(":testing:testing-util"))
     testImplementation(libraries.protobufLite)
-    testImplementation(project(":testing:android"))
-    protoktExtensions(project(":extensions:protokt-extensions"))
 }

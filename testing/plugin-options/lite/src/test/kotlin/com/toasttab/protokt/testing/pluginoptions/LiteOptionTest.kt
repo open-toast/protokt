@@ -15,28 +15,23 @@
 
 package com.toasttab.protokt.testing.pluginoptions
 
+import com.toasttab.protokt.testing.shared.assertDescriptorDoesNotExist
+import com.toasttab.protokt.testing.shared.assertProtoktDescriptorDoesNotExist
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class LiteOptionTest {
     @Test
     fun `descriptor object doesn't exist`() {
-        assertThrows<ClassNotFoundException> {
-            Class.forName("toasttab.protokt.testing.lite.LiteTest")
-        }
+        assertDescriptorDoesNotExist("toasttab.protokt.testing.lite.LiteTest")
     }
 
     @Test
     fun `service descriptor doesn't exist`() {
-        assertThrows<ClassNotFoundException> {
-            Class.forName("toasttab.protokt.testing.lite.LiteService")
-        }
+        assertDescriptorDoesNotExist("toasttab.protokt.testing.lite.LiteService")
     }
 
     @Test
     fun `protokt descriptor isn't available`() {
-        assertThrows<ClassNotFoundException> {
-            Class.forName("com.toasttab.protokt.ext.Protokt")
-        }
+        assertProtoktDescriptorDoesNotExist()
     }
 }

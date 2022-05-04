@@ -16,8 +16,8 @@
 package com.toasttab.protokt.testing.android
 
 import com.google.common.truth.Truth.assertThat
+import com.toasttab.protokt.testing.shared.assertProtoktDescriptorDoesNotExist
 import org.junit.jupiter.api.Test
-import protokt.com.toasttab.protokt.testing.android.TestMessage
 
 class AndroidProtobufTest {
     @Test
@@ -25,5 +25,10 @@ class AndroidProtobufTest {
         assertThat(
             TestMessage.deserialize(TestMessage { foo = "foo" }.serialize()).foo
         ).isEqualTo("foo")
+    }
+
+    @Test
+    fun `protokt descriptor isn't available`() {
+        assertProtoktDescriptorDoesNotExist()
     }
 }

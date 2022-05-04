@@ -25,5 +25,7 @@ protokt {
 
 dependencies {
     protoktExtensions(project(":extensions:protokt-extensions-lite"))
+
+    testImplementation(project(":testing:testing-util"))
     testImplementation(kotlin("reflect"))
 }
