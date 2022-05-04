@@ -44,12 +44,7 @@ internal fun main(bytes: ByteArray, out: OutputStream) {
     val files = req.protoFileList
         .filter { filesToGenerate.contains(it.name) }
         .mapNotNull {
-            val fileSpec: FileSpec?
-            try {
-                fileSpec = generate(it, req.protoFileList, filesToGenerate, params)
-            } catch (e: Exception) {
-                throw Exception("Failed to generate file: ${it.name} ${it.`package`}", e)
-            }
+            val fileSpec = generate(it, req.protoFileList, filesToGenerate, params)
             fileSpec?.let(::response)
         }
 
