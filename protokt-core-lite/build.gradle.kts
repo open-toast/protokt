@@ -17,28 +17,35 @@ import com.google.protobuf.gradle.protobuf
 import com.toasttab.protokt.gradle.protokt
 
 plugins {
-    id("protokt.jvm-conventions")
+    id("org.jetbrains.kotlin.multiplatform")
     kotlin("kapt")
 }
 
-localProtokt()
+
 pureKotlin()
-enablePublishing()
-compatibleWithAndroid()
+enablePublishing(false)
 trackKotlinApiCompatibility()
+
+kotlin {
+    jvm()
+
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                api(project(":extensions:protokt-extensions-api"))
+                api(project(":protokt-runtime"))
+
+                implementation(libraries.autoServiceAnnotations)
+
+                configurations["kapt"].dependencies.add(project.dependencies.create(libraries.autoService))
+                // configurations["protobuf"].dependencies.add(project.dependencies.create(libraries.protobufJava))
+            }
+        }
+    }
+}
+
+localProtokt()
 
 protokt {
     lite = true
-}
-
-dependencies {
-    api(project(":extensions:protokt-extensions-api"))
-    api(project(":protokt-runtime"))
-
-    protobuf(libraries.protobufJava)
-    compileOnly(libraries.protobufJava)
-
-    implementation(libraries.autoServiceAnnotations)
-
-    kapt(libraries.autoService)
 }
