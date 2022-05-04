@@ -112,9 +112,7 @@ internal fun resolvePackage(
 
             inferredPackage
                 .flatMap { overrideComGoogleProtobuf(it) }
-                .orElse {
-                    inferredPackage.map { addProtoktPackagePrefix(it) }
-                }
+                .orElse { inferredPackage.map { addProtoktPackagePrefix(it) } }
         }
         .map { PPackage.fromString(it) }
         .getOrElse { PPackage.DEFAULT }
@@ -131,7 +129,7 @@ private fun javaPackage(respectJavaPackage: Boolean, fileOptions: FileOptions) =
 private fun addProtoktPackagePrefix(packageName: String) =
     "protokt.$packageName"
 
-// Returns the overriden type value or null if no override occurred
+// Returns the overriden type value or None if no override occurred
 private fun overrideComGoogleProtobuf(type: String): Option<String> {
     // TODO: make double prefix check not needed by removing com. in advance
     var overridenType = overrideGoogleProtobuf(type, "com.$rootGoogleProto")
