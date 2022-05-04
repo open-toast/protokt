@@ -19,28 +19,28 @@ fun <K, V> finishMap(map: Map<K, V>?): Map<K, V> =
     if (map.isNullOrEmpty()) {
         emptyMap()
     } else {
-        unmodifiableMap(map)
+        UnmodifiableMap(map)
     }
 
 fun <K, V> copyMap(map: Map<K, V>): Map<K, V> =
     if (map.isEmpty()) {
         emptyMap()
     } else {
-        unmodifiableMap(LinkedHashMap(map))
+        UnmodifiableMap(LinkedHashMap(map))
     }
 
 fun <T> finishList(list: List<T>?): List<T> =
     if (list.isNullOrEmpty()) {
         emptyList()
     } else {
-        unmodifiableList(list)
+        UnmodifiableList(list)
     }
 
 fun <T> copyList(list: List<T>): List<T> =
     if (list.isEmpty()) {
         emptyList()
     } else {
-        unmodifiableList(ArrayList(list))
+        UnmodifiableList(ArrayList(list))
     }
 
 internal inline fun <reified T> T.equalsUsingSequence(
@@ -55,26 +55,28 @@ internal inline fun <reified T> T.equalsUsingSequence(
 internal fun hashCodeUsingSequence(asSequence: Sequence<*>) =
     asSequence.fold(1) { hash, elt -> 31 * hash + elt.hashCode() }
 
-private fun <T> unmodifiableList(list: List<T>) =
-    object : List<T> by list {
-        override fun equals(other: Any?) =
-            other == list
+private class UnmodifiableList<T>(
+    private val list: List<T>
+): List<T> by list {
+    override fun equals(other: Any?) =
+        other == list
 
-        override fun hashCode() =
-            list.hashCode()
+    override fun hashCode() =
+        list.hashCode()
 
-        override fun toString() =
-            list.toString()
-    }
+    override fun toString() =
+        list.toString()
+}
 
-private fun <K, V> unmodifiableMap(map: Map<K, V>) =
-    object : Map<K, V> by map {
-        override fun equals(other: Any?) =
-            other == map
+private class UnmodifiableMap<K, V>(
+    private val map: Map<K, V>
+) : Map<K, V> by map {
+    override fun equals(other: Any?) =
+        other == map
 
-        override fun hashCode() =
-            map.hashCode()
+    override fun hashCode() =
+        map.hashCode()
 
-        override fun toString() =
-            map.toString()
-    }
+    override fun toString() =
+        map.toString()
+}
