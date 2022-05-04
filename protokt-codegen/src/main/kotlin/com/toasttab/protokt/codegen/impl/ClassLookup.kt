@@ -16,8 +16,6 @@
 package com.toasttab.protokt.codegen.impl
 
 import arrow.core.Either
-import arrow.core.None
-import arrow.core.Some
 import arrow.core.getOrHandle
 import arrow.core.memoize
 import com.toasttab.protokt.codegen.model.PClass
@@ -66,15 +64,6 @@ internal object ClassLookup {
                 )
         }
     }.memoize()
-
-    val getClassOrNone =
-        { pClass: PClass, ctx: ProtocolContext ->
-            try {
-                Some(getClass(pClass, ctx))
-            } catch (_: Exception) {
-                None
-            }
-        }.memoize()
 
     val converters = { classpath: List<String> ->
         val loader = getClassLoader(classpath)
