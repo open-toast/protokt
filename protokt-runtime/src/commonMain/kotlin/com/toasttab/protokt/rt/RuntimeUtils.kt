@@ -57,7 +57,7 @@ internal fun hashCodeUsingSequence(asSequence: Sequence<*>) =
 
 private class UnmodifiableList<T>(
     private val list: List<T>
-): List<T> by list {
+) : List<T> by list {
     override fun equals(other: Any?) =
         other == list
 

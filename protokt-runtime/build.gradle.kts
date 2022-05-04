@@ -17,15 +17,30 @@ plugins {
     id("org.jetbrains.kotlin.multiplatform")
 }
 
-// enablePublishing()
+enablePublishing(defaultJars = false)
 trackKotlinApiCompatibility()
 
 kotlin {
     jvm()
+
     sourceSets {
         val jvmMain by getting {
             dependencies {
                 compileOnly(libraries.protobufJava)
+            }
+        }
+    }
+
+    val publicationsFromMainHost =
+        listOf(jvm()).map { it.name } + "kotlinMultiplatform"
+
+    configure<PublishingExtension> {
+        publications {
+            matching { it.name in publicationsFromMainHost }.all {
+                val targetPublication = this@all
+                tasks.withType<AbstractPublishToMaven>()
+                    .matching { it.publication == targetPublication }
+                    .configureEach { onlyIf { findProperty("isMainHost") == "true" } }
             }
         }
     }
