@@ -15,34 +15,32 @@
 
 package com.toasttab.protokt.rt
 
-import java.util.Collections
-
 fun <K, V> finishMap(map: Map<K, V>?): Map<K, V> =
     if (map.isNullOrEmpty()) {
         emptyMap()
     } else {
-        Collections.unmodifiableMap(map)
+        unmodifiableMap(map)
     }
 
 fun <K, V> copyMap(map: Map<K, V>): Map<K, V> =
     if (map.isEmpty()) {
         emptyMap()
     } else {
-        Collections.unmodifiableMap(LinkedHashMap(map))
+        unmodifiableMap(LinkedHashMap(map))
     }
 
 fun <T> finishList(list: List<T>?): List<T> =
     if (list.isNullOrEmpty()) {
         emptyList()
     } else {
-        Collections.unmodifiableList(list)
+        unmodifiableList(list)
     }
 
 fun <T> copyList(list: List<T>): List<T> =
     if (list.isEmpty()) {
         emptyList()
     } else {
-        Collections.unmodifiableList(ArrayList(list))
+        unmodifiableList(ArrayList(list))
     }
 
 internal inline fun <reified T> T.equalsUsingSequence(
@@ -56,3 +54,9 @@ internal inline fun <reified T> T.equalsUsingSequence(
 
 internal fun hashCodeUsingSequence(asSequence: Sequence<*>) =
     asSequence.fold(1) { hash, elt -> 31 * hash + elt.hashCode() }
+
+private fun <T> unmodifiableList(list: List<T>) =
+    object : List<T> by list {}
+
+private fun <K, V> unmodifiableMap(map: Map<K, V>) =
+    object : Map<K, V> by map {}

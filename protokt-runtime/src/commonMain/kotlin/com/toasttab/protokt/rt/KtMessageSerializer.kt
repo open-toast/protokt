@@ -15,25 +15,26 @@
 
 package com.toasttab.protokt.rt
 
-import com.google.protobuf.CodedOutputStream
-import java.io.OutputStream
-
-/**
- * Base type for all Kotlin generated types.
- */
-interface KtMessage {
-    val messageSize: Int
-
-    fun serialize(serializer: KtMessageSerializer)
-
-    fun serialize(outputStream: OutputStream) =
-        CodedOutputStream.newInstance(outputStream).run {
-            serialize(serializer(this))
-            flush()
-        }
-
-    fun serialize() =
-        ByteArray(messageSize).apply {
-            serialize(serializer(CodedOutputStream.newInstance(this)))
-        }
+interface KtMessageSerializer {
+    fun write(i: Fixed32)
+    fun write(i: SFixed32)
+    fun write(i: UInt32)
+    fun write(i: SInt32)
+    fun write(i: Int32)
+    fun write(l: Fixed64)
+    fun write(l: SFixed64)
+    fun write(l: UInt64)
+    fun write(l: SInt64)
+    fun write(l: Int64)
+    fun write(f: Float)
+    fun write(d: Double)
+    fun write(s: String)
+    fun write(b: Boolean)
+    fun write(b: Bytes) = write(b.value)
+    fun write(b: BytesSlice)
+    fun write(b: ByteArray)
+    fun write(e: KtEnum)
+    fun write(m: KtMessage)
+    fun write(t: Tag): KtMessageSerializer
+    fun writeUnknown(u: UnknownFieldSet)
 }

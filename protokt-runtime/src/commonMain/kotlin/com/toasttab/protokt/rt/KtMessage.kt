@@ -13,20 +13,13 @@
  * limitations under the License.
  */
 
-plugins {
-    id("org.jetbrains.kotlin.multiplatform")
-}
+package com.toasttab.protokt.rt
 
-//enablePublishing()
-trackKotlinApiCompatibility()
+/**
+ * Base type for all Kotlin generated types.
+ */
+interface KtMessage {
+    val messageSize: Int
 
-kotlin {
-    jvm()
-    sourceSets {
-        val jvmMain by getting {
-            dependencies {
-                compileOnly(libraries.protobufJava)
-            }
-        }
-    }
+    fun serialize(serializer: KtMessageSerializer)
 }
