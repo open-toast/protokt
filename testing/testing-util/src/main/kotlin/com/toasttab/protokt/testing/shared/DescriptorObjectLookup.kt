@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Toast Inc.
+ * Copyright (c) 2022 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,22 +13,15 @@
  * limitations under the License.
  */
 
-import com.toasttab.protokt.gradle.protokt
-import com.toasttab.protokt.gradle.protoktExtensions
+package com.toasttab.protokt.testing.shared
 
-android {
-    compileSdkVersion(31)
+import org.junit.jupiter.api.assertThrows
+
+fun assertDescriptorDoesNotExist(name: String) {
+    assertThrows<ClassNotFoundException> { Class.forName(name) }
 }
 
-localProtokt()
-
-protokt {
-    lite = true
-}
-
-dependencies {
-    protoktExtensions(project(":extensions:protokt-extensions-lite"))
-
-    testImplementation(project(":testing:testing-util"))
-    testImplementation(libraries.protobufLite)
+// (approximately) verify we're using the lite runtime
+fun assertProtoktDescriptorDoesNotExist() {
+    assertDescriptorDoesNotExist("com.toasttab.protokt.ext.Protokt")
 }
