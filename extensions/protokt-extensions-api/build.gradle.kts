@@ -14,12 +14,12 @@
  */
 
 plugins {
-    id("protokt.jvm-conventions")
+    id("org.jetbrains.kotlin.multiplatform")
 }
 
-enablePublishing()
+enablePublishing(false)
 trackKotlinApiCompatibility()
 
-dependencies {
-    compileOnly(libraries.protobufJava)
+kotlin {
+    jvm()
 }
