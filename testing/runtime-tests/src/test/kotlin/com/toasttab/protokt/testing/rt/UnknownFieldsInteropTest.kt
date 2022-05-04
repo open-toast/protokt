@@ -24,6 +24,7 @@ import com.toasttab.protokt.rt.LengthDelimitedVal
 import com.toasttab.protokt.rt.UnknownField
 import com.toasttab.protokt.rt.UnknownFieldSet
 import com.toasttab.protokt.rt.VarintVal
+import com.toasttab.protokt.rt.serialize
 import org.junit.jupiter.api.Test
 import com.google.protobuf.UnknownFieldSet as JavaUnknownFieldSet
 import com.toasttab.protokt.testing.rt.TestOuterClass.Test as JavaTest

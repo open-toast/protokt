@@ -17,6 +17,7 @@ package com.toasttab.protokt.testing.rt
 
 import com.google.common.truth.Truth.assertThat
 import com.toasttab.protokt.Timestamp
+import com.toasttab.protokt.rt.serialize
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import tutorial.AddressBook

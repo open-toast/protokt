@@ -56,7 +56,25 @@ internal fun hashCodeUsingSequence(asSequence: Sequence<*>) =
     asSequence.fold(1) { hash, elt -> 31 * hash + elt.hashCode() }
 
 private fun <T> unmodifiableList(list: List<T>) =
-    object : List<T> by list {}
+    object : List<T> by list {
+        override fun equals(other: Any?) =
+            other == list
+
+        override fun hashCode() =
+            list.hashCode()
+
+        override fun toString() =
+            list.toString()
+    }
 
 private fun <K, V> unmodifiableMap(map: Map<K, V>) =
-    object : Map<K, V> by map {}
+    object : Map<K, V> by map {
+        override fun equals(other: Any?) =
+            other == map
+
+        override fun hashCode() =
+            map.hashCode()
+
+        override fun toString() =
+            map.toString()
+    }

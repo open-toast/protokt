@@ -110,9 +110,14 @@ private constructor(
                     add(oneofSizeOfString(f, it))
                     endControlFlow()
                 }
-            } +
-            buildCodeBlock {
-                addStatement("null·-> Unit")
+            }.let {
+                if (!f.hasNonNullOption) {
+                    it + buildCodeBlock {
+                        addStatement("null·-> Unit")
+                    }
+                } else {
+                    it
+                }
             }
 
     private fun condition(f: Oneof, ff: StandardField, type: String) =

@@ -4,7 +4,7 @@ import com.google.protobuf.CodedOutputStream
 
 actual fun KtMessage.serialize(): ByteArray =
     ByteArray(messageSize).apply {
-        serializer(CodedOutputStream.newInstance(this))
+        serialize(serializer(CodedOutputStream.newInstance(this)))
     }
 
 fun serializer(stream: CodedOutputStream): KtMessageSerializer {

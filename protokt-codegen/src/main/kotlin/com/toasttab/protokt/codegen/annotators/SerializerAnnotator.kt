@@ -82,9 +82,14 @@ private constructor(
                     add(serializeString(it, Some(f.fieldName)))
                     endControlFlow()
                 }
-            } +
-            buildCodeBlock {
-                addStatement("null·-> Unit")
+            }.let {
+                if (!f.hasNonNullOption) {
+                    it + buildCodeBlock {
+                        addStatement("null·-> Unit")
+                    }
+                } else {
+                    it
+                }
             }
 
     private fun annotateSerializerOld(): List<SerializerInfo> {
