@@ -2,6 +2,11 @@ package com.toasttab.protokt.rt
 
 import com.google.protobuf.CodedOutputStream
 
+actual fun KtMessage.serialize(): ByteArray =
+    ByteArray(messageSize).apply {
+        serializer(CodedOutputStream.newInstance(this))
+    }
+
 fun serializer(stream: CodedOutputStream): KtMessageSerializer {
     return object : KtMessageSerializer {
         override fun write(i: Fixed32) =

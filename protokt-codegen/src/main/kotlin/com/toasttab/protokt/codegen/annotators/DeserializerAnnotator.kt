@@ -230,7 +230,7 @@ private fun StandardField.readFn() =
         FieldType.UINT32 -> "readUInt32()"
         FieldType.UINT64 -> "readUInt64()"
         // by default for DOUBLE we get readDouble, for BOOL we get readBool(), etc.
-        else -> "read${type.name.toLowerCase().capitalize()}(${readFnBuilder(type)})"
+        else -> "read${type.name.lowercase().replaceFirstChar { it.uppercase() }}(${readFnBuilder(type)})"
     }
 
 private fun StandardField.readFnBuilder(type: FieldType) =

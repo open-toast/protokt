@@ -98,7 +98,7 @@ internal fun snakeToCamel(str: String): String {
                     }
                 }
         ret = ret.substring(0, lastIndex) +
-            ret.substring(lastIndex + 1).capitalize()
+            ret.substring(lastIndex + 1).replaceFirstChar { it.uppercase() }
     }
 }
 
@@ -106,7 +106,7 @@ internal fun newTypeNameFromCamel(
     preferred: String,
     set: Set<String> = emptySet()
 ) =
-    newTypeNameFromPascal(snakeToCamel(preferred).capitalize(), set)
+    newTypeNameFromPascal(snakeToCamel(preferred).replaceFirstChar { it.uppercase() }, set)
 
 internal fun newTypeNameFromPascal(
     preferred: String,
@@ -115,7 +115,7 @@ internal fun newTypeNameFromPascal(
     appendUnderscores(preferred, set)
 
 internal fun newFieldName(preferred: String, set: Set<String>): String {
-    var name = snakeToCamel(preferred).decapitalize()
+    var name = snakeToCamel(preferred).replaceFirstChar { it.lowercase() }
     name = appendUnderscores(name, set)
     if (Keywords.kotlinReserved.contains(name)) {
         name = "`$name`"
@@ -150,7 +150,7 @@ internal fun newEnumValueName(
 }
 
 internal fun camelToUpperSnake(str: String) =
-    str.replace(Regex("(?<=[a-z])([A-Z0-9])"), "_$1").toUpperCase()
+    str.replace(Regex("(?<=[a-z])([A-Z0-9])"), "_$1").uppercase()
 
 internal fun fileName(pkg: PPackage?, name: String): String {
     return (pkg?.toString()?.replace('.', '/')?.plus('/') ?: "") +
@@ -184,7 +184,7 @@ internal fun generateFdpObjectNames(
                     .substringBefore(".proto")
                     .substringAfterLast('/')
                     .let(::snakeToCamel)
-                    .capitalize()
+                    .replaceFirstChar { it.uppercase() }
 
         while (name in usedNames) {
             name += "_"

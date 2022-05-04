@@ -54,24 +54,24 @@ internal object ServiceAnnotator {
                             .build()
                     )
                     .addProperties(
-                        s.methods.map {
+                        s.methods.map { method ->
                             PropertySpec.builder(
-                                it.name.decapitalize() + "Method",
+                                method.name.replaceFirstChar { it.lowercase() } + "Method",
                                 MethodDescriptor::class
                                     .asTypeName()
                                     .parameterizedBy(
-                                        it.inputType.toTypeName(),
-                                        it.outputType.toTypeName()
+                                        method.inputType.toTypeName(),
+                                        method.outputType.toTypeName()
                                     )
                             )
                                 .delegate(
                                     """
                                         |lazy {
-                                        |    MethodDescriptor.newBuilder<${it.inputType.renderName(ctx.desc.kotlinPackage)}, ${it.outputType.renderName(ctx.desc.kotlinPackage)}>()
-                                        |        .setType(MethodDescriptor.MethodType.${methodType(it)})
-                                        |        .setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "${it.name}"))
-                                        |        .setRequestMarshaller(${it.qualifiedRequestMarshaller(ctx)})
-                                        |        .setResponseMarshaller(${it.qualifiedResponseMarshaller(ctx)})
+                                        |    MethodDescriptor.newBuilder<${method.inputType.renderName(ctx.desc.kotlinPackage)}, ${method.outputType.renderName(ctx.desc.kotlinPackage)}>()
+                                        |        .setType(MethodDescriptor.MethodType.${methodType(method)})
+                                        |        .setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "${method.name}"))
+                                        |        .setRequestMarshaller(${method.qualifiedRequestMarshaller(ctx)})
+                                        |        .setResponseMarshaller(${method.qualifiedResponseMarshaller(ctx)})
                                         |        .build()
                                         |}
                                     """.bindMargin()
@@ -123,8 +123,8 @@ internal object ServiceAnnotator {
             } ?: "com.toasttab.protokt.grpc.KtMarshaller(${outputType.renderName(ctx.desc.kotlinPackage)})"
 
     private fun serviceLines(s: Service) =
-        s.methods.joinToString("\n") {
-            "      .addMethod(${it.name.decapitalize()}Method)"
+        s.methods.joinToString("\n") { method ->
+            "      .addMethod(${method.name.replaceFirstChar { it.lowercase() }}Method)"
         } + "\n        .build()"
 
     private fun renderQualifiedName(s: Service, ctx: Context) =

@@ -110,6 +110,9 @@ private constructor(
                     add(oneofSizeOfString(f, it))
                     endControlFlow()
                 }
+            } +
+            buildCodeBlock {
+                addStatement("null·-> Unit")
             }
 
     private fun condition(f: Oneof, ff: StandardField, type: String) =

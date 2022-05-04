@@ -16,6 +16,7 @@
 package com.toasttab.protokt.testing.android
 
 import com.google.common.truth.Truth.assertThat
+import com.toasttab.protokt.rt.serialize
 import org.junit.jupiter.api.Test
 
 class AndroidProtobufTest {

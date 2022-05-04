@@ -17,7 +17,7 @@ plugins {
     id("org.jetbrains.kotlin.multiplatform")
 }
 
-//enablePublishing()
+// enablePublishing()
 trackKotlinApiCompatibility()
 
 kotlin {

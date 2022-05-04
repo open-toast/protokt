@@ -92,8 +92,8 @@ class NonNullValidationTest : AbstractProtoktCodegenTest() {
             }
 
         private fun argLists() =
-            ineligibleAnonymousTypes().map { it.name.toLowerCase() } +
-                ineligibleAnonymousTypes().map { "repeated ${it.name.toLowerCase()}" } +
+            ineligibleAnonymousTypes().map { it.name.lowercase() } +
+                ineligibleAnonymousTypes().map { "repeated ${it.name.lowercase()}" } +
                 listOf(
                     listOf("Foo", "enum"),
                     listOf("repeated Foo", "repeated .toasttab.protokt.codegen.testing.TestMessageWithBadNonNullField.Foo"),
@@ -106,7 +106,7 @@ class NonNullValidationTest : AbstractProtoktCodegenTest() {
             mapToArgs(argListsOptional())
 
         private fun argListsOptional() =
-            ineligibleAnonymousTypes().map { it.name.toLowerCase() } +
+            ineligibleAnonymousTypes().map { it.name.lowercase() } +
                 listOf(
                     listOf("Foo", ".toasttab.protokt.codegen.testing.TestMessageWithBadNonNullOptionalField.Foo"),
                     listOf("Bar", ".toasttab.protokt.codegen.testing.TestMessageWithBadNonNullOptionalField.Bar"),
@@ -117,7 +117,7 @@ class NonNullValidationTest : AbstractProtoktCodegenTest() {
             mapToArgs(argListsOneof())
 
         private fun argListsOneof() =
-            ineligibleAnonymousTypes().map { it.name.toLowerCase() } +
+            ineligibleAnonymousTypes().map { it.name.lowercase() } +
                 listOf(
                     listOf("Foo", ".toasttab.protokt.codegen.testing.TestMessageWithBadNonNullOneof.Foo"),
                     listOf("Bar", ".toasttab.protokt.codegen.testing.TestMessageWithBadNonNullOneof.Bar"),

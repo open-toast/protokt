@@ -82,6 +82,9 @@ private constructor(
                     add(serializeString(it, Some(f.fieldName)))
                     endControlFlow()
                 }
+            } +
+            buildCodeBlock {
+                addStatement("null·-> Unit")
             }
 
     private fun annotateSerializerOld(): List<SerializerInfo> {

@@ -8,8 +8,3 @@ fun KtMessage.serialize(outputStream: OutputStream) =
         serialize(serializer(this))
         flush()
     }
-
-fun KtMessage.serialize() =
-    ByteArray(messageSize).apply {
-        serialize(serializer(CodedOutputStream.newInstance(this)))
-    }
