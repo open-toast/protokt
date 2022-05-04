@@ -1,0 +1,10 @@
+public final class com/toasttab/protokt/thirdparty/ext/LocalDateGoogleConverter : com/toasttab/protokt/ext/Converter {
+	public static final field INSTANCE Lcom/toasttab/protokt/thirdparty/ext/LocalDateGoogleConverter;
+	public fun getWrapped ()Lkotlin/reflect/KClass;
+	public fun getWrapper ()Lkotlin/reflect/KClass;
+	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun unwrap (Ljava/time/LocalDate;)Lcom/google/type/Date;
+	public fun wrap (Lcom/google/type/Date;)Ljava/time/LocalDate;
+	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
+}
+

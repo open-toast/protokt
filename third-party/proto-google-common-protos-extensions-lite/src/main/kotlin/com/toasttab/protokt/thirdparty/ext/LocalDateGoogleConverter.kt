@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Toast Inc.
+ * Copyright (c) 2022 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,20 +13,26 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.ext
+package com.toasttab.protokt.thirdparty.ext
 
 import com.google.auto.service.AutoService
+import com.google.type.Date
+import com.toasttab.protokt.ext.Converter
 import java.time.LocalDate
 
 @AutoService(Converter::class)
-object LocalDateConverter : Converter<LocalDate, String> {
+object LocalDateGoogleConverter : Converter<LocalDate, Date> {
     override val wrapper = LocalDate::class
 
-    override val wrapped = String::class
+    override val wrapped = Date::class
 
-    override fun wrap(unwrapped: String): LocalDate =
-        LocalDate.parse(unwrapped)
+    override fun wrap(unwrapped: Date): LocalDate =
+        LocalDate.of(unwrapped.year, unwrapped.month, unwrapped.day)
 
     override fun unwrap(wrapped: LocalDate) =
-        wrapped.toString()
+        Date {
+            year = wrapped.year
+            month = wrapped.monthValue
+            day = wrapped.dayOfMonth
+        }
 }

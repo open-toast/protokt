@@ -19,6 +19,7 @@ import com.toasttab.protokt.gradle.protokt
 localProtokt()
 pureKotlin()
 enablePublishing()
+trackKotlinApiCompatibility()
 
 protokt {
     lite = true

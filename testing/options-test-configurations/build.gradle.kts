@@ -21,7 +21,7 @@ pureKotlin()
 
 dependencies {
     testProtoktExtensions(project(":testing:options-api"))
-    testProtoktExtensions(project(":extensions:protokt-extensions"))
+    testProtoktExtensions(project(":third-party:proto-google-common-protos-extensions"))
 
     testProtobuf(project(":testing:options"))
 }
