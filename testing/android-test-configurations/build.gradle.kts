@@ -14,7 +14,7 @@
  */
 
 import com.toasttab.protokt.gradle.protokt
-import com.toasttab.protokt.gradle.protoktExtensions
+import com.toasttab.protokt.gradle.testProtoktExtensions
 
 android {
     compileSdkVersion(31)
@@ -30,7 +30,7 @@ protokt {
 }
 
 dependencies {
-    protoktExtensions(project(":extensions:protokt-extensions-lite"))
+    testProtoktExtensions(project(":extensions:protokt-extensions-lite"))
 
     testImplementation(project(":testing:testing-util"))
     testImplementation(libraries.protobufLite)
