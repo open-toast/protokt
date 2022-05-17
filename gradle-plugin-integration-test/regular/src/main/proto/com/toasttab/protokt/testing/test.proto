@@ -25,6 +25,10 @@ message TestMessage {
     (.protokt.property).wrap = "java.time.Instant"
   ];
 
+  oneof bar {
+    string foo = 2;
+  }
+
   enum Foo {
     FOO_FIRST_UNSPECIFIED = 0;
   }
