@@ -137,6 +137,7 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
     }
 
     if (isRelease()) {
+        /*
         apply(plugin = "signing")
 
         configure<SigningExtension> {
@@ -147,6 +148,8 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
                 sign(this)
             }
         }
+        
+         */
     }
 
     tasks.register("publishToIntegrationRepository") {
