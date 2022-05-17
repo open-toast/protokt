@@ -53,7 +53,7 @@ class DslAnnotator(
                                 dslLines() + "\n"
                             } +
                             """
-                               |    unknownFields = this@${msg.name}.unknownFields
+                               |    unknownFields = this@copy.unknownFields
                                |    dsl()
                                |}
                            """.trimMargin()
