@@ -28,4 +28,6 @@ dependencies {
     testProtoktExtensions(project(":third-party:proto-google-common-protos-extensions"))
 
     testProtobuf(project(":testing:options"))
+
+    testImplementation(libraries.protobufJava)
 }

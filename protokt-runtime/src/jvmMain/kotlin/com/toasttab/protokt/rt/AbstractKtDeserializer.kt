@@ -7,7 +7,7 @@ actual abstract class AbstractKtDeserializer<T : KtMessage> : KtDeserializer<T> 
         deserialize(bytes.value)
 
     actual override fun deserialize(bytes: ByteArray) =
-        deserialize(deserializer(bytes))
+        deserialize(deserializer(CodedInputStream.newInstance(bytes), bytes))
 
     actual override fun deserialize(bytes: BytesSlice) =
         deserialize(

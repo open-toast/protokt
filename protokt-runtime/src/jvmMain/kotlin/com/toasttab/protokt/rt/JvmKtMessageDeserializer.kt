@@ -19,10 +19,7 @@ import com.google.protobuf.CodedInputStream
 import com.google.protobuf.InvalidProtocolBufferException
 import com.google.protobuf.WireFormat
 
-actual fun deserializer(bytes: ByteArray): KtMessageDeserializer =
-    deserializer(CodedInputStream.newInstance(bytes), bytes)
-
-fun deserializer(
+internal fun deserializer(
     stream: CodedInputStream,
     bytes: ByteArray? = null
 ): KtMessageDeserializer {

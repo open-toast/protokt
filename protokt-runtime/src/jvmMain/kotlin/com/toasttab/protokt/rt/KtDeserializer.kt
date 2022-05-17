@@ -31,6 +31,9 @@ actual interface KtDeserializer<T : KtMessage> {
     fun deserialize(stream: InputStream): T =
         deserialize(deserializer(CodedInputStream.newInstance(stream)))
 
+    fun deserialize(stream: CodedInputStream): T =
+        deserialize(deserializer(stream))
+
     fun deserialize(buffer: ByteBuffer): T =
         deserialize(deserializer(CodedInputStream.newInstance(buffer)))
 }

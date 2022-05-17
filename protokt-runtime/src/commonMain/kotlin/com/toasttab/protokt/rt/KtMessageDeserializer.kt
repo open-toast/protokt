@@ -38,8 +38,3 @@ interface KtMessageDeserializer {
     fun <T : KtEnum> readEnum(e: KtEnumDeserializer<T>): T
     fun <T : KtMessage> readMessage(m: KtDeserializer<T>): T
 }
-
-fun deserializer(bytes: Bytes) =
-    deserializer(bytes.value)
-
-expect fun deserializer(bytes: ByteArray): KtMessageDeserializer

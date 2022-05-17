@@ -1,5 +1,6 @@
 public abstract class com/toasttab/protokt/rt/AbstractKtDeserializer : com/toasttab/protokt/rt/KtDeserializer {
 	public fun <init> ()V
+	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
 	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
 	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
 	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
@@ -140,12 +141,6 @@ public final class com/toasttab/protokt/rt/Int64 {
 	public final synthetic fun unbox-impl ()J
 }
 
-public final class com/toasttab/protokt/rt/JvmKtMessageDeserializerKt {
-	public static final fun deserializer (Lcom/google/protobuf/CodedInputStream;[B)Lcom/toasttab/protokt/rt/KtMessageDeserializer;
-	public static final fun deserializer ([B)Lcom/toasttab/protokt/rt/KtMessageDeserializer;
-	public static synthetic fun deserializer$default (Lcom/google/protobuf/CodedInputStream;[BILjava/lang/Object;)Lcom/toasttab/protokt/rt/KtMessageDeserializer;
-}
-
 public final class com/toasttab/protokt/rt/JvmKtMessageSerializerKt {
 	public static final fun serializer (Lcom/google/protobuf/CodedOutputStream;)Lcom/toasttab/protokt/rt/KtMessageSerializer;
 }
@@ -171,6 +166,7 @@ public final class com/toasttab/protokt/rt/JvmSizeCodecsKt {
 }
 
 public abstract interface class com/toasttab/protokt/rt/KtDeserializer {
+	public abstract fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
 	public abstract fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
 	public abstract fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
 	public abstract fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
@@ -180,6 +176,7 @@ public abstract interface class com/toasttab/protokt/rt/KtDeserializer {
 }
 
 public final class com/toasttab/protokt/rt/KtDeserializer$DefaultImpls {
+	public static fun deserialize (Lcom/toasttab/protokt/rt/KtDeserializer;Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
 	public static fun deserialize (Lcom/toasttab/protokt/rt/KtDeserializer;Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
 	public static fun deserialize (Lcom/toasttab/protokt/rt/KtDeserializer;Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
 }
@@ -234,10 +231,6 @@ public abstract interface class com/toasttab/protokt/rt/KtMessageDeserializer {
 	public abstract fun readUInt32 ()I
 	public abstract fun readUInt64 ()J
 	public abstract fun readUnknown ()Lcom/toasttab/protokt/rt/UnknownField;
-}
-
-public final class com/toasttab/protokt/rt/KtMessageDeserializerKt {
-	public static final fun deserializer (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessageDeserializer;
 }
 
 public abstract interface class com/toasttab/protokt/rt/KtMessageSerializer {

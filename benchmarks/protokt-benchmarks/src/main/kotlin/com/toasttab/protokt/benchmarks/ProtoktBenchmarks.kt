@@ -16,7 +16,6 @@
 package com.toasttab.protokt.benchmarks
 
 import com.google.protobuf.CodedInputStream
-import com.toasttab.protokt.rt.deserializer
 import org.openjdk.jmh.annotations.Benchmark
 import org.openjdk.jmh.annotations.BenchmarkMode
 import org.openjdk.jmh.annotations.Mode
@@ -43,17 +42,17 @@ open class ProtoktBenchmarks {
     @Setup
     fun setup() {
         readData("large").use { stream ->
-            largeDataset = BenchmarkDataset.deserialize(deserializer(CodedInputStream.newInstance(stream)))
+            largeDataset = BenchmarkDataset.deserialize(CodedInputStream.newInstance(stream))
         }
         largeParsedDataset = largeDataset.payload.map { GenericMessage1.deserialize(it) }
 
         readData("medium").use { stream ->
-            mediumDataset = BenchmarkDataset.deserialize(deserializer(CodedInputStream.newInstance(stream)))
+            mediumDataset = BenchmarkDataset.deserialize(CodedInputStream.newInstance(stream))
         }
         mediumParsedDataset = mediumDataset.payload.map { GenericMessage1.deserialize(it) }
 
         readData("small").use { stream ->
-            smallDataset = BenchmarkDataset.deserialize(deserializer(CodedInputStream.newInstance(stream)))
+            smallDataset = BenchmarkDataset.deserialize(CodedInputStream.newInstance(stream))
         }
         smallParsedDataset = smallDataset.payload.map { GenericMessage4.deserialize(it) }
     }
@@ -61,21 +60,21 @@ open class ProtoktBenchmarks {
     @Benchmark
     fun deserializeLargeFromMemory(bh: Blackhole) {
         largeDataset.payload.forEach { bytes ->
-            bh.consume(GenericMessage1.deserialize(deserializer(bytes)))
+            bh.consume(GenericMessage1.deserialize(bytes))
         }
     }
 
     @Benchmark
     fun deserializeMediumFromMemory(bh: Blackhole) {
         mediumDataset.payload.forEach { bytes ->
-            bh.consume(GenericMessage1.deserialize(deserializer(bytes)))
+            bh.consume(GenericMessage1.deserialize(bytes))
         }
     }
 
     @Benchmark
     fun deserializeSmallFromMemory(bh: Blackhole) {
         smallDataset.payload.forEach { bytes ->
-            bh.consume(GenericMessage4.deserialize(deserializer(bytes)))
+            bh.consume(GenericMessage4.deserialize(bytes))
         }
     }
 
