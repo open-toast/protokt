@@ -26,7 +26,6 @@ import com.toasttab.protokt.FileDescriptor
 import com.toasttab.protokt.FileDescriptorProto
 import com.toasttab.protokt.Type
 import com.toasttab.protokt.descriptor
-import com.toasttab.protokt.rt.serialize
 import com.toasttab.protokt.testing.rt.other.DeeplyNested
 import com.toasttab.protokt.testing.rt.other.HasAService
 import org.junit.jupiter.api.Test

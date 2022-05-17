@@ -17,7 +17,6 @@ package com.toasttab.protokt.benchmarks
 
 import com.google.protobuf.CodedInputStream
 import com.toasttab.protokt.rt.deserializer
-import com.toasttab.protokt.rt.serialize
 import org.openjdk.jmh.annotations.Benchmark
 import org.openjdk.jmh.annotations.BenchmarkMode
 import org.openjdk.jmh.annotations.Mode

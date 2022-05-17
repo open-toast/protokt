@@ -47,7 +47,7 @@ import com.toasttab.protokt.codegen.protoc.Tag
 import com.toasttab.protokt.codegen.template.Message.Message.DeserializerInfo
 import com.toasttab.protokt.codegen.template.Message.Message.DeserializerInfo.Assignment
 import com.toasttab.protokt.codegen.template.Message.Message.PropertyInfo
-import com.toasttab.protokt.rt.KtDeserializer
+import com.toasttab.protokt.rt.AbstractKtDeserializer
 import com.toasttab.protokt.rt.KtMessageDeserializer
 import com.toasttab.protokt.rt.UnknownFieldSet
 
@@ -68,8 +68,8 @@ private constructor(
         val properties = annotateProperties(msg, ctx)
 
         return TypeSpec.companionObjectBuilder("Deserializer")
-            .addSuperinterface(
-                KtDeserializer::class
+            .superclass(
+                AbstractKtDeserializer::class
                     .asTypeName()
                     .parameterizedBy(msg.typeName)
             )

@@ -38,5 +38,3 @@ interface KtMessageSerializer {
     fun write(t: Tag): KtMessageSerializer
     fun writeUnknown(u: UnknownFieldSet)
 }
-
-expect fun KtMessage.serialize(): ByteArray

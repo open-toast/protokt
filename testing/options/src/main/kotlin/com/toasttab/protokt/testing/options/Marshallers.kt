@@ -15,8 +15,6 @@
 
 package com.toasttab.protokt.testing.options
 
-import com.toasttab.protokt.rt.deserialize
-import com.toasttab.protokt.rt.serialize
 import io.grpc.MethodDescriptor
 import java.io.InputStream
 

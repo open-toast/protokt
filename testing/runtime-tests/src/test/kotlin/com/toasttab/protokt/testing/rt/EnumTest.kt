@@ -16,7 +16,6 @@
 package com.toasttab.protokt.testing.rt
 
 import com.google.common.truth.Truth.assertThat
-import com.toasttab.protokt.rt.serialize
 import org.junit.jupiter.api.Test
 import toasttab.protokt.testing.rt.HasAnEnum
 import toasttab.protokt.testing.rt.HasMoreEnum

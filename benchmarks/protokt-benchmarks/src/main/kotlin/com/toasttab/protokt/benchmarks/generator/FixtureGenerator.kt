@@ -21,7 +21,6 @@ import com.toasttab.protokt.benchmarks.GenericMessage1
 import com.toasttab.protokt.benchmarks.GenericMessage4
 import com.toasttab.protokt.rt.Bytes
 import com.toasttab.protokt.rt.KtMessage
-import com.toasttab.protokt.rt.serialize
 import com.toasttab.protokt.rt.serializer
 import java.io.File
 import java.lang.IllegalArgumentException

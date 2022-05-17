@@ -16,7 +16,6 @@
 package com.toasttab.protokt.testing.options
 
 import com.google.common.truth.Truth.assertThat
-import com.toasttab.protokt.rt.serialize
 import com.toasttab.protokt.testing.rt.propertyType
 import org.junit.jupiter.api.Test
 import java.time.LocalDate

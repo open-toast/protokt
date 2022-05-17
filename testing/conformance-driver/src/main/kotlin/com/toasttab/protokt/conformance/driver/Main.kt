@@ -23,7 +23,6 @@ import com.toasttab.protokt.conformance.ConformanceResponse
 import com.toasttab.protokt.conformance.ConformanceResponse.Result
 import com.toasttab.protokt.conformance.WireFormat
 import com.toasttab.protokt.rt.Bytes
-import com.toasttab.protokt.rt.serialize
 import com.toasttab.protokt_test_messages.proto3.TestAllTypesProto3
 import java.io.InputStream
 import java.nio.ByteBuffer

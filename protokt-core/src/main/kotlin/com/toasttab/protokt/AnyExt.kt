@@ -19,7 +19,6 @@ import com.toasttab.protokt.rt.Bytes
 import com.toasttab.protokt.rt.KtDeserializer
 import com.toasttab.protokt.rt.KtGeneratedMessage
 import com.toasttab.protokt.rt.KtMessage
-import com.toasttab.protokt.rt.serialize
 import kotlin.reflect.full.findAnnotation
 
 fun Any.Deserializer.pack(
