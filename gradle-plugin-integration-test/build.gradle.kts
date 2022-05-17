@@ -31,7 +31,7 @@ buildscript {
 
     dependencies {
         classpath("com.toasttab.protokt:protokt-gradle-plugin:$version")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${System.getProperty("kotlin.version", "1.4.32")}")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${System.getProperty("kotlin.version", "1.6.21")}")
         classpath("com.diffplug.spotless:spotless-plugin-gradle:5.15.0")
     }
 }
@@ -66,7 +66,7 @@ subprojects {
 
                 apiVersion = System.getProperty("kotlin.version")?.let { v ->
                     VersionNumber.parse(v).run { "$major.$minor" }
-                } ?: "1.4"
+                } ?: "1.6"
                 languageVersion = apiVersion
             }
         }
