@@ -24,4 +24,8 @@ message TestMessage {
   google.protobuf.Timestamp timestamp = 1 [
     (.protokt.property).wrap = "java.time.Instant"
   ];
+
+  enum Foo {
+    FOO_FIRST_UNSPECIFIED = 0;
+  }
 }
