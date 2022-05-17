@@ -1,3 +1,18 @@
+public abstract class com/toasttab/protokt/rt/AbstractKtDeserializer : com/toasttab/protokt/rt/KtDeserializer {
+	public fun <init> ()V
+	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
+	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
+	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+}
+
+public abstract class com/toasttab/protokt/rt/AbstractKtMessage : com/toasttab/protokt/rt/KtMessage {
+	public fun <init> ()V
+	public fun serialize ()[B
+	public fun serialize (Ljava/io/OutputStream;)V
+}
+
 public final class com/toasttab/protokt/rt/Bytes {
 	public static final field Companion Lcom/toasttab/protokt/rt/Bytes$Companion;
 	public fun <init> ([B)V
@@ -132,7 +147,6 @@ public final class com/toasttab/protokt/rt/JvmKtMessageDeserializerKt {
 }
 
 public final class com/toasttab/protokt/rt/JvmKtMessageSerializerKt {
-	public static final fun serialize (Lcom/toasttab/protokt/rt/KtMessage;)[B
 	public static final fun serializer (Lcom/google/protobuf/CodedOutputStream;)Lcom/toasttab/protokt/rt/KtMessageSerializer;
 }
 
@@ -158,19 +172,16 @@ public final class com/toasttab/protokt/rt/JvmSizeCodecsKt {
 
 public abstract interface class com/toasttab/protokt/rt/KtDeserializer {
 	public abstract fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
+	public abstract fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
 	public abstract fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public abstract fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
+	public abstract fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public abstract fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
 }
 
 public final class com/toasttab/protokt/rt/KtDeserializer$DefaultImpls {
-	public static fun deserialize (Lcom/toasttab/protokt/rt/KtDeserializer;Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public static fun deserialize (Lcom/toasttab/protokt/rt/KtDeserializer;[B)Lcom/toasttab/protokt/rt/KtMessage;
-}
-
-public final class com/toasttab/protokt/rt/KtDeserializerExtKt {
-	public static final fun deserialize (Lcom/toasttab/protokt/rt/KtDeserializer;Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
-	public static final fun deserialize (Lcom/toasttab/protokt/rt/KtDeserializer;Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public static final fun deserialize (Lcom/toasttab/protokt/rt/KtDeserializer;Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public static fun deserialize (Lcom/toasttab/protokt/rt/KtDeserializer;Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
+	public static fun deserialize (Lcom/toasttab/protokt/rt/KtDeserializer;Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
 }
 
 public abstract class com/toasttab/protokt/rt/KtEnum {
@@ -192,7 +203,13 @@ public abstract interface annotation class com/toasttab/protokt/rt/KtGeneratedMe
 
 public abstract interface class com/toasttab/protokt/rt/KtMessage {
 	public abstract fun getMessageSize ()I
+	public abstract fun serialize ()[B
 	public abstract fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
+	public abstract fun serialize (Ljava/io/OutputStream;)V
+}
+
+public final class com/toasttab/protokt/rt/KtMessage$DefaultImpls {
+	public static fun serialize (Lcom/toasttab/protokt/rt/KtMessage;Ljava/io/OutputStream;)V
 }
 
 public abstract interface class com/toasttab/protokt/rt/KtMessageDeserializer {
@@ -221,10 +238,6 @@ public abstract interface class com/toasttab/protokt/rt/KtMessageDeserializer {
 
 public final class com/toasttab/protokt/rt/KtMessageDeserializerKt {
 	public static final fun deserializer (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessageDeserializer;
-}
-
-public final class com/toasttab/protokt/rt/KtMessageExtKt {
-	public static final fun serialize (Lcom/toasttab/protokt/rt/KtMessage;Ljava/io/OutputStream;)V
 }
 
 public abstract interface class com/toasttab/protokt/rt/KtMessageSerializer {
