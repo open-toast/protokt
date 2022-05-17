@@ -15,12 +15,12 @@
 
 package com.toasttab.protokt.rt
 
-interface KtDeserializer<T : KtMessage> {
+expect interface KtDeserializer<T : KtMessage> {
     fun deserialize(deserializer: KtMessageDeserializer): T
 
-    fun deserialize(bytes: Bytes) =
-        deserialize(bytes.value)
+    fun deserialize(bytes: Bytes): T
 
-    fun deserialize(bytes: ByteArray) =
-        deserialize(deserializer(bytes))
+    fun deserialize(bytes: ByteArray): T
+
+    fun deserialize(bytes: BytesSlice): T
 }

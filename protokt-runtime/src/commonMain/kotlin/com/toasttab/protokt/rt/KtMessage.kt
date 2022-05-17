@@ -18,8 +18,10 @@ package com.toasttab.protokt.rt
 /**
  * Base type for all Kotlin generated types.
  */
-interface KtMessage {
+expect interface KtMessage {
     val messageSize: Int
 
     fun serialize(serializer: KtMessageSerializer)
+
+    fun serialize(): ByteArray
 }

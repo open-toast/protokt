@@ -19,19 +19,18 @@ import com.google.protobuf.CodedInputStream
 import java.io.InputStream
 import java.nio.ByteBuffer
 
-fun <T : KtMessage> KtDeserializer<T>.deserialize(bytes: BytesSlice) =
-    deserialize(
-        deserializer(
-            CodedInputStream.newInstance(
-                bytes.array,
-                bytes.offset,
-                bytes.length
-            )
-        )
-    )
+actual interface KtDeserializer<T : KtMessage> {
+    actual fun deserialize(bytes: Bytes): T
 
-fun <T : KtMessage> KtDeserializer<T>.deserialize(stream: InputStream) =
-    deserialize(deserializer(CodedInputStream.newInstance(stream)))
+    actual fun deserialize(bytes: ByteArray): T
 
-fun <T : KtMessage> KtDeserializer<T>.deserialize(buffer: ByteBuffer) =
-    deserialize(deserializer(CodedInputStream.newInstance(buffer)))
+    actual fun deserialize(bytes: BytesSlice): T
+
+    actual fun deserialize(deserializer: KtMessageDeserializer): T
+
+    fun deserialize(stream: InputStream): T =
+        deserialize(deserializer(CodedInputStream.newInstance(stream)))
+
+    fun deserialize(buffer: ByteBuffer): T =
+        deserialize(deserializer(CodedInputStream.newInstance(buffer)))
+}
