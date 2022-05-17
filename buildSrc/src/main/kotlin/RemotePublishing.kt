@@ -26,7 +26,6 @@ import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
-import org.gradle.plugins.signing.SigningExtension
 
 private object Pgp {
     val key by lazy {
@@ -148,7 +147,7 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
                 sign(this)
             }
         }
-        
+
          */
     }
 
