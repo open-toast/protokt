@@ -42,8 +42,8 @@ import com.toasttab.protokt.codegen.impl.bindSpaces
 import com.toasttab.protokt.codegen.impl.embed
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.template.Message.Message.PropertyInfo
+import com.toasttab.protokt.rt.AbstractKtMessage
 import com.toasttab.protokt.rt.KtGeneratedMessage
-import com.toasttab.protokt.rt.KtMessage
 import com.toasttab.protokt.rt.UnknownFieldSet
 
 class MessageAnnotator
@@ -96,7 +96,7 @@ private constructor(
     private fun TypeSpec.Builder.handleConstructor(
         properties: List<PropertyInfo>
     ) = apply {
-        addSuperinterface(KtMessage::class)
+        superclass(AbstractKtMessage::class)
         addProperties(
             properties.map {
                 PropertySpec.builder(it.name.removePrefix("`").removeSuffix("`"), it.propertyType)

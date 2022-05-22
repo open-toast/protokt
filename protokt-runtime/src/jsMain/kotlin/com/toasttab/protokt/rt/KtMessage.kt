@@ -19,4 +19,6 @@ actual interface KtMessage {
     actual val messageSize: Int
 
     actual fun serialize(serializer: KtMessageSerializer)
+
+    actual fun serialize(): ByteArray
 }

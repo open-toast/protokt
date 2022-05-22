@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2022 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,13 @@
 
 package com.toasttab.protokt.rt
 
-expect interface KtDeserializer<T : KtMessage> {
-    fun deserialize(deserializer: KtMessageDeserializer): T
+actual abstract class AbstractKtDeserializer<T : KtMessage> : KtDeserializer<T> {
+    actual override fun deserialize(bytes: Bytes) =
+        deserialize(bytes.value)
 
-    fun deserialize(bytes: Bytes): T
+    actual override fun deserialize(bytes: ByteArray): T =
+        TODO()
 
-    fun deserialize(bytes: ByteArray): T
-
-    fun deserialize(bytes: BytesSlice): T
+    actual override fun deserialize(bytes: BytesSlice): T =
+        TODO()
 }

@@ -46,7 +46,7 @@ import com.toasttab.protokt.codegen.protoc.Tag
 import com.toasttab.protokt.codegen.template.Message.Message.DeserializerInfo
 import com.toasttab.protokt.codegen.template.Message.Message.DeserializerInfo.Assignment
 import com.toasttab.protokt.codegen.template.Message.Message.PropertyInfo
-import com.toasttab.protokt.rt.KtDeserializer
+import com.toasttab.protokt.rt.AbstractKtDeserializer
 import com.toasttab.protokt.rt.KtMessageDeserializer
 import com.toasttab.protokt.rt.UnknownFieldSet
 
@@ -67,8 +67,8 @@ private constructor(
         val properties = annotateProperties(msg, ctx)
 
         return TypeSpec.companionObjectBuilder("Deserializer")
-            .addSuperinterface(
-                KtDeserializer::class
+            .superclass(
+                AbstractKtDeserializer::class
                     .asTypeName()
                     .parameterizedBy(msg.typeName)
             )
@@ -91,25 +91,22 @@ private constructor(
                 }
             )
             .apply {
-                msg.nestedTypes
-                    .filterIsInstance<Message>()
-                    .filterNot { it.mapEntry }
-                    .forEach { message ->
-                        addFunction(
-                            FunSpec.builder(message.name)
-                                .returns(message.typeName)
-                                .addParameter(
-                                    "dsl",
-                                    LambdaTypeName.get(
-                                        message.dslTypeName,
-                                        emptyList(),
-                                        Unit::class.asTypeName()
-                                    )
+                msg.nestedTypes.filterIsInstance<Message>().forEach { message ->
+                    addFunction(
+                        FunSpec.builder(message.name)
+                            .returns(message.typeName)
+                            .addParameter(
+                                "dsl",
+                                LambdaTypeName.get(
+                                    message.dslTypeName,
+                                    emptyList(),
+                                    Unit::class.asTypeName()
                                 )
-                                .addStatement("return %T().apply(dsl).build()", message.dslTypeName)
-                                .build()
-                        )
-                    }
+                            )
+                            .addStatement("return %T().apply(dsl).build()", message.dslTypeName)
+                            .build()
+                    )
+                }
             }
             .build()
     }

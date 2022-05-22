@@ -16,24 +16,22 @@
 package com.toasttab.protokt.rt
 
 import com.google.protobuf.CodedInputStream
-import java.io.InputStream
-import java.nio.ByteBuffer
 
-actual interface KtDeserializer<T : KtMessage> {
-    actual fun deserialize(bytes: Bytes): T
+actual abstract class AbstractKtDeserializer<T : KtMessage> : KtDeserializer<T> {
+    actual override fun deserialize(bytes: Bytes) =
+        deserialize(bytes.value)
 
-    actual fun deserialize(bytes: ByteArray): T
+    actual override fun deserialize(bytes: ByteArray) =
+        deserialize(deserializer(CodedInputStream.newInstance(bytes), bytes))
 
-    actual fun deserialize(bytes: BytesSlice): T
-
-    actual fun deserialize(deserializer: KtMessageDeserializer): T
-
-    fun deserialize(stream: InputStream): T =
-        deserialize(deserializer(CodedInputStream.newInstance(stream)))
-
-    fun deserialize(stream: CodedInputStream): T =
-        deserialize(deserializer(stream))
-
-    fun deserialize(buffer: ByteBuffer): T =
-        deserialize(deserializer(CodedInputStream.newInstance(buffer)))
+    actual override fun deserialize(bytes: BytesSlice) =
+        deserialize(
+            deserializer(
+                CodedInputStream.newInstance(
+                    bytes.array,
+                    bytes.offset,
+                    bytes.length
+                )
+            )
+        )
 }

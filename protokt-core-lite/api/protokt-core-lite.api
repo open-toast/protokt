@@ -1,4 +1,4 @@
-public final class com/toasttab/protokt/Any : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/Any : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/Any$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Lcom/toasttab/protokt/rt/Bytes;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Any;
@@ -8,9 +8,7 @@ public final class com/toasttab/protokt/Any : com/toasttab/protokt/rt/KtMessage 
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public final fun getValue ()Lcom/toasttab/protokt/rt/Bytes;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -25,28 +23,14 @@ public final class com/toasttab/protokt/Any$AnyDsl {
 	public final fun setValue (Lcom/toasttab/protokt/rt/Bytes;)V
 }
 
-public final class com/toasttab/protokt/Any$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/Any;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/Any;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/Any;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/Any$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/Any;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/Any;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/Any;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/Any;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Any;
 }
 
-public final class com/toasttab/protokt/AnyKt {
-	public static final fun Any (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Any;
-}
-
-public final class com/toasttab/protokt/Api : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/Api : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/Api$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/String;Lcom/toasttab/protokt/SourceContext;Ljava/util/List;Lcom/toasttab/protokt/Syntax;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Api;
@@ -61,9 +45,7 @@ public final class com/toasttab/protokt/Api : com/toasttab/protokt/rt/KtMessage 
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public final fun getVersion ()Ljava/lang/String;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -88,30 +70,14 @@ public final class com/toasttab/protokt/Api$ApiDsl {
 	public final fun setVersion (Ljava/lang/String;)V
 }
 
-public final class com/toasttab/protokt/Api$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/Api;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/Api;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/Api;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/Api$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/Api;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/Api;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/Api;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/Api;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Api;
 }
 
-public final class com/toasttab/protokt/ApiKt {
-	public static final fun Api (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Api;
-	public static final fun Method (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Method;
-	public static final fun Mixin (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Mixin;
-}
-
-public final class com/toasttab/protokt/BoolValue : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/BoolValue : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/BoolValue$Deserializer;
 	public synthetic fun <init> (ZLcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/BoolValue;
@@ -120,9 +86,7 @@ public final class com/toasttab/protokt/BoolValue : com/toasttab/protokt/rt/KtMe
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public final fun getValue ()Z
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -135,21 +99,11 @@ public final class com/toasttab/protokt/BoolValue$BoolValueDsl {
 	public final fun setValue (Z)V
 }
 
-public final class com/toasttab/protokt/BoolValue$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/BoolValue;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/BoolValue;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/BoolValue;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/BoolValue$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/BoolValue;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/BoolValue;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/BoolValue;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/BoolValue;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/BoolValue;
 }
 
 public final class com/toasttab/protokt/BoolValueConverter : com/toasttab/protokt/ext/Converter {
@@ -162,7 +116,7 @@ public final class com/toasttab/protokt/BoolValueConverter : com/toasttab/protok
 	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
 }
 
-public final class com/toasttab/protokt/BytesValue : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/BytesValue : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/BytesValue$Deserializer;
 	public synthetic fun <init> (Lcom/toasttab/protokt/rt/Bytes;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/BytesValue;
@@ -171,9 +125,7 @@ public final class com/toasttab/protokt/BytesValue : com/toasttab/protokt/rt/KtM
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public final fun getValue ()Lcom/toasttab/protokt/rt/Bytes;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -186,21 +138,11 @@ public final class com/toasttab/protokt/BytesValue$BytesValueDsl {
 	public final fun setValue (Lcom/toasttab/protokt/rt/Bytes;)V
 }
 
-public final class com/toasttab/protokt/BytesValue$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/BytesValue;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/BytesValue;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/BytesValue;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/BytesValue$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/BytesValue;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/BytesValue;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/BytesValue;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/BytesValue;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/BytesValue;
 }
 
 public final class com/toasttab/protokt/BytesValueConverter : com/toasttab/protokt/ext/Converter {
@@ -213,31 +155,7 @@ public final class com/toasttab/protokt/BytesValueConverter : com/toasttab/proto
 	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
 }
 
-public final class com/toasttab/protokt/DescriptorKt {
-	public static final fun DescriptorProto (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/DescriptorProto;
-	public static final fun EnumDescriptorProto (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/EnumDescriptorProto;
-	public static final fun EnumOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/EnumOptions;
-	public static final fun EnumValueDescriptorProto (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/EnumValueDescriptorProto;
-	public static final fun EnumValueOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/EnumValueOptions;
-	public static final fun ExtensionRangeOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ExtensionRangeOptions;
-	public static final fun FieldDescriptorProto (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/FieldDescriptorProto;
-	public static final fun FieldOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/FieldOptions;
-	public static final fun FileDescriptorProto (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/FileDescriptorProto;
-	public static final fun FileDescriptorSet (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/FileDescriptorSet;
-	public static final fun FileOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/FileOptions;
-	public static final fun GeneratedCodeInfo (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/GeneratedCodeInfo;
-	public static final fun MessageOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/MessageOptions;
-	public static final fun MethodDescriptorProto (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/MethodDescriptorProto;
-	public static final fun MethodOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/MethodOptions;
-	public static final fun OneofDescriptorProto (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/OneofDescriptorProto;
-	public static final fun OneofOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/OneofOptions;
-	public static final fun ServiceDescriptorProto (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ServiceDescriptorProto;
-	public static final fun ServiceOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ServiceOptions;
-	public static final fun SourceCodeInfo (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/SourceCodeInfo;
-	public static final fun UninterpretedOption (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/UninterpretedOption;
-}
-
-public final class com/toasttab/protokt/DescriptorProto : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/DescriptorProto : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/DescriptorProto$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lcom/toasttab/protokt/MessageOptions;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/DescriptorProto;
@@ -255,9 +173,7 @@ public final class com/toasttab/protokt/DescriptorProto : com/toasttab/protokt/r
 	public final fun getReservedRange ()Ljava/util/List;
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -288,26 +204,14 @@ public final class com/toasttab/protokt/DescriptorProto$DescriptorProtoDsl {
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 }
 
-public final class com/toasttab/protokt/DescriptorProto$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public final fun ExtensionRange (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/DescriptorProto$ExtensionRange;
-	public final fun ReservedRange (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/DescriptorProto$ReservedRange;
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/DescriptorProto;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/DescriptorProto;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/DescriptorProto;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/DescriptorProto$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/DescriptorProto;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/DescriptorProto;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/DescriptorProto;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/DescriptorProto;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/DescriptorProto;
 }
 
-public final class com/toasttab/protokt/DescriptorProto$ExtensionRange : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/DescriptorProto$ExtensionRange : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/DescriptorProto$ExtensionRange$Deserializer;
 	public synthetic fun <init> (Ljava/lang/Integer;Ljava/lang/Integer;Lcom/toasttab/protokt/ExtensionRangeOptions;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/DescriptorProto$ExtensionRange;
@@ -318,27 +222,15 @@ public final class com/toasttab/protokt/DescriptorProto$ExtensionRange : com/toa
 	public final fun getStart ()Ljava/lang/Integer;
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/DescriptorProto$ExtensionRange$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/DescriptorProto$ExtensionRange;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/DescriptorProto$ExtensionRange;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/DescriptorProto$ExtensionRange;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/DescriptorProto$ExtensionRange$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/DescriptorProto$ExtensionRange;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/DescriptorProto$ExtensionRange;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/DescriptorProto$ExtensionRange;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/DescriptorProto$ExtensionRange;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/DescriptorProto$ExtensionRange;
 }
 
 public final class com/toasttab/protokt/DescriptorProto$ExtensionRange$ExtensionRangeDsl {
@@ -354,7 +246,7 @@ public final class com/toasttab/protokt/DescriptorProto$ExtensionRange$Extension
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 }
 
-public final class com/toasttab/protokt/DescriptorProto$ReservedRange : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/DescriptorProto$ReservedRange : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/DescriptorProto$ReservedRange$Deserializer;
 	public synthetic fun <init> (Ljava/lang/Integer;Ljava/lang/Integer;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/DescriptorProto$ReservedRange;
@@ -364,27 +256,15 @@ public final class com/toasttab/protokt/DescriptorProto$ReservedRange : com/toas
 	public final fun getStart ()Ljava/lang/Integer;
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/DescriptorProto$ReservedRange$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/DescriptorProto$ReservedRange;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/DescriptorProto$ReservedRange;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/DescriptorProto$ReservedRange;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/DescriptorProto$ReservedRange$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/DescriptorProto$ReservedRange;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/DescriptorProto$ReservedRange;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/DescriptorProto$ReservedRange;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/DescriptorProto$ReservedRange;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/DescriptorProto$ReservedRange;
 }
 
 public final class com/toasttab/protokt/DescriptorProto$ReservedRange$ReservedRangeDsl {
@@ -398,7 +278,7 @@ public final class com/toasttab/protokt/DescriptorProto$ReservedRange$ReservedRa
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 }
 
-public final class com/toasttab/protokt/DoubleValue : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/DoubleValue : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/DoubleValue$Deserializer;
 	public synthetic fun <init> (DLcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/DoubleValue;
@@ -407,27 +287,15 @@ public final class com/toasttab/protokt/DoubleValue : com/toasttab/protokt/rt/Kt
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public final fun getValue ()D
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/DoubleValue$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/DoubleValue;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/DoubleValue;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/DoubleValue;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/DoubleValue$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/DoubleValue;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/DoubleValue;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/DoubleValue;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/DoubleValue;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/DoubleValue;
 }
 
 public final class com/toasttab/protokt/DoubleValue$DoubleValueDsl {
@@ -449,7 +317,7 @@ public final class com/toasttab/protokt/DoubleValueConverter : com/toasttab/prot
 	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
 }
 
-public final class com/toasttab/protokt/Duration : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/Duration : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/Duration$Deserializer;
 	public synthetic fun <init> (JILcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Duration;
@@ -459,27 +327,15 @@ public final class com/toasttab/protokt/Duration : com/toasttab/protokt/rt/KtMes
 	public final fun getSeconds ()J
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/Duration$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/Duration;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/Duration;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/Duration;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/Duration$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/Duration;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/Duration;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/Duration;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/Duration;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Duration;
 }
 
 public final class com/toasttab/protokt/Duration$DurationDsl {
@@ -493,11 +349,7 @@ public final class com/toasttab/protokt/Duration$DurationDsl {
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 }
 
-public final class com/toasttab/protokt/DurationKt {
-	public static final fun Duration (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Duration;
-}
-
-public final class com/toasttab/protokt/Empty : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/Empty : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/Empty$Deserializer;
 	public synthetic fun <init> (Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Empty;
@@ -505,27 +357,15 @@ public final class com/toasttab/protokt/Empty : com/toasttab/protokt/rt/KtMessag
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/Empty$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/Empty;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/Empty;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/Empty;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/Empty$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/Empty;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/Empty;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/Empty;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/Empty;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Empty;
 }
 
 public final class com/toasttab/protokt/Empty$EmptyDsl {
@@ -535,11 +375,7 @@ public final class com/toasttab/protokt/Empty$EmptyDsl {
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 }
 
-public final class com/toasttab/protokt/EmptyKt {
-	public static final fun Empty (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Empty;
-}
-
-public final class com/toasttab/protokt/EnumDescriptorProto : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/EnumDescriptorProto : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/EnumDescriptorProto$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Lcom/toasttab/protokt/EnumOptions;Ljava/util/List;Ljava/util/List;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/EnumDescriptorProto;
@@ -552,28 +388,15 @@ public final class com/toasttab/protokt/EnumDescriptorProto : com/toasttab/proto
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public final fun getValue ()Ljava/util/List;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/EnumDescriptorProto$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public final fun EnumReservedRange (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/EnumDescriptorProto$EnumReservedRange;
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/EnumDescriptorProto;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/EnumDescriptorProto;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/EnumDescriptorProto;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/EnumDescriptorProto$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/EnumDescriptorProto;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/EnumDescriptorProto;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/EnumDescriptorProto;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/EnumDescriptorProto;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/EnumDescriptorProto;
 }
 
 public final class com/toasttab/protokt/EnumDescriptorProto$EnumDescriptorProtoDsl {
@@ -593,7 +416,7 @@ public final class com/toasttab/protokt/EnumDescriptorProto$EnumDescriptorProtoD
 	public final fun setValue (Ljava/util/List;)V
 }
 
-public final class com/toasttab/protokt/EnumDescriptorProto$EnumReservedRange : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/EnumDescriptorProto$EnumReservedRange : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/EnumDescriptorProto$EnumReservedRange$Deserializer;
 	public synthetic fun <init> (Ljava/lang/Integer;Ljava/lang/Integer;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/EnumDescriptorProto$EnumReservedRange;
@@ -603,27 +426,15 @@ public final class com/toasttab/protokt/EnumDescriptorProto$EnumReservedRange : 
 	public final fun getStart ()Ljava/lang/Integer;
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/EnumDescriptorProto$EnumReservedRange$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/EnumDescriptorProto$EnumReservedRange;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/EnumDescriptorProto$EnumReservedRange;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/EnumDescriptorProto$EnumReservedRange;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/EnumDescriptorProto$EnumReservedRange$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/EnumDescriptorProto$EnumReservedRange;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/EnumDescriptorProto$EnumReservedRange;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/EnumDescriptorProto$EnumReservedRange;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/EnumDescriptorProto$EnumReservedRange;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/EnumDescriptorProto$EnumReservedRange;
 }
 
 public final class com/toasttab/protokt/EnumDescriptorProto$EnumReservedRange$EnumReservedRangeDsl {
@@ -637,7 +448,7 @@ public final class com/toasttab/protokt/EnumDescriptorProto$EnumReservedRange$En
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 }
 
-public final class com/toasttab/protokt/EnumOptions : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/EnumOptions : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/EnumOptions$Deserializer;
 	public synthetic fun <init> (Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/util/List;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/EnumOptions;
@@ -648,27 +459,15 @@ public final class com/toasttab/protokt/EnumOptions : com/toasttab/protokt/rt/Kt
 	public final fun getUninterpretedOption ()Ljava/util/List;
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/EnumOptions$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/EnumOptions;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/EnumOptions;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/EnumOptions;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/EnumOptions$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/EnumOptions;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/EnumOptions;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/EnumOptions;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/EnumOptions;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/EnumOptions;
 }
 
 public final class com/toasttab/protokt/EnumOptions$EnumOptionsDsl {
@@ -684,7 +483,7 @@ public final class com/toasttab/protokt/EnumOptions$EnumOptionsDsl {
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 }
 
-public final class com/toasttab/protokt/EnumValue : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/EnumValue : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/EnumValue$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;ILjava/util/List;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/EnumValue;
@@ -695,27 +494,15 @@ public final class com/toasttab/protokt/EnumValue : com/toasttab/protokt/rt/KtMe
 	public final fun getOptions ()Ljava/util/List;
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/EnumValue$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/EnumValue;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/EnumValue;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/EnumValue;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/EnumValue$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/EnumValue;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/EnumValue;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/EnumValue;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/EnumValue;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/EnumValue;
 }
 
 public final class com/toasttab/protokt/EnumValue$EnumValueDsl {
@@ -731,7 +518,7 @@ public final class com/toasttab/protokt/EnumValue$EnumValueDsl {
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 }
 
-public final class com/toasttab/protokt/EnumValueDescriptorProto : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/EnumValueDescriptorProto : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/EnumValueDescriptorProto$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Integer;Lcom/toasttab/protokt/EnumValueOptions;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/EnumValueDescriptorProto;
@@ -742,27 +529,15 @@ public final class com/toasttab/protokt/EnumValueDescriptorProto : com/toasttab/
 	public final fun getOptions ()Lcom/toasttab/protokt/EnumValueOptions;
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/EnumValueDescriptorProto$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/EnumValueDescriptorProto;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/EnumValueDescriptorProto;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/EnumValueDescriptorProto;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/EnumValueDescriptorProto$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/EnumValueDescriptorProto;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/EnumValueDescriptorProto;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/EnumValueDescriptorProto;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/EnumValueDescriptorProto;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/EnumValueDescriptorProto;
 }
 
 public final class com/toasttab/protokt/EnumValueDescriptorProto$EnumValueDescriptorProtoDsl {
@@ -778,7 +553,7 @@ public final class com/toasttab/protokt/EnumValueDescriptorProto$EnumValueDescri
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 }
 
-public final class com/toasttab/protokt/EnumValueOptions : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/EnumValueOptions : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/EnumValueOptions$Deserializer;
 	public synthetic fun <init> (Ljava/lang/Boolean;Ljava/util/List;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/EnumValueOptions;
@@ -788,27 +563,15 @@ public final class com/toasttab/protokt/EnumValueOptions : com/toasttab/protokt/
 	public final fun getUninterpretedOption ()Ljava/util/List;
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/EnumValueOptions$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/EnumValueOptions;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/EnumValueOptions;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/EnumValueOptions;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/EnumValueOptions$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/EnumValueOptions;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/EnumValueOptions;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/EnumValueOptions;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/EnumValueOptions;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/EnumValueOptions;
 }
 
 public final class com/toasttab/protokt/EnumValueOptions$EnumValueOptionsDsl {
@@ -822,7 +585,7 @@ public final class com/toasttab/protokt/EnumValueOptions$EnumValueOptionsDsl {
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 }
 
-public final class com/toasttab/protokt/Enum_ : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/Enum_ : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/Enum_$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/util/List;Lcom/toasttab/protokt/SourceContext;Lcom/toasttab/protokt/Syntax;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Enum_;
@@ -835,27 +598,15 @@ public final class com/toasttab/protokt/Enum_ : com/toasttab/protokt/rt/KtMessag
 	public final fun getSyntax ()Lcom/toasttab/protokt/Syntax;
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/Enum_$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/Enum_;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/Enum_;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/Enum_;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/Enum_$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/Enum_;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/Enum_;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/Enum_;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/Enum_;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Enum_;
 }
 
 public final class com/toasttab/protokt/Enum_$Enum_Dsl {
@@ -875,7 +626,7 @@ public final class com/toasttab/protokt/Enum_$Enum_Dsl {
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 }
 
-public final class com/toasttab/protokt/ExtensionRangeOptions : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/ExtensionRangeOptions : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/ExtensionRangeOptions$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ExtensionRangeOptions;
@@ -884,27 +635,15 @@ public final class com/toasttab/protokt/ExtensionRangeOptions : com/toasttab/pro
 	public final fun getUninterpretedOption ()Ljava/util/List;
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/ExtensionRangeOptions$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/ExtensionRangeOptions;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/ExtensionRangeOptions;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/ExtensionRangeOptions;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/ExtensionRangeOptions$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/ExtensionRangeOptions;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/ExtensionRangeOptions;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/ExtensionRangeOptions;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/ExtensionRangeOptions;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ExtensionRangeOptions;
 }
 
 public final class com/toasttab/protokt/ExtensionRangeOptions$ExtensionRangeOptionsDsl {
@@ -916,7 +655,7 @@ public final class com/toasttab/protokt/ExtensionRangeOptions$ExtensionRangeOpti
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 }
 
-public final class com/toasttab/protokt/Field : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/Field : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/Field$Deserializer;
 	public synthetic fun <init> (Lcom/toasttab/protokt/Field$Kind;Lcom/toasttab/protokt/Field$Cardinality;ILjava/lang/String;Ljava/lang/String;IZLjava/util/List;Ljava/lang/String;Ljava/lang/String;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Field;
@@ -934,9 +673,7 @@ public final class com/toasttab/protokt/Field : com/toasttab/protokt/rt/KtMessag
 	public final fun getTypeUrl ()Ljava/lang/String;
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -972,21 +709,11 @@ public final class com/toasttab/protokt/Field$Cardinality$UNRECOGNIZED : com/toa
 	public fun <init> (I)V
 }
 
-public final class com/toasttab/protokt/Field$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/Field;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/Field;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/Field;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/Field$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/Field;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/Field;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/Field;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/Field;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Field;
 }
 
 public final class com/toasttab/protokt/Field$FieldDsl {
@@ -1108,7 +835,7 @@ public final class com/toasttab/protokt/Field$Kind$UNRECOGNIZED : com/toasttab/p
 	public fun <init> (I)V
 }
 
-public final class com/toasttab/protokt/FieldDescriptorProto : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/FieldDescriptorProto : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/FieldDescriptorProto$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Integer;Lcom/toasttab/protokt/FieldDescriptorProto$Label;Lcom/toasttab/protokt/FieldDescriptorProto$Type;Ljava/lang/String;Ljava/lang/String;Lcom/toasttab/protokt/FieldOptions;Ljava/lang/Integer;Ljava/lang/String;Ljava/lang/Boolean;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/FieldDescriptorProto;
@@ -1127,27 +854,15 @@ public final class com/toasttab/protokt/FieldDescriptorProto : com/toasttab/prot
 	public final fun getTypeName ()Ljava/lang/String;
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/FieldDescriptorProto$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/FieldDescriptorProto;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/FieldDescriptorProto;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/FieldDescriptorProto;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/FieldDescriptorProto$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/FieldDescriptorProto;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/FieldDescriptorProto;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/FieldDescriptorProto;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/FieldDescriptorProto;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/FieldDescriptorProto;
 }
 
 public final class com/toasttab/protokt/FieldDescriptorProto$FieldDescriptorProtoDsl {
@@ -1295,7 +1010,7 @@ public final class com/toasttab/protokt/FieldDescriptorProto$Type$UNRECOGNIZED :
 	public fun <init> (I)V
 }
 
-public final class com/toasttab/protokt/FieldMask : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/FieldMask : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/FieldMask$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/FieldMask;
@@ -1304,27 +1019,15 @@ public final class com/toasttab/protokt/FieldMask : com/toasttab/protokt/rt/KtMe
 	public final fun getPaths ()Ljava/util/List;
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/FieldMask$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/FieldMask;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/FieldMask;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/FieldMask;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/FieldMask$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/FieldMask;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/FieldMask;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/FieldMask;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/FieldMask;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/FieldMask;
 }
 
 public final class com/toasttab/protokt/FieldMask$FieldMaskDsl {
@@ -1336,7 +1039,7 @@ public final class com/toasttab/protokt/FieldMask$FieldMaskDsl {
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 }
 
-public final class com/toasttab/protokt/FieldOptions : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/FieldOptions : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/FieldOptions$Deserializer;
 	public synthetic fun <init> (Lcom/toasttab/protokt/FieldOptions$CType;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Lcom/toasttab/protokt/FieldOptions$JSType;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/util/List;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/FieldOptions;
@@ -1352,9 +1055,7 @@ public final class com/toasttab/protokt/FieldOptions : com/toasttab/protokt/rt/K
 	public final fun getUnverifiedLazy ()Ljava/lang/Boolean;
 	public final fun getWeak ()Ljava/lang/Boolean;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -1386,21 +1087,11 @@ public final class com/toasttab/protokt/FieldOptions$CType$UNRECOGNIZED : com/to
 	public fun <init> (I)V
 }
 
-public final class com/toasttab/protokt/FieldOptions$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/FieldOptions;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/FieldOptions;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/FieldOptions;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/FieldOptions$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/FieldOptions;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/FieldOptions;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/FieldOptions;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/FieldOptions;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/FieldOptions;
 }
 
 public final class com/toasttab/protokt/FieldOptions$FieldOptionsDsl {
@@ -1454,11 +1145,7 @@ public final class com/toasttab/protokt/FieldOptions$JSType$UNRECOGNIZED : com/t
 	public fun <init> (I)V
 }
 
-public final class com/toasttab/protokt/Field_maskKt {
-	public static final fun FieldMask (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/FieldMask;
-}
-
-public final class com/toasttab/protokt/FileDescriptorProto : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/FileDescriptorProto : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/FileDescriptorProto$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lcom/toasttab/protokt/FileOptions;Lcom/toasttab/protokt/SourceCodeInfo;Ljava/util/List;Ljava/util/List;Ljava/lang/String;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/FileDescriptorProto;
@@ -1478,27 +1165,15 @@ public final class com/toasttab/protokt/FileDescriptorProto : com/toasttab/proto
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public final fun getWeakDependency ()Ljava/util/List;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/FileDescriptorProto$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/FileDescriptorProto;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/FileDescriptorProto;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/FileDescriptorProto;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/FileDescriptorProto$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/FileDescriptorProto;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/FileDescriptorProto;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/FileDescriptorProto;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/FileDescriptorProto;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/FileDescriptorProto;
 }
 
 public final class com/toasttab/protokt/FileDescriptorProto$FileDescriptorProtoDsl {
@@ -1532,7 +1207,7 @@ public final class com/toasttab/protokt/FileDescriptorProto$FileDescriptorProtoD
 	public final fun setWeakDependency (Ljava/util/List;)V
 }
 
-public final class com/toasttab/protokt/FileDescriptorSet : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/FileDescriptorSet : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/FileDescriptorSet$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/FileDescriptorSet;
@@ -1541,27 +1216,15 @@ public final class com/toasttab/protokt/FileDescriptorSet : com/toasttab/protokt
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/FileDescriptorSet$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/FileDescriptorSet;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/FileDescriptorSet;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/FileDescriptorSet;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/FileDescriptorSet$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/FileDescriptorSet;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/FileDescriptorSet;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/FileDescriptorSet;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/FileDescriptorSet;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/FileDescriptorSet;
 }
 
 public final class com/toasttab/protokt/FileDescriptorSet$FileDescriptorSetDsl {
@@ -1573,7 +1236,7 @@ public final class com/toasttab/protokt/FileDescriptorSet$FileDescriptorSetDsl {
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 }
 
-public final class com/toasttab/protokt/FileOptions : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/FileOptions : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/FileOptions$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lcom/toasttab/protokt/FileOptions$OptimizeMode;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/FileOptions;
@@ -1602,27 +1265,15 @@ public final class com/toasttab/protokt/FileOptions : com/toasttab/protokt/rt/Kt
 	public final fun getUninterpretedOption ()Ljava/util/List;
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/FileOptions$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/FileOptions;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/FileOptions;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/FileOptions;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/FileOptions$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/FileOptions;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/FileOptions;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/FileOptions;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/FileOptions;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/FileOptions;
 }
 
 public final class com/toasttab/protokt/FileOptions$FileOptionsDsl {
@@ -1702,7 +1353,7 @@ public final class com/toasttab/protokt/FileOptions$OptimizeMode$UNRECOGNIZED : 
 	public fun <init> (I)V
 }
 
-public final class com/toasttab/protokt/FloatValue : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/FloatValue : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/FloatValue$Deserializer;
 	public synthetic fun <init> (FLcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/FloatValue;
@@ -1711,27 +1362,15 @@ public final class com/toasttab/protokt/FloatValue : com/toasttab/protokt/rt/KtM
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public final fun getValue ()F
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/FloatValue$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/FloatValue;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/FloatValue;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/FloatValue;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/FloatValue$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/FloatValue;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/FloatValue;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/FloatValue;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/FloatValue;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/FloatValue;
 }
 
 public final class com/toasttab/protokt/FloatValue$FloatValueDsl {
@@ -1753,7 +1392,7 @@ public final class com/toasttab/protokt/FloatValueConverter : com/toasttab/proto
 	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
 }
 
-public final class com/toasttab/protokt/GeneratedCodeInfo : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/GeneratedCodeInfo : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/GeneratedCodeInfo$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/GeneratedCodeInfo;
@@ -1762,13 +1401,11 @@ public final class com/toasttab/protokt/GeneratedCodeInfo : com/toasttab/protokt
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/GeneratedCodeInfo$Annotation : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/GeneratedCodeInfo$Annotation : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/GeneratedCodeInfo$Annotation$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;Ljava/lang/Integer;Ljava/lang/Integer;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/GeneratedCodeInfo$Annotation;
@@ -1780,9 +1417,7 @@ public final class com/toasttab/protokt/GeneratedCodeInfo$Annotation : com/toast
 	public final fun getSourceFile ()Ljava/lang/String;
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -1801,39 +1436,18 @@ public final class com/toasttab/protokt/GeneratedCodeInfo$Annotation$AnnotationD
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 }
 
-public final class com/toasttab/protokt/GeneratedCodeInfo$Annotation$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/GeneratedCodeInfo$Annotation;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/GeneratedCodeInfo$Annotation;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/GeneratedCodeInfo$Annotation;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/GeneratedCodeInfo$Annotation$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/GeneratedCodeInfo$Annotation;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/GeneratedCodeInfo$Annotation;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/GeneratedCodeInfo$Annotation;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/GeneratedCodeInfo$Annotation;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/GeneratedCodeInfo$Annotation;
 }
 
-public final class com/toasttab/protokt/GeneratedCodeInfo$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public final fun Annotation (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/GeneratedCodeInfo$Annotation;
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/GeneratedCodeInfo;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/GeneratedCodeInfo;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/GeneratedCodeInfo;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/GeneratedCodeInfo$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/GeneratedCodeInfo;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/GeneratedCodeInfo;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/GeneratedCodeInfo;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/GeneratedCodeInfo;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/GeneratedCodeInfo;
 }
 
 public final class com/toasttab/protokt/GeneratedCodeInfo$GeneratedCodeInfoDsl {
@@ -1845,7 +1459,7 @@ public final class com/toasttab/protokt/GeneratedCodeInfo$GeneratedCodeInfoDsl {
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 }
 
-public final class com/toasttab/protokt/Int32Value : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/Int32Value : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/Int32Value$Deserializer;
 	public synthetic fun <init> (ILcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Int32Value;
@@ -1854,27 +1468,15 @@ public final class com/toasttab/protokt/Int32Value : com/toasttab/protokt/rt/KtM
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public final fun getValue ()I
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/Int32Value$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/Int32Value;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/Int32Value;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/Int32Value;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/Int32Value$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/Int32Value;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/Int32Value;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/Int32Value;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/Int32Value;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Int32Value;
 }
 
 public final class com/toasttab/protokt/Int32Value$Int32ValueDsl {
@@ -1896,7 +1498,7 @@ public final class com/toasttab/protokt/Int32ValueConverter : com/toasttab/proto
 	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
 }
 
-public final class com/toasttab/protokt/Int64Value : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/Int64Value : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/Int64Value$Deserializer;
 	public synthetic fun <init> (JLcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Int64Value;
@@ -1905,27 +1507,15 @@ public final class com/toasttab/protokt/Int64Value : com/toasttab/protokt/rt/KtM
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public final fun getValue ()J
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/Int64Value$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/Int64Value;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/Int64Value;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/Int64Value;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/Int64Value$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/Int64Value;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/Int64Value;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/Int64Value;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/Int64Value;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Int64Value;
 }
 
 public final class com/toasttab/protokt/Int64Value$Int64ValueDsl {
@@ -1947,7 +1537,7 @@ public final class com/toasttab/protokt/Int64ValueConverter : com/toasttab/proto
 	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
 }
 
-public final class com/toasttab/protokt/ListValue : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/ListValue : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/ListValue$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ListValue;
@@ -1956,27 +1546,15 @@ public final class com/toasttab/protokt/ListValue : com/toasttab/protokt/rt/KtMe
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public final fun getValues ()Ljava/util/List;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/ListValue$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/ListValue;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/ListValue;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/ListValue;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/ListValue$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/ListValue;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/ListValue;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/ListValue;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/ListValue;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ListValue;
 }
 
 public final class com/toasttab/protokt/ListValue$ListValueDsl {
@@ -1988,7 +1566,7 @@ public final class com/toasttab/protokt/ListValue$ListValueDsl {
 	public final fun setValues (Ljava/util/List;)V
 }
 
-public final class com/toasttab/protokt/MessageOptions : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/MessageOptions : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/MessageOptions$Deserializer;
 	public synthetic fun <init> (Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/util/List;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/MessageOptions;
@@ -2001,27 +1579,15 @@ public final class com/toasttab/protokt/MessageOptions : com/toasttab/protokt/rt
 	public final fun getUninterpretedOption ()Ljava/util/List;
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/MessageOptions$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/MessageOptions;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/MessageOptions;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/MessageOptions;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/MessageOptions$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/MessageOptions;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/MessageOptions;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/MessageOptions;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/MessageOptions;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/MessageOptions;
 }
 
 public final class com/toasttab/protokt/MessageOptions$MessageOptionsDsl {
@@ -2041,7 +1607,7 @@ public final class com/toasttab/protokt/MessageOptions$MessageOptionsDsl {
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 }
 
-public final class com/toasttab/protokt/Method : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/Method : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/Method$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ZLjava/lang/String;ZLjava/util/List;Lcom/toasttab/protokt/Syntax;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Method;
@@ -2056,27 +1622,15 @@ public final class com/toasttab/protokt/Method : com/toasttab/protokt/rt/KtMessa
 	public final fun getSyntax ()Lcom/toasttab/protokt/Syntax;
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/Method$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/Method;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/Method;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/Method;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/Method$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/Method;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/Method;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/Method;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/Method;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Method;
 }
 
 public final class com/toasttab/protokt/Method$MethodDsl {
@@ -2100,7 +1654,7 @@ public final class com/toasttab/protokt/Method$MethodDsl {
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 }
 
-public final class com/toasttab/protokt/MethodDescriptorProto : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/MethodDescriptorProto : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/MethodDescriptorProto$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/toasttab/protokt/MethodOptions;Ljava/lang/Boolean;Ljava/lang/Boolean;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/MethodDescriptorProto;
@@ -2114,27 +1668,15 @@ public final class com/toasttab/protokt/MethodDescriptorProto : com/toasttab/pro
 	public final fun getServerStreaming ()Ljava/lang/Boolean;
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/MethodDescriptorProto$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/MethodDescriptorProto;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/MethodDescriptorProto;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/MethodDescriptorProto;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/MethodDescriptorProto$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/MethodDescriptorProto;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/MethodDescriptorProto;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/MethodDescriptorProto;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/MethodDescriptorProto;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/MethodDescriptorProto;
 }
 
 public final class com/toasttab/protokt/MethodDescriptorProto$MethodDescriptorProtoDsl {
@@ -2156,7 +1698,7 @@ public final class com/toasttab/protokt/MethodDescriptorProto$MethodDescriptorPr
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 }
 
-public final class com/toasttab/protokt/MethodOptions : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/MethodOptions : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/MethodOptions$Deserializer;
 	public synthetic fun <init> (Ljava/lang/Boolean;Lcom/toasttab/protokt/MethodOptions$IdempotencyLevel;Ljava/util/List;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/MethodOptions;
@@ -2167,27 +1709,15 @@ public final class com/toasttab/protokt/MethodOptions : com/toasttab/protokt/rt/
 	public final fun getUninterpretedOption ()Ljava/util/List;
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/MethodOptions$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/MethodOptions;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/MethodOptions;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/MethodOptions;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/MethodOptions$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/MethodOptions;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/MethodOptions;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/MethodOptions;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/MethodOptions;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/MethodOptions;
 }
 
 public abstract class com/toasttab/protokt/MethodOptions$IdempotencyLevel : com/toasttab/protokt/rt/KtEnum {
@@ -2231,7 +1761,7 @@ public final class com/toasttab/protokt/MethodOptions$MethodOptionsDsl {
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 }
 
-public final class com/toasttab/protokt/Mixin : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/Mixin : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/Mixin$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Mixin;
@@ -2241,27 +1771,15 @@ public final class com/toasttab/protokt/Mixin : com/toasttab/protokt/rt/KtMessag
 	public final fun getRoot ()Ljava/lang/String;
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/Mixin$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/Mixin;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/Mixin;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/Mixin;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/Mixin$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/Mixin;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/Mixin;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/Mixin;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/Mixin;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Mixin;
 }
 
 public final class com/toasttab/protokt/Mixin$MixinDsl {
@@ -2295,7 +1813,7 @@ public final class com/toasttab/protokt/NullValue$UNRECOGNIZED : com/toasttab/pr
 	public fun <init> (I)V
 }
 
-public final class com/toasttab/protokt/OneofDescriptorProto : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/OneofDescriptorProto : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/OneofDescriptorProto$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Lcom/toasttab/protokt/OneofOptions;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/OneofDescriptorProto;
@@ -2305,27 +1823,15 @@ public final class com/toasttab/protokt/OneofDescriptorProto : com/toasttab/prot
 	public final fun getOptions ()Lcom/toasttab/protokt/OneofOptions;
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/OneofDescriptorProto$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/OneofDescriptorProto;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/OneofDescriptorProto;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/OneofDescriptorProto;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/OneofDescriptorProto$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/OneofDescriptorProto;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/OneofDescriptorProto;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/OneofDescriptorProto;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/OneofDescriptorProto;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/OneofDescriptorProto;
 }
 
 public final class com/toasttab/protokt/OneofDescriptorProto$OneofDescriptorProtoDsl {
@@ -2339,7 +1845,7 @@ public final class com/toasttab/protokt/OneofDescriptorProto$OneofDescriptorProt
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 }
 
-public final class com/toasttab/protokt/OneofOptions : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/OneofOptions : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/OneofOptions$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/OneofOptions;
@@ -2348,27 +1854,15 @@ public final class com/toasttab/protokt/OneofOptions : com/toasttab/protokt/rt/K
 	public final fun getUninterpretedOption ()Ljava/util/List;
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/OneofOptions$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/OneofOptions;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/OneofOptions;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/OneofOptions;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/OneofOptions$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/OneofOptions;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/OneofOptions;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/OneofOptions;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/OneofOptions;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/OneofOptions;
 }
 
 public final class com/toasttab/protokt/OneofOptions$OneofOptionsDsl {
@@ -2380,7 +1874,7 @@ public final class com/toasttab/protokt/OneofOptions$OneofOptionsDsl {
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 }
 
-public final class com/toasttab/protokt/Option : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/Option : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/Option$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Lcom/toasttab/protokt/Any;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Option;
@@ -2390,27 +1884,15 @@ public final class com/toasttab/protokt/Option : com/toasttab/protokt/rt/KtMessa
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public final fun getValue ()Lcom/toasttab/protokt/Any;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/Option$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/Option;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/Option;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/Option;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/Option$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/Option;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/Option;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/Option;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/Option;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Option;
 }
 
 public final class com/toasttab/protokt/Option$OptionDsl {
@@ -2424,7 +1906,7 @@ public final class com/toasttab/protokt/Option$OptionDsl {
 	public final fun setValue (Lcom/toasttab/protokt/Any;)V
 }
 
-public final class com/toasttab/protokt/ServiceDescriptorProto : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/ServiceDescriptorProto : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/ServiceDescriptorProto$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Lcom/toasttab/protokt/ServiceOptions;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ServiceDescriptorProto;
@@ -2435,27 +1917,15 @@ public final class com/toasttab/protokt/ServiceDescriptorProto : com/toasttab/pr
 	public final fun getOptions ()Lcom/toasttab/protokt/ServiceOptions;
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/ServiceDescriptorProto$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/ServiceDescriptorProto;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/ServiceDescriptorProto;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/ServiceDescriptorProto;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/ServiceDescriptorProto$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/ServiceDescriptorProto;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/ServiceDescriptorProto;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/ServiceDescriptorProto;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/ServiceDescriptorProto;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ServiceDescriptorProto;
 }
 
 public final class com/toasttab/protokt/ServiceDescriptorProto$ServiceDescriptorProtoDsl {
@@ -2471,7 +1941,7 @@ public final class com/toasttab/protokt/ServiceDescriptorProto$ServiceDescriptor
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 }
 
-public final class com/toasttab/protokt/ServiceOptions : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/ServiceOptions : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/ServiceOptions$Deserializer;
 	public synthetic fun <init> (Ljava/lang/Boolean;Ljava/util/List;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ServiceOptions;
@@ -2481,27 +1951,15 @@ public final class com/toasttab/protokt/ServiceOptions : com/toasttab/protokt/rt
 	public final fun getUninterpretedOption ()Ljava/util/List;
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/ServiceOptions$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/ServiceOptions;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/ServiceOptions;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/ServiceOptions;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/ServiceOptions$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/ServiceOptions;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/ServiceOptions;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/ServiceOptions;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/ServiceOptions;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ServiceOptions;
 }
 
 public final class com/toasttab/protokt/ServiceOptions$ServiceOptionsDsl {
@@ -2515,7 +1973,7 @@ public final class com/toasttab/protokt/ServiceOptions$ServiceOptionsDsl {
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 }
 
-public final class com/toasttab/protokt/SourceCodeInfo : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/SourceCodeInfo : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/SourceCodeInfo$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/SourceCodeInfo;
@@ -2524,31 +1982,18 @@ public final class com/toasttab/protokt/SourceCodeInfo : com/toasttab/protokt/rt
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/SourceCodeInfo$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public final fun Location (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/SourceCodeInfo$Location;
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/SourceCodeInfo;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/SourceCodeInfo;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/SourceCodeInfo;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/SourceCodeInfo$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/SourceCodeInfo;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/SourceCodeInfo;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/SourceCodeInfo;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/SourceCodeInfo;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/SourceCodeInfo;
 }
 
-public final class com/toasttab/protokt/SourceCodeInfo$Location : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/SourceCodeInfo$Location : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/SourceCodeInfo$Location$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/SourceCodeInfo$Location;
@@ -2561,27 +2006,15 @@ public final class com/toasttab/protokt/SourceCodeInfo$Location : com/toasttab/p
 	public final fun getTrailingComments ()Ljava/lang/String;
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/SourceCodeInfo$Location$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/SourceCodeInfo$Location;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/SourceCodeInfo$Location;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/SourceCodeInfo$Location;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/SourceCodeInfo$Location$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/SourceCodeInfo$Location;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/SourceCodeInfo$Location;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/SourceCodeInfo$Location;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/SourceCodeInfo$Location;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/SourceCodeInfo$Location;
 }
 
 public final class com/toasttab/protokt/SourceCodeInfo$Location$LocationDsl {
@@ -2610,7 +2043,7 @@ public final class com/toasttab/protokt/SourceCodeInfo$SourceCodeInfoDsl {
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 }
 
-public final class com/toasttab/protokt/SourceContext : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/SourceContext : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/SourceContext$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/SourceContext;
@@ -2619,27 +2052,15 @@ public final class com/toasttab/protokt/SourceContext : com/toasttab/protokt/rt/
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/SourceContext$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/SourceContext;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/SourceContext;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/SourceContext;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/SourceContext$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/SourceContext;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/SourceContext;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/SourceContext;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/SourceContext;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/SourceContext;
 }
 
 public final class com/toasttab/protokt/SourceContext$SourceContextDsl {
@@ -2651,11 +2072,7 @@ public final class com/toasttab/protokt/SourceContext$SourceContextDsl {
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 }
 
-public final class com/toasttab/protokt/Source_contextKt {
-	public static final fun SourceContext (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/SourceContext;
-}
-
-public final class com/toasttab/protokt/StringValue : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/StringValue : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/StringValue$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/StringValue;
@@ -2664,27 +2081,15 @@ public final class com/toasttab/protokt/StringValue : com/toasttab/protokt/rt/Kt
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public final fun getValue ()Ljava/lang/String;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/StringValue$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/StringValue;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/StringValue;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/StringValue;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/StringValue$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/StringValue;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/StringValue;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/StringValue;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/StringValue;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/StringValue;
 }
 
 public final class com/toasttab/protokt/StringValue$StringValueDsl {
@@ -2706,7 +2111,7 @@ public final class com/toasttab/protokt/StringValueConverter : com/toasttab/prot
 	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
 }
 
-public final class com/toasttab/protokt/Struct : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/Struct : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/Struct$Deserializer;
 	public synthetic fun <init> (Ljava/util/Map;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Struct;
@@ -2715,27 +2120,15 @@ public final class com/toasttab/protokt/Struct : com/toasttab/protokt/rt/KtMessa
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/Struct$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/Struct;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/Struct;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/Struct;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/Struct$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/Struct;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/Struct;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/Struct;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/Struct;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Struct;
 }
 
 public final class com/toasttab/protokt/Struct$StructDsl {
@@ -2745,12 +2138,6 @@ public final class com/toasttab/protokt/Struct$StructDsl {
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public final fun setFields (Ljava/util/Map;)V
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
-}
-
-public final class com/toasttab/protokt/StructKt {
-	public static final fun ListValue (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ListValue;
-	public static final fun Struct (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Struct;
-	public static final fun Value (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Value;
 }
 
 public abstract class com/toasttab/protokt/Syntax : com/toasttab/protokt/rt/KtEnum {
@@ -2777,7 +2164,7 @@ public final class com/toasttab/protokt/Syntax$UNRECOGNIZED : com/toasttab/proto
 	public fun <init> (I)V
 }
 
-public final class com/toasttab/protokt/Timestamp : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/Timestamp : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/Timestamp$Deserializer;
 	public synthetic fun <init> (JILcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Timestamp;
@@ -2787,27 +2174,15 @@ public final class com/toasttab/protokt/Timestamp : com/toasttab/protokt/rt/KtMe
 	public final fun getSeconds ()J
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/Timestamp$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/Timestamp;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/Timestamp;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/Timestamp;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/Timestamp$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/Timestamp;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/Timestamp;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/Timestamp;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/Timestamp;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Timestamp;
 }
 
 public final class com/toasttab/protokt/Timestamp$TimestampDsl {
@@ -2821,11 +2196,7 @@ public final class com/toasttab/protokt/Timestamp$TimestampDsl {
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 }
 
-public final class com/toasttab/protokt/TimestampKt {
-	public static final fun Timestamp (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Timestamp;
-}
-
-public final class com/toasttab/protokt/Type : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/Type : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/Type$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lcom/toasttab/protokt/SourceContext;Lcom/toasttab/protokt/Syntax;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Type;
@@ -2839,27 +2210,15 @@ public final class com/toasttab/protokt/Type : com/toasttab/protokt/rt/KtMessage
 	public final fun getSyntax ()Lcom/toasttab/protokt/Syntax;
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/Type$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/Type;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/Type;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/Type;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/Type$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/Type;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/Type;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/Type;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/Type;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Type;
 }
 
 public final class com/toasttab/protokt/Type$TypeDsl {
@@ -2881,15 +2240,7 @@ public final class com/toasttab/protokt/Type$TypeDsl {
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 }
 
-public final class com/toasttab/protokt/TypeKt {
-	public static final fun EnumValue (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/EnumValue;
-	public static final fun Enum_ (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Enum_;
-	public static final fun Field (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Field;
-	public static final fun Option (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Option;
-	public static final fun Type (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Type;
-}
-
-public final class com/toasttab/protokt/UInt32Value : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/UInt32Value : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/UInt32Value$Deserializer;
 	public synthetic fun <init> (ILcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/UInt32Value;
@@ -2898,27 +2249,15 @@ public final class com/toasttab/protokt/UInt32Value : com/toasttab/protokt/rt/Kt
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public final fun getValue ()I
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/UInt32Value$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/UInt32Value;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/UInt32Value;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/UInt32Value;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/UInt32Value$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/UInt32Value;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/UInt32Value;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/UInt32Value;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/UInt32Value;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/UInt32Value;
 }
 
 public final class com/toasttab/protokt/UInt32Value$UInt32ValueDsl {
@@ -2940,7 +2279,7 @@ public final class com/toasttab/protokt/UInt32ValueConverter : com/toasttab/prot
 	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
 }
 
-public final class com/toasttab/protokt/UInt64Value : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/UInt64Value : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/UInt64Value$Deserializer;
 	public synthetic fun <init> (JLcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/UInt64Value;
@@ -2949,27 +2288,15 @@ public final class com/toasttab/protokt/UInt64Value : com/toasttab/protokt/rt/Kt
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public final fun getValue ()J
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/UInt64Value$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/UInt64Value;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/UInt64Value;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/UInt64Value;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/UInt64Value$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/UInt64Value;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/UInt64Value;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/UInt64Value;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/UInt64Value;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/UInt64Value;
 }
 
 public final class com/toasttab/protokt/UInt64Value$UInt64ValueDsl {
@@ -2991,7 +2318,7 @@ public final class com/toasttab/protokt/UInt64ValueConverter : com/toasttab/prot
 	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
 }
 
-public final class com/toasttab/protokt/UninterpretedOption : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/UninterpretedOption : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/UninterpretedOption$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Ljava/lang/Double;Lcom/toasttab/protokt/rt/Bytes;Ljava/lang/String;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/UninterpretedOption;
@@ -3006,31 +2333,18 @@ public final class com/toasttab/protokt/UninterpretedOption : com/toasttab/proto
 	public final fun getStringValue ()Lcom/toasttab/protokt/rt/Bytes;
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/UninterpretedOption$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public final fun NamePart (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/UninterpretedOption$NamePart;
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/UninterpretedOption;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/UninterpretedOption;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/UninterpretedOption;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/UninterpretedOption$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/UninterpretedOption;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/UninterpretedOption;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/UninterpretedOption;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/UninterpretedOption;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/UninterpretedOption;
 }
 
-public final class com/toasttab/protokt/UninterpretedOption$NamePart : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/UninterpretedOption$NamePart : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/UninterpretedOption$NamePart$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;ZLcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/UninterpretedOption$NamePart;
@@ -3040,27 +2354,15 @@ public final class com/toasttab/protokt/UninterpretedOption$NamePart : com/toast
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
 	public final fun isExtension ()Z
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/UninterpretedOption$NamePart$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/UninterpretedOption$NamePart;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/UninterpretedOption$NamePart;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/UninterpretedOption$NamePart;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/UninterpretedOption$NamePart$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/UninterpretedOption$NamePart;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/UninterpretedOption$NamePart;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/UninterpretedOption$NamePart;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/UninterpretedOption$NamePart;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/UninterpretedOption$NamePart;
 }
 
 public final class com/toasttab/protokt/UninterpretedOption$NamePart$NamePartDsl {
@@ -3095,7 +2397,7 @@ public final class com/toasttab/protokt/UninterpretedOption$UninterpretedOptionD
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 }
 
-public final class com/toasttab/protokt/Value : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/Value : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/Value$Deserializer;
 	public synthetic fun <init> (Lcom/toasttab/protokt/Value$Kind;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Value;
@@ -3104,27 +2406,15 @@ public final class com/toasttab/protokt/Value : com/toasttab/protokt/rt/KtMessag
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/Value$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/Value;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/Value;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/Value;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/Value$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/Value;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/Value;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/Value;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/Value;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Value;
 }
 
 public abstract class com/toasttab/protokt/Value$Kind {
@@ -3205,19 +2495,7 @@ public final class com/toasttab/protokt/Value$ValueDsl {
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 }
 
-public final class com/toasttab/protokt/WrappersKt {
-	public static final fun BoolValue (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/BoolValue;
-	public static final fun BytesValue (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/BytesValue;
-	public static final fun DoubleValue (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/DoubleValue;
-	public static final fun FloatValue (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/FloatValue;
-	public static final fun Int32Value (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Int32Value;
-	public static final fun Int64Value (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Int64Value;
-	public static final fun StringValue (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/StringValue;
-	public static final fun UInt32Value (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/UInt32Value;
-	public static final fun UInt64Value (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/UInt64Value;
-}
-
-public final class com/toasttab/protokt/compiler/CodeGeneratorRequest : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/compiler/CodeGeneratorRequest : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/compiler/CodeGeneratorRequest$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;Lcom/toasttab/protokt/compiler/Version;Ljava/util/List;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/compiler/CodeGeneratorRequest;
@@ -3229,9 +2507,7 @@ public final class com/toasttab/protokt/compiler/CodeGeneratorRequest : com/toas
 	public final fun getProtoFile ()Ljava/util/List;
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -3250,24 +2526,14 @@ public final class com/toasttab/protokt/compiler/CodeGeneratorRequest$CodeGenera
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 }
 
-public final class com/toasttab/protokt/compiler/CodeGeneratorRequest$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/compiler/CodeGeneratorRequest;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/compiler/CodeGeneratorRequest;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/compiler/CodeGeneratorRequest;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/compiler/CodeGeneratorRequest$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/compiler/CodeGeneratorRequest;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/compiler/CodeGeneratorRequest;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/compiler/CodeGeneratorRequest;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/compiler/CodeGeneratorRequest;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/compiler/CodeGeneratorRequest;
 }
 
-public final class com/toasttab/protokt/compiler/CodeGeneratorResponse : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/compiler/CodeGeneratorResponse : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/compiler/CodeGeneratorResponse$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Long;Ljava/util/List;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/compiler/CodeGeneratorResponse;
@@ -3278,9 +2544,7 @@ public final class com/toasttab/protokt/compiler/CodeGeneratorResponse : com/toa
 	public final fun getSupportedFeatures ()Ljava/lang/Long;
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -3297,22 +2561,11 @@ public final class com/toasttab/protokt/compiler/CodeGeneratorResponse$CodeGener
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 }
 
-public final class com/toasttab/protokt/compiler/CodeGeneratorResponse$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public final fun File (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/compiler/CodeGeneratorResponse$File;
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/compiler/CodeGeneratorResponse;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/compiler/CodeGeneratorResponse;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/compiler/CodeGeneratorResponse;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/compiler/CodeGeneratorResponse$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/compiler/CodeGeneratorResponse;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/compiler/CodeGeneratorResponse;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/compiler/CodeGeneratorResponse;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/compiler/CodeGeneratorResponse;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/compiler/CodeGeneratorResponse;
 }
 
 public abstract class com/toasttab/protokt/compiler/CodeGeneratorResponse$Feature : com/toasttab/protokt/rt/KtEnum {
@@ -3339,7 +2592,7 @@ public final class com/toasttab/protokt/compiler/CodeGeneratorResponse$Feature$U
 	public fun <init> (I)V
 }
 
-public final class com/toasttab/protokt/compiler/CodeGeneratorResponse$File : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/compiler/CodeGeneratorResponse$File : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/compiler/CodeGeneratorResponse$File$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/toasttab/protokt/GeneratedCodeInfo;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/compiler/CodeGeneratorResponse$File;
@@ -3351,27 +2604,15 @@ public final class com/toasttab/protokt/compiler/CodeGeneratorResponse$File : co
 	public final fun getName ()Ljava/lang/String;
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/compiler/CodeGeneratorResponse$File$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/compiler/CodeGeneratorResponse$File;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/compiler/CodeGeneratorResponse$File;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/compiler/CodeGeneratorResponse$File;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/compiler/CodeGeneratorResponse$File$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/compiler/CodeGeneratorResponse$File;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/compiler/CodeGeneratorResponse$File;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/compiler/CodeGeneratorResponse$File;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/compiler/CodeGeneratorResponse$File;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/compiler/CodeGeneratorResponse$File;
 }
 
 public final class com/toasttab/protokt/compiler/CodeGeneratorResponse$File$FileDsl {
@@ -3389,13 +2630,7 @@ public final class com/toasttab/protokt/compiler/CodeGeneratorResponse$File$File
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 }
 
-public final class com/toasttab/protokt/compiler/PluginKt {
-	public static final fun CodeGeneratorRequest (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/compiler/CodeGeneratorRequest;
-	public static final fun CodeGeneratorResponse (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/compiler/CodeGeneratorResponse;
-	public static final fun Version (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/compiler/Version;
-}
-
-public final class com/toasttab/protokt/compiler/Version : com/toasttab/protokt/rt/KtMessage {
+public final class com/toasttab/protokt/compiler/Version : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/compiler/Version$Deserializer;
 	public synthetic fun <init> (Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/String;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/compiler/Version;
@@ -3407,27 +2642,15 @@ public final class com/toasttab/protokt/compiler/Version : com/toasttab/protokt/
 	public final fun getSuffix ()Ljava/lang/String;
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public fun hashCode ()I
-	public fun serialize ()[B
 	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun serialize (Ljava/io/OutputStream;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/compiler/Version$Deserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/compiler/Version;
-	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/compiler/Version;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/compiler/Version;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+public final class com/toasttab/protokt/compiler/Version$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer, kotlin/jvm/functions/Function1 {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/compiler/Version;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/compiler/Version;
-	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/compiler/Version;
-	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize ([B)Lcom/toasttab/protokt/compiler/Version;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/compiler/Version;
 }
 
 public final class com/toasttab/protokt/compiler/Version$VersionDsl {
