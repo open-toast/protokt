@@ -17,7 +17,7 @@ package com.toasttab.protokt.rt
 
 class Bytes(internal val value: ByteArray) {
     val bytes
-        get() = value.clone()
+        get() = clone(value)
 
     fun isNotEmpty() =
         value.isNotEmpty()
@@ -41,6 +41,9 @@ class Bytes(internal val value: ByteArray) {
             EMPTY
     }
 }
+
+// TODO: This should go away; extensions should read a stream of bytes
+expect fun clone(bytes: ByteArray): ByteArray
 
 fun Bytes.toBytesSlice() =
     BytesSlice(value)

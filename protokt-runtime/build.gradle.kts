@@ -22,6 +22,10 @@ trackKotlinApiCompatibility()
 
 kotlin {
     jvm()
+    js(BOTH) {
+        browser {}
+        nodejs {}
+    }
 
     sourceSets {
         val jvmMain by getting {
@@ -30,7 +34,13 @@ kotlin {
             }
         }
 
-        val commonTest by getting {
+        val jsMain by getting {
+            dependencies {
+                implementation(npm("protobufjs", versions.protobufJs))
+            }
+        }
+
+        val jvmTest by getting {
             dependencies {
                 implementation(libraries.junit)
                 implementation(libraries.truth)

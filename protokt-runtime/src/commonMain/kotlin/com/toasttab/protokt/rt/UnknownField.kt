@@ -39,26 +39,22 @@ interface UnknownValue {
     fun size(): Int
 }
 
-@JvmInline
-value class VarintVal(val value: UInt64) : UnknownValue {
+class VarintVal(val value: UInt64) : UnknownValue {
     override fun size() =
         sizeof(value)
 }
 
-@JvmInline
-value class Fixed32Val(val value: Fixed32) : UnknownValue {
+class Fixed32Val(val value: Fixed32) : UnknownValue {
     override fun size() =
         sizeof(value)
 }
 
-@JvmInline
-value class Fixed64Val(val value: Fixed64) : UnknownValue {
+class Fixed64Val(val value: Fixed64) : UnknownValue {
     override fun size() =
         sizeof(value)
 }
 
-@JvmInline
-value class LengthDelimitedVal(val value: Bytes) : UnknownValue {
+class LengthDelimitedVal(val value: Bytes) : UnknownValue {
     override fun size() =
         sizeof(value)
 }

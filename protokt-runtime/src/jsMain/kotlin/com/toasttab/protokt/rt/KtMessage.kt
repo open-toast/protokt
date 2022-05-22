@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Toast Inc.
+ * Copyright (c) 2022 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,22 +15,10 @@
 
 package com.toasttab.protokt.rt
 
-class Int32(val value: Int)
+actual interface KtMessage {
+    actual val messageSize: Int
 
-class Fixed32(val value: Int)
+    actual fun serialize(serializer: KtMessageSerializer)
 
-class SFixed32(val value: Int)
-
-class UInt32(val value: Int)
-
-class SInt32(val value: Int)
-
-class Int64(val value: Long)
-
-class Fixed64(val value: Long)
-
-class SFixed64(val value: Long)
-
-class UInt64(val value: Long)
-
-class SInt64(val value: Long)
+    actual fun serialize(): ByteArray
+}
