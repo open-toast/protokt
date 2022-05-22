@@ -15,10 +15,8 @@
 
 package com.toasttab.protokt
 
-import com.google.auto.service.AutoService
 import com.toasttab.protokt.ext.Converter
 
-@AutoService(Converter::class)
 object FloatValueConverter : Converter<Float, FloatValue> {
     override val wrapper = Float::class
 

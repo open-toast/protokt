@@ -16,8 +16,12 @@
 package com.toasttab.protokt.codegen.impl
 
 import com.squareup.kotlinpoet.FileSpec
+import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.LambdaTypeName
+import com.squareup.kotlinpoet.asTypeName
 import com.toasttab.protokt.codegen.annotators.Annotator
 import com.toasttab.protokt.codegen.descriptor.FileDescriptorResolver
+import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Protocol
 import com.toasttab.protokt.codegen.protoc.fileName
 
@@ -48,6 +52,25 @@ object FileBuilder {
         descs.forEach {
             builder.addType(it.type.typeSpec)
         }
+
+        descs
+            .map { it.type.rawType }
+            .filterIsInstance<Message>().forEach { msg ->
+                builder.addFunction(
+                    FunSpec.builder(msg.name)
+                        .returns(msg.typeName)
+                        .addParameter(
+                            "dsl",
+                            LambdaTypeName.get(
+                                msg.dslTypeName,
+                                emptyList(),
+                                Unit::class.asTypeName()
+                            )
+                        )
+                        .addStatement("return %T().apply(dsl).build()", msg.dslTypeName)
+                        .build()
+                )
+            }
 
         val fileDescriptorInfo = FileDescriptorResolver.resolveFileDescriptor(protocol)
 

@@ -38,12 +38,6 @@ kotlin {
             dependencies {
                 api(project(":extensions:protokt-extensions-api"))
                 api(project(":protokt-runtime"))
-
-                implementation(libraries.autoServiceAnnotations)
-
-                configurations["kapt"].dependencies.add(
-                    dependencies.create(libraries.autoService)
-                )
             }
         }
     }

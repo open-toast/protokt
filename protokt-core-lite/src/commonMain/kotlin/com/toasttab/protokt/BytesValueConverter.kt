@@ -15,11 +15,9 @@
 
 package com.toasttab.protokt
 
-import com.google.auto.service.AutoService
 import com.toasttab.protokt.ext.Converter
 import com.toasttab.protokt.rt.Bytes
 
-@AutoService(Converter::class)
 object BytesValueConverter : Converter<Bytes, BytesValue> {
     override val wrapper = Bytes::class
 

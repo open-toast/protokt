@@ -23,7 +23,6 @@ import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.LambdaTypeName
-import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
@@ -73,28 +72,11 @@ private constructor(
                     .asTypeName()
                     .parameterizedBy(msg.typeName)
             )
-            .addSuperinterface(
-                LambdaTypeName.get(
-                    null,
-                    listOf(
-                        ParameterSpec.unnamed(
-                            LambdaTypeName.get(
-                                msg.dslTypeName,
-                                emptyList(),
-                                Unit::class.asTypeName()
-                            )
-                        )
-                    ),
-                    msg.typeName
-                )
-            )
             .addFunction(
                 buildFunSpec("deserialize") {
-
                     addModifiers(KModifier.OVERRIDE)
                     addParameter("deserializer", KtMessageDeserializer::class)
                     returns(msg.typeName)
-
                     if (properties.isNotEmpty()) {
                         properties.forEach { addStatement("var %L", deserializeVar(it)) }
                     }
@@ -108,21 +90,24 @@ private constructor(
                     endControlFlow()
                 }
             )
-            .addFunction(
-                FunSpec.builder("invoke")
-                    .addModifiers(KModifier.OVERRIDE)
-                    .returns(msg.typeName)
-                    .addParameter(
-                        "dsl",
-                        LambdaTypeName.get(
-                            msg.dslTypeName,
-                            emptyList(),
-                            Unit::class.asTypeName()
-                        )
+            .apply {
+                msg.nestedTypes.filterIsInstance<Message>().forEach { message ->
+                    addFunction(
+                        FunSpec.builder(message.name)
+                            .returns(message.typeName)
+                            .addParameter(
+                                "dsl",
+                                LambdaTypeName.get(
+                                    message.dslTypeName,
+                                    emptyList(),
+                                    Unit::class.asTypeName()
+                                )
+                            )
+                            .addStatement("return %T().apply(dsl).build()", message.dslTypeName)
+                            .build()
                     )
-                    .addStatement("return %T().apply(dsl).build()", msg.dslTypeName)
-                    .build()
-            )
+                }
+            }
             .build()
     }
 

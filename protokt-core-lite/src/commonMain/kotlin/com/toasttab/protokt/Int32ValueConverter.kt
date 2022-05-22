@@ -15,10 +15,8 @@
 
 package com.toasttab.protokt
 
-import com.google.auto.service.AutoService
 import com.toasttab.protokt.ext.Converter
 
-@AutoService(Converter::class)
 object Int32ValueConverter : Converter<Int, Int32Value> {
     override val wrapper = Int::class
 

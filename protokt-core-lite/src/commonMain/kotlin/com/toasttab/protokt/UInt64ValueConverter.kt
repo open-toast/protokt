@@ -15,10 +15,8 @@
 
 package com.toasttab.protokt
 
-import com.google.auto.service.AutoService
 import com.toasttab.protokt.ext.Converter
 
-@AutoService(Converter::class)
 object UInt64ValueConverter : Converter<Long, UInt64Value> {
     override val wrapper = Long::class
 
