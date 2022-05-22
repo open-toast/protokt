@@ -91,22 +91,25 @@ private constructor(
                 }
             )
             .apply {
-                msg.nestedTypes.filterIsInstance<Message>().forEach { message ->
-                    addFunction(
-                        FunSpec.builder(message.name)
-                            .returns(message.typeName)
-                            .addParameter(
-                                "dsl",
-                                LambdaTypeName.get(
-                                    message.dslTypeName,
-                                    emptyList(),
-                                    Unit::class.asTypeName()
+                msg.nestedTypes
+                    .filterIsInstance<Message>()
+                    .filterNot { it.mapEntry }
+                    .forEach { message ->
+                        addFunction(
+                            FunSpec.builder(message.name)
+                                .returns(message.typeName)
+                                .addParameter(
+                                    "dsl",
+                                    LambdaTypeName.get(
+                                        message.dslTypeName,
+                                        emptyList(),
+                                        Unit::class.asTypeName()
+                                    )
                                 )
-                            )
-                            .addStatement("return %T().apply(dsl).build()", message.dslTypeName)
-                            .build()
-                    )
-                }
+                                .addStatement("return %T().apply(dsl).build()", message.dslTypeName)
+                                .build()
+                        )
+                    }
             }
             .build()
     }
