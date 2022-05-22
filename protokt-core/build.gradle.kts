@@ -33,8 +33,6 @@ protokt {
 sourceSets.create("main")
 
 kotlin {
-    jvm()
-
     sourceSets {
         val commonMain by getting {
             dependencies {

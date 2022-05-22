@@ -21,12 +21,6 @@ enablePublishing(defaultJars = false)
 trackKotlinApiCompatibility()
 
 kotlin {
-    jvm()
-    js(BOTH) {
-        browser {}
-        nodejs {}
-    }
-
     sourceSets {
         val jvmMain by getting {
             dependencies {

@@ -19,7 +19,3 @@ plugins {
 
 enablePublishing(false)
 trackKotlinApiCompatibility()
-
-kotlin {
-    jvm()
-}

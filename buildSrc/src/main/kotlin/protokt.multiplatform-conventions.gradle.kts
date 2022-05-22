@@ -17,3 +17,11 @@ plugins {
     id("org.jetbrains.kotlin.multiplatform")
     id("protokt.common-conventions")
 }
+
+kotlin {
+    jvm()
+    js(BOTH) {
+        browser {}
+        nodejs {}
+    }
+}
