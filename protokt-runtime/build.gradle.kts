@@ -14,8 +14,7 @@
  */
 
 plugins {
-    id("org.jetbrains.kotlin.multiplatform")
-    id("protokt.common-conventions")
+    id("protokt.multiplatform-conventions")
 }
 
 enablePublishing(defaultJars = false)

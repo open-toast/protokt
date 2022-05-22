@@ -14,14 +14,22 @@
  */
 
 plugins {
-    id("protokt.jvm-conventions")
+    id("protokt.multiplatform-conventions")
 }
 
-enablePublishing()
+enablePublishing(defaultJars = false)
 trackKotlinApiCompatibility()
 
-dependencies {
-    api(project(":extensions:protokt-extensions"))
-    api(project(":third-party:proto-google-common-protos"))
-    api(project(":third-party:proto-google-common-protos-extensions-lite"))
+kotlin {
+    jvm()
+
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                api(project(":extensions:protokt-extensions"))
+                api(project(":third-party:proto-google-common-protos"))
+                api(project(":third-party:proto-google-common-protos-extensions-lite"))
+            }
+        }
+    }
 }

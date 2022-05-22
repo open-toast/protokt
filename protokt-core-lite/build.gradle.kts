@@ -17,8 +17,7 @@ import com.google.protobuf.gradle.protobuf
 import com.toasttab.protokt.gradle.protokt
 
 plugins {
-    id("org.jetbrains.kotlin.multiplatform")
-    id("protokt.common-conventions")
+    id("protokt.multiplatform-conventions")
     kotlin("kapt")
 }
 

@@ -17,22 +17,34 @@ import com.google.protobuf.gradle.protobuf
 import com.toasttab.protokt.gradle.protokt
 
 plugins {
-    id("protokt.jvm-conventions")
+    id("protokt.multiplatform-conventions")
 }
 
 localProtokt()
 pureKotlin()
-enablePublishing()
+enablePublishing(defaultJars = false)
 trackKotlinApiCompatibility()
 
 protokt {
     onlyGenerateDescriptors = true
 }
 
+sourceSets.create("main")
+
+kotlin {
+    jvm()
+
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                api(project(":third-party:proto-google-common-protos-lite"))
+            }
+        }
+    }
+}
+
 dependencies {
     protobuf(libraries.protoGoogleCommonProtos) {
         exclude(group = "com.google.protobuf", module = "protobuf-java")
     }
-
-    api(project(":third-party:proto-google-common-protos-lite"))
 }
