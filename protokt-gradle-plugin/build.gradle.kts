@@ -53,6 +53,7 @@ enablePublishing()
 
 dependencies {
     implementation(project(":protokt-util"))
+    implementation(kotlin("gradle-plugin"))
     implementation(gradleApi())
     implementation(libraries.protobufPlugin)
 }

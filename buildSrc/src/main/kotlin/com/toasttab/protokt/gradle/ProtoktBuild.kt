@@ -18,6 +18,8 @@ package com.toasttab.protokt.gradle
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.the
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+import org.jetbrains.kotlin.gradle.plugin.sources.DefaultKotlinSourceSet
 
 const val CODEGEN_NAME = "protoc-gen-protokt"
 
@@ -26,24 +28,33 @@ const val EXTENSIONS = "protoktExtensions"
 const val TEST_EXTENSIONS = "testProtoktExtensions"
 
 fun configureProtokt(project: Project, resolveBinary: () -> String) {
-    createExtensionConfigurations(project)
+    project.createExtensionConfigurations()
 
     val ext = project.extensions.create<ProtoktExtension>("protokt")
 
     configureProtobufPlugin(project, ext, resolveBinary())
 }
 
-private fun createExtensionConfigurations(project: Project) {
-    val extensionsConfiguration = project.configurations.create(EXTENSIONS)
+private fun Project.createExtensionConfigurations() {
+    val extensionsConfiguration = configurations.create(EXTENSIONS)
+    val testExtensionsConfiguration = configurations.create(TEST_EXTENSIONS)
 
-    project.configurations.named("api") {
-        extendsFrom(extensionsConfiguration)
-    }
+    val isMultiplatform = project.plugins.hasPlugin("org.jetbrains.kotlin.multiplatform")
 
-    val testExtensionsConfiguration = project.configurations.create(TEST_EXTENSIONS)
-
-    project.configurations.named("testApi") {
-        extendsFrom(testExtensionsConfiguration)
+    when {
+        isMultiplatform -> {
+            val sourceSets = extensions.getByType(KotlinMultiplatformExtension::class.java).sourceSets
+            val sourceSet = (sourceSets.getByName("commonMain") as DefaultKotlinSourceSet)
+            configurations.getByName(sourceSet.apiConfigurationName)
+                .extendsFrom(extensionsConfiguration)
+            val testSourceSet = (sourceSets.getByName("commonTest") as DefaultKotlinSourceSet)
+            configurations.getByName(testSourceSet.apiConfigurationName)
+                .extendsFrom(testExtensionsConfiguration)
+        }
+        else -> {
+            configurations.getByName("api").extendsFrom(extensionsConfiguration)
+            configurations.getByName("testApi").extendsFrom(testExtensionsConfiguration)
+        }
     }
 }
 

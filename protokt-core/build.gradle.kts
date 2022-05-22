@@ -13,42 +13,47 @@
  * limitations under the License.
  */
 
-import com.google.protobuf.gradle.proto
 import com.google.protobuf.gradle.protobuf
 import com.toasttab.protokt.gradle.protokt
 
 plugins {
-    id("protokt.jvm-conventions")
+    id("org.jetbrains.kotlin.multiplatform")
+    id("protokt.common-conventions")
     kotlin("kapt")
 }
 
 localProtokt()
 pureKotlin()
-enablePublishing()
-compatibleWithAndroid()
+enablePublishing(defaultJars = false)
 trackKotlinApiCompatibility()
 
 protokt {
     onlyGenerateDescriptors = true
 }
 
-dependencies {
-    api(project(":extensions:protokt-extensions-api"))
-    api(project(":protokt-core-lite"))
+sourceSets.create("main")
 
-    protobuf(libraries.protobufJava)
-    compileOnly(libraries.protobufJava)
+kotlin {
+    jvm()
 
-    implementation(libraries.autoServiceAnnotations)
-    implementation(kotlin("reflect"))
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                api(project(":extensions:protokt-extensions-api"))
+                api(project(":protokt-core-lite"))
 
-    kapt(libraries.autoService)
-}
+                implementation(libraries.autoServiceAnnotations)
+                implementation(kotlin("reflect"))
 
-sourceSets {
-    main {
-        proto {
-            srcDir("../protokt-runtime/src/main/resources")
+                configurations["kapt"].dependencies.add(
+                    dependencies.create(libraries.autoService)
+                )
+            }
         }
     }
+}
+
+dependencies {
+    protobuf(libraries.protobufJava)
+    protobuf(files("../protokt-runtime/src/main/resources"))
 }
