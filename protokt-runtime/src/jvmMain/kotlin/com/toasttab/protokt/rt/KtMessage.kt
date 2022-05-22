@@ -23,7 +23,10 @@ actual interface KtMessage {
 
     actual fun serialize(serializer: KtMessageSerializer)
 
-    actual fun serialize(): ByteArray
+    fun serialize() =
+        ByteArray(messageSize).apply {
+            serialize(serializer(CodedOutputStream.newInstance(this)))
+        }
 
     fun serialize(outputStream: OutputStream) {
         CodedOutputStream.newInstance(outputStream).run {

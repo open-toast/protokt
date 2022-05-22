@@ -16,11 +16,5 @@
 package com.toasttab.protokt.rt
 
 actual interface KtDeserializer<T : KtMessage> {
-    actual fun deserialize(bytes: Bytes): T
-
-    actual fun deserialize(bytes: ByteArray): T
-
-    actual fun deserialize(bytes: BytesSlice): T
-
     actual fun deserialize(deserializer: KtMessageDeserializer): T
 }

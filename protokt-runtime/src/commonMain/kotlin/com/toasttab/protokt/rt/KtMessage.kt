@@ -22,6 +22,4 @@ expect interface KtMessage {
     val messageSize: Int
 
     fun serialize(serializer: KtMessageSerializer)
-
-    fun serialize(): ByteArray
 }

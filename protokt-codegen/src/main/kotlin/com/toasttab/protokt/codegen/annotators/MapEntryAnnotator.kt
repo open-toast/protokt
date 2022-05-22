@@ -32,8 +32,7 @@ import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.codegen.template.Message.Message.PropertyInfo
-import com.toasttab.protokt.rt.AbstractKtDeserializer
-import com.toasttab.protokt.rt.AbstractKtMessage
+import com.toasttab.protokt.rt.KtDeserializer
 import com.toasttab.protokt.rt.KtMessage
 import com.toasttab.protokt.rt.KtMessageDeserializer
 import com.toasttab.protokt.rt.KtMessageSerializer
@@ -51,7 +50,7 @@ private constructor(
     private fun annotateMapEntry() =
         TypeSpec.classBuilder(msg.name).apply {
             addModifiers(KModifier.PRIVATE)
-            superclass(AbstractKtMessage::class)
+            addSuperinterface(KtMessage::class)
             addProperty(constructorProperty("key", keyPropertyType))
             addProperty(constructorProperty("value", valPropertyType))
             addConstructor()
@@ -101,8 +100,8 @@ private constructor(
 
         addType(
             TypeSpec.companionObjectBuilder("Deserializer")
-                .superclass(
-                    AbstractKtDeserializer::class
+                .addSuperinterface(
+                    KtDeserializer::class
                         .asTypeName()
                         .parameterizedBy(msg.typeName)
                 )
