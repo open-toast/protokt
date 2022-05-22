@@ -15,5 +15,5 @@
 
 package com.toasttab.protokt.rt
 
-actual fun clone(bytes: ByteArray) =
+internal actual fun clone(bytes: ByteArray) =
     bytes.copyOf()

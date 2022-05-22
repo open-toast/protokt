@@ -14,28 +14,18 @@
  */
 
 plugins {
-    id("protokt.multiplatform-conventions")
+    id("protokt.jvm-conventions")
     kotlin("kapt")
 }
 
-enablePublishing(defaultJars = false)
+enablePublishing()
 trackKotlinApiCompatibility()
 
-kotlin {
-    jvm()
+dependencies {
+    api(project(":extensions:protokt-extensions-lite"))
+    api(project(":third-party:proto-google-common-protos-lite"))
 
-    sourceSets {
-        val commonMain by getting {
-            dependencies {
-                api(project(":extensions:protokt-extensions-lite"))
-                api(project(":third-party:proto-google-common-protos-lite"))
+    implementation(libraries.autoServiceAnnotations)
 
-                implementation(libraries.autoServiceAnnotations)
-
-                configurations["kapt"].dependencies.add(
-                    dependencies.create(libraries.autoService)
-                )
-            }
-        }
-    }
+    kapt(libraries.autoService)
 }

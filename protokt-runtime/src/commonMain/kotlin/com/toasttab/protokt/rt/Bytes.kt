@@ -43,7 +43,7 @@ class Bytes(internal val value: ByteArray) {
 }
 
 // TODO: This should go away; extensions should read a stream of bytes
-expect fun clone(bytes: ByteArray): ByteArray
+internal expect fun clone(bytes: ByteArray): ByteArray
 
 fun Bytes.toBytesSlice() =
     BytesSlice(value)
