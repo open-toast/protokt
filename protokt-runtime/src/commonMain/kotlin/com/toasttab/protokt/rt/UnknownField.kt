@@ -39,22 +39,22 @@ interface UnknownValue {
     fun size(): Int
 }
 
-class VarintVal(val value: UInt64) : UnknownValue {
+data class VarintVal(val value: UInt64) : UnknownValue {
     override fun size() =
         sizeof(value)
 }
 
-class Fixed32Val(val value: Fixed32) : UnknownValue {
+data class Fixed32Val(val value: Fixed32) : UnknownValue {
     override fun size() =
         sizeof(value)
 }
 
-class Fixed64Val(val value: Fixed64) : UnknownValue {
+data class Fixed64Val(val value: Fixed64) : UnknownValue {
     override fun size() =
         sizeof(value)
 }
 
-class LengthDelimitedVal(val value: Bytes) : UnknownValue {
+data class LengthDelimitedVal(val value: Bytes) : UnknownValue {
     override fun size() =
         sizeof(value)
 }
