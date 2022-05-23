@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test
 class AnyTest {
     @Test
     fun `test any pack and unpack`() {
-        val timestamp = Timestamp { seconds = 1 }
+        val timestamp = Timestamp.TimestampDsl().apply { seconds = 1 }.build()
         val packed = Any.pack(timestamp)
 
         assertThat(packed.typeUrl)

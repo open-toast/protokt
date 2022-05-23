@@ -15,6 +15,7 @@
 
 package com.toasttab.protokt.codegen.annotators
 
+import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.MemberName
@@ -134,7 +135,7 @@ private constructor(
                                   }
                                 }
                             """.bindIndent(),
-                            mapOf("defaultValue" to MemberName(valPropertyType.packageName, valPropertyType.simpleName))
+                            mapOf("valueClassDsl" to entryInfo.value.typePClass.nest("${valPropertyType.simpleName}Dsl").toTypeName())
                         )
                         .build()
                 )
@@ -151,7 +152,7 @@ private constructor(
 
     private fun orDefault(f: StandardField) =
         if (f.type == FieldType.MESSAGE) {
-            " ?: %defaultValue:M {}"
+            " ?: %valueClassDsl:T().build()"
         } else {
             ""
         }

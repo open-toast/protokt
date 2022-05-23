@@ -22,8 +22,8 @@ private const val NANOS_PER_MICROSECOND = 1000
 
 object Durations {
     fun fromMicros(microseconds: Long) =
-        Duration {
+        Duration.DurationDsl().apply {
             seconds = microseconds / MICROS_PER_SECOND
             nanos = (microseconds % MICROS_PER_SECOND * NANOS_PER_MICROSECOND).toInt()
-        }
+        }.build()
 }
