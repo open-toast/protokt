@@ -15,7 +15,7 @@
 
 package com.toasttab.protokt.rt
 
-actual abstract class AbstractKtMessage : KtMessage {
+actual abstract class AbstractKtMessage actual constructor(): KtMessage {
     actual override fun serialize(): ByteArray =
         TODO()
 }
