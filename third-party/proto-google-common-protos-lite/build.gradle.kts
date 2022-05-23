@@ -29,8 +29,6 @@ protokt {
     lite = true
 }
 
-sourceSets.create("main")
-
 kotlin {
     jvm()
 }

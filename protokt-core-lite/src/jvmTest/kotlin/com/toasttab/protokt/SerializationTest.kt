@@ -13,9 +13,16 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.rt
+package com.toasttab.protokt
 
-actual abstract class AbstractKtMessage actual constructor() : KtMessage {
-    actual override fun serialize(): ByteArray =
-        TODO()
+import com.google.common.truth.Truth.assertThat
+import org.junit.jupiter.api.Test
+
+class SerializationTest {
+    @Test
+    fun `serialize and deserialize`() {
+        assertThat(
+            Duration.deserialize(Duration { seconds = 4 }.serialize()).seconds
+        ).isEqualTo(4)
+    }
 }

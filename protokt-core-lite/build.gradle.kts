@@ -30,14 +30,20 @@ protokt {
     lite = true
 }
 
-sourceSets.create("main")
-
 kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
                 api(project(":extensions:protokt-extensions-api"))
                 api(project(":protokt-runtime"))
+            }
+        }
+
+        val jvmTest by getting {
+            dependencies {
+                implementation(libraries.junit)
+                implementation(libraries.protobufJava)
+                implementation(libraries.truth)
             }
         }
     }

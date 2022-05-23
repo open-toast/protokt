@@ -25,3 +25,7 @@ kotlin {
         nodejs {}
     }
 }
+
+tasks.named<Test>("jvmTest") {
+    useJUnitPlatform()
+}

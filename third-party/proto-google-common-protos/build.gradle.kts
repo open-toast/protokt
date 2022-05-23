@@ -29,8 +29,6 @@ protokt {
     onlyGenerateDescriptors = true
 }
 
-sourceSets.create("main")
-
 kotlin {
     jvm()
 

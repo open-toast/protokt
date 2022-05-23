@@ -17,6 +17,7 @@ package com.toasttab.protokt.codegen.annotators
 
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.MemberName
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
@@ -120,7 +121,7 @@ private constructor(
                         .addModifiers(KModifier.OVERRIDE)
                         .addParameter("deserializer", KtMessageDeserializer::class)
                         .returns(msg.typeName)
-                        .addCode(
+                        .addNamedCode(
                             """
                                 var key${deserializeVar(entryInfo.key, propInfo.single(entryInfo.key))}
                                 var value${deserializeVar(entryInfo.value, propInfo.single(entryInfo.value))}
@@ -132,7 +133,8 @@ private constructor(
                                     ${entryInfo.value.tag.value} -> value = ${deserializeString(entryInfo.value, ctx, false)}
                                   }
                                 }
-                            """.bindIndent()
+                            """.bindIndent(),
+                            mapOf("defaultValue" to MemberName(valPropertyType.packageName, valPropertyType.simpleName))
                         )
                         .build()
                 )
@@ -149,7 +151,7 @@ private constructor(
 
     private fun orDefault(f: StandardField) =
         if (f.type == FieldType.MESSAGE) {
-            " ?: $valPropertyType {}"
+            " ?: %defaultValue:M {}"
         } else {
             ""
         }

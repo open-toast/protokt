@@ -16,6 +16,7 @@
 package com.toasttab.protokt.gradle
 
 import org.gradle.api.Project
+import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.the
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
@@ -50,6 +51,8 @@ private fun Project.createExtensionConfigurations() {
             val testSourceSet = (sourceSets.getByName("commonTest") as DefaultKotlinSourceSet)
             configurations.getByName(testSourceSet.apiConfigurationName)
                 .extendsFrom(testExtensionsConfiguration)
+            the<SourceSetContainer>().create("main")
+            configurations.create("compileProtoPath").extendsFrom(extensionsConfiguration)
         }
         else -> {
             configurations.getByName("api").extendsFrom(extensionsConfiguration)

@@ -30,8 +30,6 @@ protokt {
     onlyGenerateDescriptors = true
 }
 
-sourceSets.create("main")
-
 kotlin {
     sourceSets {
         val commonMain by getting {
