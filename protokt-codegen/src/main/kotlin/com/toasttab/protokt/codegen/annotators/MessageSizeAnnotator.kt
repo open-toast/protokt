@@ -119,6 +119,15 @@ private constructor(
                     it
                 }
             }
+            .let {
+                if (f.hasNonNullOption) {
+                    it
+                } else {
+                    it + buildCodeBlock {
+                        addStatement("null·-> Unit")
+                    }
+                }
+            }
 
     private fun condition(f: Oneof, ff: StandardField, type: String) =
         "${oneOfScope(f, type)}.${f.fieldTypeNames.getValue(ff.fieldName)}"

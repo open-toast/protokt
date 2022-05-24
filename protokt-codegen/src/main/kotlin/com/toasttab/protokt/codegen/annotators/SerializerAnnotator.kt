@@ -83,12 +83,12 @@ private constructor(
                     endControlFlow()
                 }
             }.let {
-                if (!f.hasNonNullOption) {
+                if (f.hasNonNullOption) {
+                    it
+                } else {
                     it + buildCodeBlock {
                         addStatement("null·-> Unit")
                     }
-                } else {
-                    it
                 }
             }
 
