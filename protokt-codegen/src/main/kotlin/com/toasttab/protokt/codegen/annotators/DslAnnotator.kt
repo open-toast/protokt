@@ -46,7 +46,7 @@ class DslAnnotator(
                 )
                 .addCode(
                     (
-                        "return " + msg.name + ".Deserializer {\n" +
+                        "return " + msg.name + " {\n" +
                             if (properties.isEmpty()) {
                                 ""
                             } else {
