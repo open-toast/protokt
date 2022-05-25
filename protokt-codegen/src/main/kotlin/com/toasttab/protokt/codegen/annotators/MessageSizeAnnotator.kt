@@ -110,14 +110,6 @@ private constructor(
                     add(oneofSizeOfString(f, it))
                     endControlFlow()
                 }
-            }.let {
-                if (!f.hasNonNullOption) {
-                    it + buildCodeBlock {
-                        addStatement("null·-> Unit")
-                    }
-                } else {
-                    it
-                }
             }
             .let {
                 if (f.hasNonNullOption) {
