@@ -22,7 +22,7 @@ import java.time.Instant
 class TestMessageTest {
     @Test
     fun `serialization should preserve the timestamp field`() {
-        val message = TestMessage {
+        val message = testMessage {
             timestamp = Instant.parse("2007-12-03T10:15:30.00Z")
         }
 

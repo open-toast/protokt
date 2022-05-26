@@ -18,10 +18,10 @@ plugins {
 }
 
 repositories {
-    mavenLocal()
+    mavenCentral()
+    maven(url = "https://jitpack.io")
     gradlePluginPortal()
     google()
-    mavenCentral()
 }
 
 dependencies {
@@ -29,7 +29,7 @@ dependencies {
     implementation("com.android.tools.build:gradle:4.1.0")
 
     implementation("com.diffplug.spotless:spotless-plugin-gradle:6.3.0")
-    implementation("com.google.protobuf:protobuf-gradle-plugin:0.8.19-SNAPSHOT")
+    implementation("com.github.andrewparmet:protobuf-gradle-plugin:support-kotlin-multiplatform-SNAPSHOT")
     implementation("io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.30.0")
     implementation("com.google.guava:guava:31.1-jre")
     implementation("ru.vyarus:gradle-animalsniffer-plugin:1.5.4")

@@ -36,13 +36,12 @@ kotlin {
             dependencies {
                 api(project(":extensions:protokt-extensions-api"))
                 api(project(":protokt-core-lite"))
+            }
+        }
 
-                implementation(libraries.autoServiceAnnotations)
+        val jvmMain by getting {
+            dependencies {
                 implementation(kotlin("reflect"))
-
-                configurations["kapt"].dependencies.add(
-                    dependencies.create(libraries.autoService)
-                )
             }
         }
     }
