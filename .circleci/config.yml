@@ -45,7 +45,7 @@ jobs:
 
       - run:
           name: Build and test
-          command: ./gradlew clean check publishToIntegrationRepository --stacktrace
+          command: ./gradlew clean check publishToIntegrationRepository --stacktrace --no-daemon
 
       - persist_to_workspace:
           root: build/repos
@@ -94,7 +94,7 @@ jobs:
 
       - run:
           name: Integration tests
-          command: cd gradle-plugin-integration-test && ./gradlew clean build -Dkotlin.version=<<parameters.kotlin>> --stacktrace
+          command: cd gradle-plugin-integration-test && ./gradlew clean build -Dkotlin.version=<<parameters.kotlin>> --stacktrace --no-daemon
 
   release:
     executor: builder
@@ -103,7 +103,7 @@ jobs:
       - read_cache
       - run:
           name: Publish release
-          command: "./gradlew publishToRemote closeAndReleaseRepository publishPlugins -Dorg.gradle.internal.http.socketTimeout=120000 -Dorg.gradle.internal.network.retry.max.attempts=1 -Dorg.gradle.internal.publish.checksums.insecure=true"
+          command: "./gradlew publishToRemote closeAndReleaseRepository publishPlugins -Dorg.gradle.internal.http.socketTimeout=120000 -Dorg.gradle.internal.network.retry.max.attempts=1 -Dorg.gradle.internal.publish.checksums.insecure=true --no-daemon"
 
 workflows:
   version: 2.1
