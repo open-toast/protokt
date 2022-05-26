@@ -46,7 +46,7 @@ class DslAnnotator(
                 )
                 .addCode(
                     (
-                        "return " + msg.name + " {\n" +
+                        "return " + msg.name.replaceFirstChar { it.lowercase() } + " {\n" +
                             if (properties.isEmpty()) {
                                 ""
                             } else {

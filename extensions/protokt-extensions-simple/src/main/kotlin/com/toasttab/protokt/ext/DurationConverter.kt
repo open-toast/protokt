@@ -17,6 +17,7 @@ package com.toasttab.protokt.ext
 
 import com.google.auto.service.AutoService
 import com.toasttab.protokt.Duration
+import com.toasttab.protokt.duration
 
 @AutoService(Converter::class)
 object DurationConverter : Converter<java.time.Duration, Duration> {
@@ -28,7 +29,7 @@ object DurationConverter : Converter<java.time.Duration, Duration> {
         java.time.Duration.ofSeconds(unwrapped.seconds, unwrapped.nanos.toLong())
 
     override fun unwrap(wrapped: java.time.Duration) =
-        Duration {
+        duration {
             seconds = wrapped.seconds
             nanos = wrapped.nano
         }

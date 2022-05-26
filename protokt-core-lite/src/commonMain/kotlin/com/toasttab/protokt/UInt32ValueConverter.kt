@@ -26,5 +26,5 @@ object UInt32ValueConverter : Converter<Int, UInt32Value> {
         unwrapped.value
 
     override fun unwrap(wrapped: Int) =
-        UInt32Value { value = wrapped }
+        uInt32Value { value = wrapped }
 }

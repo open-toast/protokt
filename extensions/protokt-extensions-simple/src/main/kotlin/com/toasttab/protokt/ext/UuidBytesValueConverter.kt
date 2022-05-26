@@ -17,6 +17,7 @@ package com.toasttab.protokt.ext
 
 import com.google.auto.service.AutoService
 import com.toasttab.protokt.BytesValue
+import com.toasttab.protokt.bytesValue
 import com.toasttab.protokt.rt.Bytes
 import java.util.UUID
 
@@ -33,5 +34,5 @@ object UuidBytesValueConverter : OptimizedSizeofConverter<UUID, BytesValue> {
         UuidConverter.wrap(unwrapped.value.bytes)
 
     override fun unwrap(wrapped: UUID) =
-        BytesValue { value = Bytes(UuidConverter.unwrap(wrapped)) }
+        bytesValue { value = Bytes(UuidConverter.unwrap(wrapped)) }
 }

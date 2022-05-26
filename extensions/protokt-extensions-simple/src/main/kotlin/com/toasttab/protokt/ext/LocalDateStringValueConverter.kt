@@ -17,6 +17,7 @@ package com.toasttab.protokt.ext
 
 import com.google.auto.service.AutoService
 import com.toasttab.protokt.StringValue
+import com.toasttab.protokt.stringValue
 import java.time.LocalDate
 
 @AutoService(Converter::class)
@@ -29,5 +30,5 @@ object LocalDateStringValueConverter : Converter<LocalDate, StringValue> {
         LocalDateStringConverter.wrap(unwrapped.value)
 
     override fun unwrap(wrapped: LocalDate) =
-        StringValue { value = LocalDateStringConverter.unwrap(wrapped) }
+        stringValue { value = LocalDateStringConverter.unwrap(wrapped) }
 }

@@ -26,5 +26,5 @@ object BoolValueConverter : Converter<Boolean, BoolValue> {
         unwrapped.value
 
     override fun unwrap(wrapped: Boolean) =
-        BoolValue { value = wrapped }
+        boolValue { value = wrapped }
 }

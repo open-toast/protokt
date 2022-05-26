@@ -25,7 +25,7 @@ fun Any.Deserializer.pack(
     msg: KtMessage,
     typeUrlPrefix: String = "type.googleapis.com"
 ) =
-    Any {
+    any {
         typeUrl = typeUrl(typeUrlPrefix, msg)
         value = Bytes(msg.serialize())
     }

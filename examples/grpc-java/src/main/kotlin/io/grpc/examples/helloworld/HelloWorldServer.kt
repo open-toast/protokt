@@ -59,7 +59,7 @@ class HelloWorldServer(
                 .build()
 
         fun sayHello(request: HelloRequest, responseObserver: StreamObserver<HelloReply>) {
-            responseObserver.onNext(HelloReply { message = "Hello ${request.name}" })
+            responseObserver.onNext(helloReply { message = "Hello ${request.name}" })
             responseObserver.onCompleted()
         }
     }

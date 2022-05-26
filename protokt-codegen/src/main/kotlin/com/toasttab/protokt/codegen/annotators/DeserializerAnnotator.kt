@@ -96,7 +96,7 @@ private constructor(
                     .filterNot { it.mapEntry }
                     .forEach { message ->
                         addFunction(
-                            FunSpec.builder(message.name)
+                            FunSpec.builder(message.name.replaceFirstChar { it.lowercase() })
                                 .returns(message.typeName)
                                 .addParameter(
                                     "dsl",

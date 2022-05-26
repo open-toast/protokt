@@ -91,7 +91,7 @@ class RouteGuideServer(
 
         private fun getFeature(request: Point) =
             // No feature was found, return an unnamed feature.
-            features.find { it.location == request } ?: Feature { location = request }
+            features.find { it.location == request } ?: feature { location = request }
 
         fun listFeatures(request: Rectangle, responseObserver: StreamObserver<Feature>) {
             features.filter { it.exists() && it.location!! in request }.forEach(responseObserver::onNext)
@@ -123,7 +123,7 @@ class RouteGuideServer(
 
                 override fun onCompleted() {
                     responseObserver.onNext(
-                        RouteSummary {
+                        routeSummary {
                             this.pointCount = pointCount
                             this.featureCount = featureCount
                             this.distance = distance

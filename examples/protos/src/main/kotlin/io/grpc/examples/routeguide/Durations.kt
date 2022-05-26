@@ -15,14 +15,14 @@
 
 package io.grpc.examples.routeguide
 
-import com.toasttab.protokt.Duration
+import com.toasttab.protokt.duration
 
 private const val MICROS_PER_SECOND = 1000000
 private const val NANOS_PER_MICROSECOND = 1000
 
 object Durations {
     fun fromMicros(microseconds: Long) =
-        Duration {
+        duration {
             seconds = microseconds / MICROS_PER_SECOND
             nanos = (microseconds % MICROS_PER_SECOND * NANOS_PER_MICROSECOND).toInt()
         }

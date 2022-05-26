@@ -19,7 +19,7 @@ import arrow.core.Either
 import arrow.core.None
 import arrow.core.toOption
 import com.toasttab.protokt.conformance.ConformanceRequest
-import com.toasttab.protokt.conformance.ConformanceResponse
+import com.toasttab.protokt.conformance.conformanceResponse
 import com.toasttab.protokt.conformance.ConformanceResponse.Result
 import com.toasttab.protokt.conformance.WireFormat
 import com.toasttab.protokt.rt.Bytes
@@ -36,7 +36,7 @@ fun main() {
     while (true) readSizeLE(stdin).fold(
         { return },
         {
-            ConformanceResponse {
+            conformanceResponse {
                 result = io(stdin, it)
             }.serialize().also { bytes ->
                 stdout.write(int2BytesLE(bytes.size))

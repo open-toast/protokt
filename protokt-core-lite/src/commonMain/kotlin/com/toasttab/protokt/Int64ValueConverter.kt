@@ -26,5 +26,5 @@ object Int64ValueConverter : Converter<Long, Int64Value> {
         unwrapped.value
 
     override fun unwrap(wrapped: Long) =
-        Int64Value { value = wrapped }
+        int64Value { value = wrapped }
 }

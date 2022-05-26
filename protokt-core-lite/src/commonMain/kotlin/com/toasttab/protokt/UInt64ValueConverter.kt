@@ -26,5 +26,5 @@ object UInt64ValueConverter : Converter<Long, UInt64Value> {
         unwrapped.value
 
     override fun unwrap(wrapped: Long) =
-        UInt64Value { value = wrapped }
+        uInt64Value { value = wrapped }
 }

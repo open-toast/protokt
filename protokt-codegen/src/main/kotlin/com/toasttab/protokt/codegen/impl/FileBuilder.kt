@@ -58,7 +58,7 @@ object FileBuilder {
             .map { it.type.rawType }
             .filterIsInstance<Message>().forEach { msg ->
                 builder.addFunction(
-                    FunSpec.builder(msg.name)
+                    FunSpec.builder(msg.name.replaceFirstChar { it.lowercase() })
                         .returns(msg.typeName)
                         .apply {
                             if (msg.options.default.deprecated) {
