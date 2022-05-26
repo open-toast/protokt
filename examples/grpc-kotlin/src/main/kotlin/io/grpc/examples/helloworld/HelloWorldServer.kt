@@ -59,7 +59,7 @@ class HelloWorldServer(
                 .build()
 
         suspend fun sayHello(request: HelloRequest) =
-            HelloReply { message = "Hello ${request.name}" }
+            helloReply { message = "Hello ${request.name}" }
     }
 }
 

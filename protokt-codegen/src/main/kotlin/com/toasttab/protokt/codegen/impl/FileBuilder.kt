@@ -54,6 +54,7 @@ object FileBuilder {
             builder.addType(it.type.typeSpec)
         }
 
+        // TODO: consolidate with copy in DeserializerAnnotator
         descs
             .map { it.type.rawType }
             .filterIsInstance<Message>().forEach { msg ->

@@ -27,7 +27,7 @@ class HelloWorldClient(
     private val channel: ManagedChannel
 ) : Closeable {
     suspend fun greet(name: String) {
-        val request = HelloRequest { this.name = name }
+        val request = helloRequest { this.name = name }
         val response = ClientCalls.unaryRpc(channel, GreeterGrpc.sayHelloMethod, request)
         println("Received: ${response.message}")
     }

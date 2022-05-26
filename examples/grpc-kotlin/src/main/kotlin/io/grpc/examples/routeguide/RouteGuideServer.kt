@@ -86,7 +86,7 @@ class RouteGuideServer(
 
         suspend fun getFeature(request: Point): Feature =
             // No feature was found, return an unnamed feature.
-            features.find { it.location == request } ?: Feature { location = request }
+            features.find { it.location == request } ?: feature { location = request }
 
         fun listFeatures(request: Rectangle): Flow<Feature> =
             features.asFlow().filter { it.exists() && it.location!! in request }
@@ -108,7 +108,7 @@ class RouteGuideServer(
                 }
                 previous = request
             }
-            return RouteSummary {
+            return routeSummary {
                 this.pointCount = pointCount
                 this.featureCount = featureCount
                 this.distance = distance

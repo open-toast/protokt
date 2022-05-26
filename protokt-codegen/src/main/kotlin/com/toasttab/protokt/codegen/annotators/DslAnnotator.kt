@@ -46,7 +46,7 @@ class DslAnnotator(
                 )
                 .addCode(
                     (
-                        "return " + msg.name.replaceFirstChar { it.lowercase() } + " {\n" +
+                        "return " + msg.name + "Dsl().apply {\n" +
                             if (properties.isEmpty()) {
                                 ""
                             } else {
@@ -55,7 +55,7 @@ class DslAnnotator(
                             """
                                |    unknownFields = this@${msg.name}.unknownFields
                                |    dsl()
-                               |}
+                               |}.build()
                            """.trimMargin()
                         ).replace(" ", "·")
                 )

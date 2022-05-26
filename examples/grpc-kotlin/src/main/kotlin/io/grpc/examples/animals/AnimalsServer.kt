@@ -63,7 +63,7 @@ class AnimalsServer(
                 .build()
 
         suspend fun bark(@Suppress("UNUSED_PARAMETER") request: BarkRequest) =
-            BarkReply { message = "Bark!" }
+            barkReply { message = "Bark!" }
     }
 
     private class PigService : AbstractCoroutineServerImpl() {
@@ -73,7 +73,7 @@ class AnimalsServer(
                 .build()
 
         suspend fun oink(@Suppress("UNUSED_PARAMETER") request: OinkRequest) =
-            OinkReply { message = "Oink!" }
+            oinkReply { message = "Oink!" }
     }
 
     private class SheepService : AbstractCoroutineServerImpl() {
@@ -83,7 +83,7 @@ class AnimalsServer(
                 .build()
 
         suspend fun baa(@Suppress("UNUSED_PARAMETER") request: BaaRequest) =
-            BaaReply { message = "Baa!" }
+            baaReply { message = "Baa!" }
     }
 }
 

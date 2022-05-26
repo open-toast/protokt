@@ -17,6 +17,7 @@ package com.toasttab.protokt.thirdparty.ext
 
 import com.google.auto.service.AutoService
 import com.google.type.Date
+import com.google.type.date
 import com.toasttab.protokt.ext.Converter
 import java.time.LocalDate
 
@@ -30,7 +31,7 @@ object LocalDateGoogleConverter : Converter<LocalDate, Date> {
         LocalDate.of(unwrapped.year, unwrapped.month, unwrapped.day)
 
     override fun unwrap(wrapped: LocalDate) =
-        Date {
+        date {
             year = wrapped.year
             month = wrapped.monthValue
             day = wrapped.dayOfMonth

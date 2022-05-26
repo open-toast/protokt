@@ -55,7 +55,7 @@ class RouteGuideClient(
         println("*** ListFeatures: lowLat=$lowLat lowLon=$lowLon hiLat=$hiLat liLon=$hiLon")
 
         val request =
-            Rectangle {
+            rectangle {
                 lo = point(lowLat, lowLon)
                 hi = point(hiLat, hiLon)
             }
@@ -105,23 +105,23 @@ class RouteGuideClient(
     private fun generateOutgoingNotes(): Flow<RouteNote> =
         flow {
             val notes = listOf(
-                RouteNote {
+                routeNote {
                     message = "First message"
                     location = point(0, 0)
                 },
-                RouteNote {
+                routeNote {
                     message = "Second message"
                     location = point(0, 0)
                 },
-                RouteNote {
+                routeNote {
                     message = "Third message"
                     location = point(10000000, 0)
                 },
-                RouteNote {
+                routeNote {
                     message = "Fourth message"
                     location = point(10000000, 10000000)
                 },
-                RouteNote {
+                routeNote {
                     message = "Last message"
                     location = point(0, 0)
                 }
@@ -149,7 +149,7 @@ suspend fun main() {
 }
 
 private fun point(lat: Int, lon: Int) =
-    Point {
+    point {
         latitude = lat
         longitude = lon
     }
