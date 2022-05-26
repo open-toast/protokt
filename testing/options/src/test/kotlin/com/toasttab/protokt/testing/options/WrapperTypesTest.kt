@@ -28,7 +28,7 @@ import java.util.UUID
 
 class WrapperTypesTest {
     private val model =
-        Wrappers {
+        wrappers {
             id = Id("asdf")
             ipAddress = InetAddress.getByAddress(byteArrayOf(0, 0, 0, 1))
             uuid = UUID.randomUUID()
@@ -136,7 +136,7 @@ class WrapperTypesTest {
     @Test
     fun `round trip should preserve id oneof`() {
         val deserialized = OneofWrappers.deserialize(
-            OneofWrappers {
+            oneofWrappers {
                 wrappedOneof = WrappedOneof.IdOneof(model.id)
             }.serialize()
         )
@@ -149,7 +149,7 @@ class WrapperTypesTest {
     @Test
     fun `round trip should preserve uuid oneof`() {
         val deserialized = OneofWrappers.deserialize(
-            OneofWrappers {
+            oneofWrappers {
                 wrappedOneof = WrappedOneof.UuidOneof(model.uuid)
             }.serialize()
         )
@@ -162,7 +162,7 @@ class WrapperTypesTest {
     @Test
     fun `round trip should preserve ip address oneof`() {
         val deserialized = OneofWrappers.deserialize(
-            OneofWrappers {
+            oneofWrappers {
                 wrappedOneof = WrappedOneof.IpAddressOneof(model.ipAddress)
             }.serialize()
         )
@@ -175,7 +175,7 @@ class WrapperTypesTest {
     @Test
     fun `round trip should preserve caching id oneof`() {
         val deserialized = OneofWrappers.deserialize(
-            OneofWrappers {
+            oneofWrappers {
                 wrappedOneof = WrappedOneof.CachingIdOneof(model.cachingId)
             }.serialize()
         )
@@ -188,7 +188,7 @@ class WrapperTypesTest {
     @Test
     fun `round trip should preserve socket address oneof`() {
         val deserialized = OneofWrappers.deserialize(
-            OneofWrappers {
+            oneofWrappers {
                 wrappedOneof = WrappedOneof.SocketAddressOneof(model.socketAddress)
             }.serialize()
         )
@@ -201,7 +201,7 @@ class WrapperTypesTest {
     @Test
     fun `round trip should preserve instant oneof`() {
         val deserialized = OneofWrappers.deserialize(
-            OneofWrappers {
+            oneofWrappers {
                 wrappedOneof = WrappedOneof.InstantOneof(model.instant)
             }.serialize()
         )
@@ -214,7 +214,7 @@ class WrapperTypesTest {
     @Test
     fun `round trip should preserve duration oneof`() {
         val deserialized = OneofWrappers.deserialize(
-            OneofWrappers {
+            oneofWrappers {
                 wrappedOneof = WrappedOneof.DurationOneof(model.duration)
             }.serialize()
         )
@@ -227,7 +227,7 @@ class WrapperTypesTest {
     @Test
     fun `round trip should preserve localdate oneof`() {
         val deserialized = OneofWrappers.deserialize(
-            OneofWrappers {
+            oneofWrappers {
                 wrappedOneof = WrappedOneof.LocalDateOneof(model.localDate)
             }.serialize()
         )
@@ -240,7 +240,7 @@ class WrapperTypesTest {
     @Test
     fun `round trip should preserve google localdate oneof`() {
         val deserialized = OneofWrappers.deserialize(
-            OneofWrappers {
+            oneofWrappers {
                 wrappedOneof = WrappedOneof.GoogleDateOneof(model.googleDate)
             }.serialize()
         )
@@ -265,7 +265,7 @@ class WrapperTypesTest {
         val list = listOf(UUID.randomUUID())
 
         val obj =
-            RepeatedWrappers {
+            repeatedWrappers {
                 uuids = list
                 uuidsWrapped = list
             }
@@ -282,7 +282,7 @@ class WrapperTypesTest {
         val map = mapOf(StringBox("some-string") to UUID.randomUUID())
 
         val obj =
-            MapWrappers {
+            mapWrappers {
                 mapStringUuid = map
             }
 

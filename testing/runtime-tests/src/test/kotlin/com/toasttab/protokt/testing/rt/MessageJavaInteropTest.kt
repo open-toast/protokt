@@ -21,6 +21,9 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import tutorial.AddressBook
 import tutorial.Person
+import tutorial.Person.Deserializer.phoneNumber
+import tutorial.addressBook
+import tutorial.person
 import com.example.tutorial.AddressBookProtos.AddressBook as JavaAddressBook
 import com.example.tutorial.AddressBookProtos.Person as JavaPerson
 import com.example.tutorial.AddressBookProtos.Person.PhoneNumber as JavaPhoneNumber
@@ -28,7 +31,7 @@ import com.google.protobuf.Timestamp as JavaTimestamp
 
 class MessageJavaInteropTest {
     private val timestamp =
-        Timestamp { seconds = System.currentTimeMillis() * 1000 }
+        Timestamp.TimestampDsl().apply { seconds = System.currentTimeMillis() * 1000 }.build()
 
     private val javaTimestamp =
         JavaTimestamp.newBuilder()
@@ -36,7 +39,7 @@ class MessageJavaInteropTest {
             .build()
 
     private val phoneNumber0 =
-        Person.PhoneNumber {
+        phoneNumber {
             number = "617-555-6666"
             type = Person.PhoneType.WORK
         }
@@ -71,13 +74,13 @@ class MessageJavaInteropTest {
     @Nested
     inner class Persons {
         private val phoneNumber1 =
-            Person.PhoneNumber {
+            phoneNumber {
                 number = "617-555-6667"
                 type = Person.PhoneType.MOBILE
             }
 
         private val phoneNumber2 =
-            Person.PhoneNumber {
+            phoneNumber {
                 number = "617-555-5555"
                 type = Person.PhoneType.HOME
             }
@@ -98,7 +101,7 @@ class MessageJavaInteropTest {
         private val javaPhones0 = listOf(javaPhoneNumber0, javaPhoneNumber1, javaPhoneNumber2)
 
         private val person0 =
-            Person {
+            person {
                 name = "Hubert J. Farnsworth"
                 id = 0
                 email = "Farnsworth@toasttab.com"
@@ -138,25 +141,25 @@ class MessageJavaInteropTest {
         @Nested
         inner class AddressBooks {
             private val phones1 = listOf(
-                Person.PhoneNumber {
+                phoneNumber {
                     number = "781-555-1212"
                     type = Person.PhoneType.WORK
                 },
-                Person.PhoneNumber {
+                phoneNumber {
                     number = "781-555-5555"
                     type = Person.PhoneType.HOME
                 },
-                Person.PhoneNumber {
+                phoneNumber {
                     number = "781-555-6666"
                     type = Person.PhoneType.MOBILE
                 }
             )
 
             private val addressBook =
-                AddressBook {
+                addressBook {
                     people = listOf(
                         person0,
-                        Person {
+                        person {
                             name = "Dr. John A. Zoidberg"
                             id = 1
                             email = "Zoidberg@toasttab.com"

@@ -19,12 +19,13 @@ import com.google.common.truth.Truth.assertThat
 import com.toasttab.protokt.rt.Bytes
 import org.junit.jupiter.api.Test
 import toasttab.protokt.testing.rt.WellKnownTypes
+import toasttab.protokt.testing.rt.wellKnownTypes
 
 class WellKnownTypesTest {
     @Test
     fun `serialization round trip works`() {
         val original =
-            WellKnownTypes {
+            wellKnownTypes {
                 double = 4.5
                 float = 4.6f
                 int64 = 23

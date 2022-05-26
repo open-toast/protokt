@@ -26,5 +26,5 @@ object DoubleValueConverter : Converter<Double, DoubleValue> {
         unwrapped.value
 
     override fun unwrap(wrapped: Double) =
-        doubleValue { value = wrapped }
+        DoubleValue.DoubleValueDsl().apply { value = wrapped }.build()
 }

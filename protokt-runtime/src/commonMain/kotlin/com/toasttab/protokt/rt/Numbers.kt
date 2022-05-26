@@ -15,22 +15,22 @@
 
 package com.toasttab.protokt.rt
 
-class Int32(val value: Int)
+data class Int32(val value: Int)
 
-class Fixed32(val value: Int)
+data class Fixed32(val value: Int)
 
-class SFixed32(val value: Int)
+data class SFixed32(val value: Int)
 
-class UInt32(val value: Int)
+data class UInt32(val value: Int)
 
-class SInt32(val value: Int)
+data class SInt32(val value: Int)
 
-class Int64(val value: Long)
+data class Int64(val value: Long)
 
-class Fixed64(val value: Long)
+data class Fixed64(val value: Long)
 
-class SFixed64(val value: Long)
+data class SFixed64(val value: Long)
 
-class UInt64(val value: Long)
+data class UInt64(val value: Long)
 
-class SInt64(val value: Long)
+data class SInt64(val value: Long)

@@ -30,5 +30,5 @@ object LocalDateStringValueConverter : Converter<LocalDate, StringValue> {
         LocalDateStringConverter.wrap(unwrapped.value)
 
     override fun unwrap(wrapped: LocalDate) =
-        stringValue { value = LocalDateStringConverter.unwrap(wrapped) }
+        StringValue.StringValueDsl().apply { value = LocalDateStringConverter.unwrap(wrapped) }.build()
 }

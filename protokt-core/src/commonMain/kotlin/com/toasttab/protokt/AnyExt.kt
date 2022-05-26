@@ -25,10 +25,10 @@ fun Any.Deserializer.pack(
     msg: KtMessage,
     typeUrlPrefix: String = "type.googleapis.com"
 ) =
-    any {
+    Any.AnyDsl().apply {
         typeUrl = typeUrl(typeUrlPrefix, msg)
         value = Bytes(msg.serialize())
-    }
+    }.build()
 
 private fun typeUrl(typeUrlPrefix: String, msg: KtMessage) =
     if (typeUrlPrefix.endsWith("/")) {

@@ -34,5 +34,5 @@ object UuidBytesValueConverter : OptimizedSizeofConverter<UUID, BytesValue> {
         UuidConverter.wrap(unwrapped.value.bytes)
 
     override fun unwrap(wrapped: UUID) =
-        bytesValue { value = Bytes(UuidConverter.unwrap(wrapped)) }
+        BytesValue.BytesValueDsl().apply { value = Bytes(UuidConverter.unwrap(wrapped)) }.build()
 }

@@ -31,5 +31,5 @@ object InetAddressBytesValueConverter : Converter<InetAddress, BytesValue> {
         InetAddressConverter.wrap(unwrapped.value.bytes)
 
     override fun unwrap(wrapped: InetAddress) =
-        bytesValue { value = Bytes(InetAddressConverter.unwrap(wrapped)) }
+        BytesValue.BytesValueDsl().apply { value = Bytes(InetAddressConverter.unwrap(wrapped)) }.build()
 }

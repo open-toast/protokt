@@ -29,8 +29,8 @@ object InetSocketAddressConverter :
         java.net.InetSocketAddress(unwrapped.address, unwrapped.port)
 
     override fun unwrap(wrapped: java.net.InetSocketAddress) =
-        inetSocketAddress {
+        InetSocketAddress.InetSocketAddressDsl().apply {
             address = wrapped.address
             port = wrapped.port
-        }
+        }.build()
 }

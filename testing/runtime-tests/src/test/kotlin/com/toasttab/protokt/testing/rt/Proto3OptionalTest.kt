@@ -18,6 +18,7 @@ package com.toasttab.protokt.testing.rt
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
 import toasttab.protokt.testing.rt.TestProto3Optional
+import toasttab.protokt.testing.rt.testProto3Optional
 
 class Proto3OptionalTest {
     @Test
@@ -38,7 +39,7 @@ class Proto3OptionalTest {
     @Test
     fun `optional primitive fields serialize otherwise default values`() {
         val serialized =
-            TestProto3Optional {
+            testProto3Optional {
                 optionalInt32 = 0
                 optionalString = ""
             }.serialize()
@@ -51,7 +52,7 @@ class Proto3OptionalTest {
 
     @Test
     fun `optional primitive fields don't serialize default values for nulls`() {
-        val serialized = TestProto3Optional { }.serialize()
+        val serialized = testProto3Optional { }.serialize()
 
         val deserialized = TestProto3Optional.deserialize(serialized)
 

@@ -16,13 +16,13 @@
 package com.toasttab.protokt.testing.options
 
 import com.google.common.truth.Truth.assertThat
-import com.toasttab.protokt.testing.options.other.OtherModel
+import com.toasttab.protokt.testing.options.other.otherModel
 import org.junit.jupiter.api.Test
 
 class OtherPackageTest {
     @Test
     fun `messages in a file with the kotlin_package option should be in that package`() {
-        assertThat(OtherModel {}::class.qualifiedName)
+        assertThat(otherModel {}::class.qualifiedName)
             .startsWith("com.toasttab.protokt.testing.options.other")
     }
 }

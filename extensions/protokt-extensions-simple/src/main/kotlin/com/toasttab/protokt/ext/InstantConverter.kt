@@ -17,7 +17,6 @@ package com.toasttab.protokt.ext
 
 import com.google.auto.service.AutoService
 import com.toasttab.protokt.Timestamp
-import com.toasttab.protokt.timestamp
 import java.time.Instant
 
 @AutoService(Converter::class)
@@ -30,8 +29,8 @@ object InstantConverter : Converter<Instant, Timestamp> {
         Instant.ofEpochSecond(unwrapped.seconds, unwrapped.nanos.toLong())
 
     override fun unwrap(wrapped: Instant) =
-        timestamp {
+        com.toasttab.protokt.Timestamp.TimestampDsl().apply {
             seconds = wrapped.epochSecond
             nanos = wrapped.nano
-        }
+        }.build()
 }

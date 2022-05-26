@@ -22,7 +22,7 @@ class AndroidProtobufTest {
     @Test
     fun `can use protobuf lite on android protos`() {
         assertThat(
-            TestMessage.deserialize(TestMessage { foo = "foo" }.serialize()).foo
+            TestMessage.deserialize(testMessage { foo = "foo" }.serialize()).foo
         ).isEqualTo("foo")
     }
 }

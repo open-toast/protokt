@@ -26,5 +26,5 @@ object FloatValueConverter : Converter<Float, FloatValue> {
         unwrapped.value
 
     override fun unwrap(wrapped: Float) =
-        floatValue { value = wrapped }
+        FloatValue.FloatValueDsl().apply { value = wrapped }.build()
 }

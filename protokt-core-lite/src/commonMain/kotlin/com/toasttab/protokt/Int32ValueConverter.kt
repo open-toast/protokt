@@ -26,5 +26,5 @@ object Int32ValueConverter : Converter<Int, Int32Value> {
         unwrapped.value
 
     override fun unwrap(wrapped: Int) =
-        int32Value { value = wrapped }
+        Int32Value.Int32ValueDsl().apply { value = wrapped }.build()
 }

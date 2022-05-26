@@ -28,10 +28,11 @@ import org.junit.jupiter.api.Test
 import com.google.protobuf.UnknownFieldSet as JavaUnknownFieldSet
 import com.toasttab.protokt.testing.rt.TestOuterClass.Test as JavaTest
 import toasttab.protokt.testing.rt.Test as KtTest
+import toasttab.protokt.testing.rt.test
 
 class UnknownFieldsInteropTest {
     private val content = "this is a test".toByteArray()
-    private val protoktSimple = KtTest { `val` = Bytes(content) }
+    private val protoktSimple = test { `val` = Bytes(content) }
 
     private val javaSimple =
         JavaTest.newBuilder()
