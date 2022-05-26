@@ -51,6 +51,9 @@ dependencies {
     implementation(libraries.kotlinxCoroutinesCore)
 
     runtimeOnly(libraries.protobufLite)
+
+    testImplementation(kotlin("test-junit"))
+    testImplementation("io.grpc:grpc-testing:${versions.grpc}")
 }
 
 sourceSets {
@@ -58,6 +61,12 @@ sourceSets {
         java {
             srcDir("../grpc-kotlin/src/main/kotlin")
             srcDir("../protos/src/main/kotlin")
+        }
+    }
+
+    test {
+        java {
+            srcDir("../grpc-kotlin/src/test/kotlin")
         }
     }
 }

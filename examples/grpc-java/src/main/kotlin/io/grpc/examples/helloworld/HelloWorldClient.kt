@@ -32,7 +32,7 @@ class HelloWorldClient(
         val response =
             ClientCalls.blockingUnaryCall(
                 channel,
-                GreeterGrpc.sayHelloMethod,
+                GreeterGrpc.getSayHelloMethod(),
                 CallOptions.DEFAULT,
                 request
             )

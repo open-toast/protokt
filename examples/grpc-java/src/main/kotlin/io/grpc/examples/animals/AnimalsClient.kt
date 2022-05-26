@@ -30,19 +30,19 @@ class AnimalsClient(
 ) : Closeable {
     fun bark() {
         val request = BarkRequest { }
-        val response = unaryCall(DogGrpc.barkMethod, request)
+        val response = unaryCall(DogGrpc.getBarkMethod(), request)
         println("Received: ${response.message}")
     }
 
     fun oink() {
         val request = OinkRequest { }
-        val response = unaryCall(PigGrpc.oinkMethod, request)
+        val response = unaryCall(PigGrpc.getOinkMethod(), request)
         println("Received: ${response.message}")
     }
 
     fun baa() {
         val request = BaaRequest { }
-        val response = unaryCall(SheepGrpc.baaMethod, request)
+        val response = unaryCall(SheepGrpc.getBaaMethod(), request)
         println("Received: ${response.message}")
     }
 
@@ -63,7 +63,7 @@ class AnimalsClient(
  * Talk to the animals. Fluent in dog, pig and sheep.
  */
 fun main(args: Array<String>) {
-    val usage = "usage: ./gradlew :examples:grpc-kotlin:AnimalsClient --args={dog|pig|sheep}"
+    val usage = "usage: ./gradlew :examples:grpc-java:AnimalsClient --args={dog|pig|sheep}"
 
     if (args.isEmpty()) {
         println("No animals specified.")

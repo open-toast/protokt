@@ -47,7 +47,7 @@ class RouteGuideClient(
         val feature =
             ClientCalls.blockingUnaryCall(
                 channel,
-                RouteGuideGrpc.getFeatureMethod,
+                RouteGuideGrpc.getGetFeatureMethod(),
                 CallOptions.DEFAULT,
                 request
             )
@@ -70,7 +70,7 @@ class RouteGuideClient(
         var i = 1
         ClientCalls.blockingServerStreamingCall(
             channel,
-            RouteGuideGrpc.listFeaturesMethod,
+            RouteGuideGrpc.getListFeaturesMethod(),
             CallOptions.DEFAULT,
             request
         ).forEach { feature ->
@@ -83,7 +83,7 @@ class RouteGuideClient(
         val latch = CountDownLatch(1)
         val requestObserver =
             ClientCalls.asyncClientStreamingCall(
-                channel.newCall(RouteGuideGrpc.recordRouteMethod, CallOptions.DEFAULT),
+                channel.newCall(RouteGuideGrpc.getRecordRouteMethod(), CallOptions.DEFAULT),
                 object : StreamObserver<RouteSummary> {
                     override fun onNext(summary: RouteSummary) {
                         println("Finished trip with ${summary.pointCount} points.")
@@ -128,7 +128,7 @@ class RouteGuideClient(
 
         val requestObserver =
             ClientCalls.asyncBidiStreamingCall(
-                channel.newCall(RouteGuideGrpc.routeChatMethod, CallOptions.DEFAULT),
+                channel.newCall(RouteGuideGrpc.getRouteChatMethod(), CallOptions.DEFAULT),
                 object : StreamObserver<RouteNote> {
                     override fun onNext(note: RouteNote) {
                         println("Got message \"${note.message}\" at ${note.location?.toStr()}")

@@ -54,7 +54,7 @@ class AnimalsClient(private val channel: ManagedChannel) : Closeable {
  * Talk to the animals. Fluent in dog, pig and sheep.
  */
 suspend fun main(args: Array<String>) {
-    val usage = "usage: animals_client [{dog|pig|sheep} ...]"
+    val usage = "usage: ./gradlew :examples:grpc-kotlin:AnimalsClient --args={dog|pig|sheep}"
 
     if (args.isEmpty()) {
         println("No animals specified.")
