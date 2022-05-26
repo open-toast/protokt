@@ -17,20 +17,14 @@
 
 package io.grpc.examples.helloworld
 
+import io.grpc.Server
 import io.grpc.ServerBuilder
-import io.grpc.ServerServiceDefinition
-import io.grpc.examples.helloworld.GreeterGrpc.sayHelloMethod
-import io.grpc.kotlin.AbstractCoroutineServerImpl
-import io.grpc.kotlin.ServerCalls.unaryServerMethodDefinition
 
-class HelloWorldServer(
-    private val port: Int
-) {
-    private val server =
-        ServerBuilder
-            .forPort(port)
-            .addService(HelloWorldService())
-            .build()
+class HelloWorldServer(private val port: Int) {
+    val server: Server = ServerBuilder
+        .forPort(port)
+        .addService(HelloWorldService())
+        .build()
 
     fun start() {
         server.start()
@@ -52,14 +46,10 @@ class HelloWorldServer(
         server.awaitTermination()
     }
 
-    private class HelloWorldService : AbstractCoroutineServerImpl() {
-        override fun bindService() =
-            ServerServiceDefinition.builder(GreeterGrpc.serviceDescriptor)
-                .addMethod(unaryServerMethodDefinition(context, sayHelloMethod, ::sayHello))
-                .build()
-
-        suspend fun sayHello(request: HelloRequest) =
-            HelloReply { message = "Hello ${request.name}" }
+    internal class HelloWorldService : GreeterGrpcKt.GreeterCoroutineImplBase() {
+        override suspend fun sayHello(request: HelloRequest) = HelloReply {
+            message = "Hello ${request.name}"
+        }
     }
 }
 

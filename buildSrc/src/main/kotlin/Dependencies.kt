@@ -19,7 +19,7 @@ object versions {
     const val arrow = "1.0.1"
     const val autoService = "1.0.1"
     const val grpc = "1.41.0"
-    const val grpcKotlin = "1.2.0"
+    const val grpcKotlin = "1.2.1"
     const val kotlin = "1.4.32"
     const val kotlinPoet = "1.8.0"
     const val kotlinxCollections = "0.3.4"
@@ -42,7 +42,7 @@ object versions {
     const val protoGoogleCommonProtos = "2.8.2"
 
     // Android
-    const val androidGradle = "7.1.0"
+    const val androidGradle = "4.1.0"
 }
 
 object libraries {
@@ -52,6 +52,7 @@ object libraries {
     const val autoServiceAnnotations = "com.google.auto.service:auto-service-annotations:${versions.autoService}"
 
     const val grpcKotlin = "io.grpc:grpc-kotlin-stub:${versions.grpcKotlin}"
+    const val grpcKotlinGenerator = "io.grpc:protoc-gen-grpc-kotlin:${versions.grpcKotlin}:jdk7@jar"
     const val grpcNetty = "io.grpc:grpc-netty:${versions.grpc}"
     const val grpcStub = "io.grpc:grpc-stub:${versions.grpc}"
 

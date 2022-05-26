@@ -19,16 +19,16 @@ package io.grpc.examples.helloworld
 
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
-import io.grpc.kotlin.ClientCalls
+import io.grpc.examples.helloworld.GreeterGrpcKt.GreeterCoroutineStub
 import java.io.Closeable
 import java.util.concurrent.TimeUnit
 
-class HelloWorldClient(
-    private val channel: ManagedChannel
-) : Closeable {
+class HelloWorldClient(private val channel: ManagedChannel) : Closeable {
+    private val stub: GreeterCoroutineStub = GreeterCoroutineStub(channel)
+
     suspend fun greet(name: String) {
         val request = HelloRequest { this.name = name }
-        val response = ClientCalls.unaryRpc(channel, GreeterGrpc.sayHelloMethod, request)
+        val response = stub.sayHello(request)
         println("Received: ${response.message}")
     }
 
