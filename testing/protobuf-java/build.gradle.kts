@@ -18,6 +18,7 @@ import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
 
 plugins {
+    id("protokt.jvm-conventions")
     id("com.google.protobuf")
 }
 

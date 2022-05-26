@@ -13,6 +13,10 @@
  * limitations under the License.
  */
 
+plugins {
+    id("protokt.jvm-conventions")
+}
+
 enablePublishing()
 
 includeCommonGradleSource("ProtoktExtension.kt")

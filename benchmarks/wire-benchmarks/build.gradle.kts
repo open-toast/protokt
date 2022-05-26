@@ -26,6 +26,7 @@ buildscript {
 }
 
 plugins {
+    id("protokt.benchmarks-conventions")
     application
 }
 

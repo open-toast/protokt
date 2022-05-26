@@ -13,6 +13,10 @@
  * limitations under the License.
  */
 
+plugins {
+    id("protokt.grpc-examples-conventions")
+}
+
 dependencies {
     implementation(project(":examples:protos"))
 

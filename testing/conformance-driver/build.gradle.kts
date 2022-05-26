@@ -14,6 +14,7 @@
  */
 
 plugins {
+    id("protokt.jvm-conventions")
     application
 }
 

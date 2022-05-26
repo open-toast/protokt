@@ -13,6 +13,10 @@
  * limitations under the License.
  */
 
+plugins {
+    id("protokt.android-conventions")
+}
+
 android {
     compileSdkVersion(31)
 

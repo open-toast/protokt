@@ -20,7 +20,6 @@ object versions {
     const val autoService = "1.0.1"
     const val grpc = "1.41.0"
     const val grpcKotlin = "1.2.0"
-    const val kotlin = "1.4.32"
     const val kotlinPoet = "1.8.0"
     const val kotlinxCollections = "0.3.4"
     const val kotlinxCoroutines = "1.3.9"
@@ -40,9 +39,6 @@ object versions {
 
     // Third Party
     const val protoGoogleCommonProtos = "2.8.2"
-
-    // Android
-    const val androidGradle = "7.1.0"
 }
 
 object libraries {
@@ -56,8 +52,6 @@ object libraries {
     const val grpcStub = "io.grpc:grpc-stub:${versions.grpc}"
 
     const val kotlinPoet = "com.squareup:kotlinpoet:${versions.kotlinPoet}"
-    const val kotlinReflect = "org.jetbrains.kotlin:kotlin-reflect:${versions.kotlin}"
-    const val kotlinStdlib = "org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlin}"
     const val kotlinxCollections = "org.jetbrains.kotlinx:kotlinx-collections-immutable:${versions.kotlinxCollections}"
     const val kotlinxCoroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.kotlinxCoroutines}"
 
@@ -82,7 +76,4 @@ object libraries {
 
     // Third Party
     const val protoGoogleCommonProtos = "com.google.api.grpc:proto-google-common-protos:${versions.protoGoogleCommonProtos}"
-
-    // Android
-    const val androidGradle = "com.android.tools.build:gradle:${versions.androidGradle}"
 }
