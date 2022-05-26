@@ -16,9 +16,9 @@
 package com.toasttab.protokt.benchmarks.generator
 
 import com.google.protobuf.CodedOutputStream
-import com.toasttab.protokt.benchmarks.benchmarkDataset
 import com.toasttab.protokt.benchmarks.GenericMessage1
 import com.toasttab.protokt.benchmarks.GenericMessage4
+import com.toasttab.protokt.benchmarks.benchmarkDataset
 import com.toasttab.protokt.rt.Bytes
 import com.toasttab.protokt.rt.KtMessage
 import com.toasttab.protokt.rt.serializer

@@ -19,9 +19,9 @@ import arrow.core.Either
 import arrow.core.None
 import arrow.core.toOption
 import com.toasttab.protokt.conformance.ConformanceRequest
-import com.toasttab.protokt.conformance.conformanceResponse
 import com.toasttab.protokt.conformance.ConformanceResponse.Result
 import com.toasttab.protokt.conformance.WireFormat
+import com.toasttab.protokt.conformance.conformanceResponse
 import com.toasttab.protokt.rt.Bytes
 import com.toasttab.protokt_test_messages.proto3.TestAllTypesProto3
 import java.io.InputStream

@@ -17,7 +17,6 @@ package com.toasttab.protokt.ext
 
 import com.google.auto.service.AutoService
 import com.toasttab.protokt.BytesValue
-import com.toasttab.protokt.bytesValue
 import com.toasttab.protokt.rt.Bytes
 import java.net.InetAddress
 
