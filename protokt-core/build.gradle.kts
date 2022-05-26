@@ -18,6 +18,7 @@ import com.google.protobuf.gradle.protobuf
 import com.toasttab.protokt.gradle.protokt
 
 plugins {
+    id("protokt.jvm-conventions")
     kotlin("kapt")
 }
 
@@ -39,7 +40,7 @@ dependencies {
     compileOnly(libraries.protobufJava)
 
     implementation(libraries.autoServiceAnnotations)
-    implementation(libraries.kotlinReflect)
+    implementation(kotlin("reflect"))
 
     kapt(libraries.autoService)
 }

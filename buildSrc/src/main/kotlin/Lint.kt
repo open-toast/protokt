@@ -17,9 +17,14 @@ import com.diffplug.gradle.spotless.SpotlessExtension
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.repositories
 
 fun Project.lint() {
     apply(plugin = "com.diffplug.spotless")
+
+    repositories {
+        mavenCentral()
+    }
 
     configure<SpotlessExtension> {
         kotlin {

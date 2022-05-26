@@ -13,6 +13,10 @@
  * limitations under the License.
  */
 
+plugins {
+    id("protokt.jvm-conventions")
+}
+
 dependencies {
     testImplementation(project(":testing:testing-util"))
     testImplementation(libraries.protobufJava)

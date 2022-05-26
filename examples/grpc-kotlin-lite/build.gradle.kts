@@ -19,6 +19,10 @@ import com.google.protobuf.gradle.plugins
 import com.google.protobuf.gradle.protobuf
 import com.toasttab.protokt.gradle.protokt
 
+plugins {
+    id("protokt.grpc-examples-conventions")
+}
+
 localProtokt()
 pureKotlin()
 

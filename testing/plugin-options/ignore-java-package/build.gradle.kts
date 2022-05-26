@@ -16,6 +16,10 @@
 import com.google.protobuf.gradle.proto
 import com.toasttab.protokt.gradle.protokt
 
+plugins {
+    id("protokt.jvm-conventions")
+}
+
 localProtokt()
 pureKotlin()
 

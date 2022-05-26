@@ -17,6 +17,7 @@ import com.toasttab.protokt.gradle.protokt
 import com.toasttab.protokt.gradle.protoktExtensions
 
 plugins {
+    id("protokt.jvm-conventions")
     kotlin("kapt")
 }
 
