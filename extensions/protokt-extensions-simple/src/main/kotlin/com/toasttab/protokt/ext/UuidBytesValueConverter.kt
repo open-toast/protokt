@@ -18,6 +18,7 @@ package com.toasttab.protokt.ext
 import com.google.auto.service.AutoService
 import com.toasttab.protokt.BytesValue
 import com.toasttab.protokt.rt.Bytes
+import com.toasttab.protokt.rt.sizeof
 import java.util.UUID
 
 @AutoService(Converter::class)
@@ -26,8 +27,11 @@ object UuidBytesValueConverter : OptimizedSizeofConverter<UUID, BytesValue> {
 
     override val wrapped = BytesValue::class
 
+    private val sizeofProxy =
+        BytesValue.BytesValueDsl().apply { value = Bytes(ByteArray(16)) }.build()
+
     override fun sizeof(wrapped: UUID) =
-        16
+        sizeof(sizeofProxy)
 
     override fun wrap(unwrapped: BytesValue) =
         UuidConverter.wrap(unwrapped.value.bytes)
