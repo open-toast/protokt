@@ -28,7 +28,7 @@ import com.google.protobuf.Timestamp as JavaTimestamp
 
 class MessageJavaInteropTest {
     private val timestamp =
-        Timestamp { seconds = System.currentTimeMillis() * 1000 }
+        Timestamp.TimestampDsl().apply { seconds = System.currentTimeMillis() * 1000 }.build()
 
     private val javaTimestamp =
         JavaTimestamp.newBuilder()

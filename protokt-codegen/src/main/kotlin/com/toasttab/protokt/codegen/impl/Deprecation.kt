@@ -16,6 +16,7 @@
 package com.toasttab.protokt.codegen.impl
 
 import com.squareup.kotlinpoet.AnnotationSpec
+import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.toasttab.protokt.codegen.annotators.Annotator.Context
@@ -102,10 +103,15 @@ object Deprecation {
     }
 
     fun TypeSpec.Builder.addDeprecationSuppression() {
-        addAnnotation(
-            AnnotationSpec.builder(Suppress::class)
-                .addMember("DEPRECATION".embed())
-                .build()
-        )
+        addAnnotation(annotationSuppression())
     }
+
+    fun FunSpec.Builder.addDeprecationSuppression() {
+        addAnnotation(annotationSuppression())
+    }
+
+    private fun annotationSuppression() =
+        AnnotationSpec.builder(Suppress::class)
+            .addMember("DEPRECATION".embed())
+            .build()
 }

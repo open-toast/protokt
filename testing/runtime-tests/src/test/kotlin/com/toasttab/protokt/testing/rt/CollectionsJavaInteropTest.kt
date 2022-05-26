@@ -63,10 +63,10 @@ class CollectionsJavaInteropTest {
             .build()
 
     private val protoktTimestamp =
-        Timestamp {
+        Timestamp.TimestampDsl().apply {
             seconds = System.currentTimeMillis() * 1000
             nanos = Random.nextInt(99999)
-        }
+        }.build()
 
     private val javaTimestamp =
         JavaTimestamp.newBuilder()
@@ -75,10 +75,10 @@ class CollectionsJavaInteropTest {
             .build()
 
     private val protoktTimestamp0 =
-        Timestamp {
+        Timestamp.TimestampDsl().apply {
             seconds = (System.currentTimeMillis() * 1000) - 60
             nanos = Random.nextInt(99999)
-        }
+        }.build()
 
     private val javaTimestamp0 =
         JavaTimestamp.newBuilder()

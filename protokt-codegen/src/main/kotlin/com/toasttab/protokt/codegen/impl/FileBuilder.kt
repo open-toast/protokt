@@ -21,6 +21,7 @@ import com.squareup.kotlinpoet.LambdaTypeName
 import com.squareup.kotlinpoet.asTypeName
 import com.toasttab.protokt.codegen.annotators.Annotator
 import com.toasttab.protokt.codegen.descriptor.FileDescriptorResolver
+import com.toasttab.protokt.codegen.impl.Deprecation.addDeprecationSuppression
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Protocol
 import com.toasttab.protokt.codegen.protoc.fileName
@@ -59,6 +60,11 @@ object FileBuilder {
                 builder.addFunction(
                     FunSpec.builder(msg.name)
                         .returns(msg.typeName)
+                        .apply {
+                            if (msg.options.default.deprecated) {
+                                addDeprecationSuppression()
+                            }
+                        }
                         .addParameter(
                             "dsl",
                             LambdaTypeName.get(
