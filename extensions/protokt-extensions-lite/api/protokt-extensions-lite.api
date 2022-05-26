@@ -39,7 +39,7 @@ public final class com/toasttab/protokt/ext/InetSocketAddressConverter : com/toa
 }
 
 public final class com/toasttab/protokt/ext/Inet_socket_addressKt {
-	public static final fun InetSocketAddress (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ext/InetSocketAddress;
+	public static final fun inetSocketAddress (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ext/InetSocketAddress;
 }
 
 public final class com/toasttab/protokt/ext/ProtoktEnumOptions : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -169,14 +169,14 @@ public final class com/toasttab/protokt/ext/ProtoktFileOptions$ProtoktFileOption
 }
 
 public final class com/toasttab/protokt/ext/ProtoktKt {
-	public static final fun ProtoktEnumOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ext/ProtoktEnumOptions;
-	public static final fun ProtoktEnumValueOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ext/ProtoktEnumValueOptions;
-	public static final fun ProtoktFieldOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ext/ProtoktFieldOptions;
-	public static final fun ProtoktFileOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ext/ProtoktFileOptions;
-	public static final fun ProtoktMessageOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ext/ProtoktMessageOptions;
-	public static final fun ProtoktMethodOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ext/ProtoktMethodOptions;
-	public static final fun ProtoktOneofOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ext/ProtoktOneofOptions;
-	public static final fun ProtoktServiceOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ext/ProtoktServiceOptions;
+	public static final fun protoktEnumOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ext/ProtoktEnumOptions;
+	public static final fun protoktEnumValueOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ext/ProtoktEnumValueOptions;
+	public static final fun protoktFieldOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ext/ProtoktFieldOptions;
+	public static final fun protoktFileOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ext/ProtoktFileOptions;
+	public static final fun protoktMessageOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ext/ProtoktMessageOptions;
+	public static final fun protoktMethodOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ext/ProtoktMethodOptions;
+	public static final fun protoktOneofOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ext/ProtoktOneofOptions;
+	public static final fun protoktServiceOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ext/ProtoktServiceOptions;
 }
 
 public final class com/toasttab/protokt/ext/ProtoktMessageOptions : com/toasttab/protokt/rt/AbstractKtMessage {

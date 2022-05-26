@@ -55,7 +55,13 @@ public final class com/toasttab/protokt/rt/BytesSliceKt {
 
 public final class com/toasttab/protokt/rt/Fixed32 {
 	public fun <init> (I)V
+	public final fun component1 ()I
+	public final fun copy (I)Lcom/toasttab/protokt/rt/Fixed32;
+	public static synthetic fun copy$default (Lcom/toasttab/protokt/rt/Fixed32;IILjava/lang/Object;)Lcom/toasttab/protokt/rt/Fixed32;
+	public fun equals (Ljava/lang/Object;)Z
 	public final fun getValue ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class com/toasttab/protokt/rt/Fixed32Val : com/toasttab/protokt/rt/UnknownValue {
@@ -72,7 +78,13 @@ public final class com/toasttab/protokt/rt/Fixed32Val : com/toasttab/protokt/rt/
 
 public final class com/toasttab/protokt/rt/Fixed64 {
 	public fun <init> (J)V
+	public final fun component1 ()J
+	public final fun copy (J)Lcom/toasttab/protokt/rt/Fixed64;
+	public static synthetic fun copy$default (Lcom/toasttab/protokt/rt/Fixed64;JILjava/lang/Object;)Lcom/toasttab/protokt/rt/Fixed64;
+	public fun equals (Ljava/lang/Object;)Z
 	public final fun getValue ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class com/toasttab/protokt/rt/Fixed64Val : com/toasttab/protokt/rt/UnknownValue {
@@ -89,12 +101,24 @@ public final class com/toasttab/protokt/rt/Fixed64Val : com/toasttab/protokt/rt/
 
 public final class com/toasttab/protokt/rt/Int32 {
 	public fun <init> (I)V
+	public final fun component1 ()I
+	public final fun copy (I)Lcom/toasttab/protokt/rt/Int32;
+	public static synthetic fun copy$default (Lcom/toasttab/protokt/rt/Int32;IILjava/lang/Object;)Lcom/toasttab/protokt/rt/Int32;
+	public fun equals (Ljava/lang/Object;)Z
 	public final fun getValue ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class com/toasttab/protokt/rt/Int64 {
 	public fun <init> (J)V
+	public final fun component1 ()J
+	public final fun copy (J)Lcom/toasttab/protokt/rt/Int64;
+	public static synthetic fun copy$default (Lcom/toasttab/protokt/rt/Int64;JILjava/lang/Object;)Lcom/toasttab/protokt/rt/Int64;
+	public fun equals (Ljava/lang/Object;)Z
 	public final fun getValue ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class com/toasttab/protokt/rt/JvmKtMessageSerializerKt {
@@ -238,22 +262,46 @@ public final class com/toasttab/protokt/rt/RuntimeUtilsKt {
 
 public final class com/toasttab/protokt/rt/SFixed32 {
 	public fun <init> (I)V
+	public final fun component1 ()I
+	public final fun copy (I)Lcom/toasttab/protokt/rt/SFixed32;
+	public static synthetic fun copy$default (Lcom/toasttab/protokt/rt/SFixed32;IILjava/lang/Object;)Lcom/toasttab/protokt/rt/SFixed32;
+	public fun equals (Ljava/lang/Object;)Z
 	public final fun getValue ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class com/toasttab/protokt/rt/SFixed64 {
 	public fun <init> (J)V
+	public final fun component1 ()J
+	public final fun copy (J)Lcom/toasttab/protokt/rt/SFixed64;
+	public static synthetic fun copy$default (Lcom/toasttab/protokt/rt/SFixed64;JILjava/lang/Object;)Lcom/toasttab/protokt/rt/SFixed64;
+	public fun equals (Ljava/lang/Object;)Z
 	public final fun getValue ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class com/toasttab/protokt/rt/SInt32 {
 	public fun <init> (I)V
+	public final fun component1 ()I
+	public final fun copy (I)Lcom/toasttab/protokt/rt/SInt32;
+	public static synthetic fun copy$default (Lcom/toasttab/protokt/rt/SInt32;IILjava/lang/Object;)Lcom/toasttab/protokt/rt/SInt32;
+	public fun equals (Ljava/lang/Object;)Z
 	public final fun getValue ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class com/toasttab/protokt/rt/SInt64 {
 	public fun <init> (J)V
+	public final fun component1 ()J
+	public final fun copy (J)Lcom/toasttab/protokt/rt/SInt64;
+	public static synthetic fun copy$default (Lcom/toasttab/protokt/rt/SInt64;JILjava/lang/Object;)Lcom/toasttab/protokt/rt/SInt64;
+	public fun equals (Ljava/lang/Object;)Z
 	public final fun getValue ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class com/toasttab/protokt/rt/SizeCodecsKt {
@@ -270,12 +318,24 @@ public final class com/toasttab/protokt/rt/Tag {
 
 public final class com/toasttab/protokt/rt/UInt32 {
 	public fun <init> (I)V
+	public final fun component1 ()I
+	public final fun copy (I)Lcom/toasttab/protokt/rt/UInt32;
+	public static synthetic fun copy$default (Lcom/toasttab/protokt/rt/UInt32;IILjava/lang/Object;)Lcom/toasttab/protokt/rt/UInt32;
+	public fun equals (Ljava/lang/Object;)Z
 	public final fun getValue ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class com/toasttab/protokt/rt/UInt64 {
 	public fun <init> (J)V
+	public final fun component1 ()J
+	public final fun copy (J)Lcom/toasttab/protokt/rt/UInt64;
+	public static synthetic fun copy$default (Lcom/toasttab/protokt/rt/UInt64;JILjava/lang/Object;)Lcom/toasttab/protokt/rt/UInt64;
+	public fun equals (Ljava/lang/Object;)Z
 	public final fun getValue ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class com/toasttab/protokt/rt/UnknownField {
