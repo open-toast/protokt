@@ -41,6 +41,8 @@ commands:
 jobs:
   build:
     executor: builder
+    environment:
+      CHROME_BIN: /usr/bin/chromium
     steps:
       - checkout
       - read_cache
@@ -50,7 +52,6 @@ jobs:
           name: Install Chrome
           command: |
             apk add chromium
-            CHROME_BIN='/usr/bin/chromium'
 
       - run:
           name: Install Firefox
