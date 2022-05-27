@@ -2,7 +2,6 @@ version: 2.1
 orbs:
   node: circleci/node@5.0.2
   browser-tools: circleci/browser-tools@1.3.0
-  jq: circleci/jq@2.2.0
 
 parameters:
   benchmarks:
@@ -46,8 +45,7 @@ jobs:
     steps:
       - checkout
       - read_cache
-      - jq/install
-      - browser-tools/install-browser-tools
+      - browser-tools/install-chrome
       - node/install
 
       - run:
