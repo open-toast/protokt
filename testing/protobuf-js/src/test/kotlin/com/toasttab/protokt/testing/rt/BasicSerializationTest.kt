@@ -13,16 +13,24 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.rt
+package com.toasttab.protokt.testing.rt
 
-import org.khronos.webgl.Int8Array
+import com.toasttab.protokt.Timestamp
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
-actual abstract class AbstractKtMessage actual constructor() : KtMessage {
-    actual override fun serialize(): ByteArray =
-        Writer.create().let {
-            serialize(serializer(it))
-            it.finish().run {
-                Int8Array(buffer, byteOffset, length).unsafeCast<ByteArray>()
-            }
-        }
+class BasicSerializationTest {
+    @Test
+    fun test_serialize() {
+        val timestamp =
+            Timestamp.TimestampDsl().apply {
+                seconds = 1
+                nanos = 10
+            }.build()
+
+        assertEquals(
+            byteArrayOf(),
+            timestamp.serialize()
+        )
+    }
 }

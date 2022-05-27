@@ -13,16 +13,26 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.rt
+plugins {
+    id("org.jetbrains.kotlin.js")
+}
 
-import org.khronos.webgl.Int8Array
+dependencies {
+    testImplementation(project(":protokt-core"))
+    testImplementation(kotlin("test-js"))
+}
 
-actual abstract class AbstractKtMessage actual constructor() : KtMessage {
-    actual override fun serialize(): ByteArray =
-        Writer.create().let {
-            serialize(serializer(it))
-            it.finish().run {
-                Int8Array(buffer, byteOffset, length).unsafeCast<ByteArray>()
+kotlin {
+    js(BOTH) {
+        browser {
+            testTask {
+                useKarma {
+                    useChromeHeadless()
+                    useFirefox()
+                }
             }
         }
+
+        useCommonJs()
+    }
 }

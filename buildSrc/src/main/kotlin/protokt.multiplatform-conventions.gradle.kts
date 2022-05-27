@@ -23,6 +23,7 @@ kotlin {
     js(BOTH) {
         browser {}
         nodejs {}
+        useCommonJs()
     }
 }
 

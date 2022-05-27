@@ -64,24 +64,9 @@ fun serializer(stream: CodedOutputStream): KtMessageSerializer {
         override fun write(b: ByteArray) =
             stream.writeByteArrayNoTag(b)
 
-        override fun write(e: KtEnum) =
-            stream.writeInt32NoTag(e.value)
-
-        override fun write(m: KtMessage) {
-            stream.writeUInt32NoTag(m.messageSize)
-            m.serialize(this)
-        }
-
         override fun write(b: BytesSlice) {
             stream.writeUInt32NoTag(b.length)
             stream.write(b.array, b.offset, b.length)
         }
-
-        override fun writeUnknown(u: UnknownFieldSet) {
-            u.unknownFields.forEach { (k, v) -> v.write(k, this) }
-        }
-
-        override fun write(t: Tag) =
-            also { stream.writeUInt32NoTag(t.value) }
     }
 }

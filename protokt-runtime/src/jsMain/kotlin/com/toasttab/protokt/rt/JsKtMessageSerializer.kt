@@ -15,70 +15,93 @@
 
 package com.toasttab.protokt.rt
 
-@Suppress("UNUSED_PARAMETER")
-fun serializer(bytes: ByteArray): KtMessageSerializer {
+import org.khronos.webgl.Int8Array
+import org.khronos.webgl.Uint8Array
+
+fun serializer(writer: Writer): KtMessageSerializer {
     return object : KtMessageSerializer {
-        override fun write(i: Fixed32) =
-            TODO()
+        override fun write(i: Fixed32) {
+            writer.fixed32(i.value)
+        }
 
-        override fun write(i: SFixed32) =
-            TODO()
+        override fun write(i: SFixed32) {
+            writer.sfixed32(i.value)
+        }
 
-        override fun write(i: UInt32) =
-            TODO()
+        override fun write(i: UInt32) {
+            writer.uint32(i.value)
+        }
 
-        override fun write(i: SInt32) =
-            TODO()
+        override fun write(i: SInt32) {
+            writer.sint32(i.value)
+        }
 
-        override fun write(i: Int32) =
-            TODO()
+        override fun write(i: Int32) {
+            writer.int32(i.value)
+        }
 
-        override fun write(l: Fixed64) =
-            TODO()
+        override fun write(l: Fixed64) {
+            writer.fixed64(l.value.protobufjsLong)
+        }
 
-        override fun write(l: SFixed64) =
-            TODO()
+        override fun write(l: SFixed64) {
+            writer.sfixed64(l.value.protobufjsLong)
+        }
 
-        override fun write(l: UInt64) =
-            TODO()
+        override fun write(l: UInt64) {
+            writer.uint64(l.value.protobufjsLong)
+        }
 
-        override fun write(l: SInt64) =
-            TODO()
+        override fun write(l: SInt64) {
+            writer.sint64(l.value.protobufjsLong)
+        }
 
-        override fun write(l: Int64) =
-            TODO()
+        override fun write(l: Int64) {
+            writer.int64(l.value.protobufjsLong)
+        }
 
-        override fun write(b: Boolean) =
-            TODO()
+        override fun write(b: Boolean) {
+            writer.bool(b)
+        }
 
-        override fun write(s: String) =
-            TODO()
+        override fun write(s: String) {
+            writer.string(s)
+        }
 
-        override fun write(f: Float) =
-            TODO()
+        override fun write(f: Float) {
+            writer.float(f)
+        }
 
-        override fun write(d: Double) =
-            TODO()
+        override fun write(d: Double) {
+            writer.double(d)
+        }
 
-        override fun write(b: ByteArray) =
-            TODO()
-
-        override fun write(e: KtEnum) =
-            TODO()
-
-        override fun write(m: KtMessage) {
-            TODO()
+        override fun write(b: ByteArray) {
+            writer.bytes(
+                Uint8Array(
+                    b.unsafeCast<Int8Array>().buffer,
+                    b.unsafeCast<Int8Array>().byteOffset,
+                    b.unsafeCast<Int8Array>().length
+                )
+            )
         }
 
         override fun write(b: BytesSlice) {
-            TODO()
+            writer.bytes(
+                Uint8Array(
+                    b.array.unsafeCast<Int8Array>().buffer,
+                    b.offset,
+                    b.length
+                )
+            )
         }
-
-        override fun writeUnknown(u: UnknownFieldSet) {
-            TODO()
-        }
-
-        override fun write(t: Tag) =
-            TODO()
     }
 }
+
+private val Long.protobufjsLong: dynamic
+    get() {
+        val ret = js("{}")
+        ret.high = this.asDynamic().getHighBits()
+        ret.low = this.asDynamic().getLowBits()
+        return ret
+    }

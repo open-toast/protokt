@@ -59,6 +59,7 @@ include(
     "testing:plugin-options:ignore-java-package",
     "testing:plugin-options:lite",
     "testing:protobuf-java",
+    "testing:protobuf-js",
     "testing:runtime-tests",
     "testing:testing-util",
 

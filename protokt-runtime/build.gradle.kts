@@ -30,7 +30,7 @@ kotlin {
 
         val jsMain by getting {
             dependencies {
-                implementation(npm("protobufjs", versions.protobufJs))
+                api(npm("protobufjs", versions.protobufJs))
             }
         }
 
