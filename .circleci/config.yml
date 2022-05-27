@@ -41,8 +41,8 @@ commands:
 jobs:
   build:
     executor: builder
-    environment:
-      CHROME_BIN: /usr/bin/chromium-browser
+    # environment:
+    #  CHROME_BIN: /usr/bin/chromium-browser
     steps:
       - checkout
       - read_cache
