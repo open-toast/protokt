@@ -52,6 +52,7 @@ jobs:
           name: Install Chrome
           command: |
             apk add chromium
+            which chromium
 
       - run:
           name: Install Firefox
