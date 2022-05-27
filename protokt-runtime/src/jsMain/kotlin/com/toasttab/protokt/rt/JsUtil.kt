@@ -15,13 +15,27 @@
 
 package com.toasttab.protokt.rt
 
-actual abstract class AbstractKtDeserializer<T : KtMessage> actual constructor() : KtDeserializer<T> {
-    actual override fun deserialize(bytes: Bytes) =
-        deserialize(bytes.value)
+import org.khronos.webgl.Int8Array
+import org.khronos.webgl.Uint8Array
 
-    actual override fun deserialize(bytes: ByteArray): T =
-        deserialize(deserializer(Reader.create(bytes.asUint8Array())))
+internal fun ByteArray.asUint8Array() =
+    Uint8Array(
+        unsafeCast<Int8Array>().buffer,
+        unsafeCast<Int8Array>().byteOffset,
+        unsafeCast<Int8Array>().length
+    )
 
-    actual override fun deserialize(bytes: BytesSlice): T =
-        deserialize(deserializer(Reader.create(bytes.asUint8Array())))
-}
+internal fun BytesSlice.asUint8Array() =
+    Uint8Array(
+        array.unsafeCast<Int8Array>().buffer,
+        offset,
+        length
+    )
+
+internal val Long.protobufjsLong: dynamic
+    get() {
+        val ret = js("{}")
+        ret.high = this.asDynamic().getHighBits()
+        ret.low = this.asDynamic().getLowBits()
+        return ret
+    }

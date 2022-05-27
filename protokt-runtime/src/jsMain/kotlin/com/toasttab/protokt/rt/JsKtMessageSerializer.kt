@@ -15,10 +15,7 @@
 
 package com.toasttab.protokt.rt
 
-import org.khronos.webgl.Int8Array
-import org.khronos.webgl.Uint8Array
-
-fun serializer(writer: Writer): KtMessageSerializer {
+internal fun serializer(writer: Writer): KtMessageSerializer {
     return object : KtMessageSerializer {
         override fun write(i: Fixed32) {
             writer.fixed32(i.value)
@@ -77,31 +74,11 @@ fun serializer(writer: Writer): KtMessageSerializer {
         }
 
         override fun write(b: ByteArray) {
-            writer.bytes(
-                Uint8Array(
-                    b.unsafeCast<Int8Array>().buffer,
-                    b.unsafeCast<Int8Array>().byteOffset,
-                    b.unsafeCast<Int8Array>().length
-                )
-            )
+            writer.bytes(b.asUint8Array())
         }
 
         override fun write(b: BytesSlice) {
-            writer.bytes(
-                Uint8Array(
-                    b.array.unsafeCast<Int8Array>().buffer,
-                    b.offset,
-                    b.length
-                )
-            )
+            writer.bytes(b.asUint8Array())
         }
     }
 }
-
-private val Long.protobufjsLong: dynamic
-    get() {
-        val ret = js("{}")
-        ret.high = this.asDynamic().getHighBits()
-        ret.low = this.asDynamic().getLowBits()
-        return ret
-    }

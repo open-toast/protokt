@@ -15,64 +15,87 @@
 
 package com.toasttab.protokt.rt
 
-@Suppress("UNUSED_PARAMETER")
-internal fun deserializer(
-    bytes: ByteArray
-): KtMessageDeserializer {
+import org.khronos.webgl.Int8Array
+import org.khronos.webgl.Uint8Array
+
+internal fun deserializer(reader: Reader): KtMessageDeserializer {
     return object : KtMessageDeserializer {
+        var lastTag = 0
+        var endPosition = reader.len
+
         override fun readBool() =
-            TODO()
+            reader.bool()
 
         override fun readDouble() =
-            TODO()
+            reader.double()
 
         override fun readFixed32() =
-            TODO()
+            reader.fixed32()
 
         override fun readFixed64() =
-            TODO()
+            Long.fromProtobufJsLong(reader.fixed64())
 
         override fun readFloat() =
-            TODO()
+            reader.float()
 
         override fun readInt32() =
-            TODO()
+            reader.int32()
 
         override fun readInt64() =
-            TODO()
+            Long.fromProtobufJsLong(reader.int64())
 
         override fun readSFixed32() =
-            TODO()
+            reader.sfixed32()
 
         override fun readSFixed64() =
-            TODO()
+            Long.fromProtobufJsLong(reader.sfixed64())
 
         override fun readSInt32() =
-            TODO()
+            reader.sint32()
 
         override fun readSInt64() =
-            TODO()
+            Long.fromProtobufJsLong(reader.sint64())
 
         override fun readString() =
-            TODO()
+            reader.string()
 
         override fun readUInt32() =
-            TODO()
+            reader.uint32()
 
         override fun readUInt64() =
-            TODO()
+            Long.fromProtobufJsLong(reader.uint64())
 
-        override fun readTag() =
-            TODO()
+        override fun readTag(): Int {
+            lastTag =
+                if (reader.pos == endPosition) {
+                    0
+                } else {
+                    val tag = readInt32()
+                    check(tag ushr 3 != 0) { "Invalid tag" }
+                    tag
+                }
+            return lastTag
+        }
 
         override fun readBytes() =
-            TODO()
+            Bytes(reader.bytes().asByteArray())
 
+        // TODO: Does protobuf-js support reading a slice?
         override fun readBytesSlice() =
-            TODO()
+            readBytes().toBytesSlice()
 
         override fun readUnknown(): UnknownField {
-            TODO()
+            val fieldNumber = lastTag ushr 3
+
+            return when (tagWireType(lastTag)) {
+                0 -> UnknownField.varint(fieldNumber, readInt64())
+                1 -> UnknownField.fixed64(fieldNumber, readFixed64())
+                2 -> UnknownField.lengthDelimited(fieldNumber, reader.bytes().asByteArray())
+                3 -> throw UnsupportedOperationException("WIRETYPE_START_GROUP")
+                4 -> throw UnsupportedOperationException("WIRETYPE_START_GROUP")
+                5 -> UnknownField.fixed32(fieldNumber, readFixed32())
+                else -> error("Unrecognized wire type")
+            }
         }
 
         @Suppress("OVERRIDE_BY_INLINE")
@@ -80,14 +103,38 @@ internal fun deserializer(
             packed: Boolean,
             acc: KtMessageDeserializer.() -> Unit
         ) {
-            TODO()
+            if (!packed || tagWireType(lastTag) != 2) {
+                acc(this)
+            } else {
+                val length = readInt32()
+                val endPosition = reader.pos + length
+                while (reader.pos < endPosition) {
+                    acc(this)
+                }
+            }
         }
 
         override fun <T : KtEnum> readEnum(e: KtEnumDeserializer<T>) =
-            TODO()
+            e.from(readInt32())
 
         override fun <T : KtMessage> readMessage(m: KtDeserializer<T>): T {
-            TODO()
+            val oldEndPosition = endPosition
+            endPosition = readInt32() + reader.pos
+            val ret = m.deserialize(this)
+            require(reader.pos == endPosition) {
+                "Not at the end of the current message limit as expected"
+            }
+            endPosition = oldEndPosition
+            return ret
         }
     }
 }
+
+private fun tagWireType(tag: Int) =
+    tag and ((1 shl 3) - 1)
+
+private fun Long.Companion.fromProtobufJsLong(l: dynamic) =
+    js("Kotlin").Long.fromBits(l.low, l.high) as Long
+
+private fun Uint8Array.asByteArray() =
+    Int8Array(buffer, byteOffset, length).unsafeCast<ByteArray>()

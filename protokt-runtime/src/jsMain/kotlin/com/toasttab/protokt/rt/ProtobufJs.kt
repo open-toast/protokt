@@ -19,7 +19,7 @@ package com.toasttab.protokt.rt
 
 import org.khronos.webgl.Uint8Array
 
-external class Writer {
+internal external class Writer {
     fun bool(value: Boolean): Writer
 
     fun bytes(value: Uint8Array): Writer
@@ -57,7 +57,7 @@ external class Writer {
     }
 }
 
-external class Reader {
+internal external class Reader {
     val len: Int
     val pos: Int
 

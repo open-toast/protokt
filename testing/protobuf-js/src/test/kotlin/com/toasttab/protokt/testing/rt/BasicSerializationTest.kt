@@ -28,9 +28,8 @@ class BasicSerializationTest {
                 nanos = 10
             }.build()
 
-        assertEquals(
-            byteArrayOf(),
-            timestamp.serialize()
-        )
+        val deserialized = Timestamp.deserialize(timestamp.serialize())
+
+        assertEquals(timestamp, deserialized)
     }
 }

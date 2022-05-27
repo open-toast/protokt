@@ -18,11 +18,13 @@ package com.toasttab.protokt.rt
 import org.khronos.webgl.Int8Array
 
 actual abstract class AbstractKtMessage actual constructor() : KtMessage {
-    actual override fun serialize(): ByteArray =
-        Writer.create().let {
-            serialize(serializer(it))
-            it.finish().run {
-                Int8Array(buffer, byteOffset, length).unsafeCast<ByteArray>()
-            }
-        }
+    actual override fun serialize(): ByteArray {
+        val writer = Writer.create()
+        serialize(serializer(writer))
+        val buf = writer.finish()
+        val res = Int8Array(buf.buffer, buf.byteOffset, buf.length).unsafeCast<ByteArray>()
+        // TODO: implement platform-agnostic sizer
+        // check(res.size == messageSize) { "Expected $messageSize, got ${res.size}" }
+        return res
+    }
 }

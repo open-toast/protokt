@@ -17,7 +17,7 @@ package com.toasttab.protokt.rt
 
 import com.google.protobuf.CodedOutputStream
 
-fun serializer(stream: CodedOutputStream): KtMessageSerializer {
+internal fun serializer(stream: CodedOutputStream): KtMessageSerializer {
     return object : KtMessageSerializer {
         override fun write(i: Fixed32) =
             stream.writeFixed32NoTag(i.value)

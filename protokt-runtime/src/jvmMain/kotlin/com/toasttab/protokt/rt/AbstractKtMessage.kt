@@ -18,8 +18,9 @@ package com.toasttab.protokt.rt
 import com.google.protobuf.CodedOutputStream
 
 actual abstract class AbstractKtMessage actual constructor() : KtMessage {
-    actual override fun serialize() =
-        ByteArray(messageSize).apply {
-            serialize(serializer(CodedOutputStream.newInstance(this)))
-        }
+    actual override fun serialize(): ByteArray {
+        val buf = ByteArray(messageSize)
+        serialize(serializer(CodedOutputStream.newInstance(buf)))
+        return buf
+    }
 }
