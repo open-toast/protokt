@@ -48,8 +48,7 @@ jobs:
       - read_cache
       - jq/install
       - browser-tools/install-browser-tools
-      - node/install:
-          node-version: '16.13'
+      - node/install
 
       - run:
           name: Build and test
