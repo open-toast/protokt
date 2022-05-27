@@ -15,6 +15,8 @@
 
 package com.toasttab.protokt.rt
 
+import kotlin.js.JSON.stringify
+
 internal fun serializer(writer: Writer): KtMessageSerializer {
     return object : KtMessageSerializer {
         override fun write(i: Fixed32) {
@@ -54,6 +56,7 @@ internal fun serializer(writer: Writer): KtMessageSerializer {
         }
 
         override fun write(l: Int64) {
+            println("writing ${stringify(l.value.protobufjsLong)}")
             writer.int64(l.value.protobufjsLong)
         }
 

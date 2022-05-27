@@ -59,6 +59,7 @@ internal external class Writer {
 
 internal external class Reader {
     val len: Int
+
     val pos: Int
 
     fun bool(): Boolean
@@ -90,8 +91,6 @@ internal external class Reader {
     fun uint32(): Int
 
     fun uint64(): dynamic
-
-    fun skipType(wireType: Int): Reader
 
     companion object {
         fun create(buf: Uint8Array): Reader

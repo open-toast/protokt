@@ -23,6 +23,7 @@ dependencies {
 }
 
 kotlin {
+    // TODO: Support BOTH (longs break)
     js(LEGACY) {
         browser {
             testTask {
