@@ -1,6 +1,4 @@
 version: 2.1
-orbs:
-  node: circleci/node@5.0.2
 
 parameters:
   benchmarks:
@@ -44,7 +42,6 @@ jobs:
     steps:
       - checkout
       - read_cache
-      - node/install
 
       - run:
           name: Install Firefox
