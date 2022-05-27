@@ -15,9 +15,6 @@
 
 package com.toasttab.protokt.rt
 
-import org.khronos.webgl.Int8Array
-import org.khronos.webgl.Uint8Array
-
 internal fun deserializer(reader: Reader): KtMessageDeserializer {
     return object : KtMessageDeserializer {
         var lastTag = 0
