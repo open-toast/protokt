@@ -52,6 +52,11 @@ jobs:
             apk add chromium
 
       - run:
+          name: Install Firefox
+          command: |
+            apk add firefox
+
+      - run:
           name: Build and test
           command: ./gradlew clean check publishToIntegrationRepository --stacktrace --no-daemon
 
