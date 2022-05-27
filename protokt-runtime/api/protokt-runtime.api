@@ -121,10 +121,6 @@ public final class com/toasttab/protokt/rt/Int64 {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/toasttab/protokt/rt/JvmKtMessageSerializerKt {
-	public static final fun serializer (Lcom/google/protobuf/CodedOutputStream;)Lcom/toasttab/protokt/rt/KtMessageSerializer;
-}
-
 public final class com/toasttab/protokt/rt/JvmSizeCodecsKt {
 	public static final fun sizeof (D)I
 	public static final fun sizeof (F)I
@@ -239,6 +235,10 @@ public abstract interface class com/toasttab/protokt/rt/KtMessageSerializer {
 
 public final class com/toasttab/protokt/rt/KtMessageSerializer$DefaultImpls {
 	public static fun write (Lcom/toasttab/protokt/rt/KtMessageSerializer;Lcom/toasttab/protokt/rt/Bytes;)V
+	public static fun write (Lcom/toasttab/protokt/rt/KtMessageSerializer;Lcom/toasttab/protokt/rt/KtEnum;)V
+	public static fun write (Lcom/toasttab/protokt/rt/KtMessageSerializer;Lcom/toasttab/protokt/rt/KtMessage;)V
+	public static fun write (Lcom/toasttab/protokt/rt/KtMessageSerializer;Lcom/toasttab/protokt/rt/Tag;)Lcom/toasttab/protokt/rt/KtMessageSerializer;
+	public static fun writeUnknown (Lcom/toasttab/protokt/rt/KtMessageSerializer;Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 }
 
 public final class com/toasttab/protokt/rt/LengthDelimitedVal : com/toasttab/protokt/rt/UnknownValue {
