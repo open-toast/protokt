@@ -132,9 +132,3 @@ internal fun deserializer(reader: Reader): KtMessageDeserializer {
 
 private fun tagWireType(tag: Int) =
     tag and ((1 shl 3) - 1)
-
-private fun Long.Companion.fromProtobufJsLong(l: dynamic) =
-    js("Kotlin").Long.fromBits(l.low, l.high) as Long
-
-private fun Uint8Array.asByteArray() =
-    Int8Array(buffer, byteOffset, length).unsafeCast<ByteArray>()

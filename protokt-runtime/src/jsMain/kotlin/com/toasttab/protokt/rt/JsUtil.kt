@@ -18,6 +18,9 @@ package com.toasttab.protokt.rt
 import org.khronos.webgl.Int8Array
 import org.khronos.webgl.Uint8Array
 
+internal fun Uint8Array.asByteArray() =
+    Int8Array(buffer, byteOffset, length).unsafeCast<ByteArray>()
+
 internal fun ByteArray.asUint8Array() =
     Uint8Array(
         unsafeCast<Int8Array>().buffer,
@@ -39,3 +42,6 @@ internal val Long.protobufjsLong: dynamic
         ret.low = this.asDynamic().getLowBits()
         return ret
     }
+
+internal fun Long.Companion.fromProtobufJsLong(l: dynamic) =
+    js("Kotlin").Long.fromBits(l.low, l.high) as Long
