@@ -15,13 +15,11 @@
 
 package com.toasttab.protokt.benchmarks.generator
 
-import com.google.protobuf.CodedOutputStream
 import com.toasttab.protokt.benchmarks.GenericMessage1
 import com.toasttab.protokt.benchmarks.GenericMessage4
 import com.toasttab.protokt.benchmarks.benchmarkDataset
 import com.toasttab.protokt.rt.Bytes
 import com.toasttab.protokt.rt.KtMessage
-import com.toasttab.protokt.rt.serializer
 import java.io.File
 import java.lang.IllegalArgumentException
 import java.security.SecureRandom
@@ -112,11 +110,7 @@ class FixtureGenerator(private val weight: Int) {
 }
 
 fun KtMessage.writeToFile(file: String) {
-    File(file).outputStream().buffered().use {
-        CodedOutputStream.newInstance(it).apply {
-            serialize(serializer(this))
-        }
-    }
+    File(file).outputStream().buffered().use { serialize(it) }
 }
 
 fun main() {
