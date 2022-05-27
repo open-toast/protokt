@@ -41,17 +41,10 @@ commands:
 jobs:
   build:
     executor: builder
-    # environment:
-    #  CHROME_BIN: /usr/bin/chromium-browser
     steps:
       - checkout
       - read_cache
       - node/install
-
-      - run:
-          name: Install Chrome
-          command: |
-            apk add chromium
 
       - run:
           name: Install Firefox
