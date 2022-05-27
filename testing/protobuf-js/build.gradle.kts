@@ -23,8 +23,7 @@ dependencies {
 }
 
 kotlin {
-    // TODO: Support BOTH (longs break)
-    js(LEGACY) {
+    js(BOTH) {
         browser {
             testTask {
                 useKarma {

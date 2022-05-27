@@ -39,13 +39,13 @@ internal val Long.protobufjsLong: dynamic
     get() {
         val ret = js("{}")
         // Legacy compiler exposes Long bits via functions, while IR compiler exposes Long bits
-        // via `_high` and `_low` fields
-        if (this.asDynamic().getHighBits !== undefined) {
-            ret.high = this.asDynamic().getHighBits()
-            ret.low = this.asDynamic().getLowBits()
+        // via `high_1` and `low_1` fields
+        if (asDynamic().getHighBits !== undefined) {
+            ret.high = asDynamic().getHighBits()
+            ret.low = asDynamic().getLowBits()
         } else {
-            ret.high = this.asDynamic()._high
-            ret.low = this.asDynamic()._low
+            ret.high = asDynamic().high_1
+            ret.low = asDynamic().low_1
         }
         return ret
     }

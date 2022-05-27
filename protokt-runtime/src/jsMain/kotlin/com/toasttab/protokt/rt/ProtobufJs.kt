@@ -14,6 +14,7 @@
  */
 
 @file:JsModule("protobufjs/light")
+@file:JsNonModule
 
 package com.toasttab.protokt.rt
 

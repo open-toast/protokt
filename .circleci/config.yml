@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  node: circleci/node@5.0.2
 
 parameters:
   benchmarks:
@@ -42,6 +44,9 @@ jobs:
     steps:
       - checkout
       - read_cache
+      - node/install:
+          install-yarn: true
+          node-version: '16.13'
 
       - run:
           name: Build and test

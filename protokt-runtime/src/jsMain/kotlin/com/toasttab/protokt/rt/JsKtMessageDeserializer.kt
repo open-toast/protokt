@@ -38,12 +38,8 @@ internal fun deserializer(reader: Reader): KtMessageDeserializer {
         override fun readInt32() =
             reader.int32()
 
-        override fun readInt64(): Long {
-            val long = reader.int64()
-            val result = Long.fromProtobufJsLong(long)
-            println("reading $long (converted: $result)")
-            return result
-        }
+        override fun readInt64() =
+            Long.fromProtobufJsLong(reader.int64())
 
         override fun readSFixed32() =
             reader.sfixed32()
