@@ -21,7 +21,7 @@ internal fun deserializer(reader: Reader): KtMessageDeserializer {
         var endPosition = reader.len
 
         override fun readBool() =
-            reader.bool()
+            readInt64() != 0L
 
         override fun readDouble() =
             reader.double()

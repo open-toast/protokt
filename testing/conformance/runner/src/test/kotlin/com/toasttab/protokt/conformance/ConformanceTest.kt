@@ -18,27 +18,31 @@ package com.toasttab.protokt.conformance
 import com.toasttab.protokt.testing.util.ProcessOutput.Src.ERR
 import com.toasttab.protokt.testing.util.projectRoot
 import com.toasttab.protokt.testing.util.runCommand
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.MethodSource
 import java.io.File
 import java.nio.file.Path
 
 class ConformanceTest {
-    @Test
-    fun `run JVM conformance tests`() {
-        command(File(projectRoot.parentFile, "jvm"), jvmConformanceDriver)
-            .runCommand(
-                projectRoot.toPath(),
-                libPathOverride
-            )
-            .orFail("Conformance tests failed", ERR)
-
-        println("Conformance tests passed")
+    enum class ConformanceRunner(
+        val project: String,
+        val driver: Path
+    ) {
+        JVM("jvm", jvmConformanceDriver),
+        JS("js", jsConformanceDriver)
     }
 
-    @Test
-    fun `run JS conformance tests`() {
-        command(File(projectRoot.parentFile, "js"), jsConformanceDriver)
+    companion object {
+        @JvmStatic
+        fun runners() =
+            ConformanceRunner.values()
+    }
+
+    @ParameterizedTest
+    @MethodSource("runners")
+    fun `run conformance tests`(runner: ConformanceRunner) {
+        command(runner)
             .runCommand(
                 projectRoot.toPath(),
                 libPathOverride
@@ -70,11 +74,11 @@ private val jvmConformanceDriver =
 private val jsConformanceDriver =
     Path.of(File(projectRoot.parentFile, "js").absolutePath, "run.sh")
 
-private fun failureList(project: File) =
-    "--failure_list ${project.absolutePath}/failure_list_kt.txt"
+private fun failureList(project: String) =
+    "--failure_list ../$project/failure_list_kt.txt"
 
-private fun command(project: File, conformanceDriver: Any) =
-    "$baseCommand --enforce_recommended ${failureList(project)} $conformanceDriver"
+private fun command(runner: ConformanceTest.ConformanceRunner) =
+    "$baseCommand --enforce_recommended ${failureList(runner.project)} ${runner.driver}"
 
 private val libPathOverride =
     mapOf(
