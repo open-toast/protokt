@@ -13,6 +13,14 @@
  * limitations under the License.
  */
 
+external fun require(module: String): dynamic
+
+val process = require("process")
+val fs = require("fs")
+
 fun main() {
+    // process.stderr.write("foo!")
+    process.stderr.write("bar!")
+    // println("hello")
     com.toasttab.protokt.conformance.main()
 }

@@ -19,24 +19,50 @@ import com.toasttab.protokt.conformance.ConformanceResponse.Result.ParseError
 import com.toasttab.protokt.rt.Bytes
 import com.toasttab.protokt.rt.KtDeserializer
 import com.toasttab.protokt.rt.KtMessage
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import org.khronos.webgl.ArrayBufferView
 import org.khronos.webgl.Int8Array
 import org.khronos.webgl.Uint8Array
 
+external fun require(module: String): dynamic
+
 internal actual object Platform {
+    val process = require("process")
+    val fs = require("fs")
+
+    actual fun printErr(message: String) {
+        process.stderr.write(message + "\n")
+    }
+
     actual fun <T : KtMessage> readMessageFromStdIn(
         deserializer: KtDeserializer<T>
-    ): ConformanceStepResult<T>? =
-        Failure(ParseError("foo"))
+    ): ConformanceStepResult<T>? {
+        val size = stdinReadIntLE() ?: return null
+        printErr("Reading $size bytes")
+        return deserialize(Bytes(stdinReadNow(size)!!.asByteArray()), deserializer)
+    }
+
+    private fun stdinReadIntLE() =
+        stdinReadNow(4)?.readInt32LE(0)
+
+    private fun stdinReadNow(size: Int): Buffer? {
+        val buffer = Buffer.alloc(size)
+        var total = 0
+        while (total < size) {
+            val chunk = Process.stdin.read(size - total) ?: return null
+            buffer.set(chunk, total)
+            total += chunk.length
+        }
+        return buffer
+    }
 
     actual fun writeToStdOut(bytes: ByteArray) {
         val buf = bytes.asUint8Array()
-        var total = 0
-        while (total < buf.length) {
-            total += Fs.writeSync(Process.stdout.fd, buf, total, buf.length - total)
-        }
+        val bufDyn = buf.asDynamic()
+        process.stdout.write(bufDyn.slice(buf.byteOffset, buf.byteLength + buf.byteOffset))
+        // var total = 0
+        // while (total < buf.length) {
+        //  total += fs.writeSync(process.stdout.fd, buf, total, buf.length - total).unsafeCast<Int>()
+        // }
     }
 
     actual fun <T : KtMessage> deserialize(
@@ -101,3 +127,6 @@ private fun ByteArray.asUint8Array() =
         unsafeCast<Int8Array>().byteOffset,
         unsafeCast<Int8Array>().length
     )
+
+private fun Uint8Array.asByteArray() =
+    Int8Array(buffer, byteOffset, length).unsafeCast<ByteArray>()

@@ -20,6 +20,8 @@ import com.toasttab.protokt.rt.KtDeserializer
 import com.toasttab.protokt.rt.KtMessage
 
 internal expect object Platform {
+    fun printErr(message: String)
+
     fun <T : KtMessage> readMessageFromStdIn(
         deserializer: KtDeserializer<T>
     ): ConformanceStepResult<T>?

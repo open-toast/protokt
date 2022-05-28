@@ -25,6 +25,10 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
 internal actual object Platform {
+    actual fun printErr(message: String) {
+        System.err.println(message)
+    }
+
     actual fun <T : KtMessage> readMessageFromStdIn(
         deserializer: KtDeserializer<T>
     ): ConformanceStepResult<T>? =
