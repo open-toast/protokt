@@ -1,24 +1,7 @@
-#
 # protokt does not support
-#
 Recommended.Proto3.ProtobufInput.ValidDataOneofBinary.MESSAGE.Merge.ProtobufOutput
 Required.Proto3.ProtobufInput.RepeatedScalarMessageMerge.ProtobufOutput
 Required.Proto3.ProtobufInput.ValidDataOneof.MESSAGE.Merge.ProtobufOutput
-
-#
-# bug in protobufjs: https://github.com/dcodeIO/protobuf.js/issues/1067
-#
-Recommended.Proto3.ProtobufInput.ValidDataRepeated.UINT32.PackedInput.DefaultOutput.ProtobufOutput
-Recommended.Proto3.ProtobufInput.ValidDataRepeated.UINT32.PackedInput.PackedOutput.ProtobufOutput
-Recommended.Proto3.ProtobufInput.ValidDataRepeated.UINT32.PackedInput.UnpackedOutput.ProtobufOutput
-Recommended.Proto3.ProtobufInput.ValidDataRepeated.UINT32.UnpackedInput.DefaultOutput.ProtobufOutput
-Recommended.Proto3.ProtobufInput.ValidDataRepeated.UINT32.UnpackedInput.PackedOutput.ProtobufOutput
-Recommended.Proto3.ProtobufInput.ValidDataRepeated.UINT32.UnpackedInput.UnpackedOutput.ProtobufOutput
-Recommended.Proto3.ProtobufInput.ValidDataScalarBinary.UINT32[3].ProtobufOutput
-Required.Proto3.ProtobufInput.RepeatedScalarSelectsLast.UINT32.ProtobufOutput
-Required.Proto3.ProtobufInput.ValidDataRepeated.UINT32.PackedInput.ProtobufOutput
-Required.Proto3.ProtobufInput.ValidDataRepeated.UINT32.UnpackedInput.ProtobufOutput
-Required.Proto3.ProtobufInput.ValidDataScalar.UINT32[3].ProtobufOutput
 
 #
 # protokt is expected to support
@@ -27,7 +10,6 @@ Recommended.Proto3.ProtobufInput.ValidDataRepeated.SINT64.PackedInput.DefaultOut
 Recommended.Proto3.ProtobufInput.ValidDataRepeated.SINT64.PackedInput.PackedOutput.ProtobufOutput
 Recommended.Proto3.ProtobufInput.ValidDataRepeated.SINT64.UnpackedInput.DefaultOutput.ProtobufOutput
 Recommended.Proto3.ProtobufInput.ValidDataRepeated.SINT64.UnpackedInput.PackedOutput.ProtobufOutput
-Recommended.Proto3.ProtobufInput.ValidDataScalarBinary.UINT32[8].ProtobufOutput
 Required.Proto3.ProtobufInput.ValidDataMap.STRING.BYTES.Default.ProtobufOutput
 Required.Proto3.ProtobufInput.ValidDataMap.STRING.BYTES.DuplicateKey.ProtobufOutput
 Required.Proto3.ProtobufInput.ValidDataMap.STRING.BYTES.DuplicateKeyInMapEntry.ProtobufOutput
@@ -59,4 +41,3 @@ Required.Proto3.ProtobufInput.ValidDataMap.STRING.STRING.NonDefault.ProtobufOutp
 Required.Proto3.ProtobufInput.ValidDataMap.STRING.STRING.Unordered.ProtobufOutput
 Required.Proto3.ProtobufInput.ValidDataRepeated.SINT64.PackedInput.ProtobufOutput
 Required.Proto3.ProtobufInput.ValidDataRepeated.SINT64.UnpackedInput.ProtobufOutput
-Required.Proto3.ProtobufInput.ValidDataScalar.UINT32[8].ProtobufOutput

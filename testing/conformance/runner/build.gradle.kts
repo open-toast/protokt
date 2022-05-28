@@ -27,21 +27,8 @@ tasks.named<Test>("test") {
     dependsOn(":testing:conformance:jvm:installDist")
 }
 
-// if runner is compiled with LEGACY, this puts the JS executable where run.sh exepcts it
+// if runner is compiled with LEGACY, this puts the JS executable where run.sh expects it
 tasks.register<Copy>("unzipJs") {
     from(zipTree(file("../js/build/libs/js.jar")))
     into(file("../js/build/compileSync/main/productionExecutable/kotlin"))
-}
-
-// TODO: get rid of this, it's not needed, helpful for debugging
-tasks.register<Exec>("runjs") {
-    dependsOn(":testing:conformance:js:compileProductionExecutableKotlinJs")
-    environment("DYLD_LIBRARY_PATH", "bin/darwin/.libs")
-    executable(file("bin/darwin/conformance-test-runner"))
-    args(
-        "--enforce_recommended",
-        "--failure_list",
-        "/Users/andrewparmet/toast/git-repos/protokt/testing/conformance/js/failure_list_kt.txt",
-        "/Users/andrewparmet/toast/git-repos/protokt/testing/conformance/js/run.sh"
-    )
 }

@@ -61,7 +61,7 @@ internal fun deserializer(reader: Reader): KtMessageDeserializer {
             reader.string()
 
         override fun readUInt32() =
-            reader.uint32()
+            readInt32()
 
         override fun readUInt64() =
             Long.fromProtobufJsLong(reader.uint64())
