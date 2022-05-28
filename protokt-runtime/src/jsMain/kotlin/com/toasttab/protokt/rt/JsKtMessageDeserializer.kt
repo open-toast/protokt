@@ -21,7 +21,8 @@ internal fun deserializer(reader: Reader): KtMessageDeserializer {
         var endPosition = reader.len
 
         override fun readBool() =
-            reader.bool()
+            // protobuf allows int64 values for bool but reader.bool() reads an int32
+            readInt64() != 0L
 
         override fun readDouble() =
             reader.double()

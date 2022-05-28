@@ -34,12 +34,6 @@ Required.Proto3.ProtobufInput.ValidDataScalar.UINT32[3].ProtobufOutput
 #
 # protokt is expected to support
 #
-Recommended.Proto3.ProtobufInput.ValidDataRepeated.BOOL.PackedInput.DefaultOutput.ProtobufOutput
-Recommended.Proto3.ProtobufInput.ValidDataRepeated.BOOL.PackedInput.PackedOutput.ProtobufOutput
-Recommended.Proto3.ProtobufInput.ValidDataRepeated.BOOL.PackedInput.UnpackedOutput.ProtobufOutput
-Recommended.Proto3.ProtobufInput.ValidDataRepeated.BOOL.UnpackedInput.DefaultOutput.ProtobufOutput
-Recommended.Proto3.ProtobufInput.ValidDataRepeated.BOOL.UnpackedInput.PackedOutput.ProtobufOutput
-Recommended.Proto3.ProtobufInput.ValidDataRepeated.BOOL.UnpackedInput.UnpackedOutput.ProtobufOutput
 Recommended.Proto3.ProtobufInput.ValidDataRepeated.ENUM.PackedInput.DefaultOutput.ProtobufOutput
 Recommended.Proto3.ProtobufInput.ValidDataRepeated.ENUM.PackedInput.PackedOutput.ProtobufOutput
 Recommended.Proto3.ProtobufInput.ValidDataRepeated.ENUM.PackedInput.UnpackedOutput.ProtobufOutput
@@ -50,13 +44,9 @@ Recommended.Proto3.ProtobufInput.ValidDataRepeated.SINT64.PackedInput.DefaultOut
 Recommended.Proto3.ProtobufInput.ValidDataRepeated.SINT64.PackedInput.PackedOutput.ProtobufOutput
 Recommended.Proto3.ProtobufInput.ValidDataRepeated.SINT64.UnpackedInput.DefaultOutput.ProtobufOutput
 Recommended.Proto3.ProtobufInput.ValidDataRepeated.SINT64.UnpackedInput.PackedOutput.ProtobufOutput
-Recommended.Proto3.ProtobufInput.ValidDataScalarBinary.BOOL[4].ProtobufOutput
-Recommended.Proto3.ProtobufInput.ValidDataScalarBinary.BOOL[5].ProtobufOutput
-Recommended.Proto3.ProtobufInput.ValidDataScalarBinary.BOOL[6].ProtobufOutput
 Recommended.Proto3.ProtobufInput.ValidDataScalarBinary.ENUM[4].ProtobufOutput
 Recommended.Proto3.ProtobufInput.ValidDataScalarBinary.INT32[8].ProtobufOutput
 Recommended.Proto3.ProtobufInput.ValidDataScalarBinary.UINT32[8].ProtobufOutput
-Required.Proto3.ProtobufInput.RepeatedScalarSelectsLast.BOOL.ProtobufOutput
 Required.Proto3.ProtobufInput.RepeatedScalarSelectsLast.ENUM.ProtobufOutput
 Required.Proto3.ProtobufInput.ValidDataMap.STRING.BYTES.Default.ProtobufOutput
 Required.Proto3.ProtobufInput.ValidDataMap.STRING.BYTES.DuplicateKey.ProtobufOutput
@@ -87,15 +77,10 @@ Required.Proto3.ProtobufInput.ValidDataMap.STRING.STRING.DuplicateValueInMapEntr
 Required.Proto3.ProtobufInput.ValidDataMap.STRING.STRING.MissingDefault.ProtobufOutput
 Required.Proto3.ProtobufInput.ValidDataMap.STRING.STRING.NonDefault.ProtobufOutput
 Required.Proto3.ProtobufInput.ValidDataMap.STRING.STRING.Unordered.ProtobufOutput
-Required.Proto3.ProtobufInput.ValidDataRepeated.BOOL.PackedInput.ProtobufOutput
-Required.Proto3.ProtobufInput.ValidDataRepeated.BOOL.UnpackedInput.ProtobufOutput
 Required.Proto3.ProtobufInput.ValidDataRepeated.ENUM.PackedInput.ProtobufOutput
 Required.Proto3.ProtobufInput.ValidDataRepeated.ENUM.UnpackedInput.ProtobufOutput
 Required.Proto3.ProtobufInput.ValidDataRepeated.SINT64.PackedInput.ProtobufOutput
 Required.Proto3.ProtobufInput.ValidDataRepeated.SINT64.UnpackedInput.ProtobufOutput
-Required.Proto3.ProtobufInput.ValidDataScalar.BOOL[4].ProtobufOutput
-Required.Proto3.ProtobufInput.ValidDataScalar.BOOL[5].ProtobufOutput
-Required.Proto3.ProtobufInput.ValidDataScalar.BOOL[6].ProtobufOutput
 Required.Proto3.ProtobufInput.ValidDataScalar.ENUM[4].ProtobufOutput
 Required.Proto3.ProtobufInput.ValidDataScalar.INT32[8].ProtobufOutput
 Required.Proto3.ProtobufInput.ValidDataScalar.UINT32[8].ProtobufOutput
