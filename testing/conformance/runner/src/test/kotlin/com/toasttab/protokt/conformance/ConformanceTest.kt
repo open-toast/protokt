@@ -25,8 +25,20 @@ import java.nio.file.Path
 
 class ConformanceTest {
     @Test
-    fun `run conformance tests`() {
-        command(File(projectRoot.parentFile, "jvm"))
+    fun `run JVM conformance tests`() {
+        command(File(projectRoot.parentFile, "jvm"), jvmConformanceDriver)
+            .runCommand(
+                projectRoot.toPath(),
+                libPathOverride
+            )
+            .orFail("Conformance tests failed", ERR)
+
+        println("Conformance tests passed")
+    }
+
+    @Test
+    fun `run JS conformance tests`() {
+        command(File(projectRoot.parentFile, "js"), jsConformanceDriver)
             .runCommand(
                 projectRoot.toPath(),
                 libPathOverride
@@ -52,14 +64,17 @@ private val binDir =
 private val baseCommand =
     Path.of(binDir, "conformance-test-runner")
 
-private fun conformanceDriver(project: File) =
-    Path.of(project.absolutePath, "build", "install", "protokt-conformance", "bin", "protokt-conformance")
+private val jvmConformanceDriver =
+    Path.of(File(projectRoot.parentFile, "jvm").absolutePath, "build", "install", "protokt-conformance", "bin", "protokt-conformance")
+
+private val jsConformanceDriver =
+    Path.of(File(projectRoot.parentFile, "js").absolutePath, "run.sh")
 
 private fun failureList(project: File) =
     "--failure_list ${project.absolutePath}/failure_list_kt.txt"
 
-private fun command(project: File) =
-    "$baseCommand --enforce_recommended ${failureList(project)} ${conformanceDriver(project)}"
+private fun command(project: File, conformanceDriver: Any) =
+    "$baseCommand --enforce_recommended ${failureList(project)} $conformanceDriver"
 
 private val libPathOverride =
     mapOf(

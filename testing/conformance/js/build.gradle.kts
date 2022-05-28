@@ -14,17 +14,16 @@
  */
 
 plugins {
-    id("protokt.multiplatform-conventions")
+    id("org.jetbrains.kotlin.js")
 }
 
-localProtokt()
-
 kotlin {
-    sourceSets {
-        val jsMain by getting {
-            dependencies {
-                implementation(libraries.kotlinxCoroutinesCore)
-            }
-        }
+    js(IR) {
+        binaries.executable()
+        nodejs {}
     }
+}
+
+dependencies {
+    implementation(project(":testing:conformance:driver"))
 }

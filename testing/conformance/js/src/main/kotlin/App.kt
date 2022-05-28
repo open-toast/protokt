@@ -13,18 +13,6 @@
  * limitations under the License.
  */
 
-plugins {
-    id("protokt.multiplatform-conventions")
-}
-
-localProtokt()
-
-kotlin {
-    sourceSets {
-        val jsMain by getting {
-            dependencies {
-                implementation(libraries.kotlinxCoroutinesCore)
-            }
-        }
-    }
+fun main() {
+    com.toasttab.protokt.conformance.main()
 }
