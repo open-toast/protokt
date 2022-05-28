@@ -124,7 +124,6 @@ public final class com/toasttab/protokt/rt/Int64 {
 public final class com/toasttab/protokt/rt/JvmSizeCodecsKt {
 	public static final fun sizeof (D)I
 	public static final fun sizeof (F)I
-	public static final fun sizeof (Lcom/toasttab/protokt/rt/Bytes;)I
 	public static final fun sizeof (Lcom/toasttab/protokt/rt/Fixed32;)I
 	public static final fun sizeof (Lcom/toasttab/protokt/rt/Fixed64;)I
 	public static final fun sizeof (Lcom/toasttab/protokt/rt/Int32;)I
@@ -305,6 +304,7 @@ public final class com/toasttab/protokt/rt/SInt64 {
 }
 
 public final class com/toasttab/protokt/rt/SizeCodecsKt {
+	public static final fun sizeof (Lcom/toasttab/protokt/rt/Bytes;)I
 	public static final fun sizeof (Lcom/toasttab/protokt/rt/BytesSlice;)I
 	public static final fun sizeof (Lcom/toasttab/protokt/rt/KtEnum;)I
 	public static final fun sizeof (Lcom/toasttab/protokt/rt/KtMessage;)I
