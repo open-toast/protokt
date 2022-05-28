@@ -26,6 +26,7 @@ tasks.named("test") {
     dependsOn(":testing:conformance:jvm:installDist")
 }
 
+// if runner is compiled with LEGACY, this puts the JS executable where run.sh exepcts it
 tasks.register<Copy>("unzipJs") {
     from(zipTree(file("../js/build/libs/js.jar")))
     into(file("../js/build/compileSync/main/productionExecutable/kotlin"))
