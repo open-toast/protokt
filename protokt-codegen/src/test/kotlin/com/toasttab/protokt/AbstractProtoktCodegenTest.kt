@@ -67,7 +67,7 @@ abstract class AbstractProtoktCodegenTest {
             "$testFile"
         ).joinToString(" ")
             .runCommand(
-                projectRoot.toPath()
+                projectRoot.parentFile.toPath()
             ).orFail("Failed to generate code generator request", ERR)
 
         val out = ByteArrayOutputStream()
@@ -97,13 +97,13 @@ private val extensionsProto =
     Path.of("extensions", "protokt-extensions-lite", "src", "main", "proto")
 
 private val includeProtos =
-    File(projectRoot, "protokt-codegen/build/extracted-include-protos/main")
+    File(projectRoot, "build/extracted-include-protos/main")
 
 private val generatedFile =
     File(
         projectRoot,
         Path.of(
-            "protokt-codegen", "src", "test", "resources",
+            "src", "test", "resources",
             "com", "toasttab", "protokt", "test-proto-bin-request.bin"
         ).toString()
     )

@@ -8,5 +8,5 @@ out
 .idea
 *.iml
 
-testing/conformance/jvm/failing_tests.txt
+testing/conformance/runner/failing_tests.txt
 protokt-codegen/src/test/resources/com/toasttab/protokt/test-proto-bin-request.bin

@@ -26,9 +26,9 @@ import java.nio.file.Path
 class ConformanceTest {
     @Test
     fun `run conformance tests`() {
-        command
+        command(File(projectRoot.parentFile, "jvm"))
             .runCommand(
-                File(projectRoot, "jvm").toPath(),
+                projectRoot.toPath(),
                 libPathOverride
             )
             .orFail("Conformance tests failed", ERR)
@@ -52,16 +52,14 @@ private val binDir =
 private val baseCommand =
     Path.of(binDir, "conformance-test-runner")
 
-private val conformanceDriver =
-    Path.of(
-        "build", "install", "protokt-conformance", "bin", "protokt-conformance"
-    )
+private fun conformanceDriver(project: File) =
+    Path.of(project.absolutePath, "build", "install", "protokt-conformance", "bin", "protokt-conformance")
 
-private val failureList =
-    "--failure_list failure_list_kt.txt"
+private fun failureList(project: File) =
+    "--failure_list ${project.absolutePath}/failure_list_kt.txt"
 
-private val command =
-    "$baseCommand --enforce_recommended $failureList $conformanceDriver"
+private fun command(project: File) =
+    "$baseCommand --enforce_recommended ${failureList(project)} ${conformanceDriver(project)}"
 
 private val libPathOverride =
     mapOf(
