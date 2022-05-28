@@ -50,8 +50,11 @@ include(
 
     "testing:android",
     "testing:android-test-configurations",
-    "testing:conformance-driver",
-    "testing:conformance-tests",
+    "testing:conformance",
+    "testing:conformance:driver",
+    "testing:conformance:js",
+    "testing:conformance:jvm",
+    "testing:conformance:runner",
     "testing:options",
     "testing:options-api",
     "testing:options-test-configurations",
