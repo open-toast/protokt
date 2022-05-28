@@ -21,7 +21,8 @@ dependencies {
     testImplementation(project(":testing:testing-util"))
 }
 
-tasks.named("test") {
+tasks.named<Test>("test") {
+    outputs.upToDateWhen { false }
     dependsOn(":testing:conformance:js:compileProductionExecutableKotlinJs")
     dependsOn(":testing:conformance:jvm:installDist")
 }

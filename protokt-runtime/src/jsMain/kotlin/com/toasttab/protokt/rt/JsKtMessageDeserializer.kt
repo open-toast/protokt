@@ -37,7 +37,10 @@ internal fun deserializer(reader: Reader): KtMessageDeserializer {
             reader.float()
 
         override fun readInt32() =
-            reader.int32()
+            // apparently protobuf allows varint64 values where varint32 values
+            // are expected. if larger than 32 bits, discard the upper bits.
+            // See CodedInputStream#readRawVarint32.
+            readInt64().toInt()
 
         override fun readInt64() =
             Long.fromProtobufJsLong(reader.int64())
