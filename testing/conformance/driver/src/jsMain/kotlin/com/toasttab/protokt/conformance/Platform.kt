@@ -16,35 +16,57 @@
 package com.toasttab.protokt.conformance
 
 import com.toasttab.protokt.conformance.ConformanceResponse.Result.ParseError
+import com.toasttab.protokt.conformance.ConformanceResponse.Result.SerializeError
 import com.toasttab.protokt.rt.Bytes
 import com.toasttab.protokt.rt.KtDeserializer
 import com.toasttab.protokt.rt.KtMessage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.khronos.webgl.ArrayBufferView
 import org.khronos.webgl.Int8Array
 import org.khronos.webgl.Uint8Array
-
-external fun require(module: String): dynamic
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 internal actual object Platform {
-    val process = require("process")
-    val fs = require("fs")
-
     actual fun printErr(message: String) {
-        process.stderr.write(message + "\n")
+        Process.stderr.write(message + "\n")
     }
 
-    actual fun <T : KtMessage> readMessageFromStdIn(
+    actual fun runBlockingMain(block: suspend CoroutineScope.() -> Unit) {
+        GlobalScope.launch(block = block)
+    }
+
+    actual suspend fun <T : KtMessage> readMessageFromStdIn(
         deserializer: KtDeserializer<T>
     ): ConformanceStepResult<T>? {
-        val size = stdinReadIntLE() ?: return null
-        printErr("Reading $size bytes")
-        return deserialize(Bytes(stdinReadNow(size)!!.asByteArray()), deserializer)
+        val size = readSize() ?: return null
+        return deserialize(Bytes(readBytes(size)), deserializer)
     }
 
-    private fun stdinReadIntLE() =
-        stdinReadNow(4)?.readInt32LE(0)
+    private suspend fun readBytes(size: Int) =
+        readBuffer(size)?.asByteArray() ?: error("Failed to read $size bytes from stdin")
 
-    private fun stdinReadNow(size: Int): Buffer? {
+    private suspend fun readSize() =
+        readBuffer(4)?.readInt32LE(0)
+
+    private suspend fun readBuffer(size: Int): Buffer? =
+        suspendCoroutine { continuation ->
+            val buffer = Buffer.alloc(size)
+            readSync(size)?.also {
+                buffer.set(it, 0)
+                if (it.length == size) {
+                    continuation.resume(buffer)
+                    return@suspendCoroutine
+                }
+            }
+            Process.stdin.once("readable") {
+                continuation.resume(readSync(size))
+            }
+        }
+
+    private fun readSync(size: Int): Buffer? {
         val buffer = Buffer.alloc(size)
         var total = 0
         while (total < size) {
@@ -56,23 +78,37 @@ internal actual object Platform {
     }
 
     actual fun writeToStdOut(bytes: ByteArray) {
-        val buf = bytes.asUint8Array()
-        val bufDyn = buf.asDynamic()
-        process.stdout.write(bufDyn.slice(buf.byteOffset, buf.byteLength + buf.byteOffset))
-        // var total = 0
-        // while (total < buf.length) {
-        //  total += fs.writeSync(process.stdout.fd, buf, total, buf.length - total).unsafeCast<Int>()
-        // }
+        writeToStdOut(Buffer.alloc(4).also { it.writeInt32LE(bytes.size, 0) })
+        writeToStdOut(bytes.asUint8Array())
+    }
+
+    private fun writeToStdOut(buf: Uint8Array) {
+        var total = 0
+        while (total < buf.length) {
+            total += Fs.writeSync(Process.stdout.fd, buf, total, buf.length - total)
+        }
     }
 
     actual fun <T : KtMessage> deserialize(
         bytes: Bytes,
         deserializer: KtDeserializer<T>
     ): ConformanceStepResult<T> =
-        Failure(ParseError("foo"))
+        try {
+            Proceed(deserializer.deserialize(bytes))
+        } catch (t: Throwable) {
+            Failure(ParseError(t.stackTraceToString()))
+        } catch (d: dynamic) {
+            Failure(ParseError(d.toString()))
+        }
 
     actual fun serialize(message: KtMessage): ConformanceStepResult<ByteArray> =
-        Failure(ParseError("foo"))
+        try {
+            Proceed(message.serialize())
+        } catch (t: Throwable) {
+            Failure(SerializeError(t.stackTraceToString()))
+        } catch (d: dynamic) {
+            Failure(SerializeError(d.toString()))
+        }
 }
 
 @JsModule("process")
@@ -118,6 +154,15 @@ external class Fs {
             length: Int,
             position: Int? = definedExternally
         ): Int
+
+        fun write(
+            fd: Int,
+            buffer: ArrayBufferView,
+            offset: Int,
+            length: Int,
+            position: Int? = definedExternally,
+            callback: (err: dynamic, bytesWritten: Int, buffer: Uint8Array) -> Unit
+        )
     }
 }
 

@@ -25,16 +25,3 @@ tasks.named("test") {
     dependsOn(":testing:conformance:js:build")
     dependsOn(":testing:conformance:jvm:installDist")
 }
-
-// TODO: get rid of this, it's not needed, helpful for debugging
-tasks.register<Exec>("runjs") {
-    dependsOn(":testing:conformance:js:build")
-    environment("DYLD_LIBRARY_PATH", "bin/darwin/.libs")
-    executable(file("bin/darwin/conformance-test-runner"))
-    args(
-        "--enforce_recommended",
-        "--failure_list",
-        "/Users/andrewparmet/toast/git-repos/protokt/testing/conformance/js/failure_list_kt.txt",
-        "/Users/andrewparmet/toast/git-repos/protokt/testing/conformance/js/run.sh"
-    )
-}

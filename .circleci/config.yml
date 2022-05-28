@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  node: circleci/node@5.0.2
+
 parameters:
   benchmarks:
     type: boolean
@@ -42,6 +45,12 @@ jobs:
     steps:
       - checkout
       - read_cache
+      - node/install
+
+      - run:
+          name: Install protobufjs
+          command: |
+            npm install protobufjs@6.11.3
 
       - run:
           name: Install Firefox

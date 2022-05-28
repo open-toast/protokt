@@ -21,6 +21,8 @@ import com.toasttab.protokt.conformance.ConformanceResponse.Result.SerializeErro
 import com.toasttab.protokt.rt.Bytes
 import com.toasttab.protokt.rt.KtDeserializer
 import com.toasttab.protokt.rt.KtMessage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.runBlocking
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
@@ -29,7 +31,11 @@ internal actual object Platform {
         System.err.println(message)
     }
 
-    actual fun <T : KtMessage> readMessageFromStdIn(
+    actual fun runBlockingMain(block: suspend CoroutineScope.() -> Unit) {
+        runBlocking(block = block)
+    }
+
+    actual suspend fun <T : KtMessage> readMessageFromStdIn(
         deserializer: KtDeserializer<T>
     ): ConformanceStepResult<T>? =
         try {
@@ -43,8 +49,8 @@ internal actual object Platform {
             } else {
                 null
             }
-        } catch (ex: Exception) {
-            Failure(RuntimeError(ex.stackTraceToString()))
+        } catch (t: Throwable) {
+            Failure(RuntimeError(t.stackTraceToString()))
         }
 
     actual fun writeToStdOut(bytes: ByteArray) {
@@ -59,15 +65,15 @@ internal actual object Platform {
     ): ConformanceStepResult<T> =
         try {
             Proceed(deserializer.deserialize(bytes))
-        } catch (ex: Exception) {
-            Failure(ParseError(ex.stackTraceToString()))
+        } catch (t: Throwable) {
+            Failure(ParseError(t.stackTraceToString()))
         }
 
     actual fun serialize(message: KtMessage): ConformanceStepResult<ByteArray> =
         try {
             Proceed(message.serialize())
-        } catch (ex: Exception) {
-            Failure(SerializeError(ex.stackTraceToString()))
+        } catch (t: Throwable) {
+            Failure(SerializeError(t.stackTraceToString()))
         }
 }
 

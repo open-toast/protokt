@@ -20,13 +20,11 @@ import com.toasttab.protokt.conformance.ConformanceResponse.Result
 import com.toasttab.protokt.rt.Bytes
 import com.toasttab.protokt_test_messages.proto3.TestAllTypesProto3
 
-fun main() {
-    var counter = 0
+fun main() = Platform.runBlockingMain {
     while (true) {
-        Platform.printErr("in loop: ${counter++}")
         val result =
             when (val request = nextRequest()) {
-                null -> return
+                null -> break
                 is Failure -> request.failure
                 is Proceed -> {
                     if (isSupported(request.value)) {
@@ -45,14 +43,12 @@ fun main() {
                 }
             }
 
-        Platform.printErr("result: $result")
         Platform.writeToStdOut(conformanceResponse { this.result = result }.serialize())
     }
 }
 
-private fun nextRequest() =
+private suspend fun nextRequest() =
     Platform.readMessageFromStdIn(ConformanceRequest)
-        .also { Platform.printErr("next request: $it") }
 
 private fun payload(request: Proceed<ConformanceRequest>) =
     Platform.deserialize(
