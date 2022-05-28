@@ -28,6 +28,7 @@ tasks.named("test") {
 
 // TODO: get rid of this, it's not needed, helpful for debugging
 tasks.register<Exec>("runjs") {
+    dependsOn(":testing:conformance:js:build")
     environment("DYLD_LIBRARY_PATH", "bin/darwin/.libs")
     executable(file("bin/darwin/conformance-test-runner"))
     args(
