@@ -17,7 +17,7 @@ package com.toasttab.protokt.rt
 
 fun sizeof(enum: KtEnum) = sizeof(Int32(enum.value))
 fun sizeof(msg: KtMessage) = sizeof(UInt32(msg.messageSize)) + msg.messageSize
-expect fun sizeof(b: Bytes): Int
+fun sizeof(b: Bytes) = sizeof(b.value)
 fun sizeof(b: BytesSlice) = sizeof(UInt32(b.length)) + b.length
 expect fun sizeof(b: ByteArray): Int
 expect fun sizeof(s: String): Int

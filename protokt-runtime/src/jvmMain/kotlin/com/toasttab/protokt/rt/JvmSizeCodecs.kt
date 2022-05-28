@@ -17,7 +17,6 @@ package com.toasttab.protokt.rt
 
 import com.google.protobuf.CodedOutputStream
 
-actual fun sizeof(b: Bytes) = CodedOutputStream.computeByteArraySizeNoTag(b.value)
 actual fun sizeof(b: ByteArray) = CodedOutputStream.computeByteArraySizeNoTag(b)
 actual fun sizeof(s: String) = CodedOutputStream.computeStringSizeNoTag(s)
 actual fun sizeof(b: Boolean) = CodedOutputStream.computeBoolSizeNoTag(b)
