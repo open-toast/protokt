@@ -113,12 +113,10 @@ internal actual object Platform {
 
 @JsModule("process")
 @JsNonModule
-internal external class Process {
-    companion object {
-        val stdin: StdStream
-        val stdout: StdStream
-        val stderr: StdStream
-    }
+internal external object Process {
+    val stdin: StdStream
+    val stdout: StdStream
+    val stderr: StdStream
 }
 
 internal external interface StdStream {
@@ -131,7 +129,6 @@ internal external interface StdStream {
 
     // Writeable streams only
     fun write(chunk: String, encoding: String = definedExternally): Boolean
-    fun write(chunk: Uint8Array): Boolean
 }
 
 external class Buffer : Uint8Array {
@@ -145,25 +142,14 @@ external class Buffer : Uint8Array {
 
 @JsModule("fs")
 @JsNonModule
-external class Fs {
-    companion object {
-        fun writeSync(
-            fd: Int,
-            buffer: ArrayBufferView,
-            offset: Int,
-            length: Int,
-            position: Int? = definedExternally
-        ): Int
-
-        fun write(
-            fd: Int,
-            buffer: ArrayBufferView,
-            offset: Int,
-            length: Int,
-            position: Int? = definedExternally,
-            callback: (err: dynamic, bytesWritten: Int, buffer: Uint8Array) -> Unit
-        )
-    }
+external object Fs {
+    fun writeSync(
+        fd: Int,
+        buffer: ArrayBufferView,
+        offset: Int,
+        length: Int,
+        position: Int? = definedExternally
+    ): Int
 }
 
 private fun ByteArray.asUint8Array() =
