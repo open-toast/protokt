@@ -24,9 +24,6 @@ internal fun deserializer(
     bytes: ByteArray? = null
 ): KtMessageDeserializer {
     return object : KtMessageDeserializer {
-        override fun readBool() =
-            stream.readBool()
-
         override fun readDouble() =
             stream.readDouble()
 
@@ -38,9 +35,6 @@ internal fun deserializer(
 
         override fun readFloat() =
             stream.readFloat()
-
-        override fun readInt32() =
-            stream.readInt32()
 
         override fun readInt64() =
             stream.readInt64()
@@ -59,9 +53,6 @@ internal fun deserializer(
 
         override fun readString() =
             stream.readString()
-
-        override fun readUInt32() =
-            stream.readUInt32()
 
         override fun readUInt64() =
             stream.readUInt64()
@@ -123,9 +114,6 @@ internal fun deserializer(
                 }
             }
         }
-
-        override fun <T : KtEnum> readEnum(e: KtEnumDeserializer<T>) =
-            e.from(stream.readEnum())
 
         override fun <T : KtMessage> readMessage(m: KtDeserializer<T>): T {
             val limit = stream.pushLimit(stream.readRawVarint32())
