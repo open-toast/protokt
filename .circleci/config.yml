@@ -19,6 +19,7 @@ executors:
       - image: alvrme/alpine-android:android-31-jdk<<parameters.jdk>>
     environment:
       GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+    resource_class: medium+
 
 commands:
   read_cache:
