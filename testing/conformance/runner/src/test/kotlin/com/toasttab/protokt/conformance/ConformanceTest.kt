@@ -26,11 +26,26 @@ import java.nio.file.Path
 
 class ConformanceTest {
     enum class ConformanceRunner(
-        val project: String,
-        val driver: Path
+        val project: String
     ) {
-        JVM("jvm", jvmConformanceDriver),
-        JS("js", jsConformanceDriver)
+        JVM("jvm") {
+            override fun driver() =
+                jvmConformanceDriver
+        },
+
+        JS_IR("js-ir") {
+            override fun driver() =
+                jsConformanceDriver(project)
+        };
+
+        // js-legacy isn't bundling its dependencies correctly when built
+        //
+        // JS_LEGACY("js-legacy") {
+        //     override fun driver() =
+        //        jsConformanceDriver(project)
+        // };
+
+        abstract fun driver(): Path
     }
 
     companion object {
@@ -42,6 +57,12 @@ class ConformanceTest {
     @ParameterizedTest
     @MethodSource("runners")
     fun `run conformance tests`(runner: ConformanceRunner) {
+        println(command(runner))
+
+        if (runner.name != "foo") {
+            throw Exception()
+        }
+
         command(runner)
             .runCommand(
                 projectRoot.toPath(),
@@ -71,14 +92,14 @@ private val baseCommand =
 private val jvmConformanceDriver =
     Path.of(File(projectRoot.parentFile, "jvm").absolutePath, "build", "install", "protokt-conformance", "bin", "protokt-conformance")
 
-private val jsConformanceDriver =
-    Path.of(File(projectRoot.parentFile, "js").absolutePath, "run.sh")
+private fun jsConformanceDriver(project: String) =
+    Path.of(File(projectRoot.parentFile, project).absolutePath, "run.sh")
 
 private fun failureList(project: String) =
     "--failure_list ../$project/failure_list_kt.txt"
 
 private fun command(runner: ConformanceTest.ConformanceRunner) =
-    "$baseCommand --enforce_recommended ${failureList(runner.project)} ${runner.driver}"
+    "$baseCommand --enforce_recommended ${failureList(runner.project)} ${runner.driver()}"
 
 private val libPathOverride =
     mapOf(

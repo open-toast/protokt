@@ -14,22 +14,24 @@
  */
 
 plugins {
-    id("protokt.jvm-conventions")
+    id("org.jetbrains.kotlin.js")
+}
+
+kotlin {
+    js(LEGACY) {
+        nodejs {}
+    }
 }
 
 dependencies {
-    testImplementation(project(":testing:testing-util"))
+    implementation(project(":testing:conformance:driver"))
 }
 
-tasks.named<Test>("test") {
-    outputs.upToDateWhen { false }
-    dependsOn(":testing:conformance:js-ir:compileProductionExecutableKotlinJs")
-    dependsOn(":testing:conformance:js-legacy:jsJar")
-    dependsOn(":testing:conformance:jvm:installDist")
+tasks.named("jsJar") {
+    finalizedBy("unzipJs")
 }
 
-// if runner is compiled with LEGACY, this puts the JS executable where run.sh expects it
 tasks.register<Copy>("unzipJs") {
-    from(zipTree(file("../js/build/libs/js.jar")))
-    into(file("../js/build/compileSync/main/productionExecutable/kotlin"))
+    from(zipTree(file("$buildDir/libs/js-legacy.jar")))
+    into(file("$buildDir/compileSync/main/productionExecutable/kotlin"))
 }

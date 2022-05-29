@@ -43,7 +43,11 @@ fun main() = Platform.runBlockingMain {
                 }
             }
 
-        Platform.writeToStdOut(conformanceResponse { this.result = result }.serialize())
+        Platform.writeToStdOut(
+            ConformanceResponse.ConformanceResponseDsl().apply {
+                this.result = result
+            }.build().serialize()
+        )
     }
 }
 

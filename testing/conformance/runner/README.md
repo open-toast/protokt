@@ -1,4 +1,15 @@
-Steps taken to build conformance tests (assumed running on a Mac):
+# Conformance Tests
+
+In order to run the Kotlin/JS conformance tests, you must have Node, ProtobufJS, and Long.js installed:
+
+```bash
+protokt % npm install protobufjs@6.11.3
+protokt % npm install long@5.2.0
+```
+
+## Building the Conformance Runner
+
+(assumed running on a Mac)
 
 ```sh
 git clone git@github.com:protocolbuffers/protobuf
