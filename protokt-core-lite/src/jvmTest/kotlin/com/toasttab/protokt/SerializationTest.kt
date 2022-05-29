@@ -22,7 +22,7 @@ class SerializationTest {
     @Test
     fun `serialize and deserialize`() {
         assertThat(
-            Duration.deserialize(Duration.DurationDsl().apply { seconds = 4 }.build().serialize()).seconds
+            Duration.deserialize(duration { seconds = 4 }.serialize()).seconds
         ).isEqualTo(4)
     }
 }
