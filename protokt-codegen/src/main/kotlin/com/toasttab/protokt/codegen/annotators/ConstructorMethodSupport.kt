@@ -21,23 +21,18 @@ import com.squareup.kotlinpoet.asTypeName
 import com.toasttab.protokt.codegen.protoc.Message
 
 fun addConstructorFunction(msg: Message, addFunction: (FunSpec) -> Unit) {
-    msg.nestedTypes
-        .filterIsInstance<Message>()
-        .filterNot { it.mapEntry }
-        .forEach { message ->
-            addFunction(
-                FunSpec.builder(message.name.replaceFirstChar { it.lowercase() })
-                    .returns(message.typeName)
-                    .addParameter(
-                        "dsl",
-                        LambdaTypeName.get(
-                            message.dslTypeName,
-                            emptyList(),
-                            Unit::class.asTypeName()
-                        )
-                    )
-                    .addStatement("return %T().apply(dsl).build()", message.dslTypeName)
-                    .build()
+    addFunction(
+        FunSpec.builder(msg.name.replaceFirstChar { it.lowercase() })
+            .returns(msg.typeName)
+            .addParameter(
+                "dsl",
+                LambdaTypeName.get(
+                    msg.dslTypeName,
+                    emptyList(),
+                    Unit::class.asTypeName()
+                )
             )
-        }
+            .addStatement("return %T().apply(dsl).build()", msg.dslTypeName)
+            .build()
+    )
 }

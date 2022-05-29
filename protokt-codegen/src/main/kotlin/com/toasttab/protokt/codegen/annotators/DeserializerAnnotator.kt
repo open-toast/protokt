@@ -88,7 +88,12 @@ private constructor(
                     endControlFlow()
                 }
             )
-            .apply { addConstructorFunction(msg, ::addFunction) }
+            .apply {
+                msg.nestedTypes
+                    .filterIsInstance<Message>()
+                    .filterNot { it.mapEntry }
+                    .forEach { addConstructorFunction(it, ::addFunction) }
+            }
             .build()
     }
 
