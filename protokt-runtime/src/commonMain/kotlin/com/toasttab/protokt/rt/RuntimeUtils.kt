@@ -19,28 +19,28 @@ fun <K, V> finishMap(map: Map<K, V>?): Map<K, V> =
     if (map.isNullOrEmpty()) {
         emptyMap()
     } else {
-        UnmodifiableMap(map)
+        unmodifiableMap(map)
     }
 
 fun <K, V> copyMap(map: Map<K, V>): Map<K, V> =
     if (map.isEmpty()) {
         emptyMap()
     } else {
-        UnmodifiableMap(LinkedHashMap(map))
+        unmodifiableMap(LinkedHashMap(map))
     }
 
 fun <T> finishList(list: List<T>?): List<T> =
     if (list.isNullOrEmpty()) {
         emptyList()
     } else {
-        UnmodifiableList(list)
+        unmodifiableList(list)
     }
 
 fun <T> copyList(list: List<T>): List<T> =
     if (list.isEmpty()) {
         emptyList()
     } else {
-        UnmodifiableList(ArrayList(list))
+        unmodifiableList(ArrayList(list))
     }
 
 internal inline fun <reified T> T.equalsUsingSequence(
@@ -55,63 +55,6 @@ internal inline fun <reified T> T.equalsUsingSequence(
 internal fun hashCodeUsingSequence(asSequence: Sequence<*>) =
     asSequence.fold(1) { hash, elt -> 31 * hash + elt.hashCode() }
 
-private class UnmodifiableList<T>(
-    private val delegate: List<T>
-) : List<T> by delegate {
-    override fun equals(other: Any?) =
-        other == delegate
+expect fun <T> unmodifiableList(list: List<T>): List<T>
 
-    override fun hashCode() =
-        delegate.hashCode()
-
-    override fun toString() =
-        delegate.toString()
-}
-
-private class UnmodifiableMap<K, V>(
-    private val delegate: Map<K, V>
-) : Map<K, V> by delegate {
-    override val entries
-        get() = UnmodifiableSet(delegate.entries)
-
-    override val keys
-        get() = UnmodifiableSet(delegate.keys)
-
-    override val values
-        get() = UnmodifiableCollection(delegate.values)
-
-    override fun equals(other: Any?) =
-        other == delegate
-
-    override fun hashCode() =
-        delegate.hashCode()
-
-    override fun toString() =
-        delegate.toString()
-}
-
-private class UnmodifiableSet<T>(
-    private val delegate: Set<T>
-) : Set<T> by delegate {
-    override fun equals(other: Any?) =
-        other == delegate
-
-    override fun hashCode() =
-        delegate.hashCode()
-
-    override fun toString() =
-        delegate.toString()
-}
-
-private class UnmodifiableCollection<T>(
-    private val delegate: Collection<T>
-) : Collection<T> by delegate {
-    override fun equals(other: Any?) =
-        other == delegate
-
-    override fun hashCode() =
-        delegate.hashCode()
-
-    override fun toString() =
-        delegate.toString()
-}
+expect fun <K, V> unmodifiableMap(map: Map<K, V>): Map<K, V>
