@@ -133,6 +133,11 @@ public final class com/toasttab/protokt/rt/Int64 {
 	public final synthetic fun unbox-impl ()J
 }
 
+public final class com/toasttab/protokt/rt/JvmRuntimeUtilsKt {
+	public static final fun unmodifiableList (Ljava/util/List;)Ljava/util/List;
+	public static final fun unmodifiableMap (Ljava/util/Map;)Ljava/util/Map;
+}
+
 public final class com/toasttab/protokt/rt/JvmSizeCodecsKt {
 	public static final fun sizeof (Ljava/lang/String;)I
 }
@@ -203,6 +208,13 @@ public abstract interface class com/toasttab/protokt/rt/KtMessageDeserializer {
 	public abstract fun readUInt32 ()I
 	public abstract fun readUInt64 ()J
 	public abstract fun readUnknown ()Lcom/toasttab/protokt/rt/UnknownField;
+}
+
+public final class com/toasttab/protokt/rt/KtMessageDeserializer$DefaultImpls {
+	public static fun readBool (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Z
+	public static fun readEnum (Lcom/toasttab/protokt/rt/KtMessageDeserializer;Lcom/toasttab/protokt/rt/KtEnumDeserializer;)Lcom/toasttab/protokt/rt/KtEnum;
+	public static fun readInt32 (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)I
+	public static fun readUInt32 (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)I
 }
 
 public abstract interface class com/toasttab/protokt/rt/KtMessageSerializer {

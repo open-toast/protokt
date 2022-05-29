@@ -20,10 +20,6 @@ internal fun deserializer(reader: Reader): KtMessageDeserializer {
         var lastTag = 0
         var endPosition = reader.len
 
-        override fun readBool() =
-            // protobuf allows int64 values for bool but reader.bool() reads an int32
-            readInt64() != 0L
-
         override fun readDouble() =
             reader.double()
 
@@ -35,12 +31,6 @@ internal fun deserializer(reader: Reader): KtMessageDeserializer {
 
         override fun readFloat() =
             reader.float()
-
-        override fun readInt32() =
-            // apparently protobuf allows varint64 values where varint32 values
-            // are expected. if larger than 32 bits, discard the upper bits.
-            // See CodedInputStream#readRawVarint32.
-            readInt64().toInt()
 
         override fun readInt64() =
             Long.fromProtobufJsLong(reader.int64())
@@ -60,9 +50,6 @@ internal fun deserializer(reader: Reader): KtMessageDeserializer {
         override fun readString() =
             reader.string()
 
-        override fun readUInt32() =
-            readInt32()
-
         override fun readUInt64() =
             Long.fromProtobufJsLong(reader.uint64())
 
@@ -81,7 +68,7 @@ internal fun deserializer(reader: Reader): KtMessageDeserializer {
         override fun readBytes() =
             Bytes(reader.bytes().asByteArray())
 
-        // TODO: Does protobuf-js support reading a slice?
+        // Does protobufjs support reading a slice?
         override fun readBytesSlice() =
             readBytes().toBytesSlice()
 
@@ -114,9 +101,6 @@ internal fun deserializer(reader: Reader): KtMessageDeserializer {
                 }
             }
         }
-
-        override fun <T : KtEnum> readEnum(e: KtEnumDeserializer<T>) =
-            e.from(readInt32())
 
         override fun <T : KtMessage> readMessage(m: KtDeserializer<T>): T {
             val oldEndPosition = endPosition
