@@ -122,22 +122,7 @@ public final class com/toasttab/protokt/rt/Int64 {
 }
 
 public final class com/toasttab/protokt/rt/JvmSizeCodecsKt {
-	public static final fun sizeof (D)I
-	public static final fun sizeof (F)I
-	public static final fun sizeof (Lcom/toasttab/protokt/rt/Fixed32;)I
-	public static final fun sizeof (Lcom/toasttab/protokt/rt/Fixed64;)I
-	public static final fun sizeof (Lcom/toasttab/protokt/rt/Int32;)I
-	public static final fun sizeof (Lcom/toasttab/protokt/rt/Int64;)I
-	public static final fun sizeof (Lcom/toasttab/protokt/rt/SFixed32;)I
-	public static final fun sizeof (Lcom/toasttab/protokt/rt/SFixed64;)I
-	public static final fun sizeof (Lcom/toasttab/protokt/rt/SInt32;)I
-	public static final fun sizeof (Lcom/toasttab/protokt/rt/SInt64;)I
-	public static final fun sizeof (Lcom/toasttab/protokt/rt/Tag;)I
-	public static final fun sizeof (Lcom/toasttab/protokt/rt/UInt32;)I
-	public static final fun sizeof (Lcom/toasttab/protokt/rt/UInt64;)I
 	public static final fun sizeof (Ljava/lang/String;)I
-	public static final fun sizeof (Z)I
-	public static final fun sizeof ([B)I
 }
 
 public abstract interface class com/toasttab/protokt/rt/KtDeserializer {
@@ -304,10 +289,25 @@ public final class com/toasttab/protokt/rt/SInt64 {
 }
 
 public final class com/toasttab/protokt/rt/SizeCodecsKt {
+	public static final fun sizeof (D)I
+	public static final fun sizeof (F)I
 	public static final fun sizeof (Lcom/toasttab/protokt/rt/Bytes;)I
 	public static final fun sizeof (Lcom/toasttab/protokt/rt/BytesSlice;)I
+	public static final fun sizeof (Lcom/toasttab/protokt/rt/Fixed32;)I
+	public static final fun sizeof (Lcom/toasttab/protokt/rt/Fixed64;)I
+	public static final fun sizeof (Lcom/toasttab/protokt/rt/Int32;)I
+	public static final fun sizeof (Lcom/toasttab/protokt/rt/Int64;)I
 	public static final fun sizeof (Lcom/toasttab/protokt/rt/KtEnum;)I
 	public static final fun sizeof (Lcom/toasttab/protokt/rt/KtMessage;)I
+	public static final fun sizeof (Lcom/toasttab/protokt/rt/SFixed32;)I
+	public static final fun sizeof (Lcom/toasttab/protokt/rt/SFixed64;)I
+	public static final fun sizeof (Lcom/toasttab/protokt/rt/SInt32;)I
+	public static final fun sizeof (Lcom/toasttab/protokt/rt/SInt64;)I
+	public static final fun sizeof (Lcom/toasttab/protokt/rt/Tag;)I
+	public static final fun sizeof (Lcom/toasttab/protokt/rt/UInt32;)I
+	public static final fun sizeof (Lcom/toasttab/protokt/rt/UInt64;)I
+	public static final fun sizeof (Z)I
+	public static final fun sizeof ([B)I
 	public static final fun sizeofMap (Ljava/util/Map;Lcom/toasttab/protokt/rt/Tag;Lkotlin/jvm/functions/Function2;)I
 }
 
