@@ -23,8 +23,7 @@ actual abstract class AbstractKtMessage actual constructor() : KtMessage {
         serialize(serializer(writer))
         val buf = writer.finish()
         val res = Int8Array(buf.buffer, buf.byteOffset, buf.length).unsafeCast<ByteArray>()
-        // TODO: implement platform-agnostic sizer
-        // check(res.size == messageSize) { "Expected $messageSize, got ${res.size}" }
+        check(res.size == messageSize) { "Expected $messageSize, got ${res.size}" }
         return res
     }
 }
