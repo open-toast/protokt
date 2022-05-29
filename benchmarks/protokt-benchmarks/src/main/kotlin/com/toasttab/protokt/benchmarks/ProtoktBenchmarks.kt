@@ -15,7 +15,6 @@
 
 package com.toasttab.protokt.benchmarks
 
-import com.google.protobuf.CodedInputStream
 import org.openjdk.jmh.annotations.Benchmark
 import org.openjdk.jmh.annotations.BenchmarkMode
 import org.openjdk.jmh.annotations.Mode
@@ -42,17 +41,17 @@ open class ProtoktBenchmarks {
     @Setup
     fun setup() {
         readData("large").use { stream ->
-            largeDataset = BenchmarkDataset.deserialize(CodedInputStream.newInstance(stream))
+            largeDataset = BenchmarkDataset.deserialize(stream)
         }
         largeParsedDataset = largeDataset.payload.map { GenericMessage1.deserialize(it) }
 
         readData("medium").use { stream ->
-            mediumDataset = BenchmarkDataset.deserialize(CodedInputStream.newInstance(stream))
+            mediumDataset = BenchmarkDataset.deserialize(stream)
         }
         mediumParsedDataset = mediumDataset.payload.map { GenericMessage1.deserialize(it) }
 
         readData("small").use { stream ->
-            smallDataset = BenchmarkDataset.deserialize(CodedInputStream.newInstance(stream))
+            smallDataset = BenchmarkDataset.deserialize(stream)
         }
         smallParsedDataset = smallDataset.payload.map { GenericMessage4.deserialize(it) }
     }
