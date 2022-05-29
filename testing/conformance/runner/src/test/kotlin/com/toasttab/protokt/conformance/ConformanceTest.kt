@@ -57,12 +57,6 @@ class ConformanceTest {
     @ParameterizedTest
     @MethodSource("runners")
     fun `run conformance tests`(runner: ConformanceRunner) {
-        println(command(runner))
-
-        if (runner.name != "foo") {
-            throw Exception()
-        }
-
         command(runner)
             .runCommand(
                 projectRoot.toPath(),
