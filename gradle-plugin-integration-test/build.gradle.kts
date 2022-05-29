@@ -66,7 +66,7 @@ subprojects {
 
                 apiVersion = System.getProperty("kotlin.version")?.let { v ->
                     VersionNumber.parse(v).run { "$major.$minor" }
-                } ?: "1.6"
+                } ?: "1.5"
                 languageVersion = apiVersion
             }
         }
