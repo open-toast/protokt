@@ -31,7 +31,7 @@ import kotlin.coroutines.suspendCoroutine
 
 internal actual object Platform {
     actual fun printErr(message: String) {
-        Process.stderr.write(message + "\n")
+        process.stderr.write(message + "\n")
     }
 
     actual fun runBlockingMain(block: suspend CoroutineScope.() -> Unit) {
@@ -61,7 +61,7 @@ internal actual object Platform {
                     return@suspendCoroutine
                 }
             }
-            Process.stdin.once("readable") {
+            process.stdin.once("readable") {
                 continuation.resume(readSync(size))
             }
         }
@@ -70,7 +70,7 @@ internal actual object Platform {
         val buffer = Buffer.alloc(size)
         var total = 0
         while (total < size) {
-            val chunk = Process.stdin.read(size - total) ?: return null
+            val chunk = process.stdin.read(size - total) ?: return null
             buffer.set(chunk, total)
             total += chunk.length
         }
@@ -85,7 +85,7 @@ internal actual object Platform {
     private fun writeToStdOut(buf: Uint8Array) {
         var total = 0
         while (total < buf.length) {
-            total += Fs.writeSync(Process.stdout.fd, buf, total, buf.length - total)
+            total += fs.writeSync(process.stdout.fd, buf, total, buf.length - total)
         }
     }
 
@@ -113,7 +113,7 @@ internal actual object Platform {
 
 @JsModule("process")
 @JsNonModule
-internal external object Process {
+internal external object process {
     val stdin: StdStream
     val stdout: StdStream
     val stderr: StdStream
@@ -142,7 +142,7 @@ external class Buffer : Uint8Array {
 
 @JsModule("fs")
 @JsNonModule
-external object Fs {
+external object fs {
     fun writeSync(
         fd: Int,
         buffer: ArrayBufferView,

@@ -63,8 +63,6 @@ internal external class Reader {
 
     val pos: Int
 
-    fun bool(): Boolean
-
     fun bytes(): Uint8Array
 
     fun double(): Double
@@ -74,8 +72,6 @@ internal external class Reader {
     fun fixed64(): dynamic
 
     fun float(): Float
-
-    fun int32(): Int
 
     fun int64(): dynamic
 
@@ -89,11 +85,15 @@ internal external class Reader {
 
     fun string(): String
 
-    fun uint32(): Int
-
     fun uint64(): dynamic
 
     companion object {
         fun create(buf: Uint8Array): Reader
+    }
+}
+
+internal external object util {
+    object utf8 {
+        fun length(str: String): Int
     }
 }
