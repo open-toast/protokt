@@ -17,19 +17,4 @@ package com.toasttab.protokt.rt
 
 import com.google.protobuf.CodedOutputStream
 
-actual fun sizeof(b: ByteArray) = CodedOutputStream.computeByteArraySizeNoTag(b)
 actual fun sizeof(s: String) = CodedOutputStream.computeStringSizeNoTag(s)
-actual fun sizeof(b: Boolean) = CodedOutputStream.computeBoolSizeNoTag(b)
-actual fun sizeof(l: Int64) = CodedOutputStream.computeInt64SizeNoTag(l.value)
-actual fun sizeof(d: Double) = CodedOutputStream.computeDoubleSizeNoTag(d)
-actual fun sizeof(f: Float) = CodedOutputStream.computeFloatSizeNoTag(f)
-actual fun sizeof(i: Fixed32) = CodedOutputStream.computeFixed32SizeNoTag(i.value)
-actual fun sizeof(l: Fixed64) = CodedOutputStream.computeFixed64SizeNoTag(l.value)
-actual fun sizeof(i: SFixed32) = CodedOutputStream.computeSFixed32SizeNoTag(i.value)
-actual fun sizeof(l: SFixed64) = CodedOutputStream.computeSFixed64SizeNoTag(l.value)
-actual fun sizeof(i: Int32) = CodedOutputStream.computeInt32SizeNoTag(i.value)
-actual fun sizeof(i: UInt32) = CodedOutputStream.computeUInt32SizeNoTag(i.value)
-actual fun sizeof(i: SInt32) = CodedOutputStream.computeSInt32SizeNoTag(i.value)
-actual fun sizeof(l: UInt64) = CodedOutputStream.computeUInt64SizeNoTag(l.value)
-actual fun sizeof(l: SInt64): Int = CodedOutputStream.computeSInt64SizeNoTag(l.value)
-actual fun sizeof(t: Tag) = CodedOutputStream.computeTagSize(t.value)

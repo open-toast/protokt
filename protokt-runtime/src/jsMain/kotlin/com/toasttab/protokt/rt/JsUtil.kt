@@ -63,6 +63,3 @@ internal fun Long.Companion.fromProtobufJsLong(l: dynamic): Long {
         }
     }
 }
-
-internal val Int.zigZagEncoded
-    get() = (this shl 1) xor (this shr 31)

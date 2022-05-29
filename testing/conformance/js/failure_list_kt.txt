@@ -2,11 +2,3 @@
 Recommended.Proto3.ProtobufInput.ValidDataOneofBinary.MESSAGE.Merge.ProtobufOutput
 Required.Proto3.ProtobufInput.RepeatedScalarMessageMerge.ProtobufOutput
 Required.Proto3.ProtobufInput.ValidDataOneof.MESSAGE.Merge.ProtobufOutput
-
-# protokt is expected to support
-Recommended.Proto3.ProtobufInput.ValidDataRepeated.SINT64.PackedInput.DefaultOutput.ProtobufOutput
-Recommended.Proto3.ProtobufInput.ValidDataRepeated.SINT64.PackedInput.PackedOutput.ProtobufOutput
-Recommended.Proto3.ProtobufInput.ValidDataRepeated.SINT64.UnpackedInput.DefaultOutput.ProtobufOutput
-Recommended.Proto3.ProtobufInput.ValidDataRepeated.SINT64.UnpackedInput.PackedOutput.ProtobufOutput
-Required.Proto3.ProtobufInput.ValidDataRepeated.SINT64.PackedInput.ProtobufOutput
-Required.Proto3.ProtobufInput.ValidDataRepeated.SINT64.UnpackedInput.ProtobufOutput
