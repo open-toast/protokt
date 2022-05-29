@@ -16,12 +16,9 @@
 package com.toasttab.protokt.codegen.impl
 
 import com.squareup.kotlinpoet.FileSpec
-import com.squareup.kotlinpoet.FunSpec
-import com.squareup.kotlinpoet.LambdaTypeName
-import com.squareup.kotlinpoet.asTypeName
 import com.toasttab.protokt.codegen.annotators.Annotator
+import com.toasttab.protokt.codegen.annotators.addConstructorFunction
 import com.toasttab.protokt.codegen.descriptor.FileDescriptorResolver
-import com.toasttab.protokt.codegen.impl.Deprecation.addDeprecationSuppression
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Protocol
 import com.toasttab.protokt.codegen.protoc.fileName
@@ -54,30 +51,10 @@ object FileBuilder {
             builder.addType(it.type.typeSpec)
         }
 
-        // TODO: consolidate with copy in DeserializerAnnotator
         descs
             .map { it.type.rawType }
-            .filterIsInstance<Message>().forEach { msg ->
-                builder.addFunction(
-                    FunSpec.builder(msg.name.replaceFirstChar { it.lowercase() })
-                        .returns(msg.typeName)
-                        .apply {
-                            if (msg.options.default.deprecated) {
-                                addDeprecationSuppression()
-                            }
-                        }
-                        .addParameter(
-                            "dsl",
-                            LambdaTypeName.get(
-                                msg.dslTypeName,
-                                emptyList(),
-                                Unit::class.asTypeName()
-                            )
-                        )
-                        .addStatement("return %T().apply(dsl).build()", msg.dslTypeName)
-                        .build()
-                )
-            }
+            .filterIsInstance<Message>()
+            .forEach { addConstructorFunction(it, builder::addFunction) }
 
         val fileDescriptorInfo = FileDescriptorResolver.resolveFileDescriptor(protocol)
 
