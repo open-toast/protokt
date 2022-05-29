@@ -132,7 +132,7 @@ workflows:
           matrix:
             parameters:
               jdk: ["8", "11", "17"]
-              kotlin: ["1.6.21", "1.7.0-Beta"]
+              kotlin: ["1.5.32", "1.6.21", "1.7.0-Beta"]
       - release:
           context: OSS
           filters:
