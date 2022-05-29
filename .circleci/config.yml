@@ -53,6 +53,11 @@ jobs:
             npm install protobufjs@6.11.3
 
       - run:
+          name: Install long.js
+          command: |
+            npm install long@5.2.0
+
+      - run:
           name: Install Firefox
           command: |
             apk add firefox
