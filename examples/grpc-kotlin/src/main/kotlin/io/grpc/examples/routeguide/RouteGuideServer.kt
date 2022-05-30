@@ -19,17 +19,8 @@ package io.grpc.examples.routeguide
 
 import com.google.common.base.Stopwatch
 import com.google.common.base.Ticker
+import io.grpc.Server
 import io.grpc.ServerBuilder
-import io.grpc.ServerServiceDefinition
-import io.grpc.examples.routeguide.RouteGuideGrpc.getFeatureMethod
-import io.grpc.examples.routeguide.RouteGuideGrpc.listFeaturesMethod
-import io.grpc.examples.routeguide.RouteGuideGrpc.recordRouteMethod
-import io.grpc.examples.routeguide.RouteGuideGrpc.routeChatMethod
-import io.grpc.kotlin.AbstractCoroutineServerImpl
-import io.grpc.kotlin.ServerCalls.bidiStreamingServerMethodDefinition
-import io.grpc.kotlin.ServerCalls.clientStreamingServerMethodDefinition
-import io.grpc.kotlin.ServerCalls.serverStreamingServerMethodDefinition
-import io.grpc.kotlin.ServerCalls.unaryServerMethodDefinition
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
@@ -40,15 +31,13 @@ import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.TimeUnit
 
 /**
- * Protokt adaptation of RouteGuideServer from the Kotlin gRPC example.
+ * Kotlin adaptation of RouteGuideServer from the Java gRPC example.
  */
 class RouteGuideServer(
-    private val port: Int
+    val port: Int,
+    val features: Collection<Feature> = Database.features(),
+    val server: Server = ServerBuilder.forPort(port).addService(RouteGuideService(features)).build()
 ) {
-    private val server =
-        ServerBuilder.forPort(port)
-            .addService(RouteGuideService(Database.features()))
-            .build()
 
     fun start() {
         server.start()
@@ -70,28 +59,20 @@ class RouteGuideServer(
         server.awaitTermination()
     }
 
-    class RouteGuideService(
-        val features: Collection<Feature>,
-        val ticker: Ticker = Ticker.systemTicker()
-    ) : AbstractCoroutineServerImpl() {
-        override fun bindService() =
-            ServerServiceDefinition.builder(RouteGuideGrpc.serviceDescriptor)
-                .addMethod(unaryServerMethodDefinition(context, getFeatureMethod, ::getFeature))
-                .addMethod(serverStreamingServerMethodDefinition(context, listFeaturesMethod, ::listFeatures))
-                .addMethod(clientStreamingServerMethodDefinition(context, recordRouteMethod, ::recordRoute))
-                .addMethod(bidiStreamingServerMethodDefinition(context, routeChatMethod, ::routeChat))
-                .build()
-
+    internal class RouteGuideService(
+        private val features: Collection<Feature>,
+        private val ticker: Ticker = Ticker.systemTicker()
+    ) : RouteGuideGrpcKt.RouteGuideCoroutineImplBase() {
         private val routeNotes = ConcurrentHashMap<Point, MutableList<RouteNote>>()
 
-        suspend fun getFeature(request: Point): Feature =
+        override suspend fun getFeature(request: Point): Feature =
             // No feature was found, return an unnamed feature.
             features.find { it.location == request } ?: Feature { location = request }
 
-        fun listFeatures(request: Rectangle): Flow<Feature> =
+        override fun listFeatures(request: Rectangle): Flow<Feature> =
             features.asFlow().filter { it.exists() && it.location!! in request }
 
-        suspend fun recordRoute(requests: Flow<Point>): RouteSummary {
+        override suspend fun recordRoute(requests: Flow<Point>): RouteSummary {
             var pointCount = 0
             var featureCount = 0
             var distance = 0
@@ -116,7 +97,7 @@ class RouteGuideServer(
             }
         }
 
-        fun routeChat(requests: Flow<RouteNote>): Flow<RouteNote> = flow {
+        override fun routeChat(requests: Flow<RouteNote>): Flow<RouteNote> = flow {
             requests.collect { note ->
                 val notes: MutableList<RouteNote> = routeNotes.computeIfAbsent(note.location!!) {
                     Collections.synchronizedList(mutableListOf<RouteNote>())

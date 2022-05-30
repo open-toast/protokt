@@ -13,6 +13,10 @@
  * limitations under the License.
  */
 
+import com.google.protobuf.gradle.generateProtoTasks
+import com.google.protobuf.gradle.id
+import com.google.protobuf.gradle.plugins
+import com.google.protobuf.gradle.protobuf
 import com.toasttab.protokt.gradle.protokt
 
 plugins {
@@ -26,8 +30,26 @@ protokt {
     generateGrpc = true
 }
 
+protobuf {
+    plugins {
+        id("grpckt") {
+            artifact = libraries.grpcKotlinGenerator
+        }
+    }
+
+    generateProtoTasks {
+        all().forEach {
+            it.plugins {
+                id("grpckt")
+            }
+        }
+    }
+}
+
 dependencies {
     implementation(project(":protokt-runtime-grpc"))
+    implementation(libraries.grpcKotlin)
     implementation(libraries.grpcStub)
     implementation(libraries.jackson)
+    implementation(libraries.kotlinxCoroutinesCore)
 }

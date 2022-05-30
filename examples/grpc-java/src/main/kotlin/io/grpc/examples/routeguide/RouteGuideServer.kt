@@ -23,10 +23,10 @@ import io.grpc.BindableService
 import io.grpc.ServerBuilder
 import io.grpc.ServerServiceDefinition
 import io.grpc.Status
-import io.grpc.examples.routeguide.RouteGuideGrpc.getFeatureMethod
-import io.grpc.examples.routeguide.RouteGuideGrpc.listFeaturesMethod
-import io.grpc.examples.routeguide.RouteGuideGrpc.recordRouteMethod
-import io.grpc.examples.routeguide.RouteGuideGrpc.routeChatMethod
+import io.grpc.examples.routeguide.RouteGuideGrpc.getGetFeatureMethod
+import io.grpc.examples.routeguide.RouteGuideGrpc.getListFeaturesMethod
+import io.grpc.examples.routeguide.RouteGuideGrpc.getRecordRouteMethod
+import io.grpc.examples.routeguide.RouteGuideGrpc.getRouteChatMethod
 import io.grpc.stub.ServerCalls.asyncBidiStreamingCall
 import io.grpc.stub.ServerCalls.asyncClientStreamingCall
 import io.grpc.stub.ServerCalls.asyncServerStreamingCall
@@ -75,11 +75,11 @@ class RouteGuideServer(
         val ticker: Ticker = Ticker.systemTicker()
     ) : BindableService {
         override fun bindService() =
-            ServerServiceDefinition.builder(RouteGuideGrpc.serviceDescriptor)
-                .addMethod(getFeatureMethod, asyncUnaryCall(::getFeature))
-                .addMethod(listFeaturesMethod, asyncServerStreamingCall(::listFeatures))
-                .addMethod(recordRouteMethod, asyncClientStreamingCall(::recordRoute))
-                .addMethod(routeChatMethod, asyncBidiStreamingCall(::routeChat))
+            ServerServiceDefinition.builder(RouteGuideGrpc.getServiceDescriptor())
+                .addMethod(getGetFeatureMethod(), asyncUnaryCall(::getFeature))
+                .addMethod(getListFeaturesMethod(), asyncServerStreamingCall(::listFeatures))
+                .addMethod(getRecordRouteMethod(), asyncClientStreamingCall(::recordRoute))
+                .addMethod(getRouteChatMethod(), asyncBidiStreamingCall(::routeChat))
                 .build()
 
         private val routeNotes = ConcurrentHashMap<Point, MutableList<RouteNote>>()

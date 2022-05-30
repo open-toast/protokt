@@ -19,28 +19,29 @@ package io.grpc.examples.animals
 
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
-import io.grpc.kotlin.ClientCalls
 import java.io.Closeable
 import java.util.concurrent.TimeUnit
 
-class AnimalsClient(
-    private val channel: ManagedChannel
-) : Closeable {
+class AnimalsClient(private val channel: ManagedChannel) : Closeable {
+    private val dogStub: DogGrpcKt.DogCoroutineStub by lazy { DogGrpcKt.DogCoroutineStub(channel) }
+    private val pigStub: PigGrpcKt.PigCoroutineStub by lazy { PigGrpcKt.PigCoroutineStub(channel) }
+    private val sheepStub: SheepGrpcKt.SheepCoroutineStub by lazy { SheepGrpcKt.SheepCoroutineStub(channel) }
+
     suspend fun bark() {
-        val request = BarkRequest { }
-        val response = ClientCalls.unaryRpc(channel, DogGrpc.barkMethod, request)
+        val request = BarkRequest {}
+        val response = dogStub.bark(request)
         println("Received: ${response.message}")
     }
 
     suspend fun oink() {
-        val request = OinkRequest { }
-        val response = ClientCalls.unaryRpc(channel, PigGrpc.oinkMethod, request)
+        val request = OinkRequest {}
+        val response = pigStub.oink(request)
         println("Received: ${response.message}")
     }
 
     suspend fun baa() {
-        val request = BaaRequest { }
-        val response = ClientCalls.unaryRpc(channel, SheepGrpc.baaMethod, request)
+        val request = BaaRequest {}
+        val response = sheepStub.baa(request)
         println("Received: ${response.message}")
     }
 

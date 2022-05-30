@@ -16,6 +16,7 @@
 package com.toasttab.protokt.codegen.annotators
 
 import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
@@ -42,7 +43,8 @@ internal object ServiceAnnotator {
                             .build()
                     )
                     .addProperty(
-                        PropertySpec.builder("serviceDescriptor", ServiceDescriptor::class)
+                        PropertySpec.builder("_serviceDescriptor", ServiceDescriptor::class)
+                            .addModifiers(KModifier.PRIVATE)
                             .delegate(
                                 """
                                     |lazy {
@@ -56,7 +58,7 @@ internal object ServiceAnnotator {
                     .addProperties(
                         s.methods.map {
                             PropertySpec.builder(
-                                it.name.decapitalize() + "Method",
+                                "_" + it.name.decapitalize() + "Method",
                                 MethodDescriptor::class
                                     .asTypeName()
                                     .parameterizedBy(
@@ -64,6 +66,7 @@ internal object ServiceAnnotator {
                                         it.outputType.toTypeName()
                                     )
                             )
+                                .addModifiers(KModifier.PRIVATE)
                                 .delegate(
                                     """
                                         |lazy {
@@ -76,6 +79,20 @@ internal object ServiceAnnotator {
                                         |}
                                     """.bindMargin()
                                 )
+                                .build()
+                        }
+                    )
+                    .addFunction(
+                        FunSpec.builder("getServiceDescriptor")
+                            .addCode("return _serviceDescriptor")
+                            .addAnnotation(JvmStatic::class)
+                            .build()
+                    )
+                    .addFunctions(
+                        s.methods.map {
+                            FunSpec.builder("get" + it.name + "Method")
+                                .addCode("return _" + it.name.decapitalize() + "Method")
+                                .addAnnotation(JvmStatic::class)
                                 .build()
                         }
                     )
@@ -124,7 +141,7 @@ internal object ServiceAnnotator {
 
     private fun serviceLines(s: Service) =
         s.methods.joinToString("\n") {
-            "      .addMethod(${it.name.decapitalize()}Method)"
+            "      .addMethod(_${it.name.decapitalize()}Method)"
         } + "\n        .build()"
 
     private fun renderQualifiedName(s: Service, ctx: Context) =

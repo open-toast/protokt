@@ -54,8 +54,8 @@ class HelloWorldServer(
 
     private class HelloWorldService : BindableService {
         override fun bindService() =
-            ServerServiceDefinition.builder(GreeterGrpc.serviceDescriptor)
-                .addMethod(GreeterGrpc.sayHelloMethod, asyncUnaryCall(::sayHello))
+            ServerServiceDefinition.builder(GreeterGrpc.getServiceDescriptor())
+                .addMethod(GreeterGrpc.getSayHelloMethod(), asyncUnaryCall(::sayHello))
                 .build()
 
         fun sayHello(request: HelloRequest, responseObserver: StreamObserver<HelloReply>) {
