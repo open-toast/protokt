@@ -89,9 +89,9 @@ internal object ServiceAnnotator {
                             .build()
                     )
                     .addFunctions(
-                        s.methods.map {
-                            FunSpec.builder("get" + it.name + "Method")
-                                .addCode("return _" + it.name.decapitalize() + "Method")
+                        s.methods.map { method ->
+                            FunSpec.builder("get" + method.name + "Method")
+                                .addCode("return _" + method.name.replaceFirstChar { it.lowercase() } + "Method")
                                 .addAnnotation(JvmStatic::class)
                                 .build()
                         }
