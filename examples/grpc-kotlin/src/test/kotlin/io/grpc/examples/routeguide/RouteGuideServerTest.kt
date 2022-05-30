@@ -1,6 +1,5 @@
 /*
  * Copyright 2022 gRPC authors.
- * Copyright 2022 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,12 +35,12 @@ class RouteGuideServerTest {
 
         val stub = RouteGuideGrpcKt.RouteGuideCoroutineStub(grpcServerRule.channel)
 
-        val rectangle = Rectangle {
-            lo = Point {
+        val rectangle = rectangle {
+            lo = point {
                 latitude = 407838351
                 longitude = -746143763
             }
-            hi = Point {
+            hi = point {
                 latitude = 407838351
                 longitude = -746143763
             }
