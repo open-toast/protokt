@@ -17,7 +17,8 @@ plugins {
     id("protokt.multiplatform-conventions")
 }
 
-enablePublishing(defaultJars = false)
+enablePublishing()
+compatibleWithAndroid()
 trackKotlinApiCompatibility()
 
 kotlin {

@@ -22,15 +22,12 @@ plugins {
 
 localProtokt()
 pureKotlin()
-enablePublishing(false)
+enablePublishing()
+compatibleWithAndroid()
 trackKotlinApiCompatibility()
 
 protokt {
     lite = true
-}
-
-kotlin {
-    jvm()
 }
 
 dependencies {

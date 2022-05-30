@@ -18,6 +18,7 @@ import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
+import org.gradle.api.publish.maven.tasks.AbstractPublishToMaven
 import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
 import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.apply
@@ -26,6 +27,8 @@ import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
+import org.gradle.plugins.signing.SigningExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
 private object Pgp {
     val key by lazy {
@@ -105,14 +108,43 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
     }
 
     if (defaultJars) {
-        configure<JavaPluginExtension> {
-            withSourcesJar()
-        }
+        if (plugins.hasPlugin("org.jetbrains.kotlin.multiplatform")) {
+            val publicationsFromMainHost =
+                with(the<KotlinMultiplatformExtension>()) {
+                    listOf(jvm(), js()).map { it.name } + "kotlinMultiplatform"
+                }
 
-        afterEvaluate {
-            if (tasks.findByName("generateProto") != null) {
-                tasks.named("sourcesJar").configure {
-                    dependsOn("generateProto")
+            configure<PublishingExtension> {
+                publications {
+                    matching { it.name in publicationsFromMainHost }.all {
+                        val targetPublication = this@all
+                        tasks.withType<AbstractPublishToMaven>()
+                            .matching { it.publication == targetPublication }
+                            .configureEach { onlyIf { findProperty("isMainHost") == "true" } }
+                    }
+                }
+            }
+        } else {
+            configure<JavaPluginExtension> {
+                withSourcesJar()
+            }
+
+            afterEvaluate {
+                if (tasks.findByName("generateProto") != null) {
+                    tasks.named("sourcesJar").configure {
+                        dependsOn("generateProto")
+                    }
+                }
+            }
+
+            configure<PublishingExtension> {
+                publications {
+                    create<MavenPublication>("sources") {
+                        from(components.getByName("java"))
+                        artifactId = project.name
+                        version = "${project.version}"
+                        groupId = "$group"
+                    }
                 }
             }
         }
@@ -122,33 +154,22 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
             archiveClassifier.set("javadoc")
         }
 
-        configure<PublishingExtension> {
-            publications {
-                create<MavenPublication>("sources") {
-                    from(components.getByName("java"))
-                    artifact(tasks.getByName("javadocJar"))
-                    artifactId = project.name
-                    version = "${project.version}"
-                    groupId = "$group"
-                }
-            }
+        configurePublications {
+            standardPom()
+            artifact(tasks.getByName("javadocJar"))
         }
     }
 
     if (isRelease()) {
-        /*
         apply(plugin = "signing")
 
         configure<SigningExtension> {
             useInMemoryPgpKeys(Pgp.key, Pgp.password)
 
-            project.the<PublishingExtension>().publications.withType<MavenPublication> {
-                standardPom()
+            configurePublications {
                 sign(this)
             }
         }
-
-         */
     }
 
     tasks.register("publishToIntegrationRepository") {
@@ -177,6 +198,13 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
             )
         }
     }
+}
+
+fun Project.configurePublications(configure: MavenPublication.() -> Unit) {
+    the<PublishingExtension>()
+        .publications
+        .withType<MavenPublication>()
+        .configureEach(configure)
 }
 
 fun Project.promoteStagingRepo() {

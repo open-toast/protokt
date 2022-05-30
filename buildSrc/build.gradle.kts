@@ -35,4 +35,5 @@ dependencies {
     implementation("ru.vyarus:gradle-animalsniffer-plugin:1.5.4")
     implementation("org.jetbrains.kotlinx:binary-compatibility-validator:0.8.0")
     implementation(kotlin("gradle-plugin-api"))
+    implementation("com.vanniktech:gradle-maven-publish-plugin:0.19.0")
 }

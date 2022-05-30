@@ -22,7 +22,8 @@ plugins {
 
 localProtokt()
 pureKotlin()
-enablePublishing(defaultJars = false)
+enablePublishing()
+compatibleWithAndroid()
 trackKotlinApiCompatibility()
 
 protokt {
@@ -30,8 +31,6 @@ protokt {
 }
 
 kotlin {
-    jvm()
-
     sourceSets {
         val commonMain by getting {
             dependencies {

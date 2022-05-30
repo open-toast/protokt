@@ -51,7 +51,6 @@ private fun Project.createExtensionConfigurations() {
             val testSourceSet = (sourceSets.getByName("commonTest") as DefaultKotlinSourceSet)
             configurations.getByName(testSourceSet.apiConfigurationName)
                 .extendsFrom(testExtensionsConfiguration)
-            the<SourceSetContainer>().create("main")
             configurations.create("compileProtoPath").extendsFrom(extensionsConfiguration)
         }
         else -> {

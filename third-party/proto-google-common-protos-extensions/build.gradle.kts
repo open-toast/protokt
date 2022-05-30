@@ -18,6 +18,7 @@ plugins {
 }
 
 enablePublishing()
+compatibleWithAndroid()
 trackKotlinApiCompatibility()
 
 dependencies {

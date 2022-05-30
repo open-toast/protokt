@@ -23,6 +23,7 @@ plugins {
 localProtokt()
 pureKotlin()
 enablePublishing()
+compatibleWithAndroid()
 trackKotlinApiCompatibility()
 
 protokt {
