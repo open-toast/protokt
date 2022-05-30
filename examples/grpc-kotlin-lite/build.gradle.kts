@@ -13,6 +13,9 @@
  * limitations under the License.
  */
 
+import com.google.protobuf.gradle.generateProtoTasks
+import com.google.protobuf.gradle.id
+import com.google.protobuf.gradle.plugins
 import com.google.protobuf.gradle.protobuf
 import com.toasttab.protokt.gradle.protokt
 
@@ -28,6 +31,22 @@ protokt {
     lite = true
 }
 
+protobuf {
+    plugins {
+        id("grpckt") {
+            artifact = libraries.grpcKotlinGenerator
+        }
+    }
+
+    generateProtoTasks {
+        all().forEach {
+            it.plugins {
+                id("grpckt")
+            }
+        }
+    }
+}
+
 dependencies {
     protobuf(project(":examples:protos"))
 
@@ -36,6 +55,9 @@ dependencies {
     implementation(libraries.kotlinxCoroutinesCore)
 
     runtimeOnly(libraries.protobufLite)
+
+    testImplementation(kotlin("test-junit"))
+    testImplementation("io.grpc:grpc-testing:${versions.grpc}")
 }
 
 sourceSets {
@@ -43,6 +65,12 @@ sourceSets {
         java {
             srcDir("../grpc-kotlin/src/main/kotlin")
             srcDir("../protos/src/main/kotlin")
+        }
+    }
+
+    test {
+        java {
+            srcDir("../grpc-kotlin/src/test/kotlin")
         }
     }
 }

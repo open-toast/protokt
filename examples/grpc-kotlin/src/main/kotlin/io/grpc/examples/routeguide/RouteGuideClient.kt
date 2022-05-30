@@ -19,7 +19,7 @@ package io.grpc.examples.routeguide
 
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
-import io.grpc.kotlin.ClientCalls
+import io.grpc.examples.routeguide.RouteGuideGrpcKt.RouteGuideCoroutineStub
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
@@ -29,10 +29,9 @@ import java.util.concurrent.TimeUnit
 import kotlin.random.Random
 import kotlin.random.nextLong
 
-class RouteGuideClient(
-    private val channel: ManagedChannel
-) : Closeable {
+class RouteGuideClient(private val channel: ManagedChannel) : Closeable {
     private val random = Random(314159)
+    private val stub = RouteGuideCoroutineStub(channel)
 
     override fun close() {
         channel.shutdown().awaitTermination(5, TimeUnit.SECONDS)
@@ -42,7 +41,7 @@ class RouteGuideClient(
         println("*** GetFeature: lat=$latitude lon=$longitude")
 
         val request = point(latitude, longitude)
-        val feature = ClientCalls.unaryRpc(channel, RouteGuideGrpc.getFeatureMethod, request)
+        val feature = stub.getFeature(request)
 
         if (feature.exists()) {
             println("Found feature called \"${feature.name}\" at ${feature.location?.toStr()}")
@@ -54,24 +53,19 @@ class RouteGuideClient(
     suspend fun listFeatures(lowLat: Int, lowLon: Int, hiLat: Int, hiLon: Int) {
         println("*** ListFeatures: lowLat=$lowLat lowLon=$lowLon hiLat=$hiLat liLon=$hiLon")
 
-        val request =
-            rectangle {
-                lo = point(lowLat, lowLon)
-                hi = point(hiLat, hiLon)
-            }
+        val request = rectangle {
+            lo = point(lowLat, lowLon)
+            hi = point(hiLat, hiLon)
+        }
         var i = 1
-        ClientCalls.serverStreamingRpc(
-            channel,
-            RouteGuideGrpc.listFeaturesMethod,
-            request
-        ).collect { feature ->
+        stub.listFeatures(request).collect { feature ->
             println("Result #${i++}: $feature")
         }
     }
 
     suspend fun recordRoute(points: Flow<Point>) {
         println("*** RecordRoute")
-        val summary = ClientCalls.clientStreamingRpc(channel, RouteGuideGrpc.recordRouteMethod, points)
+        val summary = stub.recordRoute(points)
         println("Finished trip with ${summary.pointCount} points.")
         println("Passed ${summary.featureCount} features.")
         println("Travelled ${summary.distance} meters.")
@@ -79,59 +73,53 @@ class RouteGuideClient(
         println("It took $duration seconds.")
     }
 
-    fun generateRoutePoints(features: List<Feature>, numPoints: Int): Flow<Point> =
-        flow {
-            for (i in 1..numPoints) {
-                val feature = features.random(random)
-                println("Visiting point ${feature.location?.toStr()}")
-                emit(feature.location!!)
-                delay(timeMillis = random.nextLong(500L..1500L))
-            }
+    fun generateRoutePoints(features: List<Feature>, numPoints: Int): Flow<Point> = flow {
+        for (i in 1..numPoints) {
+            val feature = features.random(random)
+            println("Visiting point ${feature.location?.toStr()}")
+            emit(feature.location!!)
+            delay(timeMillis = random.nextLong(500L..1500L))
         }
+    }
 
     suspend fun routeChat() {
         println("*** RouteChat")
         val requests = generateOutgoingNotes()
-        ClientCalls.bidiStreamingRpc(
-            channel,
-            RouteGuideGrpc.routeChatMethod,
-            requests
-        ).collect { note ->
+        stub.routeChat(requests).collect { note ->
             println("Got message \"${note.message}\" at ${note.location?.toStr()}")
         }
         println("Finished RouteChat")
     }
 
-    private fun generateOutgoingNotes(): Flow<RouteNote> =
-        flow {
-            val notes = listOf(
-                routeNote {
-                    message = "First message"
-                    location = point(0, 0)
-                },
-                routeNote {
-                    message = "Second message"
-                    location = point(0, 0)
-                },
-                routeNote {
-                    message = "Third message"
-                    location = point(10000000, 0)
-                },
-                routeNote {
-                    message = "Fourth message"
-                    location = point(10000000, 10000000)
-                },
-                routeNote {
-                    message = "Last message"
-                    location = point(0, 0)
-                }
-            )
-            for (note in notes) {
-                println("Sending message \"${note.message}\" at ${note.location?.toStr()}")
-                emit(note)
-                delay(500)
-            }
+    private fun generateOutgoingNotes(): Flow<RouteNote> = flow {
+        val notes = listOf(
+            routeNote {
+                message = "First message"
+                location = point(0, 0)
+            },
+            routeNote {
+                message = "Second message"
+                location = point(0, 0)
+            },
+            routeNote {
+                message = "Third message"
+                location = point(10000000, 0)
+            },
+            routeNote {
+                message = "Fourth message"
+                location = point(10000000, 10000000)
+            },
+            routeNote {
+                message = "Last message"
+                location = point(0, 0)
+            },
+        )
+        for (note in notes) {
+            println("Sending message \"${note.message}\" at ${note.location?.toStr()}")
+            emit(note)
+            delay(500)
         }
+    }
 }
 
 suspend fun main() {
@@ -148,8 +136,7 @@ suspend fun main() {
     }
 }
 
-private fun point(lat: Int, lon: Int) =
-    point {
-        latitude = lat
-        longitude = lon
-    }
+private fun point(lat: Int, lon: Int): Point = point {
+    latitude = lat
+    longitude = lon
+}

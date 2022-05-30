@@ -23,4 +23,7 @@ dependencies {
     implementation(libraries.kotlinxCoroutinesCore)
 
     runtimeOnly(libraries.protobufJava)
+
+    testImplementation(kotlin("test-junit"))
+    testImplementation("io.grpc:grpc-testing:${versions.grpc}")
 }

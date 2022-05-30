@@ -56,8 +56,8 @@ class AnimalsServer(
 
     private class DogService : BindableService {
         override fun bindService() =
-            ServerServiceDefinition.builder(DogGrpc.serviceDescriptor)
-                .addMethod(DogGrpc.barkMethod, asyncUnaryCall(::bark))
+            ServerServiceDefinition.builder(DogGrpc.getServiceDescriptor())
+                .addMethod(DogGrpc.getBarkMethod(), asyncUnaryCall(::bark))
                 .build()
 
         fun bark(
@@ -71,8 +71,8 @@ class AnimalsServer(
 
     private class PigService : BindableService {
         override fun bindService() =
-            ServerServiceDefinition.builder(PigGrpc.serviceDescriptor)
-                .addMethod(PigGrpc.oinkMethod, asyncUnaryCall(::oink))
+            ServerServiceDefinition.builder(PigGrpc.getServiceDescriptor())
+                .addMethod(PigGrpc.getOinkMethod(), asyncUnaryCall(::oink))
                 .build()
 
         fun oink(
@@ -86,8 +86,8 @@ class AnimalsServer(
 
     private class SheepService : BindableService {
         override fun bindService() =
-            ServerServiceDefinition.builder(SheepGrpc.serviceDescriptor)
-                .addMethod(SheepGrpc.baaMethod, asyncUnaryCall(::baa))
+            ServerServiceDefinition.builder(SheepGrpc.getServiceDescriptor())
+                .addMethod(SheepGrpc.getBaaMethod(), asyncUnaryCall(::baa))
                 .build()
 
         fun baa(

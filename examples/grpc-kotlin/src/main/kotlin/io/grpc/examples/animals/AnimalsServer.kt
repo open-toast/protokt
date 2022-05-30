@@ -17,24 +17,16 @@
 
 package io.grpc.examples.animals
 
+import io.grpc.Server
 import io.grpc.ServerBuilder
-import io.grpc.ServerServiceDefinition
-import io.grpc.examples.animals.DogGrpc.barkMethod
-import io.grpc.examples.animals.PigGrpc.oinkMethod
-import io.grpc.examples.animals.SheepGrpc.baaMethod
-import io.grpc.kotlin.AbstractCoroutineServerImpl
-import io.grpc.kotlin.ServerCalls.unaryServerMethodDefinition
 
-class AnimalsServer(
-    private val port: Int
-) {
-    private val server =
-        ServerBuilder
-            .forPort(port)
-            .addService(DogService())
-            .addService(PigService())
-            .addService(SheepService())
-            .build()
+class AnimalsServer constructor(private val port: Int) {
+    val server: Server = ServerBuilder
+        .forPort(port)
+        .addService(DogService())
+        .addService(PigService())
+        .addService(SheepService())
+        .build()
 
     fun start() {
         server.start()
@@ -56,34 +48,22 @@ class AnimalsServer(
         server.awaitTermination()
     }
 
-    private class DogService : AbstractCoroutineServerImpl() {
-        override fun bindService() =
-            ServerServiceDefinition.builder(DogGrpc.serviceDescriptor)
-                .addMethod(unaryServerMethodDefinition(context, barkMethod, ::bark))
-                .build()
-
-        suspend fun bark(@Suppress("UNUSED_PARAMETER") request: BarkRequest) =
-            barkReply { message = "Bark!" }
+    internal class DogService : DogGrpcKt.DogCoroutineImplBase() {
+        override suspend fun bark(request: BarkRequest) = barkReply {
+            message = "Bark!"
+        }
     }
 
-    private class PigService : AbstractCoroutineServerImpl() {
-        override fun bindService() =
-            ServerServiceDefinition.builder(PigGrpc.serviceDescriptor)
-                .addMethod(unaryServerMethodDefinition(context, oinkMethod, ::oink))
-                .build()
-
-        suspend fun oink(@Suppress("UNUSED_PARAMETER") request: OinkRequest) =
-            oinkReply { message = "Oink!" }
+    internal class PigService : PigGrpcKt.PigCoroutineImplBase() {
+        override suspend fun oink(request: OinkRequest) = oinkReply {
+            message = "Oink!"
+        }
     }
 
-    private class SheepService : AbstractCoroutineServerImpl() {
-        override fun bindService() =
-            ServerServiceDefinition.builder(SheepGrpc.serviceDescriptor)
-                .addMethod(unaryServerMethodDefinition(context, baaMethod, ::baa))
-                .build()
-
-        suspend fun baa(@Suppress("UNUSED_PARAMETER") request: BaaRequest) =
-            baaReply { message = "Baa!" }
+    internal class SheepService : SheepGrpcKt.SheepCoroutineImplBase() {
+        override suspend fun baa(request: BaaRequest) = baaReply {
+            message = "Baa!"
+        }
     }
 }
 
