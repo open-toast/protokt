@@ -21,7 +21,7 @@ enablePublishing()
 trackKotlinApiCompatibility()
 
 dependencies {
-    api(project(":extensions:protokt-extensions-jvm"))
+    api(project(":extensions:protokt-jvm-extensions"))
     api(project(":third-party:proto-google-common-protos"))
     api(project(":third-party:proto-google-common-protos-extensions-lite"))
 }
