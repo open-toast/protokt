@@ -13,30 +13,28 @@
  * limitations under the License.
  */
 
-import com.google.protobuf.gradle.proto
 import com.toasttab.protokt.gradle.protokt
+import com.toasttab.protokt.gradle.protoktExtensions
 
 plugins {
     id("protokt.jvm-conventions")
+    kotlin("kapt")
 }
 
 localProtokt()
+pureKotlin()
 enablePublishing()
 trackKotlinApiCompatibility()
 
 protokt {
-    onlyGenerateDescriptors = true
+    lite = true
 }
 
 dependencies {
-    api(project(":extensions:protokt-extensions"))
-    api(project(":extensions:protokt-extensions-jvm-lite"))
-}
+    protoktExtensions(project(":extensions:protokt-extensions-lite"))
+    protoktExtensions(project(":extensions:protokt-jvm-extensions-simple"))
 
-sourceSets {
-    main {
-        proto {
-            srcDir("../protokt-extensions-jvm-lite/src/main/proto")
-        }
-    }
+    implementation(libraries.autoServiceAnnotations)
+
+    kapt(libraries.autoService)
 }

@@ -43,12 +43,12 @@ include(
     "examples:protos",
 
     "extensions",
-    "extensions:protokt-extensions-api",
-    "extensions:protokt-extensions-jvm",
-    "extensions:protokt-extensions-jvm-lite",
-    "extensions:protokt-extensions-jvm-simple",
     "extensions:protokt-extensions",
+    "extensions:protokt-extensions-api",
     "extensions:protokt-extensions-lite",
+    "extensions:protokt-jvm-extensions",
+    "extensions:protokt-jvm-extensions-lite",
+    "extensions:protokt-jvm-extensions-simple",
 
     "testing:android",
     "testing:android-test-configurations",
