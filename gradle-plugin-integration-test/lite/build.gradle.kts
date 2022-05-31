@@ -18,7 +18,7 @@ protokt {
 }
 
 dependencies {
-    protoktExtensions("com.toasttab.protokt:protokt-extensions-jvm-lite:$version")
+    protoktExtensions("com.toasttab.protokt:protokt-jvm-extensions-lite:$version")
 
     implementation(kotlin("stdlib"))
 
