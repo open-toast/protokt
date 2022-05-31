@@ -14,7 +14,6 @@
  */
 
 import com.google.protobuf.gradle.GenerateProtoTask
-import com.google.protobuf.gradle.proto
 import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
 import com.toasttab.protokt.gradle.CODEGEN_NAME
@@ -51,6 +50,8 @@ dependencies {
 
     testImplementation(libraries.junit)
     testImplementation(libraries.truth)
+
+    protobuf(files("../extensions/protokt-extensions-lite/src/main/proto"))
 }
 
 configure<PublishingExtension> {
@@ -80,14 +81,6 @@ tasks.withType<Test> {
     doFirst {
         tasks.named<GenerateProtoTask>("generateProto") {
             environment("PROTOC_PATH", locatorToAlternativePathsMapping.getting("protoc").get().singleFile)
-        }
-    }
-}
-
-sourceSets {
-    main {
-        proto {
-            srcDir("../extensions/protokt-extensions-lite/src/main/proto")
         }
     }
 }

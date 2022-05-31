@@ -44,7 +44,9 @@ include(
 
     "extensions",
     "extensions:protokt-extensions-api",
-    "extensions:protokt-extensions-simple",
+    "extensions:protokt-extensions-jvm",
+    "extensions:protokt-extensions-jvm-lite",
+    "extensions:protokt-extensions-jvm-simple",
     "extensions:protokt-extensions",
     "extensions:protokt-extensions-lite",
 
@@ -56,6 +58,7 @@ include(
     "testing:conformance:js-legacy",
     "testing:conformance:jvm",
     "testing:conformance:runner",
+    "testing:multiplatform-options",
     "testing:options",
     "testing:options-api",
     "testing:options-test-configurations",
@@ -63,7 +66,7 @@ include(
     "testing:plugin-options:ignore-java-package",
     "testing:plugin-options:lite",
     "testing:protobuf-java",
-    "testing:protobuf-js",
+    "testing:protobufjs",
     "testing:runtime-tests",
     "testing:testing-util",
 

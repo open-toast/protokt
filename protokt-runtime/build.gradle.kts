@@ -34,12 +34,5 @@ kotlin {
                 api(npm("protobufjs", versions.protobufJs))
             }
         }
-
-        val jvmTest by getting {
-            dependencies {
-                implementation(libraries.junit)
-                implementation(libraries.truth)
-            }
-        }
     }
 }

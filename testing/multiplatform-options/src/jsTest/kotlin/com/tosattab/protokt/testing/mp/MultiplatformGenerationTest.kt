@@ -13,15 +13,21 @@
  * limitations under the License.
  */
 
-plugins {
-    id("protokt.jvm-conventions")
-}
+package com.tosattab.protokt.testing.mp
 
-enablePublishing()
-trackKotlinApiCompatibility()
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
-dependencies {
-    api(project(":extensions:protokt-extensions-jvm"))
-    api(project(":third-party:proto-google-common-protos"))
-    api(project(":third-party:proto-google-common-protos-extensions-lite"))
+class MultiplatformGenerationTest {
+    @Test
+    fun test_mp_test_round_trip() {
+        val mpTest =
+            MpTest.MpTestDsl().apply {
+                foo = "1"
+            }.build()
+
+        val deserialized = MpTest.deserialize(mpTest.serialize())
+
+        assertEquals(mpTest, deserialized)
+    }
 }

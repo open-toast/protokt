@@ -18,7 +18,6 @@ import com.toasttab.protokt.gradle.protokt
 
 plugins {
     id("protokt.multiplatform-conventions")
-    kotlin("kapt")
 }
 
 localProtokt()

@@ -16,10 +16,15 @@
 package com.toasttab.protokt.gradle
 
 import org.gradle.api.Project
+import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.kotlin.dsl.create
+import org.gradle.kotlin.dsl.getByName
 import org.gradle.kotlin.dsl.the
+import org.jetbrains.kotlin.gradle.dsl.KotlinJsProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 import org.jetbrains.kotlin.gradle.plugin.sources.DefaultKotlinSourceSet
+import kotlin.reflect.KClass
 
 const val CODEGEN_NAME = "protoc-gen-protokt"
 
@@ -39,16 +44,26 @@ private fun Project.createExtensionConfigurations() {
     val extensionsConfiguration = configurations.create(EXTENSIONS)
     val testExtensionsConfiguration = configurations.create(TEST_EXTENSIONS)
 
+    fun configureProtoktConfigurations(
+        extension: KClass<out KotlinProjectExtension>,
+        targetMainSourceSet: String,
+        targetTestSourceSet: String
+    ) {
+        val sourceSets = extensions.getByType(extension.java).sourceSets
+        val sourceSet = (sourceSets.getByName(targetMainSourceSet) as DefaultKotlinSourceSet)
+        configurations.getByName(sourceSet.apiConfigurationName).extendsFrom(extensionsConfiguration)
+        val testSourceSet = (sourceSets.getByName(targetTestSourceSet) as DefaultKotlinSourceSet)
+        configurations.getByName(testSourceSet.apiConfigurationName).extendsFrom(testExtensionsConfiguration)
+        configurations.create("compileProtoPath").extendsFrom(extensionsConfiguration)
+        createProtoSourceSetsIfNeeded()
+    }
+
     when {
         isMultiplatform() -> {
-            val sourceSets = extensions.getByType(KotlinMultiplatformExtension::class.java).sourceSets
-            val sourceSet = (sourceSets.getByName("commonMain") as DefaultKotlinSourceSet)
-            configurations.getByName(sourceSet.apiConfigurationName)
-                .extendsFrom(extensionsConfiguration)
-            val testSourceSet = (sourceSets.getByName("commonTest") as DefaultKotlinSourceSet)
-            configurations.getByName(testSourceSet.apiConfigurationName)
-                .extendsFrom(testExtensionsConfiguration)
-            configurations.create("compileProtoPath").extendsFrom(extensionsConfiguration)
+            configureProtoktConfigurations(KotlinMultiplatformExtension::class, "commonMain", "commonTest")
+        }
+        isJs() -> {
+            configureProtoktConfigurations(KotlinJsProjectExtension::class, "main", "test")
         }
         else -> {
             configurations.getByName("api").extendsFrom(extensionsConfiguration)
@@ -66,3 +81,17 @@ internal fun Project.resolveProtoktCoreDep() =
 
 internal fun Project.isMultiplatform() =
     plugins.hasPlugin("org.jetbrains.kotlin.multiplatform")
+
+private fun Project.isJs() =
+    plugins.hasPlugin("org.jetbrains.kotlin.js")
+
+private fun Project.createProtoSourceSetsIfNeeded() {
+    with(the<SourceSetContainer>()) {
+        if (none { it.name == "main" }) {
+            create("main")
+        }
+        if (none { it.name == "test" }) {
+            create("test")
+        }
+    }
+}

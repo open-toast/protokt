@@ -13,15 +13,14 @@
  * limitations under the License.
  */
 
-plugins {
-    id("protokt.jvm-conventions")
-}
+syntax = "proto3";
 
-enablePublishing()
-trackKotlinApiCompatibility()
+package toasttab.protokt.testing.js;
 
-dependencies {
-    api(project(":extensions:protokt-extensions-jvm"))
-    api(project(":third-party:proto-google-common-protos"))
-    api(project(":third-party:proto-google-common-protos-extensions-lite"))
+option (.protokt.file).kotlin_package = "com.toasttab.protokt.testing.js";
+
+import "protokt/protokt.proto";
+
+message JsTest {
+  string foo = 1;
 }

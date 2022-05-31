@@ -13,15 +13,21 @@
  * limitations under the License.
  */
 
-plugins {
-    id("protokt.jvm-conventions")
-}
+package com.toasttab.protokt.testing.mp
 
-enablePublishing()
-trackKotlinApiCompatibility()
+import com.google.common.truth.Truth.assertThat
+import org.junit.jupiter.api.Test
 
-dependencies {
-    api(project(":extensions:protokt-extensions-jvm"))
-    api(project(":third-party:proto-google-common-protos"))
-    api(project(":third-party:proto-google-common-protos-extensions-lite"))
+class MultiplatformGenerationTest {
+    @Test
+    fun `test multiplatform test round trip`() {
+        val mpTest =
+            MpTest.MpTestDsl().apply {
+                foo = "1"
+            }.build()
+
+        val deserialized = MpTest.deserialize(mpTest.serialize())
+
+        assertThat(deserialized).isEqualTo(mpTest)
+    }
 }

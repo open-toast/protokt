@@ -14,26 +14,23 @@
  */
 
 import com.toasttab.protokt.gradle.protokt
-import com.toasttab.protokt.gradle.protoktExtensions
 
 plugins {
-    id("protokt.jvm-conventions")
-    kotlin("kapt")
+    id("protokt.multiplatform-conventions")
 }
 
 localProtokt()
+pureKotlin()
 enablePublishing()
+compatibleWithAndroid()
 trackKotlinApiCompatibility()
 
 protokt {
     lite = true
 }
 
-dependencies {
-    protoktExtensions(project(":extensions:protokt-extensions-simple"))
-
-    implementation(project(":extensions:protokt-extensions-api"))
-    implementation(libraries.autoServiceAnnotations)
-
-    kapt(libraries.autoService)
+kotlin {
+    sourceSets {
+        val commonMain by getting {}
+    }
 }

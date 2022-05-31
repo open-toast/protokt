@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2022 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,37 +13,33 @@
  * limitations under the License.
  */
 
-import com.google.protobuf.gradle.proto
+import com.google.protobuf.gradle.protobuf
 import com.toasttab.protokt.gradle.protokt
+import com.toasttab.protokt.gradle.protoktExtensions
 
 plugins {
-    id("protokt.multiplatform-conventions")
+    id("protokt.jvm-conventions")
+    kotlin("kapt")
 }
 
 localProtokt()
 pureKotlin()
 enablePublishing()
-compatibleWithAndroid()
 trackKotlinApiCompatibility()
 
 protokt {
-    onlyGenerateDescriptors = true
+    lite = true
 }
 
-kotlin {
-    sourceSets {
-        val commonMain by getting {
-            dependencies {
-                api(project(":extensions:protokt-extensions-lite"))
-            }
-        }
-    }
-}
+dependencies {
+    protoktExtensions(project(":extensions:protokt-extensions-jvm-simple"))
 
-sourceSets {
-    main {
-        proto {
-            srcDir("../protokt-extensions-lite/src/main/proto")
-        }
-    }
+    // TODO: Why doesn't this work? Why must this be a `protobuf` dependency?
+    // protoktExtensions(project(":extensions:protokt-extensions-lite"))
+    protobuf(files("../protokt-extensions-lite/src/main/proto"))
+
+    implementation(project(":extensions:protokt-extensions-api"))
+    implementation(libraries.autoServiceAnnotations)
+
+    kapt(libraries.autoService)
 }

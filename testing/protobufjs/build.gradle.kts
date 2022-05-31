@@ -13,13 +13,21 @@
  * limitations under the License.
  */
 
+import com.google.protobuf.gradle.protobuf
+
 plugins {
     id("org.jetbrains.kotlin.js")
 }
 
+localProtokt()
+
 dependencies {
+    // TODO: Why doesn't this work? Why must this be a `protobuf` dependency?
+    // protoktExtensions(project(":extensions:protokt-extensions"))
+    protobuf(files("../../extensions/protokt-extensions-lite/src/main/proto"))
+
     testImplementation(project(":protokt-core"))
-    testImplementation(kotlin("test-js"))
+    testImplementation(kotlin("test"))
 }
 
 kotlin {
@@ -29,6 +37,12 @@ kotlin {
                 useKarma {
                     useFirefoxHeadless()
                 }
+            }
+        }
+
+        nodejs {
+            testTask {
+                useMocha()
             }
         }
 

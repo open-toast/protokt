@@ -28,6 +28,15 @@ kotlin {
         nodejs {}
         useCommonJs()
     }
+
+    sourceSets {
+        val jvmTest by getting {
+            dependencies {
+                implementation(libraries.junit)
+                implementation(libraries.truth)
+            }
+        }
+    }
 }
 
 tasks.named<Test>("jvmTest") {

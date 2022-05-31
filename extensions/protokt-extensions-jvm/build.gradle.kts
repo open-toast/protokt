@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2022 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,33 +17,26 @@ import com.google.protobuf.gradle.proto
 import com.toasttab.protokt.gradle.protokt
 
 plugins {
-    id("protokt.multiplatform-conventions")
+    id("protokt.jvm-conventions")
 }
 
 localProtokt()
-pureKotlin()
 enablePublishing()
-compatibleWithAndroid()
 trackKotlinApiCompatibility()
 
 protokt {
     onlyGenerateDescriptors = true
 }
 
-kotlin {
-    sourceSets {
-        val commonMain by getting {
-            dependencies {
-                api(project(":extensions:protokt-extensions-lite"))
-            }
-        }
-    }
+dependencies {
+    api(project(":extensions:protokt-extensions"))
+    api(project(":extensions:protokt-extensions-jvm-lite"))
 }
 
 sourceSets {
     main {
         proto {
-            srcDir("../protokt-extensions-lite/src/main/proto")
+            srcDir("../protokt-extensions-jvm-lite/src/main/proto")
         }
     }
 }

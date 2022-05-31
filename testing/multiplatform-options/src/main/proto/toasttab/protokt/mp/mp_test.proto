@@ -13,23 +13,14 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.testing.rt
+syntax = "proto3";
 
-import com.toasttab.protokt.Timestamp
-import kotlin.test.Test
-import kotlin.test.assertEquals
+package toasttab.protokt.testing.mp;
 
-class BasicSerializationTest {
-    @Test
-    fun test_serialize() {
-        val timestamp =
-            Timestamp.TimestampDsl().apply {
-                seconds = 1
-                nanos = 10
-            }.build()
+option (.protokt.file).kotlin_package = "com.toasttab.protokt.testing.mp";
 
-        val deserialized = Timestamp.deserialize(timestamp.serialize())
+import "protokt/protokt.proto";
 
-        assertEquals(timestamp, deserialized)
-    }
+message MpTest {
+  string foo = 1;
 }

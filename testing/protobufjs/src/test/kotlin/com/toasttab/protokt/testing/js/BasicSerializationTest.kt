@@ -13,15 +13,23 @@
  * limitations under the License.
  */
 
-plugins {
-    id("protokt.jvm-conventions")
-}
+package com.toasttab.protokt.testing.js
 
-enablePublishing()
-trackKotlinApiCompatibility()
+import com.toasttab.protokt.Timestamp
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
-dependencies {
-    api(project(":extensions:protokt-extensions-jvm"))
-    api(project(":third-party:proto-google-common-protos"))
-    api(project(":third-party:proto-google-common-protos-extensions-lite"))
+class BasicSerializationTest {
+    @Test
+    fun test_timestamp_round_trip() {
+        val timestamp =
+            Timestamp.TimestampDsl().apply {
+                seconds = 1
+                nanos = 10
+            }.build()
+
+        val deserialized = Timestamp.deserialize(timestamp.serialize())
+
+        assertEquals(timestamp, deserialized)
+    }
 }

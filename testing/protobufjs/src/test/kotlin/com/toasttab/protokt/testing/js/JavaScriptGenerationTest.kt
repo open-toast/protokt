@@ -13,15 +13,21 @@
  * limitations under the License.
  */
 
-plugins {
-    id("protokt.jvm-conventions")
-}
+package com.toasttab.protokt.testing.js
 
-enablePublishing()
-trackKotlinApiCompatibility()
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
-dependencies {
-    api(project(":extensions:protokt-extensions-jvm"))
-    api(project(":third-party:proto-google-common-protos"))
-    api(project(":third-party:proto-google-common-protos-extensions-lite"))
+class JavaScriptGenerationTest {
+    @Test
+    fun test_js_test_round_trip() {
+        val jsTest =
+            JsTest.JsTestDsl().apply {
+                foo = "1"
+            }.build()
+
+        val deserialized = JsTest.deserialize(jsTest.serialize())
+
+        assertEquals(jsTest, deserialized)
+    }
 }
