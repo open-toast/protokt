@@ -22,6 +22,7 @@ plugins {
 
 localProtokt()
 enablePublishing()
+pureKotlin()
 trackKotlinApiCompatibility()
 
 protokt {
