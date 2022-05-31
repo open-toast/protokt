@@ -13,44 +13,19 @@
  * limitations under the License.
  */
 
-import io.codearte.gradle.nexus.NexusStagingExtension
+import com.toasttab.protokt.gradle.isMultiplatform
+import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.KotlinJvm
+import com.vanniktech.maven.publish.KotlinMultiplatform
+import com.vanniktech.maven.publish.MavenPublishBaseExtension
+import com.vanniktech.maven.publish.SonatypeHost
 import org.gradle.api.Project
-import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.publish.PublishingExtension
-import org.gradle.api.publish.maven.MavenPublication
-import org.gradle.api.publish.maven.tasks.AbstractPublishToMaven
 import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
-import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.create
-import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
-import org.gradle.plugins.signing.SigningExtension
-import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
-
-private object Pgp {
-    val key by lazy {
-        System.getenv("PGP_KEY")?.replace('$', '\n')
-    }
-
-    val password by lazy {
-        System.getenv("PGP_PASSWORD")
-    }
-}
-
-private object Remote {
-    val username by lazy {
-        System.getenv("OSSRH_USERNAME")
-    }
-
-    val password by lazy {
-        System.getenv("OSSRH_PASSWORD")
-    }
-
-    val url = "https://oss.sonatype.org/service/local/staging/deploy/maven2"
-}
 
 object ProtoktProjectInfo {
     const val name = "Protokt"
@@ -58,34 +33,10 @@ object ProtoktProjectInfo {
     const val description = "Protobuf compiler and runtime for Kotlin"
 }
 
-fun MavenPublication.standardPom() {
-    pom {
-        name.set(ProtoktProjectInfo.name)
-        description.set(ProtoktProjectInfo.description)
-        url.set(ProtoktProjectInfo.url)
-        scm {
-            url.set(ProtoktProjectInfo.url)
-        }
-        licenses {
-            license {
-                name.set("The Apache License, Version 2.0")
-                url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-            }
-        }
-        developers {
-            developer {
-                id.set("Toast")
-                name.set("Toast Open Source")
-                email.set("opensource@toasttab.com")
-            }
-        }
-    }
-}
-
 fun Project.isRelease() = !version.toString().endsWith("-SNAPSHOT")
 
 fun Project.enablePublishing(defaultJars: Boolean = true) {
-    apply(plugin = "maven-publish")
+    apply(plugin = "com.vanniktech.maven.publish.base")
 
     configure<PublishingExtension> {
         repositories {
@@ -93,83 +44,45 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
                 name = "integration"
                 setUrl("${project.rootProject.buildDir}/repos/integration")
             }
-
-            if (isRelease()) {
-                maven {
-                    name = "remote"
-                    setUrl(Remote.url)
-                    credentials {
-                        username = Remote.username
-                        password = Remote.password
-                    }
-                }
-            }
         }
     }
 
     if (defaultJars) {
-        if (plugins.hasPlugin("org.jetbrains.kotlin.multiplatform")) {
-            val publicationsFromMainHost =
-                with(the<KotlinMultiplatformExtension>()) {
-                    listOf(jvm(), js()).map { it.name } + "kotlinMultiplatform"
+        configure<MavenPublishBaseExtension> {
+            if (isMultiplatform()) {
+                configure(KotlinMultiplatform(JavadocJar.Empty()))
+            } else {
+                configure(KotlinJvm(JavadocJar.Javadoc()))
+            }
+            publishToMavenCentral(SonatypeHost.DEFAULT)
+            signAllPublications()
+            pom {
+                name.set(ProtoktProjectInfo.name)
+                description.set(ProtoktProjectInfo.description)
+                url.set(ProtoktProjectInfo.url)
+                scm { url.set(ProtoktProjectInfo.url) }
+                licenses {
+                    license {
+                        name.set("The Apache License, Version 2.0")
+                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                    }
                 }
-
-            configure<PublishingExtension> {
-                publications {
-                    matching { it.name in publicationsFromMainHost }.all {
-                        val targetPublication = this@all
-                        tasks.withType<AbstractPublishToMaven>()
-                            .matching { it.publication == targetPublication }
-                            .configureEach { onlyIf { findProperty("isMainHost") == "true" } }
+                developers {
+                    developer {
+                        id.set("Toast")
+                        name.set("Toast Open Source")
+                        email.set("opensource@toasttab.com")
                     }
                 }
             }
-        } else {
-            configure<JavaPluginExtension> {
-                withSourcesJar()
-            }
-
-            afterEvaluate {
-                if (tasks.findByName("generateProto") != null) {
-                    tasks.named("sourcesJar").configure {
-                        dependsOn("generateProto")
-                    }
-                }
-            }
-
-            configure<PublishingExtension> {
-                publications {
-                    create<MavenPublication>("sources") {
-                        from(components.getByName("java"))
-                        artifactId = project.name
-                        version = "${project.version}"
-                        groupId = "$group"
-                    }
-                }
-            }
-        }
-
-        tasks.register<Jar>("javadocJar") {
-            from("$rootDir/README.md")
-            archiveClassifier.set("javadoc")
-        }
-
-        configurePublications {
-            standardPom()
-            artifact(tasks.getByName("javadocJar"))
         }
     }
 
     if (isRelease()) {
-        apply(plugin = "signing")
-
-        configure<SigningExtension> {
-            useInMemoryPgpKeys(Pgp.key, Pgp.password)
-
-            configurePublications {
-                sign(this)
-            }
-        }
+        setProperty("signingInMemoryKey", System.getenv("PGP_KEY")?.replace('$', '\n'))
+        setProperty("signingInMemoryPassword", System.getenv("PGP_PASSWORD"))
+        setProperty("mavenCentralUsername", System.getenv("OSSRH_USERNAME"))
+        setProperty("mavenCentralPassword", System.getenv("OSSRH_PASSWORD"))
     }
 
     tasks.register("publishToIntegrationRepository") {
@@ -182,42 +95,5 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
                 it.repository == publishingExtension.repositories.getByName("integration")
             }
         )
-    }
-
-    tasks.register("publishToRemote") {
-        enabled = isRelease()
-        group = "publishing"
-
-        if (enabled) {
-            val publishingExtension = project.the<PublishingExtension>()
-
-            dependsOn(
-                tasks.withType<PublishToMavenRepository>().matching {
-                    it.repository == publishingExtension.repositories.getByName("remote")
-                }
-            )
-        }
-    }
-}
-
-fun Project.configurePublications(configure: MavenPublication.() -> Unit) {
-    the<PublishingExtension>()
-        .publications
-        .withType<MavenPublication>()
-        .configureEach(configure)
-}
-
-fun Project.promoteStagingRepo() {
-    if (isRelease()) {
-        apply(plugin = "io.codearte.nexus-staging")
-
-        configure<NexusStagingExtension> {
-            username = Remote.username
-            password = Remote.password
-            packageGroup = "com.toasttab"
-            numberOfRetries = 50
-        }
-    } else {
-        tasks.register("closeAndReleaseRepository")
     }
 }

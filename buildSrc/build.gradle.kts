@@ -30,7 +30,6 @@ dependencies {
 
     implementation("com.diffplug.spotless:spotless-plugin-gradle:6.3.0")
     implementation("com.github.andrewparmet:protobuf-gradle-plugin:support-kotlin-multiplatform-SNAPSHOT")
-    implementation("io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.30.0")
     implementation("com.google.guava:guava:31.1-jre")
     implementation("ru.vyarus:gradle-animalsniffer-plugin:1.5.4")
     implementation("org.jetbrains.kotlinx:binary-compatibility-validator:0.8.0")

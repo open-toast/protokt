@@ -16,7 +16,6 @@
 package com.toasttab.protokt.gradle
 
 import org.gradle.api.Project
-import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.the
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
@@ -40,10 +39,8 @@ private fun Project.createExtensionConfigurations() {
     val extensionsConfiguration = configurations.create(EXTENSIONS)
     val testExtensionsConfiguration = configurations.create(TEST_EXTENSIONS)
 
-    val isMultiplatform = project.plugins.hasPlugin("org.jetbrains.kotlin.multiplatform")
-
     when {
-        isMultiplatform -> {
+        isMultiplatform() -> {
             val sourceSets = extensions.getByType(KotlinMultiplatformExtension::class.java).sourceSets
             val sourceSet = (sourceSets.getByName("commonMain") as DefaultKotlinSourceSet)
             configurations.getByName(sourceSet.apiConfigurationName)
@@ -60,9 +57,12 @@ private fun Project.createExtensionConfigurations() {
     }
 }
 
-fun Project.resolveProtoktCoreDep() =
+internal fun Project.resolveProtoktCoreDep() =
     if (the<ProtoktExtension>().lite) {
         "protokt-core-lite"
     } else {
         "protokt-core"
     }
+
+internal fun Project.isMultiplatform() =
+    plugins.hasPlugin("org.jetbrains.kotlin.multiplatform")

@@ -21,5 +21,3 @@ allprojects {
     group = "com.toasttab.protokt"
     lint()
 }
-
-promoteStagingRepo()
