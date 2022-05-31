@@ -27,7 +27,6 @@ repositories {
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.32")
     implementation("com.android.tools.build:gradle:4.1.0")
-
     implementation("com.diffplug.spotless:spotless-plugin-gradle:6.3.0")
     implementation("com.github.andrewparmet:protobuf-gradle-plugin:support-kotlin-multiplatform-SNAPSHOT")
     implementation("com.google.guava:guava:31.1-jre")
