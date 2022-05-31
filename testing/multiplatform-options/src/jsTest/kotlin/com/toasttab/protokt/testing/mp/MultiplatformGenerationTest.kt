@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.tosattab.protokt.testing.mp
+package com.toasttab.protokt.testing.mp
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
