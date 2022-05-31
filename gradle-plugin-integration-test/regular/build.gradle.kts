@@ -23,7 +23,7 @@ spotless {
 }
 
 dependencies {
-    protoktExtensions("com.toasttab.protokt:protokt-extensions:$version")
+    protoktExtensions("com.toasttab.protokt:protokt-jvm-extensions:$version")
 
     implementation(kotlin("stdlib"))
 
