@@ -33,7 +33,11 @@ kotlin {
             }
         }
 
-        val jsTest by getting {}
+        val jsTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+            }
+        }
 
         js(BOTH) {
             browser {
