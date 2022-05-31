@@ -26,7 +26,6 @@ dependencies {
     // protoktExtensions(project(":extensions:protokt-extensions"))
     protobuf(files("../../extensions/protokt-extensions-lite/src/main/proto"))
 
-    testImplementation(project(":protokt-core"))
     testImplementation(kotlin("test"))
 }
 
