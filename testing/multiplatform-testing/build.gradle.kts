@@ -61,8 +61,4 @@ kotlin {
 
 dependencies {
     protoktExtensions(project(":extensions:protokt-extensions"))
-
-    // TODO: Why doesn't this work? Why must this be a `protobuf` dependency?
-    // protoktExtensions(project(":extensions:protokt-extensions"))
-    protobuf(files("../../extensions/protokt-extensions-lite/src/main/proto"))
 }
