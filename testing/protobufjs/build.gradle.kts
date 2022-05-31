@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-import com.google.protobuf.gradle.protobuf
+import com.toasttab.protokt.gradle.protoktExtensions
 
 plugins {
     id("org.jetbrains.kotlin.js")
@@ -22,9 +22,7 @@ plugins {
 localProtokt()
 
 dependencies {
-    // TODO: Why doesn't this work? Why must this be a `protobuf` dependency?
-    // protoktExtensions(project(":extensions:protokt-extensions"))
-    protobuf(files("../../extensions/protokt-extensions-lite/src/main/proto"))
+    protoktExtensions(project(":extensions:protokt-extensions"))
 
     testImplementation(kotlin("test"))
 }

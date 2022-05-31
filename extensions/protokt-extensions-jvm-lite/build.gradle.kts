@@ -13,7 +13,6 @@
  * limitations under the License.
  */
 
-import com.google.protobuf.gradle.protobuf
 import com.toasttab.protokt.gradle.protokt
 import com.toasttab.protokt.gradle.protoktExtensions
 
@@ -33,10 +32,7 @@ protokt {
 
 dependencies {
     protoktExtensions(project(":extensions:protokt-extensions-jvm-simple"))
-
-    // TODO: Why doesn't this work? Why must this be a `protobuf` dependency?
-    // protoktExtensions(project(":extensions:protokt-extensions-lite"))
-    protobuf(files("../protokt-extensions-lite/src/main/proto"))
+    protoktExtensions(project(":extensions:protokt-extensions-lite"))
 
     implementation(project(":extensions:protokt-extensions-api"))
     implementation(libraries.autoServiceAnnotations)

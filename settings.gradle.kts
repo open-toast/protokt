@@ -58,7 +58,7 @@ include(
     "testing:conformance:js-legacy",
     "testing:conformance:jvm",
     "testing:conformance:runner",
-    "testing:multiplatform-options",
+    "testing:multiplatform-testing",
     "testing:options",
     "testing:options-api",
     "testing:options-test-configurations",
