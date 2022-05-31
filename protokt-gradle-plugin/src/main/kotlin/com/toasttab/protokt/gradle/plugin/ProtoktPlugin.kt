@@ -27,12 +27,14 @@ val protoktVersion by lazy { getProtoktVersion(ProtoktPlugin::class) }
 class ProtoktPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         configureProtokt(project) {
-            project.configurations.named(EXTENSIONS) {
-                dependencies.add(
-                    project.dependencies.create(
-                        "com.toasttab.protokt:${project.resolveProtoktCoreDep()}:$protoktVersion"
+            project.afterEvaluate {
+                project.configurations.named(EXTENSIONS) {
+                    dependencies.add(
+                        project.dependencies.create(
+                            "com.toasttab.protokt:${project.resolveProtoktCoreDep()}:$protoktVersion"
+                        )
                     )
-                )
+                }
             }
 
             binaryFromArtifact(project)
