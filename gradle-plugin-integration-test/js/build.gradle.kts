@@ -14,6 +14,13 @@
  */
 
 import com.toasttab.protokt.gradle.protoktExtensions
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+buildscript {
+    dependencies {
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.32")
+    }
+}
 
 plugins {
     id("org.jetbrains.kotlin.js")
@@ -59,5 +66,14 @@ sourceSets {
         proto {
             srcDir("../multiplatform/src/main/proto")
         }
+    }
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions {
+        allWarningsAsErrors = true
+        jvmTarget = "1.8"
+        apiVersion = "1.5"
+        languageVersion = "1.5"
     }
 }
