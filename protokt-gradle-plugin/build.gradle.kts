@@ -19,6 +19,10 @@ plugins {
     id("com.gradle.plugin-publish") version "0.11.0"
 }
 
+repositories {
+    maven(url = "https://jitpack.io")
+}
+
 gradlePlugin {
     isAutomatedPublishing = false
 

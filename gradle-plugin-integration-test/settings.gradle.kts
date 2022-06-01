@@ -27,6 +27,8 @@ apply(plugin = "net.vivin.gradle-semantic-build-versioning")
 rootProject.name = "gradle-plugin-integration-test"
 
 listOf(
-    "regular",
-    "lite"
+    "jvm-regular",
+    "jvm-lite",
+    "js",
+    "multiplatform"
 ).forEach { include(it) }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2022 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,20 +15,17 @@
 
 package com.toasttab.protokt.testing
 
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
-import java.time.Instant
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class TestMessageTest {
     @Test
-    fun `serialization should preserve the timestamp field`() {
-        val message = testMessage {
-            timestamp = Instant.parse("2007-12-03T10:15:30.00Z")
-        }
+    fun serialization_round_trip() {
+        val message = testMessage { baz = "2007-12-03T10:15:30.00Z" }
 
         assertEquals(
-            message.timestamp,
-            TestMessage.deserialize(message.serialize()).timestamp
+            message,
+            TestMessage.deserialize(message.serialize())
         )
     }
 }

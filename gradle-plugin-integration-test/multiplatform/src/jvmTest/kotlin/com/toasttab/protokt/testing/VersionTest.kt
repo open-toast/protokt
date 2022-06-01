@@ -13,23 +13,19 @@
  * limitations under the License.
  */
 
-syntax = "proto3";
+package com.toasttab.protokt.testing
 
-package com.toasttab.protokt.testing;
+import com.toasttab.protokt.rt.KtMessage
+import com.toasttab.protokt.util.getProtoktVersion
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 
-import "protokt/protokt.proto";
-import "google/protobuf/timestamp.proto";
+class VersionTest {
+    @Test
+    fun `runtime version should match project version`() {
+        val version = System.getenv("version")
+        val runtimeVersion = getProtoktVersion(KtMessage::class)
 
-message TestMessage {
-  google.protobuf.Timestamp timestamp = 1 [
-    (.protokt.property).wrap = "java.time.Instant"
-  ];
-
-  oneof bar {
-    string foo = 2;
-  }
-
-  enum Foo {
-    FOO_FIRST_UNSPECIFIED = 0;
-  }
+        assertEquals(version, runtimeVersion)
+    }
 }

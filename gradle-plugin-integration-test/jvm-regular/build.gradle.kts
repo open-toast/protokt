@@ -13,29 +13,38 @@
  * limitations under the License.
  */
 
-protokt {
-    lite = true
+import com.toasttab.protokt.gradle.protoktExtensions
+
+plugins {
+    id("org.jetbrains.kotlin.jvm")
+    id("com.toasttab.protokt")
+}
+
+tasks {
+    withType<Test> {
+        useJUnitPlatform()
+    }
 }
 
 dependencies {
-    protoktExtensions("com.toasttab.protokt:protokt-jvm-extensions-lite:$version")
+    protoktExtensions("com.toasttab.protokt:protokt-jvm-extensions:$version")
 
-    implementation(kotlin("stdlib"))
-
+    testImplementation(kotlin("test"))
     testImplementation("org.junit.jupiter:junit-jupiter:5.7.2")
-    testImplementation("com.google.protobuf:protobuf-javalite:3.19.1")
+    testImplementation("com.google.protobuf:protobuf-java:3.19.1")
     testImplementation("com.toasttab.protokt:protokt-util:$version")
 }
 
 sourceSets {
     main {
         proto {
-            srcDir("../regular/src/main/proto")
+            srcDir("../multiplatform/src/main/proto")
         }
     }
     test {
         java {
-            srcDir("../regular/src/test/kotlin")
+            srcDir("../multiplatform/src/jvmTest/kotlin")
+            srcDir("../multiplatform/src/commonTest/kotlin")
         }
     }
 }
