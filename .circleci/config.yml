@@ -108,6 +108,22 @@ jobs:
     steps:
       - checkout
       - read_cache
+      - node/install
+
+      - run:
+          name: Install protobufjs
+          command: |
+            npm install protobufjs@6.11.3
+
+      - run:
+          name: Install long.js
+          command: |
+            npm install long@5.2.0
+
+      - run:
+          name: Install Firefox
+          command: |
+            apk add firefox
 
       - attach_workspace:
           at: build/repos
