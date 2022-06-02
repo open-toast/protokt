@@ -62,10 +62,6 @@ sourceSets {
     }
 }
 
-tasks.named("irTest") {
-    enabled = System.getProperty("kotlin.version", "1.5.32") == "1.5.32"
-}
-
-tasks.named("legacyTest") {
+tasks.withType<Test> {
     enabled = System.getProperty("kotlin.version", "1.5.32") == "1.5.32"
 }
