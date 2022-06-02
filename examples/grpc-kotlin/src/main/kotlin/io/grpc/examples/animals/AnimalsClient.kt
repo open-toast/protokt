@@ -28,19 +28,19 @@ class AnimalsClient(private val channel: ManagedChannel) : Closeable {
     private val sheepStub: SheepGrpcKt.SheepCoroutineStub by lazy { SheepGrpcKt.SheepCoroutineStub(channel) }
 
     suspend fun bark() {
-        val request = barkRequest {}
+        val request = BarkRequest {}
         val response = dogStub.bark(request)
         println("Received: ${response.message}")
     }
 
     suspend fun oink() {
-        val request = oinkRequest {}
+        val request = OinkRequest {}
         val response = pigStub.oink(request)
         println("Received: ${response.message}")
     }
 
     suspend fun baa() {
-        val request = baaRequest {}
+        val request = BaaRequest {}
         val response = sheepStub.baa(request)
         println("Received: ${response.message}")
     }

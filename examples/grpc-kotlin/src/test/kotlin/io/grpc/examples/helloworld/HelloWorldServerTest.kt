@@ -1,5 +1,6 @@
 /*
  * Copyright 2022 gRPC authors.
+ * Copyright 2021 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +36,7 @@ class HelloWorldServerTest {
         val stub = GreeterGrpcKt.GreeterCoroutineStub(grpcServerRule.channel)
         val testName = "test name"
 
-        val reply = stub.sayHello(helloRequest { name = testName })
+        val reply = stub.sayHello(HelloRequest { name = testName })
 
         assertEquals("Hello $testName", reply.message)
     }

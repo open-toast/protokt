@@ -20,9 +20,9 @@ import org.junit.Test
 
 class OneofImplementsTest {
     private val obj =
-        containsOneofThatImplements {
+        ContainsOneofThatImplements {
             implementingOneof = ContainsOneofThatImplements.ImplementingOneof.ImplementsOne(
-                implementsOneof1 { id = Id("val") }
+                ImplementsOneof1 { id = Id("val") }
             )
         }
 

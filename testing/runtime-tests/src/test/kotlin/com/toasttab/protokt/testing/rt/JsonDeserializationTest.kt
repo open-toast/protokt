@@ -31,8 +31,6 @@ import org.junit.jupiter.api.Test
 import toasttab.protokt.testing.rt.AnEnum
 import toasttab.protokt.testing.rt.RootMessage
 import toasttab.protokt.testing.rt.ToDeserialize
-import toasttab.protokt.testing.rt.rootMessage
-import toasttab.protokt.testing.rt.toDeserialize
 
 class JsonDeserializationTest {
     private val mapper =
@@ -67,9 +65,9 @@ class JsonDeserializationTest {
     @Test
     fun `protokt class can be deserialized from JSON`() {
         val original =
-            toDeserialize {
+            ToDeserialize {
                 stringValue = "some-string"
-                message = rootMessage {
+                message = RootMessage {
                     field = "some-field"
                     oneofField = RootMessage.OneofField.Name("asdf")
                 }

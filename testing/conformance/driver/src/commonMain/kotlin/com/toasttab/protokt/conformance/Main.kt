@@ -43,7 +43,7 @@ fun main() = Platform.runBlockingMain {
                 }
             }
 
-        Platform.writeToStdOut(conformanceResponse { this.result = result }.serialize())
+        Platform.writeToStdOut(ConformanceResponse { this.result = result }.serialize())
     }
 }
 

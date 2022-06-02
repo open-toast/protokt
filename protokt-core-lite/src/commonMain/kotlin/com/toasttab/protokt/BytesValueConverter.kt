@@ -27,5 +27,5 @@ object BytesValueConverter : Converter<Bytes, BytesValue> {
         unwrapped.value
 
     override fun unwrap(wrapped: Bytes) =
-        BytesValue.BytesValueDsl().apply { value = wrapped }.build()
+        BytesValue { value = wrapped }
 }

@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test
 
 class BytesSliceTest {
     private val model =
-        sliceModel {
+        SliceModel {
             slice = BytesSlice("asdf".toByteArray())
         }
 

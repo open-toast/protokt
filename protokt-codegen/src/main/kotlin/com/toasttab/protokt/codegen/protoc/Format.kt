@@ -17,7 +17,6 @@ package com.toasttab.protokt.codegen.protoc
 
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.toasttab.protokt.codegen.impl.resolvePackage
-import com.toasttab.protokt.codegen.model.PPackage
 
 internal object Keywords {
     val reserved =
@@ -152,10 +151,19 @@ internal fun newEnumValueName(
 internal fun camelToUpperSnake(str: String) =
     str.replace(Regex("(?<=[a-z])([A-Z0-9])"), "_$1").uppercase()
 
-internal fun fileName(pkg: PPackage?, name: String): String {
-    return (pkg?.toString()?.replace('.', '/')?.plus('/') ?: "") +
-        name.substringAfterLast('/').removeSuffix(".proto") +
-        ".kt"
+internal fun fileName(protocol: Protocol): String {
+    val pkg = protocol.desc.kotlinPackage
+    val name = protocol.desc.name
+    val suffixes = mutableListOf<String>()
+    if (protocol.desc.context.onlyGenerateDescriptors) {
+        suffixes.add("_protokt_descriptors")
+    } else if (protocol.desc.context.onlyGenerateGrpc) {
+        suffixes.add("_protokt_grpc")
+    }
+    val dir = pkg.toString().replace('.', '/') + '/'
+    val fileNameBase = name.substringAfterLast('/').removeSuffix(".proto")
+
+    return dir + fileNameBase + suffixes.joinToString("") + ".kt"
 }
 
 internal fun generateFdpObjectNames(

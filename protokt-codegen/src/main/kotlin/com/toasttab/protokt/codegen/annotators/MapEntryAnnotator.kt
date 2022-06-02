@@ -133,7 +133,7 @@ private constructor(
                                   }
                                 }
                             """.bindIndent(),
-                            mapOf("valueClassDsl" to entryInfo.value.typePClass.nest("${valPropertyType.simpleName}Dsl").toTypeName())
+                            mapOf("valueClass" to entryInfo.value.typePClass.toTypeName())
                         )
                         .build()
                 )
@@ -150,7 +150,7 @@ private constructor(
 
     private fun orDefault(f: StandardField) =
         if (f.type == FieldType.MESSAGE) {
-            " ?: %valueClassDsl:T().build()"
+            " ?: %valueClass:T {}"
         } else {
             ""
         }

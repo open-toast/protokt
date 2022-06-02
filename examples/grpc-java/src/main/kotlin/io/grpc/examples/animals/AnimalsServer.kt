@@ -64,7 +64,7 @@ class AnimalsServer(
             @Suppress("UNUSED_PARAMETER") request: BarkRequest,
             responseObserver: StreamObserver<BarkReply>
         ) {
-            responseObserver.onNext(barkReply { message = "Bark!" })
+            responseObserver.onNext(BarkReply { message = "Bark!" })
             responseObserver.onCompleted()
         }
     }
@@ -79,7 +79,7 @@ class AnimalsServer(
             @Suppress("UNUSED_PARAMETER") request: OinkRequest,
             responseObserver: StreamObserver<OinkReply>
         ) {
-            responseObserver.onNext(oinkReply { message = "Oink!" })
+            responseObserver.onNext(OinkReply { message = "Oink!" })
             responseObserver.onCompleted()
         }
     }
@@ -94,7 +94,7 @@ class AnimalsServer(
             @Suppress("UNUSED_PARAMETER") request: BaaRequest,
             responseObserver: StreamObserver<BaaReply>
         ) {
-            responseObserver.onNext(baaReply { message = "Baa!" })
+            responseObserver.onNext(BaaReply { message = "Baa!" })
             responseObserver.onCompleted()
         }
     }

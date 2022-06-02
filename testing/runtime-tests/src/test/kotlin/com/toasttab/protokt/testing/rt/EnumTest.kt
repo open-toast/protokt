@@ -21,12 +21,11 @@ import toasttab.protokt.testing.rt.HasAnEnum
 import toasttab.protokt.testing.rt.HasMoreEnum
 import toasttab.protokt.testing.rt.MoreEnum
 import toasttab.protokt.testing.rt.SomeEnum
-import toasttab.protokt.testing.rt.hasMoreEnum
 
 class EnumTest {
     @Test
     fun `round trip preserves unknown enums`() {
-        val with3 = hasMoreEnum { enum = MoreEnum.MORE_VALUE_3 }
+        val with3 = HasMoreEnum { enum = MoreEnum.MORE_VALUE_3 }
         val as2 = HasAnEnum.deserialize(with3.serialize())
 
         assertThat(as2.enum).isEqualTo(SomeEnum.from(2))

@@ -28,14 +28,11 @@ object FileBuilder {
         protocol: Protocol
     ): FileSpec? {
         val descs = Annotator.apply(protocol)
-        if (descs.isEmpty() && protocol.desc.context.lite) {
-            return null
-        }
 
         val builder =
             FileSpec.builder(
                 protocol.desc.kotlinPackage.toString(),
-                fileName(protocol.desc.kotlinPackage, protocol.desc.name)
+                fileName(protocol)
             ).apply {
                 // https://github.com/square/kotlinpoet/pull/533
                 addComment(
@@ -47,22 +44,31 @@ object FileBuilder {
                 indent("    ")
             }
 
+        var anyCodeAdded = false
+
         descs.forEach {
+            anyCodeAdded = true
             builder.addType(it.type.typeSpec)
         }
 
         descs
             .map { it.type.rawType }
             .filterIsInstance<Message>()
-            .forEach { addConstructorFunction(it, builder::addFunction) }
+            .forEach {
+                anyCodeAdded = true
+                addConstructorFunction(it, builder::addFunction)
+            }
 
-        val fileDescriptorInfo = FileDescriptorResolver.resolveFileDescriptor(protocol)
+        if (!protocol.desc.context.lite) {
+            val fileDescriptorInfo = FileDescriptorResolver.resolveFileDescriptor(protocol)
 
-        if (fileDescriptorInfo != null) {
-            builder.addType(fileDescriptorInfo.fdp)
-            fileDescriptorInfo.properties.forEach(builder::addProperty)
+            if (fileDescriptorInfo != null) {
+                anyCodeAdded = true
+                builder.addType(fileDescriptorInfo.fdp)
+                fileDescriptorInfo.properties.forEach(builder::addProperty)
+            }
         }
 
-        return builder.build()
+        return if (anyCodeAdded) builder.build() else null
     }
 }

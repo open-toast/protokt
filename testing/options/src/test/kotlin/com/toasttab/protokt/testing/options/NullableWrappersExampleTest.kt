@@ -28,7 +28,7 @@ import java.util.UUID
 class NullableWrappersExampleTest {
     @Test
     fun `serialization round trip works`() {
-        val original = nullableWrappersExample {
+        val original = NullableWrappersExample {
             address = InetAddress.getLocalHost()
             socketAddress = InetSocketAddress(InetAddress.getLocalHost(), 8080)
             uuid = UUID.randomUUID()
@@ -78,7 +78,7 @@ class NullableWrappersExampleTest {
     @Test
     fun `type can be constructed with no values`() {
         assertDoesNotThrow {
-            nullableWrappersExample {}
+            NullableWrappersExample {}
         }
     }
 }

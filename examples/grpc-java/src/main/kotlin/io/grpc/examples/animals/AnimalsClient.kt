@@ -29,19 +29,19 @@ class AnimalsClient(
     private val channel: ManagedChannel
 ) : Closeable {
     fun bark() {
-        val request = barkRequest { }
+        val request = BarkRequest { }
         val response = unaryCall(DogGrpc.getBarkMethod(), request)
         println("Received: ${response.message}")
     }
 
     fun oink() {
-        val request = oinkRequest { }
+        val request = OinkRequest { }
         val response = unaryCall(PigGrpc.getOinkMethod(), request)
         println("Received: ${response.message}")
     }
 
     fun baa() {
-        val request = baaRequest { }
+        val request = BaaRequest { }
         val response = unaryCall(SheepGrpc.getBaaMethod(), request)
         println("Received: ${response.message}")
     }

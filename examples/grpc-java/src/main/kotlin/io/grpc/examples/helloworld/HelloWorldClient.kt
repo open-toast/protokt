@@ -28,7 +28,7 @@ class HelloWorldClient(
     private val channel: ManagedChannel
 ) : Closeable {
     fun greet(name: String) {
-        val request = helloRequest { this.name = name }
+        val request = HelloRequest { this.name = name }
         val response =
             ClientCalls.blockingUnaryCall(
                 channel,

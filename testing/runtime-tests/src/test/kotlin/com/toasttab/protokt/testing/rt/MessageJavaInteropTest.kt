@@ -21,9 +21,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import tutorial.AddressBook
 import tutorial.Person
-import tutorial.Person.Deserializer.phoneNumber
-import tutorial.addressBook
-import tutorial.person
+import tutorial.Person.Deserializer.PhoneNumber
 import com.example.tutorial.AddressBookProtos.AddressBook as JavaAddressBook
 import com.example.tutorial.AddressBookProtos.Person as JavaPerson
 import com.example.tutorial.AddressBookProtos.Person.PhoneNumber as JavaPhoneNumber
@@ -39,7 +37,7 @@ class MessageJavaInteropTest {
             .build()
 
     private val phoneNumber0 =
-        phoneNumber {
+        PhoneNumber {
             number = "617-555-6666"
             type = Person.PhoneType.WORK
         }
@@ -74,13 +72,13 @@ class MessageJavaInteropTest {
     @Nested
     inner class Persons {
         private val phoneNumber1 =
-            phoneNumber {
+            PhoneNumber {
                 number = "617-555-6667"
                 type = Person.PhoneType.MOBILE
             }
 
         private val phoneNumber2 =
-            phoneNumber {
+            PhoneNumber {
                 number = "617-555-5555"
                 type = Person.PhoneType.HOME
             }
@@ -101,7 +99,7 @@ class MessageJavaInteropTest {
         private val javaPhones0 = listOf(javaPhoneNumber0, javaPhoneNumber1, javaPhoneNumber2)
 
         private val person0 =
-            person {
+            Person {
                 name = "Hubert J. Farnsworth"
                 id = 0
                 email = "Farnsworth@toasttab.com"
@@ -141,25 +139,25 @@ class MessageJavaInteropTest {
         @Nested
         inner class AddressBooks {
             private val phones1 = listOf(
-                phoneNumber {
+                PhoneNumber {
                     number = "781-555-1212"
                     type = Person.PhoneType.WORK
                 },
-                phoneNumber {
+                PhoneNumber {
                     number = "781-555-5555"
                     type = Person.PhoneType.HOME
                 },
-                phoneNumber {
+                PhoneNumber {
                     number = "781-555-6666"
                     type = Person.PhoneType.MOBILE
                 }
             )
 
             private val addressBook =
-                addressBook {
+                AddressBook {
                     people = listOf(
                         person0,
-                        person {
+                        Person {
                             name = "Dr. John A. Zoidberg"
                             id = 1
                             email = "Zoidberg@toasttab.com"

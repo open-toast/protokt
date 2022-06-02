@@ -23,6 +23,7 @@ import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
+import com.toasttab.protokt.codegen.impl.bindSpaces
 import com.toasttab.protokt.codegen.impl.runtimeFunction
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.template.Message.Message.PropertyInfo
@@ -46,7 +47,7 @@ class DslAnnotator(
                 )
                 .addCode(
                     (
-                        "return " + msg.name + "Dsl().apply {\n" +
+                        "return " + msg.name + " {\n" +
                             if (properties.isEmpty()) {
                                 ""
                             } else {
@@ -55,9 +56,9 @@ class DslAnnotator(
                             """
                                |    unknownFields = this@${msg.name}.unknownFields
                                |    dsl()
-                               |}.build()
+                               |}
                            """.trimMargin()
-                        ).replace(" ", "·")
+                        ).bindSpaces()
                 )
                 .build()
         )

@@ -30,8 +30,11 @@ import org.gradle.kotlin.dsl.withType
 fun Project.localProtokt() {
     configureProtokt(this) {
         if (name !in setOf("protokt-core", "protokt-core-lite")) {
-            dependencies {
-                add(EXTENSIONS, project(":${resolveProtoktCoreDep()}"))
+            // must wait for extension to resolve
+            afterEvaluate {
+                dependencies {
+                    add(EXTENSIONS, project(":${resolveProtoktCoreDep()}"))
+                }
             }
         }
 

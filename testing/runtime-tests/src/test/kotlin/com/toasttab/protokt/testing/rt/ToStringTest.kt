@@ -17,13 +17,13 @@ package com.toasttab.protokt.testing.rt
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
-import toasttab.protokt.testing.rt.test2
+import toasttab.protokt.testing.rt.Test2
 
 class ToStringTest {
     @Test
     fun `toString prints the correct format`() {
         assertThat(
-            test2 { extra = "foo" }.toString()
+            Test2 { extra = "foo" }.toString()
         ).isEqualTo(
             "Test2(`val`=[], extra=foo, unknownFields=UnknownFieldSet(unknownFields={}))"
         )

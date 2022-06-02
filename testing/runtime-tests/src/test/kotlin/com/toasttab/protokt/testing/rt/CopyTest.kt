@@ -18,13 +18,13 @@ package com.toasttab.protokt.testing.rt
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
 import tutorial.Person
-import tutorial.Person.Deserializer.phoneNumber
+import tutorial.Person.Deserializer.PhoneNumber
 
 class CopyTest {
     @Test
     fun `copying an object preserves unmodified fields`() {
         val phoneNumber =
-            phoneNumber {
+            PhoneNumber {
                 number = "617-555-6666"
                 type = Person.PhoneType.WORK
             }
@@ -33,7 +33,7 @@ class CopyTest {
 
         assertThat(newNumber)
             .isEqualTo(
-                phoneNumber {
+                PhoneNumber {
                     number = "504-237-4012"
                     type = Person.PhoneType.WORK
                 }

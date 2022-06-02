@@ -26,5 +26,5 @@ object UInt64ValueConverter : Converter<Long, UInt64Value> {
         unwrapped.value
 
     override fun unwrap(wrapped: Long) =
-        UInt64Value.UInt64ValueDsl().apply { value = wrapped }.build()
+        UInt64Value { value = wrapped }
 }

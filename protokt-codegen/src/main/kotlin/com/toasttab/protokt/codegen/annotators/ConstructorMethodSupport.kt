@@ -25,7 +25,7 @@ import com.toasttab.protokt.codegen.protoc.Message
 
 fun addConstructorFunction(msg: Message, addFunction: (FunSpec) -> Unit) {
     addFunction(
-        FunSpec.builder(msg.name.replaceFirstChar { it.lowercase() })
+        FunSpec.builder(msg.name)
             .returns(msg.typeName)
             .addParameter(
                 "dsl",

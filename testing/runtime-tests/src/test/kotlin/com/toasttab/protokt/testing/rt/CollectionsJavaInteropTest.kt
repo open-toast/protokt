@@ -30,14 +30,6 @@ import toasttab.protokt.testing.rt.RepeatedPackedTest
 import toasttab.protokt.testing.rt.RepeatedTest
 import toasttab.protokt.testing.rt.RepeatedUnpackedTest
 import toasttab.protokt.testing.rt.RepeatedWktTest
-import toasttab.protokt.testing.rt.listTest
-import toasttab.protokt.testing.rt.mapTest
-import toasttab.protokt.testing.rt.repeatedAnyTest
-import toasttab.protokt.testing.rt.repeatedPackedTest
-import toasttab.protokt.testing.rt.repeatedTest
-import toasttab.protokt.testing.rt.repeatedUnpackedTest
-import toasttab.protokt.testing.rt.repeatedWktTest
-import toasttab.protokt.testing.rt.test
 import kotlin.random.Random
 import com.google.protobuf.Timestamp as JavaTimestamp
 import com.toasttab.protokt.testing.rt.TestOuterClass.ListTest as JavaListTest
@@ -57,8 +49,8 @@ class CollectionsJavaInteropTest {
     private val bytesContent = Bytes(content.toByteArray())
     private val bytesContent0 = Bytes(content0.toByteArray())
 
-    private val protoktSimple = test { `val` = bytesContent }
-    private val protoktSimple0 = test { `val` = bytesContent0 }
+    private val protoktSimple = KtTest { `val` = bytesContent }
+    private val protoktSimple0 = KtTest { `val` = bytesContent0 }
 
     private val javaSimple =
         TestOuterClass.Test.newBuilder()
@@ -127,7 +119,7 @@ class CollectionsJavaInteropTest {
             fun `kotlin smoke test`() {
                 assertThat(
                     ListTest.deserialize(
-                        listTest { list = protoktList }.serialize()
+                        ListTest { list = protoktList }.serialize()
                     ).list
                 ).containsExactly(protoktSimple, protoktSimple0).inOrder()
             }
@@ -136,7 +128,7 @@ class CollectionsJavaInteropTest {
             fun `java from kotlin`() {
                 assertThat(
                     JavaListTest.parseFrom(
-                        listTest { list = protoktList }.serialize()
+                        ListTest { list = protoktList }.serialize()
                     ).listList
                 ).containsExactly(javaSimple, javaSimple0).inOrder()
             }
@@ -157,7 +149,7 @@ class CollectionsJavaInteropTest {
             fun `kotlin strings smoke test`() {
                 assertThat(
                     RepeatedTest.deserialize(
-                        repeatedTest { list = stringList }.serialize()
+                        RepeatedTest { list = stringList }.serialize()
                     ).list
                 ).containsExactlyElementsIn(stringList).inOrder()
             }
@@ -166,7 +158,7 @@ class CollectionsJavaInteropTest {
             fun `java from kotlin strings`() {
                 assertThat(
                     JavaRepeatedTest.parseFrom(
-                        repeatedTest { list = stringList }.serialize()
+                        RepeatedTest { list = stringList }.serialize()
                     ).listList
                 ).containsExactlyElementsIn(stringList).inOrder()
             }
@@ -193,7 +185,7 @@ class CollectionsJavaInteropTest {
             fun `kotlin well-known type smoke test`() {
                 assertThat(
                     RepeatedWktTest.deserialize(
-                        repeatedWktTest { list = protoktWktList }.serialize()
+                        RepeatedWktTest { list = protoktWktList }.serialize()
                     ).list
                 ).containsExactlyElementsIn(protoktWktList).inOrder()
             }
@@ -202,7 +194,7 @@ class CollectionsJavaInteropTest {
             fun `java from kotlin well-known type`() {
                 assertThat(
                     JavaRepeatedWktTest.parseFrom(
-                        repeatedWktTest { list = protoktWktList }.serialize()
+                        RepeatedWktTest { list = protoktWktList }.serialize()
                     ).listList
                 ).containsExactlyElementsIn(javaWktList).inOrder()
             }
@@ -226,7 +218,7 @@ class CollectionsJavaInteropTest {
             fun `kotlin any smoke test`() {
                 assertThat(
                     RepeatedAnyTest.deserialize(
-                        repeatedAnyTest {
+                        RepeatedAnyTest {
                             list = listOf(
                                 com.toasttab.protokt.Any.pack(protoktSimple),
                                 com.toasttab.protokt.Any.pack(protoktSimple0)
@@ -240,7 +232,7 @@ class CollectionsJavaInteropTest {
             fun `java from kotlin`() {
                 assertThat(
                     JavaRepeatedAnyTest.parseFrom(
-                        repeatedAnyTest {
+                        RepeatedAnyTest {
                             list = listOf(
                                 com.toasttab.protokt.Any.pack(protoktSimple),
                                 com.toasttab.protokt.Any.pack(protoktSimple0)
@@ -274,7 +266,7 @@ class CollectionsJavaInteropTest {
             fun `kotlin packed smoke test`() {
                 assertThat(
                     RepeatedPackedTest.deserialize(
-                        repeatedPackedTest { list = int64List }.serialize()
+                        RepeatedPackedTest { list = int64List }.serialize()
                     ).list
                 ).containsExactlyElementsIn(int64List).inOrder()
             }
@@ -284,7 +276,7 @@ class CollectionsJavaInteropTest {
                 assertThat(
                     JavaRepeatedPackedTest
                         .parseFrom(
-                            repeatedPackedTest { list = int64List }.serialize()
+                            RepeatedPackedTest { list = int64List }.serialize()
                         ).listList
                 ).containsExactlyElementsIn(int64List).inOrder()
             }
@@ -305,7 +297,7 @@ class CollectionsJavaInteropTest {
             fun `kotlin unpacked smoke test`() {
                 assertThat(
                     RepeatedUnpackedTest.deserialize(
-                        repeatedUnpackedTest { list = int64List }.serialize()
+                        RepeatedUnpackedTest { list = int64List }.serialize()
                     ).list
                 ).containsExactlyElementsIn(int64List).inOrder()
             }
@@ -315,7 +307,7 @@ class CollectionsJavaInteropTest {
                 assertThat(
                     JavaRepeatedUnpackedTest
                         .parseFrom(
-                            repeatedUnpackedTest { list = int64List }
+                            RepeatedUnpackedTest { list = int64List }
                                 .serialize()
                         ).listList
                 ).containsExactlyElementsIn(int64List).inOrder()
@@ -337,7 +329,7 @@ class CollectionsJavaInteropTest {
             fun `kotlin unpacked from packed smoke test`() {
                 assertThat(
                     RepeatedUnpackedTest.deserialize(
-                        repeatedPackedTest { list = int64List }.serialize()
+                        RepeatedPackedTest { list = int64List }.serialize()
                     ).list
                 ).containsExactlyElementsIn(int64List).inOrder()
             }
@@ -347,7 +339,7 @@ class CollectionsJavaInteropTest {
                 assertThat(
                     JavaRepeatedUnpackedTest
                         .parseFrom(
-                            repeatedPackedTest { list = int64List }
+                            RepeatedPackedTest { list = int64List }
                                 .serialize()
                         ).listList
                 ).containsExactlyElementsIn(int64List).inOrder()
@@ -369,7 +361,7 @@ class CollectionsJavaInteropTest {
             fun `kotlin packed from unpacked smoke test`() {
                 assertThat(
                     RepeatedPackedTest.deserialize(
-                        repeatedUnpackedTest { list = int64List }.serialize()
+                        RepeatedUnpackedTest { list = int64List }.serialize()
                     ).list
                 ).containsExactlyElementsIn(int64List).inOrder()
             }
@@ -379,7 +371,7 @@ class CollectionsJavaInteropTest {
                 assertThat(
                     JavaRepeatedPackedTest
                         .parseFrom(
-                            repeatedUnpackedTest { list = int64List }
+                            RepeatedUnpackedTest { list = int64List }
                                 .serialize()
                         ).listList
                 ).containsExactlyElementsIn(int64List).inOrder()
@@ -405,7 +397,7 @@ class CollectionsJavaInteropTest {
         fun `kotlin smoke test`() {
             assertThat(
                 MapTest.deserialize(
-                    mapTest {
+                    MapTest {
                         map =
                             mapOf(
                                 content to protoktSimple,
@@ -423,7 +415,7 @@ class CollectionsJavaInteropTest {
         fun `java from kotlin`() {
             assertThat(
                 JavaMapTest.parseFrom(
-                    mapTest {
+                    MapTest {
                         map =
                             mapOf(
                                 content to protoktSimple,
@@ -456,8 +448,8 @@ class CollectionsJavaInteropTest {
         fun `java from kotlin with default value`() {
             assertThat(
                 JavaMapTest.parseFrom(
-                    mapTest {
-                        map = mapOf("nullTest" to test { })
+                    MapTest {
+                        map = mapOf("nullTest" to KtTest { })
                     }.serialize()
                 ).mapMap
             ).containsExactly("nullTest", TestOuterClass.Test.getDefaultInstance())
@@ -472,7 +464,7 @@ class CollectionsJavaInteropTest {
                         .build()
                         .toByteArray()
                 ).map
-            ).containsExactly("nullTest", test { })
+            ).containsExactly("nullTest", KtTest { })
         }
     }
 }

@@ -27,7 +27,7 @@ class HelloWorldClient(private val channel: ManagedChannel) : Closeable {
     private val stub: GreeterCoroutineStub = GreeterCoroutineStub(channel)
 
     suspend fun greet(name: String) {
-        val request = helloRequest { this.name = name }
+        val request = HelloRequest { this.name = name }
         val response = stub.sayHello(request)
         println("Received: ${response.message}")
     }

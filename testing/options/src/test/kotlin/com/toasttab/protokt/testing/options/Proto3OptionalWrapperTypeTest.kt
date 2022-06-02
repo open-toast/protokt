@@ -35,7 +35,7 @@ class Proto3OptionalWrapperTypeTest {
         val date = LocalDate.now()
 
         val serialized =
-            testProto3OptionalWrapperType {
+            TestProto3OptionalWrapperType {
                 optionalLocalDate = date
             }.serialize()
 
@@ -46,7 +46,7 @@ class Proto3OptionalWrapperTypeTest {
 
     @Test
     fun `optional primitive wrapper doesn't serialize default values for nulls`() {
-        val serialized = testProto3OptionalWrapperType { }.serialize()
+        val serialized = TestProto3OptionalWrapperType { }.serialize()
 
         val deserialized = TestProto3OptionalWrapperType.deserialize(serialized)
 

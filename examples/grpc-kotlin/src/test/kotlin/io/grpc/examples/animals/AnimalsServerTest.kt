@@ -1,5 +1,6 @@
 /*
  * Copyright 2022 gRPC authors.
+ * Copyright 2021 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,15 +38,15 @@ class AnimalsServerTest {
         grpcServerRule.serviceRegistry.addService(sheepService)
 
         val dogStub = DogGrpcKt.DogCoroutineStub(grpcServerRule.channel)
-        val dogBark = dogStub.bark(barkRequest { })
+        val dogBark = dogStub.bark(BarkRequest { })
         assertEquals("Bark!", dogBark.message)
 
         val pigStub = PigGrpcKt.PigCoroutineStub(grpcServerRule.channel)
-        val pigOink = pigStub.oink(oinkRequest { })
+        val pigOink = pigStub.oink(OinkRequest { })
         assertEquals("Oink!", pigOink.message)
 
         val sheepStub = SheepGrpcKt.SheepCoroutineStub(grpcServerRule.channel)
-        val sheepBaa = sheepStub.baa(baaRequest { })
+        val sheepBaa = sheepStub.baa(BaaRequest { })
         assertEquals("Baa!", sheepBaa.message)
     }
 }

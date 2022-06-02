@@ -26,5 +26,5 @@ object StringValueConverter : Converter<String, StringValue> {
         unwrapped.value
 
     override fun unwrap(wrapped: String) =
-        StringValue.StringValueDsl().apply { value = wrapped }.build()
+        StringValue { value = wrapped }
 }

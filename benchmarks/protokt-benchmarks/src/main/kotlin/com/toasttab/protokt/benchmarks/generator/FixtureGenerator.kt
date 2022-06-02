@@ -15,9 +15,9 @@
 
 package com.toasttab.protokt.benchmarks.generator
 
+import com.toasttab.protokt.benchmarks.BenchmarkDataset
 import com.toasttab.protokt.benchmarks.GenericMessage1
 import com.toasttab.protokt.benchmarks.GenericMessage4
-import com.toasttab.protokt.benchmarks.benchmarkDataset
 import com.toasttab.protokt.rt.Bytes
 import com.toasttab.protokt.rt.KtMessage
 import java.io.File
@@ -100,7 +100,7 @@ class FixtureGenerator(private val weight: Int) {
     fun randomSize() = random.nextInt().absoluteValue % weight + 1
 
     fun generateDataset(name: String, msg: KClass<out KtMessage>, size: Int) =
-        benchmarkDataset {
+        BenchmarkDataset {
             this.name = name
             messageName = msg.qualifiedName!!
             payload = (0..size).map {
