@@ -14,13 +14,6 @@
  */
 
 import com.toasttab.protokt.gradle.protoktExtensions
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
-buildscript {
-    dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${System.getProperty("kotlin.version", "1.5.32")}")
-    }
-}
 
 plugins {
     id("org.jetbrains.kotlin.jvm")
@@ -28,20 +21,6 @@ plugins {
 }
 
 tasks {
-    withType<KotlinCompile> {
-        kotlinOptions {
-            allWarningsAsErrors = true
-            jvmTarget = "1.8"
-
-            apiVersion =
-                System.getProperty("kotlin.version")
-                    ?.substringBeforeLast(".")
-                    ?: "1.5"
-
-            languageVersion = apiVersion
-        }
-    }
-
     withType<Test> {
         useJUnitPlatform()
     }
