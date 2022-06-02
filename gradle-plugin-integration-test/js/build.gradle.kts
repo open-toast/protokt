@@ -61,3 +61,11 @@ sourceSets {
         }
     }
 }
+
+tasks.named("irNodeTest") {
+    enabled = System.getProperty("kotlin.version", "1.5.32") == "1.5.32"
+}
+
+tasks.named("irBrowserTest") {
+    enabled = System.getProperty("kotlin.version", "1.5.32") == "1.5.32"
+}
