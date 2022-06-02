@@ -80,10 +80,18 @@ dependencies {
     protoktExtensions("com.toasttab.protokt:protokt-extensions:$version")
 }
 
-tasks.named("jsIrTest") {
+tasks.named("jsIrNodeTest") {
     enabled = System.getProperty("kotlin.version", "1.5.32") == "1.5.32"
 }
 
-tasks.named("jsLegacyTest") {
+tasks.named("jsIrBrowserTest") {
+    enabled = System.getProperty("kotlin.version", "1.5.32") == "1.5.32"
+}
+
+tasks.named("jsLegacyNodeTest") {
+    enabled = System.getProperty("kotlin.version", "1.5.32") == "1.5.32"
+}
+
+tasks.named("jsLegacyBrowserTest") {
     enabled = System.getProperty("kotlin.version", "1.5.32") == "1.5.32"
 }
