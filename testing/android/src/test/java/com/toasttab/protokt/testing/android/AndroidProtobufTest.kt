@@ -22,7 +22,14 @@ class AndroidProtobufTest {
     @Test
     fun `can use protobuf lite on android protos`() {
         assertThat(
-            TestMessage.deserialize(testMessage { foo = "foo" }.serialize()).foo
+            TestMessage.deserialize(TestMessage { foo = "foo" }.serialize()).foo
         ).isEqualTo("foo")
+    }
+
+    @Test
+    fun `protokt descriptor isn't available`() {
+        assertThrows<ClassNotFoundException> {
+            Class.forName("com.toasttab.protokt.ext.Protokt")
+        }
     }
 }
