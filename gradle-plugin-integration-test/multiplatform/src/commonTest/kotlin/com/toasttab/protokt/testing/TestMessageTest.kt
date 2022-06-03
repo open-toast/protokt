@@ -21,7 +21,7 @@ import kotlin.test.assertEquals
 class TestMessageTest {
     @Test
     fun serialization_round_trip() {
-        val message = testMessage { baz = "2007-12-03T10:15:30.00Z" }
+        val message = TestMessage { baz = "2007-12-03T10:15:30.00Z" }
 
         assertEquals(
             message,

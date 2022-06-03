@@ -26,12 +26,12 @@ public final class com/google/api/Advice$Deserializer : com/toasttab/protokt/rt/
 }
 
 public final class com/google/api/AuthKt {
-	public static final fun authProvider (Lkotlin/jvm/functions/Function1;)Lcom/google/api/AuthProvider;
-	public static final fun authRequirement (Lkotlin/jvm/functions/Function1;)Lcom/google/api/AuthRequirement;
-	public static final fun authentication (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Authentication;
-	public static final fun authenticationRule (Lkotlin/jvm/functions/Function1;)Lcom/google/api/AuthenticationRule;
-	public static final fun jwtLocation (Lkotlin/jvm/functions/Function1;)Lcom/google/api/JwtLocation;
-	public static final fun oAuthRequirements (Lkotlin/jvm/functions/Function1;)Lcom/google/api/OAuthRequirements;
+	public static final fun AuthProvider (Lkotlin/jvm/functions/Function1;)Lcom/google/api/AuthProvider;
+	public static final fun AuthRequirement (Lkotlin/jvm/functions/Function1;)Lcom/google/api/AuthRequirement;
+	public static final fun Authentication (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Authentication;
+	public static final fun AuthenticationRule (Lkotlin/jvm/functions/Function1;)Lcom/google/api/AuthenticationRule;
+	public static final fun JwtLocation (Lkotlin/jvm/functions/Function1;)Lcom/google/api/JwtLocation;
+	public static final fun OAuthRequirements (Lkotlin/jvm/functions/Function1;)Lcom/google/api/OAuthRequirements;
 }
 
 public final class com/google/api/AuthProvider : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -200,8 +200,8 @@ public final class com/google/api/Backend$Deserializer : com/toasttab/protokt/rt
 }
 
 public final class com/google/api/BackendKt {
-	public static final fun backend (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Backend;
-	public static final fun backendRule (Lkotlin/jvm/functions/Function1;)Lcom/google/api/BackendRule;
+	public static final fun Backend (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Backend;
+	public static final fun BackendRule (Lkotlin/jvm/functions/Function1;)Lcom/google/api/BackendRule;
 }
 
 public final class com/google/api/BackendRule : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -358,13 +358,13 @@ public final class com/google/api/Billing$BillingDsl {
 }
 
 public final class com/google/api/Billing$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer {
-	public final fun billingDestination (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Billing$BillingDestination;
+	public final fun BillingDestination (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Billing$BillingDestination;
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/google/api/Billing;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 }
 
 public final class com/google/api/BillingKt {
-	public static final fun billing (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Billing;
+	public static final fun Billing (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Billing;
 }
 
 public abstract class com/google/api/ChangeType : com/toasttab/protokt/rt/KtEnum {
@@ -439,13 +439,13 @@ public final class com/google/api/ConfigChange$Deserializer : com/toasttab/proto
 }
 
 public final class com/google/api/Config_changeKt {
-	public static final fun advice (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Advice;
-	public static final fun configChange (Lkotlin/jvm/functions/Function1;)Lcom/google/api/ConfigChange;
+	public static final fun Advice (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Advice;
+	public static final fun ConfigChange (Lkotlin/jvm/functions/Function1;)Lcom/google/api/ConfigChange;
 }
 
 public final class com/google/api/ConsumerKt {
-	public static final fun projectProperties (Lkotlin/jvm/functions/Function1;)Lcom/google/api/ProjectProperties;
-	public static final fun property (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Property;
+	public static final fun ProjectProperties (Lkotlin/jvm/functions/Function1;)Lcom/google/api/ProjectProperties;
+	public static final fun Property (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Property;
 }
 
 public final class com/google/api/Context : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -476,8 +476,8 @@ public final class com/google/api/Context$Deserializer : com/toasttab/protokt/rt
 }
 
 public final class com/google/api/ContextKt {
-	public static final fun context (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Context;
-	public static final fun contextRule (Lkotlin/jvm/functions/Function1;)Lcom/google/api/ContextRule;
+	public static final fun Context (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Context;
+	public static final fun ContextRule (Lkotlin/jvm/functions/Function1;)Lcom/google/api/ContextRule;
 }
 
 public final class com/google/api/ContextRule : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -547,7 +547,7 @@ public final class com/google/api/Control$Deserializer : com/toasttab/protokt/rt
 }
 
 public final class com/google/api/ControlKt {
-	public static final fun control (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Control;
+	public static final fun Control (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Control;
 }
 
 public final class com/google/api/CustomHttpPattern : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -622,11 +622,11 @@ public final class com/google/api/Distribution$BucketOptions$BucketOptionsDsl {
 }
 
 public final class com/google/api/Distribution$BucketOptions$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer {
+	public final fun Explicit (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Distribution$BucketOptions$Explicit;
+	public final fun Exponential (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Distribution$BucketOptions$Exponential;
+	public final fun Linear (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Distribution$BucketOptions$Linear;
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/google/api/Distribution$BucketOptions;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public final fun explicit (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Distribution$BucketOptions$Explicit;
-	public final fun exponential (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Distribution$BucketOptions$Exponential;
-	public final fun linear (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Distribution$BucketOptions$Linear;
 }
 
 public final class com/google/api/Distribution$BucketOptions$Explicit : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -759,11 +759,11 @@ public final class com/google/api/Distribution$BucketOptions$Options$LinearBucke
 }
 
 public final class com/google/api/Distribution$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer {
-	public final fun bucketOptions (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Distribution$BucketOptions;
+	public final fun BucketOptions (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Distribution$BucketOptions;
+	public final fun Exemplar (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Distribution$Exemplar;
+	public final fun Range (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Distribution$Range;
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/google/api/Distribution;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public final fun exemplar (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Distribution$Exemplar;
-	public final fun range (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Distribution$Range;
 }
 
 public final class com/google/api/Distribution$DistributionDsl {
@@ -851,7 +851,7 @@ public final class com/google/api/Distribution$Range$RangeDsl {
 }
 
 public final class com/google/api/DistributionKt {
-	public static final fun distribution (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Distribution;
+	public static final fun Distribution (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Distribution;
 }
 
 public final class com/google/api/Documentation : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -897,9 +897,9 @@ public final class com/google/api/Documentation$DocumentationDsl {
 }
 
 public final class com/google/api/DocumentationKt {
-	public static final fun documentation (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Documentation;
-	public static final fun documentationRule (Lkotlin/jvm/functions/Function1;)Lcom/google/api/DocumentationRule;
-	public static final fun page (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Page;
+	public static final fun Documentation (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Documentation;
+	public static final fun DocumentationRule (Lkotlin/jvm/functions/Function1;)Lcom/google/api/DocumentationRule;
+	public static final fun Page (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Page;
 }
 
 public final class com/google/api/DocumentationRule : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -972,7 +972,7 @@ public final class com/google/api/Endpoint$EndpointDsl {
 }
 
 public final class com/google/api/EndpointKt {
-	public static final fun endpoint (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Endpoint;
+	public static final fun Endpoint (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Endpoint;
 }
 
 public abstract class com/google/api/ErrorReason : com/toasttab/protokt/rt/KtEnum {
@@ -1183,9 +1183,9 @@ public final class com/google/api/HttpBody$HttpBodyDsl {
 }
 
 public final class com/google/api/HttpKt {
-	public static final fun customHttpPattern (Lkotlin/jvm/functions/Function1;)Lcom/google/api/CustomHttpPattern;
-	public static final fun http (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Http;
-	public static final fun httpRule (Lkotlin/jvm/functions/Function1;)Lcom/google/api/HttpRule;
+	public static final fun CustomHttpPattern (Lkotlin/jvm/functions/Function1;)Lcom/google/api/CustomHttpPattern;
+	public static final fun Http (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Http;
+	public static final fun HttpRule (Lkotlin/jvm/functions/Function1;)Lcom/google/api/HttpRule;
 }
 
 public final class com/google/api/HttpRule : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -1297,7 +1297,7 @@ public final class com/google/api/HttpRule$Pattern$Put : com/google/api/HttpRule
 }
 
 public final class com/google/api/HttpbodyKt {
-	public static final fun httpBody (Lkotlin/jvm/functions/Function1;)Lcom/google/api/HttpBody;
+	public static final fun HttpBody (Lkotlin/jvm/functions/Function1;)Lcom/google/api/HttpBody;
 }
 
 public final class com/google/api/JwtLocation : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -1417,7 +1417,7 @@ public final class com/google/api/LabelDescriptor$ValueType$UNRECOGNIZED : com/g
 }
 
 public final class com/google/api/LabelKt {
-	public static final fun labelDescriptor (Lkotlin/jvm/functions/Function1;)Lcom/google/api/LabelDescriptor;
+	public static final fun LabelDescriptor (Lkotlin/jvm/functions/Function1;)Lcom/google/api/LabelDescriptor;
 }
 
 public abstract class com/google/api/LaunchStage : com/toasttab/protokt/rt/KtEnum {
@@ -1505,7 +1505,7 @@ public final class com/google/api/LogDescriptor$LogDescriptorDsl {
 }
 
 public final class com/google/api/LogKt {
-	public static final fun logDescriptor (Lkotlin/jvm/functions/Function1;)Lcom/google/api/LogDescriptor;
+	public static final fun LogDescriptor (Lkotlin/jvm/functions/Function1;)Lcom/google/api/LogDescriptor;
 }
 
 public final class com/google/api/Logging : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -1523,9 +1523,9 @@ public final class com/google/api/Logging : com/toasttab/protokt/rt/AbstractKtMe
 }
 
 public final class com/google/api/Logging$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer {
+	public final fun LoggingDestination (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Logging$LoggingDestination;
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/google/api/Logging;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public final fun loggingDestination (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Logging$LoggingDestination;
 }
 
 public final class com/google/api/Logging$LoggingDestination : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -1570,7 +1570,7 @@ public final class com/google/api/Logging$LoggingDsl {
 }
 
 public final class com/google/api/LoggingKt {
-	public static final fun logging (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Logging;
+	public static final fun Logging (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Logging;
 }
 
 public final class com/google/api/Metric : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -1627,9 +1627,9 @@ public final class com/google/api/MetricDescriptor : com/toasttab/protokt/rt/Abs
 }
 
 public final class com/google/api/MetricDescriptor$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer {
+	public final fun MetricDescriptorMetadata (Lkotlin/jvm/functions/Function1;)Lcom/google/api/MetricDescriptor$MetricDescriptorMetadata;
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/google/api/MetricDescriptor;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public final fun metricDescriptorMetadata (Lkotlin/jvm/functions/Function1;)Lcom/google/api/MetricDescriptor$MetricDescriptorMetadata;
 }
 
 public final class com/google/api/MetricDescriptor$MetricDescriptorDsl {
@@ -1771,8 +1771,8 @@ public final class com/google/api/MetricDescriptor$ValueType$VALUE_TYPE_UNSPECIF
 }
 
 public final class com/google/api/MetricKt {
-	public static final fun metric (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Metric;
-	public static final fun metricDescriptor (Lkotlin/jvm/functions/Function1;)Lcom/google/api/MetricDescriptor;
+	public static final fun Metric (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Metric;
+	public static final fun MetricDescriptor (Lkotlin/jvm/functions/Function1;)Lcom/google/api/MetricDescriptor;
 }
 
 public final class com/google/api/MetricRule : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -1908,9 +1908,9 @@ public final class com/google/api/MonitoredResourceMetadata$MonitoredResourceMet
 }
 
 public final class com/google/api/Monitored_resourceKt {
-	public static final fun monitoredResource (Lkotlin/jvm/functions/Function1;)Lcom/google/api/MonitoredResource;
-	public static final fun monitoredResourceDescriptor (Lkotlin/jvm/functions/Function1;)Lcom/google/api/MonitoredResourceDescriptor;
-	public static final fun monitoredResourceMetadata (Lkotlin/jvm/functions/Function1;)Lcom/google/api/MonitoredResourceMetadata;
+	public static final fun MonitoredResource (Lkotlin/jvm/functions/Function1;)Lcom/google/api/MonitoredResource;
+	public static final fun MonitoredResourceDescriptor (Lkotlin/jvm/functions/Function1;)Lcom/google/api/MonitoredResourceDescriptor;
+	public static final fun MonitoredResourceMetadata (Lkotlin/jvm/functions/Function1;)Lcom/google/api/MonitoredResourceMetadata;
 }
 
 public final class com/google/api/Monitoring : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -1928,9 +1928,9 @@ public final class com/google/api/Monitoring : com/toasttab/protokt/rt/AbstractK
 }
 
 public final class com/google/api/Monitoring$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer {
+	public final fun MonitoringDestination (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Monitoring$MonitoringDestination;
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/google/api/Monitoring;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public final fun monitoringDestination (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Monitoring$MonitoringDestination;
 }
 
 public final class com/google/api/Monitoring$MonitoringDestination : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -1975,7 +1975,7 @@ public final class com/google/api/Monitoring$MonitoringDsl {
 }
 
 public final class com/google/api/MonitoringKt {
-	public static final fun monitoring (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Monitoring;
+	public static final fun Monitoring (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Monitoring;
 }
 
 public final class com/google/api/OAuthRequirements : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -2165,9 +2165,9 @@ public final class com/google/api/Quota$QuotaDsl {
 }
 
 public final class com/google/api/QuotaKt {
-	public static final fun metricRule (Lkotlin/jvm/functions/Function1;)Lcom/google/api/MetricRule;
-	public static final fun quota (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Quota;
-	public static final fun quotaLimit (Lkotlin/jvm/functions/Function1;)Lcom/google/api/QuotaLimit;
+	public static final fun MetricRule (Lkotlin/jvm/functions/Function1;)Lcom/google/api/MetricRule;
+	public static final fun Quota (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Quota;
+	public static final fun QuotaLimit (Lkotlin/jvm/functions/Function1;)Lcom/google/api/QuotaLimit;
 }
 
 public final class com/google/api/QuotaLimit : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -2322,8 +2322,8 @@ public final class com/google/api/ResourceDescriptor$Style$UNRECOGNIZED : com/go
 }
 
 public final class com/google/api/ResourceKt {
-	public static final fun resourceDescriptor (Lkotlin/jvm/functions/Function1;)Lcom/google/api/ResourceDescriptor;
-	public static final fun resourceReference (Lkotlin/jvm/functions/Function1;)Lcom/google/api/ResourceReference;
+	public static final fun ResourceDescriptor (Lkotlin/jvm/functions/Function1;)Lcom/google/api/ResourceDescriptor;
+	public static final fun ResourceReference (Lkotlin/jvm/functions/Function1;)Lcom/google/api/ResourceReference;
 }
 
 public final class com/google/api/ResourceReference : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -2357,8 +2357,8 @@ public final class com/google/api/ResourceReference$ResourceReferenceDsl {
 }
 
 public final class com/google/api/RoutingKt {
-	public static final fun routingParameter (Lkotlin/jvm/functions/Function1;)Lcom/google/api/RoutingParameter;
-	public static final fun routingRule (Lkotlin/jvm/functions/Function1;)Lcom/google/api/RoutingRule;
+	public static final fun RoutingParameter (Lkotlin/jvm/functions/Function1;)Lcom/google/api/RoutingParameter;
+	public static final fun RoutingRule (Lkotlin/jvm/functions/Function1;)Lcom/google/api/RoutingRule;
 }
 
 public final class com/google/api/RoutingParameter : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -2518,7 +2518,7 @@ public final class com/google/api/Service$ServiceDsl {
 }
 
 public final class com/google/api/ServiceKt {
-	public static final fun service (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Service;
+	public static final fun Service (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Service;
 }
 
 public final class com/google/api/SourceInfo : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -2549,7 +2549,7 @@ public final class com/google/api/SourceInfo$SourceInfoDsl {
 }
 
 public final class com/google/api/Source_infoKt {
-	public static final fun sourceInfo (Lkotlin/jvm/functions/Function1;)Lcom/google/api/SourceInfo;
+	public static final fun SourceInfo (Lkotlin/jvm/functions/Function1;)Lcom/google/api/SourceInfo;
 }
 
 public final class com/google/api/SystemParameter : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -2643,9 +2643,9 @@ public final class com/google/api/SystemParameters$SystemParametersDsl {
 }
 
 public final class com/google/api/System_parameterKt {
-	public static final fun systemParameter (Lkotlin/jvm/functions/Function1;)Lcom/google/api/SystemParameter;
-	public static final fun systemParameterRule (Lkotlin/jvm/functions/Function1;)Lcom/google/api/SystemParameterRule;
-	public static final fun systemParameters (Lkotlin/jvm/functions/Function1;)Lcom/google/api/SystemParameters;
+	public static final fun SystemParameter (Lkotlin/jvm/functions/Function1;)Lcom/google/api/SystemParameter;
+	public static final fun SystemParameterRule (Lkotlin/jvm/functions/Function1;)Lcom/google/api/SystemParameterRule;
+	public static final fun SystemParameters (Lkotlin/jvm/functions/Function1;)Lcom/google/api/SystemParameters;
 }
 
 public final class com/google/api/Usage : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -2682,8 +2682,8 @@ public final class com/google/api/Usage$UsageDsl {
 }
 
 public final class com/google/api/UsageKt {
-	public static final fun usage (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Usage;
-	public static final fun usageRule (Lkotlin/jvm/functions/Function1;)Lcom/google/api/UsageRule;
+	public static final fun Usage (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Usage;
+	public static final fun UsageRule (Lkotlin/jvm/functions/Function1;)Lcom/google/api/UsageRule;
 }
 
 public final class com/google/api/UsageRule : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -2747,8 +2747,8 @@ public final class com/google/api/Visibility$VisibilityDsl {
 }
 
 public final class com/google/api/VisibilityKt {
-	public static final fun visibility (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Visibility;
-	public static final fun visibilityRule (Lkotlin/jvm/functions/Function1;)Lcom/google/api/VisibilityRule;
+	public static final fun Visibility (Lkotlin/jvm/functions/Function1;)Lcom/google/api/Visibility;
+	public static final fun VisibilityRule (Lkotlin/jvm/functions/Function1;)Lcom/google/api/VisibilityRule;
 }
 
 public final class com/google/api/VisibilityRule : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -2884,12 +2884,12 @@ public final class com/google/cloud/audit/AuditLog$Deserializer : com/toasttab/p
 }
 
 public final class com/google/cloud/audit/Audit_logKt {
-	public static final fun auditLog (Lkotlin/jvm/functions/Function1;)Lcom/google/cloud/audit/AuditLog;
-	public static final fun authenticationInfo (Lkotlin/jvm/functions/Function1;)Lcom/google/cloud/audit/AuthenticationInfo;
-	public static final fun authorizationInfo (Lkotlin/jvm/functions/Function1;)Lcom/google/cloud/audit/AuthorizationInfo;
-	public static final fun requestMetadata (Lkotlin/jvm/functions/Function1;)Lcom/google/cloud/audit/RequestMetadata;
-	public static final fun resourceLocation (Lkotlin/jvm/functions/Function1;)Lcom/google/cloud/audit/ResourceLocation;
-	public static final fun serviceAccountDelegationInfo (Lkotlin/jvm/functions/Function1;)Lcom/google/cloud/audit/ServiceAccountDelegationInfo;
+	public static final fun AuditLog (Lkotlin/jvm/functions/Function1;)Lcom/google/cloud/audit/AuditLog;
+	public static final fun AuthenticationInfo (Lkotlin/jvm/functions/Function1;)Lcom/google/cloud/audit/AuthenticationInfo;
+	public static final fun AuthorizationInfo (Lkotlin/jvm/functions/Function1;)Lcom/google/cloud/audit/AuthorizationInfo;
+	public static final fun RequestMetadata (Lkotlin/jvm/functions/Function1;)Lcom/google/cloud/audit/RequestMetadata;
+	public static final fun ResourceLocation (Lkotlin/jvm/functions/Function1;)Lcom/google/cloud/audit/ResourceLocation;
+	public static final fun ServiceAccountDelegationInfo (Lkotlin/jvm/functions/Function1;)Lcom/google/cloud/audit/ServiceAccountDelegationInfo;
 }
 
 public final class com/google/cloud/audit/AuthenticationInfo : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -3079,10 +3079,10 @@ public final class com/google/cloud/audit/ServiceAccountDelegationInfo$Authority
 }
 
 public final class com/google/cloud/audit/ServiceAccountDelegationInfo$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer {
+	public final fun FirstPartyPrincipal (Lkotlin/jvm/functions/Function1;)Lcom/google/cloud/audit/ServiceAccountDelegationInfo$FirstPartyPrincipal;
+	public final fun ThirdPartyPrincipal (Lkotlin/jvm/functions/Function1;)Lcom/google/cloud/audit/ServiceAccountDelegationInfo$ThirdPartyPrincipal;
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/google/cloud/audit/ServiceAccountDelegationInfo;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public final fun firstPartyPrincipal (Lkotlin/jvm/functions/Function1;)Lcom/google/cloud/audit/ServiceAccountDelegationInfo$FirstPartyPrincipal;
-	public final fun thirdPartyPrincipal (Lkotlin/jvm/functions/Function1;)Lcom/google/cloud/audit/ServiceAccountDelegationInfo$ThirdPartyPrincipal;
 }
 
 public final class com/google/cloud/audit/ServiceAccountDelegationInfo$FirstPartyPrincipal : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -3184,7 +3184,7 @@ public final class com/google/geo/type/Viewport$ViewportDsl {
 }
 
 public final class com/google/geo/type/ViewportKt {
-	public static final fun viewport (Lkotlin/jvm/functions/Function1;)Lcom/google/geo/type/Viewport;
+	public static final fun Viewport (Lkotlin/jvm/functions/Function1;)Lcom/google/geo/type/Viewport;
 }
 
 public final class com/google/logging/type/HttpRequest : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -3257,7 +3257,7 @@ public final class com/google/logging/type/HttpRequest$HttpRequestDsl {
 }
 
 public final class com/google/logging/type/Http_requestKt {
-	public static final fun httpRequest (Lkotlin/jvm/functions/Function1;)Lcom/google/logging/type/HttpRequest;
+	public static final fun HttpRequest (Lkotlin/jvm/functions/Function1;)Lcom/google/logging/type/HttpRequest;
 }
 
 public abstract class com/google/logging/type/LogSeverity : com/toasttab/protokt/rt/KtEnum {
@@ -3551,14 +3551,14 @@ public final class com/google/longrunning/OperationInfo$OperationInfoDsl {
 }
 
 public final class com/google/longrunning/OperationsKt {
-	public static final fun cancelOperationRequest (Lkotlin/jvm/functions/Function1;)Lcom/google/longrunning/CancelOperationRequest;
-	public static final fun deleteOperationRequest (Lkotlin/jvm/functions/Function1;)Lcom/google/longrunning/DeleteOperationRequest;
-	public static final fun getOperationRequest (Lkotlin/jvm/functions/Function1;)Lcom/google/longrunning/GetOperationRequest;
-	public static final fun listOperationsRequest (Lkotlin/jvm/functions/Function1;)Lcom/google/longrunning/ListOperationsRequest;
-	public static final fun listOperationsResponse (Lkotlin/jvm/functions/Function1;)Lcom/google/longrunning/ListOperationsResponse;
-	public static final fun operation (Lkotlin/jvm/functions/Function1;)Lcom/google/longrunning/Operation;
-	public static final fun operationInfo (Lkotlin/jvm/functions/Function1;)Lcom/google/longrunning/OperationInfo;
-	public static final fun waitOperationRequest (Lkotlin/jvm/functions/Function1;)Lcom/google/longrunning/WaitOperationRequest;
+	public static final fun CancelOperationRequest (Lkotlin/jvm/functions/Function1;)Lcom/google/longrunning/CancelOperationRequest;
+	public static final fun DeleteOperationRequest (Lkotlin/jvm/functions/Function1;)Lcom/google/longrunning/DeleteOperationRequest;
+	public static final fun GetOperationRequest (Lkotlin/jvm/functions/Function1;)Lcom/google/longrunning/GetOperationRequest;
+	public static final fun ListOperationsRequest (Lkotlin/jvm/functions/Function1;)Lcom/google/longrunning/ListOperationsRequest;
+	public static final fun ListOperationsResponse (Lkotlin/jvm/functions/Function1;)Lcom/google/longrunning/ListOperationsResponse;
+	public static final fun Operation (Lkotlin/jvm/functions/Function1;)Lcom/google/longrunning/Operation;
+	public static final fun OperationInfo (Lkotlin/jvm/functions/Function1;)Lcom/google/longrunning/OperationInfo;
+	public static final fun WaitOperationRequest (Lkotlin/jvm/functions/Function1;)Lcom/google/longrunning/WaitOperationRequest;
 }
 
 public final class com/google/longrunning/WaitOperationRequest : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -3614,9 +3614,9 @@ public final class com/google/rpc/BadRequest$BadRequestDsl {
 }
 
 public final class com/google/rpc/BadRequest$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer {
+	public final fun FieldViolation (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/BadRequest$FieldViolation;
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/google/rpc/BadRequest;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public final fun fieldViolation (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/BadRequest$FieldViolation;
 }
 
 public final class com/google/rpc/BadRequest$FieldViolation : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -3797,16 +3797,16 @@ public final class com/google/rpc/ErrorInfo$ErrorInfoDsl {
 }
 
 public final class com/google/rpc/Error_detailsKt {
-	public static final fun badRequest (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/BadRequest;
-	public static final fun debugInfo (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/DebugInfo;
-	public static final fun errorInfo (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/ErrorInfo;
-	public static final fun help (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/Help;
-	public static final fun localizedMessage (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/LocalizedMessage;
-	public static final fun preconditionFailure (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/PreconditionFailure;
-	public static final fun quotaFailure (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/QuotaFailure;
-	public static final fun requestInfo (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/RequestInfo;
-	public static final fun resourceInfo (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/ResourceInfo;
-	public static final fun retryInfo (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/RetryInfo;
+	public static final fun BadRequest (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/BadRequest;
+	public static final fun DebugInfo (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/DebugInfo;
+	public static final fun ErrorInfo (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/ErrorInfo;
+	public static final fun Help (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/Help;
+	public static final fun LocalizedMessage (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/LocalizedMessage;
+	public static final fun PreconditionFailure (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/PreconditionFailure;
+	public static final fun QuotaFailure (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/QuotaFailure;
+	public static final fun RequestInfo (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/RequestInfo;
+	public static final fun ResourceInfo (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/ResourceInfo;
+	public static final fun RetryInfo (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/RetryInfo;
 }
 
 public final class com/google/rpc/Help : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -3823,9 +3823,9 @@ public final class com/google/rpc/Help : com/toasttab/protokt/rt/AbstractKtMessa
 }
 
 public final class com/google/rpc/Help$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer {
+	public final fun Link (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/Help$Link;
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/google/rpc/Help;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public final fun link (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/Help$Link;
 }
 
 public final class com/google/rpc/Help$HelpDsl {
@@ -3911,9 +3911,9 @@ public final class com/google/rpc/PreconditionFailure : com/toasttab/protokt/rt/
 }
 
 public final class com/google/rpc/PreconditionFailure$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer {
+	public final fun Violation (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/PreconditionFailure$Violation;
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/google/rpc/PreconditionFailure;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public final fun violation (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/PreconditionFailure$Violation;
 }
 
 public final class com/google/rpc/PreconditionFailure$PreconditionFailureDsl {
@@ -3972,9 +3972,9 @@ public final class com/google/rpc/QuotaFailure : com/toasttab/protokt/rt/Abstrac
 }
 
 public final class com/google/rpc/QuotaFailure$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer {
+	public final fun Violation (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/QuotaFailure$Violation;
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/google/rpc/QuotaFailure;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public final fun violation (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/QuotaFailure$Violation;
 }
 
 public final class com/google/rpc/QuotaFailure$QuotaFailureDsl {
@@ -4143,7 +4143,7 @@ public final class com/google/rpc/Status$StatusDsl {
 }
 
 public final class com/google/rpc/StatusKt {
-	public static final fun status (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/Status;
+	public static final fun Status (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/Status;
 }
 
 public final class com/google/rpc/context/AttributeContext : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -4265,14 +4265,14 @@ public final class com/google/rpc/context/AttributeContext$Auth$Deserializer : c
 }
 
 public final class com/google/rpc/context/AttributeContext$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer {
-	public final fun api (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/context/AttributeContext$Api;
-	public final fun auth (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/context/AttributeContext$Auth;
+	public final fun Api (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/context/AttributeContext$Api;
+	public final fun Auth (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/context/AttributeContext$Auth;
+	public final fun Peer (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/context/AttributeContext$Peer;
+	public final fun Request (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/context/AttributeContext$Request;
+	public final fun Resource (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/context/AttributeContext$Resource;
+	public final fun Response (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/context/AttributeContext$Response;
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/google/rpc/context/AttributeContext;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public final fun peer (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/context/AttributeContext$Peer;
-	public final fun request (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/context/AttributeContext$Request;
-	public final fun resource (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/context/AttributeContext$Resource;
-	public final fun response (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/context/AttributeContext$Response;
 }
 
 public final class com/google/rpc/context/AttributeContext$Peer : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -4474,7 +4474,7 @@ public final class com/google/rpc/context/AttributeContext$Response$ResponseDsl 
 }
 
 public final class com/google/rpc/context/Attribute_contextKt {
-	public static final fun attributeContext (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/context/AttributeContext;
+	public static final fun AttributeContext (Lkotlin/jvm/functions/Function1;)Lcom/google/rpc/context/AttributeContext;
 }
 
 public abstract class com/google/type/CalendarPeriod : com/toasttab/protokt/rt/KtEnum {
@@ -4562,7 +4562,7 @@ public final class com/google/type/Color$Deserializer : com/toasttab/protokt/rt/
 }
 
 public final class com/google/type/ColorKt {
-	public static final fun color (Lkotlin/jvm/functions/Function1;)Lcom/google/type/Color;
+	public static final fun Color (Lkotlin/jvm/functions/Function1;)Lcom/google/type/Color;
 }
 
 public final class com/google/type/Date : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -4599,7 +4599,7 @@ public final class com/google/type/Date$Deserializer : com/toasttab/protokt/rt/A
 }
 
 public final class com/google/type/DateKt {
-	public static final fun date (Lkotlin/jvm/functions/Function1;)Lcom/google/type/Date;
+	public static final fun Date (Lkotlin/jvm/functions/Function1;)Lcom/google/type/Date;
 }
 
 public final class com/google/type/DateTime : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -4676,8 +4676,8 @@ public final class com/google/type/DateTime$TimeOffset$UtcOffset : com/google/ty
 }
 
 public final class com/google/type/DatetimeKt {
-	public static final fun dateTime (Lkotlin/jvm/functions/Function1;)Lcom/google/type/DateTime;
-	public static final fun timeZone (Lkotlin/jvm/functions/Function1;)Lcom/google/type/TimeZone;
+	public static final fun DateTime (Lkotlin/jvm/functions/Function1;)Lcom/google/type/DateTime;
+	public static final fun TimeZone (Lkotlin/jvm/functions/Function1;)Lcom/google/type/TimeZone;
 }
 
 public abstract class com/google/type/DayOfWeek : com/toasttab/protokt/rt/KtEnum {
@@ -4756,7 +4756,7 @@ public final class com/google/type/Decimal$Deserializer : com/toasttab/protokt/r
 }
 
 public final class com/google/type/DecimalKt {
-	public static final fun decimal (Lkotlin/jvm/functions/Function1;)Lcom/google/type/Decimal;
+	public static final fun Decimal (Lkotlin/jvm/functions/Function1;)Lcom/google/type/Decimal;
 }
 
 public final class com/google/type/Expr : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -4796,7 +4796,7 @@ public final class com/google/type/Expr$ExprDsl {
 }
 
 public final class com/google/type/ExprKt {
-	public static final fun expr (Lkotlin/jvm/functions/Function1;)Lcom/google/type/Expr;
+	public static final fun Expr (Lkotlin/jvm/functions/Function1;)Lcom/google/type/Expr;
 }
 
 public final class com/google/type/Fraction : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -4830,7 +4830,7 @@ public final class com/google/type/Fraction$FractionDsl {
 }
 
 public final class com/google/type/FractionKt {
-	public static final fun fraction (Lkotlin/jvm/functions/Function1;)Lcom/google/type/Fraction;
+	public static final fun Fraction (Lkotlin/jvm/functions/Function1;)Lcom/google/type/Fraction;
 }
 
 public final class com/google/type/Interval : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -4864,7 +4864,7 @@ public final class com/google/type/Interval$IntervalDsl {
 }
 
 public final class com/google/type/IntervalKt {
-	public static final fun interval (Lkotlin/jvm/functions/Function1;)Lcom/google/type/Interval;
+	public static final fun Interval (Lkotlin/jvm/functions/Function1;)Lcom/google/type/Interval;
 }
 
 public final class com/google/type/LatLng : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -4898,7 +4898,7 @@ public final class com/google/type/LatLng$LatLngDsl {
 }
 
 public final class com/google/type/LatlngKt {
-	public static final fun latLng (Lkotlin/jvm/functions/Function1;)Lcom/google/type/LatLng;
+	public static final fun LatLng (Lkotlin/jvm/functions/Function1;)Lcom/google/type/LatLng;
 }
 
 public final class com/google/type/LocalizedText : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -4932,7 +4932,7 @@ public final class com/google/type/LocalizedText$LocalizedTextDsl {
 }
 
 public final class com/google/type/Localized_textKt {
-	public static final fun localizedText (Lkotlin/jvm/functions/Function1;)Lcom/google/type/LocalizedText;
+	public static final fun LocalizedText (Lkotlin/jvm/functions/Function1;)Lcom/google/type/LocalizedText;
 }
 
 public final class com/google/type/Money : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -4969,7 +4969,7 @@ public final class com/google/type/Money$MoneyDsl {
 }
 
 public final class com/google/type/MoneyKt {
-	public static final fun money (Lkotlin/jvm/functions/Function1;)Lcom/google/type/Money;
+	public static final fun Money (Lkotlin/jvm/functions/Function1;)Lcom/google/type/Money;
 }
 
 public abstract class com/google/type/Month : com/toasttab/protokt/rt/KtEnum {
@@ -5055,9 +5055,9 @@ public final class com/google/type/PhoneNumber : com/toasttab/protokt/rt/Abstrac
 }
 
 public final class com/google/type/PhoneNumber$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer {
+	public final fun ShortCode (Lkotlin/jvm/functions/Function1;)Lcom/google/type/PhoneNumber$ShortCode;
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/google/type/PhoneNumber;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public final fun shortCode (Lkotlin/jvm/functions/Function1;)Lcom/google/type/PhoneNumber$ShortCode;
 }
 
 public abstract class com/google/type/PhoneNumber$Kind {
@@ -5127,7 +5127,7 @@ public final class com/google/type/PhoneNumber$ShortCode$ShortCodeDsl {
 }
 
 public final class com/google/type/Phone_numberKt {
-	public static final fun phoneNumber (Lkotlin/jvm/functions/Function1;)Lcom/google/type/PhoneNumber;
+	public static final fun PhoneNumber (Lkotlin/jvm/functions/Function1;)Lcom/google/type/PhoneNumber;
 }
 
 public final class com/google/type/PostalAddress : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -5188,7 +5188,7 @@ public final class com/google/type/PostalAddress$PostalAddressDsl {
 }
 
 public final class com/google/type/Postal_addressKt {
-	public static final fun postalAddress (Lkotlin/jvm/functions/Function1;)Lcom/google/type/PostalAddress;
+	public static final fun PostalAddress (Lkotlin/jvm/functions/Function1;)Lcom/google/type/PostalAddress;
 }
 
 public final class com/google/type/Quaternion : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -5228,7 +5228,7 @@ public final class com/google/type/Quaternion$QuaternionDsl {
 }
 
 public final class com/google/type/QuaternionKt {
-	public static final fun quaternion (Lkotlin/jvm/functions/Function1;)Lcom/google/type/Quaternion;
+	public static final fun Quaternion (Lkotlin/jvm/functions/Function1;)Lcom/google/type/Quaternion;
 }
 
 public final class com/google/type/TimeOfDay : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -5298,6 +5298,6 @@ public final class com/google/type/TimeZone$TimeZoneDsl {
 }
 
 public final class com/google/type/TimeofdayKt {
-	public static final fun timeOfDay (Lkotlin/jvm/functions/Function1;)Lcom/google/type/TimeOfDay;
+	public static final fun TimeOfDay (Lkotlin/jvm/functions/Function1;)Lcom/google/type/TimeOfDay;
 }
 

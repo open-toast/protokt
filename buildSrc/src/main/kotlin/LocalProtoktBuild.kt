@@ -15,29 +15,16 @@
 
 import com.google.protobuf.gradle.GenerateProtoTask
 import com.toasttab.protokt.gradle.CODEGEN_NAME
-import com.toasttab.protokt.gradle.EXTENSIONS
 import com.toasttab.protokt.gradle.configureProtokt
-import com.toasttab.protokt.gradle.resolveProtoktCoreDep
 import org.gradle.api.Project
 import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.api.tasks.compile.JavaCompile
-import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.get
-import org.gradle.kotlin.dsl.project
 import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
 
 fun Project.localProtokt() {
-    configureProtokt(this) {
-        if (name !in setOf("protokt-core", "protokt-core-lite")) {
-            // must wait for extension to resolve
-            afterEvaluate {
-                dependencies {
-                    add(EXTENSIONS, project(":${resolveProtoktCoreDep()}"))
-                }
-            }
-        }
-
+    configureProtokt(this, null) {
         "$rootDir/protokt-codegen/build/install/$CODEGEN_NAME/bin/$CODEGEN_NAME"
     }
 

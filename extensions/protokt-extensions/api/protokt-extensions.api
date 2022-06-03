@@ -3,7 +3,7 @@ public final class com/toasttab/protokt/ext/Protokt {
 	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
 }
 
-public final class com/toasttab/protokt/ext/ProtoktKt {
+public final class com/toasttab/protokt/ext/Protokt_protokt_descriptorsKt {
 	public static final fun getDescriptor (Lcom/toasttab/protokt/ext/ProtoktEnumOptions$Deserializer;)Lcom/toasttab/protokt/Descriptor;
 	public static final fun getDescriptor (Lcom/toasttab/protokt/ext/ProtoktEnumValueOptions$Deserializer;)Lcom/toasttab/protokt/Descriptor;
 	public static final fun getDescriptor (Lcom/toasttab/protokt/ext/ProtoktFieldOptions$Deserializer;)Lcom/toasttab/protokt/Descriptor;

@@ -16,13 +16,16 @@
 package com.toasttab.protokt.gradle
 
 import org.gradle.api.Project
+import org.gradle.api.artifacts.Dependency
 import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.kotlin.dsl.create
+import org.gradle.kotlin.dsl.project
 import org.gradle.kotlin.dsl.the
 import org.jetbrains.kotlin.gradle.dsl.KotlinJsProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 import org.jetbrains.kotlin.gradle.plugin.sources.DefaultKotlinSourceSet
+import java.util.jar.JarInputStream
 import kotlin.reflect.KClass
 
 const val CODEGEN_NAME = "protoc-gen-protokt"
@@ -31,12 +34,19 @@ const val EXTENSIONS = "protoktExtensions"
 
 const val TEST_EXTENSIONS = "testProtoktExtensions"
 
-fun configureProtokt(project: Project, resolveBinary: () -> String) {
+fun configureProtokt(project: Project, protoktVersion: String?, resolveBinary: () -> String) {
     project.createExtensionConfigurations()
 
     val ext = project.extensions.create<ProtoktExtension>("protokt")
 
     configureProtobufPlugin(project, ext, resolveBinary())
+
+    // must wait for extension to resolve
+    project.afterEvaluate {
+        project.configurations.named(EXTENSIONS) {
+            project.resolveProtoktCoreDep(protoktVersion)?.let(dependencies::add)
+        }
+    }
 }
 
 private fun Project.createExtensionConfigurations() {
@@ -71,12 +81,39 @@ private fun Project.createExtensionConfigurations() {
     }
 }
 
-internal fun Project.resolveProtoktCoreDep() =
-    if (the<ProtoktExtension>().lite) {
-        "protokt-core-lite"
-    } else {
-        "protokt-core"
+internal fun Project.resolveProtoktCoreDep(protoktVersion: String?): Dependency? {
+    if (name in setOf("protokt-core", "protokt-core-lite")) {
+        return null
     }
+
+    val artifactId =
+        if (the<ProtoktExtension>().lite) {
+            "protokt-core-lite"
+        } else {
+            "protokt-core"
+        }
+
+    return if (protoktVersion == null) {
+        dependencies.project(":$artifactId")
+    } else {
+        dependencies.create("com.toasttab.protokt:$artifactId:$protoktVersion")
+    }
+}
+
+private fun getProtoktVersion(klass: KClass<*>): String =
+    klass.java
+        .protectionDomain
+        .codeSource
+        .location
+        .openStream()
+        .use {
+            JarInputStream(it)
+                .manifest
+                // TODO: manifest is null when running MainTest. Is it possible to create it?
+                ?.mainAttributes
+                ?.getValue(MANIFEST_VERSION_PROPERTY)
+                ?: "<unknown>"
+        }
 
 internal fun Project.isMultiplatform() =
     plugins.hasPlugin("org.jetbrains.kotlin.multiplatform")

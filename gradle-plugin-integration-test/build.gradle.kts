@@ -43,9 +43,7 @@ allprojects {
     apply(plugin = "com.diffplug.spotless")
 
     configure<SpotlessExtension> {
-        kotlinGradle {
-            ktlint()
-        }
+        kotlinGradle { ktlint() }
     }
 }
 
