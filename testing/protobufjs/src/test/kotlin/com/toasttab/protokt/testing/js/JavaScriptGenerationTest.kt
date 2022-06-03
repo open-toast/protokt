@@ -21,10 +21,7 @@ import kotlin.test.assertEquals
 class JavaScriptGenerationTest {
     @Test
     fun test_js_test_round_trip() {
-        val jsTest =
-            JsTest.JsTestDsl().apply {
-                foo = "1"
-            }.build()
+        val jsTest = JsTest { foo = "1" }
 
         val deserialized = JsTest.deserialize(jsTest.serialize())
 

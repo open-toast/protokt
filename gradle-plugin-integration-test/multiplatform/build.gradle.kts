@@ -74,6 +74,7 @@ tasks.named<Test>("jvmTest") {
     useJUnitPlatform()
 }
 
+// awkward that we have to apply the plugin after source sets are configured
 apply<ProtoktPlugin>()
 
 dependencies {

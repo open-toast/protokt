@@ -28,8 +28,8 @@ object DurationConverter : Converter<java.time.Duration, Duration> {
         java.time.Duration.ofSeconds(unwrapped.seconds, unwrapped.nanos.toLong())
 
     override fun unwrap(wrapped: java.time.Duration) =
-        Duration.DurationDsl().apply {
+        Duration {
             seconds = wrapped.seconds
             nanos = wrapped.nano
-        }.build()
+        }
 }

@@ -30,9 +30,9 @@ object LocalDateGoogleConverter : Converter<LocalDate, Date> {
         LocalDate.of(unwrapped.year, unwrapped.month, unwrapped.day)
 
     override fun unwrap(wrapped: LocalDate) =
-        Date.DateDsl().apply {
+        Date {
             year = wrapped.year
             month = wrapped.monthValue
             day = wrapped.dayOfMonth
-        }.build()
+        }
 }

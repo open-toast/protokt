@@ -58,6 +58,9 @@ data class PClass(
         }
     }
 
+    fun nest(name: String) =
+        PClass(name, ppackage, Some(this))
+
     fun toTypeName() =
         ClassName(ppackage.toString(), names())
 

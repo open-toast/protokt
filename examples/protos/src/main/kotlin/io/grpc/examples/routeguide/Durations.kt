@@ -15,7 +15,6 @@
 
 package io.grpc.examples.routeguide
 
-// TODO: why can't this find the import if this is lowercase?
 import com.toasttab.protokt.Duration
 
 private const val MICROS_PER_SECOND = 1000000
@@ -23,8 +22,8 @@ private const val NANOS_PER_MICROSECOND = 1000
 
 object Durations {
     fun fromMicros(microseconds: Long) =
-        Duration.DurationDsl().apply {
+        Duration {
             seconds = microseconds / MICROS_PER_SECOND
             nanos = (microseconds % MICROS_PER_SECOND * NANOS_PER_MICROSECOND).toInt()
-        }.build()
+        }
 }

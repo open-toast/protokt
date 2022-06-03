@@ -28,7 +28,7 @@ object UuidBytesValueConverter : OptimizedSizeofConverter<UUID, BytesValue> {
     override val wrapped = BytesValue::class
 
     private val sizeofProxy =
-        BytesValue.BytesValueDsl().apply { value = Bytes(ByteArray(16)) }.build()
+        BytesValue { value = Bytes(ByteArray(16)) }
 
     override fun sizeof(wrapped: UUID) =
         sizeof(sizeofProxy)
@@ -37,5 +37,5 @@ object UuidBytesValueConverter : OptimizedSizeofConverter<UUID, BytesValue> {
         UuidConverter.wrap(unwrapped.value.bytes)
 
     override fun unwrap(wrapped: UUID) =
-        BytesValue.BytesValueDsl().apply { value = Bytes(UuidConverter.unwrap(wrapped)) }.build()
+        BytesValue { value = Bytes(UuidConverter.unwrap(wrapped)) }
 }
