@@ -25,7 +25,6 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinJsProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 import org.jetbrains.kotlin.gradle.plugin.sources.DefaultKotlinSourceSet
-import java.util.jar.JarInputStream
 import kotlin.reflect.KClass
 
 const val CODEGEN_NAME = "protoc-gen-protokt"
@@ -99,21 +98,6 @@ internal fun Project.resolveProtoktCoreDep(protoktVersion: String?): Dependency?
         dependencies.create("com.toasttab.protokt:$artifactId:$protoktVersion")
     }
 }
-
-private fun getProtoktVersion(klass: KClass<*>): String =
-    klass.java
-        .protectionDomain
-        .codeSource
-        .location
-        .openStream()
-        .use {
-            JarInputStream(it)
-                .manifest
-                // TODO: manifest is null when running MainTest. Is it possible to create it?
-                ?.mainAttributes
-                ?.getValue(MANIFEST_VERSION_PROPERTY)
-                ?: "<unknown>"
-        }
 
 internal fun Project.isMultiplatform() =
     plugins.hasPlugin("org.jetbrains.kotlin.multiplatform")
