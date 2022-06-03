@@ -29,7 +29,7 @@ public final class com/toasttab/protokt/Any$Deserializer : com/toasttab/protokt/
 }
 
 public final class com/toasttab/protokt/AnyKt {
-	public static final fun any (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Any;
+	public static final fun Any (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Any;
 }
 
 public final class com/toasttab/protokt/Api : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -78,9 +78,9 @@ public final class com/toasttab/protokt/Api$Deserializer : com/toasttab/protokt/
 }
 
 public final class com/toasttab/protokt/ApiKt {
-	public static final fun api (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Api;
-	public static final fun method (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Method;
-	public static final fun mixin (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Mixin;
+	public static final fun Api (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Api;
+	public static final fun Method (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Method;
+	public static final fun Mixin (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Mixin;
 }
 
 public final class com/toasttab/protokt/BoolValue : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -158,27 +158,27 @@ public final class com/toasttab/protokt/BytesValueConverter : com/toasttab/proto
 }
 
 public final class com/toasttab/protokt/DescriptorKt {
-	public static final fun descriptorProto (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/DescriptorProto;
-	public static final fun enumDescriptorProto (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/EnumDescriptorProto;
-	public static final fun enumOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/EnumOptions;
-	public static final fun enumValueDescriptorProto (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/EnumValueDescriptorProto;
-	public static final fun enumValueOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/EnumValueOptions;
-	public static final fun extensionRangeOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ExtensionRangeOptions;
-	public static final fun fieldDescriptorProto (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/FieldDescriptorProto;
-	public static final fun fieldOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/FieldOptions;
-	public static final fun fileDescriptorProto (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/FileDescriptorProto;
-	public static final fun fileDescriptorSet (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/FileDescriptorSet;
-	public static final fun fileOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/FileOptions;
-	public static final fun generatedCodeInfo (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/GeneratedCodeInfo;
-	public static final fun messageOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/MessageOptions;
-	public static final fun methodDescriptorProto (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/MethodDescriptorProto;
-	public static final fun methodOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/MethodOptions;
-	public static final fun oneofDescriptorProto (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/OneofDescriptorProto;
-	public static final fun oneofOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/OneofOptions;
-	public static final fun serviceDescriptorProto (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ServiceDescriptorProto;
-	public static final fun serviceOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ServiceOptions;
-	public static final fun sourceCodeInfo (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/SourceCodeInfo;
-	public static final fun uninterpretedOption (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/UninterpretedOption;
+	public static final fun DescriptorProto (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/DescriptorProto;
+	public static final fun EnumDescriptorProto (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/EnumDescriptorProto;
+	public static final fun EnumOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/EnumOptions;
+	public static final fun EnumValueDescriptorProto (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/EnumValueDescriptorProto;
+	public static final fun EnumValueOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/EnumValueOptions;
+	public static final fun ExtensionRangeOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ExtensionRangeOptions;
+	public static final fun FieldDescriptorProto (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/FieldDescriptorProto;
+	public static final fun FieldOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/FieldOptions;
+	public static final fun FileDescriptorProto (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/FileDescriptorProto;
+	public static final fun FileDescriptorSet (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/FileDescriptorSet;
+	public static final fun FileOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/FileOptions;
+	public static final fun GeneratedCodeInfo (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/GeneratedCodeInfo;
+	public static final fun MessageOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/MessageOptions;
+	public static final fun MethodDescriptorProto (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/MethodDescriptorProto;
+	public static final fun MethodOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/MethodOptions;
+	public static final fun OneofDescriptorProto (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/OneofDescriptorProto;
+	public static final fun OneofOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/OneofOptions;
+	public static final fun ServiceDescriptorProto (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ServiceDescriptorProto;
+	public static final fun ServiceOptions (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ServiceOptions;
+	public static final fun SourceCodeInfo (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/SourceCodeInfo;
+	public static final fun UninterpretedOption (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/UninterpretedOption;
 }
 
 public final class com/toasttab/protokt/DescriptorProto : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -231,10 +231,10 @@ public final class com/toasttab/protokt/DescriptorProto$DescriptorProtoDsl {
 }
 
 public final class com/toasttab/protokt/DescriptorProto$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer {
+	public final fun ExtensionRange (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/DescriptorProto$ExtensionRange;
+	public final fun ReservedRange (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/DescriptorProto$ReservedRange;
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/DescriptorProto;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public final fun extensionRange (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/DescriptorProto$ExtensionRange;
-	public final fun reservedRange (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/DescriptorProto$ReservedRange;
 }
 
 public final class com/toasttab/protokt/DescriptorProto$ExtensionRange : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -368,7 +368,7 @@ public final class com/toasttab/protokt/Duration$DurationDsl {
 }
 
 public final class com/toasttab/protokt/DurationKt {
-	public static final fun duration (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Duration;
+	public static final fun Duration (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Duration;
 }
 
 public final class com/toasttab/protokt/Empty : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -396,7 +396,7 @@ public final class com/toasttab/protokt/Empty$EmptyDsl {
 }
 
 public final class com/toasttab/protokt/EmptyKt {
-	public static final fun empty (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Empty;
+	public static final fun Empty (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Empty;
 }
 
 public final class com/toasttab/protokt/EnumDescriptorProto : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -417,9 +417,9 @@ public final class com/toasttab/protokt/EnumDescriptorProto : com/toasttab/proto
 }
 
 public final class com/toasttab/protokt/EnumDescriptorProto$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer {
+	public final fun EnumReservedRange (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/EnumDescriptorProto$EnumReservedRange;
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/EnumDescriptorProto;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public final fun enumReservedRange (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/EnumDescriptorProto$EnumReservedRange;
 }
 
 public final class com/toasttab/protokt/EnumDescriptorProto$EnumDescriptorProtoDsl {
@@ -1147,7 +1147,7 @@ public final class com/toasttab/protokt/FieldOptions$JSType$UNRECOGNIZED : com/t
 }
 
 public final class com/toasttab/protokt/Field_maskKt {
-	public static final fun fieldMask (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/FieldMask;
+	public static final fun FieldMask (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/FieldMask;
 }
 
 public final class com/toasttab/protokt/FileDescriptorProto : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -1439,7 +1439,7 @@ public final class com/toasttab/protokt/GeneratedCodeInfo$Annotation$Deserialize
 }
 
 public final class com/toasttab/protokt/GeneratedCodeInfo$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer {
-	public final fun annotation (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/GeneratedCodeInfo$Annotation;
+	public final fun Annotation (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/GeneratedCodeInfo$Annotation;
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/GeneratedCodeInfo;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 }
@@ -1955,9 +1955,9 @@ public final class com/toasttab/protokt/SourceCodeInfo : com/toasttab/protokt/rt
 }
 
 public final class com/toasttab/protokt/SourceCodeInfo$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer {
+	public final fun Location (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/SourceCodeInfo$Location;
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/SourceCodeInfo;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public final fun location (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/SourceCodeInfo$Location;
 }
 
 public final class com/toasttab/protokt/SourceCodeInfo$Location : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -2036,7 +2036,7 @@ public final class com/toasttab/protokt/SourceContext$SourceContextDsl {
 }
 
 public final class com/toasttab/protokt/Source_contextKt {
-	public static final fun sourceContext (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/SourceContext;
+	public static final fun SourceContext (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/SourceContext;
 }
 
 public final class com/toasttab/protokt/StringValue : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -2104,9 +2104,9 @@ public final class com/toasttab/protokt/Struct$StructDsl {
 }
 
 public final class com/toasttab/protokt/StructKt {
-	public static final fun listValue (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ListValue;
-	public static final fun struct (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Struct;
-	public static final fun value (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Value;
+	public static final fun ListValue (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ListValue;
+	public static final fun Struct (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Struct;
+	public static final fun Value (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Value;
 }
 
 public abstract class com/toasttab/protokt/Syntax : com/toasttab/protokt/rt/KtEnum {
@@ -2164,7 +2164,7 @@ public final class com/toasttab/protokt/Timestamp$TimestampDsl {
 }
 
 public final class com/toasttab/protokt/TimestampKt {
-	public static final fun timestamp (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Timestamp;
+	public static final fun Timestamp (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Timestamp;
 }
 
 public final class com/toasttab/protokt/Type : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -2210,11 +2210,11 @@ public final class com/toasttab/protokt/Type$TypeDsl {
 }
 
 public final class com/toasttab/protokt/TypeKt {
-	public static final fun enumValue (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/EnumValue;
-	public static final fun enum_ (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Enum_;
-	public static final fun field (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Field;
-	public static final fun option (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Option;
-	public static final fun type (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Type;
+	public static final fun EnumValue (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/EnumValue;
+	public static final fun Enum_ (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Enum_;
+	public static final fun Field (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Field;
+	public static final fun Option (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Option;
+	public static final fun Type (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Type;
 }
 
 public final class com/toasttab/protokt/UInt32Value : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -2311,9 +2311,9 @@ public final class com/toasttab/protokt/UninterpretedOption : com/toasttab/proto
 }
 
 public final class com/toasttab/protokt/UninterpretedOption$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer {
+	public final fun NamePart (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/UninterpretedOption$NamePart;
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/UninterpretedOption;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public final fun namePart (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/UninterpretedOption$NamePart;
 }
 
 public final class com/toasttab/protokt/UninterpretedOption$NamePart : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -2464,15 +2464,15 @@ public final class com/toasttab/protokt/Value$ValueDsl {
 }
 
 public final class com/toasttab/protokt/WrappersKt {
-	public static final fun boolValue (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/BoolValue;
-	public static final fun bytesValue (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/BytesValue;
-	public static final fun doubleValue (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/DoubleValue;
-	public static final fun floatValue (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/FloatValue;
-	public static final fun int32Value (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Int32Value;
-	public static final fun int64Value (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Int64Value;
-	public static final fun stringValue (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/StringValue;
-	public static final fun uInt32Value (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/UInt32Value;
-	public static final fun uInt64Value (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/UInt64Value;
+	public static final fun BoolValue (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/BoolValue;
+	public static final fun BytesValue (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/BytesValue;
+	public static final fun DoubleValue (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/DoubleValue;
+	public static final fun FloatValue (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/FloatValue;
+	public static final fun Int32Value (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Int32Value;
+	public static final fun Int64Value (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Int64Value;
+	public static final fun StringValue (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/StringValue;
+	public static final fun UInt32Value (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/UInt32Value;
+	public static final fun UInt64Value (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/UInt64Value;
 }
 
 public final class com/toasttab/protokt/compiler/CodeGeneratorRequest : com/toasttab/protokt/rt/AbstractKtMessage {
@@ -2540,9 +2540,9 @@ public final class com/toasttab/protokt/compiler/CodeGeneratorResponse$CodeGener
 }
 
 public final class com/toasttab/protokt/compiler/CodeGeneratorResponse$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer {
+	public final fun File (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/compiler/CodeGeneratorResponse$File;
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/compiler/CodeGeneratorResponse;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public final fun file (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/compiler/CodeGeneratorResponse$File;
 }
 
 public abstract class com/toasttab/protokt/compiler/CodeGeneratorResponse$Feature : com/toasttab/protokt/rt/KtEnum {
@@ -2606,9 +2606,9 @@ public final class com/toasttab/protokt/compiler/CodeGeneratorResponse$File$File
 }
 
 public final class com/toasttab/protokt/compiler/PluginKt {
-	public static final fun codeGeneratorRequest (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/compiler/CodeGeneratorRequest;
-	public static final fun codeGeneratorResponse (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/compiler/CodeGeneratorResponse;
-	public static final fun version (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/compiler/Version;
+	public static final fun CodeGeneratorRequest (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/compiler/CodeGeneratorRequest;
+	public static final fun CodeGeneratorResponse (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/compiler/CodeGeneratorResponse;
+	public static final fun Version (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/compiler/Version;
 }
 
 public final class com/toasttab/protokt/compiler/Version : com/toasttab/protokt/rt/AbstractKtMessage {

@@ -3,7 +3,7 @@ public final class com/toasttab/protokt/ext/InetSocketAddress_ {
 	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
 }
 
-public final class com/toasttab/protokt/ext/Inet_socket_addressKt {
+public final class com/toasttab/protokt/ext/Inet_socket_address_protokt_descriptorsKt {
 	public static final fun getDescriptor (Lcom/toasttab/protokt/ext/InetSocketAddress$Deserializer;)Lcom/toasttab/protokt/Descriptor;
 }
 
