@@ -21,12 +21,24 @@ import com.vanniktech.maven.publish.MavenPublishBaseExtension
 import com.vanniktech.maven.publish.SonatypeHost
 import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
+import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
 import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
+import org.gradle.plugins.signing.SigningExtension
+
+private object Pgp {
+    val key by lazy {
+        System.getenv("PGP_KEY")?.replace('$', '\n')
+    }
+
+    val password by lazy {
+        System.getenv("PGP_PASSWORD")
+    }
+}
 
 object ProtoktProjectInfo {
     const val name = "Protokt"
@@ -56,7 +68,6 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
                 configure(KotlinJvm(JavadocJar.Javadoc()))
             }
             publishToMavenCentral(SonatypeHost.DEFAULT)
-            signAllPublications()
             pom {
                 name.set(ProtoktProjectInfo.name)
                 description.set(ProtoktProjectInfo.description)
@@ -88,10 +99,16 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
     }
 
     if (isRelease()) {
-        setProperty("signingInMemoryKey", System.getenv("PGP_KEY")?.replace('$', '\n'))
-        setProperty("signingInMemoryPassword", System.getenv("PGP_PASSWORD"))
-        setProperty("mavenCentralUsername", System.getenv("OSSRH_USERNAME"))
-        setProperty("mavenCentralPassword", System.getenv("OSSRH_PASSWORD"))
+        apply(plugin = "signing")
+
+        configure<SigningExtension> {
+            useInMemoryPgpKeys(Pgp.key, Pgp.password)
+
+            the<PublishingExtension>()
+                .publications
+                .withType<MavenPublication>()
+                .forEach(::sign)
+        }
     }
 
     tasks.register("publishToIntegrationRepository") {
