@@ -20,3 +20,7 @@ plugins {
 enablePublishing()
 
 includeCommonGradleSource("ProtoktExtension.kt")
+
+dependencies {
+    testImplementation(project(":extensions:protokt-extensions"))
+}

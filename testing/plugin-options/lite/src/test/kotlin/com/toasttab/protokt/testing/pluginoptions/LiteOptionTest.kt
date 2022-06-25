@@ -15,6 +15,7 @@
 
 package com.toasttab.protokt.testing.pluginoptions
 
+import com.toasttab.protokt.util.PROTOKT_EXTENSIONS_CLASS_NAME
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
@@ -36,7 +37,7 @@ class LiteOptionTest {
     @Test
     fun `protokt descriptor isn't available`() {
         assertThrows<ClassNotFoundException> {
-            Class.forName("com.toasttab.protokt.ext.Protokt")
+            Class.forName(PROTOKT_EXTENSIONS_CLASS_NAME)
         }
     }
 }
