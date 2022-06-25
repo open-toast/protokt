@@ -23,9 +23,9 @@ plugins {
 
 buildscript {
     repositories {
-        mavenCentral()
         maven(url = "$projectDir/../build/repos/integration")
         gradlePluginPortal()
+        mavenCentral()
     }
 
     dependencies {
