@@ -24,14 +24,13 @@ plugins {
 buildscript {
     repositories {
         mavenCentral()
-        maven(url = "https://jitpack.io")
         maven(url = "$projectDir/../build/repos/integration")
         gradlePluginPortal()
     }
 
     dependencies {
         classpath("com.toasttab.protokt:protokt-gradle-plugin:$version")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${System.getProperty("kotlin.version", "1.5.32")}")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${System.getProperty("kotlin.version", "1.4.32")}")
         classpath("com.diffplug.spotless:spotless-plugin-gradle:5.15.0")
     }
 }
@@ -43,7 +42,9 @@ allprojects {
     apply(plugin = "com.diffplug.spotless")
 
     configure<SpotlessExtension> {
-        kotlinGradle { ktlint() }
+        kotlinGradle {
+            ktlint()
+        }
     }
 }
 
@@ -54,14 +55,6 @@ subprojects {
     }
 
     tasks {
-        withType<Test> {
-            environment("version", version.toString())
-        }
-
-        withType<JavaCompile> {
-            enabled = false
-        }
-
         withType<KotlinCompile> {
             kotlinOptions {
                 allWarningsAsErrors = true
@@ -70,10 +63,18 @@ subprojects {
                 apiVersion =
                     System.getProperty("kotlin.version")
                         ?.substringBeforeLast(".")
-                        ?: "1.5"
+                        ?: "1.4"
 
                 languageVersion = apiVersion
             }
+        }
+
+        withType<Test> {
+            environment("version", version.toString())
+        }
+
+        withType<JavaCompile> {
+            enabled = false
         }
     }
 }
