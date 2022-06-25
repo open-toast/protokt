@@ -13,20 +13,19 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        gradlePluginPortal()
-    }
-    dependencies {
-        classpath("gradle.plugin.net.vivin:gradle-semantic-build-versioning:4.0.0")
+package com.toasttab.protokt.testing
+
+import com.toasttab.protokt.rt.KtMessage
+import com.toasttab.protokt.util.getProtoktVersion
+import kotlin.test.Test
+import kotlin.test.assertEquals
+
+class VersionTest {
+    @Test
+    fun `runtime version should match project version`() {
+        val version = System.getenv("version")
+        val runtimeVersion = getProtoktVersion(KtMessage::class)
+
+        assertEquals(version, runtimeVersion)
     }
 }
-
-apply(plugin = "net.vivin.gradle-semantic-build-versioning")
-
-rootProject.name = "gradle-plugin-integration-test"
-
-listOf(
-    "jvm-regular",
-    "jvm-lite",
-).forEach { include(it) }

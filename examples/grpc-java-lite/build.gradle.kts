@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-import com.google.protobuf.gradle.protobuf
+import com.google.protobuf.gradle.proto
 import com.toasttab.protokt.gradle.protokt
 
 plugins {
@@ -29,8 +29,6 @@ protokt {
 }
 
 dependencies {
-    protobuf(project(":examples:protos"))
-
     implementation(libraries.jackson)
 
     runtimeOnly(libraries.protobufLite)
@@ -41,6 +39,10 @@ sourceSets {
         java {
             srcDir("../grpc-java/src/main/kotlin")
             srcDir("../protos/src/main/kotlin")
+        }
+
+        proto {
+            srcDir("../protos/src/main/proto")
         }
     }
 }

@@ -15,7 +15,6 @@
 
 import com.diffplug.gradle.spotless.SpotlessExtension
 import org.gradle.api.tasks.compile.JavaCompile
-import org.gradle.util.VersionNumber
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -24,14 +23,15 @@ plugins {
 
 buildscript {
     repositories {
+        mavenCentral()
+        maven(url = "https://jitpack.io")
         maven(url = "$projectDir/../build/repos/integration")
         gradlePluginPortal()
-        mavenCentral()
     }
 
     dependencies {
         classpath("com.toasttab.protokt:protokt-gradle-plugin:$version")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${System.getProperty("kotlin.version", "1.4.32")}")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${System.getProperty("kotlin.version", "1.5.32")}")
         classpath("com.diffplug.spotless:spotless-plugin-gradle:5.15.0")
     }
 }
@@ -43,41 +43,37 @@ allprojects {
     apply(plugin = "com.diffplug.spotless")
 
     configure<SpotlessExtension> {
-        kotlinGradle {
-            ktlint()
-        }
+        kotlinGradle { ktlint() }
     }
 }
 
 subprojects {
-    apply(plugin = "org.jetbrains.kotlin.jvm")
-    apply(plugin = "com.toasttab.protokt")
-
     repositories {
         maven(url = "${rootProject.projectDir}/../build/repos/integration")
         mavenCentral()
     }
 
     tasks {
+        withType<Test> {
+            environment("version", version.toString())
+        }
+
+        withType<JavaCompile> {
+            enabled = false
+        }
+
         withType<KotlinCompile> {
             kotlinOptions {
                 allWarningsAsErrors = true
                 jvmTarget = "1.8"
 
-                apiVersion = System.getProperty("kotlin.version")?.let { v ->
-                    VersionNumber.parse(v).run { "$major.$minor" }
-                } ?: "1.4"
+                apiVersion =
+                    System.getProperty("kotlin.version")
+                        ?.substringBeforeLast(".")
+                        ?: "1.5"
+
                 languageVersion = apiVersion
             }
-        }
-
-        withType<Test> {
-            systemProperty("version", version.toString())
-            useJUnitPlatform()
-        }
-
-        withType<JavaCompile> {
-            enabled = false
         }
     }
 }
