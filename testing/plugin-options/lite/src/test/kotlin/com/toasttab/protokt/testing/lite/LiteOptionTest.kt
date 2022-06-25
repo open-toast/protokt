@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.testing
+package com.toasttab.protokt.testing.lite
 
 import com.toasttab.protokt.util.PROTOKT_EXTENSIONS_CLASS_NAME
 import org.junit.jupiter.api.Test
