@@ -29,7 +29,6 @@ dependencies {
     implementation("com.google.guava:guava:31.1-jre")
     implementation("com.google.protobuf:protobuf-gradle-plugin:0.8.18")
     implementation("com.vanniktech:gradle-maven-publish-plugin:0.19.0")
-    implementation("io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.30.0")
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.32")
     implementation("org.jetbrains.kotlinx:binary-compatibility-validator:0.8.0")
     implementation("ru.vyarus:gradle-animalsniffer-plugin:1.5.4")
