@@ -18,10 +18,10 @@ package com.toasttab.protokt.gradle
 import com.google.protobuf.gradle.GenerateProtoTask
 import com.google.protobuf.gradle.ProtobufExtension
 import com.google.protobuf.gradle.ProtobufPlugin
+import com.google.protobuf.gradle.proto
 import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Dependency
-import org.gradle.api.file.SourceDirectorySet
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.jvm.tasks.Jar
@@ -45,26 +45,12 @@ const val EXTENSIONS = "protoktExtensions"
 const val TEST_EXTENSIONS = "testProtoktExtensions"
 
 fun configureProtokt(project: Project, protoktVersion: String?, resolveBinary: () -> String) {
+    createProtoSourceSetsIfNeeded(project)
+    injectKotlinPluginsIntoProtobufGradle()
     val ext = project.extensions.create<ProtoktExtension>("protokt")
-
     configureProtobufPlugin(project, ext, resolveBinary())
 
-    val prerequisitePluginsField = ProtobufPlugin::class.java.getDeclaredField("PREREQ_PLUGIN_OPTIONS")
-    prerequisitePluginsField.isAccessible = true
-
-    @Suppress("UNCHECKED_CAST")
-    val prerequisitePlugins = prerequisitePluginsField.get(null) as MutableList<String>
-    prerequisitePlugins.add("org.jetbrains.kotlin.multiplatform")
-    prerequisitePlugins.add("org.jetbrains.kotlin.js")
-
-    project.createExtensionConfigurations()
-
-    if (project.plugins.hasPlugin("org.jetbrains.kotlin.multiplatform")) {
-        project.linkGenerateProtoToSourceCompileForKotlinJsOrMpp("common")
-    }
-    if (project.plugins.hasPlugin("org.jetbrains.kotlin.js")) {
-        project.linkGenerateProtoToSourceCompileForKotlinJsOrMpp()
-    }
+    project.createExtensionConfigurationsAndConfigureProtobuf()
 
     // must wait for extension to resolve
     project.afterEvaluate {
@@ -72,6 +58,16 @@ fun configureProtokt(project: Project, protoktVersion: String?, resolveBinary: (
             project.resolveProtoktCoreDep(protoktVersion)?.let(dependencies::add)
         }
     }
+}
+
+private fun injectKotlinPluginsIntoProtobufGradle() {
+    val prerequisitePluginsField = ProtobufPlugin::class.java.getDeclaredField("PREREQ_PLUGIN_OPTIONS")
+    prerequisitePluginsField.isAccessible = true
+
+    @Suppress("UNCHECKED_CAST")
+    val prerequisitePlugins = prerequisitePluginsField.get(null) as MutableList<String>
+    prerequisitePlugins.add("org.jetbrains.kotlin.multiplatform")
+    prerequisitePlugins.add("org.jetbrains.kotlin.js")
 }
 
 private fun Project.linkGenerateProtoToSourceCompileForKotlinJsOrMpp(sourceSetPrefix: String = "") {
@@ -89,14 +85,9 @@ private fun Project.linkGenerateProtoToSourceCompileForKotlinJsOrMpp(sourceSetPr
 private fun Project.linkGenerateProtoTasksAndIncludeGeneratedSource(sourceSetName: String, test: Boolean) {
     val protoSourceSetRoot = if (test) "test" else "main"
 
-    val kotlinExtension = extensions.getByName("kotlin") as ExtensionAware
-
-    @Suppress("UNCHECKED_CAST")
-    val sourceSets = kotlinExtension.extensions.getByName("sourceSets") as NamedDomainObjectContainer<KotlinSourceSet>
-
     val extension = project.extensions.getByType<ProtobufExtension>()
     extension.generateProtoTasks.ofSourceSet(protoSourceSetRoot).forEach { genProtoTask ->
-        configureSourceSets(sourceSetName, protoSourceSetRoot, sourceSets, genProtoTask)
+        configureSourceSets(sourceSetName, protoSourceSetRoot, genProtoTask)
         tasks.withType<AbstractKotlinCompile<*>> {
             if ((test && name.contains("Test")) || (!test && !name.contains("Test"))) {
                 dependsOn(genProtoTask)
@@ -108,23 +99,22 @@ private fun Project.linkGenerateProtoTasksAndIncludeGeneratedSource(sourceSetNam
 private fun Project.configureSourceSets(
     sourceSetName: String,
     protoSourceSetRoot: String,
-    sourceSets: NamedDomainObjectContainer<KotlinSourceSet>,
     genProtoTask: GenerateProtoTask
 ) {
+    val kotlinExtension = extensions.getByName("kotlin") as ExtensionAware
+
+    @Suppress("UNCHECKED_CAST")
+    val sourceSets = kotlinExtension.extensions.getByName("sourceSets") as NamedDomainObjectContainer<KotlinSourceSet>
+
     sourceSets.named(sourceSetName).configure {
         kotlin.srcDir(genProtoTask.outputSourceDirectorySet)
-        resources.source(
-            the<SourceSetContainer>()
-                .getByName(protoSourceSetRoot)
-                .extensions
-                .getByName("proto")
-                .let { (it as SourceDirectorySet) }
-                .apply { filter.include("**/*.proto") }
-        )
+        the<SourceSetContainer>()
+            .getByName(protoSourceSetRoot)
+            .proto { resources.source(this) }
     }
 }
 
-private fun Project.createExtensionConfigurations() {
+private fun Project.createExtensionConfigurationsAndConfigureProtobuf() {
     val extensionsConfiguration = configurations.create(EXTENSIONS)
     val testExtensionsConfiguration = configurations.create(TEST_EXTENSIONS)
 
@@ -138,15 +128,16 @@ private fun Project.createExtensionConfigurations() {
         configurations.getByName(sourceSet.apiConfigurationName).extendsFrom(extensionsConfiguration)
         val testSourceSet = (sourceSets.getByName(targetTestSourceSet) as DefaultKotlinSourceSet)
         configurations.getByName(testSourceSet.apiConfigurationName).extendsFrom(testExtensionsConfiguration)
-        createProtoSourceSetsIfNeeded()
     }
 
     when {
         isMultiplatform() -> {
             configureProtoktConfigurations(KotlinMultiplatformExtension::class, "commonMain", "commonTest")
+            linkGenerateProtoToSourceCompileForKotlinJsOrMpp("common")
         }
         isJs() -> {
             configureProtoktConfigurations(KotlinJsProjectExtension::class, "main", "test")
+            linkGenerateProtoToSourceCompileForKotlinJsOrMpp()
         }
         else -> {
             configurations.getByName("api").extendsFrom(extensionsConfiguration)
@@ -180,8 +171,8 @@ internal fun Project.isMultiplatform() =
 private fun Project.isJs() =
     plugins.hasPlugin("org.jetbrains.kotlin.js")
 
-private fun Project.createProtoSourceSetsIfNeeded() {
-    with(the<SourceSetContainer>()) {
+private fun createProtoSourceSetsIfNeeded(project: Project) {
+    with(project.the<SourceSetContainer>()) {
         if (none { it.name == "main" }) {
             create("main")
         }
