@@ -20,9 +20,9 @@ object versions {
     const val autoService = "1.0.1"
     const val grpc = "1.41.0"
     const val grpcKotlin = "1.2.1"
-    const val kotlinPoet = "1.8.0"
+    const val kotlinPoet = "1.10.0"
     const val kotlinxCollections = "0.3.4"
-    const val kotlinxCoroutines = "1.3.9"
+    const val kotlinxCoroutines = "1.5.2"
     const val protobuf = DEFAULT_PROTOBUF_VERSION
     const val protobufPlugin = "0.8.19"
 

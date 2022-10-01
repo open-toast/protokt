@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.32")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.32")
     implementation("com.android.tools.build:gradle:4.1.0")
 
     implementation("com.diffplug.spotless:spotless-plugin-gradle:6.5.2")
