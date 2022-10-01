@@ -19,16 +19,16 @@ plugins {
 
 repositories {
     mavenCentral()
-    maven(url = "https://jitpack.io")
     gradlePluginPortal()
     google()
+    maven(url = "https://jitpack.io")
 }
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.32")
     implementation("com.android.tools.build:gradle:4.1.0")
     implementation("com.diffplug.spotless:spotless-plugin-gradle:6.3.0")
-    implementation("com.github.andrewparmet:protobuf-gradle-plugin:support-kotlin-multiplatform-SNAPSHOT")
+    implementation("com.github.google:protobuf-gradle-plugin:c3d75281f2d912d1ac060c814be5e19ae6c61500")
     implementation("com.google.guava:guava:31.1-jre")
     implementation("ru.vyarus:gradle-animalsniffer-plugin:1.5.4")
     implementation("org.jetbrains.kotlinx:binary-compatibility-validator:0.8.0")

@@ -14,7 +14,6 @@
  */
 
 import com.google.protobuf.gradle.protobuf
-import com.google.protobuf.gradle.protoc
 
 plugins {
     id("protokt.benchmarks-conventions")
@@ -23,7 +22,7 @@ plugins {
 }
 
 configure<JavaApplication> {
-    mainClassName = "com.toasttab.protokt.benchmarks.ProtobufBenchmarksKt"
+    mainClass.set("com.toasttab.protokt.benchmarks.ProtobufBenchmarksKt")
     executableDir = ".."
 }
 
