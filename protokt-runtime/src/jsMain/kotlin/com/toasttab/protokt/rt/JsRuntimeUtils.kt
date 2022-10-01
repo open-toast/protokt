@@ -37,8 +37,14 @@ private class UnmodifiableList<T>(
 private class UnmodifiableMap<K, V>(
     private val delegate: Map<K, V>
 ) : Map<K, V> by delegate {
-    override val entries
-        get() = UnmodifiableSet(delegate.entries)
+    class Entry<K, V>(
+        override val key: K,
+        override val value: V
+    ) : Map.Entry<K, V>
+
+    override val entries by lazy {
+        UnmodifiableSet(delegate.entries.mapTo(HashSet(delegate.entries.size)) { (k, v) -> Entry(k, v) })
+    }
 
     override val keys
         get() = UnmodifiableSet(delegate.keys)

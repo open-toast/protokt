@@ -13,6 +13,7 @@
  * limitations under the License.
  */
 
+import com.google.protobuf.gradle.proto
 import com.toasttab.protokt.gradle.protoktExtensions
 
 plugins {
