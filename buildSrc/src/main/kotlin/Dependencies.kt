@@ -56,7 +56,7 @@ object libraries {
     const val kotlinxCollections = "org.jetbrains.kotlinx:kotlinx-collections-immutable:${versions.kotlinxCollections}"
     const val kotlinxCoroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.kotlinxCoroutines}"
 
-    const val protobufPlugin = "com.github.andrewparmet:protobuf-gradle-plugin:support-kotlin-multiplatform-SNAPSHOT"
+    const val protobufPlugin = "com.github.google:protobuf-gradle-plugin:c3d75281f2d912d1ac060c814be5e19ae6c61500"
     const val protobufJava = "com.google.protobuf:protobuf-java:${versions.protobuf}"
     const val protobufLite = "com.google.protobuf:protobuf-javalite:${versions.protobuf}"
     const val protoc = "com.google.protobuf:protoc:${versions.protobuf}"
