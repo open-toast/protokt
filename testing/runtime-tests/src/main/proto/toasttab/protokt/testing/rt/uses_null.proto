@@ -19,7 +19,7 @@ package toasttab.protokt.testing.rt;
 
 message myMessage {
   oneof my_oneof {
-     int32 something = 1;
-     int32 null = 2;
+    int32 something = 1;
+    int32 null = 2;
   }
 }
