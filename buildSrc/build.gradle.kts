@@ -27,8 +27,8 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.32")
     implementation("com.android.tools.build:gradle:4.1.0")
 
-    implementation("com.diffplug.spotless:spotless-plugin-gradle:6.3.0")
-    implementation("com.google.protobuf:protobuf-gradle-plugin:0.8.18")
+    implementation("com.diffplug.spotless:spotless-plugin-gradle:6.5.2")
+    implementation("com.google.protobuf:protobuf-gradle-plugin:0.8.19")
     implementation("io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.30.0")
     implementation("com.google.guava:guava:31.1-jre")
     implementation("ru.vyarus:gradle-animalsniffer-plugin:1.5.4")

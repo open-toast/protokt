@@ -24,7 +24,7 @@ object versions {
     const val kotlinxCollections = "0.3.4"
     const val kotlinxCoroutines = "1.3.9"
     const val protobuf = DEFAULT_PROTOBUF_VERSION
-    const val protobufPlugin = "0.8.18"
+    const val protobufPlugin = "0.8.19"
 
     // Test
     const val jackson = "2.13.0"

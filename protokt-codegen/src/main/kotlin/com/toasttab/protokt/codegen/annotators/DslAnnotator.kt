@@ -56,7 +56,7 @@ class DslAnnotator(
                                |    unknownFields = this@${msg.name}.unknownFields
                                |    dsl()
                                |}
-                           """.trimMargin()
+                            """.trimMargin()
                         ).replace(" ", "·")
                 )
                 .build()
