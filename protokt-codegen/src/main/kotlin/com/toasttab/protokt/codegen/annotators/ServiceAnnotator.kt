@@ -28,6 +28,7 @@ import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.possiblyQualify
 import com.toasttab.protokt.codegen.protoc.Method
 import com.toasttab.protokt.codegen.protoc.Service
+import com.toasttab.protokt.codegen.util.decapitalize
 import io.grpc.MethodDescriptor
 import io.grpc.ServiceDescriptor
 

@@ -44,7 +44,7 @@ fun <K, V> sizeofMap(
     sizeof: (K, V) -> Int
 ) =
     sizeof(tag).let { t ->
-        m.entries.sumBy { (k, v) ->
+        m.entries.sumOf { (k, v) ->
             t + sizeof(k, v).let { s ->
                 s + sizeof(UInt32(s))
             }
