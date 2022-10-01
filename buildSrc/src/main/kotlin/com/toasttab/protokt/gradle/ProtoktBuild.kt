@@ -118,12 +118,8 @@ private fun Project.configureSourceSets(
                 .getByName(protoSourceSetRoot)
                 .extensions
                 .getByName("proto")
-                .let {
-                    (it as SourceDirectorySet)
-                        .filter
-                        .include("**/*.proto")
-                    it
-                }
+                .let { (it as SourceDirectorySet) }
+                .apply { filter.include("**/*.proto") }
         )
     }
 }
