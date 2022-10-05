@@ -18,11 +18,19 @@ import com.google.protobuf.gradle.proto
 import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
 import com.toasttab.protokt.gradle.CODEGEN_NAME
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("protokt.jvm-conventions")
     id("com.google.protobuf")
     application
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions {
+        languageVersion = "1.6"
+        apiVersion = "1.6"
+    }
 }
 
 enablePublishing(defaultJars = false)

@@ -20,7 +20,7 @@ private constructor(
     val unknownFields: Map<Int, Field>
 ) {
     fun size() =
-        unknownFields.entries.sumBy { (k, v) -> v.size(k) }
+        unknownFields.entries.sumOf { (k, v) -> v.size(k) }
 
     override fun equals(other: Any?) =
         other is UnknownFieldSet &&
@@ -65,7 +65,7 @@ private constructor(
             get() = varint.size + fixed32.size + fixed64.size + lengthDelimited.size
 
         fun size(fieldNumber: Int) =
-            (sizeof(Tag(fieldNumber)) * size) + asSequence().sumBy { it.size() }
+            (sizeof(Tag(fieldNumber)) * size) + asSequence().sumOf { it.size() }
 
         private fun asSequence(): Sequence<UnknownValue> =
             (varint.asSequence() + fixed32 + fixed64 + lengthDelimited)

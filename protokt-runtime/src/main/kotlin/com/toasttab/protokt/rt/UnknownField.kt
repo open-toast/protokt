@@ -15,6 +15,8 @@
 
 package com.toasttab.protokt.rt
 
+import kotlin.jvm.JvmInline
+
 class UnknownField
 private constructor(
     val fieldNumber: Int,
@@ -39,22 +41,26 @@ interface UnknownValue {
     fun size(): Int
 }
 
-inline class VarintVal(val value: UInt64) : UnknownValue {
+@JvmInline
+value class VarintVal(val value: UInt64) : UnknownValue {
     override fun size() =
         sizeof(value)
 }
 
-inline class Fixed32Val(val value: Fixed32) : UnknownValue {
+@JvmInline
+value class Fixed32Val(val value: Fixed32) : UnknownValue {
     override fun size() =
         sizeof(value)
 }
 
-inline class Fixed64Val(val value: Fixed64) : UnknownValue {
+@JvmInline
+value class Fixed64Val(val value: Fixed64) : UnknownValue {
     override fun size() =
         sizeof(value)
 }
 
-inline class LengthDelimitedVal(val value: Bytes) : UnknownValue {
+@JvmInline
+value class LengthDelimitedVal(val value: Bytes) : UnknownValue {
     override fun size() =
         sizeof(value)
 }

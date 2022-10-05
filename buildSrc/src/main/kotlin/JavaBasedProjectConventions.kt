@@ -33,7 +33,7 @@ fun Project.javaBasedProjectConventions() {
     }
 
     dependencies {
-        "api"(kotlin("stdlib"))
+        "api"(kotlin("stdlib", "1.5.32"))
 
         "testImplementation"(libraries.junit)
         "testImplementation"(libraries.truth)
@@ -44,8 +44,8 @@ fun Project.javaBasedProjectConventions() {
             allWarningsAsErrors = true
             jvmTarget = "1.8"
             freeCompilerArgs = listOf("-Xinline-classes")
-            languageVersion = "1.4"
-            apiVersion = "1.4"
+            languageVersion = "1.5"
+            apiVersion = "1.5"
         }
     }
 

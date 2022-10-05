@@ -15,22 +15,34 @@
 
 package com.toasttab.protokt.rt
 
-inline class Int32(val value: Int)
+import kotlin.jvm.JvmInline
 
-inline class Fixed32(val value: Int)
+@JvmInline
+value class Int32(val value: Int)
 
-inline class SFixed32(val value: Int)
+@JvmInline
+value class Fixed32(val value: Int)
 
-inline class UInt32(val value: Int)
+@JvmInline
+value class SFixed32(val value: Int)
 
-inline class SInt32(val value: Int)
+@JvmInline
+value class UInt32(val value: Int)
 
-inline class Int64(val value: Long)
+@JvmInline
+value class SInt32(val value: Int)
 
-inline class Fixed64(val value: Long)
+@JvmInline
+value class Int64(val value: Long)
 
-inline class SFixed64(val value: Long)
+@JvmInline
+value class Fixed64(val value: Long)
 
-inline class UInt64(val value: Long)
+@JvmInline
+value class SFixed64(val value: Long)
 
-inline class SInt64(val value: Long)
+@JvmInline
+value class UInt64(val value: Long)
+
+@JvmInline
+value class SInt64(val value: Long)

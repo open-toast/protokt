@@ -13,10 +13,6 @@
  * limitations under the License.
  */
 
-plugins {
-    kotlin("jvm")
-}
-
 allprojects {
     group = "com.toasttab.protokt"
     lint()
