@@ -15,10 +15,6 @@
 
 import com.diffplug.gradle.spotless.SpotlessExtension
 
-plugins {
-    kotlin("jvm")
-}
-
 allprojects {
     group = "com.toasttab.protokt"
 

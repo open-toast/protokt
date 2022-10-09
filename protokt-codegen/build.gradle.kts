@@ -15,11 +15,33 @@
 
 import com.google.protobuf.gradle.proto
 import com.toasttab.protokt.gradle.CODEGEN_NAME
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+buildscript {
+    dependencies {
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20")
+    }
+}
 
 plugins {
     id("protokt.jvm-conventions")
     id("com.google.protobuf")
     application
+}
+
+// Enable Kotlin 1.7 in codegen only; even though the buildscript dependency
+// has been forced to 1.7.x, Gradle gets confused and thinks we're running in
+// the context of Kotlin 1.5.
+tasks.withType<KotlinCompile> {
+    kotlinOptions {
+        // Enable targeting language version 1.7 without experimental warnings:
+        // `w: Language version 1.7 is experimental, there are no backwards compatibility guarantees for new language and library features`
+        allWarningsAsErrors = false
+
+        // Prevent checks of class metadata version (wants 1.5.1):
+        // `Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The binary version of its metadata is 1.7.1, expected version is 1.5.1.`
+        freeCompilerArgs += listOf("-Xskip-metadata-version-check")
+    }
 }
 
 enablePublishing(defaultJars = false)
@@ -35,7 +57,7 @@ dependencies {
     implementation(project(":protokt-runtime-grpc"))
     implementation(project(":protokt-util"))
 
-    implementation(kotlin("reflect"))
+    implementation(kotlin("reflect", "1.7.20"))
 
     implementation(libraries.arrow)
     implementation(libraries.grpcStub)

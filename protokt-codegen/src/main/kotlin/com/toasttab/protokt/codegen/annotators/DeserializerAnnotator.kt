@@ -44,6 +44,7 @@ import com.toasttab.protokt.codegen.protoc.Tag
 import com.toasttab.protokt.codegen.template.Message.Message.DeserializerInfo
 import com.toasttab.protokt.codegen.template.Message.Message.DeserializerInfo.Assignment
 import com.toasttab.protokt.codegen.template.Message.Message.PropertyInfo
+import com.toasttab.protokt.codegen.util.capitalize
 import com.toasttab.protokt.rt.AbstractKtDeserializer
 import com.toasttab.protokt.rt.KtMessageDeserializer
 import com.toasttab.protokt.rt.UnknownFieldSet
@@ -201,7 +202,7 @@ private fun StandardField.readFn() =
         FieldType.UINT32 -> "readUInt32()"
         FieldType.UINT64 -> "readUInt64()"
         // by default for DOUBLE we get readDouble, for BOOL we get readBool(), etc.
-        else -> "read${type.name.lowercase().replaceFirstChar { it.uppercase() }}(${readFnBuilder(type)})"
+        else -> "read${type.name.lowercase().capitalize()}(${readFnBuilder(type)})"
     }
 
 private fun StandardField.readFnBuilder(type: FieldType) =

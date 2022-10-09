@@ -23,8 +23,6 @@ localProtokt()
 
 kotlin {
     sourceSets {
-        val commonMain by getting {}
-
         val jvmTest by getting {
             dependencies {
                 implementation(libraries.protobufJava)

@@ -31,12 +31,14 @@ class ConformanceTest {
         JVM("jvm") {
             override fun driver() =
                 jvmConformanceDriver
-        },
+        };
 
+        /*
         JS_IR("js-ir") {
             override fun driver() =
                 jsConformanceDriver(project)
         };
+         */
 
         // js-legacy isn't bundling its dependencies correctly when built
         //
