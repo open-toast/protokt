@@ -28,6 +28,7 @@ import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.possiblyQualify
 import com.toasttab.protokt.codegen.protoc.Method
 import com.toasttab.protokt.codegen.protoc.Service
+import com.toasttab.protokt.codegen.util.decapitalize
 import io.grpc.MethodDescriptor
 import io.grpc.ServiceDescriptor
 
@@ -58,7 +59,7 @@ internal object ServiceAnnotator {
                     .addProperties(
                         s.methods.map { method ->
                             PropertySpec.builder(
-                                "_" + method.name.replaceFirstChar { it.lowercase() } + "Method",
+                                "_" + method.name.decapitalize() + "Method",
                                 MethodDescriptor::class
                                     .asTypeName()
                                     .parameterizedBy(
@@ -91,7 +92,7 @@ internal object ServiceAnnotator {
                     .addFunctions(
                         s.methods.map { method ->
                             FunSpec.builder("get" + method.name + "Method")
-                                .addCode("return _" + method.name.replaceFirstChar { it.lowercase() } + "Method")
+                                .addCode("return _" + method.name.decapitalize() + "Method")
                                 .addAnnotation(JvmStatic::class)
                                 .build()
                         }
@@ -141,7 +142,7 @@ internal object ServiceAnnotator {
 
     private fun serviceLines(s: Service) =
         s.methods.joinToString("\n") { method ->
-            "      .addMethod(_${method.name.replaceFirstChar { it.lowercase() }}Method)"
+            "      .addMethod(_${method.name.decapitalize()}Method)"
         } + "\n        .build()"
 
     private fun renderQualifiedName(s: Service, ctx: Context) =

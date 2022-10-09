@@ -17,6 +17,8 @@ package com.toasttab.protokt.codegen.protoc
 
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.toasttab.protokt.codegen.impl.resolvePackage
+import com.toasttab.protokt.codegen.util.capitalize
+import com.toasttab.protokt.codegen.util.decapitalize
 
 internal object Keywords {
     val reserved =
@@ -97,7 +99,7 @@ internal fun snakeToCamel(str: String): String {
                     }
                 }
         ret = ret.substring(0, lastIndex) +
-            ret.substring(lastIndex + 1).replaceFirstChar { it.uppercase() }
+            ret.substring(lastIndex + 1).capitalize()
     }
 }
 
@@ -105,7 +107,7 @@ internal fun newTypeNameFromCamel(
     preferred: String,
     set: Set<String> = emptySet()
 ) =
-    newTypeNameFromPascal(snakeToCamel(preferred).replaceFirstChar { it.uppercase() }, set)
+    newTypeNameFromPascal(snakeToCamel(preferred).capitalize(), set)
 
 internal fun newTypeNameFromPascal(
     preferred: String,
@@ -114,9 +116,9 @@ internal fun newTypeNameFromPascal(
     appendUnderscores(preferred, set)
 
 internal fun newFieldName(preferred: String, set: Set<String>): String {
-    var name = snakeToCamel(preferred).replaceFirstChar { it.lowercase() }
+    var name = snakeToCamel(preferred).decapitalize()
     name = appendUnderscores(name, set)
-    if (Keywords.kotlinReserved.contains(name)) {
+    if (name in Keywords.kotlinReserved) {
         name = "`$name`"
     }
     return name
@@ -124,7 +126,7 @@ internal fun newFieldName(preferred: String, set: Set<String>): String {
 
 private fun appendUnderscores(orig: String, set: Set<String>): String {
     var name = orig
-    while (set.contains(name) || Keywords.reserved.contains(name)) {
+    while (name in set || name in Keywords.reserved) {
         name += '_'
     }
     return name
@@ -141,7 +143,7 @@ internal fun newEnumValueName(
         name = name.removePrefix(enumTypeNamePrefix)
     }
 
-    while (set.contains(name)) {
+    while (name in set) {
         name += '_'
     }
 
@@ -192,7 +194,7 @@ internal fun generateFdpObjectNames(
                     .substringBefore(".proto")
                     .substringAfterLast('/')
                     .let(::snakeToCamel)
-                    .replaceFirstChar { it.uppercase() }
+                    .capitalize()
 
         while (name in usedNames) {
             name += "_"
