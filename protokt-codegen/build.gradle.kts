@@ -34,11 +34,7 @@ plugins {
 // the context of Kotlin 1.5.
 tasks.withType<KotlinCompile> {
     kotlinOptions {
-        // Enable targeting language version 1.7 without experimental warnings:
-        // `w: Language version 1.7 is experimental, there are no backwards compatibility guarantees for new language and library features`
-        allWarningsAsErrors = false
-
-        // Prevent checks of class metadata version (wants 1.5.1):
+        // Prevent checks of class metadata version:
         // `Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The binary version of its metadata is 1.7.1, expected version is 1.5.1.`
         freeCompilerArgs += listOf("-Xskip-metadata-version-check")
     }
