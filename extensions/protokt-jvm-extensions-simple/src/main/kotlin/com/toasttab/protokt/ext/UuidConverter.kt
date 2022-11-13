@@ -80,11 +80,18 @@ object UuidConverter2 {
         longAsSequence(wrapped.mostSignificantBits) + longAsSequence(wrapped.leastSignificantBits)
 
     private fun longAsSequence(long: Long) =
-        sequence {
+        object : Iterator<Byte> {
+            var executions = 0
             var tmp = java.lang.Long.reverseBytes(long)
-            repeat(8) {
-                yield(tmp.toByte())
+
+            override fun hasNext() =
+                executions < 8
+
+            override fun next(): Byte {
+                executions++
+                val res = tmp.toByte()
                 tmp = tmp ushr 8
+                return res
             }
-        }
+        }.asSequence()
 }
