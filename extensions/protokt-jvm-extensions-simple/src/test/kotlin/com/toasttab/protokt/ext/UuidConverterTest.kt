@@ -38,4 +38,16 @@ class UuidConverterTest {
 
         assertThat(thrown).hasMessageThat().contains("must have size 16")
     }
+
+    @Test
+    fun `test converter 2`() {
+        val id = UUID.randomUUID()
+
+        val bytes = UuidConverter.unwrap(id)
+        val bytes2 = UuidConverter2.unwrap(id)
+
+        assertThat(bytes2.toList()).isEqualTo(bytes.toList())
+
+        assertThat(UuidConverter2.wrap(bytes2)).isEqualTo(id)
+    }
 }

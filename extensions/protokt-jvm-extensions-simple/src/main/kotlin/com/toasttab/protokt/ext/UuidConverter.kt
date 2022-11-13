@@ -21,41 +21,70 @@ import java.nio.ByteBuffer
 import java.util.UUID
 
 @AutoService(Converter::class)
-object UuidConverter : OptimizedSizeofConverter<UUID, Sequence<Byte>> {
+object UuidConverter : OptimizedSizeofConverter<UUID, ByteArray> {
     override val wrapper = UUID::class
 
-    // note: this probably has to be a TypeReference, or Converter an abstract class
-    override val wrapped = Sequence::class
+    override val wrapped = ByteArray::class
 
     private val sizeofProxy = ByteArray(16)
 
     override fun sizeof(wrapped: UUID) =
         sizeof(sizeofProxy)
 
-    override fun wrap(unwrapped: Sequence<Byte>): UUID {
-        val iterator = unwrapped.iterator()
-
-        val buf = ByteBuffer.allocate(16)
-        var taken = 0
-        while (iterator.hasNext() && taken++ < 16) {
-            buf.put(iterator.next())
+    override fun wrap(unwrapped: ByteArray): UUID {
+        require(unwrapped.size == 16) {
+            "UUID source must have size 16; had ${unwrapped.size}"
         }
 
-        while (iterator.hasNext()) {
-            taken++
-        }
-
-        require(taken == 16) {
-            "UUID source must have size 16; source had size $taken"
-        }
-
-        return buf.run { UUID(long, long) }
+        return ByteBuffer.wrap(unwrapped)
+            .run { UUID(long, long) }
     }
 
-    override fun unwrap(wrapped: UUID): Sequence<Byte> =
+    override fun unwrap(wrapped: UUID): ByteArray =
         ByteBuffer.allocate(16)
             .putLong(wrapped.mostSignificantBits)
             .putLong(wrapped.leastSignificantBits)
             .array()
-            .asSequence()
+}
+
+object UuidConverter2 {
+    fun wrap(unwrapped: Sequence<Byte>): UUID {
+        val iterator = unwrapped.iterator()
+
+        val mostSignificantBits = extractLong(iterator)
+        val leastSignificantBits = extractLong(iterator)
+
+        var extra = 0
+        while (iterator.hasNext()) {
+            extra++
+        }
+
+        require(extra == 0) {
+            "UUID source must have size 16; source had size ${16 + extra}"
+        }
+
+        return UUID(mostSignificantBits, leastSignificantBits)
+    }
+
+    private fun extractLong(iterator: Iterator<Byte>): Long {
+        var long = 0L
+        repeat(8) {
+            require(iterator.hasNext())
+            long = long shl 8
+            long = long.or(iterator.next().toLong())
+        }
+        return long
+    }
+
+    fun unwrap(wrapped: UUID): Sequence<Byte> =
+        longAsSequence(wrapped.mostSignificantBits) + longAsSequence(wrapped.leastSignificantBits)
+
+    private fun longAsSequence(long: Long) =
+        sequence {
+            var tmp = java.lang.Long.reverseBytes(long)
+            repeat(8) {
+                yield(tmp.toByte())
+                tmp = tmp ushr 8
+            }
+        }
 }
