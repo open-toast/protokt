@@ -83,7 +83,7 @@ private constructor(
                     beginControlFlow("while (true)")
                     beginControlFlow("when(deserializer.readTag())")
                     addStatement("0 -> return·%N(%L)", msg.name, constructorLines(properties))
-                    deserializerInfo.forEach() { addStatement("%L -> %L = %L", it.tag, it.assignment.fieldName, it.assignment.value) }
+                    deserializerInfo.forEach { addStatement("%L -> %L = %L", it.tag, it.assignment.fieldName, it.assignment.value) }
                     addStatement("else -> unknownFields = (unknownFields ?: %T.Builder()).also·{it.add(deserializer.readUnknown()) }", UnknownFieldSet::class)
                     endControlFlow()
                     endControlFlow()

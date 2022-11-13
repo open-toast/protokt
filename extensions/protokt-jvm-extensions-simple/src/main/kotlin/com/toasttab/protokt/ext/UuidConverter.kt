@@ -21,28 +21,41 @@ import java.nio.ByteBuffer
 import java.util.UUID
 
 @AutoService(Converter::class)
-object UuidConverter : OptimizedSizeofConverter<UUID, ByteArray> {
+object UuidConverter : OptimizedSizeofConverter<UUID, Sequence<Byte>> {
     override val wrapper = UUID::class
 
-    override val wrapped = ByteArray::class
+    // note: this probably has to be a TypeReference, or Converter an abstract class
+    override val wrapped = Sequence::class
 
     private val sizeofProxy = ByteArray(16)
 
     override fun sizeof(wrapped: UUID) =
         sizeof(sizeofProxy)
 
-    override fun wrap(unwrapped: ByteArray): UUID {
-        require(unwrapped.size == 16) {
-            "UUID source must have size 16; had ${unwrapped.size}"
+    override fun wrap(unwrapped: Sequence<Byte>): UUID {
+        val iterator = unwrapped.iterator()
+
+        val buf = ByteBuffer.allocate(16)
+        var taken = 0
+        while (iterator.hasNext() && taken++ < 16) {
+            buf.put(iterator.next())
         }
 
-        return ByteBuffer.wrap(unwrapped)
-            .run { UUID(long, long) }
+        while (iterator.hasNext()) {
+            taken++
+        }
+
+        require(taken == 16) {
+            "UUID source must have size 16; source had size $taken"
+        }
+
+        return buf.run { UUID(long, long) }
     }
 
-    override fun unwrap(wrapped: UUID): ByteArray =
+    override fun unwrap(wrapped: UUID): Sequence<Byte> =
         ByteBuffer.allocate(16)
             .putLong(wrapped.mostSignificantBits)
             .putLong(wrapped.leastSignificantBits)
             .array()
+            .asSequence()
 }

@@ -54,7 +54,7 @@ object Wrapper {
     val StandardField.valueWrapped
         get() = valueWrap.isDefined()
 
-    fun <R> StandardField.foldWrap(
+    private fun <R> StandardField.foldWrap(
         wrap: Option<String>,
         pkg: PPackage,
         ctx: ProtocolContext,
@@ -165,11 +165,12 @@ object Wrapper {
             }
         )
 
-    fun wrapField(wrapName: String, arg: CodeBlock, f: FieldType?, oneof: Boolean) = when {
-        f == FieldType.BYTES -> CodeBlock.of("%L.wrap(%L.bytes)", wrapName, arg)
-        f == FieldType.MESSAGE && !oneof -> CodeBlock.of("%L.wrap(%L!!)", wrapName, arg)
-        else -> CodeBlock.of("%L.wrap(%L)", wrapName, arg)
-    }
+    fun wrapField(wrapName: String, arg: CodeBlock, f: FieldType?, oneof: Boolean) =
+        when {
+            f == FieldType.BYTES -> CodeBlock.of("%L.wrap(%L.asSequence())", wrapName, arg)
+            f == FieldType.MESSAGE && !oneof -> CodeBlock.of("%L.wrap(%L!!)", wrapName, arg)
+            else -> CodeBlock.of("%L.wrap(%L)", wrapName, arg)
+        }
 
     fun wrapperName(f: StandardField, ctx: Context) =
         f.foldFieldWrap(

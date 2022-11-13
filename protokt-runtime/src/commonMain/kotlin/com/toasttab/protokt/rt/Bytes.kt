@@ -19,6 +19,9 @@ class Bytes(internal val value: ByteArray) {
     val bytes
         get() = clone(value)
 
+    fun asSequence() =
+        value.asSequence()
+
     fun isNotEmpty() =
         value.isNotEmpty()
 
