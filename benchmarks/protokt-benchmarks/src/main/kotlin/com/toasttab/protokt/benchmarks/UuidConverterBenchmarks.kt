@@ -56,7 +56,7 @@ open class UuidConverterBenchmarks {
     @Benchmark
     fun wrapWithByteBuffer(bh: Blackhole) {
         unwrapped.forEach {
-            bh.consume(UuidConverter.wrap(it))
+            bh.consume(UuidConverter.wrap(it.clone()))
         }
     }
 
