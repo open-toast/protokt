@@ -4,10 +4,10 @@ import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.ParameterizedTypeName
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
+import com.toasttab.protokt.codegen.annotators.PropertyAnnotator.PropertyInfo
 import com.toasttab.protokt.codegen.impl.runtimeFunction
-import com.toasttab.protokt.codegen.template.Message.Message.PropertyInfo
 
-fun deserializeType(p: PropertyInfo) =
+internal fun deserializeType(p: PropertyInfo) =
     if (p.repeated || p.map) {
         p.deserializeType as ParameterizedTypeName
         ClassName(p.deserializeType.rawType.packageName, "Mutable" + p.deserializeType.rawType.simpleName)
@@ -17,21 +17,21 @@ fun deserializeType(p: PropertyInfo) =
         p.deserializeType
     }
 
-fun deserializeValue(p: PropertyInfo) =
+internal fun deserializeValue(p: PropertyInfo) =
     if (p.repeated || p.wrapped || p.nullable || p.fieldType == "MESSAGE") {
         CodeBlock.of("null")
     } else {
         p.defaultValue
     }
 
-fun deserializeVar(p: PropertyInfo) =
+internal fun deserializeVar(p: PropertyInfo) =
     if (p.fieldType == "MESSAGE" || p.repeated || p.oneof || p.nullable || p.wrapped) {
         CodeBlock.of("%L : %T = %L", p.name, deserializeType(p), deserializeValue(p))
     } else {
         CodeBlock.of("%L = %L", p.name, deserializeValue(p))
     }
 
-fun deserializeWrapper(p: PropertyInfo) =
+internal fun deserializeWrapper(p: PropertyInfo) =
     if (p.nonNullOption) {
         CodeBlock.builder()
             .add("requireNotNull(%L)·{", p.name)

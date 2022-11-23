@@ -26,7 +26,9 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.toasttab.protokt.codegen.annotators.Annotator.Context
+import com.toasttab.protokt.codegen.annotators.DeserializerAnnotator.DeserializerInfo.Assignment
 import com.toasttab.protokt.codegen.annotators.PropertyAnnotator.Companion.annotateProperties
+import com.toasttab.protokt.codegen.annotators.PropertyAnnotator.PropertyInfo
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptReadFn
 import com.toasttab.protokt.codegen.impl.Wrapper.keyWrapped
 import com.toasttab.protokt.codegen.impl.Wrapper.mapKeyConverter
@@ -41,9 +43,6 @@ import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Oneof
 import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.codegen.protoc.Tag
-import com.toasttab.protokt.codegen.template.Message.Message.DeserializerInfo
-import com.toasttab.protokt.codegen.template.Message.Message.DeserializerInfo.Assignment
-import com.toasttab.protokt.codegen.template.Message.Message.PropertyInfo
 import com.toasttab.protokt.codegen.util.capitalize
 import com.toasttab.protokt.rt.AbstractKtDeserializer
 import com.toasttab.protokt.rt.KtMessageDeserializer
@@ -55,7 +54,7 @@ private constructor(
     private val ctx: Context
 ) {
     private fun annotateDeserializer(): TypeSpec {
-        val deserializerInfo = annotateDeserializerOld()
+        val deserializerInfo = deserializerInfo()
         val properties = annotateProperties(msg, ctx)
 
         return TypeSpec.companionObjectBuilder("Deserializer")
@@ -97,11 +96,20 @@ private constructor(
             add("%T.from(unknownFields)", UnknownFieldSet::class)
         }
 
-    private fun annotateDeserializerOld(): List<DeserializerInfo> =
+    private class DeserializerInfo(
+        val tag: Int,
+        val assignment: Assignment
+    ) {
+        class Assignment(
+            val fieldName: String,
+            val value: String
+        )
+    }
+
+    private fun deserializerInfo(): List<DeserializerInfo> =
         msg.flattenedSortedFields().flatMap { (field, oneOf) ->
             field.tagList.map { tag ->
                 DeserializerInfo(
-                    field.repeated,
                     tag.value,
                     oneOf.fold(
                         {

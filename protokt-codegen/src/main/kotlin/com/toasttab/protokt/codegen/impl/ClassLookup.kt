@@ -76,7 +76,9 @@ internal object ClassLookup {
                         lines.map { it.substringBefore("#").trim() }
                             .filter { it.isNotEmpty() }
                             .map { loader.loadClass(it).kotlin.objectInstance as Converter<*, *> }
+                            .toList()
                     }
             }
+            .toList()
     }.memoize()
 }

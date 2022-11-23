@@ -29,7 +29,6 @@ import com.toasttab.protokt.codegen.impl.runtimeFunction
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Oneof
 import com.toasttab.protokt.codegen.protoc.StandardField
-import com.toasttab.protokt.codegen.template.ConditionalParams
 import com.toasttab.protokt.rt.KtMessageSerializer
 import com.toasttab.protokt.rt.Tag
 import com.toasttab.protokt.rt.UInt32
@@ -77,7 +76,7 @@ private constructor(
             .sortedBy { it.number }
             .map {
                 buildCodeBlock {
-                    val serializeParams = serializeOneof(f, it, msg.name, ctx)
+                    val serializeParams = serializeOneof(f, it, msg.name)
                     beginControlFlow("is ${serializeParams.condition} ->")
                     add(serializeParams.consequent)
                     endControlFlow()
@@ -91,6 +90,19 @@ private constructor(
                     }
                 }
             }
+
+    private class ConditionalParams(
+        val condition: CodeBlock,
+        val consequent: CodeBlock
+    )
+
+    private fun serializeOneof(f: Oneof, ff: StandardField, type: String) =
+        ConditionalParams(
+            CodeBlock.of(
+                "%L.%L", oneOfScope(f, type), f.fieldTypeNames.getValue(ff.fieldName)
+            ),
+            serialize(ff, ctx, Some(f.fieldName))
+        )
 
     companion object {
         fun annotateSerializer(msg: Message, ctx: Context) =
@@ -159,13 +171,5 @@ private constructor(
                 }
             }
         }
-
-        fun serializeOneof(f: Oneof, ff: StandardField, type: String, ctx: Context) =
-            ConditionalParams(
-                CodeBlock.of(
-                    "%L.%L", oneOfScope(f, type), f.fieldTypeNames.getValue(ff.fieldName)
-                ),
-                serialize(ff, ctx, Some(f.fieldName))
-            )
     }
 }

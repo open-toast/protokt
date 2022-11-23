@@ -22,14 +22,14 @@ import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
+import com.toasttab.protokt.codegen.annotators.PropertyAnnotator.PropertyInfo
 import com.toasttab.protokt.codegen.impl.Deprecation.handleDeprecation
 import com.toasttab.protokt.codegen.impl.bindSpaces
 import com.toasttab.protokt.codegen.impl.runtimeFunction
 import com.toasttab.protokt.codegen.protoc.Message
-import com.toasttab.protokt.codegen.template.Message.Message.PropertyInfo
 import com.toasttab.protokt.rt.UnknownFieldSet
 
-class DslAnnotator(
+internal class DslAnnotator(
     private val msg: Message,
     private val properties: List<PropertyInfo>
 ) {
@@ -132,5 +132,5 @@ class DslAnnotator(
         }
 }
 
-fun TypeSpec.Builder.handleDsl(msg: Message, properties: List<PropertyInfo>) =
+internal fun TypeSpec.Builder.handleDsl(msg: Message, properties: List<PropertyInfo>) =
     apply { DslAnnotator(msg, properties).addDsl(this) }

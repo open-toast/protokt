@@ -31,6 +31,7 @@ import com.toasttab.protokt.codegen.annotators.MessageDocumentationAnnotator.ann
 import com.toasttab.protokt.codegen.annotators.MessageSizeAnnotator.Companion.annotateMessageSize
 import com.toasttab.protokt.codegen.annotators.OneofAnnotator.Companion.annotateOneofs
 import com.toasttab.protokt.codegen.annotators.PropertyAnnotator.Companion.annotateProperties
+import com.toasttab.protokt.codegen.annotators.PropertyAnnotator.PropertyInfo
 import com.toasttab.protokt.codegen.annotators.SerializerAnnotator.Companion.annotateSerializer
 import com.toasttab.protokt.codegen.impl.Deprecation.addDeprecationSuppression
 import com.toasttab.protokt.codegen.impl.Deprecation.enclosingDeprecation
@@ -41,7 +42,6 @@ import com.toasttab.protokt.codegen.impl.bindMargin
 import com.toasttab.protokt.codegen.impl.bindSpaces
 import com.toasttab.protokt.codegen.impl.embed
 import com.toasttab.protokt.codegen.protoc.Message
-import com.toasttab.protokt.codegen.template.Message.Message.PropertyInfo
 import com.toasttab.protokt.rt.AbstractKtMessage
 import com.toasttab.protokt.rt.KtGeneratedMessage
 import com.toasttab.protokt.rt.UnknownFieldSet

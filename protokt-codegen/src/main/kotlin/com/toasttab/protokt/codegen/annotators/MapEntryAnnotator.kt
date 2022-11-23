@@ -15,7 +15,6 @@
 
 package com.toasttab.protokt.codegen.annotators
 
-import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
@@ -25,24 +24,19 @@ import com.squareup.kotlinpoet.asTypeName
 import com.toasttab.protokt.codegen.annotators.Annotator.Context
 import com.toasttab.protokt.codegen.annotators.MessageSizeAnnotator.Companion.sizeOf
 import com.toasttab.protokt.codegen.annotators.PropertyAnnotator.Companion.annotateProperties
+import com.toasttab.protokt.codegen.annotators.PropertyAnnotator.PropertyInfo
 import com.toasttab.protokt.codegen.annotators.SerializerAnnotator.Companion.serialize
-import com.toasttab.protokt.codegen.annotators.SerializerAnnotator.Companion.serializeOneof
-import com.toasttab.protokt.codegen.impl.Wrapper.interceptSizeof
 import com.toasttab.protokt.codegen.impl.bindIndent
 import com.toasttab.protokt.codegen.impl.bindSpaces
 import com.toasttab.protokt.codegen.impl.constructorProperty
 import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.protoc.Message
-import com.toasttab.protokt.codegen.protoc.Oneof
 import com.toasttab.protokt.codegen.protoc.StandardField
-import com.toasttab.protokt.codegen.template.ConditionalParams
-import com.toasttab.protokt.codegen.template.Message.Message.PropertyInfo
 import com.toasttab.protokt.rt.AbstractKtDeserializer
 import com.toasttab.protokt.rt.AbstractKtMessage
 import com.toasttab.protokt.rt.KtMessage
 import com.toasttab.protokt.rt.KtMessageDeserializer
 import com.toasttab.protokt.rt.KtMessageSerializer
-import com.toasttab.protokt.codegen.template.Message.Message as MessageTemplate
 
 class MapEntryAnnotator
 private constructor(
@@ -88,51 +82,19 @@ private constructor(
     }
 
     private fun TypeSpec.Builder.addSerialize() {
-        val serInfo = serializerInfo()
         addFunction(
             FunSpec.builder("serialize")
                 .addModifiers(KModifier.OVERRIDE)
                 .addParameter("serializer", KtMessageSerializer::class)
-                .addCode(serInfo.consequent(entryInfo.key))
+                .addCode(serialize(entryInfo.key, ctx))
                 .addCode("\n")
-                .addCode(serInfo.consequent(entryInfo.value))
+                .addCode(serialize(entryInfo.value, ctx))
                 .build()
         )
     }
 
-    class SerializerInfo(
-        val fieldName: String,
-        /** A singleton list for standard fields; one per type for enum fields */
-        val conditionals: List<ConditionalParams>
-    )
-
-    private fun serializerInfo(): List<SerializerInfo> {
-        return msg.fields.map {
-            when (it) {
-                is StandardField ->
-                    SerializerInfo(
-                        it.fieldName,
-                        listOf(
-                            ConditionalParams(
-                                it.nonDefault(ctx),
-                                serialize(it, ctx)
-                            )
-                        )
-                    )
-                is Oneof ->
-                    SerializerInfo(
-                        it.fieldName,
-                        it.fields
-                            .sortedBy { f -> f.number }
-                            .map { f -> serializeOneof(it, f, msg.name, ctx) }
-                    )
-            }
-        }
-    }
-
     private fun TypeSpec.Builder.addDeserializer() {
         val propInfo = annotateProperties(msg, ctx)
-        val sizeInfo = keyValueSizes(msg, ctx)
 
         addType(
             TypeSpec.companionObjectBuilder("Deserializer")
@@ -146,7 +108,7 @@ private constructor(
                         .addParameter("key", keyPropertyType)
                         .addParameter("value", valPropertyType)
                         .addCode(
-                            "return ${sizeInfo.consequent(entryInfo.key)} + ${sizeInfo.consequent(entryInfo.value)}".bindSpaces()
+                            "return ${sizeOf(entryInfo.key, ctx)} + ${sizeOf(entryInfo.value, ctx)}".bindSpaces()
                         )
                         .build()
                 )
@@ -157,8 +119,8 @@ private constructor(
                         .returns(msg.typeName)
                         .addNamedCode(
                             """
-                                var key${deserializeVar(entryInfo.key, propInfo.single(entryInfo.key))}
-                                var value${deserializeVar(entryInfo.value, propInfo.single(entryInfo.value))}
+                                var key${deserializeVar(entryInfo.key, propInfo.single { entryInfo.key.fieldName == it.name })}
+                                var value${deserializeVar(entryInfo.value, propInfo.single { entryInfo.value.fieldName == it.name })}
                         
                                 while (true) {
                                   when (deserializer.readTag()) {
@@ -176,45 +138,6 @@ private constructor(
         )
     }
 
-    private fun keyValueSizes(msg: Message, ctx: Context): List<SizeofInfo> {
-        return msg.fields.map {
-            when (it) {
-                is StandardField ->
-                    SizeofInfo(
-                        it.fieldName,
-                        listOf(ConditionalParams(it.nonDefault(ctx), sizeOf(it, ctx)))
-                    )
-                is Oneof ->
-                    SizeofInfo(
-                        it.fieldName,
-                        oneofSize(it, msg.name)
-                    )
-            }
-        }
-    }
-
-    class SizeofInfo(
-        val fieldName: String,
-        /** A singleton list for standard fields; one per type for enum fields */
-        val conditionals: List<ConditionalParams>
-    )
-
-    private fun oneofSize(f: Oneof, type: String) =
-        f.fields.map {
-            ConditionalParams(
-                CodeBlock.of("%L.%L", oneOfScope(f, type), f.fieldTypeNames.getValue(it.fieldName)),
-                sizeOf(
-                    it,
-                    ctx,
-                    interceptSizeof(
-                        it,
-                        "${f.fieldName}.${it.fieldName}",
-                        ctx
-                    )
-                )
-            )
-        }
-
     private fun deserializeVar(f: StandardField, p: PropertyInfo) =
         if (f.type == FieldType.MESSAGE) {
             ": " + deserializeType(p)
@@ -228,21 +151,6 @@ private constructor(
         } else {
             ""
         }
-
-    private fun <T : MessageTemplate.FieldInfo> List<T>.single(
-        f: StandardField
-    ) =
-        single { it.name == f.fieldName }
-
-    private fun List<SerializerInfo>.consequent(
-        f: StandardField
-    ) =
-        single { it.fieldName == f.fieldName }.conditionals.single().consequent
-
-    private fun List<SizeofInfo>.consequent(
-        f: StandardField
-    ) =
-        single { it.fieldName == f.fieldName }.conditionals.single().consequent
 
     companion object {
         fun annotateMapEntry(msg: Message, ctx: Context) =
