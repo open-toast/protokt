@@ -17,18 +17,19 @@ package com.toasttab.protokt.testing.options
 
 import com.google.auto.service.AutoService
 import com.toasttab.protokt.ext.Converter
+import com.toasttab.protokt.rt.Bytes
 
 data class Id(val value: String)
 
 @AutoService(Converter::class)
-object IdConverter : Converter<Id, ByteArray> {
+object IdConverter : Converter<Id, Bytes> {
     override val wrapper = Id::class
 
-    override val wrapped = ByteArray::class
+    override val wrapped = Bytes::class
 
-    override fun wrap(unwrapped: ByteArray) =
-        Id(String(unwrapped))
+    override fun wrap(unwrapped: Bytes) =
+        Id(String(unwrapped.bytes))
 
     override fun unwrap(wrapped: Id) =
-        wrapped.value.toByteArray()
+        Bytes(wrapped.value.toByteArray())
 }

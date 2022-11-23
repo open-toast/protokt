@@ -24,7 +24,6 @@ import com.toasttab.protokt.codegen.impl.defaultValue
 import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.codegen.protoc.Tag
-import com.toasttab.protokt.rt.Bytes
 
 internal val StandardField.tag
     get() =
@@ -39,7 +38,7 @@ internal val StandardField.tagList
         tag.let {
             if (repeated) {
                 // For repeated fields, catch the other (packed or non-packed)
-                // possiblity.
+                // possibility.
                 keepIfDifferent(
                     it,
                     if (packed) {
@@ -82,15 +81,13 @@ internal fun StandardField.boxMap(ctx: Context): CodeBlock {
         return CodeBlock.of("")
     }
     val keyParam = mapKeyConverter(this, ctx)?.let { CodeBlock.of("$it.unwrap(it.key)") } ?: CodeBlock.of("it.key")
-    val valParam = mapValueConverter(this, ctx)?.let {
-        maybeConstructBytes(CodeBlock.of("$it.unwrap(it.value)"))
-    } ?: CodeBlock.of("it.value")
+    val valParam = mapValueConverter(this, ctx)?.let { CodeBlock.of("$it.unwrap(it.value)") } ?: CodeBlock.of("it.value")
     return CodeBlock.of("%T(%L, %L)", typePClass.toTypeName(), keyParam, valParam)
 }
 
-internal fun StandardField.maybeConstructBytes(arg: CodeBlock) = when (mapEntry!!.value.type) {
-    FieldType.BYTES -> CodeBlock.of("%T($arg)", Bytes::class)
-    else -> arg
-}
-
-internal fun StandardField.box(s: String) = if (type.boxed) CodeBlock.of("%T($s)", type.boxer) else CodeBlock.of(s)
+internal fun StandardField.box(s: String) =
+    if (type.boxed) {
+        CodeBlock.of("%T($s)", type.boxer)
+    } else {
+        CodeBlock.of(s)
+    }

@@ -16,33 +16,38 @@
 package com.toasttab.protokt.ext
 
 import com.google.auto.service.AutoService
+import com.toasttab.protokt.rt.Bytes
+import com.toasttab.protokt.rt.asReadOnlyBuffer
 import com.toasttab.protokt.rt.sizeof
 import java.nio.ByteBuffer
 import java.util.UUID
 
 @AutoService(Converter::class)
-object UuidConverter : OptimizedSizeofConverter<UUID, ByteArray> {
+object UuidConverter : OptimizedSizeofConverter<UUID, Bytes> {
     override val wrapper = UUID::class
 
-    override val wrapped = ByteArray::class
+    override val wrapped = Bytes::class
 
     private val sizeofProxy = ByteArray(16)
 
     override fun sizeof(wrapped: UUID) =
         sizeof(sizeofProxy)
 
-    override fun wrap(unwrapped: ByteArray): UUID {
-        require(unwrapped.size == 16) {
-            "UUID source must have size 16; had ${unwrapped.size}"
+    override fun wrap(unwrapped: Bytes): UUID {
+        val buf = unwrapped.asReadOnlyBuffer()
+
+        require(buf.remaining() == 16) {
+            "UUID source must have size 16; had ${buf.remaining()}"
         }
 
-        return ByteBuffer.wrap(unwrapped)
-            .run { UUID(long, long) }
+        return buf.run { UUID(long, long) }
     }
 
-    override fun unwrap(wrapped: UUID): ByteArray =
-        ByteBuffer.allocate(16)
-            .putLong(wrapped.mostSignificantBits)
-            .putLong(wrapped.leastSignificantBits)
-            .array()
+    override fun unwrap(wrapped: UUID): Bytes =
+        Bytes(
+            ByteBuffer.allocate(16)
+                .putLong(wrapped.mostSignificantBits)
+                .putLong(wrapped.leastSignificantBits)
+                .array()
+        )
 }

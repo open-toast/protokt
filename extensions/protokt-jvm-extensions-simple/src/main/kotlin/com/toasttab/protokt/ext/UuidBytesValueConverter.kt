@@ -34,8 +34,8 @@ object UuidBytesValueConverter : OptimizedSizeofConverter<UUID, BytesValue> {
         sizeof(sizeofProxy)
 
     override fun wrap(unwrapped: BytesValue) =
-        UuidConverter.wrap(unwrapped.value.bytes)
+        UuidConverter.wrap(unwrapped.value)
 
     override fun unwrap(wrapped: UUID) =
-        BytesValue { value = Bytes(UuidConverter.unwrap(wrapped)) }
+        BytesValue { value = UuidConverter.unwrap(wrapped) }
 }

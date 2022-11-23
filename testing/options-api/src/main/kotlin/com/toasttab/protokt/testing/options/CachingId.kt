@@ -18,30 +18,18 @@ package com.toasttab.protokt.testing.options
 import com.google.auto.service.AutoService
 import com.toasttab.protokt.ext.Converter
 import com.toasttab.protokt.ext.OptimizedSizeofConverter
+import com.toasttab.protokt.rt.Bytes
 import com.toasttab.protokt.rt.sizeof
 
-/**
- * Caches originating byte array. Not recommended to be a data class
- * unless the byte array is wrapped in a Bytes object.
- */
-/* data */ class CachingId(internal val value: ByteArray) {
-    val string = String(value)
-
-    override fun toString() =
-        "CachingId($string)"
-
-    override fun equals(other: Any?) =
-        other is CachingId && value.contentEquals(other.value)
-
-    override fun hashCode() =
-        value.contentHashCode()
-}
+data class CachingId(
+    internal val value: Bytes
+)
 
 @AutoService(Converter::class)
-object CachingIdConverter : OptimizedSizeofConverter<CachingId, ByteArray> {
+object CachingIdConverter : OptimizedSizeofConverter<CachingId, Bytes> {
     override val wrapper = CachingId::class
 
-    override val wrapped = ByteArray::class
+    override val wrapped = Bytes::class
 
     override fun sizeof(wrapped: CachingId) =
         sizeof(wrapped.value)
@@ -49,6 +37,6 @@ object CachingIdConverter : OptimizedSizeofConverter<CachingId, ByteArray> {
     override fun unwrap(wrapped: CachingId) =
         wrapped.value
 
-    override fun wrap(unwrapped: ByteArray) =
+    override fun wrap(unwrapped: Bytes) =
         CachingId(unwrapped)
 }

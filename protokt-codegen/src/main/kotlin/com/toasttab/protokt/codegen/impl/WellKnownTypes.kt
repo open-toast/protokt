@@ -32,6 +32,7 @@ object WellKnownTypes {
                         None
                     }
                 }
+
     fun classNameForWellKnownType(type: String) = Option.fromNullable(
         when (type) {
             "DoubleValue" -> "java.lang.Double"
