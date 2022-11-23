@@ -15,7 +15,6 @@
 
 package com.toasttab.protokt.codegen.annotators
 
-import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.LambdaTypeName
@@ -23,6 +22,7 @@ import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
+import com.toasttab.protokt.codegen.impl.Deprecation.handleDeprecation
 import com.toasttab.protokt.codegen.impl.bindSpaces
 import com.toasttab.protokt.codegen.impl.runtimeFunction
 import com.toasttab.protokt.codegen.protoc.Message
@@ -68,21 +68,7 @@ class DslAnnotator(
                     properties.map {
                         PropertySpec.builder(it.name.removePrefix("`").removeSuffix("`"), it.dslPropertyType)
                             .mutable(true)
-                            .apply {
-                                if (it.deprecation != null) {
-                                    addAnnotation(
-                                        AnnotationSpec.builder(Deprecated::class)
-                                            .apply {
-                                                if (it.deprecation.message != null) {
-                                                    addMember("\"" + it.deprecation.message + "\"")
-                                                } else {
-                                                    addMember("\"deprecated in proto\"")
-                                                }
-                                            }
-                                            .build()
-                                    )
-                                }
-                            }
+                            .handleDeprecation(it.deprecation)
                             .apply {
                                 if (it.map) {
                                     setter(

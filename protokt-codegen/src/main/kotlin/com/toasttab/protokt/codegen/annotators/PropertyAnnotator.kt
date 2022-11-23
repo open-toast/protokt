@@ -125,22 +125,17 @@ private constructor(
                 interceptDefaultValue(
                     this,
                     when {
-                        this.map -> CodeBlock.of("emptyMap()")
-                        this.repeated -> CodeBlock.of("emptyList()")
+                        map -> CodeBlock.of("emptyMap()")
+                        repeated -> CodeBlock.of("emptyList()")
                         type == FieldType.MESSAGE -> CodeBlock.of("null")
                         type == FieldType.ENUM -> CodeBlock.of("%T.from(0)", this.typePClass.toTypeName())
-                        this.nullable -> CodeBlock.of("null")
-                        else -> this.type.defaultValue
+                        nullable -> CodeBlock.of("null")
+                        else -> type.defaultValue
                     },
                     ctx
                 )
             is Oneof -> CodeBlock.of("null")
         }
-
-    private fun name(f: StandardField) = when (f.type) {
-        FieldType.ENUM -> f.typePClass.qualifiedName
-        else -> ""
-    }
 
     companion object {
         fun annotateProperties(msg: Message, ctx: Context) =

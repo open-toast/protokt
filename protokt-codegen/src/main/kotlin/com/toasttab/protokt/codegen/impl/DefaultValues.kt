@@ -2,6 +2,7 @@ package com.toasttab.protokt.codegen.impl
 
 import com.squareup.kotlinpoet.CodeBlock
 import com.toasttab.protokt.codegen.model.FieldType
+import com.toasttab.protokt.rt.Bytes
 
 val FieldType.defaultValue: CodeBlock
     get() = when (this) {
@@ -15,6 +16,6 @@ val FieldType.defaultValue: CodeBlock
         FieldType.FIXED64, FieldType.INT64, FieldType.SFIXED64, FieldType.SINT64, FieldType.UINT64 -> CodeBlock.of("0L")
         FieldType.FLOAT -> CodeBlock.of("0.0F")
         FieldType.DOUBLE -> CodeBlock.of("0.0")
-        FieldType.BYTES -> CodeBlock.of("%T.empty()", com.toasttab.protokt.rt.Bytes::class)
+        FieldType.BYTES -> CodeBlock.of("%T.empty()", Bytes::class)
         FieldType.STRING -> CodeBlock.of("\"\"")
     }

@@ -54,13 +54,6 @@ private constructor(
     private val msg: Message,
     private val ctx: Context
 ) {
-    /** Creates a {@see KtDeserializer<T>} companion object, where T is the Kotlin type for this Message.
-     *
-     * Contains functions:
-     *  - deserialize(deserializer : KTMessageDeserializer) : T
-     *  - invoke(dsl: ApiDsl.() -> Unit): Api
-     *
-     * */
     private fun annotateDeserializer(): TypeSpec {
         val deserializerInfo = annotateDeserializerOld()
         val properties = annotateProperties(msg, ctx)

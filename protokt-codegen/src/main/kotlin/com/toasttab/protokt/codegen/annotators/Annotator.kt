@@ -30,14 +30,10 @@ import com.toasttab.protokt.codegen.protoc.TopLevelType
 import com.toasttab.protokt.codegen.protoc.TypeDesc
 import kotlinx.collections.immutable.persistentListOf
 
-/**
- * Annotates an unannotated AST. This effectively converts the protobuf AST to a Kotlin AST.
- */
 object Annotator {
     const val rootGoogleProto = "google.protobuf"
     const val googleProto = ".google.protobuf"
 
-    const val protokt = ".protokt"
     const val protoktPkg = "com.toasttab.protokt"
     const val protoktRtPkg = "com.toasttab.protokt.rt"
 
@@ -93,17 +89,14 @@ object Annotator {
     private fun <T> nonDescriptors(ctx: Context, gen: () -> Iterable<T>) =
         nonDescriptors(ctx.desc.context, emptyList(), gen)
 
-    fun <T> nonDescriptors(ctx: ProtocolContext, default: T, gen: () -> T) =
+    private fun <T> nonDescriptors(ctx: ProtocolContext, default: T, gen: () -> T) =
         boolGen(!ctx.onlyGenerateDescriptors, default, gen)
 
     private fun <T> nonGrpc(ctx: Context, gen: () -> Iterable<T>) =
         nonGrpc(ctx.desc.context, emptyList(), gen)
 
-    fun <T> nonGrpc(ctx: ProtocolContext, default: T, gen: () -> T) =
+    private fun <T> nonGrpc(ctx: ProtocolContext, default: T, gen: () -> T) =
         boolGen(!ctx.onlyGenerateGrpc, default, gen)
-
-    fun <T> grpc(ctx: ProtocolContext, default: T, gen: () -> T) =
-        boolGen(ctx.generateGrpc || ctx.onlyGenerateGrpc, default, gen)
 
     private fun <T> boolGen(bool: Boolean, default: T, gen: () -> T) =
         if (bool) {
