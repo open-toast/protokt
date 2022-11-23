@@ -23,12 +23,10 @@ plugins {
 
 version = rootProject.version
 
-tasks {
-    withType<Jar> {
-        manifest {
-            attributes(
-                MANIFEST_VERSION_PROPERTY to "${project.version}"
-            )
-        }
+tasks.withType<Jar> {
+    manifest {
+        attributes(
+            MANIFEST_VERSION_PROPERTY to "${project.version}"
+        )
     }
 }

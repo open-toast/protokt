@@ -16,6 +16,7 @@
 package com.toasttab.protokt.testing.options
 
 import com.google.common.truth.Truth.assertThat
+import com.toasttab.protokt.rt.Bytes
 import com.toasttab.protokt.testing.options.OneofWrappers.WrappedOneof
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -32,7 +33,7 @@ class WrapperTypesTest {
             id = Id("asdf")
             ipAddress = InetAddress.getByAddress(byteArrayOf(0, 0, 0, 1))
             uuid = UUID.randomUUID()
-            cachingId = CachingId("asdf".toByteArray())
+            cachingId = CachingId(Bytes("asdf".toByteArray()))
             socketAddress = InetSocketAddress(InetAddress.getLocalHost(), 8080)
             instant = Instant.now()
             duration = Duration.ofSeconds(5)

@@ -249,7 +249,7 @@ private constructor(
 
     private fun sizeOfMap(f: StandardField, name: String): CodeBlockComponents {
         val key = mapKeyConverter(f, ctx)?.let { "$it.unwrap(k)" } ?: "k"
-        val value = mapValueConverter(f, ctx)?.let { CodeBlock.of("$it.unwrap(v)") }?.let { f.maybeConstructBytes(it) } ?: "v"
+        val value = mapValueConverter(f, ctx)?.let { CodeBlock.of("$it.unwrap(v)") } ?: "v"
         return CodeBlockComponents(
             "%arg1:M($name, %arg2:T(${f.number})) { k, v -> %arg3:T.sizeof(%arg4:L, %arg5:L)}",
             mapOf(

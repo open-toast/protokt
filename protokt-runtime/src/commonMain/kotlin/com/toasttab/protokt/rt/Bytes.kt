@@ -19,9 +19,6 @@ class Bytes(internal val value: ByteArray) {
     val bytes
         get() = clone(value)
 
-    fun asSequence() =
-        value.asSequence()
-
     fun isNotEmpty() =
         value.isNotEmpty()
 
@@ -45,7 +42,6 @@ class Bytes(internal val value: ByteArray) {
     }
 }
 
-// TODO: This should go away; extensions should read a stream of bytes
 internal expect fun clone(bytes: ByteArray): ByteArray
 
 fun Bytes.toBytesSlice() =

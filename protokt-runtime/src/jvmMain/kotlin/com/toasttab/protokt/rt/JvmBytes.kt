@@ -15,5 +15,13 @@
 
 package com.toasttab.protokt.rt
 
+import java.nio.ByteBuffer
+
 internal actual fun clone(bytes: ByteArray) =
     bytes.clone()
+
+fun Bytes.asReadOnlyBuffer(): ByteBuffer =
+    ByteBuffer.wrap(value).asReadOnlyBuffer()
+
+fun Bytes.inputStream() =
+    value.inputStream()

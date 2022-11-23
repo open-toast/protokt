@@ -16,6 +16,7 @@
 package com.toasttab.protokt.ext
 
 import com.google.common.truth.Truth.assertThat
+import com.toasttab.protokt.rt.Bytes
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.util.UUID
@@ -33,21 +34,9 @@ class UuidConverterTest {
     @Test
     fun `wrap requires a byte array of length 16`() {
         val thrown = assertThrows<IllegalArgumentException> {
-            UuidConverter.wrap(byteArrayOf())
+            UuidConverter.wrap(Bytes.empty())
         }
 
         assertThat(thrown).hasMessageThat().contains("must have size 16")
-    }
-
-    @Test
-    fun `test converter 2`() {
-        val id = UUID.randomUUID()
-
-        val bytes = UuidConverter.unwrap(id)
-        val bytes2 = UuidConverter2.unwrap(id)
-
-        assertThat(bytes2.toList()).isEqualTo(bytes.toList())
-
-        assertThat(UuidConverter2.wrap(bytes2)).isEqualTo(id)
     }
 }

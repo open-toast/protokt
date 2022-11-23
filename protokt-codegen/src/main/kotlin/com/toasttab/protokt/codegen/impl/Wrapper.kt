@@ -167,7 +167,7 @@ object Wrapper {
 
     fun wrapField(wrapName: String, arg: CodeBlock, f: FieldType?, oneof: Boolean) =
         when {
-            f == FieldType.BYTES -> CodeBlock.of("%L.wrap(%L.asSequence())", wrapName, arg)
+            f == FieldType.BYTES -> CodeBlock.of("%L.wrap(%L)", wrapName, arg)
             f == FieldType.MESSAGE && !oneof -> CodeBlock.of("%L.wrap(%L!!)", wrapName, arg)
             else -> CodeBlock.of("%L.wrap(%L)", wrapName, arg)
         }

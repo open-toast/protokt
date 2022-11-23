@@ -32,11 +32,11 @@ object BooleanConverter : Converter<BoolBox, Boolean> {
 data class ByteArrayBox(val wrapped: Bytes)
 
 @AutoService(Converter::class)
-object BytesConverter : Converter<ByteArrayBox, ByteArray> {
-    override val wrapped = ByteArray::class
+object BytesConverter : Converter<ByteArrayBox, Bytes> {
+    override val wrapped = Bytes::class
     override val wrapper = ByteArrayBox::class
-    override fun unwrap(wrapped: ByteArrayBox) = wrapped.wrapped.bytes
-    override fun wrap(unwrapped: ByteArray) = ByteArrayBox(Bytes(unwrapped))
+    override fun unwrap(wrapped: ByteArrayBox) = wrapped.wrapped
+    override fun wrap(unwrapped: Bytes) = ByteArrayBox(unwrapped)
 }
 
 data class DoubleBox(val wrapped: Double)

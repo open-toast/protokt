@@ -21,6 +21,7 @@ import com.toasttab.protokt.rt.Bytes
 import com.toasttab.protokt.rt.KtDeserializer
 import com.toasttab.protokt.rt.KtMessage
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.khronos.webgl.ArrayBufferView
@@ -35,6 +36,7 @@ internal actual object Platform {
     }
 
     actual fun runBlockingMain(block: suspend CoroutineScope.() -> Unit) {
+        @OptIn(DelicateCoroutinesApi::class)
         GlobalScope.launch(block = block)
     }
 

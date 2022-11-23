@@ -33,7 +33,6 @@ dependencies {
     implementation(kotlin("reflect"))
     implementation(libraries.protobufJava)
     implementation(project(":benchmarks:benchmarks-util"))
-    implementation(project(":extensions:protokt-jvm-extensions-simple"))
 }
 
 tasks.named("run") {

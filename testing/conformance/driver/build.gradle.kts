@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 /*
  * Copyright (c) 2022 Toast Inc.
  *
@@ -26,5 +28,11 @@ kotlin {
                 implementation(libraries.kotlinxCoroutinesCore)
             }
         }
+    }
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions {
+        freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
     }
 }
