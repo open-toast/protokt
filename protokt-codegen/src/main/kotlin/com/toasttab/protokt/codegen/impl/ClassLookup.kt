@@ -67,12 +67,16 @@ internal object ClassLookup {
 
     val converters = { classpath: List<String> ->
         val loader = getClassLoader(classpath)
-        loader.getResources("META-INF/services/${Converter::class.qualifiedName}").toList().flatMap { url ->
-            url.openStream().bufferedReader().readLines().map {
-                it.substringBefore("#").trim()
-            }.filter { it.isNotEmpty() }.map {
-                loader.loadClass(it).kotlin.objectInstance as Converter<*, *>
+        loader.getResources("META-INF/services/${Converter::class.qualifiedName}")
+            .asSequence()
+            .flatMap { url ->
+                url.openStream()
+                    .bufferedReader()
+                    .useLines { lines ->
+                        lines.map { it.substringBefore("#").trim() }
+                            .filter { it.isNotEmpty() }
+                            .map { loader.loadClass(it).kotlin.objectInstance as Converter<*, *> }
+                    }
             }
-        }
     }.memoize()
 }

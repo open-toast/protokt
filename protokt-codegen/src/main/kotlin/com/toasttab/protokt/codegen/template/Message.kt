@@ -18,7 +18,6 @@ package com.toasttab.protokt.codegen.template
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.TypeName
 import com.toasttab.protokt.codegen.impl.Deprecation
-import com.toasttab.protokt.codegen.model.PClass
 
 object Message {
     object Message {
@@ -34,7 +33,6 @@ object Message {
             val defaultValue: CodeBlock,
             val nullable: Boolean,
             val nonNullOption: Boolean,
-            val pClass: PClass? = null,
             val fieldType: String = "",
             val repeated: Boolean = false,
             val map: Boolean = false,
@@ -52,12 +50,6 @@ object Message {
             override val name: String
                 get() = fieldName
         }
-
-        class SizeofInfo(
-            override val fieldName: String,
-            /** A singleton list for standard fields; one per type for enum fields */
-            override val conditionals: List<ConditionalParams>
-        ) : FieldWriteInfo
 
         class SerializerInfo(
             override val fieldName: String,
