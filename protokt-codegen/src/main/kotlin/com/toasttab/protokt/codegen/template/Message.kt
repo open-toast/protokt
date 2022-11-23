@@ -51,12 +51,6 @@ object Message {
                 get() = fieldName
         }
 
-        class SerializerInfo(
-            override val fieldName: String,
-            /** A singleton list for standard fields; one per type for enum fields */
-            override val conditionals: List<ConditionalParams>
-        ) : FieldWriteInfo
-
         class DeserializerInfo(
             val repeated: Boolean,
             val tag: Int,

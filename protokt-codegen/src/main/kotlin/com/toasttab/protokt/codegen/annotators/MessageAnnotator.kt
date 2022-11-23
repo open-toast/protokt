@@ -28,10 +28,10 @@ import com.toasttab.protokt.codegen.annotators.Annotator.annotate
 import com.toasttab.protokt.codegen.annotators.DeserializerAnnotator.Companion.annotateDeserializer
 import com.toasttab.protokt.codegen.annotators.MapEntryAnnotator.Companion.annotateMapEntry
 import com.toasttab.protokt.codegen.annotators.MessageDocumentationAnnotator.annotateMessageDocumentation
-import com.toasttab.protokt.codegen.annotators.MessageSizeAnnotator.Companion.annotateMessageSizeNew
+import com.toasttab.protokt.codegen.annotators.MessageSizeAnnotator.Companion.annotateMessageSize
 import com.toasttab.protokt.codegen.annotators.OneofAnnotator.Companion.annotateOneofs
 import com.toasttab.protokt.codegen.annotators.PropertyAnnotator.Companion.annotateProperties
-import com.toasttab.protokt.codegen.annotators.SerializerAnnotator.Companion.annotateSerializerNew
+import com.toasttab.protokt.codegen.annotators.SerializerAnnotator.Companion.annotateSerializer
 import com.toasttab.protokt.codegen.impl.Deprecation.addDeprecationSuppression
 import com.toasttab.protokt.codegen.impl.Deprecation.enclosingDeprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.handleDeprecation
@@ -73,8 +73,8 @@ private constructor(
                 .handleConstructor(properties)
                 .addTypes(annotateOneofs(msg, ctx))
                 .handleMessageSize()
-                .addFunction(annotateMessageSizeNew(msg, ctx))
-                .addFunction(annotateSerializerNew(msg, ctx))
+                .addFunction(annotateMessageSize(msg, ctx))
+                .addFunction(annotateSerializer(msg, ctx))
                 .handleEquals(properties)
                 .handleHashCode(properties)
                 .handleToString(properties)

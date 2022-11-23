@@ -25,7 +25,8 @@ import com.squareup.kotlinpoet.asTypeName
 import com.toasttab.protokt.codegen.annotators.Annotator.Context
 import com.toasttab.protokt.codegen.annotators.MessageSizeAnnotator.Companion.sizeOf
 import com.toasttab.protokt.codegen.annotators.PropertyAnnotator.Companion.annotateProperties
-import com.toasttab.protokt.codegen.annotators.SerializerAnnotator.Companion.annotateSerializerOld
+import com.toasttab.protokt.codegen.annotators.SerializerAnnotator.Companion.serialize
+import com.toasttab.protokt.codegen.annotators.SerializerAnnotator.Companion.serializeOneof
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptSizeof
 import com.toasttab.protokt.codegen.impl.bindIndent
 import com.toasttab.protokt.codegen.impl.bindSpaces
@@ -87,7 +88,7 @@ private constructor(
     }
 
     private fun TypeSpec.Builder.addSerialize() {
-        val serInfo = annotateSerializerOld(msg, ctx)
+        val serInfo = serializerInfo()
         addFunction(
             FunSpec.builder("serialize")
                 .addModifiers(KModifier.OVERRIDE)
@@ -97,6 +98,36 @@ private constructor(
                 .addCode(serInfo.consequent(entryInfo.value))
                 .build()
         )
+    }
+
+    class SerializerInfo(
+        val fieldName: String,
+        /** A singleton list for standard fields; one per type for enum fields */
+        val conditionals: List<ConditionalParams>
+    )
+
+    private fun serializerInfo(): List<SerializerInfo> {
+        return msg.fields.map {
+            when (it) {
+                is StandardField ->
+                    SerializerInfo(
+                        it.fieldName,
+                        listOf(
+                            ConditionalParams(
+                                it.nonDefault(ctx),
+                                serialize(it, ctx)
+                            )
+                        )
+                    )
+                is Oneof ->
+                    SerializerInfo(
+                        it.fieldName,
+                        it.fields
+                            .sortedBy { f -> f.number }
+                            .map { f -> serializeOneof(it, f, msg.name, ctx) }
+                    )
+            }
+        }
     }
 
     private fun TypeSpec.Builder.addDeserializer() {
@@ -203,10 +234,10 @@ private constructor(
     ) =
         single { it.name == f.fieldName }
 
-    private fun List<MessageTemplate.FieldWriteInfo>.consequent(
+    private fun List<SerializerInfo>.consequent(
         f: StandardField
     ) =
-        single(f).conditionals.single().consequent
+        single { it.fieldName == f.fieldName }.conditionals.single().consequent
 
     private fun List<SizeofInfo>.consequent(
         f: StandardField

@@ -48,7 +48,7 @@ private constructor(
             name
         }
 
-    private fun annotateMessageSizeNew(): FunSpec {
+    private fun annotateMessageSize(): FunSpec {
         val fieldSizes =
             msg.fields.map {
                 when (it) {
@@ -176,8 +176,8 @@ private constructor(
     }
 
     companion object {
-        fun annotateMessageSizeNew(msg: Message, ctx: Context) =
-            MessageSizeAnnotator(msg, ctx).annotateMessageSizeNew()
+        fun annotateMessageSize(msg: Message, ctx: Context) =
+            MessageSizeAnnotator(msg, ctx).annotateMessageSize()
 
         fun sizeOf(
             f: StandardField,
