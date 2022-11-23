@@ -23,9 +23,9 @@ public final class com/toasttab/protokt/ext/InetAddressConverter : com/toasttab/
 	public fun getWrapped ()Lkotlin/reflect/KClass;
 	public fun getWrapper ()Lkotlin/reflect/KClass;
 	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
-	public fun unwrap (Ljava/net/InetAddress;)[B
+	public fun unwrap (Ljava/net/InetAddress;)Lcom/toasttab/protokt/rt/Bytes;
+	public fun wrap (Lcom/toasttab/protokt/rt/Bytes;)Ljava/net/InetAddress;
 	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
-	public fun wrap ([B)Ljava/net/InetAddress;
 }
 
 public final class com/toasttab/protokt/ext/InstantConverter : com/toasttab/protokt/ext/Converter {
@@ -87,8 +87,8 @@ public final class com/toasttab/protokt/ext/UuidConverter : com/toasttab/protokt
 	public synthetic fun sizeof (Ljava/lang/Object;)I
 	public fun sizeof (Ljava/util/UUID;)I
 	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
-	public fun unwrap (Ljava/util/UUID;)[B
+	public fun unwrap (Ljava/util/UUID;)Lcom/toasttab/protokt/rt/Bytes;
+	public fun wrap (Lcom/toasttab/protokt/rt/Bytes;)Ljava/util/UUID;
 	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
-	public fun wrap ([B)Ljava/util/UUID;
 }
 

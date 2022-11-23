@@ -133,6 +133,11 @@ public final class com/toasttab/protokt/rt/Int64 {
 	public final synthetic fun unbox-impl ()J
 }
 
+public final class com/toasttab/protokt/rt/JvmBytesKt {
+	public static final fun asReadOnlyBuffer (Lcom/toasttab/protokt/rt/Bytes;)Ljava/nio/ByteBuffer;
+	public static final fun inputStream (Lcom/toasttab/protokt/rt/Bytes;)Ljava/io/InputStream;
+}
+
 public final class com/toasttab/protokt/rt/JvmRuntimeUtilsKt {
 	public static final fun unmodifiableList (Ljava/util/List;)Ljava/util/List;
 	public static final fun unmodifiableMap (Ljava/util/Map;)Ljava/util/Map;
