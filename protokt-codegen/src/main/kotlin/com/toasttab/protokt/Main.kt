@@ -15,13 +15,13 @@
 
 package com.toasttab.protokt
 
-import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.google.protobuf.ExtensionRegistry
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.Feature
 import com.squareup.kotlinpoet.FileSpec
 import com.toasttab.protokt.codegen.impl.FileBuilder
+import com.toasttab.protokt.codegen.impl.tidy
 import com.toasttab.protokt.codegen.protoc.ProtocolContext
 import com.toasttab.protokt.codegen.protoc.toProtocol
 import com.toasttab.protokt.ext.Protokt
@@ -43,9 +43,10 @@ internal fun main(bytes: ByteArray, out: OutputStream) {
 
     val files = req.protoFileList
         .filter { filesToGenerate.contains(it.name) }
-        .mapNotNull {
-            val fileSpec = generate(it, req.protoFileList, filesToGenerate, params)
-            fileSpec?.let(::response)
+        .mapNotNull { fdp ->
+            val context = ProtocolContext(fdp, params, filesToGenerate, req.protoFileList)
+            val fileSpec = FileBuilder.buildFile(toProtocol(context))
+            fileSpec?.let { response(it, context) }
         }
 
     if (files.isNotEmpty()) {
@@ -57,46 +58,12 @@ internal fun main(bytes: ByteArray, out: OutputStream) {
     }
 }
 
-private fun generate(
-    fdp: FileDescriptorProto,
-    protoFileList: List<FileDescriptorProto>,
-    filesToGenerate: Set<String>,
-    params: Map<String, String>
-): FileSpec? =
-    FileBuilder.buildFile(
-        toProtocol(
-            ProtocolContext(
-                fdp,
-                params,
-                filesToGenerate,
-                protoFileList
-            )
-        )
-    )
-
-private fun response(fileSpec: FileSpec) =
+private fun response(fileSpec: FileSpec, context: ProtocolContext) =
     CodeGeneratorResponse.File
         .newBuilder()
-        .setContent(fileSpec.toString().let(::tidy))
+        .setContent(tidy(fileSpec.toString(), context))
         .setName(fileSpec.name)
         .build()
-
-// strips Explicit API mode declarations
-// https://kotlinlang.org/docs/whatsnew14.html#explicit-api-mode-for-library-authors
-private fun tidy(code: String) =
-    code
-        // https://stackoverflow.com/a/64970734
-        .replace("public class ", "class ")
-        .replace("public val ", "val ")
-        .replace("public var ", "var ")
-        .replace("public fun ", "fun ")
-        .replace("public object ", "object ")
-        .replace("public companion ", "companion ")
-        .replace("public override ", "override ")
-        .replace("public sealed ", "sealed ")
-        .replace("public data ", "data ")
-        // https://github.com/square/kotlinpoet/pull/932
-        .replace("): Unit {", ") {")
 
 private fun parseParams(req: CodeGeneratorRequest) =
     if (req.parameter == null || req.parameter.isEmpty()) {

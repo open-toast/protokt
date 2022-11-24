@@ -23,6 +23,7 @@ object versions {
     const val kotlinPoet = "1.12.0"
     const val kotlinxCollections = "0.3.5"
     const val kotlinxCoroutines = "1.5.2"
+    const val ktlint = "0.47.1"
     const val protobuf = DEFAULT_PROTOBUF_VERSION
     const val protobufJs = "6.11.3"
     const val protobufPlugin = "0.8.19"
@@ -55,6 +56,9 @@ object libraries {
     const val kotlinPoet = "com.squareup:kotlinpoet:${versions.kotlinPoet}"
     const val kotlinxCollections = "org.jetbrains.kotlinx:kotlinx-collections-immutable:${versions.kotlinxCollections}"
     const val kotlinxCoroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.kotlinxCoroutines}"
+
+    const val ktlint = "com.pinterest.ktlint:ktlint-core:${versions.ktlint}"
+    const val ktlintStandardRuleSet = "com.pinterest.ktlint:ktlint-ruleset-standard:${versions.ktlint}"
 
     const val protobufPlugin = "com.github.google:protobuf-gradle-plugin:c3d75281f2d912d1ac060c814be5e19ae6c61500"
     const val protobufJava = "com.google.protobuf:protobuf-java:${versions.protobuf}"

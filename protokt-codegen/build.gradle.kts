@@ -60,6 +60,8 @@ dependencies {
     implementation(libraries.kotlinPoet)
     implementation(libraries.kotlinxCollections)
     implementation(libraries.kotlinxCoroutinesCore)
+    implementation(libraries.ktlint)
+    implementation(libraries.ktlintStandardRuleSet)
     implementation(libraries.protobufJava)
 
     testImplementation(project(":testing:testing-util"))

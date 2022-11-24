@@ -60,6 +60,7 @@ internal fun configureProtobufPlugin(project: Project, ext: ProtoktExtension, bi
                             option("$ONLY_GENERATE_GRPC=${ext.onlyGenerateGrpc}")
                             option("$LITE=${ext.lite}")
                             option("$ONLY_GENERATE_DESCRIPTORS=${ext.onlyGenerateDescriptors}")
+                            option("$LINT_OUTPUT=${ext.lintOutput}")
                         }
                     }
                 }
