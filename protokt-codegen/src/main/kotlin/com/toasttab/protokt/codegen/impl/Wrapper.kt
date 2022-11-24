@@ -29,9 +29,7 @@ import com.toasttab.protokt.codegen.impl.ClassLookup.converters
 import com.toasttab.protokt.codegen.impl.ClassLookup.getClass
 import com.toasttab.protokt.codegen.impl.WellKnownTypes.wrapWithWellKnownInterception
 import com.toasttab.protokt.codegen.model.FieldType
-import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.PPackage
-import com.toasttab.protokt.codegen.model.possiblyQualify
 import com.toasttab.protokt.codegen.protoc.ProtocolContext
 import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.ext.OptimizedSizeofConverter
@@ -66,7 +64,7 @@ internal object Wrapper {
             ifEmpty
         ) {
             ifSome(
-                getClass(PClass.fromName(it).possiblyQualify(pkg).toTypeName(), ctx),
+                getClass(inferClassName(it, pkg.toString()), ctx),
                 protoTypeName.emptyToNone().fold(
                     {
                         // Protobuf primitives have no typeName
@@ -222,7 +220,7 @@ internal object Wrapper {
         f.foldKeyWrap(
             ctx,
             { null },
-            { wrapper, wrapped -> unqualifiedWrap(converter(wrapper, wrapped, ctx)::class) }
+            { wrapper, wrapped -> converter(wrapper, wrapped, ctx)::class.asTypeName() }
         )
 
     private fun <R> StandardField.foldValueWrap(
@@ -250,14 +248,11 @@ internal object Wrapper {
         wrapped: KClass<*>,
         ctx: Context
     ) =
-        unqualifiedWrap(converter(wrapper, wrapped, ctx)::class)
+        converter(wrapper, wrapped, ctx)::class.asTypeName()
 
     private fun unqualifiedWrap() =
         fun(wrapper: KClass<*>, _: Any) =
-            unqualifiedWrap(wrapper)
-
-    private fun unqualifiedWrap(wrap: KClass<*>) =
-        PClass.fromClass(wrap).toTypeName()
+            wrapper.asTypeName()
 
     private fun converter(wrapper: KClass<*>, wrapped: KClass<*>, ctx: Context) =
         converter(wrapper, wrapped, ctx.desc.context)

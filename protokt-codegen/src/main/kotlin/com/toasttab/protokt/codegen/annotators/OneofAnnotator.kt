@@ -30,8 +30,6 @@ import com.toasttab.protokt.codegen.impl.Implements.handleSuperInterface
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptTypeName
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
 import com.toasttab.protokt.codegen.impl.emptyToNone
-import com.toasttab.protokt.codegen.model.PClass
-import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Oneof
 import com.toasttab.protokt.codegen.protoc.StandardField
@@ -128,16 +126,18 @@ private constructor(
             )
         )
 
-    private fun possiblyQualify(implements: String) =
-        if (PClass.fromName(implements).ppackage == PPackage.DEFAULT) {
+    private fun possiblyQualify(implements: String): ClassName {
+        val bestGuess = ClassName.bestGuess(implements)
+        return if (bestGuess.packageName == "") {
             if (implements in namespaceNeighbors()) {
                 ClassName(ctx.desc.kotlinPackage.toString(), implements)
             } else {
-                ClassName.bestGuess(implements)
+                bestGuess
             }
         } else {
-            ClassName.bestGuess(implements)
+            bestGuess
         }
+    }
 
     private fun namespaceNeighbors() =
         msg.fields.filterIsInstance<Oneof>().map { it.name }

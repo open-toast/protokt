@@ -20,8 +20,6 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.toasttab.protokt.codegen.annotators.Annotator.Context
 import com.toasttab.protokt.codegen.annotators.OneofAnnotator
 import com.toasttab.protokt.codegen.impl.ClassLookup.getClass
-import com.toasttab.protokt.codegen.model.PClass
-import com.toasttab.protokt.codegen.model.possiblyQualify
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.StandardField
 
@@ -72,7 +70,7 @@ internal object Implements {
     private fun Message.superInterface(ctx: Context) =
         options.protokt.implements.let {
             if (it.isNotEmpty() && !it.delegates()) {
-                PClass.fromName(it).possiblyQualify(ctx.desc.kotlinPackage).toTypeName()
+                inferClassName(it, ctx)
             } else {
                 null
             }

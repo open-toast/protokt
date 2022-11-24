@@ -64,10 +64,13 @@ fun CodeBlock.Builder.endControlFlowWithoutNewline() {
     add("}")
 }
 
-fun inferClassName(className: String, ctx: Context): ClassName {
+fun inferClassName(className: String, ctx: Context) =
+    inferClassName(className, ctx.desc.kotlinPackage.toString())
+
+fun inferClassName(className: String, pkg: String): ClassName {
     val inferred = ClassName.bestGuess(className)
     return if (inferred.packageName == "") {
-        ClassName(ctx.desc.kotlinPackage.toString(), className.split("."))
+        ClassName(pkg, className.split("."))
     } else {
         inferred
     }

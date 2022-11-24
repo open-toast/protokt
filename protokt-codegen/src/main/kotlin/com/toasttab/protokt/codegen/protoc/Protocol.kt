@@ -36,7 +36,6 @@ import com.toasttab.protokt.codegen.annotators.resolveMapEntry
 import com.toasttab.protokt.codegen.impl.overrideGoogleProtobuf
 import com.toasttab.protokt.codegen.impl.resolvePackage
 import com.toasttab.protokt.codegen.model.FieldType
-import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.ext.Protokt
 import kotlinx.collections.immutable.PersistentList
@@ -498,22 +497,23 @@ private fun typeName(
 
 private fun requalifyProtoType(typeName: String, ctx: ProtocolContext): ClassName {
     val withOverriddenGoogleProtoPackage =
-        PClass.fromName(
+        ClassName.bestGuess(
             overrideGoogleProtobuf(typeName.removePrefix("."), rootGoogleProto)
         )
 
     val withOverriddenReservedName =
-        PClass(
-            newTypeNameFromPascal(withOverriddenGoogleProtoPackage.simpleName),
-            withOverriddenGoogleProtoPackage.ppackage,
-            withOverriddenGoogleProtoPackage.enclosing
+        ClassName(
+            withOverriddenGoogleProtoPackage.packageName,
+            withOverriddenGoogleProtoPackage.simpleNames.dropLast(1) +
+                newTypeNameFromPascal(withOverriddenGoogleProtoPackage.simpleName)
         )
 
     return if (ctx.respectJavaPackage) {
-        PClass.fromName(
-            withOverriddenReservedName.nestedName
-        ).qualify(ctx.allPackagesByTypeName.getValue(typeName))
+        ClassName(
+            ctx.allPackagesByTypeName.getValue(typeName).toString(),
+            withOverriddenReservedName.simpleNames
+        )
     } else {
         withOverriddenReservedName
-    }.toTypeName()
+    }
 }
