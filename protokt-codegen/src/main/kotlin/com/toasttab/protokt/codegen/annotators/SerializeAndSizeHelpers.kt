@@ -19,6 +19,7 @@ import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.toasttab.protokt.codegen.annotators.Annotator.Context
 import com.toasttab.protokt.codegen.impl.Nullability.hasNonNullOption
+import com.toasttab.protokt.codegen.impl.addStatement
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Oneof
 import com.toasttab.protokt.codegen.protoc.StandardField
@@ -72,15 +73,18 @@ private fun oneofInstanceConditionals(f: Oneof, stmt: (StandardField) -> CodeBlo
         .sortedBy { it.number }
         .map {
             buildCodeBlock {
-                beginControlFlow("is·%T·->", f.qualify(it))
-                add(stmt(it))
-                endControlFlow()
+                addStatement(
+                    buildCodeBlock {
+                        add("is·%T·-> ", f.qualify(it))
+                        add(stmt(it))
+                    }
+                )
             }
         }
         .let {
             if (f.hasNonNullOption) {
                 it
             } else {
-                it + CodeBlock.of("null·->·Unit")
+                it + buildCodeBlock { addStatement("null·->·Unit") }
             }
         }

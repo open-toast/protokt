@@ -26,7 +26,6 @@ import com.toasttab.protokt.codegen.impl.Wrapper.interceptSizeof
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
 import com.toasttab.protokt.codegen.impl.Wrapper.mapKeyConverter
 import com.toasttab.protokt.codegen.impl.Wrapper.mapValueConverter
-import com.toasttab.protokt.codegen.impl.addStatement
 import com.toasttab.protokt.codegen.impl.namedCodeBlock
 import com.toasttab.protokt.codegen.impl.runtimeFunction
 import com.toasttab.protokt.codegen.protoc.Message
@@ -57,6 +56,7 @@ private constructor(
                     buildCodeBlock {
                         add("$resultVarName·+=·")
                         add(sizeOf(it, ctx))
+                        add("\n")
                     }
                 },
                 { oneof, std -> oneofSizeOfString(oneof, std) },
@@ -76,7 +76,7 @@ private constructor(
                 } else {
                     buildCodeBlock {
                         addStatement("var·$resultVarName·=·0")
-                        fieldSizes.forEach { fs -> addStatement(fs) }
+                        fieldSizes.forEach { fs -> add(fs) }
                         addStatement("$resultVarName·+=·unknownFields.size()")
                         addStatement("return·$resultVarName")
                     }

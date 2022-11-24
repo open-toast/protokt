@@ -75,43 +75,47 @@ private constructor(
                     )
                 }
 
-            val map = mutableMapOf(
-                "tag" to Tag::class,
-                "uInt32" to UInt32::class,
-                "name" to f.fieldName,
-                "sizeof" to runtimeFunction("sizeof")
-            )
             return when {
                 f.repeated && f.packed -> buildCodeBlock {
-                    map += "boxed" to f.box("it")
-                    addNamed(
-                        "serializer.write(%tag:T(${f.tag.value}))" +
-                            ".write(%uInt32:T(%name:L.sumOf{%sizeof:M(%boxed:L)}))\n",
-                        map
+                    add(
+                        "serializer.write(%T(${f.tag.value}))" +
+                            ".write(%T(${f.fieldName}.sumOf{%M(",
+                        Tag::class,
+                        UInt32::class,
+                        runtimeFunction("sizeof")
                     )
-                    addNamed("%name:L.forEach·{ serializer.write(%boxed:L) }\n", map)
+                    add(f.box("it"))
+                    add(")}))\n")
+                    add("${f.fieldName}.forEach·{\nserializer.write(")
+                    add(f.box("it"))
+                    add(")\n}\n")
                 }
                 f.map -> buildCodeBlock {
-                    map += "boxed" to f.boxMap(ctx)
-                    addNamed(
-                        "%name:L.entries.forEach·{ " +
-                            "serializer.write(%tag:T(${f.tag.value}))" +
-                            ".write(%boxed:L) }\n",
-                        map
+                    add(
+                        "${f.fieldName}.entries.forEach·{ " +
+                            "serializer.write(%T(${f.tag.value}))" +
+                            ".write(",
+                        Tag::class
                     )
+                    add(f.boxMap(ctx))
+                    add(") }\n")
                 }
                 f.repeated -> buildCodeBlock {
-                    map += "boxed" to f.box(fieldAccess)
-                    addNamed(
-                        "%name:L.forEach·{ " +
-                            "serializer.write(%tag:T(${f.tag.value})).write(%boxed:L) }\n",
-                        map
+                    add(
+                        "${f.fieldName}.forEach·{ serializer.write(%T(${f.tag.value})).write(",
+                        Tag::class
                     )
+                    add(f.box(fieldAccess))
+                    add(") }\n")
                 }
 
                 else -> buildCodeBlock {
-                    map += "boxed" to f.box(fieldAccess)
-                    addNamed("serializer.write(%tag:T(${f.tag.value})).write(%boxed:L)\n", map)
+                    add(
+                        "serializer.write(%T(${f.tag.value})).write(",
+                        Tag::class
+                    )
+                    add(f.box(fieldAccess))
+                    add(")\n")
                 }
             }
         }
