@@ -27,9 +27,10 @@ import com.toasttab.protokt.codegen.annotators.PropertyAnnotator.Companion.annot
 import com.toasttab.protokt.codegen.annotators.PropertyAnnotator.PropertyInfo
 import com.toasttab.protokt.codegen.annotators.SerializerAnnotator.Companion.serialize
 import com.toasttab.protokt.codegen.impl.addCode
-import com.toasttab.protokt.codegen.impl.bindIndent
 import com.toasttab.protokt.codegen.impl.bindSpaces
+import com.toasttab.protokt.codegen.impl.buildFunSpec
 import com.toasttab.protokt.codegen.impl.constructorProperty
+import com.toasttab.protokt.codegen.impl.namedCodeBlock
 import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.StandardField
@@ -116,26 +117,25 @@ private constructor(
                         .build()
                 )
                 .addFunction(
-                    FunSpec.builder("deserialize")
-                        .addModifiers(KModifier.OVERRIDE)
-                        .addParameter("deserializer", KtMessageDeserializer::class)
-                        .returns(msg.typeName)
-                        .addNamedCode(
-                            """
-                                var key${deserializeVar(entryInfo.key, propInfo.single { entryInfo.key.fieldName == it.name })}
-                                var value${deserializeVar(entryInfo.value, propInfo.single { entryInfo.value.fieldName == it.name })}
-                        
-                                while (true) {
-                                  when (deserializer.readTag()) {
-                                    0 -> return ${msg.name}(key, value${orDefault(entryInfo.value)})
-                                    ${entryInfo.key.tag.value} -> key = ${deserializeString(entryInfo.key, ctx, false)}
-                                    ${entryInfo.value.tag.value} -> value = ${deserializeString(entryInfo.value, ctx, false)}
-                                  }
-                                }
-                            """.bindIndent(),
-                            mapOf("valueClassDsl" to entryInfo.value.typePClass.nest("${valPropertyType.simpleName}Dsl").toTypeName())
+                    buildFunSpec("deserialize") {
+                        addModifiers(KModifier.OVERRIDE)
+                        addParameter("deserializer", KtMessageDeserializer::class)
+                        returns(msg.typeName)
+                        addStatement("var key${deserializeVar(entryInfo.key, propInfo.single { entryInfo.key.fieldName == it.name })}")
+                        addStatement("var value${deserializeVar(entryInfo.value, propInfo.single { entryInfo.value.fieldName == it.name })}")
+                        beginControlFlow("while (true)")
+                        beginControlFlow("when(deserializer.readTag())")
+                        addCode(
+                            namedCodeBlock(
+                                "0 -> return ${msg.name}(key, value${orDefault(entryInfo.value)})",
+                                mapOf("valueClassDsl" to entryInfo.value.typePClass.nest("${valPropertyType.simpleName}Dsl").toTypeName())
+                            )
                         )
-                        .build()
+                        addStatement("${entryInfo.key.tag.value} -> key = ${deserializeString(entryInfo.key, ctx, false)}")
+                        addStatement("${entryInfo.value.tag.value} -> value = ${deserializeString(entryInfo.value, ctx, false)}")
+                        endControlFlow()
+                        endControlFlow()
+                    }
                 )
                 .build()
         )

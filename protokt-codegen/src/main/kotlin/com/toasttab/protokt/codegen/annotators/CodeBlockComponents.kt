@@ -39,7 +39,7 @@ internal class CodeBlockComponents(
         formatWithNamedArgs: String,
         args: Map<String, Any> = emptyMap()
     ) =
-        CodeBlockComponents(formatWithNamedArgs, args) + this
+        this + CodeBlockComponents(formatWithNamedArgs, args)
 
     operator fun plus(other: CodeBlockComponents) =
         other.prepend(formatWithNamedArgs, args)
