@@ -140,26 +140,15 @@ internal object Wrapper {
             }
         )
 
-    private fun interceptDeserializedValue(
-        f: StandardField,
-        s: CodeBlock,
-        ctx: Context
-    ) =
+    private fun interceptDeserializedValue(f: StandardField, s: CodeBlock, ctx: Context) =
         wrapperName(f, ctx).fold(
             { s },
-            {
-                wrapField(
-                    wrapName = it.toString(),
-                    arg = s,
-                    f = f.type,
-                    oneof = true
-                )
-            }
+            { wrapField(it, s, f.type, true) }
         )
 
-    fun wrapField(wrapName: String, arg: CodeBlock, f: FieldType?, oneof: Boolean) =
+    fun wrapField(wrapName: TypeName, arg: CodeBlock, f: FieldType?, oneof: Boolean) =
         buildCodeBlock {
-            add("$wrapName.wrap(%L", arg)
+            add("%T.wrap(%L", wrapName, arg)
             if (f == FieldType.MESSAGE && !oneof) {
                 add("!!")
             }

@@ -24,6 +24,7 @@ import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
+import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
@@ -78,7 +79,13 @@ private constructor(
                     addStatement("var·unknownFields:·%T?·=·null", UnknownFieldSet.Builder::class)
                     beginControlFlow("while (true)")
                     beginControlFlow("when (deserializer.readTag())")
-                    addStatement("0·->·return·%N(%L)", msg.name, constructorLines(properties))
+                    val constructor =
+                        buildCodeBlock {
+                            add("0·->·return·%N(\n", msg.name)
+                            constructorLines(properties).forEach(::add)
+                            add("\n)")
+                        }
+                    addStatement("%L", constructor)
                     deserializerInfo.forEach {
                         addStatement(
                             "%L -> %L = %L",
@@ -110,7 +117,7 @@ private constructor(
 
     private fun deserializeVar(p: PropertyInfo): CodeBlock =
         if (p.fieldType == "MESSAGE" || p.repeated || p.oneof || p.nullable || p.wrapped) {
-            CodeBlock.of("%L : %T = %L", p.name, deserializeType(p), deserializeValue(p))
+            CodeBlock.of("%L: %T = %L", p.name, deserializeType(p), deserializeValue(p))
         } else {
             CodeBlock.of("%L = %L", p.name, deserializeValue(p))
         }
@@ -126,10 +133,8 @@ private constructor(
         }
 
     private fun constructorLines(properties: List<PropertyInfo>) =
-        buildCodeBlock {
-            properties.forEach { add("%L,\n", deserializeWrapper(it)) }
-            add("%T.from(unknownFields)", UnknownFieldSet::class)
-        }
+        properties.map { CodeBlock.of("%L,\n", deserializeWrapper(it)) } +
+            CodeBlock.of("%T.from(unknownFields)", UnknownFieldSet::class)
 
     private class DeserializerInfo(
         val tag: Int,
@@ -181,7 +186,14 @@ private constructor(
 internal fun deserialize(f: StandardField, ctx: Context, packed: Boolean): CodeBlock {
     val options = deserializeOptions(f, ctx)
     val read = CodeBlock.of("deserializer.%L", interceptReadFn(f, f.readFn()))
-    val wrappedRead = options?.let { wrapField(it.wrapName, read, it.type, it.oneof) } ?: read
+
+    val wrappedRead =
+        options
+            ?.let { opt ->
+                opt.wrapName?.let { wrapField(it, read, opt.type, opt.oneof) }
+            }
+            ?: read
+
     return when {
         f.map -> deserializeMap(f, options, read)
         f.repeated ->
@@ -242,9 +254,9 @@ private fun StandardField.readFn() =
 private fun deserializeOptions(f: StandardField, ctx: Context) =
     if (f.wrapped || f.keyWrapped || f.valueWrapped) {
         Options(
-            wrapName = wrapperName(f, ctx).map { it.toString() }.getOrElse { "" },
-            keyWrap = mapKeyConverter(f, ctx)?.toString(),
-            valueWrap = mapValueConverter(f, ctx)?.toString(),
+            wrapName = wrapperName(f, ctx).getOrElse { null },
+            keyWrap = mapKeyConverter(f, ctx),
+            valueWrap = mapValueConverter(f, ctx),
             valueType = f.mapEntry?.value?.type,
             type = f.type,
             oneof = true
@@ -254,9 +266,9 @@ private fun deserializeOptions(f: StandardField, ctx: Context) =
     }
 
 private class Options(
-    val wrapName: String,
-    val keyWrap: String?,
-    val valueWrap: String?,
+    val wrapName: TypeName?,
+    val keyWrap: TypeName?,
+    val valueWrap: TypeName?,
     val valueType: FieldType?,
     val type: FieldType,
     val oneof: Boolean

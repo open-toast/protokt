@@ -1,7 +1,10 @@
 package com.toasttab.protokt.codegen.annotators
 
 import com.squareup.kotlinpoet.CodeBlock
+import com.squareup.kotlinpoet.buildCodeBlock
+import com.squareup.kotlinpoet.withIndent
 import com.toasttab.protokt.codegen.annotators.PropertyAnnotator.PropertyInfo
+import com.toasttab.protokt.codegen.impl.bindSpaces
 import com.toasttab.protokt.codegen.impl.runtimeFunction
 
 internal fun deserializeValue(p: PropertyInfo) =
@@ -13,24 +16,33 @@ internal fun deserializeValue(p: PropertyInfo) =
 
 internal fun deserializeWrapper(p: PropertyInfo) =
     if (p.nonNullOption) {
-        CodeBlock.builder()
-            .add("requireNotNull(%L)·{", p.name)
-            .add("%S", "${p.name} specified nonnull with (protokt.${if (p.oneof) "oneof" else "property" }).non_null but was null")
-            .add("}")
-            .build()
+        buildCodeBlock {
+            beginControlFlow("requireNotNull(%L)", p.name)
+            add("StringBuilder(\"${p.name}\")\n")
+            withIndent {
+                add(
+                    (
+                        ".append(\" specified nonnull with (protokt." +
+                            "${if (p.oneof) "oneof" else "property"}).non_null " +
+                            "but was null\")"
+                        ).bindSpaces()
+                )
+                add("\n")
+            }
+            unindent()
+            add("}")
+        }
     } else {
         if (p.map) {
             CodeBlock.of("%M(${p.name})", runtimeFunction("finishMap"))
         } else if (p.repeated) {
             CodeBlock.of("%M(${p.name})", runtimeFunction("finishList"))
         } else {
-            CodeBlock.of(
-                p.name +
-                    if (p.wrapped && !p.nullable) {
-                        " ?: ${p.defaultValue}"
-                    } else {
-                        ""
-                    }
-            )
+            buildCodeBlock {
+                add(p.name)
+                if (p.wrapped && !p.nullable) {
+                    add(" ?: %L", p.defaultValue)
+                }
+            }
         }
     }

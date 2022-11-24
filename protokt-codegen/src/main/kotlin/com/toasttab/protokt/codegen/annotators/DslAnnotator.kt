@@ -22,6 +22,7 @@ import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
+import com.squareup.kotlinpoet.withIndent
 import com.toasttab.protokt.codegen.annotators.PropertyAnnotator.PropertyInfo
 import com.toasttab.protokt.codegen.impl.Deprecation.handleDeprecation
 import com.toasttab.protokt.codegen.impl.bindSpaces
@@ -108,9 +109,18 @@ internal class DslAnnotator(
                         .returns(msg.typeName)
                         .addCode(
                             if (properties.isEmpty()) {
-                                CodeBlock.of("return %L(unknownFields)", msg.name)
+                                CodeBlock.of("return ${msg.name}(unknownFields)")
                             } else {
-                                CodeBlock.of("return %L(%L %L)", msg.name, buildLines(), "unknownFields")
+                                buildCodeBlock {
+                                    add("return ${msg.name}(\n")
+                                    withIndent {
+                                        properties
+                                            .map(::deserializeWrapper)
+                                            .forEach { add("%L,\n", it) }
+                                        add("unknownFields\n")
+                                    }
+                                    add(")")
+                                }
                             }
                         )
                         .build()
@@ -122,13 +132,6 @@ internal class DslAnnotator(
     private fun dslLines() =
         properties.joinToString("\n") {
             "    ${it.name} = this@${msg.name}.${it.name}"
-        }
-
-    private fun buildLines() =
-        buildCodeBlock {
-            properties.forEach {
-                add("%L,\n", deserializeWrapper(it))
-            }
         }
 }
 

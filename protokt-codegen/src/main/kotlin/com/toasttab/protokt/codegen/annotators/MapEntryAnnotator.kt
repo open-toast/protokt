@@ -120,7 +120,7 @@ private constructor(
                         addStatement("%L", deserializeVar(propInfo, entryInfo::key))
                         addStatement("%L", deserializeVar(propInfo, entryInfo::value))
                         beginControlFlow("while (true)")
-                        beginControlFlow("when(deserializer.readTag())")
+                        beginControlFlow("when (deserializer.readTag())")
                         addStatement("%L", constructOnZero(entryInfo.value))
                         addStatement(
                             "${entryInfo.key.tag.value} -> key = %L",
