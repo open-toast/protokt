@@ -16,20 +16,26 @@
 package com.toasttab.protokt.codegen.annotators
 
 import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.MemberName
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
+import com.squareup.kotlinpoet.buildCodeBlock
+import com.squareup.kotlinpoet.withIndent
 import com.toasttab.protokt.codegen.annotators.Annotator.Context
-import com.toasttab.protokt.codegen.impl.bindMargin
+import com.toasttab.protokt.codegen.impl.endControlFlowWithoutNewline
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.possiblyQualify
 import com.toasttab.protokt.codegen.protoc.Method
 import com.toasttab.protokt.codegen.protoc.Service
 import com.toasttab.protokt.codegen.util.decapitalize
+import com.toasttab.protokt.grpc.KtMarshaller
 import io.grpc.MethodDescriptor
+import io.grpc.MethodDescriptor.MethodType
 import io.grpc.ServiceDescriptor
 
 internal object ServiceAnnotator {
@@ -47,12 +53,12 @@ internal object ServiceAnnotator {
                         PropertySpec.builder("_serviceDescriptor", ServiceDescriptor::class)
                             .addModifiers(KModifier.PRIVATE)
                             .delegate(
-                                """
-                                    |lazy {
-                                    |    ServiceDescriptor.newBuilder(SERVICE_NAME)
-                                    |${serviceLines(s)}
-                                    |}
-                                """.bindMargin()
+                                buildCodeBlock {
+                                    beginControlFlow("lazy")
+                                    add("ServiceDescriptor.newBuilder(SERVICE_NAME)\n")
+                                    withIndent { serviceLines(s).forEach(::add) }
+                                    endControlFlowWithoutNewline()
+                                }
                             )
                             .build()
                     )
@@ -69,16 +75,28 @@ internal object ServiceAnnotator {
                             )
                                 .addModifiers(KModifier.PRIVATE)
                                 .delegate(
-                                    """
-                                        |lazy {
-                                        |    MethodDescriptor.newBuilder<${method.inputType.renderName(ctx.desc.kotlinPackage)}, ${method.outputType.renderName(ctx.desc.kotlinPackage)}>()
-                                        |        .setType(MethodDescriptor.MethodType.${methodType(method)})
-                                        |        .setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "${method.name}"))
-                                        |        .setRequestMarshaller(${method.qualifiedRequestMarshaller(ctx)})
-                                        |        .setResponseMarshaller(${method.qualifiedResponseMarshaller(ctx)})
-                                        |        .build()
-                                        |}
-                                    """.bindMargin()
+                                    buildCodeBlock {
+                                        beginControlFlow("lazy")
+                                        add(
+                                            "MethodDescriptor.newBuilder<%T,·%T>()\n",
+                                            method.inputType.toTypeName(),
+                                            method.outputType.toTypeName()
+                                        )
+                                        withIndent {
+                                            add(
+                                                ".setType(%M)\n",
+                                                MemberName(MethodType::class.asTypeName(), methodType(method))
+                                            )
+                                            add(
+                                                ".setFullMethodName(%M(SERVICE_NAME,·\"${method.name}\"))\n",
+                                                MemberName(MethodDescriptor::class.asTypeName(), "generateFullMethodName")
+                                            )
+                                            add(".setRequestMarshaller(%L)\n", method.requestMarshaller(ctx))
+                                            add(".setResponseMarshaller(%L)\n", method.responseMarshaller(ctx))
+                                            add(".build()\n")
+                                        }
+                                        endControlFlowWithoutNewline()
+                                    }
                                 )
                                 .build()
                         }
@@ -108,11 +126,11 @@ internal object ServiceAnnotator {
                     .addProperty(
                         PropertySpec.builder("descriptor", ClassName("com.toasttab.protokt", "ServiceDescriptor"))
                             .delegate(
-                                """
-                                    |lazy {
-                                    |    ${ctx.desc.context.fileDescriptorObjectName}.descriptor.services[${s.index}]
-                                    |}
-                                """.bindMargin()
+                                buildCodeBlock {
+                                    beginControlFlow("lazy")
+                                    add("${ctx.desc.context.fileDescriptorObjectName}.descriptor.services[${s.index}]\n")
+                                    endControlFlowWithoutNewline()
+                                }
                             )
                             .build()
                     )
@@ -124,26 +142,38 @@ internal object ServiceAnnotator {
         return listOfNotNull(service, descriptor)
     }
 
-    private fun Method.qualifiedRequestMarshaller(ctx: Context) =
+    private fun Method.requestMarshaller(ctx: Context): CodeBlock =
         options.protokt.requestMarshaller.takeIf { it.isNotEmpty() }
             ?.let {
                 PClass.fromName(options.protokt.requestMarshaller)
                     .possiblyQualify(ctx.desc.kotlinPackage)
-                    .qualifiedName
-            } ?: "com.toasttab.protokt.grpc.KtMarshaller(${inputType.renderName(ctx.desc.kotlinPackage)})"
+                    .toTypeName()
+                    .let { CodeBlock.of("%T", it) }
+            }
+            ?: CodeBlock.of(
+                "%T(%T)",
+                KtMarshaller::class,
+                inputType.toTypeName()
+            )
 
-    private fun Method.qualifiedResponseMarshaller(ctx: Context) =
+    private fun Method.responseMarshaller(ctx: Context): CodeBlock =
         options.protokt.responseMarshaller.takeIf { it.isNotEmpty() }
             ?.let {
                 PClass.fromName(options.protokt.responseMarshaller)
                     .possiblyQualify(ctx.desc.kotlinPackage)
-                    .qualifiedName
-            } ?: "com.toasttab.protokt.grpc.KtMarshaller(${outputType.renderName(ctx.desc.kotlinPackage)})"
+                    .toTypeName()
+                    .let { CodeBlock.of("%T", it) }
+            }
+            ?: CodeBlock.of(
+                "%T(%T)",
+                KtMarshaller::class,
+                outputType.toTypeName()
+            )
 
     private fun serviceLines(s: Service) =
-        s.methods.joinToString("\n") { method ->
-            "      .addMethod(_${method.name.decapitalize()}Method)"
-        } + "\n        .build()"
+        s.methods.map {
+            CodeBlock.of(".addMethod(_${it.name.decapitalize()}Method)\n")
+        } + CodeBlock.of(".build()\n")
 
     private fun renderQualifiedName(s: Service, ctx: Context) =
         if (ctx.desc.kotlinPackage.default) {
