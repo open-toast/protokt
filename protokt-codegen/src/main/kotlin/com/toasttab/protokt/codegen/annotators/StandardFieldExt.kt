@@ -80,8 +80,16 @@ internal fun StandardField.boxMap(ctx: Context): CodeBlock {
     if (type != FieldType.MESSAGE) {
         return CodeBlock.of("")
     }
-    val keyParam = mapKeyConverter(this, ctx)?.let { CodeBlock.of("$it.unwrap(it.key)") } ?: CodeBlock.of("it.key")
-    val valParam = mapValueConverter(this, ctx)?.let { CodeBlock.of("$it.unwrap(it.value)") } ?: CodeBlock.of("it.value")
+    val keyParam =
+        mapKeyConverter(this, ctx)
+            ?.let { CodeBlock.of("%T.unwrap(it.key)", it) }
+            ?: CodeBlock.of("it.key")
+
+    val valParam =
+        mapValueConverter(this, ctx)
+            ?.let { CodeBlock.of("%T.unwrap(it.value)", it) }
+            ?: CodeBlock.of("it.value")
+
     return CodeBlock.of("%T(%L, %L)", typePClass.toTypeName(), keyParam, valParam)
 }
 
