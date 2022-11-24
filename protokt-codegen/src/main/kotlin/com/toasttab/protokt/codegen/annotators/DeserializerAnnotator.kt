@@ -39,7 +39,6 @@ import com.toasttab.protokt.codegen.impl.Wrapper.valueWrapped
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapField
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapperName
-import com.toasttab.protokt.codegen.impl.addStatement
 import com.toasttab.protokt.codegen.impl.buildFunSpec
 import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.protoc.Message
@@ -73,12 +72,7 @@ private constructor(
                     returns(msg.typeName)
                     if (properties.isNotEmpty()) {
                         properties.forEach {
-                            addStatement(
-                                buildCodeBlock {
-                                    add("var ")
-                                    add(deserializeVar(it))
-                                }
-                            )
+                            addStatement("var %L", deserializeVar(it))
                         }
                     }
                     addStatement("var·unknownFields:·%T?·=·null", UnknownFieldSet.Builder::class)
@@ -87,11 +81,9 @@ private constructor(
                     addStatement("0·->·return·%N(%L)", msg.name, constructorLines(properties))
                     deserializerInfo.forEach {
                         addStatement(
-                            CodeBlock.of(
-                                "%L -> %L = ",
-                                it.tag,
-                                it.assignment.fieldName
-                            ),
+                            "%L -> %L = %L",
+                            it.tag,
+                            it.assignment.fieldName,
                             it.assignment.value
                         )
                     }
@@ -111,15 +103,9 @@ private constructor(
 
     private fun deserializeVar(p: PropertyInfo): CodeBlock =
         if (p.fieldType == "MESSAGE" || p.repeated || p.oneof || p.nullable || p.wrapped) {
-            buildCodeBlock {
-                add(CodeBlock.of("%L : %T = ", p.name, deserializeType(p)))
-                add(deserializeValue(p))
-            }
+            CodeBlock.of("%L : %T = %L", p.name, deserializeType(p), deserializeValue(p))
         } else {
-            buildCodeBlock {
-                add(CodeBlock.of("%L = ", p.name))
-                add(deserializeValue(p))
-            }
+            CodeBlock.of("%L = %L", p.name, deserializeValue(p))
         }
 
     private fun deserializeType(p: PropertyInfo) =
@@ -187,11 +173,7 @@ private constructor(
     )
 
     private fun oneofDes(f: Oneof, ff: StandardField) =
-        buildCodeBlock {
-            add("%T(", f.qualify(ff))
-            add(deserialize(ff, ctx, false))
-            add(")")
-        }
+        CodeBlock.of("%T(%L)", f.qualify(ff), deserialize(ff, ctx, false))
 
     companion object {
         fun annotateDeserializer(msg: Message, ctx: Context) =
@@ -210,9 +192,7 @@ internal fun deserialize(f: StandardField, ctx: Context, packed: Boolean): CodeB
                 add("(${f.fieldName} ?: mutableListOf())")
                 beginControlFlow(".apply")
                 beginControlFlow("deserializer.readRepeated($packed)")
-                add("add(")
-                add(wrappedRead)
-                add(")")
+                add("add(%L)", wrappedRead)
                 endControlFlow()
                 endControlFlow()
             }

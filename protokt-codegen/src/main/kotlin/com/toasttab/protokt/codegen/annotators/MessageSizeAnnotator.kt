@@ -52,13 +52,7 @@ private constructor(
         val fieldSizes =
             msg.mapFields(
                 ctx,
-                {
-                    buildCodeBlock {
-                        add("$resultVarName·+=·")
-                        add(sizeOf(it, ctx))
-                        add("\n")
-                    }
-                },
+                { CodeBlock.of("$resultVarName·+=·%L\n", sizeOf(it, ctx)) },
                 { oneof, std -> oneofSizeOfString(oneof, std) },
                 {
                     if (it.hasNonNullOption) {
@@ -98,10 +92,7 @@ private constructor(
             if (o.hasNonNullOption) {
                 s
             } else {
-                buildCodeBlock {
-                    add("$resultVarName·+=·")
-                    add(s)
-                }
+                CodeBlock.of("$resultVarName·+=·%L", s)
             }
         }
 
@@ -112,12 +103,12 @@ private constructor(
         fun sizeOf(
             f: StandardField,
             ctx: Context,
-            oneOfFieldAccess: String? = null
+            oneOfFieldAccess: CodeBlock? = null
         ): CodeBlock {
             val name =
                 oneOfFieldAccess
                     ?: if (f.repeated) {
-                        f.fieldName
+                        CodeBlock.of(f.fieldName)
                     } else {
                         interceptSizeof(f, f.fieldName, ctx)
                     }
@@ -127,22 +118,25 @@ private constructor(
                 f.repeated && f.packed -> {
                     namedCodeBlock(
                         "%sizeof:M(%tag:T(${f.number})) + " +
-                            "$name.sumOf·{ %sizeof:M(${f.box("it")}) }.let·{ it + %sizeof:M(%uInt32:T(it)) }",
+                            "%name:L.sumOf·{ %sizeof:M(%box:L) }.let·{ it + %sizeof:M(%uInt32:T(it)) }",
                         mapOf(
                             "sizeof" to runtimeFunction("sizeof"),
                             "tag" to Tag::class,
-                            "uInt32" to UInt32::class
+                            "uInt32" to UInt32::class,
+                            "box" to f.box(CodeBlock.of("it")),
+                            "name" to name
                         )
                     )
                 }
                 f.repeated -> {
                     namedCodeBlock(
-                        "(%sizeof:M(%tag:T(${f.number})) * $name.size) + " +
-                            "$name.sumOf·{ %sizeof:M(%boxedAccess:L) }",
+                        "(%sizeof:M(%tag:T(${f.number})) * %name:L.size) + " +
+                            "%name:L.sumOf·{ %sizeof:M(%boxedAccess:L) }",
                         mapOf(
                             "sizeof" to runtimeFunction("sizeof"),
                             "tag" to Tag::class,
-                            "boxedAccess" to f.box(interceptValueAccess(f, ctx, "it"))
+                            "boxedAccess" to f.box(interceptValueAccess(f, ctx, "it")),
+                            "name" to name
                         )
                     )
                 }
@@ -161,11 +155,19 @@ private constructor(
 
         private fun sizeOfMap(
             f: StandardField,
-            name: String,
+            name: CodeBlock,
             ctx: Context
         ): CodeBlock {
-            val key = mapKeyConverter(f, ctx)?.let { "$it.unwrap(k)" } ?: "k"
-            val value = mapValueConverter(f, ctx)?.let { CodeBlock.of("$it.unwrap(v)") } ?: "v"
+            val key =
+                mapKeyConverter(f, ctx)
+                    ?.let { CodeBlock.of("%T.unwrap(k)", it) }
+                    ?: CodeBlock.of("k")
+
+            val value =
+                mapValueConverter(f, ctx)
+                    ?.let { CodeBlock.of("%T.unwrap(v)", it) }
+                    ?: CodeBlock.of("v")
+
             return CodeBlock.of(
                 "%M($name, %T(${f.number})) { k, v -> %T.sizeof(%L, %L)}",
                 runtimeFunction("sizeofMap"),

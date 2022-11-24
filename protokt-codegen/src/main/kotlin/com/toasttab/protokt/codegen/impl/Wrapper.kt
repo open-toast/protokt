@@ -22,6 +22,7 @@ import arrow.core.memoize
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.asTypeName
+import com.squareup.kotlinpoet.buildCodeBlock
 import com.toasttab.protokt.codegen.annotators.Annotator.Context
 import com.toasttab.protokt.codegen.annotators.box
 import com.toasttab.protokt.codegen.impl.ClassLookup.converters
@@ -97,16 +98,13 @@ internal object Wrapper {
         f: StandardField,
         s: String,
         ctx: Context
-    ) =
+    ): CodeBlock =
         f.foldFieldWrap(
             ctx,
             { interceptValueAccess(f, ctx, s) },
             { wrapper, wrapped ->
-                if (
-                    converter(wrapper, wrapped, ctx) is
-                    OptimizedSizeofConverter<*, *>
-                ) {
-                    s
+                if (converter(wrapper, wrapped, ctx) is OptimizedSizeofConverter<*, *>) {
+                    CodeBlock.of(s)
                 } else {
                     interceptValueAccess(f, ctx, s)
                 }
@@ -115,22 +113,25 @@ internal object Wrapper {
 
     fun interceptFieldSizeof(
         f: StandardField,
-        s: String,
+        s: CodeBlock,
         ctx: Context
     ) =
         f.foldFieldWrap(
             ctx,
-            {
-                CodeBlock.of("%M(%L)", runtimeFunction("sizeof"), f.box(s))
-            },
+            { CodeBlock.of("%M(%L)", runtimeFunction("sizeof"), f.box(s)) },
             { wrapper, wrapped ->
-                if (
-                    converter(wrapper, wrapped, ctx) is
-                    OptimizedSizeofConverter<*, *>
-                ) {
-                    CodeBlock.of("%T.sizeof(%L)", unqualifiedConverterWrap(wrapper, wrapped, ctx), s)
+                if (converter(wrapper, wrapped, ctx) is OptimizedSizeofConverter<*, *>) {
+                    CodeBlock.of(
+                        "%T.sizeof(%L)",
+                        unqualifiedConverterWrap(wrapper, wrapped, ctx),
+                        s
+                    )
                 } else {
-                    CodeBlock.of("%M(%L)", runtimeFunction("sizeof"), f.box(s))
+                    CodeBlock.of(
+                        "%M(%L)",
+                        runtimeFunction("sizeof"),
+                        f.box(s)
+                    )
                 }
             }
         )
@@ -139,12 +140,12 @@ internal object Wrapper {
         f: StandardField,
         ctx: Context,
         s: String = f.fieldName
-    ) =
+    ): CodeBlock =
         f.foldFieldWrap(
             ctx,
-            { s },
+            { CodeBlock.of(s) },
             { wrapper, wrapped ->
-                "${unqualifiedConverterWrap(wrapper, wrapped, ctx)}.unwrap($s)"
+                CodeBlock.of("%T.unwrap($s)", unqualifiedConverterWrap(wrapper, wrapped, ctx))
             }
         )
 
@@ -166,10 +167,12 @@ internal object Wrapper {
         )
 
     fun wrapField(wrapName: String, arg: CodeBlock, f: FieldType?, oneof: Boolean) =
-        when {
-            f == FieldType.BYTES -> CodeBlock.of("%L.wrap(%L)", wrapName, arg)
-            f == FieldType.MESSAGE && !oneof -> CodeBlock.of("%L.wrap(%L!!)", wrapName, arg)
-            else -> CodeBlock.of("%L.wrap(%L)", wrapName, arg)
+        buildCodeBlock {
+            add("$wrapName.wrap(%L", arg)
+            if (f == FieldType.MESSAGE && !oneof) {
+                add("!!")
+            }
+            add(")")
         }
 
     fun wrapperName(f: StandardField, ctx: Context) =

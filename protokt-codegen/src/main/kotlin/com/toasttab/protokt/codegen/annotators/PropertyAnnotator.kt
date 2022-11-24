@@ -117,17 +117,9 @@ private constructor(
             val mapTypes = resolveMapEntryTypes(f, ctx)
             Map::class
                 .asTypeName()
-                .parameterizedBy(
-                    mapTypes.kType,
-                    mapTypes.vType
-                )
+                .parameterizedBy(mapTypes.kType, mapTypes.vType)
         } else {
-            val parameter =
-                interceptTypeName(
-                    f,
-                    f.typePClass.toTypeName(),
-                    ctx
-                )
+            val parameter = interceptTypeName(f, f.typePClass.toTypeName(), ctx)
 
             if (f.repeated) {
                 List::class.asTypeName().parameterizedBy(parameter)
@@ -145,7 +137,7 @@ private constructor(
                         map -> CodeBlock.of("emptyMap()")
                         repeated -> CodeBlock.of("emptyList()")
                         type == FieldType.MESSAGE -> CodeBlock.of("null")
-                        type == FieldType.ENUM -> CodeBlock.of("%T.from(0)", this.typePClass.toTypeName())
+                        type == FieldType.ENUM -> CodeBlock.of("%T.from(0)", typePClass.toTypeName())
                         nullable -> CodeBlock.of("null")
                         else -> type.defaultValue
                     },

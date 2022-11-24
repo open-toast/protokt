@@ -32,9 +32,6 @@ fun String.bindSpaces() =
 fun String.bindMargin() =
     trimMargin().bindSpaces()
 
-fun String.bindIndent() =
-    trimIndent().bindSpaces()
-
 fun constructorProperty(name: String, type: KClass<*>, override: Boolean = false) =
     PropertySpec.builder(name, type).apply {
         initializer(name)
@@ -59,15 +56,3 @@ fun namedCodeBlock(format: String, arguments: Map<String, *>) =
     CodeBlock.builder().addNamed(format, arguments).build()
 
 fun runtimeFunction(name: String) = MemberName("com.toasttab.protokt.rt", name)
-
-internal fun FunSpec.Builder.addStatement(vararg blocks: CodeBlock) {
-    addCode("«")
-    blocks.forEach { addCode(it) }
-    addCode("\n»")
-}
-
-internal fun CodeBlock.Builder.addStatement(block: CodeBlock) {
-    add("«")
-    add(block)
-    add("\n»")
-}

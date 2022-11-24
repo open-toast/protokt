@@ -68,54 +68,46 @@ private constructor(
                         if (f.repeated) { "it" } else { f.fieldName }
                     )
                 } else {
-                    interceptValueAccess(
-                        f,
-                        ctx,
-                        "$t.${f.fieldName}"
-                    )
+                    interceptValueAccess(f, ctx, "$t.${f.fieldName}")
                 }
 
+            val map = mutableMapOf(
+                "tag" to Tag::class,
+                "uInt32" to UInt32::class,
+                "name" to f.fieldName,
+                "sizeof" to runtimeFunction("sizeof")
+            )
             return when {
                 f.repeated && f.packed -> buildCodeBlock {
-                    add(
-                        "serializer.write(%T(${f.tag.value}))" +
-                            ".write(%T(${f.fieldName}.sumOf{%M(",
-                        Tag::class,
-                        UInt32::class,
-                        runtimeFunction("sizeof")
+                    map += "boxed" to f.box(CodeBlock.of("it"))
+                    addNamed(
+                        "serializer.write(%tag:T(${f.tag.value}))" +
+                            ".write(%uInt32:T(%name:L.sumOf{%sizeof:M(%boxed:L)}))\n",
+                        map
                     )
-                    add(f.box("it"))
-                    add(")}))\n")
-                    add("${f.fieldName}.forEach·{\nserializer.write(")
-                    add(f.box("it"))
-                    add(")\n}\n")
+                    addNamed("%name:L.forEach·{ serializer.write(%boxed:L) }\n", map)
                 }
                 f.map -> buildCodeBlock {
-                    add(
-                        "${f.fieldName}.entries.forEach·{ " +
-                            "serializer.write(%T(${f.tag.value}))" +
-                            ".write(",
-                        Tag::class
+                    map += "boxed" to f.boxMap(ctx)
+                    addNamed(
+                        "%name:L.entries.forEach·{ " +
+                            "serializer.write(%tag:T(${f.tag.value}))" +
+                            ".write(%boxed:L) }\n",
+                        map
                     )
-                    add(f.boxMap(ctx))
-                    add(") }\n")
                 }
                 f.repeated -> buildCodeBlock {
-                    add(
-                        "${f.fieldName}.forEach·{ serializer.write(%T(${f.tag.value})).write(",
-                        Tag::class
+                    map += "boxed" to f.box(fieldAccess)
+                    addNamed(
+                        "%name:L.forEach·{ " +
+                            "serializer.write(%tag:T(${f.tag.value})).write(%boxed:L) }\n",
+                        map
                     )
-                    add(f.box(fieldAccess))
-                    add(") }\n")
                 }
 
                 else -> buildCodeBlock {
-                    add(
-                        "serializer.write(%T(${f.tag.value})).write(",
-                        Tag::class
-                    )
-                    add(f.box(fieldAccess))
-                    add(")\n")
+                    map += "boxed" to f.box(fieldAccess)
+                    addNamed("serializer.write(%tag:T(${f.tag.value})).write(%boxed:L)\n", map)
                 }
             }
         }

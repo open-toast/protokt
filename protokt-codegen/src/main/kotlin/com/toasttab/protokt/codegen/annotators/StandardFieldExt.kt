@@ -65,14 +65,14 @@ internal val StandardField.deprecated
 internal fun StandardField.nonDefault(ctx: Context): CodeBlock {
     val name = interceptValueAccess(this, ctx)
     return when {
-        this.optional -> CodeBlock.of("(${this.fieldName} != null)")
-        this.repeated -> CodeBlock.of("(${this.fieldName}.isNotEmpty())")
-        type == FieldType.MESSAGE -> CodeBlock.of("(${this.fieldName}  != null)")
-        type == FieldType.BYTES || type == FieldType.STRING -> CodeBlock.of("($name.isNotEmpty())")
-        type == FieldType.ENUM -> CodeBlock.of("($name.value != 0)")
-        type == FieldType.BOOL -> CodeBlock.of("($name)")
-        type.scalar -> CodeBlock.of("($name != %L)", type.defaultValue)
-        else -> throw IllegalStateException("Field doesn't have good nondefault check: $this, ${this.type}")
+        this.optional -> CodeBlock.of("$fieldName != null")
+        this.repeated -> CodeBlock.of("$fieldName.isNotEmpty()")
+        type == FieldType.MESSAGE -> CodeBlock.of("$fieldName != null")
+        type == FieldType.BYTES || type == FieldType.STRING -> CodeBlock.of("%L.isNotEmpty()", name)
+        type == FieldType.ENUM -> CodeBlock.of("%L.value != 0", name)
+        type == FieldType.BOOL -> name
+        type.scalar -> CodeBlock.of("%L != %L", name, type.defaultValue)
+        else -> throw IllegalStateException("Field doesn't have good nondefault check: $this, $type")
     }
 }
 
@@ -85,9 +85,9 @@ internal fun StandardField.boxMap(ctx: Context): CodeBlock {
     return CodeBlock.of("%T(%L, %L)", typePClass.toTypeName(), keyParam, valParam)
 }
 
-internal fun StandardField.box(s: String) =
+internal fun StandardField.box(s: CodeBlock) =
     if (type.boxed) {
-        CodeBlock.of("%T($s)", type.boxer)
+        CodeBlock.of("%T(%L)", type.boxer, s)
     } else {
-        CodeBlock.of(s)
+        s
     }

@@ -22,16 +22,15 @@ import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
-import com.squareup.kotlinpoet.buildCodeBlock
 import com.toasttab.protokt.codegen.annotators.Annotator.Context
 import com.toasttab.protokt.codegen.annotators.MessageSizeAnnotator.Companion.sizeOf
 import com.toasttab.protokt.codegen.annotators.PropertyAnnotator.Companion.annotateProperties
 import com.toasttab.protokt.codegen.annotators.PropertyAnnotator.PropertyInfo
 import com.toasttab.protokt.codegen.annotators.SerializerAnnotator.Companion.serialize
-import com.toasttab.protokt.codegen.impl.addStatement
 import com.toasttab.protokt.codegen.impl.bindSpaces
 import com.toasttab.protokt.codegen.impl.buildFunSpec
 import com.toasttab.protokt.codegen.impl.constructorProperty
+import com.toasttab.protokt.codegen.impl.namedCodeBlock
 import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.StandardField
@@ -110,14 +109,7 @@ private constructor(
                     buildFunSpec("sizeof") {
                         addParameter("key", keyPropertyType)
                         addParameter("value", valPropertyType)
-                        addStatement(
-                            buildCodeBlock {
-                                add("return ")
-                                add(sizeOf(entryInfo.key, ctx))
-                                add(" + ")
-                                add(sizeOf(entryInfo.value, ctx))
-                            }
-                        )
+                        addStatement("return %L + %L", sizeOf(entryInfo.key, ctx), sizeOf(entryInfo.value, ctx))
                     }
                 )
                 .addFunction(
@@ -125,17 +117,17 @@ private constructor(
                         addModifiers(KModifier.OVERRIDE)
                         addParameter("deserializer", KtMessageDeserializer::class)
                         returns(msg.typeName)
-                        addStatement(deserializeVar(propInfo, entryInfo::key))
-                        addStatement(deserializeVar(propInfo, entryInfo::value))
+                        addCode(deserializeVar(propInfo, entryInfo::key))
+                        addCode(deserializeVar(propInfo, entryInfo::value))
                         beginControlFlow("while (true)")
                         beginControlFlow("when(deserializer.readTag())")
-                        addStatement(constructOnZero(entryInfo.value))
+                        addCode(constructOnZero(entryInfo.value))
                         addStatement(
-                            CodeBlock.of("${entryInfo.key.tag.value} -> key = "),
+                            "${entryInfo.key.tag.value} -> key = %L",
                             deserialize(entryInfo.key, ctx, false)
                         )
                         addStatement(
-                            CodeBlock.of("${entryInfo.value.tag.value} -> value = "),
+                            "${entryInfo.value.tag.value} -> value = %L",
                             deserialize(entryInfo.value, ctx, false)
                         )
                         endControlFlow()
@@ -150,20 +142,18 @@ private constructor(
         val field = accessor.get()
         val prop = propInfo.single { it.name == field.fieldName }
 
-        return buildCodeBlock {
-            add(
-                CodeBlock.of(
-                    "var ${accessor.name}" +
-                        if (field.type == FieldType.MESSAGE) {
-                            ": %T"
-                        } else {
-                            ""
-                        } + " = ",
-                    prop.deserializeType
-                )
+        return namedCodeBlock(
+            "var ${accessor.name}" +
+                if (field.type == FieldType.MESSAGE) {
+                    ": %type:T"
+                } else {
+                    ""
+                } + " = %value:L\n",
+            mapOf(
+                "type" to prop.deserializeType,
+                "value" to deserializeValue(prop)
             )
-            add(deserializeValue(prop))
-        }
+        )
     }
 
     private fun constructOnZero(f: StandardField) =
