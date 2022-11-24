@@ -54,9 +54,13 @@ private constructor(
             msg.fields.map {
                 when (it) {
                     is StandardField -> {
-                        val addFieldSize = CodeBlockComponents("$resultVarName +=") + sizeOf(it, ctx)
+                        val addFieldSize =
+                            buildCodeBlock {
+                                add("$resultVarName += ")
+                                add(sizeOf(it, ctx))
+                            }
                         if (it.hasNonNullOption) {
-                            addFieldSize.toCodeBlock()
+                            addFieldSize
                         } else {
                             buildCodeBlock {
                                 beginControlFlow("if·${it.nonDefault(ctx)}")

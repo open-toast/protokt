@@ -61,18 +61,9 @@ fun namedCodeBlock(format: String, arguments: Map<String, *>) =
 
 fun runtimeFunction(name: String) = MemberName("com.toasttab.protokt.rt", name)
 
-internal fun FunSpec.Builder.addCode(components: CodeBlockComponents) =
-    addCode(components.toCodeBlock())
-
-internal fun FunSpec.Builder.addStatement(components: CodeBlockComponents) {
+internal fun FunSpec.Builder.addStatement(vararg blocks: CodeBlock) {
     addCode("«")
-    addCode(components)
-    addCode("\n»")
-}
-
-internal fun FunSpec.Builder.addStatement(block: CodeBlock) {
-    addCode("«")
-    addCode(block)
+    blocks.forEach { addCode(it) }
     addCode("\n»")
 }
 

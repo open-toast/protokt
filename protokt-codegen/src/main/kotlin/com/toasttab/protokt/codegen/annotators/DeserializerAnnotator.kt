@@ -87,15 +87,12 @@ private constructor(
                     addStatement("0 -> return·%N(%L)", msg.name, constructorLines(properties))
                     deserializerInfo.forEach {
                         addStatement(
-                            buildCodeBlock {
-                                add(
-                                    CodeBlockComponents(
-                                        "%tag:L -> %fieldName:L = ",
-                                        mapOf("tag" to it.tag, "fieldName" to it.assignment.fieldName)
-                                    ).toCodeBlock()
-                                )
-                                add(it.assignment.value)
-                            }
+                            CodeBlock.of(
+                                "%L -> %L = ",
+                                it.tag,
+                                it.assignment.fieldName
+                            ),
+                            it.assignment.value
                         )
                     }
                     addStatement("else -> unknownFields = (unknownFields ?: %T.Builder()).also·{it.add(deserializer.readUnknown()) }", UnknownFieldSet::class)

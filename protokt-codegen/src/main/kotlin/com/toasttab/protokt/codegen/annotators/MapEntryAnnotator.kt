@@ -111,9 +111,12 @@ private constructor(
                         addParameter("key", keyPropertyType)
                         addParameter("value", valPropertyType)
                         addStatement(
-                            CodeBlockComponents("return ") +
-                                sizeOf(entryInfo.key, ctx) + " + " +
-                                sizeOf(entryInfo.value, ctx)
+                            buildCodeBlock {
+                                add("return ")
+                                add(sizeOf(entryInfo.key, ctx).toCodeBlock())
+                                add(" + ")
+                                add(sizeOf(entryInfo.value, ctx).toCodeBlock())
+                            }
                         )
                     }
                 )
@@ -128,16 +131,12 @@ private constructor(
                         beginControlFlow("when(deserializer.readTag())")
                         addStatement(constructOnZero(entryInfo.value))
                         addStatement(
-                            buildCodeBlock {
-                                add(CodeBlockComponents("${entryInfo.key.tag.value} -> key = ").toCodeBlock())
-                                add(deserialize(entryInfo.key, ctx, false))
-                            }
+                            CodeBlock.of("${entryInfo.key.tag.value} -> key = "),
+                            deserialize(entryInfo.key, ctx, false)
                         )
                         addStatement(
-                            buildCodeBlock {
-                                add(CodeBlockComponents("${entryInfo.value.tag.value} -> value = ").toCodeBlock())
-                                add(deserialize(entryInfo.value, ctx, false))
-                            }
+                            CodeBlock.of("${entryInfo.value.tag.value} -> value = "),
+                            deserialize(entryInfo.value, ctx, false)
                         )
                         endControlFlow()
                         endControlFlow()
@@ -153,29 +152,29 @@ private constructor(
 
         return buildCodeBlock {
             add(
-                CodeBlockComponents(
+                CodeBlock.of(
                     "var ${accessor.name}" +
                         if (field.type == FieldType.MESSAGE) {
-                            ": %deserType:T"
+                            ": %T"
                         } else {
                             ""
                         } + " = ",
-                    mapOf("deserType" to prop.deserializeType)
-                ).toCodeBlock()
+                    prop.deserializeType
+                )
             )
             add(deserializeValue(prop))
         }
     }
 
     private fun constructOnZero(f: StandardField) =
-        CodeBlockComponents(
+        CodeBlock.of(
             "0 -> return ${msg.name}(key, value" +
                 if (f.type == FieldType.MESSAGE) {
-                    " ?: %valueClassDsl:T().build()"
+                    " ?: %T().build()"
                 } else {
                     ""
                 } + ")",
-            mapOf("valueClassDsl" to entryInfo.value.typePClass.toTypeName().nestedClass("${valPropertyType.simpleName}Dsl"))
+            entryInfo.value.typePClass.toTypeName().nestedClass("${valPropertyType.simpleName}Dsl")
         )
 
     companion object {
