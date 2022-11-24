@@ -29,7 +29,6 @@ import com.toasttab.protokt.codegen.impl.ClassLookup.converters
 import com.toasttab.protokt.codegen.impl.ClassLookup.getClass
 import com.toasttab.protokt.codegen.impl.WellKnownTypes.wrapWithWellKnownInterception
 import com.toasttab.protokt.codegen.model.FieldType
-import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.protoc.ProtocolContext
 import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.ext.OptimizedSizeofConverter
@@ -55,7 +54,7 @@ internal object Wrapper {
 
     private fun <R> StandardField.foldWrap(
         wrap: Option<String>,
-        pkg: PPackage,
+        pkg: String,
         ctx: ProtocolContext,
         ifEmpty: () -> R,
         ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
@@ -64,7 +63,7 @@ internal object Wrapper {
             ifEmpty
         ) {
             ifSome(
-                getClass(inferClassName(it, pkg.toString()), ctx),
+                getClass(inferClassName(it, pkg), ctx),
                 protoTypeName.emptyToNone().fold(
                     {
                         // Protobuf primitives have no typeName

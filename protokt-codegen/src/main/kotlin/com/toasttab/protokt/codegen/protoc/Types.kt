@@ -20,7 +20,6 @@ import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
 import com.toasttab.protokt.codegen.model.FieldType
-import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.model.computeTag
 import com.toasttab.protokt.ext.Protokt
 
@@ -151,7 +150,7 @@ class OneofOptions(
 class FileDesc(
     val name: String,
     val protoPackage: String,
-    val kotlinPackage: PPackage,
+    val kotlinPackage: String,
     val options: FileOptions,
     val context: ProtocolContext,
     val sourceCodeInfo: DescriptorProtos.SourceCodeInfo

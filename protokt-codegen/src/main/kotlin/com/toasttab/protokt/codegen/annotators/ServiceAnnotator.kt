@@ -162,7 +162,7 @@ internal object ServiceAnnotator {
         } + CodeBlock.of(".build()\n")
 
     private fun renderQualifiedName(s: Service, ctx: Context) =
-        if (ctx.desc.kotlinPackage.default) {
+        if (ctx.desc.protoPackage == "") {
             s.name
         } else {
             "${ctx.desc.protoPackage}.${s.name}"

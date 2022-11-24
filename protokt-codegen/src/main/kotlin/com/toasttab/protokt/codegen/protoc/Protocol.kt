@@ -36,7 +36,6 @@ import com.toasttab.protokt.codegen.annotators.resolveMapEntry
 import com.toasttab.protokt.codegen.impl.overrideGoogleProtobuf
 import com.toasttab.protokt.codegen.impl.resolvePackage
 import com.toasttab.protokt.codegen.model.FieldType
-import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.ext.Protokt
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.PersistentSet
@@ -100,7 +99,7 @@ private fun toFieldType(type: FieldDescriptorProto.Type) =
 
 private fun toTypeList(
     ctx: ProtocolContext,
-    pkg: PPackage,
+    pkg: String,
     enums: List<EnumDescriptorProto>,
     messages: List<DescriptorProto>,
     services: List<ServiceDescriptorProto> = emptyList(),
@@ -109,7 +108,7 @@ private fun toTypeList(
     enums.foldIndexed(
         Pair(persistentSetOf<String>(), persistentListOf<TopLevelType>())
     ) { idx, acc, t ->
-        val e = toEnum(idx, t, acc.first, enclosingMessages, pkg.toString())
+        val e = toEnum(idx, t, acc.first, enclosingMessages, pkg)
         Pair(acc.first + e.name, acc.second + e)
     }.second +
 
@@ -177,7 +176,7 @@ private fun toEnum(
 private fun toMessage(
     idx: Int,
     ctx: ProtocolContext,
-    pkg: PPackage,
+    pkg: String,
     desc: DescriptorProto,
     names: Set<String>,
     enclosingMessages: List<String>
@@ -243,7 +242,7 @@ private fun toMethod(
 
 private fun toFields(
     ctx: ProtocolContext,
-    pkg: PPackage,
+    pkg: String,
     desc: DescriptorProto,
     enclosingMessages: List<String>,
     typeNames: Set<String>,
@@ -284,7 +283,7 @@ private fun toFields(
 private fun toOneof(
     idx: Int,
     ctx: ProtocolContext,
-    pkg: PPackage,
+    pkg: String,
     enclosingMessages: List<String>,
     desc: DescriptorProto,
     oneof: OneofDescriptorProto,
@@ -334,7 +333,7 @@ private fun toOneof(
 private fun toStandard(
     idx: Int,
     ctx: ProtocolContext,
-    pkg: PPackage,
+    pkg: String,
     fdp: FieldDescriptorProto,
     usedFieldNames: Set<String>,
     withinOneof: Boolean = false
@@ -430,7 +429,7 @@ private fun mapEntry(
     usedFieldNames: Set<String>,
     fdp: FieldDescriptorProto,
     ctx: ProtocolContext,
-    pkg: PPackage
+    pkg: String
 ) =
     if (fdp.label == LABEL_REPEATED &&
         fdp.type == FieldDescriptorProto.Type.TYPE_MESSAGE

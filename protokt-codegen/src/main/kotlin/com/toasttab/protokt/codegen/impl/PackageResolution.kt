@@ -23,28 +23,27 @@ import com.google.protobuf.DescriptorProtos.EnumDescriptorProto
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.toasttab.protokt.codegen.annotators.Annotator.protoktPkg
 import com.toasttab.protokt.codegen.annotators.Annotator.rootGoogleProto
-import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.protoc.FileOptions
 import com.toasttab.protokt.codegen.protoc.fileOptions
 
 fun packagesByTypeName(
     protoFileList: List<FileDescriptorProto>,
     respectJavaPackage: Boolean
-): Map<String, PPackage> {
-    val map = mutableMapOf<String, PPackage>()
+): Map<String, String> {
+    val packagesByTypeName = mutableMapOf<String, String>()
 
     protoFileList.forEach { fdp ->
         fdp.messageTypeList.forEach { dp ->
-            gatherPackages(fdp, dp, emptyList(), respectJavaPackage, map)
+            gatherPackages(fdp, dp, emptyList(), respectJavaPackage, packagesByTypeName)
         }
 
         fdp.enumTypeList.forEach { edp ->
-            map[edp.foreignFullyQualifiedName(fdp)] =
+            packagesByTypeName[edp.foreignFullyQualifiedName(fdp)] =
                 resolvePackage(fdp, respectJavaPackage)
         }
     }
 
-    return map
+    return packagesByTypeName
 }
 
 private fun EnumDescriptorProto.foreignFullyQualifiedName(
@@ -57,20 +56,20 @@ private fun gatherPackages(
     dp: DescriptorProto,
     parents: List<DescriptorProto>,
     respectJavaPackage: Boolean,
-    map: MutableMap<String, PPackage>
+    packagesByTypeName: MutableMap<String, String>
 ) {
     val enclosingName =
         parents.joinToString(".") { it.name }.emptyOrFollowWithDot()
 
-    map[dp.fullyQualifiedName(fdp, enclosingName)] =
+    packagesByTypeName[dp.fullyQualifiedName(fdp, enclosingName)] =
         resolvePackage(fdp, respectJavaPackage)
 
     dp.nestedTypeList.forEach {
-        gatherPackages(fdp, it, parents + dp, respectJavaPackage, map)
+        gatherPackages(fdp, it, parents + dp, respectJavaPackage, packagesByTypeName)
     }
 
     dp.enumTypeList.forEach { edp ->
-        map[edp.nestedFullyQualifiedName(fdp, enclosingName, dp)] =
+        packagesByTypeName[edp.nestedFullyQualifiedName(fdp, enclosingName, dp)] =
             resolvePackage(fdp, respectJavaPackage)
     }
 }
@@ -106,7 +105,7 @@ internal fun resolvePackage(
         .orElse { javaPackage(respectJavaPackage, fileOptions) }
         .orElse { protoPackage.emptyToNone() }
         .map { overrideComGoogleProtobuf(it) }
-        .getOrElse { PPackage.DEFAULT }
+        .getOrElse { "" }
 
 private fun javaPackage(respectJavaPackage: Boolean, fileOptions: FileOptions) =
     if (respectJavaPackage) {
@@ -116,7 +115,7 @@ private fun javaPackage(respectJavaPackage: Boolean, fileOptions: FileOptions) =
     }
 
 private fun overrideComGoogleProtobuf(type: String) =
-    PPackage.fromString(overrideGoogleProtobuf(type, "com.$rootGoogleProto"))
+    overrideGoogleProtobuf(type, "com.$rootGoogleProto")
 
 internal fun overrideGoogleProtobuf(type: String, prefix: String) =
     if (type.startsWith(prefix)) {
