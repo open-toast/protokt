@@ -26,6 +26,7 @@ import com.toasttab.protokt.codegen.impl.Wrapper.interceptSizeof
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
 import com.toasttab.protokt.codegen.impl.Wrapper.mapKeyConverter
 import com.toasttab.protokt.codegen.impl.Wrapper.mapValueConverter
+import com.toasttab.protokt.codegen.impl.endControlFlowWithoutNewline
 import com.toasttab.protokt.codegen.impl.namedCodeBlock
 import com.toasttab.protokt.codegen.impl.runtimeFunction
 import com.toasttab.protokt.codegen.protoc.Message
@@ -53,7 +54,7 @@ private constructor(
             msg.mapFields(
                 ctx,
                 { CodeBlock.of("$resultVarName·+=·%L", sizeOf(it, ctx)) },
-                { oneof, std -> oneofSizeOfString(oneof, std) },
+                { oneof, std -> sizeofOneof(oneof, std) },
                 {
                     if (it.hasNonNullOption) {
                         add("$resultVarName·+=·")
@@ -79,7 +80,7 @@ private constructor(
             .build()
     }
 
-    private fun oneofSizeOfString(o: Oneof, f: StandardField) =
+    private fun sizeofOneof(o: Oneof, f: StandardField) =
         sizeOf(
             f,
             ctx,
@@ -141,14 +142,14 @@ private constructor(
                     )
                 }
                 else -> {
-                    namedCodeBlock(
-                        "%sizeof:M(%tag:T(${f.number})) + %access:L",
-                        mapOf(
-                            "sizeof" to runtimeFunction("sizeof"),
-                            "tag" to Tag::class,
-                            "access" to interceptFieldSizeof(f, name, ctx)
+                    buildCodeBlock {
+                        add(
+                            "%M(%T(${f.number})) + %L",
+                            runtimeFunction("sizeof"),
+                            Tag::class,
+                            interceptFieldSizeof(f, name, ctx)
                         )
-                    )
+                    }
                 }
             }
         }
@@ -168,14 +169,21 @@ private constructor(
                     ?.let { CodeBlock.of("%T.unwrap(v)", it) }
                     ?: CodeBlock.of("v")
 
-            return CodeBlock.of(
-                "%M($name, %T(${f.number})) { k, v -> %T.sizeof(%L, %L)}",
-                runtimeFunction("sizeofMap"),
-                Tag::class,
-                f.typePClass.toTypeName(),
-                key,
-                value
-            )
+            return buildCodeBlock {
+                add(
+                    "%M($name, %T(${f.number}))·{·k,·v·->\n",
+                    runtimeFunction("sizeofMap"),
+                    Tag::class
+                )
+                indent()
+                add(
+                    "%T.sizeof(%L, %L)\n",
+                    f.typePClass.toTypeName(),
+                    key,
+                    value
+                )
+                endControlFlowWithoutNewline()
+            }
         }
     }
 }

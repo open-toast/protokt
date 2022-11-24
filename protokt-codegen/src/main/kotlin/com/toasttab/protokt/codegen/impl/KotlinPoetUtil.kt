@@ -56,3 +56,8 @@ fun namedCodeBlock(format: String, arguments: Map<String, *>) =
     CodeBlock.builder().addNamed(format, arguments).build()
 
 fun runtimeFunction(name: String) = MemberName("com.toasttab.protokt.rt", name)
+
+fun CodeBlock.Builder.endControlFlowWithoutNewline() {
+    unindent()
+    add("}")
+}

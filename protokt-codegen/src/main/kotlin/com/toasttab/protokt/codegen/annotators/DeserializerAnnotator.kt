@@ -28,6 +28,7 @@ import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
+import com.squareup.kotlinpoet.withIndent
 import com.toasttab.protokt.codegen.annotators.Annotator.Context
 import com.toasttab.protokt.codegen.annotators.DeserializerAnnotator.DeserializerInfo.Assignment
 import com.toasttab.protokt.codegen.annotators.PropertyAnnotator.Companion.annotateProperties
@@ -41,6 +42,7 @@ import com.toasttab.protokt.codegen.impl.Wrapper.wrapField
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapperName
 import com.toasttab.protokt.codegen.impl.buildFunSpec
+import com.toasttab.protokt.codegen.impl.endControlFlowWithoutNewline
 import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Oneof
@@ -82,7 +84,9 @@ private constructor(
                     val constructor =
                         buildCodeBlock {
                             add("0·->·return·%N(\n", msg.name)
-                            constructorLines(properties).forEach(::add)
+                            withIndent {
+                                constructorLines(properties).forEach(::add)
+                            }
                             add("\n)")
                         }
                     addStatement("%L", constructor)
@@ -99,7 +103,7 @@ private constructor(
                             add("(unknownFields ?: %T.Builder())", UnknownFieldSet::class)
                             beginControlFlow(".also")
                             add("it.add(deserializer.readUnknown())\n")
-                            endControlFlow()
+                            endControlFlowWithoutNewline()
                         }
                     addStatement("else -> unknownFields =\n%L", unknownFieldBuilder)
                     endControlFlow()
@@ -203,7 +207,7 @@ internal fun deserialize(f: StandardField, ctx: Context, packed: Boolean): CodeB
                 beginControlFlow("deserializer.readRepeated($packed)")
                 add("add(%L)\n", wrappedRead)
                 endControlFlow()
-                endControlFlow()
+                endControlFlowWithoutNewline()
             }
         else -> wrappedRead
     }
@@ -229,7 +233,7 @@ private fun deserializeMap(f: StandardField, options: Options?, read: CodeBlock)
         add("put(%L, %L)\n", key, value)
         endControlFlow()
         endControlFlow()
-        endControlFlow()
+        endControlFlowWithoutNewline()
     }
 }
 

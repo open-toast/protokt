@@ -5,6 +5,7 @@ import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
 import com.toasttab.protokt.codegen.annotators.PropertyAnnotator.PropertyInfo
 import com.toasttab.protokt.codegen.impl.bindSpaces
+import com.toasttab.protokt.codegen.impl.endControlFlowWithoutNewline
 import com.toasttab.protokt.codegen.impl.runtimeFunction
 
 internal fun deserializeValue(p: PropertyInfo) =
@@ -29,8 +30,7 @@ internal fun deserializeWrapper(p: PropertyInfo) =
                 )
                 add("\n")
             }
-            unindent()
-            add("}")
+            endControlFlowWithoutNewline()
         }
     } else {
         if (p.map) {

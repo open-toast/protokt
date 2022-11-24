@@ -46,12 +46,14 @@ private fun standardFieldExecution(
     val statement = stmt()
     return if (field.hasNonNullOption) {
         buildCodeBlock {
-            addStatement("%L", statement)
+            add(statement)
+            add("\n")
         }
     } else {
         buildCodeBlock {
-            beginControlFlow("if·(%L)", field.nonDefault(ctx))
-            addStatement("%L", statement)
+            beginControlFlow("if (%L)", field.nonDefault(ctx))
+            add(statement)
+            add("\n")
             endControlFlow()
         }
     }

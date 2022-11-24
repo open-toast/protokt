@@ -25,6 +25,7 @@ import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
 import com.toasttab.protokt.codegen.annotators.PropertyAnnotator.PropertyInfo
 import com.toasttab.protokt.codegen.impl.Deprecation.handleDeprecation
+import com.toasttab.protokt.codegen.impl.endControlFlowWithoutNewline
 import com.toasttab.protokt.codegen.impl.runtimeFunction
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.rt.UnknownFieldSet
@@ -51,8 +52,8 @@ internal class DslAnnotator(
                         dslLines().forEach { add("%L\n", it) }
                         addStatement("unknownFields = this@${msg.name}.unknownFields")
                         addStatement("dsl()")
-                        unindent()
-                        add("}.build()")
+                        endControlFlowWithoutNewline()
+                        add(".build()")
                     }
                 )
                 .build()

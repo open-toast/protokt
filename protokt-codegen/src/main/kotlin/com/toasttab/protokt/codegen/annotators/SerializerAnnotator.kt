@@ -21,6 +21,7 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.toasttab.protokt.codegen.annotators.Annotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
+import com.toasttab.protokt.codegen.impl.endControlFlowWithoutNewline
 import com.toasttab.protokt.codegen.impl.runtimeFunction
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.StandardField
@@ -85,29 +86,32 @@ private constructor(
                             ".write(%uInt32:T(%name:L.sumOf{%sizeof:M(%boxed:L)}))\n",
                         map
                     )
-                    addNamed("%name:L.forEach·{ serializer.write(%boxed:L) }", map)
+                    addNamed("%name:L.forEach·{·serializer.write(%boxed:L)·}", map)
                 }
                 f.map -> buildCodeBlock {
-                    map += "boxed" to f.boxMap(ctx)
-                    addNamed(
-                        "%name:L.entries.forEach·{ " +
-                            "serializer.write(%tag:T(${f.tag.value}))" +
-                            ".write(%boxed:L) }",
-                        map
+                    beginControlFlow("${f.fieldName}.entries.forEach")
+                    add(
+                        "serializer.write(%T(${f.tag.value})).write(%L)\n",
+                        Tag::class,
+                        f.boxMap(ctx)
                     )
+                    endControlFlowWithoutNewline()
                 }
                 f.repeated -> buildCodeBlock {
                     map += "boxed" to f.box(fieldAccess)
                     addNamed(
-                        "%name:L.forEach·{ " +
-                            "serializer.write(%tag:T(${f.tag.value})).write(%boxed:L) }",
+                        "%name:L.forEach·{·" +
+                            "serializer.write(%tag:T(${f.tag.value})).write(%boxed:L)·}",
                         map
                     )
                 }
 
                 else -> buildCodeBlock {
-                    map += "boxed" to f.box(fieldAccess)
-                    addNamed("serializer.write(%tag:T(${f.tag.value})).write(%boxed:L)", map)
+                    add(
+                        "serializer.write(%T(${f.tag.value})).write(%L)",
+                        Tag::class,
+                        f.box(fieldAccess)
+                    )
                 }
             }
         }
