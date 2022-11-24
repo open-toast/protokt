@@ -45,7 +45,9 @@ private fun standardFieldExecution(
 ): CodeBlock {
     val statement = stmt()
     return if (field.hasNonNullOption) {
-        statement
+        buildCodeBlock {
+            addStatement("%L", statement)
+        }
     } else {
         buildCodeBlock {
             beginControlFlow("if·(%L)", field.nonDefault(ctx))
@@ -72,7 +74,7 @@ private fun oneofInstanceConditionals(f: Oneof, stmt: (StandardField) -> CodeBlo
         .sortedBy { it.number }
         .map {
             buildCodeBlock {
-                addStatement("is·%T·-> %L", f.qualify(it), stmt(it))
+                addStatement("is·%T·->\n%L", f.qualify(it), stmt(it))
             }
         }
         .let {

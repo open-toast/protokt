@@ -175,10 +175,10 @@ internal object Wrapper {
             }
         )
 
-    fun interceptReadFn(f: StandardField, s: String) =
+    fun interceptReadFn(f: StandardField, s: CodeBlock) =
         f.foldBytesSlice(
             { s },
-            { "readBytesSlice()" }
+            { CodeBlock.of("readBytesSlice()") }
         )
 
     fun interceptDefaultValue(f: StandardField, s: CodeBlock, ctx: Context) =

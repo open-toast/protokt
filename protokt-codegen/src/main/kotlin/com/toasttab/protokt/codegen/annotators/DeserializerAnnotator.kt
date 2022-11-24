@@ -87,7 +87,14 @@ private constructor(
                             it.assignment.value
                         )
                     }
-                    addStatement("else -> unknownFields = (unknownFields ?: %T.Builder()).also·{it.add(deserializer.readUnknown()) }", UnknownFieldSet::class)
+                    val unknownFieldBuilder =
+                        buildCodeBlock {
+                            add("(unknownFields ?: %T.Builder())", UnknownFieldSet::class)
+                            beginControlFlow(".also")
+                            add("it.add(deserializer.readUnknown())\n")
+                            endControlFlow()
+                        }
+                    addStatement("else -> unknownFields =\n%L", unknownFieldBuilder)
                     endControlFlow()
                     endControlFlow()
                 }
@@ -140,18 +147,8 @@ private constructor(
                 DeserializerInfo(
                     tag.value,
                     oneOf.fold(
-                        {
-                            deserialize(
-                                field,
-                                ctx,
-                                tag is Tag.Packed
-                            ).let { value ->
-                                Assignment(field.fieldName, value)
-                            }
-                        },
-                        {
-                            Assignment(it.fieldName, oneofDes(it, field))
-                        }
+                        { Assignment(field.fieldName, deserialize(field, ctx, tag is Tag.Packed)) },
+                        { Assignment(it.fieldName, oneofDes(it, field)) }
                     )
                 )
             }
@@ -186,13 +183,13 @@ internal fun deserialize(f: StandardField, ctx: Context, packed: Boolean): CodeB
     val read = CodeBlock.of("deserializer.%L", interceptReadFn(f, f.readFn()))
     val wrappedRead = options?.let { wrapField(it.wrapName, read, it.type, it.oneof) } ?: read
     return when {
-        f.map -> CodeBlock.of(deserializeMap(f, options, read))
+        f.map -> deserializeMap(f, options, read)
         f.repeated ->
             buildCodeBlock {
-                add("(${f.fieldName} ?: mutableListOf())")
+                add("\n(${f.fieldName} ?: mutableListOf())")
                 beginControlFlow(".apply")
                 beginControlFlow("deserializer.readRepeated($packed)")
-                add("add(%L)", wrappedRead)
+                add("add(%L)\n", wrappedRead)
                 endControlFlow()
                 endControlFlow()
             }
@@ -200,39 +197,46 @@ internal fun deserialize(f: StandardField, ctx: Context, packed: Boolean): CodeB
     }
 }
 
-// todo
-internal fun deserializeMap(f: StandardField, options: Options?, read: CodeBlock): String {
-    val key = options?.keyWrap?.let { wrapField(it, CodeBlock.of("it.key"), options.type, options.oneof) } ?: CodeBlock.of("it.key")
-    val value = options?.valueWrap?.let { wrapField(it, CodeBlock.of("it.value"), options.valueType, options.oneof) } ?: CodeBlock.of("it.value")
-    return """
-        |(${f.fieldName} ?: mutableMapOf()).apply·{
-        |       deserializer.readRepeated(false)·{
-        |           $read
-        |           .let { put(
-        |               $key,
-        |               $value
-        |           ) }
-        |       }
-        |   }
-    """.trimMargin()
+private fun deserializeMap(f: StandardField, options: Options?, read: CodeBlock): CodeBlock {
+    val key =
+        options?.keyWrap
+            ?.let { wrapField(it, CodeBlock.of("it.key"), options.type, options.oneof) }
+            ?: CodeBlock.of("it.key")
+
+    val value =
+        options?.valueWrap
+            ?.let { wrapField(it, CodeBlock.of("it.value"), options.valueType, options.oneof) }
+            ?: CodeBlock.of("it.value")
+
+    return buildCodeBlock {
+        add("\n(${f.fieldName} ?: mutableMapOf())")
+        beginControlFlow(".apply")
+        beginControlFlow("deserializer.readRepeated(false)")
+        add(read)
+        beginControlFlow(".let")
+        add("put(%L, %L)\n", key, value)
+        endControlFlow()
+        endControlFlow()
+        endControlFlow()
+    }
 }
 
 private fun StandardField.readFn() =
     when (type) {
-        FieldType.SFIXED32 -> "readSFixed32()"
-        FieldType.SFIXED64 -> "readSFixed64()"
-        FieldType.SINT32 -> "readSInt32()"
-        FieldType.SINT64 -> "readSInt64()"
-        FieldType.UINT32 -> "readUInt32()"
-        FieldType.UINT64 -> "readUInt64()"
+        FieldType.SFIXED32 -> CodeBlock.of("readSFixed32()")
+        FieldType.SFIXED64 -> CodeBlock.of("readSFixed64()")
+        FieldType.SINT32 -> CodeBlock.of("readSInt32()")
+        FieldType.SINT64 -> CodeBlock.of("readSInt64()")
+        FieldType.UINT32 -> CodeBlock.of("readUInt32()")
+        FieldType.UINT64 -> CodeBlock.of("readUInt64()")
         // by default for DOUBLE we get readDouble, for BOOL we get readBool(), etc.
-        else -> "read${type.name.lowercase().capitalize()}(${readFnBuilder(type)})"
-    }
-
-private fun StandardField.readFnBuilder(type: FieldType) =
-    when (type) {
-        FieldType.ENUM, FieldType.MESSAGE -> typePClass.qualifiedName
-        else -> ""
+        else -> buildCodeBlock {
+            add("read${type.name.lowercase().capitalize()}(")
+            if (type == FieldType.ENUM || type == FieldType.MESSAGE) {
+                add("%T", typePClass.toTypeName())
+            }
+            add(")")
+        }
     }
 
 private fun deserializeOptions(f: StandardField, ctx: Context) =
@@ -249,7 +253,7 @@ private fun deserializeOptions(f: StandardField, ctx: Context) =
         null
     }
 
-class Options(
+private class Options(
     val wrapName: String,
     val keyWrap: String?,
     val valueWrap: String?,
