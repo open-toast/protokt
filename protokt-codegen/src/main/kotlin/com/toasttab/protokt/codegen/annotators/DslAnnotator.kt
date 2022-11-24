@@ -25,7 +25,6 @@ import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
 import com.toasttab.protokt.codegen.annotators.PropertyAnnotator.PropertyInfo
 import com.toasttab.protokt.codegen.impl.Deprecation.handleDeprecation
-import com.toasttab.protokt.codegen.impl.bindSpaces
 import com.toasttab.protokt.codegen.impl.runtimeFunction
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.rt.UnknownFieldSet
@@ -47,19 +46,14 @@ internal class DslAnnotator(
                     )
                 )
                 .addCode(
-                    (
-                        "return " + msg.name + "Dsl().apply {\n" +
-                            if (properties.isEmpty()) {
-                                ""
-                            } else {
-                                dslLines() + "\n"
-                            } +
-                            """
-                               |    unknownFields = this@${msg.name}.unknownFields
-                               |    dsl()
-                               |}.build()
-                            """.trimMargin()
-                        ).bindSpaces()
+                    buildCodeBlock {
+                        beginControlFlow("return " + msg.name + "Dsl().apply")
+                        dslLines().forEach { add("%L\n", it) }
+                        addStatement("unknownFields = this@${msg.name}.unknownFields")
+                        addStatement("dsl()")
+                        unindent()
+                        add("}.build()")
+                    }
                 )
                 .build()
         )
@@ -130,9 +124,7 @@ internal class DslAnnotator(
     }
 
     private fun dslLines() =
-        properties.joinToString("\n") {
-            "    ${it.name} = this@${msg.name}.${it.name}"
-        }
+        properties.map { CodeBlock.of("${it.name} = this@${msg.name}.${it.name}") }
 }
 
 internal fun TypeSpec.Builder.handleDsl(msg: Message, properties: List<PropertyInfo>) =

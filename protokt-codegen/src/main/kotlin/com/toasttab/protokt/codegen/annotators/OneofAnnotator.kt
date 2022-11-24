@@ -134,6 +134,7 @@ private constructor(
             null
         }
 
+    // TODO: this should be removed and TypeNames should be inferred during Protocol construction
     private fun inferOneofFieldTypeName(
         ctx: Context,
         f: StandardField,
