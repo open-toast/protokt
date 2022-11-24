@@ -52,7 +52,7 @@ private constructor(
         val fieldSizes =
             msg.mapFields(
                 ctx,
-                { CodeBlock.of("$resultVarName·+=·%L\n", sizeOf(it, ctx)) },
+                { CodeBlock.of("$resultVarName·+=·%L", sizeOf(it, ctx)) },
                 { oneof, std -> oneofSizeOfString(oneof, std) },
                 {
                     if (it.hasNonNullOption) {

@@ -65,8 +65,8 @@ internal val StandardField.deprecated
 internal fun StandardField.nonDefault(ctx: Context): CodeBlock {
     val name = interceptValueAccess(this, ctx)
     return when {
-        this.optional -> CodeBlock.of("$fieldName != null")
-        this.repeated -> CodeBlock.of("$fieldName.isNotEmpty()")
+        optional -> CodeBlock.of("$fieldName != null")
+        repeated -> CodeBlock.of("$fieldName.isNotEmpty()")
         type == FieldType.MESSAGE -> CodeBlock.of("$fieldName != null")
         type == FieldType.BYTES || type == FieldType.STRING -> CodeBlock.of("%L.isNotEmpty()", name)
         type == FieldType.ENUM -> CodeBlock.of("%L.value != 0", name)

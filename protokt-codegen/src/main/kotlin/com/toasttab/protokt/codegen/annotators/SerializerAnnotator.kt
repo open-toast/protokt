@@ -85,14 +85,14 @@ private constructor(
                             ".write(%uInt32:T(%name:L.sumOf{%sizeof:M(%boxed:L)}))\n",
                         map
                     )
-                    addNamed("%name:L.forEach·{ serializer.write(%boxed:L) }\n", map)
+                    addNamed("%name:L.forEach·{ serializer.write(%boxed:L) }", map)
                 }
                 f.map -> buildCodeBlock {
                     map += "boxed" to f.boxMap(ctx)
                     addNamed(
                         "%name:L.entries.forEach·{ " +
                             "serializer.write(%tag:T(${f.tag.value}))" +
-                            ".write(%boxed:L) }\n",
+                            ".write(%boxed:L) }",
                         map
                     )
                 }
@@ -100,14 +100,14 @@ private constructor(
                     map += "boxed" to f.box(fieldAccess)
                     addNamed(
                         "%name:L.forEach·{ " +
-                            "serializer.write(%tag:T(${f.tag.value})).write(%boxed:L) }\n",
+                            "serializer.write(%tag:T(${f.tag.value})).write(%boxed:L) }",
                         map
                     )
                 }
 
                 else -> buildCodeBlock {
                     map += "boxed" to f.box(fieldAccess)
-                    addNamed("serializer.write(%tag:T(${f.tag.value})).write(%boxed:L)\n", map)
+                    addNamed("serializer.write(%tag:T(${f.tag.value})).write(%boxed:L)", map)
                 }
             }
         }

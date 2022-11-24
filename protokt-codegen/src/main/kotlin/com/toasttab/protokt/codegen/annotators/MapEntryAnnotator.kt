@@ -89,8 +89,8 @@ private constructor(
             buildFunSpec("serialize") {
                 addModifiers(KModifier.OVERRIDE)
                 addParameter("serializer", KtMessageSerializer::class)
-                addCode(serialize(entryInfo.key, ctx))
-                addCode(serialize(entryInfo.value, ctx))
+                addStatement("%L", serialize(entryInfo.key, ctx))
+                addStatement("%L", serialize(entryInfo.value, ctx))
             }
         )
     }
@@ -117,11 +117,11 @@ private constructor(
                         addModifiers(KModifier.OVERRIDE)
                         addParameter("deserializer", KtMessageDeserializer::class)
                         returns(msg.typeName)
-                        addCode(deserializeVar(propInfo, entryInfo::key))
-                        addCode(deserializeVar(propInfo, entryInfo::value))
+                        addStatement("%L", deserializeVar(propInfo, entryInfo::key))
+                        addStatement("%L", deserializeVar(propInfo, entryInfo::value))
                         beginControlFlow("while (true)")
                         beginControlFlow("when(deserializer.readTag())")
-                        addCode(constructOnZero(entryInfo.value))
+                        addStatement("%L", constructOnZero(entryInfo.value))
                         addStatement(
                             "${entryInfo.key.tag.value} -> key = %L",
                             deserialize(entryInfo.key, ctx, false)
@@ -148,7 +148,7 @@ private constructor(
                     ": %type:T"
                 } else {
                     ""
-                } + " = %value:L\n",
+                } + " = %value:L",
             mapOf(
                 "type" to prop.deserializeType,
                 "value" to deserializeValue(prop)

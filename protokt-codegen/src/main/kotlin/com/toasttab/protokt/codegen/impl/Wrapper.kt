@@ -43,13 +43,13 @@ internal object Wrapper {
     val StandardField.wrapped
         get() = wrapWithWellKnownInterception.isDefined()
 
-    val StandardField.keyWrap
+    private val StandardField.keyWrap
         get() = options.protokt.keyWrap.emptyToNone()
 
     val StandardField.keyWrapped
         get() = keyWrap.isDefined()
 
-    val StandardField.valueWrap
+    private val StandardField.valueWrap
         get() = options.protokt.valueWrap.emptyToNone()
 
     val StandardField.valueWrapped
@@ -63,23 +63,22 @@ internal object Wrapper {
         ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
     ) =
         wrap.fold(
-            ifEmpty,
-            {
-                ifSome(
-                    getClass(PClass.fromName(it).possiblyQualify(pkg), ctx),
-                    protoTypeName.emptyToNone().fold(
-                        {
-                            // Protobuf primitives have no typeName
-                            requireNotNull(type.kotlinRepresentation) {
-                                "no kotlin representation for type of " +
-                                    "$fieldName: $type"
-                            }
-                        },
-                        { getClass(typePClass, ctx) }
-                    )
+            ifEmpty
+        ) {
+            ifSome(
+                getClass(PClass.fromName(it).possiblyQualify(pkg), ctx),
+                protoTypeName.emptyToNone().fold(
+                    {
+                        // Protobuf primitives have no typeName
+                        requireNotNull(type.kotlinRepresentation) {
+                            "no kotlin representation for type of " +
+                                "$fieldName: $type"
+                        }
+                    },
+                    { getClass(typePClass, ctx) }
                 )
-            }
-        )
+            )
+        }
 
     private fun <R> StandardField.foldFieldWrap(
         ctx: Context,
@@ -121,17 +120,9 @@ internal object Wrapper {
             { CodeBlock.of("%M(%L)", runtimeFunction("sizeof"), f.box(s)) },
             { wrapper, wrapped ->
                 if (converter(wrapper, wrapped, ctx) is OptimizedSizeofConverter<*, *>) {
-                    CodeBlock.of(
-                        "%T.sizeof(%L)",
-                        unqualifiedConverterWrap(wrapper, wrapped, ctx),
-                        s
-                    )
+                    CodeBlock.of("%T.sizeof(%L)", unqualifiedConverterWrap(wrapper, wrapped, ctx), s)
                 } else {
-                    CodeBlock.of(
-                        "%M(%L)",
-                        runtimeFunction("sizeof"),
-                        f.box(s)
-                    )
+                    CodeBlock.of("%M(%L)", runtimeFunction("sizeof"), f.box(s))
                 }
             }
         )

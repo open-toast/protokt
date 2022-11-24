@@ -49,7 +49,7 @@ private fun standardFieldExecution(
     } else {
         buildCodeBlock {
             beginControlFlow("if·(%L)", field.nonDefault(ctx))
-            add(statement)
+            addStatement("%L", statement)
             endControlFlow()
         }
     }
