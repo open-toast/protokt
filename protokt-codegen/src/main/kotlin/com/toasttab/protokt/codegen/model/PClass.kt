@@ -37,16 +37,6 @@ data class PClass(
                 { "${it.nestedName}.$simpleName" }
             )
 
-    fun renderName(pkg: PPackage) =
-        if (ppackage == pkg || ppackage == PPackage.fromString("kotlin")) {
-            enclosing.fold(
-                { simpleName },
-                { nestedName.substringAfter('.') }
-            )
-        } else {
-            qualifiedName
-        }
-
     fun qualify(pkg: PPackage): PClass {
         check(ppackage.default) {
             "cannot qualify non-default package class: $this, $pkg"
@@ -57,9 +47,6 @@ data class PClass(
             fromName(pkg.qualify(nestedName))
         }
     }
-
-    fun nest(name: String) =
-        PClass(name, ppackage, Some(this))
 
     fun toTypeName() =
         ClassName(ppackage.toString(), names())

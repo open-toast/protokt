@@ -15,8 +15,8 @@
 
 package com.toasttab.protokt.codegen.annotators
 
-import arrow.core.None
 import com.squareup.kotlinpoet.AnnotationSpec
+import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec
@@ -131,12 +131,12 @@ private constructor(
     private fun possiblyQualify(implements: String) =
         if (PClass.fromName(implements).ppackage == PPackage.DEFAULT) {
             if (implements in namespaceNeighbors()) {
-                PClass(implements, ctx.desc.kotlinPackage, None).qualifiedName
+                ClassName(ctx.desc.kotlinPackage.toString(), implements)
             } else {
-                implements
+                ClassName.bestGuess(implements)
             }
         } else {
-            implements
+            ClassName.bestGuess(implements)
         }
 
     private fun namespaceNeighbors() =
@@ -155,6 +155,6 @@ private constructor(
     )
 
     internal class Options(
-        val implements: String?
+        val implements: ClassName?
     )
 }

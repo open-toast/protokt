@@ -28,8 +28,7 @@ import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
 import com.toasttab.protokt.codegen.annotators.Annotator.Context
 import com.toasttab.protokt.codegen.impl.endControlFlowWithoutNewline
-import com.toasttab.protokt.codegen.model.PClass
-import com.toasttab.protokt.codegen.model.possiblyQualify
+import com.toasttab.protokt.codegen.impl.inferClassName
 import com.toasttab.protokt.codegen.protoc.Method
 import com.toasttab.protokt.codegen.protoc.Service
 import com.toasttab.protokt.codegen.util.decapitalize
@@ -144,23 +143,18 @@ internal object ServiceAnnotator {
     }
 
     private fun Method.requestMarshaller(ctx: Context): CodeBlock =
-        options.protokt.requestMarshaller.takeIf { it.isNotEmpty() }
-            ?.let {
-                PClass.fromName(options.protokt.requestMarshaller)
-                    .possiblyQualify(ctx.desc.kotlinPackage)
-                    .toTypeName()
-                    .let { CodeBlock.of("%T", it) }
-            } ?: CodeBlock.of("%T(%T)", KtMarshaller::class, inputType)
+        marshaller(options.protokt.requestMarshaller, ctx, inputType)
 
     private fun Method.responseMarshaller(ctx: Context): CodeBlock =
-        options.protokt.responseMarshaller.takeIf { it.isNotEmpty() }
+        marshaller(options.protokt.responseMarshaller, ctx, outputType)
+
+    private fun marshaller(string: String, ctx: Context, type: ClassName) =
+        string.takeIf { it.isNotEmpty() }
             ?.let {
-                PClass.fromName(options.protokt.responseMarshaller)
-                    .possiblyQualify(ctx.desc.kotlinPackage)
-                    .toTypeName()
+                inferClassName(string, ctx)
                     .let { CodeBlock.of("%T", it) }
             }
-            ?: CodeBlock.of("%T(%T)", KtMarshaller::class, outputType)
+            ?: CodeBlock.of("%T(%T)", KtMarshaller::class, type)
 
     private fun serviceLines(s: Service) =
         s.methods.map {

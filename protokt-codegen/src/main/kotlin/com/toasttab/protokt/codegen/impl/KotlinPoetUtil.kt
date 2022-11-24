@@ -15,12 +15,14 @@
 
 package com.toasttab.protokt.codegen.impl
 
+import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.MemberName
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeName
+import com.toasttab.protokt.codegen.annotators.Annotator.Context
 import kotlin.reflect.KClass
 
 fun String.embed() =
@@ -60,4 +62,13 @@ fun runtimeFunction(name: String) = MemberName("com.toasttab.protokt.rt", name)
 fun CodeBlock.Builder.endControlFlowWithoutNewline() {
     unindent()
     add("}")
+}
+
+fun inferClassName(className: String, ctx: Context): ClassName {
+    val inferred = ClassName.bestGuess(className)
+    return if (inferred.packageName == "") {
+        ClassName(ctx.desc.kotlinPackage.toString(), className.split("."))
+    } else {
+        inferred
+    }
 }

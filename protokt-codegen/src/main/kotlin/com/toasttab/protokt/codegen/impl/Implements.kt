@@ -44,9 +44,9 @@ internal object Implements {
             if (options.implements != null) {
                 // TODO: qualify this with the package or allow it to be literal?
                 if (v == null) {
-                    addSuperinterface(ClassName.bestGuess(options.implements))
+                    addSuperinterface(options.implements)
                 } else {
-                    addSuperinterface(ClassName.bestGuess(options.implements), v.fieldName)
+                    addSuperinterface(options.implements, v.fieldName)
                 }
             }
         }
