@@ -113,9 +113,9 @@ private constructor(
                         addStatement(
                             buildCodeBlock {
                                 add("return ")
-                                add(sizeOf(entryInfo.key, ctx).toCodeBlock())
+                                add(sizeOf(entryInfo.key, ctx))
                                 add(" + ")
-                                add(sizeOf(entryInfo.value, ctx).toCodeBlock())
+                                add(sizeOf(entryInfo.value, ctx))
                             }
                         )
                     }

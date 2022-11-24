@@ -26,8 +26,8 @@ import com.toasttab.protokt.codegen.impl.Wrapper.interceptSizeof
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
 import com.toasttab.protokt.codegen.impl.Wrapper.mapKeyConverter
 import com.toasttab.protokt.codegen.impl.Wrapper.mapValueConverter
-import com.toasttab.protokt.codegen.impl.add
 import com.toasttab.protokt.codegen.impl.addStatement
+import com.toasttab.protokt.codegen.impl.namedCodeBlock
 import com.toasttab.protokt.codegen.impl.runtimeFunction
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Oneof
@@ -132,11 +132,14 @@ private constructor(
             )
         ).let { s ->
             if (!o.hasNonNullOption) {
-                s.prepend("$resultVarName·+=")
+                buildCodeBlock {
+                    add("$resultVarName·+=")
+                    add(s)
+                }
             } else {
                 s
             }
-        }.toCodeBlock()
+        }
 
     companion object {
         fun annotateMessageSize(msg: Message, ctx: Context) =
@@ -146,7 +149,7 @@ private constructor(
             f: StandardField,
             ctx: Context,
             oneOfFieldAccess: String? = null
-        ): CodeBlockComponents {
+        ): CodeBlock {
             val name =
                 oneOfFieldAccess
                     ?: if (f.repeated) {
@@ -155,45 +158,37 @@ private constructor(
                         interceptSizeof(f, f.fieldName, ctx)
                     }
 
-            // allow results to be combined without arg collisions
-            fun suffix(arg: String) = "${arg}_${f.fieldName.replace("`", "")}"
-            val sizeof = suffix("sizeof")
-            val tag = suffix("tag")
-            val uInt32 = suffix("uInt32")
-            val boxedAccess = suffix("boxedAccess")
-            val access = suffix("access")
-
             return when {
                 f.map -> sizeOfMap(f, name, ctx)
                 f.repeated && f.packed -> {
-                    CodeBlockComponents(
-                        "%$sizeof:M(%$tag:T(${f.number})) + " +
-                            "$name.sumOf·{ %$sizeof:M(${f.box("it")}) }.let·{ it + %$sizeof:M(%$uInt32:T(it)) }",
+                    namedCodeBlock(
+                        "%sizeof:M(%tag:T(${f.number})) + " +
+                            "$name.sumOf·{ %sizeof:M(${f.box("it")}) }.let·{ it + %sizeof:M(%uInt32:T(it)) }",
                         mapOf(
-                            sizeof to runtimeFunction("sizeof"),
-                            tag to Tag::class,
-                            uInt32 to UInt32::class
+                            "sizeof" to runtimeFunction("sizeof"),
+                            "tag" to Tag::class,
+                            "uInt32" to UInt32::class
                         )
                     )
                 }
                 f.repeated -> {
-                    CodeBlockComponents(
-                        "(%$sizeof:M(%$tag:T(${f.number})) * $name.size) + " +
-                            "$name.sumOf·{ %$sizeof:M(%$boxedAccess:L) }",
+                    namedCodeBlock(
+                        "(%sizeof:M(%tag:T(${f.number})) * $name.size) + " +
+                            "$name.sumOf·{ %sizeof:M(%boxedAccess:L) }",
                         mapOf(
-                            sizeof to runtimeFunction("sizeof"),
-                            tag to Tag::class,
-                            boxedAccess to f.box(interceptValueAccess(f, ctx, "it"))
+                            "sizeof" to runtimeFunction("sizeof"),
+                            "tag" to Tag::class,
+                            "boxedAccess" to f.box(interceptValueAccess(f, ctx, "it"))
                         )
                     )
                 }
                 else -> {
-                    CodeBlockComponents(
-                        "%$sizeof:M(%$tag:T(${f.number})) + %$access:L",
+                    namedCodeBlock(
+                        "%sizeof:M(%tag:T(${f.number})) + %access:L",
                         mapOf(
-                            sizeof to runtimeFunction("sizeof"),
-                            tag to Tag::class,
-                            access to interceptFieldSizeof(f, name, ctx)
+                            "sizeof" to runtimeFunction("sizeof"),
+                            "tag" to Tag::class,
+                            "access" to interceptFieldSizeof(f, name, ctx)
                         )
                     )
                 }
@@ -204,18 +199,16 @@ private constructor(
             f: StandardField,
             name: String,
             ctx: Context
-        ): CodeBlockComponents {
+        ): CodeBlock {
             val key = mapKeyConverter(f, ctx)?.let { "$it.unwrap(k)" } ?: "k"
             val value = mapValueConverter(f, ctx)?.let { CodeBlock.of("$it.unwrap(v)") } ?: "v"
-            return CodeBlockComponents(
-                "%arg1:M($name, %arg2:T(${f.number})) { k, v -> %arg3:T.sizeof(%arg4:L, %arg5:L)}",
-                mapOf(
-                    "arg1" to runtimeFunction("sizeofMap"),
-                    "arg2" to Tag::class,
-                    "arg3" to f.typePClass.toTypeName(),
-                    "arg4" to key,
-                    "arg5" to value
-                )
+            return CodeBlock.of(
+                "%M($name, %T(${f.number})) { k, v -> %T.sizeof(%L, %L)}",
+                runtimeFunction("sizeofMap"),
+                Tag::class,
+                f.typePClass.toTypeName(),
+                key,
+                value
             )
         }
     }

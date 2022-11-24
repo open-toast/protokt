@@ -21,7 +21,6 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.MemberName
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeName
-import com.toasttab.protokt.codegen.annotators.CodeBlockComponents
 import kotlin.reflect.KClass
 
 fun String.embed() =
@@ -71,8 +70,4 @@ internal fun CodeBlock.Builder.addStatement(block: CodeBlock) {
     add("«")
     add(block)
     add("\n»")
-}
-
-internal fun CodeBlock.Builder.add(components: CodeBlockComponents) {
-    add(components.toCodeBlock())
 }
