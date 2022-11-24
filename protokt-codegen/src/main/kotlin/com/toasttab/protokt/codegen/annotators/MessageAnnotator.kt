@@ -23,6 +23,7 @@ import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
+import com.squareup.kotlinpoet.buildCodeBlock
 import com.toasttab.protokt.codegen.annotators.Annotator.Context
 import com.toasttab.protokt.codegen.annotators.Annotator.annotate
 import com.toasttab.protokt.codegen.annotators.DeserializerAnnotator.Companion.annotateDeserializer
@@ -38,7 +39,6 @@ import com.toasttab.protokt.codegen.impl.Deprecation.enclosingDeprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.handleDeprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.hasDeprecation
 import com.toasttab.protokt.codegen.impl.Implements.handleSuperInterface
-import com.toasttab.protokt.codegen.impl.bindMargin
 import com.toasttab.protokt.codegen.impl.bindSpaces
 import com.toasttab.protokt.codegen.impl.embed
 import com.toasttab.protokt.codegen.protoc.Message
@@ -156,20 +156,20 @@ private constructor(
                 .addParameter("other", Any::class.asTypeName().copy(nullable = true))
                 .addCode(
                     if (properties.isEmpty()) {
-                        "return other is ${msg.name} && other.unknownFields == unknownFields".bindSpaces()
+                        CodeBlock.of("return other is ${msg.name} && other.unknownFields == unknownFields".bindSpaces())
                     } else {
-                        """
-                            |return other is ${msg.name} &&
-                            |${equalsLines(properties)}
-                            |    other.unknownFields == unknownFields
-                        """.bindMargin()
+                        buildCodeBlock {
+                            add("return other is ${msg.name} &&\n".bindSpaces())
+                            equalsLines(properties).forEach(::add)
+                            add("other.unknownFields == unknownFields".bindSpaces())
+                        }
                     }
                 )
                 .build()
         )
 
     private fun equalsLines(properties: List<PropertyInfo>) =
-        properties.joinToString("\n") { "    other.${it.name} == ${it.name} &&" }
+        properties.map { "other.${it.name} == ${it.name} &&\n".bindSpaces() }
 
     private fun TypeSpec.Builder.handleHashCode(
         properties: List<PropertyInfo>
@@ -180,22 +180,20 @@ private constructor(
                 .addModifiers(KModifier.OVERRIDE)
                 .addCode(
                     if (properties.isEmpty()) {
-                        "return unknownFields.hashCode()"
+                        CodeBlock.of("return unknownFields.hashCode()")
                     } else {
-                        """
-                            |var result = unknownFields.hashCode()
-                            |${hashCodeLines(properties)}
-                            |return result
-                        """.bindMargin()
+                        buildCodeBlock {
+                            addStatement("var result = unknownFields.hashCode()")
+                            hashCodeLines(properties).forEach(::addStatement)
+                            addStatement("return result")
+                        }
                     }
                 )
                 .build()
         )
 
     private fun hashCodeLines(properties: List<PropertyInfo>) =
-        properties.joinToString("\n") {
-            "result = 31 * result + ${it.name}.hashCode()"
-        }.bindSpaces()
+        properties.map { "result = 31 * result + ${it.name}.hashCode()".bindSpaces() }
 
     private fun TypeSpec.Builder.handleToString(
         properties: List<PropertyInfo>
@@ -206,22 +204,20 @@ private constructor(
                 .addModifiers(KModifier.OVERRIDE)
                 .addCode(
                     if (properties.isEmpty()) {
-                        "return \"${msg.name}(unknownFields=\$unknownFields)\""
+                        CodeBlock.of("return \"${msg.name}(unknownFields=\$unknownFields)\"")
                     } else {
-                        """
-                            |return "${msg.name}(" +
-                            |${toStringLines(properties)}
-                            |    "unknownFields=${"$"}unknownFields)"
-                        """.bindMargin()
+                        buildCodeBlock {
+                            add("return \"${msg.name}(\" +\n")
+                            toStringLines(properties).forEach(::add)
+                            add("\"unknownFields=${"$"}unknownFields)\"")
+                        }
                     }
                 )
                 .build()
         )
 
     private fun toStringLines(properties: List<PropertyInfo>) =
-        properties.joinToString("\n") {
-            "    \"${it.name}=\$${it.name}, \" +"
-        }.bindSpaces()
+        properties.map { "\"${it.name}=\$${it.name}, \" +\n".bindSpaces() }
 
     private fun suppressDeprecation() =
         msg.hasDeprecation && (!enclosingDeprecation(ctx) || messageIsTopLevel())
