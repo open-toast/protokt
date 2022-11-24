@@ -26,11 +26,10 @@ import com.toasttab.protokt.codegen.annotators.MessageSizeAnnotator.Companion.si
 import com.toasttab.protokt.codegen.annotators.PropertyAnnotator.Companion.annotateProperties
 import com.toasttab.protokt.codegen.annotators.PropertyAnnotator.PropertyInfo
 import com.toasttab.protokt.codegen.annotators.SerializerAnnotator.Companion.serialize
-import com.toasttab.protokt.codegen.impl.addCode
+import com.toasttab.protokt.codegen.impl.addStatement
 import com.toasttab.protokt.codegen.impl.bindSpaces
 import com.toasttab.protokt.codegen.impl.buildFunSpec
 import com.toasttab.protokt.codegen.impl.constructorProperty
-import com.toasttab.protokt.codegen.impl.namedCodeBlock
 import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.StandardField
@@ -39,6 +38,7 @@ import com.toasttab.protokt.rt.AbstractKtMessage
 import com.toasttab.protokt.rt.KtMessage
 import com.toasttab.protokt.rt.KtMessageDeserializer
 import com.toasttab.protokt.rt.KtMessageSerializer
+import kotlin.reflect.KProperty0
 
 class MapEntryAnnotator
 private constructor(
@@ -85,13 +85,12 @@ private constructor(
 
     private fun TypeSpec.Builder.addSerialize() {
         addFunction(
-            FunSpec.builder("serialize")
-                .addModifiers(KModifier.OVERRIDE)
-                .addParameter("serializer", KtMessageSerializer::class)
-                .addCode(serialize(entryInfo.key, ctx))
-                .addCode("\n")
-                .addCode(serialize(entryInfo.value, ctx))
-                .build()
+            buildFunSpec("serialize") {
+                addModifiers(KModifier.OVERRIDE)
+                addParameter("serializer", KtMessageSerializer::class)
+                addCode(serialize(entryInfo.key, ctx))
+                addCode(serialize(entryInfo.value, ctx))
+            }
         )
     }
 
@@ -106,31 +105,26 @@ private constructor(
                         .parameterizedBy(msg.typeName)
                 )
                 .addFunction(
-                    FunSpec.builder("sizeof")
-                        .addParameter("key", keyPropertyType)
-                        .addParameter("value", valPropertyType)
-                        .addCode(
+                    buildFunSpec("sizeof") {
+                        addParameter("key", keyPropertyType)
+                        addParameter("value", valPropertyType)
+                        addStatement(
                             CodeBlockComponents("return ") +
                                 sizeOf(entryInfo.key, ctx).append(" + ") +
                                 sizeOf(entryInfo.value, ctx)
                         )
-                        .build()
+                    }
                 )
                 .addFunction(
                     buildFunSpec("deserialize") {
                         addModifiers(KModifier.OVERRIDE)
                         addParameter("deserializer", KtMessageDeserializer::class)
                         returns(msg.typeName)
-                        addStatement("var key${deserializeVar(entryInfo.key, propInfo.single { entryInfo.key.fieldName == it.name })}")
-                        addStatement("var value${deserializeVar(entryInfo.value, propInfo.single { entryInfo.value.fieldName == it.name })}")
+                        addStatement(deserializeVar(propInfo, entryInfo::key))
+                        addStatement(deserializeVar(propInfo, entryInfo::value))
                         beginControlFlow("while (true)")
                         beginControlFlow("when(deserializer.readTag())")
-                        addCode(
-                            namedCodeBlock(
-                                "0 -> return ${msg.name}(key, value${orDefault(entryInfo.value)})",
-                                mapOf("valueClassDsl" to entryInfo.value.typePClass.nest("${valPropertyType.simpleName}Dsl").toTypeName())
-                            )
-                        )
+                        addStatement(constructOnZero(entryInfo.value))
                         addStatement("${entryInfo.key.tag.value} -> key = ${deserializeString(entryInfo.key, ctx, false)}")
                         addStatement("${entryInfo.value.tag.value} -> value = ${deserializeString(entryInfo.value, ctx, false)}")
                         endControlFlow()
@@ -141,19 +135,31 @@ private constructor(
         )
     }
 
-    private fun deserializeVar(f: StandardField, p: PropertyInfo) =
-        if (f.type == FieldType.MESSAGE) {
-            ": " + p.deserializeType
-        } else {
-            ""
-        } + " = " + deserializeValue(p)
+    private fun deserializeVar(propInfo: List<PropertyInfo>, accessor: KProperty0<StandardField>): CodeBlockComponents {
+        val field = accessor.get()
+        val prop = propInfo.single { it.name == field.fieldName }
 
-    private fun orDefault(f: StandardField) =
-        if (f.type == FieldType.MESSAGE) {
-            " ?: %valueClassDsl:T().build()"
-        } else {
-            ""
-        }
+        return CodeBlockComponents(
+            "var ${accessor.name}" +
+                if (field.type == FieldType.MESSAGE) {
+                    ": %deserType:T"
+                } else {
+                    ""
+                } + " = " + deserializeValue(prop),
+            mapOf("deserType" to prop.deserializeType)
+        )
+    }
+
+    private fun constructOnZero(f: StandardField) =
+        CodeBlockComponents(
+            "0 -> return ${msg.name}(key, value" +
+                if (f.type == FieldType.MESSAGE) {
+                    " ?: %valueClassDsl:T().build()"
+                } else {
+                    ""
+                } + ")",
+            mapOf("valueClassDsl" to entryInfo.value.typePClass.nest("${valPropertyType.simpleName}Dsl").toTypeName())
+        )
 
     companion object {
         fun annotateMapEntry(msg: Message, ctx: Context) =

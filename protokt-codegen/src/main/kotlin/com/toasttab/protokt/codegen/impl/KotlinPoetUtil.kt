@@ -63,3 +63,19 @@ fun runtimeFunction(name: String) = MemberName("com.toasttab.protokt.rt", name)
 
 internal fun FunSpec.Builder.addCode(components: CodeBlockComponents) =
     addCode(components.toCodeBlock())
+
+internal fun FunSpec.Builder.addStatement(components: CodeBlockComponents) {
+    addCode("«")
+    addCode(components)
+    addCode("\n»")
+}
+
+internal fun CodeBlock.Builder.addStatement(block: CodeBlock) {
+    add("«")
+    add(block)
+    add("\n»")
+}
+
+internal fun CodeBlock.Builder.add(components: CodeBlockComponents) {
+    add(components.toCodeBlock())
+}

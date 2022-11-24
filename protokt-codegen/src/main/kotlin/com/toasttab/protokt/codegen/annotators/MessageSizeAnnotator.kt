@@ -26,6 +26,8 @@ import com.toasttab.protokt.codegen.impl.Wrapper.interceptSizeof
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
 import com.toasttab.protokt.codegen.impl.Wrapper.mapKeyConverter
 import com.toasttab.protokt.codegen.impl.Wrapper.mapValueConverter
+import com.toasttab.protokt.codegen.impl.add
+import com.toasttab.protokt.codegen.impl.addStatement
 import com.toasttab.protokt.codegen.impl.runtimeFunction
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Oneof
@@ -52,13 +54,9 @@ private constructor(
             msg.fields.map {
                 when (it) {
                     is StandardField -> {
-                        val addFieldSize =
-                            sizeOf(it, ctx)
-                                .prepend("$resultVarName +=")
-                                .append("\n") // TODO: Not sure why this is needed
-                                .toCodeBlock()
+                        val addFieldSize = CodeBlockComponents("$resultVarName +=") + sizeOf(it, ctx)
                         if (it.hasNonNullOption) {
-                            addFieldSize
+                            addFieldSize.toCodeBlock()
                         } else {
                             buildCodeBlock {
                                 beginControlFlow("if·${it.nonDefault(ctx)}")
@@ -89,7 +87,7 @@ private constructor(
                 } else {
                     buildCodeBlock {
                         addStatement("var·$resultVarName·=·0")
-                        fieldSizes.forEach { fs -> add(fs) }
+                        fieldSizes.forEach { fs -> addStatement(fs) }
                         addStatement("$resultVarName·+=·unknownFields.size()")
                         addStatement("return·$resultVarName")
                     }
@@ -112,9 +110,7 @@ private constructor(
                 if (f.hasNonNullOption) {
                     it
                 } else {
-                    it + buildCodeBlock {
-                        addStatement("null·-> Unit")
-                    }
+                    it + CodeBlock.of("null·-> Unit")
                 }
             }
 
