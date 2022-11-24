@@ -249,7 +249,7 @@ private fun StandardField.readFn() =
         else -> buildCodeBlock {
             add("read${type.name.lowercase().capitalize()}(")
             if (type == FieldType.ENUM || type == FieldType.MESSAGE) {
-                add("%T", typePClass.toTypeName())
+                add("%T", className)
             }
             add(")")
         }

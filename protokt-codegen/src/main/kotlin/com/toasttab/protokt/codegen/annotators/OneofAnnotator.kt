@@ -22,7 +22,6 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
-import com.squareup.kotlinpoet.TypeVariableName
 import com.toasttab.protokt.codegen.annotators.Annotator.Context
 import com.toasttab.protokt.codegen.annotators.PropertyDocumentationAnnotator.Companion.annotatePropertyDocumentation
 import com.toasttab.protokt.codegen.impl.Deprecation
@@ -55,7 +54,7 @@ private constructor(
                     types.map { (k, v) ->
                         TypeSpec.classBuilder(k)
                             .addModifiers(KModifier.DATA)
-                            .superclass(it.typeName)
+                            .superclass(it.className)
                             .apply {
                                 if (v.documentation.isNotEmpty()) {
                                     addKdoc(formatDoc(v.documentation))
@@ -96,30 +95,17 @@ private constructor(
 
     private fun oneof(f: Oneof, ff: StandardField) =
         f.fieldTypeNames.getValue(ff.fieldName).let { oneofFieldTypeName ->
-            oneofFieldTypeName to info(ff, oneofFieldTypeName)
+            oneofFieldTypeName to info(ff)
         }
 
-    private fun info(
-        f: StandardField,
-        oneofFieldTypeName: String
-    ) =
+    private fun info(f: StandardField) =
         Info(
             fieldName = f.fieldName,
             type =
             if (f.wrapped) {
-                interceptTypeName(
-                    f,
-                    TypeVariableName(
-                        inferOneofFieldTypeName(
-                            ctx,
-                            f,
-                            oneofFieldTypeName
-                        )
-                    ),
-                    ctx
-                )
+                interceptTypeName(f, f.className, ctx)
             } else {
-                f.typePClass.toTypeName()
+                f.className
             },
             documentation = annotatePropertyDocumentation(f, ctx),
             deprecation = deprecation(f)
@@ -133,34 +119,6 @@ private constructor(
         } else {
             null
         }
-
-    // TODO: this should be removed and TypeNames should be inferred during Protocol construction
-    private fun inferOneofFieldTypeName(
-        ctx: Context,
-        f: StandardField,
-        oneofFieldTypeName: String
-    ): String {
-        val pClass = f.typePClass
-
-        // Cannot strip qualifiers for field type in a different package
-        // See testing/runtime-tests/src/main/proto/com/toasttab/protokt/testing/rt/oneof/oneof_packages.proto
-        val requiresQualifiedTypeName = pClass.ppackage != ctx.desc.kotlinPackage
-
-        return if (requiresQualifiedTypeName) {
-            pClass.renderName(ctx.desc.kotlinPackage)
-        } else {
-            // See testing/runtime-tests/src/main/proto/com/toasttab/protokt/testing/rt/oneof/oneof_exercises.proto
-            if (oneofFieldTypeName == pClass.simpleName) {
-                if (oneofFieldTypeName == pClass.nestedName) {
-                    pClass.qualifiedName
-                } else {
-                    pClass.nestedName
-                }
-            } else {
-                pClass.simpleName
-            }
-        }
-    }
 
     private fun options(oneof: Oneof) =
         Options(

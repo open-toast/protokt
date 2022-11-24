@@ -66,7 +66,7 @@ internal object Wrapper {
             ifEmpty
         ) {
             ifSome(
-                getClass(PClass.fromName(it).possiblyQualify(pkg), ctx),
+                getClass(PClass.fromName(it).possiblyQualify(pkg).toTypeName(), ctx),
                 protoTypeName.emptyToNone().fold(
                     {
                         // Protobuf primitives have no typeName
@@ -75,7 +75,7 @@ internal object Wrapper {
                                 "$fieldName: $type"
                         }
                     },
-                    { getClass(typePClass, ctx) }
+                    { getClass(className, ctx) }
                 )
             )
         }

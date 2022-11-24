@@ -71,10 +71,7 @@ internal object ServiceAnnotator {
                                 "_" + method.name.decapitalize() + "Method",
                                 MethodDescriptor::class
                                     .asTypeName()
-                                    .parameterizedBy(
-                                        method.inputType.toTypeName(),
-                                        method.outputType.toTypeName()
-                                    )
+                                    .parameterizedBy(method.inputType, method.outputType)
                             )
                                 .addModifiers(KModifier.PRIVATE)
                                 .delegate(
@@ -83,8 +80,8 @@ internal object ServiceAnnotator {
                                         add(
                                             "%M<%T,·%T>()\n",
                                             MemberName(MethodDescriptor::class.asTypeName(), "newBuilder"),
-                                            method.inputType.toTypeName(),
-                                            method.outputType.toTypeName()
+                                            method.inputType,
+                                            method.outputType
                                         )
                                         withIndent {
                                             add(
@@ -153,12 +150,7 @@ internal object ServiceAnnotator {
                     .possiblyQualify(ctx.desc.kotlinPackage)
                     .toTypeName()
                     .let { CodeBlock.of("%T", it) }
-            }
-            ?: CodeBlock.of(
-                "%T(%T)",
-                KtMarshaller::class,
-                inputType.toTypeName()
-            )
+            } ?: CodeBlock.of("%T(%T)", KtMarshaller::class, inputType)
 
     private fun Method.responseMarshaller(ctx: Context): CodeBlock =
         options.protokt.responseMarshaller.takeIf { it.isNotEmpty() }
@@ -168,11 +160,7 @@ internal object ServiceAnnotator {
                     .toTypeName()
                     .let { CodeBlock.of("%T", it) }
             }
-            ?: CodeBlock.of(
-                "%T(%T)",
-                KtMarshaller::class,
-                outputType.toTypeName()
-            )
+            ?: CodeBlock.of("%T(%T)", KtMarshaller::class, outputType)
 
     private fun serviceLines(s: Service) =
         s.methods.map {

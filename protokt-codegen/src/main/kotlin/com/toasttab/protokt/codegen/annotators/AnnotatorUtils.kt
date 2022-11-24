@@ -33,8 +33,8 @@ fun resolveMapEntry(m: Message) =
 fun resolveMapEntryTypes(f: StandardField, ctx: Context) =
     f.mapEntry!!.let {
         MapTypeParams(
-            interceptMapKeyTypeName(f, it.key.typePClass.toTypeName(), ctx)!!,
-            interceptMapValueTypeName(f, it.value.typePClass.toTypeName(), ctx)!!
+            interceptMapKeyTypeName(f, it.key.className, ctx)!!,
+            interceptMapValueTypeName(f, it.value.className, ctx)!!
         )
     }
 
@@ -44,4 +44,4 @@ class MapTypeParams(
 )
 
 internal fun Oneof.qualify(f: StandardField) =
-    typeName.nestedClass(fieldTypeNames.getValue(f.fieldName))
+    className.nestedClass(fieldTypeNames.getValue(f.fieldName))

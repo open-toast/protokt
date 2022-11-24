@@ -47,8 +47,8 @@ private constructor(
     private val ctx: Context
 ) {
     private val entryInfo = resolveMapEntry(msg)
-    private val keyPropertyType = entryInfo.key.typePClass.toTypeName()
-    private val valPropertyType = entryInfo.value.typePClass.toTypeName()
+    private val keyPropertyType = entryInfo.key.className
+    private val valPropertyType = entryInfo.value.className
 
     private fun annotateMapEntry() =
         TypeSpec.classBuilder(msg.name).apply {
@@ -164,7 +164,7 @@ private constructor(
                 } else {
                     ""
                 } + ")",
-            entryInfo.value.typePClass.toTypeName().nestedClass("${valPropertyType.simpleName}Dsl")
+            entryInfo.value.className.nestedClass("${valPropertyType.simpleName}Dsl")
         )
 
     companion object {

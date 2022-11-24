@@ -49,9 +49,9 @@ internal object Nullability {
 
     fun propertyType(o: Oneof) =
         if (o.hasNonNullOption) {
-            o.typeName
+            o.className
         } else {
-            o.typeName.copy(nullable = true)
+            o.className.copy(nullable = true)
         }
 
     fun propertyType(f: StandardField, type: TypeName) =

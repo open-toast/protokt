@@ -30,6 +30,7 @@ import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.google.protobuf.DescriptorProtos.OneofDescriptorProto
 import com.google.protobuf.DescriptorProtos.ServiceDescriptorProto
 import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.asTypeName
 import com.toasttab.protokt.codegen.annotators.Annotator.rootGoogleProto
 import com.toasttab.protokt.codegen.annotators.resolveMapEntry
 import com.toasttab.protokt.codegen.impl.overrideGoogleProtobuf
@@ -318,7 +319,7 @@ private fun toOneof(
     val name = newTypeNameFromCamel(oneof.name, typeNames)
     return Oneof(
         name = name,
-        typeName = ClassName(pkg.toString(), enclosingMessages + name),
+        className = ClassName(pkg.toString(), enclosingMessages + name),
         fieldTypeNames = standardTuple.first,
         fieldName = newName,
         fields = standardTuple.third,
@@ -359,7 +360,7 @@ private fun toStandard(
             fieldName = newFieldName(fdp.name, usedFieldNames),
             options = FieldOptions(fdp.options, protoktOptions),
             protoTypeName = fdp.typeName,
-            typePClass = typePClass(fdp.typeName, ctx, type),
+            className = typeName(fdp.typeName, ctx, type),
             index = idx
         )
     }
@@ -475,11 +476,11 @@ private fun findMapEntry(
     }
 }
 
-private fun typePClass(
+private fun typeName(
     protoTypeName: String,
     ctx: ProtocolContext,
     fieldType: FieldType
-): PClass {
+): ClassName {
     val fullyProtoQualified = protoTypeName.startsWith(".")
 
     return if (fullyProtoQualified) {
@@ -487,15 +488,15 @@ private fun typePClass(
     } else {
         newTypeNameFromPascal(protoTypeName).let {
             if (it.isEmpty()) {
-                PClass.fromClass(fieldType.protoktFieldType)
+                fieldType.protoktFieldType.asTypeName()
             } else {
-                PClass.fromName(it)
+                ClassName.bestGuess(it)
             }
         }
     }
 }
 
-private fun requalifyProtoType(typeName: String, ctx: ProtocolContext): PClass {
+private fun requalifyProtoType(typeName: String, ctx: ProtocolContext): ClassName {
     val withOverriddenGoogleProtoPackage =
         PClass.fromName(
             overrideGoogleProtobuf(typeName.removePrefix("."), rootGoogleProto)
@@ -514,5 +515,5 @@ private fun requalifyProtoType(typeName: String, ctx: ProtocolContext): PClass {
         ).qualify(ctx.allPackagesByTypeName.getValue(typeName))
     } else {
         withOverriddenReservedName
-    }
+    }.toTypeName()
 }

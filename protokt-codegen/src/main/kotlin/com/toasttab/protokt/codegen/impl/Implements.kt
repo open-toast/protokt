@@ -34,8 +34,8 @@ internal object Implements {
             ?.let { classIncludesProperty(it, fieldName, ctx) }
             ?: false
 
-    private fun classIncludesProperty(pClass: PClass, prop: String, ctx: Context) =
-        getClass(pClass, ctx.desc.context)
+    private fun classIncludesProperty(className: ClassName, prop: String, ctx: Context) =
+        getClass(className, ctx.desc.context)
             .members.map { m -> m.name }
             .contains(prop)
 
@@ -61,7 +61,7 @@ internal object Implements {
                         msg.options.protokt.implements.substringAfter(" by ")
                     )
                 } else {
-                    addSuperinterface(msg.superInterface(ctx)!!.toTypeName())
+                    addSuperinterface(msg.superInterface(ctx)!!)
                 }
             }
         }
@@ -72,7 +72,7 @@ internal object Implements {
     private fun Message.superInterface(ctx: Context) =
         options.protokt.implements.let {
             if (it.isNotEmpty() && !it.delegates()) {
-                PClass.fromName(it).possiblyQualify(ctx.desc.kotlinPackage)
+                PClass.fromName(it).possiblyQualify(ctx.desc.kotlinPackage).toTypeName()
             } else {
                 null
             }

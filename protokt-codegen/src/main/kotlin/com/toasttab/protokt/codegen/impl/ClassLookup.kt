@@ -18,7 +18,7 @@ package com.toasttab.protokt.codegen.impl
 import arrow.core.Either
 import arrow.core.getOrHandle
 import arrow.core.memoize
-import com.toasttab.protokt.codegen.model.PClass
+import com.squareup.kotlinpoet.ClassName
 import com.toasttab.protokt.codegen.protoc.ProtocolContext
 import com.toasttab.protokt.ext.Converter
 import java.io.File
@@ -26,16 +26,16 @@ import java.net.URLClassLoader
 
 internal object ClassLookup {
     val getClass =
-        { pClass: PClass, ctx: ProtocolContext ->
-            fun loadClass(pClass: PClass) =
+        { className: ClassName, ctx: ProtocolContext ->
+            fun loadClass(className: ClassName) =
                 Either.catchingAll {
                     getClassLoader(ctx.classpath)
-                        .loadClass(pClass.qualifiedName)
+                        .loadClass(className.canonicalName)
                         .kotlin
                 }
 
-            loadClass(pClass).getOrHandle {
-                throw Exception("Class not found: ${pClass.qualifiedName}")
+            loadClass(className).getOrHandle {
+                throw Exception("Class not found: ${className.canonicalName}")
             }
         }.memoize()
 

@@ -20,7 +20,6 @@ import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
 import com.toasttab.protokt.codegen.model.FieldType
-import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.model.computeTag
 import com.toasttab.protokt.ext.Protokt
@@ -90,8 +89,8 @@ class ServiceOptions(
 
 class Method(
     val name: String,
-    val inputType: PClass,
-    val outputType: PClass,
+    val inputType: ClassName,
+    val outputType: ClassName,
     val clientStreaming: Boolean,
     val serverStreaming: Boolean,
     val deprecated: Boolean,
@@ -111,7 +110,7 @@ class StandardField(
     val number: Int,
     override val fieldName: String,
     val type: FieldType,
-    val typePClass: PClass,
+    val className: ClassName,
     val repeated: Boolean,
     val optional: Boolean,
     val packed: Boolean,
@@ -126,7 +125,7 @@ class StandardField(
 
 class Oneof(
     val name: String,
-    val typeName: ClassName,
+    val className: ClassName,
     override val fieldName: String,
     val fields: List<StandardField>,
     val fieldTypeNames: Map<String, String>,

@@ -77,6 +77,10 @@ tasks.named<Test>("jvmTest") {
 // awkward that we have to apply the plugin after source sets are configured
 apply<ProtoktPlugin>()
 
+configure<com.toasttab.protokt.gradle.ProtoktExtension> {
+    lintOutput = false // https://github.com/pinterest/ktlint/issues/1195
+}
+
 dependencies {
     protoktExtensions("com.toasttab.protokt:protokt-extensions:$version")
 }

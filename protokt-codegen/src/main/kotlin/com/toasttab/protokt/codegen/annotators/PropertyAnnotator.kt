@@ -91,8 +91,8 @@ private constructor(
                     PropertyInfo(
                         name = it.fieldName,
                         propertyType = propertyType(it),
-                        deserializeType = it.typeName.copy(nullable = true),
-                        dslPropertyType = it.typeName.copy(nullable = true),
+                        deserializeType = it.className.copy(nullable = true),
+                        dslPropertyType = it.className.copy(nullable = true),
                         defaultValue = it.defaultValue(ctx),
                         oneof = true,
                         nullable = it.nullable,
@@ -119,7 +119,7 @@ private constructor(
                 .asTypeName()
                 .parameterizedBy(mapTypes.kType, mapTypes.vType)
         } else {
-            val parameter = interceptTypeName(f, f.typePClass.toTypeName(), ctx)
+            val parameter = interceptTypeName(f, f.className, ctx)
 
             if (f.repeated) {
                 List::class.asTypeName().parameterizedBy(parameter)
@@ -137,7 +137,7 @@ private constructor(
                         map -> CodeBlock.of("emptyMap()")
                         repeated -> CodeBlock.of("emptyList()")
                         type == FieldType.MESSAGE -> CodeBlock.of("null")
-                        type == FieldType.ENUM -> CodeBlock.of("%T.from(0)", typePClass.toTypeName())
+                        type == FieldType.ENUM -> CodeBlock.of("%T.from(0)", className)
                         nullable -> CodeBlock.of("null")
                         else -> type.defaultValue
                     },

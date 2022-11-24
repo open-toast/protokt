@@ -176,12 +176,7 @@ private constructor(
                     Tag::class
                 )
                 indent()
-                add(
-                    "%T.sizeof(%L, %L)\n",
-                    f.typePClass.toTypeName(),
-                    key,
-                    value
-                )
+                add("%T.sizeof(%L, %L)\n", f.className, key, value)
                 endControlFlowWithoutNewline()
             }
         }

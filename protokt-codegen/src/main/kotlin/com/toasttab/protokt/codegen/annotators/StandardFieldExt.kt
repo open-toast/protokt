@@ -90,7 +90,7 @@ internal fun StandardField.boxMap(ctx: Context): CodeBlock {
             ?.let { CodeBlock.of("%T.unwrap(it.value)", it) }
             ?: CodeBlock.of("it.value")
 
-    return CodeBlock.of("%T(%L, %L)", typePClass.toTypeName(), keyParam, valParam)
+    return CodeBlock.of("%T(%L, %L)", className, keyParam, valParam)
 }
 
 internal fun StandardField.box(s: CodeBlock) =

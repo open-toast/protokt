@@ -20,6 +20,10 @@ plugins {
     id("com.toasttab.protokt")
 }
 
+protokt {
+    lintOutput = false // https://github.com/pinterest/ktlint/issues/1195
+}
+
 tasks {
     withType<Test> {
         useJUnitPlatform()
