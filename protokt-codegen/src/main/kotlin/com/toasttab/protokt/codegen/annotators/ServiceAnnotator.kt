@@ -55,7 +55,10 @@ internal object ServiceAnnotator {
                             .delegate(
                                 buildCodeBlock {
                                     beginControlFlow("lazy")
-                                    add("ServiceDescriptor.newBuilder(SERVICE_NAME)\n")
+                                    add(
+                                        "%M(SERVICE_NAME)\n",
+                                        MemberName(ServiceDescriptor::class.asTypeName(), "newBuilder")
+                                    )
                                     withIndent { serviceLines(s).forEach(::add) }
                                     endControlFlowWithoutNewline()
                                 }
@@ -78,7 +81,8 @@ internal object ServiceAnnotator {
                                     buildCodeBlock {
                                         beginControlFlow("lazy")
                                         add(
-                                            "MethodDescriptor.newBuilder<%T,·%T>()\n",
+                                            "%M<%T,·%T>()\n",
+                                            MemberName(MethodDescriptor::class.asTypeName(), "newBuilder"),
                                             method.inputType.toTypeName(),
                                             method.outputType.toTypeName()
                                         )
