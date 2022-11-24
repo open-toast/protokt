@@ -22,8 +22,8 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.PPackage
+import com.toasttab.protokt.codegen.model.computeTag
 import com.toasttab.protokt.ext.Protokt
-import com.toasttab.protokt.rt.computeTag
 
 sealed class TopLevelType {
     abstract val name: String

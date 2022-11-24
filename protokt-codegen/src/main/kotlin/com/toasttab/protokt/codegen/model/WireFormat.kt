@@ -13,8 +13,21 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.rt
+package com.toasttab.protokt.codegen.model
 
+import com.toasttab.protokt.rt.Bytes
+import com.toasttab.protokt.rt.Fixed32
+import com.toasttab.protokt.rt.Fixed64
+import com.toasttab.protokt.rt.Int32
+import com.toasttab.protokt.rt.Int64
+import com.toasttab.protokt.rt.KtEnum
+import com.toasttab.protokt.rt.KtMessage
+import com.toasttab.protokt.rt.SFixed32
+import com.toasttab.protokt.rt.SFixed64
+import com.toasttab.protokt.rt.SInt32
+import com.toasttab.protokt.rt.SInt64
+import com.toasttab.protokt.rt.UInt32
+import com.toasttab.protokt.rt.UInt64
 import kotlin.reflect.KClass
 
 private val TYPE_0 by lazy {

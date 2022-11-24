@@ -18,7 +18,6 @@ package com.toasttab.protokt.codegen.model
 import com.toasttab.protokt.rt.Bytes
 import com.toasttab.protokt.rt.KtEnum
 import com.toasttab.protokt.rt.KtMessage
-import com.toasttab.protokt.rt.wireType
 import kotlin.reflect.KClass
 import kotlin.reflect.full.declaredMemberProperties
 
