@@ -15,12 +15,14 @@
 
 package com.toasttab.protokt.codegen.annotators
 
+import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
+import com.squareup.kotlinpoet.buildCodeBlock
 import com.toasttab.protokt.codegen.annotators.Annotator.Context
 import com.toasttab.protokt.codegen.annotators.MessageSizeAnnotator.Companion.sizeOf
 import com.toasttab.protokt.codegen.annotators.PropertyAnnotator.Companion.annotateProperties
@@ -125,8 +127,18 @@ private constructor(
                         beginControlFlow("while (true)")
                         beginControlFlow("when(deserializer.readTag())")
                         addStatement(constructOnZero(entryInfo.value))
-                        addStatement(CodeBlockComponents("${entryInfo.key.tag.value} -> key = ") + deserialize(entryInfo.key, ctx, false))
-                        addStatement(CodeBlockComponents("${entryInfo.value.tag.value} -> value = ") + deserialize(entryInfo.value, ctx, false))
+                        addStatement(
+                            buildCodeBlock {
+                                add(CodeBlockComponents("${entryInfo.key.tag.value} -> key = ").toCodeBlock())
+                                add(deserialize(entryInfo.key, ctx, false))
+                            }
+                        )
+                        addStatement(
+                            buildCodeBlock {
+                                add(CodeBlockComponents("${entryInfo.value.tag.value} -> value = ").toCodeBlock())
+                                add(deserialize(entryInfo.value, ctx, false))
+                            }
+                        )
                         endControlFlow()
                         endControlFlow()
                     }
@@ -135,19 +147,24 @@ private constructor(
         )
     }
 
-    private fun deserializeVar(propInfo: List<PropertyInfo>, accessor: KProperty0<StandardField>): CodeBlockComponents {
+    private fun deserializeVar(propInfo: List<PropertyInfo>, accessor: KProperty0<StandardField>): CodeBlock {
         val field = accessor.get()
         val prop = propInfo.single { it.name == field.fieldName }
 
-        return CodeBlockComponents(
-            "var ${accessor.name}" +
-                if (field.type == FieldType.MESSAGE) {
-                    ": %deserType:T"
-                } else {
-                    ""
-                } + " = " + deserializeValue(prop),
-            mapOf("deserType" to prop.deserializeType)
-        )
+        return buildCodeBlock {
+            add(
+                CodeBlockComponents(
+                    "var ${accessor.name}" +
+                        if (field.type == FieldType.MESSAGE) {
+                            ": %deserType:T"
+                        } else {
+                            ""
+                        } + " = ",
+                    mapOf("deserType" to prop.deserializeType)
+                ).toCodeBlock()
+            )
+            add(deserializeValue(prop))
+        }
     }
 
     private fun constructOnZero(f: StandardField) =
@@ -158,7 +175,7 @@ private constructor(
                 } else {
                     ""
                 } + ")",
-            mapOf("valueClassDsl" to entryInfo.value.typePClass.nest("${valPropertyType.simpleName}Dsl").toTypeName())
+            mapOf("valueClassDsl" to entryInfo.value.typePClass.toTypeName().nestedClass("${valPropertyType.simpleName}Dsl"))
         )
 
     companion object {

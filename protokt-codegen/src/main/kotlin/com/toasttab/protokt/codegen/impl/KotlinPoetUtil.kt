@@ -70,6 +70,12 @@ internal fun FunSpec.Builder.addStatement(components: CodeBlockComponents) {
     addCode("\n»")
 }
 
+internal fun FunSpec.Builder.addStatement(block: CodeBlock) {
+    addCode("«")
+    addCode(block)
+    addCode("\n»")
+}
+
 internal fun CodeBlock.Builder.addStatement(block: CodeBlock) {
     add("«")
     add(block)

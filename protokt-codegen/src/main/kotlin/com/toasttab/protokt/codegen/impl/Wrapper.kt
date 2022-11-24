@@ -38,7 +38,7 @@ import com.toasttab.protokt.rt.BytesSlice
 import kotlin.reflect.KClass
 import kotlin.reflect.full.hasAnnotation
 
-object Wrapper {
+internal object Wrapper {
     val StandardField.wrapped
         get() = wrapWithWellKnownInterception.isDefined()
 

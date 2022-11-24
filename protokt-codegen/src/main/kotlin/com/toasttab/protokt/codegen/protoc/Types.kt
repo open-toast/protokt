@@ -126,7 +126,7 @@ class StandardField(
 
 class Oneof(
     val name: String,
-    val typeName: TypeName,
+    val typeName: ClassName,
     override val fieldName: String,
     val fields: List<StandardField>,
     val fieldTypeNames: Map<String, String>,
