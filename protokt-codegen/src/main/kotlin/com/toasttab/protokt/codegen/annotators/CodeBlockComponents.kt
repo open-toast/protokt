@@ -30,19 +30,16 @@ internal class CodeBlockComponents(
             "duplicate keys in args: $intersect"
         }
         return CodeBlockComponents(
-            formatWithNamedArgs + " " + this.formatWithNamedArgs,
+            formatWithNamedArgs + this.formatWithNamedArgs,
             args + this.args
         )
     }
 
-    fun append(
-        formatWithNamedArgs: String,
-        args: Map<String, Any> = emptyMap()
-    ) =
-        this + CodeBlockComponents(formatWithNamedArgs, args)
-
     operator fun plus(other: CodeBlockComponents) =
         other.prepend(formatWithNamedArgs, args)
+
+    operator fun plus(code: String) =
+        plus(CodeBlockComponents(code))
 
     fun toCodeBlock() =
         namedCodeBlock(formatWithNamedArgs, args)

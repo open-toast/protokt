@@ -39,6 +39,7 @@ import com.toasttab.protokt.codegen.impl.Wrapper.valueWrapped
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapField
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapperName
+import com.toasttab.protokt.codegen.impl.addStatement
 import com.toasttab.protokt.codegen.impl.buildFunSpec
 import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.protoc.Message
@@ -77,7 +78,14 @@ private constructor(
                     beginControlFlow("while (true)")
                     beginControlFlow("when(deserializer.readTag())")
                     addStatement("0 -> return·%N(%L)", msg.name, constructorLines(properties))
-                    deserializerInfo.forEach { addStatement("%L -> %L = %L", it.tag, it.assignment.fieldName, it.assignment.value) }
+                    deserializerInfo.forEach {
+                        addStatement(
+                            CodeBlockComponents(
+                                "%tag:L -> %fieldName:L = ",
+                                mapOf("tag" to it.tag, "fieldName" to it.assignment.fieldName)
+                            ) + it.assignment.value
+                        )
+                    }
                     addStatement("else -> unknownFields = (unknownFields ?: %T.Builder()).also·{it.add(deserializer.readUnknown()) }", UnknownFieldSet::class)
                     endControlFlow()
                     endControlFlow()
@@ -121,7 +129,7 @@ private constructor(
     ) {
         class Assignment(
             val fieldName: String,
-            val value: String
+            val value: CodeBlockComponents
         )
     }
 
@@ -132,24 +140,16 @@ private constructor(
                     tag.value,
                     oneOf.fold(
                         {
-                            deserializeString(
+                            deserialize(
                                 field,
                                 ctx,
                                 tag is Tag.Packed
                             ).let { value ->
-                                Assignment(
-                                    field.fieldName,
-                                    value
-                                )
+                                Assignment(field.fieldName, value)
                             }
                         },
                         {
-                            oneofDes(it, field).let { value ->
-                                Assignment(
-                                    it.fieldName,
-                                    value
-                                )
-                            }
+                            Assignment(it.fieldName, oneofDes(it, field))
                         }
                     )
                 )
@@ -171,8 +171,9 @@ private constructor(
         val oneof: Option<Oneof>
     )
 
-    private fun oneofDes(f: Oneof, ff: StandardField) =
-        "${f.name}.${f.fieldTypeNames.getValue(ff.fieldName)}(${deserializeString(ff, ctx, false)})"
+    // TODO
+    private fun oneofDes(f: Oneof, ff: StandardField): CodeBlockComponents =
+        CodeBlockComponents("${f.name}.${f.fieldTypeNames.getValue(ff.fieldName)}(") + deserialize(ff, ctx, false) + ")"
 
     companion object {
         fun annotateDeserializer(msg: Message, ctx: Context) =
@@ -180,7 +181,8 @@ private constructor(
     }
 }
 
-fun deserializeString(f: StandardField, ctx: Context, packed: Boolean): String {
+// TODO
+internal fun deserialize(f: StandardField, ctx: Context, packed: Boolean): CodeBlockComponents {
     val options = deserializeOptions(f, ctx)
     val read = CodeBlock.of("deserializer.%L", interceptReadFn(f, f.readFn()))
     val wrappedRead = options?.let { wrapField(it.wrapName, read, it.type, it.oneof) } ?: read.toString()
@@ -194,7 +196,7 @@ fun deserializeString(f: StandardField, ctx: Context, packed: Boolean): String {
             |   }
         """.trimMargin()
         else -> wrappedRead.toString()
-    }
+    }.let { CodeBlockComponents(it) }
 }
 
 fun deserializeMap(f: StandardField, options: Options?, read: CodeBlock): String {

@@ -110,7 +110,7 @@ private constructor(
                         addParameter("value", valPropertyType)
                         addStatement(
                             CodeBlockComponents("return ") +
-                                sizeOf(entryInfo.key, ctx).append(" + ") +
+                                sizeOf(entryInfo.key, ctx) + " + " +
                                 sizeOf(entryInfo.value, ctx)
                         )
                     }
@@ -125,8 +125,8 @@ private constructor(
                         beginControlFlow("while (true)")
                         beginControlFlow("when(deserializer.readTag())")
                         addStatement(constructOnZero(entryInfo.value))
-                        addStatement("${entryInfo.key.tag.value} -> key = ${deserializeString(entryInfo.key, ctx, false)}")
-                        addStatement("${entryInfo.value.tag.value} -> value = ${deserializeString(entryInfo.value, ctx, false)}")
+                        addStatement(CodeBlockComponents("${entryInfo.key.tag.value} -> key = ") + deserialize(entryInfo.key, ctx, false))
+                        addStatement(CodeBlockComponents("${entryInfo.value.tag.value} -> value = ") + deserialize(entryInfo.value, ctx, false))
                         endControlFlow()
                         endControlFlow()
                     }
