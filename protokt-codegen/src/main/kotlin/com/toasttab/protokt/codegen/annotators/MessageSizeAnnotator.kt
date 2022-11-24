@@ -51,36 +51,21 @@ private constructor(
 
     private fun annotateMessageSize(): FunSpec {
         val fieldSizes =
-            msg.fields.map {
-                when (it) {
-                    is StandardField -> {
-                        val addFieldSize =
-                            buildCodeBlock {
-                                add("$resultVarName += ")
-                                add(sizeOf(it, ctx))
-                            }
-                        if (it.hasNonNullOption) {
-                            addFieldSize
-                        } else {
-                            buildCodeBlock {
-                                beginControlFlow("if·${it.nonDefault(ctx)}")
-                                add(addFieldSize)
-                                endControlFlow()
-                            }
-                        }
+            msg.mapFields(
+                ctx,
+                {
+                    buildCodeBlock {
+                        add("$resultVarName·+=·")
+                        add(sizeOf(it, ctx))
                     }
-                    is Oneof -> {
-                        buildCodeBlock {
-                            if (it.hasNonNullOption) {
-                                add("$resultVarName += ")
-                            }
-                            beginControlFlow("when·(${it.fieldName})")
-                            conditionals(it).forEach(::add)
-                            endControlFlow()
-                        }
+                },
+                { oneof, std -> oneofSizeOfString(oneof, std) },
+                {
+                    if (it.hasNonNullOption) {
+                        add("$resultVarName·+=·")
                     }
                 }
-            }
+            )
 
         return FunSpec.builder("messageSize")
             .addModifiers(KModifier.PRIVATE)
@@ -100,27 +85,6 @@ private constructor(
             .build()
     }
 
-    private fun conditionals(f: Oneof) =
-        f.fields
-            .sortedBy { it.number }
-            .map {
-                buildCodeBlock {
-                    beginControlFlow("is·${condition(f, it, msg.name)}·->")
-                    add(oneofSizeOfString(f, it))
-                    endControlFlow()
-                }
-            }
-            .let {
-                if (f.hasNonNullOption) {
-                    it
-                } else {
-                    it + CodeBlock.of("null·-> Unit")
-                }
-            }
-
-    private fun condition(f: Oneof, ff: StandardField, type: String) =
-        "${oneOfScope(f, type)}.${f.fieldTypeNames.getValue(ff.fieldName)}"
-
     private fun oneofSizeOfString(o: Oneof, f: StandardField) =
         sizeOf(
             f,
@@ -131,13 +95,13 @@ private constructor(
                 ctx
             )
         ).let { s ->
-            if (!o.hasNonNullOption) {
+            if (o.hasNonNullOption) {
+                s
+            } else {
                 buildCodeBlock {
-                    add("$resultVarName·+=")
+                    add("$resultVarName·+=·")
                     add(s)
                 }
-            } else {
-                s
             }
         }
 

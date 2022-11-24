@@ -15,19 +15,14 @@
 
 package com.toasttab.protokt.codegen.annotators
 
-import arrow.core.None
-import arrow.core.Option
-import arrow.core.Some
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.toasttab.protokt.codegen.annotators.Annotator.Context
-import com.toasttab.protokt.codegen.impl.Nullability.hasNonNullOption
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
 import com.toasttab.protokt.codegen.impl.runtimeFunction
 import com.toasttab.protokt.codegen.protoc.Message
-import com.toasttab.protokt.codegen.protoc.Oneof
 import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.rt.KtMessageSerializer
 import com.toasttab.protokt.rt.Tag
@@ -40,26 +35,11 @@ private constructor(
 ) {
     private fun annotateSerializer(): FunSpec {
         val fieldSerializations =
-            msg.fields.map {
-                when (it) {
-                    is StandardField ->
-                        if (!it.hasNonNullOption) {
-                            buildCodeBlock {
-                                beginControlFlow("if ${it.nonDefault(ctx)}")
-                                add(serialize(it, ctx))
-                                endControlFlow()
-                            }
-                        } else {
-                            serialize(it, ctx)
-                        }
-                    is Oneof ->
-                        buildCodeBlock {
-                            beginControlFlow("when (${it.fieldName})")
-                            conditionals(it).forEach(::add)
-                            endControlFlow()
-                        }
-                }
-            }
+            msg.mapFields(
+                ctx,
+                { serialize(it, ctx) },
+                { oneof, std -> serialize(std, ctx, oneof.fieldName) }
+            )
 
         return FunSpec.builder("serialize")
             .addModifiers(KModifier.OVERRIDE)
@@ -71,39 +51,6 @@ private constructor(
             .build()
     }
 
-    private fun conditionals(f: Oneof): List<CodeBlock> =
-        f.fields
-            .sortedBy { it.number }
-            .map {
-                buildCodeBlock {
-                    val serializeParams = serializeOneof(f, it, msg.name)
-                    beginControlFlow("is ${serializeParams.condition} ->")
-                    add(serializeParams.consequent)
-                    endControlFlow()
-                }
-            }.let {
-                if (f.hasNonNullOption) {
-                    it
-                } else {
-                    it + buildCodeBlock {
-                        addStatement("null·-> Unit")
-                    }
-                }
-            }
-
-    private class ConditionalParams(
-        val condition: CodeBlock,
-        val consequent: CodeBlock
-    )
-
-    private fun serializeOneof(f: Oneof, ff: StandardField, type: String) =
-        ConditionalParams(
-            CodeBlock.of(
-                "%L.%L", oneOfScope(f, type), f.fieldTypeNames.getValue(ff.fieldName)
-            ),
-            serialize(ff, ctx, Some(f.fieldName))
-        )
-
     companion object {
         fun annotateSerializer(msg: Message, ctx: Context) =
             SerializerAnnotator(msg, ctx).annotateSerializer()
@@ -111,25 +58,22 @@ private constructor(
         fun serialize(
             f: StandardField,
             ctx: Context,
-            t: Option<String> = None
+            t: String? = null
         ): CodeBlock {
             val fieldAccess =
-                t.fold(
-                    {
-                        interceptValueAccess(
-                            f,
-                            ctx,
-                            if (f.repeated) { "it" } else { f.fieldName }
-                        )
-                    },
-                    {
-                        interceptValueAccess(
-                            f,
-                            ctx,
-                            "$it.${f.fieldName}"
-                        )
-                    }
-                )
+                if (t == null) {
+                    interceptValueAccess(
+                        f,
+                        ctx,
+                        if (f.repeated) { "it" } else { f.fieldName }
+                    )
+                } else {
+                    interceptValueAccess(
+                        f,
+                        ctx,
+                        "$t.${f.fieldName}"
+                    )
+                }
 
             val map = mutableMapOf(
                 "tag" to Tag::class,

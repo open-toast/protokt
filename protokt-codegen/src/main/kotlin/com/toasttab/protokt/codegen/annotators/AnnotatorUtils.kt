@@ -43,5 +43,5 @@ class MapTypeParams(
     val vType: TypeName
 )
 
-fun oneOfScope(f: Oneof, type: String) =
-    "$type.${f.name}"
+internal fun Oneof.qualify(f: StandardField) =
+    typeName.nestedClass(fieldTypeNames.getValue(f.fieldName))

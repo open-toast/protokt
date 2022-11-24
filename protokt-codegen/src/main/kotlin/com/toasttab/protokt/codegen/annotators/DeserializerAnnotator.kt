@@ -81,10 +81,10 @@ private constructor(
                             )
                         }
                     }
-                    addStatement("var unknownFields: %T? = null", UnknownFieldSet.Builder::class)
+                    addStatement("var·unknownFields:·%T?·=·null", UnknownFieldSet.Builder::class)
                     beginControlFlow("while (true)")
-                    beginControlFlow("when(deserializer.readTag())")
-                    addStatement("0 -> return·%N(%L)", msg.name, constructorLines(properties))
+                    beginControlFlow("when (deserializer.readTag())")
+                    addStatement("0·->·return·%N(%L)", msg.name, constructorLines(properties))
                     deserializerInfo.forEach {
                         addStatement(
                             CodeBlock.of(
@@ -188,7 +188,7 @@ private constructor(
 
     private fun oneofDes(f: Oneof, ff: StandardField) =
         buildCodeBlock {
-            add("%T(", f.typeName.nestedClass(f.fieldTypeNames.getValue(ff.fieldName)))
+            add("%T(", f.qualify(ff))
             add(deserialize(ff, ctx, false))
             add(")")
         }
