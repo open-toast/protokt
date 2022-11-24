@@ -21,6 +21,7 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.MemberName
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeName
+import com.toasttab.protokt.codegen.annotators.CodeBlockComponents
 import kotlin.reflect.KClass
 
 fun String.embed() =
@@ -59,3 +60,6 @@ fun namedCodeBlock(format: String, arguments: Map<String, *>) =
     CodeBlock.builder().addNamed(format, arguments).build()
 
 fun runtimeFunction(name: String) = MemberName("com.toasttab.protokt.rt", name)
+
+internal fun FunSpec.Builder.addCode(components: CodeBlockComponents) =
+    addCode(components.toCodeBlock())

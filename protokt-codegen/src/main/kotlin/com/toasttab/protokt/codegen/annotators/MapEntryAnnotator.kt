@@ -26,6 +26,7 @@ import com.toasttab.protokt.codegen.annotators.MessageSizeAnnotator.Companion.si
 import com.toasttab.protokt.codegen.annotators.PropertyAnnotator.Companion.annotateProperties
 import com.toasttab.protokt.codegen.annotators.PropertyAnnotator.PropertyInfo
 import com.toasttab.protokt.codegen.annotators.SerializerAnnotator.Companion.serialize
+import com.toasttab.protokt.codegen.impl.addCode
 import com.toasttab.protokt.codegen.impl.bindIndent
 import com.toasttab.protokt.codegen.impl.bindSpaces
 import com.toasttab.protokt.codegen.impl.constructorProperty
@@ -108,7 +109,9 @@ private constructor(
                         .addParameter("key", keyPropertyType)
                         .addParameter("value", valPropertyType)
                         .addCode(
-                            "return ${sizeOf(entryInfo.key, ctx)} + ${sizeOf(entryInfo.value, ctx)}".bindSpaces()
+                            CodeBlockComponents("return ") +
+                                sizeOf(entryInfo.key, ctx).append(" + ") +
+                                sizeOf(entryInfo.value, ctx)
                         )
                         .build()
                 )
@@ -140,7 +143,7 @@ private constructor(
 
     private fun deserializeVar(f: StandardField, p: PropertyInfo) =
         if (f.type == FieldType.MESSAGE) {
-            ": " + deserializeType(p)
+            ": " + p.deserializeType
         } else {
             ""
         } + " = " + deserializeValue(p)

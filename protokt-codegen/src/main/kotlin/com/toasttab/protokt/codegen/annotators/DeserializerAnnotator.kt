@@ -19,8 +19,10 @@ import arrow.core.None
 import arrow.core.Option
 import arrow.core.Some
 import arrow.core.getOrElse
+import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.ParameterizedTypeName
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
@@ -89,6 +91,23 @@ private constructor(
             }
             .build()
     }
+
+    private fun deserializeVar(p: PropertyInfo) =
+        if (p.fieldType == "MESSAGE" || p.repeated || p.oneof || p.nullable || p.wrapped) {
+            CodeBlock.of("%L : %T = %L", p.name, deserializeType(p), deserializeValue(p))
+        } else {
+            CodeBlock.of("%L = %L", p.name, deserializeValue(p))
+        }
+
+    private fun deserializeType(p: PropertyInfo) =
+        if (p.repeated || p.map) {
+            p.deserializeType as ParameterizedTypeName
+            ClassName(p.deserializeType.rawType.packageName, "Mutable" + p.deserializeType.rawType.simpleName)
+                .parameterizedBy(p.deserializeType.typeArguments)
+                .copy(nullable = true)
+        } else {
+            p.deserializeType
+        }
 
     private fun constructorLines(properties: List<PropertyInfo>) =
         buildCodeBlock {
