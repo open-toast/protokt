@@ -18,13 +18,16 @@ package com.toasttab.protokt.codegen.descriptor
 import com.google.protobuf.DescriptorProtos
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
-import com.toasttab.protokt.codegen.impl.bindMargin
+import com.squareup.kotlinpoet.buildCodeBlock
+import com.squareup.kotlinpoet.joinToCode
+import com.squareup.kotlinpoet.withIndent
 import com.toasttab.protokt.codegen.impl.embed
-import com.toasttab.protokt.codegen.impl.namedCodeBlock
+import com.toasttab.protokt.codegen.impl.endControlFlowWithoutNewline
 import com.toasttab.protokt.codegen.protoc.Enum
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Protocol
@@ -53,26 +56,22 @@ private constructor(
                 .addProperty(
                     PropertySpec.builder("descriptor", ClassName("com.toasttab.protokt", "FileDescriptor"))
                         .delegate(
-                            namedCodeBlock(
-                                """
-                                    |lazy {
-                                    |    val descriptorData = arrayOf(
-                                    |        %descriptorData:L
-                                    |    )
-                                    |
-                                    |    %fileDescriptor:T.buildFrom(
-                                    |        descriptorData,
-                                    |        listOf(
-                                    |            ${dependencyLines(dependencies)}
-                                    |        )
-                                    |    )
-                                    |}
-                                """.bindMargin(),
-                                mapOf(
-                                    "descriptorData" to descriptorLines(),
-                                    "fileDescriptor" to ClassName("com.toasttab.protokt", "FileDescriptor")
-                                ) + dependencies.withIndex().associateBy { "param${it.index}" }.mapValues { it.value.value }
-                            )
+                            buildCodeBlock {
+                                beginControlFlow("lazy")
+                                add("val descriptorData = arrayOf(\n")
+                                withIndent { add(descriptorLines()) }
+                                add("\n)\n\n")
+
+                                add("%T.buildFrom(\n", ClassName("com.toasttab.protokt", "FileDescriptor"))
+                                withIndent {
+                                    add("descriptorData,\n")
+                                    add("listOf(\n")
+                                    withIndent { add(dependencyLines(dependencies)) }
+                                    add("\n)")
+                                }
+                                add("\n)\n")
+                                endControlFlowWithoutNewline()
+                            }
                         ).build()
                 )
                 .build()
@@ -83,9 +82,13 @@ private constructor(
     }
 
     private fun descriptorLines() =
-        fileDescriptorParts().joinToString(",\n") {
-            "        " + it.joinToString(" +\n        ") { line -> line.embed() }
-        }
+        fileDescriptorParts()
+            .map { arrayParts ->
+                arrayParts
+                    .map { CodeBlock.of("\"%L\"", it) }
+                    .joinToCode(" +\n")
+            }
+            .joinToCode(",\n")
 
     private fun fileDescriptorParts() =
         encodeFileDescriptor(
@@ -97,7 +100,9 @@ private constructor(
         )
 
     private fun dependencyLines(dependencies: List<TypeName>) =
-        dependencies.withIndex().joinToString(",\n") { "%param${it.index}:T.descriptor" }
+        dependencies
+            .map { CodeBlock.of("%T.descriptor", it) }
+            .joinToCode(",\n")
 
     private fun clearJsonInfo(fileDescriptorProto: DescriptorProtos.FileDescriptorProto) =
         fileDescriptorProto.toBuilder()
