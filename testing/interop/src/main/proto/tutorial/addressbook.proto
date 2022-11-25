@@ -47,7 +47,7 @@ message Person {
   // BEGIN TOAST
   map<string, PhoneType> numbers = 6;
 
-  oneof OneOfTest {
+  oneof oneof_test {
     google.protobuf.Timestamp last_updated_test = 7;
     google.protobuf.Any any_test = 8;
   }

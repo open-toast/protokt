@@ -126,6 +126,11 @@ private class DslGenerator(
 
     private fun dslLines() =
         properties.map {
-            CodeBlock.of("%N = this@%T.%N", it.name, msg.className, it.name)
+            CodeBlock.of(
+                "%N = this@%L.%N",
+                it.name,
+                msg.className.simpleName,
+                it.name
+            )
         }
 }

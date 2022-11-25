@@ -67,7 +67,6 @@ class EnumValueOptions(
 
 class Service(
     val name: String,
-    val type: String,
     val methods: List<Method>,
     val deprecated: Boolean,
     val options: ServiceOptions,

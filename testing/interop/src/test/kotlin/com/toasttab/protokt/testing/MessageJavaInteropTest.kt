@@ -104,7 +104,7 @@ class MessageJavaInteropTest {
                 email = "Farnsworth@toasttab.com"
                 phones = phones0
                 numbers = phones0.associate { it.number to it.type }
-                oneOfTest = Person.OneOfTest.LastUpdatedTest(timestamp)
+                oneofTest = Person.OneofTest.LastUpdatedTest(timestamp)
             }
 
         private val javaPerson0 =
@@ -162,7 +162,7 @@ class MessageJavaInteropTest {
                             email = "Zoidberg@toasttab.com"
                             phones = phones1
                             numbers = phones1.associate { it.number to it.type }
-                            oneOfTest = Person.OneOfTest.LastUpdatedTest(timestamp)
+                            oneofTest = Person.OneofTest.LastUpdatedTest(timestamp)
                         }
                     )
                 }

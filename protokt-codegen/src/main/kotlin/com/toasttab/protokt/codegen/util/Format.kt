@@ -33,28 +33,15 @@ internal fun snakeToCamel(str: String): String {
     }
 }
 
-internal fun newTypeNameFromCamel(
-    preferred: String,
-    set: Set<String> = emptySet()
-) =
-    newTypeNameFromPascal(snakeToCamel(preferred).capitalize(), set)
-
-internal fun newTypeNameFromPascal(
-    preferred: String,
-    set: Set<String> = emptySet()
-) =
-    appendUnderscores(preferred, set)
-
-internal fun newFieldName(preferred: String) =
+internal fun newTypeNameFromCamel(preferred: String) =
     snakeToCamel(preferred)
 
-private fun appendUnderscores(orig: String, set: Set<String>): String {
-    var name = orig
-    while (name in set) {
-        name += '_'
-    }
-    return name
-}
+internal fun newFieldName(preferred: String) =
+    // Ideally we'd avoid decapitalization but people have a tendency to
+    // capitalize oneof defintions which will cause a clash between the field
+    // name and the oneof sealed class definition. Can be avoided if the name
+    // of the sealed class is modified when the field name is capitalized
+    snakeToCamel(preferred).decapitalize()
 
 internal fun newEnumValueName(
     enumTypeNamePrefix: String?,

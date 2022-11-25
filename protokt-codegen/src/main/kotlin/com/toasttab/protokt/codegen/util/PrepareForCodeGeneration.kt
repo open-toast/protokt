@@ -114,8 +114,8 @@ private fun toTypeList(
         services.foldIndexed(
             Pair(persistentSetOf<String>(), persistentListOf<TopLevelType>())
         ) { idx, acc, t ->
-            val s = toService(idx, t, ctx, acc.first)
-            Pair(acc.first + s.type, acc.second + s)
+            val s = toService(idx, t, ctx)
+            Pair(acc.first, acc.second + s)
         }.second
 
 private fun toEnum(
@@ -125,7 +125,7 @@ private fun toEnum(
     enclosingMessages: List<String>,
     pkg: String
 ): Enum {
-    val typeName = newTypeNameFromCamel(desc.name, names)
+    val typeName = newTypeNameFromCamel(desc.name)
 
     val enumTypeNamePrefixToStrip =
         (camelToUpperSnake(desc.name) + '_')
@@ -172,7 +172,7 @@ private fun toMessage(
     names: Set<String>,
     enclosingMessages: List<String>
 ): Message {
-    val typeName = newTypeNameFromPascal(desc.name, names)
+    val typeName = desc.name
     val fieldList = toFields(ctx, pkg, desc, enclosingMessages + typeName, names + typeName)
     return Message(
         fields = fieldList.sortedBy {
@@ -198,12 +198,10 @@ private fun toMessage(
 private fun toService(
     idx: Int,
     desc: ServiceDescriptorProto,
-    ctx: GeneratorContext,
-    names: Set<String>
+    ctx: GeneratorContext
 ) =
     Service(
         name = desc.name,
-        type = newTypeNameFromPascal(desc.name, names),
         methods = desc.methodList.map { toMethod(it, ctx) },
         deprecated = desc.options.deprecated,
         options = ServiceOptions(
@@ -290,26 +288,24 @@ private fun toOneof(
     val standardTuple = desc.fieldList.filter {
         it.hasOneofIndex() && it.oneofIndex == field.oneofIndex
     }.foldIndexed(
-        Triple(
+        Pair(
             persistentMapOf<String, String>(),
-            persistentSetOf<String>(),
             persistentListOf<StandardField>()
         )
-    ) { oneofIdx, acc, field ->
-        val ftn = newTypeNameFromCamel(field.name, acc.second)
-        Triple(
-            acc.first + (newFieldName(field.name) to ftn),
-            acc.second + ftn,
-            acc.third + toStandard(idx + oneofIdx, ctx, pkg, field, emptySet(), true)
+    ) { oneofIdx, (first, second), stdField ->
+        val ftn = newTypeNameFromCamel(stdField.name).capitalize()
+        Pair(
+            first + (newFieldName(stdField.name) to ftn),
+            second + toStandard(idx + oneofIdx, ctx, pkg, stdField, emptySet(), true)
         )
     }
-    val name = newTypeNameFromCamel(oneof.name, typeNames)
+    val name = newTypeNameFromCamel(oneof.name).capitalize()
     return Oneof(
         name = name,
         className = ClassName(pkg, enclosingMessages + name),
         fieldTypeNames = standardTuple.first,
         fieldName = newName,
-        fields = standardTuple.third,
+        fields = standardTuple.second,
         options = OneofOptions(
             oneof.options,
             oneof.options.getExtension(Protokt.oneof)
@@ -473,7 +469,7 @@ private fun typeName(
     return if (fullyProtoQualified) {
         requalifyProtoType(protoTypeName, ctx)
     } else {
-        newTypeNameFromPascal(protoTypeName).let {
+        protoTypeName.let {
             if (it.isEmpty()) {
                 fieldType.protoktFieldType.asTypeName()
             } else {
@@ -493,7 +489,7 @@ private fun requalifyProtoType(typeName: String, ctx: GeneratorContext): ClassNa
         ClassName(
             withOverriddenGoogleProtoPackage.packageName,
             withOverriddenGoogleProtoPackage.simpleNames.dropLast(1) +
-                newTypeNameFromPascal(withOverriddenGoogleProtoPackage.simpleName)
+                withOverriddenGoogleProtoPackage.simpleName
         )
 
     return if (ctx.respectJavaPackage) {
