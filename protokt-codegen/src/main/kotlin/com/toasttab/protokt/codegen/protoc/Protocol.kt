@@ -26,6 +26,7 @@ import com.google.protobuf.DescriptorProtos.EnumDescriptorProto
 import com.google.protobuf.DescriptorProtos.FieldDescriptorProto
 import com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Label.LABEL_OPTIONAL
 import com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Label.LABEL_REPEATED
+import com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Type
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.google.protobuf.DescriptorProtos.OneofDescriptorProto
 import com.google.protobuf.DescriptorProtos.ServiceDescriptorProto
@@ -44,9 +45,6 @@ import kotlinx.collections.immutable.persistentMapOf
 import kotlinx.collections.immutable.persistentSetOf
 import kotlinx.collections.immutable.plus
 
-/**
- * Converts a message in the format used by protoc to the unannotated AST used by protokt.
- */
 fun toProtocol(ctx: ProtocolContext): Protocol {
     val kotlinPackage = resolvePackage(ctx.fdp.fileOptions, ctx.fdp.`package`, ctx.respectJavaPackage)
     return Protocol(
@@ -75,25 +73,25 @@ val FileDescriptorProto.fileOptions
             options.getExtension(Protokt.file)
         )
 
-private fun toFieldType(type: FieldDescriptorProto.Type) =
+private fun toFieldType(type: Type) =
     when (type) {
-        FieldDescriptorProto.Type.TYPE_BOOL -> FieldType.BOOL
-        FieldDescriptorProto.Type.TYPE_BYTES -> FieldType.BYTES
-        FieldDescriptorProto.Type.TYPE_DOUBLE -> FieldType.DOUBLE
-        FieldDescriptorProto.Type.TYPE_ENUM -> FieldType.ENUM
-        FieldDescriptorProto.Type.TYPE_FIXED32 -> FieldType.FIXED32
-        FieldDescriptorProto.Type.TYPE_FIXED64 -> FieldType.FIXED64
-        FieldDescriptorProto.Type.TYPE_FLOAT -> FieldType.FLOAT
-        FieldDescriptorProto.Type.TYPE_INT32 -> FieldType.INT32
-        FieldDescriptorProto.Type.TYPE_INT64 -> FieldType.INT64
-        FieldDescriptorProto.Type.TYPE_MESSAGE -> FieldType.MESSAGE
-        FieldDescriptorProto.Type.TYPE_SFIXED32 -> FieldType.SFIXED32
-        FieldDescriptorProto.Type.TYPE_SFIXED64 -> FieldType.SFIXED64
-        FieldDescriptorProto.Type.TYPE_SINT32 -> FieldType.SINT32
-        FieldDescriptorProto.Type.TYPE_SINT64 -> FieldType.SINT64
-        FieldDescriptorProto.Type.TYPE_STRING -> FieldType.STRING
-        FieldDescriptorProto.Type.TYPE_UINT32 -> FieldType.UINT32
-        FieldDescriptorProto.Type.TYPE_UINT64 -> FieldType.UINT64
+        Type.TYPE_BOOL -> FieldType.BOOL
+        Type.TYPE_BYTES -> FieldType.BYTES
+        Type.TYPE_DOUBLE -> FieldType.DOUBLE
+        Type.TYPE_ENUM -> FieldType.ENUM
+        Type.TYPE_FIXED32 -> FieldType.FIXED32
+        Type.TYPE_FIXED64 -> FieldType.FIXED64
+        Type.TYPE_FLOAT -> FieldType.FLOAT
+        Type.TYPE_INT32 -> FieldType.INT32
+        Type.TYPE_INT64 -> FieldType.INT64
+        Type.TYPE_MESSAGE -> FieldType.MESSAGE
+        Type.TYPE_SFIXED32 -> FieldType.SFIXED32
+        Type.TYPE_SFIXED64 -> FieldType.SFIXED64
+        Type.TYPE_SINT32 -> FieldType.SINT32
+        Type.TYPE_SINT64 -> FieldType.SINT64
+        Type.TYPE_STRING -> FieldType.STRING
+        Type.TYPE_UINT32 -> FieldType.UINT32
+        Type.TYPE_UINT64 -> FieldType.UINT64
         else -> error("Unknown type: $type")
     }
 
@@ -111,7 +109,6 @@ private fun toTypeList(
         val e = toEnum(idx, t, acc.first, enclosingMessages, pkg)
         Pair(acc.first + e.name, acc.second + e)
     }.second +
-
         messages.foldIndexed(
             Pair(persistentSetOf<String>(), persistentListOf<TopLevelType>())
         ) { idx, acc, t ->
@@ -199,9 +196,9 @@ private fun toMessage(
         ),
         index = idx,
         fullProtobufTypeName = "${ctx.fdp.`package`}.${desc.name}",
-        typeName = ClassName(pkg.toString(), enclosingMessages + typeName),
-        deserializerTypeName = ClassName(pkg.toString(), enclosingMessages + typeName + "Deserializer"),
-        dslTypeName = ClassName(pkg.toString(), enclosingMessages + typeName + "${typeName}Dsl")
+        typeName = ClassName(pkg, enclosingMessages + typeName),
+        deserializerTypeName = ClassName(pkg, enclosingMessages + typeName + "Deserializer"),
+        dslTypeName = ClassName(pkg, enclosingMessages + typeName + "${typeName}Dsl")
     )
 }
 
@@ -257,7 +254,7 @@ private fun toFields(
         )
     ) { idx, acc, t ->
         when (t.type) {
-            FieldDescriptorProto.Type.TYPE_GROUP -> acc
+            Type.TYPE_GROUP -> acc
             else -> {
                 val i = if (t.hasOneofIndex()) Some(t.oneofIndex) else None
                 i.fold({
@@ -304,16 +301,15 @@ private fun toOneof(
             persistentMapOf<String, String>(),
             persistentSetOf<String>(),
             persistentListOf<StandardField>()
-        ),
-        { oneofIdx, acc, t ->
-            val ftn = newTypeNameFromCamel(t.name, acc.second)
-            Triple(
-                acc.first + (newFieldName(t.name, acc.second) to ftn),
-                acc.second + ftn,
-                acc.third + toStandard(idx + oneofIdx, ctx, pkg, t, emptySet(), true)
-            )
-        }
-    )
+        )
+    ) { oneofIdx, acc, t ->
+        val ftn = newTypeNameFromCamel(t.name, acc.second)
+        Triple(
+            acc.first + (newFieldName(t.name, acc.second) to ftn),
+            acc.second + ftn,
+            acc.third + toStandard(idx + oneofIdx, ctx, pkg, t, emptySet(), true)
+        )
+    }
     val name = newTypeNameFromCamel(oneof.name, typeNames)
     return Oneof(
         name = name,
@@ -432,7 +428,7 @@ private fun mapEntry(
     pkg: String
 ) =
     if (fdp.label == LABEL_REPEATED &&
-        fdp.type == FieldDescriptorProto.Type.TYPE_MESSAGE
+        fdp.type == Type.TYPE_MESSAGE
     ) {
         findMapEntry(ctx.fdp, fdp.typeName).filter { it.options.mapEntry }
             .fold(

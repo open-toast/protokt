@@ -128,12 +128,8 @@ private constructor(
 
     private fun possiblyQualify(implements: String): ClassName {
         val bestGuess = ClassName.bestGuess(implements)
-        return if (bestGuess.packageName == "") {
-            if (implements in namespaceNeighbors()) {
-                ClassName(ctx.desc.kotlinPackage.toString(), implements)
-            } else {
-                bestGuess
-            }
+        return if (bestGuess.packageName == "" && implements in namespaceNeighbors()) {
+            ClassName(ctx.desc.kotlinPackage, implements)
         } else {
             bestGuess
         }

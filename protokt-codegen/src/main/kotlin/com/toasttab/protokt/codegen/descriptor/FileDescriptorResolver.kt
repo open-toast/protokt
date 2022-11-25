@@ -26,6 +26,7 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.joinToCode
 import com.squareup.kotlinpoet.withIndent
+import com.toasttab.protokt.codegen.annotators.Annotator.protoktPkg
 import com.toasttab.protokt.codegen.impl.embed
 import com.toasttab.protokt.codegen.impl.endControlFlowWithoutNewline
 import com.toasttab.protokt.codegen.protoc.Enum
@@ -54,7 +55,7 @@ private constructor(
         val type =
             TypeSpec.objectBuilder(ctx.fileDescriptorObjectName)
                 .addProperty(
-                    PropertySpec.builder("descriptor", ClassName("com.toasttab.protokt", "FileDescriptor"))
+                    PropertySpec.builder("descriptor", ClassName(protoktPkg, "FileDescriptor"))
                         .delegate(
                             buildCodeBlock {
                                 beginControlFlow("lazy")
@@ -62,7 +63,7 @@ private constructor(
                                 withIndent { add(descriptorLines()) }
                                 add("\n)\n\n")
 
-                                add("%T.buildFrom(\n", ClassName("com.toasttab.protokt", "FileDescriptor"))
+                                add("%T.buildFrom(\n", ClassName(protoktPkg, "FileDescriptor"))
                                 withIndent {
                                     add("descriptorData,\n")
                                     add("listOf(\n")
@@ -141,7 +142,7 @@ private constructor(
                 }
             }.map {
                 ClassName(
-                    ctx.allPackagesByFileName.getValue(it).toString(),
+                    ctx.allPackagesByFileName.getValue(it),
                     ctx.allDescriptorClassNamesByDescriptorName.getValue(it)
                 )
             }
@@ -149,7 +150,7 @@ private constructor(
     private fun enumDescriptorExtensionProperties() =
         protocol.types.flatMap { findEnums(emptyList(), it) }
             .map { (enum, containingTypes) ->
-                PropertySpec.builder("descriptor", ClassName("com.toasttab.protokt", "EnumDescriptor"))
+                PropertySpec.builder("descriptor", ClassName(protoktPkg, "EnumDescriptor"))
                     .receiver(enum.deserializerTypeName)
                     .getter(
                         FunSpec.getterBuilder()
@@ -196,7 +197,7 @@ private constructor(
     private fun messageDescriptorExtensionProperties() =
         protocol.types.flatMap { findMessages(emptyList(), it) }
             .map { (msg, containingTypes) ->
-                PropertySpec.builder("descriptor", ClassName("com.toasttab.protokt", "Descriptor"))
+                PropertySpec.builder("descriptor", ClassName(protoktPkg, "Descriptor"))
                     .receiver(msg.deserializerTypeName)
                     .getter(
                         FunSpec.getterBuilder()

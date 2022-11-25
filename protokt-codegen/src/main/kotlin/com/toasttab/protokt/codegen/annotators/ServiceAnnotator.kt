@@ -27,6 +27,7 @@ import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
 import com.toasttab.protokt.codegen.annotators.Annotator.Context
+import com.toasttab.protokt.codegen.annotators.Annotator.protoktPkg
 import com.toasttab.protokt.codegen.impl.endControlFlowWithoutNewline
 import com.toasttab.protokt.codegen.impl.inferClassName
 import com.toasttab.protokt.codegen.protoc.Method
@@ -124,7 +125,7 @@ internal object ServiceAnnotator {
             if (!ctx.desc.context.onlyGenerateGrpc && !ctx.desc.context.lite) {
                 TypeSpec.objectBuilder(s.name)
                     .addProperty(
-                        PropertySpec.builder("descriptor", ClassName("com.toasttab.protokt", "ServiceDescriptor"))
+                        PropertySpec.builder("descriptor", ClassName(protoktPkg, "ServiceDescriptor"))
                             .delegate(
                                 buildCodeBlock {
                                     beginControlFlow("lazy")

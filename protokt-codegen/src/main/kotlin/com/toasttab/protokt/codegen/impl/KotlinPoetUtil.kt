@@ -23,6 +23,7 @@ import com.squareup.kotlinpoet.MemberName
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeName
 import com.toasttab.protokt.codegen.annotators.Annotator.Context
+import com.toasttab.protokt.codegen.annotators.Annotator.protoktRtPkg
 import kotlin.reflect.KClass
 
 fun String.embed() =
@@ -57,7 +58,7 @@ fun buildFunSpec(name: String, funSpecBuilder: FunSpec.Builder.() -> Unit): FunS
 fun namedCodeBlock(format: String, arguments: Map<String, *>) =
     CodeBlock.builder().addNamed(format, arguments).build()
 
-fun runtimeFunction(name: String) = MemberName("com.toasttab.protokt.rt", name)
+fun runtimeFunction(name: String) = MemberName(protoktRtPkg, name)
 
 fun CodeBlock.Builder.endControlFlowWithoutNewline() {
     unindent()
@@ -65,7 +66,7 @@ fun CodeBlock.Builder.endControlFlowWithoutNewline() {
 }
 
 fun inferClassName(className: String, ctx: Context) =
-    inferClassName(className, ctx.desc.kotlinPackage.toString())
+    inferClassName(className, ctx.desc.kotlinPackage)
 
 fun inferClassName(className: String, pkg: String): ClassName {
     val inferred = ClassName.bestGuess(className)
