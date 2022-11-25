@@ -38,6 +38,7 @@ private class SerializerGenerator(
         val fieldSerializations =
             msg.mapFields(
                 ctx,
+                true,
                 { serialize(it, ctx) },
                 { oneof, std -> serialize(std, ctx, oneof.fieldName) }
             )

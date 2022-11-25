@@ -25,6 +25,7 @@ import com.toasttab.protokt.codegen.util.StandardField
 
 fun Message.mapFields(
     ctx: Context,
+    skipConditionalForUnpackedRepeatedFields: Boolean,
     std: (StandardField) -> CodeBlock,
     oneof: (Oneof, StandardField) -> CodeBlock,
     oneofPreControlFlow: CodeBlock.Builder.(Oneof) -> Unit = {}
@@ -32,7 +33,7 @@ fun Message.mapFields(
     fields.map { field ->
         when (field) {
             is StandardField ->
-                standardFieldExecution(ctx, field) { std(field) }
+                standardFieldExecution(ctx, field, skipConditionalForUnpackedRepeatedFields) { std(field) }
             is Oneof ->
                 oneofFieldExecution(field, { oneof(field, it) }, oneofPreControlFlow)
         }
@@ -41,6 +42,7 @@ fun Message.mapFields(
 private fun standardFieldExecution(
     ctx: Context,
     field: StandardField,
+    skipConditional: Boolean,
     stmt: () -> CodeBlock
 ): CodeBlock {
     val statement = stmt()
@@ -51,10 +53,16 @@ private fun standardFieldExecution(
         }
     } else {
         buildCodeBlock {
-            beginControlFlow("if (%L)", field.nonDefault(ctx))
-            add(statement)
-            add("\n")
-            endControlFlow()
+            if (field.repeated && !field.packed && skipConditional) {
+                // skip isNotEmpty check when not packed; will short circuit correctly
+                add(statement)
+                add("\n")
+            } else {
+                beginControlFlow("if (%L)", field.nonDefault(ctx))
+                add(statement)
+                add("\n")
+                endControlFlow()
+            }
         }
     }
 }

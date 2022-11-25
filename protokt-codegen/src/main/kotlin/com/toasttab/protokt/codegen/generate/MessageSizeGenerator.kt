@@ -52,6 +52,7 @@ private class MessageSizeGenerator(
         val fieldSizes =
             msg.mapFields(
                 ctx,
+                false,
                 { CodeBlock.of("$resultVarName·+=·%L", sizeOf(it, ctx)) },
                 { oneof, std -> sizeofOneof(oneof, std) },
                 {
