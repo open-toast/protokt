@@ -13,15 +13,14 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.impl
+package com.toasttab.protokt.codegen.generate
 
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.TypeSpec
 import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
-import com.toasttab.protokt.codegen.generate.OneofGeneratorInfo
-import com.toasttab.protokt.codegen.generate.OneofGeneratorOptions
-import com.toasttab.protokt.codegen.generate.inferClassName
-import com.toasttab.protokt.codegen.impl.ClassLookup.getClass
+import com.toasttab.protokt.codegen.util.ClassLookup.getClass
+import com.toasttab.protokt.codegen.util.Message
+import com.toasttab.protokt.codegen.util.StandardField
 
 object Implements {
     fun StandardField.overrides(

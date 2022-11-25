@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.impl
+package com.toasttab.protokt.codegen.util
 
 import arrow.core.Either
 import arrow.core.getOrHandle
@@ -24,7 +24,7 @@ import com.toasttab.protokt.ext.Converter
 import java.io.File
 import java.net.URLClassLoader
 
-internal object ClassLookup {
+object ClassLookup {
     val getClass =
         { className: ClassName, ctx: GeneratorContext ->
             fun loadClass(className: ClassName) =

@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.impl
+package com.toasttab.protokt.codegen.util
 
 import com.toasttab.protokt.rt.Bytes
 import com.toasttab.protokt.rt.Fixed32

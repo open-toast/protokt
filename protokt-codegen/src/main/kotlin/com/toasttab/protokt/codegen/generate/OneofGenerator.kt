@@ -23,15 +23,14 @@ import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
 import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
-import com.toasttab.protokt.codegen.impl.Deprecation
-import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
-import com.toasttab.protokt.codegen.impl.Implements.handleSuperInterface
-import com.toasttab.protokt.codegen.impl.Message
-import com.toasttab.protokt.codegen.impl.Oneof
-import com.toasttab.protokt.codegen.impl.StandardField
-import com.toasttab.protokt.codegen.impl.Wrapper.interceptTypeName
-import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
-import com.toasttab.protokt.codegen.impl.emptyToNone
+import com.toasttab.protokt.codegen.generate.Deprecation.renderOptions
+import com.toasttab.protokt.codegen.generate.Implements.handleSuperInterface
+import com.toasttab.protokt.codegen.generate.Wrapper.interceptTypeName
+import com.toasttab.protokt.codegen.generate.Wrapper.wrapped
+import com.toasttab.protokt.codegen.util.Message
+import com.toasttab.protokt.codegen.util.Oneof
+import com.toasttab.protokt.codegen.util.StandardField
+import com.toasttab.protokt.codegen.util.emptyToNone
 
 fun annotateOneofs(msg: Message, ctx: Context) =
     OneofGenerator(msg, ctx).generate()

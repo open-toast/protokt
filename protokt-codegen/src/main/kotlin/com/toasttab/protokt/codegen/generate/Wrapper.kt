@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.impl
+package com.toasttab.protokt.codegen.generate
 
 import arrow.core.None
 import arrow.core.Option
@@ -24,13 +24,12 @@ import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
-import com.toasttab.protokt.codegen.generate.GeneratorContext
-import com.toasttab.protokt.codegen.generate.box
-import com.toasttab.protokt.codegen.generate.inferClassName
-import com.toasttab.protokt.codegen.generate.runtimeFunction
-import com.toasttab.protokt.codegen.impl.ClassLookup.converters
-import com.toasttab.protokt.codegen.impl.ClassLookup.getClass
-import com.toasttab.protokt.codegen.impl.WellKnownTypes.wrapWithWellKnownInterception
+import com.toasttab.protokt.codegen.util.ClassLookup.converters
+import com.toasttab.protokt.codegen.util.ClassLookup.getClass
+import com.toasttab.protokt.codegen.util.FieldType
+import com.toasttab.protokt.codegen.util.StandardField
+import com.toasttab.protokt.codegen.util.WellKnownTypes.wrapWithWellKnownInterception
+import com.toasttab.protokt.codegen.util.emptyToNone
 import com.toasttab.protokt.ext.OptimizedSizeofConverter
 import com.toasttab.protokt.rt.BytesSlice
 import kotlin.reflect.KClass

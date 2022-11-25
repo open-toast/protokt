@@ -18,9 +18,9 @@ package com.toasttab.protokt.codegen.generate
 import com.google.protobuf.DescriptorProtos.DescriptorProto.FIELD_FIELD_NUMBER
 import com.google.protobuf.DescriptorProtos.DescriptorProto.ONEOF_DECL_FIELD_NUMBER
 import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
-import com.toasttab.protokt.codegen.impl.Field
-import com.toasttab.protokt.codegen.impl.Oneof
-import com.toasttab.protokt.codegen.impl.StandardField
+import com.toasttab.protokt.codegen.util.Field
+import com.toasttab.protokt.codegen.util.Oneof
+import com.toasttab.protokt.codegen.util.StandardField
 
 fun annotatePropertyDocumentation(field: Field, ctx: Context) =
     PropertyDocumentationAnnotator(field, ctx).annotate()

@@ -17,12 +17,12 @@ package com.toasttab.protokt.codegen.generate
 
 import com.squareup.kotlinpoet.TypeName
 import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
-import com.toasttab.protokt.codegen.impl.MapEntry
-import com.toasttab.protokt.codegen.impl.Message
-import com.toasttab.protokt.codegen.impl.Oneof
-import com.toasttab.protokt.codegen.impl.StandardField
-import com.toasttab.protokt.codegen.impl.Wrapper.interceptMapKeyTypeName
-import com.toasttab.protokt.codegen.impl.Wrapper.interceptMapValueTypeName
+import com.toasttab.protokt.codegen.generate.Wrapper.interceptMapKeyTypeName
+import com.toasttab.protokt.codegen.generate.Wrapper.interceptMapValueTypeName
+import com.toasttab.protokt.codegen.util.MapEntry
+import com.toasttab.protokt.codegen.util.Message
+import com.toasttab.protokt.codegen.util.Oneof
+import com.toasttab.protokt.codegen.util.StandardField
 
 fun resolveMapEntry(m: Message) =
     MapEntry(

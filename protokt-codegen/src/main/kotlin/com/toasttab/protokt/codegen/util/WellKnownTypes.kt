@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.impl
+package com.toasttab.protokt.codegen.util
 
 import arrow.core.None
 import arrow.core.Option
@@ -32,18 +32,19 @@ object WellKnownTypes {
                     }
                 }
 
-    fun classNameForWellKnownType(type: String) = Option.fromNullable(
-        when (type) {
-            "DoubleValue" -> "java.lang.Double"
-            "FloatValue" -> "java.lang.Float"
-            "Int64Value" -> "java.lang.Long"
-            "UInt64Value" -> "java.lang.Long"
-            "Int32Value" -> "java.lang.Integer"
-            "UInt32Value" -> "java.lang.Integer"
-            "BoolValue" -> "java.lang.Boolean"
-            "StringValue" -> "java.lang.String"
-            "BytesValue" -> "com.toasttab.protokt.rt.Bytes"
-            else -> null
-        }
-    )
+    private fun classNameForWellKnownType(type: String) =
+        Option.fromNullable(
+            when (type) {
+                "DoubleValue" -> "java.lang.Double"
+                "FloatValue" -> "java.lang.Float"
+                "Int64Value" -> "java.lang.Long"
+                "UInt64Value" -> "java.lang.Long"
+                "Int32Value" -> "java.lang.Integer"
+                "UInt32Value" -> "java.lang.Integer"
+                "BoolValue" -> "java.lang.Boolean"
+                "StringValue" -> "java.lang.String"
+                "BytesValue" -> "com.toasttab.protokt.rt.Bytes"
+                else -> null
+            }
+        )
 }

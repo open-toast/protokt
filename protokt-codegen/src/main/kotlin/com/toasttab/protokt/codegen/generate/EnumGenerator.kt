@@ -24,10 +24,10 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
-import com.toasttab.protokt.codegen.impl.Deprecation.handleDeprecation
-import com.toasttab.protokt.codegen.impl.Deprecation.handleDeprecationSuppression
-import com.toasttab.protokt.codegen.impl.Deprecation.hasDeprecation
-import com.toasttab.protokt.codegen.impl.Enum
+import com.toasttab.protokt.codegen.generate.Deprecation.handleDeprecation
+import com.toasttab.protokt.codegen.generate.Deprecation.handleDeprecationSuppression
+import com.toasttab.protokt.codegen.generate.Deprecation.hasDeprecation
+import com.toasttab.protokt.codegen.util.Enum
 import com.toasttab.protokt.rt.KtEnum
 import com.toasttab.protokt.rt.KtEnumDeserializer
 

@@ -17,17 +17,16 @@ package com.toasttab.protokt.codegen.generate
 
 import com.squareup.kotlinpoet.CodeBlock
 import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
-import com.toasttab.protokt.codegen.impl.FieldType.BOOL
-import com.toasttab.protokt.codegen.impl.FieldType.BYTES
-import com.toasttab.protokt.codegen.impl.FieldType.ENUM
-import com.toasttab.protokt.codegen.impl.FieldType.MESSAGE
-import com.toasttab.protokt.codegen.impl.FieldType.STRING
-import com.toasttab.protokt.codegen.impl.StandardField
-import com.toasttab.protokt.codegen.impl.Tag
-import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
-import com.toasttab.protokt.codegen.impl.Wrapper.mapKeyConverter
-import com.toasttab.protokt.codegen.impl.Wrapper.mapValueConverter
-import com.toasttab.protokt.codegen.impl.defaultValue
+import com.toasttab.protokt.codegen.generate.Wrapper.interceptValueAccess
+import com.toasttab.protokt.codegen.generate.Wrapper.mapKeyConverter
+import com.toasttab.protokt.codegen.generate.Wrapper.mapValueConverter
+import com.toasttab.protokt.codegen.util.FieldType.BOOL
+import com.toasttab.protokt.codegen.util.FieldType.BYTES
+import com.toasttab.protokt.codegen.util.FieldType.ENUM
+import com.toasttab.protokt.codegen.util.FieldType.MESSAGE
+import com.toasttab.protokt.codegen.util.FieldType.STRING
+import com.toasttab.protokt.codegen.util.StandardField
+import com.toasttab.protokt.codegen.util.Tag
 
 internal val StandardField.tag
     get() =

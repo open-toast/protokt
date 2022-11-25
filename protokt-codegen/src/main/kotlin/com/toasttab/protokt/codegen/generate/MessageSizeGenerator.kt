@@ -20,15 +20,15 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
-import com.toasttab.protokt.codegen.impl.Message
-import com.toasttab.protokt.codegen.impl.Nullability.hasNonNullOption
-import com.toasttab.protokt.codegen.impl.Oneof
-import com.toasttab.protokt.codegen.impl.StandardField
-import com.toasttab.protokt.codegen.impl.Wrapper.interceptFieldSizeof
-import com.toasttab.protokt.codegen.impl.Wrapper.interceptSizeof
-import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
-import com.toasttab.protokt.codegen.impl.Wrapper.mapKeyConverter
-import com.toasttab.protokt.codegen.impl.Wrapper.mapValueConverter
+import com.toasttab.protokt.codegen.generate.Nullability.hasNonNullOption
+import com.toasttab.protokt.codegen.generate.Wrapper.interceptFieldSizeof
+import com.toasttab.protokt.codegen.generate.Wrapper.interceptSizeof
+import com.toasttab.protokt.codegen.generate.Wrapper.interceptValueAccess
+import com.toasttab.protokt.codegen.generate.Wrapper.mapKeyConverter
+import com.toasttab.protokt.codegen.generate.Wrapper.mapValueConverter
+import com.toasttab.protokt.codegen.util.Message
+import com.toasttab.protokt.codegen.util.Oneof
+import com.toasttab.protokt.codegen.util.StandardField
 import com.toasttab.protokt.rt.Tag
 import com.toasttab.protokt.rt.UInt32
 

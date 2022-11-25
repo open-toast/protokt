@@ -21,7 +21,7 @@ import com.google.protobuf.DescriptorProtos.DescriptorProto.NESTED_TYPE_FIELD_NU
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto.MESSAGE_TYPE_FIELD_NUMBER
 import com.google.protobuf.DescriptorProtos.SourceCodeInfo.Location
 import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
-import com.toasttab.protokt.codegen.impl.emptyToNone
+import com.toasttab.protokt.codegen.util.emptyToNone
 
 fun annotateMessageDocumentation(ctx: Context) =
     baseLocation(ctx).cleanDocumentation()

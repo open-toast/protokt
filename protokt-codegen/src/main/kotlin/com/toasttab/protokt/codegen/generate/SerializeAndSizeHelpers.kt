@@ -18,10 +18,10 @@ package com.toasttab.protokt.codegen.generate
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
-import com.toasttab.protokt.codegen.impl.Message
-import com.toasttab.protokt.codegen.impl.Nullability.hasNonNullOption
-import com.toasttab.protokt.codegen.impl.Oneof
-import com.toasttab.protokt.codegen.impl.StandardField
+import com.toasttab.protokt.codegen.generate.Nullability.hasNonNullOption
+import com.toasttab.protokt.codegen.util.Message
+import com.toasttab.protokt.codegen.util.Oneof
+import com.toasttab.protokt.codegen.util.StandardField
 
 fun Message.mapFields(
     ctx: Context,

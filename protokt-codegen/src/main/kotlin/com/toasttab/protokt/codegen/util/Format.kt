@@ -13,11 +13,9 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.impl
+package com.toasttab.protokt.codegen.util
 
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
-import com.toasttab.protokt.codegen.util.capitalize
-import com.toasttab.protokt.codegen.util.decapitalize
 
 internal object Keywords {
     val reserved =

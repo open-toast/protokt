@@ -23,9 +23,9 @@ import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
-import com.toasttab.protokt.codegen.impl.FieldType
-import com.toasttab.protokt.codegen.impl.Message
-import com.toasttab.protokt.codegen.impl.StandardField
+import com.toasttab.protokt.codegen.util.FieldType
+import com.toasttab.protokt.codegen.util.Message
+import com.toasttab.protokt.codegen.util.StandardField
 import com.toasttab.protokt.rt.AbstractKtDeserializer
 import com.toasttab.protokt.rt.AbstractKtMessage
 import com.toasttab.protokt.rt.KtMessage

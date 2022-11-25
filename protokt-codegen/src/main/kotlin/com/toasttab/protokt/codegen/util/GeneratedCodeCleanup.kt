@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.impl
+package com.toasttab.protokt.codegen.util
 
 import com.pinterest.ktlint.core.KtLint
 import com.pinterest.ktlint.ruleset.standard.StandardRuleSetProvider

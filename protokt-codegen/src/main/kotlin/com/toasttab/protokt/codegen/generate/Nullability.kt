@@ -13,10 +13,14 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.impl
+package com.toasttab.protokt.codegen.generate
 
 import com.squareup.kotlinpoet.TypeName
-import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
+import com.toasttab.protokt.codegen.generate.Wrapper.wrapped
+import com.toasttab.protokt.codegen.util.Field
+import com.toasttab.protokt.codegen.util.FieldType
+import com.toasttab.protokt.codegen.util.Oneof
+import com.toasttab.protokt.codegen.util.StandardField
 
 object Nullability {
     val Field.hasNonNullOption

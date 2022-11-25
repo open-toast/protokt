@@ -13,26 +13,27 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.impl
+package com.toasttab.protokt.codegen.generate
 
 import com.squareup.kotlinpoet.CodeBlock
-import com.toasttab.protokt.codegen.impl.FieldType.BOOL
-import com.toasttab.protokt.codegen.impl.FieldType.BYTES
-import com.toasttab.protokt.codegen.impl.FieldType.DOUBLE
-import com.toasttab.protokt.codegen.impl.FieldType.ENUM
-import com.toasttab.protokt.codegen.impl.FieldType.FIXED32
-import com.toasttab.protokt.codegen.impl.FieldType.FIXED64
-import com.toasttab.protokt.codegen.impl.FieldType.FLOAT
-import com.toasttab.protokt.codegen.impl.FieldType.INT32
-import com.toasttab.protokt.codegen.impl.FieldType.INT64
-import com.toasttab.protokt.codegen.impl.FieldType.MESSAGE
-import com.toasttab.protokt.codegen.impl.FieldType.SFIXED32
-import com.toasttab.protokt.codegen.impl.FieldType.SFIXED64
-import com.toasttab.protokt.codegen.impl.FieldType.SINT32
-import com.toasttab.protokt.codegen.impl.FieldType.SINT64
-import com.toasttab.protokt.codegen.impl.FieldType.STRING
-import com.toasttab.protokt.codegen.impl.FieldType.UINT32
-import com.toasttab.protokt.codegen.impl.FieldType.UINT64
+import com.toasttab.protokt.codegen.util.FieldType
+import com.toasttab.protokt.codegen.util.FieldType.BOOL
+import com.toasttab.protokt.codegen.util.FieldType.BYTES
+import com.toasttab.protokt.codegen.util.FieldType.DOUBLE
+import com.toasttab.protokt.codegen.util.FieldType.ENUM
+import com.toasttab.protokt.codegen.util.FieldType.FIXED32
+import com.toasttab.protokt.codegen.util.FieldType.FIXED64
+import com.toasttab.protokt.codegen.util.FieldType.FLOAT
+import com.toasttab.protokt.codegen.util.FieldType.INT32
+import com.toasttab.protokt.codegen.util.FieldType.INT64
+import com.toasttab.protokt.codegen.util.FieldType.MESSAGE
+import com.toasttab.protokt.codegen.util.FieldType.SFIXED32
+import com.toasttab.protokt.codegen.util.FieldType.SFIXED64
+import com.toasttab.protokt.codegen.util.FieldType.SINT32
+import com.toasttab.protokt.codegen.util.FieldType.SINT64
+import com.toasttab.protokt.codegen.util.FieldType.STRING
+import com.toasttab.protokt.codegen.util.FieldType.UINT32
+import com.toasttab.protokt.codegen.util.FieldType.UINT64
 import com.toasttab.protokt.rt.Bytes
 
 val FieldType.defaultValue: CodeBlock

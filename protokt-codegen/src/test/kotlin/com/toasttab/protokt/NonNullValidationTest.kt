@@ -16,7 +16,7 @@
 package com.toasttab.protokt
 
 import com.google.common.truth.Truth.assertThat
-import com.toasttab.protokt.codegen.model.FieldType
+import com.toasttab.protokt.codegen.util.FieldType
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments

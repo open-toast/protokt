@@ -16,13 +16,13 @@
 package com.toasttab.protokt.codegen.generate
 
 import com.squareup.kotlinpoet.TypeSpec
-import com.toasttab.protokt.codegen.impl.Enum
-import com.toasttab.protokt.codegen.impl.GeneratedType
-import com.toasttab.protokt.codegen.impl.Message
-import com.toasttab.protokt.codegen.impl.ProtoFileContents
-import com.toasttab.protokt.codegen.impl.ProtoFileInfo
-import com.toasttab.protokt.codegen.impl.Service
-import com.toasttab.protokt.codegen.impl.TopLevelType
+import com.toasttab.protokt.codegen.util.Enum
+import com.toasttab.protokt.codegen.util.GeneratedType
+import com.toasttab.protokt.codegen.util.Message
+import com.toasttab.protokt.codegen.util.ProtoFileContents
+import com.toasttab.protokt.codegen.util.ProtoFileInfo
+import com.toasttab.protokt.codegen.util.Service
+import com.toasttab.protokt.codegen.util.TopLevelType
 import kotlinx.collections.immutable.persistentListOf
 
 object CodeGenerator {

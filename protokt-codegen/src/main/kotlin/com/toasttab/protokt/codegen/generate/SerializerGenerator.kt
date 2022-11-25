@@ -20,9 +20,9 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
-import com.toasttab.protokt.codegen.impl.Message
-import com.toasttab.protokt.codegen.impl.StandardField
-import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
+import com.toasttab.protokt.codegen.generate.Wrapper.interceptValueAccess
+import com.toasttab.protokt.codegen.util.Message
+import com.toasttab.protokt.codegen.util.StandardField
 import com.toasttab.protokt.rt.KtMessageSerializer
 import com.toasttab.protokt.rt.Tag
 import com.toasttab.protokt.rt.UInt32

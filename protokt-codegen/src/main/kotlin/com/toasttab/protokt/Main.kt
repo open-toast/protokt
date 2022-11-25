@@ -22,8 +22,8 @@ import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.Feature
 import com.squareup.kotlinpoet.FileSpec
 import com.toasttab.protokt.codegen.generate.GeneratorContext
 import com.toasttab.protokt.codegen.generate.generateFile
-import com.toasttab.protokt.codegen.impl.parseContents
-import com.toasttab.protokt.codegen.impl.tidy
+import com.toasttab.protokt.codegen.util.parseContents
+import com.toasttab.protokt.codegen.util.tidy
 import com.toasttab.protokt.ext.Protokt
 import java.io.OutputStream
 import kotlin.system.exitProcess

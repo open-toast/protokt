@@ -18,10 +18,10 @@ package com.toasttab.protokt.codegen.generate
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.LambdaTypeName
 import com.squareup.kotlinpoet.asTypeName
-import com.toasttab.protokt.codegen.impl.Deprecation.addDeprecationSuppression
-import com.toasttab.protokt.codegen.impl.Deprecation.handleDeprecation
-import com.toasttab.protokt.codegen.impl.Deprecation.hasDeprecation
-import com.toasttab.protokt.codegen.impl.Message
+import com.toasttab.protokt.codegen.generate.Deprecation.addDeprecationSuppression
+import com.toasttab.protokt.codegen.generate.Deprecation.handleDeprecation
+import com.toasttab.protokt.codegen.generate.Deprecation.hasDeprecation
+import com.toasttab.protokt.codegen.util.Message
 
 fun addConstructorFunction(msg: Message, addFunction: (FunSpec) -> Unit) {
     addFunction(

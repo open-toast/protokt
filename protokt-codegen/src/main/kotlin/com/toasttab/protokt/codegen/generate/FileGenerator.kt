@@ -16,9 +16,9 @@
 package com.toasttab.protokt.codegen.generate
 
 import com.squareup.kotlinpoet.FileSpec
-import com.toasttab.protokt.codegen.impl.Message
-import com.toasttab.protokt.codegen.impl.ProtoFileContents
-import com.toasttab.protokt.codegen.impl.fileName
+import com.toasttab.protokt.codegen.util.Message
+import com.toasttab.protokt.codegen.util.ProtoFileContents
+import com.toasttab.protokt.codegen.util.fileName
 
 fun generateFile(contents: ProtoFileContents) =
     FileGenerator(contents).generate()

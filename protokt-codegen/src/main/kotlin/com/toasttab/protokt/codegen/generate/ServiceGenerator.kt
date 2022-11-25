@@ -28,8 +28,8 @@ import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
 import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
 import com.toasttab.protokt.codegen.generate.CodeGenerator.protoktPkg
-import com.toasttab.protokt.codegen.impl.Method
-import com.toasttab.protokt.codegen.impl.Service
+import com.toasttab.protokt.codegen.util.Method
+import com.toasttab.protokt.codegen.util.Service
 import com.toasttab.protokt.codegen.util.decapitalize
 import com.toasttab.protokt.grpc.KtMarshaller
 import io.grpc.MethodDescriptor

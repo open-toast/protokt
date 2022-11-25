@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.model
+package com.toasttab.protokt.codegen
 
 import com.google.common.truth.Truth.assertThat
 import com.toasttab.protokt.rt.Fixed32

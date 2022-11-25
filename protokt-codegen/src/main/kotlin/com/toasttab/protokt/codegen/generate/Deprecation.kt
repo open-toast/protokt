@@ -13,16 +13,17 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.impl
+package com.toasttab.protokt.codegen.generate
 
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
-import com.toasttab.protokt.codegen.generate.bindSpaces
-import com.toasttab.protokt.codegen.generate.deprecated
-import com.toasttab.protokt.codegen.generate.embed
+import com.toasttab.protokt.codegen.util.Enum
+import com.toasttab.protokt.codegen.util.Message
+import com.toasttab.protokt.codegen.util.Oneof
+import com.toasttab.protokt.codegen.util.StandardField
 
 object Deprecation {
     fun enclosingDeprecation(ctx: Context): Boolean {
