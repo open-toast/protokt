@@ -21,12 +21,13 @@ import arrow.core.orElse
 import com.google.protobuf.DescriptorProtos.DescriptorProto
 import com.google.protobuf.DescriptorProtos.EnumDescriptorProto
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
+import com.squareup.kotlinpoet.asTypeName
 
 const val rootGoogleProto = "google.protobuf"
 const val googleProto = ".google.protobuf"
 
 const val protoktPkg = "com.toasttab.protokt"
-const val protoktRtPkg = "com.toasttab.protokt.rt"
+val protoktRtPkg = com.toasttab.protokt.rt.Bytes::class.asTypeName().packageName
 
 fun packagesByTypeName(
     protoFileList: List<FileDescriptorProto>,
