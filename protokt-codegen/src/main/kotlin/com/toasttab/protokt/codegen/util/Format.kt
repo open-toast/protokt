@@ -40,23 +40,12 @@ internal fun newFieldName(preferred: String) =
     // of the sealed class is modified when the field name is capitalized
     snakeToCamel(preferred).decapitalize()
 
-internal fun newEnumValueName(
-    enumTypeNamePrefix: String?,
-    preferred: String,
-    set: Set<String>
-): String {
-    var name = preferred
-
+internal fun newEnumValueName(enumTypeNamePrefix: String?, name: String) =
     if (enumTypeNamePrefix != null) {
-        name = name.removePrefix(enumTypeNamePrefix)
+        name.removePrefix(enumTypeNamePrefix)
+    } else {
+        name
     }
-
-    while (name in set) {
-        name += '_'
-    }
-
-    return name
-}
 
 internal fun camelToUpperSnake(str: String) =
     str.replace(Regex("(?<=[a-z])([A-Z0-9])"), "_$1").uppercase()

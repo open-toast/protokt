@@ -38,6 +38,7 @@ import kotlinx.collections.immutable.PersistentSet
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.persistentSetOf
 import kotlinx.collections.immutable.plus
+import kotlinx.collections.immutable.toPersistentList
 
 fun parseContents(ctx: GeneratorContext): ProtoFileContents {
     val kotlinPackage = resolvePackage(ctx.fdp.fileOptions, ctx.fdp.`package`, ctx.respectJavaPackage)
@@ -97,30 +98,19 @@ private fun toTypeList(
     services: List<ServiceDescriptorProto> = emptyList(),
     enclosingMessages: List<String> = emptyList()
 ): PersistentList<TopLevelType> =
-    enums.foldIndexed(
-        Pair(persistentSetOf<String>(), persistentListOf<TopLevelType>())
-    ) { idx, acc, t ->
-        val e = toEnum(idx, t, acc.first, enclosingMessages, pkg)
-        Pair(acc.first + e.className.simpleName, acc.second + e)
-    }.second +
-        messages.foldIndexed(
-            Pair(persistentSetOf<String>(), persistentListOf<TopLevelType>())
-        ) { idx, acc, t ->
-            val m = toMessage(idx, ctx, pkg, t, acc.first, enclosingMessages)
-            Pair(acc.first + m.className.simpleName, acc.second + m)
-        }.second +
-
-        services.foldIndexed(
-            Pair(persistentSetOf<String>(), persistentListOf<TopLevelType>())
-        ) { idx, acc, t ->
-            val s = toService(idx, t, ctx)
-            Pair(acc.first, acc.second + s)
-        }.second
+    enums.mapIndexed { idx, t ->
+        toEnum(idx, t, enclosingMessages, pkg)
+    }.toPersistentList() +
+        messages.mapIndexed { idx, t ->
+            toMessage(idx, ctx, pkg, t, emptySet(), enclosingMessages)
+        } +
+        services.mapIndexed { idx, t ->
+            toService(idx, t, ctx)
+        }
 
 private fun toEnum(
     idx: Int,
     desc: EnumDescriptorProto,
-    names: PersistentSet<String>,
     enclosingMessages: List<String>,
     pkg: String
 ): Enum {
@@ -133,26 +123,18 @@ private fun toEnum(
             }
 
     return Enum(
-        values = desc.valueList.foldIndexed(
-            Pair(
-                names + typeName,
-                persistentListOf<Enum.Value>()
+        values = desc.valueList.mapIndexed { enumIdx, t ->
+            Enum.Value(
+                t.number,
+                t.name,
+                newEnumValueName(enumTypeNamePrefixToStrip, t.name),
+                EnumValueOptions(
+                    t.options,
+                    t.options.getExtension(Protokt.enumValue)
+                ),
+                enumIdx
             )
-        ) { enumIdx, acc, t ->
-            val n = newEnumValueName(enumTypeNamePrefixToStrip, t.name, acc.first)
-            val v =
-                Enum.Value(
-                    t.number,
-                    t.name,
-                    n,
-                    EnumValueOptions(
-                        t.options,
-                        t.options.getExtension(Protokt.enumValue)
-                    ),
-                    enumIdx
-                )
-            Pair(acc.first + n, acc.second + v)
-        }.second,
+        },
         index = idx,
         options = EnumOptions(
             desc.options,
