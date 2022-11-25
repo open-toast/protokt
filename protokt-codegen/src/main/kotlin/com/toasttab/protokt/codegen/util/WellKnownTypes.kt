@@ -18,6 +18,7 @@ package com.toasttab.protokt.codegen.util
 import arrow.core.None
 import arrow.core.Option
 import arrow.core.orElse
+import com.toasttab.protokt.rt.Bytes
 
 object WellKnownTypes {
     val StandardField.wrapWithWellKnownInterception
@@ -42,7 +43,7 @@ object WellKnownTypes {
                 "UInt32Value" -> "java.lang.Integer"
                 "BoolValue" -> "java.lang.Boolean"
                 "StringValue" -> "java.lang.String"
-                "BytesValue" -> "$protoktRtPkg.Bytes"
+                "BytesValue" -> Bytes::class.qualifiedName
                 else -> null
             }
         )
