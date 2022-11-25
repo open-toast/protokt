@@ -13,22 +13,23 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.annotators
+package com.toasttab.protokt.codegen.generate
 
 import com.google.protobuf.DescriptorProtos.DescriptorProto.FIELD_FIELD_NUMBER
 import com.google.protobuf.DescriptorProtos.DescriptorProto.ONEOF_DECL_FIELD_NUMBER
-import com.toasttab.protokt.codegen.annotators.Annotator.Context
-import com.toasttab.protokt.codegen.annotators.MessageDocumentationAnnotator.baseLocation
-import com.toasttab.protokt.codegen.protoc.Field
-import com.toasttab.protokt.codegen.protoc.Oneof
-import com.toasttab.protokt.codegen.protoc.StandardField
+import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
+import com.toasttab.protokt.codegen.impl.Field
+import com.toasttab.protokt.codegen.impl.Oneof
+import com.toasttab.protokt.codegen.impl.StandardField
 
-internal class PropertyDocumentationAnnotator
-private constructor(
+fun annotatePropertyDocumentation(field: Field, ctx: Context) =
+    PropertyDocumentationAnnotator(field, ctx).annotate()
+
+private class PropertyDocumentationAnnotator(
     private val field: Field,
     private val ctx: Context
 ) {
-    private fun annotatePropertyDocumentation() =
+    fun annotate() =
         baseLocation(
             ctx,
             when (field) {
@@ -36,9 +37,4 @@ private constructor(
                 is Oneof -> listOf(ONEOF_DECL_FIELD_NUMBER, field.index)
             }
         ).cleanDocumentation()
-
-    companion object {
-        fun annotatePropertyDocumentation(field: Field, ctx: Context) =
-            PropertyDocumentationAnnotator(field, ctx).annotatePropertyDocumentation()
-    }
 }

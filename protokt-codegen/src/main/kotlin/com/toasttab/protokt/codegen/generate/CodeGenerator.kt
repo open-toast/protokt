@@ -13,23 +13,19 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.annotators
+package com.toasttab.protokt.codegen.generate
 
 import com.squareup.kotlinpoet.TypeSpec
-import com.toasttab.protokt.codegen.annotators.MessageAnnotator.Companion.annotateMessage
-import com.toasttab.protokt.codegen.annotators.ServiceAnnotator.annotateService
-import com.toasttab.protokt.codegen.impl.EnumBuilder
-import com.toasttab.protokt.codegen.protoc.Enum
-import com.toasttab.protokt.codegen.protoc.GeneratedType
-import com.toasttab.protokt.codegen.protoc.GeneratorContext
-import com.toasttab.protokt.codegen.protoc.Message
-import com.toasttab.protokt.codegen.protoc.ProtoFileContents
-import com.toasttab.protokt.codegen.protoc.ProtoFileInfo
-import com.toasttab.protokt.codegen.protoc.Service
-import com.toasttab.protokt.codegen.protoc.TopLevelType
+import com.toasttab.protokt.codegen.impl.Enum
+import com.toasttab.protokt.codegen.impl.GeneratedType
+import com.toasttab.protokt.codegen.impl.Message
+import com.toasttab.protokt.codegen.impl.ProtoFileContents
+import com.toasttab.protokt.codegen.impl.ProtoFileInfo
+import com.toasttab.protokt.codegen.impl.Service
+import com.toasttab.protokt.codegen.impl.TopLevelType
 import kotlinx.collections.immutable.persistentListOf
 
-object Annotator {
+object CodeGenerator {
     const val rootGoogleProto = "google.protobuf"
     const val googleProto = ".google.protobuf"
 
@@ -38,22 +34,22 @@ object Annotator {
 
     data class Context(
         val enclosing: List<Message>,
-        val desc: ProtoFileInfo
+        val info: ProtoFileInfo
     )
 
-    fun apply(contents: ProtoFileContents) =
+    fun generate(contents: ProtoFileContents) =
         contents.types.flatMap {
-            annotate(it, Context(persistentListOf(), contents.info))
+            generate(it, Context(persistentListOf(), contents.info))
                 .map { type -> GeneratedType(it, type) }
         }
 
-    fun annotate(type: TopLevelType, ctx: Context): Iterable<TypeSpec> =
+    fun generate(type: TopLevelType, ctx: Context): Iterable<TypeSpec> =
         when (type) {
             is Message ->
                 nonGrpc(ctx) {
                     nonDescriptors(ctx) {
                         listOf(
-                            annotateMessage(
+                            generateMessage(
                                 type,
                                 ctx.copy(enclosing = ctx.enclosing + type)
                             )
@@ -63,26 +59,26 @@ object Annotator {
             is Enum ->
                 nonGrpc(ctx) {
                     nonDescriptors(ctx) {
-                        listOf(EnumBuilder(type, ctx).build())
+                        listOf(generateEnum(type, ctx))
                     }
                 }
             is Service ->
-                annotateService(
+                generateService(
                     type,
                     ctx,
-                    ctx.desc.context.generateGrpc ||
-                        ctx.desc.context.onlyGenerateGrpc
+                    ctx.info.context.generateGrpc ||
+                        ctx.info.context.onlyGenerateGrpc
                 )
         }
 
     private fun <T> nonDescriptors(ctx: Context, gen: () -> Iterable<T>) =
-        nonDescriptors(ctx.desc.context, emptyList(), gen)
+        nonDescriptors(ctx.info.context, emptyList(), gen)
 
     private fun <T> nonDescriptors(ctx: GeneratorContext, default: T, gen: () -> T) =
         boolGen(!ctx.onlyGenerateDescriptors, default, gen)
 
     private fun <T> nonGrpc(ctx: Context, gen: () -> Iterable<T>) =
-        nonGrpc(ctx.desc.context, emptyList(), gen)
+        nonGrpc(ctx.info.context, emptyList(), gen)
 
     private fun <T> nonGrpc(ctx: GeneratorContext, default: T, gen: () -> T) =
         boolGen(!ctx.onlyGenerateGrpc, default, gen)

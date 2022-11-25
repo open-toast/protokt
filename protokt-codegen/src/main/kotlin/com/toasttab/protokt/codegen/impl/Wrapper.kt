@@ -23,14 +23,14 @@ import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
-import com.toasttab.protokt.codegen.annotators.Annotator.Context
-import com.toasttab.protokt.codegen.annotators.box
+import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
+import com.toasttab.protokt.codegen.generate.GeneratorContext
+import com.toasttab.protokt.codegen.generate.box
+import com.toasttab.protokt.codegen.generate.inferClassName
+import com.toasttab.protokt.codegen.generate.runtimeFunction
 import com.toasttab.protokt.codegen.impl.ClassLookup.converters
 import com.toasttab.protokt.codegen.impl.ClassLookup.getClass
 import com.toasttab.protokt.codegen.impl.WellKnownTypes.wrapWithWellKnownInterception
-import com.toasttab.protokt.codegen.model.FieldType
-import com.toasttab.protokt.codegen.protoc.GeneratorContext
-import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.ext.OptimizedSizeofConverter
 import com.toasttab.protokt.rt.BytesSlice
 import kotlin.reflect.KClass
@@ -84,8 +84,8 @@ internal object Wrapper {
     ) =
         foldWrap(
             wrapWithWellKnownInterception,
-            ctx.desc.kotlinPackage,
-            ctx.desc.context,
+            ctx.info.kotlinPackage,
+            ctx.info.context,
             ifEmpty,
             ifSome
         )
@@ -210,7 +210,7 @@ internal object Wrapper {
         ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
     ) =
         mapEntry?.key
-            ?.foldWrap(keyWrap, ctx.desc.kotlinPackage, ctx.desc.context, ifEmpty, ifSome)
+            ?.foldWrap(keyWrap, ctx.info.kotlinPackage, ctx.info.context, ifEmpty, ifSome)
 
     fun interceptMapKeyTypeName(f: StandardField, t: TypeName, ctx: Context) =
         f.foldKeyWrap(ctx, { t }, unqualifiedWrap())
@@ -228,7 +228,7 @@ internal object Wrapper {
         ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
     ) =
         mapEntry?.value
-            ?.foldWrap(valueWrap, ctx.desc.kotlinPackage, ctx.desc.context, ifEmpty, ifSome)
+            ?.foldWrap(valueWrap, ctx.info.kotlinPackage, ctx.info.context, ifEmpty, ifSome)
 
     fun interceptMapValueTypeName(f: StandardField, t: TypeName, ctx: Context) =
         f.foldValueWrap(ctx, { t }, unqualifiedWrap())
@@ -254,7 +254,7 @@ internal object Wrapper {
             wrapper.asTypeName()
 
     private fun converter(wrapper: KClass<*>, wrapped: KClass<*>, ctx: Context) =
-        converter(wrapper, wrapped, ctx.desc.context)
+        converter(wrapper, wrapped, ctx.info.context)
 
     val converter = { wrapper: KClass<*>, wrapped: KClass<*>, ctx: GeneratorContext ->
         val converters =

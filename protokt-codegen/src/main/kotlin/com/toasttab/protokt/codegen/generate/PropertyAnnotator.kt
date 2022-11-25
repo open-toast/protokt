@@ -13,56 +13,39 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.annotators
+package com.toasttab.protokt.codegen.generate
 
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.asTypeName
-import com.toasttab.protokt.codegen.annotators.Annotator.Context
-import com.toasttab.protokt.codegen.annotators.PropertyDocumentationAnnotator.Companion.annotatePropertyDocumentation
+import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
 import com.toasttab.protokt.codegen.impl.Deprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
+import com.toasttab.protokt.codegen.impl.Field
+import com.toasttab.protokt.codegen.impl.FieldType
 import com.toasttab.protokt.codegen.impl.Implements.overrides
+import com.toasttab.protokt.codegen.impl.Message
 import com.toasttab.protokt.codegen.impl.Nullability.deserializeType
 import com.toasttab.protokt.codegen.impl.Nullability.dslPropertyType
 import com.toasttab.protokt.codegen.impl.Nullability.hasNonNullOption
 import com.toasttab.protokt.codegen.impl.Nullability.nullable
 import com.toasttab.protokt.codegen.impl.Nullability.propertyType
+import com.toasttab.protokt.codegen.impl.Oneof
+import com.toasttab.protokt.codegen.impl.StandardField
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptDefaultValue
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptTypeName
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
 import com.toasttab.protokt.codegen.impl.defaultValue
-import com.toasttab.protokt.codegen.model.FieldType
-import com.toasttab.protokt.codegen.protoc.Field
-import com.toasttab.protokt.codegen.protoc.Message
-import com.toasttab.protokt.codegen.protoc.Oneof
-import com.toasttab.protokt.codegen.protoc.StandardField
 
-internal class PropertyAnnotator
-private constructor(
+fun annotateProperties(msg: Message, ctx: Context) =
+    PropertyAnnotator(msg, ctx).annotate()
+
+private class PropertyAnnotator(
     private val msg: Message,
     private val ctx: Context
 ) {
-    class PropertyInfo(
-        val name: String,
-        val propertyType: TypeName,
-        val deserializeType: TypeName,
-        val dslPropertyType: TypeName,
-        val defaultValue: CodeBlock,
-        val nullable: Boolean,
-        val nonNullOption: Boolean,
-        val fieldType: String = "",
-        val repeated: Boolean = false,
-        val map: Boolean = false,
-        val oneof: Boolean = false,
-        val wrapped: Boolean = false,
-        val overrides: Boolean = false,
-        val documentation: List<String>,
-        val deprecation: Deprecation.RenderOptions? = null
-    )
-
-    private fun annotateProperties(): List<PropertyInfo> {
+    fun annotate(): List<PropertyInfo> {
         return msg.fields.map {
             val documentation = annotatePropertyDocumentation(it, ctx)
 
@@ -145,9 +128,22 @@ private constructor(
                 )
             is Oneof -> CodeBlock.of("null")
         }
-
-    companion object {
-        fun annotateProperties(msg: Message, ctx: Context) =
-            PropertyAnnotator(msg, ctx).annotateProperties()
-    }
 }
+
+class PropertyInfo(
+    val name: String,
+    val propertyType: TypeName,
+    val deserializeType: TypeName,
+    val dslPropertyType: TypeName,
+    val defaultValue: CodeBlock,
+    val nullable: Boolean,
+    val nonNullOption: Boolean,
+    val fieldType: String = "",
+    val repeated: Boolean = false,
+    val map: Boolean = false,
+    val oneof: Boolean = false,
+    val wrapped: Boolean = false,
+    val overrides: Boolean = false,
+    val documentation: List<String>,
+    val deprecation: Deprecation.RenderOptions? = null
+)

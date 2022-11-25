@@ -17,13 +17,13 @@ package com.toasttab.protokt.codegen.impl
 
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.TypeSpec
-import com.toasttab.protokt.codegen.annotators.Annotator.Context
-import com.toasttab.protokt.codegen.annotators.OneofAnnotator
+import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
+import com.toasttab.protokt.codegen.generate.OneofGeneratorInfo
+import com.toasttab.protokt.codegen.generate.OneofGeneratorOptions
+import com.toasttab.protokt.codegen.generate.inferClassName
 import com.toasttab.protokt.codegen.impl.ClassLookup.getClass
-import com.toasttab.protokt.codegen.protoc.Message
-import com.toasttab.protokt.codegen.protoc.StandardField
 
-internal object Implements {
+object Implements {
     fun StandardField.overrides(
         ctx: Context,
         msg: Message
@@ -33,11 +33,11 @@ internal object Implements {
             ?: false
 
     private fun classIncludesProperty(className: ClassName, prop: String, ctx: Context) =
-        getClass(className, ctx.desc.context)
+        getClass(className, ctx.info.context)
             .members.map { m -> m.name }
             .contains(prop)
 
-    fun TypeSpec.Builder.handleSuperInterface(options: OneofAnnotator.Options, v: OneofAnnotator.Info? = null) =
+    fun TypeSpec.Builder.handleSuperInterface(options: OneofGeneratorOptions, v: OneofGeneratorInfo? = null) =
         apply {
             if (options.implements != null) {
                 // TODO: qualify this with the package or allow it to be literal?

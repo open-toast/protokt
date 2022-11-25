@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.annotators
+package com.toasttab.protokt.codegen.generate
 
 import arrow.core.None
 import arrow.core.Option
@@ -29,10 +29,21 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
-import com.toasttab.protokt.codegen.annotators.Annotator.Context
-import com.toasttab.protokt.codegen.annotators.DeserializerAnnotator.DeserializerInfo.Assignment
-import com.toasttab.protokt.codegen.annotators.PropertyAnnotator.Companion.annotateProperties
-import com.toasttab.protokt.codegen.annotators.PropertyAnnotator.PropertyInfo
+import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
+import com.toasttab.protokt.codegen.generate.DeserializerGenerator.DeserializerInfo.Assignment
+import com.toasttab.protokt.codegen.impl.FieldType
+import com.toasttab.protokt.codegen.impl.FieldType.ENUM
+import com.toasttab.protokt.codegen.impl.FieldType.MESSAGE
+import com.toasttab.protokt.codegen.impl.FieldType.SFIXED32
+import com.toasttab.protokt.codegen.impl.FieldType.SFIXED64
+import com.toasttab.protokt.codegen.impl.FieldType.SINT32
+import com.toasttab.protokt.codegen.impl.FieldType.SINT64
+import com.toasttab.protokt.codegen.impl.FieldType.UINT32
+import com.toasttab.protokt.codegen.impl.FieldType.UINT64
+import com.toasttab.protokt.codegen.impl.Message
+import com.toasttab.protokt.codegen.impl.Oneof
+import com.toasttab.protokt.codegen.impl.StandardField
+import com.toasttab.protokt.codegen.impl.Tag
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptReadFn
 import com.toasttab.protokt.codegen.impl.Wrapper.keyWrapped
 import com.toasttab.protokt.codegen.impl.Wrapper.mapKeyConverter
@@ -41,26 +52,21 @@ import com.toasttab.protokt.codegen.impl.Wrapper.valueWrapped
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapField
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapperName
-import com.toasttab.protokt.codegen.impl.buildFunSpec
-import com.toasttab.protokt.codegen.impl.endControlFlowWithoutNewline
-import com.toasttab.protokt.codegen.model.FieldType
-import com.toasttab.protokt.codegen.protoc.Message
-import com.toasttab.protokt.codegen.protoc.Oneof
-import com.toasttab.protokt.codegen.protoc.StandardField
-import com.toasttab.protokt.codegen.protoc.Tag
 import com.toasttab.protokt.codegen.util.capitalize
 import com.toasttab.protokt.rt.AbstractKtDeserializer
 import com.toasttab.protokt.rt.KtMessageDeserializer
 import com.toasttab.protokt.rt.UnknownFieldSet
 
-internal class DeserializerAnnotator
-private constructor(
+fun generateDeserializer(msg: Message, ctx: Context, properties: List<PropertyInfo>) =
+    DeserializerGenerator(msg, ctx, properties).generate()
+
+private class DeserializerGenerator(
     private val msg: Message,
-    private val ctx: Context
+    private val ctx: Context,
+    private val properties: List<PropertyInfo>
 ) {
-    private fun annotateDeserializer(): TypeSpec {
+    fun generate(): TypeSpec {
         val deserializerInfo = deserializerInfo()
-        val properties = annotateProperties(msg, ctx)
 
         return TypeSpec.companionObjectBuilder("Deserializer")
             .superclass(
@@ -180,14 +186,9 @@ private constructor(
 
     private fun oneofDes(f: Oneof, ff: StandardField) =
         CodeBlock.of("%T(%L)", f.qualify(ff), deserialize(ff, ctx, false))
-
-    companion object {
-        fun annotateDeserializer(msg: Message, ctx: Context) =
-            DeserializerAnnotator(msg, ctx).annotateDeserializer()
-    }
 }
 
-internal fun deserialize(f: StandardField, ctx: Context, packed: Boolean): CodeBlock {
+fun deserialize(f: StandardField, ctx: Context, packed: Boolean): CodeBlock {
     val options = deserializeOptions(f, ctx)
     val read = CodeBlock.of("deserializer.%L", interceptReadFn(f, f.readFn()))
 
@@ -239,16 +240,16 @@ private fun deserializeMap(f: StandardField, options: Options?, read: CodeBlock)
 
 private fun StandardField.readFn() =
     when (type) {
-        FieldType.SFIXED32 -> CodeBlock.of("readSFixed32()")
-        FieldType.SFIXED64 -> CodeBlock.of("readSFixed64()")
-        FieldType.SINT32 -> CodeBlock.of("readSInt32()")
-        FieldType.SINT64 -> CodeBlock.of("readSInt64()")
-        FieldType.UINT32 -> CodeBlock.of("readUInt32()")
-        FieldType.UINT64 -> CodeBlock.of("readUInt64()")
+        SFIXED32 -> CodeBlock.of("readSFixed32()")
+        SFIXED64 -> CodeBlock.of("readSFixed64()")
+        SINT32 -> CodeBlock.of("readSInt32()")
+        SINT64 -> CodeBlock.of("readSInt64()")
+        UINT32 -> CodeBlock.of("readUInt32()")
+        UINT64 -> CodeBlock.of("readUInt64()")
         // by default for DOUBLE we get readDouble, for BOOL we get readBool(), etc.
         else -> buildCodeBlock {
             add("read${type.name.lowercase().capitalize()}(")
-            if (type == FieldType.ENUM || type == FieldType.MESSAGE) {
+            if (type == ENUM || type == MESSAGE) {
                 add("%T", className)
             }
             add(")")

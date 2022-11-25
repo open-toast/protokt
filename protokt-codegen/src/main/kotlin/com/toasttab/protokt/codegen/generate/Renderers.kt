@@ -1,12 +1,8 @@
-package com.toasttab.protokt.codegen.annotators
+package com.toasttab.protokt.codegen.generate
 
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
-import com.toasttab.protokt.codegen.annotators.PropertyAnnotator.PropertyInfo
-import com.toasttab.protokt.codegen.impl.bindSpaces
-import com.toasttab.protokt.codegen.impl.endControlFlowWithoutNewline
-import com.toasttab.protokt.codegen.impl.runtimeFunction
 
 internal fun deserializeValue(p: PropertyInfo) =
     if (p.repeated || p.wrapped || p.nullable || p.fieldType == "MESSAGE") {

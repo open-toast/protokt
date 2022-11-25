@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.impl
+package com.toasttab.protokt.codegen.generate
 
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
@@ -22,8 +22,8 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.MemberName
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeName
-import com.toasttab.protokt.codegen.annotators.Annotator.Context
-import com.toasttab.protokt.codegen.annotators.Annotator.protoktRtPkg
+import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
+import com.toasttab.protokt.codegen.generate.CodeGenerator.protoktRtPkg
 import kotlin.reflect.KClass
 
 fun String.embed() =
@@ -66,7 +66,7 @@ fun CodeBlock.Builder.endControlFlowWithoutNewline() {
 }
 
 fun inferClassName(className: String, ctx: Context) =
-    inferClassName(className, ctx.desc.kotlinPackage)
+    inferClassName(className, ctx.info.kotlinPackage)
 
 fun inferClassName(className: String, pkg: String): ClassName {
     val inferred = ClassName.bestGuess(className)

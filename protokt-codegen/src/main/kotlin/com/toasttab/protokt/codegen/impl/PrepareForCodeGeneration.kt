@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.protoc
+package com.toasttab.protokt.codegen.impl
 
 import arrow.core.None
 import arrow.core.Option
@@ -32,11 +32,9 @@ import com.google.protobuf.DescriptorProtos.OneofDescriptorProto
 import com.google.protobuf.DescriptorProtos.ServiceDescriptorProto
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.asTypeName
-import com.toasttab.protokt.codegen.annotators.Annotator.rootGoogleProto
-import com.toasttab.protokt.codegen.annotators.resolveMapEntry
-import com.toasttab.protokt.codegen.impl.overrideGoogleProtobuf
-import com.toasttab.protokt.codegen.impl.resolvePackage
-import com.toasttab.protokt.codegen.model.FieldType
+import com.toasttab.protokt.codegen.generate.CodeGenerator.rootGoogleProto
+import com.toasttab.protokt.codegen.generate.GeneratorContext
+import com.toasttab.protokt.codegen.generate.resolveMapEntry
 import com.toasttab.protokt.ext.Protokt
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.PersistentSet

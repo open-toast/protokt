@@ -13,11 +13,12 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.protoc
+package com.toasttab.protokt.codegen.generate
 
 import com.google.common.base.CaseFormat.LOWER_CAMEL
 import com.google.common.base.CaseFormat.LOWER_UNDERSCORE
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
+import com.toasttab.protokt.codegen.impl.generateFdpObjectNames
 import com.toasttab.protokt.codegen.impl.packagesByTypeName
 import com.toasttab.protokt.codegen.impl.resolvePackage
 import com.toasttab.protokt.gradle.GENERATE_GRPC

@@ -13,21 +13,21 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.impl
+package com.toasttab.protokt.codegen.generate
 
 import com.squareup.kotlinpoet.FileSpec
-import com.toasttab.protokt.codegen.annotators.Annotator
-import com.toasttab.protokt.codegen.annotators.addConstructorFunction
-import com.toasttab.protokt.codegen.descriptor.FileDescriptorResolver
-import com.toasttab.protokt.codegen.protoc.Message
-import com.toasttab.protokt.codegen.protoc.ProtoFileContents
-import com.toasttab.protokt.codegen.protoc.fileName
+import com.toasttab.protokt.codegen.impl.Message
+import com.toasttab.protokt.codegen.impl.ProtoFileContents
+import com.toasttab.protokt.codegen.impl.fileName
 
-object FileBuilder {
-    fun buildFile(
-        contents: ProtoFileContents
-    ): FileSpec? {
-        val descs = Annotator.apply(contents)
+fun generateFile(contents: ProtoFileContents) =
+    FileGenerator(contents).generate()
+
+private class FileGenerator(
+    private val contents: ProtoFileContents
+) {
+    fun generate(): FileSpec? {
+        val descs = CodeGenerator.generate(contents)
 
         val builder =
             FileSpec.builder(

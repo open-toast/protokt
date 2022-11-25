@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.model
+package com.toasttab.protokt.codegen.impl
 
 import com.toasttab.protokt.rt.Bytes
 import com.toasttab.protokt.rt.KtEnum

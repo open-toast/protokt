@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.annotators
+package com.toasttab.protokt.codegen.generate
 
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
@@ -22,18 +22,10 @@ import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
-import com.toasttab.protokt.codegen.annotators.Annotator.Context
-import com.toasttab.protokt.codegen.annotators.MessageSizeAnnotator.Companion.sizeOf
-import com.toasttab.protokt.codegen.annotators.PropertyAnnotator.Companion.annotateProperties
-import com.toasttab.protokt.codegen.annotators.PropertyAnnotator.PropertyInfo
-import com.toasttab.protokt.codegen.annotators.SerializerAnnotator.Companion.serialize
-import com.toasttab.protokt.codegen.impl.bindSpaces
-import com.toasttab.protokt.codegen.impl.buildFunSpec
-import com.toasttab.protokt.codegen.impl.constructorProperty
-import com.toasttab.protokt.codegen.impl.namedCodeBlock
-import com.toasttab.protokt.codegen.model.FieldType
-import com.toasttab.protokt.codegen.protoc.Message
-import com.toasttab.protokt.codegen.protoc.StandardField
+import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
+import com.toasttab.protokt.codegen.impl.FieldType
+import com.toasttab.protokt.codegen.impl.Message
+import com.toasttab.protokt.codegen.impl.StandardField
 import com.toasttab.protokt.rt.AbstractKtDeserializer
 import com.toasttab.protokt.rt.AbstractKtMessage
 import com.toasttab.protokt.rt.KtMessage
@@ -41,8 +33,10 @@ import com.toasttab.protokt.rt.KtMessageDeserializer
 import com.toasttab.protokt.rt.KtMessageSerializer
 import kotlin.reflect.KProperty0
 
-class MapEntryAnnotator
-private constructor(
+fun generateMapEntry(msg: Message, ctx: Context) =
+    MapEntryGenerator(msg, ctx).generate()
+
+private class MapEntryGenerator(
     private val msg: Message,
     private val ctx: Context
 ) {
@@ -50,7 +44,7 @@ private constructor(
     private val keyPropertyType = entryInfo.key.className
     private val valPropertyType = entryInfo.value.className
 
-    private fun annotateMapEntry() =
+    fun generate() =
         TypeSpec.classBuilder(msg.name).apply {
             addModifiers(KModifier.PRIVATE)
             superclass(AbstractKtMessage::class)
@@ -166,9 +160,4 @@ private constructor(
                 } + ")",
             entryInfo.value.className.nestedClass("${valPropertyType.simpleName}Dsl")
         )
-
-    companion object {
-        fun annotateMapEntry(msg: Message, ctx: Context) =
-            MapEntryAnnotator(msg, ctx).annotateMapEntry()
-    }
 }

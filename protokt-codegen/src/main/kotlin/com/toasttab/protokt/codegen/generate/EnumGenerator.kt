@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.impl
+package com.toasttab.protokt.codegen.generate
 
 import com.google.protobuf.DescriptorProtos.DescriptorProto.ENUM_TYPE_FIELD_NUMBER
 import com.google.protobuf.DescriptorProtos.EnumDescriptorProto.VALUE_FIELD_NUMBER
@@ -23,24 +23,24 @@ import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
-import com.toasttab.protokt.codegen.annotators.Annotator.Context
-import com.toasttab.protokt.codegen.annotators.MessageDocumentationAnnotator.baseLocation
-import com.toasttab.protokt.codegen.annotators.cleanDocumentation
-import com.toasttab.protokt.codegen.annotators.formatDoc
+import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
 import com.toasttab.protokt.codegen.impl.Deprecation.handleDeprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.handleDeprecationSuppression
 import com.toasttab.protokt.codegen.impl.Deprecation.hasDeprecation
-import com.toasttab.protokt.codegen.protoc.Enum
+import com.toasttab.protokt.codegen.impl.Enum
 import com.toasttab.protokt.rt.KtEnum
 import com.toasttab.protokt.rt.KtEnumDeserializer
 
-class EnumBuilder(
+fun generateEnum(e: Enum, ctx: Context) =
+    EnumGenerator(e, ctx).generate()
+
+private class EnumGenerator(
     val e: Enum,
     val ctx: Context
 ) {
     private val enumPath = listOf(ENUM_TYPE_FIELD_NUMBER, e.index)
 
-    fun build() =
+    fun generate() =
         TypeSpec.classBuilder(e.name).apply {
             addModifiers(KModifier.SEALED)
             superclass(KtEnum::class)

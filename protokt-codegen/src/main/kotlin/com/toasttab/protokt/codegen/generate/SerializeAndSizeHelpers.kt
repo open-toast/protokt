@@ -13,17 +13,17 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.annotators
+package com.toasttab.protokt.codegen.generate
 
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.buildCodeBlock
-import com.toasttab.protokt.codegen.annotators.Annotator.Context
+import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
+import com.toasttab.protokt.codegen.impl.Message
 import com.toasttab.protokt.codegen.impl.Nullability.hasNonNullOption
-import com.toasttab.protokt.codegen.protoc.Message
-import com.toasttab.protokt.codegen.protoc.Oneof
-import com.toasttab.protokt.codegen.protoc.StandardField
+import com.toasttab.protokt.codegen.impl.Oneof
+import com.toasttab.protokt.codegen.impl.StandardField
 
-internal fun Message.mapFields(
+fun Message.mapFields(
     ctx: Context,
     std: (StandardField) -> CodeBlock,
     oneof: (Oneof, StandardField) -> CodeBlock,

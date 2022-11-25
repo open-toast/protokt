@@ -13,14 +13,13 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.protoc
+package com.toasttab.protokt.codegen.impl
 
 import com.google.protobuf.DescriptorProtos
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
-import com.toasttab.protokt.codegen.model.FieldType
-import com.toasttab.protokt.codegen.model.computeTag
+import com.toasttab.protokt.codegen.generate.GeneratorContext
 import com.toasttab.protokt.ext.Protokt
 
 sealed class TopLevelType {

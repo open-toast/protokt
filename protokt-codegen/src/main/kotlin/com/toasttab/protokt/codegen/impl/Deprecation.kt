@@ -19,12 +19,10 @@ import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
-import com.toasttab.protokt.codegen.annotators.Annotator.Context
-import com.toasttab.protokt.codegen.annotators.deprecated
-import com.toasttab.protokt.codegen.protoc.Enum
-import com.toasttab.protokt.codegen.protoc.Message
-import com.toasttab.protokt.codegen.protoc.Oneof
-import com.toasttab.protokt.codegen.protoc.StandardField
+import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
+import com.toasttab.protokt.codegen.generate.bindSpaces
+import com.toasttab.protokt.codegen.generate.deprecated
+import com.toasttab.protokt.codegen.generate.embed
 
 object Deprecation {
     fun enclosingDeprecation(ctx: Context): Boolean {

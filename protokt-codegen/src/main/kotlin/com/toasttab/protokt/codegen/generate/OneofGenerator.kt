@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.annotators
+package com.toasttab.protokt.codegen.generate
 
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
@@ -22,26 +22,26 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
-import com.toasttab.protokt.codegen.annotators.Annotator.Context
-import com.toasttab.protokt.codegen.annotators.PropertyDocumentationAnnotator.Companion.annotatePropertyDocumentation
+import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
 import com.toasttab.protokt.codegen.impl.Deprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.renderOptions
 import com.toasttab.protokt.codegen.impl.Implements.handleSuperInterface
+import com.toasttab.protokt.codegen.impl.Message
+import com.toasttab.protokt.codegen.impl.Oneof
+import com.toasttab.protokt.codegen.impl.StandardField
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptTypeName
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
 import com.toasttab.protokt.codegen.impl.emptyToNone
-import com.toasttab.protokt.codegen.protoc.Message
-import com.toasttab.protokt.codegen.protoc.Oneof
-import com.toasttab.protokt.codegen.protoc.StandardField
 
-internal class OneofAnnotator
-private constructor(
+fun annotateOneofs(msg: Message, ctx: Context) =
+    OneofGenerator(msg, ctx).generate()
+
+private class OneofGenerator(
     private val msg: Message,
     private val ctx: Context
 ) {
-    private fun annotateOneofs(): List<TypeSpec> {
-
-        return msg.fields.filterIsInstance<Oneof>().map {
+    fun generate(): List<TypeSpec> =
+        msg.fields.filterIsInstance<Oneof>().map {
             val options = options(it)
             val types = it.fields.associate { ff -> oneof(it, ff) }
 
@@ -89,7 +89,6 @@ private constructor(
                 )
                 .build()
         }
-    }
 
     private fun oneof(f: Oneof, ff: StandardField) =
         f.fieldTypeNames.getValue(ff.fieldName).let { oneofFieldTypeName ->
@@ -97,7 +96,7 @@ private constructor(
         }
 
     private fun info(f: StandardField) =
-        Info(
+        OneofGeneratorInfo(
             fieldName = f.fieldName,
             type =
             if (f.wrapped) {
@@ -119,7 +118,7 @@ private constructor(
         }
 
     private fun options(oneof: Oneof) =
-        Options(
+        OneofGeneratorOptions(
             oneof.options.protokt.implements.emptyToNone().fold(
                 { null },
                 { possiblyQualify(it) }
@@ -129,7 +128,7 @@ private constructor(
     private fun possiblyQualify(implements: String): ClassName {
         val bestGuess = ClassName.bestGuess(implements)
         return if (bestGuess.packageName == "" && implements in namespaceNeighbors()) {
-            ClassName(ctx.desc.kotlinPackage, implements)
+            ClassName(ctx.info.kotlinPackage, implements)
         } else {
             bestGuess
         }
@@ -137,20 +136,15 @@ private constructor(
 
     private fun namespaceNeighbors() =
         msg.fields.filterIsInstance<Oneof>().map { it.name }
-
-    companion object {
-        fun annotateOneofs(msg: Message, ctx: Context) =
-            OneofAnnotator(msg, ctx).annotateOneofs()
-    }
-
-    internal class Info(
-        val fieldName: String,
-        val type: TypeName,
-        val documentation: List<String>,
-        val deprecation: Deprecation.RenderOptions?
-    )
-
-    internal class Options(
-        val implements: ClassName?
-    )
 }
+
+class OneofGeneratorInfo(
+    val fieldName: String,
+    val type: TypeName,
+    val documentation: List<String>,
+    val deprecation: Deprecation.RenderOptions?
+)
+
+class OneofGeneratorOptions(
+    val implements: ClassName?
+)

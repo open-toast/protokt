@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.descriptor
+package com.toasttab.protokt.codegen.generate
 
 import com.google.protobuf.DescriptorProtos
 import com.squareup.kotlinpoet.AnnotationSpec
@@ -26,13 +26,11 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.joinToCode
 import com.squareup.kotlinpoet.withIndent
-import com.toasttab.protokt.codegen.annotators.Annotator.protoktPkg
-import com.toasttab.protokt.codegen.impl.embed
-import com.toasttab.protokt.codegen.impl.endControlFlowWithoutNewline
-import com.toasttab.protokt.codegen.protoc.Enum
-import com.toasttab.protokt.codegen.protoc.Message
-import com.toasttab.protokt.codegen.protoc.ProtoFileContents
-import com.toasttab.protokt.codegen.protoc.TopLevelType
+import com.toasttab.protokt.codegen.generate.CodeGenerator.protoktPkg
+import com.toasttab.protokt.codegen.impl.Enum
+import com.toasttab.protokt.codegen.impl.Message
+import com.toasttab.protokt.codegen.impl.ProtoFileContents
+import com.toasttab.protokt.codegen.impl.TopLevelType
 
 class FileDescriptorInfo(
     val fdp: TypeSpec,

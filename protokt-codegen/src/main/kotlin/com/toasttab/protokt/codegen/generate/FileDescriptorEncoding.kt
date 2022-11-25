@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.descriptor
+package com.toasttab.protokt.codegen.generate
 
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 

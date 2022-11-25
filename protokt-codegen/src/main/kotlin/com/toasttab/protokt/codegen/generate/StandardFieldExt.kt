@@ -13,17 +13,21 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.annotators
+package com.toasttab.protokt.codegen.generate
 
 import com.squareup.kotlinpoet.CodeBlock
-import com.toasttab.protokt.codegen.annotators.Annotator.Context
+import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
+import com.toasttab.protokt.codegen.impl.FieldType.BOOL
+import com.toasttab.protokt.codegen.impl.FieldType.BYTES
+import com.toasttab.protokt.codegen.impl.FieldType.ENUM
+import com.toasttab.protokt.codegen.impl.FieldType.MESSAGE
+import com.toasttab.protokt.codegen.impl.FieldType.STRING
+import com.toasttab.protokt.codegen.impl.StandardField
+import com.toasttab.protokt.codegen.impl.Tag
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
 import com.toasttab.protokt.codegen.impl.Wrapper.mapKeyConverter
 import com.toasttab.protokt.codegen.impl.Wrapper.mapValueConverter
 import com.toasttab.protokt.codegen.impl.defaultValue
-import com.toasttab.protokt.codegen.model.FieldType
-import com.toasttab.protokt.codegen.protoc.StandardField
-import com.toasttab.protokt.codegen.protoc.Tag
 
 internal val StandardField.tag
     get() =
@@ -67,17 +71,17 @@ internal fun StandardField.nonDefault(ctx: Context): CodeBlock {
     return when {
         optional -> CodeBlock.of("$fieldName != null")
         repeated -> CodeBlock.of("$fieldName.isNotEmpty()")
-        type == FieldType.MESSAGE -> CodeBlock.of("$fieldName != null")
-        type == FieldType.BYTES || type == FieldType.STRING -> CodeBlock.of("%L.isNotEmpty()", name)
-        type == FieldType.ENUM -> CodeBlock.of("%L.value != 0", name)
-        type == FieldType.BOOL -> name
+        type == MESSAGE -> CodeBlock.of("$fieldName != null")
+        type == BYTES || type == STRING -> CodeBlock.of("%L.isNotEmpty()", name)
+        type == ENUM -> CodeBlock.of("%L.value != 0", name)
+        type == BOOL -> name
         type.scalar -> CodeBlock.of("%L != %L", name, type.defaultValue)
         else -> throw IllegalStateException("Field doesn't have good nondefault check: $this, $type")
     }
 }
 
 internal fun StandardField.boxMap(ctx: Context): CodeBlock {
-    if (type != FieldType.MESSAGE) {
+    if (type != MESSAGE) {
         return CodeBlock.of("")
     }
     val keyParam =

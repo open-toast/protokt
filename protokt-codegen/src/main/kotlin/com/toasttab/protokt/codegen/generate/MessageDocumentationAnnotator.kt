@@ -13,43 +13,41 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.annotators
+package com.toasttab.protokt.codegen.generate
 
 import arrow.core.Option
 import arrow.core.firstOrNone
 import com.google.protobuf.DescriptorProtos.DescriptorProto.NESTED_TYPE_FIELD_NUMBER
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto.MESSAGE_TYPE_FIELD_NUMBER
 import com.google.protobuf.DescriptorProtos.SourceCodeInfo.Location
-import com.toasttab.protokt.codegen.annotators.Annotator.Context
+import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
 import com.toasttab.protokt.codegen.impl.emptyToNone
 
-internal object MessageDocumentationAnnotator {
-    fun annotateMessageDocumentation(ctx: Context) =
-        baseLocation(ctx).cleanDocumentation()
+fun annotateMessageDocumentation(ctx: Context) =
+    baseLocation(ctx).cleanDocumentation()
 
-    fun baseLocation(ctx: Context, extraPath: List<Int> = emptyList()) =
-        ctx.desc.sourceCodeInfo.locationList
-            .filter { it.pathList == basePath(ctx) + extraPath }
-            .firstOrNone()
+fun baseLocation(ctx: Context, extraPath: List<Int> = emptyList()) =
+    ctx.info.sourceCodeInfo.locationList
+        .filter { it.pathList == basePath(ctx) + extraPath }
+        .firstOrNone()
 
-    private fun basePath(ctx: Context): List<Int> {
-        val path = mutableListOf<Int>()
+private fun basePath(ctx: Context): List<Int> {
+    val path = mutableListOf<Int>()
 
-        ctx.enclosing.forEachIndexed { idx, it ->
-            if (idx == 0) {
-                path.add(MESSAGE_TYPE_FIELD_NUMBER)
-                path.add(it.index)
-            } else {
-                path.add(NESTED_TYPE_FIELD_NUMBER)
-                path.add(it.index)
-            }
+    ctx.enclosing.forEachIndexed { idx, it ->
+        if (idx == 0) {
+            path.add(MESSAGE_TYPE_FIELD_NUMBER)
+            path.add(it.index)
+        } else {
+            path.add(NESTED_TYPE_FIELD_NUMBER)
+            path.add(it.index)
         }
-
-        return path
     }
+
+    return path
 }
 
-internal fun Option<Location>.cleanDocumentation(): List<String> =
+fun Option<Location>.cleanDocumentation(): List<String> =
     fold(
         { emptyList() },
         {

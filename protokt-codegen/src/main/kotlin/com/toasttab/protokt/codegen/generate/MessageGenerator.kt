@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.annotators
+package com.toasttab.protokt.codegen.generate
 
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.CodeBlock
@@ -24,36 +24,28 @@ import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
-import com.toasttab.protokt.codegen.annotators.Annotator.Context
-import com.toasttab.protokt.codegen.annotators.Annotator.annotate
-import com.toasttab.protokt.codegen.annotators.DeserializerAnnotator.Companion.annotateDeserializer
-import com.toasttab.protokt.codegen.annotators.MapEntryAnnotator.Companion.annotateMapEntry
-import com.toasttab.protokt.codegen.annotators.MessageDocumentationAnnotator.annotateMessageDocumentation
-import com.toasttab.protokt.codegen.annotators.MessageSizeAnnotator.Companion.annotateMessageSize
-import com.toasttab.protokt.codegen.annotators.OneofAnnotator.Companion.annotateOneofs
-import com.toasttab.protokt.codegen.annotators.PropertyAnnotator.Companion.annotateProperties
-import com.toasttab.protokt.codegen.annotators.PropertyAnnotator.PropertyInfo
-import com.toasttab.protokt.codegen.annotators.SerializerAnnotator.Companion.annotateSerializer
+import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
+import com.toasttab.protokt.codegen.generate.CodeGenerator.generate
 import com.toasttab.protokt.codegen.impl.Deprecation.addDeprecationSuppression
 import com.toasttab.protokt.codegen.impl.Deprecation.enclosingDeprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.handleDeprecation
 import com.toasttab.protokt.codegen.impl.Deprecation.hasDeprecation
 import com.toasttab.protokt.codegen.impl.Implements.handleSuperInterface
-import com.toasttab.protokt.codegen.impl.bindSpaces
-import com.toasttab.protokt.codegen.impl.embed
-import com.toasttab.protokt.codegen.protoc.Message
+import com.toasttab.protokt.codegen.impl.Message
 import com.toasttab.protokt.rt.AbstractKtMessage
 import com.toasttab.protokt.rt.KtGeneratedMessage
 import com.toasttab.protokt.rt.UnknownFieldSet
 
-class MessageAnnotator
-private constructor(
+fun generateMessage(msg: Message, ctx: Context) =
+    MessageGenerator(msg, ctx).generate()
+
+private class MessageGenerator(
     private val msg: Message,
     private val ctx: Context
 ) {
-    fun annotateMessage() =
+    fun generate() =
         if (msg.mapEntry) {
-            annotateMapEntry(msg, ctx)
+            generateMapEntry(msg, ctx)
         } else {
             val properties = annotateProperties(msg, ctx)
 
@@ -73,14 +65,14 @@ private constructor(
                 .handleConstructor(properties)
                 .addTypes(annotateOneofs(msg, ctx))
                 .handleMessageSize()
-                .addFunction(annotateMessageSize(msg, ctx))
-                .addFunction(annotateSerializer(msg, ctx))
+                .addFunction(generateMessageSize(msg, ctx))
+                .addFunction(generateSerializer(msg, ctx))
                 .handleEquals(properties)
                 .handleHashCode(properties)
                 .handleToString(properties)
                 .handleDsl(msg, properties)
-                .addType(annotateDeserializer(msg, ctx))
-                .addTypes(msg.nestedTypes.flatMap { annotate(it, ctx) })
+                .addType(generateDeserializer(msg, ctx, properties))
+                .addTypes(msg.nestedTypes.flatMap { generate(it, ctx) })
                 .build()
         }
 
@@ -224,11 +216,6 @@ private constructor(
 
     private fun messageIsTopLevel() =
         msg.typeName.simpleNames.size == 1
-
-    companion object {
-        fun annotateMessage(msg: Message, ctx: Context) =
-            MessageAnnotator(msg, ctx).annotateMessage()
-    }
 }
 
 fun formatDoc(lines: List<String>) =

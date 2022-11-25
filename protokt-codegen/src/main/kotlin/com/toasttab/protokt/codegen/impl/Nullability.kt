@@ -17,12 +17,8 @@ package com.toasttab.protokt.codegen.impl
 
 import com.squareup.kotlinpoet.TypeName
 import com.toasttab.protokt.codegen.impl.Wrapper.wrapped
-import com.toasttab.protokt.codegen.model.FieldType
-import com.toasttab.protokt.codegen.protoc.Field
-import com.toasttab.protokt.codegen.protoc.Oneof
-import com.toasttab.protokt.codegen.protoc.StandardField
 
-internal object Nullability {
+object Nullability {
     val Field.hasNonNullOption
         get() =
             when (this) {

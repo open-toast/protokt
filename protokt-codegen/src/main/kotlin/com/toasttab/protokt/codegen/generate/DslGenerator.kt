@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.annotators
+package com.toasttab.protokt.codegen.generate
 
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
@@ -23,14 +23,14 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
-import com.toasttab.protokt.codegen.annotators.PropertyAnnotator.PropertyInfo
 import com.toasttab.protokt.codegen.impl.Deprecation.handleDeprecation
-import com.toasttab.protokt.codegen.impl.endControlFlowWithoutNewline
-import com.toasttab.protokt.codegen.impl.runtimeFunction
-import com.toasttab.protokt.codegen.protoc.Message
+import com.toasttab.protokt.codegen.impl.Message
 import com.toasttab.protokt.rt.UnknownFieldSet
 
-internal class DslAnnotator(
+internal fun TypeSpec.Builder.handleDsl(msg: Message, properties: List<PropertyInfo>) =
+    apply { DslGenerator(msg, properties).addDsl(this) }
+
+private class DslGenerator(
     private val msg: Message,
     private val properties: List<PropertyInfo>
 ) {
@@ -127,6 +127,3 @@ internal class DslAnnotator(
     private fun dslLines() =
         properties.map { CodeBlock.of("${it.name} = this@${msg.name}.${it.name}") }
 }
-
-internal fun TypeSpec.Builder.handleDsl(msg: Message, properties: List<PropertyInfo>) =
-    apply { DslAnnotator(msg, properties).addDsl(this) }

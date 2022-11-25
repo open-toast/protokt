@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.annotators
+package com.toasttab.protokt.codegen.generate
 
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
@@ -26,27 +26,32 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
-import com.toasttab.protokt.codegen.annotators.Annotator.Context
-import com.toasttab.protokt.codegen.annotators.Annotator.protoktPkg
-import com.toasttab.protokt.codegen.impl.endControlFlowWithoutNewline
-import com.toasttab.protokt.codegen.impl.inferClassName
-import com.toasttab.protokt.codegen.protoc.Method
-import com.toasttab.protokt.codegen.protoc.Service
+import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
+import com.toasttab.protokt.codegen.generate.CodeGenerator.protoktPkg
+import com.toasttab.protokt.codegen.impl.Method
+import com.toasttab.protokt.codegen.impl.Service
 import com.toasttab.protokt.codegen.util.decapitalize
 import com.toasttab.protokt.grpc.KtMarshaller
 import io.grpc.MethodDescriptor
 import io.grpc.MethodDescriptor.MethodType
 import io.grpc.ServiceDescriptor
 
-internal object ServiceAnnotator {
-    fun annotateService(s: Service, ctx: Context, generateService: Boolean): List<TypeSpec> {
+fun generateService(s: Service, ctx: Context, generateService: Boolean) =
+    ServiceGenerator(s, ctx, generateService).generate()
+
+private class ServiceGenerator(
+    private val s: Service,
+    private val ctx: Context,
+    private val generateService: Boolean
+) {
+    fun generate(): List<TypeSpec> {
         val service =
             if (generateService) {
                 TypeSpec.objectBuilder(s.name + "Grpc")
                     .addProperty(
                         PropertySpec.builder("SERVICE_NAME", String::class)
                             .addModifiers(KModifier.CONST)
-                            .initializer("\"" + renderQualifiedName(s, ctx) + "\"")
+                            .initializer("\"" + renderQualifiedName() + "\"")
                             .build()
                     )
                     .addProperty(
@@ -59,7 +64,7 @@ internal object ServiceAnnotator {
                                         "%M(SERVICE_NAME)\n",
                                         MemberName(ServiceDescriptor::class.asTypeName(), "newBuilder")
                                     )
-                                    withIndent { serviceLines(s).forEach(::add) }
+                                    withIndent { serviceLines().forEach(::add) }
                                     endControlFlowWithoutNewline()
                                 }
                             )
@@ -92,8 +97,8 @@ internal object ServiceAnnotator {
                                                 ".setFullMethodName(%M(SERVICE_NAME,·\"${method.name}\"))\n",
                                                 MemberName(MethodDescriptor::class.asTypeName(), "generateFullMethodName")
                                             )
-                                            add(".setRequestMarshaller(%L)\n", method.requestMarshaller(ctx))
-                                            add(".setResponseMarshaller(%L)\n", method.responseMarshaller(ctx))
+                                            add(".setRequestMarshaller(%L)\n", method.requestMarshaller())
+                                            add(".setResponseMarshaller(%L)\n", method.responseMarshaller())
                                             add(".build()\n")
                                         }
                                         endControlFlowWithoutNewline()
@@ -122,14 +127,14 @@ internal object ServiceAnnotator {
             }
 
         val descriptor =
-            if (!ctx.desc.context.onlyGenerateGrpc && !ctx.desc.context.lite) {
+            if (!ctx.info.context.onlyGenerateGrpc && !ctx.info.context.lite) {
                 TypeSpec.objectBuilder(s.name)
                     .addProperty(
                         PropertySpec.builder("descriptor", ClassName(protoktPkg, "ServiceDescriptor"))
                             .delegate(
                                 buildCodeBlock {
                                     beginControlFlow("lazy")
-                                    add("${ctx.desc.context.fileDescriptorObjectName}.descriptor.services[${s.index}]\n")
+                                    add("${ctx.info.context.fileDescriptorObjectName}.descriptor.services[${s.index}]\n")
                                     endControlFlowWithoutNewline()
                                 }
                             )
@@ -143,13 +148,13 @@ internal object ServiceAnnotator {
         return listOfNotNull(service, descriptor)
     }
 
-    private fun Method.requestMarshaller(ctx: Context): CodeBlock =
-        marshaller(options.protokt.requestMarshaller, ctx, inputType)
+    private fun Method.requestMarshaller(): CodeBlock =
+        marshaller(options.protokt.requestMarshaller, inputType)
 
-    private fun Method.responseMarshaller(ctx: Context): CodeBlock =
-        marshaller(options.protokt.responseMarshaller, ctx, outputType)
+    private fun Method.responseMarshaller(): CodeBlock =
+        marshaller(options.protokt.responseMarshaller, outputType)
 
-    private fun marshaller(string: String, ctx: Context, type: ClassName) =
+    private fun marshaller(string: String, type: ClassName) =
         string.takeIf { it.isNotEmpty() }
             ?.let {
                 inferClassName(string, ctx)
@@ -157,16 +162,16 @@ internal object ServiceAnnotator {
             }
             ?: CodeBlock.of("%T(%T)", KtMarshaller::class, type)
 
-    private fun serviceLines(s: Service) =
+    private fun serviceLines() =
         s.methods.map {
             CodeBlock.of(".addMethod(_${it.name.decapitalize()}Method)\n")
         } + CodeBlock.of(".build()\n")
 
-    private fun renderQualifiedName(s: Service, ctx: Context) =
-        if (ctx.desc.protoPackage == "") {
+    private fun renderQualifiedName() =
+        if (ctx.info.protoPackage == "") {
             s.name
         } else {
-            "${ctx.desc.protoPackage}.${s.name}"
+            "${ctx.info.protoPackage}.${s.name}"
         }
 
     private fun methodType(m: Method) = when {

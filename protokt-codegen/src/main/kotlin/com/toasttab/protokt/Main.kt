@@ -20,10 +20,10 @@ import com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.Feature
 import com.squareup.kotlinpoet.FileSpec
-import com.toasttab.protokt.codegen.impl.FileBuilder
+import com.toasttab.protokt.codegen.generate.GeneratorContext
+import com.toasttab.protokt.codegen.generate.generateFile
+import com.toasttab.protokt.codegen.impl.parseContents
 import com.toasttab.protokt.codegen.impl.tidy
-import com.toasttab.protokt.codegen.protoc.GeneratorContext
-import com.toasttab.protokt.codegen.protoc.parseContents
 import com.toasttab.protokt.ext.Protokt
 import java.io.OutputStream
 import kotlin.system.exitProcess
@@ -45,7 +45,7 @@ internal fun main(bytes: ByteArray, out: OutputStream) {
         .filter { filesToGenerate.contains(it.name) }
         .mapNotNull { fdp ->
             val context = GeneratorContext(fdp, params, filesToGenerate, req.protoFileList)
-            val fileSpec = FileBuilder.buildFile(parseContents(context))
+            val fileSpec = generateFile(parseContents(context))
             fileSpec?.let { response(it, context) }
         }
 
