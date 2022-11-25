@@ -32,7 +32,7 @@ import com.toasttab.protokt.util.getProtoktVersion
 import java.net.URLDecoder
 import kotlin.reflect.full.declaredMemberProperties
 
-class ProtocolContext(
+class GeneratorContext(
     val fdp: FileDescriptorProto,
     params: Map<String, String>,
     private val filesToGenerate: Set<String>,
@@ -51,7 +51,7 @@ class ProtocolContext(
     val lintOutput = params.getOrDefault(LINT_OUTPUT)
 
     val fileName = fdp.name
-    val version = getProtoktVersion(ProtocolContext::class)
+    val version = getProtoktVersion(GeneratorContext::class)
 
     val proto2 = !fdp.hasSyntax() || fdp.syntax == "proto2"
     val proto3 = fdp.syntax == "proto3"

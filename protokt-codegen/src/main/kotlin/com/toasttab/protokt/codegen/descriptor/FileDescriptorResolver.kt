@@ -31,7 +31,7 @@ import com.toasttab.protokt.codegen.impl.embed
 import com.toasttab.protokt.codegen.impl.endControlFlowWithoutNewline
 import com.toasttab.protokt.codegen.protoc.Enum
 import com.toasttab.protokt.codegen.protoc.Message
-import com.toasttab.protokt.codegen.protoc.Protocol
+import com.toasttab.protokt.codegen.protoc.ProtoFileContents
 import com.toasttab.protokt.codegen.protoc.TopLevelType
 
 class FileDescriptorInfo(
@@ -41,9 +41,9 @@ class FileDescriptorInfo(
 
 class FileDescriptorResolver
 private constructor(
-    private val protocol: Protocol
+    private val contents: ProtoFileContents
 ) {
-    private val ctx = protocol.desc.context
+    private val ctx = contents.info.context
 
     private fun resolveFileDescriptor(): FileDescriptorInfo? {
         if (ctx.lite || ctx.onlyGenerateGrpc) {
@@ -148,7 +148,7 @@ private constructor(
             }
 
     private fun enumDescriptorExtensionProperties() =
-        protocol.types.flatMap { findEnums(emptyList(), it) }
+        contents.types.flatMap { findEnums(emptyList(), it) }
             .map { (enum, containingTypes) ->
                 PropertySpec.builder("descriptor", ClassName(protoktPkg, "EnumDescriptor"))
                     .receiver(enum.deserializerTypeName)
@@ -195,7 +195,7 @@ private constructor(
         m.nestedTypes.flatMap { findEnums(enclosingMessages, it) }
 
     private fun messageDescriptorExtensionProperties() =
-        protocol.types.flatMap { findMessages(emptyList(), it) }
+        contents.types.flatMap { findMessages(emptyList(), it) }
             .map { (msg, containingTypes) ->
                 PropertySpec.builder("descriptor", ClassName(protoktPkg, "Descriptor"))
                     .receiver(msg.deserializerTypeName)
@@ -253,9 +253,9 @@ private constructor(
         }
 
     companion object {
-        fun resolveFileDescriptor(protocol: Protocol) =
-            if (protocol.types.isNotEmpty()) {
-                FileDescriptorResolver(protocol).resolveFileDescriptor()
+        fun resolveFileDescriptor(contents: ProtoFileContents) =
+            if (contents.types.isNotEmpty()) {
+                FileDescriptorResolver(contents).resolveFileDescriptor()
             } else {
                 null
             }

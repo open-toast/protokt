@@ -45,10 +45,10 @@ import kotlinx.collections.immutable.persistentMapOf
 import kotlinx.collections.immutable.persistentSetOf
 import kotlinx.collections.immutable.plus
 
-fun toProtocol(ctx: ProtocolContext): Protocol {
+fun parseContents(ctx: GeneratorContext): ProtoFileContents {
     val kotlinPackage = resolvePackage(ctx.fdp.fileOptions, ctx.fdp.`package`, ctx.respectJavaPackage)
-    return Protocol(
-        FileDesc(
+    return ProtoFileContents(
+        ProtoFileInfo(
             name = ctx.fdp.name,
             protoPackage = ctx.fdp.`package`,
             kotlinPackage = kotlinPackage,
@@ -96,7 +96,7 @@ private fun toFieldType(type: Type) =
     }
 
 private fun toTypeList(
-    ctx: ProtocolContext,
+    ctx: GeneratorContext,
     pkg: String,
     enums: List<EnumDescriptorProto>,
     messages: List<DescriptorProto>,
@@ -172,7 +172,7 @@ private fun toEnum(
 
 private fun toMessage(
     idx: Int,
-    ctx: ProtocolContext,
+    ctx: GeneratorContext,
     pkg: String,
     desc: DescriptorProto,
     names: Set<String>,
@@ -205,7 +205,7 @@ private fun toMessage(
 private fun toService(
     idx: Int,
     desc: ServiceDescriptorProto,
-    ctx: ProtocolContext,
+    ctx: GeneratorContext,
     names: Set<String>
 ) =
     Service(
@@ -222,7 +222,7 @@ private fun toService(
 
 private fun toMethod(
     desc: DescriptorProtos.MethodDescriptorProto,
-    ctx: ProtocolContext
+    ctx: GeneratorContext
 ) =
     Method(
         desc.name,
@@ -238,7 +238,7 @@ private fun toMethod(
     )
 
 private fun toFields(
-    ctx: ProtocolContext,
+    ctx: GeneratorContext,
     pkg: String,
     desc: DescriptorProto,
     enclosingMessages: List<String>,
@@ -279,7 +279,7 @@ private fun toFields(
 
 private fun toOneof(
     idx: Int,
-    ctx: ProtocolContext,
+    ctx: GeneratorContext,
     pkg: String,
     enclosingMessages: List<String>,
     desc: DescriptorProto,
@@ -328,7 +328,7 @@ private fun toOneof(
 
 private fun toStandard(
     idx: Int,
-    ctx: ProtocolContext,
+    ctx: GeneratorContext,
     pkg: String,
     fdp: FieldDescriptorProto,
     usedFieldNames: Set<String>,
@@ -405,11 +405,11 @@ private fun validateNonNullOption(
     }
 }
 
-private fun optional(fdp: FieldDescriptorProto, ctx: ProtocolContext) =
+private fun optional(fdp: FieldDescriptorProto, ctx: GeneratorContext) =
     (fdp.label == LABEL_OPTIONAL && ctx.proto2) ||
         fdp.proto3Optional
 
-private fun packed(type: FieldType, fdp: FieldDescriptorProto, ctx: ProtocolContext) =
+private fun packed(type: FieldType, fdp: FieldDescriptorProto, ctx: GeneratorContext) =
     type.packable &&
         // marginal support for proto2
         (
@@ -424,7 +424,7 @@ private fun packed(type: FieldType, fdp: FieldDescriptorProto, ctx: ProtocolCont
 private fun mapEntry(
     usedFieldNames: Set<String>,
     fdp: FieldDescriptorProto,
-    ctx: ProtocolContext,
+    ctx: GeneratorContext,
     pkg: String
 ) =
     if (fdp.label == LABEL_REPEATED &&
@@ -472,7 +472,7 @@ private fun findMapEntry(
 
 private fun typeName(
     protoTypeName: String,
-    ctx: ProtocolContext,
+    ctx: GeneratorContext,
     fieldType: FieldType
 ): ClassName {
     val fullyProtoQualified = protoTypeName.startsWith(".")
@@ -490,7 +490,7 @@ private fun typeName(
     }
 }
 
-private fun requalifyProtoType(typeName: String, ctx: ProtocolContext): ClassName {
+private fun requalifyProtoType(typeName: String, ctx: GeneratorContext): ClassName {
     val withOverriddenGoogleProtoPackage =
         ClassName.bestGuess(
             overrideGoogleProtobuf(typeName.removePrefix("."), rootGoogleProto)

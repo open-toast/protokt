@@ -153,16 +153,16 @@ internal fun newEnumValueName(
 internal fun camelToUpperSnake(str: String) =
     str.replace(Regex("(?<=[a-z])([A-Z0-9])"), "_$1").uppercase()
 
-internal fun fileName(protocol: Protocol): String {
-    val pkg = protocol.desc.kotlinPackage
-    val name = protocol.desc.name
+internal fun fileName(contents: ProtoFileContents): String {
+    val pkg = contents.info.kotlinPackage
+    val name = contents.info.name
     val suffixes = mutableListOf<String>()
-    if (protocol.desc.context.onlyGenerateDescriptors) {
+    if (contents.info.context.onlyGenerateDescriptors) {
         suffixes.add("_protokt_descriptors")
-    } else if (protocol.desc.context.onlyGenerateGrpc) {
+    } else if (contents.info.context.onlyGenerateGrpc) {
         suffixes.add("_protokt_grpc")
     }
-    val dir = pkg.toString().replace('.', '/') + '/'
+    val dir = pkg.replace('.', '/') + '/'
     val fileNameBase = name.substringAfterLast('/').removeSuffix(".proto")
 
     return dir + fileNameBase + suffixes.joinToString("") + ".kt"

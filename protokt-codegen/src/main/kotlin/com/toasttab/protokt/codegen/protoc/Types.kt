@@ -147,12 +147,12 @@ class OneofOptions(
     val protokt: Protokt.ProtoktOneofOptions
 )
 
-class FileDesc(
+class ProtoFileInfo(
     val name: String,
     val protoPackage: String,
     val kotlinPackage: String,
     val options: FileOptions,
-    val context: ProtocolContext,
+    val context: GeneratorContext,
     val sourceCodeInfo: DescriptorProtos.SourceCodeInfo
 )
 
@@ -161,19 +161,14 @@ class FileOptions(
     val protokt: Protokt.ProtoktFileOptions
 )
 
-class Protocol(
-    val desc: FileDesc,
+class ProtoFileContents(
+    val info: ProtoFileInfo,
     val types: List<TopLevelType>
 )
 
-class AnnotatedType(
+class GeneratedType(
     val rawType: TopLevelType,
     val typeSpec: TypeSpec
-)
-
-class TypeDesc(
-    val desc: FileDesc,
-    val type: AnnotatedType
 )
 
 sealed class Tag(val value: Int) : Comparable<Tag> {

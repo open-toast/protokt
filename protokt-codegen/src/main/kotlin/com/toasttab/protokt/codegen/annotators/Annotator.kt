@@ -19,15 +19,14 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.toasttab.protokt.codegen.annotators.MessageAnnotator.Companion.annotateMessage
 import com.toasttab.protokt.codegen.annotators.ServiceAnnotator.annotateService
 import com.toasttab.protokt.codegen.impl.EnumBuilder
-import com.toasttab.protokt.codegen.protoc.AnnotatedType
 import com.toasttab.protokt.codegen.protoc.Enum
-import com.toasttab.protokt.codegen.protoc.FileDesc
+import com.toasttab.protokt.codegen.protoc.GeneratedType
+import com.toasttab.protokt.codegen.protoc.GeneratorContext
 import com.toasttab.protokt.codegen.protoc.Message
-import com.toasttab.protokt.codegen.protoc.Protocol
-import com.toasttab.protokt.codegen.protoc.ProtocolContext
+import com.toasttab.protokt.codegen.protoc.ProtoFileContents
+import com.toasttab.protokt.codegen.protoc.ProtoFileInfo
 import com.toasttab.protokt.codegen.protoc.Service
 import com.toasttab.protokt.codegen.protoc.TopLevelType
-import com.toasttab.protokt.codegen.protoc.TypeDesc
 import kotlinx.collections.immutable.persistentListOf
 
 object Annotator {
@@ -39,23 +38,13 @@ object Annotator {
 
     data class Context(
         val enclosing: List<Message>,
-        val desc: FileDesc
+        val desc: ProtoFileInfo
     )
 
-    fun apply(protocol: Protocol) =
-        protocol.types.flatMap {
-            val annotated =
-                annotate(
-                    it,
-                    Context(
-                        persistentListOf(),
-                        protocol.desc
-                    )
-                )
-
-            annotated.map { type ->
-                TypeDesc(protocol.desc, AnnotatedType(it, type))
-            }
+    fun apply(contents: ProtoFileContents) =
+        contents.types.flatMap {
+            annotate(it, Context(persistentListOf(), contents.info))
+                .map { type -> GeneratedType(it, type) }
         }
 
     fun annotate(type: TopLevelType, ctx: Context): Iterable<TypeSpec> =
@@ -89,13 +78,13 @@ object Annotator {
     private fun <T> nonDescriptors(ctx: Context, gen: () -> Iterable<T>) =
         nonDescriptors(ctx.desc.context, emptyList(), gen)
 
-    private fun <T> nonDescriptors(ctx: ProtocolContext, default: T, gen: () -> T) =
+    private fun <T> nonDescriptors(ctx: GeneratorContext, default: T, gen: () -> T) =
         boolGen(!ctx.onlyGenerateDescriptors, default, gen)
 
     private fun <T> nonGrpc(ctx: Context, gen: () -> Iterable<T>) =
         nonGrpc(ctx.desc.context, emptyList(), gen)
 
-    private fun <T> nonGrpc(ctx: ProtocolContext, default: T, gen: () -> T) =
+    private fun <T> nonGrpc(ctx: GeneratorContext, default: T, gen: () -> T) =
         boolGen(!ctx.onlyGenerateGrpc, default, gen)
 
     private fun <T> boolGen(bool: Boolean, default: T, gen: () -> T) =

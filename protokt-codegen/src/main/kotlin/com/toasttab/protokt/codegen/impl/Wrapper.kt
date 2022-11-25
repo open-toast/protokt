@@ -29,7 +29,7 @@ import com.toasttab.protokt.codegen.impl.ClassLookup.converters
 import com.toasttab.protokt.codegen.impl.ClassLookup.getClass
 import com.toasttab.protokt.codegen.impl.WellKnownTypes.wrapWithWellKnownInterception
 import com.toasttab.protokt.codegen.model.FieldType
-import com.toasttab.protokt.codegen.protoc.ProtocolContext
+import com.toasttab.protokt.codegen.protoc.GeneratorContext
 import com.toasttab.protokt.codegen.protoc.StandardField
 import com.toasttab.protokt.ext.OptimizedSizeofConverter
 import com.toasttab.protokt.rt.BytesSlice
@@ -55,7 +55,7 @@ internal object Wrapper {
     private fun <R> StandardField.foldWrap(
         wrap: Option<String>,
         pkg: String,
-        ctx: ProtocolContext,
+        ctx: GeneratorContext,
         ifEmpty: () -> R,
         ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
     ) =
@@ -256,7 +256,7 @@ internal object Wrapper {
     private fun converter(wrapper: KClass<*>, wrapped: KClass<*>, ctx: Context) =
         converter(wrapper, wrapped, ctx.desc.context)
 
-    val converter = { wrapper: KClass<*>, wrapped: KClass<*>, ctx: ProtocolContext ->
+    val converter = { wrapper: KClass<*>, wrapped: KClass<*>, ctx: GeneratorContext ->
         val converters =
             converters(ctx.classpath)
                 .filter { it.wrapper == wrapper && it.wrapped == wrapped }

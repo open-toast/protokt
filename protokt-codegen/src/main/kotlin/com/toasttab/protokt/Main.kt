@@ -22,8 +22,8 @@ import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.Feature
 import com.squareup.kotlinpoet.FileSpec
 import com.toasttab.protokt.codegen.impl.FileBuilder
 import com.toasttab.protokt.codegen.impl.tidy
-import com.toasttab.protokt.codegen.protoc.ProtocolContext
-import com.toasttab.protokt.codegen.protoc.toProtocol
+import com.toasttab.protokt.codegen.protoc.GeneratorContext
+import com.toasttab.protokt.codegen.protoc.parseContents
 import com.toasttab.protokt.ext.Protokt
 import java.io.OutputStream
 import kotlin.system.exitProcess
@@ -44,8 +44,8 @@ internal fun main(bytes: ByteArray, out: OutputStream) {
     val files = req.protoFileList
         .filter { filesToGenerate.contains(it.name) }
         .mapNotNull { fdp ->
-            val context = ProtocolContext(fdp, params, filesToGenerate, req.protoFileList)
-            val fileSpec = FileBuilder.buildFile(toProtocol(context))
+            val context = GeneratorContext(fdp, params, filesToGenerate, req.protoFileList)
+            val fileSpec = FileBuilder.buildFile(parseContents(context))
             fileSpec?.let { response(it, context) }
         }
 
@@ -58,7 +58,7 @@ internal fun main(bytes: ByteArray, out: OutputStream) {
     }
 }
 
-private fun response(fileSpec: FileSpec, context: ProtocolContext) =
+private fun response(fileSpec: FileSpec, context: GeneratorContext) =
     CodeGeneratorResponse.File
         .newBuilder()
         .setContent(tidy(fileSpec.toString(), context))

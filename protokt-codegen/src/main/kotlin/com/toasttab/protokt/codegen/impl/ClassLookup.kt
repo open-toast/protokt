@@ -19,14 +19,14 @@ import arrow.core.Either
 import arrow.core.getOrHandle
 import arrow.core.memoize
 import com.squareup.kotlinpoet.ClassName
-import com.toasttab.protokt.codegen.protoc.ProtocolContext
+import com.toasttab.protokt.codegen.protoc.GeneratorContext
 import com.toasttab.protokt.ext.Converter
 import java.io.File
 import java.net.URLClassLoader
 
 internal object ClassLookup {
     val getClass =
-        { className: ClassName, ctx: ProtocolContext ->
+        { className: ClassName, ctx: GeneratorContext ->
             fun loadClass(className: ClassName) =
                 Either.catchingAll {
                     getClassLoader(ctx.classpath)
