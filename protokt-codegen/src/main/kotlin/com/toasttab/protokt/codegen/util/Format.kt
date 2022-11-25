@@ -33,9 +33,6 @@ internal fun snakeToCamel(str: String): String {
     }
 }
 
-internal fun newTypeNameFromCamel(preferred: String) =
-    snakeToCamel(preferred)
-
 internal fun newFieldName(preferred: String) =
     // Ideally we'd avoid decapitalization but people have a tendency to
     // capitalize oneof defintions which will cause a clash between the field

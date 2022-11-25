@@ -36,7 +36,6 @@ import com.toasttab.protokt.ext.Protokt
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.PersistentSet
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.persistentMapOf
 import kotlinx.collections.immutable.persistentSetOf
 import kotlinx.collections.immutable.plus
 
@@ -125,7 +124,7 @@ private fun toEnum(
     enclosingMessages: List<String>,
     pkg: String
 ): Enum {
-    val typeName = newTypeNameFromCamel(desc.name)
+    val typeName = desc.name
 
     val enumTypeNamePrefixToStrip =
         (camelToUpperSnake(desc.name) + '_')
@@ -285,27 +284,30 @@ private fun toOneof(
         return toStandard(idx, ctx, pkg, field, typeNames)
     }
 
-    val standardTuple = desc.fieldList.filter {
-        it.hasOneofIndex() && it.oneofIndex == field.oneofIndex
-    }.foldIndexed(
-        Pair(
-            persistentMapOf<String, String>(),
-            persistentListOf<StandardField>()
-        )
-    ) { oneofIdx, (first, second), stdField ->
-        val ftn = newTypeNameFromCamel(stdField.name).capitalize()
-        Pair(
-            first + (newFieldName(stdField.name) to ftn),
-            second + toStandard(idx + oneofIdx, ctx, pkg, stdField, emptySet(), true)
-        )
-    }
-    val name = newTypeNameFromCamel(oneof.name).capitalize()
+    val oneofFieldDescriptors =
+        desc.fieldList.filter { it.hasOneofIndex() && it.oneofIndex == field.oneofIndex }
+
+    val oneofStdFields =
+        oneofFieldDescriptors.mapIndexed { fdpIdx, fdp ->
+            toStandard(idx + fdpIdx, ctx, pkg, fdp, emptySet(), true)
+        }
+
+    fun generateOneofClassName(lowerSnake: String) =
+        snakeToCamel(lowerSnake).capitalize()
+
+    val fieldTypeNames =
+        oneofStdFields.associate {
+            it.fieldName to generateOneofClassName(it.fieldName)
+        }
+
+    val name = generateOneofClassName(oneof.name)
+
     return Oneof(
         name = name,
         className = ClassName(pkg, enclosingMessages + name),
-        fieldTypeNames = standardTuple.first,
+        fieldTypeNames = fieldTypeNames,
         fieldName = newName,
-        fields = standardTuple.second,
+        fields = oneofStdFields,
         options = OneofOptions(
             oneof.options,
             oneof.options.getExtension(Protokt.oneof)

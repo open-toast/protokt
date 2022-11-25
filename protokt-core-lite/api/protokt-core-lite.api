@@ -399,6 +399,45 @@ public final class com/toasttab/protokt/EmptyKt {
 	public static final fun Empty (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Empty;
 }
 
+public final class com/toasttab/protokt/Enum : com/toasttab/protokt/rt/AbstractKtMessage {
+	public static final field Deserializer Lcom/toasttab/protokt/Enum$Deserializer;
+	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/util/List;Lcom/toasttab/protokt/SourceContext;Lcom/toasttab/protokt/Syntax;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Enum;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getEnumvalue ()Ljava/util/List;
+	public fun getMessageSize ()I
+	public final fun getName ()Ljava/lang/String;
+	public final fun getOptions ()Ljava/util/List;
+	public final fun getSourceContext ()Lcom/toasttab/protokt/SourceContext;
+	public final fun getSyntax ()Lcom/toasttab/protokt/Syntax;
+	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
+	public fun hashCode ()I
+	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/toasttab/protokt/Enum$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer {
+	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/Enum;
+	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+}
+
+public final class com/toasttab/protokt/Enum$EnumDsl {
+	public fun <init> ()V
+	public final fun build ()Lcom/toasttab/protokt/Enum;
+	public final fun getEnumvalue ()Ljava/util/List;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getOptions ()Ljava/util/List;
+	public final fun getSourceContext ()Lcom/toasttab/protokt/SourceContext;
+	public final fun getSyntax ()Lcom/toasttab/protokt/Syntax;
+	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
+	public final fun setEnumvalue (Ljava/util/List;)V
+	public final fun setName (Ljava/lang/String;)V
+	public final fun setOptions (Ljava/util/List;)V
+	public final fun setSourceContext (Lcom/toasttab/protokt/SourceContext;)V
+	public final fun setSyntax (Lcom/toasttab/protokt/Syntax;)V
+	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
+}
+
 public final class com/toasttab/protokt/EnumDescriptorProto : com/toasttab/protokt/rt/AbstractKtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/EnumDescriptorProto$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Lcom/toasttab/protokt/EnumOptions;Ljava/util/List;Ljava/util/List;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -595,45 +634,6 @@ public final class com/toasttab/protokt/EnumValueOptions$EnumValueOptionsDsl {
 	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
 	public final fun setDeprecated (Ljava/lang/Boolean;)V
 	public final fun setUninterpretedOption (Ljava/util/List;)V
-	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
-}
-
-public final class com/toasttab/protokt/Enum_ : com/toasttab/protokt/rt/AbstractKtMessage {
-	public static final field Deserializer Lcom/toasttab/protokt/Enum_$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/util/List;Lcom/toasttab/protokt/SourceContext;Lcom/toasttab/protokt/Syntax;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun copy (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Enum_;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getEnumvalue ()Ljava/util/List;
-	public fun getMessageSize ()I
-	public final fun getName ()Ljava/lang/String;
-	public final fun getOptions ()Ljava/util/List;
-	public final fun getSourceContext ()Lcom/toasttab/protokt/SourceContext;
-	public final fun getSyntax ()Lcom/toasttab/protokt/Syntax;
-	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
-	public fun hashCode ()I
-	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class com/toasttab/protokt/Enum_$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer {
-	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/Enum_;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-}
-
-public final class com/toasttab/protokt/Enum_$Enum_Dsl {
-	public fun <init> ()V
-	public final fun build ()Lcom/toasttab/protokt/Enum_;
-	public final fun getEnumvalue ()Ljava/util/List;
-	public final fun getName ()Ljava/lang/String;
-	public final fun getOptions ()Ljava/util/List;
-	public final fun getSourceContext ()Lcom/toasttab/protokt/SourceContext;
-	public final fun getSyntax ()Lcom/toasttab/protokt/Syntax;
-	public final fun getUnknownFields ()Lcom/toasttab/protokt/rt/UnknownFieldSet;
-	public final fun setEnumvalue (Ljava/util/List;)V
-	public final fun setName (Ljava/lang/String;)V
-	public final fun setOptions (Ljava/util/List;)V
-	public final fun setSourceContext (Lcom/toasttab/protokt/SourceContext;)V
-	public final fun setSyntax (Lcom/toasttab/protokt/Syntax;)V
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 }
 
@@ -2210,8 +2210,8 @@ public final class com/toasttab/protokt/Type$TypeDsl {
 }
 
 public final class com/toasttab/protokt/TypeKt {
+	public static final fun Enum (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Enum;
 	public static final fun EnumValue (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/EnumValue;
-	public static final fun Enum_ (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Enum_;
 	public static final fun Field (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Field;
 	public static final fun Option (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Option;
 	public static final fun Type (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/Type;

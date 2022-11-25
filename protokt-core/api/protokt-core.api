@@ -168,8 +168,8 @@ public final class com/toasttab/protokt/TypeProto {
 }
 
 public final class com/toasttab/protokt/Type_protokt_descriptorsKt {
+	public static final fun getDescriptor (Lcom/toasttab/protokt/Enum$Deserializer;)Lcom/toasttab/protokt/Descriptor;
 	public static final fun getDescriptor (Lcom/toasttab/protokt/EnumValue$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/toasttab/protokt/Enum_$Deserializer;)Lcom/toasttab/protokt/Descriptor;
 	public static final fun getDescriptor (Lcom/toasttab/protokt/Field$Cardinality$Deserializer;)Lcom/toasttab/protokt/EnumDescriptor;
 	public static final fun getDescriptor (Lcom/toasttab/protokt/Field$Deserializer;)Lcom/toasttab/protokt/Descriptor;
 	public static final fun getDescriptor (Lcom/toasttab/protokt/Field$Kind$Deserializer;)Lcom/toasttab/protokt/EnumDescriptor;
