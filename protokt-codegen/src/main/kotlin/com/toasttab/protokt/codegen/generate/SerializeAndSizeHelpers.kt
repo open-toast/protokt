@@ -45,22 +45,21 @@ private fun standardFieldExecution(
     skipConditional: Boolean,
     stmt: () -> CodeBlock
 ): CodeBlock {
-    val statement = stmt()
+    fun CodeBlock.Builder.addStmt() {
+        add(stmt())
+        add("\n")
+    }
+
     return if (field.hasNonNullOption) {
-        buildCodeBlock {
-            add(statement)
-            add("\n")
-        }
+        buildCodeBlock { addStmt() }
     } else {
         buildCodeBlock {
             if (field.repeated && !field.packed && skipConditional) {
                 // skip isNotEmpty check when not packed; will short circuit correctly
-                add(statement)
-                add("\n")
+                addStmt()
             } else {
                 beginControlFlow("if (%L)", field.nonDefault(ctx))
-                add(statement)
-                add("\n")
+                addStmt()
                 endControlFlow()
             }
         }
