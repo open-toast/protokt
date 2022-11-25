@@ -18,7 +18,6 @@ package com.toasttab.protokt.codegen.util
 import arrow.core.None
 import arrow.core.Option
 import arrow.core.orElse
-import com.toasttab.protokt.codegen.generate.CodeGenerator.googleProto
 
 object WellKnownTypes {
     val StandardField.wrapWithWellKnownInterception

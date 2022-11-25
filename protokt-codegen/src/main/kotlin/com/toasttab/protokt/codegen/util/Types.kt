@@ -19,7 +19,6 @@ import com.google.protobuf.DescriptorProtos
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
-import com.toasttab.protokt.codegen.generate.GeneratorContext
 import com.toasttab.protokt.ext.Protokt
 
 sealed class TopLevelType {

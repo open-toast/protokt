@@ -20,8 +20,8 @@ import com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.Feature
 import com.squareup.kotlinpoet.FileSpec
-import com.toasttab.protokt.codegen.generate.GeneratorContext
 import com.toasttab.protokt.codegen.generate.generateFile
+import com.toasttab.protokt.codegen.util.GeneratorContext
 import com.toasttab.protokt.codegen.util.parseContents
 import com.toasttab.protokt.codegen.util.tidy
 import com.toasttab.protokt.ext.Protokt

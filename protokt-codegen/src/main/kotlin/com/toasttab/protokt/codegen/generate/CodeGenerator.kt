@@ -18,6 +18,7 @@ package com.toasttab.protokt.codegen.generate
 import com.squareup.kotlinpoet.TypeSpec
 import com.toasttab.protokt.codegen.util.Enum
 import com.toasttab.protokt.codegen.util.GeneratedType
+import com.toasttab.protokt.codegen.util.GeneratorContext
 import com.toasttab.protokt.codegen.util.Message
 import com.toasttab.protokt.codegen.util.ProtoFileContents
 import com.toasttab.protokt.codegen.util.ProtoFileInfo
@@ -26,12 +27,6 @@ import com.toasttab.protokt.codegen.util.TopLevelType
 import kotlinx.collections.immutable.persistentListOf
 
 object CodeGenerator {
-    const val rootGoogleProto = "google.protobuf"
-    const val googleProto = ".google.protobuf"
-
-    const val protoktPkg = "com.toasttab.protokt"
-    const val protoktRtPkg = "com.toasttab.protokt.rt"
-
     data class Context(
         val enclosing: List<Message>,
         val info: ProtoFileInfo

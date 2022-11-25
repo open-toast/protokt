@@ -19,7 +19,6 @@ import arrow.core.Either
 import arrow.core.getOrHandle
 import arrow.core.memoize
 import com.squareup.kotlinpoet.ClassName
-import com.toasttab.protokt.codegen.generate.GeneratorContext
 import com.toasttab.protokt.ext.Converter
 import java.io.File
 import java.net.URLClassLoader

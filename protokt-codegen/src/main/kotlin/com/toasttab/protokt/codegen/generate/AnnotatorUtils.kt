@@ -19,16 +19,8 @@ import com.squareup.kotlinpoet.TypeName
 import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
 import com.toasttab.protokt.codegen.generate.Wrapper.interceptMapKeyTypeName
 import com.toasttab.protokt.codegen.generate.Wrapper.interceptMapValueTypeName
-import com.toasttab.protokt.codegen.util.MapEntry
-import com.toasttab.protokt.codegen.util.Message
 import com.toasttab.protokt.codegen.util.Oneof
 import com.toasttab.protokt.codegen.util.StandardField
-
-fun resolveMapEntry(m: Message) =
-    MapEntry(
-        (m.fields[0] as StandardField),
-        (m.fields[1] as StandardField)
-    )
 
 fun resolveMapEntryTypes(f: StandardField, ctx: Context) =
     f.mapEntry!!.let {

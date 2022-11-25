@@ -23,7 +23,7 @@ import com.squareup.kotlinpoet.MemberName
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeName
 import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
-import com.toasttab.protokt.codegen.generate.CodeGenerator.protoktRtPkg
+import com.toasttab.protokt.codegen.util.protoktRtPkg
 import kotlin.reflect.KClass
 
 fun String.embed() =

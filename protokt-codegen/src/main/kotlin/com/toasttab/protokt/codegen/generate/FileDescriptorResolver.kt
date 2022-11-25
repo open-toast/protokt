@@ -26,11 +26,11 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.joinToCode
 import com.squareup.kotlinpoet.withIndent
-import com.toasttab.protokt.codegen.generate.CodeGenerator.protoktPkg
 import com.toasttab.protokt.codegen.util.Enum
 import com.toasttab.protokt.codegen.util.Message
 import com.toasttab.protokt.codegen.util.ProtoFileContents
 import com.toasttab.protokt.codegen.util.TopLevelType
+import com.toasttab.protokt.codegen.util.protoktPkg
 
 class FileDescriptorInfo(
     val fdp: TypeSpec,

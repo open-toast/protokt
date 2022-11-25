@@ -27,6 +27,7 @@ import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
 import com.toasttab.protokt.codegen.util.ClassLookup.converters
 import com.toasttab.protokt.codegen.util.ClassLookup.getClass
 import com.toasttab.protokt.codegen.util.FieldType
+import com.toasttab.protokt.codegen.util.GeneratorContext
 import com.toasttab.protokt.codegen.util.StandardField
 import com.toasttab.protokt.codegen.util.WellKnownTypes.wrapWithWellKnownInterception
 import com.toasttab.protokt.codegen.util.emptyToNone

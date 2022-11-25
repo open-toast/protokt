@@ -17,7 +17,6 @@ package com.toasttab.protokt.codegen.util
 
 import com.pinterest.ktlint.core.KtLint
 import com.pinterest.ktlint.ruleset.standard.StandardRuleSetProvider
-import com.toasttab.protokt.codegen.generate.GeneratorContext
 
 fun tidy(rawCode: String, context: GeneratorContext): String {
     var code = stripApiMode(rawCode)

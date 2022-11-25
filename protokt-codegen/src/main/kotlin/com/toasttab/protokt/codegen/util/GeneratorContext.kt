@@ -13,14 +13,11 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.generate
+package com.toasttab.protokt.codegen.util
 
 import com.google.common.base.CaseFormat.LOWER_CAMEL
 import com.google.common.base.CaseFormat.LOWER_UNDERSCORE
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
-import com.toasttab.protokt.codegen.util.generateFdpObjectNames
-import com.toasttab.protokt.codegen.util.packagesByTypeName
-import com.toasttab.protokt.codegen.util.resolvePackage
 import com.toasttab.protokt.gradle.GENERATE_GRPC
 import com.toasttab.protokt.gradle.KOTLIN_EXTRA_CLASSPATH
 import com.toasttab.protokt.gradle.LINT_OUTPUT

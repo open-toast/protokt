@@ -21,8 +21,12 @@ import arrow.core.orElse
 import com.google.protobuf.DescriptorProtos.DescriptorProto
 import com.google.protobuf.DescriptorProtos.EnumDescriptorProto
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
-import com.toasttab.protokt.codegen.generate.CodeGenerator.protoktPkg
-import com.toasttab.protokt.codegen.generate.CodeGenerator.rootGoogleProto
+
+const val rootGoogleProto = "google.protobuf"
+const val googleProto = ".google.protobuf"
+
+const val protoktPkg = "com.toasttab.protokt"
+const val protoktRtPkg = "com.toasttab.protokt.rt"
 
 fun packagesByTypeName(
     protoFileList: List<FileDescriptorProto>,
