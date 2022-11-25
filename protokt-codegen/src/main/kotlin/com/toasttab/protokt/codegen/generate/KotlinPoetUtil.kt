@@ -32,9 +32,6 @@ fun String.embed() =
 fun String.bindSpaces() =
     replace(" ", "·")
 
-fun String.bindMargin() =
-    trimMargin().bindSpaces()
-
 fun constructorProperty(name: String, type: KClass<*>, override: Boolean = false) =
     PropertySpec.builder(name, type).apply {
         initializer(name)
