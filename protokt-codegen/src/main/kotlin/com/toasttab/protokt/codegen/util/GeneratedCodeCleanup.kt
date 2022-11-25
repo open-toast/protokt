@@ -54,5 +54,12 @@ private fun lint(code: String) =
 private fun ruleProviders() =
     StandardRuleSetProvider()
         .getRuleProviders()
+        // If the generated class' name is Unit then the deserializer must
+        // explicitly return Unit, and kotlinpoet will not qualify the name
+        // since it is contained within the Unit class definition.
+        //
+        // This could be avoided if the deserializer is moved out of the
+        // companion object into a private top-level function, but is required
+        // in strict API mode.
         .filterNot { it.createNewRuleInstance().id == NoUnitReturnRule().id }
         .toSet()

@@ -45,10 +45,8 @@ internal fun newTypeNameFromPascal(
 ) =
     appendUnderscores(preferred, set)
 
-internal fun newFieldName(preferred: String, set: Set<String>): String {
-    val name = snakeToCamel(preferred).decapitalize()
-    return appendUnderscores(name, set)
-}
+internal fun newFieldName(preferred: String) =
+    snakeToCamel(preferred)
 
 private fun appendUnderscores(orig: String, set: Set<String>): String {
     var name = orig

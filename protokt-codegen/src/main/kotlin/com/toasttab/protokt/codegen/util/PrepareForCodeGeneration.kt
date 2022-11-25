@@ -281,7 +281,7 @@ private fun toOneof(
     typeNames: Set<String>,
     fields: PersistentList<Field>
 ): Field {
-    val newName = newFieldName(oneof.name, typeNames)
+    val newName = newFieldName(oneof.name)
 
     if (field.proto3Optional) {
         return toStandard(idx, ctx, pkg, field, typeNames)
@@ -295,12 +295,12 @@ private fun toOneof(
             persistentSetOf<String>(),
             persistentListOf<StandardField>()
         )
-    ) { oneofIdx, acc, t ->
-        val ftn = newTypeNameFromCamel(t.name, acc.second)
+    ) { oneofIdx, acc, field ->
+        val ftn = newTypeNameFromCamel(field.name, acc.second)
         Triple(
-            acc.first + (newFieldName(t.name, acc.second) to ftn),
+            acc.first + (newFieldName(field.name) to ftn),
             acc.second + ftn,
-            acc.third + toStandard(idx + oneofIdx, ctx, pkg, t, emptySet(), true)
+            acc.third + toStandard(idx + oneofIdx, ctx, pkg, field, emptySet(), true)
         )
     }
     val name = newTypeNameFromCamel(oneof.name, typeNames)
@@ -344,7 +344,7 @@ private fun toStandard(
             optional = !withinOneof && optional,
             packed = packed(type, fdp, ctx),
             mapEntry = mapEntry,
-            fieldName = newFieldName(fdp.name, usedFieldNames),
+            fieldName = newFieldName(fdp.name),
             options = FieldOptions(fdp.options, protoktOptions),
             protoTypeName = fdp.typeName,
             className = typeName(fdp.typeName, ctx, type),
