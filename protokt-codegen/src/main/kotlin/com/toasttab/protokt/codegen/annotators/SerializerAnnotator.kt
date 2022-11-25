@@ -21,6 +21,7 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.toasttab.protokt.codegen.annotators.Annotator.Context
 import com.toasttab.protokt.codegen.impl.Wrapper.interceptValueAccess
+import com.toasttab.protokt.codegen.impl.buildFunSpec
 import com.toasttab.protokt.codegen.impl.endControlFlowWithoutNewline
 import com.toasttab.protokt.codegen.impl.runtimeFunction
 import com.toasttab.protokt.codegen.protoc.Message
@@ -42,14 +43,12 @@ private constructor(
                 { oneof, std -> serialize(std, ctx, oneof.fieldName) }
             )
 
-        return FunSpec.builder("serialize")
-            .addModifiers(KModifier.OVERRIDE)
-            .addParameter("serializer", KtMessageSerializer::class)
-            .apply {
-                fieldSerializations.forEach(::addCode)
-                addCode("serializer.writeUnknown(unknownFields)")
-            }
-            .build()
+        return buildFunSpec("serialize") {
+            addModifiers(KModifier.OVERRIDE)
+            addParameter("serializer", KtMessageSerializer::class)
+            fieldSerializations.forEach(::addCode)
+            addCode("serializer.writeUnknown(unknownFields)")
+        }
     }
 
     companion object {

@@ -22,6 +22,7 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
+import com.squareup.kotlinpoet.buildCodeBlock
 import com.toasttab.protokt.codegen.annotators.Annotator.Context
 import com.toasttab.protokt.codegen.annotators.MessageDocumentationAnnotator.baseLocation
 import com.toasttab.protokt.codegen.annotators.cleanDocumentation
@@ -117,19 +118,19 @@ class EnumBuilder(
                         .parameterizedBy(e.typeName)
                 )
                 .addFunction(
-                    FunSpec.builder("from")
-                        .addModifiers(KModifier.OVERRIDE)
-                        .returns(e.typeName)
-                        .addParameter("value", Int::class)
-                        .addCode(
-                            """
-                                |return when (value) {
-                                |${cases()}
-                                |  else -> UNRECOGNIZED(value)
-                                |}
-                            """.bindMargin()
+                    buildFunSpec("from") {
+                        addModifiers(KModifier.OVERRIDE)
+                        returns(e.typeName)
+                        addParameter("value", Int::class)
+                        addCode(
+                            buildCodeBlock {
+                                beginControlFlow("return when (value)")
+                                cases().forEach(::addStatement)
+                                addStatement("else -> UNRECOGNIZED(value)")
+                                endControlFlowWithoutNewline()
+                            }
                         )
-                        .build()
+                    }
                 )
                 .build()
         )
@@ -138,5 +139,5 @@ class EnumBuilder(
     private fun cases() =
         e.values
             .distinctBy { it.number }
-            .joinToString("\n") { "  " + it.number + " -> " + it.valueName }
+            .map { "${it.number} -> ${it.valueName}" }
 }
