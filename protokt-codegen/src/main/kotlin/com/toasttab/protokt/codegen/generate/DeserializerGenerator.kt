@@ -64,17 +64,17 @@ private class DeserializerGenerator(
     fun generate(): TypeSpec {
         val deserializerInfo = deserializerInfo()
 
-        return TypeSpec.companionObjectBuilder("Deserializer")
+        return TypeSpec.companionObjectBuilder(msg.deserializerClassName.simpleName)
             .superclass(
                 AbstractKtDeserializer::class
                     .asTypeName()
-                    .parameterizedBy(msg.typeName)
+                    .parameterizedBy(msg.className)
             )
             .addFunction(
                 buildFunSpec("deserialize") {
                     addModifiers(KModifier.OVERRIDE)
                     addParameter("deserializer", KtMessageDeserializer::class)
-                    returns(msg.typeName)
+                    returns(msg.className)
                     if (properties.isNotEmpty()) {
                         properties.forEach {
                             addStatement("var %L", declareDeserializeVar(it))
@@ -85,7 +85,7 @@ private class DeserializerGenerator(
                     beginControlFlow("when (deserializer.readTag())")
                     val constructor =
                         buildCodeBlock {
-                            add("0·->·return·%N(\n", msg.name)
+                            add("0·->·return·%T(\n", msg.className)
                             withIndent {
                                 constructorLines(properties).forEach(::add)
                             }

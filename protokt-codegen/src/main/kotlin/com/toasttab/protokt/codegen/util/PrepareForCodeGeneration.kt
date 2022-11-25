@@ -102,13 +102,13 @@ private fun toTypeList(
         Pair(persistentSetOf<String>(), persistentListOf<TopLevelType>())
     ) { idx, acc, t ->
         val e = toEnum(idx, t, acc.first, enclosingMessages, pkg)
-        Pair(acc.first + e.name, acc.second + e)
+        Pair(acc.first + e.className.simpleName, acc.second + e)
     }.second +
         messages.foldIndexed(
             Pair(persistentSetOf<String>(), persistentListOf<TopLevelType>())
         ) { idx, acc, t ->
             val m = toMessage(idx, ctx, pkg, t, acc.first, enclosingMessages)
-            Pair(acc.first + m.name, acc.second + m)
+            Pair(acc.first + m.className.simpleName, acc.second + m)
         }.second +
 
         services.foldIndexed(
@@ -134,7 +134,6 @@ private fun toEnum(
             }
 
     return Enum(
-        name = typeName,
         values = desc.valueList.foldIndexed(
             Pair(
                 names + typeName,
@@ -160,8 +159,8 @@ private fun toEnum(
             desc.options,
             desc.options.getExtension(Protokt.enum_)
         ),
-        typeName = ClassName(pkg, enclosingMessages + typeName),
-        deserializerTypeName = ClassName(pkg, enclosingMessages + typeName + "Deserializer")
+        className = ClassName(pkg, enclosingMessages + typeName),
+        deserializerClassName = ClassName(pkg, enclosingMessages + typeName + "Deserializer")
     )
 }
 
@@ -176,7 +175,6 @@ private fun toMessage(
     val typeName = newTypeNameFromPascal(desc.name, names)
     val fieldList = toFields(ctx, pkg, desc, enclosingMessages + typeName, names + typeName)
     return Message(
-        name = typeName,
         fields = fieldList.sortedBy {
             when (it) {
                 is StandardField -> it
@@ -191,9 +189,9 @@ private fun toMessage(
         ),
         index = idx,
         fullProtobufTypeName = "${ctx.fdp.`package`}.${desc.name}",
-        typeName = ClassName(pkg, enclosingMessages + typeName),
-        deserializerTypeName = ClassName(pkg, enclosingMessages + typeName + "Deserializer"),
-        dslTypeName = ClassName(pkg, enclosingMessages + typeName + "${typeName}Dsl")
+        className = ClassName(pkg, enclosingMessages + typeName),
+        deserializerClassName = ClassName(pkg, enclosingMessages + typeName + "Deserializer"),
+        dslClassName = ClassName(pkg, enclosingMessages + typeName + "${typeName}Dsl")
     )
 }
 

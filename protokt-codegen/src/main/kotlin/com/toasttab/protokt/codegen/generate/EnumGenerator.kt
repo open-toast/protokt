@@ -41,7 +41,7 @@ private class EnumGenerator(
     private val enumPath = listOf(ENUM_TYPE_FIELD_NUMBER, e.index)
 
     fun generate() =
-        TypeSpec.classBuilder(e.name).apply {
+        TypeSpec.classBuilder(e.className).apply {
             addModifiers(KModifier.SEALED)
             superclass(KtEnum::class)
             addKDoc()
@@ -87,7 +87,7 @@ private class EnumGenerator(
         addTypes(
             e.values.map {
                 TypeSpec.objectBuilder(it.valueName).apply {
-                    superclass(e.typeName)
+                    superclass(e.className)
                     addKDoc(it)
                     addSuperclassConstructorParameter(it.number.toString())
                     addSuperclassConstructorParameter("\"${it.valueName}\"")
@@ -97,7 +97,7 @@ private class EnumGenerator(
         )
         addType(
             TypeSpec.classBuilder("UNRECOGNIZED")
-                .superclass(e.typeName)
+                .superclass(e.className)
                 .addSuperclassConstructorParameter("value")
                 .addSuperclassConstructorParameter("\"UNRECOGNIZED\"")
                 .primaryConstructor(
@@ -111,16 +111,16 @@ private class EnumGenerator(
 
     private fun TypeSpec.Builder.addDeserializer() {
         addType(
-            TypeSpec.companionObjectBuilder("Deserializer")
+            TypeSpec.companionObjectBuilder(e.deserializerClassName.simpleName)
                 .addSuperinterface(
                     KtEnumDeserializer::class
                         .asTypeName()
-                        .parameterizedBy(e.typeName)
+                        .parameterizedBy(e.className)
                 )
                 .addFunction(
                     buildFunSpec("from") {
                         addModifiers(KModifier.OVERRIDE)
-                        returns(e.typeName)
+                        returns(e.className)
                         addParameter("value", Int::class)
                         addCode(
                             buildCodeBlock {

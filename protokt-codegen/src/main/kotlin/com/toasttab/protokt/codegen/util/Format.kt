@@ -17,41 +17,6 @@ package com.toasttab.protokt.codegen.util
 
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 
-internal object Keywords {
-    val reserved =
-        setOf(
-            "Boolean",
-            "Double",
-            "Float",
-            "Int",
-            "List",
-            "Long",
-            "Map",
-            "String",
-            "Unit",
-            "Enum",
-            "Int32",
-            "Int64",
-            "Fixed32",
-            "Fixed64",
-            "SFixed32",
-            "SFixed64",
-            "SInt32",
-            "SInt64",
-            "UInt32",
-            "UInt64",
-            "Bytes",
-            "Deserializer",
-            "KtDeserializer",
-            "KtSerializer",
-            "KtMessageSerializer",
-            "Tag",
-            "deserializer",
-            "serializer",
-            "unknownFields"
-        )
-}
-
 internal fun snakeToCamel(str: String): String {
     var ret = str
     var lastIndex = -1
@@ -87,7 +52,7 @@ internal fun newFieldName(preferred: String, set: Set<String>): String {
 
 private fun appendUnderscores(orig: String, set: Set<String>): String {
     var name = orig
-    while (name in set || name in Keywords.reserved) {
+    while (name in set) {
         name += '_'
     }
     return name

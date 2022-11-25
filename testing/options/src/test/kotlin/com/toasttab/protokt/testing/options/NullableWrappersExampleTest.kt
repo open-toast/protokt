@@ -16,7 +16,7 @@
 package com.toasttab.protokt.testing.options
 
 import com.google.common.truth.Truth.assertThat
-import com.toasttab.protokt.testing.rt.propertyIsMarkedNullable
+import com.toasttab.protokt.testing.propertyIsMarkedNullable
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import java.net.InetAddress

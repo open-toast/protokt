@@ -58,6 +58,7 @@ include(
     "testing:conformance:js-legacy",
     "testing:conformance:jvm",
     "testing:conformance:runner",
+    "testing:interop",
     "testing:multiplatform-testing",
     "testing:options",
     "testing:options-api",
@@ -65,9 +66,9 @@ include(
     "testing:plugin-options",
     "testing:plugin-options:ignore-java-package",
     "testing:plugin-options:lite",
+    "testing:protokt-generation",
     "testing:protobuf-java",
     "testing:protobufjs",
-    "testing:runtime-tests",
     "testing:testing-util",
 
     "benchmarks",

@@ -149,7 +149,7 @@ private constructor(
         contents.types.flatMap { findEnums(emptyList(), it) }
             .map { (enum, containingTypes) ->
                 PropertySpec.builder("descriptor", ClassName(protoktPkg, "EnumDescriptor"))
-                    .receiver(enum.deserializerTypeName)
+                    .receiver(enum.deserializerClassName)
                     .getter(
                         FunSpec.getterBuilder()
                             .addCode(
@@ -196,7 +196,7 @@ private constructor(
         contents.types.flatMap { findMessages(emptyList(), it) }
             .map { (msg, containingTypes) ->
                 PropertySpec.builder("descriptor", ClassName(protoktPkg, "Descriptor"))
-                    .receiver(msg.deserializerTypeName)
+                    .receiver(msg.deserializerClassName)
                     .getter(
                         FunSpec.getterBuilder()
                             .addCode(
@@ -245,7 +245,7 @@ private constructor(
 
     private fun qualification(enclosingMessages: List<Message>) =
         if (enclosingMessages.isNotEmpty()) {
-            enclosingMessages.joinToString(".") { it.name } + "."
+            enclosingMessages.joinToString(".") { it.className.simpleName } + "."
         } else {
             null
         }

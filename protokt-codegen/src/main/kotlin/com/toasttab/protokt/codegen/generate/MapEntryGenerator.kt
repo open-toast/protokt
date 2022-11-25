@@ -22,6 +22,7 @@ import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
+import com.squareup.kotlinpoet.buildCodeBlock
 import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
 import com.toasttab.protokt.codegen.util.FieldType
 import com.toasttab.protokt.codegen.util.Message
@@ -46,7 +47,7 @@ private class MapEntryGenerator(
     private val valPropertyType = entryInfo.value.className
 
     fun generate() =
-        TypeSpec.classBuilder(msg.name).apply {
+        TypeSpec.classBuilder(msg.className).apply {
             addModifiers(KModifier.PRIVATE)
             superclass(AbstractKtMessage::class)
             addProperty(constructorProperty("key", keyPropertyType))
@@ -98,7 +99,7 @@ private class MapEntryGenerator(
                 .superclass(
                     AbstractKtDeserializer::class
                         .asTypeName()
-                        .parameterizedBy(msg.typeName)
+                        .parameterizedBy(msg.className)
                 )
                 .addFunction(
                     buildFunSpec("sizeof") {
@@ -111,7 +112,7 @@ private class MapEntryGenerator(
                     buildFunSpec("deserialize") {
                         addModifiers(KModifier.OVERRIDE)
                         addParameter("deserializer", KtMessageDeserializer::class)
-                        returns(msg.typeName)
+                        returns(msg.className)
                         addStatement("%L", deserializeVar(propInfo, entryInfo::key))
                         addStatement("%L", deserializeVar(propInfo, entryInfo::value))
                         beginControlFlow("while (true)")
@@ -152,13 +153,17 @@ private class MapEntryGenerator(
     }
 
     private fun constructOnZero(f: StandardField) =
-        CodeBlock.of(
-            "0 -> return ${msg.name}(key, value" +
-                if (f.type == FieldType.MESSAGE) {
-                    " ?: %T().build()"
-                } else {
-                    ""
-                } + ")",
-            entryInfo.value.className.nestedClass("${valPropertyType.simpleName}Dsl")
-        )
+        buildCodeBlock {
+            add("0 -> return %T(key, value", msg.className)
+            if (f.type == FieldType.MESSAGE) {
+                add(
+                    CodeBlock.of(
+                        " ?: %T().build()",
+                        entryInfo.value.className
+                            .nestedClass("${valPropertyType.simpleName}Dsl")
+                    )
+                )
+            }
+            add(")")
+        }
 }

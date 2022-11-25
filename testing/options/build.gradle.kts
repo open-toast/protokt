@@ -34,6 +34,6 @@ dependencies {
     implementation(libraries.grpcStub)
 
     testImplementation(kotlin("reflect"))
-    testImplementation(project(":testing:runtime-tests"))
+    testImplementation(project(":testing:protokt-generation"))
     testImplementation(libraries.protobufJava)
 }

@@ -26,7 +26,7 @@ pureKotlin()
 sourceSets {
     main {
         proto {
-            srcDir("${project.rootDir}/testing/runtime-tests/src/main/proto")
+            srcDir("${project.rootDir}/testing/interop/src/main/proto")
         }
     }
 }

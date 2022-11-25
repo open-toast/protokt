@@ -37,20 +37,20 @@ private class DslGenerator(
     fun addDsl(builder: TypeSpec.Builder) {
         builder.addFunction(
             FunSpec.builder("copy")
-                .returns(msg.typeName)
+                .returns(msg.className)
                 .addParameter(
                     "dsl",
                     LambdaTypeName.get(
-                        msg.dslTypeName,
+                        msg.dslClassName,
                         emptyList(),
                         Unit::class.asTypeName()
                     )
                 )
                 .addCode(
                     buildCodeBlock {
-                        beginControlFlow("return " + msg.name + "Dsl().apply")
+                        beginControlFlow("return %T().apply", msg.dslClassName)
                         dslLines().forEach { add("%L\n", it) }
-                        addStatement("unknownFields = this@${msg.name}.unknownFields")
+                        addStatement("unknownFields = this@%L.unknownFields", msg.className.simpleName)
                         addStatement("dsl()")
                         endControlFlowWithoutNewline()
                         add(".build()")
@@ -59,7 +59,7 @@ private class DslGenerator(
                 .build()
         )
         builder.addType(
-            TypeSpec.classBuilder(msg.name + "Dsl")
+            TypeSpec.classBuilder(msg.dslClassName)
                 .addProperties(
                     properties.map {
                         PropertySpec.builder(it.name, it.dslPropertyType)
@@ -96,18 +96,18 @@ private class DslGenerator(
                 .addProperty(
                     PropertySpec.builder("unknownFields", UnknownFieldSet::class)
                         .mutable(true)
-                        .initializer("UnknownFieldSet.empty()")
+                        .initializer("%T.empty()", UnknownFieldSet::class)
                         .build()
                 )
                 .addFunction(
                     FunSpec.builder("build")
-                        .returns(msg.typeName)
+                        .returns(msg.className)
                         .addCode(
                             if (properties.isEmpty()) {
-                                CodeBlock.of("return ${msg.name}(unknownFields)")
+                                CodeBlock.of("return %T(unknownFields)", msg.className)
                             } else {
                                 buildCodeBlock {
-                                    add("return ${msg.name}(\n")
+                                    add("return %T(\n", msg.className)
                                     withIndent {
                                         properties
                                             .map(::wrapDeserializedValueForConstructor)
@@ -125,5 +125,7 @@ private class DslGenerator(
     }
 
     private fun dslLines() =
-        properties.map { CodeBlock.of("%N = this@${msg.name}.%N", it.name, it.name) }
+        properties.map {
+            CodeBlock.of("%N = this@%T.%N", it.name, msg.className, it.name)
+        }
 }

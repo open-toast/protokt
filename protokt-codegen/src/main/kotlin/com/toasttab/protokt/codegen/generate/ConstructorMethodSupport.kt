@@ -25,17 +25,17 @@ import com.toasttab.protokt.codegen.util.Message
 
 fun addConstructorFunction(msg: Message, addFunction: (FunSpec) -> Unit) {
     addFunction(
-        FunSpec.builder(msg.name)
-            .returns(msg.typeName)
+        FunSpec.builder(msg.className.simpleName)
+            .returns(msg.className)
             .addParameter(
                 "dsl",
                 LambdaTypeName.get(
-                    msg.dslTypeName,
+                    msg.dslClassName,
                     emptyList(),
                     Unit::class.asTypeName()
                 )
             )
-            .addStatement("return %T().apply(dsl).build()", msg.dslTypeName)
+            .addStatement("return %T().apply(dsl).build()", msg.dslClassName)
             .handleDeprecation(msg)
             .apply {
                 if (msg.hasDeprecation) {

@@ -17,19 +17,15 @@ package com.toasttab.protokt.codegen.util
 
 import com.google.protobuf.DescriptorProtos
 import com.squareup.kotlinpoet.ClassName
-import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
 import com.toasttab.protokt.ext.Protokt
 
-sealed class TopLevelType {
-    abstract val name: String
-}
+sealed class TopLevelType
 
 class Message(
-    override val name: String,
-    val typeName: ClassName,
-    val deserializerTypeName: TypeName,
-    val dslTypeName: TypeName,
+    val className: ClassName,
+    val deserializerClassName: ClassName,
+    val dslClassName: ClassName,
     val fields: List<Field>,
     val nestedTypes: List<TopLevelType>,
     val mapEntry: Boolean,
@@ -44,9 +40,8 @@ data class MessageOptions(
 )
 
 class Enum(
-    override val name: String,
-    val typeName: TypeName,
-    val deserializerTypeName: TypeName,
+    val className: ClassName,
+    val deserializerClassName: ClassName,
     val options: EnumOptions,
     val values: List<Value>,
     val index: Int
@@ -71,7 +66,7 @@ class EnumValueOptions(
 )
 
 class Service(
-    override val name: String,
+    val name: String,
     val type: String,
     val methods: List<Method>,
     val deprecated: Boolean,

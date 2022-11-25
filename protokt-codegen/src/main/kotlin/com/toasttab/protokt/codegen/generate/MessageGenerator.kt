@@ -49,7 +49,7 @@ private class MessageGenerator(
         } else {
             val properties = annotateProperties(msg, ctx)
 
-            TypeSpec.classBuilder(msg.name)
+            TypeSpec.classBuilder(msg.className)
                 .handleAnnotations()
                 .apply {
                     val doc = annotateMessageDocumentation(ctx)
@@ -118,7 +118,7 @@ private class MessageGenerator(
                 .addParameters(properties.map { ParameterSpec(it.name, it.propertyType) })
                 .addParameter(
                     ParameterSpec.builder("unknownFields", UnknownFieldSet::class)
-                        .defaultValue("UnknownFieldSet.empty()")
+                        .defaultValue("%T.empty()", UnknownFieldSet::class)
                         .build()
                 )
                 .build()
@@ -144,10 +144,16 @@ private class MessageGenerator(
                 .addParameter("other", Any::class.asTypeName().copy(nullable = true))
                 .addCode(
                     if (properties.isEmpty()) {
-                        CodeBlock.of("return other is ${msg.name} && other.unknownFields == unknownFields".bindSpaces())
+                        CodeBlock.of(
+                            "return other is %T && other.unknownFields == unknownFields".bindSpaces(),
+                            msg.className
+                        )
                     } else {
                         buildCodeBlock {
-                            add("return other is ${msg.name} &&\n".bindSpaces())
+                            add(
+                                "return other is %T &&\n".bindSpaces(),
+                                msg.className
+                            )
                             equalsLines(properties).forEach(::add)
                             add("other.unknownFields == unknownFields".bindSpaces())
                         }
@@ -196,10 +202,16 @@ private class MessageGenerator(
                 .addModifiers(KModifier.OVERRIDE)
                 .addCode(
                     if (properties.isEmpty()) {
-                        CodeBlock.of("return \"${msg.name}(unknownFields=\$unknownFields)\"")
+                        CodeBlock.of(
+                            "return \"%L(unknownFields=\$unknownFields)\"",
+                            msg.className.simpleName
+                        )
                     } else {
                         buildCodeBlock {
-                            add("return \"${msg.name}(\" +\n")
+                            add(
+                                "return \"%L(\" +\n",
+                                msg.className.simpleName
+                            )
                             toStringLines(properties).forEach(::add)
                             add("\"unknownFields=${"$"}unknownFields)\"")
                         }
@@ -217,7 +229,7 @@ private class MessageGenerator(
         msg.hasDeprecation && (!enclosingDeprecation(ctx) || messageIsTopLevel())
 
     private fun messageIsTopLevel() =
-        msg.typeName.simpleNames.size == 1
+        msg.className.simpleNames.size == 1
 }
 
 fun formatDoc(lines: List<String>) =

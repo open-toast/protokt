@@ -16,6 +16,7 @@
 package com.toasttab.protokt.codegen.util
 
 import com.pinterest.ktlint.core.KtLint
+import com.pinterest.ktlint.ruleset.standard.NoUnitReturnRule
 import com.pinterest.ktlint.ruleset.standard.StandardRuleSetProvider
 
 fun tidy(rawCode: String, context: GeneratorContext): String {
@@ -40,14 +41,18 @@ private fun stripApiMode(code: String) =
         .replace("public override ", "override ")
         .replace("public sealed ", "sealed ")
         .replace("public data ", "data ")
-        // https://github.com/square/kotlinpoet/pull/932
-        .replace("): Unit {", ") {")
 
 private fun lint(code: String) =
     KtLint.format(
         KtLint.ExperimentalParams(
             text = code,
-            ruleProviders = StandardRuleSetProvider().getRuleProviders(),
+            ruleProviders = ruleProviders(),
             cb = { _, _ -> }
         )
     )
+
+private fun ruleProviders() =
+    StandardRuleSetProvider()
+        .getRuleProviders()
+        .filterNot { it.createNewRuleInstance().id == NoUnitReturnRule().id }
+        .toSet()

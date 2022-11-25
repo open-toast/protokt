@@ -16,7 +16,7 @@
 package com.toasttab.protokt.testing.options
 
 import com.google.common.truth.Truth.assertThat
-import com.toasttab.protokt.testing.rt.propertyNamed
+import com.toasttab.protokt.testing.propertyNamed
 import org.junit.jupiter.api.Test
 import kotlin.reflect.KAnnotatedElement
 import kotlin.reflect.KClass
