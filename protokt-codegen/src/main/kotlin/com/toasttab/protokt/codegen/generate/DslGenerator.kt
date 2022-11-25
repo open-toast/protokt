@@ -62,7 +62,7 @@ private class DslGenerator(
             TypeSpec.classBuilder(msg.name + "Dsl")
                 .addProperties(
                     properties.map {
-                        PropertySpec.builder(it.name.removePrefix("`").removeSuffix("`"), it.dslPropertyType)
+                        PropertySpec.builder(it.name, it.dslPropertyType)
                             .mutable(true)
                             .handleDeprecation(it.deprecation)
                             .apply {
@@ -110,7 +110,7 @@ private class DslGenerator(
                                     add("return ${msg.name}(\n")
                                     withIndent {
                                         properties
-                                            .map(::deserializeWrapper)
+                                            .map(::wrapDeserializedValueForConstructor)
                                             .forEach { add("%L,\n", it) }
                                         add("unknownFields\n")
                                     }
@@ -125,5 +125,5 @@ private class DslGenerator(
     }
 
     private fun dslLines() =
-        properties.map { CodeBlock.of("${it.name} = this@${msg.name}.${it.name}") }
+        properties.map { CodeBlock.of("%N = this@${msg.name}.%N", it.name, it.name) }
 }

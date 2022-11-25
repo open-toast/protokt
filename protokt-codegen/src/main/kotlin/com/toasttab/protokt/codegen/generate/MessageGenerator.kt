@@ -91,7 +91,7 @@ private class MessageGenerator(
         superclass(AbstractKtMessage::class)
         addProperties(
             properties.map {
-                PropertySpec.builder(it.name.removePrefix("`").removeSuffix("`"), it.propertyType)
+                PropertySpec.builder(it.name, it.propertyType)
                     .initializer(it.name)
                     .apply {
                         if (it.overrides) {
@@ -115,11 +115,7 @@ private class MessageGenerator(
         primaryConstructor(
             FunSpec.constructorBuilder()
                 .addModifiers(KModifier.PRIVATE)
-                .addParameters(
-                    properties.map {
-                        ParameterSpec(it.name.removePrefix("`").removeSuffix("`"), it.propertyType)
-                    }
-                )
+                .addParameters(properties.map { ParameterSpec(it.name, it.propertyType) })
                 .addParameter(
                     ParameterSpec.builder("unknownFields", UnknownFieldSet::class)
                         .defaultValue("UnknownFieldSet.empty()")
@@ -161,7 +157,9 @@ private class MessageGenerator(
         )
 
     private fun equalsLines(properties: List<PropertyInfo>) =
-        properties.map { "other.${it.name} == ${it.name} &&\n".bindSpaces() }
+        properties.map {
+            CodeBlock.of("other.%N == %N &&\n".bindSpaces(), it.name, it.name)
+        }
 
     private fun TypeSpec.Builder.handleHashCode(
         properties: List<PropertyInfo>
@@ -176,7 +174,7 @@ private class MessageGenerator(
                     } else {
                         buildCodeBlock {
                             addStatement("var result = unknownFields.hashCode()")
-                            hashCodeLines(properties).forEach(::addStatement)
+                            hashCodeLines(properties).forEach(::add)
                             addStatement("return result")
                         }
                     }
@@ -185,7 +183,9 @@ private class MessageGenerator(
         )
 
     private fun hashCodeLines(properties: List<PropertyInfo>) =
-        properties.map { "result = 31 * result + ${it.name}.hashCode()".bindSpaces() }
+        properties.map {
+            CodeBlock.of("result = 31 * result + %N.hashCode()\n".bindSpaces(), it.name)
+        }
 
     private fun TypeSpec.Builder.handleToString(
         properties: List<PropertyInfo>
@@ -209,7 +209,9 @@ private class MessageGenerator(
         )
 
     private fun toStringLines(properties: List<PropertyInfo>) =
-        properties.map { "\"${it.name}=\$${it.name}, \" +\n".bindSpaces() }
+        properties.map {
+            CodeBlock.of("\"%N=\$%N, \" +\n".bindSpaces(), it.name, it.name)
+        }
 
     private fun suppressDeprecation() =
         msg.hasDeprecation && (!enclosingDeprecation(ctx) || messageIsTopLevel())

@@ -146,7 +146,7 @@ private class MapEntryGenerator(
                 } + " = %value:L",
             mapOf(
                 "type" to prop.deserializeType,
-                "value" to deserializeValue(prop)
+                "value" to deserializeVarInitialState(prop)
             )
         )
     }

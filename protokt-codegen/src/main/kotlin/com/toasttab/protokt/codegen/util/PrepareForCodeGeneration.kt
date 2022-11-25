@@ -308,7 +308,7 @@ private fun toOneof(
     val name = newTypeNameFromCamel(oneof.name, typeNames)
     return Oneof(
         name = name,
-        className = ClassName(pkg.toString(), enclosingMessages + name),
+        className = ClassName(pkg, enclosingMessages + name),
         fieldTypeNames = standardTuple.first,
         fieldName = newName,
         fields = standardTuple.third,

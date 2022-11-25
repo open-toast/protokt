@@ -92,7 +92,7 @@ internal object Wrapper {
 
     fun interceptSizeof(
         f: StandardField,
-        s: String,
+        s: CodeBlock,
         ctx: Context
     ): CodeBlock =
         f.foldFieldWrap(
@@ -100,7 +100,7 @@ internal object Wrapper {
             { interceptValueAccess(f, ctx, s) },
             { wrapper, wrapped ->
                 if (converter(wrapper, wrapped, ctx) is OptimizedSizeofConverter<*, *>) {
-                    CodeBlock.of(s)
+                    s
                 } else {
                     interceptValueAccess(f, ctx, s)
                 }
@@ -127,13 +127,17 @@ internal object Wrapper {
     fun interceptValueAccess(
         f: StandardField,
         ctx: Context,
-        s: String = f.fieldName
+        s: CodeBlock = CodeBlock.of("%N", f.fieldName)
     ): CodeBlock =
         f.foldFieldWrap(
             ctx,
-            { CodeBlock.of(s) },
+            { s },
             { wrapper, wrapped ->
-                CodeBlock.of("%T.unwrap($s)", unqualifiedConverterWrap(wrapper, wrapped, ctx))
+                CodeBlock.of(
+                    "%T.unwrap(%L)",
+                    unqualifiedConverterWrap(wrapper, wrapped, ctx),
+                    s
+                )
             }
         )
 

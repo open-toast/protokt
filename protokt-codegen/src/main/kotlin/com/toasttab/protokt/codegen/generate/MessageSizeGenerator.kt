@@ -86,7 +86,7 @@ private class MessageSizeGenerator(
             ctx,
             interceptSizeof(
                 f,
-                "${o.fieldName}.${f.fieldName}",
+                CodeBlock.of("%N.%N", o.fieldName, f.fieldName),
                 ctx
             )
         ).let { s ->
@@ -106,9 +106,9 @@ fun sizeOf(
     val name =
         oneOfFieldAccess
             ?: if (f.repeated) {
-                CodeBlock.of(f.fieldName)
+                CodeBlock.of("%N", f.fieldName)
             } else {
-                interceptSizeof(f, f.fieldName, ctx)
+                interceptSizeof(f, CodeBlock.of("%N", f.fieldName), ctx)
             }
 
     return when {
@@ -133,7 +133,7 @@ fun sizeOf(
                 mapOf(
                     "sizeof" to runtimeFunction("sizeof"),
                     "tag" to Tag::class,
-                    "boxedAccess" to f.box(interceptValueAccess(f, ctx, "it")),
+                    "boxedAccess" to f.box(interceptValueAccess(f, ctx, CodeBlock.of("it"))),
                     "name" to name
                 )
             )

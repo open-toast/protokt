@@ -15,9 +15,6 @@
 
 package com.toasttab.protokt.codegen.generate
 
-import arrow.core.None
-import arrow.core.Option
-import arrow.core.Some
 import arrow.core.getOrElse
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
@@ -30,7 +27,6 @@ import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
 import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
-import com.toasttab.protokt.codegen.generate.DeserializerGenerator.DeserializerInfo.Assignment
 import com.toasttab.protokt.codegen.generate.Wrapper.interceptReadFn
 import com.toasttab.protokt.codegen.generate.Wrapper.keyWrapped
 import com.toasttab.protokt.codegen.generate.Wrapper.mapKeyConverter
@@ -81,7 +77,7 @@ private class DeserializerGenerator(
                     returns(msg.typeName)
                     if (properties.isNotEmpty()) {
                         properties.forEach {
-                            addStatement("var %L", deserializeVar(it))
+                            addStatement("var %L", declareDeserializeVar(it))
                         }
                     }
                     addStatement("var·unknownFields:·%T?·=·null", UnknownFieldSet.Builder::class)
@@ -98,10 +94,10 @@ private class DeserializerGenerator(
                     addStatement("%L", constructor)
                     deserializerInfo.forEach {
                         addStatement(
-                            "%L -> %L = %L",
+                            "%L -> %N = %L",
                             it.tag,
-                            it.assignment.fieldName,
-                            it.assignment.value
+                            it.fieldName,
+                            it.value
                         )
                     }
                     val unknownFieldBuilder =
@@ -125,12 +121,14 @@ private class DeserializerGenerator(
             .build()
     }
 
-    private fun deserializeVar(p: PropertyInfo): CodeBlock =
-        if (p.fieldType == "MESSAGE" || p.repeated || p.oneof || p.nullable || p.wrapped) {
-            CodeBlock.of("%L: %T = %L", p.name, deserializeType(p), deserializeValue(p))
+    private fun declareDeserializeVar(p: PropertyInfo): CodeBlock {
+        val initialState = deserializeVarInitialState(p)
+        return if (p.fieldType == "MESSAGE" || p.repeated || p.oneof || p.nullable || p.wrapped) {
+            CodeBlock.of("%N: %T = %L", p.name, deserializeType(p), initialState)
         } else {
-            CodeBlock.of("%L = %L", p.name, deserializeValue(p))
+            CodeBlock.of("%N = %L", p.name, initialState)
         }
+    }
 
     private fun deserializeType(p: PropertyInfo) =
         if (p.repeated || p.map) {
@@ -143,28 +141,22 @@ private class DeserializerGenerator(
         }
 
     private fun constructorLines(properties: List<PropertyInfo>) =
-        properties.map { CodeBlock.of("%L,\n", deserializeWrapper(it)) } +
+        properties.map { CodeBlock.of("%L,\n", wrapDeserializedValueForConstructor(it)) } +
             CodeBlock.of("%T.from(unknownFields)", UnknownFieldSet::class)
 
     private class DeserializerInfo(
         val tag: Int,
-        val assignment: Assignment
-    ) {
-        class Assignment(
-            val fieldName: String,
-            val value: CodeBlock
-        )
-    }
+        val fieldName: String,
+        val value: CodeBlock
+    )
 
     private fun deserializerInfo(): List<DeserializerInfo> =
         msg.flattenedSortedFields().flatMap { (field, oneOf) ->
             field.tagList.map { tag ->
                 DeserializerInfo(
                     tag.value,
-                    oneOf.fold(
-                        { Assignment(field.fieldName, deserialize(field, ctx, tag is Tag.Packed)) },
-                        { Assignment(it.fieldName, oneofDes(it, field)) }
-                    )
+                    oneOf?.fieldName ?: field.fieldName,
+                    oneOf?.let { oneofDes(it, field) } ?: deserialize(field, ctx, tag is Tag.Packed)
                 )
             }
         }
@@ -172,16 +164,14 @@ private class DeserializerGenerator(
     private fun Message.flattenedSortedFields() =
         fields.flatMap {
             when (it) {
-                is StandardField ->
-                    listOf(FlattenedField(it, None))
-                is Oneof ->
-                    it.fields.map { f -> FlattenedField(f, Some(it)) }
+                is StandardField -> listOf(FlattenedField(it))
+                is Oneof -> it.fields.map { f -> FlattenedField(f, it) }
             }
         }.sortedBy { it.field.number }
 
     private data class FlattenedField(
         val field: StandardField,
-        val oneof: Option<Oneof>
+        val oneof: Oneof? = null
     )
 
     private fun oneofDes(f: Oneof, ff: StandardField) =
@@ -203,7 +193,7 @@ fun deserialize(f: StandardField, ctx: Context, packed: Boolean): CodeBlock {
         f.map -> deserializeMap(f, options, read)
         f.repeated ->
             buildCodeBlock {
-                add("\n(${f.fieldName} ?: mutableListOf())")
+                add("\n(%N ?: mutableListOf())", f.fieldName)
                 beginControlFlow(".apply")
                 beginControlFlow("deserializer.readRepeated($packed)")
                 add("add(%L)\n", wrappedRead)
@@ -226,7 +216,7 @@ private fun deserializeMap(f: StandardField, options: Options?, read: CodeBlock)
             ?: CodeBlock.of("it.value")
 
     return buildCodeBlock {
-        add("\n(${f.fieldName} ?: mutableMapOf())")
+        add("\n(%N ?: mutableMapOf())", f.fieldName)
         beginControlFlow(".apply")
         beginControlFlow("deserializer.readRepeated(false)")
         add(read)

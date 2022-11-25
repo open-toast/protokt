@@ -22,6 +22,7 @@ import com.squareup.kotlinpoet.buildCodeBlock
 import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
 import com.toasttab.protokt.codegen.generate.Wrapper.interceptValueAccess
 import com.toasttab.protokt.codegen.util.Message
+import com.toasttab.protokt.codegen.util.Oneof
 import com.toasttab.protokt.codegen.util.StandardField
 import com.toasttab.protokt.rt.KtMessageSerializer
 import com.toasttab.protokt.rt.Tag
@@ -40,7 +41,7 @@ private class SerializerGenerator(
                 ctx,
                 true,
                 { serialize(it, ctx) },
-                { oneof, std -> serialize(std, ctx, oneof.fieldName) }
+                { oneof, std -> serialize(std, ctx, oneof) }
             )
 
         return buildFunSpec("serialize") {
@@ -55,17 +56,17 @@ private class SerializerGenerator(
 fun serialize(
     f: StandardField,
     ctx: Context,
-    t: String? = null
+    o: Oneof? = null
 ): CodeBlock {
     val fieldAccess =
-        if (t == null) {
+        if (o == null) {
             interceptValueAccess(
                 f,
                 ctx,
-                if (f.repeated) { "it" } else { f.fieldName }
+                if (f.repeated) { CodeBlock.of("it") } else { CodeBlock.of("%N", f.fieldName) }
             )
         } else {
-            interceptValueAccess(f, ctx, "$t.${f.fieldName}")
+            interceptValueAccess(f, ctx, CodeBlock.of("%N.%N", o.fieldName, f.fieldName))
         }
 
     val map = mutableMapOf(
@@ -79,10 +80,10 @@ fun serialize(
             map += "boxed" to f.box(CodeBlock.of("it"))
             addNamed(
                 "serializer.write(%tag:T(${f.tag.value}))" +
-                    ".write(%uInt32:T(%name:L.sumOf{%sizeof:M(%boxed:L)}))\n",
+                    ".write(%uInt32:T(%name:N.sumOf{%sizeof:M(%boxed:L)}))\n",
                 map
             )
-            addNamed("%name:L.forEach·{·serializer.write(%boxed:L)·}", map)
+            addNamed("%name:N.forEach·{·serializer.write(%boxed:L)·}", map)
         }
         f.map -> buildCodeBlock {
             beginControlFlow("${f.fieldName}.entries.forEach")
@@ -96,7 +97,7 @@ fun serialize(
         f.repeated -> buildCodeBlock {
             map += "boxed" to f.box(fieldAccess)
             addNamed(
-                "%name:L.forEach·{·" +
+                "%name:N.forEach·{·" +
                     "serializer.write(%tag:T(${f.tag.value})).write(%boxed:L)·}",
                 map
             )

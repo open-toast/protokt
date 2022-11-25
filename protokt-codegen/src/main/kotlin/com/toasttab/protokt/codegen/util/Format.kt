@@ -48,39 +48,7 @@ internal object Keywords {
             "Tag",
             "deserializer",
             "serializer",
-            "messageSize",
-            "emptyList"
-        )
-
-    val kotlinReserved =
-        setOf(
-            "as",
-            "break",
-            "class",
-            "continue",
-            "do",
-            "else",
-            "false",
-            "for",
-            "fun",
-            "if",
-            "in",
-            "interface",
-            "is",
-            "null",
-            "object",
-            "package",
-            "return",
-            "super",
-            "this",
-            "throw",
-            "true",
-            "try",
-            "typealias",
-            "val",
-            "var",
-            "when",
-            "while"
+            "unknownFields"
         )
 }
 
@@ -113,12 +81,8 @@ internal fun newTypeNameFromPascal(
     appendUnderscores(preferred, set)
 
 internal fun newFieldName(preferred: String, set: Set<String>): String {
-    var name = snakeToCamel(preferred).decapitalize()
-    name = appendUnderscores(name, set)
-    if (name in Keywords.kotlinReserved) {
-        name = "`$name`"
-    }
-    return name
+    val name = snakeToCamel(preferred).decapitalize()
+    return appendUnderscores(name, set)
 }
 
 private fun appendUnderscores(orig: String, set: Set<String>): String {

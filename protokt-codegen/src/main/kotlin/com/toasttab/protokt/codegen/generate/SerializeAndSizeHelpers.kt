@@ -73,7 +73,7 @@ private fun oneofFieldExecution(
 ): CodeBlock =
     buildCodeBlock {
         preControlFlow(field)
-        beginControlFlow("when (${field.fieldName})")
+        beginControlFlow("when (%N)", field.fieldName)
         oneofInstanceConditionals(field) { stmt(it) }.forEach(::add)
         endControlFlow()
     }
