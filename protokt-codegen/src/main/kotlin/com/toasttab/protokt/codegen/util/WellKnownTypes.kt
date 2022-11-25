@@ -34,14 +34,14 @@ object WellKnownTypes {
     private fun classNameForWellKnownType(type: String) =
         Option.fromNullable(
             when (type) {
-                "DoubleValue" -> java.lang.Double::class.qualifiedName
-                "FloatValue" -> java.lang.Float::class.qualifiedName
-                "Int64Value" -> java.lang.Long::class.qualifiedName
-                "UInt64Value" -> java.lang.Long::class.qualifiedName
-                "Int32Value" -> java.lang.Integer::class.qualifiedName
-                "UInt32Value" -> java.lang.Integer::class.qualifiedName
-                "BoolValue" -> java.lang.Boolean::class.qualifiedName
-                "StringValue" -> java.lang.String::class.qualifiedName
+                "DoubleValue" -> "java.lang.Double"
+                "FloatValue" -> "java.lang.Float"
+                "Int64Value" -> "java.lang.Long"
+                "UInt64Value" -> "java.lang.Long"
+                "Int32Value" -> "java.lang.Integer"
+                "UInt32Value" -> "java.lang.Integer"
+                "BoolValue" -> "java.lang.Boolean"
+                "StringValue" -> "java.lang.String"
                 "BytesValue" -> "$protoktRtPkg.Bytes"
                 else -> null
             }
