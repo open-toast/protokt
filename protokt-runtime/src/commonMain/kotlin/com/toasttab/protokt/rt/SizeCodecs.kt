@@ -64,13 +64,26 @@ fun sizeof(l: UInt64): Int {
     return n
 }
 
-@Suppress("UNUSED_PARAMETER") fun sizeof(d: Double) = 8
-@Suppress("UNUSED_PARAMETER") fun sizeof(b: Boolean) = 1
-@Suppress("UNUSED_PARAMETER") fun sizeof(f: Float) = 4
-@Suppress("UNUSED_PARAMETER") fun sizeof(i: Fixed32) = 4
-@Suppress("UNUSED_PARAMETER") fun sizeof(l: Fixed64) = 8
-@Suppress("UNUSED_PARAMETER") fun sizeof(i: SFixed32) = 4
-@Suppress("UNUSED_PARAMETER") fun sizeof(l: SFixed64) = 8
+@Suppress("UNUSED_PARAMETER")
+fun sizeof(d: Double) = 8
+
+@Suppress("UNUSED_PARAMETER")
+fun sizeof(b: Boolean) = 1
+
+@Suppress("UNUSED_PARAMETER")
+fun sizeof(f: Float) = 4
+
+@Suppress("UNUSED_PARAMETER")
+fun sizeof(i: Fixed32) = 4
+
+@Suppress("UNUSED_PARAMETER")
+fun sizeof(l: Fixed64) = 8
+
+@Suppress("UNUSED_PARAMETER")
+fun sizeof(i: SFixed32) = 4
+
+@Suppress("UNUSED_PARAMETER")
+fun sizeof(l: SFixed64) = 8
 
 expect fun sizeof(s: String): Int
 

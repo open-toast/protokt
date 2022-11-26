@@ -75,7 +75,7 @@ private sealed class TypeImpl {
 
 private sealed class Nonscalar(
     override val kotlinRepresentation: KClass<*>? = null,
-    override val ktRepresentation: KClass<*>? = null,
+    override val ktRepresentation: KClass<*>? = null
 ) : TypeImpl() {
     override val scalar = false
 

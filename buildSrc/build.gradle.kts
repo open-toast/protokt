@@ -25,12 +25,12 @@ repositories {
 
 dependencies {
     implementation("com.android.tools.build:gradle:4.1.0")
-    implementation("com.diffplug.spotless:spotless-plugin-gradle:6.5.2")
+    implementation("com.diffplug.spotless:spotless-plugin-gradle:6.11.0")
     implementation("com.google.protobuf:protobuf-gradle-plugin:0.9.1")
     implementation("com.google.guava:guava:31.1-jre")
     implementation("com.vanniktech:gradle-maven-publish-plugin:0.19.0")
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.32")
-    implementation("org.jetbrains.kotlinx:binary-compatibility-validator:0.8.0")
+    implementation("org.jetbrains.kotlinx:binary-compatibility-validator:0.12.1")
     implementation("ru.vyarus:gradle-animalsniffer-plugin:1.5.4")
     implementation(kotlin("gradle-plugin-api"))
 }

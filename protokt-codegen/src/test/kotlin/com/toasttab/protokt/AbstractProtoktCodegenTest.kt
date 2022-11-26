@@ -103,7 +103,12 @@ private val generatedFile =
     File(
         projectRoot,
         Path.of(
-            "src", "test", "resources",
-            "com", "toasttab", "protokt", "test-proto-bin-request.bin"
+            "src",
+            "test",
+            "resources",
+            "com",
+            "toasttab",
+            "protokt",
+            "test-proto-bin-request.bin"
         ).toString()
     )

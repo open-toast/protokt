@@ -78,8 +78,11 @@ class FixtureGenerator(private val weight: Int) {
 
     fun randomMessageValue(cls: KClass<out KtMessage>): KtMessage {
         val params = cls.primaryConstructor!!.parameters.associateWith { p ->
-            if (p.name == "unknown") emptyMap<Any, Any>()
-            else randomValue(TypeInspector.type(p.type))
+            if (p.name == "unknown") {
+                emptyMap<Any, Any>()
+            } else {
+                randomValue(TypeInspector.type(p.type))
+            }
         }
 
         return cls.primaryConstructor!!.callBy(params)

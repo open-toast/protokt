@@ -406,8 +406,10 @@ class CollectionsJavaInteropTest {
                     }.serialize()
                 ).map
             ).containsExactly(
-                content, protoktSimple,
-                content0, protoktSimple0
+                content,
+                protoktSimple,
+                content0,
+                protoktSimple0
             )
         }
 
@@ -424,8 +426,10 @@ class CollectionsJavaInteropTest {
                     }.serialize()
                 ).mapMap
             ).containsExactly(
-                content, javaSimple,
-                content0, javaSimple0
+                content,
+                javaSimple,
+                content0,
+                javaSimple0
             )
         }
 
@@ -439,8 +443,10 @@ class CollectionsJavaInteropTest {
                     }.build().toByteArray()
                 ).map
             ).containsExactly(
-                content, protoktSimple,
-                content0, protoktSimple0
+                content,
+                protoktSimple,
+                content0,
+                protoktSimple0
             )
         }
 

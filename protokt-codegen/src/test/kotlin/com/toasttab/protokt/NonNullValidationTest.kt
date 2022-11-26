@@ -109,7 +109,7 @@ class NonNullValidationTest : AbstractProtoktCodegenTest() {
             ineligibleAnonymousTypes().map { it.name.lowercase() } +
                 listOf(
                     listOf("Foo", ".toasttab.protokt.codegen.testing.TestMessageWithBadNonNullOptionalField.Foo"),
-                    listOf("Bar", ".toasttab.protokt.codegen.testing.TestMessageWithBadNonNullOptionalField.Bar"),
+                    listOf("Bar", ".toasttab.protokt.codegen.testing.TestMessageWithBadNonNullOptionalField.Bar")
                 )
 
         @JvmStatic
@@ -120,7 +120,7 @@ class NonNullValidationTest : AbstractProtoktCodegenTest() {
             ineligibleAnonymousTypes().map { it.name.lowercase() } +
                 listOf(
                     listOf("Foo", ".toasttab.protokt.codegen.testing.TestMessageWithBadNonNullOneof.Foo"),
-                    listOf("Bar", ".toasttab.protokt.codegen.testing.TestMessageWithBadNonNullOneof.Bar"),
+                    listOf("Bar", ".toasttab.protokt.codegen.testing.TestMessageWithBadNonNullOneof.Bar")
                 )
 
         private fun ineligibleAnonymousTypes() =
