@@ -20,6 +20,8 @@ plugins {
     id("com.google.protobuf")
 }
 
+defaultProtoc()
+
 dependencies {
     implementation(libs.protobufJava)
 }
@@ -29,11 +31,5 @@ sourceSets {
         proto {
             srcDir("${project.rootDir}/testing/interop/src/main/proto")
         }
-    }
-}
-
-protobuf {
-    protoc {
-        artifact = libs.protoc.get().toString()
     }
 }

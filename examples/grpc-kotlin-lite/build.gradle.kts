@@ -13,8 +13,6 @@
  * limitations under the License.
  */
 
-import com.google.protobuf.gradle.ProtobufExtension
-import com.google.protobuf.gradle.id
 import com.google.protobuf.gradle.protobuf
 import com.toasttab.protokt.gradle.protokt
 
@@ -24,26 +22,11 @@ plugins {
 
 localProtokt()
 pureKotlin()
+grpckt()
 
 protokt {
     generateGrpc = true
     lite = true
-}
-
-configure<ProtobufExtension> {
-    plugins {
-        id("grpckt") {
-            artifact = "${libs.grpcKotlinGenerator.get()}:jdk8@jar"
-        }
-    }
-
-    generateProtoTasks {
-        all().forEach {
-            it.plugins {
-                id("grpckt")
-            }
-        }
-    }
 }
 
 dependencies {

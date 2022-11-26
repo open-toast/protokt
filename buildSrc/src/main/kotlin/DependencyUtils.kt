@@ -13,11 +13,14 @@
  * limitations under the License.
  */
 
+import com.google.protobuf.gradle.ProtobufExtension
+import com.google.protobuf.gradle.id
 import com.google.protobuf.gradle.protobuf
 import org.gradle.api.Project
 import org.gradle.api.artifacts.MinimalExternalModuleDependency
 import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.provider.Provider
+import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.exclude
 import org.gradle.kotlin.dsl.getByType
@@ -36,6 +39,32 @@ fun Project.protobufExcludingProtobufJava(dependency: Provider<MinimalExternalMo
     dependencies {
         protobuf(dependency.get().toString()) {
             exclude(group = "com.google.protobuf", module = "protobuf-java")
+        }
+    }
+}
+
+fun Project.defaultProtoc() {
+    configure<ProtobufExtension> {
+        protoc {
+            artifact = findLibrary("protoc")
+        }
+    }
+}
+
+fun Project.grpckt() {
+    configure<ProtobufExtension> {
+        plugins {
+            id("grpckt") {
+                artifact = "${findLibrary("grpcKotlinGenerator")}:jdk8@jar"
+            }
+        }
+
+        generateProtoTasks {
+            all().forEach {
+                it.plugins {
+                    id("grpckt")
+                }
+            }
         }
     }
 }

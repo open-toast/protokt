@@ -21,15 +21,11 @@ plugins {
     application
 }
 
+defaultProtoc()
+
 configure<JavaApplication> {
     mainClass.set("com.toasttab.protokt.benchmarks.ProtobufBenchmarksKt")
     executableDir = ".."
-}
-
-protobuf {
-    protoc {
-        artifact = libs.protoc.get().toString()
-    }
 }
 
 dependencies {

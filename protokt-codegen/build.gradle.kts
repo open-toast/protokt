@@ -29,6 +29,8 @@ plugins {
     application
 }
 
+defaultProtoc()
+
 // Enable Kotlin 1.7 in codegen only; even though the buildscript dependency
 // has been forced to 1.7.x, Gradle gets confused and thinks we're running in
 // the context of Kotlin 1.5.
@@ -83,12 +85,6 @@ configure<PublishingExtension> {
             version = "${rootProject.version}"
             groupId = "${rootProject.group}"
         }
-    }
-}
-
-protobuf {
-    protoc {
-        artifact = libs.protoc.get().toString()
     }
 }
 
