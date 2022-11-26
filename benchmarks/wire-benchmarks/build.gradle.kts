@@ -13,17 +13,6 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        // todo: Delete when bintray is fixed
-        classpath("com.squareup.wire:wire-gradle-plugin:4.2.0")
-    }
-}
-
 plugins {
     id("protokt.benchmarks-conventions")
     application
