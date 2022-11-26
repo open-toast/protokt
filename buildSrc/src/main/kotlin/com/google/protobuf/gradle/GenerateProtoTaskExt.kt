@@ -15,5 +15,5 @@
 
 package com.google.protobuf.gradle
 
-val GenerateProtoTask.outputSourceDirectoriesHack
+internal val GenerateProtoTask.outputSourceDirectoriesHack
     get() = outputSourceDirectories

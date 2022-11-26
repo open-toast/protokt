@@ -19,4 +19,7 @@ plugins {
 
 enablePublishing()
 
-includeCommonGradleSource("ProtoktExtension.kt")
+includeBuildSrc(
+    "com/toasttab/protokt/gradle/ProtoktExtension.kt",
+    "com/toasttab/protokt/gradle/ProtobufVersion.kt"
+)

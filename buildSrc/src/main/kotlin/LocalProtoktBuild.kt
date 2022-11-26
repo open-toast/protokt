@@ -35,24 +35,12 @@ fun Project.localProtokt() {
     }
 }
 
-fun Project.includeCommonGradleSource(filePattern: String) {
-    includeSource("com/toasttab/protokt/gradle/$filePattern")
-    includeSource(
-        "com/toasttab/protokt/gradle/ProtobufVersion.kt",
-        "buildSrc/build/generated-sources/protobuf-version"
-    )
-}
-
-fun Project.includeProtobufGradlePluginHack() =
-    includeSource("com/google/protobuf/gradle/*")
-
-private fun Project.includeSource(
-    filePattern: String,
-    srcDir: String = "buildSrc/src/main/kotlin"
-) {
+fun Project.includeBuildSrc(vararg filePatterns: String) {
     the<SourceSetContainer>()["main"].java {
-        srcDir(rootProject.file(srcDir))
-        include(filePattern)
+        srcDir(rootProject.file("buildSrc/src/main/kotlin"))
+        srcDir(rootProject.file("buildSrc/build/generated-sources/protobuf-version"))
+
+        filePatterns.forEach { include(it) }
     }
 }
 

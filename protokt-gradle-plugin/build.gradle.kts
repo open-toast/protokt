@@ -62,5 +62,7 @@ dependencies {
     implementation(libs.protobufGradlePlugin)
 }
 
-includeCommonGradleSource("*")
-includeProtobufGradlePluginHack()
+includeBuildSrc(
+    "com/toasttab/protokt/gradle/*",
+    "com/google/protobuf/gradle/*"
+)
