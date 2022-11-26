@@ -34,7 +34,6 @@ import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.asTypeName
 import com.toasttab.protokt.ext.Protokt
 import kotlinx.collections.immutable.PersistentList
-import kotlinx.collections.immutable.PersistentSet
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.persistentSetOf
 import kotlinx.collections.immutable.plus
