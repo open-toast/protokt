@@ -31,7 +31,7 @@ protokt {
 configure<ProtobufExtension> {
     plugins {
         id("grpckt") {
-            artifact = libraries.grpcKotlinGenerator
+            artifact = "${libs.grpcKotlinGenerator.get()}:jdk8@jar"
         }
     }
 
@@ -46,8 +46,8 @@ configure<ProtobufExtension> {
 
 dependencies {
     implementation(project(":protokt-runtime-grpc"))
-    implementation(libraries.grpcKotlin)
-    implementation(libraries.grpcStub)
-    implementation(libraries.jackson)
-    implementation(libraries.kotlinxCoroutinesCore)
+    implementation(libs.grpcKotlinStub)
+    implementation(libs.grpcStub)
+    implementation(libs.jackson)
+    implementation(libs.kotlinxCoroutinesCore)
 }

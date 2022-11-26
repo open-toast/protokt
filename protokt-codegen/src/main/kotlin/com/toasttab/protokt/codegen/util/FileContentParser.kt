@@ -30,10 +30,10 @@ import com.squareup.kotlinpoet.asTypeName
 import com.toasttab.protokt.ext.Protokt
 
 fun parseFileContents(ctx: GeneratorContext): ProtoFileContents {
-    val kotlinPackage = resolvePackage(ctx.fileOptions, ctx.fdp.`package`, ctx.respectJavaPackage)
+    val kotlinPackage = resolvePackage(ctx.fdp, ctx.respectJavaPackage)
     return ProtoFileContents(
         ProtoFileInfo(kotlinPackage, ctx),
-        types = FileContentParser(ctx, kotlinPackage).parseContents()
+        FileContentParser(ctx, kotlinPackage).parseContents()
     )
 }
 

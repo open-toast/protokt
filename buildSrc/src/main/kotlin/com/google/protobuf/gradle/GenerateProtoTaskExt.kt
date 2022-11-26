@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2022 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,27 +13,7 @@
  * limitations under the License.
  */
 
-import com.google.protobuf.gradle.proto
+package com.google.protobuf.gradle
 
-plugins {
-    id("protokt.jvm-conventions")
-    id("com.google.protobuf")
-}
-
-dependencies {
-    implementation(protobufDep(libs.protobufJava))
-}
-
-sourceSets {
-    main {
-        proto {
-            srcDir("${project.rootDir}/testing/interop/src/main/proto")
-        }
-    }
-}
-
-protobuf {
-    protoc {
-        artifact = protobufDep(libs.protoc)
-    }
-}
+val GenerateProtoTask.outputSourceDirectoriesHack
+    get() = outputSourceDirectories

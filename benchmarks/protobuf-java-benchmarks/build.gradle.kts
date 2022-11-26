@@ -28,13 +28,13 @@ configure<JavaApplication> {
 
 protobuf {
     protoc {
-        artifact = libraries.protoc
+        artifact = protobufDep(libs.protoc)
     }
 }
 
 dependencies {
     implementation(project(":benchmarks:benchmarks-util"))
-    implementation(libraries.protobufJava)
+    implementation(protobufDep(libs.protobufJava))
 
     protobuf(project(":benchmarks:schema"))
 }

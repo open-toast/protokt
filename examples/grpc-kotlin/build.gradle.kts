@@ -19,11 +19,11 @@ plugins {
 
 dependencies {
     implementation(project(":examples:protos"))
-    implementation(libraries.grpcKotlin)
-    implementation(libraries.kotlinxCoroutinesCore)
+    implementation(libs.grpcKotlinStub)
+    implementation(libs.kotlinxCoroutinesCore)
 
-    runtimeOnly(libraries.protobufJava)
+    runtimeOnly(protobufDep(libs.protobufJava))
 
     testImplementation(kotlin("test-junit"))
-    testImplementation("io.grpc:grpc-testing:${versions.grpc}")
+    testImplementation(libs.grpcTesting)
 }

@@ -34,7 +34,7 @@ dependencies {
     protoktExtensions(project(":extensions:protokt-extensions-lite"))
     protoktExtensions(project(":extensions:protokt-jvm-extensions-simple"))
 
-    implementation(libraries.autoServiceAnnotations)
+    implementation(libs.autoServiceAnnotations)
 
-    kapt(libraries.autoService)
+    kapt(libs.autoService)
 }

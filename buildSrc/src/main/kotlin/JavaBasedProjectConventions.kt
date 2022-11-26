@@ -32,8 +32,8 @@ fun Project.javaBasedProjectConventions() {
     dependencies {
         "api"(kotlin("stdlib"))
 
-        "testImplementation"(libraries.junit)
-        "testImplementation"(libraries.truth)
+        "testImplementation"(findLibrary("junit"))
+        "testImplementation"(findLibrary("truth"))
     }
 
     tasks.withType<KotlinCompile> {

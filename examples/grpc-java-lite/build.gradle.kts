@@ -29,9 +29,9 @@ protokt {
 }
 
 dependencies {
-    implementation(libraries.jackson)
+    implementation(libs.jackson)
 
-    runtimeOnly(libraries.protobufLite)
+    runtimeOnly(protobufDep(libs.protobufLite))
 }
 
 sourceSets {

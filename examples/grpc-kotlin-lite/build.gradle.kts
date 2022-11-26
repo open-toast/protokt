@@ -33,7 +33,7 @@ protokt {
 configure<ProtobufExtension> {
     plugins {
         id("grpckt") {
-            artifact = libraries.grpcKotlinGenerator
+            artifact = "${libs.grpcKotlinGenerator.get()}:jdk8@jar"
         }
     }
 
@@ -49,14 +49,14 @@ configure<ProtobufExtension> {
 dependencies {
     protobuf(project(":examples:protos"))
 
-    implementation(libraries.grpcKotlin)
-    implementation(libraries.jackson)
-    implementation(libraries.kotlinxCoroutinesCore)
+    implementation(libs.grpcKotlinStub)
+    implementation(libs.jackson)
+    implementation(libs.kotlinxCoroutinesCore)
 
-    runtimeOnly(libraries.protobufLite)
+    runtimeOnly(protobufDep(libs.protobufLite))
 
     testImplementation(kotlin("test-junit"))
-    testImplementation("io.grpc:grpc-testing:${versions.grpc}")
+    testImplementation(libs.grpcTesting)
 }
 
 sourceSets {

@@ -32,8 +32,8 @@ kotlin {
     sourceSets {
         val jvmTest by getting {
             dependencies {
-                implementation(libraries.junit)
-                implementation(libraries.truth)
+                implementation(findLibrary("junit"))
+                implementation(findLibrary("truth"))
             }
         }
     }

@@ -35,10 +35,16 @@ fun Project.localProtokt() {
     }
 }
 
-fun Project.includeCommonGradleSource(filePattern: String) {
+fun Project.includeCommonGradleSource(filePattern: String) =
+    includeSource("com/toasttab/protokt/gradle/$filePattern")
+
+fun Project.includeProtobufGradlePluginHack() =
+    includeSource("com/google/protobuf/gradle/*")
+
+private fun Project.includeSource(filePattern: String) {
     the<SourceSetContainer>()["main"].java {
         srcDir(rootProject.file("buildSrc/src/main/kotlin"))
-        include("com/toasttab/protokt/gradle/$filePattern")
+        include(filePattern)
     }
 }
 

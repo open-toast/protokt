@@ -25,7 +25,7 @@ kotlin {
     sourceSets {
         val jvmTest by getting {
             dependencies {
-                implementation(libraries.protobufJava)
+                implementation(protobufDep(libs.protobufJava))
             }
         }
 

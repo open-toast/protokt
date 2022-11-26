@@ -19,12 +19,12 @@ plugins {
     id("de.undercouch.download")
 }
 
-val archive = file("$buildDir/datasets-${versions.datasets}.zip")
+val archive = file("$buildDir/datasets-${libs.versions.datasets.get()}.zip")
 
 tasks.register<Download>("download") {
     enabled = !archive.exists()
 
-    src("https://proto-benchmarks.s3.amazonaws.com/datasets-${versions.datasets}.zip")
+    src("https://proto-benchmarks.s3.amazonaws.com/datasets-${libs.versions.datasets.get()}.zip")
     tempAndMove(true)
     dest(buildDir)
 }

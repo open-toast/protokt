@@ -31,7 +31,7 @@ dependencies {
     protobuf(project(":benchmarks:schema"))
 
     implementation(kotlin("reflect"))
-    implementation(libraries.protobufJava)
+    implementation(protobufDep(libs.protobufJava))
     implementation(project(":benchmarks:benchmarks-util"))
 }
 

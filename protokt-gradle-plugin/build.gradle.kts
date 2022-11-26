@@ -59,7 +59,8 @@ dependencies {
     implementation(project(":protokt-util"))
     implementation(kotlin("gradle-plugin"))
     implementation(gradleApi())
-    implementation(libraries.protobufPlugin)
+    implementation(libs.protobufGradlePlugin)
 }
 
 includeCommonGradleSource("*")
+includeProtobufGradlePluginHack()

@@ -20,7 +20,7 @@ plugins {
 
 dependencies {
     implementation(project(":protokt-core"))
-    implementation(libraries.autoServiceAnnotations)
+    implementation(libs.autoServiceAnnotations)
 
-    kapt(libraries.autoService)
+    kapt(libs.autoService)
 }

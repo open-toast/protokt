@@ -23,7 +23,7 @@ trackKotlinApiCompatibility()
 
 dependencies {
     implementation(project(":protokt-core-lite"))
-    implementation(libraries.autoServiceAnnotations)
+    implementation(libs.autoServiceAnnotations)
 
-    kapt(libraries.autoService)
+    kapt(libs.autoService)
 }

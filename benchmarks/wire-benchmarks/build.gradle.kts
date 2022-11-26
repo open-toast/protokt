@@ -13,24 +13,22 @@
  * limitations under the License.
  */
 
-import com.squareup.wire.gradle.WireExtension
-
 buildscript {
     repositories {
         mavenCentral()
     }
 
     dependencies {
-        classpath(libraries.wireGradle)
+        // todo: Delete when bintray is fixed
+        classpath("com.squareup.wire:wire-gradle-plugin:4.2.0")
     }
 }
 
 plugins {
     id("protokt.benchmarks-conventions")
     application
+    alias(libs.plugins.wire)
 }
-
-apply(plugin = "com.squareup.wire")
 
 application {
     mainClass.set("com.toasttab.protokt.benchmarks.WireBenchmarksKt")
@@ -39,10 +37,10 @@ application {
 
 dependencies {
     implementation(project(":benchmarks:benchmarks-util"))
-    implementation(libraries.wireRuntime)
+    implementation(libs.wireRuntime)
 }
 
-configure<WireExtension> {
+wire {
     sourcePath("../schema/src/main/resources")
 
     kotlin {

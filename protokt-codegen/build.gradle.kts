@@ -55,18 +55,18 @@ dependencies {
 
     implementation(kotlin("reflect", "1.7.20"))
 
-    implementation(libraries.arrow)
-    implementation(libraries.grpcStub)
-    implementation(libraries.kotlinPoet)
-    implementation(libraries.kotlinxCoroutinesCore)
-    implementation(libraries.ktlint)
-    implementation(libraries.ktlintStandardRuleSet)
-    implementation(libraries.protobufJava)
+    implementation(libs.arrow)
+    implementation(libs.grpcStub)
+    implementation(libs.kotlinPoet)
+    implementation(libs.kotlinxCoroutinesCore)
+    implementation(libs.ktlint)
+    implementation(libs.ktlintStandardRuleSet)
+    implementation(protobufDep(libs.protobufJava))
 
     testImplementation(project(":testing:testing-util"))
 
-    testImplementation(libraries.junit)
-    testImplementation(libraries.truth)
+    testImplementation(libs.junit)
+    testImplementation(libs.truth)
 }
 
 configure<PublishingExtension> {
@@ -88,7 +88,7 @@ configure<PublishingExtension> {
 
 protobuf {
     protoc {
-        artifact = libraries.protoc
+        artifact = protobufDep(libs.protoc)
     }
 }
 

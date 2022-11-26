@@ -25,7 +25,7 @@ dependencies {
     api(project(":extensions:protokt-jvm-extensions-lite"))
     api(project(":third-party:proto-google-common-protos-lite"))
 
-    implementation(libraries.autoServiceAnnotations)
+    implementation(libs.autoServiceAnnotations)
 
-    kapt(libraries.autoService)
+    kapt(libs.autoService)
 }

@@ -18,10 +18,12 @@ package com.toasttab.protokt.gradle
 import com.google.protobuf.gradle.GenerateProtoTask
 import com.google.protobuf.gradle.ProtobufExtension
 import com.google.protobuf.gradle.ProtobufPlugin
+import com.google.protobuf.gradle.outputSourceDirectoriesHack
 import com.google.protobuf.gradle.proto
 import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Dependency
+import org.gradle.api.file.SourceDirectorySet
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.jvm.tasks.Jar
@@ -107,11 +109,23 @@ private fun Project.configureSourceSets(
     val sourceSets = kotlinExtension.extensions.getByName("sourceSets") as NamedDomainObjectContainer<KotlinSourceSet>
 
     sourceSets.named(sourceSetName).configure {
-        kotlin.srcDir(genProtoTask.outputSourceDirectorySet)
+        kotlin.srcDir(genProtoTask.buildSourceDirectorySet())
         the<SourceSetContainer>()
             .getByName(protoSourceSetRoot)
             .proto { resources.source(this) }
     }
+}
+
+private fun GenerateProtoTask.buildSourceDirectorySet(): SourceDirectorySet {
+    val srcSetName = "generate-proto-$name"
+    val srcSet = objectFactory.sourceDirectorySet(srcSetName, srcSetName)
+    srcSet.srcDirs(
+        objectFactory
+            .fileCollection()
+            .builtBy(this)
+            .from(providerFactory.provider { outputSourceDirectoriesHack })
+    )
+    return srcSet
 }
 
 private fun Project.createExtensionConfigurationsAndConfigureProtobuf() {
