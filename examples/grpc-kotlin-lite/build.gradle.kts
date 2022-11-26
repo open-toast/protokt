@@ -53,7 +53,7 @@ dependencies {
     implementation(libs.jackson)
     implementation(libs.kotlinxCoroutinesCore)
 
-    runtimeOnly(protobufDep(libs.protobufLite))
+    runtimeOnly(libs.protobufLite)
 
     testImplementation(kotlin("test-junit"))
     testImplementation(libs.grpcTesting)

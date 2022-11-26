@@ -24,5 +24,5 @@ android {
 localProtokt()
 
 dependencies {
-    testImplementation(protobufDep(libs.protobufLite))
+    testImplementation(libs.protobufLite)
 }

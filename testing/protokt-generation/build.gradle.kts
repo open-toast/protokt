@@ -33,5 +33,5 @@ dependencies {
     implementation(libs.grpcStub)
 
     testImplementation(libs.jackson)
-    testImplementation(protobufDep(libs.protobufJava))
+    testImplementation(libs.protobufJava)
 }

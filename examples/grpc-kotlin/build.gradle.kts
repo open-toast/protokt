@@ -22,7 +22,7 @@ dependencies {
     implementation(libs.grpcKotlinStub)
     implementation(libs.kotlinxCoroutinesCore)
 
-    runtimeOnly(protobufDep(libs.protobufJava))
+    runtimeOnly(libs.protobufJava)
 
     testImplementation(kotlin("test-junit"))
     testImplementation(libs.grpcTesting)

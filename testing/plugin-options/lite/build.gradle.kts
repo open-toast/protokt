@@ -31,5 +31,5 @@ dependencies {
     protoktExtensions(project(":third-party:proto-google-common-protos-extensions-lite"))
 
     testImplementation(kotlin("reflect"))
-    testImplementation(protobufDep(libs.protobufLite))
+    testImplementation(libs.protobufLite)
 }

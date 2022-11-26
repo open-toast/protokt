@@ -21,7 +21,7 @@ plugins {
 }
 
 dependencies {
-    implementation(protobufDep(libs.protobufJava))
+    implementation(libs.protobufJava)
 }
 
 sourceSets {
@@ -34,6 +34,6 @@ sourceSets {
 
 protobuf {
     protoc {
-        artifact = protobufDep(libs.protoc)
+        artifact = libs.protoc.get().toString()
     }
 }

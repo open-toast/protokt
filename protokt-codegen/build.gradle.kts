@@ -61,7 +61,7 @@ dependencies {
     implementation(libs.kotlinxCoroutinesCore)
     implementation(libs.ktlint)
     implementation(libs.ktlintStandardRuleSet)
-    implementation(protobufDep(libs.protobufJava))
+    implementation(libs.protobufJava)
 
     testImplementation(project(":testing:testing-util"))
 
@@ -88,7 +88,7 @@ configure<PublishingExtension> {
 
 protobuf {
     protoc {
-        artifact = protobufDep(libs.protoc)
+        artifact = libs.protoc.get().toString()
     }
 }
 

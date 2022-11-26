@@ -31,7 +31,7 @@ protokt {
 dependencies {
     implementation(libs.jackson)
 
-    runtimeOnly(protobufDep(libs.protobufLite))
+    runtimeOnly(libs.protobufLite)
 }
 
 sourceSets {

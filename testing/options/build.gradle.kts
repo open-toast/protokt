@@ -35,5 +35,5 @@ dependencies {
 
     testImplementation(kotlin("reflect"))
     testImplementation(project(":testing:protokt-generation"))
-    testImplementation(protobufDep(libs.protobufJava))
+    testImplementation(libs.protobufJava)
 }

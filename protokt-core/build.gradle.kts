@@ -47,6 +47,6 @@ kotlin {
 }
 
 dependencies {
-    protobuf(protobufDep(libs.protobufJava))
+    protobuf(libs.protobufJava)
     protobuf(files("../protokt-runtime/src/main/resources"))
 }

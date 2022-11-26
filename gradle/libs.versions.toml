@@ -1,4 +1,4 @@
-# Copyright (c) 2012 Toast Inc.
+# Copyright (c) 2022 Toast Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,6 +22,14 @@ ktlint = "0.47.1"
 protobuf = "3.21.7"
 protobufJs = "6.11.3"
 protobufGradlePlugin = "0.9.1"
+
+# build
+androidGradlePlugin = "4.1.0"
+animalSnifferGradlePlugin = "1.5.4"
+binaryCompatibilityValidator = "0.12.1"
+gradleMavenPublishPlugin = "0.19.0"
+kotlin = "1.5.32"
+spotless = "6.11.0"
 
 # benchmarks
 datasets = "0.1.0"
@@ -50,8 +58,16 @@ kotlinxCoroutinesCore = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-cor
 ktlint = { module = "com.pinterest.ktlint:ktlint-core", version.ref = "ktlint" }
 ktlintStandardRuleSet = { module = "com.pinterest.ktlint:ktlint-ruleset-standard", version.ref = "ktlint" }
 protobufGradlePlugin = { module = "com.google.protobuf:protobuf-gradle-plugin", version.ref = "protobufGradlePlugin" }
-protobufJava = { module ="com.google.protobuf:protobuf-java" }
-protoc = { module = "com.google.protobuf:protoc" }
+protobufJava = { module ="com.google.protobuf:protobuf-java", version.ref = "protobuf" }
+protoc = { module = "com.google.protobuf:protoc", version.ref = "protobuf" }
+
+# build
+androidGradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
+animalSnifferGradlePlugin = { module = "ru.vyarus:gradle-animalsniffer-plugin", version.ref = "animalSnifferGradlePlugin" }
+binaryCompatibilityValidator = { module = "org.jetbrains.kotlinx:binary-compatibility-validator", version.ref = "binaryCompatibilityValidator" }
+gradleMavenPublishPlugin = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "gradleMavenPublishPlugin" }
+kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+spotlessGradlePlugin = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless" }
 
 # benchmarks
 jmhCore = { module = "org.openjdk.jmh:jmh-core", version.ref = "jmh" }
@@ -67,5 +83,5 @@ grpcKotlinStub = { module = "io.grpc:grpc-kotlin-stub", version.ref = "grpcKotli
 grpcTesting = { module = "io.grpc:grpc-testing", version.ref = "grpc" }
 jackson = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
 junit = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
-protobufLite = { module = "com.google.protobuf:protobuf-javalite" }
+protobufLite = { module = "com.google.protobuf:protobuf-javalite", version.ref = "protobuf" }
 truth = { module = "com.google.truth:truth", version.ref = "truth" }

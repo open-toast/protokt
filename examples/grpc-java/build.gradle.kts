@@ -20,5 +20,5 @@ plugins {
 dependencies {
     implementation(project(":examples:protos"))
 
-    runtimeOnly(protobufDep(libs.protobufJava))
+    runtimeOnly(libs.protobufJava)
 }

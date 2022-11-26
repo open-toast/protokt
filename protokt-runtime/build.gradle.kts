@@ -25,7 +25,7 @@ kotlin {
     sourceSets {
         val jvmMain by getting {
             dependencies {
-                compileOnly(protobufDep(libs.protobufJava))
+                compileOnly(libs.protobufJava)
             }
         }
 
