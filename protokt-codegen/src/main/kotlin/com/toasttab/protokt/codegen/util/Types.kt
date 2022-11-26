@@ -140,13 +140,14 @@ class OneofOptions(
 )
 
 class ProtoFileInfo(
-    val name: String,
-    val protoPackage: String,
     val kotlinPackage: String,
-    val options: FileOptions,
-    val context: GeneratorContext,
-    val sourceCodeInfo: DescriptorProtos.SourceCodeInfo
-)
+    val context: GeneratorContext
+) {
+    val name = context.fdp.name
+    val protoPackage = context.fdp.`package`
+    val options = context.fileOptions
+    val sourceCodeInfo = context.fdp.sourceCodeInfo
+}
 
 class FileOptions(
     val default: DescriptorProtos.FileOptions,

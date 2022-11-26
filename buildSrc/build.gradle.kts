@@ -21,13 +21,12 @@ repositories {
     mavenCentral()
     gradlePluginPortal()
     google()
-    maven(url = "https://jitpack.io")
 }
 
 dependencies {
     implementation("com.android.tools.build:gradle:4.1.0")
     implementation("com.diffplug.spotless:spotless-plugin-gradle:6.5.2")
-    implementation("com.github.google:protobuf-gradle-plugin:c3d75281f2d912d1ac060c814be5e19ae6c61500")
+    implementation("com.google.protobuf:protobuf-gradle-plugin:0.9.1")
     implementation("com.google.guava:guava:31.1-jre")
     implementation("com.vanniktech:gradle-maven-publish-plugin:0.19.0")
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.32")

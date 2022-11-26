@@ -24,7 +24,6 @@ import com.toasttab.protokt.codegen.util.ProtoFileContents
 import com.toasttab.protokt.codegen.util.ProtoFileInfo
 import com.toasttab.protokt.codegen.util.Service
 import com.toasttab.protokt.codegen.util.TopLevelType
-import kotlinx.collections.immutable.persistentListOf
 
 object CodeGenerator {
     data class Context(
@@ -34,7 +33,7 @@ object CodeGenerator {
 
     fun generate(contents: ProtoFileContents) =
         contents.types.flatMap {
-            generate(it, Context(persistentListOf(), contents.info))
+            generate(it, Context(emptyList(), contents.info))
                 .map { type -> GeneratedType(it, type) }
         }
 

@@ -18,6 +18,7 @@ package com.toasttab.protokt.codegen.util
 import com.google.common.base.CaseFormat.LOWER_CAMEL
 import com.google.common.base.CaseFormat.LOWER_UNDERSCORE
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
+import com.toasttab.protokt.ext.Protokt
 import com.toasttab.protokt.gradle.GENERATE_GRPC
 import com.toasttab.protokt.gradle.KOTLIN_EXTRA_CLASSPATH
 import com.toasttab.protokt.gradle.LINT_OUTPUT
@@ -49,13 +50,13 @@ class GeneratorContext(
     val lintOutput = params.getOrDefault(LINT_OUTPUT)
 
     val fileName = fdp.name
+    val fileOptions = fdp.fileOptions
     val version = getProtoktVersion(GeneratorContext::class)
 
     val proto2 = !fdp.hasSyntax() || fdp.syntax == "proto2"
     val proto3 = fdp.syntax == "proto3"
 
-    val allPackagesByTypeName =
-        packagesByTypeName(allFiles, respectJavaPackage(params))
+    val allPackagesByTypeName = packagesByTypeName(allFiles, respectJavaPackage(params))
 
     val allPackagesByFileName =
         allFiles.associate {
@@ -89,3 +90,7 @@ private fun Map<String, String>.getOrDefault(key: String): Boolean {
 
     return get(key)?.toBoolean() ?: defaultValue
 }
+
+val FileDescriptorProto.fileOptions
+    get() =
+        FileOptions(options, options.getExtension(Protokt.file))

@@ -21,7 +21,6 @@ object versions {
     const val grpc = "1.49.1"
     const val grpcKotlin = "1.3.0"
     const val kotlinPoet = "1.12.0"
-    const val kotlinxCollections = "0.3.5"
     const val kotlinxCoroutines = "1.5.2"
     const val ktlint = "0.47.1"
     const val protobuf = DEFAULT_PROTOBUF_VERSION
@@ -54,7 +53,6 @@ object libraries {
     const val grpcStub = "io.grpc:grpc-stub:${versions.grpc}"
 
     const val kotlinPoet = "com.squareup:kotlinpoet:${versions.kotlinPoet}"
-    const val kotlinxCollections = "org.jetbrains.kotlinx:kotlinx-collections-immutable:${versions.kotlinxCollections}"
     const val kotlinxCoroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.kotlinxCoroutines}"
 
     const val ktlint = "com.pinterest.ktlint:ktlint-core:${versions.ktlint}"

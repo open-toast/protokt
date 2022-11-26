@@ -58,7 +58,6 @@ dependencies {
     implementation(libraries.arrow)
     implementation(libraries.grpcStub)
     implementation(libraries.kotlinPoet)
-    implementation(libraries.kotlinxCollections)
     implementation(libraries.kotlinxCoroutinesCore)
     implementation(libraries.ktlint)
     implementation(libraries.ktlintStandardRuleSet)
