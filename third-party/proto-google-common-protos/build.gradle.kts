@@ -13,7 +13,6 @@
  * limitations under the License.
  */
 
-import com.google.protobuf.gradle.protobuf
 import com.toasttab.protokt.gradle.protokt
 
 plugins {
@@ -40,7 +39,5 @@ kotlin {
 }
 
 dependencies {
-    protobuf(libs.protoGoogleCommonProtos.get().toString()) {
-        exclude(group = "com.google.protobuf", module = "protobuf-java")
-    }
+    protobufExcludingProtobufJava(libs.protoGoogleCommonProtos)
 }

@@ -13,8 +13,13 @@
  * limitations under the License.
  */
 
+import com.google.protobuf.gradle.protobuf
 import org.gradle.api.Project
+import org.gradle.api.artifacts.MinimalExternalModuleDependency
 import org.gradle.api.artifacts.VersionCatalogsExtension
+import org.gradle.api.provider.Provider
+import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.exclude
 import org.gradle.kotlin.dsl.getByType
 
 fun Project.findLibrary(name: String): String =
@@ -26,3 +31,11 @@ fun Project.findLibrary(name: String): String =
         .get() // optional
         .get() // provider
         .run { "$module:$versionConstraint" }
+
+fun Project.protobufExcludingProtobufJava(dependency: Provider<MinimalExternalModuleDependency>) {
+    dependencies {
+        protobuf(dependency.get().toString()) {
+            exclude(group = "com.google.protobuf", module = "protobuf-java")
+        }
+    }
+}
