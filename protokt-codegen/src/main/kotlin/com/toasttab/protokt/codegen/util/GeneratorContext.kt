@@ -21,7 +21,6 @@ import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.toasttab.protokt.ext.Protokt
 import com.toasttab.protokt.gradle.GENERATE_GRPC
 import com.toasttab.protokt.gradle.KOTLIN_EXTRA_CLASSPATH
-import com.toasttab.protokt.gradle.LINT_OUTPUT
 import com.toasttab.protokt.gradle.LITE
 import com.toasttab.protokt.gradle.ONLY_GENERATE_DESCRIPTORS
 import com.toasttab.protokt.gradle.ONLY_GENERATE_GRPC
@@ -46,7 +45,7 @@ class GeneratorContext(
     val onlyGenerateGrpc = params.getOrDefault(ONLY_GENERATE_GRPC)
     val lite = params.getOrDefault(LITE)
     val onlyGenerateDescriptors = params.getOrDefault(ONLY_GENERATE_DESCRIPTORS)
-    val lintOutput = params.getOrDefault(LINT_OUTPUT)
+    val formatOutput = params.getOrDefault(FORMAT_OUTPUT)
 
     val allPackagesByTypeName = packagesByTypeName(allFiles, respectJavaPackage(params))
     val allPackagesByFileName = packagesByFileName(allFiles) { it !in filesToGenerate || respectJavaPackage(params) }

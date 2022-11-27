@@ -23,7 +23,7 @@ const val GENERATE_GRPC = "generate_grpc"
 const val ONLY_GENERATE_GRPC = "only_generate_grpc"
 const val LITE = "lite"
 const val ONLY_GENERATE_DESCRIPTORS = "only_generate_descriptors"
-const val LINT_OUTPUT = "lint_output"
+const val FORMAT_OUTPUT = "format_output"
 
 open class ProtoktExtension {
     /**
@@ -66,7 +66,7 @@ open class ProtoktExtension {
     var onlyGenerateDescriptors = false
 
     /**
-     * Whether to lint the generated code.
+     * Whether to format the generated code.
      */
-    var lintOutput = true
+    var formatOutput = true
 }

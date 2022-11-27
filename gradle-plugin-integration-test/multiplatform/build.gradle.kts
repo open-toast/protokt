@@ -78,7 +78,7 @@ tasks.named<Test>("jvmTest") {
 apply<ProtoktPlugin>()
 
 configure<com.toasttab.protokt.gradle.ProtoktExtension> {
-    lintOutput = false // https://github.com/pinterest/ktlint/issues/1195
+    formatOutput = false // https://github.com/pinterest/ktlint/issues/1195
 }
 
 dependencies {

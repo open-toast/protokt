@@ -20,7 +20,7 @@ plugins {
 
 protokt {
     lite = true
-    lintOutput = false // https://github.com/pinterest/ktlint/issues/1195
+    formatOutput = false // https://github.com/pinterest/ktlint/issues/1195
 }
 
 tasks {

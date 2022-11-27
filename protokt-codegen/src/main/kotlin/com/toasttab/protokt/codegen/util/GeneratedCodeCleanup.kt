@@ -21,8 +21,8 @@ import com.pinterest.ktlint.ruleset.standard.StandardRuleSetProvider
 
 fun tidy(rawCode: String, context: GeneratorContext): String {
     var code = stripApiMode(rawCode)
-    if (context.lintOutput) {
-        code = lint(code)
+    if (context.formatOutput) {
+        code = format(code)
     }
     return code
 }
@@ -42,7 +42,7 @@ private fun stripApiMode(code: String) =
         .replace("public sealed ", "sealed ")
         .replace("public data ", "data ")
 
-private fun lint(code: String) =
+private fun format(code: String) =
     KtLint.format(
         KtLint.ExperimentalParams(
             text = code,
