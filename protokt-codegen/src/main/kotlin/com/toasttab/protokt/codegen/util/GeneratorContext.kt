@@ -94,3 +94,42 @@ private fun Map<String, String>.getOrDefault(key: String): Boolean {
 val FileDescriptorProto.fileOptions
     get() =
         FileOptions(options, options.getExtension(Protokt.file))
+
+private fun generateFdpObjectNames(
+    files: List<FileDescriptorProto>,
+    respectJavaPackage: Boolean
+): Map<String, String> {
+    val names = mutableMapOf<String, String>()
+
+    val usedNames =
+        files.flatMapTo(mutableSetOf()) { fdp ->
+            files.filter {
+                resolvePackage(it, respectJavaPackage) ==
+                    resolvePackage(fdp, respectJavaPackage)
+            }.flatMapTo(mutableSetOf()) {
+                fdp.enumTypeList.map { e -> e.name } +
+                    fdp.messageTypeList.map { m -> m.name } +
+                    fdp.serviceList.map { s -> s.name }
+            }
+        }
+
+    files.forEach { fdp ->
+        var name =
+            fdp.fileOptions.protokt.fileDescriptorObjectName.takeIf { it.isNotEmpty() }
+                ?: fdp.fileOptions.default.javaOuterClassname.takeIf { it.isNotEmpty() }
+                ?: fdp.name
+                    .substringBefore(".proto")
+                    .substringAfterLast('/')
+                    .let(::snakeToCamel)
+                    .capitalize()
+
+        while (name in usedNames) {
+            name += "_"
+        }
+
+        usedNames.add(name)
+        names[fdp.name] = name
+    }
+
+    return names
+}

@@ -18,7 +18,6 @@ package com.toasttab.protokt.codegen.generate
 import com.squareup.kotlinpoet.FileSpec
 import com.toasttab.protokt.codegen.util.Message
 import com.toasttab.protokt.codegen.util.ProtoFileContents
-import com.toasttab.protokt.codegen.util.fileName
 
 fun generateFile(contents: ProtoFileContents) =
     FileGenerator(contents).generate()
@@ -71,4 +70,19 @@ private class FileGenerator(
 
         return if (anyCodeAdded) builder.build() else null
     }
+}
+
+private fun fileName(contents: ProtoFileContents): String {
+    val pkg = contents.info.kotlinPackage
+    val name = contents.info.name
+    val suffixes = mutableListOf<String>()
+    if (contents.info.context.onlyGenerateDescriptors) {
+        suffixes.add("_protokt_descriptors")
+    } else if (contents.info.context.onlyGenerateGrpc) {
+        suffixes.add("_protokt_grpc")
+    }
+    val dir = pkg.replace('.', '/') + '/'
+    val fileNameBase = name.substringAfterLast('/').removeSuffix(".proto")
+
+    return dir + fileNameBase + suffixes.joinToString("") + ".kt"
 }

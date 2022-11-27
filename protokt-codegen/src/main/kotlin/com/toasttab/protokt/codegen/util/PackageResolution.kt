@@ -21,6 +21,7 @@ import arrow.core.orElse
 import com.google.protobuf.DescriptorProtos.DescriptorProto
 import com.google.protobuf.DescriptorProtos.EnumDescriptorProto
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
+import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.asTypeName
 
 const val rootGoogleProto = "google.protobuf"
@@ -99,7 +100,7 @@ internal fun resolvePackage(
 ) =
     resolvePackage(fdp.fileOptions, fdp.`package`, respectJavaPackage)
 
-internal fun resolvePackage(
+private fun resolvePackage(
     fileOptions: FileOptions,
     protoPackage: String,
     respectJavaPackage: Boolean
@@ -120,9 +121,32 @@ private fun javaPackage(respectJavaPackage: Boolean, fileOptions: FileOptions) =
 private fun overrideComGoogleProtobuf(type: String) =
     overrideGoogleProtobuf(type, "com.$rootGoogleProto")
 
-internal fun overrideGoogleProtobuf(type: String, prefix: String) =
+private fun overrideGoogleProtobuf(type: String, prefix: String) =
     if (type.startsWith(prefix)) {
         protoktPkg + type.removePrefix(prefix)
     } else {
         type
     }
+
+fun requalifyProtoType(ctx: GeneratorContext, typeName: String): ClassName {
+    val withOverriddenGoogleProtoPackage =
+        ClassName.bestGuess(
+            overrideGoogleProtobuf(typeName.removePrefix("."), rootGoogleProto)
+        )
+
+    val withOverriddenReservedName =
+        ClassName(
+            withOverriddenGoogleProtoPackage.packageName,
+            withOverriddenGoogleProtoPackage.simpleNames.dropLast(1) +
+                withOverriddenGoogleProtoPackage.simpleName
+        )
+
+    return if (ctx.respectJavaPackage) {
+        ClassName(
+            ctx.allPackagesByTypeName.getValue(typeName),
+            withOverriddenReservedName.simpleNames
+        )
+    } else {
+        withOverriddenReservedName
+    }
+}
