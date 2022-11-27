@@ -175,10 +175,10 @@ private class DeserializerGenerator(
     )
 
     private fun oneofDes(f: Oneof, ff: StandardField) =
-        CodeBlock.of("%T(%L)", f.qualify(ff), deserialize(ff, ctx, false))
+        CodeBlock.of("%T(%L)", f.qualify(ff), deserialize(ff, ctx))
 }
 
-fun deserialize(f: StandardField, ctx: Context, packed: Boolean): CodeBlock {
+fun deserialize(f: StandardField, ctx: Context, packed: Boolean = false): CodeBlock {
     val options = deserializeOptions(f, ctx)
     val read = CodeBlock.of("deserializer.%L", interceptReadFn(f, f.readFn()))
 

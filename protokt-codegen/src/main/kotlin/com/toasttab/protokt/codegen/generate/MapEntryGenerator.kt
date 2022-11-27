@@ -120,11 +120,11 @@ private class MapEntryGenerator(
                         addStatement("%L", constructOnZero(entryInfo.value))
                         addStatement(
                             "${entryInfo.key.tag.value} -> key = %L",
-                            deserialize(entryInfo.key, ctx, false)
+                            deserialize(entryInfo.key, ctx)
                         )
                         addStatement(
                             "${entryInfo.value.tag.value} -> value = %L",
-                            deserialize(entryInfo.value, ctx, false)
+                            deserialize(entryInfo.value, ctx)
                         )
                         endControlFlow()
                         endControlFlow()
