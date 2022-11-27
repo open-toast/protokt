@@ -21,14 +21,13 @@ import com.toasttab.protokt.ext.Protokt
 
 class MessageParser(
     private val ctx: GeneratorContext,
-    private val pkg: String,
     private val idx: Int,
     private val desc: DescriptorProto,
     private val enclosingMessages: List<String>
 ) {
     fun toMessage(): Message {
         val typeName = desc.name
-        val fieldList = FieldParser(ctx, pkg, desc, enclosingMessages).toFields()
+        val fieldList = FieldParser(ctx, desc, enclosingMessages).toFields()
         val simpleNames = enclosingMessages + typeName
         return Message(
             fields = fieldList.sortedBy {
@@ -39,7 +38,6 @@ class MessageParser(
             },
             nestedTypes = FileContentParser(
                 ctx,
-                pkg,
                 desc.enumTypeList,
                 desc.nestedTypeList,
                 emptyList(),
@@ -52,9 +50,9 @@ class MessageParser(
             ),
             index = idx,
             fullProtobufTypeName = "${ctx.fdp.`package`}.$typeName",
-            className = ClassName(pkg, simpleNames),
-            deserializerClassName = ClassName(pkg, simpleNames + "Deserializer"),
-            dslClassName = ClassName(pkg, simpleNames + "${typeName}Dsl")
+            className = ClassName(ctx.kotlinPackage, simpleNames),
+            deserializerClassName = ClassName(ctx.kotlinPackage, simpleNames + "Deserializer"),
+            dslClassName = ClassName(ctx.kotlinPackage, simpleNames + "${typeName}Dsl")
         )
     }
 }

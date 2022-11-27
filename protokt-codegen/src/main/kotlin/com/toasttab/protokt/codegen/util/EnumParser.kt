@@ -20,7 +20,7 @@ import com.squareup.kotlinpoet.ClassName
 import com.toasttab.protokt.ext.Protokt
 
 class EnumParser(
-    private val pkg: String,
+    private val ctx: GeneratorContext,
     private val idx: Int,
     private val desc: EnumDescriptorProto,
     private val enclosingMessages: List<String>
@@ -52,8 +52,8 @@ class EnumParser(
                 desc.options,
                 desc.options.getExtension(Protokt.enum_)
             ),
-            className = ClassName(pkg, enclosingMessages + typeName),
-            deserializerClassName = ClassName(pkg, enclosingMessages + typeName + "Deserializer")
+            className = ClassName(ctx.kotlinPackage, enclosingMessages + typeName),
+            deserializerClassName = ClassName(ctx.kotlinPackage, enclosingMessages + typeName + "Deserializer")
         )
     }
 }

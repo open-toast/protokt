@@ -17,13 +17,13 @@ package com.toasttab.protokt.testing
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
-import toasttab.protokt.testing.data.EvilNames
-import toasttab.protokt.testing.data.ImportEvilNames
+import toasttab.protokt.testing.data.evil_names_file_descriptor
+import toasttab.protokt.testing.data.import_evil_names_file_descriptor
 
 class EvilNamesTest {
     @Test
     fun `ensure package has reserved word in package name`() {
-        assertThat(EvilNames::class.qualifiedName).contains(".data.")
-        assertThat(ImportEvilNames::class.qualifiedName).contains(".data.")
+        assertThat(evil_names_file_descriptor::class.qualifiedName).contains(".data.")
+        assertThat(import_evil_names_file_descriptor::class.qualifiedName).contains(".data.")
     }
 }

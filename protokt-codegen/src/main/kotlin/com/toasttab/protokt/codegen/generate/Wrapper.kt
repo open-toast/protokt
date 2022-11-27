@@ -266,7 +266,7 @@ internal object Wrapper {
                 .filter { it.wrapper == wrapper && it.wrapped == wrapped }
 
         require(converters.isNotEmpty()) {
-            "${ctx.fileName}: No converter found for wrapper type " +
+            "${ctx.fdp.name}: No converter found for wrapper type " +
                 "${wrapper.qualifiedName} from type ${wrapped.qualifiedName}"
         }
 

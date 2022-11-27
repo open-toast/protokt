@@ -28,7 +28,6 @@ import com.toasttab.protokt.ext.Protokt
 
 class FieldParser(
     private val ctx: GeneratorContext,
-    private val pkg: String,
     private val desc: DescriptorProto,
     private val enclosingMessages: List<String>
 ) {
@@ -80,7 +79,7 @@ class FieldParser(
 
         return Oneof(
             name = name,
-            className = ClassName(pkg, enclosingMessages + desc.name + name),
+            className = ClassName(ctx.kotlinPackage, enclosingMessages + desc.name + name),
             fieldTypeNames = fieldTypeNames,
             fieldName = newName,
             fields = oneofStdFields,
@@ -127,7 +126,7 @@ class FieldParser(
         if (fdp.label == LABEL_REPEATED && fdp.type == Type.TYPE_MESSAGE) {
             findMapEntry(ctx.fdp, fdp.typeName)
                 ?.takeIf { it.options.mapEntry }
-                ?.let { resolveMapEntry(MessageParser(ctx, pkg, -1, it, enclosingMessages).toMessage()) }
+                ?.let { resolveMapEntry(MessageParser(ctx, -1, it, enclosingMessages).toMessage()) }
         } else {
             null
         }

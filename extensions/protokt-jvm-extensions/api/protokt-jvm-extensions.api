@@ -1,5 +1,5 @@
-public final class com/toasttab/protokt/ext/InetSocketAddress_ {
-	public static final field INSTANCE Lcom/toasttab/protokt/ext/InetSocketAddress_;
+public final class com/toasttab/protokt/ext/InetSocketAddressProto {
+	public static final field INSTANCE Lcom/toasttab/protokt/ext/InetSocketAddressProto;
 	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
 }
 

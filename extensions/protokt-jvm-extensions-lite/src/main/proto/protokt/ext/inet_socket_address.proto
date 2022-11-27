@@ -20,6 +20,7 @@ package protokt.ext;
 import "protokt/protokt.proto";
 
 option (protokt.file).kotlin_package = "com.toasttab.protokt.ext";
+option (protokt.file).file_descriptor_object_name = "InetSocketAddressProto";
 
 message InetSocketAddress {
   bytes address = 1 [

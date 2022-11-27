@@ -36,7 +36,7 @@ class Message(
 
 data class MessageOptions(
     val default: DescriptorProtos.MessageOptions,
-    val protokt: Protokt.ProtoktMessageOptions
+    val protokt: Protokt.MessageOptions
 )
 
 class Enum(
@@ -57,12 +57,12 @@ class Enum(
 
 class EnumOptions(
     val default: DescriptorProtos.EnumOptions,
-    val protokt: Protokt.ProtoktEnumOptions
+    val protokt: Protokt.EnumOptions
 )
 
 class EnumValueOptions(
     val default: DescriptorProtos.EnumValueOptions,
-    val protokt: Protokt.ProtoktEnumValueOptions
+    val protokt: Protokt.EnumValueOptions
 )
 
 class Service(
@@ -75,7 +75,7 @@ class Service(
 
 class ServiceOptions(
     val default: DescriptorProtos.ServiceOptions,
-    val protokt: Protokt.ProtoktServiceOptions
+    val protokt: Protokt.ServiceOptions
 )
 
 class Method(
@@ -90,7 +90,7 @@ class Method(
 
 class MethodOptions(
     val default: DescriptorProtos.MethodOptions,
-    val protokt: Protokt.ProtoktMethodOptions
+    val protokt: Protokt.MethodOptions
 )
 
 sealed class Field {
@@ -131,19 +131,19 @@ class MapEntry(
 
 class FieldOptions(
     val default: DescriptorProtos.FieldOptions,
-    val protokt: Protokt.ProtoktFieldOptions
+    val protokt: Protokt.FieldOptions
 )
 
 class OneofOptions(
     val default: DescriptorProtos.OneofOptions,
-    val protokt: Protokt.ProtoktOneofOptions
+    val protokt: Protokt.OneofOptions
 )
 
 class ProtoFileInfo(
-    val kotlinPackage: String,
     val context: GeneratorContext
 ) {
     val name = context.fdp.name
+    val kotlinPackage = context.kotlinPackage
     val protoPackage = context.fdp.`package`
     val options = context.fileOptions
     val sourceCodeInfo = context.fdp.sourceCodeInfo
@@ -151,7 +151,7 @@ class ProtoFileInfo(
 
 class FileOptions(
     val default: DescriptorProtos.FileOptions,
-    val protokt: Protokt.ProtoktFileOptions
+    val protokt: Protokt.FileOptions
 )
 
 class ProtoFileContents(

@@ -141,7 +141,7 @@ private constructor(
             }.map {
                 ClassName(
                     ctx.allPackagesByFileName.getValue(it),
-                    ctx.allDescriptorClassNamesByDescriptorName.getValue(it)
+                    ctx.allDescriptorClassNamesByFileName.getValue(it)
                 )
             }
 

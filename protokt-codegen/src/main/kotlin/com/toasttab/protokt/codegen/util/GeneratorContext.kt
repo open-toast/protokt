@@ -27,20 +27,19 @@ import com.toasttab.protokt.gradle.ONLY_GENERATE_DESCRIPTORS
 import com.toasttab.protokt.gradle.ONLY_GENERATE_GRPC
 import com.toasttab.protokt.gradle.ProtoktExtension
 import com.toasttab.protokt.gradle.RESPECT_JAVA_PACKAGE
-import com.toasttab.protokt.util.getProtoktVersion
 import java.net.URLDecoder
 import kotlin.reflect.full.declaredMemberProperties
 
 class GeneratorContext(
     val fdp: FileDescriptorProto,
     params: Map<String, String>,
-    private val filesToGenerate: Set<String>,
+    filesToGenerate: Set<String>,
     allFiles: List<FileDescriptorProto>
 ) {
     val classpath =
-        params.getOrDefault(KOTLIN_EXTRA_CLASSPATH, "").split(";").map {
-            URLDecoder.decode(it, "UTF-8")
-        }
+        params.getOrDefault(KOTLIN_EXTRA_CLASSPATH, "")
+            .split(";")
+            .map { URLDecoder.decode(it, "UTF-8") }
 
     val respectJavaPackage = respectJavaPackage(params)
     val generateGrpc = params.getOrDefault(GENERATE_GRPC)
@@ -49,35 +48,20 @@ class GeneratorContext(
     val onlyGenerateDescriptors = params.getOrDefault(ONLY_GENERATE_DESCRIPTORS)
     val lintOutput = params.getOrDefault(LINT_OUTPUT)
 
-    val fileName = fdp.name
+    val allPackagesByTypeName = packagesByTypeName(allFiles, respectJavaPackage(params))
+    val allPackagesByFileName = packagesByFileName(allFiles) { it !in filesToGenerate || respectJavaPackage(params) }
+    val allFilesByName = allFiles.associateBy { it.name }
+    val allDescriptorClassNamesByFileName = generateFdpObjectNames(allFiles)
+
     val fileOptions = fdp.fileOptions
-    val version = getProtoktVersion(GeneratorContext::class)
+    val fileDescriptorObjectName = allDescriptorClassNamesByFileName.getValue(fdp.name)
+    val kotlinPackage = allPackagesByFileName.getValue(fdp.name)
 
     val proto2 = !fdp.hasSyntax() || fdp.syntax == "proto2"
     val proto3 = fdp.syntax == "proto3"
-
-    val allPackagesByTypeName = packagesByTypeName(allFiles, respectJavaPackage(params))
-
-    val allPackagesByFileName =
-        allFiles.associate {
-            it.name to
-                resolvePackage(
-                    it,
-                    it.name !in filesToGenerate ||
-                        respectJavaPackage(params)
-                )
-        }
-
-    val allFilesByName = allFiles.associateBy { it.name }
-
-    val allDescriptorClassNamesByDescriptorName =
-        generateFdpObjectNames(allFiles, respectJavaPackage(params))
-
-    val fileDescriptorObjectName =
-        allDescriptorClassNamesByDescriptorName.getValue(fdp.name)
 }
 
-fun respectJavaPackage(params: Map<String, String>) =
+private fun respectJavaPackage(params: Map<String, String>) =
     params.getOrDefault(RESPECT_JAVA_PACKAGE)
 
 private fun Map<String, String>.getOrDefault(key: String): Boolean {
@@ -92,44 +76,14 @@ private fun Map<String, String>.getOrDefault(key: String): Boolean {
 }
 
 val FileDescriptorProto.fileOptions
-    get() =
-        FileOptions(options, options.getExtension(Protokt.file))
+    get() = FileOptions(options, options.getExtension(Protokt.file))
 
-private fun generateFdpObjectNames(
-    files: List<FileDescriptorProto>,
-    respectJavaPackage: Boolean
-): Map<String, String> {
-    val names = mutableMapOf<String, String>()
-
-    val usedNames =
-        files.flatMapTo(mutableSetOf()) { fdp ->
-            files.filter {
-                resolvePackage(it, respectJavaPackage) ==
-                    resolvePackage(fdp, respectJavaPackage)
-            }.flatMapTo(mutableSetOf()) {
-                fdp.enumTypeList.map { e -> e.name } +
-                    fdp.messageTypeList.map { m -> m.name } +
-                    fdp.serviceList.map { s -> s.name }
-            }
-        }
-
-    files.forEach { fdp ->
-        var name =
+private fun generateFdpObjectNames(files: List<FileDescriptorProto>): Map<String, String> =
+    files.associate { fdp ->
+        Pair(
+            fdp.name,
             fdp.fileOptions.protokt.fileDescriptorObjectName.takeIf { it.isNotEmpty() }
                 ?: fdp.fileOptions.default.javaOuterClassname.takeIf { it.isNotEmpty() }
-                ?: fdp.name
-                    .substringBefore(".proto")
-                    .substringAfterLast('/')
-                    .let(::snakeToCamel)
-                    .capitalize()
-
-        while (name in usedNames) {
-            name += "_"
-        }
-
-        usedNames.add(name)
-        names[fdp.name] = name
+                ?: (fdp.name.substringBefore(".proto").substringAfterLast('/') + "_file_descriptor")
+        )
     }
-
-    return names
-}

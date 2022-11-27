@@ -19,25 +19,21 @@ import com.google.protobuf.DescriptorProtos.DescriptorProto
 import com.google.protobuf.DescriptorProtos.EnumDescriptorProto
 import com.google.protobuf.DescriptorProtos.ServiceDescriptorProto
 
-fun parseFileContents(ctx: GeneratorContext): ProtoFileContents {
-    val kotlinPackage = resolvePackage(ctx.fdp, ctx.respectJavaPackage)
-    return ProtoFileContents(
-        ProtoFileInfo(kotlinPackage, ctx),
-        FileContentParser(ctx, kotlinPackage).parseContents()
+fun parseFileContents(ctx: GeneratorContext) =
+    ProtoFileContents(
+        ProtoFileInfo(ctx),
+        FileContentParser(ctx).parseContents()
     )
-}
 
 class FileContentParser(
     private val ctx: GeneratorContext,
-    private val pkg: String,
     private val enums: List<EnumDescriptorProto>,
     private val messages: List<DescriptorProto>,
     private val services: List<ServiceDescriptorProto>,
     private val enclosingMessages: List<String>
 ) {
-    constructor(ctx: GeneratorContext, pkg: String) : this(
+    constructor(ctx: GeneratorContext) : this(
         ctx,
-        pkg,
         ctx.fdp.enumTypeList,
         ctx.fdp.messageTypeList,
         ctx.fdp.serviceList,
@@ -45,7 +41,7 @@ class FileContentParser(
     )
 
     fun parseContents(): List<TopLevelType> =
-        enums.mapIndexed { idx, desc -> EnumParser(pkg, idx, desc, enclosingMessages).toEnum() } +
-            messages.mapIndexed { idx, desc -> MessageParser(ctx, pkg, idx, desc, enclosingMessages).toMessage() } +
+        enums.mapIndexed { idx, desc -> EnumParser(ctx, idx, desc, enclosingMessages).toEnum() } +
+            messages.mapIndexed { idx, desc -> MessageParser(ctx, idx, desc, enclosingMessages).toMessage() } +
             services.mapIndexed { idx, desc -> ServiceParser(ctx, idx, desc).toService() }
 }

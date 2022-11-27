@@ -30,6 +30,14 @@ const val googleProto = ".google.protobuf"
 const val protoktPkg = "com.toasttab.protokt"
 val protoktRtPkg = com.toasttab.protokt.rt.Bytes::class.asTypeName().packageName
 
+fun packagesByFileName(
+    protoFileList: List<FileDescriptorProto>,
+    respectJavaPackage: (String) -> Boolean
+) =
+    protoFileList.associate {
+        it.name to resolvePackage(it, respectJavaPackage(it.name))
+    }
+
 fun packagesByTypeName(
     protoFileList: List<FileDescriptorProto>,
     respectJavaPackage: Boolean
@@ -94,20 +102,10 @@ private fun EnumDescriptorProto.nestedFullyQualifiedName(
 private val FileDescriptorProto.fullQualification
     get() = `package`.emptyOrPrecedeWithDot()
 
-internal fun resolvePackage(
-    fdp: FileDescriptorProto,
-    respectJavaPackage: Boolean
-) =
-    resolvePackage(fdp.fileOptions, fdp.`package`, respectJavaPackage)
-
-private fun resolvePackage(
-    fileOptions: FileOptions,
-    protoPackage: String,
-    respectJavaPackage: Boolean
-) =
-    fileOptions.protokt.kotlinPackage.emptyToNone()
-        .orElse { javaPackage(respectJavaPackage, fileOptions) }
-        .orElse { protoPackage.emptyToNone() }
+private fun resolvePackage(fdp: FileDescriptorProto, respectJavaPackage: Boolean) =
+    fdp.fileOptions.protokt.kotlinPackage.emptyToNone()
+        .orElse { javaPackage(respectJavaPackage, fdp.fileOptions) }
+        .orElse { fdp.`package`.emptyToNone() }
         .map { overrideComGoogleProtobuf(it) }
         .getOrElse { "" }
 
