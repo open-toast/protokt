@@ -35,7 +35,6 @@ import com.toasttab.protokt.codegen.generate.Wrapper.valueWrapped
 import com.toasttab.protokt.codegen.generate.Wrapper.wrapField
 import com.toasttab.protokt.codegen.generate.Wrapper.wrapped
 import com.toasttab.protokt.codegen.generate.Wrapper.wrapperName
-import com.toasttab.protokt.codegen.util.FieldType
 import com.toasttab.protokt.codegen.util.FieldType.ENUM
 import com.toasttab.protokt.codegen.util.FieldType.MESSAGE
 import com.toasttab.protokt.codegen.util.FieldType.SFIXED32
