@@ -21,6 +21,9 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
 import com.toasttab.protokt.codegen.generate.Wrapper.interceptValueAccess
+import com.toasttab.protokt.codegen.generate.Wrapper.mapKeyConverter
+import com.toasttab.protokt.codegen.generate.Wrapper.mapValueConverter
+import com.toasttab.protokt.codegen.util.FieldType.MESSAGE
 import com.toasttab.protokt.codegen.util.Message
 import com.toasttab.protokt.codegen.util.Oneof
 import com.toasttab.protokt.codegen.util.StandardField
@@ -111,4 +114,21 @@ fun serialize(
             )
         }
     }
+}
+
+private fun StandardField.boxMap(ctx: Context): CodeBlock {
+    if (type != MESSAGE) {
+        return CodeBlock.of("")
+    }
+    val keyParam =
+        mapKeyConverter(this, ctx)
+            ?.let { CodeBlock.of("%T.unwrap(it.key)", it) }
+            ?: CodeBlock.of("it.key")
+
+    val valParam =
+        mapValueConverter(this, ctx)
+            ?.let { CodeBlock.of("%T.unwrap(it.value)", it) }
+            ?: CodeBlock.of("it.value")
+
+    return CodeBlock.of("%T(%L, %L)", className, keyParam, valParam)
 }

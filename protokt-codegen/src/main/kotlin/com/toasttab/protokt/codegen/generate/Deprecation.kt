@@ -41,8 +41,8 @@ object Deprecation {
             options.default.deprecated ||
                 fields.any {
                     when (it) {
-                        is StandardField -> it.deprecated
-                        is Oneof -> it.fields.any(StandardField::deprecated)
+                        is StandardField -> it.options.default.deprecated
+                        is Oneof -> it.fields.any { f -> f.options.default.deprecated }
                     }
                 } ||
                 nestedTypes.any {

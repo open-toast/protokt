@@ -155,6 +155,32 @@ private class DeserializerGenerator(
             }
         }
 
+    private val StandardField.tagList
+        get() =
+            tag.let {
+                if (repeated) {
+                    // For repeated fields, catch the other (packed or non-packed)
+                    // possibility.
+                    keepIfDifferent(
+                        it,
+                        if (packed) {
+                            Tag.Unpacked(number, type.wireType)
+                        } else {
+                            Tag.Packed(number)
+                        }
+                    )
+                } else {
+                    listOf(it)
+                }
+            }.sorted()
+
+    private fun keepIfDifferent(tag: Tag, other: Tag) =
+        if (tag.value == other.value) {
+            listOf(tag)
+        } else {
+            listOf(tag, other)
+        }
+
     private fun Message.flattenedSortedFields() =
         fields.flatMap {
             when (it) {

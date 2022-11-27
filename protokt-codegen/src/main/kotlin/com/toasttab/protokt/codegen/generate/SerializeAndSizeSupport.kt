@@ -19,6 +19,12 @@ import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
 import com.toasttab.protokt.codegen.generate.Nullability.hasNonNullOption
+import com.toasttab.protokt.codegen.generate.Wrapper.interceptValueAccess
+import com.toasttab.protokt.codegen.util.FieldType.BOOL
+import com.toasttab.protokt.codegen.util.FieldType.BYTES
+import com.toasttab.protokt.codegen.util.FieldType.ENUM
+import com.toasttab.protokt.codegen.util.FieldType.MESSAGE
+import com.toasttab.protokt.codegen.util.FieldType.STRING
 import com.toasttab.protokt.codegen.util.Message
 import com.toasttab.protokt.codegen.util.Oneof
 import com.toasttab.protokt.codegen.util.StandardField
@@ -63,6 +69,20 @@ private fun standardFieldExecution(
                 endControlFlow()
             }
         }
+    }
+}
+
+private fun StandardField.nonDefault(ctx: Context): CodeBlock {
+    val name = interceptValueAccess(this, ctx)
+    return when {
+        optional -> CodeBlock.of("%N != null", fieldName)
+        repeated -> CodeBlock.of("%N.isNotEmpty()", fieldName)
+        type == MESSAGE -> CodeBlock.of("%N != null", fieldName)
+        type == BYTES || type == STRING -> CodeBlock.of("%L.isNotEmpty()", name)
+        type == ENUM -> CodeBlock.of("%L.value != 0", name)
+        type == BOOL -> name
+        type.scalar -> CodeBlock.of("%L != %L", name, type.defaultValue)
+        else -> error("Field doesn't have nondefault check: $this, $type")
     }
 }
 
