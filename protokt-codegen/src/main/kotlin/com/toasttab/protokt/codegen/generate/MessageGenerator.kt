@@ -49,31 +49,24 @@ private class MessageGenerator(
         } else {
             val properties = annotateProperties(msg, ctx)
 
-            TypeSpec.classBuilder(msg.className)
-                .handleAnnotations()
-                .apply {
-                    val doc = annotateMessageDocumentation(ctx)
-                    if (doc.isNotEmpty()) {
-                        addKdoc(formatDoc(doc))
-                    }
-                }
-                .apply {
-                    if (suppressDeprecation()) {
-                        addDeprecationSuppression()
-                    }
-                }
-                .handleConstructor(properties)
-                .addTypes(annotateOneofs(msg, ctx))
-                .handleMessageSize()
-                .addFunction(generateMessageSize(msg, ctx))
-                .addFunction(generateSerializer(msg, ctx))
-                .handleEquals(properties)
-                .handleHashCode(properties)
-                .handleToString(properties)
-                .handleDsl(msg, properties)
-                .addType(generateDeserializer(msg, ctx, properties))
-                .addTypes(msg.nestedTypes.flatMap { generate(it, ctx) })
-                .build()
+            TypeSpec.classBuilder(msg.className).apply {
+                annotateMessageDocumentation(ctx)
+                    .takeIf { it.isNotEmpty() }
+                    ?.let { addKdoc(formatDoc(it)) }
+
+                handleAnnotations()
+                handleConstructor(properties)
+                addTypes(annotateOneofs(msg, ctx))
+                handleMessageSize()
+                addFunction(generateMessageSize(msg, ctx))
+                addFunction(generateSerializer(msg, ctx))
+                handleEquals(properties)
+                handleHashCode(properties)
+                handleToString(properties)
+                handleDsl(msg, properties)
+                addType(generateDeserializer(msg, ctx, properties))
+                addTypes(msg.nestedTypes.flatMap { generate(it, ctx) })
+            }.build()
         }
 
     private fun TypeSpec.Builder.handleAnnotations() = apply {
@@ -82,7 +75,13 @@ private class MessageGenerator(
                 .addMember(msg.fullProtobufTypeName.embed())
                 .build()
         )
-        handleDeprecation(msg.options.default.deprecated, msg.options.protokt.deprecationMessage)
+        handleDeprecation(
+            msg.options.default.deprecated,
+            msg.options.protokt.deprecationMessage
+        )
+        if (suppressDeprecation()) {
+            addDeprecationSuppression()
+        }
     }
 
     private fun TypeSpec.Builder.handleConstructor(
