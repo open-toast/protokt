@@ -28,6 +28,8 @@ import com.toasttab.protokt.codegen.generate.Nullability.hasNonNullOption
 import com.toasttab.protokt.codegen.generate.Nullability.nullable
 import com.toasttab.protokt.codegen.generate.Nullability.propertyType
 import com.toasttab.protokt.codegen.generate.Wrapper.interceptDefaultValue
+import com.toasttab.protokt.codegen.generate.Wrapper.interceptMapKeyTypeName
+import com.toasttab.protokt.codegen.generate.Wrapper.interceptMapValueTypeName
 import com.toasttab.protokt.codegen.generate.Wrapper.interceptTypeName
 import com.toasttab.protokt.codegen.generate.Wrapper.wrapped
 import com.toasttab.protokt.codegen.util.Field
@@ -108,6 +110,19 @@ private class PropertyAnnotator(
                 parameter
             }
         }
+
+    private fun resolveMapEntryTypes(f: StandardField, ctx: Context) =
+        f.mapEntry!!.let {
+            MapTypeParams(
+                interceptMapKeyTypeName(f, it.key.className, ctx)!!,
+                interceptMapValueTypeName(f, it.value.className, ctx)!!
+            )
+        }
+
+    private class MapTypeParams(
+        val kType: TypeName,
+        val vType: TypeName
+    )
 
     private fun Field.defaultValue(ctx: Context) =
         when (this) {

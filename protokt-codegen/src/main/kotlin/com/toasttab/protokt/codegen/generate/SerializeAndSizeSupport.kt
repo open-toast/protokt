@@ -93,3 +93,6 @@ private fun oneofInstanceConditionals(f: Oneof, stmt: (StandardField) -> CodeBlo
                 it + buildCodeBlock { addStatement("null·->·Unit") }
             }
         }
+
+fun Oneof.qualify(f: StandardField) =
+    className.nestedClass(fieldTypeNames.getValue(f.fieldName))
