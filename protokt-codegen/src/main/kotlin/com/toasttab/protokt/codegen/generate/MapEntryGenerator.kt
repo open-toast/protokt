@@ -27,7 +27,6 @@ import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
 import com.toasttab.protokt.codegen.util.FieldType
 import com.toasttab.protokt.codegen.util.Message
 import com.toasttab.protokt.codegen.util.StandardField
-import com.toasttab.protokt.codegen.util.resolveMapEntry
 import com.toasttab.protokt.rt.AbstractKtDeserializer
 import com.toasttab.protokt.rt.AbstractKtMessage
 import com.toasttab.protokt.rt.KtMessage
@@ -42,16 +41,15 @@ private class MapEntryGenerator(
     private val msg: Message,
     private val ctx: Context
 ) {
-    private val entryInfo = resolveMapEntry(msg)
-    private val keyPropertyType = entryInfo.key.className
-    private val valPropertyType = entryInfo.value.className
+    private val key = msg.fields[0] as StandardField
+    private val value = msg.fields[1] as StandardField
 
     fun generate() =
         TypeSpec.classBuilder(msg.className).apply {
             addModifiers(KModifier.PRIVATE)
             superclass(AbstractKtMessage::class)
-            addProperty(constructorProperty("key", keyPropertyType))
-            addProperty(constructorProperty("value", valPropertyType))
+            addProperty(constructorProperty("key", key.className))
+            addProperty(constructorProperty("value", value.className))
             addConstructor()
             addMessageSize()
             addSerialize()
@@ -61,8 +59,8 @@ private class MapEntryGenerator(
     private fun TypeSpec.Builder.addConstructor() {
         primaryConstructor(
             FunSpec.constructorBuilder()
-                .addParameter("key", keyPropertyType)
-                .addParameter("value", valPropertyType)
+                .addParameter("key", key.className)
+                .addParameter("value", value.className)
                 .build()
         )
     }
@@ -85,8 +83,8 @@ private class MapEntryGenerator(
             buildFunSpec("serialize") {
                 addModifiers(KModifier.OVERRIDE)
                 addParameter("serializer", KtMessageSerializer::class)
-                addStatement("%L", serialize(entryInfo.key, ctx))
-                addStatement("%L", serialize(entryInfo.value, ctx))
+                addStatement("%L", serialize(key, ctx))
+                addStatement("%L", serialize(value, ctx))
             }
         )
     }
@@ -103,9 +101,9 @@ private class MapEntryGenerator(
                 )
                 .addFunction(
                     buildFunSpec("sizeof") {
-                        addParameter("key", keyPropertyType)
-                        addParameter("value", valPropertyType)
-                        addStatement("return %L + %L", sizeOf(entryInfo.key, ctx), sizeOf(entryInfo.value, ctx))
+                        addParameter("key", key.className)
+                        addParameter("value", value.className)
+                        addStatement("return %L + %L", sizeOf(key, ctx), sizeOf(value, ctx))
                     }
                 )
                 .addFunction(
@@ -113,18 +111,18 @@ private class MapEntryGenerator(
                         addModifiers(KModifier.OVERRIDE)
                         addParameter("deserializer", KtMessageDeserializer::class)
                         returns(msg.className)
-                        addStatement("%L", deserializeVar(propInfo, entryInfo::key))
-                        addStatement("%L", deserializeVar(propInfo, entryInfo::value))
+                        addStatement("%L", deserializeVar(propInfo, ::key))
+                        addStatement("%L", deserializeVar(propInfo, ::value))
                         beginControlFlow("while (true)")
                         beginControlFlow("when (deserializer.readTag())")
-                        addStatement("%L", constructOnZero(entryInfo.value))
+                        addStatement("%L", constructOnZero(value))
                         addStatement(
-                            "${entryInfo.key.tag.value} -> key = %L",
-                            deserialize(entryInfo.key, ctx)
+                            "${key.tag.value} -> key = %L",
+                            deserialize(key, ctx)
                         )
                         addStatement(
-                            "${entryInfo.value.tag.value} -> value = %L",
-                            deserialize(entryInfo.value, ctx)
+                            "${value.tag.value} -> value = %L",
+                            deserialize(value, ctx)
                         )
                         endControlFlow()
                         endControlFlow()
@@ -159,8 +157,7 @@ private class MapEntryGenerator(
                 add(
                     CodeBlock.of(
                         " ?: %T().build()",
-                        entryInfo.value.className
-                            .nestedClass("${valPropertyType.simpleName}Dsl")
+                        value.className.nestedClass("${value.className.simpleName}Dsl")
                     )
                 )
             }

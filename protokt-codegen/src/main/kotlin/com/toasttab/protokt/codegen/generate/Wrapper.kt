@@ -22,7 +22,6 @@ import arrow.core.memoize
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.asTypeName
-import com.squareup.kotlinpoet.buildCodeBlock
 import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
 import com.toasttab.protokt.codegen.util.ClassLookup.converters
 import com.toasttab.protokt.codegen.util.ClassLookup.getClass
@@ -144,17 +143,11 @@ internal object Wrapper {
     private fun interceptDeserializedValue(f: StandardField, s: CodeBlock, ctx: Context) =
         wrapperName(f, ctx).fold(
             { s },
-            { wrapField(it, s, f.type, true) }
+            { wrapField(it, s) }
         )
 
-    fun wrapField(wrapName: TypeName, arg: CodeBlock, f: FieldType?, oneof: Boolean) =
-        buildCodeBlock {
-            add("%T.wrap(%L", wrapName, arg)
-            if (f == FieldType.MESSAGE && !oneof) {
-                add("!!")
-            }
-            add(")")
-        }
+    fun wrapField(wrapName: TypeName, arg: CodeBlock) =
+        CodeBlock.of("%T.wrap(%L)", wrapName, arg)
 
     fun wrapperName(f: StandardField, ctx: Context) =
         f.foldFieldWrap(

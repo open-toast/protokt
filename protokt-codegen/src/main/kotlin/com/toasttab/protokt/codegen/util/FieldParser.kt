@@ -131,6 +131,12 @@ class FieldParser(
             null
         }
 
+    private fun resolveMapEntry(m: Message) =
+        MapEntry(
+            (m.fields[0] as StandardField),
+            (m.fields[1] as StandardField)
+        )
+
     private fun findMapEntry(
         fdp: FileDescriptorProto,
         name: String,

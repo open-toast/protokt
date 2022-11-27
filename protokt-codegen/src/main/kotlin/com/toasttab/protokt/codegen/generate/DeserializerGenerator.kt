@@ -184,9 +184,7 @@ fun deserialize(f: StandardField, ctx: Context, packed: Boolean = false): CodeBl
 
     val wrappedRead =
         options
-            ?.let { opt ->
-                opt.wrapName?.let { wrapField(it, read, opt.type, opt.oneof) }
-            }
+            ?.let { opt -> opt.wrapName?.let { wrapField(it, read) } }
             ?: read
 
     return when {
@@ -207,12 +205,12 @@ fun deserialize(f: StandardField, ctx: Context, packed: Boolean = false): CodeBl
 private fun deserializeMap(f: StandardField, options: Options?, read: CodeBlock): CodeBlock {
     val key =
         options?.keyWrap
-            ?.let { wrapField(it, CodeBlock.of("it.key"), options.type, options.oneof) }
+            ?.let { wrapField(it, CodeBlock.of("it.key")) }
             ?: CodeBlock.of("it.key")
 
     val value =
         options?.valueWrap
-            ?.let { wrapField(it, CodeBlock.of("it.value"), options.valueType, options.oneof) }
+            ?.let { wrapField(it, CodeBlock.of("it.value")) }
             ?: CodeBlock.of("it.value")
 
     return buildCodeBlock {
@@ -252,9 +250,7 @@ private fun deserializeOptions(f: StandardField, ctx: Context) =
             wrapName = wrapperName(f, ctx).getOrElse { null },
             keyWrap = mapKeyConverter(f, ctx),
             valueWrap = mapValueConverter(f, ctx),
-            valueType = f.mapEntry?.value?.type,
-            type = f.type,
-            oneof = true
+            type = f.type
         )
     } else {
         null
@@ -264,7 +260,5 @@ private class Options(
     val wrapName: TypeName?,
     val keyWrap: TypeName?,
     val valueWrap: TypeName?,
-    val valueType: FieldType?,
-    val type: FieldType,
-    val oneof: Boolean
+    val type: FieldType
 )
