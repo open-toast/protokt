@@ -42,14 +42,8 @@ internal object Wrapper {
     private val StandardField.keyWrap
         get() = options.protokt.keyWrap.emptyToNone()
 
-    val StandardField.keyWrapped
-        get() = keyWrap.isDefined()
-
     private val StandardField.valueWrap
         get() = options.protokt.valueWrap.emptyToNone()
-
-    val StandardField.valueWrapped
-        get() = valueWrap.isDefined()
 
     private fun <R> StandardField.foldWrap(
         wrap: Option<String>,

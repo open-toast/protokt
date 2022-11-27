@@ -15,25 +15,20 @@
 
 package com.toasttab.protokt.codegen.generate
 
-import arrow.core.getOrElse
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
-import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
 import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
 import com.toasttab.protokt.codegen.generate.Wrapper.interceptReadFn
-import com.toasttab.protokt.codegen.generate.Wrapper.keyWrapped
 import com.toasttab.protokt.codegen.generate.Wrapper.mapKeyConverter
 import com.toasttab.protokt.codegen.generate.Wrapper.mapValueConverter
-import com.toasttab.protokt.codegen.generate.Wrapper.valueWrapped
 import com.toasttab.protokt.codegen.generate.Wrapper.wrapField
-import com.toasttab.protokt.codegen.generate.Wrapper.wrapped
 import com.toasttab.protokt.codegen.generate.Wrapper.wrapperName
 import com.toasttab.protokt.codegen.util.FieldType.ENUM
 import com.toasttab.protokt.codegen.util.FieldType.MESSAGE
