@@ -181,11 +181,7 @@ private class DeserializerGenerator(
 fun deserialize(f: StandardField, ctx: Context, packed: Boolean = false): CodeBlock {
     val options = deserializeOptions(f, ctx)
     val read = CodeBlock.of("deserializer.%L", interceptReadFn(f, f.readFn()))
-
-    val wrappedRead =
-        options
-            ?.let { opt -> opt.wrapName?.let { wrapField(it, read) } }
-            ?: read
+    val wrappedRead = options?.wrapName?.let { wrapField(it, read) } ?: read
 
     return when {
         f.map -> deserializeMap(f, options, read)
@@ -249,8 +245,7 @@ private fun deserializeOptions(f: StandardField, ctx: Context) =
         Options(
             wrapName = wrapperName(f, ctx).getOrElse { null },
             keyWrap = mapKeyConverter(f, ctx),
-            valueWrap = mapValueConverter(f, ctx),
-            type = f.type
+            valueWrap = mapValueConverter(f, ctx)
         )
     } else {
         null
@@ -259,6 +254,5 @@ private fun deserializeOptions(f: StandardField, ctx: Context) =
 private class Options(
     val wrapName: TypeName?,
     val keyWrap: TypeName?,
-    val valueWrap: TypeName?,
-    val type: FieldType
+    val valueWrap: TypeName?
 )
