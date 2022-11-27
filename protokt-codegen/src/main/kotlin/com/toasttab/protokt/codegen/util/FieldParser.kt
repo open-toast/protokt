@@ -102,6 +102,13 @@ class FieldParser(
         val repeated = fdp.label == LABEL_REPEATED
         val mapEntry = mapEntry(fdp)
         val optional = optional(fdp)
+        val packed = packed(fieldType, fdp)
+        val tag =
+            if (repeated && packed) {
+                Tag.Packed(fdp.number)
+            } else {
+                Tag.Unpacked(fdp.number, fieldType.wireType)
+            }
 
         if (protoktOptions.nonNull) {
             validateNonNullOption(fdp, fieldType, repeated, mapEntry, withinOneof, optional)
@@ -109,10 +116,11 @@ class FieldParser(
 
         return StandardField(
             number = fdp.number,
+            tag = tag,
             type = fieldType,
             repeated = repeated,
             optional = !withinOneof && optional,
-            packed = packed(fieldType, fdp),
+            packed = packed,
             mapEntry = mapEntry,
             fieldName = newFieldName(fdp.name),
             options = FieldOptions(fdp.options, protoktOptions),

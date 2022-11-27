@@ -99,6 +99,7 @@ sealed class Field {
 
 class StandardField(
     val number: Int,
+    val tag: Tag,
     override val fieldName: String,
     val type: FieldType,
     val className: ClassName,

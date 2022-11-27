@@ -17,15 +17,6 @@ package com.toasttab.protokt.codegen.generate
 
 import com.squareup.kotlinpoet.CodeBlock
 import com.toasttab.protokt.codegen.util.StandardField
-import com.toasttab.protokt.codegen.util.Tag
-
-val StandardField.tag
-    get() =
-        if (repeated && packed) {
-            Tag.Packed(number)
-        } else {
-            Tag.Unpacked(number, type.wireType)
-        }
 
 fun StandardField.box(s: CodeBlock) =
     if (type.boxed) {
