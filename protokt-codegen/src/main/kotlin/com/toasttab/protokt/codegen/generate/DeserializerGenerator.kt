@@ -178,12 +178,11 @@ private class DeserializerGenerator(
 }
 
 fun deserialize(f: StandardField, ctx: Context, packed: Boolean = false): CodeBlock {
-    val options = deserializeOptions(f, ctx)
     val read = CodeBlock.of("deserializer.%L", interceptReadFn(f, f.readFn()))
-    val wrappedRead = options?.wrapName?.let { wrapField(it, read) } ?: read
+    val wrappedRead = wrapperName(f, ctx).fold({ read }, { wrapField(it, read) })
 
     return when {
-        f.map -> deserializeMap(f, options, read)
+        f.map -> deserializeMap(f, ctx, read)
         f.repeated ->
             buildCodeBlock {
                 add("\n(%N ?: mutableListOf())", f.fieldName)
@@ -197,14 +196,14 @@ fun deserialize(f: StandardField, ctx: Context, packed: Boolean = false): CodeBl
     }
 }
 
-private fun deserializeMap(f: StandardField, options: Options?, read: CodeBlock): CodeBlock {
+private fun deserializeMap(f: StandardField, ctx: Context, read: CodeBlock): CodeBlock {
     val key =
-        options?.keyWrap
+        mapKeyConverter(f, ctx)
             ?.let { wrapField(it, CodeBlock.of("it.key")) }
             ?: CodeBlock.of("it.key")
 
     val value =
-        options?.valueWrap
+        mapValueConverter(f, ctx)
             ?.let { wrapField(it, CodeBlock.of("it.value")) }
             ?: CodeBlock.of("it.value")
 
@@ -238,20 +237,3 @@ private fun StandardField.readFn() =
             add(")")
         }
     }
-
-private fun deserializeOptions(f: StandardField, ctx: Context) =
-    if (f.wrapped || f.keyWrapped || f.valueWrapped) {
-        Options(
-            wrapName = wrapperName(f, ctx).getOrElse { null },
-            keyWrap = mapKeyConverter(f, ctx),
-            valueWrap = mapValueConverter(f, ctx)
-        )
-    } else {
-        null
-    }
-
-private class Options(
-    val wrapName: TypeName?,
-    val keyWrap: TypeName?,
-    val valueWrap: TypeName?
-)
