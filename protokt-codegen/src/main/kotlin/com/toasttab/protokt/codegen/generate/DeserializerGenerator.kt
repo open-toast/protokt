@@ -80,7 +80,7 @@ private class DeserializerGenerator(
                             addStatement("var %L", declareDeserializeVar(it))
                         }
                     }
-                    addStatement("var·unknownFields:·%T?·=·null", UnknownFieldSet.Builder::class)
+                    addStatement("var·unknownFields:·%T?·=·null\n", UnknownFieldSet.Builder::class)
                     beginControlFlow("while (true)")
                     beginControlFlow("when (deserializer.readTag())")
                     val constructor =
