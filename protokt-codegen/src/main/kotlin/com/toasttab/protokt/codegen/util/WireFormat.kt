@@ -30,7 +30,7 @@ import com.toasttab.protokt.rt.UInt32
 import com.toasttab.protokt.rt.UInt64
 import kotlin.reflect.KClass
 
-private val TYPE_0 by lazy {
+private val TYPE_0 =
     listOf(
         Boolean::class,
         KtEnum::class,
@@ -41,38 +41,33 @@ private val TYPE_0 by lazy {
         UInt32::class,
         UInt64::class
     )
-}
 
-private val TYPE_1 by lazy {
+private val TYPE_1 =
     listOf(
         Double::class,
         Fixed64::class,
         SFixed64::class
     )
-}
 
-private val TYPE_2 by lazy {
+private val TYPE_2 =
     listOf(
         Bytes::class,
         KtMessage::class,
         String::class
     )
-}
 
-private val TYPE_5 by lazy {
+private val TYPE_5 =
     listOf(
         Float::class,
         Fixed32::class,
         SFixed32::class
     )
-}
 
-private val WIRE_TYPES by lazy {
+private val WIRE_TYPES =
     TYPE_0.associateWith { 0 } +
         TYPE_1.associateWith { 1 } +
         TYPE_2.associateWith { 2 } +
         TYPE_5.associateWith { 5 }
-}
 
 fun wireType(klass: KClass<*>) =
     WIRE_TYPES.getValue(klass)

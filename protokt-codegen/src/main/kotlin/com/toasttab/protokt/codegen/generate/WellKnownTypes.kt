@@ -13,11 +13,14 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.codegen.util
+package com.toasttab.protokt.codegen.generate
 
 import arrow.core.None
 import arrow.core.Option
 import arrow.core.orElse
+import com.toasttab.protokt.codegen.util.StandardField
+import com.toasttab.protokt.codegen.util.emptyToNone
+import com.toasttab.protokt.codegen.util.googleProto
 import com.toasttab.protokt.rt.Bytes
 
 object WellKnownTypes {
