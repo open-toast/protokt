@@ -113,6 +113,7 @@ private class MapEntryGenerator(
                         returns(msg.className)
                         addStatement("%L", deserializeVar(propInfo, ::key))
                         addStatement("%L", deserializeVar(propInfo, ::value))
+                        addCode("\n")
                         beginControlFlow("while (true)")
                         beginControlFlow("when (deserializer.readTag())")
                         addStatement("%L", constructOnZero(value))
