@@ -98,7 +98,7 @@ private class OneofGenerator(
             fieldName = f.fieldName,
             type =
             if (f.wrapped) {
-                interceptTypeName(f, f.className, ctx)
+                interceptTypeName(f, ctx) ?: f.className
             } else {
                 f.className
             },

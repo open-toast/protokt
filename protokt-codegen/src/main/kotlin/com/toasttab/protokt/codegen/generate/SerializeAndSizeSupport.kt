@@ -73,7 +73,7 @@ private fun standardFieldExecution(
 }
 
 private fun StandardField.nonDefault(ctx: Context): CodeBlock {
-    val name = interceptValueAccess(this, ctx)
+    val name = interceptValueAccess(this, ctx, CodeBlock.of("%N", fieldName))
     return when {
         optional -> CodeBlock.of("%N != null", fieldName)
         repeated -> CodeBlock.of("%N.isNotEmpty()", fieldName)

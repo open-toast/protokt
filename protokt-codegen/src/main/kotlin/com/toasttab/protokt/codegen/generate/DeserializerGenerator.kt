@@ -25,7 +25,7 @@ import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
 import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
-import com.toasttab.protokt.codegen.generate.Wrapper.interceptReadFn
+import com.toasttab.protokt.codegen.generate.Wrapper.interceptRead
 import com.toasttab.protokt.codegen.generate.Wrapper.mapKeyConverter
 import com.toasttab.protokt.codegen.generate.Wrapper.mapValueConverter
 import com.toasttab.protokt.codegen.generate.Wrapper.wrapField
@@ -198,7 +198,7 @@ private class DeserializerGenerator(
 }
 
 fun deserialize(f: StandardField, ctx: Context, packed: Boolean = false): CodeBlock {
-    val read = CodeBlock.of("deserializer.%L", interceptReadFn(f, f.readFn()))
+    val read = CodeBlock.of("deserializer.%L", interceptRead(f, f.readFn()))
     val wrappedRead = wrapper(f, ctx)?.let { wrapField(it, read) } ?: read
 
     return when {

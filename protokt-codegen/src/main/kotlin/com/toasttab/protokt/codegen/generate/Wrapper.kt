@@ -67,45 +67,42 @@ internal object Wrapper {
 
     fun interceptSizeof(
         f: StandardField,
-        s: CodeBlock,
+        accessSize: CodeBlock,
         ctx: Context
     ): CodeBlock =
         f.withWrapper(ctx) { wrapper, wrapped ->
             if (converter(wrapper, wrapped, ctx) is OptimizedSizeofConverter<*, *>) {
-                s
+                accessSize
             } else {
-                interceptValueAccess(f, ctx, s)
+                interceptValueAccess(f, ctx, accessSize)
             }
-        } ?: interceptValueAccess(f, ctx, s)
+        } ?: interceptValueAccess(f, ctx, accessSize)
 
     fun interceptFieldSizeof(
         f: StandardField,
-        s: CodeBlock,
+        accessSize: CodeBlock,
         ctx: Context
     ) =
         f.withWrapper(ctx) { wrapper, wrapped ->
             if (converter(wrapper, wrapped, ctx) is OptimizedSizeofConverter<*, *>) {
-                CodeBlock.of("%T.sizeof(%L)", converterTypeName(wrapper, wrapped, ctx), s)
+                CodeBlock.of("%T.sizeof(%L)", converterTypeName(wrapper, wrapped, ctx), accessSize)
             } else {
-                CodeBlock.of("%M(%L)", runtimeFunction("sizeof"), f.box(s))
+                CodeBlock.of("%M(%L)", runtimeFunction("sizeof"), f.box(accessSize))
             }
-        } ?: CodeBlock.of("%M(%L)", runtimeFunction("sizeof"), f.box(s))
+        } ?: CodeBlock.of("%M(%L)", runtimeFunction("sizeof"), f.box(accessSize))
 
     fun interceptValueAccess(
         f: StandardField,
         ctx: Context,
-        s: CodeBlock = CodeBlock.of("%N", f.fieldName)
+        accessValue: CodeBlock
     ): CodeBlock =
         f.withWrapper(ctx) { wrapper, wrapped ->
             CodeBlock.of(
                 "%T.unwrap(%L)",
                 converterTypeName(wrapper, wrapped, ctx),
-                s
+                accessValue
             )
-        } ?: s
-
-    private fun interceptDeserializedValue(f: StandardField, s: CodeBlock, ctx: Context) =
-        wrapper(f, ctx)?.let { wrapField(it, s) } ?: s
+        } ?: accessValue
 
     fun wrapField(wrapName: TypeName, arg: CodeBlock) =
         CodeBlock.of("%T.wrap(%L)", wrapName, arg)
@@ -115,29 +112,29 @@ internal object Wrapper {
             converterTypeName(wrapper, wrapped, ctx)
         }
 
-    fun interceptReadFn(f: StandardField, s: CodeBlock) =
+    fun interceptRead(f: StandardField, readFunction: CodeBlock) =
         if (f.bytesSlice) {
             CodeBlock.of("readBytesSlice()")
         } else {
-            s
+            readFunction
         }
 
-    fun interceptDefaultValue(f: StandardField, s: CodeBlock, ctx: Context) =
+    fun interceptDefaultValue(f: StandardField, defaultValue: CodeBlock, ctx: Context) =
         if (f.bytesSlice) {
             CodeBlock.of("%T.empty()", BytesSlice::class)
         } else {
             if (f.type == FieldType.MESSAGE && !f.repeated) {
-                s
+                defaultValue
             } else {
-                interceptDeserializedValue(f, s, ctx)
+                wrapper(f, ctx)?.let { wrapField(it, defaultValue) } ?: defaultValue
             }
         }
 
-    fun interceptTypeName(f: StandardField, t: TypeName, ctx: Context): TypeName =
+    fun interceptTypeName(f: StandardField, ctx: Context) =
         if (f.bytesSlice) {
             BytesSlice::class.asTypeName()
         } else {
-            f.withWrapper(ctx, wrapperTypeName()) ?: t
+            f.withWrapper(ctx, wrapperTypeName())
         }
 
     private val StandardField.bytesSlice
@@ -147,15 +144,15 @@ internal object Wrapper {
         ctx: Context,
         ifWrapped: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
     ) =
-        mapEntry?.key?.withWrapper(
+        mapEntry!!.key.withWrapper(
             options.protokt.keyWrap.takeIf { it.isNotEmpty() },
             ctx.info.kotlinPackage,
             ctx.info.context,
             ifWrapped
         )
 
-    fun interceptMapKeyTypeName(f: StandardField, t: TypeName, ctx: Context) =
-        f.withKeyWrap(ctx, wrapperTypeName()) ?: t
+    fun interceptMapKeyTypeName(f: StandardField, ctx: Context) =
+        f.withKeyWrap(ctx, wrapperTypeName())
 
     fun mapKeyConverter(f: StandardField, ctx: Context) =
         f.withKeyWrap(ctx) { wrapper, wrapped ->
@@ -166,15 +163,15 @@ internal object Wrapper {
         ctx: Context,
         ifWrapped: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
     ) =
-        mapEntry?.value?.withWrapper(
+        mapEntry!!.value.withWrapper(
             options.protokt.valueWrap.takeIf { it.isNotEmpty() },
             ctx.info.kotlinPackage,
             ctx.info.context,
             ifWrapped
         )
 
-    fun interceptMapValueTypeName(f: StandardField, t: TypeName, ctx: Context) =
-        f.withValueWrap(ctx, wrapperTypeName()) ?: t
+    fun interceptMapValueTypeName(f: StandardField, ctx: Context) =
+        f.withValueWrap(ctx, wrapperTypeName())
 
     fun mapValueConverter(f: StandardField, ctx: Context) =
         f.withValueWrap(ctx) { wrapper, wrapped ->

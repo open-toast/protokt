@@ -102,7 +102,7 @@ private class PropertyAnnotator(
                 .asTypeName()
                 .parameterizedBy(mapTypes.kType, mapTypes.vType)
         } else {
-            val parameter = interceptTypeName(f, f.className, ctx)
+            val parameter = interceptTypeName(f, ctx) ?: f.className
 
             if (f.repeated) {
                 List::class.asTypeName().parameterizedBy(parameter)
@@ -114,8 +114,8 @@ private class PropertyAnnotator(
     private fun resolveMapEntryTypes(f: StandardField, ctx: Context) =
         f.mapEntry!!.let {
             MapTypeParams(
-                interceptMapKeyTypeName(f, it.key.className, ctx),
-                interceptMapValueTypeName(f, it.value.className, ctx)
+                interceptMapKeyTypeName(f, ctx) ?: it.key.className,
+                interceptMapValueTypeName(f, ctx) ?: it.value.className
             )
         }
 
