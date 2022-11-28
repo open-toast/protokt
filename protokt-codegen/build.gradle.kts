@@ -13,10 +13,7 @@
  * limitations under the License.
  */
 
-import com.google.protobuf.gradle.GenerateProtoTask
 import com.google.protobuf.gradle.proto
-import com.google.protobuf.gradle.protobuf
-import com.google.protobuf.gradle.protoc
 import com.toasttab.protokt.gradle.CODEGEN_NAME
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -85,10 +82,8 @@ protobuf {
 }
 
 tasks.withType<Test> {
-    doFirst {
-        tasks.named<GenerateProtoTask>("generateProto") {
-            environment("PROTOC_PATH", locatorToAlternativePathsMapping.getting("protoc").get().singleFile)
-        }
+    afterEvaluate {
+        environment("PROTOC_PATH", configurations.named("protobufToolsLocator_protoc").get().singleFile)
     }
 }
 
