@@ -15,39 +15,30 @@
 
 package com.toasttab.protokt.codegen.generate
 
-import arrow.core.None
-import arrow.core.Option
-import arrow.core.orElse
 import com.toasttab.protokt.codegen.util.StandardField
-import com.toasttab.protokt.codegen.util.emptyToNone
 import com.toasttab.protokt.codegen.util.googleProtobuf
 import com.toasttab.protokt.rt.Bytes
 
 object WellKnownTypes {
     val StandardField.wrapWithWellKnownInterception
-        get() =
-            options.protokt.wrap.emptyToNone()
-                .orElse {
-                    if (protoTypeName.startsWith(".$googleProtobuf.")) {
-                        classNameForWellKnownType(protoTypeName.removePrefix(".$googleProtobuf."))
-                    } else {
-                        None
-                    }
-                }
+        get() = options.protokt.wrap.takeIf { it.isNotEmpty() }
+            ?: if (protoTypeName.startsWith(".$googleProtobuf.")) {
+                classNameForWellKnownType(protoTypeName.removePrefix(".$googleProtobuf."))
+            } else {
+                null
+            }
 
     private fun classNameForWellKnownType(type: String) =
-        Option.fromNullable(
-            when (type) {
-                "DoubleValue" -> "java.lang.Double"
-                "FloatValue" -> "java.lang.Float"
-                "Int64Value" -> "java.lang.Long"
-                "UInt64Value" -> "java.lang.Long"
-                "Int32Value" -> "java.lang.Integer"
-                "UInt32Value" -> "java.lang.Integer"
-                "BoolValue" -> "java.lang.Boolean"
-                "StringValue" -> "java.lang.String"
-                "BytesValue" -> Bytes::class.qualifiedName
-                else -> null
-            }
-        )
+        when (type) {
+            "DoubleValue" -> "java.lang.Double"
+            "FloatValue" -> "java.lang.Float"
+            "Int64Value" -> "java.lang.Long"
+            "UInt64Value" -> "java.lang.Long"
+            "Int32Value" -> "java.lang.Integer"
+            "UInt32Value" -> "java.lang.Integer"
+            "BoolValue" -> "java.lang.Boolean"
+            "StringValue" -> "java.lang.String"
+            "BytesValue" -> Bytes::class.qualifiedName
+            else -> null
+        }
 }

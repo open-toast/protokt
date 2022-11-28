@@ -114,8 +114,8 @@ private class PropertyAnnotator(
     private fun resolveMapEntryTypes(f: StandardField, ctx: Context) =
         f.mapEntry!!.let {
             MapTypeParams(
-                interceptMapKeyTypeName(f, it.key.className, ctx)!!,
-                interceptMapValueTypeName(f, it.value.className, ctx)!!
+                interceptMapKeyTypeName(f, it.key.className, ctx),
+                interceptMapValueTypeName(f, it.value.className, ctx)
             )
         }
 
@@ -157,6 +157,6 @@ class PropertyInfo(
     val oneof: Boolean = false,
     val wrapped: Boolean = false,
     val overrides: Boolean = false,
-    val documentation: List<String>,
+    val documentation: List<String>?,
     val deprecation: Deprecation.RenderOptions? = null
 )

@@ -15,21 +15,16 @@
 
 package com.toasttab.protokt.codegen.generate
 
-import arrow.core.Option
-import arrow.core.firstOrNone
 import com.google.protobuf.DescriptorProtos.DescriptorProto.NESTED_TYPE_FIELD_NUMBER
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto.MESSAGE_TYPE_FIELD_NUMBER
 import com.google.protobuf.DescriptorProtos.SourceCodeInfo.Location
 import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
-import com.toasttab.protokt.codegen.util.emptyToNone
 
 fun annotateMessageDocumentation(ctx: Context) =
-    baseLocation(ctx).cleanDocumentation()
+    baseLocation(ctx)?.cleanDocumentation()
 
 fun baseLocation(ctx: Context, extraPath: List<Int> = emptyList()) =
-    ctx.info.sourceCodeInfo.locationList
-        .filter { it.pathList == basePath(ctx) + extraPath }
-        .firstOrNone()
+    ctx.info.sourceCodeInfo.locationList.firstOrNull { it.pathList == basePath(ctx) + extraPath }
 
 private fun basePath(ctx: Context): List<Int> {
     val path = mutableListOf<Int>()
@@ -47,27 +42,20 @@ private fun basePath(ctx: Context): List<Int> {
     return path
 }
 
-fun Option<Location>.cleanDocumentation(): List<String> =
-    fold(
-        { emptyList() },
-        {
-            it.leadingComments
-                .emptyToNone()
-                .fold(
-                    { emptyList() },
-                    { s ->
-                        s.substringBeforeLast("\n")
-                            .split("\n")
-                            .map { line ->
-                                // Escape possibly accidentally nested comments
-                                //
-                                // Will not render correctly inside backticks:
-                                // https://youtrack.jetbrains.com/issue/KT-28979
-                                line
-                                    .replace("/*", "&#47;*")
-                                    .replace("*/", "*&#47;")
-                            }
-                    }
-                )
+// todo: see if an empty list passed upwards behaves the same as null, and if so, end this with a call to .orEmpty()
+fun Location.cleanDocumentation(): List<String>? =
+    leadingComments
+        .takeIf { it.isNotEmpty() }
+        ?.run {
+            substringBeforeLast("\n")
+                .split("\n")
+                .map { line ->
+                    // Escape possibly accidentally nested comments
+                    //
+                    // Will not render correctly inside backticks:
+                    // https://youtrack.jetbrains.com/issue/KT-28979
+                    line
+                        .replace("/*", "&#47;*")
+                        .replace("*/", "*&#47;")
+                }
         }
-    )

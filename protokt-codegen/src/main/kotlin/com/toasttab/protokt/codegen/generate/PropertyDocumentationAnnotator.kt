@@ -36,5 +36,5 @@ private class PropertyDocumentationAnnotator(
                 is StandardField -> listOf(FIELD_FIELD_NUMBER, field.index)
                 is Oneof -> listOf(ONEOF_DECL_FIELD_NUMBER, field.index)
             }
-        ).cleanDocumentation()
+        )?.cleanDocumentation()
 }

@@ -53,23 +53,16 @@ private class EnumGenerator(
         }.build()
 
     private fun TypeSpec.Builder.addKDoc() {
-        val documentation = baseLocation(ctx, enumPath).cleanDocumentation()
-        if (documentation.isNotEmpty()) {
-            addKdoc(formatDoc(documentation))
-        }
+        baseLocation(ctx, enumPath)
+            ?.cleanDocumentation()
+            ?.let { addKdoc(formatDoc(it)) }
     }
 
     private fun TypeSpec.Builder.addKDoc(value: Enum.Value) =
         apply {
-            val documentation =
-                baseLocation(
-                    ctx,
-                    enumPath + listOf(VALUE_FIELD_NUMBER, value.index)
-                ).cleanDocumentation()
-
-            if (documentation.isNotEmpty()) {
-                addKdoc(formatDoc(documentation))
-            }
+            baseLocation(ctx, enumPath + listOf(VALUE_FIELD_NUMBER, value.index))
+                ?.cleanDocumentation()
+                ?.let { addKdoc(formatDoc(it)) }
         }
 
     private fun TypeSpec.Builder.addConstructor() {

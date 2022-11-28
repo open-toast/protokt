@@ -15,9 +15,6 @@
 
 package com.toasttab.protokt.codegen.generate
 
-import arrow.core.None
-import arrow.core.Option
-import arrow.core.Some
 import arrow.core.memoize
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.TypeName
@@ -29,7 +26,6 @@ import com.toasttab.protokt.codegen.util.ClassLookup.getClass
 import com.toasttab.protokt.codegen.util.FieldType
 import com.toasttab.protokt.codegen.util.GeneratorContext
 import com.toasttab.protokt.codegen.util.StandardField
-import com.toasttab.protokt.codegen.util.emptyToNone
 import com.toasttab.protokt.ext.OptimizedSizeofConverter
 import com.toasttab.protokt.rt.BytesSlice
 import kotlin.reflect.KClass
@@ -37,50 +33,36 @@ import kotlin.reflect.full.hasAnnotation
 
 internal object Wrapper {
     val StandardField.wrapped
-        get() = wrapWithWellKnownInterception.isDefined()
+        get() = wrapWithWellKnownInterception != null
 
-    private val StandardField.keyWrap
-        get() = options.protokt.keyWrap.emptyToNone()
-
-    private val StandardField.valueWrap
-        get() = options.protokt.valueWrap.emptyToNone()
-
-    private fun <R> StandardField.foldWrap(
-        wrap: Option<String>,
+    private fun <T> StandardField.withWrapper(
+        wrapOption: String?,
         pkg: String,
         ctx: GeneratorContext,
-        ifEmpty: () -> R,
-        ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
+        ifWrapped: (KClass<*>, KClass<*>) -> T
     ) =
-        wrap.fold(
-            ifEmpty
-        ) {
-            ifSome(
-                getClass(inferClassName(it, pkg), ctx),
-                protoTypeName.emptyToNone().fold(
-                    {
-                        // Protobuf primitives have no typeName
-                        requireNotNull(type.kotlinRepresentation) {
-                            "no kotlin representation for type of " +
-                                "$fieldName: $type"
-                        }
-                    },
-                    { getClass(className, ctx) }
-                )
+        wrapOption?.let { wrap ->
+            ifWrapped(
+                getClass(inferClassName(wrap, pkg), ctx),
+                protoTypeName.takeIf { it.isNotEmpty() }
+                    ?.let { getClass(className, ctx) }
+                    // Protobuf primitives have no typeName
+                    ?: requireNotNull(type.kotlinRepresentation) {
+                        "no kotlin representation for type of " +
+                            "$fieldName: $type"
+                    }
             )
         }
 
-    private fun <R> StandardField.foldFieldWrap(
+    private fun <R> StandardField.withWrapper(
         ctx: Context,
-        ifEmpty: () -> R,
-        ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
+        ifWrapped: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
     ) =
-        foldWrap(
+        withWrapper(
             wrapWithWellKnownInterception,
             ctx.info.kotlinPackage,
             ctx.info.context,
-            ifEmpty,
-            ifSome
+            ifWrapped
         )
 
     fun interceptSizeof(
@@ -88,159 +70,121 @@ internal object Wrapper {
         s: CodeBlock,
         ctx: Context
     ): CodeBlock =
-        f.foldFieldWrap(
-            ctx,
-            { interceptValueAccess(f, ctx, s) },
-            { wrapper, wrapped ->
-                if (converter(wrapper, wrapped, ctx) is OptimizedSizeofConverter<*, *>) {
-                    s
-                } else {
-                    interceptValueAccess(f, ctx, s)
-                }
+        f.withWrapper(ctx) { wrapper, wrapped ->
+            if (converter(wrapper, wrapped, ctx) is OptimizedSizeofConverter<*, *>) {
+                s
+            } else {
+                interceptValueAccess(f, ctx, s)
             }
-        )
+        } ?: interceptValueAccess(f, ctx, s)
 
     fun interceptFieldSizeof(
         f: StandardField,
         s: CodeBlock,
         ctx: Context
     ) =
-        f.foldFieldWrap(
-            ctx,
-            { CodeBlock.of("%M(%L)", runtimeFunction("sizeof"), f.box(s)) },
-            { wrapper, wrapped ->
-                if (converter(wrapper, wrapped, ctx) is OptimizedSizeofConverter<*, *>) {
-                    CodeBlock.of("%T.sizeof(%L)", unqualifiedConverterWrap(wrapper, wrapped, ctx), s)
-                } else {
-                    CodeBlock.of("%M(%L)", runtimeFunction("sizeof"), f.box(s))
-                }
+        f.withWrapper(ctx) { wrapper, wrapped ->
+            if (converter(wrapper, wrapped, ctx) is OptimizedSizeofConverter<*, *>) {
+                CodeBlock.of("%T.sizeof(%L)", converterTypeName(wrapper, wrapped, ctx), s)
+            } else {
+                CodeBlock.of("%M(%L)", runtimeFunction("sizeof"), f.box(s))
             }
-        )
+        } ?: CodeBlock.of("%M(%L)", runtimeFunction("sizeof"), f.box(s))
 
     fun interceptValueAccess(
         f: StandardField,
         ctx: Context,
         s: CodeBlock = CodeBlock.of("%N", f.fieldName)
     ): CodeBlock =
-        f.foldFieldWrap(
-            ctx,
-            { s },
-            { wrapper, wrapped ->
-                CodeBlock.of(
-                    "%T.unwrap(%L)",
-                    unqualifiedConverterWrap(wrapper, wrapped, ctx),
-                    s
-                )
-            }
-        )
+        f.withWrapper(ctx) { wrapper, wrapped ->
+            CodeBlock.of(
+                "%T.unwrap(%L)",
+                converterTypeName(wrapper, wrapped, ctx),
+                s
+            )
+        } ?: s
 
     private fun interceptDeserializedValue(f: StandardField, s: CodeBlock, ctx: Context) =
-        wrapperName(f, ctx).fold(
-            { s },
-            { wrapField(it, s) }
-        )
+        wrapper(f, ctx)?.let { wrapField(it, s) } ?: s
 
     fun wrapField(wrapName: TypeName, arg: CodeBlock) =
         CodeBlock.of("%T.wrap(%L)", wrapName, arg)
 
-    fun wrapperName(f: StandardField, ctx: Context) =
-        f.foldFieldWrap(
-            ctx,
-            { None },
-            { wrapper, wrapped ->
-                Some(unqualifiedConverterWrap(wrapper, wrapped, ctx))
-            }
-        )
+    fun wrapper(f: StandardField, ctx: Context) =
+        f.withWrapper(ctx) { wrapper, wrapped ->
+            converterTypeName(wrapper, wrapped, ctx)
+        }
 
     fun interceptReadFn(f: StandardField, s: CodeBlock) =
-        f.foldBytesSlice(
-            { s },
-            { CodeBlock.of("readBytesSlice()") }
-        )
+        if (f.bytesSlice) {
+            CodeBlock.of("readBytesSlice()")
+        } else {
+            s
+        }
 
     fun interceptDefaultValue(f: StandardField, s: CodeBlock, ctx: Context) =
-        f.foldBytesSlice(
-            {
-                f.foldSingularMessage(
-                    { interceptDeserializedValue(f, s, ctx) },
-                    { s }
-                )
-            },
-            { CodeBlock.of("%T.empty()", BytesSlice::class) }
-        )
+        if (f.bytesSlice) {
+            CodeBlock.of("%T.empty()", BytesSlice::class)
+        } else {
+            if (f.type == FieldType.MESSAGE && !f.repeated) {
+                s
+            } else {
+                interceptDeserializedValue(f, s, ctx)
+            }
+        }
 
     fun interceptTypeName(f: StandardField, t: TypeName, ctx: Context): TypeName =
-        f.foldBytesSlice(
-            { f.foldFieldWrap(ctx, { t }, unqualifiedWrap()) },
-            { BytesSlice::class.asTypeName() }
-        )
-
-    private fun <R> StandardField.foldBytesSlice(
-        ifNotSlice: () -> R,
-        ifSlice: () -> R
-    ) =
-        if (options.protokt.bytesSlice) {
-            ifSlice()
+        if (f.bytesSlice) {
+            BytesSlice::class.asTypeName()
         } else {
-            ifNotSlice()
+            f.withWrapper(ctx, wrapperTypeName()) ?: t
         }
 
-    private fun <R> StandardField.foldSingularMessage(
-        ifNotSingularMessage: () -> R,
-        ifSingularMessage: () -> R
-    ) =
-        if (type == FieldType.MESSAGE && !repeated) {
-            ifSingularMessage()
-        } else {
-            ifNotSingularMessage()
-        }
+    private val StandardField.bytesSlice
+        get() = options.protokt.bytesSlice
 
-    private fun <R> StandardField.foldKeyWrap(
+    private fun <R> StandardField.withKeyWrap(
         ctx: Context,
-        ifEmpty: () -> R,
-        ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
+        ifWrapped: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
     ) =
-        mapEntry?.key
-            ?.foldWrap(keyWrap, ctx.info.kotlinPackage, ctx.info.context, ifEmpty, ifSome)
+        mapEntry?.key?.withWrapper(
+            options.protokt.keyWrap.takeIf { it.isNotEmpty() },
+            ctx.info.kotlinPackage,
+            ctx.info.context,
+            ifWrapped
+        )
 
     fun interceptMapKeyTypeName(f: StandardField, t: TypeName, ctx: Context) =
-        f.foldKeyWrap(ctx, { t }, unqualifiedWrap())
+        f.withKeyWrap(ctx, wrapperTypeName()) ?: t
 
     fun mapKeyConverter(f: StandardField, ctx: Context) =
-        f.foldKeyWrap(
-            ctx,
-            { null },
-            { wrapper, wrapped -> converter(wrapper, wrapped, ctx)::class.asTypeName() }
-        )
+        f.withKeyWrap(ctx) { wrapper, wrapped ->
+            converter(wrapper, wrapped, ctx)::class.asTypeName()
+        }
 
-    private fun <R> StandardField.foldValueWrap(
+    private fun <R> StandardField.withValueWrap(
         ctx: Context,
-        ifEmpty: () -> R,
-        ifSome: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
+        ifWrapped: (wrapper: KClass<*>, wrapped: KClass<*>) -> R
     ) =
-        mapEntry?.value
-            ?.foldWrap(valueWrap, ctx.info.kotlinPackage, ctx.info.context, ifEmpty, ifSome)
+        mapEntry?.value?.withWrapper(
+            options.protokt.valueWrap.takeIf { it.isNotEmpty() },
+            ctx.info.kotlinPackage,
+            ctx.info.context,
+            ifWrapped
+        )
 
     fun interceptMapValueTypeName(f: StandardField, t: TypeName, ctx: Context) =
-        f.foldValueWrap(ctx, { t }, unqualifiedWrap())
+        f.withValueWrap(ctx, wrapperTypeName()) ?: t
 
     fun mapValueConverter(f: StandardField, ctx: Context) =
-        f.foldValueWrap(
-            ctx,
-            { null },
-            { wrapper, wrapped ->
-                unqualifiedConverterWrap(wrapper, wrapped, ctx)
-            }
-        )
+        f.withValueWrap(ctx) { wrapper, wrapped ->
+            converterTypeName(wrapper, wrapped, ctx)
+        }
 
-    private fun unqualifiedConverterWrap(
-        wrapper: KClass<*>,
-        wrapped: KClass<*>,
-        ctx: Context
-    ) =
+    private fun converterTypeName(wrapper: KClass<*>, wrapped: KClass<*>, ctx: Context) =
         converter(wrapper, wrapped, ctx)::class.asTypeName()
 
-    private fun unqualifiedWrap() =
+    private fun wrapperTypeName() =
         fun(wrapper: KClass<*>, _: Any) =
             wrapper.asTypeName()
 

@@ -36,13 +36,13 @@ object Implements {
             .members.map { m -> m.name }
             .contains(prop)
 
-    fun TypeSpec.Builder.handleSuperInterface(options: OneofGeneratorOptions, v: OneofGeneratorInfo? = null) =
+    fun TypeSpec.Builder.handleSuperInterface(implements: ClassName?, v: OneofGeneratorInfo? = null) =
         apply {
-            if (options.implements != null) {
+            if (implements != null) {
                 if (v == null) {
-                    addSuperinterface(options.implements)
+                    addSuperinterface(implements)
                 } else {
-                    addSuperinterface(options.implements, v.fieldName)
+                    addSuperinterface(implements, v.fieldName)
                 }
             }
         }

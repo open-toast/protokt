@@ -16,7 +16,6 @@
 package com.toasttab.protokt.codegen.generate
 
 import com.squareup.kotlinpoet.AnnotationSpec
-import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec
@@ -30,7 +29,6 @@ import com.toasttab.protokt.codegen.generate.Wrapper.wrapped
 import com.toasttab.protokt.codegen.util.Message
 import com.toasttab.protokt.codegen.util.Oneof
 import com.toasttab.protokt.codegen.util.StandardField
-import com.toasttab.protokt.codegen.util.emptyToNone
 
 fun annotateOneofs(msg: Message, ctx: Context) =
     OneofGenerator(msg, ctx).generate()
@@ -40,22 +38,23 @@ private class OneofGenerator(
     private val ctx: Context
 ) {
     fun generate(): List<TypeSpec> =
-        msg.fields.filterIsInstance<Oneof>().map {
-            val options = options(it)
-            val types = it.fields.associate { ff -> oneof(it, ff) }
+        msg.fields.filterIsInstance<Oneof>().map { oneof ->
+            val types = oneof.fields.associate { oneof(oneof, it) }
+            val implements =
+                oneof.options.protokt.implements
+                    .takeIf { it.isNotEmpty() }
+                    ?.let { inferClassName(it, ctx.info.kotlinPackage) }
 
-            TypeSpec.classBuilder(it.name)
+            TypeSpec.classBuilder(oneof.name)
                 .addModifiers(KModifier.SEALED)
-                .handleSuperInterface(options)
+                .handleSuperInterface(implements)
                 .addTypes(
                     types.map { (k, v) ->
                         TypeSpec.classBuilder(k)
                             .addModifiers(KModifier.DATA)
-                            .superclass(it.className)
+                            .superclass(oneof.className)
                             .apply {
-                                if (v.documentation.isNotEmpty()) {
-                                    addKdoc(formatDoc(v.documentation))
-                                }
+                                v.documentation?.let { addKdoc(formatDoc(it)) }
                             }
                             .apply {
                                 if (v.deprecation != null) {
@@ -82,7 +81,7 @@ private class OneofGenerator(
                                     .addParameter(v.fieldName, v.type)
                                     .build()
                             )
-                            .handleSuperInterface(options, v)
+                            .handleSuperInterface(implements, v)
                             .build()
                     }
                 )
@@ -115,23 +114,11 @@ private class OneofGenerator(
         } else {
             null
         }
-
-    private fun options(oneof: Oneof) =
-        OneofGeneratorOptions(
-            oneof.options.protokt.implements.emptyToNone().fold(
-                { null },
-                { inferClassName(it, ctx.info.kotlinPackage) }
-            )
-        )
 }
 
 class OneofGeneratorInfo(
     val fieldName: String,
     val type: TypeName,
-    val documentation: List<String>,
+    val documentation: List<String>?,
     val deprecation: Deprecation.RenderOptions?
-)
-
-class OneofGeneratorOptions(
-    val implements: ClassName?
 )

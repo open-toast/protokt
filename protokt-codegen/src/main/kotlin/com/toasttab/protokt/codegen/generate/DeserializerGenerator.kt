@@ -29,7 +29,7 @@ import com.toasttab.protokt.codegen.generate.Wrapper.interceptReadFn
 import com.toasttab.protokt.codegen.generate.Wrapper.mapKeyConverter
 import com.toasttab.protokt.codegen.generate.Wrapper.mapValueConverter
 import com.toasttab.protokt.codegen.generate.Wrapper.wrapField
-import com.toasttab.protokt.codegen.generate.Wrapper.wrapperName
+import com.toasttab.protokt.codegen.generate.Wrapper.wrapper
 import com.toasttab.protokt.codegen.util.FieldType.ENUM
 import com.toasttab.protokt.codegen.util.FieldType.MESSAGE
 import com.toasttab.protokt.codegen.util.FieldType.SFIXED32
@@ -199,7 +199,7 @@ private class DeserializerGenerator(
 
 fun deserialize(f: StandardField, ctx: Context, packed: Boolean = false): CodeBlock {
     val read = CodeBlock.of("deserializer.%L", interceptReadFn(f, f.readFn()))
-    val wrappedRead = wrapperName(f, ctx).fold({ read }, { wrapField(it, read) })
+    val wrappedRead = wrapper(f, ctx)?.let { wrapField(it, read) } ?: read
 
     return when {
         f.map -> deserializeMap(f, ctx, read)

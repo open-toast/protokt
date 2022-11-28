@@ -15,9 +15,6 @@
 
 package com.toasttab.protokt.codegen.util
 
-import arrow.core.None
-import arrow.core.getOrElse
-import arrow.core.orElse
 import com.google.protobuf.DescriptorProtos.DescriptorProto
 import com.google.protobuf.DescriptorProtos.EnumDescriptorProto
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
@@ -102,21 +99,12 @@ private val FileDescriptorProto.fullQualification
     get() = if (`package`.isEmpty()) "" else ".$`package`"
 
 private fun resolvePackage(fdp: FileDescriptorProto, respectJavaPackage: Boolean) =
-    fdp.fileOptions.protokt.kotlinPackage.emptyToNone()
-        .orElse { javaPackage(respectJavaPackage, fdp.fileOptions) }
-        .orElse { fdp.`package`.emptyToNone() }
-        .map { overrideComGoogleProtobuf(it) }
-        .getOrElse { "" }
+    overrideGoogleProtobuf(selectBasePackage(fdp, respectJavaPackage), "com.$googleProtobuf")
 
-private fun javaPackage(respectJavaPackage: Boolean, fileOptions: FileOptions) =
-    if (respectJavaPackage) {
-        fileOptions.default.javaPackage.emptyToNone()
-    } else {
-        None
-    }
-
-private fun overrideComGoogleProtobuf(type: String) =
-    overrideGoogleProtobuf(type, "com.$googleProtobuf")
+private fun selectBasePackage(fdp: FileDescriptorProto, respectJavaPackage: Boolean) =
+    fdp.fileOptions.protokt.kotlinPackage.takeIf { it.isNotEmpty() }
+        ?: fdp.fileOptions.default.javaPackage.takeIf { respectJavaPackage && fdp.fileOptions.default.hasJavaPackage() }
+        ?: fdp.`package`
 
 private fun overrideGoogleProtobuf(type: String, prefix: String) =
     if (type.startsWith(prefix)) {
@@ -127,9 +115,7 @@ private fun overrideGoogleProtobuf(type: String, prefix: String) =
 
 fun requalifyProtoType(ctx: GeneratorContext, typeName: String): ClassName {
     val withOverriddenGoogleProtoPackage =
-        ClassName.bestGuess(
-            overrideGoogleProtobuf(typeName.removePrefix("."), googleProtobuf)
-        )
+        ClassName.bestGuess(overrideGoogleProtobuf(typeName.removePrefix("."), googleProtobuf))
 
     val withOverriddenReservedName =
         ClassName(

@@ -50,10 +50,7 @@ private class MessageGenerator(
             val properties = annotateProperties(msg, ctx)
 
             TypeSpec.classBuilder(msg.className).apply {
-                annotateMessageDocumentation(ctx)
-                    .takeIf { it.isNotEmpty() }
-                    ?.let { addKdoc(formatDoc(it)) }
-
+                annotateMessageDocumentation(ctx)?.let { addKdoc(formatDoc(it)) }
                 handleAnnotations()
                 handleConstructor(properties)
                 addTypes(annotateOneofs(msg, ctx))
@@ -89,21 +86,15 @@ private class MessageGenerator(
     ) = apply {
         superclass(AbstractKtMessage::class)
         addProperties(
-            properties.map {
-                PropertySpec.builder(it.name, it.propertyType)
-                    .initializer(it.name)
-                    .apply {
-                        if (it.overrides) {
-                            addModifiers(KModifier.OVERRIDE)
-                        }
+            properties.map { property ->
+                PropertySpec.builder(property.name, property.propertyType).apply {
+                    initializer(property.name)
+                    if (property.overrides) {
+                        addModifiers(KModifier.OVERRIDE)
                     }
-                    .apply {
-                        if (it.documentation.isNotEmpty()) {
-                            addKdoc(formatDoc(it.documentation))
-                        }
-                    }
-                    .handleDeprecation(it.deprecation)
-                    .build()
+                    property.documentation?.let { addKdoc(formatDoc(it)) }
+                    handleDeprecation(property.deprecation)
+                }.build()
             }
         )
         addProperty(
