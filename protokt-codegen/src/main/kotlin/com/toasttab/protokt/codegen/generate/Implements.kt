@@ -39,7 +39,6 @@ object Implements {
     fun TypeSpec.Builder.handleSuperInterface(options: OneofGeneratorOptions, v: OneofGeneratorInfo? = null) =
         apply {
             if (options.implements != null) {
-                // TODO: qualify this with the package or allow it to be literal?
                 if (v == null) {
                     addSuperinterface(options.implements)
                 } else {

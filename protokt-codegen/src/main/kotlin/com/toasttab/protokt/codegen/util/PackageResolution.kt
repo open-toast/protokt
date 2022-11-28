@@ -24,11 +24,10 @@ import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.asTypeName
 
-const val rootGoogleProto = "google.protobuf"
-const val googleProto = ".google.protobuf"
+const val googleProtobuf = "google.protobuf"
 
-const val protoktPkg = "com.toasttab.protokt"
-val protoktRtPkg = com.toasttab.protokt.rt.Bytes::class.asTypeName().packageName
+const val comToasttabProtokt = "com.toasttab.protokt"
+val comToasttabProtoktRt = com.toasttab.protokt.rt.Bytes::class.asTypeName().packageName
 
 fun packagesByFileName(
     protoFileList: List<FileDescriptorProto>,
@@ -71,7 +70,7 @@ private fun gatherPackages(
     packagesByTypeName: MutableMap<String, String>
 ) {
     val enclosingName =
-        parents.joinToString(".") { it.name }.emptyOrFollowWithDot()
+        parents.joinToString(".") { it.name }.emptyToNone().fold({ "" }, { "$it." })
 
     packagesByTypeName[dp.fullyQualifiedName(fdp, enclosingName)] =
         resolvePackage(fdp, respectJavaPackage)
@@ -100,7 +99,7 @@ private fun EnumDescriptorProto.nestedFullyQualifiedName(
     "${fdp.fullQualification}.$enclosingName${dp.name}.$name"
 
 private val FileDescriptorProto.fullQualification
-    get() = `package`.emptyOrPrecedeWithDot()
+    get() = `package`.emptyToNone().fold({ "" }, { ".$it" })
 
 private fun resolvePackage(fdp: FileDescriptorProto, respectJavaPackage: Boolean) =
     fdp.fileOptions.protokt.kotlinPackage.emptyToNone()
@@ -117,11 +116,11 @@ private fun javaPackage(respectJavaPackage: Boolean, fileOptions: FileOptions) =
     }
 
 private fun overrideComGoogleProtobuf(type: String) =
-    overrideGoogleProtobuf(type, "com.$rootGoogleProto")
+    overrideGoogleProtobuf(type, "com.$googleProtobuf")
 
 private fun overrideGoogleProtobuf(type: String, prefix: String) =
     if (type.startsWith(prefix)) {
-        protoktPkg + type.removePrefix(prefix)
+        comToasttabProtokt + type.removePrefix(prefix)
     } else {
         type
     }
@@ -129,7 +128,7 @@ private fun overrideGoogleProtobuf(type: String, prefix: String) =
 fun requalifyProtoType(ctx: GeneratorContext, typeName: String): ClassName {
     val withOverriddenGoogleProtoPackage =
         ClassName.bestGuess(
-            overrideGoogleProtobuf(typeName.removePrefix("."), rootGoogleProto)
+            overrideGoogleProtobuf(typeName.removePrefix("."), googleProtobuf)
         )
 
     val withOverriddenReservedName =

@@ -150,7 +150,7 @@ private class MessageGenerator(
                     } else {
                         buildCodeBlock {
                             add(
-                                "return other is %T &&\n".bindSpaces(),
+                                "return \nother is %T &&\n".bindSpaces(),
                                 msg.className
                             )
                             equalsLines(properties).forEach(::add)

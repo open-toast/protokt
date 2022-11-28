@@ -30,7 +30,7 @@ import com.toasttab.protokt.codegen.util.Enum
 import com.toasttab.protokt.codegen.util.Message
 import com.toasttab.protokt.codegen.util.ProtoFileContents
 import com.toasttab.protokt.codegen.util.TopLevelType
-import com.toasttab.protokt.codegen.util.protoktPkg
+import com.toasttab.protokt.codegen.util.comToasttabProtokt
 
 class FileDescriptorInfo(
     val fdp: TypeSpec,
@@ -53,7 +53,7 @@ private constructor(
         val type =
             TypeSpec.objectBuilder(ctx.fileDescriptorObjectName)
                 .addProperty(
-                    PropertySpec.builder("descriptor", ClassName(protoktPkg, "FileDescriptor"))
+                    PropertySpec.builder("descriptor", ClassName(comToasttabProtokt, "FileDescriptor"))
                         .delegate(
                             buildCodeBlock {
                                 beginControlFlow("lazy")
@@ -61,7 +61,7 @@ private constructor(
                                 withIndent { add(descriptorLines()) }
                                 add("\n)\n\n")
 
-                                add("%T.buildFrom(\n", ClassName(protoktPkg, "FileDescriptor"))
+                                add("%T.buildFrom(\n", ClassName(comToasttabProtokt, "FileDescriptor"))
                                 withIndent {
                                     add("descriptorData,\n")
                                     add("listOf(\n")
@@ -148,7 +148,7 @@ private constructor(
     private fun enumDescriptorExtensionProperties() =
         contents.types.flatMap { findEnums(emptyList(), it) }
             .map { (enum, containingTypes) ->
-                PropertySpec.builder("descriptor", ClassName(protoktPkg, "EnumDescriptor"))
+                PropertySpec.builder("descriptor", ClassName(comToasttabProtokt, "EnumDescriptor"))
                     .receiver(enum.deserializerClassName)
                     .getter(
                         FunSpec.getterBuilder()
@@ -195,7 +195,7 @@ private constructor(
     private fun messageDescriptorExtensionProperties() =
         contents.types.flatMap { findMessages(emptyList(), it) }
             .map { (msg, containingTypes) ->
-                PropertySpec.builder("descriptor", ClassName(protoktPkg, "Descriptor"))
+                PropertySpec.builder("descriptor", ClassName(comToasttabProtokt, "Descriptor"))
                     .receiver(msg.deserializerClassName)
                     .getter(
                         FunSpec.getterBuilder()

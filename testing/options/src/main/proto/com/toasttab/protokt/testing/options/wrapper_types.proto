@@ -129,7 +129,7 @@ message RepeatedWrappers {
     (.protokt.property).wrap = "java.util.UUID"
   ];
 
-  repeated google.protobuf.BytesValue uuidsWrapped = 2 [
+  repeated google.protobuf.BytesValue uuids_wrapped = 2 [
     (.protokt.property).wrap = "java.util.UUID"
   ];
 }

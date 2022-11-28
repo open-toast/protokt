@@ -120,21 +120,9 @@ private class OneofGenerator(
         OneofGeneratorOptions(
             oneof.options.protokt.implements.emptyToNone().fold(
                 { null },
-                { possiblyQualify(it) }
+                { inferClassName(it, ctx.info.kotlinPackage) }
             )
         )
-
-    private fun possiblyQualify(implements: String): ClassName {
-        val bestGuess = ClassName.bestGuess(implements)
-        return if (bestGuess.packageName == "" && implements in namespaceNeighbors()) {
-            ClassName(ctx.info.kotlinPackage, implements)
-        } else {
-            bestGuess
-        }
-    }
-
-    private fun namespaceNeighbors() =
-        msg.fields.filterIsInstance<Oneof>().map { it.name }
 }
 
 class OneofGeneratorInfo(

@@ -24,6 +24,7 @@ import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
 import com.toasttab.protokt.codegen.generate.Deprecation.handleDeprecation
+import com.toasttab.protokt.codegen.util.FieldType
 import com.toasttab.protokt.codegen.util.Message
 import com.toasttab.protokt.rt.UnknownFieldSet
 
@@ -86,7 +87,7 @@ private class DslGenerator(
                                 when {
                                     it.map -> CodeBlock.of("emptyMap()")
                                     it.repeated -> CodeBlock.of("emptyList()")
-                                    it.fieldType == "MESSAGE" || it.wrapped || it.nullable -> CodeBlock.of("null")
+                                    it.fieldType == FieldType.MESSAGE || it.wrapped || it.nullable -> CodeBlock.of("null")
                                     else -> it.defaultValue
                                 }
                             )

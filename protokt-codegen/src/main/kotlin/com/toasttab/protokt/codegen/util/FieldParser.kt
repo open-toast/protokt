@@ -15,6 +15,9 @@
 
 package com.toasttab.protokt.codegen.util
 
+import com.google.common.base.CaseFormat.LOWER_CAMEL
+import com.google.common.base.CaseFormat.LOWER_UNDERSCORE
+import com.google.common.base.CaseFormat.UPPER_CAMEL
 import com.google.protobuf.DescriptorProtos.DescriptorProto
 import com.google.protobuf.DescriptorProtos.FieldDescriptorProto
 import com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Label.LABEL_OPTIONAL
@@ -56,8 +59,6 @@ class FieldParser(
         field: FieldDescriptorProto,
         fields: List<Field>
     ): Field {
-        val newName = newFieldName(oneof.name)
-
         if (field.proto3Optional) {
             return toStandard(idx, field)
         }
@@ -72,16 +73,16 @@ class FieldParser(
 
         val fieldTypeNames =
             oneofStdFields.associate {
-                it.fieldName to generateOneofClassName(it.fieldName)
+                it.fieldName to LOWER_CAMEL.to(UPPER_CAMEL, it.fieldName)
             }
 
-        val name = generateOneofClassName(oneof.name)
+        val name = LOWER_UNDERSCORE.to(UPPER_CAMEL, oneof.name)
 
         return Oneof(
             name = name,
             className = ClassName(ctx.kotlinPackage, enclosingMessages + desc.name + name),
             fieldTypeNames = fieldTypeNames,
-            fieldName = newName,
+            fieldName = LOWER_UNDERSCORE.to(LOWER_CAMEL, oneof.name),
             fields = oneofStdFields,
             options = OneofOptions(
                 oneof.options,
@@ -122,7 +123,7 @@ class FieldParser(
             optional = !withinOneof && optional,
             packed = packed,
             mapEntry = mapEntry,
-            fieldName = newFieldName(fdp.name),
+            fieldName = LOWER_UNDERSCORE.to(LOWER_CAMEL, fdp.name),
             options = FieldOptions(fdp.options, protoktOptions),
             protoTypeName = fdp.typeName,
             className = typeName(fdp.typeName, fieldType),
@@ -274,29 +275,3 @@ private fun validateNonNullOption(
             }
     }
 }
-
-private fun snakeToCamel(str: String): String {
-    var ret = str
-    var lastIndex = -1
-    while (true) {
-        lastIndex =
-            ret.indexOf('_', lastIndex + 1)
-                .also {
-                    if (it == -1) {
-                        return ret
-                    }
-                }
-        ret = ret.substring(0, lastIndex) +
-            ret.substring(lastIndex + 1).capitalize()
-    }
-}
-
-private fun newFieldName(preferred: String) =
-    // Ideally we'd avoid decapitalization but people have a tendency to
-    // capitalize oneof defintions which will cause a clash between the field
-    // name and the oneof sealed class definition. Can be avoided if the name
-    // of the sealed class is modified when the field name is capitalized
-    snakeToCamel(preferred).decapitalize()
-
-private fun generateOneofClassName(lowerSnake: String) =
-    snakeToCamel(lowerSnake).capitalize()

@@ -29,8 +29,7 @@ import com.squareup.kotlinpoet.withIndent
 import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
 import com.toasttab.protokt.codegen.util.Method
 import com.toasttab.protokt.codegen.util.Service
-import com.toasttab.protokt.codegen.util.decapitalize
-import com.toasttab.protokt.codegen.util.protoktPkg
+import com.toasttab.protokt.codegen.util.comToasttabProtokt
 import com.toasttab.protokt.grpc.KtMarshaller
 import io.grpc.MethodDescriptor
 import io.grpc.MethodDescriptor.MethodType
@@ -130,7 +129,7 @@ private class ServiceGenerator(
             if (!ctx.info.context.onlyGenerateGrpc && !ctx.info.context.lite) {
                 TypeSpec.objectBuilder(s.name)
                     .addProperty(
-                        PropertySpec.builder("descriptor", ClassName(protoktPkg, "ServiceDescriptor"))
+                        PropertySpec.builder("descriptor", ClassName(comToasttabProtokt, "ServiceDescriptor"))
                             .delegate(
                                 buildCodeBlock {
                                     beginControlFlow("lazy")
@@ -181,3 +180,6 @@ private class ServiceGenerator(
         else -> "UNARY"
     }
 }
+
+private fun String.decapitalize() =
+    replaceFirstChar { it.lowercaseChar() }

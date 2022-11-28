@@ -20,7 +20,7 @@ import arrow.core.Option
 import arrow.core.orElse
 import com.toasttab.protokt.codegen.util.StandardField
 import com.toasttab.protokt.codegen.util.emptyToNone
-import com.toasttab.protokt.codegen.util.googleProto
+import com.toasttab.protokt.codegen.util.googleProtobuf
 import com.toasttab.protokt.rt.Bytes
 
 object WellKnownTypes {
@@ -28,8 +28,8 @@ object WellKnownTypes {
         get() =
             options.protokt.wrap.emptyToNone()
                 .orElse {
-                    if (protoTypeName.startsWith("$googleProto.")) {
-                        classNameForWellKnownType(protoTypeName.removePrefix("$googleProto."))
+                    if (protoTypeName.startsWith(".$googleProtobuf.")) {
+                        classNameForWellKnownType(protoTypeName.removePrefix(".$googleProtobuf."))
                     } else {
                         None
                     }

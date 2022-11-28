@@ -42,7 +42,6 @@ import com.toasttab.protokt.codegen.util.Message
 import com.toasttab.protokt.codegen.util.Oneof
 import com.toasttab.protokt.codegen.util.StandardField
 import com.toasttab.protokt.codegen.util.Tag
-import com.toasttab.protokt.codegen.util.capitalize
 import com.toasttab.protokt.rt.AbstractKtDeserializer
 import com.toasttab.protokt.rt.KtMessageDeserializer
 import com.toasttab.protokt.rt.UnknownFieldSet
@@ -117,7 +116,7 @@ private class DeserializerGenerator(
 
     private fun declareDeserializeVar(p: PropertyInfo): CodeBlock {
         val initialState = deserializeVarInitialState(p)
-        return if (p.fieldType == "MESSAGE" || p.repeated || p.oneof || p.nullable || p.wrapped) {
+        return if (p.fieldType == MESSAGE || p.repeated || p.oneof || p.nullable || p.wrapped) {
             CodeBlock.of("%N: %T = %L", p.name, deserializeType(p), initialState)
         } else {
             CodeBlock.of("%N = %L", p.name, initialState)
@@ -251,7 +250,7 @@ private fun StandardField.readFn() =
         UINT64 -> CodeBlock.of("readUInt64()")
         // by default for DOUBLE we get readDouble, for BOOL we get readBool(), etc.
         else -> buildCodeBlock {
-            add("read${type.name.lowercase().capitalize()}(")
+            add("read${type.name.lowercase().replaceFirstChar { it.uppercaseChar() }}(")
             if (type == ENUM || type == MESSAGE) {
                 add("%T", className)
             }

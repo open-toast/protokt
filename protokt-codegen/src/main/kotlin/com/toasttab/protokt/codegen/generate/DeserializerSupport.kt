@@ -18,9 +18,10 @@ package com.toasttab.protokt.codegen.generate
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
+import com.toasttab.protokt.codegen.util.FieldType
 
 fun deserializeVarInitialState(p: PropertyInfo) =
-    if (p.repeated || p.wrapped || p.nullable || p.fieldType == "MESSAGE") {
+    if (p.repeated || p.wrapped || p.nullable || p.fieldType == FieldType.MESSAGE) {
         CodeBlock.of("null")
     } else {
         p.defaultValue

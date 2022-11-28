@@ -15,8 +15,8 @@
 
 package com.toasttab.protokt.codegen.util
 
+import com.google.common.base.CaseFormat
 import com.google.protobuf.DescriptorProtos.EnumDescriptorProto
-import com.squareup.kotlinpoet.ClassName
 import com.toasttab.protokt.ext.Protokt
 
 class EnumParser(
@@ -26,13 +26,11 @@ class EnumParser(
     private val enclosingMessages: List<String>
 ) {
     fun toEnum(): Enum {
-        val typeName = desc.name
-
         val enumTypeNamePrefixToStrip =
-            (camelToUpperSnake(desc.name) + '_')
-                .takeIf { prefix ->
-                    desc.valueList.all { it.name.startsWith(prefix) }
-                }
+            (CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, desc.name) + '_')
+                .takeIf { desc.valueList.all { e -> e.name.startsWith(it) } }
+
+        val simpleNames = enclosingMessages + desc.name
 
         return Enum(
             values = desc.valueList.mapIndexed { enumIdx, t ->
@@ -52,8 +50,8 @@ class EnumParser(
                 desc.options,
                 desc.options.getExtension(Protokt.enum_)
             ),
-            className = ClassName(ctx.kotlinPackage, enclosingMessages + typeName),
-            deserializerClassName = ClassName(ctx.kotlinPackage, enclosingMessages + typeName + "Deserializer")
+            className = ctx.className(simpleNames),
+            deserializerClassName = ctx.className(simpleNames + DESERIALIZER)
         )
     }
 }
@@ -64,6 +62,3 @@ private fun newEnumValueName(enumTypeNamePrefix: String?, name: String) =
     } else {
         name
     }
-
-private fun camelToUpperSnake(str: String) =
-    str.replace(Regex("(?<=[a-z])([A-Z0-9])"), "_$1").uppercase()

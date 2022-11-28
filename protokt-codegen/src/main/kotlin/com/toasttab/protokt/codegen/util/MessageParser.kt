@@ -16,7 +16,6 @@
 package com.toasttab.protokt.codegen.util
 
 import com.google.protobuf.DescriptorProtos.DescriptorProto
-import com.squareup.kotlinpoet.ClassName
 import com.toasttab.protokt.ext.Protokt
 
 class MessageParser(
@@ -50,9 +49,9 @@ class MessageParser(
             ),
             index = idx,
             fullProtobufTypeName = "${ctx.fdp.`package`}.$typeName",
-            className = ClassName(ctx.kotlinPackage, simpleNames),
-            deserializerClassName = ClassName(ctx.kotlinPackage, simpleNames + "Deserializer"),
-            dslClassName = ClassName(ctx.kotlinPackage, simpleNames + "${typeName}Dsl")
+            className = ctx.className(simpleNames),
+            deserializerClassName = ctx.className(simpleNames + DESERIALIZER),
+            dslClassName = ctx.className(simpleNames + "${typeName}$DSL")
         )
     }
 }

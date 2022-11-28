@@ -24,6 +24,7 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
+import com.toasttab.protokt.codegen.util.DESERIALIZER
 import com.toasttab.protokt.codegen.util.FieldType
 import com.toasttab.protokt.codegen.util.Message
 import com.toasttab.protokt.codegen.util.StandardField
@@ -93,7 +94,7 @@ private class MapEntryGenerator(
         val propInfo = annotateProperties(msg, ctx)
 
         addType(
-            TypeSpec.companionObjectBuilder("Deserializer")
+            TypeSpec.companionObjectBuilder(DESERIALIZER)
                 .superclass(
                     AbstractKtDeserializer::class
                         .asTypeName()

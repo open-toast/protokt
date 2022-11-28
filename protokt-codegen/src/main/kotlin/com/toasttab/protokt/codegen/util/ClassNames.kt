@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2022 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,28 +13,12 @@
  * limitations under the License.
  */
 
-syntax = "proto3";
+package com.toasttab.protokt.codegen.util
 
-package toasttab.protokt.testing;
+import com.squareup.kotlinpoet.ClassName
 
-import "google/protobuf/wrappers.proto";
+const val DESERIALIZER = "Deserializer"
+const val DSL = "Dsl"
 
-message RootMessage {
-  string field = 1;
-
-  oneof oneof_field {
-    string name = 3;
-  }
-}
-
-enum AnEnum {
-  FIRST = 0;
-}
-
-message ToDeserialize {
-  google.protobuf.StringValue string_value = 1;
-
-  RootMessage message = 2;
-
-  AnEnum enum = 3;
-}
+fun GeneratorContext.className(simpleNames: List<String>) =
+    ClassName(kotlinPackage, simpleNames)
