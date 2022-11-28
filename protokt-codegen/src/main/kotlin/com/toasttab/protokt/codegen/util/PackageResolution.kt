@@ -70,7 +70,7 @@ private fun gatherPackages(
     packagesByTypeName: MutableMap<String, String>
 ) {
     val enclosingName =
-        parents.joinToString(".") { it.name }.emptyToNone().fold({ "" }, { "$it." })
+        parents.joinToString(".") { it.name }.let { if (it.isEmpty()) "" else "$it." }
 
     packagesByTypeName[dp.fullyQualifiedName(fdp, enclosingName)] =
         resolvePackage(fdp, respectJavaPackage)
@@ -99,7 +99,7 @@ private fun EnumDescriptorProto.nestedFullyQualifiedName(
     "${fdp.fullQualification}.$enclosingName${dp.name}.$name"
 
 private val FileDescriptorProto.fullQualification
-    get() = `package`.emptyToNone().fold({ "" }, { ".$it" })
+    get() = if (`package`.isEmpty()) "" else ".$`package`"
 
 private fun resolvePackage(fdp: FileDescriptorProto, respectJavaPackage: Boolean) =
     fdp.fileOptions.protokt.kotlinPackage.emptyToNone()

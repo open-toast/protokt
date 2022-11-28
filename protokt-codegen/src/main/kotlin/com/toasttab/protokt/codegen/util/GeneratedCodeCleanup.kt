@@ -22,7 +22,7 @@ import com.pinterest.ktlint.ruleset.standard.StandardRuleSetProvider
 fun tidy(rawCode: String, context: GeneratorContext): String {
     var code = stripApiMode(rawCode)
     if (context.formatOutput) {
-        // code = format(code)
+        code = format(code)
     }
     return code
 }
