@@ -34,7 +34,6 @@ include(
     "protokt-runtime",
     "protokt-runtime-grpc",
     "protokt-gradle-plugin",
-    "protokt-util",
 
     "examples",
     "examples:grpc-java",

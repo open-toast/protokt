@@ -53,7 +53,6 @@ dependencies {
     implementation(project(":extensions:protokt-extensions-api"))
     implementation(project(":protokt-runtime"))
     implementation(project(":protokt-runtime-grpc"))
-    implementation(project(":protokt-util"))
 
     implementation(kotlin("reflect", "1.7.20"))
 
@@ -101,3 +100,8 @@ sourceSets {
         }
     }
 }
+
+includeBuildSrc(
+    "com/toasttab/protokt/gradle/ProtoktExtension.kt",
+    "com/toasttab/protokt/gradle/ProtobufVersion.kt"
+)

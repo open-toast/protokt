@@ -62,7 +62,6 @@ kotlin {
         val jvmTest by getting {
             dependencies {
                 implementation("com.google.protobuf:protobuf-javalite:3.19.1")
-                implementation("com.toasttab.protokt:protokt-util:$version")
             }
         }
 

@@ -16,16 +16,15 @@
 package com.toasttab.protokt.testing
 
 import com.toasttab.protokt.rt.KtMessage
-import com.toasttab.protokt.util.getProtoktVersion
 import kotlin.test.Test
-import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class VersionTest {
     @Test
     fun `runtime version should match project version`() {
         val version = System.getenv("version")
-        val runtimeVersion = getProtoktVersion(KtMessage::class)
+        val runtimeJarPath = KtMessage::class.java.protectionDomain.codeSource.location.toString()
 
-        assertEquals(version, runtimeVersion)
+        assertTrue(runtimeJarPath.endsWith("protokt-runtime-jvm-$version.jar"))
     }
 }

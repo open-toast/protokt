@@ -15,8 +15,6 @@
 
 package com.toasttab.protokt.gradle
 
-const val MANIFEST_VERSION_PROPERTY = "Implementation-Version"
-
 const val KOTLIN_EXTRA_CLASSPATH = "kotlin_extra_classpath"
 const val RESPECT_JAVA_PACKAGE = "respect_java_package"
 const val GENERATE_GRPC = "generate_grpc"
@@ -24,6 +22,7 @@ const val ONLY_GENERATE_GRPC = "only_generate_grpc"
 const val LITE = "lite"
 const val ONLY_GENERATE_DESCRIPTORS = "only_generate_descriptors"
 const val FORMAT_OUTPUT = "format_output"
+const val PROTOKT_VERSION = "protokt_version"
 
 open class ProtoktExtension {
     /**

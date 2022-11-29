@@ -27,7 +27,12 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.named
 import java.net.URLEncoder
 
-internal fun configureProtobufPlugin(project: Project, ext: ProtoktExtension, binaryPath: String) {
+internal fun configureProtobufPlugin(
+    project: Project,
+    ext: ProtoktExtension,
+    binaryPath: String,
+    protoktVersion: Any
+) {
     project.apply(plugin = "com.google.protobuf")
 
     project.configure<ProtobufExtension> {
@@ -61,6 +66,7 @@ internal fun configureProtobufPlugin(project: Project, ext: ProtoktExtension, bi
                             option("$LITE=${ext.lite}")
                             option("$ONLY_GENERATE_DESCRIPTORS=${ext.onlyGenerateDescriptors}")
                             option("$FORMAT_OUTPUT=${ext.formatOutput}")
+                            option("$PROTOKT_VERSION=$protoktVersion")
                         }
                     }
                 }

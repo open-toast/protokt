@@ -16,15 +16,12 @@
 package com.toasttab.protokt.gradle.plugin
 
 import com.toasttab.protokt.gradle.configureProtokt
-import com.toasttab.protokt.util.getProtoktVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
-val protoktVersion by lazy { getProtoktVersion(ProtoktPlugin::class) }
-
 class ProtoktPlugin : Plugin<Project> {
     override fun apply(project: Project) {
-        configureProtokt(project, protoktVersion) {
+        configureProtokt(project, PROTOKT_VERSION) {
             binaryFromArtifact(project)
         }
     }

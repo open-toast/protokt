@@ -32,7 +32,7 @@ internal fun binaryFromArtifact(project: Project): String {
 private fun installBinary(project: Project, artifact: Dependency) {
     val targetDir = getTargetDirectory(project)
 
-    if (protoktVersion.endsWith("-SNAPSHOT") || !targetDir.exists()) {
+    if (PROTOKT_VERSION.endsWith("-SNAPSHOT") || !targetDir.exists()) {
         targetDir.mkdirs()
 
         val toolsArchive = project.zipTree(
@@ -57,7 +57,7 @@ private fun configureArtifact(project: Project): Dependency {
         mapOf(
             "group" to "com.toasttab.protokt",
             "name" to "protokt-codegen",
-            "version" to protoktVersion,
+            "version" to PROTOKT_VERSION,
             "classifier" to "dist",
             "ext" to "zip"
         )
@@ -66,5 +66,5 @@ private fun configureArtifact(project: Project): Dependency {
 
 private fun getTargetDirectory(project: Project) =
     project.file(
-        "${project.rootDir}/.gradle/tools/$CODEGEN_NAME-$protoktVersion"
+        "${project.rootDir}/.gradle/tools/$CODEGEN_NAME-$PROTOKT_VERSION"
     )

@@ -46,11 +46,11 @@ const val EXTENSIONS = "protoktExtensions"
 
 const val TEST_EXTENSIONS = "testProtoktExtensions"
 
-fun configureProtokt(project: Project, protoktVersion: String?, resolveBinary: () -> String) {
+fun configureProtokt(project: Project, protoktVersion: Any?, resolveBinary: () -> String) {
     createProtoSourceSetsIfNeeded(project)
     injectKotlinPluginsIntoProtobufGradle()
     val ext = project.extensions.create<ProtoktExtension>("protokt")
-    configureProtobufPlugin(project, ext, resolveBinary())
+    configureProtobufPlugin(project, ext, resolveBinary(), protoktVersion ?: project.version)
 
     project.createExtensionConfigurationsAndConfigureProtobuf()
 
@@ -160,7 +160,7 @@ private fun Project.createExtensionConfigurationsAndConfigureProtobuf() {
     }
 }
 
-internal fun Project.resolveProtoktCoreDep(protoktVersion: String?): Dependency? {
+internal fun Project.resolveProtoktCoreDep(protoktVersion: Any?): Dependency? {
     if (name in setOf("protokt-core", "protokt-core-lite")) {
         return null
     }

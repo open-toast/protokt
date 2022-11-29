@@ -13,20 +13,8 @@
  * limitations under the License.
  */
 
-import com.toasttab.protokt.gradle.MANIFEST_VERSION_PROPERTY
-import org.gradle.jvm.tasks.Jar
-import org.gradle.kotlin.dsl.attributes
-
 plugins {
     idea
 }
 
 version = rootProject.version
-
-tasks.withType<Jar> {
-    manifest {
-        attributes(
-            MANIFEST_VERSION_PROPERTY to "${project.version}"
-        )
-    }
-}
