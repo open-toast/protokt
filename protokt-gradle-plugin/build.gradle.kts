@@ -18,7 +18,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     `kotlin-dsl`
     id("protokt.jvm-conventions")
-    id("com.gradle.plugin-publish") version "0.11.0"
+    alias(libs.plugins.pluginPublish)
 }
 
 gradlePlugin {
