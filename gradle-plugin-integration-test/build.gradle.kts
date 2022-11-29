@@ -24,7 +24,6 @@ plugins {
 buildscript {
     repositories {
         mavenCentral()
-        maven(url = "https://jitpack.io")
         maven(url = "$projectDir/../build/repos/integration")
         gradlePluginPortal()
     }
