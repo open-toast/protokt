@@ -16,11 +16,14 @@
 package com.toasttab.protokt.codegen.generate
 
 import com.squareup.kotlinpoet.FileSpec
+import com.toasttab.protokt.codegen.util.ErrorContext.withFileName
 import com.toasttab.protokt.codegen.util.Message
 import com.toasttab.protokt.codegen.util.ProtoFileContents
 
 fun generateFile(contents: ProtoFileContents) =
-    FileGenerator(contents).generate()
+    withFileName(contents.info.name) {
+        FileGenerator(contents).generate()
+    }
 
 private class FileGenerator(
     private val contents: ProtoFileContents

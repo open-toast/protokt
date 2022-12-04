@@ -30,14 +30,14 @@ object WellKnownTypes {
 
     private fun classNameForWellKnownType(type: String) =
         when (type) {
-            "DoubleValue" -> "java.lang.Double"
-            "FloatValue" -> "java.lang.Float"
-            "Int64Value" -> "java.lang.Long"
-            "UInt64Value" -> "java.lang.Long"
-            "Int32Value" -> "java.lang.Integer"
-            "UInt32Value" -> "java.lang.Integer"
-            "BoolValue" -> "java.lang.Boolean"
-            "StringValue" -> "java.lang.String"
+            "DoubleValue" -> "kotlin.Double"
+            "FloatValue" -> "kotlin.Float"
+            "Int64Value" -> "kotlin.Long"
+            "UInt64Value" -> "kotlin.Long"
+            "Int32Value" -> "kotlin.Integer"
+            "UInt32Value" -> "kotlin.Int"
+            "BoolValue" -> "kotlin.Boolean"
+            "StringValue" -> "kotlin.String"
             "BytesValue" -> Bytes::class.qualifiedName
             else -> null
         }

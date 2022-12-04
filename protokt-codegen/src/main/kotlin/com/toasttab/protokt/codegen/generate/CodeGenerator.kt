@@ -17,6 +17,9 @@ package com.toasttab.protokt.codegen.generate
 
 import com.squareup.kotlinpoet.TypeSpec
 import com.toasttab.protokt.codegen.util.Enum
+import com.toasttab.protokt.codegen.util.ErrorContext.withEnumName
+import com.toasttab.protokt.codegen.util.ErrorContext.withMessageName
+import com.toasttab.protokt.codegen.util.ErrorContext.withServiceName
 import com.toasttab.protokt.codegen.util.GeneratedType
 import com.toasttab.protokt.codegen.util.GeneratorContext
 import com.toasttab.protokt.codegen.util.Message
@@ -40,29 +43,30 @@ object CodeGenerator {
     fun generate(type: TopLevelType, ctx: Context): Iterable<TypeSpec> =
         when (type) {
             is Message ->
-                nonGrpc(ctx) {
-                    nonDescriptors(ctx) {
-                        listOf(
-                            generateMessage(
-                                type,
-                                ctx.copy(enclosing = ctx.enclosing + type)
-                            )
-                        )
+                withMessageName(type.className) {
+                    nonGrpc(ctx) {
+                        nonDescriptors(ctx) {
+                            listOf(generateMessage(type, ctx.copy(enclosing = ctx.enclosing + type)))
+                        }
                     }
                 }
             is Enum ->
-                nonGrpc(ctx) {
-                    nonDescriptors(ctx) {
-                        listOf(generateEnum(type, ctx))
+                withEnumName(type.className) {
+                    nonGrpc(ctx) {
+                        nonDescriptors(ctx) {
+                            listOf(generateEnum(type, ctx))
+                        }
                     }
                 }
             is Service ->
-                generateService(
-                    type,
-                    ctx,
-                    ctx.info.context.generateGrpc ||
-                        ctx.info.context.onlyGenerateGrpc
-                )
+                withServiceName(type.name) {
+                    generateService(
+                        type,
+                        ctx,
+                        ctx.info.context.generateGrpc ||
+                            ctx.info.context.onlyGenerateGrpc
+                    )
+                }
         }
 
     private fun <T> nonDescriptors(ctx: Context, gen: () -> Iterable<T>) =

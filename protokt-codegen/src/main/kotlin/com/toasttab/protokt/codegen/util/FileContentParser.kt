@@ -18,6 +18,9 @@ package com.toasttab.protokt.codegen.util
 import com.google.protobuf.DescriptorProtos.DescriptorProto
 import com.google.protobuf.DescriptorProtos.EnumDescriptorProto
 import com.google.protobuf.DescriptorProtos.ServiceDescriptorProto
+import com.toasttab.protokt.codegen.util.ErrorContext.withEnumName
+import com.toasttab.protokt.codegen.util.ErrorContext.withMessageName
+import com.toasttab.protokt.codegen.util.ErrorContext.withServiceName
 
 fun parseFileContents(ctx: GeneratorContext) =
     ProtoFileContents(
@@ -41,7 +44,19 @@ class FileContentParser(
     )
 
     fun parseContents(): List<TopLevelType> =
-        enums.mapIndexed { idx, desc -> EnumParser(ctx, idx, desc, enclosingMessages).toEnum() } +
-            messages.mapIndexed { idx, desc -> MessageParser(ctx, idx, desc, enclosingMessages).toMessage() } +
-            services.mapIndexed { idx, desc -> ServiceParser(ctx, idx, desc).toService() }
+        enums.mapIndexed { idx, desc ->
+            withEnumName(desc.name) {
+                EnumParser(ctx, idx, desc, enclosingMessages).toEnum()
+            }
+        } +
+            messages.mapIndexed { idx, desc ->
+                withMessageName(desc.name) {
+                    MessageParser(ctx, idx, desc, enclosingMessages).toMessage()
+                }
+            } +
+            services.mapIndexed { idx, desc ->
+                withServiceName(desc.name) {
+                    ServiceParser(ctx, idx, desc).toService()
+                }
+            }
 }

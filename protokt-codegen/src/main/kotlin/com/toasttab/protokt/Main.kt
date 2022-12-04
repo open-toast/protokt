@@ -21,6 +21,8 @@ import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.Feature
 import com.squareup.kotlinpoet.FileSpec
 import com.toasttab.protokt.codegen.generate.generateFile
+import com.toasttab.protokt.codegen.util.ErrorContext.fileName
+import com.toasttab.protokt.codegen.util.ErrorContext.messageName
 import com.toasttab.protokt.codegen.util.GeneratorContext
 import com.toasttab.protokt.codegen.util.parseFileContents
 import com.toasttab.protokt.codegen.util.tidy
@@ -32,7 +34,10 @@ fun main() =
     try {
         main(System.`in`.use { it.readBytes() }, System.out)
     } catch (t: Throwable) {
-        t.printStackTrace(System.err)
+        Exception(
+            "Error generating code for file ${fileName()}, message ${messageName()}",
+            t
+        ).printStackTrace(System.err)
         exitProcess(-1)
     }
 
