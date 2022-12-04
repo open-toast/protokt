@@ -19,11 +19,14 @@ import com.google.common.collect.HashBasedTable
 import com.google.common.collect.ImmutableTable
 import com.google.common.collect.Table
 import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.asClassName
 import com.toasttab.protokt.ext.Converter
+import com.toasttab.protokt.ext.OptimizedSizeofConverter
 import java.io.File
 import java.net.URLClassLoader
 import kotlin.reflect.KClass
 import kotlin.reflect.full.hasAnnotation
+import kotlin.reflect.full.memberProperties
 
 class ClassLookup(classpath: List<String>) {
     private val classLoader by lazy {
@@ -54,37 +57,47 @@ class ClassLookup(classpath: List<String>) {
                             .toList()
                     }
             }.run {
-                val table = HashBasedTable.create<KClass<*>, KClass<*>, MutableList<Converter<*, *>>>()
-                forEach { table.getOrPut(it.wrapper, it.wrapped) { mutableListOf() }.add(it) }
-                ImmutableTable.builder<KClass<*>, KClass<*>, List<Converter<*, *>>>().putAll(table).build()
+                val table = HashBasedTable.create<ClassName, ClassName, MutableList<Converter<*, *>>>()
+                forEach { table.getOrPut(it.wrapper.asClassName(), it.wrapped.asClassName()) { mutableListOf() }.add(it) }
+                ImmutableTable.builder<ClassName, ClassName, List<Converter<*, *>>>().putAll(table).build()
             }
     }
 
     private val classLookup = mutableMapOf<ClassName, KClass<*>>()
 
-    fun getClass(className: ClassName): KClass<*> =
+    fun properties(className: ClassName): Collection<String> =
         try {
             classLookup.getOrPut(className) {
                 classLoader.loadClass(className.canonicalName).kotlin
-            }
+            }.memberProperties.map { it.name }
         } catch (t: Throwable) {
             throw Exception("Class not found: ${className.canonicalName}")
         }
 
-    fun converter(wrapper: KClass<*>, wrapped: KClass<*>): Converter<*, *> {
+    fun converter(wrapper: ClassName, wrapped: ClassName): ConverterDetails {
         val converters = convertersByWrapperAndWrapped.get(wrapper, wrapped) ?: emptyList()
 
         require(converters.isNotEmpty()) {
-            "No converter found for wrapper type " +
-                "${wrapper.qualifiedName} from type ${wrapped.qualifiedName}"
+            "No converter found for wrapper type $wrapper from type $wrapped"
         }
 
-        return converters
-            .filterNot { it::class.hasAnnotation<Deprecated>() }
-            .firstOrNull()
-            ?: converters.first()
+        val converter =
+            converters
+                .filterNot { it::class.hasAnnotation<Deprecated>() }
+                .firstOrNull()
+                ?: converters.first()
+
+        return ConverterDetails(
+            converter::class.asClassName(),
+            converter is OptimizedSizeofConverter<*, *>
+        )
     }
 }
+
+class ConverterDetails(
+    val className: ClassName,
+    val optimizedSizeof: Boolean
+)
 
 private fun <R, C, V> Table<R, C, V>.getOrPut(r: R, c: C, v: () -> V): V =
     get(r, c) ?: v().also { put(r, c, it) }

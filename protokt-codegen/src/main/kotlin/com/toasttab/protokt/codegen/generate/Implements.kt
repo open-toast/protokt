@@ -27,13 +27,8 @@ object Implements {
         msg: Message
     ) =
         msg.superInterface(ctx)
-            ?.let { classIncludesProperty(it, fieldName, ctx) }
+            ?.let { fieldName in ctx.info.context.classLookup.properties(className) }
             ?: false
-
-    private fun classIncludesProperty(className: ClassName, prop: String, ctx: Context) =
-        ctx.info.context.classLookup.getClass(className)
-            .members.map { m -> m.name }
-            .contains(prop)
 
     fun TypeSpec.Builder.handleSuperInterface(implements: ClassName?, v: OneofGeneratorInfo? = null) =
         apply {
