@@ -34,10 +34,8 @@ fun main() =
     try {
         main(System.`in`.use { it.readBytes() }, System.out)
     } catch (t: Throwable) {
-        Exception(
-            "Error generating code for file ${fileName()}, message ${messageName()}",
-            t
-        ).printStackTrace(System.err)
+        System.err.println("Error generating code for file ${fileName()}, message ${messageName()}")
+        t.printStackTrace(System.err)
         exitProcess(-1)
     }
 
