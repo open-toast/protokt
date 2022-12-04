@@ -48,5 +48,5 @@ fun formatErrorMessage() =
         listOfNotNull(
             context[MESSAGE_NAME]?.let { "message $it" },
             context[ENUM_NAME]?.let { "enum $it" },
-            context[SERVICE_NAME]?.let { "service $it" },
+            context[SERVICE_NAME]?.let { "service $it" }
         ).joinToString(", ")
