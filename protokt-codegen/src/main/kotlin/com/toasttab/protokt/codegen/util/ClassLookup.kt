@@ -15,6 +15,9 @@
 
 package com.toasttab.protokt.codegen.util
 
+import com.google.common.collect.HashBasedTable
+import com.google.common.collect.ImmutableTable
+import com.google.common.collect.Table
 import com.squareup.kotlinpoet.ClassName
 import com.toasttab.protokt.ext.Converter
 import java.io.File
@@ -38,7 +41,7 @@ class ClassLookup(classpath: List<String>) {
         }
     }
 
-    private val convertersByWrapper by lazy {
+    private val convertersByWrapperAndWrapped by lazy {
         classLoader.getResources("META-INF/services/${Converter::class.qualifiedName}")
             .asSequence()
             .flatMap { url ->
@@ -50,8 +53,11 @@ class ClassLookup(classpath: List<String>) {
                             .map { classLoader.loadClass(it).kotlin.objectInstance as Converter<*, *> }
                             .toList()
                     }
+            }.run {
+                val table = HashBasedTable.create<KClass<*>, KClass<*>, MutableList<Converter<*, *>>>()
+                forEach { table.getOrPut(it.wrapper, it.wrapped) { mutableListOf() }.add(it) }
+                ImmutableTable.copyOf(table)
             }
-            .groupBy { it.wrapper }
     }
 
     private val classLookup = mutableMapOf<ClassName, KClass<*>>()
@@ -66,7 +72,7 @@ class ClassLookup(classpath: List<String>) {
         }
 
     fun converter(wrapper: KClass<*>, wrapped: KClass<*>): Converter<*, *> {
-        val converters = convertersByWrapper.getOrDefault(wrapper, emptyList())
+        val converters = convertersByWrapperAndWrapped.get(wrapper, wrapped) ?: emptyList()
 
         require(converters.isNotEmpty()) {
             "No converter found for wrapper type " +
@@ -79,3 +85,6 @@ class ClassLookup(classpath: List<String>) {
             ?: converters.first()
     }
 }
+
+private fun <R, C, V> Table<R, C, V>.getOrPut(r: R, c: C, v: () -> V): V =
+    get(r, c) ?: v().also { put(r, c, it) }
