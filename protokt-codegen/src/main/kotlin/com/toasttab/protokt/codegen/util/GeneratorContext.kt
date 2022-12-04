@@ -37,10 +37,12 @@ class GeneratorContext(
     filesToGenerate: Set<String>,
     allFiles: List<FileDescriptorProto>
 ) {
-    val classpath =
-        params.getOrDefault(KOTLIN_EXTRA_CLASSPATH, "")
-            .split(";")
-            .map { URLDecoder.decode(it, "UTF-8") }
+    val classLookup =
+        ClassLookup(
+            params.getOrDefault(KOTLIN_EXTRA_CLASSPATH, "")
+                .split(";")
+                .map { URLDecoder.decode(it, "UTF-8") }
+        )
 
     val respectJavaPackage = respectJavaPackage(params)
     val generateGrpc = params.getOrDefault(GENERATE_GRPC)

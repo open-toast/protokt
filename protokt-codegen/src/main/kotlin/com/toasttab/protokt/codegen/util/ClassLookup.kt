@@ -15,41 +15,15 @@
 
 package com.toasttab.protokt.codegen.util
 
-import arrow.core.Either
-import arrow.core.getOrHandle
-import arrow.core.memoize
 import com.squareup.kotlinpoet.ClassName
 import com.toasttab.protokt.ext.Converter
 import java.io.File
 import java.net.URLClassLoader
+import kotlin.reflect.KClass
+import kotlin.reflect.full.hasAnnotation
 
-object ClassLookup {
-    val getClass =
-        { className: ClassName, ctx: GeneratorContext ->
-            fun loadClass(className: ClassName) =
-                Either.catchingAll {
-                    getClassLoader(ctx.classpath)
-                        .loadClass(className.canonicalName)
-                        .kotlin
-                }
-
-            loadClass(className).getOrHandle {
-                throw Exception("Class not found: ${className.canonicalName}")
-            }
-        }.memoize()
-
-    // Either.catch does not catch LinkageError, of which NoClassDefFoundError
-    // is a subtype. We want to catch those here.
-    private fun <R> Either.Companion.catchingAll(
-        f: () -> R
-    ): Either<Throwable, R> =
-        try {
-            Either.Right(f())
-        } catch (t: Throwable) {
-            Either.Left(t)
-        }
-
-    val getClassLoader = { classpath: List<String> ->
+class ClassLookup(classpath: List<String>) {
+    private val classLoader by lazy {
         val current = Thread.currentThread().contextClassLoader
 
         when {
@@ -62,11 +36,10 @@ object ClassLookup {
                     current
                 )
         }
-    }.memoize()
+    }
 
-    val converters = { classpath: List<String> ->
-        val loader = getClassLoader(classpath)
-        loader.getResources("META-INF/services/${Converter::class.qualifiedName}")
+    private val convertersByWrapper by lazy {
+        classLoader.getResources("META-INF/services/${Converter::class.qualifiedName}")
             .asSequence()
             .flatMap { url ->
                 url.openStream()
@@ -74,10 +47,35 @@ object ClassLookup {
                     .useLines { lines ->
                         lines.map { it.substringBefore("#").trim() }
                             .filter { it.isNotEmpty() }
-                            .map { loader.loadClass(it).kotlin.objectInstance as Converter<*, *> }
+                            .map { classLoader.loadClass(it).kotlin.objectInstance as Converter<*, *> }
                             .toList()
                     }
             }
-            .toList()
-    }.memoize()
+            .groupBy { it.wrapper }
+    }
+
+    private val classLookup = mutableMapOf<ClassName, KClass<*>>()
+
+    fun getClass(className: ClassName): KClass<*> =
+        try {
+            classLookup.getOrPut(className) {
+                classLoader.loadClass(className.canonicalName).kotlin
+            }
+        } catch (t: Throwable) {
+            throw Exception("Class not found: ${className.canonicalName}")
+        }
+
+    fun converter(wrapper: KClass<*>, wrapped: KClass<*>): Converter<*, *> {
+        val converters = convertersByWrapper.getOrDefault(wrapper, emptyList())
+
+        require(converters.isNotEmpty()) {
+            "No converter found for wrapper type " +
+                "${wrapper.qualifiedName} from type ${wrapped.qualifiedName}"
+        }
+
+        return converters
+            .filterNot { it::class.hasAnnotation<Deprecated>() }
+            .firstOrNull()
+            ?: converters.first()
+    }
 }

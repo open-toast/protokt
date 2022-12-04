@@ -15,21 +15,17 @@
 
 package com.toasttab.protokt.codegen.generate
 
-import arrow.core.memoize
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.asTypeName
 import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
 import com.toasttab.protokt.codegen.generate.WellKnownTypes.wrapWithWellKnownInterception
-import com.toasttab.protokt.codegen.util.ClassLookup.converters
-import com.toasttab.protokt.codegen.util.ClassLookup.getClass
 import com.toasttab.protokt.codegen.util.FieldType
 import com.toasttab.protokt.codegen.util.GeneratorContext
 import com.toasttab.protokt.codegen.util.StandardField
 import com.toasttab.protokt.ext.OptimizedSizeofConverter
 import com.toasttab.protokt.rt.BytesSlice
 import kotlin.reflect.KClass
-import kotlin.reflect.full.hasAnnotation
 
 internal object Wrapper {
     val StandardField.wrapped
@@ -43,13 +39,12 @@ internal object Wrapper {
     ) =
         wrapOption?.let { wrap ->
             ifWrapped(
-                getClass(inferClassName(wrap, pkg), ctx),
+                ctx.classLookup.getClass(inferClassName(wrap, pkg)),
                 protoTypeName.takeIf { it.isNotEmpty() }
-                    ?.let { getClass(className, ctx) }
+                    ?.let { ctx.classLookup.getClass(className) }
                     // Protobuf primitives have no typeName
                     ?: requireNotNull(type.kotlinRepresentation) {
-                        "no kotlin representation for type of " +
-                            "$fieldName: $type"
+                        "no kotlin representation for type of $fieldName: $type"
                     }
             )
         }
@@ -186,20 +181,5 @@ internal object Wrapper {
             wrapper.asTypeName()
 
     private fun converter(wrapper: KClass<*>, wrapped: KClass<*>, ctx: Context) =
-        converter(wrapper, wrapped, ctx.info.context)
-
-    val converter = { wrapper: KClass<*>, wrapped: KClass<*>, ctx: GeneratorContext ->
-        val converters =
-            converters(ctx.classpath)
-                .filter { it.wrapper == wrapper && it.wrapped == wrapped }
-
-        require(converters.isNotEmpty()) {
-            "${ctx.fdp.name}: No converter found for wrapper type " +
-                "${wrapper.qualifiedName} from type ${wrapped.qualifiedName}"
-        }
-
-        converters
-            .filterNot { it::class.hasAnnotation<Deprecated>() }
-            .firstOrNull() ?: converters.first()
-    }.memoize()
+        ctx.info.context.classLookup.converter(wrapper, wrapped)
 }

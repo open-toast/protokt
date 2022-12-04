@@ -18,7 +18,6 @@ package com.toasttab.protokt.codegen.generate
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.TypeSpec
 import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
-import com.toasttab.protokt.codegen.util.ClassLookup.getClass
 import com.toasttab.protokt.codegen.util.Message
 import com.toasttab.protokt.codegen.util.StandardField
 
@@ -32,7 +31,7 @@ object Implements {
             ?: false
 
     private fun classIncludesProperty(className: ClassName, prop: String, ctx: Context) =
-        getClass(className, ctx.info.context)
+        ctx.info.context.classLookup.getClass(className)
             .members.map { m -> m.name }
             .contains(prop)
 

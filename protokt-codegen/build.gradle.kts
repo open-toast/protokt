@@ -56,7 +56,6 @@ dependencies {
 
     implementation(kotlin("reflect", "1.7.20"))
 
-    implementation(libs.arrow)
     implementation(libs.grpcStub)
     implementation(libs.kotlinPoet)
     implementation(libs.kotlinxCoroutinesCore)
