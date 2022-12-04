@@ -34,7 +34,7 @@ object WellKnownTypes {
             "FloatValue" -> "kotlin.Float"
             "Int64Value" -> "kotlin.Long"
             "UInt64Value" -> "kotlin.Long"
-            "Int32Value" -> "kotlin.Integer"
+            "Int32Value" -> "kotlin.Int"
             "UInt32Value" -> "kotlin.Int"
             "BoolValue" -> "kotlin.Boolean"
             "StringValue" -> "kotlin.String"

@@ -21,6 +21,7 @@ private const val FILE_NAME = "fileName"
 private const val MESSAGE_NAME = "messageName"
 private const val ENUM_NAME = "enumName"
 private const val SERVICE_NAME = "serviceName"
+private const val PROPERTY_NAME = "propertyName"
 
 object ErrorContext {
     fun <T> withFileName(name: String, action: () -> T) =
@@ -35,6 +36,9 @@ object ErrorContext {
     fun <T> withServiceName(name: Any, action: () -> T) =
         withProperty(SERVICE_NAME, name, action)
 
+    fun <T> withPropertyName(name: Any, action: () -> T) =
+        withProperty(PROPERTY_NAME, name, action)
+
     private fun <T> withProperty(propertyName: String, propertyValue: Any, action: () -> T): T {
         context[propertyName] = propertyValue
         val result = action()
@@ -48,5 +52,6 @@ fun formatErrorMessage() =
         listOfNotNull(
             context[MESSAGE_NAME]?.let { "message $it" },
             context[ENUM_NAME]?.let { "enum $it" },
-            context[SERVICE_NAME]?.let { "service $it" }
+            context[SERVICE_NAME]?.let { "service $it" },
+            context[PROPERTY_NAME]?.let { "property $it" }
         ).joinToString(", ")

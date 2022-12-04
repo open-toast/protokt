@@ -32,6 +32,7 @@ import com.toasttab.protokt.codegen.generate.Wrapper.interceptMapKeyTypeName
 import com.toasttab.protokt.codegen.generate.Wrapper.interceptMapValueTypeName
 import com.toasttab.protokt.codegen.generate.Wrapper.interceptTypeName
 import com.toasttab.protokt.codegen.generate.Wrapper.wrapped
+import com.toasttab.protokt.codegen.util.ErrorContext.withPropertyName
 import com.toasttab.protokt.codegen.util.Field
 import com.toasttab.protokt.codegen.util.FieldType
 import com.toasttab.protokt.codegen.util.Message
@@ -45,44 +46,45 @@ private class PropertyAnnotator(
     private val msg: Message,
     private val ctx: Context
 ) {
-    fun annotate(): List<PropertyInfo> {
-        return msg.fields.map {
-            val documentation = annotatePropertyDocumentation(it, ctx)
+    fun annotate(): List<PropertyInfo> =
+        msg.fields.map { withPropertyName(it.fieldName) { annotate(it) } }
 
-            when (it) {
-                is StandardField -> {
-                    annotateStandard(it).let { type ->
-                        PropertyInfo(
-                            name = it.fieldName,
-                            propertyType = propertyType(it, type),
-                            deserializeType = deserializeType(it, type),
-                            dslPropertyType = dslPropertyType(it, type),
-                            defaultValue = it.defaultValue(ctx),
-                            fieldType = it.type,
-                            repeated = it.repeated,
-                            map = it.map,
-                            nullable = it.nullable || it.optional,
-                            nonNullOption = it.hasNonNullOption,
-                            overrides = it.overrides(ctx, msg),
-                            wrapped = it.wrapped,
-                            documentation = documentation,
-                            deprecation = deprecation(it)
-                        )
-                    }
-                }
-                is Oneof ->
+    private fun annotate(field: Field): PropertyInfo {
+        val documentation = annotatePropertyDocumentation(field, ctx)
+
+        return when (field) {
+            is StandardField -> {
+                annotateStandard(field).let { type ->
                     PropertyInfo(
-                        name = it.fieldName,
-                        propertyType = propertyType(it),
-                        deserializeType = it.className.copy(nullable = true),
-                        dslPropertyType = it.className.copy(nullable = true),
-                        defaultValue = it.defaultValue(ctx),
-                        oneof = true,
-                        nullable = it.nullable,
-                        nonNullOption = it.hasNonNullOption,
-                        documentation = documentation
+                        name = field.fieldName,
+                        propertyType = propertyType(field, type),
+                        deserializeType = deserializeType(field, type),
+                        dslPropertyType = dslPropertyType(field, type),
+                        defaultValue = field.defaultValue(ctx),
+                        fieldType = field.type,
+                        repeated = field.repeated,
+                        map = field.map,
+                        nullable = field.nullable || field.optional,
+                        nonNullOption = field.hasNonNullOption,
+                        overrides = field.overrides(ctx, msg),
+                        wrapped = field.wrapped,
+                        documentation = documentation,
+                        deprecation = deprecation(field)
                     )
+                }
             }
+            is Oneof ->
+                PropertyInfo(
+                    name = field.fieldName,
+                    propertyType = propertyType(field),
+                    deserializeType = field.className.copy(nullable = true),
+                    dslPropertyType = field.className.copy(nullable = true),
+                    defaultValue = field.defaultValue(ctx),
+                    oneof = true,
+                    nullable = field.nullable,
+                    nonNullOption = field.hasNonNullOption,
+                    documentation = documentation
+                )
         }
     }
 
