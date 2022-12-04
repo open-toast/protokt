@@ -15,31 +15,14 @@
 
 package com.toasttab.protokt.codegen.util
 
-import com.toasttab.protokt.codegen.util.ErrorContext.enumName
-import com.toasttab.protokt.codegen.util.ErrorContext.fileName
-import com.toasttab.protokt.codegen.util.ErrorContext.messageName
-import com.toasttab.protokt.codegen.util.ErrorContext.serviceName
+private val context = mutableMapOf<String, Any?>()
+
+private const val FILE_NAME = "fileName"
+private const val MESSAGE_NAME = "messageName"
+private const val ENUM_NAME = "enumName"
+private const val SERVICE_NAME = "serviceName"
 
 object ErrorContext {
-    private const val FILE_NAME = "fileName"
-    private const val MESSAGE_NAME = "messageName"
-    private const val ENUM_NAME = "enumName"
-    private const val SERVICE_NAME = "serviceName"
-
-    private val context = mutableMapOf<String, Any?>()
-
-    fun fileName() =
-        context[FILE_NAME]
-
-    fun messageName() =
-        context[MESSAGE_NAME]
-
-    fun enumName() =
-        context[ENUM_NAME]
-
-    fun serviceName() =
-        context[SERVICE_NAME]
-
     fun <T> withFileName(name: String, action: () -> T) =
         withProperty(FILE_NAME, name, action)
 
@@ -61,9 +44,9 @@ object ErrorContext {
 }
 
 fun formatErrorMessage() =
-    "Error generating code for file ${fileName()}: " +
+    "Error generating code for file ${context[FILE_NAME]}: " +
         listOfNotNull(
-            messageName()?.let { "message $it" },
-            enumName()?.let { "enum $it" },
-            serviceName()?.let { "enum $it" },
+            context[MESSAGE_NAME]?.let { "message $it" },
+            context[ENUM_NAME]?.let { "enum $it" },
+            context[SERVICE_NAME]?.let { "service $it" },
         ).joinToString(", ")
