@@ -15,6 +15,11 @@
 
 package com.toasttab.protokt.codegen.util
 
+import com.toasttab.protokt.codegen.util.ErrorContext.enumName
+import com.toasttab.protokt.codegen.util.ErrorContext.fileName
+import com.toasttab.protokt.codegen.util.ErrorContext.messageName
+import com.toasttab.protokt.codegen.util.ErrorContext.serviceName
+
 object ErrorContext {
     private const val FILE_NAME = "fileName"
     private const val MESSAGE_NAME = "messageName"
@@ -28,6 +33,12 @@ object ErrorContext {
 
     fun messageName() =
         context[MESSAGE_NAME]
+
+    fun enumName() =
+        context[ENUM_NAME]
+
+    fun serviceName() =
+        context[SERVICE_NAME]
 
     fun <T> withFileName(name: String, action: () -> T) =
         withProperty(FILE_NAME, name, action)
@@ -48,3 +59,11 @@ object ErrorContext {
         return result
     }
 }
+
+fun formatErrorMessage() =
+    "Error generating code for file ${fileName()}: " +
+        listOfNotNull(
+            messageName()?.let { "message $it" },
+            enumName()?.let { "enum $it" },
+            serviceName()?.let { "enum $it" },
+        ).joinToString(", ")
