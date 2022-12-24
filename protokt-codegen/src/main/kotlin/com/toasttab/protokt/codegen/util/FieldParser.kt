@@ -27,6 +27,7 @@ import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.google.protobuf.DescriptorProtos.OneofDescriptorProto
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.asTypeName
+import com.toasttab.protokt.codegen.util.ErrorContext.withFieldName
 import com.toasttab.protokt.ext.Protokt
 
 class FieldParser(
@@ -39,13 +40,15 @@ class FieldParser(
         val fields = mutableListOf<Field>()
 
         desc.fieldList.forEachIndexed { idx, t ->
-            if (t.type != Type.TYPE_GROUP) {
-                t.oneofIndex.takeIf { t.hasOneofIndex() }?.let { oneofIndex ->
-                    if (oneofIndex !in generatedOneofIndices) {
-                        generatedOneofIndices.add(oneofIndex)
-                        fields.add(toOneof(idx, desc, desc.getOneofDecl(oneofIndex), t, fields))
-                    }
-                } ?: fields.add(toStandard(idx, t))
+            withFieldName(t.name) {
+                if (t.type != Type.TYPE_GROUP) {
+                    t.oneofIndex.takeIf { t.hasOneofIndex() }?.let { oneofIndex ->
+                        if (oneofIndex !in generatedOneofIndices) {
+                            generatedOneofIndices.add(oneofIndex)
+                            fields.add(toOneof(idx, desc, desc.getOneofDecl(oneofIndex), t, fields))
+                        }
+                    } ?: fields.add(toStandard(idx, t))
+                }
             }
         }
 

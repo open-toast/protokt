@@ -17,7 +17,6 @@ package com.toasttab.protokt
 
 import com.google.common.truth.Truth.assertThat
 import com.toasttab.protokt.codegen.util.FieldType
-import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -26,55 +25,52 @@ class NonNullValidationTest : AbstractProtoktCodegenTest() {
     @ParameterizedTest
     @MethodSource("fieldTypes")
     fun `field with bad non-null option`(fieldType: String, fieldTypeName: String?) {
-        val thrown = assertThrows<IllegalArgumentException> {
-            runPlugin("non_null.proto") { replace("REPLACE", fieldType) }
-        }
-
-        println("Caught: $thrown")
-
-        assertThat(thrown)
-            .hasMessageThat()
-            .isEqualTo(
-                "(protokt.property).non_null is only applicable to message " +
-                    "types and is inapplicable to non-message " +
-                    (fieldTypeName ?: fieldType)
-            )
+        assertFailure(
+            "non_null.proto",
+            fieldType,
+            "Error generating code for file test_file.proto: message TestMessageWithBadNonNullField, field value",
+            "java.lang.IllegalArgumentException: (protokt.property).non_null is only applicable to message types " +
+                "and is inapplicable to non-message " + (fieldTypeName ?: fieldType)
+        )
     }
 
     @ParameterizedTest
     @MethodSource("fieldTypesOneof")
     fun `oneof type`(fieldType: String, fieldTypeName: String?) {
-        val thrown = assertThrows<IllegalArgumentException> {
-            runPlugin("non_null_oneof.proto") { replace("REPLACE", fieldType) }
-        }
-
-        println("Caught: $thrown")
-
-        assertThat(thrown)
-            .hasMessageThat()
-            .isEqualTo(
-                "(protokt.property).non_null is only applicable to top level " +
-                    "types and is inapplicable to oneof field " +
-                    (fieldTypeName ?: fieldType)
-            )
+        assertFailure(
+            "non_null_oneof.proto",
+            fieldType,
+            "Error generating code for file test_file.proto: message TestMessageWithBadNonNullOneof, field bar",
+            "java.lang.IllegalArgumentException: (protokt.property).non_null is only applicable to top level types " +
+                "and is inapplicable to oneof field " + (fieldTypeName ?: fieldType)
+        )
     }
 
     @ParameterizedTest
     @MethodSource("fieldTypesOptional")
     fun `optional field`(fieldType: String, fieldTypeName: String?) {
-        val thrown = assertThrows<IllegalArgumentException> {
-            runPlugin("non_null_optional.proto") { replace("REPLACE", fieldType) }
-        }
+        assertFailure(
+            "non_null_optional.proto",
+            fieldType,
+            "Error generating code for file test_file.proto: message TestMessageWithBadNonNullOptionalField, field value",
+            "java.lang.IllegalArgumentException: (protokt.property).non_null is not applicable to optional fields " +
+                "and is inapplicable to optional " + (fieldTypeName ?: fieldType)
+        )
+    }
 
-        println("Caught: $thrown")
+    private fun assertFailure(
+        fileName: String,
+        fieldType: String,
+        line0: String,
+        line1: String
+    ) {
+        val result = runPlugin(fileName) { replace("REPLACE", fieldType) } as Failure
 
-        assertThat(thrown)
-            .hasMessageThat()
-            .isEqualTo(
-                "(protokt.property).non_null is not applicable to optional " +
-                    "fields and is inapplicable to optional " +
-                    (fieldTypeName ?: fieldType)
-            )
+        println(result.err)
+
+        assertThat(result.exitCode).isEqualTo(-1)
+        assertThat(result.err.lines()[0]).isEqualTo(line0)
+        assertThat(result.err.lines()[1]).isEqualTo(line1)
     }
 
     companion object {

@@ -18,7 +18,7 @@ package com.toasttab.protokt
 import com.google.common.base.CaseFormat.LOWER_CAMEL
 import com.google.common.base.CaseFormat.LOWER_UNDERSCORE
 import com.google.common.io.Resources
-import com.google.protobuf.compiler.PluginProtos
+import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse
 import com.toasttab.protokt.gradle.ProtoktExtension
 import com.toasttab.protokt.testing.util.ProcessOutput.Src.ERR
 import com.toasttab.protokt.testing.util.projectRoot
@@ -27,6 +27,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.io.TempDir
 import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.PrintStream
 import java.nio.file.Path
 import java.nio.file.Paths
 import kotlin.reflect.KClass
@@ -44,11 +45,22 @@ abstract class AbstractProtoktCodegenTest {
         generatedFile.delete()
     }
 
+    sealed interface PluginRunResult
+
+    class Success(
+        val response: CodeGeneratorResponse
+    ) : PluginRunResult
+
+    class Failure(
+        val exitCode: Int,
+        val err: String
+    ) : PluginRunResult
+
     protected fun runPlugin(
         inputFile: String,
         ext: ProtoktExtension = ProtoktExtension(),
         transform: String.() -> String = { this }
-    ): PluginProtos.CodeGeneratorResponse {
+    ): PluginRunResult {
         testFile.writeText(
             Paths.get(Resources.getResource(inputFile).toURI())
                 .toFile()
@@ -71,8 +83,13 @@ abstract class AbstractProtoktCodegenTest {
             ).orFail("Failed to generate code generator request", ERR)
 
         val out = ByteArrayOutputStream()
-        main(generatedFile.readBytes(), out)
-        return PluginProtos.CodeGeneratorResponse.parseFrom(out.toByteArray())
+        val err = ByteArrayOutputStream()
+        val code = main(generatedFile.readBytes(), out, PrintStream(err))
+        return if (code == 0) {
+            Success(CodeGeneratorResponse.parseFrom(out.toByteArray()))
+        } else {
+            Failure(code, err.toString())
+        }
     }
 }
 

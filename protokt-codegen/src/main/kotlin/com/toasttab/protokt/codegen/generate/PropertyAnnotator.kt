@@ -32,7 +32,7 @@ import com.toasttab.protokt.codegen.generate.Wrapper.interceptMapKeyTypeName
 import com.toasttab.protokt.codegen.generate.Wrapper.interceptMapValueTypeName
 import com.toasttab.protokt.codegen.generate.Wrapper.interceptTypeName
 import com.toasttab.protokt.codegen.generate.Wrapper.wrapped
-import com.toasttab.protokt.codegen.util.ErrorContext.withPropertyName
+import com.toasttab.protokt.codegen.util.ErrorContext.withFieldName
 import com.toasttab.protokt.codegen.util.Field
 import com.toasttab.protokt.codegen.util.FieldType
 import com.toasttab.protokt.codegen.util.Message
@@ -47,7 +47,7 @@ private class PropertyAnnotator(
     private val ctx: Context
 ) {
     fun annotate(): List<PropertyInfo> =
-        msg.fields.map { withPropertyName(it.fieldName) { annotate(it) } }
+        msg.fields.map { withFieldName(it.fieldName) { annotate(it) } }
 
     private fun annotate(field: Field): PropertyInfo {
         val documentation = annotatePropertyDocumentation(field, ctx)

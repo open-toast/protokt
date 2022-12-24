@@ -21,24 +21,31 @@ import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.Feature
 import com.squareup.kotlinpoet.FileSpec
 import com.toasttab.protokt.codegen.generate.generateFile
+import com.toasttab.protokt.codegen.util.ErrorContext.withFileName
 import com.toasttab.protokt.codegen.util.GeneratorContext
 import com.toasttab.protokt.codegen.util.formatErrorMessage
 import com.toasttab.protokt.codegen.util.parseFileContents
 import com.toasttab.protokt.codegen.util.tidy
 import com.toasttab.protokt.ext.Protokt
 import java.io.OutputStream
+import java.io.PrintStream
 import kotlin.system.exitProcess
 
-fun main() =
+fun main() {
+    exitProcess(main(System.`in`.use { it.readBytes() }, System.out, System.err))
+}
+
+internal fun main(bytes: ByteArray, out: OutputStream, err: PrintStream) =
     try {
-        main(System.`in`.use { it.readBytes() }, System.out)
+        main(bytes, out)
+        0
     } catch (t: Throwable) {
-        System.err.println(formatErrorMessage())
-        t.printStackTrace(System.err)
-        exitProcess(-1)
+        err.println(formatErrorMessage())
+        t.printStackTrace(err)
+        -1
     }
 
-internal fun main(bytes: ByteArray, out: OutputStream) {
+private fun main(bytes: ByteArray, out: OutputStream) {
     val req = parseCodeGeneratorRequest(bytes)
     val params = parseParams(req)
     val filesToGenerate = req.fileToGenerateList.toSet()
@@ -47,7 +54,7 @@ internal fun main(bytes: ByteArray, out: OutputStream) {
         .filter { filesToGenerate.contains(it.name) }
         .mapNotNull { fdp ->
             val context = GeneratorContext(fdp, params, filesToGenerate, req.protoFileList)
-            val fileSpec = generateFile(parseFileContents(context))
+            val fileSpec = withFileName(fdp.name) { generateFile(parseFileContents(context)) }
             fileSpec?.let { response(it, context) }
         }
 
