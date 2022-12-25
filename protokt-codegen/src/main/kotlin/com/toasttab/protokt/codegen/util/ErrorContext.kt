@@ -15,8 +15,6 @@
 
 package com.toasttab.protokt.codegen.util
 
-import org.jetbrains.kotlin.utils.addToStdlib.getOrPut
-
 private val context = mutableMapOf<String, Any?>()
 
 private const val FILE_NAME = "fileName"
@@ -32,18 +30,21 @@ object ErrorContext {
     fun <T> withMessageName(name: Any, action: () -> T) =
         withProperty(MESSAGE_NAME, name, action)
 
-    fun <T> withFieldName(name: Any, action: () -> T): T {
-        fieldNames().add(name)
-        val result = action()
-        fieldNames().removeLast()
-        return result
-    }
+    fun <T> withFieldName(name: Any, action: () -> T) =
+        withListProperty(FIELD_NAME, name, action)
 
     fun <T> withEnumName(name: Any, action: () -> T) =
         withProperty(ENUM_NAME, name, action)
 
     fun <T> withServiceName(name: Any, action: () -> T) =
         withProperty(SERVICE_NAME, name, action)
+
+    private fun <T> withListProperty(propertyName: String, propertyValue: Any, action: () -> T): T {
+        list(propertyName).add(propertyValue)
+        val result = action()
+        list(propertyName).removeLast()
+        return result
+    }
 
     private fun <T> withProperty(propertyName: String, propertyValue: Any, action: () -> T): T {
         context[propertyName] = propertyValue
@@ -57,11 +58,11 @@ fun formatErrorMessage() =
     "Error generating code for file ${context[FILE_NAME]}: " +
         listOfNotNull(
             context[MESSAGE_NAME]?.let { "message $it" },
-            fieldNames().lastOrNull()?.let { "field $it" },
+            list(FIELD_NAME).lastOrNull()?.let { "field $it" },
             context[ENUM_NAME]?.let { "enum $it" },
             context[SERVICE_NAME]?.let { "service $it" }
         ).joinToString(", ")
 
 @Suppress("UNCHECKED_CAST")
-private fun fieldNames(): MutableList<Any> =
-    context.getOrPut(FIELD_NAME) { mutableListOf<Any>() } as MutableList<Any>
+private fun list(propertyName: String) =
+    context.getOrPut(propertyName) { mutableListOf<Any>() } as MutableList<Any>

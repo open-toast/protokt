@@ -23,10 +23,10 @@ message TestMessageWithBadNonNullOneof {
   oneof foo {
     REPLACE bar = 1 [(.protokt.property).non_null = true];
   }
+}
 
-  message Foo {}
+message Foo {}
 
-  enum Bar {
-    BAR = 0;
-  }
+enum Bar {
+  BAR = 0;
 }

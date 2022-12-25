@@ -19,10 +19,12 @@ package toasttab.protokt.codegen.testing;
 
 import "protokt/protokt.proto";
 
-message TestMessageWithBadNonNullField {
-  REPLACE value = 1 [
-    (.protokt.property).non_null = true
-  ];
+message Outer {
+  message TestNestedMessageWithBadNonNullField {
+    REPLACE value = 1 [
+      (.protokt.property).non_null = true
+    ];
+  }
 }
 
 enum Foo {

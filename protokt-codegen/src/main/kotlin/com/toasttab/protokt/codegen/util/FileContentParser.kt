@@ -50,7 +50,7 @@ class FileContentParser(
             }
         } +
             messages.mapIndexed { idx, desc ->
-                withMessageName(desc.name) {
+                withMessageName((enclosingMessages + desc.name).joinToString(".")) {
                     MessageParser(ctx, idx, desc, enclosingMessages).toMessage()
                 }
             } +

@@ -35,6 +35,18 @@ class NonNullValidationTest : AbstractProtoktCodegenTest() {
     }
 
     @ParameterizedTest
+    @MethodSource("fieldTypes")
+    fun `field in nested message with bad non-null option`(fieldType: String, fieldTypeName: String?) {
+        assertFailure(
+            "non_null_nested.proto",
+            fieldType,
+            "Error generating code for file test_file.proto: message Outer.TestNestedMessageWithBadNonNullField, field value",
+            "java.lang.IllegalArgumentException: (protokt.property).non_null is only applicable to message types " +
+                "and is inapplicable to non-message " + (fieldTypeName ?: fieldType)
+        )
+    }
+
+    @ParameterizedTest
     @MethodSource("fieldTypesOneof")
     fun `oneof type`(fieldType: String, fieldTypeName: String?) {
         assertFailure(
@@ -92,9 +104,9 @@ class NonNullValidationTest : AbstractProtoktCodegenTest() {
                 ineligibleAnonymousTypes().map { "repeated ${it.name.lowercase()}" } +
                 listOf(
                     listOf("Foo", "enum"),
-                    listOf("repeated Foo", "repeated .toasttab.protokt.codegen.testing.TestMessageWithBadNonNullField.Foo"),
-                    listOf("repeated Bar", "repeated .toasttab.protokt.codegen.testing.TestMessageWithBadNonNullField.Bar"),
-                    listOf("map<int32, Foo>", "map<int32, .toasttab.protokt.codegen.testing.TestMessageWithBadNonNullField.Foo>")
+                    listOf("repeated Foo", "repeated .toasttab.protokt.codegen.testing.Foo"),
+                    listOf("repeated Bar", "repeated .toasttab.protokt.codegen.testing.Bar"),
+                    listOf("map<int32, Foo>", "map<int32, .toasttab.protokt.codegen.testing.Foo>")
                 )
 
         @JvmStatic
@@ -104,8 +116,8 @@ class NonNullValidationTest : AbstractProtoktCodegenTest() {
         private fun argListsOptional() =
             ineligibleAnonymousTypes().map { it.name.lowercase() } +
                 listOf(
-                    listOf("Foo", ".toasttab.protokt.codegen.testing.TestMessageWithBadNonNullOptionalField.Foo"),
-                    listOf("Bar", ".toasttab.protokt.codegen.testing.TestMessageWithBadNonNullOptionalField.Bar")
+                    listOf("Foo", ".toasttab.protokt.codegen.testing.Foo"),
+                    listOf("Bar", ".toasttab.protokt.codegen.testing.Bar")
                 )
 
         @JvmStatic
@@ -115,8 +127,8 @@ class NonNullValidationTest : AbstractProtoktCodegenTest() {
         private fun argListsOneof() =
             ineligibleAnonymousTypes().map { it.name.lowercase() } +
                 listOf(
-                    listOf("Foo", ".toasttab.protokt.codegen.testing.TestMessageWithBadNonNullOneof.Foo"),
-                    listOf("Bar", ".toasttab.protokt.codegen.testing.TestMessageWithBadNonNullOneof.Bar")
+                    listOf("Foo", ".toasttab.protokt.codegen.testing.Foo"),
+                    listOf("Bar", ".toasttab.protokt.codegen.testing.Bar")
                 )
 
         private fun ineligibleAnonymousTypes() =
