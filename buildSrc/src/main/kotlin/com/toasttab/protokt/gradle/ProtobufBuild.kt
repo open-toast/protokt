@@ -16,24 +16,21 @@
 package com.toasttab.protokt.gradle
 
 import com.google.protobuf.gradle.GenerateProtoTask
-import com.google.protobuf.gradle.builtins
-import com.google.protobuf.gradle.generateProtoTasks
+import com.google.protobuf.gradle.ProtobufExtension
 import com.google.protobuf.gradle.id
-import com.google.protobuf.gradle.plugins
-import com.google.protobuf.gradle.protobuf
-import com.google.protobuf.gradle.protoc
 import org.gradle.api.Project
 import org.gradle.api.file.FileCollection
 import org.gradle.api.tasks.bundling.Jar
 import org.gradle.internal.os.OperatingSystem
 import org.gradle.kotlin.dsl.apply
+import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.named
 import java.net.URLEncoder
 
 internal fun configureProtobufPlugin(project: Project, ext: ProtoktExtension, binaryPath: String) {
     project.apply(plugin = "com.google.protobuf")
 
-    project.protobuf {
+    project.configure<ProtobufExtension> {
         generatedFilesBaseDir = "${project.buildDir}/generated-sources"
 
         configureSources(project, generatedFilesBaseDir)
