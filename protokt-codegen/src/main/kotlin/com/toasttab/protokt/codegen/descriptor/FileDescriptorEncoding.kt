@@ -57,7 +57,7 @@ fun encodeFileDescriptor(fileDescriptorProto: FileDescriptorProto): List<List<St
 
 private fun escape(bytes: Sequence<Byte>) =
     bytes.joinToString("") {
-        when (val c = it.toChar()) {
+        when (val c = it.toInt().toChar()) {
             '\n' -> "\\n"
             '\r' -> "\\r"
             '\t' -> "\\t"

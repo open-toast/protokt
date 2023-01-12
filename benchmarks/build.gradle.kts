@@ -15,17 +15,6 @@
 
 import de.undercouch.gradle.tasks.download.Download
 
-buildscript {
-    repositories {
-        gradlePluginPortal()
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath(libraries.gradleDownload)
-    }
-}
-
 plugins {
     id("de.undercouch.download")
 }
