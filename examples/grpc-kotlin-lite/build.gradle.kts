@@ -13,7 +13,6 @@
  * limitations under the License.
  */
 
-import com.google.protobuf.gradle.ProtobufExtension
 import com.google.protobuf.gradle.id
 import com.google.protobuf.gradle.protobuf
 import com.toasttab.protokt.gradle.protokt
