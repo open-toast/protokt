@@ -50,6 +50,9 @@ sourceSets {
             srcDir("../grpc-kotlin/src/main/kotlin")
             srcDir("../protos/src/main/kotlin")
         }
+        resources {
+            srcDir("../protos/src/main/resources")
+        }
     }
 
     test {

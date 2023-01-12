@@ -19,7 +19,7 @@ plugins {
 
 enablePublishing()
 
-includeBuildSrc("com/toasttab/protokt/gradle/ProtoktExtension.kt")
+includeBuildSrc("ProtoktExtension.kt")
 
 dependencies {
     testImplementation(project(":extensions:protokt-extensions"))
