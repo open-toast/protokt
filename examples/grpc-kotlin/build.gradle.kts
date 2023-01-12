@@ -24,6 +24,6 @@ dependencies {
 
     runtimeOnly(libs.protobufJava)
 
-    testImplementation(kotlin("test-junit5"))
+    testImplementation(kotlin("test-junit"))
     testImplementation(libs.grpcTesting)
 }

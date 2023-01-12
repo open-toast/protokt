@@ -23,6 +23,8 @@ dependencies {
     implementation(findLibrary("grpcStub"))
 
     runtimeOnly(findLibrary("grpcNetty"))
+
+    testRuntimeOnly(findLibrary("junitVintage"))
 }
 
 tasks.register<JavaExec>("HelloWorldServer") {

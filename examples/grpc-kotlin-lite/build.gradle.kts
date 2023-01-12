@@ -39,7 +39,7 @@ dependencies {
 
     runtimeOnly(libs.protobufLite)
 
-    testImplementation(kotlin("test-junit5"))
+    testImplementation(kotlin("test-junit"))
     testImplementation(libs.grpcTesting)
     testImplementation(project(":protokt-util"))
 }
