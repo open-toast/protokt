@@ -32,7 +32,7 @@ tasks {
 dependencies {
     protoktExtensions("com.toasttab.protokt:protokt-jvm-extensions-lite:$version")
 
-    testImplementation(kotlin("test"))
+    testImplementation(kotlin("test-junit5"))
     testImplementation("org.junit.jupiter:junit-jupiter:5.7.2")
     testImplementation("com.google.protobuf:protobuf-javalite:3.19.1")
     testImplementation("com.toasttab.protokt:protokt-util:$version")
