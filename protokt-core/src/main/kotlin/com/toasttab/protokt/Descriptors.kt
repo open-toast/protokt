@@ -41,12 +41,12 @@ class FileDescriptor(
             data: Array<String>,
             dependencies: List<FileDescriptor>
         ): FileDescriptor {
-            val descriptorBytes = ByteArray(data.sumBy { it.length })
+            val descriptorBytes = ByteArray(data.sumOf { it.length })
             var idx = 0
 
             data.forEach { part ->
                 part.forEach { char ->
-                    descriptorBytes[idx++] = char.toByte()
+                    descriptorBytes[idx++] = char.code.toByte()
                 }
             }
 

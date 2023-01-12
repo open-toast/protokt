@@ -13,9 +13,8 @@
  * limitations under the License.
  */
 
-import com.google.protobuf.gradle.generateProtoTasks
+import com.google.protobuf.gradle.ProtobufExtension
 import com.google.protobuf.gradle.id
-import com.google.protobuf.gradle.plugins
 import com.google.protobuf.gradle.protobuf
 import com.toasttab.protokt.gradle.protokt
 
@@ -31,7 +30,7 @@ protokt {
     lite = true
 }
 
-protobuf {
+configure<ProtobufExtension> {
     plugins {
         id("grpckt") {
             artifact = libraries.grpcKotlinGenerator

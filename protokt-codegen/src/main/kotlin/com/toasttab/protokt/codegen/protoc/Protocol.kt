@@ -373,7 +373,7 @@ private fun validateNonNullOption(
     optional: Boolean
 ) {
     fun FieldType.typeName() =
-        name.toLowerCase()
+        name.lowercase()
 
     fun name(field: StandardField) =
         if (field.type == FieldType.ENUM) {

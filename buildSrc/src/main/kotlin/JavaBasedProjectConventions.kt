@@ -13,13 +13,10 @@
  * limitations under the License.
  */
 
-import com.toasttab.protokt.gradle.MANIFEST_VERSION_PROPERTY
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.tasks.testing.Test
-import org.gradle.jvm.tasks.Jar
-import org.gradle.kotlin.dsl.attributes
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.kotlin
@@ -33,7 +30,7 @@ fun Project.javaBasedProjectConventions() {
     }
 
     dependencies {
-        "api"(kotlin("stdlib"))
+        "api"(kotlin("stdlib", "1.5.32"))
 
         "testImplementation"(libraries.junit)
         "testImplementation"(libraries.truth)
@@ -44,21 +41,13 @@ fun Project.javaBasedProjectConventions() {
             allWarningsAsErrors = true
             jvmTarget = "1.8"
             freeCompilerArgs = listOf("-Xinline-classes")
-            languageVersion = "1.4"
-            apiVersion = "1.4"
+            languageVersion = "1.5"
+            apiVersion = "1.5"
         }
     }
 
     tasks.withType<Test> {
         useJUnitPlatform()
-    }
-
-    tasks.withType<Jar> {
-        manifest {
-            attributes(
-                MANIFEST_VERSION_PROPERTY to "${project.version}"
-            )
-        }
     }
 
     configure<JavaPluginExtension> {

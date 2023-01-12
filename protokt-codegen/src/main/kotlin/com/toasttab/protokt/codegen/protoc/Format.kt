@@ -18,6 +18,8 @@ package com.toasttab.protokt.codegen.protoc
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.toasttab.protokt.codegen.impl.resolvePackage
 import com.toasttab.protokt.codegen.model.PPackage
+import com.toasttab.protokt.codegen.util.capitalize
+import com.toasttab.protokt.codegen.util.decapitalize
 
 internal object Keywords {
     val reserved =
@@ -150,7 +152,7 @@ internal fun newEnumValueName(
 }
 
 internal fun camelToUpperSnake(str: String) =
-    str.replace(Regex("(?<=[a-z])([A-Z0-9])"), "_$1").toUpperCase()
+    str.replace(Regex("(?<=[a-z])([A-Z0-9])"), "_$1").uppercase()
 
 internal fun fileName(pkg: PPackage?, name: String): String {
     return (pkg?.toString()?.replace('.', '/')?.plus('/') ?: "") +

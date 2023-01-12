@@ -16,15 +16,15 @@
 import com.toasttab.protokt.gradle.DEFAULT_PROTOBUF_VERSION
 
 object versions {
-    const val arrow = "1.0.1"
+    const val arrow = "1.1.3"
     const val autoService = "1.0.1"
-    const val grpc = "1.41.0"
-    const val grpcKotlin = "1.2.1"
-    const val kotlinPoet = "1.8.0"
-    const val kotlinxCollections = "0.3.4"
-    const val kotlinxCoroutines = "1.3.9"
+    const val grpc = "1.49.1"
+    const val grpcKotlin = "1.3.0"
+    const val kotlinPoet = "1.12.0"
+    const val kotlinxCollections = "0.3.5"
+    const val kotlinxCoroutines = "1.6.4"
     const val protobuf = DEFAULT_PROTOBUF_VERSION
-    const val protobufPlugin = "0.8.18"
+    const val protobufPlugin = "0.9.1"
 
     // Test
     const val jackson = "2.13.0"
@@ -33,9 +33,8 @@ object versions {
 
     // Benchmarks
     const val datasets = "0.1.0"
-    const val gradleDownload = "4.1.1"
     const val jmh = "1.26"
-    const val wire = "4.0.0-alpha.12"
+    const val wire = "4.2.0"
 
     // Third Party
     const val protoGoogleCommonProtos = "2.8.2"
@@ -48,7 +47,7 @@ object libraries {
     const val autoServiceAnnotations = "com.google.auto.service:auto-service-annotations:${versions.autoService}"
 
     const val grpcKotlin = "io.grpc:grpc-kotlin-stub:${versions.grpcKotlin}"
-    const val grpcKotlinGenerator = "io.grpc:protoc-gen-grpc-kotlin:${versions.grpcKotlin}:jdk7@jar"
+    const val grpcKotlinGenerator = "io.grpc:protoc-gen-grpc-kotlin:${versions.grpcKotlin}:jdk8@jar"
     const val grpcNetty = "io.grpc:grpc-netty:${versions.grpc}"
     const val grpcStub = "io.grpc:grpc-stub:${versions.grpc}"
 
@@ -67,8 +66,6 @@ object libraries {
     const val truth = "com.google.truth:truth:${versions.truth}"
 
     // Benchmarks
-    const val gradleDownload = "de.undercouch:gradle-download-task:${versions.gradleDownload}"
-
     const val jmhCore = "org.openjdk.jmh:jmh-core:${versions.jmh}"
     const val jmhGenerator = "org.openjdk.jmh:jmh-generator-annprocess:${versions.jmh}"
 
