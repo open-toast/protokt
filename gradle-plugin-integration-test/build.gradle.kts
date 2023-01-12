@@ -15,7 +15,6 @@
 
 import com.diffplug.gradle.spotless.SpotlessExtension
 import org.gradle.api.tasks.compile.JavaCompile
-import org.gradle.util.VersionNumber
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -50,9 +49,6 @@ allprojects {
 }
 
 subprojects {
-    apply(plugin = "org.jetbrains.kotlin.jvm")
-    apply(plugin = "com.toasttab.protokt")
-
     repositories {
         maven(url = "${rootProject.projectDir}/../build/repos/integration")
         mavenCentral()
@@ -64,16 +60,17 @@ subprojects {
                 allWarningsAsErrors = true
                 jvmTarget = "1.8"
 
-                apiVersion = System.getProperty("kotlin.version")?.let { v ->
-                    VersionNumber.parse(v).run { "$major.$minor" }
-                } ?: "1.4"
+                apiVersion =
+                    System.getProperty("kotlin.version")
+                        ?.substringBeforeLast(".")
+                        ?: "1.4"
+
                 languageVersion = apiVersion
             }
         }
 
         withType<Test> {
-            systemProperty("version", version.toString())
-            useJUnitPlatform()
+            environment("version", version.toString())
         }
 
         withType<JavaCompile> {

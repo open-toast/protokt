@@ -56,6 +56,7 @@ dependencies {
     runtimeOnly(libraries.protobufLite)
 
     testImplementation(kotlin("test-junit"))
+    testImplementation(project(":protokt-util"))
     testImplementation("io.grpc:grpc-testing:${versions.grpc}")
 }
 
@@ -70,6 +71,7 @@ sourceSets {
     test {
         java {
             srcDir("../grpc-kotlin/src/test/kotlin")
+            srcDir("../../testing/plugin-options/lite/src/test/kotlin/com/toasttab/protokt/testing/lite")
         }
     }
 }

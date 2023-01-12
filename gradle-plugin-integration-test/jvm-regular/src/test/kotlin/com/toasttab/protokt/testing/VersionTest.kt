@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Toast Inc.
+ * Copyright (c) 2019 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,23 +13,19 @@
  * limitations under the License.
  */
 
-import com.toasttab.protokt.gradle.protokt
-import com.toasttab.protokt.gradle.protoktExtensions
+package com.toasttab.protokt.testing
 
-plugins {
-    id("protokt.jvm-conventions")
-}
+import com.toasttab.protokt.rt.KtMessage
+import com.toasttab.protokt.util.getProtoktVersion
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
-localProtokt()
-pureKotlin()
+class VersionTest {
+    @Test
+    fun `runtime version should match project version`() {
+        val version = System.getenv("version")
+        val runtimeVersion = getProtoktVersion(KtMessage::class)
 
-protokt {
-    lite = true
-}
-
-dependencies {
-    protoktExtensions(project(":third-party:proto-google-common-protos-extensions-lite"))
-
-    testImplementation(kotlin("reflect"))
-    testImplementation(project(":protokt-util"))
+        assertEquals(version, runtimeVersion)
+    }
 }

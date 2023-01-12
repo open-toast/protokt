@@ -13,23 +13,19 @@
  * limitations under the License.
  */
 
-syntax = "proto3";
+package com.toasttab.protokt.testing
 
-package com.toasttab.protokt.testing;
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
-import "protokt/protokt.proto";
-import "google/protobuf/timestamp.proto";
+class TestMessageTest {
+    @Test
+    fun serialization_round_trip() {
+        val message = TestMessage { baz = "2007-12-03T10:15:30.00Z" }
 
-message TestMessage {
-  google.protobuf.Timestamp timestamp = 1 [
-    (.protokt.property).wrap = "java.time.Instant"
-  ];
-
-  oneof bar {
-    string foo = 2;
-  }
-
-  enum Foo {
-    FOO_FIRST_UNSPECIFIED = 0;
-  }
+        assertEquals(
+            message,
+            TestMessage.deserialize(message.serialize())
+        )
+    }
 }

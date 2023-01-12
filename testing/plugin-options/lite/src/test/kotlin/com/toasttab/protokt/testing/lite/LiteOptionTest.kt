@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2022 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,19 +13,17 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.testing
+package com.toasttab.protokt.testing.lite
 
-import com.toasttab.protokt.rt.KtMessage
-import com.toasttab.protokt.util.getProtoktVersion
-import org.junit.jupiter.api.Assertions.assertEquals
+import com.toasttab.protokt.util.PROTOKT_EXTENSIONS_CLASS_NAME
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
-class VersionTest {
+class LiteOptionTest {
     @Test
-    fun `runtime version should match project version`() {
-        val version = System.getProperty("version")
-        val runtimeVersion = getProtoktVersion(KtMessage::class)
-
-        assertEquals(version, runtimeVersion)
+    fun `protokt descriptor isn't available`() {
+        assertThrows<ClassNotFoundException> {
+            Class.forName(PROTOKT_EXTENSIONS_CLASS_NAME)
+        }
     }
 }

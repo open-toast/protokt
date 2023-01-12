@@ -15,18 +15,21 @@
 
 import com.toasttab.protokt.gradle.protoktExtensions
 
-spotless {
-    kotlin {
-        ktlint()
-        targetExclude("**/generated-sources/**")
+plugins {
+    id("org.jetbrains.kotlin.jvm")
+    id("com.toasttab.protokt")
+}
+
+tasks {
+    withType<Test> {
+        useJUnitPlatform()
     }
 }
 
 dependencies {
     protoktExtensions("com.toasttab.protokt:protokt-extensions:$version")
 
-    implementation(kotlin("stdlib"))
-
+    testImplementation(kotlin("test-junit5"))
     testImplementation("org.junit.jupiter:junit-jupiter:5.7.2")
     testImplementation("com.google.protobuf:protobuf-java:3.19.1")
     testImplementation("com.toasttab.protokt:protokt-util:$version")
