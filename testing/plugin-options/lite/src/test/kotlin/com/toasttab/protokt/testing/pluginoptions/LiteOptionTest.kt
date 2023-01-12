@@ -32,11 +32,4 @@ class LiteOptionTest {
             Class.forName("toasttab.protokt.testing.lite.LiteService")
         }
     }
-
-    @Test
-    fun `protokt descriptor isn't available`() {
-        assertThrows<ClassNotFoundException> {
-            Class.forName("com.toasttab.protokt.ext.Protokt")
-        }
-    }
 }

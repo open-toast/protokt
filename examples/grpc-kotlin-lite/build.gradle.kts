@@ -13,6 +13,8 @@
  * limitations under the License.
  */
 
+import com.google.protobuf.gradle.ProtobufExtension
+import com.google.protobuf.gradle.id
 import com.google.protobuf.gradle.protobuf
 import com.toasttab.protokt.gradle.protokt
 
@@ -38,8 +40,9 @@ dependencies {
 
     runtimeOnly(libs.protobufLite)
 
-    testImplementation(kotlin("test-junit"))
+    testImplementation(kotlin("test-junit5"))
     testImplementation(libs.grpcTesting)
+    testImplementation(project(":protokt-util"))
 }
 
 sourceSets {
@@ -53,6 +56,7 @@ sourceSets {
     test {
         java {
             srcDir("../grpc-kotlin/src/test/kotlin")
+            srcDir("../../testing/plugin-options/lite/src/test/kotlin/com/toasttab/protokt/testing/lite")
         }
     }
 }

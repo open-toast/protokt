@@ -13,8 +13,6 @@
  * limitations under the License.
  */
 
-import com.google.protobuf.gradle.protobuf
-
 plugins {
     id("protokt.benchmarks-conventions")
     id("com.google.protobuf")

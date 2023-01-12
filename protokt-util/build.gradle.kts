@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast Inc.
+ * Copyright (c) 2020 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,16 +13,14 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.testing
+plugins {
+    id("protokt.jvm-conventions")
+}
 
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
+enablePublishing()
 
-class LiteOptionTest {
-    @Test
-    fun `protokt descriptor isn't available`() {
-        assertThrows<ClassNotFoundException> {
-            Class.forName("com.toasttab.protokt.ext.Protokt")
-        }
-    }
+includeBuildSrc("ProtoktExtension.kt")
+
+dependencies {
+    testImplementation(project(":extensions:protokt-extensions"))
 }

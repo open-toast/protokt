@@ -32,6 +32,8 @@ dependencies {
     implementation(libs.jackson)
 
     runtimeOnly(libs.protobufLite)
+
+    testImplementation(project(":protokt-util"))
 }
 
 sourceSets {
@@ -43,6 +45,12 @@ sourceSets {
 
         proto {
             srcDir("../protos/src/main/proto")
+        }
+    }
+
+    test {
+        java {
+            srcDir("../../testing/plugin-options/lite/src/test/kotlin/com/toasttab/protokt/testing/lite")
         }
     }
 }

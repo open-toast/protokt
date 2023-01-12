@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Toast Inc.
+ * Copyright (c) 2022 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,24 +13,17 @@
  * limitations under the License.
  */
 
-import com.toasttab.protokt.gradle.protokt
-import com.toasttab.protokt.gradle.protoktExtensions
+package com.toasttab.protokt.testing.lite
 
-plugins {
-    id("protokt.jvm-conventions")
-}
+import com.toasttab.protokt.util.PROTOKT_EXTENSIONS_CLASS_NAME
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
-localProtokt()
-pureKotlin()
-
-protokt {
-    lite = true
-}
-
-dependencies {
-    protoktExtensions(project(":third-party:proto-google-common-protos-extensions-lite"))
-
-    testImplementation(kotlin("reflect"))
-    testImplementation(libs.protobufLite)
-    testImplementation(project(":protokt-util"))
+class LiteOptionTest {
+    @Test
+    fun `protokt descriptor isn't available`() {
+        assertThrows<ClassNotFoundException> {
+            Class.forName(PROTOKT_EXTENSIONS_CLASS_NAME)
+        }
+    }
 }

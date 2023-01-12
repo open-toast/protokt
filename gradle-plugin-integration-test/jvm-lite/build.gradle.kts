@@ -35,6 +35,7 @@ dependencies {
     testImplementation(kotlin("test"))
     testImplementation("org.junit.jupiter:junit-jupiter:5.7.2")
     testImplementation("com.google.protobuf:protobuf-javalite:3.19.1")
+    testImplementation("com.toasttab.protokt:protokt-util:$version")
 }
 
 sourceSets {
@@ -46,6 +47,7 @@ sourceSets {
     test {
         java {
             srcDir("../multiplatform/src/commonTest/kotlin")
+            srcDir("../../testing/plugin-options/lite/src/test/kotlin/com/toasttab/protokt/testing/lite")
         }
     }
 }
