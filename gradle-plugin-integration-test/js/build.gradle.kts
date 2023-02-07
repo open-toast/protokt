@@ -67,6 +67,6 @@ sourceSets {
     }
 }
 
-tasks.named("build") {
+tasks.all {
     enabled = System.getProperty("kotlin.version", "1.5.32") == "1.5.32"
 }
