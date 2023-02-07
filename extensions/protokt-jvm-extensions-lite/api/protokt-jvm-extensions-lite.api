@@ -15,6 +15,7 @@ public final class com/toasttab/protokt/ext/InetSocketAddress : com/toasttab/pro
 public final class com/toasttab/protokt/ext/InetSocketAddress$Deserializer : com/toasttab/protokt/rt/AbstractKtDeserializer {
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/ext/InetSocketAddress;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ext/InetSocketAddress;
 }
 
 public final class com/toasttab/protokt/ext/InetSocketAddress$InetSocketAddressDsl {
