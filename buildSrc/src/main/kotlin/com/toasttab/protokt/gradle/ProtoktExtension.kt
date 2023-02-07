@@ -22,7 +22,6 @@ const val ONLY_GENERATE_GRPC = "only_generate_grpc"
 const val LITE = "lite"
 const val ONLY_GENERATE_DESCRIPTORS = "only_generate_descriptors"
 const val FORMAT_OUTPUT = "format_output"
-const val PROTOKT_VERSION = "protokt_version"
 
 open class ProtoktExtension {
     /**

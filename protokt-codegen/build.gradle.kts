@@ -102,5 +102,6 @@ sourceSets {
 
 includeBuildSrc(
     "com/toasttab/protokt/gradle/ProtoktExtension.kt",
+    "com/toasttab/protokt/gradle/ProtoktVersion.kt",
     "com/toasttab/protokt/gradle/ProtobufVersion.kt"
 )

@@ -50,7 +50,7 @@ class GeneratorContext(
     val lite = params.getOrDefault(LITE)
     val onlyGenerateDescriptors = params.getOrDefault(ONLY_GENERATE_DESCRIPTORS)
     val formatOutput = params.getOrDefault(FORMAT_OUTPUT)
-    val protoktVersion = params[PROTOKT_VERSION] ?: "unknown"
+    val protoktVersion = PROTOKT_VERSION
 
     val allPackagesByTypeName = packagesByTypeName(allFiles, respectJavaPackage(params))
     val allPackagesByFileName = packagesByFileName(allFiles) { it !in filesToGenerate || respectJavaPackage(params) }

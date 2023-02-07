@@ -30,8 +30,7 @@ import java.net.URLEncoder
 internal fun configureProtobufPlugin(
     project: Project,
     ext: ProtoktExtension,
-    binaryPath: String,
-    protoktVersion: Any
+    binaryPath: String
 ) {
     project.apply(plugin = "com.google.protobuf")
 
@@ -66,7 +65,6 @@ internal fun configureProtobufPlugin(
                             option("$LITE=${ext.lite}")
                             option("$ONLY_GENERATE_DESCRIPTORS=${ext.onlyGenerateDescriptors}")
                             option("$FORMAT_OUTPUT=${ext.formatOutput}")
-                            option("$PROTOKT_VERSION=$protoktVersion")
                         }
                     }
                 }

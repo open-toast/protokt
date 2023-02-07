@@ -13,6 +13,18 @@
  * limitations under the License.
  */
 
+buildscript {
+    repositories {
+        maven(url = "https://repo1.maven.org/maven2")
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath("gradle.plugin.net.vivin:gradle-semantic-build-versioning:4.0.0")
+    }
+}
+
+apply(plugin = "net.vivin.gradle-semantic-build-versioning")
+
 dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {

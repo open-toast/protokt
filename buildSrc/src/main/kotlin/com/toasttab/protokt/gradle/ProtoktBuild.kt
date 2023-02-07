@@ -50,7 +50,7 @@ fun configureProtokt(project: Project, protoktVersion: Any?, resolveBinary: () -
     createProtoSourceSetsIfNeeded(project)
     injectKotlinPluginsIntoProtobufGradle()
     val ext = project.extensions.create<ProtoktExtension>("protokt")
-    configureProtobufPlugin(project, ext, resolveBinary(), protoktVersion ?: project.version)
+    configureProtobufPlugin(project, ext, resolveBinary())
 
     project.createExtensionConfigurationsAndConfigureProtobuf()
 
