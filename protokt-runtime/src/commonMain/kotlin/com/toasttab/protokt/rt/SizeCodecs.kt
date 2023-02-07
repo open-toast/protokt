@@ -25,6 +25,12 @@ fun sizeof(l: Int64) = sizeof(UInt64(l.value))
 fun sizeof(i: SInt32) = sizeof(UInt32(i.value.zigZagEncoded))
 fun sizeof(l: SInt64) = sizeof(UInt64(l.value.zigZagEncoded))
 
+private val Int.zigZagEncoded
+    get() = (this shl 1) xor (this shr 31)
+
+private val Long.zigZagEncoded
+    get() = (this shl 1) xor (this shr 63)
+
 fun sizeof(i: Int32) =
     if (i.value >= 0) {
         sizeof(UInt32(i.value))
@@ -85,13 +91,42 @@ fun sizeof(i: SFixed32) = 4
 @Suppress("UNUSED_PARAMETER")
 fun sizeof(l: SFixed64) = 8
 
-expect fun sizeof(s: String): Int
+fun sizeof(s: String): Int {
+    val length =
+        Iterable { CodePointIterator(s) }
+            .sumOf {
+                when (it) {
+                    in 0..0x7f -> 1
+                    in 0x80..0x7ff -> 2
+                    in 0x800..0xffff -> 3
+                    else -> 4
+                }.toInt()
+            }
+    return sizeof(UInt32(length)) + length
+}
 
-private val Int.zigZagEncoded
-    get() = (this shl 1) xor (this shr 31)
+private class CodePointIterator(
+    private val s: String
+) : Iterator<Int> {
+    var pos = 0
 
-private val Long.zigZagEncoded
-    get() = (this shl 1) xor (this shr 63)
+    override fun hasNext() =
+        pos < s.length
+
+    override fun next(): Int {
+        if (pos >= s.length) throw NoSuchElementException()
+
+        val v = s[pos++]
+        if (v.isHighSurrogate() && pos < s.length) {
+            val l = s[pos]
+            if (l.isLowSurrogate()) {
+                pos++
+                return 0x10000 + (v - 0xD800).code * 0x400 + (l - 0xDC00).code
+            }
+        }
+        return v.code and 0xffff
+    }
+}
 
 fun <K, V> sizeofMap(
     m: Map<K, V>,

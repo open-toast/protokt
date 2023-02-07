@@ -31,4 +31,22 @@ actual interface KtMessage {
             flush()
         }
     }
+
+    @Deprecated("for ABI backwards compatibility only", level = DeprecationLevel.HIDDEN)
+    object DefaultImpls {
+        @JvmStatic
+        fun serialize(message: KtMessage): ByteArray {
+            val buf = ByteArray(message.messageSize)
+            message.serialize(serializer(CodedOutputStream.newInstance(buf)))
+            return buf
+        }
+
+        @JvmStatic
+        fun serialize(message: KtMessage, outputStream: OutputStream) {
+            CodedOutputStream.newInstance(outputStream).run {
+                message.serialize(serializer(this))
+                flush()
+            }
+        }
+    }
 }

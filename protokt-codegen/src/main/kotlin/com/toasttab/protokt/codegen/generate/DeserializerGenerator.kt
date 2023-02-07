@@ -15,12 +15,16 @@
 
 package com.toasttab.protokt.codegen.generate
 
+import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.LambdaTypeName
+import com.squareup.kotlinpoet.MemberName
 import com.squareup.kotlinpoet.ParameterizedTypeName
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeSpec
+import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
@@ -111,6 +115,32 @@ private class DeserializerGenerator(
                     .filterNot { it.mapEntry }
                     .forEach { addConstructorFunction(it, ::addFunction) }
             }
+            .addFunction(
+                buildFunSpec("invoke") {
+                    returns(msg.className)
+                    addAnnotation(
+                        AnnotationSpec.builder(Deprecated::class)
+                            .addMember("for ABI backwards compatibility only".embed())
+                            .addMember(
+                                CodeBlock.of(
+                                    "level = %M",
+                                    MemberName(DeprecationLevel::class.asClassName(), DeprecationLevel.HIDDEN.name)
+                                )
+                            )
+                            .build()
+                    )
+                    addParameter(
+                        "dsl",
+                        LambdaTypeName.get(
+                            msg.dslClassName,
+                            emptyList(),
+                            Unit::class.asTypeName()
+                        )
+                    )
+                    addStatement("return %T().apply(dsl).build()", msg.dslClassName)
+                    build()
+                }
+            )
             .build()
     }
 

@@ -40,7 +40,7 @@ fun Project.javaBasedProjectConventions() {
         kotlinOptions {
             allWarningsAsErrors = true
             jvmTarget = "1.8"
-            freeCompilerArgs = listOf("-Xinline-classes")
+            freeCompilerArgs = listOf("-Xjvm-default=all")
         }
     }
 

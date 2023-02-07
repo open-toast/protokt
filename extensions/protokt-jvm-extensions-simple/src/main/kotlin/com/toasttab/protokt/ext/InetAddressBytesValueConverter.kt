@@ -26,8 +26,8 @@ object InetAddressBytesValueConverter : Converter<InetAddress, BytesValue> {
     override val wrapped = BytesValue::class
 
     override fun wrap(unwrapped: BytesValue) =
-        InetAddressConverter.wrap(unwrapped.value)
+        InetAddressBytesConverter.wrap(unwrapped.value)
 
     override fun unwrap(wrapped: InetAddress) =
-        BytesValue { value = InetAddressConverter.unwrap(wrapped) }
+        BytesValue { value = InetAddressBytesConverter.unwrap(wrapped) }
 }

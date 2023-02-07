@@ -91,9 +91,3 @@ internal external class Reader {
         fun create(buf: Uint8Array): Reader
     }
 }
-
-internal external object util {
-    object utf8 {
-        fun length(str: String): Int
-    }
-}

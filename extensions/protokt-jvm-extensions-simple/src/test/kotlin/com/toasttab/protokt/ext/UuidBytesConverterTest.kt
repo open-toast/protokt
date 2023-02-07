@@ -21,20 +21,20 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.util.UUID
 
-class UuidConverterTest {
+class UuidBytesConverterTest {
     @Test
     fun `conversion works`() {
         val uuid = UUID.randomUUID()
 
         assertThat(
-            UuidConverter.wrap(UuidConverter.unwrap(uuid))
+            UuidBytesConverter.wrap(UuidBytesConverter.unwrap(uuid))
         ).isEqualTo(uuid)
     }
 
     @Test
     fun `wrap requires a byte array of length 16`() {
         val thrown = assertThrows<IllegalArgumentException> {
-            UuidConverter.wrap(Bytes.empty())
+            UuidBytesConverter.wrap(Bytes.empty())
         }
 
         assertThat(thrown).hasMessageThat().contains("must have size 16")

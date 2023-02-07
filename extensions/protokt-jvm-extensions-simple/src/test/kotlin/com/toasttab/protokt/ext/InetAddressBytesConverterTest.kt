@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast Inc.
+ * Copyright (c) 2019 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,8 +13,19 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.rt
+package com.toasttab.protokt.ext
 
-import com.google.protobuf.CodedOutputStream
+import com.google.common.truth.Truth.assertThat
+import org.junit.jupiter.api.Test
+import java.net.InetAddress
 
-actual fun sizeof(s: String) = CodedOutputStream.computeStringSizeNoTag(s)
+class InetAddressBytesConverterTest {
+    @Test
+    fun `conversion works`() {
+        val address = InetAddress.getLocalHost()
+
+        assertThat(
+            InetAddressBytesConverter.wrap(InetAddressBytesConverter.unwrap(address))
+        ).isEqualTo(address)
+    }
+}

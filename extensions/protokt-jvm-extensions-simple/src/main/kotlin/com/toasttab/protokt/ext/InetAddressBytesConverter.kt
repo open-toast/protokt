@@ -15,17 +15,23 @@
 
 package com.toasttab.protokt.ext
 
-import com.google.common.truth.Truth.assertThat
-import org.junit.jupiter.api.Test
+import com.google.auto.service.AutoService
+import com.toasttab.protokt.rt.Bytes
 import java.net.InetAddress
 
-class InetAddressConverterTest {
-    @Test
-    fun `conversion works`() {
-        val address = InetAddress.getLocalHost()
+@AutoService(Converter::class)
+object InetAddressBytesConverter : Converter<InetAddress, Bytes> {
+    override val wrapper = InetAddress::class
 
-        assertThat(
-            InetAddressConverter.wrap(InetAddressConverter.unwrap(address))
-        ).isEqualTo(address)
+    override val wrapped = Bytes::class
+
+    override fun wrap(unwrapped: Bytes): InetAddress {
+        require(unwrapped.isNotEmpty()) {
+            "cannot unwrap absent InetAddress"
+        }
+        return InetAddress.getByAddress(unwrapped.bytes)
     }
+
+    override fun unwrap(wrapped: InetAddress): Bytes =
+        Bytes(wrapped.address)
 }
