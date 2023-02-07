@@ -67,6 +67,15 @@ kotlin {
 
         val jsTest by getting {}
     }
+
+    targets {
+        jvm().compilations.all {
+            kotlinOptions {
+                jvmTarget = "1.8"
+                freeCompilerArgs = listOf("-Xjvm-default=all")
+            }
+        }
+    }
 }
 
 tasks.named<Test>("jvmTest") {

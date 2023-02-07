@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-import com.toasttab.protokt.gradle.protoktExtensions
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("org.jetbrains.kotlin.jvm")
@@ -27,6 +27,14 @@ protokt {
 tasks {
     withType<Test> {
         useJUnitPlatform()
+    }
+
+    tasks.withType<KotlinCompile> {
+        kotlinOptions {
+            allWarningsAsErrors = true
+            jvmTarget = "1.8"
+            freeCompilerArgs = listOf("-Xjvm-default=all")
+        }
     }
 }
 
