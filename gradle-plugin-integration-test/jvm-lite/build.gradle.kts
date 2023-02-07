@@ -30,11 +30,13 @@ tasks {
         useJUnitPlatform()
     }
 
-    tasks.withType<KotlinCompile> {
-        kotlinOptions {
-            allWarningsAsErrors = true
-            jvmTarget = "1.8"
-            freeCompilerArgs = listOf("-Xjvm-default=all")
+    if (System.getProperty("kotlin.version", "1.5.32") == "1.5.32") {
+        withType<KotlinCompile> {
+            kotlinOptions {
+                allWarningsAsErrors = true
+                jvmTarget = "1.8"
+                freeCompilerArgs = listOf("-Xjvm-default=all")
+            }
         }
     }
 }
