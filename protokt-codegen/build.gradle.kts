@@ -19,7 +19,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.10")
     }
 }
 
@@ -54,7 +54,7 @@ dependencies {
     implementation(project(":protokt-runtime"))
     implementation(project(":protokt-runtime-grpc"))
 
-    implementation(kotlin("reflect", "1.7.20"))
+    implementation(kotlin("reflect", "1.8.10"))
 
     implementation(libs.grpcStub)
     implementation(libs.kotlinPoet)
