@@ -67,22 +67,6 @@ sourceSets {
     }
 }
 
-tasks.named("compileKotlin") {
-    enabled = System.getProperty("kotlin.version", "1.5.32") == "1.5.32"
-}
-
-tasks.named("irNodeTest") {
-    enabled = System.getProperty("kotlin.version", "1.5.32") == "1.5.32"
-}
-
-tasks.named("irBrowserTest") {
-    enabled = System.getProperty("kotlin.version", "1.5.32") == "1.5.32"
-}
-
-tasks.named("legacyNodeTest") {
-    enabled = System.getProperty("kotlin.version", "1.5.32") == "1.5.32"
-}
-
-tasks.named("legacyBrowserTest") {
+tasks.named("build") {
     enabled = System.getProperty("kotlin.version", "1.5.32") == "1.5.32"
 }
