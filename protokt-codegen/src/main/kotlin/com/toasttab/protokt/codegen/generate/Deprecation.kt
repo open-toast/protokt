@@ -113,14 +113,14 @@ object Deprecation {
     }
 
     fun TypeSpec.Builder.addDeprecationSuppression() {
-        addAnnotation(annotationSuppression())
+        addAnnotation(deprecationSuppression())
     }
 
     fun FunSpec.Builder.addDeprecationSuppression() {
-        addAnnotation(annotationSuppression())
+        addAnnotation(deprecationSuppression())
     }
 
-    private fun annotationSuppression() =
+    private fun deprecationSuppression() =
         AnnotationSpec.builder(Suppress::class)
             .addMember("DEPRECATION".embed())
             .build()

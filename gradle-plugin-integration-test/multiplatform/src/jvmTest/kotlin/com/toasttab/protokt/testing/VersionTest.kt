@@ -15,7 +15,7 @@
 
 package com.toasttab.protokt.testing
 
-import com.toasttab.protokt.rt.KtMessage
+import com.toasttab.protokt.KtMessage
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
