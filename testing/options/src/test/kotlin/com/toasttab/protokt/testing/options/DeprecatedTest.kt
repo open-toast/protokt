@@ -47,7 +47,6 @@ class DeprecatedTest {
             "deprecated in proto"
         )
 
-        // deprecated constructor method
         assertFunctionDeprecation(
             ::DeprecatedModel,
             "deprecated in proto"
