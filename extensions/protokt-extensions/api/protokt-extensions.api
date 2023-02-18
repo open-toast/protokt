@@ -1,16 +1,16 @@
-public final class com/toasttab/protokt/ext/Protokt {
-	public static final field INSTANCE Lcom/toasttab/protokt/ext/Protokt;
+public final class com/toasttab/protokt/Protokt {
+	public static final field INSTANCE Lcom/toasttab/protokt/Protokt;
 	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
 }
 
-public final class com/toasttab/protokt/ext/Protokt_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/toasttab/protokt/ext/EnumOptions$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/toasttab/protokt/ext/EnumValueOptions$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/toasttab/protokt/ext/FieldOptions$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/toasttab/protokt/ext/FileOptions$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/toasttab/protokt/ext/MessageOptions$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/toasttab/protokt/ext/MethodOptions$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/toasttab/protokt/ext/OneofOptions$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/toasttab/protokt/ext/ServiceOptions$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+public final class com/toasttab/protokt/Protokt_protokt_descriptorsKt {
+	public static final fun getDescriptor (Lcom/toasttab/protokt/ProtoktEnumOptions$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/toasttab/protokt/ProtoktEnumValueOptions$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/toasttab/protokt/ProtoktFieldOptions$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/toasttab/protokt/ProtoktFileOptions$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/toasttab/protokt/ProtoktMessageOptions$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/toasttab/protokt/ProtoktMethodOptions$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/toasttab/protokt/ProtoktOneofOptions$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/toasttab/protokt/ProtoktServiceOptions$Deserializer;)Lcom/toasttab/protokt/Descriptor;
 }
 

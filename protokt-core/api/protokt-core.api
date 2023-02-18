@@ -1,6 +1,6 @@
 public final class com/toasttab/protokt/AnyExtKt {
-	public static final fun pack (Lcom/toasttab/protokt/Any$Deserializer;Lcom/toasttab/protokt/rt/KtMessage;Ljava/lang/String;)Lcom/toasttab/protokt/Any;
-	public static synthetic fun pack$default (Lcom/toasttab/protokt/Any$Deserializer;Lcom/toasttab/protokt/rt/KtMessage;Ljava/lang/String;ILjava/lang/Object;)Lcom/toasttab/protokt/Any;
+	public static final fun pack (Lcom/toasttab/protokt/Any$Deserializer;Lcom/toasttab/protokt/KtMessage;Ljava/lang/String;)Lcom/toasttab/protokt/Any;
+	public static synthetic fun pack$default (Lcom/toasttab/protokt/Any$Deserializer;Lcom/toasttab/protokt/KtMessage;Ljava/lang/String;ILjava/lang/Object;)Lcom/toasttab/protokt/Any;
 }
 
 public final class com/toasttab/protokt/AnyProto {

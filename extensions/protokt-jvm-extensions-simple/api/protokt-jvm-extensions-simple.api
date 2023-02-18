@@ -1,5 +1,5 @@
-public final class com/toasttab/protokt/ext/DurationConverter : com/toasttab/protokt/ext/Converter {
-	public static final field INSTANCE Lcom/toasttab/protokt/ext/DurationConverter;
+public final class com/toasttab/protokt/DurationConverter : com/toasttab/protokt/Converter {
+	public static final field INSTANCE Lcom/toasttab/protokt/DurationConverter;
 	public fun getWrapped ()Lkotlin/reflect/KClass;
 	public fun getWrapper ()Lkotlin/reflect/KClass;
 	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
@@ -8,13 +8,97 @@ public final class com/toasttab/protokt/ext/DurationConverter : com/toasttab/pro
 	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
 }
 
-public final class com/toasttab/protokt/ext/InetAddressBytesConverter : com/toasttab/protokt/ext/Converter {
-	public static final field INSTANCE Lcom/toasttab/protokt/ext/InetAddressBytesConverter;
+public final class com/toasttab/protokt/InetAddressBytesConverter : com/toasttab/protokt/Converter {
+	public static final field INSTANCE Lcom/toasttab/protokt/InetAddressBytesConverter;
 	public fun getWrapped ()Lkotlin/reflect/KClass;
 	public fun getWrapper ()Lkotlin/reflect/KClass;
 	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
-	public fun unwrap (Ljava/net/InetAddress;)Lcom/toasttab/protokt/rt/Bytes;
-	public fun wrap (Lcom/toasttab/protokt/rt/Bytes;)Ljava/net/InetAddress;
+	public fun unwrap (Ljava/net/InetAddress;)Lcom/toasttab/protokt/Bytes;
+	public fun wrap (Lcom/toasttab/protokt/Bytes;)Ljava/net/InetAddress;
+	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
+}
+
+public final class com/toasttab/protokt/InetAddressBytesValueConverter : com/toasttab/protokt/Converter {
+	public static final field INSTANCE Lcom/toasttab/protokt/InetAddressBytesValueConverter;
+	public fun getWrapped ()Lkotlin/reflect/KClass;
+	public fun getWrapper ()Lkotlin/reflect/KClass;
+	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun unwrap (Ljava/net/InetAddress;)Lcom/toasttab/protokt/BytesValue;
+	public fun wrap (Lcom/toasttab/protokt/BytesValue;)Ljava/net/InetAddress;
+	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
+}
+
+public final class com/toasttab/protokt/InstantConverter : com/toasttab/protokt/Converter {
+	public static final field INSTANCE Lcom/toasttab/protokt/InstantConverter;
+	public fun getWrapped ()Lkotlin/reflect/KClass;
+	public fun getWrapper ()Lkotlin/reflect/KClass;
+	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun unwrap (Ljava/time/Instant;)Lcom/toasttab/protokt/Timestamp;
+	public fun wrap (Lcom/toasttab/protokt/Timestamp;)Ljava/time/Instant;
+	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
+}
+
+public final class com/toasttab/protokt/LocalDateConverter : com/toasttab/protokt/Converter {
+	public static final field INSTANCE Lcom/toasttab/protokt/LocalDateConverter;
+	public fun getWrapped ()Lkotlin/reflect/KClass;
+	public fun getWrapper ()Lkotlin/reflect/KClass;
+	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun unwrap (Ljava/time/LocalDate;)Ljava/lang/String;
+	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun wrap (Ljava/lang/String;)Ljava/time/LocalDate;
+}
+
+public final class com/toasttab/protokt/LocalDateStringConverter : com/toasttab/protokt/Converter {
+	public static final field INSTANCE Lcom/toasttab/protokt/LocalDateStringConverter;
+	public fun getWrapped ()Lkotlin/reflect/KClass;
+	public fun getWrapper ()Lkotlin/reflect/KClass;
+	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun unwrap (Ljava/time/LocalDate;)Ljava/lang/String;
+	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun wrap (Ljava/lang/String;)Ljava/time/LocalDate;
+}
+
+public final class com/toasttab/protokt/LocalDateStringValueConverter : com/toasttab/protokt/Converter {
+	public static final field INSTANCE Lcom/toasttab/protokt/LocalDateStringValueConverter;
+	public fun getWrapped ()Lkotlin/reflect/KClass;
+	public fun getWrapper ()Lkotlin/reflect/KClass;
+	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun unwrap (Ljava/time/LocalDate;)Lcom/toasttab/protokt/StringValue;
+	public fun wrap (Lcom/toasttab/protokt/StringValue;)Ljava/time/LocalDate;
+	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
+}
+
+public final class com/toasttab/protokt/UuidBytesConverter : com/toasttab/protokt/OptimizedSizeofConverter {
+	public static final field INSTANCE Lcom/toasttab/protokt/UuidBytesConverter;
+	public fun getWrapped ()Lkotlin/reflect/KClass;
+	public fun getWrapper ()Lkotlin/reflect/KClass;
+	public synthetic fun sizeof (Ljava/lang/Object;)I
+	public fun sizeof (Ljava/util/UUID;)I
+	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun unwrap (Ljava/util/UUID;)Lcom/toasttab/protokt/Bytes;
+	public fun wrap (Lcom/toasttab/protokt/Bytes;)Ljava/util/UUID;
+	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
+}
+
+public final class com/toasttab/protokt/UuidBytesValueConverter : com/toasttab/protokt/OptimizedSizeofConverter {
+	public static final field INSTANCE Lcom/toasttab/protokt/UuidBytesValueConverter;
+	public fun getWrapped ()Lkotlin/reflect/KClass;
+	public fun getWrapper ()Lkotlin/reflect/KClass;
+	public synthetic fun sizeof (Ljava/lang/Object;)I
+	public fun sizeof (Ljava/util/UUID;)I
+	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun unwrap (Ljava/util/UUID;)Lcom/toasttab/protokt/BytesValue;
+	public fun wrap (Lcom/toasttab/protokt/BytesValue;)Ljava/util/UUID;
+	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
+}
+
+public final class com/toasttab/protokt/ext/DurationConverter : com/toasttab/protokt/ext/Converter {
+	public static final field INSTANCE Lcom/toasttab/protokt/ext/DurationConverter;
+	public fun getWrapped ()Lkotlin/reflect/KClass;
+	public fun getWrapper ()Lkotlin/reflect/KClass;
+	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun unwrap (Ljava/time/Duration;)Lcom/toasttab/protokt/Duration;
+	public fun wrap (Lcom/toasttab/protokt/Duration;)Ljava/time/Duration;
 	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
 }
 
@@ -73,18 +157,6 @@ public final class com/toasttab/protokt/ext/LocalDateStringValueConverter : com/
 	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
 	public fun unwrap (Ljava/time/LocalDate;)Lcom/toasttab/protokt/StringValue;
 	public fun wrap (Lcom/toasttab/protokt/StringValue;)Ljava/time/LocalDate;
-	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
-}
-
-public final class com/toasttab/protokt/ext/UuidBytesConverter : com/toasttab/protokt/ext/OptimizedSizeofConverter {
-	public static final field INSTANCE Lcom/toasttab/protokt/ext/UuidBytesConverter;
-	public fun getWrapped ()Lkotlin/reflect/KClass;
-	public fun getWrapper ()Lkotlin/reflect/KClass;
-	public synthetic fun sizeof (Ljava/lang/Object;)I
-	public fun sizeof (Ljava/util/UUID;)I
-	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
-	public fun unwrap (Ljava/util/UUID;)Lcom/toasttab/protokt/rt/Bytes;
-	public fun wrap (Lcom/toasttab/protokt/rt/Bytes;)Ljava/util/UUID;
 	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
 }
 

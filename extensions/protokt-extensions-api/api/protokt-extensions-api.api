@@ -1,8 +1,15 @@
-public abstract interface class com/toasttab/protokt/ext/Converter {
+public abstract interface class com/toasttab/protokt/Converter {
 	public abstract fun getWrapped ()Lkotlin/reflect/KClass;
 	public abstract fun getWrapper ()Lkotlin/reflect/KClass;
 	public abstract fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
 	public abstract fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
+}
+
+public abstract interface class com/toasttab/protokt/OptimizedSizeofConverter : com/toasttab/protokt/Converter {
+	public abstract fun sizeof (Ljava/lang/Object;)I
+}
+
+public abstract interface class com/toasttab/protokt/ext/Converter : com/toasttab/protokt/Converter {
 }
 
 public abstract interface class com/toasttab/protokt/ext/OptimizedSizeofConverter : com/toasttab/protokt/ext/Converter {
