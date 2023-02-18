@@ -155,10 +155,7 @@ private class ServiceGenerator(
 
     private fun marshaller(string: String, type: ClassName) =
         string.takeIf { it.isNotEmpty() }
-            ?.let {
-                inferClassName(string, ctx)
-                    .let { CodeBlock.of("%T", it) }
-            }
+            ?.let { CodeBlock.of("%L", it) }
             ?: CodeBlock.of("%T(%T)", KtMarshaller::class, type)
 
     private fun serviceLines() =

@@ -88,7 +88,7 @@ object Deprecation {
 
     fun FunSpec.Builder.handleDeprecation(msg: Message) =
         apply {
-            if (msg.hasDeprecation) {
+            if (msg.options.default.deprecated) {
                 addAnnotation(
                     AnnotationSpec.builder(Deprecated::class)
                         .handleDeprecationMessage(msg.options.protokt.deprecationMessage)
