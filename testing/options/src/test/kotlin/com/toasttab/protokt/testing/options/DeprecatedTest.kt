@@ -20,6 +20,7 @@ import com.toasttab.protokt.testing.propertyNamed
 import org.junit.jupiter.api.Test
 import kotlin.reflect.KAnnotatedElement
 import kotlin.reflect.KClass
+import kotlin.reflect.KFunction
 
 @Suppress("DEPRECATION")
 class DeprecatedTest {
@@ -43,6 +44,12 @@ class DeprecatedTest {
     fun `deprecated message`() {
         assertClassDeprecation(
             DeprecatedModel::class,
+            "deprecated in proto"
+        )
+
+        // deprecated constructor method
+        assertFunctionDeprecation(
+            ::DeprecatedModel,
             "deprecated in proto"
         )
     }
@@ -135,6 +142,17 @@ class DeprecatedTest {
 
         assertThat(
             klass.annotations
+                .filterIsInstance<Deprecated>()
+                .single()
+                .message
+        ).isEqualTo(message)
+    }
+
+    private fun assertFunctionDeprecation(fn: KFunction<*>, message: String) {
+        assertThat(fn.annotationClasses).contains(Deprecated::class)
+
+        assertThat(
+            fn.annotations
                 .filterIsInstance<Deprecated>()
                 .single()
                 .message
