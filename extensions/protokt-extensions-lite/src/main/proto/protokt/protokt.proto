@@ -19,10 +19,10 @@ package protokt;
 
 import "google/protobuf/descriptor.proto";
 
-option java_package = "com.toasttab.protokt.ext";
+option java_package = "com.toasttab.protokt";
 option java_outer_classname = "Protokt";
 
-message FileOptions {
+message ProtoktFileOptions {
   // Specify the Kotlin package for the generated file. Precedence is given
   // first to this Kotlin package, then to the Java package if enabled in
   // the plugin options, and finally to the protobuf package.
@@ -34,10 +34,10 @@ message FileOptions {
 }
 
 extend google.protobuf.FileOptions {
-  FileOptions file = 1072;
+  ProtoktFileOptions file = 1072;
 }
 
-message MessageOptions {
+message ProtoktMessageOptions {
   // Declares that the message class implements an interface. Scoping rules
   // are the same as those for declaring wrapper types.
   string implements = 1;
@@ -47,10 +47,10 @@ message MessageOptions {
 }
 
 extend google.protobuf.MessageOptions {
-  MessageOptions class = 1072;
+  ProtoktMessageOptions class = 1072;
 }
 
-message FieldOptions {
+message ProtoktFieldOptions {
   // Makes a message-type field non-nullable in the generated Kotlin code.
   // Beware that deserialization will NPE if the field is missing from the
   // protobuf payload. Adding a non-null field to an existing message is a
@@ -126,10 +126,10 @@ message FieldOptions {
 }
 
 extend google.protobuf.FieldOptions {
-  FieldOptions property = 1072;
+  ProtoktFieldOptions property = 1072;
 }
 
-message OneofOptions {
+message ProtoktOneofOptions {
   // Makes a oneof field non-nullable in generated Kotlin code. Beware that
   // deserialization will NPE if the field is missing from the protobuf payload.
   // Adding a non-null field to an existing message is a backwards-incompatible
@@ -157,34 +157,34 @@ message OneofOptions {
 }
 
 extend google.protobuf.OneofOptions {
-  OneofOptions oneof = 1072;
+  ProtoktOneofOptions oneof = 1072;
 }
 
-message EnumOptions {
+message ProtoktEnumOptions {
   // Provides a message for deprecation
   string deprecation_message = 1;
 }
 
 extend google.protobuf.EnumOptions {
-  EnumOptions enum = 1072;
+  ProtoktEnumOptions enum = 1072;
 }
 
-message EnumValueOptions {
+message ProtoktEnumValueOptions {
   // Provides a message for deprecation
   string deprecation_message = 1;
 }
 
 extend google.protobuf.EnumValueOptions {
-  EnumValueOptions enum_value = 1072;
+  ProtoktEnumValueOptions enum_value = 1072;
 }
 
-message ServiceOptions {}
+message ProtoktServiceOptions {}
 
 extend google.protobuf.ServiceOptions {
-  ServiceOptions service = 1072;
+  ProtoktServiceOptions service = 1072;
 }
 
-message MethodOptions {
+message ProtoktMethodOptions {
   // Provides a custom request marshaller for the generated method descriptor.
   // Substitutes the provided expression directly for
   // `com.toasttab.protokt.grpc.KtMarshaller(<request_type>)`
@@ -197,5 +197,5 @@ message MethodOptions {
 }
 
 extend google.protobuf.MethodOptions {
-  MethodOptions method = 1072;
+  ProtoktMethodOptions method = 1072;
 }

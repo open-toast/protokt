@@ -19,6 +19,8 @@ import com.google.auto.service.AutoService
 import com.toasttab.protokt.Timestamp
 import java.time.Instant
 
+@Suppress("DEPRECATION")
+@Deprecated("for backwards compatibility only")
 @AutoService(Converter::class)
 object InstantConverter : Converter<Instant, Timestamp> {
     override val wrapper = Instant::class

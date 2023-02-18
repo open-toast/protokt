@@ -16,10 +16,10 @@
 package com.toasttab.protokt.testing.options
 
 import com.google.auto.service.AutoService
-import com.toasttab.protokt.ext.Converter
-import com.toasttab.protokt.ext.OptimizedSizeofConverter
-import com.toasttab.protokt.rt.Bytes
-import com.toasttab.protokt.rt.sizeof
+import com.toasttab.protokt.Bytes
+import com.toasttab.protokt.Converter
+import com.toasttab.protokt.OptimizedSizeofConverter
+import com.toasttab.protokt.sizeof
 
 data class CachingId(
     internal val value: Bytes

@@ -17,7 +17,7 @@ package com.toasttab.protokt.ext
 
 import java.net.InetAddress
 
-@Deprecated("for backwards compatibility only", level = DeprecationLevel.HIDDEN)
+@Deprecated("for backwards compatibility only")
 object InetAddressConverter {
     val wrapper = InetAddress::class
 

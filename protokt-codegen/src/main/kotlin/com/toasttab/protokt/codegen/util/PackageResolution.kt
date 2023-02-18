@@ -19,12 +19,10 @@ import com.google.protobuf.DescriptorProtos.DescriptorProto
 import com.google.protobuf.DescriptorProtos.EnumDescriptorProto
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.squareup.kotlinpoet.ClassName
-import com.squareup.kotlinpoet.asTypeName
 
 const val googleProtobuf = "google.protobuf"
 
 const val comToasttabProtokt = "com.toasttab.protokt"
-val comToasttabProtoktRt = com.toasttab.protokt.rt.Bytes::class.asTypeName().packageName
 
 fun packagesByFileName(
     protoFileList: List<FileDescriptorProto>,

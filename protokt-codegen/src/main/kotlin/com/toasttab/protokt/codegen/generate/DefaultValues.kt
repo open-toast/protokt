@@ -16,6 +16,7 @@
 package com.toasttab.protokt.codegen.generate
 
 import com.squareup.kotlinpoet.CodeBlock
+import com.toasttab.protokt.Bytes
 import com.toasttab.protokt.codegen.util.FieldType
 import com.toasttab.protokt.codegen.util.FieldType.BOOL
 import com.toasttab.protokt.codegen.util.FieldType.BYTES
@@ -34,7 +35,6 @@ import com.toasttab.protokt.codegen.util.FieldType.SINT64
 import com.toasttab.protokt.codegen.util.FieldType.STRING
 import com.toasttab.protokt.codegen.util.FieldType.UINT32
 import com.toasttab.protokt.codegen.util.FieldType.UINT64
-import com.toasttab.protokt.rt.Bytes
 
 val FieldType.defaultValue: CodeBlock
     get() = when (this) {

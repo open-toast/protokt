@@ -16,7 +16,7 @@
 package com.toasttab.protokt.codegen.util
 
 import com.google.protobuf.DescriptorProtos.DescriptorProto
-import com.toasttab.protokt.ext.Protokt
+import com.toasttab.protokt.Protokt
 
 class MessageParser(
     private val ctx: GeneratorContext,

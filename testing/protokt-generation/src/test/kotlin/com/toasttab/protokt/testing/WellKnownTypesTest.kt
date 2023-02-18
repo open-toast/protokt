@@ -16,7 +16,7 @@
 package com.toasttab.protokt.testing
 
 import com.google.common.truth.Truth.assertThat
-import com.toasttab.protokt.rt.Bytes
+import com.toasttab.protokt.Bytes
 import org.junit.jupiter.api.Test
 import toasttab.protokt.testing.WellKnownTypes
 

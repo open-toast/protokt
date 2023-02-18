@@ -23,16 +23,16 @@ import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
+import com.toasttab.protokt.AbstractKtDeserializer
+import com.toasttab.protokt.AbstractKtMessage
+import com.toasttab.protokt.KtMessage
+import com.toasttab.protokt.KtMessageDeserializer
+import com.toasttab.protokt.KtMessageSerializer
 import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
 import com.toasttab.protokt.codegen.util.DESERIALIZER
 import com.toasttab.protokt.codegen.util.FieldType
 import com.toasttab.protokt.codegen.util.Message
 import com.toasttab.protokt.codegen.util.StandardField
-import com.toasttab.protokt.rt.AbstractKtDeserializer
-import com.toasttab.protokt.rt.AbstractKtMessage
-import com.toasttab.protokt.rt.KtMessage
-import com.toasttab.protokt.rt.KtMessageDeserializer
-import com.toasttab.protokt.rt.KtMessageSerializer
 import kotlin.reflect.KProperty0
 
 fun generateMapEntry(msg: Message, ctx: Context) =

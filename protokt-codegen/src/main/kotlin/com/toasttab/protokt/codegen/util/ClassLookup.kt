@@ -20,8 +20,8 @@ import com.google.common.collect.ImmutableTable
 import com.google.common.collect.Table
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.asClassName
-import com.toasttab.protokt.ext.Converter
-import com.toasttab.protokt.ext.OptimizedSizeofConverter
+import com.toasttab.protokt.Converter
+import com.toasttab.protokt.OptimizedSizeofConverter
 import java.io.File
 import java.net.URLClassLoader
 import kotlin.reflect.KClass
@@ -47,6 +47,7 @@ class ClassLookup(classpath: List<String>) {
     private val convertersByWrapperAndWrapped by lazy {
         classLoader.getResources("META-INF/services/${Converter::class.qualifiedName}")
             .asSequence()
+            .plus(@Suppress("DEPRECATION") classLoader.getResources("META-INF/services/${com.toasttab.protokt.ext.Converter::class.qualifiedName}").asSequence())
             .flatMap { url ->
                 url.openStream()
                     .bufferedReader()

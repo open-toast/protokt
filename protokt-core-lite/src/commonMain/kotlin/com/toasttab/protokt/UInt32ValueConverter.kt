@@ -15,8 +15,6 @@
 
 package com.toasttab.protokt
 
-import com.toasttab.protokt.ext.Converter
-
 object UInt32ValueConverter : Converter<Int, UInt32Value> {
     override val wrapper = Int::class
 

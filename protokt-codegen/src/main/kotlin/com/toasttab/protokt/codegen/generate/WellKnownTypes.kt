@@ -15,9 +15,9 @@
 
 package com.toasttab.protokt.codegen.generate
 
+import com.toasttab.protokt.Bytes
 import com.toasttab.protokt.codegen.util.StandardField
 import com.toasttab.protokt.codegen.util.googleProtobuf
-import com.toasttab.protokt.rt.Bytes
 
 object WellKnownTypes {
     val StandardField.wrapWithWellKnownInterception

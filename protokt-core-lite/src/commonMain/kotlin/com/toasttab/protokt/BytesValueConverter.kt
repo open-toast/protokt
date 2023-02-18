@@ -15,9 +15,6 @@
 
 package com.toasttab.protokt
 
-import com.toasttab.protokt.ext.Converter
-import com.toasttab.protokt.rt.Bytes
-
 object BytesValueConverter : Converter<Bytes, BytesValue> {
     override val wrapper = Bytes::class
 

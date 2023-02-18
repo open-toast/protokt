@@ -19,6 +19,7 @@ import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
 import java.time.Instant
 
+@Suppress("DEPRECATION")
 class InstantConverterTest {
     @Test
     fun `conversion works`() {

@@ -24,6 +24,9 @@ import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
+import com.toasttab.protokt.AbstractKtMessage
+import com.toasttab.protokt.KtGeneratedMessage
+import com.toasttab.protokt.UnknownFieldSet
 import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
 import com.toasttab.protokt.codegen.generate.CodeGenerator.generate
 import com.toasttab.protokt.codegen.generate.Deprecation.addDeprecationSuppression
@@ -32,9 +35,6 @@ import com.toasttab.protokt.codegen.generate.Deprecation.handleDeprecation
 import com.toasttab.protokt.codegen.generate.Deprecation.hasDeprecation
 import com.toasttab.protokt.codegen.generate.Implements.handleSuperInterface
 import com.toasttab.protokt.codegen.util.Message
-import com.toasttab.protokt.rt.AbstractKtMessage
-import com.toasttab.protokt.rt.KtGeneratedMessage
-import com.toasttab.protokt.rt.UnknownFieldSet
 
 fun generateMessage(msg: Message, ctx: Context) =
     MessageGenerator(msg, ctx).generate()

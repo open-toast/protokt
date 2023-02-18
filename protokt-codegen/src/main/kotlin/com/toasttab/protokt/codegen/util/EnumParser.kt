@@ -17,7 +17,7 @@ package com.toasttab.protokt.codegen.util
 
 import com.google.common.base.CaseFormat
 import com.google.protobuf.DescriptorProtos.EnumDescriptorProto
-import com.toasttab.protokt.ext.Protokt
+import com.toasttab.protokt.Protokt
 
 class EnumParser(
     private val ctx: GeneratorContext,

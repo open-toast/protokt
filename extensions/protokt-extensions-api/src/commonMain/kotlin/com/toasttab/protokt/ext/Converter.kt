@@ -15,14 +15,7 @@
 
 package com.toasttab.protokt.ext
 
-import kotlin.reflect.KClass
+import com.toasttab.protokt.Converter
 
-interface Converter<S : Any, T : Any> {
-    val wrapper: KClass<S>
-
-    val wrapped: KClass<T>
-
-    fun wrap(unwrapped: T): S
-
-    fun unwrap(wrapped: S): T
-}
+@Deprecated("for backwards compatibility only")
+interface Converter<S : Any, T : Any> : Converter<S, T>

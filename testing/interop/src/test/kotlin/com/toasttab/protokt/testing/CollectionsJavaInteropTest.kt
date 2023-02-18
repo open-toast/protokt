@@ -17,9 +17,9 @@ package com.toasttab.protokt.testing
 
 import com.google.common.truth.Truth.assertThat
 import com.google.protobuf.ByteString
+import com.toasttab.protokt.Bytes
 import com.toasttab.protokt.Timestamp
 import com.toasttab.protokt.pack
-import com.toasttab.protokt.rt.Bytes
 import com.toasttab.protokt.unpack
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

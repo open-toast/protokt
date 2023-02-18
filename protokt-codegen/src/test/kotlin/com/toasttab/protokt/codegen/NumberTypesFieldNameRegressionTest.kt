@@ -16,16 +16,16 @@
 package com.toasttab.protokt.codegen
 
 import com.google.common.truth.Truth.assertThat
-import com.toasttab.protokt.rt.Fixed32
-import com.toasttab.protokt.rt.Fixed64
-import com.toasttab.protokt.rt.Int32
-import com.toasttab.protokt.rt.Int64
-import com.toasttab.protokt.rt.SFixed32
-import com.toasttab.protokt.rt.SFixed64
-import com.toasttab.protokt.rt.SInt32
-import com.toasttab.protokt.rt.SInt64
-import com.toasttab.protokt.rt.UInt32
-import com.toasttab.protokt.rt.UInt64
+import com.toasttab.protokt.Fixed32
+import com.toasttab.protokt.Fixed64
+import com.toasttab.protokt.Int32
+import com.toasttab.protokt.Int64
+import com.toasttab.protokt.SFixed32
+import com.toasttab.protokt.SFixed64
+import com.toasttab.protokt.SInt32
+import com.toasttab.protokt.SInt64
+import com.toasttab.protokt.UInt32
+import com.toasttab.protokt.UInt64
 import org.junit.jupiter.api.Test
 import kotlin.reflect.full.declaredMemberProperties
 

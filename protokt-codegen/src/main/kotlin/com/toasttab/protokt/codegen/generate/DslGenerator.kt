@@ -23,10 +23,10 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
+import com.toasttab.protokt.UnknownFieldSet
 import com.toasttab.protokt.codegen.generate.Deprecation.handleDeprecation
 import com.toasttab.protokt.codegen.util.FieldType
 import com.toasttab.protokt.codegen.util.Message
-import com.toasttab.protokt.rt.UnknownFieldSet
 
 internal fun TypeSpec.Builder.handleDsl(msg: Message, properties: List<PropertyInfo>) =
     apply { DslGenerator(msg, properties).addDsl(this) }

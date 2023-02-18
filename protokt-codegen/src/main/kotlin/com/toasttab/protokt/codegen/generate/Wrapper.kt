@@ -20,11 +20,11 @@ import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.asTypeName
+import com.toasttab.protokt.BytesSlice
 import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
 import com.toasttab.protokt.codegen.generate.WellKnownTypes.wrapWithWellKnownInterception
 import com.toasttab.protokt.codegen.util.FieldType
 import com.toasttab.protokt.codegen.util.StandardField
-import com.toasttab.protokt.rt.BytesSlice
 
 internal object Wrapper {
     val StandardField.wrapped

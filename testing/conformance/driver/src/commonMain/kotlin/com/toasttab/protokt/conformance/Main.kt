@@ -15,9 +15,9 @@
 
 package com.toasttab.protokt.conformance
 
+import com.toasttab.protokt.Bytes
 import com.toasttab.protokt.conformance.ConformanceRequest.Payload.ProtobufPayload
 import com.toasttab.protokt.conformance.ConformanceResponse.Result
-import com.toasttab.protokt.rt.Bytes
 import com.toasttab.protokt_test_messages.proto3.TestAllTypesProto3
 
 fun main() = Platform.runBlockingMain {

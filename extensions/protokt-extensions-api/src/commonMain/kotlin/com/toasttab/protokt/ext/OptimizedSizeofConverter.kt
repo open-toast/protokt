@@ -15,6 +15,8 @@
 
 package com.toasttab.protokt.ext
 
+@Deprecated("for backwards compatibility only")
+@Suppress("DEPRECATION")
 interface OptimizedSizeofConverter<S : Any, T : Any> : Converter<S, T> {
     fun sizeof(wrapped: S): Int
 }

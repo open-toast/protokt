@@ -19,6 +19,7 @@ import com.google.protobuf.CodedInputStream
 import com.google.protobuf.InvalidProtocolBufferException
 import com.google.protobuf.WireFormat
 
+@Suppress("DEPRECATION")
 internal fun deserializer(
     stream: CodedInputStream,
     bytes: ByteArray? = null

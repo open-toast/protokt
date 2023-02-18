@@ -19,7 +19,7 @@ package toasttab.protokt.testing.lite;
 
 import "google/protobuf/wrappers.proto";
 import "google/type/date.proto";
-import "protokt/ext/inet_socket_address.proto";
+import "protokt/inet_socket_address.proto";
 import "protokt/protokt.proto";
 
 message LiteMessage {}
@@ -41,7 +41,7 @@ message WellKnownTypesLite {
   google.protobuf.StringValue string = 8;
   google.protobuf.BytesValue bytes = 9;
 
-  .protokt.ext.InetSocketAddress address = 10 [(.protokt.property).wrap = "java.net.InetSocketAddress"];
+  .protokt.InetSocketAddress address = 10 [(.protokt.property).wrap = "java.net.InetSocketAddress"];
 
   google.type.Date date = 11 [(.protokt.property).wrap = "java.time.LocalDate"];
 }

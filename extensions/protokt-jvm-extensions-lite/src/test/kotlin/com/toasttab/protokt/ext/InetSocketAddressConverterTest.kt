@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test
 import java.net.InetAddress
 import java.net.InetSocketAddress
 
+@Suppress("DEPRECATION")
 class InetSocketAddressConverterTest {
     @Test
     fun `conversion works`() {

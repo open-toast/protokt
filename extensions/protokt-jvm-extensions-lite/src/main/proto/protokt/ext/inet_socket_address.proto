@@ -23,6 +23,8 @@ option (protokt.file).kotlin_package = "com.toasttab.protokt.ext";
 option (protokt.file).file_descriptor_object_name = "InetSocketAddressProto";
 
 message InetSocketAddress {
+  option deprecated = true;
+
   bytes address = 1 [
     (protokt.property).wrap = "java.net.InetAddress"
   ];

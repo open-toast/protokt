@@ -1,7 +1,7 @@
 package com.toasttab.protokt.util
 
 import com.google.common.truth.Truth.assertThat
-import com.toasttab.protokt.ext.Protokt
+import com.toasttab.protokt.Protokt
 import org.junit.jupiter.api.Test
 
 class ProtoktExtensionsTest {

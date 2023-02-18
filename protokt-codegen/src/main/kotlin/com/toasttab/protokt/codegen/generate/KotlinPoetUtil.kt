@@ -23,7 +23,7 @@ import com.squareup.kotlinpoet.MemberName
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeName
 import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
-import com.toasttab.protokt.codegen.util.comToasttabProtoktRt
+import com.toasttab.protokt.codegen.util.comToasttabProtokt
 import kotlin.reflect.KClass
 
 fun String.embed() =
@@ -55,7 +55,7 @@ fun buildFunSpec(name: String, funSpecBuilder: FunSpec.Builder.() -> Unit): FunS
 fun namedCodeBlock(format: String, arguments: Map<String, *>) =
     CodeBlock.builder().addNamed(format, arguments).build()
 
-fun runtimeFunction(name: String) = MemberName(comToasttabProtoktRt, name)
+fun runtimeFunction(name: String) = MemberName(comToasttabProtokt, name)
 
 fun CodeBlock.Builder.endControlFlowWithoutNewline() {
     unindent()

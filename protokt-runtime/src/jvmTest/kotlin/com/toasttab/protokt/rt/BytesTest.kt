@@ -18,6 +18,7 @@ package com.toasttab.protokt.rt
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
 
+@Suppress("DEPRECATION")
 class BytesTest {
     @Test
     fun `bytes to bytes slice and back`() {

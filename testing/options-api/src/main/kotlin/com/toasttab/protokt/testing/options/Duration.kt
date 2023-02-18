@@ -16,7 +16,7 @@
 package com.toasttab.protokt.testing.options
 
 import com.google.auto.service.AutoService
-import com.toasttab.protokt.ext.Converter
+import com.toasttab.protokt.Converter
 
 data class Duration(val value: com.toasttab.protokt.Duration)
 

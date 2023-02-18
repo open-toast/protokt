@@ -17,13 +17,13 @@ package com.toasttab.protokt.testing
 
 import com.google.common.truth.Truth.assertThat
 import com.google.protobuf.ByteString
-import com.toasttab.protokt.rt.Bytes
-import com.toasttab.protokt.rt.Fixed32Val
-import com.toasttab.protokt.rt.Fixed64Val
-import com.toasttab.protokt.rt.LengthDelimitedVal
-import com.toasttab.protokt.rt.UnknownField
-import com.toasttab.protokt.rt.UnknownFieldSet
-import com.toasttab.protokt.rt.VarintVal
+import com.toasttab.protokt.Bytes
+import com.toasttab.protokt.Fixed32Val
+import com.toasttab.protokt.Fixed64Val
+import com.toasttab.protokt.LengthDelimitedVal
+import com.toasttab.protokt.UnknownField
+import com.toasttab.protokt.UnknownFieldSet
+import com.toasttab.protokt.VarintVal
 import org.junit.jupiter.api.Test
 import com.google.protobuf.UnknownFieldSet as JavaUnknownFieldSet
 import com.toasttab.protokt.testing.TestOuterClass.Test as JavaTest

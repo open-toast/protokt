@@ -19,6 +19,8 @@ import com.google.auto.service.AutoService
 import com.toasttab.protokt.StringValue
 import java.time.LocalDate
 
+@Suppress("DEPRECATION")
+@Deprecated("for backwards compatibility only")
 @AutoService(Converter::class)
 object LocalDateStringValueConverter : Converter<LocalDate, StringValue> {
     override val wrapper = LocalDate::class

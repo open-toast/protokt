@@ -18,18 +18,24 @@ package com.toasttab.protokt.rt
 import com.google.protobuf.CodedOutputStream
 import java.io.OutputStream
 
+@Deprecated("for backwards compatibility only")
+@Suppress("DEPRECATION")
 actual interface KtMessage {
     actual val messageSize: Int
 
-    actual fun serialize(serializer: KtMessageSerializer)
+    fun serialize(serializer: KtMessageSerializer)
 
     actual fun serialize(): ByteArray
 
+    actual fun serialize(serializer: com.toasttab.protokt.KtMessageSerializer)
+
     fun serialize(outputStream: OutputStream) {
-        CodedOutputStream.newInstance(outputStream).run {
-            serialize(serializer(this))
-            flush()
-        }
+        serialize(CodedOutputStream.newInstance(outputStream))
+    }
+
+    fun serialize(outputStream: CodedOutputStream) {
+        serialize(serializer(outputStream))
+        outputStream.flush()
     }
 
     @Deprecated("for ABI backwards compatibility only", level = DeprecationLevel.HIDDEN)

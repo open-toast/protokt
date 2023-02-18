@@ -15,8 +15,6 @@
 
 package com.toasttab.protokt
 
-import com.toasttab.protokt.ext.Converter
-
 object FloatValueConverter : Converter<Float, FloatValue> {
     override val wrapper = Float::class
 

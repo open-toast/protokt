@@ -15,8 +15,6 @@
 
 package com.toasttab.protokt
 
-import com.toasttab.protokt.ext.Converter
-
 object StringValueConverter : Converter<String, StringValue> {
     override val wrapper = String::class
 

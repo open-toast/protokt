@@ -15,9 +15,9 @@
 
 package com.toasttab.protokt.codegen.util
 
-import com.toasttab.protokt.rt.Bytes
-import com.toasttab.protokt.rt.KtEnum
-import com.toasttab.protokt.rt.KtMessage
+import com.toasttab.protokt.Bytes
+import com.toasttab.protokt.KtEnum
+import com.toasttab.protokt.KtMessage
 import kotlin.reflect.KClass
 import kotlin.reflect.full.declaredMemberProperties
 
@@ -98,7 +98,7 @@ private sealed class Nonscalar(
     object Enum : Nonscalar(ktRepresentation = KtEnum::class)
     object Message : Nonscalar(ktRepresentation = KtMessage::class)
     object String : Nonscalar(kotlin.String::class)
-    object Bytes : Nonscalar(com.toasttab.protokt.rt.Bytes::class)
+    object Bytes : Nonscalar(com.toasttab.protokt.Bytes::class)
 }
 
 private sealed class Scalar(
@@ -116,18 +116,18 @@ private sealed class Boxed(
 ) : Scalar() {
     override val kotlinRepresentation
         get() = inlineRepresentation.declaredMemberProperties
-            .single { it.name == com.toasttab.protokt.rt.Fixed32::value.name }
+            .single { it.name == com.toasttab.protokt.Fixed32::value.name }
             .returnType
             .classifier as KClass<*>
 
-    object Fixed32 : Boxed(com.toasttab.protokt.rt.Fixed32::class)
-    object Fixed64 : Boxed(com.toasttab.protokt.rt.Fixed64::class)
-    object Int32 : Boxed(com.toasttab.protokt.rt.Int32::class)
-    object Int64 : Boxed(com.toasttab.protokt.rt.Int64::class)
-    object SFixed32 : Boxed(com.toasttab.protokt.rt.SFixed32::class)
-    object SFixed64 : Boxed(com.toasttab.protokt.rt.SFixed64::class)
-    object SInt32 : Boxed(com.toasttab.protokt.rt.SInt32::class)
-    object SInt64 : Boxed(com.toasttab.protokt.rt.SInt64::class)
-    object UInt32 : Boxed(com.toasttab.protokt.rt.UInt32::class)
-    object UInt64 : Boxed(com.toasttab.protokt.rt.UInt64::class)
+    object Fixed32 : Boxed(com.toasttab.protokt.Fixed32::class)
+    object Fixed64 : Boxed(com.toasttab.protokt.Fixed64::class)
+    object Int32 : Boxed(com.toasttab.protokt.Int32::class)
+    object Int64 : Boxed(com.toasttab.protokt.Int64::class)
+    object SFixed32 : Boxed(com.toasttab.protokt.SFixed32::class)
+    object SFixed64 : Boxed(com.toasttab.protokt.SFixed64::class)
+    object SInt32 : Boxed(com.toasttab.protokt.SInt32::class)
+    object SInt64 : Boxed(com.toasttab.protokt.SInt64::class)
+    object UInt32 : Boxed(com.toasttab.protokt.UInt32::class)
+    object UInt64 : Boxed(com.toasttab.protokt.UInt64::class)
 }

@@ -16,17 +16,23 @@
 package com.toasttab.protokt.rt
 
 import com.google.protobuf.CodedInputStream
+import com.toasttab.protokt.NewToOldAdapter
 import java.io.InputStream
 import java.nio.ByteBuffer
 
-actual interface KtDeserializer<T : KtMessage> {
-    actual fun deserialize(bytes: Bytes): T
+@Deprecated("for backwards compatibility only")
+@Suppress("DEPRECATION")
+interface KtDeserializer<T : KtMessage> {
+    fun deserialize(bytes: Bytes): T =
+        deserialize(bytes.value)
 
-    actual fun deserialize(bytes: ByteArray): T
+    fun deserialize(bytes: ByteArray): T =
+        deserialize(deserializer(CodedInputStream.newInstance(bytes), bytes))
 
-    actual fun deserialize(bytes: BytesSlice): T
+    fun deserialize(bytes: BytesSlice): T =
+        deserialize(deserializer(CodedInputStream.newInstance(bytes.array, bytes.offset, bytes.length)))
 
-    actual fun deserialize(deserializer: KtMessageDeserializer): T
+    fun deserialize(deserializer: KtMessageDeserializer): T
 
     fun deserialize(stream: InputStream): T =
         deserialize(deserializer(CodedInputStream.newInstance(stream)))
@@ -37,38 +43,43 @@ actual interface KtDeserializer<T : KtMessage> {
     fun deserialize(buffer: ByteBuffer): T =
         deserialize(deserializer(CodedInputStream.newInstance(buffer)))
 
+    fun deserialize(bytes: com.toasttab.protokt.Bytes): T =
+        deserialize(bytes.value)
+
+    fun deserialize(bytes: com.toasttab.protokt.BytesSlice): T =
+        deserialize(deserializer(CodedInputStream.newInstance(bytes.array, bytes.offset, bytes.length)))
+
+    fun deserialize(deserializer: com.toasttab.protokt.KtMessageDeserializer): T =
+        deserialize(NewToOldAdapter(deserializer))
+
     @Deprecated("for ABI backwards compatibility only", level = DeprecationLevel.HIDDEN)
     object DefaultImpls {
         @JvmStatic
-        fun <T : KtMessage> deserialize(deserializer: KtDeserializer<T>, bytes: ByteArray) =
+        fun <T : KtMessage> deserialize(deserializer: KtDeserializer<T>, bytes: ByteArray): T =
             deserializer.deserialize(deserializer(CodedInputStream.newInstance(bytes), bytes))
 
         @JvmStatic
-        fun <T : KtMessage> deserialize(deserializer: KtDeserializer<T>, bytes: Bytes) =
+        fun <T : KtMessage> deserialize(deserializer: KtDeserializer<T>, bytes: Bytes): T =
             deserializer.deserialize(bytes.value)
 
         @JvmStatic
-        fun <T : KtMessage> deserialize(deserializer: KtDeserializer<T>, bytes: BytesSlice) =
-            deserializer.deserialize(
-                deserializer(
-                    CodedInputStream.newInstance(
-                        bytes.array,
-                        bytes.offset,
-                        bytes.length
-                    )
-                )
-            )
+        fun <T : KtMessage> deserialize(deserializer: KtDeserializer<T>, bytes: BytesSlice): T =
+            deserializer.deserialize(deserializer(CodedInputStream.newInstance(bytes.array, bytes.offset, bytes.length)))
 
         @JvmStatic
-        fun <T : KtMessage> deserialize(deserializer: KtDeserializer<T>, buffer: ByteBuffer) =
+        fun <T : KtMessage> deserialize(deserializer: KtDeserializer<T>, buffer: ByteBuffer): T =
             deserializer.deserialize(deserializer(CodedInputStream.newInstance(buffer)))
 
         @JvmStatic
-        fun <T : KtMessage> deserialize(deserializer: KtDeserializer<T>, stream: CodedInputStream) =
+        fun <T : KtMessage> deserialize(deserializer: KtDeserializer<T>, stream: CodedInputStream): T =
             deserializer.deserialize(deserializer(stream))
 
         @JvmStatic
-        fun <T : KtMessage> deserialize(deserializer: KtDeserializer<T>, stream: InputStream) =
+        fun <T : KtMessage> deserialize(deserializer: KtDeserializer<T>, stream: InputStream): T =
             deserializer.deserialize(deserializer(CodedInputStream.newInstance(stream)))
+
+        @JvmStatic
+        fun <T : KtMessage> deserialize(deserializer: KtDeserializer<T>, messageDeserializer: KtMessageDeserializer): T =
+            deserializer.deserialize(messageDeserializer)
     }
 }

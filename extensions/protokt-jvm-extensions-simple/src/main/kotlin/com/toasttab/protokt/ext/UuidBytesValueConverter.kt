@@ -16,11 +16,14 @@
 package com.toasttab.protokt.ext
 
 import com.google.auto.service.AutoService
+import com.toasttab.protokt.Bytes
 import com.toasttab.protokt.BytesValue
-import com.toasttab.protokt.rt.Bytes
-import com.toasttab.protokt.rt.sizeof
+import com.toasttab.protokt.UuidBytesConverter
+import com.toasttab.protokt.sizeof
 import java.util.UUID
 
+@Suppress("DEPRECATION")
+@Deprecated("for backwards compatibility only")
 @AutoService(Converter::class)
 object UuidBytesValueConverter : OptimizedSizeofConverter<UUID, BytesValue> {
     override val wrapper = UUID::class

@@ -19,6 +19,9 @@ import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.buildCodeBlock
+import com.toasttab.protokt.KtMessageSerializer
+import com.toasttab.protokt.Tag
+import com.toasttab.protokt.UInt32
 import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
 import com.toasttab.protokt.codegen.generate.Wrapper.interceptValueAccess
 import com.toasttab.protokt.codegen.generate.Wrapper.mapKeyConverter
@@ -27,9 +30,6 @@ import com.toasttab.protokt.codegen.util.FieldType.MESSAGE
 import com.toasttab.protokt.codegen.util.Message
 import com.toasttab.protokt.codegen.util.Oneof
 import com.toasttab.protokt.codegen.util.StandardField
-import com.toasttab.protokt.rt.KtMessageSerializer
-import com.toasttab.protokt.rt.Tag
-import com.toasttab.protokt.rt.UInt32
 
 fun generateSerializer(msg: Message, ctx: Context) =
     SerializerGenerator(msg, ctx).generate()

@@ -15,8 +15,6 @@
 
 package com.toasttab.protokt
 
-import com.toasttab.protokt.ext.Converter
-
 object Int64ValueConverter : Converter<Long, Int64Value> {
     override val wrapper = Long::class
 

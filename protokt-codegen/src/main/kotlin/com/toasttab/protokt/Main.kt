@@ -26,7 +26,6 @@ import com.toasttab.protokt.codegen.util.GeneratorContext
 import com.toasttab.protokt.codegen.util.formatErrorMessage
 import com.toasttab.protokt.codegen.util.parseFileContents
 import com.toasttab.protokt.codegen.util.tidy
-import com.toasttab.protokt.ext.Protokt
 import java.io.OutputStream
 import java.io.PrintStream
 import kotlin.system.exitProcess

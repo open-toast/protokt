@@ -17,7 +17,7 @@ package com.toasttab.protokt.codegen.util
 
 import com.google.protobuf.DescriptorProtos.MethodDescriptorProto
 import com.google.protobuf.DescriptorProtos.ServiceDescriptorProto
-import com.toasttab.protokt.ext.Protokt
+import com.toasttab.protokt.Protokt
 
 class ServiceParser(
     private val ctx: GeneratorContext,

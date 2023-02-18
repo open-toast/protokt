@@ -18,7 +18,7 @@ package com.toasttab.protokt.codegen.util
 import com.google.common.base.CaseFormat.LOWER_CAMEL
 import com.google.common.base.CaseFormat.LOWER_UNDERSCORE
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
-import com.toasttab.protokt.ext.Protokt
+import com.toasttab.protokt.Protokt
 import com.toasttab.protokt.gradle.FORMAT_OUTPUT
 import com.toasttab.protokt.gradle.GENERATE_GRPC
 import com.toasttab.protokt.gradle.KOTLIN_EXTRA_CLASSPATH

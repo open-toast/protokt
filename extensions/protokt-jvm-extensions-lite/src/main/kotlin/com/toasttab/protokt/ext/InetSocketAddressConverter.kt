@@ -17,6 +17,8 @@ package com.toasttab.protokt.ext
 
 import com.google.auto.service.AutoService
 
+@Suppress("DEPRECATION")
+@Deprecated("for backwards compatibility only")
 @AutoService(Converter::class)
 object InetSocketAddressConverter :
     Converter<java.net.InetSocketAddress, InetSocketAddress> {

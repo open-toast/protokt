@@ -20,7 +20,7 @@ package com.toasttab.protokt.testing.options;
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
-import "protokt/ext/inet_socket_address.proto";
+import "protokt/inet_socket_address.proto";
 import "protokt/protokt.proto";
 
 message NullableWrappersExample {
@@ -28,7 +28,7 @@ message NullableWrappersExample {
     (.protokt.property).wrap = "java.net.InetAddress"
   ];
 
-  .protokt.ext.InetSocketAddress socket_address = 2 [
+  .protokt.InetSocketAddress socket_address = 2 [
     (.protokt.property).wrap = "java.net.InetSocketAddress"
   ];
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast Inc.
+ * Copyright (c) 2023 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,9 @@
 
 package com.toasttab.protokt.rt
 
+import com.toasttab.protokt.KtMessageSerializer
+
+@Deprecated("for backwards compatibility only")
 actual interface KtMessage {
     actual val messageSize: Int
 

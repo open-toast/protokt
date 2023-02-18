@@ -21,7 +21,7 @@ import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
 import "google/type/date.proto";
-import "protokt/ext/inet_socket_address.proto";
+import "protokt/inet_socket_address.proto";
 import "protokt/protokt.proto";
 
 message Wrappers {
@@ -41,7 +41,7 @@ message Wrappers {
     (.protokt.property).wrap = "CachingId"
   ];
 
-  .protokt.ext.InetSocketAddress socket_address = 5 [
+  .protokt.InetSocketAddress socket_address = 5 [
     (.protokt.property).wrap = "java.net.InetSocketAddress",
     (.protokt.property).non_null = true
   ];
@@ -94,7 +94,7 @@ message OneofWrappers {
       (.protokt.property).wrap = "CachingId"
     ];
 
-    .protokt.ext.InetSocketAddress socket_address_oneof = 5 [
+    .protokt.InetSocketAddress socket_address_oneof = 5 [
       (.protokt.property).wrap = "java.net.InetSocketAddress"
     ];
 
@@ -166,7 +166,7 @@ message MapWrappers {
     (.protokt.property).value_wrap = "java.util.UUID"
   ];
 
-  map<string, .protokt.ext.InetSocketAddress> map_string_socket_address = 8 [
+  map<string, .protokt.InetSocketAddress> map_string_socket_address = 8 [
     (.protokt.property).key_wrap = "StringBox",
     (.protokt.property).value_wrap = "java.net.InetSocketAddress"
   ];

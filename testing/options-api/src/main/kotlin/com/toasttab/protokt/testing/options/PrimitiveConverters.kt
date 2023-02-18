@@ -16,8 +16,8 @@
 package com.toasttab.protokt.testing.options
 
 import com.google.auto.service.AutoService
-import com.toasttab.protokt.ext.Converter
-import com.toasttab.protokt.rt.Bytes
+import com.toasttab.protokt.Bytes
+import com.toasttab.protokt.Converter
 
 data class BoolBox(val wrapped: Boolean)
 

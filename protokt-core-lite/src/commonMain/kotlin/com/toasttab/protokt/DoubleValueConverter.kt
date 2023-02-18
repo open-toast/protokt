@@ -15,8 +15,6 @@
 
 package com.toasttab.protokt
 
-import com.toasttab.protokt.ext.Converter
-
 object DoubleValueConverter : Converter<Double, DoubleValue> {
     override val wrapper = Double::class
 

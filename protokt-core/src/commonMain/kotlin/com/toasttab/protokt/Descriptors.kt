@@ -15,8 +15,6 @@
 
 package com.toasttab.protokt
 
-import com.toasttab.protokt.rt.finishList
-
 class FileDescriptor(
     val proto: FileDescriptorProto,
     val dependencies: List<FileDescriptor>

@@ -15,8 +15,6 @@
 
 package com.toasttab.protokt
 
-import com.toasttab.protokt.ext.Converter
-
 object BoolValueConverter : Converter<Boolean, BoolValue> {
     override val wrapper = Boolean::class
 

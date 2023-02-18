@@ -15,11 +15,11 @@
 
 package com.toasttab.protokt.benchmarks.generator
 
+import com.toasttab.protokt.Bytes
+import com.toasttab.protokt.KtMessage
 import com.toasttab.protokt.benchmarks.BenchmarkDataset
 import com.toasttab.protokt.benchmarks.GenericMessage1
 import com.toasttab.protokt.benchmarks.GenericMessage4
-import com.toasttab.protokt.rt.Bytes
-import com.toasttab.protokt.rt.KtMessage
 import java.io.File
 import java.lang.IllegalArgumentException
 import java.security.SecureRandom
@@ -70,7 +70,7 @@ class FixtureGenerator(private val weight: Int) {
         is MapFieldType -> (0..randomSize()).associate { randomValue(fieldType.keyType) to randomValue(fieldType.valueType) }
     }
 
-    fun randomValue(scalarType: ScalarType): Any? =
+    fun randomValue(scalarType: ScalarType): Any =
         when (scalarType) {
             is PrimitiveScalarType -> randomPrimitiveValue(scalarType.ktType)
             is MessageScalarType -> randomMessageValue(scalarType.ktType)
@@ -88,7 +88,7 @@ class FixtureGenerator(private val weight: Int) {
         return cls.primaryConstructor!!.callBy(params)
     }
 
-    fun randomPrimitiveValue(cls: KClass<*>): Any? =
+    fun randomPrimitiveValue(cls: KClass<*>): Any =
         when (cls) {
             Int::class -> random.nextInt()
             Long::class -> random.nextLong()

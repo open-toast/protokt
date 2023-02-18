@@ -23,13 +23,13 @@ import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
+import com.toasttab.protokt.KtEnum
+import com.toasttab.protokt.KtEnumDeserializer
 import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
 import com.toasttab.protokt.codegen.generate.Deprecation.handleDeprecation
 import com.toasttab.protokt.codegen.generate.Deprecation.handleDeprecationSuppression
 import com.toasttab.protokt.codegen.generate.Deprecation.hasDeprecation
 import com.toasttab.protokt.codegen.util.Enum
-import com.toasttab.protokt.rt.KtEnum
-import com.toasttab.protokt.rt.KtEnumDeserializer
 
 fun generateEnum(e: Enum, ctx: Context) =
     EnumGenerator(e, ctx).generate()

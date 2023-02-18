@@ -23,10 +23,10 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.google.common.truth.Truth.assertThat
-import com.toasttab.protokt.rt.KtEnum
-import com.toasttab.protokt.rt.KtEnumDeserializer
-import com.toasttab.protokt.rt.KtMessage
-import com.toasttab.protokt.rt.UnknownFieldSet
+import com.toasttab.protokt.KtEnum
+import com.toasttab.protokt.KtEnumDeserializer
+import com.toasttab.protokt.KtMessage
+import com.toasttab.protokt.UnknownFieldSet
 import org.junit.jupiter.api.Test
 import toasttab.protokt.testing.AnEnum
 import toasttab.protokt.testing.RootMessage

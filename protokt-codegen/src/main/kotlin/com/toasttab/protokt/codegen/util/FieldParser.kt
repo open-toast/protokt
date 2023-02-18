@@ -28,7 +28,7 @@ import com.google.protobuf.DescriptorProtos.OneofDescriptorProto
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.asTypeName
 import com.toasttab.protokt.codegen.util.ErrorContext.withFieldName
-import com.toasttab.protokt.ext.Protokt
+import com.toasttab.protokt.Protokt
 
 class FieldParser(
     private val ctx: GeneratorContext,

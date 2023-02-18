@@ -17,6 +17,7 @@ package com.toasttab.protokt.rt
 
 import com.google.protobuf.CodedOutputStream
 
+@Suppress("DEPRECATION")
 internal fun serializer(stream: CodedOutputStream): KtMessageSerializer {
     return object : KtMessageSerializer {
         override fun write(i: Fixed32) =
