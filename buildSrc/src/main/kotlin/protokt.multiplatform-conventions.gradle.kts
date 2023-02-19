@@ -23,7 +23,7 @@ kotlin {
         withJava()
     }
 
-    js(BOTH) {
+    js(IR) {
         browser {}
         nodejs {}
         useCommonJs()
@@ -44,6 +44,8 @@ kotlin {
                 jvmTarget = "1.8"
                 freeCompilerArgs = listOf("-Xjvm-default=all")
             }
+
+            jvmToolchain(8)
         }
     }
 }

@@ -32,7 +32,6 @@ import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.project
 import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
-import org.jetbrains.kotlin.gradle.dsl.KotlinJsProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
@@ -47,7 +46,6 @@ const val EXTENSIONS = "protoktExtensions"
 const val TEST_EXTENSIONS = "testProtoktExtensions"
 
 fun configureProtokt(project: Project, protoktVersion: Any?, resolveBinary: () -> String) {
-    createProtoSourceSetsIfNeeded(project)
     injectKotlinPluginsIntoProtobufGradle()
     val ext = project.extensions.create<ProtoktExtension>("protokt")
     configureProtobufPlugin(project, ext, resolveBinary())
@@ -150,8 +148,7 @@ private fun Project.createExtensionConfigurationsAndConfigureProtobuf() {
             linkGenerateProtoToSourceCompileForKotlinJsOrMpp("common")
         }
         isJs() -> {
-            configureProtoktConfigurations(KotlinJsProjectExtension::class, "main", "test")
-            linkGenerateProtoToSourceCompileForKotlinJsOrMpp()
+            error("protokt code generation is not supported for JS projects; use a multiplatform project instead")
         }
         else -> {
             configurations.getByName("api").extendsFrom(extensionsConfiguration)
@@ -184,14 +181,3 @@ internal fun Project.isMultiplatform() =
 
 private fun Project.isJs() =
     plugins.hasPlugin("org.jetbrains.kotlin.js")
-
-private fun createProtoSourceSetsIfNeeded(project: Project) {
-    with(project.the<SourceSetContainer>()) {
-        if (none { it.name == "main" }) {
-            create("main")
-        }
-        if (none { it.name == "test" }) {
-            create("test")
-        }
-    }
-}

@@ -16,7 +16,7 @@
 import de.undercouch.gradle.tasks.download.Download
 
 plugins {
-    id("de.undercouch.download")
+    alias(libs.plugins.download)
 }
 
 val archive = file("$buildDir/datasets-${libs.versions.datasets.get()}.zip")

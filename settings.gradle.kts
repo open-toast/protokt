@@ -56,7 +56,6 @@ include(
     "testing:conformance",
     "testing:conformance:driver",
     "testing:conformance:js-ir",
-    "testing:conformance:js-legacy",
     "testing:conformance:jvm",
     "testing:conformance:runner",
     "testing:interop",

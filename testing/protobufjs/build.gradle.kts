@@ -13,22 +13,18 @@
  * limitations under the License.
  */
 
-import com.toasttab.protokt.gradle.protoktExtensions
-
 plugins {
     id("org.jetbrains.kotlin.js")
 }
 
-localProtokt()
-
 dependencies {
-    protoktExtensions(project(":extensions:protokt-extensions"))
+    implementation(project(":protokt-core"))
 
     testImplementation(kotlin("test"))
 }
 
 kotlin {
-    js(BOTH) {
+    js(IR) {
         browser {
             testTask {
                 useKarma {

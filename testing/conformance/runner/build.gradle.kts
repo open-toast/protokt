@@ -24,6 +24,5 @@ dependencies {
 tasks.named<Test>("test") {
     outputs.upToDateWhen { false }
     dependsOn(":testing:conformance:js-ir:compileProductionExecutableKotlinJs")
-    dependsOn(":testing:conformance:js-legacy:jsJar")
     dependsOn(":testing:conformance:jvm:installDist")
 }

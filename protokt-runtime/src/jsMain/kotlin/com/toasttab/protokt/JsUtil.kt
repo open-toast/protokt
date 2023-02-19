@@ -38,15 +38,8 @@ internal fun BytesSlice.asUint8Array() =
 internal val Long.protobufjsLong: dynamic
     get() {
         val ret = js("{}")
-        // Legacy compiler exposes Long bits via functions, while IR compiler exposes Long bits
-        // via `_high` and `_low` fields
-        if (asDynamic().getHighBits !== undefined) {
-            ret.high = asDynamic().getHighBits()
-            ret.low = asDynamic().getLowBits()
-        } else {
-            ret.high = asDynamic()._high
-            ret.low = asDynamic()._low
-        }
+        ret.high = asDynamic()._high
+        ret.low = asDynamic()._low
         return ret
     }
 
@@ -54,12 +47,6 @@ internal fun Long.Companion.fromProtobufJsLong(l: dynamic): Long {
     return if (l.low == null || l.high == null) {
         (l as Int).toLong()
     } else {
-        // Legacy compiler exposes Long-related function in `Kotlin` namespace, while IR compiler
-        // exposes a direct Long constructor
-        if (js("typeof Kotlin") !== "undefined") {
-            js("Kotlin").Long.fromBits(l.low, l.high) as Long
-        } else {
-            js("new Long(l.low, l.high)") as Long
-        }
+        js("new Long(l.low, l.high)") as Long
     }
 }
