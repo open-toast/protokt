@@ -62,7 +62,7 @@ private val _configureLong by lazy {
     js("var protobuf = require(\"protobufjs/light\")")
     js("protobuf.util.Long = Long")
     js("protobuf.configure()")
-    printErr("configured long: " + js("Long"))
+    // printErr("configured long: " + js("Long"))
 }
 
 fun printErr(message: String) {
