@@ -38,8 +38,8 @@ internal fun BytesSlice.asUint8Array() =
 internal val Long.protobufjsLong: dynamic
     get() {
         val ret = js("{}")
-        ret.high = asDynamic()._high
-        ret.low = asDynamic()._low
+        ret.low = asDynamic().low_1
+        ret.high = asDynamic().high_1
         return ret
     }
 
@@ -47,6 +47,6 @@ internal fun Long.Companion.fromProtobufJsLong(l: dynamic): Long {
     return if (l.low == null || l.high == null) {
         (l as Int).toLong()
     } else {
-        js("new Long(l.low, l.high)") as Long
+        js("new kotlin.Long(l.low, l.high)") as Long
     }
 }
