@@ -47,6 +47,8 @@ internal fun Long.Companion.fromProtobufJsLong(l: dynamic): Long {
     return if (l.low == null || l.high == null) {
         (l as Int).toLong()
     } else {
-        js("new kotlin.Long(l.low, l.high)") as Long
+        val low = l.low as Int
+        val high = l.high as Int
+        return high.toLong() shl 32 or low.toLong() and 0xffffffffL
     }
 }
