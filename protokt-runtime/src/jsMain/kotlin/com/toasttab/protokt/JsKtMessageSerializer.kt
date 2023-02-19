@@ -16,7 +16,7 @@
 package com.toasttab.protokt
 
 internal fun serializer(writer: Writer): KtMessageSerializer {
-    requireLong
+    requireLong()
     return object : KtMessageSerializer {
         override fun write(i: Fixed32) {
             writer.fixed32(i.value)
