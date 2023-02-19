@@ -51,7 +51,12 @@ jobs:
       - run:
           name: Install protobufjs
           command: |
-            npm install protobufjs@7.2.2
+            npm install protobufjs@6.11.3
+
+      - run:
+          name: Install long.js
+          command: |
+            npm install long@5.2.0
 
       - run:
           name: Install Firefox
@@ -109,7 +114,12 @@ jobs:
       - run:
           name: Install protobufjs
           command: |
-            npm install protobufjs@7.2.2
+            npm install protobufjs@6.11.3
+
+      - run:
+          name: Install long.js
+          command: |
+            npm install long@5.2.0
 
       - run:
           name: Install Firefox
