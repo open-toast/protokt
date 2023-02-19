@@ -31,6 +31,7 @@ kotlin {
 
         val jsMain by getting {
             dependencies {
+                api(npm("long", "5.2.0"))
                 api(npm("protobufjs", libs.versions.protobufJs.get()))
             }
         }

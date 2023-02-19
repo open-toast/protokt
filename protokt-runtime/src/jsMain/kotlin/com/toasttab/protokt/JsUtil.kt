@@ -52,3 +52,10 @@ internal fun Long.Companion.fromProtobufJsLong(l: dynamic): Long {
         return (high.toLong() shl 32) + (low.toLong() and 0xffffffffL)
     }
 }
+
+internal val requireLong by lazy {
+    js("var Long = require(\"long\").Long")
+    js("var protobuf = require(\"protobufjs/light\")")
+    js("protobuf.util.Long = Long")
+    js("protobuf.configure()")
+}
