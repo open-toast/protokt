@@ -63,5 +63,5 @@ val versionOutputDir = file("$buildDir/generated-sources/protokt-version")
     .srcDir(versionOutputDir)
 
 tasks.named("generateMetadataFileForMavenPublication") {
-    dependsOn("kotlinSourcesJar")
+    dependsOn("kotlinSourcesJar", "simpleJavadocJar")
 }
