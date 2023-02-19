@@ -49,6 +49,6 @@ internal fun Long.Companion.fromProtobufJsLong(l: dynamic): Long {
     } else {
         val low = l.low as Int
         val high = l.high as Int
-        return high.toLong() shl 32 or low.toLong() and 0xffffffffL
+        return (high.toLong() shl 32) + (low.toLong() and 0xffffffffL)
     }
 }
