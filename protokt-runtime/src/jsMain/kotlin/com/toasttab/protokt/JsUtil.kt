@@ -62,4 +62,20 @@ private val _configureLong by lazy {
     js("var protobuf = require(\"protobufjs/light\")")
     js("protobuf.util.Long = Long")
     js("protobuf.configure()")
+    printErr("configured long: " + js("Long"))
+}
+
+fun printErr(message: String) {
+    process.stderr.write(message + "\n")
+}
+
+@JsModule("process")
+@JsNonModule
+private external object process {
+    val stderr: StdStream
+}
+
+private external interface StdStream {
+    // Writeable streams only
+    fun write(chunk: String, encoding: String = definedExternally): Boolean
 }
