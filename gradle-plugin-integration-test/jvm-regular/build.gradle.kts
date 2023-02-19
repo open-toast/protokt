@@ -29,7 +29,7 @@ tasks {
         useJUnitPlatform()
     }
 
-    if (System.getProperty("kotlin.version", "1.5.32") == "1.5.32") {
+    if (System.getProperty("kotlin.version", "1.8.10") == "1.8.10") {
         withType<KotlinCompile> {
             kotlinOptions {
                 allWarningsAsErrors = true

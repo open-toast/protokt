@@ -94,17 +94,17 @@ dependencies {
 }
 
 tasks.named("jsIrNodeTest") {
-    enabled = System.getProperty("kotlin.version", "1.5.32") == "1.5.32"
+    enabled = System.getProperty("kotlin.version", "1.8.10") == "1.8.10"
 }
 
 tasks.named("jsIrBrowserTest") {
-    enabled = System.getProperty("kotlin.version", "1.5.32") == "1.5.32"
+    enabled = System.getProperty("kotlin.version", "1.8.10") == "1.8.10"
 }
 
 tasks.named("jsLegacyNodeTest") {
-    enabled = System.getProperty("kotlin.version", "1.5.32") == "1.5.32"
+    enabled = System.getProperty("kotlin.version", "1.8.10") == "1.8.10"
 }
 
 tasks.named("jsLegacyBrowserTest") {
-    enabled = System.getProperty("kotlin.version", "1.5.32") == "1.5.32"
+    enabled = System.getProperty("kotlin.version", "1.8.10") == "1.8.10"
 }

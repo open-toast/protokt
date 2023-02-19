@@ -16,12 +16,6 @@
 import com.google.protobuf.gradle.proto
 import com.toasttab.protokt.gradle.CODEGEN_NAME
 
-buildscript {
-    dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.10")
-    }
-}
-
 plugins {
     id("protokt.jvm-conventions")
     id("com.google.protobuf")
@@ -42,7 +36,7 @@ dependencies {
     implementation(project(":protokt-runtime"))
     implementation(project(":protokt-runtime-grpc"))
 
-    implementation(kotlin("reflect", "1.8.10"))
+    implementation(kotlin("reflect"))
 
     implementation(libs.grpcStub)
     implementation(libs.kotlinPoet)
