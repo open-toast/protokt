@@ -18,8 +18,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":protokt-core"))
-
+    testImplementation(project(":protokt-core"))
     testImplementation(kotlin("test"))
 }
 
