@@ -23,7 +23,7 @@ protobufJs = "7.2.2"
 protobufGradlePlugin = "0.9.1"
 
 # build
-androidGradlePlugin = "7.4.0"
+androidGradlePlugin = "7.4.0-beta02"
 animalSnifferGradlePlugin = "1.5.4"
 binaryCompatibilityValidator = "0.12.1"
 download = "5.3.1"

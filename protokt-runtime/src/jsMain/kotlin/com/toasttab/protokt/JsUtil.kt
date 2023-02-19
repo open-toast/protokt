@@ -53,11 +53,11 @@ internal fun Long.Companion.fromProtobufJsLong(l: dynamic): Long {
     }
 }
 
-internal fun requireLong() {
-    _requireLong
+internal fun configureLong() {
+    _configureLong
 }
 
-private val _requireLong by lazy {
+private val _configureLong by lazy {
     js("var Long = require(\"long\")")
     js("var protobuf = require(\"protobufjs/light\")")
     js("protobuf.util.Long = Long")
