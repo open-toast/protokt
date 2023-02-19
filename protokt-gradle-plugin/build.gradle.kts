@@ -61,3 +61,7 @@ val versionOutputDir = file("$buildDir/generated-sources/protokt-version")
     .getPlugin(org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet::class.java)
     .kotlin
     .srcDir(versionOutputDir)
+
+tasks.named("generateMetadataFileForMavenPublication") {
+    dependsOn("kotlinSourcesJar")
+}
