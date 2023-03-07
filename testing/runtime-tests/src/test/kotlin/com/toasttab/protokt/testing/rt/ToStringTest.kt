@@ -16,16 +16,55 @@
 package com.toasttab.protokt.testing.rt
 
 import com.google.common.truth.Truth.assertThat
+import com.toasttab.protokt.rt.UnknownField
+import com.toasttab.protokt.rt.UnknownFieldSet
 import org.junit.jupiter.api.Test
+import toasttab.protokt.testing.rt.Empty
 import toasttab.protokt.testing.rt.Test2
 
 class ToStringTest {
     @Test
-    fun `toString prints the correct format`() {
+    fun `toString prints the correct format for empty message`() {
+        assertThat(
+            Empty { }.toString()
+        ).isEqualTo(
+            "Empty()"
+        )
+    }
+
+    @Test
+    fun `toString prints the correct format for empty message with unknown fields`() {
+        assertThat(
+            Empty {
+                unknownFields = UnknownFieldSet.Builder().apply {
+                    add(UnknownField.fixed32(5, 10))
+                }.build()
+            }.toString()
+        ).isEqualTo(
+            "Empty(unknownFields=UnknownFieldSet(unknownFields={5=Field(varint=[], fixed32=[Fixed32Val(value=Fixed32(value=10))], fixed64=[], lengthDelimited=[])}))"
+        )
+    }
+
+    @Test
+    fun `toString omits unknown fields when empty`() {
         assertThat(
             Test2 { extra = "foo" }.toString()
         ).isEqualTo(
-            "Test2(`val`=[], extra=foo, unknownFields=UnknownFieldSet(unknownFields={}))"
+            "Test2(`val`=[], extra=foo)"
+        )
+    }
+
+    @Test
+    fun `toString prints the correct format with non-empty unknown fields`() {
+        assertThat(
+            Test2 {
+                extra = "foo"
+                unknownFields = UnknownFieldSet.Builder().apply {
+                    add(UnknownField.fixed32(5, 10))
+                }.build()
+            }.toString()
+        ).isEqualTo(
+            "Test2(`val`=[], extra=foo, unknownFields=UnknownFieldSet(unknownFields={5=Field(varint=[], fixed32=[Fixed32Val(value=Fixed32(value=10))], fixed64=[], lengthDelimited=[])}))"
         )
     }
 }
