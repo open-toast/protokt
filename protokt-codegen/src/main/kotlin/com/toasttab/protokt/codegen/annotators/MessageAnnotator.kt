@@ -206,21 +206,24 @@ private constructor(
                 .addModifiers(KModifier.OVERRIDE)
                 .addCode(
                     if (properties.isEmpty()) {
-                        "return \"${msg.name}(unknownFields=\$unknownFields)\""
+                        "return \"${msg.name}(${unknownFieldsToString(prefix = "")})\""
                     } else {
                         """
                             |return "${msg.name}(" +
                             |${toStringLines(properties)}
-                            |    "unknownFields=${"$"}unknownFields)"
+                            |    "${unknownFieldsToString(prefix = ", ")})"
                         """.bindMargin()
                     }
                 )
                 .build()
         )
 
+    private fun unknownFieldsToString(prefix: String) =
+        "\${if (unknownFields.isEmpty()) \"\" else \"${prefix}unknownFields=\$unknownFields\"}"
+
     private fun toStringLines(properties: List<PropertyInfo>) =
-        properties.joinToString("\n") {
-            "    \"${it.name}=\$${it.name}, \" +"
+        properties.joinToString(separator = ", \" +\n", postfix = "\" +") {
+            "    \"${it.name}=\$${it.name}"
         }.bindSpaces()
 
     private fun suppressDeprecation() =
