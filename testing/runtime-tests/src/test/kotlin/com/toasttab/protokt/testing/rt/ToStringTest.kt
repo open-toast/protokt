@@ -36,7 +36,9 @@ class ToStringTest {
     fun `toString prints the correct format for empty message with unknown fields`() {
         assertThat(
             Empty {
-                unknownFields = UnknownFieldSet.Builder().add(UnknownField.fixed32(5, 10)).build()
+                unknownFields = UnknownFieldSet.Builder().apply {
+                    add(UnknownField.fixed32(5, 10))
+                }.build()
             }.toString()
         ).isEqualTo(
             "Empty(unknownFields=UnknownFieldSet(unknownFields={5=Field(varint=[], fixed32=[Fixed32Val(value=Fixed32(value=10))], fixed64=[], lengthDelimited=[])}))"
@@ -57,7 +59,9 @@ class ToStringTest {
         assertThat(
             Test2 {
                 extra = "foo"
-                unknownFields = UnknownFieldSet.Builder().add(UnknownField.fixed32(5, 10)).build()
+                unknownFields = UnknownFieldSet.Builder().apply {
+                    add(UnknownField.fixed32(5, 10))
+                }.build()
             }.toString()
         ).isEqualTo(
             "Test2(`val`=[], extra=foo, unknownFields=UnknownFieldSet(unknownFields={5=Field(varint=[], fixed32=[Fixed32Val(value=Fixed32(value=10))], fixed64=[], lengthDelimited=[])}))"
