@@ -19,6 +19,7 @@ import com.google.common.truth.Truth.assertThat
 import com.toasttab.protokt.rt.UnknownField
 import com.toasttab.protokt.rt.UnknownFieldSet
 import org.junit.jupiter.api.Test
+import toasttab.protokt.testing.rt.Empty
 import toasttab.protokt.testing.rt.Test2
 
 class ToStringTest {

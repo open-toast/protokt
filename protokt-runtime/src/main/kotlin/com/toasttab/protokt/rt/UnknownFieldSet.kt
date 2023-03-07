@@ -48,9 +48,10 @@ private constructor(
     class Builder {
         private val map = mutableMapOf<Int, Field.Builder>()
 
-        fun add(unknown: UnknownField) {
+        fun add(unknown: UnknownField): Builder {
             map.getOrPut(unknown.fieldNumber) { Field.Builder() }
                 .add(unknown.value)
+            return this
         }
 
         fun build() =
