@@ -29,7 +29,6 @@ import com.toasttab.protokt.KtGeneratedMessage
 import com.toasttab.protokt.UnknownFieldSet
 import com.toasttab.protokt.codegen.generate.CodeGenerator.Context
 import com.toasttab.protokt.codegen.generate.CodeGenerator.generate
-import com.toasttab.protokt.codegen.generate.Deprecation.addDeprecationSuppression
 import com.toasttab.protokt.codegen.generate.Deprecation.enclosingDeprecation
 import com.toasttab.protokt.codegen.generate.Deprecation.handleDeprecation
 import com.toasttab.protokt.codegen.generate.Deprecation.hasDeprecation
