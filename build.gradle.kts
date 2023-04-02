@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2019 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,10 +29,12 @@ allprojects {
             ktlint()
             target("**/*.kt")
             targetExclude("**/generated-sources/**")
+            licenseHeaderFile(rootProject.file("gradle/license-header-kotlin"), "(package |@file|import |fun )")
         }
 
         kotlinGradle {
             ktlint()
+            licenseHeaderFile(rootProject.file("gradle/license-header-kotlin"), "(package |@file|import |fun )|buildscript |plugins |subprojects ")
         }
     }
 }
