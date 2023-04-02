@@ -389,6 +389,7 @@ public final class com/toasttab/protokt/UnknownFieldSet {
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getUnknownFields ()Ljava/util/Map;
 	public fun hashCode ()I
+	public final fun isEmpty ()Z
 	public final fun size ()I
 	public fun toString ()Ljava/lang/String;
 }
@@ -824,6 +825,7 @@ public final class com/toasttab/protokt/rt/UnknownFieldSet {
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getUnknownFields ()Ljava/util/Map;
 	public fun hashCode ()I
+	public final fun isEmpty ()Z
 	public final fun size ()I
 	public fun toString ()Ljava/lang/String;
 }
