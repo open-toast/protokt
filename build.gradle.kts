@@ -29,12 +29,41 @@ allprojects {
             ktlint()
             target("**/*.kt")
             targetExclude("**/generated-sources/**")
-            licenseHeaderFile(rootProject.file("gradle/license-header-kotlin"), "(package |@file|import |fun )")
+            licenseHeaderFile(
+                rootProject.file("gradle/license-header-c-style"),
+                "(package |@file|import |fun )"
+            )
         }
 
         kotlinGradle {
             ktlint()
-            licenseHeaderFile(rootProject.file("gradle/license-header-kotlin"), "(package |@file|import |fun )|buildscript |plugins |subprojects ")
+            target("**/*.kts")
+            targetExclude("buildSrc/build/**")
+            licenseHeaderFile(
+                rootProject.file("gradle/license-header-c-style"),
+                "(package |@file|import |fun )|buildscript |plugins |subprojects "
+            )
+        }
+
+        format("protobuf") {
+            target("**/*.proto")
+            targetExclude(
+                listOf(
+                    "benchmarks/schema/src/main/resources/schema/benchmarks.proto",
+                    "examples/protos/src/main/proto/animals/dog.proto",
+                    "examples/protos/src/main/proto/animals/pig.proto",
+                    "examples/protos/src/main/proto/animals/sheep.proto",
+                    "examples/protos/src/main/proto/helloworld/hello_world.proto",
+                    "examples/protos/src/main/proto/io/grpc/examples/route_guide.proto",
+                    "testing/conformance/driver/src/main/proto/conformance/conformance.proto",
+                    "testing/conformance/driver/src/main/proto/proto3/test_messages_proto3.proto",
+                    "testing/interop/src/main/proto/tutorial/addressbook.proto"
+                ).map(rootProject::file)
+            )
+            licenseHeaderFile(
+                rootProject.file("gradle/license-header-c-style"),
+                "(syntax )"
+            )
         }
     }
 }
