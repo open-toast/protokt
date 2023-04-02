@@ -58,7 +58,8 @@ allprojects {
                     "testing/conformance/driver/src/main/proto/conformance/conformance.proto",
                     "testing/conformance/driver/src/main/proto/proto3/test_messages_proto3.proto",
                     "testing/interop/src/main/proto/tutorial/addressbook.proto"
-                ).map(rootProject::file)
+                ).map(rootProject::file) +
+                    "node_modules/**"
             )
             licenseHeaderFile(
                 rootProject.file("gradle/license-header-c-style"),
