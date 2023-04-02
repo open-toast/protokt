@@ -193,26 +193,30 @@ private class MessageGenerator(
                 .addCode(
                     if (properties.isEmpty()) {
                         CodeBlock.of(
-                            "return \"%L(unknownFields=\$unknownFields)\"",
+                            "return \"%L(\${${unknownFieldsToString(prefix = "")}}\"",
                             msg.className.simpleName
                         )
                     } else {
                         buildCodeBlock {
-                            add(
-                                "return \"%L(\" +\n",
-                                msg.className.simpleName
-                            )
+                            add("return \"%L(\" +\n", msg.className.simpleName)
                             toStringLines(properties).forEach(::add)
-                            add("\"unknownFields=${"$"}unknownFields)\"")
+                            add(unknownFieldsToString(prefix = ", "))
                         }
                     }
                 )
                 .build()
         )
 
+    private fun unknownFieldsToString(prefix: String) =
+        "if (unknownFields.isEmpty()) \")\" else \"${prefix}unknownFields=\$unknownFields)\"".bindSpaces()
+
     private fun toStringLines(properties: List<PropertyInfo>) =
-        properties.map {
-            CodeBlock.of("\"%N=\$%N, \" +\n".bindSpaces(), it.name, it.name)
+        properties.mapIndexed { idx, prop ->
+            CodeBlock.of(
+                "\"%N=\$%N" + if (idx == properties.size - 1) "\" + \n" else ", \" +\n".bindSpaces(),
+                prop.name,
+                prop.name
+            )
         }
 
     private fun suppressDeprecation() =

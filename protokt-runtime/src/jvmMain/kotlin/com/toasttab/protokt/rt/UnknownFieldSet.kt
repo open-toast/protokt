@@ -24,6 +24,9 @@ private constructor(
     fun size() =
         unknownFields.entries.sumOf { (k, v) -> v.size(k) }
 
+    fun isEmpty() =
+        unknownFields.isEmpty()
+
     override fun equals(other: Any?) =
         other is UnknownFieldSet &&
             other.unknownFields == unknownFields

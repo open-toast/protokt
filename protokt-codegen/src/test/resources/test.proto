@@ -22,3 +22,5 @@ import "protokt/protokt.proto";
 message TestMessage {
   string value = 1;
 }
+
+message Empty {}

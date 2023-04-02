@@ -45,7 +45,13 @@ abstract class AbstractProtoktCodegenTest {
         generatedFile.delete()
     }
 
-    sealed interface PluginRunResult
+    sealed interface PluginRunResult {
+        fun orFail(): Success =
+            when (this) {
+                is Success -> this
+                is Failure -> error(err)
+            }
+    }
 
     class Success(
         val response: CodeGeneratorResponse
