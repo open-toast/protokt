@@ -72,13 +72,29 @@ private class MessageGenerator(
                 .addMember(msg.fullProtobufTypeName.embed())
                 .build()
         )
+        handleDeprecatedKtGeneratedMessage()
+        // put this back when handleDeprecatedKtGeneratedMessage() is removed
+        // if (suppressDeprecation()) {
+        //     addDeprecationSuppression()
+        // }
         handleDeprecation(
             msg.options.default.deprecated,
             msg.options.protokt.deprecationMessage
         )
-        if (suppressDeprecation()) {
-            addDeprecationSuppression()
-        }
+    }
+
+    private fun TypeSpec.Builder.handleDeprecatedKtGeneratedMessage() {
+        addAnnotation(
+            AnnotationSpec.builder(Suppress::class)
+                .addMember("DEPRECATION".embed())
+                .build()
+        )
+        addAnnotation(
+            @Suppress("DEPRECATION")
+            AnnotationSpec.builder(com.toasttab.protokt.rt.KtGeneratedMessage::class)
+                .addMember(msg.fullProtobufTypeName.embed())
+                .build()
+        )
     }
 
     private fun TypeSpec.Builder.handleConstructor(
