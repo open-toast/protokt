@@ -61,6 +61,16 @@ allprojects {
                     "examples/grpc-java/src/main/kotlin/io/grpc/examples/helloworld/HelloWorldServer.kt",
                     "examples/grpc-java/src/main/kotlin/io/grpc/examples/routeguide/RouteGuideClient.kt",
                     "examples/grpc-java/src/main/kotlin/io/grpc/examples/routeguide/RouteGuideServer.kt",
+                    "examples/grpc-kotlin/src/main/kotlin/io/grpc/examples/animals/AnimalsClient.kt",
+                    "examples/grpc-kotlin/src/main/kotlin/io/grpc/examples/animals/AnimalsServer.kt",
+                    "examples/grpc-kotlin/src/main/kotlin/io/grpc/examples/helloworld/HelloWorldClient.kt",
+                    "examples/grpc-kotlin/src/main/kotlin/io/grpc/examples/helloworld/HelloWorldServer.kt",
+                    "examples/grpc-kotlin/src/main/kotlin/io/grpc/examples/routeguide/RouteGuideClient.kt",
+                    "examples/grpc-kotlin/src/main/kotlin/io/grpc/examples/routeguide/RouteGuideServer.kt",
+                    "examples/grpc-kotlin/src/test/kotlin/io/grpc/examples/animals/AnimalsServerTest.kt",
+                    "examples/grpc-kotlin/src/test/kotlin/io/grpc/examples/helloworld/HelloWorldServerTest.kt",
+                    "examples/grpc-kotlin/src/test/kotlin/io/grpc/examples/routeguide/RouteGuideServerTest.kt",
+
                     "testing/conformance/driver/src/main/proto/conformance/conformance.proto",
                     "testing/conformance/driver/src/main/proto/proto3/test_messages_proto3.proto",
                     "testing/interop/src/main/proto/tutorial/addressbook.proto"
