@@ -55,6 +55,12 @@ allprojects {
                     "examples/protos/src/main/proto/animals/sheep.proto",
                     "examples/protos/src/main/proto/helloworld/hello_world.proto",
                     "examples/protos/src/main/proto/io/grpc/examples/route_guide.proto",
+                    "examples/grpc-java/src/main/kotlin/io/grpc/examples/animals/AnimalsClient.kt",
+                    "examples/grpc-java/src/main/kotlin/io/grpc/examples/animals/AnimalsServer.kt",
+                    "examples/grpc-java/src/main/kotlin/io/grpc/examples/helloworld/HelloWorldClient.kt",
+                    "examples/grpc-java/src/main/kotlin/io/grpc/examples/helloworld/HelloWorldServer.kt",
+                    "examples/grpc-java/src/main/kotlin/io/grpc/examples/routeguide/RouteGuideClient.kt",
+                    "examples/grpc-java/src/main/kotlin/io/grpc/examples/routeguide/RouteGuideServer.kt",
                     "testing/conformance/driver/src/main/proto/conformance/conformance.proto",
                     "testing/conformance/driver/src/main/proto/proto3/test_messages_proto3.proto",
                     "testing/interop/src/main/proto/tutorial/addressbook.proto"
