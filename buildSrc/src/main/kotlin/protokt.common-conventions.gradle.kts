@@ -13,8 +13,7 @@
  * limitations under the License.
  */
 
-plugins {
-    idea
-}
+plugins { idea }
 
 version = rootProject.version
+group = "com.toasttab.protokt"
