@@ -36,7 +36,32 @@ internal object ServiceAnnotator {
     fun annotateService(s: Service, ctx: Context, generateService: Boolean): List<TypeSpec> {
         val service =
             if (generateService) {
-                TypeSpec.objectBuilder(s.name + "Grpc")
+                val grpcBuilder = TypeSpec.objectBuilder(s.name + "Grpc")
+                if (!ctx.desc.context.lite) {
+                    val fdSupplier = (
+                        TypeSpec.anonymousClassBuilder()
+                            .addSuperinterface(ClassName("com.toasttab.protokt", "ProtoFileDescriptorSupplier"))
+                            .addFunction(
+                                FunSpec.builder("getFileDescriptor")
+                                    .addModifiers(KModifier.OVERRIDE)
+                                    .returns(ClassName("com.toasttab.protokt", "FileDescriptor"))
+                                    .addStatement("return ${ctx.desc.context.fileDescriptorObjectName}.descriptor")
+                                    .build()
+                            )
+                            .build()
+                        ).toString()
+                    grpcBuilder.addProperty(
+                        PropertySpec.builder("_fdSupplier", Any::class).initializer(fdSupplier)
+                            .addModifiers(KModifier.PRIVATE).build()
+                    )
+                } else {
+                    grpcBuilder.addProperty(
+                        PropertySpec.builder("_fdSupplier", Any::class).initializer("Unit")
+                            .addModifiers(KModifier.PRIVATE).build()
+                    )
+                }
+
+                grpcBuilder
                     .addProperty(
                         PropertySpec.builder("SERVICE_NAME", String::class)
                             .addModifiers(KModifier.CONST)
@@ -71,7 +96,11 @@ internal object ServiceAnnotator {
                                 .delegate(
                                     """
                                         |lazy {
-                                        |    MethodDescriptor.newBuilder<${it.inputType.renderName(ctx.desc.kotlinPackage)}, ${it.outputType.renderName(ctx.desc.kotlinPackage)}>()
+                                        |    MethodDescriptor.newBuilder<${it.inputType.renderName(ctx.desc.kotlinPackage)}, ${
+                                    it.outputType.renderName(
+                                        ctx.desc.kotlinPackage
+                                    )
+                                    }>()
                                         |        .setType(MethodDescriptor.MethodType.${methodType(it)})
                                         |        .setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "${it.name}"))
                                         |        .setRequestMarshaller(${it.qualifiedRequestMarshaller(ctx)})
@@ -143,7 +172,7 @@ internal object ServiceAnnotator {
     private fun serviceLines(s: Service) =
         s.methods.joinToString("\n") {
             "      .addMethod(_${it.name.decapitalize()}Method)"
-        } + "\n        .build()"
+        } + "\n.setSchemaDescriptor(_fdSupplier)" + "\n        .build()"
 
     private fun renderQualifiedName(s: Service, ctx: Context) =
         if (ctx.desc.kotlinPackage.default) {

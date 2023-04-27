@@ -124,6 +124,10 @@ public final class com/toasttab/protokt/FileDescriptor$Companion {
 	public final fun buildFrom ([Ljava/lang/String;Ljava/util/List;)Lcom/toasttab/protokt/FileDescriptor;
 }
 
+public abstract interface class com/toasttab/protokt/ProtoFileDescriptorSupplier {
+	public abstract fun getFileDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+}
+
 public final class com/toasttab/protokt/ServiceDescriptor {
 	public fun <init> (Lcom/toasttab/protokt/ServiceDescriptorProto;Lcom/toasttab/protokt/FileDescriptor;I)V
 	public final fun getFile ()Lcom/toasttab/protokt/FileDescriptor;
