@@ -17,6 +17,7 @@ package com.toasttab.protokt.codegen.impl
 
 import com.google.protobuf.DescriptorProtos.DescriptorProto.ENUM_TYPE_FIELD_NUMBER
 import com.google.protobuf.DescriptorProtos.EnumDescriptorProto.VALUE_FIELD_NUMBER
+import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
@@ -32,6 +33,7 @@ import com.toasttab.protokt.codegen.impl.Deprecation.hasDeprecation
 import com.toasttab.protokt.codegen.protoc.Enum
 import com.toasttab.protokt.rt.KtEnum
 import com.toasttab.protokt.rt.KtEnumDeserializer
+import com.toasttab.protokt.rt.KtGeneratedEnum
 
 class EnumBuilder(
     val e: Enum,
@@ -44,12 +46,21 @@ class EnumBuilder(
             addModifiers(KModifier.SEALED)
             superclass(KtEnum::class)
             addKDoc()
+            addAnnotation()
             handleDeprecation(e.options.default.deprecated, e.options.protokt.deprecationMessage)
             handleDeprecationSuppression(e.hasDeprecation, ctx)
             addConstructor()
             addEnumValues()
             addDeserializer()
         }.build()
+
+    private fun TypeSpec.Builder.addAnnotation() {
+        addAnnotation(
+            AnnotationSpec.builder(KtGeneratedEnum::class)
+                .addMember("fullTypeName = %S", "${ctx.desc.protoPackage}.${e.name}")
+                .build()
+        )
+    }
 
     private fun TypeSpec.Builder.addKDoc() {
         val documentation = baseLocation(ctx, enumPath).cleanDocumentation()

@@ -15,6 +15,7 @@
 
 package com.toasttab.protokt.codegen.annotators
 
+import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
@@ -29,6 +30,7 @@ import com.toasttab.protokt.codegen.model.possiblyQualify
 import com.toasttab.protokt.codegen.protoc.Method
 import com.toasttab.protokt.codegen.protoc.Service
 import com.toasttab.protokt.codegen.util.decapitalize
+import com.toasttab.protokt.rt.KtGeneratedService
 import io.grpc.MethodDescriptor
 import io.grpc.ServiceDescriptor
 
@@ -37,6 +39,7 @@ internal object ServiceAnnotator {
         val service =
             if (generateService) {
                 TypeSpec.objectBuilder(s.name + "Grpc")
+                    .addAnnotation(serviceAnnotation(s, ctx))
                     .addProperty(
                         PropertySpec.builder("SERVICE_NAME", String::class)
                             .addModifiers(KModifier.CONST)
@@ -71,7 +74,11 @@ internal object ServiceAnnotator {
                                 .delegate(
                                     """
                                         |lazy {
-                                        |    MethodDescriptor.newBuilder<${it.inputType.renderName(ctx.desc.kotlinPackage)}, ${it.outputType.renderName(ctx.desc.kotlinPackage)}>()
+                                        |    MethodDescriptor.newBuilder<${it.inputType.renderName(ctx.desc.kotlinPackage)}, ${
+                                    it.outputType.renderName(
+                                        ctx.desc.kotlinPackage
+                                    )
+                                    }>()
                                         |        .setType(MethodDescriptor.MethodType.${methodType(it)})
                                         |        .setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "${it.name}"))
                                         |        .setRequestMarshaller(${it.qualifiedRequestMarshaller(ctx)})
@@ -158,4 +165,8 @@ internal object ServiceAnnotator {
         m.serverStreaming -> "SERVER_STREAMING"
         else -> "UNARY"
     }
+
+    private fun serviceAnnotation(s: Service, ctx: Context) =
+        AnnotationSpec.builder(KtGeneratedService::class).addMember("fullTypeName = %S", renderQualifiedName(s, ctx))
+            .build()
 }

@@ -18,6 +18,7 @@ package com.toasttab.protokt.codegen.descriptor
 import com.google.protobuf.DescriptorProtos
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeName
@@ -29,6 +30,7 @@ import com.toasttab.protokt.codegen.protoc.Enum
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Protocol
 import com.toasttab.protokt.codegen.protoc.TopLevelType
+import com.toasttab.protokt.rt.KtGeneratedFileDescriptor
 
 class FileDescriptorInfo(
     val fdp: TypeSpec,
@@ -75,11 +77,24 @@ private constructor(
                             )
                         ).build()
                 )
+                .addAnnotation(annotationForFileDescriptor())
                 .build()
 
         val properties = enumDescriptorExtensionProperties() + messageDescriptorExtensionProperties()
 
         return FileDescriptorInfo(type, properties)
+    }
+
+    private fun annotationForFileDescriptor(): AnnotationSpec {
+        val containedMessages = ctx.fdp.messageTypeList.map { "${ctx.fdp.`package`}.${it.name}" }.map { CodeBlock.of("%S", it) }
+        val containedEnums = ctx.fdp.enumTypeList.map { "${ctx.fdp.`package`}.${it.name}" }.map { CodeBlock.of("%S", it) }
+        val containedServices = ctx.fdp.serviceList.map { "${ctx.fdp.`package`}.${it.name}" }.map { CodeBlock.of("%S", it) }
+
+        return AnnotationSpec.builder(KtGeneratedFileDescriptor::class)
+            .addMember("containedMessages = %L", "[${containedMessages.joinToString(", ")}]")
+            .addMember("containedEnums = %L", "[${containedEnums.joinToString(", ")}]")
+            .addMember("containedServices = %L", "[${containedServices.joinToString(", ")}]")
+            .build()
     }
 
     private fun descriptorLines() =
