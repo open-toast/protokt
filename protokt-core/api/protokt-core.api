@@ -97,6 +97,7 @@ public final class com/toasttab/protokt/EmptyProto {
 public final class com/toasttab/protokt/EnumDescriptor {
 	public fun <init> (Lcom/toasttab/protokt/EnumDescriptorProto;Lcom/toasttab/protokt/FileDescriptor;I)V
 	public final fun getFile ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getFullName ()Ljava/lang/String;
 	public final fun getIndex ()I
 	public final fun getProto ()Lcom/toasttab/protokt/EnumDescriptorProto;
 }
