@@ -16,6 +16,7 @@
 package com.toasttab.protokt.codegen.annotators
 
 import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
@@ -50,7 +51,7 @@ internal object ServiceAnnotator {
                                 """
                                     |lazy {
                                     |    ServiceDescriptor.newBuilder(SERVICE_NAME)
-                                    |${serviceLines(s)}
+                                    |${serviceLines(s, ctx)}
                                     |}
                                 """.bindMargin()
                             )
@@ -71,7 +72,11 @@ internal object ServiceAnnotator {
                                 .delegate(
                                     """
                                         |lazy {
-                                        |    MethodDescriptor.newBuilder<${it.inputType.renderName(ctx.desc.kotlinPackage)}, ${it.outputType.renderName(ctx.desc.kotlinPackage)}>()
+                                        |    MethodDescriptor.newBuilder<${it.inputType.renderName(ctx.desc.kotlinPackage)}, ${
+                                    it.outputType.renderName(
+                                        ctx.desc.kotlinPackage
+                                    )
+                                    }>()
                                         |        .setType(MethodDescriptor.MethodType.${methodType(it)})
                                         |        .setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "${it.name}"))
                                         |        .setRequestMarshaller(${it.qualifiedRequestMarshaller(ctx)})
@@ -140,10 +145,17 @@ internal object ServiceAnnotator {
                     .qualifiedName
             } ?: "com.toasttab.protokt.grpc.KtMarshaller(${outputType.renderName(ctx.desc.kotlinPackage)})"
 
-    private fun serviceLines(s: Service) =
-        s.methods.joinToString("\n") {
-            "      .addMethod(_${it.name.decapitalize()}Method)"
-        } + "\n        .build()"
+    private fun serviceLines(s: Service, ctx: Context): CodeBlock {
+        return CodeBlock.of(
+            s.methods.joinToString("\n") {
+                "      .addMethod(_${it.name.decapitalize()}Method)"
+            } + "\n        .setSchemaDescriptor(%T(ktClassName = %S, ktFileDescriptorClassName = %S))" +
+                "\n        .build()",
+            ClassName("com.toasttab.protokt.grpc", "KtSchemaDescriptor"),
+            "${ctx.desc.kotlinPackage}.${s.name}",
+            "${ctx.desc.kotlinPackage}.${ctx.desc.context.fileDescriptorObjectName}"
+        )
+    }
 
     private fun renderQualifiedName(s: Service, ctx: Context) =
         if (ctx.desc.kotlinPackage.default) {

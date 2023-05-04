@@ -29,6 +29,7 @@ import com.toasttab.protokt.codegen.protoc.Enum
 import com.toasttab.protokt.codegen.protoc.Message
 import com.toasttab.protokt.codegen.protoc.Protocol
 import com.toasttab.protokt.codegen.protoc.TopLevelType
+import com.toasttab.protokt.rt.KtGeneratedFileDescriptor
 
 class FileDescriptorInfo(
     val fdp: TypeSpec,
@@ -50,6 +51,7 @@ private constructor(
 
         val type =
             TypeSpec.objectBuilder(ctx.fileDescriptorObjectName)
+                .addAnnotation(KtGeneratedFileDescriptor::class)
                 .addProperty(
                     PropertySpec.builder("descriptor", ClassName("com.toasttab.protokt", "FileDescriptor"))
                         .delegate(

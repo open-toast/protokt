@@ -22,5 +22,8 @@ compatibleWithAndroid()
 
 dependencies {
     implementation(project(":protokt-runtime"))
+    implementation(project(":protokt-core"))
     implementation(libraries.grpcStub)
+    compileOnly(libraries.protobufJava)
+    implementation(kotlin("reflect"))
 }
