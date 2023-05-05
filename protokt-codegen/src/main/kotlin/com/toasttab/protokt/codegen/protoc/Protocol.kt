@@ -37,7 +37,7 @@ import com.toasttab.protokt.codegen.impl.resolvePackage
 import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.PPackage
-import com.toasttab.protokt.ext.Protokt
+import com.toasttab.protokt.ext.ProtoktProto
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.PersistentSet
 import kotlinx.collections.immutable.persistentListOf
@@ -73,7 +73,7 @@ val FileDescriptorProto.fileOptions
     get() =
         FileOptions(
             options,
-            options.getExtension(Protokt.file)
+            options.getExtension(ProtoktProto.file)
         )
 
 private fun toFieldType(type: FieldDescriptorProto.Type) =
@@ -158,7 +158,7 @@ private fun toEnum(
                     n,
                     EnumValueOptions(
                         t.options,
-                        t.options.getExtension(Protokt.enumValue)
+                        t.options.getExtension(ProtoktProto.enumValue)
                     ),
                     enumIdx
                 )
@@ -167,7 +167,7 @@ private fun toEnum(
         index = idx,
         options = EnumOptions(
             desc.options,
-            desc.options.getExtension(Protokt.enum_)
+            desc.options.getExtension(ProtoktProto.enum_)
         ),
         typeName = ClassName(pkg, enclosingMessages + typeName),
         deserializerTypeName = ClassName(pkg, enclosingMessages + typeName + "Deserializer")
@@ -196,7 +196,7 @@ private fun toMessage(
         mapEntry = desc.options?.mapEntry == true,
         options = MessageOptions(
             desc.options,
-            desc.options.getExtension(Protokt.class_)
+            desc.options.getExtension(ProtoktProto.class_)
         ),
         index = idx,
         fullProtobufTypeName = "${ctx.fdp.`package`}.${desc.name}",
@@ -219,7 +219,7 @@ private fun toService(
         deprecated = desc.options.deprecated,
         options = ServiceOptions(
             desc.options,
-            desc.options.getExtension(Protokt.service)
+            desc.options.getExtension(ProtoktProto.service)
         ),
         index = idx
     )
@@ -237,7 +237,7 @@ private fun toMethod(
         desc.options.deprecated,
         MethodOptions(
             desc.options,
-            desc.options.getExtension(Protokt.method)
+            desc.options.getExtension(ProtoktProto.method)
         )
     )
 
@@ -305,16 +305,15 @@ private fun toOneof(
             persistentMapOf<String, String>(),
             persistentSetOf<String>(),
             persistentListOf<StandardField>()
-        ),
-        { oneofIdx, acc, t ->
-            val ftn = newTypeNameFromCamel(t.name, acc.second)
-            Triple(
-                acc.first + (newFieldName(t.name, acc.second) to ftn),
-                acc.second + ftn,
-                acc.third + toStandard(idx + oneofIdx, ctx, pkg, t, emptySet(), true)
-            )
-        }
-    )
+        )
+    ) { oneofIdx, acc, t ->
+        val ftn = newTypeNameFromCamel(t.name, acc.second)
+        Triple(
+            acc.first + (newFieldName(t.name, acc.second) to ftn),
+            acc.second + ftn,
+            acc.third + toStandard(idx + oneofIdx, ctx, pkg, t, emptySet(), true)
+        )
+    }
     val name = newTypeNameFromCamel(oneof.name, typeNames)
     return Oneof(
         name = name,
@@ -324,7 +323,7 @@ private fun toOneof(
         fields = standardTuple.third,
         options = OneofOptions(
             oneof.options,
-            oneof.options.getExtension(Protokt.oneof)
+            oneof.options.getExtension(ProtoktProto.oneof)
         ),
         // index relative to all oneofs in this message
         index = idx - fields.filterIsInstance<StandardField>().count()
@@ -340,7 +339,7 @@ private fun toStandard(
     withinOneof: Boolean = false
 ): StandardField =
     toFieldType(fdp.type).let { type ->
-        val protoktOptions = fdp.options.getExtension(Protokt.property)
+        val protoktOptions = fdp.options.getExtension(ProtoktProto.property)
         val repeated = fdp.label == LABEL_REPEATED
         val mapEntry = mapEntry(usedFieldNames, fdp, ctx, pkg)
         val optional = optional(fdp, ctx)

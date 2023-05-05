@@ -24,7 +24,7 @@ import com.squareup.kotlinpoet.FileSpec
 import com.toasttab.protokt.codegen.impl.FileBuilder
 import com.toasttab.protokt.codegen.protoc.ProtocolContext
 import com.toasttab.protokt.codegen.protoc.toProtocol
-import com.toasttab.protokt.ext.Protokt
+import com.toasttab.protokt.ext.ProtoktProto
 import java.io.OutputStream
 import kotlin.system.exitProcess
 
@@ -111,5 +111,5 @@ private fun parseCodeGeneratorRequest(bytes: ByteArray) =
     CodeGeneratorRequest.parseFrom(
         bytes,
         ExtensionRegistry.newInstance()
-            .also { Protokt.registerAllExtensions(it) }
+            .also { ProtoktProto.registerAllExtensions(it) }
     )

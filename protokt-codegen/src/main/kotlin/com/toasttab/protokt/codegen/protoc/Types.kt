@@ -22,7 +22,14 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.toasttab.protokt.codegen.model.FieldType
 import com.toasttab.protokt.codegen.model.PClass
 import com.toasttab.protokt.codegen.model.PPackage
-import com.toasttab.protokt.ext.Protokt
+import com.toasttab.protokt.ext.ProtoktProto.ProtoktEnumOptions
+import com.toasttab.protokt.ext.ProtoktProto.ProtoktEnumValueOptions
+import com.toasttab.protokt.ext.ProtoktProto.ProtoktFieldOptions
+import com.toasttab.protokt.ext.ProtoktProto.ProtoktFileOptions
+import com.toasttab.protokt.ext.ProtoktProto.ProtoktMessageOptions
+import com.toasttab.protokt.ext.ProtoktProto.ProtoktMethodOptions
+import com.toasttab.protokt.ext.ProtoktProto.ProtoktOneofOptions
+import com.toasttab.protokt.ext.ProtoktProto.ProtoktServiceOptions
 import com.toasttab.protokt.rt.computeTag
 
 sealed class TopLevelType {
@@ -44,7 +51,7 @@ class Message(
 
 data class MessageOptions(
     val default: DescriptorProtos.MessageOptions,
-    val protokt: Protokt.ProtoktMessageOptions
+    val protokt: ProtoktMessageOptions
 )
 
 class Enum(
@@ -66,12 +73,12 @@ class Enum(
 
 class EnumOptions(
     val default: DescriptorProtos.EnumOptions,
-    val protokt: Protokt.ProtoktEnumOptions
+    val protokt: ProtoktEnumOptions
 )
 
 class EnumValueOptions(
     val default: DescriptorProtos.EnumValueOptions,
-    val protokt: Protokt.ProtoktEnumValueOptions
+    val protokt: ProtoktEnumValueOptions
 )
 
 class Service(
@@ -85,7 +92,7 @@ class Service(
 
 class ServiceOptions(
     val default: DescriptorProtos.ServiceOptions,
-    val protokt: Protokt.ProtoktServiceOptions
+    val protokt: ProtoktServiceOptions
 )
 
 class Method(
@@ -100,7 +107,7 @@ class Method(
 
 class MethodOptions(
     val default: DescriptorProtos.MethodOptions,
-    val protokt: Protokt.ProtoktMethodOptions
+    val protokt: ProtoktMethodOptions
 )
 
 sealed class Field {
@@ -141,12 +148,12 @@ class MapEntry(
 
 class FieldOptions(
     val default: DescriptorProtos.FieldOptions,
-    val protokt: Protokt.ProtoktFieldOptions
+    val protokt: ProtoktFieldOptions
 )
 
 class OneofOptions(
     val default: DescriptorProtos.OneofOptions,
-    val protokt: Protokt.ProtoktOneofOptions
+    val protokt: ProtoktOneofOptions
 )
 
 class FileDesc(
@@ -160,7 +167,7 @@ class FileDesc(
 
 class FileOptions(
     val default: DescriptorProtos.FileOptions,
-    val protokt: Protokt.ProtoktFileOptions
+    val protokt: ProtoktFileOptions
 )
 
 class Protocol(
