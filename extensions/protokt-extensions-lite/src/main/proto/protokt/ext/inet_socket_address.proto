@@ -19,8 +19,11 @@ package protokt.ext;
 
 import "protokt/protokt.proto";
 
+option java_package = "com.toasttab.protokt.ext";
+option java_outer_classname = "InetSocketAddressProto";
+
 option (protokt.file).kotlin_package = "com.toasttab.protokt.ext";
-option (protokt.file).file_descriptor_object_name = "InsetSocketAddressProto";
+option (protokt.file).file_descriptor_object_name = "InetSocketAddressProto";
 
 message InetSocketAddress {
   bytes address = 1 [
