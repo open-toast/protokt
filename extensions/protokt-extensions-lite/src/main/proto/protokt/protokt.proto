@@ -20,7 +20,7 @@ package protokt;
 import "google/protobuf/descriptor.proto";
 
 option java_package = "com.toasttab.protokt.ext";
-option java_outer_classname = "Protokt";
+option java_outer_classname = "ProtoktProto";
 
 message ProtoktFileOptions {
   // Specify the Kotlin package for the generated file. Precedence is given
