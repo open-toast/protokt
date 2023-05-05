@@ -28,6 +28,7 @@ class FileDescriptorNameCollisionTest {
 
     @Test
     fun `file in other project depending on a duplicated name chooses the right one`() {
+        // having only one dependency ensures that any deduplication done on the descriptor object names is resilient
         assertThat(file_descriptor_name_collision_file_descriptor.descriptor.dependencies)
             .containsExactly(toasttab.protokt.testing.rt.other.file_descriptor_name_collision1_file_descriptor.descriptor)
     }

@@ -20,5 +20,5 @@ package toasttab.protokt.testing.rt;
 import "toasttab/protokt/testing/rt/other/file_descriptor_name_collision1.proto";
 
 message CollisionBar {
-  other.CollisionFoo foo2 = 2;
+  other.CollisionFoo foo = 1;
 }
