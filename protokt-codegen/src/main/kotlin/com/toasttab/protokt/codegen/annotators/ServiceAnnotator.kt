@@ -151,7 +151,7 @@ internal object ServiceAnnotator {
                 "      .addMethod(_${it.name.decapitalize()}Method)"
             } + "\n        .setSchemaDescriptor(%T(ktClassName = %S, ktFileDescriptorClassName = %S))" +
                 "\n        .build()",
-            ClassName("com.toasttab.protokt.grpc", "KtSchemaDescriptor"),
+            ClassName("com.toasttab.protokt.grpc", "SchemaDescriptor"),
             "${ctx.desc.kotlinPackage}.${s.name}",
             "${ctx.desc.kotlinPackage}.${ctx.desc.context.fileDescriptorObjectName}"
         )
