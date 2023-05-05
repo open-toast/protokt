@@ -18,8 +18,8 @@ package com.toasttab.protokt.testing.pluginoptions
 import com.google.common.truth.Truth.assertThat
 import com.toasttab.protokt.TimestampProto
 import org.junit.jupiter.api.Test
-import toasttab.protokt.testing.ijp.WillBeImported
-import toasttab.protokt.testing.otherijp.UsesImport
+import toasttab.protokt.testing.ijp.will_be_imported_file_descriptor
+import toasttab.protokt.testing.otherijp.uses_import_file_descriptor
 import tutorial.AddressBookProtos
 import tutorial.Person
 
@@ -33,9 +33,9 @@ class IgnoreJavaPackageTest {
     @Test
     fun `descriptor dependencies reference correctly qualified entities`() {
         assertThat(
-            UsesImport.descriptor.dependencies
+            uses_import_file_descriptor.descriptor.dependencies
         ).contains(
-            WillBeImported.descriptor
+            will_be_imported_file_descriptor.descriptor
         )
 
         assertThat(
