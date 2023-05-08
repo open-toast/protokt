@@ -34,7 +34,6 @@ dependencies {
         exclude(group = "com.google.protobuf", module = "protobuf-java")
     }
 
-    api(project(":protokt-runtime-grpc"))
     api(project(":third-party:proto-google-common-protos"))
     api(libraries.grpcStub)
 }

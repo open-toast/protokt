@@ -32,7 +32,7 @@ dependencies {
     protoktExtensions(project(":third-party:proto-google-common-protos-extensions"))
 
     implementation(libraries.grpcStub)
-    implementation(project(":protokt-runtime-grpc"))
+    implementation(project(":protokt-runtime-grpc-lite"))
 
     testImplementation(kotlin("reflect"))
     testImplementation(project(":testing:runtime-tests"))

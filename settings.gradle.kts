@@ -32,6 +32,7 @@ include(
     "protokt-core-lite",
     "protokt-runtime",
     "protokt-runtime-grpc",
+    "protokt-runtime-grpc-lite",
     "protokt-gradle-plugin",
     "protokt-util",
 
