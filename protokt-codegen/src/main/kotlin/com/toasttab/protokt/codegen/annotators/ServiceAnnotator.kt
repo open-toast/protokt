@@ -149,7 +149,7 @@ internal object ServiceAnnotator {
         return CodeBlock.of(
             s.methods.joinToString("\n") {
                 "      .addMethod(_${it.name.decapitalize()}Method)"
-            } + "\n        .setSchemaDescriptor(%T(ktClassName = %S, ktFileDescriptorClassName = %S))" +
+            } + "\n        .setSchemaDescriptor(%T(className = %S, fileDescriptorClassName = %S))" +
                 "\n        .build()",
             ClassName("com.toasttab.protokt.grpc", "SchemaDescriptor"),
             "${ctx.desc.kotlinPackage}.${s.name}",
