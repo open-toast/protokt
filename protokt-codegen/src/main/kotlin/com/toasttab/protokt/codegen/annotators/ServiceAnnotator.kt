@@ -72,11 +72,7 @@ internal object ServiceAnnotator {
                                 .delegate(
                                     """
                                         |lazy {
-                                        |    MethodDescriptor.newBuilder<${it.inputType.renderName(ctx.desc.kotlinPackage)}, ${
-                                    it.outputType.renderName(
-                                        ctx.desc.kotlinPackage
-                                    )
-                                    }>()
+                                        |    MethodDescriptor.newBuilder<${it.inputType.renderName(ctx.desc.kotlinPackage)}, ${it.outputType.renderName(ctx.desc.kotlinPackage)}>()
                                         |        .setType(MethodDescriptor.MethodType.${methodType(it)})
                                         |        .setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "${it.name}"))
                                         |        .setRequestMarshaller(${it.qualifiedRequestMarshaller(ctx)})
