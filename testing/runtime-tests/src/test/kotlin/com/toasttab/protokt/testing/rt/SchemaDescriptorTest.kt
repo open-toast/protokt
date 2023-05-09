@@ -7,11 +7,10 @@ import org.junit.jupiter.api.Test
 import toasttab.protokt.testing.rt.TestServiceGrpc
 
 class SchemaDescriptorTest {
-
     @Test
     fun `schemadescriptor has correct file descriptor`() {
         val schemaDescriptor = TestServiceGrpc.getServiceDescriptor().schemaDescriptor as SchemaDescriptor
-        assertThat(schemaDescriptor.fileDescriptor.proto.name)
-            .isEqualTo("toasttab/protokt/testing/rt/service_package.proto")
+        assertThat(schemaDescriptor.fileDescriptor.proto)
+            .isEqualTo(toasttab.protokt.testing.rt.ServicePackage.descriptor.proto)
     }
 }
