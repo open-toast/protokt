@@ -7,8 +7,12 @@ class SchemaDescriptor(
     private val fileDescriptorClassName: String
 ) {
 
+    /**
+     * This returns a com.toasttab.protokt.FileDescriptor, which isn't available in the
+     * lite runtime.
+     */
     @Suppress("UNCHECKED_CAST")
-    val fileDescriptor: FileDescriptor by lazy {
+    val fileDescriptorUntyped: Any by lazy {
         val clazz =
             try {
                 Class.forName(fileDescriptorClassName) as Class<Any>
