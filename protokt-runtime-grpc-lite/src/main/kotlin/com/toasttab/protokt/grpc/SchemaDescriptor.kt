@@ -1,7 +1,5 @@
 package com.toasttab.protokt.grpc
 
-import com.toasttab.protokt.FileDescriptor
-
 class SchemaDescriptor(
     private val className: String,
     private val fileDescriptorClassName: String
@@ -12,6 +10,11 @@ class SchemaDescriptor(
      * lite runtime.
      */
     @Suppress("UNCHECKED_CAST")
+    @Deprecated(
+        "You can only use this with the non-lite runtime. If you're using the non-lite runtime, replace this with" +
+            "`fileDescriptor` found in `com.toasttab.protokt.grpc.SchemaDescriptorExtensions`",
+        ReplaceWith("com.toasttab.protokt.grpc.fileDescriptor")
+    )
     val fileDescriptorUntyped: Any by lazy {
         val clazz =
             try {
@@ -26,7 +29,7 @@ class SchemaDescriptor(
         val obj = clazz.objectInstance
         val getDescriptor = clazz.methods.find { it.name == "getDescriptor" }
             ?: error("No getDescriptor method found on $clazz")
-        getDescriptor.invoke(obj) as FileDescriptor
+        getDescriptor.invoke(obj)
     }
 }
 

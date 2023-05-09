@@ -45,6 +45,7 @@ configure<ProtobufExtension> {
 }
 
 dependencies {
+    implementation(project(":protokt-runtime-grpc"))
     implementation(project(":protokt-runtime-grpc-lite"))
     implementation(libraries.grpcKotlin)
     implementation(libraries.grpcStub)

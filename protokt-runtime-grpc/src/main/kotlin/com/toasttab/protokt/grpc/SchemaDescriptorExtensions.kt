@@ -1,4 +1,7 @@
 package com.toasttab.protokt.grpc
 
-class SchemaDescriptorExtensions {
-}
+import com.toasttab.protokt.FileDescriptor
+
+@Suppress("DEPRECATION")
+val SchemaDescriptor.fileDescriptor: FileDescriptor
+    get() = fileDescriptorUntyped as FileDescriptor
