@@ -69,8 +69,7 @@ class ProtocolContext(
 
     val allFilesByName = allFiles.associateBy { it.name }
 
-    val allDescriptorClassNamesByDescriptorName =
-        generateFdpObjectNames(allFiles, respectJavaPackage(params))
+    val allDescriptorClassNamesByDescriptorName = generateFdpObjectNames(allFiles)
 
     val fileDescriptorObjectName =
         allDescriptorClassNamesByDescriptorName.getValue(fdp.name)
