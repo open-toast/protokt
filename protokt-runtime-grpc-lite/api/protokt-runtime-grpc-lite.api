@@ -1,0 +1,13 @@
+public final class com/toasttab/protokt/grpc/KtMarshaller : io/grpc/MethodDescriptor$Marshaller {
+	public fun <init> (Lcom/toasttab/protokt/rt/KtDeserializer;)V
+	public fun parse (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun parse (Ljava/io/InputStream;)Ljava/lang/Object;
+	public fun stream (Lcom/toasttab/protokt/rt/KtMessage;)Ljava/io/ByteArrayInputStream;
+	public synthetic fun stream (Ljava/lang/Object;)Ljava/io/InputStream;
+}
+
+public final class com/toasttab/protokt/grpc/SchemaDescriptor {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun getFileDescriptorUntyped ()Ljava/lang/Object;
+}
+

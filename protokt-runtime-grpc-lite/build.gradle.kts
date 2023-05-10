@@ -19,6 +19,7 @@ plugins {
 
 enablePublishing()
 compatibleWithAndroid()
+trackKotlinApiCompatibility()
 
 dependencies {
     api(project(":protokt-runtime"))
