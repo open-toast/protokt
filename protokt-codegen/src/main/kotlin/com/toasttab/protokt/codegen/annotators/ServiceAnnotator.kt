@@ -30,6 +30,7 @@ import com.toasttab.protokt.codegen.model.possiblyQualify
 import com.toasttab.protokt.codegen.protoc.Method
 import com.toasttab.protokt.codegen.protoc.Service
 import com.toasttab.protokt.codegen.util.decapitalize
+import com.toasttab.protokt.grpc.SchemaDescriptor
 import io.grpc.MethodDescriptor
 import io.grpc.ServiceDescriptor
 
@@ -147,7 +148,7 @@ internal object ServiceAnnotator {
                 "      .addMethod(_${it.name.decapitalize()}Method)"
             } + "\n        .setSchemaDescriptor(%T(className = %S, fileDescriptorClassName = %S))" +
                 "\n        .build()",
-            ClassName("com.toasttab.protokt.grpc", "SchemaDescriptor"),
+            SchemaDescriptor::class,
             "${ctx.desc.kotlinPackage}.${s.name}",
             "${ctx.desc.kotlinPackage}.${ctx.desc.context.fileDescriptorObjectName}"
         )

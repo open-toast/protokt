@@ -28,7 +28,7 @@ class SchemaDescriptor(
     @Deprecated(
         "You can only use this with the non-lite runtime. If you're using the non-lite runtime, replace this with" +
             "`fileDescriptor` found in " +
-                "`protokt-runtime-grpc/src/main/kotlin/com/toasttab/protokt/grpc/SchemaDescriptorExtensions.kt`",
+            "`protokt-runtime-grpc/src/main/kotlin/com/toasttab/protokt/grpc/SchemaDescriptorExtensions.kt`",
         ReplaceWith("com.toasttab.protokt.grpc.fileDescriptor")
     )
     val fileDescriptorUntyped: Any by lazy {

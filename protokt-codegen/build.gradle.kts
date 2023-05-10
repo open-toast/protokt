@@ -40,6 +40,7 @@ application {
 dependencies {
     implementation(project(":extensions:protokt-extensions-api"))
     implementation(project(":protokt-runtime"))
+    implementation(project(":protokt-runtime-grpc-lite"))
     implementation(project(":protokt-util"))
 
     implementation(kotlin("reflect"))
