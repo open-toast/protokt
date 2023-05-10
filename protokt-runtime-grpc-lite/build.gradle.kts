@@ -21,7 +21,6 @@ enablePublishing()
 compatibleWithAndroid()
 
 dependencies {
-    implementation(project(":protokt-runtime"))
     implementation(project(":protokt-core"))
-    implementation(libraries.grpcStub)
+    api(libraries.grpcStub)
 }

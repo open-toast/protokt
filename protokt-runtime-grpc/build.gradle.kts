@@ -22,7 +22,6 @@ compatibleWithAndroid()
 
 dependencies {
     api(project(":protokt-runtime-grpc-lite"))
-    implementation(project(":protokt-runtime"))
+    api(libraries.grpcStub)
     implementation(project(":protokt-core"))
-    implementation(libraries.grpcStub)
 }
