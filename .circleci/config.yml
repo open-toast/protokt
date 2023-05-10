@@ -22,20 +22,20 @@ commands:
   read_cache:
     steps:
       - restore_cache:
-          key: v2-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+          key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
       - restore_cache:
-          key: v2-gradle-cache-{{ checksum "build.gradle.kts" }}
+          key: v1-gradle-cache-{{ checksum "build.gradle.kts" }}
 
   write_cache:
     steps:
       - save_cache:
           paths:
             - ~/.gradle/wrapper
-          key: v2-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+          key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
       - save_cache:
           paths:
             - ~/.gradle/caches
-          key: v2-gradle-cache-{{ checksum "build.gradle.kts" }}
+          key: v1-gradle-cache-{{ checksum "build.gradle.kts" }}
 
 jobs:
   build:
