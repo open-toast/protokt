@@ -15,27 +15,21 @@
 
 syntax = "proto3";
 
-package com.toasttab.protokt.testing.options;
+package toasttab.protokt.testing.options;
 
-import "google/protobuf/wrappers.proto";
 import "protokt/protokt.proto";
 
-message NonNullModel {
-  google.protobuf.StringValue non_null_string_value = 1 [
-    (.protokt.property).non_null = true
-  ];
+option java_package = "com.toasttab.protokt.testing.options";
 
-  oneof non_null_oneof {
-    option (.protokt.oneof).non_null = true;
+// This file exercises oneofs whose names are the same as their
+// generated sealed class type names. If the code generator does
+// not handle them properly then compilation will fail.
 
-    string message = 2;
-  }
-}
-
-message NonNullModelMirror {
-  google.protobuf.StringValue non_null_string_value = 1;
-
-  oneof non_null_oneof {
-    string message = 2;
+message OneofExerciseModelWithWrapper {
+  oneof oneof {
+    // Needs full qualification: com.toasttab.protokt.testing.options.CachingId
+    bytes caching_id = 1 [
+      (.protokt.property).wrap = "CachingId"
+    ];
   }
 }

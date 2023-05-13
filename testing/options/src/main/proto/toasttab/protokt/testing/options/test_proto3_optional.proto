@@ -15,11 +15,12 @@
 
 syntax = "proto3";
 
-package com.toasttab.protokt.testing.options.pkg;
+package toasttab.protokt.testing.options;
 
 import "protokt/protokt.proto";
 
-option java_package = "com.toasttab.model.javapkg";
-option (.protokt.file).kotlin_package = "com.toasttab.protokt.testing.options.kotlinpkg";
-
-message Model {}
+message TestProto3OptionalWrapperType {
+  optional string optional_local_date = 1 [
+    (.protokt.property).wrap = "java.time.LocalDate"
+  ];
+}

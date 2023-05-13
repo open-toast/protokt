@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast, Inc.
+ * Copyright (c) 2020 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,10 +15,11 @@
 
 syntax = "proto3";
 
-package com.toasttab.protokt.testing.options;
+package toasttab.protokt.testing.options.pkg;
 
 import "protokt/protokt.proto";
 
-option (.protokt.file).kotlin_package = "com.toasttab.protokt.testing.options.other";
+option java_package = "com.toasttab.model.javapkg";
+option (.protokt.file).kotlin_package = "com.toasttab.protokt.testing.options.kotlinpkg";
 
-message OtherModel {}
+message Model {}

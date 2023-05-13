@@ -18,6 +18,7 @@ package com.toasttab.protokt.testing.options.pkg
 import com.google.common.truth.Truth.assertThat
 import com.toasttab.protokt.testing.propertyType
 import org.junit.jupiter.api.Test
+import toasttab.protokt.testing.options.ImportsWrapperModel
 import kotlin.reflect.KClass
 import kotlin.reflect.full.createType
 

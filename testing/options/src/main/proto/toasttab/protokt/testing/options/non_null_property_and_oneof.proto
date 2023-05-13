@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Toast, Inc.
+ * Copyright (c) 2019 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,23 +15,27 @@
 
 syntax = "proto3";
 
-package com.toasttab.protokt.testing.options;
+package toasttab.protokt.testing.options;
 
-import "google/protobuf/duration.proto";
+import "google/protobuf/wrappers.proto";
 import "protokt/protokt.proto";
 
-message ImportsWrapperModel {
-  google.protobuf.Duration native_duration = 1 [
+message NonNullModel {
+  google.protobuf.StringValue non_null_string_value = 1 [
     (.protokt.property).non_null = true
   ];
 
-  google.protobuf.Duration java_duration = 2 [
-    (.protokt.property).wrap = "java.time.Duration",
-    (.protokt.property).non_null = true
-  ];
+  oneof non_null_oneof {
+    option (.protokt.oneof).non_null = true;
 
-  google.protobuf.Duration superfluous_duration = 3 [
-    (.protokt.property).wrap = "com.toasttab.protokt.testing.options.Duration",
-    (.protokt.property).non_null = true
-  ];
+    string message = 2;
+  }
+}
+
+message NonNullModelMirror {
+  google.protobuf.StringValue non_null_string_value = 1;
+
+  oneof non_null_oneof {
+    string message = 2;
+  }
 }

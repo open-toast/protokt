@@ -17,6 +17,9 @@ package com.toasttab.protokt.testing.options
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
+import toasttab.protokt.testing.options.FileDescriptorObjectNameTest
+import toasttab.protokt.testing.options.SomeOtherObjectName
+import toasttab.protokt.testing.options.descriptor
 
 class CustomFileDescriptorObjectNameTest {
     @Test

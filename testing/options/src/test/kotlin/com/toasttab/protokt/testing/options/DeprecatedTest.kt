@@ -18,6 +18,8 @@ package com.toasttab.protokt.testing.options
 import com.google.common.truth.Truth.assertThat
 import com.toasttab.protokt.testing.propertyNamed
 import org.junit.jupiter.api.Test
+import toasttab.protokt.testing.options.DeprecatedModel
+import toasttab.protokt.testing.options.ForeignEnumWithDeprecation
 import kotlin.reflect.KAnnotatedElement
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
@@ -27,7 +29,7 @@ class DeprecatedTest {
     @Test
     fun `deprecated foreign enum`() {
         assertClassDeprecation(
-            DeprecatedForeignEnum::class,
+            toasttab.protokt.testing.options.DeprecatedForeignEnum::class,
             "deprecated in proto"
         )
     }

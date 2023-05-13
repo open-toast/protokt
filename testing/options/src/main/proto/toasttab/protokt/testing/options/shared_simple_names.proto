@@ -15,16 +15,23 @@
 
 syntax = "proto3";
 
-package com.toasttab.protokt.testing.options;
+package toasttab.protokt.testing.options;
 
+import "google/protobuf/duration.proto";
 import "protokt/protokt.proto";
 
-message In {}
-message Out {}
+message ImportsWrapperModel {
+  google.protobuf.Duration native_duration = 1 [
+    (.protokt.property).non_null = true
+  ];
 
-service CustomMarshallerService {
-  rpc CustomMarshallersMethod(In) returns (Out) {
-    option (.protokt.method).request_marshaller = "InMarshaller";
-    option (.protokt.method).response_marshaller = "OutMarshaller";
-  };
+  google.protobuf.Duration java_duration = 2 [
+    (.protokt.property).wrap = "java.time.Duration",
+    (.protokt.property).non_null = true
+  ];
+
+  google.protobuf.Duration superfluous_duration = 3 [
+    (.protokt.property).wrap = "com.toasttab.protokt.testing.options.Duration",
+    (.protokt.property).non_null = true
+  ];
 }

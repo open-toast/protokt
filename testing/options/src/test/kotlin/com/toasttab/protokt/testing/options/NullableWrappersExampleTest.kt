@@ -19,6 +19,7 @@ import com.google.common.truth.Truth.assertThat
 import com.toasttab.protokt.testing.propertyIsMarkedNullable
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
+import toasttab.protokt.testing.options.NullableWrappersExample
 import java.net.InetAddress
 import java.net.InetSocketAddress
 import java.time.Duration

@@ -15,12 +15,23 @@
 
 syntax = "proto3";
 
-package com.toasttab.protokt.testing.options;
+package toasttab.protokt.testing.options.pkg;
 
+import "google/protobuf/duration.proto";
 import "protokt/protokt.proto";
 
-message TestProto3OptionalWrapperType {
-  optional string optional_local_date = 1 [
-    (.protokt.property).wrap = "java.time.LocalDate"
+message ImportsWrapperModel {
+  google.protobuf.Duration native_duration = 1 [
+    (.protokt.property).non_null = true
+  ];
+
+  google.protobuf.Duration java_duration = 2 [
+    (.protokt.property).wrap = "java.time.Duration",
+    (.protokt.property).non_null = true
+  ];
+
+  google.protobuf.Duration superfluous_duration = 3 [
+    (.protokt.property).wrap = "com.toasttab.protokt.testing.options.Duration",
+    (.protokt.property).non_null = true
   ];
 }
