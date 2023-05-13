@@ -16,12 +16,12 @@
 package com.toasttab.protokt.ext
 
 import com.google.auto.service.AutoService
+import com.toasttab.protokt.InetSocketAddress
 
 @Suppress("DEPRECATION")
 @Deprecated("for backwards compatibility only")
 @AutoService(Converter::class)
-object InetSocketAddressConverter :
-    Converter<java.net.InetSocketAddress, InetSocketAddress> {
+object InetSocketAddressConverter : Converter<java.net.InetSocketAddress, InetSocketAddress> {
 
     override val wrapper = java.net.InetSocketAddress::class
 

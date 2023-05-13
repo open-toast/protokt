@@ -15,19 +15,10 @@
 
 syntax = "proto3";
 
-package protokt;
+package toasttab.protokt.testing;
 
-import "protokt/protokt.proto";
+import "toasttab/protokt/testing/other/file_descriptor_name_collision1.proto";
 
-option java_package = "com.toasttab.protokt";
-option java_outer_classname = "InetSocketAddressProto";
-option (protokt.file).kotlin_package = "com.toasttab.protokt";
-option (protokt.file).file_descriptor_object_name = "InetSocketAddressProto";
-
-message InetSocketAddress {
-  bytes address = 1 [
-    (protokt.property).wrap = "java.net.InetAddress"
-  ];
-
-  int32 port = 2;
+message CollisionBar {
+  other.CollisionFoo foo = 1;
 }

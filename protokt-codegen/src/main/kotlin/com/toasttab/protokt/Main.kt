@@ -86,5 +86,5 @@ private fun parseCodeGeneratorRequest(bytes: ByteArray) =
     CodeGeneratorRequest.parseFrom(
         bytes,
         ExtensionRegistry.newInstance()
-            .also { Protokt.registerAllExtensions(it) }
+            .also { ProtoktProto.registerAllExtensions(it) }
     )

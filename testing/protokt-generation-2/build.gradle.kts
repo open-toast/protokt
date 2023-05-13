@@ -13,21 +13,15 @@
  * limitations under the License.
  */
 
-syntax = "proto3";
+import com.toasttab.protokt.gradle.protoktExtensions
 
-package protokt;
+plugins {
+    id("protokt.jvm-conventions")
+}
 
-import "protokt/protokt.proto";
+localProtokt()
+pureKotlin()
 
-option java_package = "com.toasttab.protokt";
-option java_outer_classname = "InetSocketAddressProto";
-option (protokt.file).kotlin_package = "com.toasttab.protokt";
-option (protokt.file).file_descriptor_object_name = "InetSocketAddressProto";
-
-message InetSocketAddress {
-  bytes address = 1 [
-    (protokt.property).wrap = "java.net.InetAddress"
-  ];
-
-  int32 port = 2;
+dependencies {
+    protoktExtensions(project(":testing:protokt-generation"))
 }

@@ -17,9 +17,9 @@ syntax = "proto3";
 
 package toasttab.protokt.testing;
 
-message Empty {}
+message ToStringTestEmpty {}
 
-message Test2 {
+message ToStringTest2 {
   bytes val = 1;
   string extra = 2;
 }

@@ -17,7 +17,7 @@ package com.toasttab.protokt.codegen.util
 
 import com.google.protobuf.DescriptorProtos.MethodDescriptorProto
 import com.google.protobuf.DescriptorProtos.ServiceDescriptorProto
-import com.toasttab.protokt.Protokt
+import com.toasttab.protokt.ProtoktProto
 
 class ServiceParser(
     private val ctx: GeneratorContext,
@@ -31,7 +31,7 @@ class ServiceParser(
             deprecated = desc.options.deprecated,
             options = ServiceOptions(
                 desc.options,
-                desc.options.getExtension(Protokt.service)
+                desc.options.getExtension(ProtoktProto.service)
             ),
             index = idx
         )
@@ -46,7 +46,7 @@ class ServiceParser(
             deprecated = desc.options.deprecated,
             options = MethodOptions(
                 desc.options,
-                desc.options.getExtension(Protokt.method)
+                desc.options.getExtension(ProtoktProto.method)
             )
         )
 }

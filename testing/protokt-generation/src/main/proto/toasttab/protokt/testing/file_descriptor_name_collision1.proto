@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast, Inc.
+ * Copyright (c) 2023 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,19 +15,6 @@
 
 syntax = "proto3";
 
-package protokt.ext;
+package toasttab.protokt.testing.rt;
 
-import "protokt/protokt.proto";
-
-option (protokt.file).kotlin_package = "com.toasttab.protokt.ext";
-option (protokt.file).file_descriptor_object_name = "InetSocketAddressProto";
-
-message InetSocketAddress {
-  option deprecated = true;
-
-  bytes address = 1 [
-    (protokt.property).wrap = "java.net.InetAddress"
-  ];
-
-  int32 port = 2;
-}
+message CollisionFoo {}

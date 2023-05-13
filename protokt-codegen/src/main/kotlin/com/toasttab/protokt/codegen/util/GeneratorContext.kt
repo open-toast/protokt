@@ -18,7 +18,7 @@ package com.toasttab.protokt.codegen.util
 import com.google.common.base.CaseFormat.LOWER_CAMEL
 import com.google.common.base.CaseFormat.LOWER_UNDERSCORE
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
-import com.toasttab.protokt.Protokt
+import com.toasttab.protokt.ProtoktProto
 import com.toasttab.protokt.gradle.FORMAT_OUTPUT
 import com.toasttab.protokt.gradle.GENERATE_GRPC
 import com.toasttab.protokt.gradle.KOTLIN_EXTRA_CLASSPATH
@@ -80,7 +80,7 @@ private fun Map<String, String>.getOrDefault(key: String): Boolean {
 }
 
 val FileDescriptorProto.fileOptions
-    get() = FileOptions(options, options.getExtension(Protokt.file))
+    get() = FileOptions(options, options.getExtension(ProtoktProto.file))
 
 private fun generateFdpObjectNames(files: List<FileDescriptorProto>): Map<String, String> =
     files.associate { fdp ->

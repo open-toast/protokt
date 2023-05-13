@@ -40,6 +40,7 @@ message Bytes {}
 message Deserializer {}
 message KtDeserializer {}
 message KtSerializer {}
+message KtEnumSerializer {}
 message KtMessageSerializer {}
 message Tag {}
 message UnknownFieldSet { message Builder {} }
@@ -49,6 +50,7 @@ message KtMessage {}
 message AbstractKtMessage {}
 message BytesSlice {}
 message KtEnumDeserializer {}
+message AbstractKtEnum {}
 message UnknownField {}
 message UnknownValue {}
 message VarintVal {}

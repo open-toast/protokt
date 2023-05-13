@@ -1,5 +1,5 @@
-public final class com/toasttab/protokt/Protokt {
-	public static final field INSTANCE Lcom/toasttab/protokt/Protokt;
+public final class com/toasttab/protokt/ProtoktProto {
+	public static final field INSTANCE Lcom/toasttab/protokt/ProtoktProto;
 	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
 }
 
