@@ -17,20 +17,20 @@ package com.toasttab.protokt.v1
 
 actual value class Int32(val value: Int)
 
-actual value class Fixed32(val value: Int)
+actual value class Fixed32(val value: UInt)
 
 actual value class SFixed32(val value: Int)
 
-actual value class UInt32(val value: Int)
+actual value class UInt32(val value: UInt)
 
 actual value class SInt32(val value: Int)
 
 actual value class Int64(val value: Long)
 
-actual value class Fixed64(val value: Long)
+actual value class Fixed64(val value: ULong)
 
 actual value class SFixed64(val value: Long)
 
-actual value class UInt64(val value: Long)
+actual value class UInt64(val value: ULong)
 
 actual value class SInt64(val value: Long)

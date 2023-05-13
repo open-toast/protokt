@@ -59,6 +59,16 @@ object IntConverter : Converter<IntBox, Int> {
     override fun wrap(unwrapped: Int) = IntBox(unwrapped)
 }
 
+data class UIntBox(val wrapped: UInt)
+
+@AutoService(Converter::class)
+object UIntConverter : Converter<UIntBox, UInt> {
+    override val wrapped = UInt::class
+    override val wrapper = UIntBox::class
+    override fun unwrap(wrapped: UIntBox) = wrapped.wrapped
+    override fun wrap(unwrapped: UInt) = UIntBox(unwrapped)
+}
+
 data class LongBox(val wrapped: Long)
 
 @AutoService(Converter::class)
@@ -67,6 +77,16 @@ object LongConverter : Converter<LongBox, Long> {
     override val wrapper = LongBox::class
     override fun unwrap(wrapped: LongBox) = wrapped.wrapped
     override fun wrap(unwrapped: Long) = LongBox(unwrapped)
+}
+
+data class ULongBox(val wrapped: ULong)
+
+@AutoService(Converter::class)
+object ULongConverter : Converter<ULongBox, ULong> {
+    override val wrapped = ULong::class
+    override val wrapper = ULongBox::class
+    override fun unwrap(wrapped: ULongBox) = wrapped.wrapped
+    override fun wrap(unwrapped: ULong) = ULongBox(unwrapped)
 }
 
 data class FloatBox(val wrapped: Float)

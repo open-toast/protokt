@@ -37,11 +37,16 @@ class ToStringTest {
         assertThat(
             ToStringTestEmpty {
                 unknownFields = UnknownFieldSet.Builder().apply {
-                    add(UnknownField.fixed32(5, 10))
+                    add(UnknownField.fixed32(5, 10u))
                 }.build()
             }.toString()
         ).isEqualTo(
-            "ToStringTestEmpty(unknownFields=UnknownFieldSet(unknownFields={5=Field(varint=[], fixed32=[Fixed32Val(value=Fixed32(value=10))], fixed64=[], lengthDelimited=[])}))"
+            "ToStringTestEmpty(" +
+                "unknownFields=UnknownFieldSet(unknownFields={5=Field(" +
+                "varint=[], " +
+                "fixed32=[Fixed32Val(value=Fixed32(value=10))], " +
+                "fixed64=[], " +
+                "lengthDelimited=[])}))"
         )
     }
 
@@ -60,11 +65,18 @@ class ToStringTest {
             ToStringTest2 {
                 extra = "foo"
                 unknownFields = UnknownFieldSet.Builder().apply {
-                    add(UnknownField.fixed32(5, 10))
+                    add(UnknownField.fixed32(5, 10u))
                 }.build()
             }.toString()
         ).isEqualTo(
-            "ToStringTest2(`val`=[], extra=foo, unknownFields=UnknownFieldSet(unknownFields={5=Field(varint=[], fixed32=[Fixed32Val(value=Fixed32(value=10))], fixed64=[], lengthDelimited=[])}))"
+            "ToStringTest2(" +
+                "`val`=[], " +
+                "extra=foo, " +
+                "unknownFields=UnknownFieldSet(unknownFields={5=Field(" +
+                "varint=[], " +
+                "fixed32=[Fixed32Val(value=Fixed32(value=10))], " +
+                "fixed64=[], " +
+                "lengthDelimited=[])}))"
         )
     }
 }

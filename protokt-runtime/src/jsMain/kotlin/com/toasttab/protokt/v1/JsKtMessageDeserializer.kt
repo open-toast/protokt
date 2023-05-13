@@ -24,10 +24,10 @@ internal fun deserializer(reader: Reader): KtMessageDeserializer {
             reader.double()
 
         override fun readFixed32() =
-            reader.fixed32()
+            reader.fixed32().toUInt()
 
         override fun readFixed64() =
-            Long.fromProtobufJsLong(reader.fixed64())
+            Long.fromProtobufJsLong(reader.fixed64()).toULong()
 
         override fun readFloat() =
             reader.float()
@@ -51,7 +51,7 @@ internal fun deserializer(reader: Reader): KtMessageDeserializer {
             reader.string()
 
         override fun readUInt64() =
-            Long.fromProtobufJsLong(reader.uint64())
+            Long.fromProtobufJsLong(reader.uint64()).toULong()
 
         override fun readTag(): Int {
             lastTag =

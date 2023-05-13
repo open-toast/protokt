@@ -19,8 +19,8 @@ interface KtMessageDeserializer {
     fun readBytes(): Bytes
     fun readBytesSlice(): BytesSlice
     fun readDouble(): Double
-    fun readFixed32(): Int
-    fun readFixed64(): Long
+    fun readFixed32(): UInt
+    fun readFixed64(): ULong
     fun readFloat(): Float
     fun readInt64(): Long
     fun readSFixed32(): Int
@@ -28,7 +28,7 @@ interface KtMessageDeserializer {
     fun readSInt32(): Int
     fun readSInt64(): Long
     fun readString(): String
-    fun readUInt64(): Long
+    fun readUInt64(): ULong
     fun readTag(): Int
     fun readUnknown(): UnknownField
     fun readRepeated(packed: Boolean, acc: KtMessageDeserializer.() -> Unit)
@@ -48,8 +48,8 @@ interface KtMessageDeserializer {
     fun readInt32(): Int =
         readInt64().toInt()
 
-    fun readUInt32(): Int =
-        readInt32()
+    fun readUInt32(): UInt =
+        readInt32().toUInt()
 
     fun <T : KtEnum> readEnum(e: KtEnumDeserializer<T>): T =
         e.from(readInt32())

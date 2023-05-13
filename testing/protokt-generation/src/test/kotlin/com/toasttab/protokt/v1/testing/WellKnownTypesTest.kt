@@ -28,9 +28,9 @@ class WellKnownTypesTest {
                 double = 4.5
                 float = 4.6f
                 int64 = 23
-                uint64 = 231
+                uint64 = 231u
                 int32 = 12
-                uint32 = 998
+                uint32 = 998u
                 bool = false
                 string = "some-string"
                 bytes = Bytes(byteArrayOf(4, 5, 3))

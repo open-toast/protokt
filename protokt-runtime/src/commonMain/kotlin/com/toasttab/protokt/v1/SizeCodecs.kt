@@ -15,15 +15,15 @@
 
 package com.toasttab.protokt.v1
 
-fun sizeof(t: Tag): Int = sizeof(UInt32(t.value shl 3 or 0))
+fun sizeof(t: Tag): Int = sizeof(UInt32(t.value.toUInt() shl 3 or 0u))
 fun sizeof(enum: KtEnum) = sizeof(Int32(enum.value))
-fun sizeof(msg: KtMessage) = sizeof(UInt32(msg.messageSize)) + msg.messageSize
+fun sizeof(msg: KtMessage) = sizeof(UInt32(msg.messageSize.toUInt())) + msg.messageSize
 fun sizeof(b: Bytes) = sizeof(b.value)
-fun sizeof(b: BytesSlice) = sizeof(UInt32(b.length)) + b.length
-fun sizeof(b: ByteArray) = sizeof(UInt32(b.size)) + b.size
-fun sizeof(l: Int64) = sizeof(UInt64(l.value))
-fun sizeof(i: SInt32) = sizeof(UInt32(i.value.zigZagEncoded))
-fun sizeof(l: SInt64) = sizeof(UInt64(l.value.zigZagEncoded))
+fun sizeof(b: BytesSlice) = sizeof(Int32(b.length)) + b.length
+fun sizeof(b: ByteArray) = sizeof(Int32(b.size)) + b.size
+fun sizeof(l: Int64) = sizeof(UInt64(l.value.toULong()))
+fun sizeof(i: SInt32) = sizeof(UInt32(i.value.zigZagEncoded.toUInt()))
+fun sizeof(l: SInt64) = sizeof(UInt64(l.value.zigZagEncoded.toULong()))
 
 private val Int.zigZagEncoded
     get() = (this shl 1) xor (this shr 31)
@@ -33,22 +33,22 @@ private val Long.zigZagEncoded
 
 fun sizeof(i: Int32) =
     if (i.value >= 0) {
-        sizeof(UInt32(i.value))
+        sizeof(UInt32(i.value.toUInt()))
     } else {
         10
     }
 
 fun sizeof(i: UInt32) =
     when {
-        i.value and (0.inv() shl 7) == 0 -> 1
-        i.value and (0.inv() shl 14) == 0 -> 2
-        i.value and (0.inv() shl 21) == 0 -> 3
-        i.value and (0.inv() shl 28) == 0 -> 4
+        i.value and (0.inv() shl 7).toUInt() == 0u -> 1
+        i.value and (0.inv() shl 14).toUInt() == 0u -> 2
+        i.value and (0.inv() shl 21).toUInt() == 0u -> 3
+        i.value and (0.inv() shl 28).toUInt() == 0u -> 4
         else -> 5
     }
 
 fun sizeof(l: UInt64): Int {
-    var value = l.value
+    var value = l.value.toLong()
     if (value and (0L.inv() shl 7) == 0L) {
         return 1
     }
@@ -102,7 +102,7 @@ fun sizeof(s: String): Int {
                     else -> 4
                 }.toInt()
             }
-    return sizeof(UInt32(length)) + length
+    return sizeof(Int32(length)) + length
 }
 
 private class CodePointIterator(
@@ -136,7 +136,7 @@ fun <K, V> sizeofMap(
     sizeof(tag).let { t ->
         m.entries.sumOf { (k, v) ->
             t + sizeof(k, v).let { s ->
-                s + sizeof(UInt32(s))
+                s + sizeof(Int32(s))
             }
         }
     }

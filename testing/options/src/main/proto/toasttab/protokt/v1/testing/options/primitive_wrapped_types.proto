@@ -35,11 +35,11 @@ message PrimitiveWrappedTypes {
   ];
 
   fixed32 fixed32 = 4 [
-    (.protokt.v1.property).wrap = "IntBox"
+    (.protokt.v1.property).wrap = "UIntBox"
   ];
 
   fixed64 fixed64 = 5 [
-    (.protokt.v1.property).wrap = "LongBox"
+    (.protokt.v1.property).wrap = "ULongBox"
   ];
 
   float float = 6 [
@@ -75,10 +75,10 @@ message PrimitiveWrappedTypes {
   ];
 
   uint32 uint32 = 14 [
-    (.protokt.v1.property).wrap = "IntBox"
+    (.protokt.v1.property).wrap = "UIntBox"
   ];
 
   uint64 uint64 = 15 [
-    (.protokt.v1.property).wrap = "LongBox"
+    (.protokt.v1.property).wrap = "ULongBox"
   ];
 }

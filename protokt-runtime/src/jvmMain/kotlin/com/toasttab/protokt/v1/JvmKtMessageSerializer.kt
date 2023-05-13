@@ -20,13 +20,13 @@ import com.google.protobuf.CodedOutputStream
 internal fun serializer(stream: CodedOutputStream): KtMessageSerializer {
     return object : KtMessageSerializer {
         override fun write(i: Fixed32) =
-            stream.writeFixed32NoTag(i.value)
+            stream.writeFixed32NoTag(i.value.toInt())
 
         override fun write(i: SFixed32) =
             stream.writeSFixed32NoTag(i.value)
 
         override fun write(i: UInt32) =
-            stream.writeUInt32NoTag(i.value)
+            stream.writeUInt32NoTag(i.value.toInt())
 
         override fun write(i: SInt32) =
             stream.writeSInt32NoTag(i.value)
@@ -35,13 +35,13 @@ internal fun serializer(stream: CodedOutputStream): KtMessageSerializer {
             stream.writeInt32NoTag(i.value)
 
         override fun write(l: Fixed64) =
-            stream.writeFixed64NoTag(l.value)
+            stream.writeFixed64NoTag(l.value.toLong())
 
         override fun write(l: SFixed64) =
             stream.writeSFixed64NoTag(l.value)
 
         override fun write(l: UInt64) =
-            stream.writeUInt64NoTag(l.value)
+            stream.writeUInt64NoTag(l.value.toLong())
 
         override fun write(l: SInt64) =
             stream.writeSInt64NoTag(l.value)

@@ -83,7 +83,7 @@ fun serialize(
             map += "boxed" to f.box(CodeBlock.of("it"))
             addNamed(
                 "serializer.write(%tag:T(${f.tag.value}))" +
-                    ".write(%uInt32:T(%name:N.sumOf{%sizeof:M(%boxed:L)}))\n",
+                    ".write(%uInt32:T(%name:N.sumOf{%sizeof:M(%boxed:L)}.toUInt()))\n",
                 map
             )
             addNamed("%name:N.forEach·{·serializer.write(%boxed:L)·}", map)

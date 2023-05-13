@@ -29,7 +29,7 @@ actual abstract class AbstractKtMessage actual constructor() : KtMessage {
         serialize(
             object : KtMessageSerializer {
                 override fun write(i: Fixed32) {
-                    serializer.write(com.toasttab.protokt.rt.Fixed32(i.value))
+                    serializer.write(com.toasttab.protokt.rt.Fixed32(i.value.toInt()))
                 }
 
                 override fun write(i: SFixed32) {
@@ -37,7 +37,7 @@ actual abstract class AbstractKtMessage actual constructor() : KtMessage {
                 }
 
                 override fun write(i: UInt32) {
-                    serializer.write(com.toasttab.protokt.rt.UInt32(i.value))
+                    serializer.write(com.toasttab.protokt.rt.UInt32(i.value.toInt()))
                 }
 
                 override fun write(i: SInt32) {
@@ -49,7 +49,7 @@ actual abstract class AbstractKtMessage actual constructor() : KtMessage {
                 }
 
                 override fun write(l: Fixed64) {
-                    serializer.write(com.toasttab.protokt.rt.Fixed64(l.value))
+                    serializer.write(com.toasttab.protokt.rt.Fixed64(l.value.toLong()))
                 }
 
                 override fun write(l: SFixed64) {
@@ -57,7 +57,7 @@ actual abstract class AbstractKtMessage actual constructor() : KtMessage {
                 }
 
                 override fun write(l: UInt64) {
-                    serializer.write(com.toasttab.protokt.rt.UInt64(l.value))
+                    serializer.write(com.toasttab.protokt.rt.UInt64(l.value.toLong()))
                 }
 
                 override fun write(l: SInt64) {

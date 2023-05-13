@@ -22,12 +22,12 @@ private constructor(
 ) {
     companion object {
         fun varint(fieldNumber: Int, varint: Long) =
-            UnknownField(fieldNumber, VarintVal(UInt64(varint)))
+            UnknownField(fieldNumber, VarintVal(UInt64(varint.toULong())))
 
-        fun fixed32(fieldNumber: Int, fixed32: Int) =
+        fun fixed32(fieldNumber: Int, fixed32: UInt) =
             UnknownField(fieldNumber, Fixed32Val(Fixed32(fixed32)))
 
-        fun fixed64(fieldNumber: Int, fixed64: Long) =
+        fun fixed64(fieldNumber: Int, fixed64: ULong) =
             UnknownField(fieldNumber, Fixed64Val(Fixed64(fixed64)))
 
         fun lengthDelimited(fieldNumber: Int, bytes: ByteArray) =

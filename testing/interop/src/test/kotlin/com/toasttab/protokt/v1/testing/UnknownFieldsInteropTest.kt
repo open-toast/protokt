@@ -40,8 +40,8 @@ class UnknownFieldsInteropTest {
 
     private val unknowns = listOf(
         UnknownField.varint(111, 111),
-        UnknownField.fixed32(222, 222),
-        UnknownField.fixed64(333, 333),
+        UnknownField.fixed32(222, 222u),
+        UnknownField.fixed64(333, 333u),
         UnknownField.lengthDelimited(444, "some string".toByteArray())
     )
 
@@ -62,9 +62,9 @@ class UnknownFieldsInteropTest {
                             it.fieldNumber,
                             JavaUnknownFieldSet.Field.newBuilder().apply {
                                 when (val v = it.value) {
-                                    is VarintVal -> addVarint(v.value.value)
-                                    is Fixed32Val -> addFixed32(v.value.value)
-                                    is Fixed64Val -> addFixed64(v.value.value)
+                                    is VarintVal -> addVarint(v.value.value.toLong())
+                                    is Fixed32Val -> addFixed32(v.value.value.toInt())
+                                    is Fixed64Val -> addFixed64(v.value.value.toLong())
                                     is LengthDelimitedVal ->
                                         addLengthDelimited(
                                             ByteString.copyFrom(v.value.bytes)

@@ -31,10 +31,10 @@ internal class NewToOldAdapter(
         deserializer.readDouble()
 
     override fun readFixed32() =
-        deserializer.readFixed32()
+        deserializer.readFixed32().toInt()
 
     override fun readFixed64() =
-        deserializer.readFixed64()
+        deserializer.readFixed64().toLong()
 
     override fun readFloat() =
         deserializer.readFloat()
@@ -58,7 +58,7 @@ internal class NewToOldAdapter(
         deserializer.readString()
 
     override fun readUInt64() =
-        deserializer.readUInt64()
+        deserializer.readUInt64().toLong()
 
     override fun readTag() =
         deserializer.readTag()
@@ -66,9 +66,9 @@ internal class NewToOldAdapter(
     override fun readUnknown() =
         deserializer.readUnknown().let {
             when (it.value) {
-                is VarintVal -> com.toasttab.protokt.rt.UnknownField.varint(it.fieldNumber, it.value.value.value)
-                is Fixed32Val -> com.toasttab.protokt.rt.UnknownField.fixed32(it.fieldNumber, it.value.value.value)
-                is Fixed64Val -> com.toasttab.protokt.rt.UnknownField.fixed64(it.fieldNumber, it.value.value.value)
+                is VarintVal -> com.toasttab.protokt.rt.UnknownField.varint(it.fieldNumber, it.value.value.value.toLong())
+                is Fixed32Val -> com.toasttab.protokt.rt.UnknownField.fixed32(it.fieldNumber, it.value.value.value.toInt())
+                is Fixed64Val -> com.toasttab.protokt.rt.UnknownField.fixed64(it.fieldNumber, it.value.value.value.toLong())
                 is LengthDelimitedVal -> com.toasttab.protokt.rt.UnknownField.lengthDelimited(it.fieldNumber, it.value.value.value)
                 else -> error("unsupported unknown field type")
             }

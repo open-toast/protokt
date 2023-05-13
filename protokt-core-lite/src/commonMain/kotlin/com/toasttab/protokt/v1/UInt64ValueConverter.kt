@@ -15,14 +15,14 @@
 
 package com.toasttab.protokt.v1
 
-object UInt64ValueConverter : Converter<Long, UInt64Value> {
-    override val wrapper = Long::class
+object UInt64ValueConverter : Converter<ULong, UInt64Value> {
+    override val wrapper = ULong::class
 
     override val wrapped = UInt64Value::class
 
     override fun wrap(unwrapped: UInt64Value) =
         unwrapped.value
 
-    override fun unwrap(wrapped: Long) =
+    override fun unwrap(wrapped: ULong) =
         UInt64Value { value = wrapped }
 }

@@ -93,7 +93,7 @@ private sealed class Nonscalar(
     override val kotlinRepresentation: KClass<*>? = null,
     override val ktRepresentation: KClass<*>? = null
 ) : TypeImpl() {
-    override val scalar = false
+    final override val scalar = false
 
     object Enum : Nonscalar(ktRepresentation = KtEnum::class)
     object Message : Nonscalar(ktRepresentation = KtMessage::class)
@@ -104,7 +104,7 @@ private sealed class Nonscalar(
 private sealed class Scalar(
     override val kotlinRepresentation: KClass<*>? = null
 ) : TypeImpl() {
-    override val scalar = true
+    final override val scalar = true
 
     object Bool : Scalar(Boolean::class)
     object Double : Scalar(kotlin.Double::class)
@@ -114,7 +114,7 @@ private sealed class Scalar(
 private sealed class Boxed(
     override val inlineRepresentation: KClass<*>
 ) : Scalar() {
-    override val kotlinRepresentation
+    final override val kotlinRepresentation
         get() = inlineRepresentation.declaredMemberProperties
             .single { it.name == com.toasttab.protokt.v1.Fixed32::value.name }
             .returnType

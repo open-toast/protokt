@@ -17,20 +17,20 @@ package com.toasttab.protokt.v1
 
 expect value class Int32(val value: Int)
 
-expect value class Fixed32(val value: Int)
+expect value class Fixed32(val value: UInt)
 
 expect value class SFixed32(val value: Int)
 
-expect value class UInt32(val value: Int)
+expect value class UInt32(val value: UInt)
 
 expect value class SInt32(val value: Int)
 
 expect value class Int64(val value: Long)
 
-expect value class Fixed64(val value: Long)
+expect value class Fixed64(val value: ULong)
 
 expect value class SFixed64(val value: Long)
 
-expect value class UInt64(val value: Long)
+expect value class UInt64(val value: ULong)
 
 expect value class SInt64(val value: Long)

@@ -28,10 +28,10 @@ internal fun deserializer(
             stream.readDouble()
 
         override fun readFixed32() =
-            stream.readFixed32()
+            stream.readFixed32().toUInt()
 
         override fun readFixed64() =
-            stream.readFixed64()
+            stream.readFixed64().toULong()
 
         override fun readFloat() =
             stream.readFloat()
@@ -55,7 +55,7 @@ internal fun deserializer(
             stream.readString()
 
         override fun readUInt64() =
-            stream.readUInt64()
+            stream.readUInt64().toULong()
 
         override fun readTag() =
             stream.readTag()
@@ -80,11 +80,11 @@ internal fun deserializer(
                 WireFormat.WIRETYPE_VARINT ->
                     UnknownField.varint(fieldNumber, stream.readInt64())
                 WireFormat.WIRETYPE_FIXED64 ->
-                    UnknownField.fixed64(fieldNumber, stream.readFixed64())
+                    UnknownField.fixed64(fieldNumber, stream.readFixed64().toULong())
                 WireFormat.WIRETYPE_LENGTH_DELIMITED ->
                     UnknownField.lengthDelimited(fieldNumber, stream.readByteArray())
                 WireFormat.WIRETYPE_FIXED32 ->
-                    UnknownField.fixed32(fieldNumber, stream.readFixed32())
+                    UnknownField.fixed32(fieldNumber, stream.readFixed32().toUInt())
                 WireFormat.WIRETYPE_START_GROUP ->
                     throw UnsupportedOperationException("WIRETYPE_START_GROUP")
                 WireFormat.WIRETYPE_END_GROUP ->

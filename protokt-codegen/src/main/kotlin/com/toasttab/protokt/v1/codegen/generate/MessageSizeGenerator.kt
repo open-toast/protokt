@@ -116,7 +116,7 @@ fun sizeOf(
         f.repeated && f.packed -> {
             namedCodeBlock(
                 "%sizeof:M(%tag:T(${f.number})) + " +
-                    "%name:L.sumOf·{·%sizeof:M(%box:L)·}.let·{·it·+·%sizeof:M(%uInt32:T(it))·}",
+                    "%name:L.sumOf·{·%sizeof:M(%box:L)·}.let·{·it·+·%sizeof:M(%uInt32:T(it.toUInt()))·}",
                 mapOf(
                     "sizeof" to runtimeFunction("sizeof"),
                     "tag" to Tag::class,

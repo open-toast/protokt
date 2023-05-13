@@ -15,14 +15,14 @@
 
 package com.toasttab.protokt.v1
 
-object UInt32ValueConverter : Converter<Int, UInt32Value> {
-    override val wrapper = Int::class
+object UInt32ValueConverter : Converter<UInt, UInt32Value> {
+    override val wrapper = UInt::class
 
     override val wrapped = UInt32Value::class
 
     override fun wrap(unwrapped: UInt32Value) =
         unwrapped.value
 
-    override fun unwrap(wrapped: Int) =
+    override fun unwrap(wrapped: UInt) =
         UInt32Value { value = wrapped }
 }
