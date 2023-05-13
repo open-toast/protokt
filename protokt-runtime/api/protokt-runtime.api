@@ -1,444 +1,3 @@
-public abstract class com/toasttab/protokt/AbstractKtDeserializer : com/toasttab/protokt/KtDeserializer {
-	public fun <init> ()V
-	public final fun deserialize (Lcom/toasttab/protokt/Bytes;)Lcom/toasttab/protokt/KtMessage;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public final fun deserialize (Lcom/toasttab/protokt/BytesSlice;)Lcom/toasttab/protokt/KtMessage;
-	public synthetic fun deserialize (Lcom/toasttab/protokt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
-	public abstract fun deserialize (Lcom/toasttab/protokt/KtMessageDeserializer;)Lcom/toasttab/protokt/KtMessage;
-	public final fun deserialize ([B)Lcom/toasttab/protokt/KtMessage;
-	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
-}
-
-public abstract class com/toasttab/protokt/AbstractKtMessage : com/toasttab/protokt/KtMessage {
-	public fun <init> ()V
-	public final fun serialize ()[B
-	public final fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-}
-
-public final class com/toasttab/protokt/Bytes {
-	public static final field Companion Lcom/toasttab/protokt/Bytes$Companion;
-	public fun <init> ([B)V
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getBytes ()[B
-	public fun hashCode ()I
-	public final fun isEmpty ()Z
-	public final fun isNotEmpty ()Z
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class com/toasttab/protokt/Bytes$Companion {
-	public final fun empty ()Lcom/toasttab/protokt/Bytes;
-}
-
-public final class com/toasttab/protokt/BytesKt {
-	public static final fun toBytesSlice (Lcom/toasttab/protokt/Bytes;)Lcom/toasttab/protokt/BytesSlice;
-}
-
-public final class com/toasttab/protokt/BytesSlice {
-	public static final field Companion Lcom/toasttab/protokt/BytesSlice$Companion;
-	public fun <init> ([B)V
-	public fun <init> ([BII)V
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getLength ()I
-	public fun hashCode ()I
-	public final fun isEmpty ()Z
-	public final fun isNotEmpty ()Z
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class com/toasttab/protokt/BytesSlice$Companion {
-	public final fun empty ()Lcom/toasttab/protokt/BytesSlice;
-}
-
-public final class com/toasttab/protokt/BytesSliceKt {
-	public static final fun toBytes (Lcom/toasttab/protokt/BytesSlice;)Lcom/toasttab/protokt/Bytes;
-}
-
-public final class com/toasttab/protokt/Fixed32 {
-	public static final synthetic fun box-impl (I)Lcom/toasttab/protokt/Fixed32;
-	public static fun constructor-impl (I)I
-	public fun equals (Ljava/lang/Object;)Z
-	public static fun equals-impl (ILjava/lang/Object;)Z
-	public static final fun equals-impl0 (II)Z
-	public final fun getValue ()I
-	public fun hashCode ()I
-	public static fun hashCode-impl (I)I
-	public fun toString ()Ljava/lang/String;
-	public static fun toString-impl (I)Ljava/lang/String;
-	public final synthetic fun unbox-impl ()I
-}
-
-public final class com/toasttab/protokt/Fixed32Val : com/toasttab/protokt/UnknownValue {
-	public synthetic fun <init> (ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1-iZI_CW4 ()I
-	public final fun copy-9vlySFk (I)Lcom/toasttab/protokt/Fixed32Val;
-	public static synthetic fun copy-9vlySFk$default (Lcom/toasttab/protokt/Fixed32Val;IILjava/lang/Object;)Lcom/toasttab/protokt/Fixed32Val;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getValue-iZI_CW4 ()I
-	public fun hashCode ()I
-	public fun size ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class com/toasttab/protokt/Fixed64 {
-	public static final synthetic fun box-impl (J)Lcom/toasttab/protokt/Fixed64;
-	public static fun constructor-impl (J)J
-	public fun equals (Ljava/lang/Object;)Z
-	public static fun equals-impl (JLjava/lang/Object;)Z
-	public static final fun equals-impl0 (JJ)Z
-	public final fun getValue ()J
-	public fun hashCode ()I
-	public static fun hashCode-impl (J)I
-	public fun toString ()Ljava/lang/String;
-	public static fun toString-impl (J)Ljava/lang/String;
-	public final synthetic fun unbox-impl ()J
-}
-
-public final class com/toasttab/protokt/Fixed64Val : com/toasttab/protokt/UnknownValue {
-	public synthetic fun <init> (JLkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1-_93Lu64 ()J
-	public final fun copy-CKRA9E0 (J)Lcom/toasttab/protokt/Fixed64Val;
-	public static synthetic fun copy-CKRA9E0$default (Lcom/toasttab/protokt/Fixed64Val;JILjava/lang/Object;)Lcom/toasttab/protokt/Fixed64Val;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getValue-_93Lu64 ()J
-	public fun hashCode ()I
-	public fun size ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class com/toasttab/protokt/Int32 {
-	public static final synthetic fun box-impl (I)Lcom/toasttab/protokt/Int32;
-	public static fun constructor-impl (I)I
-	public fun equals (Ljava/lang/Object;)Z
-	public static fun equals-impl (ILjava/lang/Object;)Z
-	public static final fun equals-impl0 (II)Z
-	public final fun getValue ()I
-	public fun hashCode ()I
-	public static fun hashCode-impl (I)I
-	public fun toString ()Ljava/lang/String;
-	public static fun toString-impl (I)Ljava/lang/String;
-	public final synthetic fun unbox-impl ()I
-}
-
-public final class com/toasttab/protokt/Int64 {
-	public static final synthetic fun box-impl (J)Lcom/toasttab/protokt/Int64;
-	public static fun constructor-impl (J)J
-	public fun equals (Ljava/lang/Object;)Z
-	public static fun equals-impl (JLjava/lang/Object;)Z
-	public static final fun equals-impl0 (JJ)Z
-	public final fun getValue ()J
-	public fun hashCode ()I
-	public static fun hashCode-impl (J)I
-	public fun toString ()Ljava/lang/String;
-	public static fun toString-impl (J)Ljava/lang/String;
-	public final synthetic fun unbox-impl ()J
-}
-
-public final class com/toasttab/protokt/JvmBytesKt {
-	public static final fun asReadOnlyBuffer (Lcom/toasttab/protokt/Bytes;)Ljava/nio/ByteBuffer;
-	public static final fun inputStream (Lcom/toasttab/protokt/Bytes;)Ljava/io/InputStream;
-}
-
-public final class com/toasttab/protokt/JvmRuntimeUtilsKt {
-	public static final fun unmodifiableList (Ljava/util/List;)Ljava/util/List;
-	public static final fun unmodifiableMap (Ljava/util/Map;)Ljava/util/Map;
-}
-
-public abstract interface class com/toasttab/protokt/KtDeserializer : com/toasttab/protokt/rt/KtDeserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public abstract fun deserialize (Lcom/toasttab/protokt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public abstract fun deserialize (Lcom/toasttab/protokt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
-	public abstract fun deserialize (Lcom/toasttab/protokt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public abstract fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
-}
-
-public abstract class com/toasttab/protokt/KtEnum {
-	public fun <init> ()V
-	public final fun equals (Ljava/lang/Object;)Z
-	public abstract fun getName ()Ljava/lang/String;
-	public abstract fun getValue ()I
-	public final fun hashCode ()I
-	public final fun toString ()Ljava/lang/String;
-}
-
-public abstract interface class com/toasttab/protokt/KtEnumDeserializer {
-	public abstract fun from (I)Lcom/toasttab/protokt/KtEnum;
-}
-
-public abstract interface annotation class com/toasttab/protokt/KtGeneratedMessage : java/lang/annotation/Annotation {
-	public abstract fun fullTypeName ()Ljava/lang/String;
-}
-
-public abstract interface class com/toasttab/protokt/KtMessage : com/toasttab/protokt/rt/KtMessage {
-	public abstract fun getMessageSize ()I
-	public abstract fun serialize (Lcom/toasttab/protokt/KtMessageSerializer;)V
-	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
-}
-
-public abstract interface class com/toasttab/protokt/KtMessageDeserializer {
-	public fun readBool ()Z
-	public abstract fun readBytes ()Lcom/toasttab/protokt/Bytes;
-	public abstract fun readBytesSlice ()Lcom/toasttab/protokt/BytesSlice;
-	public abstract fun readDouble ()D
-	public fun readEnum (Lcom/toasttab/protokt/KtEnumDeserializer;)Lcom/toasttab/protokt/KtEnum;
-	public abstract fun readFixed32 ()I
-	public abstract fun readFixed64 ()J
-	public abstract fun readFloat ()F
-	public fun readInt32 ()I
-	public abstract fun readInt64 ()J
-	public abstract fun readMessage (Lcom/toasttab/protokt/KtDeserializer;)Lcom/toasttab/protokt/KtMessage;
-	public abstract fun readRepeated (ZLkotlin/jvm/functions/Function1;)V
-	public abstract fun readSFixed32 ()I
-	public abstract fun readSFixed64 ()J
-	public abstract fun readSInt32 ()I
-	public abstract fun readSInt64 ()J
-	public abstract fun readString ()Ljava/lang/String;
-	public abstract fun readTag ()I
-	public fun readUInt32 ()I
-	public abstract fun readUInt64 ()J
-	public abstract fun readUnknown ()Lcom/toasttab/protokt/UnknownField;
-}
-
-public abstract interface class com/toasttab/protokt/KtMessageSerializer {
-	public abstract fun write (D)V
-	public abstract fun write (F)V
-	public fun write (Lcom/toasttab/protokt/Bytes;)V
-	public abstract fun write (Lcom/toasttab/protokt/BytesSlice;)V
-	public fun write (Lcom/toasttab/protokt/KtEnum;)V
-	public fun write (Lcom/toasttab/protokt/KtMessage;)V
-	public abstract fun write (Ljava/lang/String;)V
-	public abstract fun write (Z)V
-	public abstract fun write ([B)V
-	public abstract fun write-7kA8hcg (I)V
-	public abstract fun write-9vlySFk (I)V
-	public abstract fun write-CKRA9E0 (J)V
-	public abstract fun write-IU65R_g (I)V
-	public abstract fun write-U_lrQVE (J)V
-	public abstract fun write-_27Ey98 (I)V
-	public fun write-ekQBxzY (I)Lcom/toasttab/protokt/KtMessageSerializer;
-	public abstract fun write-iWfwM80 (J)V
-	public abstract fun write-j_d5N2g (I)V
-	public abstract fun write-lLyKy74 (J)V
-	public abstract fun write-qCz3Trs (J)V
-	public fun writeUnknown (Lcom/toasttab/protokt/UnknownFieldSet;)V
-}
-
-public final class com/toasttab/protokt/LengthDelimitedVal : com/toasttab/protokt/UnknownValue {
-	public fun <init> (Lcom/toasttab/protokt/Bytes;)V
-	public final fun component1 ()Lcom/toasttab/protokt/Bytes;
-	public final fun copy (Lcom/toasttab/protokt/Bytes;)Lcom/toasttab/protokt/LengthDelimitedVal;
-	public static synthetic fun copy$default (Lcom/toasttab/protokt/LengthDelimitedVal;Lcom/toasttab/protokt/Bytes;ILjava/lang/Object;)Lcom/toasttab/protokt/LengthDelimitedVal;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getValue ()Lcom/toasttab/protokt/Bytes;
-	public fun hashCode ()I
-	public fun size ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class com/toasttab/protokt/RuntimeUtilsKt {
-	public static final fun copyList (Ljava/util/List;)Ljava/util/List;
-	public static final fun copyMap (Ljava/util/Map;)Ljava/util/Map;
-	public static final fun finishList (Ljava/util/List;)Ljava/util/List;
-	public static final fun finishMap (Ljava/util/Map;)Ljava/util/Map;
-}
-
-public final class com/toasttab/protokt/SFixed32 {
-	public static final synthetic fun box-impl (I)Lcom/toasttab/protokt/SFixed32;
-	public static fun constructor-impl (I)I
-	public fun equals (Ljava/lang/Object;)Z
-	public static fun equals-impl (ILjava/lang/Object;)Z
-	public static final fun equals-impl0 (II)Z
-	public final fun getValue ()I
-	public fun hashCode ()I
-	public static fun hashCode-impl (I)I
-	public fun toString ()Ljava/lang/String;
-	public static fun toString-impl (I)Ljava/lang/String;
-	public final synthetic fun unbox-impl ()I
-}
-
-public final class com/toasttab/protokt/SFixed64 {
-	public static final synthetic fun box-impl (J)Lcom/toasttab/protokt/SFixed64;
-	public static fun constructor-impl (J)J
-	public fun equals (Ljava/lang/Object;)Z
-	public static fun equals-impl (JLjava/lang/Object;)Z
-	public static final fun equals-impl0 (JJ)Z
-	public final fun getValue ()J
-	public fun hashCode ()I
-	public static fun hashCode-impl (J)I
-	public fun toString ()Ljava/lang/String;
-	public static fun toString-impl (J)Ljava/lang/String;
-	public final synthetic fun unbox-impl ()J
-}
-
-public final class com/toasttab/protokt/SInt32 {
-	public static final synthetic fun box-impl (I)Lcom/toasttab/protokt/SInt32;
-	public static fun constructor-impl (I)I
-	public fun equals (Ljava/lang/Object;)Z
-	public static fun equals-impl (ILjava/lang/Object;)Z
-	public static final fun equals-impl0 (II)Z
-	public final fun getValue ()I
-	public fun hashCode ()I
-	public static fun hashCode-impl (I)I
-	public fun toString ()Ljava/lang/String;
-	public static fun toString-impl (I)Ljava/lang/String;
-	public final synthetic fun unbox-impl ()I
-}
-
-public final class com/toasttab/protokt/SInt64 {
-	public static final synthetic fun box-impl (J)Lcom/toasttab/protokt/SInt64;
-	public static fun constructor-impl (J)J
-	public fun equals (Ljava/lang/Object;)Z
-	public static fun equals-impl (JLjava/lang/Object;)Z
-	public static final fun equals-impl0 (JJ)Z
-	public final fun getValue ()J
-	public fun hashCode ()I
-	public static fun hashCode-impl (J)I
-	public fun toString ()Ljava/lang/String;
-	public static fun toString-impl (J)Ljava/lang/String;
-	public final synthetic fun unbox-impl ()J
-}
-
-public final class com/toasttab/protokt/SizeCodecsKt {
-	public static final fun sizeof (D)I
-	public static final fun sizeof (F)I
-	public static final fun sizeof (Lcom/toasttab/protokt/Bytes;)I
-	public static final fun sizeof (Lcom/toasttab/protokt/BytesSlice;)I
-	public static final fun sizeof (Lcom/toasttab/protokt/KtEnum;)I
-	public static final fun sizeof (Lcom/toasttab/protokt/KtMessage;)I
-	public static final fun sizeof (Ljava/lang/String;)I
-	public static final fun sizeof (Z)I
-	public static final fun sizeof ([B)I
-	public static final fun sizeof-7kA8hcg (I)I
-	public static final fun sizeof-9vlySFk (I)I
-	public static final fun sizeof-CKRA9E0 (J)I
-	public static final fun sizeof-IU65R_g (I)I
-	public static final fun sizeof-U_lrQVE (J)I
-	public static final fun sizeof-_27Ey98 (I)I
-	public static final fun sizeof-ekQBxzY (I)I
-	public static final fun sizeof-iWfwM80 (J)I
-	public static final fun sizeof-j_d5N2g (I)I
-	public static final fun sizeof-lLyKy74 (J)I
-	public static final fun sizeof-qCz3Trs (J)I
-	public static final fun sizeofMap-W0b_tiU (Ljava/util/Map;ILkotlin/jvm/functions/Function2;)I
-}
-
-public final class com/toasttab/protokt/Tag {
-	public static final synthetic fun box-impl (I)Lcom/toasttab/protokt/Tag;
-	public static fun constructor-impl (I)I
-	public fun equals (Ljava/lang/Object;)Z
-	public static fun equals-impl (ILjava/lang/Object;)Z
-	public static final fun equals-impl0 (II)Z
-	public final fun getValue ()I
-	public fun hashCode ()I
-	public static fun hashCode-impl (I)I
-	public fun toString ()Ljava/lang/String;
-	public static fun toString-impl (I)Ljava/lang/String;
-	public final synthetic fun unbox-impl ()I
-}
-
-public final class com/toasttab/protokt/UInt32 {
-	public static final synthetic fun box-impl (I)Lcom/toasttab/protokt/UInt32;
-	public static fun constructor-impl (I)I
-	public fun equals (Ljava/lang/Object;)Z
-	public static fun equals-impl (ILjava/lang/Object;)Z
-	public static final fun equals-impl0 (II)Z
-	public final fun getValue ()I
-	public fun hashCode ()I
-	public static fun hashCode-impl (I)I
-	public fun toString ()Ljava/lang/String;
-	public static fun toString-impl (I)Ljava/lang/String;
-	public final synthetic fun unbox-impl ()I
-}
-
-public final class com/toasttab/protokt/UInt64 {
-	public static final synthetic fun box-impl (J)Lcom/toasttab/protokt/UInt64;
-	public static fun constructor-impl (J)J
-	public fun equals (Ljava/lang/Object;)Z
-	public static fun equals-impl (JLjava/lang/Object;)Z
-	public static final fun equals-impl0 (JJ)Z
-	public final fun getValue ()J
-	public fun hashCode ()I
-	public static fun hashCode-impl (J)I
-	public fun toString ()Ljava/lang/String;
-	public static fun toString-impl (J)Ljava/lang/String;
-	public final synthetic fun unbox-impl ()J
-}
-
-public final class com/toasttab/protokt/UnknownField {
-	public static final field Companion Lcom/toasttab/protokt/UnknownField$Companion;
-	public synthetic fun <init> (ILcom/toasttab/protokt/UnknownValue;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun getFieldNumber ()I
-	public final fun getValue ()Lcom/toasttab/protokt/UnknownValue;
-}
-
-public final class com/toasttab/protokt/UnknownField$Companion {
-	public final fun fixed32 (II)Lcom/toasttab/protokt/UnknownField;
-	public final fun fixed64 (IJ)Lcom/toasttab/protokt/UnknownField;
-	public final fun lengthDelimited (I[B)Lcom/toasttab/protokt/UnknownField;
-	public final fun varint (IJ)Lcom/toasttab/protokt/UnknownField;
-}
-
-public final class com/toasttab/protokt/UnknownFieldSet {
-	public static final field Companion Lcom/toasttab/protokt/UnknownFieldSet$Companion;
-	public synthetic fun <init> (Ljava/util/Map;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getUnknownFields ()Ljava/util/Map;
-	public fun hashCode ()I
-	public final fun isEmpty ()Z
-	public final fun size ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class com/toasttab/protokt/UnknownFieldSet$Builder {
-	public fun <init> ()V
-	public final fun add (Lcom/toasttab/protokt/UnknownField;)V
-	public final fun build ()Lcom/toasttab/protokt/UnknownFieldSet;
-}
-
-public final class com/toasttab/protokt/UnknownFieldSet$Companion {
-	public final fun empty ()Lcom/toasttab/protokt/UnknownFieldSet;
-	public final fun from (Lcom/toasttab/protokt/UnknownFieldSet$Builder;)Lcom/toasttab/protokt/UnknownFieldSet;
-}
-
-public final class com/toasttab/protokt/UnknownFieldSet$Field {
-	public synthetic fun <init> (Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getFixed32 ()Ljava/util/List;
-	public final fun getFixed64 ()Ljava/util/List;
-	public final fun getLengthDelimited ()Ljava/util/List;
-	public final fun getVarint ()Ljava/util/List;
-	public fun hashCode ()I
-	public final fun size (I)I
-	public fun toString ()Ljava/lang/String;
-	public final fun write (ILcom/toasttab/protokt/KtMessageSerializer;)V
-}
-
-public final class com/toasttab/protokt/UnknownFieldSet$Field$Builder {
-	public final fun add (Lcom/toasttab/protokt/UnknownValue;)V
-	public final fun build ()Lcom/toasttab/protokt/UnknownFieldSet$Field;
-}
-
-public abstract interface class com/toasttab/protokt/UnknownValue {
-	public abstract fun size ()I
-}
-
-public final class com/toasttab/protokt/VarintVal : com/toasttab/protokt/UnknownValue {
-	public synthetic fun <init> (JLkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1-gShg8rk ()J
-	public final fun copy-qCz3Trs (J)Lcom/toasttab/protokt/VarintVal;
-	public static synthetic fun copy-qCz3Trs$default (Lcom/toasttab/protokt/VarintVal;JILjava/lang/Object;)Lcom/toasttab/protokt/VarintVal;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getValue-gShg8rk ()J
-	public fun hashCode ()I
-	public fun size ()I
-	public fun toString ()Ljava/lang/String;
-}
-
 public final class com/toasttab/protokt/rt/Bytes {
 	public static final field Companion Lcom/toasttab/protokt/rt/Bytes$Companion;
 	public fun <init> ([B)V
@@ -456,7 +15,7 @@ public final class com/toasttab/protokt/rt/Bytes$Companion {
 
 public final class com/toasttab/protokt/rt/BytesKt {
 	public static final fun asReadOnlyBuffer (Lcom/toasttab/protokt/rt/Bytes;)Ljava/nio/ByteBuffer;
-	public static final fun toBytes (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/Bytes;
+	public static final fun toBytes (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/v1/Bytes;
 	public static final fun toBytesSlice (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/BytesSlice;
 }
 
@@ -562,12 +121,12 @@ public final class com/toasttab/protokt/rt/Int64 {
 
 public abstract interface class com/toasttab/protokt/rt/KtDeserializer {
 	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lcom/toasttab/protokt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
 	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
 	public abstract fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public fun deserialize (Lcom/toasttab/protokt/v1/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
+	public fun deserialize (Lcom/toasttab/protokt/v1/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+	public fun deserialize (Lcom/toasttab/protokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
 	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
@@ -605,8 +164,8 @@ public abstract interface class com/toasttab/protokt/rt/KtMessage {
 	public abstract fun getMessageSize ()I
 	public abstract fun serialize ()[B
 	public fun serialize (Lcom/google/protobuf/CodedOutputStream;)V
-	public abstract fun serialize (Lcom/toasttab/protokt/KtMessageSerializer;)V
 	public abstract fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
+	public abstract fun serialize (Lcom/toasttab/protokt/v1/KtMessageSerializer;)V
 	public fun serialize (Ljava/io/OutputStream;)V
 }
 
@@ -870,6 +429,447 @@ public final class com/toasttab/protokt/rt/VarintVal : com/toasttab/protokt/rt/U
 	public static synthetic fun copy-vBJ1sQw$default (Lcom/toasttab/protokt/rt/VarintVal;JILjava/lang/Object;)Lcom/toasttab/protokt/rt/VarintVal;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getValue-q-79Ojo ()J
+	public fun hashCode ()I
+	public fun size ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract class com/toasttab/protokt/v1/AbstractKtDeserializer : com/toasttab/protokt/v1/KtDeserializer {
+	public fun <init> ()V
+	public synthetic fun deserialize (Lcom/toasttab/protokt/v1/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
+	public final fun deserialize (Lcom/toasttab/protokt/v1/Bytes;)Lcom/toasttab/protokt/v1/KtMessage;
+	public synthetic fun deserialize (Lcom/toasttab/protokt/v1/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+	public final fun deserialize (Lcom/toasttab/protokt/v1/BytesSlice;)Lcom/toasttab/protokt/v1/KtMessage;
+	public abstract fun deserialize (Lcom/toasttab/protokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/v1/KtMessage;
+	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+	public final fun deserialize ([B)Lcom/toasttab/protokt/v1/KtMessage;
+}
+
+public abstract class com/toasttab/protokt/v1/AbstractKtMessage : com/toasttab/protokt/v1/KtMessage {
+	public fun <init> ()V
+	public final fun serialize ()[B
+	public final fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
+}
+
+public final class com/toasttab/protokt/v1/Bytes {
+	public static final field Companion Lcom/toasttab/protokt/v1/Bytes$Companion;
+	public fun <init> ([B)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBytes ()[B
+	public fun hashCode ()I
+	public final fun isEmpty ()Z
+	public final fun isNotEmpty ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/toasttab/protokt/v1/Bytes$Companion {
+	public final fun empty ()Lcom/toasttab/protokt/v1/Bytes;
+}
+
+public final class com/toasttab/protokt/v1/BytesKt {
+	public static final fun toBytesSlice (Lcom/toasttab/protokt/v1/Bytes;)Lcom/toasttab/protokt/v1/BytesSlice;
+}
+
+public final class com/toasttab/protokt/v1/BytesSlice {
+	public static final field Companion Lcom/toasttab/protokt/v1/BytesSlice$Companion;
+	public fun <init> ([B)V
+	public fun <init> ([BII)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getLength ()I
+	public fun hashCode ()I
+	public final fun isEmpty ()Z
+	public final fun isNotEmpty ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/toasttab/protokt/v1/BytesSlice$Companion {
+	public final fun empty ()Lcom/toasttab/protokt/v1/BytesSlice;
+}
+
+public final class com/toasttab/protokt/v1/BytesSliceKt {
+	public static final fun toBytes (Lcom/toasttab/protokt/v1/BytesSlice;)Lcom/toasttab/protokt/v1/Bytes;
+}
+
+public final class com/toasttab/protokt/v1/Fixed32 {
+	public static final synthetic fun box-impl (I)Lcom/toasttab/protokt/v1/Fixed32;
+	public static fun constructor-impl (I)I
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (ILjava/lang/Object;)Z
+	public static final fun equals-impl0 (II)Z
+	public final fun getValue-pVg5ArA ()I
+	public fun hashCode ()I
+	public static fun hashCode-impl (I)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (I)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()I
+}
+
+public final class com/toasttab/protokt/v1/Fixed32Val : com/toasttab/protokt/v1/UnknownValue {
+	public synthetic fun <init> (ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-4_8EhAI ()I
+	public final fun copy-5SO2J4g (I)Lcom/toasttab/protokt/v1/Fixed32Val;
+	public static synthetic fun copy-5SO2J4g$default (Lcom/toasttab/protokt/v1/Fixed32Val;IILjava/lang/Object;)Lcom/toasttab/protokt/v1/Fixed32Val;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getValue-4_8EhAI ()I
+	public fun hashCode ()I
+	public fun size ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/toasttab/protokt/v1/Fixed64 {
+	public static final synthetic fun box-impl (J)Lcom/toasttab/protokt/v1/Fixed64;
+	public static fun constructor-impl (J)J
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (JLjava/lang/Object;)Z
+	public static final fun equals-impl0 (JJ)Z
+	public final fun getValue-s-VKNKU ()J
+	public fun hashCode ()I
+	public static fun hashCode-impl (J)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (J)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()J
+}
+
+public final class com/toasttab/protokt/v1/Fixed64Val : com/toasttab/protokt/v1/UnknownValue {
+	public synthetic fun <init> (JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-FJUoJUE ()J
+	public final fun copy-y4IcAGI (J)Lcom/toasttab/protokt/v1/Fixed64Val;
+	public static synthetic fun copy-y4IcAGI$default (Lcom/toasttab/protokt/v1/Fixed64Val;JILjava/lang/Object;)Lcom/toasttab/protokt/v1/Fixed64Val;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getValue-FJUoJUE ()J
+	public fun hashCode ()I
+	public fun size ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/toasttab/protokt/v1/Int32 {
+	public static final synthetic fun box-impl (I)Lcom/toasttab/protokt/v1/Int32;
+	public static fun constructor-impl (I)I
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (ILjava/lang/Object;)Z
+	public static final fun equals-impl0 (II)Z
+	public final fun getValue ()I
+	public fun hashCode ()I
+	public static fun hashCode-impl (I)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (I)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()I
+}
+
+public final class com/toasttab/protokt/v1/Int64 {
+	public static final synthetic fun box-impl (J)Lcom/toasttab/protokt/v1/Int64;
+	public static fun constructor-impl (J)J
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (JLjava/lang/Object;)Z
+	public static final fun equals-impl0 (JJ)Z
+	public final fun getValue ()J
+	public fun hashCode ()I
+	public static fun hashCode-impl (J)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (J)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()J
+}
+
+public final class com/toasttab/protokt/v1/JvmBytesKt {
+	public static final fun asReadOnlyBuffer (Lcom/toasttab/protokt/v1/Bytes;)Ljava/nio/ByteBuffer;
+	public static final fun inputStream (Lcom/toasttab/protokt/v1/Bytes;)Ljava/io/InputStream;
+}
+
+public final class com/toasttab/protokt/v1/JvmRuntimeUtilsKt {
+	public static final fun unmodifiableList (Ljava/util/List;)Ljava/util/List;
+	public static final fun unmodifiableMap (Ljava/util/Map;)Ljava/util/Map;
+}
+
+public abstract interface class com/toasttab/protokt/v1/KtDeserializer : com/toasttab/protokt/rt/KtDeserializer {
+	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
+	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
+	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public abstract fun deserialize (Lcom/toasttab/protokt/v1/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
+	public abstract fun deserialize (Lcom/toasttab/protokt/v1/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+	public abstract fun deserialize (Lcom/toasttab/protokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
+	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public abstract fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
+}
+
+public abstract class com/toasttab/protokt/v1/KtEnum {
+	public fun <init> ()V
+	public final fun equals (Ljava/lang/Object;)Z
+	public abstract fun getName ()Ljava/lang/String;
+	public abstract fun getValue ()I
+	public final fun hashCode ()I
+	public final fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class com/toasttab/protokt/v1/KtEnumDeserializer {
+	public abstract fun from (I)Lcom/toasttab/protokt/v1/KtEnum;
+}
+
+public abstract interface annotation class com/toasttab/protokt/v1/KtGeneratedMessage : java/lang/annotation/Annotation {
+	public abstract fun fullTypeName ()Ljava/lang/String;
+}
+
+public abstract interface class com/toasttab/protokt/v1/KtMessage : com/toasttab/protokt/rt/KtMessage {
+	public abstract fun getMessageSize ()I
+	public fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
+	public abstract fun serialize (Lcom/toasttab/protokt/v1/KtMessageSerializer;)V
+}
+
+public abstract interface class com/toasttab/protokt/v1/KtMessageDeserializer {
+	public fun readBool ()Z
+	public abstract fun readBytes ()Lcom/toasttab/protokt/v1/Bytes;
+	public abstract fun readBytesSlice ()Lcom/toasttab/protokt/v1/BytesSlice;
+	public abstract fun readDouble ()D
+	public fun readEnum (Lcom/toasttab/protokt/v1/KtEnumDeserializer;)Lcom/toasttab/protokt/v1/KtEnum;
+	public abstract fun readFixed32-pVg5ArA ()I
+	public abstract fun readFixed64-s-VKNKU ()J
+	public abstract fun readFloat ()F
+	public fun readInt32 ()I
+	public abstract fun readInt64 ()J
+	public abstract fun readMessage (Lcom/toasttab/protokt/v1/KtDeserializer;)Lcom/toasttab/protokt/v1/KtMessage;
+	public abstract fun readRepeated (ZLkotlin/jvm/functions/Function1;)V
+	public abstract fun readSFixed32 ()I
+	public abstract fun readSFixed64 ()J
+	public abstract fun readSInt32 ()I
+	public abstract fun readSInt64 ()J
+	public abstract fun readString ()Ljava/lang/String;
+	public abstract fun readTag ()I
+	public fun readUInt32-pVg5ArA ()I
+	public abstract fun readUInt64-s-VKNKU ()J
+	public abstract fun readUnknown ()Lcom/toasttab/protokt/v1/UnknownField;
+}
+
+public abstract interface class com/toasttab/protokt/v1/KtMessageSerializer {
+	public abstract fun write (D)V
+	public abstract fun write (F)V
+	public fun write (Lcom/toasttab/protokt/v1/Bytes;)V
+	public abstract fun write (Lcom/toasttab/protokt/v1/BytesSlice;)V
+	public fun write (Lcom/toasttab/protokt/v1/KtEnum;)V
+	public fun write (Lcom/toasttab/protokt/v1/KtMessage;)V
+	public abstract fun write (Ljava/lang/String;)V
+	public abstract fun write (Z)V
+	public abstract fun write ([B)V
+	public abstract fun write-4JTkNzI (I)V
+	public abstract fun write-5SO2J4g (I)V
+	public abstract fun write-8advWW8 (J)V
+	public abstract fun write-924BjJ8 (I)V
+	public abstract fun write-FkQuk50 (J)V
+	public abstract fun write-SJZ3d1c (I)V
+	public abstract fun write-W2ie4lE (I)V
+	public abstract fun write-ZjOKSvk (J)V
+	public abstract fun write-kVWiscA (J)V
+	public fun write-omTQxK0 (I)Lcom/toasttab/protokt/v1/KtMessageSerializer;
+	public abstract fun write-y4IcAGI (J)V
+	public fun writeUnknown (Lcom/toasttab/protokt/v1/UnknownFieldSet;)V
+}
+
+public final class com/toasttab/protokt/v1/LengthDelimitedVal : com/toasttab/protokt/v1/UnknownValue {
+	public fun <init> (Lcom/toasttab/protokt/v1/Bytes;)V
+	public final fun component1 ()Lcom/toasttab/protokt/v1/Bytes;
+	public final fun copy (Lcom/toasttab/protokt/v1/Bytes;)Lcom/toasttab/protokt/v1/LengthDelimitedVal;
+	public static synthetic fun copy$default (Lcom/toasttab/protokt/v1/LengthDelimitedVal;Lcom/toasttab/protokt/v1/Bytes;ILjava/lang/Object;)Lcom/toasttab/protokt/v1/LengthDelimitedVal;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getValue ()Lcom/toasttab/protokt/v1/Bytes;
+	public fun hashCode ()I
+	public fun size ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/toasttab/protokt/v1/RuntimeUtilsKt {
+	public static final fun copyList (Ljava/util/List;)Ljava/util/List;
+	public static final fun copyMap (Ljava/util/Map;)Ljava/util/Map;
+	public static final fun finishList (Ljava/util/List;)Ljava/util/List;
+	public static final fun finishMap (Ljava/util/Map;)Ljava/util/Map;
+}
+
+public final class com/toasttab/protokt/v1/SFixed32 {
+	public static final synthetic fun box-impl (I)Lcom/toasttab/protokt/v1/SFixed32;
+	public static fun constructor-impl (I)I
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (ILjava/lang/Object;)Z
+	public static final fun equals-impl0 (II)Z
+	public final fun getValue ()I
+	public fun hashCode ()I
+	public static fun hashCode-impl (I)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (I)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()I
+}
+
+public final class com/toasttab/protokt/v1/SFixed64 {
+	public static final synthetic fun box-impl (J)Lcom/toasttab/protokt/v1/SFixed64;
+	public static fun constructor-impl (J)J
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (JLjava/lang/Object;)Z
+	public static final fun equals-impl0 (JJ)Z
+	public final fun getValue ()J
+	public fun hashCode ()I
+	public static fun hashCode-impl (J)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (J)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()J
+}
+
+public final class com/toasttab/protokt/v1/SInt32 {
+	public static final synthetic fun box-impl (I)Lcom/toasttab/protokt/v1/SInt32;
+	public static fun constructor-impl (I)I
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (ILjava/lang/Object;)Z
+	public static final fun equals-impl0 (II)Z
+	public final fun getValue ()I
+	public fun hashCode ()I
+	public static fun hashCode-impl (I)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (I)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()I
+}
+
+public final class com/toasttab/protokt/v1/SInt64 {
+	public static final synthetic fun box-impl (J)Lcom/toasttab/protokt/v1/SInt64;
+	public static fun constructor-impl (J)J
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (JLjava/lang/Object;)Z
+	public static final fun equals-impl0 (JJ)Z
+	public final fun getValue ()J
+	public fun hashCode ()I
+	public static fun hashCode-impl (J)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (J)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()J
+}
+
+public final class com/toasttab/protokt/v1/SizeCodecsKt {
+	public static final fun sizeof (D)I
+	public static final fun sizeof (F)I
+	public static final fun sizeof (Lcom/toasttab/protokt/v1/Bytes;)I
+	public static final fun sizeof (Lcom/toasttab/protokt/v1/BytesSlice;)I
+	public static final fun sizeof (Lcom/toasttab/protokt/v1/KtEnum;)I
+	public static final fun sizeof (Lcom/toasttab/protokt/v1/KtMessage;)I
+	public static final fun sizeof (Ljava/lang/String;)I
+	public static final fun sizeof (Z)I
+	public static final fun sizeof ([B)I
+	public static final fun sizeof-4JTkNzI (I)I
+	public static final fun sizeof-5SO2J4g (I)I
+	public static final fun sizeof-8advWW8 (J)I
+	public static final fun sizeof-924BjJ8 (I)I
+	public static final fun sizeof-FkQuk50 (J)I
+	public static final fun sizeof-SJZ3d1c (I)I
+	public static final fun sizeof-W2ie4lE (I)I
+	public static final fun sizeof-ZjOKSvk (J)I
+	public static final fun sizeof-kVWiscA (J)I
+	public static final fun sizeof-omTQxK0 (I)I
+	public static final fun sizeof-y4IcAGI (J)I
+	public static final fun sizeofMap-N1rc_MA (Ljava/util/Map;ILkotlin/jvm/functions/Function2;)I
+}
+
+public final class com/toasttab/protokt/v1/Tag {
+	public static final synthetic fun box-impl (I)Lcom/toasttab/protokt/v1/Tag;
+	public static fun constructor-impl (I)I
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (ILjava/lang/Object;)Z
+	public static final fun equals-impl0 (II)Z
+	public final fun getValue ()I
+	public fun hashCode ()I
+	public static fun hashCode-impl (I)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (I)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()I
+}
+
+public final class com/toasttab/protokt/v1/UInt32 {
+	public static final synthetic fun box-impl (I)Lcom/toasttab/protokt/v1/UInt32;
+	public static fun constructor-impl (I)I
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (ILjava/lang/Object;)Z
+	public static final fun equals-impl0 (II)Z
+	public final fun getValue-pVg5ArA ()I
+	public fun hashCode ()I
+	public static fun hashCode-impl (I)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (I)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()I
+}
+
+public final class com/toasttab/protokt/v1/UInt64 {
+	public static final synthetic fun box-impl (J)Lcom/toasttab/protokt/v1/UInt64;
+	public static fun constructor-impl (J)J
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (JLjava/lang/Object;)Z
+	public static final fun equals-impl0 (JJ)Z
+	public final fun getValue-s-VKNKU ()J
+	public fun hashCode ()I
+	public static fun hashCode-impl (J)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (J)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()J
+}
+
+public final class com/toasttab/protokt/v1/UnknownField {
+	public static final field Companion Lcom/toasttab/protokt/v1/UnknownField$Companion;
+	public synthetic fun <init> (ILcom/toasttab/protokt/v1/UnknownValue;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getFieldNumber ()I
+	public final fun getValue ()Lcom/toasttab/protokt/v1/UnknownValue;
+}
+
+public final class com/toasttab/protokt/v1/UnknownField$Companion {
+	public final fun fixed32-Qn1smSk (II)Lcom/toasttab/protokt/v1/UnknownField;
+	public final fun fixed64-2TYgG_w (IJ)Lcom/toasttab/protokt/v1/UnknownField;
+	public final fun lengthDelimited (I[B)Lcom/toasttab/protokt/v1/UnknownField;
+	public final fun varint (IJ)Lcom/toasttab/protokt/v1/UnknownField;
+}
+
+public final class com/toasttab/protokt/v1/UnknownFieldSet {
+	public static final field Companion Lcom/toasttab/protokt/v1/UnknownFieldSet$Companion;
+	public synthetic fun <init> (Ljava/util/Map;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getUnknownFields ()Ljava/util/Map;
+	public fun hashCode ()I
+	public final fun isEmpty ()Z
+	public final fun size ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/toasttab/protokt/v1/UnknownFieldSet$Builder {
+	public fun <init> ()V
+	public final fun add (Lcom/toasttab/protokt/v1/UnknownField;)V
+	public final fun build ()Lcom/toasttab/protokt/v1/UnknownFieldSet;
+}
+
+public final class com/toasttab/protokt/v1/UnknownFieldSet$Companion {
+	public final fun empty ()Lcom/toasttab/protokt/v1/UnknownFieldSet;
+	public final fun from (Lcom/toasttab/protokt/v1/UnknownFieldSet$Builder;)Lcom/toasttab/protokt/v1/UnknownFieldSet;
+}
+
+public final class com/toasttab/protokt/v1/UnknownFieldSet$Field {
+	public synthetic fun <init> (Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFixed32 ()Ljava/util/List;
+	public final fun getFixed64 ()Ljava/util/List;
+	public final fun getLengthDelimited ()Ljava/util/List;
+	public final fun getVarint ()Ljava/util/List;
+	public fun hashCode ()I
+	public final fun size (I)I
+	public fun toString ()Ljava/lang/String;
+	public final fun write (ILcom/toasttab/protokt/v1/KtMessageSerializer;)V
+}
+
+public final class com/toasttab/protokt/v1/UnknownFieldSet$Field$Builder {
+	public final fun add (Lcom/toasttab/protokt/v1/UnknownValue;)V
+	public final fun build ()Lcom/toasttab/protokt/v1/UnknownFieldSet$Field;
+}
+
+public abstract interface class com/toasttab/protokt/v1/UnknownValue {
+	public abstract fun size ()I
+}
+
+public final class com/toasttab/protokt/v1/VarintVal : com/toasttab/protokt/v1/UnknownValue {
+	public synthetic fun <init> (JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-upcSr64 ()J
+	public final fun copy-FkQuk50 (J)Lcom/toasttab/protokt/v1/VarintVal;
+	public static synthetic fun copy-FkQuk50$default (Lcom/toasttab/protokt/v1/VarintVal;JILjava/lang/Object;)Lcom/toasttab/protokt/v1/VarintVal;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getValue-upcSr64 ()J
 	public fun hashCode ()I
 	public fun size ()I
 	public fun toString ()Ljava/lang/String;

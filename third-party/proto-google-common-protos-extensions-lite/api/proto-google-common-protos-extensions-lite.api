@@ -1,4 +1,4 @@
-public final class com/toasttab/protokt/thirdparty/LocalDateGoogleConverter : com/toasttab/protokt/Converter {
+public final class com/toasttab/protokt/thirdparty/LocalDateGoogleConverter : com/toasttab/protokt/v1/Converter {
 	public static final field INSTANCE Lcom/toasttab/protokt/thirdparty/LocalDateGoogleConverter;
 	public fun getWrapped ()Lkotlin/reflect/KClass;
 	public fun getWrapper ()Lkotlin/reflect/KClass;

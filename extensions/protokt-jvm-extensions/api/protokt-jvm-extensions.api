@@ -1,9 +1,18 @@
-public final class com/toasttab/protokt/InetSocketAddressProto {
-	public static final field INSTANCE Lcom/toasttab/protokt/InetSocketAddressProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+public final class com/toasttab/protokt/ext/InetSocketAddressProto {
+	public static final field INSTANCE Lcom/toasttab/protokt/ext/InetSocketAddressProto;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
-public final class com/toasttab/protokt/Inet_socket_address_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/toasttab/protokt/InetSocketAddress$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+public final class com/toasttab/protokt/ext/Inet_socket_address_protokt_descriptorsKt {
+	public static final fun getDescriptor (Lcom/toasttab/protokt/ext/InetSocketAddress$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+}
+
+public final class com/toasttab/protokt/v1/InetSocketAddressProto {
+	public static final field INSTANCE Lcom/toasttab/protokt/v1/InetSocketAddressProto;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
+}
+
+public final class com/toasttab/protokt/v1/Inet_socket_address_protokt_descriptorsKt {
+	public static final fun getDescriptor (Lcom/toasttab/protokt/v1/InetSocketAddress$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
