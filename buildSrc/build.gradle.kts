@@ -46,7 +46,7 @@ sourceSets["main"].java.srcDir(versionOutputDir)
 
 tasks.register("generateVersions") {
     doFirst {
-        val protobuf = File(versionOutputDir, "com/toasttab/protokt/gradle/ProtobufVersion.kt")
+        val protobuf = File(versionOutputDir, "com/toasttab/protokt/v1/gradle/ProtobufVersion.kt")
         protobuf.parentFile.mkdirs()
         protobuf.writeText(
             """
@@ -65,13 +65,13 @@ tasks.register("generateVersions") {
                  * limitations under the License.
                  */
                  
-                package com.toasttab.protokt.gradle
+                package com.toasttab.protokt.v1.gradle
                 
                 const val DEFAULT_PROTOBUF_VERSION = "${libs.versions.protobuf.get()}"
             """.trimIndent()
         )
 
-        val protokt = File(versionOutputDir, "com/toasttab/protokt/gradle/ProtoktVersion.kt")
+        val protokt = File(versionOutputDir, "com/toasttab/protokt/v1/gradle/ProtoktVersion.kt")
         protokt.parentFile.mkdirs()
         protokt.writeText(
             """
@@ -90,7 +90,7 @@ tasks.register("generateVersions") {
                  * limitations under the License.
                  */
 
-                package com.toasttab.protokt.gradle
+                package com.toasttab.protokt.v1.gradle
 
                 const val PROTOKT_VERSION = "$version"
             """.trimIndent()

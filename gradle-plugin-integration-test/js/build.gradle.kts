@@ -14,11 +14,11 @@
  */
 
 import com.google.protobuf.gradle.proto
-import com.toasttab.protokt.gradle.protoktExtensions
+import com.toasttab.protokt.v1.gradle.protoktExtensions
 
 plugins {
     id("org.jetbrains.kotlin.js")
-    id("com.toasttab.protokt")
+    id("com.toasttab.protokt.v1")
 }
 
 protokt {

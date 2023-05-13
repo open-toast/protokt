@@ -15,13 +15,13 @@
 
 syntax = "proto2";
 
-package toasttab.protokt.codegen.testing;
+package toasttab.protokt.v1.codegen.testing;
 
-import "protokt/protokt.proto";
+import "protokt/v1/protokt.proto";
 
 message TestMessageWithBadNonNullOptionalField {
   optional REPLACE value = 1 [
-    (.protokt.property).non_null = true
+    (.protokt.v1.property).non_null = true
   ];
 }
 

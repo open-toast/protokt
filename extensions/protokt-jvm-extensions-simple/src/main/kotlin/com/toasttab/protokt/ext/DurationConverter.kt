@@ -16,7 +16,7 @@
 package com.toasttab.protokt.ext
 
 import com.google.auto.service.AutoService
-import com.toasttab.protokt.Duration
+import com.toasttab.protokt.v1.Duration
 
 @Suppress("DEPRECATION")
 @Deprecated("for backwards compatibility only")

@@ -15,11 +15,12 @@
 
 package com.toasttab.protokt.grpc
 
-import com.toasttab.protokt.KtDeserializer
+import com.toasttab.protokt.v1.KtDeserializer
 import io.grpc.MethodDescriptor
 import java.io.InputStream
 
 @Suppress("DEPRECATION")
+@Deprecated("use v1 package")
 class KtMarshaller<T : com.toasttab.protokt.rt.KtMessage> private constructor(
     private val new: KtDeserializer<T>?,
     private val old: com.toasttab.protokt.rt.KtDeserializer<T>?

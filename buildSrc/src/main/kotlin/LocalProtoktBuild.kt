@@ -14,8 +14,8 @@
  */
 
 import com.google.protobuf.gradle.GenerateProtoTask
-import com.toasttab.protokt.gradle.CODEGEN_NAME
-import com.toasttab.protokt.gradle.configureProtokt
+import com.toasttab.protokt.v1.gradle.CODEGEN_NAME
+import com.toasttab.protokt.v1.gradle.configureProtokt
 import org.gradle.api.Project
 import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.api.tasks.compile.JavaCompile

@@ -15,7 +15,7 @@
 
 package com.toasttab.protokt.ext
 
-import com.toasttab.protokt.Converter
+import com.toasttab.protokt.v1.Converter
 
 @Deprecated("for backwards compatibility only")
 interface Converter<S : Any, T : Any> : Converter<S, T>

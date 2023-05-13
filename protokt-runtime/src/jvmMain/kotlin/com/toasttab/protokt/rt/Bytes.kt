@@ -54,7 +54,7 @@ fun Bytes.toBytesSlice() =
 @Deprecated("for backwards compatibility only")
 @Suppress("DEPRECATION")
 fun Bytes.toBytes() =
-    com.toasttab.protokt.Bytes(value)
+    com.toasttab.protokt.v1.Bytes(value)
 
 @Deprecated("for backwards compatibility only")
 @Suppress("DEPRECATION")

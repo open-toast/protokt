@@ -14,7 +14,7 @@
  */
 
 import com.google.protobuf.gradle.proto
-import com.toasttab.protokt.gradle.CODEGEN_NAME
+import com.toasttab.protokt.v1.gradle.CODEGEN_NAME
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
@@ -46,7 +46,7 @@ enablePublishing(defaultJars = false)
 
 application {
     applicationName = CODEGEN_NAME
-    mainClass.set("com.toasttab.protokt.MainKt")
+    mainClass.set("com.toasttab.protokt.v1.MainKt")
 }
 
 dependencies {
@@ -101,7 +101,7 @@ sourceSets {
 }
 
 includeBuildSrc(
-    "com/toasttab/protokt/gradle/ProtoktExtension.kt",
-    "com/toasttab/protokt/gradle/ProtoktVersion.kt",
-    "com/toasttab/protokt/gradle/ProtobufVersion.kt"
+    "com/toasttab/protokt/v1/gradle/ProtoktExtension.kt",
+    "com/toasttab/protokt/v1/gradle/ProtoktVersion.kt",
+    "com/toasttab/protokt/v1/gradle/ProtobufVersion.kt"
 )

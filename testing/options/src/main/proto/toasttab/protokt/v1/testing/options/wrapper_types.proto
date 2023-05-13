@@ -1,0 +1,175 @@
+/*
+ * Copyright (c) 2019 Toast, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto3";
+
+package toasttab.protokt.v1.testing.options;
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+import "google/type/date.proto";
+import "protokt/v1/inet_socket_address.proto";
+import "protokt/v1/protokt.proto";
+
+option java_package = "com.toasttab.protokt.v1.testing.options";
+
+message Wrappers {
+  bytes id = 1 [
+    (.protokt.v1.property).wrap = "Id"
+  ];
+
+  bytes uuid = 2 [
+    (.protokt.v1.property).wrap = "java.util.UUID"
+  ];
+
+  bytes ip_address = 3 [
+    (.protokt.v1.property).wrap = "java.net.InetAddress"
+  ];
+
+  bytes caching_id = 4 [
+    (.protokt.v1.property).wrap = "CachingId"
+  ];
+
+  .protokt.v1.InetSocketAddress socket_address = 5 [
+    (.protokt.v1.property).wrap = "java.net.InetSocketAddress",
+    (.protokt.v1.property).non_null = true
+  ];
+
+  google.protobuf.Timestamp instant = 6 [
+    (.protokt.v1.property).wrap = "java.time.Instant",
+    (.protokt.v1.property).non_null = true
+  ];
+
+  google.protobuf.Duration duration = 7 [
+    (.protokt.v1.property).wrap = "java.time.Duration",
+    (.protokt.v1.property).non_null = true
+  ];
+
+  string local_date = 8 [
+    (.protokt.v1.property).wrap = "java.time.LocalDate"
+  ];
+
+  google.protobuf.BytesValue nullable_uuid = 9 [
+    (.protokt.v1.property).wrap = "java.util.UUID"
+  ];
+
+  google.protobuf.StringValue nullable_local_date = 10 [
+    (.protokt.v1.property).wrap = "java.time.LocalDate"
+  ];
+
+  google.type.Date google_date = 11 [
+    (.protokt.v1.property).wrap = "java.time.LocalDate",
+    (.protokt.v1.property).non_null = true
+  ];
+}
+
+message OneofWrappers {
+  oneof wrapped_oneof {
+    option (.protokt.v1.oneof).non_null = true;
+
+    bytes id_oneof = 1 [
+      (.protokt.v1.property).wrap = "com.toasttab.protokt.v1.testing.options.Id"
+    ];
+
+    bytes uuid_oneof = 2 [
+      (.protokt.v1.property).wrap = "java.util.UUID"
+    ];
+
+    bytes ip_address_oneof = 3 [
+      (.protokt.v1.property).wrap = "java.net.InetAddress"
+    ];
+
+    bytes caching_id_oneof = 4 [
+      (.protokt.v1.property).wrap = "CachingId"
+    ];
+
+    .protokt.v1.InetSocketAddress socket_address_oneof = 5 [
+      (.protokt.v1.property).wrap = "java.net.InetSocketAddress"
+    ];
+
+    google.protobuf.Timestamp instant_oneof = 6 [
+      (.protokt.v1.property).wrap = "java.time.Instant"
+    ];
+
+    google.protobuf.Duration duration_oneof = 7 [
+      (.protokt.v1.property).wrap = "java.time.Duration"
+    ];
+
+    string local_date_oneof = 8 [
+      (.protokt.v1.property).wrap = "java.time.LocalDate"
+    ];
+
+    google.protobuf.BytesValue nullable_uuid_oneof = 9 [
+      (.protokt.v1.property).wrap = "java.util.UUID"
+    ];
+
+    google.protobuf.StringValue nullable_local_date_oneof = 10 [
+      (.protokt.v1.property).wrap = "java.time.LocalDate"
+    ];
+
+    google.type.Date google_date_oneof = 11 [
+      (.protokt.v1.property).wrap = "java.time.LocalDate"
+    ];
+  }
+}
+
+message RepeatedWrappers {
+  repeated bytes uuids = 1 [
+    (.protokt.v1.property).wrap = "java.util.UUID"
+  ];
+
+  repeated google.protobuf.BytesValue uuids_wrapped = 2 [
+    (.protokt.v1.property).wrap = "java.util.UUID"
+  ];
+}
+
+message MapWrappers {
+  map<string, int32> map_string_key_wrapped = 1 [
+    (.protokt.v1.property).key_wrap = "StringBox"
+  ];
+
+  map<int32, int32> map_int_key_wrapped = 2 [
+    (.protokt.v1.property).key_wrap = "IntBox"
+  ];
+
+  map<string, string> map_string_value_wrapped = 3 [
+    (.protokt.v1.property).value_wrap = "StringBox"
+  ];
+
+  map<int32, int32> map_int_value_wrapped = 4 [
+    (.protokt.v1.property).value_wrap = "IntBox"
+  ];
+
+  map<string, string> map_string_double_wrapped = 5 [
+    (.protokt.v1.property).key_wrap = "StringBox",
+    (.protokt.v1.property).value_wrap = "StringBox"
+  ];
+
+  map<int32, int32> map_int_double_wrapped = 6 [
+    (.protokt.v1.property).key_wrap = "IntBox",
+    (.protokt.v1.property).value_wrap = "IntBox"
+  ];
+
+  map<string, bytes> map_string_uuid = 7 [
+    (.protokt.v1.property).key_wrap = "StringBox",
+    (.protokt.v1.property).value_wrap = "java.util.UUID"
+  ];
+
+  map<string, .protokt.v1.InetSocketAddress> map_string_socket_address = 8 [
+    (.protokt.v1.property).key_wrap = "StringBox",
+    (.protokt.v1.property).value_wrap = "java.net.InetSocketAddress"
+  ];
+}

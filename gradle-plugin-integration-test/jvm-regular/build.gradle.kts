@@ -17,7 +17,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("org.jetbrains.kotlin.jvm")
-    id("com.toasttab.protokt")
+    id("com.toasttab.protokt.v1")
 }
 
 protokt {

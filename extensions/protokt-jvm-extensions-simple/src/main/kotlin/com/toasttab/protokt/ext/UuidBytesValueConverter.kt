@@ -16,10 +16,10 @@
 package com.toasttab.protokt.ext
 
 import com.google.auto.service.AutoService
-import com.toasttab.protokt.Bytes
-import com.toasttab.protokt.BytesValue
-import com.toasttab.protokt.UuidBytesConverter
-import com.toasttab.protokt.sizeof
+import com.toasttab.protokt.v1.Bytes
+import com.toasttab.protokt.v1.BytesValue
+import com.toasttab.protokt.v1.UuidBytesConverter
+import com.toasttab.protokt.v1.sizeof
 import java.util.UUID
 
 @Suppress("DEPRECATION")

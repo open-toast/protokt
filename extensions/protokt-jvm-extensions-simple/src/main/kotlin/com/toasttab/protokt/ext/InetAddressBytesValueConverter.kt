@@ -16,8 +16,8 @@
 package com.toasttab.protokt.ext
 
 import com.google.auto.service.AutoService
-import com.toasttab.protokt.BytesValue
-import com.toasttab.protokt.InetAddressBytesConverter
+import com.toasttab.protokt.v1.BytesValue
+import com.toasttab.protokt.v1.InetAddressBytesConverter
 import java.net.InetAddress
 
 @Suppress("DEPRECATION")

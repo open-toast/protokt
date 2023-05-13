@@ -15,7 +15,7 @@
 
 package com.toasttab.protokt.testing.lite
 
-import com.toasttab.protokt.util.PROTOKT_EXTENSIONS_CLASS_NAME
+import com.toasttab.protokt.v1.util.PROTOKT_EXTENSIONS_CLASS_NAME
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 

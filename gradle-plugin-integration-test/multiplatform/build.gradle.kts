@@ -13,8 +13,9 @@
  * limitations under the License.
  */
 
-import com.toasttab.protokt.gradle.plugin.ProtoktPlugin
-import com.toasttab.protokt.gradle.protoktExtensions
+import com.toasttab.protokt.v1.gradle.ProtoktExtension
+import com.toasttab.protokt.v1.gradle.ProtoktPlugin
+import com.toasttab.protokt.v1.gradle.protoktExtensions
 
 plugins {
     id("org.jetbrains.kotlin.multiplatform")
@@ -85,7 +86,7 @@ tasks.named<Test>("jvmTest") {
 // awkward that we have to apply the plugin after source sets are configured
 apply<ProtoktPlugin>()
 
-configure<com.toasttab.protokt.gradle.ProtoktExtension> {
+configure<ProtoktExtension> {
     formatOutput = false // https://github.com/pinterest/ktlint/issues/1195
 }
 

@@ -14,5 +14,5 @@
  */
 
 fun main() {
-    com.toasttab.protokt.conformance.main()
+    com.toasttab.protokt.v1.conformance.main()
 }

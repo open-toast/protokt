@@ -15,9 +15,7 @@
 
 syntax = "proto3";
 
-package toasttab.protokt.codegen.testing;
-
-import "protokt/protokt.proto";
+package toasttab.protokt.v1.codegen.testing;
 
 message TestMessage {
   string value = 1;

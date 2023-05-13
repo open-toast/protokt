@@ -16,7 +16,6 @@
 package com.toasttab.protokt.ext
 
 import com.google.auto.service.AutoService
-import com.toasttab.protokt.InetSocketAddress
 
 @Suppress("DEPRECATION")
 @Deprecated("for backwards compatibility only")

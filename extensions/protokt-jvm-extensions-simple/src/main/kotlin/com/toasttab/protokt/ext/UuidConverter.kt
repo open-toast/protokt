@@ -15,7 +15,7 @@
 
 package com.toasttab.protokt.ext
 
-import com.toasttab.protokt.sizeof
+import com.toasttab.protokt.v1.sizeof
 import java.nio.ByteBuffer
 import java.util.UUID
 

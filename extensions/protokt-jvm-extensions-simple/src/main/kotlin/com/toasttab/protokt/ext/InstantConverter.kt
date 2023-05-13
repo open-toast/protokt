@@ -16,7 +16,7 @@
 package com.toasttab.protokt.ext
 
 import com.google.auto.service.AutoService
-import com.toasttab.protokt.Timestamp
+import com.toasttab.protokt.v1.Timestamp
 import java.time.Instant
 
 @Suppress("DEPRECATION")
