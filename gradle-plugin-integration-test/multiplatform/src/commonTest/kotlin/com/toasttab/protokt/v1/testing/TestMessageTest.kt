@@ -16,19 +16,16 @@
 package com.toasttab.protokt.v1.testing
 
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class TestMessageTest {
     @Test
     fun serialization_round_trip() {
-        // TODO
-        /*
         val message = TestMessage { baz = "2007-12-03T10:15:30.00Z" }
 
         assertEquals(
             message,
             TestMessage.deserialize(message.serialize())
         )
-
-         */
     }
 }

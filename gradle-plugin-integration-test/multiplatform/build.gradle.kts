@@ -66,11 +66,8 @@ kotlin {
             }
         }
 
-        val jsMain by getting {}
+        // todo: figure out how to reuse the tests from testing/protobufjs
         val jsTest by getting {}
-        val js = "../../testing/protobufjs/src/test/kotlin"
-        check(file(js).exists())
-        jsTest.kotlin.srcDir(js)
     }
 
     targets {

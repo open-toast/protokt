@@ -54,26 +54,23 @@ kotlin {
     sourceSets {
         test {
             val common = "../multiplatform/src/commonTest/kotlin"
-            val js = "../../testing/protobufjs/src/test/kotlin"
             check(file(common).exists())
-            check(file(js).exists())
             kotlin.srcDir(common)
-            kotlin.srcDir(js)
+
+            val jsTest = "../multiplatform/src/jsTest/kotlin"
+            check(file(jsTest).exists())
+            kotlin.srcDir(jsTest)
         }
     }
 }
 
-// TODO
-/*
 sourceSets {
-    named("main") {
+    named("jsMain") {
         proto {
             srcDir("../multiplatform/src/main/proto")
-            srcDir("../../testing/protobufjs/src/main/proto")
         }
     }
 }
- */
 
 tasks.all {
     enabled = System.getProperty("kotlin.version", "1.8.21") == "1.8.21"

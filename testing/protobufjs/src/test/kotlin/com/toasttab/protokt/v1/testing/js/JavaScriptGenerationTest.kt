@@ -15,26 +15,16 @@
 
 package com.toasttab.protokt.v1.testing.js
 
-import com.toasttab.protokt.v1.configureLong
-import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class JavaScriptGenerationTest {
-    @BeforeTest
-    fun before() {
-        configureLong()
-    }
-
     @Test
     fun test_js_test_round_trip() {
-        // TODO
-        /*
         val jsTest = JsTest { foo = "1" }
 
         val deserialized = JsTest.deserialize(jsTest.serialize())
 
         assertEquals(jsTest, deserialized)
-
-         */
     }
 }
