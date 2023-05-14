@@ -19,16 +19,8 @@ plugins {
     id("org.jetbrains.kotlin.js")
 }
 
-localProtokt()
-
-dependencies {
-    protoktExtensions(project(":extensions:protokt-extensions"))
-
-    testImplementation(kotlin("test"))
-}
-
 kotlin {
-    js(BOTH) {
+    js(IR) {
         browser {
             testTask {
                 useKarma {
@@ -45,4 +37,12 @@ kotlin {
 
         useCommonJs()
     }
+}
+
+localProtokt()
+
+dependencies {
+    protoktExtensions(project(":extensions:protokt-extensions"))
+
+    testImplementation(kotlin("test"))
 }

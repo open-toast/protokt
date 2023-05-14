@@ -38,13 +38,6 @@ class ConformanceTest {
                 jsConformanceDriver(project)
         };
 
-        // js-legacy isn't bundling its dependencies correctly when built
-        //
-        // JS_LEGACY("js-legacy") {
-        //     override fun driver() =
-        //        jsConformanceDriver(project)
-        // };
-
         abstract fun driver(): Path
     }
 

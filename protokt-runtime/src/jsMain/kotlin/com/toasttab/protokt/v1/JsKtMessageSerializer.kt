@@ -16,6 +16,7 @@
 package com.toasttab.protokt.v1
 
 internal fun serializer(writer: Writer): KtMessageSerializer {
+    configureLong()
     return object : KtMessageSerializer {
         override fun writeFixed32(i: UInt) {
             writer.fixed32(i.toInt())

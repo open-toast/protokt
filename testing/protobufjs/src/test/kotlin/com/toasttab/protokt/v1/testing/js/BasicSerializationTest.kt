@@ -24,7 +24,20 @@ class BasicSerializationTest {
     fun test_timestamp_round_trip() {
         val timestamp =
             Timestamp {
-                seconds = 1
+                seconds = Long.MAX_VALUE
+                nanos = 10
+            }
+
+        val deserialized = Timestamp.deserialize(timestamp.serialize())
+
+        assertEquals(timestamp, deserialized)
+    }
+
+    @Test
+    fun test_small_timestamp_round_trip() {
+        val timestamp =
+            Timestamp {
+                seconds = 15
                 nanos = 10
             }
 

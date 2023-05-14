@@ -19,6 +19,7 @@ plugins {
 
 android {
     compileSdkVersion(31)
+    namespace = "com.toasttab.protokt.v1.testing.android"
 }
 
 localProtokt()

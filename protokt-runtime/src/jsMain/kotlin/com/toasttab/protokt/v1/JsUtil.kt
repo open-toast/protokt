@@ -38,15 +38,8 @@ internal fun BytesSlice.asUint8Array() =
 internal val Long.protobufjsLong: dynamic
     get() {
         val ret = js("{}")
-        // Legacy compiler exposes Long bits via functions, while IR compiler exposes Long bits
-        // via `_high` and `_low` fields
-        if (asDynamic().getHighBits !== undefined) {
-            ret.high = asDynamic().getHighBits()
-            ret.low = asDynamic().getLowBits()
-        } else {
-            ret.high = asDynamic()._high
-            ret.low = asDynamic()._low
-        }
+        ret.high = asDynamic()._high
+        ret.low = asDynamic()._low
         return ret
     }
 
@@ -54,12 +47,35 @@ internal fun Long.Companion.fromProtobufJsLong(l: dynamic): Long {
     return if (l.low == null || l.high == null) {
         (l as Int).toLong()
     } else {
-        // Legacy compiler exposes Long-related function in `Kotlin` namespace, while IR compiler
-        // exposes a direct Long constructor
-        if (js("typeof Kotlin") !== "undefined") {
-            js("Kotlin").Long.fromBits(l.low, l.high) as Long
-        } else {
-            js("new Long(l.low, l.high)") as Long
-        }
+        val low = l.low as Int
+        val high = l.high as Int
+        return (high.toLong() shl 32) + (low.toLong() and 0xffffffffL)
     }
+}
+
+internal fun configureLong() {
+    _configureLong
+}
+
+private val _configureLong by lazy {
+    js("var Long = require(\"long\")")
+    js("var protobuf = require(\"protobufjs/light\")")
+    js("protobuf.util.Long = Long")
+    js("protobuf.configure()")
+    // printErr("configured long: " + js("Long"))
+}
+
+fun printErr(message: String) {
+    process.stderr.write(message + "\n")
+}
+
+@JsModule("process")
+@JsNonModule
+private external object process {
+    val stderr: StdStream
+}
+
+private external interface StdStream {
+    // Writeable streams only
+    fun write(chunk: String, encoding: String = definedExternally): Boolean
 }

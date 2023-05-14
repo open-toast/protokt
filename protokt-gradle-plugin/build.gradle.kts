@@ -20,7 +20,8 @@ plugins {
 }
 
 gradlePlugin {
-    isAutomatedPublishing = false
+    website.set(ProtoktProjectInfo.url)
+    vcsUrl.set(ProtoktProjectInfo.url)
 
     plugins {
         create("protokt") {
@@ -28,18 +29,9 @@ gradlePlugin {
             implementationClass = "com.toasttab.protokt.v1.gradle.ProtoktPlugin"
             displayName = ProtoktProjectInfo.name
             description = ProtoktProjectInfo.description
+            tags.set(listOf("protobuf", "kotlin"))
         }
     }
-}
-
-pluginBundle {
-    mavenCoordinates {
-        group = "${project.group}"
-    }
-    website = ProtoktProjectInfo.url
-    vcsUrl = ProtoktProjectInfo.url
-    description = ProtoktProjectInfo.description
-    tags = listOf("protobuf", "kotlin")
 }
 
 ext[com.gradle.publish.PublishTask.GRADLE_PUBLISH_KEY] = System.getenv("GRADLE_PORTAL_PUBLISH_KEY")

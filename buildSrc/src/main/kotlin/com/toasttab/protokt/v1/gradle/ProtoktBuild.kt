@@ -72,7 +72,14 @@ private fun injectKotlinPluginsIntoProtobufGradle() {
     prerequisitePlugins.add("org.jetbrains.kotlin.js")
 }
 
-private fun Project.linkGenerateProtoToSourceCompileForKotlinJsOrMpp(sourceSetPrefix: String = "") {
+private fun Project.linkGenerateProtoToSourceCompileForKotlinJsOrMpp() {
+    val sourceSetPrefix =
+        if (isMultiplatform()) {
+            "common"
+        } else {
+            ""
+        }
+
     val mainSourceSetName = if (sourceSetPrefix.isEmpty()) "main" else sourceSetPrefix + "Main"
     val testSourceSetName = if (sourceSetPrefix.isEmpty()) "test" else sourceSetPrefix + "Test"
 
@@ -147,11 +154,13 @@ private fun Project.createExtensionConfigurationsAndConfigureProtobuf() {
     when {
         isMultiplatform() -> {
             configureProtoktConfigurations(KotlinMultiplatformExtension::class, "commonMain", "commonTest")
-            linkGenerateProtoToSourceCompileForKotlinJsOrMpp("common")
+            linkGenerateProtoToSourceCompileForKotlinJsOrMpp()
         }
         isJs() -> {
-            configureProtoktConfigurations(KotlinJsProjectExtension::class, "main", "test")
-            linkGenerateProtoToSourceCompileForKotlinJsOrMpp()
+            afterEvaluate {
+                configureProtoktConfigurations(KotlinJsProjectExtension::class, "main", "test")
+                linkGenerateProtoToSourceCompileForKotlinJsOrMpp()
+            }
         }
         else -> {
             configurations.getByName("api").extendsFrom(extensionsConfiguration)
@@ -186,12 +195,14 @@ private fun Project.isJs() =
     plugins.hasPlugin("org.jetbrains.kotlin.js")
 
 private fun createProtoSourceSetsIfNeeded(project: Project) {
-    with(project.the<SourceSetContainer>()) {
-        if (none { it.name == "main" }) {
-            create("main")
-        }
-        if (none { it.name == "test" }) {
-            create("test")
+    if (project.isMultiplatform()) {
+        with(project.the<SourceSetContainer>()) {
+            if (none { it.name == "main" }) {
+                create("main")
+            }
+            if (none { it.name == "test" }) {
+                create("test")
+            }
         }
     }
 }

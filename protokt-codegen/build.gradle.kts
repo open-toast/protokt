@@ -15,13 +15,6 @@
 
 import com.google.protobuf.gradle.proto
 import com.toasttab.protokt.v1.gradle.CODEGEN_NAME
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
-buildscript {
-    dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.21")
-    }
-}
 
 plugins {
     id("protokt.jvm-conventions")
@@ -30,17 +23,6 @@ plugins {
 }
 
 defaultProtoc()
-
-// Enable Kotlin 1.7 in codegen only; even though the buildscript dependency
-// has been forced to 1.7.x, Gradle gets confused and thinks we're running in
-// the context of Kotlin 1.5.
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        // Prevent checks of class metadata version:
-        // `Class 'kotlin.Unit' was compiled with an incompatible version of Kotlin. The binary version of its metadata is 1.7.1, expected version is 1.5.1.`
-        freeCompilerArgs += listOf("-Xskip-metadata-version-check")
-    }
-}
 
 enablePublishing(defaultJars = false)
 
@@ -54,7 +36,7 @@ dependencies {
     implementation(project(":protokt-runtime"))
     implementation(project(":protokt-runtime-grpc"))
 
-    implementation(kotlin("reflect", "1.7.21"))
+    implementation(kotlin("reflect"))
 
     implementation(libs.grpcStub)
     implementation(libs.kotlinPoet)
