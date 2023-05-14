@@ -38,8 +38,8 @@ internal fun BytesSlice.asUint8Array() =
 internal val Long.protobufjsLong: dynamic
     get() {
         val ret = js("{}")
-        ret.high = asDynamic()._high
-        ret.low = asDynamic()._low
+        ret.low = asDynamic().low_1
+        ret.high = asDynamic().high_1
         return ret
     }
 

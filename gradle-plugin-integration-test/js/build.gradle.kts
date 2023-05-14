@@ -68,5 +68,5 @@ sourceSets {
 }
 
 tasks.all {
-    enabled = System.getProperty("kotlin.version", "1.5.32") == "1.5.32"
+    enabled = System.getProperty("kotlin.version", "1.8.10") == "1.8.10"
 }

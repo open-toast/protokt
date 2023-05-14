@@ -18,6 +18,7 @@ plugins {
 }
 
 android {
+    namespace = "com.toasttab.protokt.testing.android"
     compileSdkVersion(31)
     namespace = "com.toasttab.protokt.v1.testing.android"
 
