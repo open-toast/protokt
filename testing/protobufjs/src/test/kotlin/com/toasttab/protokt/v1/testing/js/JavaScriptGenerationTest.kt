@@ -16,7 +16,6 @@
 package com.toasttab.protokt.v1.testing.js
 
 import kotlin.test.Test
-import kotlin.test.assertEquals
 
 class JavaScriptGenerationTest {
     @Test

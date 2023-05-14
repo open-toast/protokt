@@ -107,4 +107,4 @@ Required.Proto3.ProtobufInput.ValidDataScalar.SINT64[1].ProtobufOutput
 Required.Proto3.ProtobufInput.ValidDataScalar.SINT64[2].ProtobufOutput
 Required.Proto3.ProtobufInput.ValidDataScalar.SINT64[3].ProtobufOutput
 Required.Proto3.ProtobufInput.ValidDataScalar.UINT64[1].ProtobufOutput
-Required.Proto3.ProtobufInput.ValidDataScalar.UINT64[2].ProtobufOutput
+# Required.Proto3.ProtobufInput.ValidDataScalar.UINT64[2].ProtobufOutput
