@@ -15,7 +15,6 @@
 
 package com.toasttab.protokt.v1
 
-fun sizeOfTag(tag: UInt) = sizeOf(tag shl 3 or 0u)
 fun sizeOf(enum: KtEnum) = sizeOf(enum.value)
 fun sizeOf(msg: KtMessage) = sizeOf(msg.messageSize.toUInt()) + msg.messageSize
 fun sizeOf(b: Bytes) = sizeOf(b.value)
@@ -112,7 +111,7 @@ fun <K, V> sizeOfMap(
     tag: UInt,
     sizeOf: (K, V) -> Int
 ) =
-    sizeOfTag(tag).let { t ->
+    sizeOf(tag).let { t ->
         m.entries.sumOf { (k, v) ->
             t + sizeOf(k, v).let { s ->
                 s + sizeOf(s)

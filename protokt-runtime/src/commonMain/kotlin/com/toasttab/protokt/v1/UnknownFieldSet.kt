@@ -57,6 +57,9 @@ private constructor(
             UnknownFieldSet(finishMap(map.mapValues { (_, v) -> v.build() }))
     }
 
+    // If unknown fields are keyed by tag instead of field number then the bit
+    // arithmetic in this class can go away, but field number is a useful thing
+    // to have to trace the origin of the unknown field.
     class Field
     private constructor(
         val varint: List<VarintVal>,
@@ -68,7 +71,7 @@ private constructor(
             get() = varint.size + fixed32.size + fixed64.size + lengthDelimited.size
 
         fun size(fieldNumber: UInt) =
-            (sizeOfTag(fieldNumber) * size) + asSequence().sumOf { it.size() }
+            (sizeOf(fieldNumber shl 3 or 0u) * size) + asSequence().sumOf { it.size() }
 
         private fun asSequence(): Sequence<UnknownValue> =
             (varint.asSequence() + fixed32 + fixed64 + lengthDelimited)

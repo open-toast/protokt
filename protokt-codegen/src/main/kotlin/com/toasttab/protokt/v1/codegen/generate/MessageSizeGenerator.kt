@@ -114,7 +114,7 @@ fun sizeOf(
         f.map -> sizeOfMap(f, name, ctx)
         f.repeated && f.packed -> {
             namedCodeBlock(
-                "sizeOfTag(${f.number}u) + " +
+                "sizeOf(${f.tag}u) + " +
                     "%elementsSize:L.let·{·it·+·%sizeOf:M(it.toUInt())·}",
                 mapOf(
                     "sizeOf" to runtimeFunction("sizeOf"),
@@ -124,9 +124,9 @@ fun sizeOf(
         }
         f.repeated -> {
             namedCodeBlock(
-                "(%sizeOfTag:M(${f.number}u) * %name:L.size) + %elementsSize:L",
+                "(%sizeOf:M(${f.tag}u) * %name:L.size) + %elementsSize:L",
                 mapOf(
-                    "sizeOfTag" to runtimeFunction("sizeOfTag"),
+                    "sizeOf" to runtimeFunction("sizeOf"),
                     "name" to name,
                     "elementsSize" to
                         f.elementsSize(
@@ -139,8 +139,8 @@ fun sizeOf(
         else -> {
             buildCodeBlock {
                 add(
-                    "%M(${f.number}u) + %L",
-                    runtimeFunction("sizeOfTag"),
+                    "%M(${f.tag}u) + %L",
+                    runtimeFunction("sizeOf"),
                     interceptFieldSizeof(f, name, ctx)
                 )
             }
@@ -168,7 +168,7 @@ private fun sizeOfMap(
 
     return buildCodeBlock {
         add(
-            "%M($name, ${f.number}u)·{·%L,·%L·->\n",
+            "%M($name, ${f.tag}u)·{·%L,·%L·->\n",
             runtimeFunction("sizeOfMap"),
             mapEntry.key.loopVar("k"),
             mapEntry.value.loopVar("v")

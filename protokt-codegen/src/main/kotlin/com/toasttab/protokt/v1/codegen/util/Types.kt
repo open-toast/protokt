@@ -184,4 +184,10 @@ sealed class Tag(val value: Int) : Comparable<Tag> {
 
     override fun compareTo(other: Tag) =
         value.compareTo(other.value)
+
+    override fun toString() =
+        value.toString()
 }
+
+private fun computeTag(fieldNumber: Int, wireType: Int) =
+    (fieldNumber shl 3) or wireType
