@@ -20,11 +20,7 @@ import com.squareup.kotlinpoet.buildCodeBlock
 import com.toasttab.protokt.v1.codegen.generate.CodeGenerator.Context
 import com.toasttab.protokt.v1.codegen.generate.Nullability.hasNonNullOption
 import com.toasttab.protokt.v1.codegen.generate.Wrapper.interceptValueAccess
-import com.toasttab.protokt.v1.codegen.util.FieldType.BOOL
-import com.toasttab.protokt.v1.codegen.util.FieldType.BYTES
-import com.toasttab.protokt.v1.codegen.util.FieldType.ENUM
-import com.toasttab.protokt.v1.codegen.util.FieldType.MESSAGE
-import com.toasttab.protokt.v1.codegen.util.FieldType.STRING
+import com.toasttab.protokt.v1.codegen.util.FieldType
 import com.toasttab.protokt.v1.codegen.util.Message
 import com.toasttab.protokt.v1.codegen.util.Oneof
 import com.toasttab.protokt.v1.codegen.util.StandardField
@@ -77,10 +73,10 @@ private fun StandardField.nonDefault(ctx: Context): CodeBlock {
     return when {
         optional -> CodeBlock.of("%N != null", fieldName)
         repeated -> CodeBlock.of("%N.isNotEmpty()", fieldName)
-        type == MESSAGE -> CodeBlock.of("%N != null", fieldName)
-        type == BYTES || type == STRING -> CodeBlock.of("%L.isNotEmpty()", name)
-        type == ENUM -> CodeBlock.of("%L.value != 0", name)
-        type == BOOL -> name
+        type == FieldType.Message -> CodeBlock.of("%N != null", fieldName)
+        type == FieldType.Bytes || type == FieldType.String -> CodeBlock.of("%L.isNotEmpty()", name)
+        type == FieldType.Enum -> CodeBlock.of("%L.value != 0", name)
+        type == FieldType.Bool -> name
         type.scalar -> CodeBlock.of("%L != %L", name, type.defaultValue)
         else -> error("Field doesn't have nondefault check: $this, $type")
     }

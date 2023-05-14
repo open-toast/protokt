@@ -15,7 +15,7 @@
 
 package com.toasttab.protokt.v1.codegen.util
 
-import com.toasttab.protokt.v1.Bytes
+import com.squareup.kotlinpoet.CodeBlock
 import com.toasttab.protokt.v1.KtEnum
 import com.toasttab.protokt.v1.KtMessage
 import com.toasttab.protokt.v1.KtMessageSerializer
@@ -23,130 +23,25 @@ import com.toasttab.protokt.v1.sizeOfSInt32
 import com.toasttab.protokt.v1.sizeOfSInt64
 import kotlin.reflect.KClass
 
-enum class FieldType(
-    private val type: TypeImpl
-) {
-    BOOL(Scalar.Bool),
-    BYTES(Nonscalar.Bytes),
-    DOUBLE(Scalar.Double),
-    ENUM(Nonscalar.Enum),
-    FIXED32(Scalar.Fixed32),
-    FIXED64(Scalar.Fixed64),
-    FLOAT(Scalar.Float),
-    INT32(Scalar.Int32),
-    INT64(Scalar.Int64),
-    MESSAGE(Nonscalar.Message),
-    SFIXED32(Scalar.SFixed32),
-    SFIXED64(Scalar.SFixed64),
-    SINT32(Scalar.SInt32),
-    SINT64(Scalar.SInt64),
-    STRING(Nonscalar.String),
-    UINT32(Scalar.UInt32),
-    UINT64(Scalar.UInt64);
-
-    val protoktFieldType
-        get() = when (type) {
-            is Nonscalar.Bytes -> Bytes::class
-            else ->
-                requireNotNull(type.kotlinRepresentation) {
-                    "no protokt field type for $this"
-                }
-        }
-
-    val packable
-        get() =
-            type != Nonscalar.Bytes &&
-                type != Nonscalar.Message &&
-                type != Nonscalar.String
-
-    val scalar
-        get() = type.scalar
-
-    val writeFn
-        get() =
-            when (this) {
-                INT32 -> "write"
-                FIXED32 -> KtMessageSerializer::writeFixed32.name
-                SFIXED32 -> KtMessageSerializer::writeSFixed32.name
-                UINT32 -> KtMessageSerializer::writeUInt32.name
-                SINT32 -> KtMessageSerializer::writeSInt32.name
-                INT64 -> "write"
-                FIXED64 -> KtMessageSerializer::writeFixed64.name
-                SFIXED64 -> KtMessageSerializer::writeSFixed64.name
-                UINT64 -> KtMessageSerializer::writeUInt64.name
-                SINT64 -> KtMessageSerializer::writeSInt64.name
-                else -> "write"
-            }
-
-    sealed interface SizeFn
-    class Const(val size: Int) : SizeFn
-    class Method(val name: String) : SizeFn
-
-    val sizeFn: SizeFn
-        get() =
-            when (this) {
-                BOOL -> Const(1)
-                DOUBLE, FIXED64, SFIXED64 -> Const(8)
-                FLOAT, FIXED32, SFIXED32 -> Const(4)
-                INT32, UINT32, INT64, UINT64 -> Method("sizeOf")
-                SINT32 -> Method(::sizeOfSInt32.name)
-                SINT64 -> Method(::sizeOfSInt64.name)
-                else -> Method("sizeOf")
-            }
-
-    val wireType
-        get() = type.wireType
-
-    val kotlinRepresentation
-        get() = type.kotlinRepresentation
-}
-
-private sealed class TypeImpl {
+sealed class FieldType {
     open val kotlinRepresentation: KClass<*>? = null
     open val inlineRepresentation: KClass<*>? = null
     open val ktRepresentation: KClass<*>? = null
 
-    val scalar
-        get() = this is Scalar
+    sealed class Nonscalar(
+        override val kotlinRepresentation: KClass<*>? = null,
+        override val ktRepresentation: KClass<*>? = null
+    ) : FieldType()
 
-    val wireType
-        get() = when (this) {
-            Scalar.Bool,
-            Nonscalar.Enum,
-            Scalar.Int32,
-            Scalar.Int64,
-            Scalar.SInt32,
-            Scalar.SInt64,
-            Scalar.UInt32,
-            Scalar.UInt64 -> 0
-
-            Scalar.Double,
-            Scalar.Fixed64,
-            Scalar.SFixed64 -> 1
-
-            Nonscalar.Bytes,
-            Nonscalar.Message,
-            Nonscalar.String -> 2
-
-            Scalar.Float,
-            Scalar.Fixed32,
-            Scalar.SFixed32 -> 5
-        }
-}
-
-private sealed class Nonscalar(
-    override val kotlinRepresentation: KClass<*>? = null,
-    override val ktRepresentation: KClass<*>? = null
-) : TypeImpl() {
     object Enum : Nonscalar(ktRepresentation = KtEnum::class)
     object Message : Nonscalar(ktRepresentation = KtMessage::class)
     object String : Nonscalar(kotlin.String::class)
     object Bytes : Nonscalar(com.toasttab.protokt.v1.Bytes::class)
-}
 
-private sealed class Scalar(
-    override val kotlinRepresentation: KClass<*>? = null
-) : TypeImpl() {
+    sealed class Scalar(
+        override val kotlinRepresentation: KClass<*>? = null
+    ) : FieldType()
+
     object Bool : Scalar(Boolean::class)
     object Double : Scalar(kotlin.Double::class)
     object Float : Scalar(kotlin.Float::class)
@@ -160,4 +55,85 @@ private sealed class Scalar(
     object SInt64 : Scalar(Long::class)
     object UInt32 : Scalar(UInt::class)
     object UInt64 : Scalar(ULong::class)
+
+    val protoktFieldType
+        get() = when (this) {
+            is Bytes -> com.toasttab.protokt.v1.Bytes::class
+            else ->
+                requireNotNull(kotlinRepresentation) {
+                    "no protokt field type for $this"
+                }
+        }
+
+    val packable
+        get() = this !in setOf(Bytes, Message, String)
+
+    val writeFn
+        get() = when (this) {
+            Fixed32 -> KtMessageSerializer::writeFixed32.name
+            SFixed32 -> KtMessageSerializer::writeSFixed32.name
+            UInt32 -> KtMessageSerializer::writeUInt32.name
+            SInt32 -> KtMessageSerializer::writeSInt32.name
+            Fixed64 -> KtMessageSerializer::writeFixed64.name
+            SFixed64 -> KtMessageSerializer::writeSFixed64.name
+            UInt64 -> KtMessageSerializer::writeUInt64.name
+            SInt64 -> KtMessageSerializer::writeSInt64.name
+            else -> "write"
+        }
+
+    sealed interface SizeFn
+    class Const(val size: Int) : SizeFn
+    class Method(val name: kotlin.String) : SizeFn
+
+    val sizeFn: SizeFn
+        get() = when (this) {
+            Bool -> Const(1)
+            Double, Fixed64, SFixed64 -> Const(8)
+            Float, Fixed32, SFixed32 -> Const(4)
+            SInt32 -> Method(::sizeOfSInt32.name)
+            SInt64 -> Method(::sizeOfSInt64.name)
+            else -> Method("sizeOf")
+        }
+
+    val scalar
+        get() = this is Scalar
+
+    val wireType
+        get() = when (this) {
+            Bool,
+            Enum,
+            Int32,
+            Int64,
+            SInt32,
+            SInt64,
+            UInt32,
+            UInt64 -> 0
+
+            Double,
+            Fixed64,
+            SFixed64 -> 1
+
+            Bytes,
+            Message,
+            String -> 2
+
+            Float,
+            Fixed32,
+            SFixed32 -> 5
+        }
+
+    val defaultValue: CodeBlock
+        get() = when (this) {
+            Message -> CodeBlock.of("null")
+            Enum -> error("enums do not have defaults; this is bug in the code generator")
+            Bool -> CodeBlock.of("false")
+            Fixed32, UInt32 -> CodeBlock.of("0u")
+            Int32, SFixed32, SInt32 -> CodeBlock.of("0")
+            Fixed64, UInt64 -> CodeBlock.of("0uL")
+            Int64, SFixed64, SInt64 -> CodeBlock.of("0L")
+            Float -> CodeBlock.of("0.0F")
+            Double -> CodeBlock.of("0.0")
+            Bytes -> CodeBlock.of("%T.empty()", com.toasttab.protokt.v1.Bytes::class)
+            String -> CodeBlock.of("\"\"")
+        }
 }

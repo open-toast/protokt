@@ -24,7 +24,7 @@ import com.toasttab.protokt.v1.codegen.generate.CodeGenerator.Context
 import com.toasttab.protokt.v1.codegen.generate.Wrapper.interceptValueAccess
 import com.toasttab.protokt.v1.codegen.generate.Wrapper.mapKeyConverter
 import com.toasttab.protokt.v1.codegen.generate.Wrapper.mapValueConverter
-import com.toasttab.protokt.v1.codegen.util.FieldType.MESSAGE
+import com.toasttab.protokt.v1.codegen.util.FieldType
 import com.toasttab.protokt.v1.codegen.util.Message
 import com.toasttab.protokt.v1.codegen.util.Oneof
 import com.toasttab.protokt.v1.codegen.util.StandardField
@@ -111,7 +111,7 @@ fun serialize(
 }
 
 private fun StandardField.boxMap(ctx: Context): CodeBlock {
-    if (type != MESSAGE) {
+    if (type != FieldType.Message) {
         return CodeBlock.of("")
     }
     val keyParam =

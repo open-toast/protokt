@@ -37,7 +37,7 @@ object Nullability {
     private val Field.isKotlinRepresentationNullable
         get() =
             when (this) {
-                is StandardField -> (type == FieldType.MESSAGE && !repeated) || optional
+                is StandardField -> (type == FieldType.Message && !repeated) || optional
                 is Oneof -> true
             }
 
@@ -45,7 +45,7 @@ object Nullability {
         get() =
             wrapped &&
                 !repeated &&
-                type !in setOf(FieldType.MESSAGE, FieldType.ENUM)
+                type !in setOf(FieldType.Message, FieldType.Enum)
 
     fun propertyType(o: Oneof) =
         if (o.hasNonNullOption) {

@@ -117,7 +117,7 @@ internal object Wrapper {
         if (f.bytesSlice) {
             CodeBlock.of("%T.empty()", BytesSlice::class)
         } else {
-            if (f.type == FieldType.MESSAGE && !f.repeated) {
+            if (f.type == FieldType.Message && !f.repeated) {
                 defaultValue
             } else {
                 wrapper(f, ctx)?.let { wrapField(it, defaultValue) } ?: defaultValue

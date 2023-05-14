@@ -100,8 +100,8 @@ class NonNullValidationTest : AbstractProtoktCodegenTest() {
             }
 
         private fun argLists() =
-            ineligibleAnonymousTypes().map { it.name.lowercase() } +
-                ineligibleAnonymousTypes().map { "repeated ${it.name.lowercase()}" } +
+            ineligibleAnonymousTypes().map { it.simpleName!!.lowercase() } +
+                ineligibleAnonymousTypes().map { "repeated ${it.simpleName!!.lowercase()}" } +
                 listOf(
                     listOf("Foo", "enum"),
                     listOf("repeated Foo", "repeated .toasttab.protokt.v1.codegen.testing.Foo"),
@@ -114,7 +114,7 @@ class NonNullValidationTest : AbstractProtoktCodegenTest() {
             mapToArgs(argListsOptional())
 
         private fun argListsOptional() =
-            ineligibleAnonymousTypes().map { it.name.lowercase() } +
+            ineligibleAnonymousTypes().map { it.simpleName!!.lowercase() } +
                 listOf(
                     listOf("Foo", ".toasttab.protokt.v1.codegen.testing.Foo"),
                     listOf("Bar", ".toasttab.protokt.v1.codegen.testing.Bar")
@@ -125,13 +125,16 @@ class NonNullValidationTest : AbstractProtoktCodegenTest() {
             mapToArgs(argListsOneof())
 
         private fun argListsOneof() =
-            ineligibleAnonymousTypes().map { it.name.lowercase() } +
+            ineligibleAnonymousTypes().map { it.simpleName!!.lowercase() } +
                 listOf(
                     listOf("Foo", ".toasttab.protokt.v1.codegen.testing.Foo"),
                     listOf("Bar", ".toasttab.protokt.v1.codegen.testing.Bar")
                 )
 
         private fun ineligibleAnonymousTypes() =
-            FieldType.values().filterNot { it in setOf(FieldType.MESSAGE, FieldType.ENUM) }
+            FieldType::class
+                .sealedSubclasses
+                .flatMap { it.sealedSubclasses }
+                .filterNot { it in setOf(FieldType.Message::class, FieldType.Enum::class) }
     }
 }

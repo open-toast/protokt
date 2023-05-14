@@ -211,23 +211,23 @@ class FieldParser(
 
 private fun toFieldType(type: Type) =
     when (type) {
-        Type.TYPE_BOOL -> FieldType.BOOL
-        Type.TYPE_BYTES -> FieldType.BYTES
-        Type.TYPE_DOUBLE -> FieldType.DOUBLE
-        Type.TYPE_ENUM -> FieldType.ENUM
-        Type.TYPE_FIXED32 -> FieldType.FIXED32
-        Type.TYPE_FIXED64 -> FieldType.FIXED64
-        Type.TYPE_FLOAT -> FieldType.FLOAT
-        Type.TYPE_INT32 -> FieldType.INT32
-        Type.TYPE_INT64 -> FieldType.INT64
-        Type.TYPE_MESSAGE -> FieldType.MESSAGE
-        Type.TYPE_SFIXED32 -> FieldType.SFIXED32
-        Type.TYPE_SFIXED64 -> FieldType.SFIXED64
-        Type.TYPE_SINT32 -> FieldType.SINT32
-        Type.TYPE_SINT64 -> FieldType.SINT64
-        Type.TYPE_STRING -> FieldType.STRING
-        Type.TYPE_UINT32 -> FieldType.UINT32
-        Type.TYPE_UINT64 -> FieldType.UINT64
+        Type.TYPE_BOOL -> FieldType.Bool
+        Type.TYPE_BYTES -> FieldType.Bytes
+        Type.TYPE_DOUBLE -> FieldType.Double
+        Type.TYPE_ENUM -> FieldType.Enum
+        Type.TYPE_FIXED32 -> FieldType.Fixed32
+        Type.TYPE_FIXED64 -> FieldType.Fixed64
+        Type.TYPE_FLOAT -> FieldType.Float
+        Type.TYPE_INT32 -> FieldType.Int32
+        Type.TYPE_INT64 -> FieldType.Int64
+        Type.TYPE_MESSAGE -> FieldType.Message
+        Type.TYPE_SFIXED32 -> FieldType.SFixed32
+        Type.TYPE_SFIXED64 -> FieldType.SFixed64
+        Type.TYPE_SINT32 -> FieldType.SInt32
+        Type.TYPE_SINT64 -> FieldType.SInt64
+        Type.TYPE_STRING -> FieldType.String
+        Type.TYPE_UINT32 -> FieldType.UInt32
+        Type.TYPE_UINT64 -> FieldType.UInt64
         else -> error("Unknown type: $type")
     }
 
@@ -240,10 +240,10 @@ private fun validateNonNullOption(
     optional: Boolean
 ) {
     fun FieldType.typeName() =
-        name.lowercase()
+        this::class.simpleName!!.lowercase()
 
     fun name(field: StandardField) =
-        if (field.type == FieldType.ENUM) {
+        if (field.type == FieldType.Enum) {
             field.protoTypeName
         } else {
             field.type.typeName()
@@ -251,7 +251,7 @@ private fun validateNonNullOption(
 
     val typeName =
         when (type) {
-            FieldType.ENUM, FieldType.MESSAGE -> fdp.typeName
+            FieldType.Enum, FieldType.Message -> fdp.typeName
             else -> type.typeName()
         }
 
@@ -263,7 +263,7 @@ private fun validateNonNullOption(
         "(protokt.property).non_null is only applicable to top level types " +
             "and is inapplicable to oneof field $typeName"
     }
-    require(type == FieldType.MESSAGE && !repeated) {
+    require(type == FieldType.Message && !repeated) {
         "(protokt.property).non_null is only applicable to message types " +
             "and is inapplicable to non-message " +
             when {

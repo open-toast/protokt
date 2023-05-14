@@ -37,14 +37,14 @@ import com.toasttab.protokt.v1.codegen.generate.Wrapper.mapKeyConverter
 import com.toasttab.protokt.v1.codegen.generate.Wrapper.mapValueConverter
 import com.toasttab.protokt.v1.codegen.generate.Wrapper.wrapField
 import com.toasttab.protokt.v1.codegen.generate.Wrapper.wrapper
-import com.toasttab.protokt.v1.codegen.util.FieldType.ENUM
-import com.toasttab.protokt.v1.codegen.util.FieldType.MESSAGE
-import com.toasttab.protokt.v1.codegen.util.FieldType.SFIXED32
-import com.toasttab.protokt.v1.codegen.util.FieldType.SFIXED64
-import com.toasttab.protokt.v1.codegen.util.FieldType.SINT32
-import com.toasttab.protokt.v1.codegen.util.FieldType.SINT64
-import com.toasttab.protokt.v1.codegen.util.FieldType.UINT32
-import com.toasttab.protokt.v1.codegen.util.FieldType.UINT64
+import com.toasttab.protokt.v1.codegen.util.FieldType
+import com.toasttab.protokt.v1.codegen.util.FieldType.Enum
+import com.toasttab.protokt.v1.codegen.util.FieldType.SFixed32
+import com.toasttab.protokt.v1.codegen.util.FieldType.SFixed64
+import com.toasttab.protokt.v1.codegen.util.FieldType.SInt32
+import com.toasttab.protokt.v1.codegen.util.FieldType.SInt64
+import com.toasttab.protokt.v1.codegen.util.FieldType.UInt32
+import com.toasttab.protokt.v1.codegen.util.FieldType.UInt64
 import com.toasttab.protokt.v1.codegen.util.Message
 import com.toasttab.protokt.v1.codegen.util.Oneof
 import com.toasttab.protokt.v1.codegen.util.StandardField
@@ -146,7 +146,7 @@ private class DeserializerGenerator(
 
     private fun declareDeserializeVar(p: PropertyInfo): CodeBlock {
         val initialState = deserializeVarInitialState(p)
-        return if (p.fieldType == MESSAGE || p.repeated || p.oneof || p.nullable || p.wrapped) {
+        return if (p.fieldType == FieldType.Message || p.repeated || p.oneof || p.nullable || p.wrapped) {
             CodeBlock.of("%N: %T = %L", p.name, deserializeType(p), initialState)
         } else {
             CodeBlock.of("%N = %L", p.name, initialState)
@@ -272,16 +272,16 @@ private fun deserializeMap(f: StandardField, ctx: Context, read: CodeBlock): Cod
 
 private fun StandardField.readFn() =
     when (type) {
-        SFIXED32 -> CodeBlock.of("readSFixed32()")
-        SFIXED64 -> CodeBlock.of("readSFixed64()")
-        SINT32 -> CodeBlock.of("readSInt32()")
-        SINT64 -> CodeBlock.of("readSInt64()")
-        UINT32 -> CodeBlock.of("readUInt32()")
-        UINT64 -> CodeBlock.of("readUInt64()")
+        SFixed32 -> CodeBlock.of("readSFixed32()")
+        SFixed64 -> CodeBlock.of("readSFixed64()")
+        SInt32 -> CodeBlock.of("readSInt32()")
+        SInt64 -> CodeBlock.of("readSInt64()")
+        UInt32 -> CodeBlock.of("readUInt32()")
+        UInt64 -> CodeBlock.of("readUInt64()")
         // by default for DOUBLE we get readDouble, for BOOL we get readBool(), etc.
         else -> buildCodeBlock {
-            add("read${type.name.lowercase().replaceFirstChar { it.uppercaseChar() }}(")
-            if (type == ENUM || type == MESSAGE) {
+            add("read${type::class.simpleName}(")
+            if (type == Enum || type == FieldType.Message) {
                 add("%T", className)
             }
             add(")")

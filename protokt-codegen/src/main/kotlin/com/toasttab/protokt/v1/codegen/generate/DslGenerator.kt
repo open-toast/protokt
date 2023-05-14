@@ -87,7 +87,7 @@ private class DslGenerator(
                                 when {
                                     it.map -> CodeBlock.of("emptyMap()")
                                     it.repeated -> CodeBlock.of("emptyList()")
-                                    it.fieldType == FieldType.MESSAGE || it.wrapped || it.nullable -> CodeBlock.of("null")
+                                    it.fieldType == FieldType.Message || it.wrapped || it.nullable -> CodeBlock.of("null")
                                     else -> it.defaultValue
                                 }
                             )

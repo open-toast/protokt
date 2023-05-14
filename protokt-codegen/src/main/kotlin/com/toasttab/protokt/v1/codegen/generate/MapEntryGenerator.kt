@@ -152,7 +152,7 @@ private class MapEntryGenerator(
 
         return namedCodeBlock(
             "var ${accessor.name}" +
-                if (field.type == FieldType.MESSAGE) {
+                if (field.type == FieldType.Message) {
                     ": %type:T"
                 } else {
                     ""
@@ -167,7 +167,7 @@ private class MapEntryGenerator(
     private fun constructOnZero(f: StandardField) =
         buildCodeBlock {
             add("0 -> return %T(key, value", msg.className)
-            if (f.type == FieldType.MESSAGE) {
+            if (f.type == FieldType.Message) {
                 add(
                     CodeBlock.of(
                         " ?: %T().build()",
