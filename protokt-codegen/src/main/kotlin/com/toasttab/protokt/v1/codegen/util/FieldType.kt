@@ -16,23 +16,12 @@
 package com.toasttab.protokt.v1.codegen.util
 
 import com.toasttab.protokt.v1.Bytes
-import com.toasttab.protokt.v1.Fixed32
-import com.toasttab.protokt.v1.Fixed64
-import com.toasttab.protokt.v1.Int32
-import com.toasttab.protokt.v1.Int64
 import com.toasttab.protokt.v1.KtEnum
 import com.toasttab.protokt.v1.KtMessage
 import com.toasttab.protokt.v1.KtMessageSerializer
-import com.toasttab.protokt.v1.SFixed32
-import com.toasttab.protokt.v1.SFixed64
-import com.toasttab.protokt.v1.SInt32
-import com.toasttab.protokt.v1.SInt64
-import com.toasttab.protokt.v1.UInt32
-import com.toasttab.protokt.v1.UInt64
 import com.toasttab.protokt.v1.sizeOfSInt32
 import com.toasttab.protokt.v1.sizeOfSInt64
 import kotlin.reflect.KClass
-import kotlin.reflect.full.declaredMemberProperties
 
 enum class FieldType(
     private val type: TypeImpl
@@ -41,19 +30,19 @@ enum class FieldType(
     BYTES(Nonscalar.Bytes),
     DOUBLE(Scalar.Double),
     ENUM(Nonscalar.Enum),
-    FIXED32(Boxed.Fixed32),
-    FIXED64(Boxed.Fixed64),
+    FIXED32(Scalar.Fixed32),
+    FIXED64(Scalar.Fixed64),
     FLOAT(Scalar.Float),
-    INT32(Boxed.Int32),
-    INT64(Boxed.Int64),
+    INT32(Scalar.Int32),
+    INT64(Scalar.Int64),
     MESSAGE(Nonscalar.Message),
-    SFIXED32(Boxed.SFixed32),
-    SFIXED64(Boxed.SFixed64),
-    SINT32(Boxed.SInt32),
-    SINT64(Boxed.SInt64),
+    SFIXED32(Scalar.SFixed32),
+    SFIXED64(Scalar.SFixed64),
+    SINT32(Scalar.SInt32),
+    SINT64(Scalar.SInt64),
     STRING(Nonscalar.String),
-    UINT32(Boxed.UInt32),
-    UINT64(Boxed.UInt64);
+    UINT32(Scalar.UInt32),
+    UINT64(Scalar.UInt64);
 
     val protoktFieldType
         get() = when (type) {
@@ -75,17 +64,17 @@ enum class FieldType(
 
     val writeFn
         get() =
-            when (type.inlineRepresentation) {
-                Int32::class -> "write"
-                Fixed32::class -> KtMessageSerializer::writeFixed32.name
-                SFixed32::class -> KtMessageSerializer::writeSFixed32.name
-                UInt32::class -> KtMessageSerializer::writeUInt32.name
-                SInt32::class -> KtMessageSerializer::writeSInt32.name
-                Int64::class -> "write"
-                Fixed64::class -> KtMessageSerializer::writeFixed64.name
-                SFixed64::class -> KtMessageSerializer::writeSFixed64.name
-                UInt64::class -> KtMessageSerializer::writeUInt64.name
-                SInt64::class -> KtMessageSerializer::writeSInt64.name
+            when (this) {
+                INT32 -> "write"
+                FIXED32 -> KtMessageSerializer::writeFixed32.name
+                SFIXED32 -> KtMessageSerializer::writeSFixed32.name
+                UINT32 -> KtMessageSerializer::writeUInt32.name
+                SINT32 -> KtMessageSerializer::writeSInt32.name
+                INT64 -> "write"
+                FIXED64 -> KtMessageSerializer::writeFixed64.name
+                SFIXED64 -> KtMessageSerializer::writeSFixed64.name
+                UINT64 -> KtMessageSerializer::writeUInt64.name
+                SINT64 -> KtMessageSerializer::writeSInt64.name
                 else -> "write"
             }
 
@@ -97,17 +86,12 @@ enum class FieldType(
         get() =
             when (this) {
                 BOOL -> Const(1)
-                DOUBLE -> Const(8)
-                FLOAT -> Const(4)
-                else ->
-                    when (type.inlineRepresentation) {
-                        Int32::class, UInt32::class, Int64::class, UInt64::class -> Method("sizeOf")
-                        Fixed32::class, SFixed32::class -> Const(4)
-                        Fixed64::class, SFixed64::class -> Const(8)
-                        SInt32::class -> Method(::sizeOfSInt32.name)
-                        SInt64::class -> Method(::sizeOfSInt64.name)
-                        else -> Method("sizeOf")
-                    }
+                DOUBLE, FIXED64, SFIXED64 -> Const(8)
+                FLOAT, FIXED32, SFIXED32 -> Const(4)
+                INT32, UINT32, INT64, UINT64 -> Method("sizeOf")
+                SINT32 -> Method(::sizeOfSInt32.name)
+                SINT64 -> Method(::sizeOfSInt64.name)
+                else -> Method("sizeOf")
             }
 
     val wireType
@@ -122,20 +106,38 @@ private sealed class TypeImpl {
     open val inlineRepresentation: KClass<*>? = null
     open val ktRepresentation: KClass<*>? = null
 
-    abstract val scalar: Boolean
+    val scalar
+        get() = this is Scalar
 
     val wireType
-        get() = wireType(
-            (inlineRepresentation ?: ktRepresentation ?: kotlinRepresentation)!!
-        )
+        get() = when (this) {
+            Scalar.Bool,
+            Nonscalar.Enum,
+            Scalar.Int32,
+            Scalar.Int64,
+            Scalar.SInt32,
+            Scalar.SInt64,
+            Scalar.UInt32,
+            Scalar.UInt64 -> 0
+
+            Scalar.Double,
+            Scalar.Fixed64,
+            Scalar.SFixed64 -> 1
+
+            Nonscalar.Bytes,
+            Nonscalar.Message,
+            Nonscalar.String -> 2
+
+            Scalar.Float,
+            Scalar.Fixed32,
+            Scalar.SFixed32 -> 5
+        }
 }
 
 private sealed class Nonscalar(
     override val kotlinRepresentation: KClass<*>? = null,
     override val ktRepresentation: KClass<*>? = null
 ) : TypeImpl() {
-    final override val scalar = false
-
     object Enum : Nonscalar(ktRepresentation = KtEnum::class)
     object Message : Nonscalar(ktRepresentation = KtMessage::class)
     object String : Nonscalar(kotlin.String::class)
@@ -145,30 +147,17 @@ private sealed class Nonscalar(
 private sealed class Scalar(
     override val kotlinRepresentation: KClass<*>? = null
 ) : TypeImpl() {
-    final override val scalar = true
-
     object Bool : Scalar(Boolean::class)
     object Double : Scalar(kotlin.Double::class)
     object Float : Scalar(kotlin.Float::class)
-}
-
-private sealed class Boxed(
-    override val inlineRepresentation: KClass<*>
-) : Scalar() {
-    final override val kotlinRepresentation
-        get() = inlineRepresentation.declaredMemberProperties
-            .single { it.name == com.toasttab.protokt.v1.Fixed32::value.name }
-            .returnType
-            .classifier as KClass<*>
-
-    object Fixed32 : Boxed(com.toasttab.protokt.v1.Fixed32::class)
-    object Fixed64 : Boxed(com.toasttab.protokt.v1.Fixed64::class)
-    object Int32 : Boxed(com.toasttab.protokt.v1.Int32::class)
-    object Int64 : Boxed(com.toasttab.protokt.v1.Int64::class)
-    object SFixed32 : Boxed(com.toasttab.protokt.v1.SFixed32::class)
-    object SFixed64 : Boxed(com.toasttab.protokt.v1.SFixed64::class)
-    object SInt32 : Boxed(com.toasttab.protokt.v1.SInt32::class)
-    object SInt64 : Boxed(com.toasttab.protokt.v1.SInt64::class)
-    object UInt32 : Boxed(com.toasttab.protokt.v1.UInt32::class)
-    object UInt64 : Boxed(com.toasttab.protokt.v1.UInt64::class)
+    object Fixed32 : Scalar(UInt::class)
+    object Fixed64 : Scalar(ULong::class)
+    object Int32 : Scalar(Int::class)
+    object Int64 : Scalar(Long::class)
+    object SFixed32 : Scalar(Int::class)
+    object SFixed64 : Scalar(Long::class)
+    object SInt32 : Scalar(Int::class)
+    object SInt64 : Scalar(Long::class)
+    object UInt32 : Scalar(UInt::class)
+    object UInt64 : Scalar(ULong::class)
 }
