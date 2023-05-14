@@ -17,20 +17,20 @@ package com.toasttab.protokt.v1
 
 class UnknownField
 private constructor(
-    val fieldNumber: Int,
+    val fieldNumber: UInt,
     val value: UnknownValue
 ) {
     companion object {
-        fun varint(fieldNumber: Int, varint: Long) =
+        fun varint(fieldNumber: UInt, varint: Long) =
             UnknownField(fieldNumber, VarintVal(UInt64(varint.toULong())))
 
-        fun fixed32(fieldNumber: Int, fixed32: UInt) =
+        fun fixed32(fieldNumber: UInt, fixed32: UInt) =
             UnknownField(fieldNumber, Fixed32Val(Fixed32(fixed32)))
 
-        fun fixed64(fieldNumber: Int, fixed64: ULong) =
+        fun fixed64(fieldNumber: UInt, fixed64: ULong) =
             UnknownField(fieldNumber, Fixed64Val(Fixed64(fixed64)))
 
-        fun lengthDelimited(fieldNumber: Int, bytes: ByteArray) =
+        fun lengthDelimited(fieldNumber: UInt, bytes: ByteArray) =
             UnknownField(fieldNumber, LengthDelimitedVal(Bytes(bytes)))
     }
 }

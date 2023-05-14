@@ -73,7 +73,7 @@ internal fun deserializer(reader: Reader): KtMessageDeserializer {
             readBytes().toBytesSlice()
 
         override fun readUnknown(): UnknownField {
-            val fieldNumber = lastTag ushr 3
+            val fieldNumber = (lastTag ushr 3).toUInt()
 
             return when (tagWireType(lastTag)) {
                 0 -> UnknownField.varint(fieldNumber, readInt64())

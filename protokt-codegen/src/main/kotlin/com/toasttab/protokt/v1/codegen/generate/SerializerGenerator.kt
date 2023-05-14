@@ -20,7 +20,6 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.toasttab.protokt.v1.KtMessageSerializer
-import com.toasttab.protokt.v1.Tag
 import com.toasttab.protokt.v1.UInt32
 import com.toasttab.protokt.v1.codegen.generate.CodeGenerator.Context
 import com.toasttab.protokt.v1.codegen.generate.Wrapper.interceptValueAccess
@@ -73,7 +72,6 @@ fun serialize(
         }
 
     val map = mutableMapOf(
-        "tag" to Tag::class,
         "uInt32" to UInt32::class,
         "name" to f.fieldName,
         "sizeof" to runtimeFunction("sizeof")
@@ -82,7 +80,7 @@ fun serialize(
         f.repeated && f.packed -> buildCodeBlock {
             map += "boxed" to f.box(CodeBlock.of("it"))
             addNamed(
-                "serializer.write(%tag:T(${f.tag.value}))" +
+                "serializer.writeTag(${f.tag.value}u)" +
                     ".write(%uInt32:T(%name:N.sumOf{%sizeof:M(%boxed:L)}.toUInt()))\n",
                 map
             )
@@ -91,8 +89,7 @@ fun serialize(
         f.map -> buildCodeBlock {
             beginControlFlow("${f.fieldName}.entries.forEach")
             add(
-                "serializer.write(%T(${f.tag.value})).write(%L)\n",
-                Tag::class,
+                "serializer.writeTag(${f.tag.value}u).write(%L)\n",
                 f.boxMap(ctx)
             )
             endControlFlowWithoutNewline()
@@ -101,15 +98,14 @@ fun serialize(
             map += "boxed" to f.box(fieldAccess)
             addNamed(
                 "%name:N.forEach·{·" +
-                    "serializer.write(%tag:T(${f.tag.value})).write(%boxed:L)·}",
+                    "serializer.writeTag(${f.tag.value}u).write(%boxed:L)·}",
                 map
             )
         }
 
         else -> buildCodeBlock {
             add(
-                "serializer.write(%T(${f.tag.value})).write(%L)",
-                Tag::class,
+                "serializer.writeTag(${f.tag.value}u).write(%L)",
                 f.box(fieldAccess)
             )
         }

@@ -17,7 +17,7 @@ package com.toasttab.protokt.v1
 
 class UnknownFieldSet
 private constructor(
-    val unknownFields: Map<Int, Field>
+    val unknownFields: Map<UInt, Field>
 ) {
     fun size() =
         unknownFields.entries.sumOf { (k, v) -> v.size(k) }
@@ -46,7 +46,7 @@ private constructor(
     }
 
     class Builder {
-        private val map = mutableMapOf<Int, Field.Builder>()
+        private val map = mutableMapOf<UInt, Field.Builder>()
 
         fun add(unknown: UnknownField) {
             map.getOrPut(unknown.fieldNumber) { Field.Builder() }
@@ -67,19 +67,19 @@ private constructor(
         private val size
             get() = varint.size + fixed32.size + fixed64.size + lengthDelimited.size
 
-        fun size(fieldNumber: Int) =
-            (sizeof(Tag(fieldNumber)) * size) + asSequence().sumOf { it.size() }
+        fun size(fieldNumber: UInt) =
+            (sizeOfTag(fieldNumber) * size) + asSequence().sumOf { it.size() }
 
         private fun asSequence(): Sequence<UnknownValue> =
             (varint.asSequence() + fixed32 + fixed64 + lengthDelimited)
 
-        fun write(fieldNumber: Int, serializer: KtMessageSerializer) {
+        fun write(fieldNumber: UInt, serializer: KtMessageSerializer) {
             asSequence().forEach { serializer.write(it, fieldNumber) }
         }
 
         private fun KtMessageSerializer.write(
             unknownValue: UnknownValue,
-            fieldNumber: Int
+            fieldNumber: UInt
         ) {
             when (unknownValue) {
                 is VarintVal -> write(fieldNumber, 0).write(unknownValue.value)
@@ -89,8 +89,8 @@ private constructor(
             }
         }
 
-        private fun KtMessageSerializer.write(fieldNumber: Int, wireType: Int) =
-            write(Tag((fieldNumber shl 3) or wireType))
+        private fun KtMessageSerializer.write(fieldNumber: UInt, wireType: Int) =
+            also { write(UInt32((fieldNumber shl 3) or wireType.toUInt())) }
 
         override fun equals(other: Any?) =
             equalsUsingSequence(other, { it.size }, Field::asSequence)

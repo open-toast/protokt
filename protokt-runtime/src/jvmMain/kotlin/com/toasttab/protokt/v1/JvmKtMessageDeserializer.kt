@@ -75,7 +75,7 @@ internal fun deserializer(
 
         override fun readUnknown(): UnknownField {
             val tag = stream.lastTag
-            val fieldNumber = WireFormat.getTagFieldNumber(tag)
+            val fieldNumber = WireFormat.getTagFieldNumber(tag).toUInt()
             return when (WireFormat.getTagWireType(tag)) {
                 WireFormat.WIRETYPE_VARINT ->
                     UnknownField.varint(fieldNumber, stream.readInt64())

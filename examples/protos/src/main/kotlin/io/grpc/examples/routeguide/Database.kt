@@ -15,7 +15,10 @@
 
 package io.grpc.examples.routeguide
 
+import com.fasterxml.jackson.databind.DeserializationContext
+import com.fasterxml.jackson.databind.KeyDeserializer
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.readValue
 
@@ -24,6 +27,16 @@ object Database {
         return javaClass.getResourceAsStream("route_guide_db.json").use {
             ObjectMapper()
                 .registerModule(KotlinModule.Builder().build())
+                .registerModule(
+                    SimpleModule()
+                        .addKeyDeserializer(
+                            UInt::class.java,
+                            object : KeyDeserializer() {
+                                override fun deserializeKey(key: String, ctxt: DeserializationContext) =
+                                    key.toUInt()
+                            }
+                        )
+                )
                 .readValue<FeatureDatabase>(it!!.reader())
         }.feature
     }

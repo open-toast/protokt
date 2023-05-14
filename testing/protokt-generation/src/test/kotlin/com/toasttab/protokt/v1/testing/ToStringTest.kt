@@ -37,7 +37,7 @@ class ToStringTest {
         assertThat(
             ToStringTestEmpty {
                 unknownFields = UnknownFieldSet.Builder().apply {
-                    add(UnknownField.fixed32(5, 10u))
+                    add(UnknownField.fixed32(5u, 10u))
                 }.build()
             }.toString()
         ).isEqualTo(
@@ -65,7 +65,7 @@ class ToStringTest {
             ToStringTest2 {
                 extra = "foo"
                 unknownFields = UnknownFieldSet.Builder().apply {
-                    add(UnknownField.fixed32(5, 10u))
+                    add(UnknownField.fixed32(5u, 10u))
                 }.build()
             }.toString()
         ).isEqualTo(

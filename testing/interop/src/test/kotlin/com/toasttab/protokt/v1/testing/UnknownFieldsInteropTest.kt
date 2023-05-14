@@ -39,10 +39,10 @@ class UnknownFieldsInteropTest {
             .build()
 
     private val unknowns = listOf(
-        UnknownField.varint(111, 111),
-        UnknownField.fixed32(222, 222u),
-        UnknownField.fixed64(333, 333u),
-        UnknownField.lengthDelimited(444, "some string".toByteArray())
+        UnknownField.varint(111u, 111),
+        UnknownField.fixed32(222u, 222u),
+        UnknownField.fixed64(333u, 333u),
+        UnknownField.lengthDelimited(444u, "some string".toByteArray())
     )
 
     private val protoktWithUnknowns =
@@ -59,7 +59,7 @@ class UnknownFieldsInteropTest {
                 JavaUnknownFieldSet.newBuilder().apply {
                     unknowns.forEach {
                         addField(
-                            it.fieldNumber,
+                            it.fieldNumber.toInt(),
                             JavaUnknownFieldSet.Field.newBuilder().apply {
                                 when (val v = it.value) {
                                     is VarintVal -> addVarint(v.value.value.toLong())

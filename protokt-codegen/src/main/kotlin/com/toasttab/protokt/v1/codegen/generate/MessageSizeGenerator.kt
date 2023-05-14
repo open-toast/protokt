@@ -19,7 +19,6 @@ import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.buildCodeBlock
-import com.toasttab.protokt.v1.Tag
 import com.toasttab.protokt.v1.UInt32
 import com.toasttab.protokt.v1.codegen.generate.CodeGenerator.Context
 import com.toasttab.protokt.v1.codegen.generate.Nullability.hasNonNullOption
@@ -115,11 +114,10 @@ fun sizeOf(
         f.map -> sizeOfMap(f, name, ctx)
         f.repeated && f.packed -> {
             namedCodeBlock(
-                "%sizeof:M(%tag:T(${f.number})) + " +
+                "sizeOfTag(${f.number}u) + " +
                     "%name:L.sumOf·{·%sizeof:M(%box:L)·}.let·{·it·+·%sizeof:M(%uInt32:T(it.toUInt()))·}",
                 mapOf(
                     "sizeof" to runtimeFunction("sizeof"),
-                    "tag" to Tag::class,
                     "uInt32" to UInt32::class,
                     "box" to f.box(CodeBlock.of("it")),
                     "name" to name
@@ -128,11 +126,11 @@ fun sizeOf(
         }
         f.repeated -> {
             namedCodeBlock(
-                "(%sizeof:M(%tag:T(${f.number})) * %name:L.size) + " +
+                "(%sizeOfTag:M(${f.number}u) * %name:L.size) + " +
                     "%name:L.sumOf·{·%sizeof:M(%boxedAccess:L)·}",
                 mapOf(
+                    "sizeOfTag" to runtimeFunction("sizeOfTag"),
                     "sizeof" to runtimeFunction("sizeof"),
-                    "tag" to Tag::class,
                     "boxedAccess" to f.box(interceptValueAccess(f, ctx, CodeBlock.of("it"))),
                     "name" to name
                 )
@@ -141,9 +139,8 @@ fun sizeOf(
         else -> {
             buildCodeBlock {
                 add(
-                    "%M(%T(${f.number})) + %L",
-                    runtimeFunction("sizeof"),
-                    Tag::class,
+                    "%M(${f.number}u) + %L",
+                    runtimeFunction("sizeOfTag"),
                     interceptFieldSizeof(f, name, ctx)
                 )
             }
@@ -168,9 +165,8 @@ private fun sizeOfMap(
 
     return buildCodeBlock {
         add(
-            "%M($name, %T(${f.number}))·{·k,·v·->\n",
-            runtimeFunction("sizeofMap"),
-            Tag::class
+            "%M($name, ${f.number}u)·{·k,·v·->\n",
+            runtimeFunction("sizeofMap")
         )
         indent()
         add("%T.sizeof(%L, %L)\n", f.className, key, value)

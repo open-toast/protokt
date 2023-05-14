@@ -15,7 +15,7 @@
 
 package com.toasttab.protokt.v1
 
-fun sizeof(t: Tag): Int = sizeof(UInt32(t.value.toUInt() shl 3 or 0u))
+fun sizeOfTag(tag: UInt) = sizeof(UInt32(tag shl 3 or 0u))
 fun sizeof(enum: KtEnum) = sizeof(Int32(enum.value))
 fun sizeof(msg: KtMessage) = sizeof(UInt32(msg.messageSize.toUInt())) + msg.messageSize
 fun sizeof(b: Bytes) = sizeof(b.value)
@@ -130,10 +130,10 @@ private class CodePointIterator(
 
 fun <K, V> sizeofMap(
     m: Map<K, V>,
-    tag: Tag,
+    tag: UInt,
     sizeof: (K, V) -> Int
 ) =
-    sizeof(tag).let { t ->
+    sizeOfTag(tag).let { t ->
         m.entries.sumOf { (k, v) ->
             t + sizeof(k, v).let { s ->
                 s + sizeof(Int32(s))

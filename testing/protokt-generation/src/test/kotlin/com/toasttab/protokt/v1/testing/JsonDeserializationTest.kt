@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.JsonDeserializer
+import com.fasterxml.jackson.databind.KeyDeserializer
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -44,6 +45,13 @@ class JsonDeserializationTest {
                     .addDeserializer(
                         AnEnum::class.java,
                         EnumFieldDeserializer(AnEnum)
+                    )
+                    .addKeyDeserializer(
+                        UInt::class.java,
+                        object : KeyDeserializer() {
+                            override fun deserializeKey(key: String, ctxt: DeserializationContext) =
+                                key.toUInt()
+                        }
                     )
             )
             .registerModule(KotlinModule.Builder().build())

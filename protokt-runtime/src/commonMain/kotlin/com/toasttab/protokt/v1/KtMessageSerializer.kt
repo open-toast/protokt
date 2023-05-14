@@ -36,8 +36,8 @@ interface KtMessageSerializer {
     fun write(b: Bytes) =
         write(b.value)
 
-    fun write(t: Tag) =
-        also { write(UInt32(t.value.toUInt())) }
+    fun writeTag(tag: UInt) =
+        also { write(UInt32(tag)) }
 
     fun write(e: KtEnum) =
         write(Int32(e.value))
