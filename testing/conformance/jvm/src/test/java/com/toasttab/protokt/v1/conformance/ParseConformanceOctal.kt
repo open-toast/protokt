@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Toast Inc.
+ * Copyright (c) 2023 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,9 +13,9 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.v1.conformance;
+package com.toasttab.protokt.v1.conformance
 
-import com.toasttab.protokt_test_messages.proto3.TestAllTypesProto3
+import com.toasttab.protokt.v1_test_messages.proto3.TestAllTypesProto3
 import org.junit.jupiter.api.Test
 
 /**
