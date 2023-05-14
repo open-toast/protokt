@@ -19,7 +19,6 @@ import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.buildCodeBlock
-import com.toasttab.protokt.v1.UInt32
 import com.toasttab.protokt.v1.codegen.generate.CodeGenerator.Context
 import com.toasttab.protokt.v1.codegen.generate.Nullability.hasNonNullOption
 import com.toasttab.protokt.v1.codegen.generate.Wrapper.interceptFieldSizeof
@@ -27,6 +26,7 @@ import com.toasttab.protokt.v1.codegen.generate.Wrapper.interceptSizeof
 import com.toasttab.protokt.v1.codegen.generate.Wrapper.interceptValueAccess
 import com.toasttab.protokt.v1.codegen.generate.Wrapper.mapKeyConverter
 import com.toasttab.protokt.v1.codegen.generate.Wrapper.mapValueConverter
+import com.toasttab.protokt.v1.codegen.util.FieldType
 import com.toasttab.protokt.v1.codegen.util.Message
 import com.toasttab.protokt.v1.codegen.util.Oneof
 import com.toasttab.protokt.v1.codegen.util.StandardField
@@ -115,24 +115,24 @@ fun sizeOf(
         f.repeated && f.packed -> {
             namedCodeBlock(
                 "sizeOfTag(${f.number}u) + " +
-                    "%name:L.sumOf·{·%sizeof:M(%box:L)·}.let·{·it·+·%sizeof:M(%uInt32:T(it.toUInt()))·}",
+                    "%elementsSize:L.let·{·it·+·%sizeOf:M(it.toUInt())·}",
                 mapOf(
-                    "sizeof" to runtimeFunction("sizeof"),
-                    "uInt32" to UInt32::class,
-                    "box" to f.box(CodeBlock.of("it")),
-                    "name" to name
+                    "sizeOf" to runtimeFunction("sizeOf"),
+                    "elementsSize" to f.elementsSize()
                 )
             )
         }
         f.repeated -> {
             namedCodeBlock(
-                "(%sizeOfTag:M(${f.number}u) * %name:L.size) + " +
-                    "%name:L.sumOf·{·%sizeof:M(%boxedAccess:L)·}",
+                "(%sizeOfTag:M(${f.number}u) * %name:L.size) + %elementsSize:L",
                 mapOf(
                     "sizeOfTag" to runtimeFunction("sizeOfTag"),
-                    "sizeof" to runtimeFunction("sizeof"),
-                    "boxedAccess" to f.box(interceptValueAccess(f, ctx, CodeBlock.of("it"))),
-                    "name" to name
+                    "name" to name,
+                    "elementsSize" to
+                        f.elementsSize(
+                            interceptValueAccess(f, ctx, CodeBlock.of("it")),
+                            parenthesize = false
+                        )
                 )
             )
         }
@@ -163,13 +163,43 @@ private fun sizeOfMap(
             ?.let { CodeBlock.of("%T.unwrap(v)", it) }
             ?: CodeBlock.of("v")
 
+    val mapEntry = f.mapEntry!!
+    val sizeOfCall = sizeOfCall(mapEntry, key, value)
+
     return buildCodeBlock {
         add(
-            "%M($name, ${f.number}u)·{·k,·v·->\n",
-            runtimeFunction("sizeofMap")
+            "%M($name, ${f.number}u)·{·%L,·%L·->\n",
+            runtimeFunction("sizeOfMap"),
+            mapEntry.key.loopVar("k"),
+            mapEntry.value.loopVar("v")
         )
         indent()
-        add("%T.sizeof(%L, %L)\n", f.className, key, value)
+        add("%T.%L\n", f.className, sizeOfCall)
         endControlFlowWithoutNewline()
     }
 }
+
+private fun StandardField.loopVar(name: String) =
+    if (type.sizeFn is FieldType.Method) {
+        name
+    } else {
+        "_"
+    }
+
+fun StandardField.sizeOf(value: CodeBlock): CodeBlock =
+    when (val fn = type.sizeFn) {
+        is FieldType.Const -> CodeBlock.of(fn.size.toString())
+        is FieldType.Method -> CodeBlock.of("%M(%L)", runtimeFunction(fn.name), value)
+    }
+
+fun StandardField.elementsSize(
+    fieldAccess: CodeBlock = CodeBlock.of("it"),
+    parenthesize: Boolean = true
+) =
+    when (val sizeFn = type.sizeFn) {
+        is FieldType.Const ->
+            CodeBlock.of("(%N.size * %L)", fieldName, sizeFn.size)
+                .let { if (parenthesize) CodeBlock.of("(%L)", it) else it }
+        is FieldType.Method ->
+            CodeBlock.of("%N.sumOf·{·%L·}", fieldName, sizeOf(fieldAccess))
+    }

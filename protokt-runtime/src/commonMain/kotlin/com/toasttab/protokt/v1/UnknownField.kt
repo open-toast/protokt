@@ -22,13 +22,13 @@ private constructor(
 ) {
     companion object {
         fun varint(fieldNumber: UInt, varint: Long) =
-            UnknownField(fieldNumber, VarintVal(UInt64(varint.toULong())))
+            UnknownField(fieldNumber, VarintVal(varint.toULong()))
 
         fun fixed32(fieldNumber: UInt, fixed32: UInt) =
-            UnknownField(fieldNumber, Fixed32Val(Fixed32(fixed32)))
+            UnknownField(fieldNumber, Fixed32Val(fixed32))
 
         fun fixed64(fieldNumber: UInt, fixed64: ULong) =
-            UnknownField(fieldNumber, Fixed64Val(Fixed64(fixed64)))
+            UnknownField(fieldNumber, Fixed64Val(fixed64))
 
         fun lengthDelimited(fieldNumber: UInt, bytes: ByteArray) =
             UnknownField(fieldNumber, LengthDelimitedVal(Bytes(bytes)))
@@ -39,22 +39,22 @@ interface UnknownValue {
     fun size(): Int
 }
 
-data class VarintVal(val value: UInt64) : UnknownValue {
+data class VarintVal(val value: ULong) : UnknownValue {
     override fun size() =
-        sizeof(value)
+        sizeOf(value)
 }
 
-data class Fixed32Val(val value: Fixed32) : UnknownValue {
+data class Fixed32Val(val value: UInt) : UnknownValue {
     override fun size() =
-        sizeof(value)
+        4
 }
 
-data class Fixed64Val(val value: Fixed64) : UnknownValue {
+data class Fixed64Val(val value: ULong) : UnknownValue {
     override fun size() =
-        sizeof(value)
+        8
 }
 
 data class LengthDelimitedVal(val value: Bytes) : UnknownValue {
     override fun size() =
-        sizeof(value)
+        sizeOf(value)
 }

@@ -16,8 +16,21 @@
 package com.toasttab.protokt.v1.codegen.util
 
 import com.toasttab.protokt.v1.Bytes
+import com.toasttab.protokt.v1.Fixed32
+import com.toasttab.protokt.v1.Fixed64
+import com.toasttab.protokt.v1.Int32
+import com.toasttab.protokt.v1.Int64
 import com.toasttab.protokt.v1.KtEnum
 import com.toasttab.protokt.v1.KtMessage
+import com.toasttab.protokt.v1.KtMessageSerializer
+import com.toasttab.protokt.v1.SFixed32
+import com.toasttab.protokt.v1.SFixed64
+import com.toasttab.protokt.v1.SInt32
+import com.toasttab.protokt.v1.SInt64
+import com.toasttab.protokt.v1.UInt32
+import com.toasttab.protokt.v1.UInt64
+import com.toasttab.protokt.v1.sizeOfSInt32
+import com.toasttab.protokt.v1.sizeOfSInt64
 import kotlin.reflect.KClass
 import kotlin.reflect.full.declaredMemberProperties
 
@@ -60,13 +73,41 @@ enum class FieldType(
     val scalar
         get() = type.scalar
 
-    val boxed
-        get() = type.inlineRepresentation != null
-
-    val boxer
+    val writeFn
         get() =
-            requireNotNull(type.inlineRepresentation) {
-                "no boxer for $this"
+            when (type.inlineRepresentation) {
+                Int32::class -> "write"
+                Fixed32::class -> KtMessageSerializer::writeFixed32.name
+                SFixed32::class -> KtMessageSerializer::writeSFixed32.name
+                UInt32::class -> KtMessageSerializer::writeUInt32.name
+                SInt32::class -> KtMessageSerializer::writeSInt32.name
+                Int64::class -> "write"
+                Fixed64::class -> KtMessageSerializer::writeFixed64.name
+                SFixed64::class -> KtMessageSerializer::writeSFixed64.name
+                UInt64::class -> KtMessageSerializer::writeUInt64.name
+                SInt64::class -> KtMessageSerializer::writeSInt64.name
+                else -> "write"
+            }
+
+    sealed interface SizeFn
+    class Const(val size: Int) : SizeFn
+    class Method(val name: String) : SizeFn
+
+    val sizeFn: SizeFn
+        get() =
+            when (this) {
+                BOOL -> Const(1)
+                DOUBLE -> Const(8)
+                FLOAT -> Const(4)
+                else ->
+                    when (type.inlineRepresentation) {
+                        Int32::class, UInt32::class, Int64::class, UInt64::class -> Method("sizeOf")
+                        Fixed32::class, SFixed32::class -> Const(4)
+                        Fixed64::class, SFixed64::class -> Const(8)
+                        SInt32::class -> Method(::sizeOfSInt32.name)
+                        SInt64::class -> Method(::sizeOfSInt64.name)
+                        else -> Method("sizeOf")
+                    }
             }
 
     val wireType

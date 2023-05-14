@@ -20,15 +20,15 @@ import java.nio.ByteBuffer
 import java.util.UUID
 
 @AutoService(Converter::class)
-object UuidBytesConverter : OptimizedSizeofConverter<UUID, Bytes> {
+object UuidBytesConverter : OptimizedSizeOfConverter<UUID, Bytes> {
     override val wrapper = UUID::class
 
     override val wrapped = Bytes::class
 
-    private val sizeofProxy = ByteArray(16)
+    private val sizeOfProxy = ByteArray(16)
 
-    override fun sizeof(wrapped: UUID) =
-        sizeof(sizeofProxy)
+    override fun sizeOf(wrapped: UUID) =
+        sizeOf(sizeOfProxy)
 
     override fun wrap(unwrapped: Bytes): UUID {
         val buf = unwrapped.asReadOnlyBuffer()

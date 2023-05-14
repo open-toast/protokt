@@ -62,9 +62,9 @@ class UnknownFieldsInteropTest {
                             it.fieldNumber.toInt(),
                             JavaUnknownFieldSet.Field.newBuilder().apply {
                                 when (val v = it.value) {
-                                    is VarintVal -> addVarint(v.value.value.toLong())
-                                    is Fixed32Val -> addFixed32(v.value.value.toInt())
-                                    is Fixed64Val -> addFixed64(v.value.value.toLong())
+                                    is VarintVal -> addVarint(v.value.toLong())
+                                    is Fixed32Val -> addFixed32(v.value.toInt())
+                                    is Fixed64Val -> addFixed64(v.value.toLong())
                                     is LengthDelimitedVal ->
                                         addLengthDelimited(
                                             ByteString.copyFrom(v.value.bytes)

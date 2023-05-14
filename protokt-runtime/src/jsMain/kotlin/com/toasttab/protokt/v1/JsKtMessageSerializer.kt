@@ -17,44 +17,44 @@ package com.toasttab.protokt.v1
 
 internal fun serializer(writer: Writer): KtMessageSerializer {
     return object : KtMessageSerializer {
-        override fun write(i: Fixed32) {
-            writer.fixed32(i.value.toInt())
+        override fun writeFixed32(i: UInt) {
+            writer.fixed32(i.toInt())
         }
 
-        override fun write(i: SFixed32) {
-            writer.sfixed32(i.value)
+        override fun writeSFixed32(i: Int) {
+            writer.sfixed32(i)
         }
 
-        override fun write(i: UInt32) {
-            writer.uint32(i.value.toInt())
+        override fun writeUInt32(i: UInt) {
+            writer.uint32(i.toInt())
         }
 
-        override fun write(i: SInt32) {
-            writer.sint32(i.value)
+        override fun writeSInt32(i: Int) {
+            writer.sint32(i)
         }
 
-        override fun write(i: Int32) {
-            writer.int32(i.value)
+        override fun writeFixed64(l: ULong) {
+            writer.fixed64(l.toLong().protobufjsLong)
         }
 
-        override fun write(l: Fixed64) {
-            writer.fixed64(l.value.toLong().protobufjsLong)
+        override fun writeSFixed64(l: Long) {
+            writer.sfixed64(l.protobufjsLong)
         }
 
-        override fun write(l: SFixed64) {
-            writer.sfixed64(l.value.protobufjsLong)
+        override fun writeUInt64(l: ULong) {
+            writer.uint64(l.toLong().protobufjsLong)
         }
 
-        override fun write(l: UInt64) {
-            writer.uint64(l.value.toLong().protobufjsLong)
+        override fun writeSInt64(l: Long) {
+            writer.sint64(l.protobufjsLong)
         }
 
-        override fun write(l: SInt64) {
-            writer.sint64(l.value.protobufjsLong)
+        override fun write(i: Int) {
+            writer.int32(i)
         }
 
-        override fun write(l: Int64) {
-            writer.int64(l.value.protobufjsLong)
+        override fun write(l: Long) {
+            writer.int64(l.protobufjsLong)
         }
 
         override fun write(b: Boolean) {

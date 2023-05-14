@@ -19,35 +19,35 @@ import com.google.protobuf.CodedOutputStream
 
 internal fun serializer(stream: CodedOutputStream): KtMessageSerializer {
     return object : KtMessageSerializer {
-        override fun write(i: Fixed32) =
-            stream.writeFixed32NoTag(i.value.toInt())
+        override fun writeFixed32(i: UInt) =
+            stream.writeFixed32NoTag(i.toInt())
 
-        override fun write(i: SFixed32) =
-            stream.writeSFixed32NoTag(i.value)
+        override fun writeSFixed32(i: Int) =
+            stream.writeSFixed32NoTag(i)
 
-        override fun write(i: UInt32) =
-            stream.writeUInt32NoTag(i.value.toInt())
+        override fun writeUInt32(i: UInt) =
+            stream.writeUInt32NoTag(i.toInt())
 
-        override fun write(i: SInt32) =
-            stream.writeSInt32NoTag(i.value)
+        override fun writeSInt32(i: Int) =
+            stream.writeSInt32NoTag(i)
 
-        override fun write(i: Int32) =
-            stream.writeInt32NoTag(i.value)
+        override fun writeFixed64(l: ULong) =
+            stream.writeFixed64NoTag(l.toLong())
 
-        override fun write(l: Fixed64) =
-            stream.writeFixed64NoTag(l.value.toLong())
+        override fun writeSFixed64(l: Long) =
+            stream.writeSFixed64NoTag(l)
 
-        override fun write(l: SFixed64) =
-            stream.writeSFixed64NoTag(l.value)
+        override fun writeUInt64(l: ULong) =
+            stream.writeUInt64NoTag(l.toLong())
 
-        override fun write(l: UInt64) =
-            stream.writeUInt64NoTag(l.value.toLong())
+        override fun writeSInt64(l: Long) =
+            stream.writeSInt64NoTag(l)
 
-        override fun write(l: SInt64) =
-            stream.writeSInt64NoTag(l.value)
+        override fun write(i: Int) =
+            stream.writeInt32NoTag(i)
 
-        override fun write(l: Int64) =
-            stream.writeInt64NoTag(l.value)
+        override fun write(l: Long) =
+            stream.writeInt64NoTag(l)
 
         override fun write(b: Boolean) =
             stream.writeBoolNoTag(b)

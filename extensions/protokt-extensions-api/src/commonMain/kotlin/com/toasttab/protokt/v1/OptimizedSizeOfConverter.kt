@@ -15,6 +15,6 @@
 
 package com.toasttab.protokt.v1
 
-interface OptimizedSizeofConverter<S : Any, T : Any> : Converter<S, T> {
-    fun sizeof(wrapped: S): Int
+interface OptimizedSizeOfConverter<S : Any, T : Any> : Converter<S, T> {
+    fun sizeOf(wrapped: S): Int
 }

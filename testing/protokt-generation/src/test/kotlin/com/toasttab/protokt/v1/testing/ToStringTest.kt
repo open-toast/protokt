@@ -44,7 +44,7 @@ class ToStringTest {
             "ToStringTestEmpty(" +
                 "unknownFields=UnknownFieldSet(unknownFields={5=Field(" +
                 "varint=[], " +
-                "fixed32=[Fixed32Val(value=Fixed32(value=10))], " +
+                "fixed32=[Fixed32Val(value=10)], " +
                 "fixed64=[], " +
                 "lengthDelimited=[])}))"
         )
@@ -74,7 +74,7 @@ class ToStringTest {
                 "extra=foo, " +
                 "unknownFields=UnknownFieldSet(unknownFields={5=Field(" +
                 "varint=[], " +
-                "fixed32=[Fixed32Val(value=Fixed32(value=10))], " +
+                "fixed32=[Fixed32Val(value=10)], " +
                 "fixed64=[], " +
                 "lengthDelimited=[])}))"
         )

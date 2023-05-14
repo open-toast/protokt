@@ -19,7 +19,7 @@ import com.google.auto.service.AutoService
 import com.toasttab.protokt.v1.Bytes
 import com.toasttab.protokt.v1.BytesValue
 import com.toasttab.protokt.v1.UuidBytesConverter
-import com.toasttab.protokt.v1.sizeof
+import com.toasttab.protokt.v1.sizeOf
 import java.util.UUID
 
 @Suppress("DEPRECATION")
@@ -34,7 +34,7 @@ object UuidBytesValueConverter : OptimizedSizeofConverter<UUID, BytesValue> {
         BytesValue { value = Bytes(ByteArray(16)) }
 
     override fun sizeof(wrapped: UUID) =
-        sizeof(sizeofProxy)
+        sizeOf(sizeofProxy)
 
     override fun wrap(unwrapped: BytesValue) =
         UuidBytesConverter.wrap(unwrapped.value)

@@ -15,15 +15,15 @@
 
 package com.toasttab.protokt.v1
 
-fun sizeOfTag(tag: UInt) = sizeof(UInt32(tag shl 3 or 0u))
-fun sizeof(enum: KtEnum) = sizeof(Int32(enum.value))
-fun sizeof(msg: KtMessage) = sizeof(UInt32(msg.messageSize.toUInt())) + msg.messageSize
-fun sizeof(b: Bytes) = sizeof(b.value)
-fun sizeof(b: BytesSlice) = sizeof(Int32(b.length)) + b.length
-fun sizeof(b: ByteArray) = sizeof(Int32(b.size)) + b.size
-fun sizeof(l: Int64) = sizeof(UInt64(l.value.toULong()))
-fun sizeof(i: SInt32) = sizeof(UInt32(i.value.zigZagEncoded.toUInt()))
-fun sizeof(l: SInt64) = sizeof(UInt64(l.value.zigZagEncoded.toULong()))
+fun sizeOfTag(tag: UInt) = sizeOf(tag shl 3 or 0u)
+fun sizeOf(enum: KtEnum) = sizeOf(enum.value)
+fun sizeOf(msg: KtMessage) = sizeOf(msg.messageSize.toUInt()) + msg.messageSize
+fun sizeOf(b: Bytes) = sizeOf(b.value)
+fun sizeOf(b: BytesSlice) = sizeOf(b.length) + b.length
+fun sizeOf(b: ByteArray) = sizeOf(b.size) + b.size
+fun sizeOf(l: Long) = sizeOf(l.toULong())
+fun sizeOfSInt32(i: Int) = sizeOf(i.zigZagEncoded.toUInt())
+fun sizeOfSInt64(l: Long) = sizeOf(l.zigZagEncoded.toULong())
 
 private val Int.zigZagEncoded
     get() = (this shl 1) xor (this shr 31)
@@ -31,24 +31,24 @@ private val Int.zigZagEncoded
 private val Long.zigZagEncoded
     get() = (this shl 1) xor (this shr 63)
 
-fun sizeof(i: Int32) =
-    if (i.value >= 0) {
-        sizeof(UInt32(i.value.toUInt()))
+fun sizeOf(i: Int) =
+    if (i >= 0) {
+        sizeOf(i.toUInt())
     } else {
         10
     }
 
-fun sizeof(i: UInt32) =
+fun sizeOf(i: UInt) =
     when {
-        i.value and (0.inv() shl 7).toUInt() == 0u -> 1
-        i.value and (0.inv() shl 14).toUInt() == 0u -> 2
-        i.value and (0.inv() shl 21).toUInt() == 0u -> 3
-        i.value and (0.inv() shl 28).toUInt() == 0u -> 4
+        i and (0.inv() shl 7).toUInt() == 0u -> 1
+        i and (0.inv() shl 14).toUInt() == 0u -> 2
+        i and (0.inv() shl 21).toUInt() == 0u -> 3
+        i and (0.inv() shl 28).toUInt() == 0u -> 4
         else -> 5
     }
 
-fun sizeof(l: UInt64): Int {
-    var value = l.value.toLong()
+fun sizeOf(l: ULong): Int {
+    var value = l.toLong()
     if (value and (0L.inv() shl 7) == 0L) {
         return 1
     }
@@ -70,28 +70,7 @@ fun sizeof(l: UInt64): Int {
     return n
 }
 
-@Suppress("UNUSED_PARAMETER")
-fun sizeof(d: Double) = 8
-
-@Suppress("UNUSED_PARAMETER")
-fun sizeof(b: Boolean) = 1
-
-@Suppress("UNUSED_PARAMETER")
-fun sizeof(f: Float) = 4
-
-@Suppress("UNUSED_PARAMETER")
-fun sizeof(i: Fixed32) = 4
-
-@Suppress("UNUSED_PARAMETER")
-fun sizeof(l: Fixed64) = 8
-
-@Suppress("UNUSED_PARAMETER")
-fun sizeof(i: SFixed32) = 4
-
-@Suppress("UNUSED_PARAMETER")
-fun sizeof(l: SFixed64) = 8
-
-fun sizeof(s: String): Int {
+fun sizeOf(s: String): Int {
     val length =
         Iterable { CodePointIterator(s) }
             .sumOf {
@@ -102,7 +81,7 @@ fun sizeof(s: String): Int {
                     else -> 4
                 }.toInt()
             }
-    return sizeof(Int32(length)) + length
+    return sizeOf(length) + length
 }
 
 private class CodePointIterator(
@@ -128,15 +107,15 @@ private class CodePointIterator(
     }
 }
 
-fun <K, V> sizeofMap(
+fun <K, V> sizeOfMap(
     m: Map<K, V>,
     tag: UInt,
-    sizeof: (K, V) -> Int
+    sizeOf: (K, V) -> Int
 ) =
     sizeOfTag(tag).let { t ->
         m.entries.sumOf { (k, v) ->
-            t + sizeof(k, v).let { s ->
-                s + sizeof(Int32(s))
+            t + sizeOf(k, v).let { s ->
+                s + sizeOf(s)
             }
         }
     }

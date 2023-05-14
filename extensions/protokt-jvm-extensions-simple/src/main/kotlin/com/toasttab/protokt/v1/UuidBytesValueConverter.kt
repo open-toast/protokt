@@ -19,16 +19,16 @@ import com.google.auto.service.AutoService
 import java.util.UUID
 
 @AutoService(Converter::class)
-object UuidBytesValueConverter : OptimizedSizeofConverter<UUID, BytesValue> {
+object UuidBytesValueConverter : OptimizedSizeOfConverter<UUID, BytesValue> {
     override val wrapper = UUID::class
 
     override val wrapped = BytesValue::class
 
-    private val sizeofProxy =
+    private val sizeOfProxy =
         BytesValue { value = Bytes(ByteArray(16)) }
 
-    override fun sizeof(wrapped: UUID) =
-        sizeof(sizeofProxy)
+    override fun sizeOf(wrapped: UUID) =
+        sizeOf(sizeOfProxy)
 
     override fun wrap(unwrapped: BytesValue) =
         UuidBytesConverter.wrap(unwrapped.value)

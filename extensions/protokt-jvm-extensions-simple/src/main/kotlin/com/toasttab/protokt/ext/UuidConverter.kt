@@ -15,7 +15,7 @@
 
 package com.toasttab.protokt.ext
 
-import com.toasttab.protokt.v1.sizeof
+import com.toasttab.protokt.v1.sizeOf
 import java.nio.ByteBuffer
 import java.util.UUID
 
@@ -28,7 +28,7 @@ object UuidConverter {
     private val sizeofProxy = ByteArray(16)
 
     fun sizeof(@Suppress("UNUSED_PARAMETER") wrapped: UUID) =
-        sizeof(sizeofProxy)
+        sizeOf(sizeofProxy)
 
     fun wrap(unwrapped: ByteArray): UUID {
         val buf = ByteBuffer.wrap(unwrapped)

@@ -16,16 +16,16 @@
 package com.toasttab.protokt.v1
 
 interface KtMessageSerializer {
-    fun write(i: Fixed32)
-    fun write(i: SFixed32)
-    fun write(i: UInt32)
-    fun write(i: SInt32)
-    fun write(i: Int32)
-    fun write(l: Fixed64)
-    fun write(l: SFixed64)
-    fun write(l: UInt64)
-    fun write(l: SInt64)
-    fun write(l: Int64)
+    fun writeFixed32(i: UInt)
+    fun writeSFixed32(i: Int)
+    fun writeUInt32(i: UInt)
+    fun writeSInt32(i: Int)
+    fun writeFixed64(l: ULong)
+    fun writeSFixed64(l: Long)
+    fun writeUInt64(l: ULong)
+    fun writeSInt64(l: Long)
+    fun write(i: Int)
+    fun write(l: Long)
     fun write(f: Float)
     fun write(d: Double)
     fun write(s: String)
@@ -37,13 +37,13 @@ interface KtMessageSerializer {
         write(b.value)
 
     fun writeTag(tag: UInt) =
-        also { write(UInt32(tag)) }
+        also { writeUInt32(tag) }
 
     fun write(e: KtEnum) =
-        write(Int32(e.value))
+        write(e.value)
 
     fun write(m: KtMessage) {
-        write(Int32(m.messageSize))
+        write(m.messageSize)
         m.serialize(this)
     }
 

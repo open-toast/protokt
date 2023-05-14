@@ -79,11 +79,11 @@ internal object Wrapper {
         f.withWrapper(ctx) { wrapper, wrapped ->
             val converter = converter(wrapper, wrapped, ctx)
             if (converter.optimizedSizeof) {
-                CodeBlock.of("%T.sizeof(%L)", converter.className, accessSize)
+                CodeBlock.of("%T.sizeOf(%L)", converter.className, accessSize)
             } else {
-                CodeBlock.of("%M(%L)", runtimeFunction("sizeof"), f.box(accessSize))
+                f.sizeOf(accessSize)
             }
-        } ?: CodeBlock.of("%M(%L)", runtimeFunction("sizeof"), f.box(accessSize))
+        } ?: f.sizeOf(accessSize)
 
     fun interceptValueAccess(
         f: StandardField,
@@ -171,8 +171,7 @@ internal object Wrapper {
         }
 
     private fun wrapperTypeName() =
-        fun(wrapper: ClassName, _: Any) =
-            wrapper
+        { wrapper: ClassName, _: Any -> wrapper }
 
     private fun converter(wrapper: ClassName, wrapped: ClassName, ctx: Context) =
         ctx.info.context.classLookup.converter(wrapper, wrapped)

@@ -21,7 +21,7 @@ import com.google.common.collect.Table
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.asClassName
 import com.toasttab.protokt.v1.Converter
-import com.toasttab.protokt.v1.OptimizedSizeofConverter
+import com.toasttab.protokt.v1.OptimizedSizeOfConverter
 import java.io.File
 import java.net.URLClassLoader
 import kotlin.reflect.KClass
@@ -90,7 +90,7 @@ class ClassLookup(classpath: List<String>) {
 
         return ConverterDetails(
             converter::class.asClassName(),
-            converter is OptimizedSizeofConverter<*, *>
+            converter is OptimizedSizeOfConverter<*, *>
         )
     }
 }

@@ -18,21 +18,21 @@ package com.toasttab.protokt.v1.testing.options
 import com.google.auto.service.AutoService
 import com.toasttab.protokt.v1.Bytes
 import com.toasttab.protokt.v1.Converter
-import com.toasttab.protokt.v1.OptimizedSizeofConverter
-import com.toasttab.protokt.v1.sizeof
+import com.toasttab.protokt.v1.OptimizedSizeOfConverter
+import com.toasttab.protokt.v1.sizeOf
 
 data class CachingId(
     internal val value: Bytes
 )
 
 @AutoService(Converter::class)
-object CachingIdConverter : OptimizedSizeofConverter<CachingId, Bytes> {
+object CachingIdConverter : OptimizedSizeOfConverter<CachingId, Bytes> {
     override val wrapper = CachingId::class
 
     override val wrapped = Bytes::class
 
-    override fun sizeof(wrapped: CachingId) =
-        sizeof(wrapped.value)
+    override fun sizeOf(wrapped: CachingId) =
+        sizeOf(wrapped.value)
 
     override fun unwrap(wrapped: CachingId) =
         wrapped.value

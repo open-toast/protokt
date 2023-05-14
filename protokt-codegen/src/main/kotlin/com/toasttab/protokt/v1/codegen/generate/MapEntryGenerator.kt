@@ -31,6 +31,7 @@ import com.toasttab.protokt.v1.KtMessageSerializer
 import com.toasttab.protokt.v1.codegen.generate.CodeGenerator.Context
 import com.toasttab.protokt.v1.codegen.util.DESERIALIZER
 import com.toasttab.protokt.v1.codegen.util.FieldType
+import com.toasttab.protokt.v1.codegen.util.MapEntry
 import com.toasttab.protokt.v1.codegen.util.Message
 import com.toasttab.protokt.v1.codegen.util.StandardField
 import kotlin.reflect.KProperty0
@@ -72,7 +73,14 @@ private class MapEntryGenerator(
                 .addModifiers(KModifier.OVERRIDE)
                 .getter(
                     FunSpec.getterBuilder()
-                        .addCode("return sizeof(key, value)".bindSpaces())
+                        .addCode(
+                            "return·%L",
+                            sizeOfCall(
+                                MapEntry(key, value),
+                                CodeBlock.of("key"),
+                                CodeBlock.of("value")
+                            )
+                        )
                         .build()
                 )
                 .build()
@@ -101,9 +109,13 @@ private class MapEntryGenerator(
                         .parameterizedBy(msg.className)
                 )
                 .addFunction(
-                    buildFunSpec("sizeof") {
-                        addParameter("key", key.className)
-                        addParameter("value", value.className)
+                    buildFunSpec("entrySize") {
+                        if (key.type.sizeFn is FieldType.Method) {
+                            addParameter("key", key.className)
+                        }
+                        if (value.type.sizeFn is FieldType.Method) {
+                            addParameter("value", value.className)
+                        }
                         addStatement("return %L + %L", sizeOf(key, ctx), sizeOf(value, ctx))
                     }
                 )
@@ -166,3 +178,18 @@ private class MapEntryGenerator(
             add(")")
         }
 }
+
+fun sizeOfCall(mapEntry: MapEntry, keyStr: CodeBlock, valueStr: CodeBlock) =
+    if (mapEntry.key.type.sizeFn is FieldType.Method) {
+        if (mapEntry.value.type.sizeFn is FieldType.Method) {
+            CodeBlock.of("entrySize(%L,·%L)", keyStr, valueStr)
+        } else {
+            CodeBlock.of("entrySize(%L)", keyStr)
+        }
+    } else {
+        if (mapEntry.value.type.sizeFn is FieldType.Method) {
+            CodeBlock.of("entrySize(%L)", valueStr)
+        } else {
+            CodeBlock.of("entrySize()")
+        }
+    }

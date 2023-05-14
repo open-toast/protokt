@@ -82,15 +82,15 @@ private constructor(
             fieldNumber: UInt
         ) {
             when (unknownValue) {
-                is VarintVal -> write(fieldNumber, 0).write(unknownValue.value)
-                is Fixed32Val -> write(fieldNumber, 5).write(unknownValue.value)
-                is Fixed64Val -> write(fieldNumber, 1).write(unknownValue.value)
+                is VarintVal -> write(fieldNumber, 0).writeUInt64(unknownValue.value)
+                is Fixed32Val -> write(fieldNumber, 5).writeFixed32(unknownValue.value)
+                is Fixed64Val -> write(fieldNumber, 1).writeFixed64(unknownValue.value)
                 is LengthDelimitedVal -> write(fieldNumber, 2).write(unknownValue.value)
             }
         }
 
         private fun KtMessageSerializer.write(fieldNumber: UInt, wireType: Int) =
-            also { write(UInt32((fieldNumber shl 3) or wireType.toUInt())) }
+            also { writeUInt32((fieldNumber shl 3) or wireType.toUInt()) }
 
         override fun equals(other: Any?) =
             equalsUsingSequence(other, { it.size }, Field::asSequence)

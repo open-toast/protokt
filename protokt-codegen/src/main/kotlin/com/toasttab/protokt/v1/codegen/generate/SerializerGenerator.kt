@@ -20,7 +20,6 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.toasttab.protokt.v1.KtMessageSerializer
-import com.toasttab.protokt.v1.UInt32
 import com.toasttab.protokt.v1.codegen.generate.CodeGenerator.Context
 import com.toasttab.protokt.v1.codegen.generate.Wrapper.interceptValueAccess
 import com.toasttab.protokt.v1.codegen.generate.Wrapper.mapKeyConverter
@@ -71,20 +70,17 @@ fun serialize(
             interceptValueAccess(f, ctx, CodeBlock.of("%N.%N", o.fieldName, f.fieldName))
         }
 
-    val map = mutableMapOf(
-        "uInt32" to UInt32::class,
-        "name" to f.fieldName,
-        "sizeof" to runtimeFunction("sizeof")
-    )
     return when {
         f.repeated && f.packed -> buildCodeBlock {
-            map += "boxed" to f.box(CodeBlock.of("it"))
             addNamed(
                 "serializer.writeTag(${f.tag.value}u)" +
-                    ".write(%uInt32:T(%name:N.sumOf{%sizeof:M(%boxed:L)}.toUInt()))\n",
-                map
+                    ".%writeUInt32:L(%elementsSize:L.toUInt())\n",
+                mapOf(
+                    "writeUInt32" to KtMessageSerializer::writeUInt32.name,
+                    "elementsSize" to f.elementsSize()
+                )
             )
-            addNamed("%name:N.forEach·{·serializer.write(%boxed:L)·}", map)
+            add("%N.forEach·{·serializer.%L·}", f.fieldName, f.write(CodeBlock.of("it")))
         }
         f.map -> buildCodeBlock {
             beginControlFlow("${f.fieldName}.entries.forEach")
@@ -95,18 +91,20 @@ fun serialize(
             endControlFlowWithoutNewline()
         }
         f.repeated -> buildCodeBlock {
-            map += "boxed" to f.box(fieldAccess)
             addNamed(
                 "%name:N.forEach·{·" +
-                    "serializer.writeTag(${f.tag.value}u).write(%boxed:L)·}",
-                map
+                    "serializer.writeTag(${f.tag.value}u).%write:L·}",
+                mapOf(
+                    "name" to f.fieldName,
+                    "write" to f.write(fieldAccess)
+                )
             )
         }
 
         else -> buildCodeBlock {
             add(
-                "serializer.writeTag(${f.tag.value}u).write(%L)",
-                f.box(fieldAccess)
+                "serializer.writeTag(${f.tag.value}u).%L",
+                f.write(fieldAccess)
             )
         }
     }
@@ -128,3 +126,6 @@ private fun StandardField.boxMap(ctx: Context): CodeBlock {
 
     return CodeBlock.of("%T(%L, %L)", className, keyParam, valParam)
 }
+
+private fun StandardField.write(value: CodeBlock) =
+    CodeBlock.of("%L(%L)", type.writeFn, value)

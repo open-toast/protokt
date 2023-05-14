@@ -28,44 +28,44 @@ actual abstract class AbstractKtMessage actual constructor() : KtMessage {
     final override fun serialize(serializer: com.toasttab.protokt.rt.KtMessageSerializer) {
         serialize(
             object : KtMessageSerializer {
-                override fun write(i: Fixed32) {
-                    serializer.write(com.toasttab.protokt.rt.Fixed32(i.value.toInt()))
+                override fun writeFixed32(i: UInt) {
+                    serializer.write(com.toasttab.protokt.rt.Fixed32(i.toInt()))
                 }
 
-                override fun write(i: SFixed32) {
-                    serializer.write(com.toasttab.protokt.rt.SFixed32(i.value))
+                override fun writeSFixed32(i: Int) {
+                    serializer.write(com.toasttab.protokt.rt.SFixed32(i))
                 }
 
-                override fun write(i: UInt32) {
-                    serializer.write(com.toasttab.protokt.rt.UInt32(i.value.toInt()))
+                override fun writeUInt32(i: UInt) {
+                    serializer.write(com.toasttab.protokt.rt.UInt32(i.toInt()))
                 }
 
-                override fun write(i: SInt32) {
-                    serializer.write(com.toasttab.protokt.rt.SInt32(i.value))
+                override fun writeSInt32(i: Int) {
+                    serializer.write(com.toasttab.protokt.rt.SInt32(i))
                 }
 
-                override fun write(i: Int32) {
-                    serializer.write(com.toasttab.protokt.rt.Int32(i.value))
+                override fun writeFixed64(l: ULong) {
+                    serializer.write(com.toasttab.protokt.rt.Fixed64(l.toLong()))
                 }
 
-                override fun write(l: Fixed64) {
-                    serializer.write(com.toasttab.protokt.rt.Fixed64(l.value.toLong()))
+                override fun writeSFixed64(l: Long) {
+                    serializer.write(com.toasttab.protokt.rt.SFixed64(l))
                 }
 
-                override fun write(l: SFixed64) {
-                    serializer.write(com.toasttab.protokt.rt.SFixed64(l.value))
+                override fun writeUInt64(l: ULong) {
+                    serializer.write(com.toasttab.protokt.rt.UInt64(l.toLong()))
                 }
 
-                override fun write(l: UInt64) {
-                    serializer.write(com.toasttab.protokt.rt.UInt64(l.value.toLong()))
+                override fun writeSInt64(l: Long) {
+                    serializer.write(com.toasttab.protokt.rt.SInt64(l))
                 }
 
-                override fun write(l: SInt64) {
-                    serializer.write(com.toasttab.protokt.rt.SInt64(l.value))
+                override fun write(i: Int) {
+                    serializer.write(com.toasttab.protokt.rt.Int32(i))
                 }
 
-                override fun write(l: Int64) {
-                    serializer.write(com.toasttab.protokt.rt.Int64(l.value))
+                override fun write(l: Long) {
+                    serializer.write(com.toasttab.protokt.rt.Int64(l))
                 }
 
                 override fun write(f: Float) {
