@@ -13,7 +13,6 @@
  * limitations under the License.
  */
 
-import com.google.protobuf.gradle.proto
 import com.toasttab.protokt.v1.gradle.protoktExtensions
 
 plugins {
@@ -32,7 +31,7 @@ dependencies {
 }
 
 kotlin {
-    js(BOTH) {
+    js(IR) {
         browser {
             testTask {
                 useKarma {
@@ -54,19 +53,28 @@ kotlin {
 kotlin {
     sourceSets {
         test {
-            kotlin.srcDir("../multiplatform/src/commonTest/kotlin")
+            val common = "../multiplatform/src/commonTest/kotlin"
+            val js = "../../testing/protobufjs/src/test/kotlin"
+            check(file(common).exists())
+            check(file(js).exists())
+            kotlin.srcDir(common)
+            kotlin.srcDir(js)
         }
     }
 }
 
+// TODO
+/*
 sourceSets {
-    main {
+    named("main") {
         proto {
             srcDir("../multiplatform/src/main/proto")
+            srcDir("../../testing/protobufjs/src/main/proto")
         }
     }
 }
+ */
 
 tasks.all {
-    enabled = System.getProperty("kotlin.version", "1.8.10") == "1.8.10"
+    enabled = System.getProperty("kotlin.version", "1.8.21") == "1.8.21"
 }

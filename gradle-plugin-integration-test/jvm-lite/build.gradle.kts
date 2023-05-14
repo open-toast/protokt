@@ -30,7 +30,7 @@ tasks {
         useJUnitPlatform()
     }
 
-    if (System.getProperty("kotlin.version", "1.8.10") == "1.8.10") {
+    if (System.getProperty("kotlin.version", "1.8.21") == "1.8.21") {
         withType<KotlinCompile> {
             kotlinOptions {
                 allWarningsAsErrors = true
@@ -58,8 +58,17 @@ sourceSets {
     }
     test {
         java {
-            srcDir("../multiplatform/src/commonTest/kotlin")
-            srcDir("../../testing/plugin-options/lite/src/test/kotlin/com/toasttab/protokt/testing/lite")
+            val common = "../multiplatform/src/commonTest/kotlin"
+            val lite = "../../testing/plugin-options/lite/src/test/kotlin/com/toasttab/protokt/testing/lite"
+            check(file(common).exists())
+            check(file(lite).exists())
+            srcDir(common)
+            srcDir(lite)
         }
     }
+}
+
+configure<JavaPluginExtension> {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }

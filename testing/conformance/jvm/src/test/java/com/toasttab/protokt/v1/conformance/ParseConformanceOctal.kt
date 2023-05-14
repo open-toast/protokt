@@ -15,6 +15,7 @@
 
 package com.toasttab.protokt.v1.conformance
 
+import com.google.common.truth.Truth.assertThat
 import com.toasttab.protokt.v1_test_messages.proto3.TestAllTypesProto3
 import org.junit.jupiter.api.Test
 
@@ -42,5 +43,7 @@ class ParseConformanceOctal {
         val request = TestAllTypesProto3.deserialize(parsed)
 
         println(request)
+
+        assertThat(request).isEqualTo(TestAllTypesProto3 { optionalInt64 = "-9223372036854775808".toLong() })
     }
 }

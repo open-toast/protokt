@@ -41,7 +41,18 @@ tasks.named("publishPlugins") {
     enabled = isRelease()
 }
 
-enablePublishing()
+enablePublishing(defaultJars = false)
+
+publishing {
+    publications {
+        create<MavenPublication>("main") {
+            from(components.getByName("java"))
+            artifactId = project.name
+            version = project.version.toString()
+            groupId = project.group.toString()
+        }
+    }
+}
 
 dependencies {
     implementation(kotlin("gradle-plugin"))
@@ -62,7 +73,3 @@ val versionOutputDir = file("$buildDir/generated-sources/protokt-version")
     .getPlugin(org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet::class.java)
     .kotlin
     .srcDir(versionOutputDir)
-
-tasks.named("generateMetadataFileForMavenPublication") {
-    dependsOn("kotlinSourcesJar", "simpleJavadocJar")
-}

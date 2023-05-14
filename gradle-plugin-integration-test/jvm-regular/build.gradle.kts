@@ -29,7 +29,7 @@ tasks {
         useJUnitPlatform()
     }
 
-    if (System.getProperty("kotlin.version", "1.8.10") == "1.8.10") {
+    if (System.getProperty("kotlin.version", "1.8.21") == "1.8.21") {
         withType<KotlinCompile> {
             kotlinOptions {
                 allWarningsAsErrors = true
@@ -56,7 +56,14 @@ sourceSets {
     }
     test {
         java {
-            srcDir("../multiplatform/src/commonTest/kotlin")
+            val common = "../multiplatform/src/commonTest/kotlin"
+            check(file(common).exists())
+            srcDir(common)
         }
     }
+}
+
+configure<JavaPluginExtension> {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }

@@ -33,7 +33,7 @@ kotlin {
         withJava()
     }
 
-    js(BOTH) {
+    js(IR) {
         browser {
             testTask {
                 useKarma {
@@ -66,7 +66,11 @@ kotlin {
             }
         }
 
+        val jsMain by getting {}
         val jsTest by getting {}
+        val js = "../../testing/protobufjs/src/test/kotlin"
+        check(file(js).exists())
+        jsTest.kotlin.srcDir(js)
     }
 
     targets {
@@ -94,18 +98,15 @@ dependencies {
     protoktExtensions("com.toasttab.protokt:protokt-extensions:$version")
 }
 
-tasks.named("jsIrNodeTest") {
-    enabled = System.getProperty("kotlin.version", "1.8.10") == "1.8.10"
+tasks.named("jsNodeTest") {
+    enabled = System.getProperty("kotlin.version", "1.8.21") == "1.8.21"
 }
 
-tasks.named("jsIrBrowserTest") {
-    enabled = System.getProperty("kotlin.version", "1.8.10") == "1.8.10"
+tasks.named("jsBrowserTest") {
+    enabled = System.getProperty("kotlin.version", "1.8.21") == "1.8.21"
 }
 
-tasks.named("jsLegacyNodeTest") {
-    enabled = System.getProperty("kotlin.version", "1.8.10") == "1.8.10"
-}
-
-tasks.named("jsLegacyBrowserTest") {
-    enabled = System.getProperty("kotlin.version", "1.8.10") == "1.8.10"
+configure<JavaPluginExtension> {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
