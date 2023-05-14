@@ -15,9 +15,16 @@
 
 package com.toasttab.protokt.v1.testing.js
 
+import com.toasttab.protokt.v1.configureLong
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 
 class JavaScriptGenerationTest {
+    @BeforeTest
+    fun before() {
+        configureLong()
+    }
+
     @Test
     fun test_js_test_round_trip() {
         // TODO

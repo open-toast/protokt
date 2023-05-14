@@ -20,7 +20,7 @@ package com.toasttab.protokt.rt
 class BytesSlice(
     internal val array: ByteArray,
     internal val offset: Int,
-    val length: Int
+    val length: Int,
 ) {
     constructor(array: ByteArray) : this(array, 0, array.size)
 

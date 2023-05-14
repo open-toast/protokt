@@ -16,7 +16,6 @@
 package com.toasttab.protokt.v1
 
 internal fun deserializer(reader: Reader): KtMessageDeserializer {
-    configureLong()
     return object : KtMessageDeserializer {
         var lastTag = 0
         var endPosition = reader.len

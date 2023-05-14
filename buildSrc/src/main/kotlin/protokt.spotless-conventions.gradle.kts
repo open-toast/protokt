@@ -20,14 +20,20 @@ allprojects {
     repositories { mavenCentral() }
 
     configure<SpotlessExtension> {
+        val editorConfigOverride =
+            mapOf(
+                "ktlint_standard_trailing-comma-on-call-site" to "disabled",
+                "ktlint_standard_trailing-comma-on-declaration-site" to "disabled"
+            )
+
         kotlin {
-            ktlint()
+            ktlint().editorConfigOverride(editorConfigOverride)
             target("**/*.kt")
             targetExclude("**/generated-sources/**")
         }
 
         kotlinGradle {
-            ktlint()
+            ktlint().editorConfigOverride(editorConfigOverride)
             target("**/*.kts")
             targetExclude("buildSrc/build/**")
             licenseHeaderFile(

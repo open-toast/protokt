@@ -16,7 +16,6 @@
 package com.toasttab.protokt.v1
 
 internal fun serializer(writer: Writer): KtMessageSerializer {
-    configureLong()
     return object : KtMessageSerializer {
         override fun writeFixed32(i: UInt) {
             writer.fixed32(i.toInt())
@@ -35,19 +34,19 @@ internal fun serializer(writer: Writer): KtMessageSerializer {
         }
 
         override fun writeFixed64(l: ULong) {
-            writer.fixed64(l.toLong().protobufjsLong)
+            writer.fixed64(protobufjsLong(l.toLong()))
         }
 
         override fun writeSFixed64(l: Long) {
-            writer.sfixed64(l.protobufjsLong)
+            writer.sfixed64(protobufjsLong(l))
         }
 
         override fun writeUInt64(l: ULong) {
-            writer.uint64(l.toLong().protobufjsLong)
+            writer.uint64(protobufjsLong(l.toLong()))
         }
 
         override fun writeSInt64(l: Long) {
-            writer.sint64(l.protobufjsLong)
+            writer.sint64(protobufjsLong(l))
         }
 
         override fun write(i: Int) {
@@ -55,7 +54,7 @@ internal fun serializer(writer: Writer): KtMessageSerializer {
         }
 
         override fun write(l: Long) {
-            writer.int64(l.protobufjsLong)
+            writer.int64(protobufjsLong(l))
         }
 
         override fun write(b: Boolean) {

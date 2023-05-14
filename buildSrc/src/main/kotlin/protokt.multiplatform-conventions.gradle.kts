@@ -13,8 +13,6 @@
  * limitations under the License.
  */
 
-import org.jetbrains.kotlin.gradle.internal.KaptGenerateStubsTask
-
 plugins {
     id("org.jetbrains.kotlin.multiplatform")
     id("protokt.common-conventions")
@@ -43,7 +41,6 @@ kotlin {
     targets {
         jvm().compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
                 freeCompilerArgs = listOf("-Xjvm-default=all")
             }
 
@@ -57,12 +54,3 @@ tasks.named<Test>("jvmTest") {
 }
 
 pureKotlin()
-
-configure<JavaPluginExtension> {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-}
-
-tasks.withType<KaptGenerateStubsTask> {
-    kotlinOptions.jvmTarget = "1.8"
-}

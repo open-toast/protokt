@@ -16,10 +16,17 @@
 package com.toasttab.protokt.v1.testing.js
 
 import com.toasttab.protokt.v1.Timestamp
+import com.toasttab.protokt.v1.configureLong
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class BasicSerializationTest {
+    @BeforeTest
+    fun before() {
+        configureLong()
+    }
+
     @Test
     fun test_timestamp_round_trip() {
         val timestamp =

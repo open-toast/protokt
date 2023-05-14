@@ -13,6 +13,9 @@
  * limitations under the License.
  */
 
+import com.toasttab.protokt.v1.configureLong
+
 fun main() {
+    configureLong()
     com.toasttab.protokt.v1.conformance.main()
 }

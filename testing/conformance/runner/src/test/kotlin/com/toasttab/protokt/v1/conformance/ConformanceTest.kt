@@ -36,7 +36,8 @@ class ConformanceTest {
         JS_IR("js-ir") {
             override fun driver() =
                 jsConformanceDriver(project)
-        };
+        }, // https://github.com/pinterest/ktlint/issues/1933
+        ;
 
         abstract fun driver(): Path
     }
