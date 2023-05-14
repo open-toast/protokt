@@ -1,586 +1,586 @@
 public final class com/google/api/AuthProto {
 	public static final field INSTANCE Lcom/google/api/AuthProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/api/Auth_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/api/AuthProvider$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/AuthRequirement$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/Authentication$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/AuthenticationRule$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/JwtLocation$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/OAuthRequirements$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/AuthProvider$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/AuthRequirement$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/Authentication$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/AuthenticationRule$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/JwtLocation$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/OAuthRequirements$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/api/BackendProto {
 	public static final field INSTANCE Lcom/google/api/BackendProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/api/Backend_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/api/Backend$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/BackendRule$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/BackendRule$PathTranslation$Deserializer;)Lcom/toasttab/protokt/EnumDescriptor;
+	public static final fun getDescriptor (Lcom/google/api/Backend$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/BackendRule$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/BackendRule$PathTranslation$Deserializer;)Lcom/toasttab/protokt/v1/EnumDescriptor;
 }
 
 public final class com/google/api/BillingProto {
 	public static final field INSTANCE Lcom/google/api/BillingProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/api/Billing_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/api/Billing$BillingDestination$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/Billing$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/Billing$BillingDestination$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/Billing$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/api/ConfigChangeProto {
 	public static final field INSTANCE Lcom/google/api/ConfigChangeProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/api/Config_change_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/api/Advice$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/ChangeType$Deserializer;)Lcom/toasttab/protokt/EnumDescriptor;
-	public static final fun getDescriptor (Lcom/google/api/ConfigChange$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/Advice$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/ChangeType$Deserializer;)Lcom/toasttab/protokt/v1/EnumDescriptor;
+	public static final fun getDescriptor (Lcom/google/api/ConfigChange$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/api/ConsumerProto {
 	public static final field INSTANCE Lcom/google/api/ConsumerProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/api/Consumer_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/api/ProjectProperties$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/Property$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/Property$PropertyType$Deserializer;)Lcom/toasttab/protokt/EnumDescriptor;
+	public static final fun getDescriptor (Lcom/google/api/ProjectProperties$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/Property$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/Property$PropertyType$Deserializer;)Lcom/toasttab/protokt/v1/EnumDescriptor;
 }
 
 public final class com/google/api/ContextProto {
 	public static final field INSTANCE Lcom/google/api/ContextProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/api/Context_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/api/Context$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/ContextRule$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/Context$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/ContextRule$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/api/ControlProto {
 	public static final field INSTANCE Lcom/google/api/ControlProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/api/Control_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/api/Control$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/Control$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/api/DistributionProto {
 	public static final field INSTANCE Lcom/google/api/DistributionProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/api/Distribution_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/api/Distribution$BucketOptions$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/Distribution$BucketOptions$Explicit$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/Distribution$BucketOptions$Exponential$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/Distribution$BucketOptions$Linear$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/Distribution$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/Distribution$Exemplar$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/Distribution$Range$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/Distribution$BucketOptions$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/Distribution$BucketOptions$Explicit$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/Distribution$BucketOptions$Exponential$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/Distribution$BucketOptions$Linear$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/Distribution$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/Distribution$Exemplar$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/Distribution$Range$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/api/DocumentationProto {
 	public static final field INSTANCE Lcom/google/api/DocumentationProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/api/Documentation_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/api/Documentation$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/DocumentationRule$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/Page$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/Documentation$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/DocumentationRule$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/Page$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/api/EndpointProto {
 	public static final field INSTANCE Lcom/google/api/EndpointProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/api/Endpoint_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/api/Endpoint$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/Endpoint$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/api/ErrorReasonProto {
 	public static final field INSTANCE Lcom/google/api/ErrorReasonProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/api/Error_reason_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/api/ErrorReason$Deserializer;)Lcom/toasttab/protokt/EnumDescriptor;
+	public static final fun getDescriptor (Lcom/google/api/ErrorReason$Deserializer;)Lcom/toasttab/protokt/v1/EnumDescriptor;
 }
 
 public final class com/google/api/FieldBehaviorProto {
 	public static final field INSTANCE Lcom/google/api/FieldBehaviorProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/api/Field_behavior_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/api/FieldBehavior$Deserializer;)Lcom/toasttab/protokt/EnumDescriptor;
+	public static final fun getDescriptor (Lcom/google/api/FieldBehavior$Deserializer;)Lcom/toasttab/protokt/v1/EnumDescriptor;
 }
 
 public final class com/google/api/HttpBodyProto {
 	public static final field INSTANCE Lcom/google/api/HttpBodyProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/api/HttpProto {
 	public static final field INSTANCE Lcom/google/api/HttpProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/api/Http_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/api/CustomHttpPattern$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/Http$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/HttpRule$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/CustomHttpPattern$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/Http$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/HttpRule$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/api/Httpbody_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/api/HttpBody$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/HttpBody$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/api/LabelProto {
 	public static final field INSTANCE Lcom/google/api/LabelProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/api/Label_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/api/LabelDescriptor$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/LabelDescriptor$ValueType$Deserializer;)Lcom/toasttab/protokt/EnumDescriptor;
+	public static final fun getDescriptor (Lcom/google/api/LabelDescriptor$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/LabelDescriptor$ValueType$Deserializer;)Lcom/toasttab/protokt/v1/EnumDescriptor;
 }
 
 public final class com/google/api/LaunchStageProto {
 	public static final field INSTANCE Lcom/google/api/LaunchStageProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/api/Launch_stage_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/api/LaunchStage$Deserializer;)Lcom/toasttab/protokt/EnumDescriptor;
+	public static final fun getDescriptor (Lcom/google/api/LaunchStage$Deserializer;)Lcom/toasttab/protokt/v1/EnumDescriptor;
 }
 
 public final class com/google/api/LogProto {
 	public static final field INSTANCE Lcom/google/api/LogProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/api/Log_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/api/LogDescriptor$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/LogDescriptor$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/api/LoggingProto {
 	public static final field INSTANCE Lcom/google/api/LoggingProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/api/Logging_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/api/Logging$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/Logging$LoggingDestination$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/Logging$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/Logging$LoggingDestination$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/api/MetricProto {
 	public static final field INSTANCE Lcom/google/api/MetricProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/api/Metric_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/api/Metric$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/MetricDescriptor$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/MetricDescriptor$MetricDescriptorMetadata$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/MetricDescriptor$MetricKind$Deserializer;)Lcom/toasttab/protokt/EnumDescriptor;
-	public static final fun getDescriptor (Lcom/google/api/MetricDescriptor$ValueType$Deserializer;)Lcom/toasttab/protokt/EnumDescriptor;
+	public static final fun getDescriptor (Lcom/google/api/Metric$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/MetricDescriptor$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/MetricDescriptor$MetricDescriptorMetadata$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/MetricDescriptor$MetricKind$Deserializer;)Lcom/toasttab/protokt/v1/EnumDescriptor;
+	public static final fun getDescriptor (Lcom/google/api/MetricDescriptor$ValueType$Deserializer;)Lcom/toasttab/protokt/v1/EnumDescriptor;
 }
 
 public final class com/google/api/MonitoredResourceProto {
 	public static final field INSTANCE Lcom/google/api/MonitoredResourceProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/api/Monitored_resource_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/api/MonitoredResource$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/MonitoredResourceDescriptor$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/MonitoredResourceMetadata$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/MonitoredResource$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/MonitoredResourceDescriptor$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/MonitoredResourceMetadata$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/api/MonitoringProto {
 	public static final field INSTANCE Lcom/google/api/MonitoringProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/api/Monitoring_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/api/Monitoring$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/Monitoring$MonitoringDestination$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/Monitoring$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/Monitoring$MonitoringDestination$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/api/QuotaProto {
 	public static final field INSTANCE Lcom/google/api/QuotaProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/api/Quota_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/api/MetricRule$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/Quota$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/QuotaLimit$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/MetricRule$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/Quota$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/QuotaLimit$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/api/ResourceProto {
 	public static final field INSTANCE Lcom/google/api/ResourceProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/api/Resource_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/api/ResourceDescriptor$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/ResourceDescriptor$History$Deserializer;)Lcom/toasttab/protokt/EnumDescriptor;
-	public static final fun getDescriptor (Lcom/google/api/ResourceDescriptor$Style$Deserializer;)Lcom/toasttab/protokt/EnumDescriptor;
-	public static final fun getDescriptor (Lcom/google/api/ResourceReference$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/ResourceDescriptor$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/ResourceDescriptor$History$Deserializer;)Lcom/toasttab/protokt/v1/EnumDescriptor;
+	public static final fun getDescriptor (Lcom/google/api/ResourceDescriptor$Style$Deserializer;)Lcom/toasttab/protokt/v1/EnumDescriptor;
+	public static final fun getDescriptor (Lcom/google/api/ResourceReference$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/api/RoutingProto {
 	public static final field INSTANCE Lcom/google/api/RoutingProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/api/Routing_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/api/RoutingParameter$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/RoutingRule$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/RoutingParameter$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/RoutingRule$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/api/ServiceProto {
 	public static final field INSTANCE Lcom/google/api/ServiceProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/api/Service_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/api/Service$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/Service$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/api/SourceInfoProto {
 	public static final field INSTANCE Lcom/google/api/SourceInfoProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/api/Source_info_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/api/SourceInfo$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/SourceInfo$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/api/SystemParameterProto {
 	public static final field INSTANCE Lcom/google/api/SystemParameterProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/api/System_parameter_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/api/SystemParameter$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/SystemParameterRule$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/SystemParameters$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/SystemParameter$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/SystemParameterRule$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/SystemParameters$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/api/UsageProto {
 	public static final field INSTANCE Lcom/google/api/UsageProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/api/Usage_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/api/Usage$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/UsageRule$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/Usage$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/UsageRule$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/api/VisibilityProto {
 	public static final field INSTANCE Lcom/google/api/VisibilityProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/api/Visibility_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/api/Visibility$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/api/VisibilityRule$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/Visibility$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/api/VisibilityRule$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/cloud/ExtendedOperationsProto {
 	public static final field INSTANCE Lcom/google/cloud/ExtendedOperationsProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/cloud/Extended_operations_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/cloud/OperationResponseMapping$Deserializer;)Lcom/toasttab/protokt/EnumDescriptor;
+	public static final fun getDescriptor (Lcom/google/cloud/OperationResponseMapping$Deserializer;)Lcom/toasttab/protokt/v1/EnumDescriptor;
 }
 
 public final class com/google/cloud/audit/AuditLogProto {
 	public static final field INSTANCE Lcom/google/cloud/audit/AuditLogProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/cloud/audit/Audit_log_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/cloud/audit/AuditLog$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/cloud/audit/AuthenticationInfo$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/cloud/audit/AuthorizationInfo$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/cloud/audit/RequestMetadata$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/cloud/audit/ResourceLocation$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/cloud/audit/ServiceAccountDelegationInfo$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/cloud/audit/ServiceAccountDelegationInfo$FirstPartyPrincipal$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/cloud/audit/ServiceAccountDelegationInfo$ThirdPartyPrincipal$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/cloud/audit/AuditLog$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/cloud/audit/AuthenticationInfo$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/cloud/audit/AuthorizationInfo$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/cloud/audit/RequestMetadata$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/cloud/audit/ResourceLocation$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/cloud/audit/ServiceAccountDelegationInfo$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/cloud/audit/ServiceAccountDelegationInfo$FirstPartyPrincipal$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/cloud/audit/ServiceAccountDelegationInfo$ThirdPartyPrincipal$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/geo/type/ViewportProto {
 	public static final field INSTANCE Lcom/google/geo/type/ViewportProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/geo/type/Viewport_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/geo/type/Viewport$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/geo/type/Viewport$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/logging/type/HttpRequestProto {
 	public static final field INSTANCE Lcom/google/logging/type/HttpRequestProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/logging/type/Http_request_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/logging/type/HttpRequest$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/logging/type/HttpRequest$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/logging/type/LogSeverityProto {
 	public static final field INSTANCE Lcom/google/logging/type/LogSeverityProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/logging/type/Log_severity_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/logging/type/LogSeverity$Deserializer;)Lcom/toasttab/protokt/EnumDescriptor;
+	public static final fun getDescriptor (Lcom/google/logging/type/LogSeverity$Deserializer;)Lcom/toasttab/protokt/v1/EnumDescriptor;
 }
 
 public final class com/google/longrunning/Operations {
 	public static final field INSTANCE Lcom/google/longrunning/Operations;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/ServiceDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/ServiceDescriptor;
 }
 
 public final class com/google/longrunning/OperationsProto {
 	public static final field INSTANCE Lcom/google/longrunning/OperationsProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/longrunning/Operations_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/longrunning/CancelOperationRequest$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/longrunning/DeleteOperationRequest$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/longrunning/GetOperationRequest$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/longrunning/ListOperationsRequest$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/longrunning/ListOperationsResponse$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/longrunning/Operation$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/longrunning/OperationInfo$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/longrunning/WaitOperationRequest$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/longrunning/CancelOperationRequest$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/longrunning/DeleteOperationRequest$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/longrunning/GetOperationRequest$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/longrunning/ListOperationsRequest$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/longrunning/ListOperationsResponse$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/longrunning/Operation$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/longrunning/OperationInfo$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/longrunning/WaitOperationRequest$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/rpc/CodeProto {
 	public static final field INSTANCE Lcom/google/rpc/CodeProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/rpc/Code_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/rpc/Code$Deserializer;)Lcom/toasttab/protokt/EnumDescriptor;
+	public static final fun getDescriptor (Lcom/google/rpc/Code$Deserializer;)Lcom/toasttab/protokt/v1/EnumDescriptor;
 }
 
 public final class com/google/rpc/ErrorDetailsProto {
 	public static final field INSTANCE Lcom/google/rpc/ErrorDetailsProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/rpc/Error_details_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/rpc/BadRequest$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/rpc/BadRequest$FieldViolation$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/rpc/DebugInfo$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/rpc/ErrorInfo$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/rpc/Help$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/rpc/Help$Link$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/rpc/LocalizedMessage$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/rpc/PreconditionFailure$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/rpc/PreconditionFailure$Violation$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/rpc/QuotaFailure$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/rpc/QuotaFailure$Violation$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/rpc/RequestInfo$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/rpc/ResourceInfo$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/rpc/RetryInfo$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/rpc/BadRequest$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/rpc/BadRequest$FieldViolation$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/rpc/DebugInfo$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/rpc/ErrorInfo$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/rpc/Help$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/rpc/Help$Link$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/rpc/LocalizedMessage$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/rpc/PreconditionFailure$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/rpc/PreconditionFailure$Violation$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/rpc/QuotaFailure$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/rpc/QuotaFailure$Violation$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/rpc/RequestInfo$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/rpc/ResourceInfo$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/rpc/RetryInfo$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/rpc/StatusProto {
 	public static final field INSTANCE Lcom/google/rpc/StatusProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/rpc/Status_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/rpc/Status$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/rpc/Status$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/rpc/context/AttributeContextProto {
 	public static final field INSTANCE Lcom/google/rpc/context/AttributeContextProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/rpc/context/Attribute_context_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/rpc/context/AttributeContext$Api$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/rpc/context/AttributeContext$Auth$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/rpc/context/AttributeContext$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/rpc/context/AttributeContext$Peer$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/rpc/context/AttributeContext$Request$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/rpc/context/AttributeContext$Resource$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/rpc/context/AttributeContext$Response$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/rpc/context/AttributeContext$Api$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/rpc/context/AttributeContext$Auth$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/rpc/context/AttributeContext$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/rpc/context/AttributeContext$Peer$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/rpc/context/AttributeContext$Request$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/rpc/context/AttributeContext$Resource$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/rpc/context/AttributeContext$Response$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/type/CalendarPeriodProto {
 	public static final field INSTANCE Lcom/google/type/CalendarPeriodProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/type/Calendar_period_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/type/CalendarPeriod$Deserializer;)Lcom/toasttab/protokt/EnumDescriptor;
+	public static final fun getDescriptor (Lcom/google/type/CalendarPeriod$Deserializer;)Lcom/toasttab/protokt/v1/EnumDescriptor;
 }
 
 public final class com/google/type/ColorProto {
 	public static final field INSTANCE Lcom/google/type/ColorProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/type/Color_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/type/Color$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/type/Color$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/type/DateProto {
 	public static final field INSTANCE Lcom/google/type/DateProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/type/DateTimeProto {
 	public static final field INSTANCE Lcom/google/type/DateTimeProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/type/Date_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/type/Date$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/type/Date$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/type/Datetime_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/type/DateTime$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/type/TimeZone$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/type/DateTime$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/type/TimeZone$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/type/DayOfWeekProto {
 	public static final field INSTANCE Lcom/google/type/DayOfWeekProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/type/Dayofweek_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/type/DayOfWeek$Deserializer;)Lcom/toasttab/protokt/EnumDescriptor;
+	public static final fun getDescriptor (Lcom/google/type/DayOfWeek$Deserializer;)Lcom/toasttab/protokt/v1/EnumDescriptor;
 }
 
 public final class com/google/type/DecimalProto {
 	public static final field INSTANCE Lcom/google/type/DecimalProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/type/Decimal_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/type/Decimal$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/type/Decimal$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/type/ExprProto {
 	public static final field INSTANCE Lcom/google/type/ExprProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/type/Expr_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/type/Expr$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/type/Expr$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/type/FractionProto {
 	public static final field INSTANCE Lcom/google/type/FractionProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/type/Fraction_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/type/Fraction$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/type/Fraction$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/type/IntervalProto {
 	public static final field INSTANCE Lcom/google/type/IntervalProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/type/Interval_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/type/Interval$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/type/Interval$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/type/LatLngProto {
 	public static final field INSTANCE Lcom/google/type/LatLngProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/type/Latlng_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/type/LatLng$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/type/LatLng$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/type/LocalizedTextProto {
 	public static final field INSTANCE Lcom/google/type/LocalizedTextProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/type/Localized_text_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/type/LocalizedText$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/type/LocalizedText$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/type/MoneyProto {
 	public static final field INSTANCE Lcom/google/type/MoneyProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/type/Money_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/type/Money$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/type/Money$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/type/MonthProto {
 	public static final field INSTANCE Lcom/google/type/MonthProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/type/Month_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/type/Month$Deserializer;)Lcom/toasttab/protokt/EnumDescriptor;
+	public static final fun getDescriptor (Lcom/google/type/Month$Deserializer;)Lcom/toasttab/protokt/v1/EnumDescriptor;
 }
 
 public final class com/google/type/PhoneNumberProto {
 	public static final field INSTANCE Lcom/google/type/PhoneNumberProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/type/Phone_number_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/type/PhoneNumber$Deserializer;)Lcom/toasttab/protokt/Descriptor;
-	public static final fun getDescriptor (Lcom/google/type/PhoneNumber$ShortCode$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/type/PhoneNumber$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
+	public static final fun getDescriptor (Lcom/google/type/PhoneNumber$ShortCode$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/type/PostalAddressProto {
 	public static final field INSTANCE Lcom/google/type/PostalAddressProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/type/Postal_address_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/type/PostalAddress$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/type/PostalAddress$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/type/QuaternionProto {
 	public static final field INSTANCE Lcom/google/type/QuaternionProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/type/Quaternion_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/type/Quaternion$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/type/Quaternion$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 
 public final class com/google/type/TimeOfDayProto {
 	public static final field INSTANCE Lcom/google/type/TimeOfDayProto;
-	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
+	public final fun getDescriptor ()Lcom/toasttab/protokt/v1/FileDescriptor;
 }
 
 public final class com/google/type/Timeofday_protokt_descriptorsKt {
-	public static final fun getDescriptor (Lcom/google/type/TimeOfDay$Deserializer;)Lcom/toasttab/protokt/Descriptor;
+	public static final fun getDescriptor (Lcom/google/type/TimeOfDay$Deserializer;)Lcom/toasttab/protokt/v1/Descriptor;
 }
 

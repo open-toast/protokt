@@ -12,7 +12,7 @@ public abstract interface class com/toasttab/protokt/v1/Converter {
 	public abstract fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
 }
 
-public abstract interface class com/toasttab/protokt/v1/OptimizedSizeofConverter : com/toasttab/protokt/v1/Converter {
-	public abstract fun sizeof (Ljava/lang/Object;)I
+public abstract interface class com/toasttab/protokt/v1/OptimizedSizeOfConverter : com/toasttab/protokt/v1/Converter {
+	public abstract fun sizeOf (Ljava/lang/Object;)I
 }
 
