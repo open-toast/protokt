@@ -170,6 +170,7 @@ import kotlin.collections.MutableList
  * verify the included field paths, and return an `INVALID_ARGUMENT` error if any path is unmappable.
  */
 @KtGeneratedMessage("google.protobuf.FieldMask")
+@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.FieldMask")
 @Deprecated("use v1")
 class FieldMask private constructor(
     /**
