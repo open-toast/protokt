@@ -13,10 +13,12 @@
  * limitations under the License.
  */
 
+@file:Suppress("DEPRECATION")
+
 package com.toasttab.protokt.ext
 
 import com.google.auto.service.AutoService
-import com.toasttab.protokt.v1.StringValue
+import com.toasttab.protokt.StringValue
 import java.time.LocalDate
 
 @Suppress("DEPRECATION")

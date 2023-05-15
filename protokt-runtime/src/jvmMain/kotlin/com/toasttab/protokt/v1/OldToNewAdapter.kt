@@ -16,7 +16,11 @@
 package com.toasttab.protokt.v1
 
 @Suppress("DEPRECATION")
-internal class OldToNewAdapter(
+internal fun OldToNewAdapter(deserializer: com.toasttab.protokt.rt.KtMessageDeserializer): KtMessageDeserializer =
+    DeserializerOldToNewAdapter(deserializer)
+
+@Suppress("DEPRECATION")
+internal class DeserializerOldToNewAdapter(
     private val deserializer: com.toasttab.protokt.rt.KtMessageDeserializer
 ) : KtMessageDeserializer {
     override fun readBytes() =
@@ -75,7 +79,7 @@ internal class OldToNewAdapter(
         }
 
     override fun readRepeated(packed: Boolean, acc: KtMessageDeserializer.() -> Unit) {
-        deserializer.readRepeated(packed) { acc(this@OldToNewAdapter) }
+        deserializer.readRepeated(packed) { acc(this@DeserializerOldToNewAdapter) }
     }
 
     override fun <T : KtMessage> readMessage(m: KtDeserializer<T>) =

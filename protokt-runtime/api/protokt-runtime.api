@@ -623,6 +623,11 @@ public final class com/toasttab/protokt/v1/LengthDelimitedVal : com/toasttab/pro
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class com/toasttab/protokt/v1/NewToOldAdapterKt {
+	public static final fun NewToOldAdapter (Lcom/toasttab/protokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessageDeserializer;
+	public static final fun NewToOldAdapter (Lcom/toasttab/protokt/v1/KtMessageSerializer;)Lcom/toasttab/protokt/rt/KtMessageSerializer;
+}
+
 public final class com/toasttab/protokt/v1/RuntimeUtilsKt {
 	public static final fun copyList (Ljava/util/List;)Ljava/util/List;
 	public static final fun copyMap (Ljava/util/Map;)Ljava/util/Map;

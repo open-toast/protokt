@@ -13,14 +13,17 @@
  * limitations under the License.
  */
 
+@file:Suppress("DEPRECATION")
+
 package com.toasttab.protokt.ext
 
 import com.google.auto.service.AutoService
-import com.toasttab.protokt.v1.BytesValue
+import com.toasttab.protokt.BytesValue
+import com.toasttab.protokt.rt.Bytes
+import com.toasttab.protokt.rt.toBytes
 import com.toasttab.protokt.v1.InetAddressBytesConverter
 import java.net.InetAddress
 
-@Suppress("DEPRECATION")
 @Deprecated("for backwards compatibility only")
 @AutoService(Converter::class)
 object InetAddressBytesValueConverter : Converter<InetAddress, BytesValue> {
@@ -29,8 +32,8 @@ object InetAddressBytesValueConverter : Converter<InetAddress, BytesValue> {
     override val wrapped = BytesValue::class
 
     override fun wrap(unwrapped: BytesValue) =
-        InetAddressBytesConverter.wrap(unwrapped.value)
+        InetAddressBytesConverter.wrap(unwrapped.value.toBytes())
 
     override fun unwrap(wrapped: InetAddress) =
-        BytesValue { value = InetAddressBytesConverter.unwrap(wrapped) }
+        BytesValue { value = Bytes(InetAddressBytesConverter.unwrap(wrapped).bytes) }
 }

@@ -13,16 +13,18 @@
  * limitations under the License.
  */
 
+@file:Suppress("DEPRECATION")
+
 package com.toasttab.protokt.ext
 
 import com.google.auto.service.AutoService
-import com.toasttab.protokt.v1.Bytes
-import com.toasttab.protokt.v1.BytesValue
+import com.toasttab.protokt.BytesValue
+import com.toasttab.protokt.rt.Bytes
+import com.toasttab.protokt.rt.sizeof
+import com.toasttab.protokt.rt.toBytes
 import com.toasttab.protokt.v1.UuidBytesConverter
-import com.toasttab.protokt.v1.sizeOf
 import java.util.UUID
 
-@Suppress("DEPRECATION")
 @Deprecated("for backwards compatibility only")
 @AutoService(Converter::class)
 object UuidBytesValueConverter : OptimizedSizeofConverter<UUID, BytesValue> {
@@ -34,11 +36,11 @@ object UuidBytesValueConverter : OptimizedSizeofConverter<UUID, BytesValue> {
         BytesValue { value = Bytes(ByteArray(16)) }
 
     override fun sizeof(wrapped: UUID) =
-        sizeOf(sizeofProxy)
+        sizeof(sizeofProxy)
 
     override fun wrap(unwrapped: BytesValue) =
-        UuidBytesConverter.wrap(unwrapped.value)
+        UuidBytesConverter.wrap(unwrapped.value.toBytes())
 
     override fun unwrap(wrapped: UUID) =
-        BytesValue { value = UuidBytesConverter.unwrap(wrapped) }
+        BytesValue { value = Bytes(UuidBytesConverter.unwrap(wrapped).bytes) }
 }

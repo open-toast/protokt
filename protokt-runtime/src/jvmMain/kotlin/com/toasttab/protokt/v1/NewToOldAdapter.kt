@@ -13,10 +13,27 @@
  * limitations under the License.
  */
 
+@file:Suppress("DEPRECATION")
+
 package com.toasttab.protokt.v1
 
-@Suppress("DEPRECATION")
-internal class NewToOldAdapter(
+import com.toasttab.protokt.rt.BytesSlice
+import com.toasttab.protokt.rt.Fixed32
+import com.toasttab.protokt.rt.Fixed64
+import com.toasttab.protokt.rt.Int32
+import com.toasttab.protokt.rt.Int64
+import com.toasttab.protokt.rt.SFixed32
+import com.toasttab.protokt.rt.SFixed64
+import com.toasttab.protokt.rt.SInt32
+import com.toasttab.protokt.rt.SInt64
+import com.toasttab.protokt.rt.UInt32
+import com.toasttab.protokt.rt.UInt64
+
+@Deprecated("For internal use only")
+fun NewToOldAdapter(deserializer: KtMessageDeserializer): com.toasttab.protokt.rt.KtMessageDeserializer =
+    DeserializerNewToOldAdapter(deserializer)
+
+internal class DeserializerNewToOldAdapter(
     private val deserializer: KtMessageDeserializer
 ) : com.toasttab.protokt.rt.KtMessageDeserializer {
     override fun readBytes() =
@@ -75,9 +92,81 @@ internal class NewToOldAdapter(
         }
 
     override fun readRepeated(packed: Boolean, acc: com.toasttab.protokt.rt.KtMessageDeserializer.() -> Unit) {
-        deserializer.readRepeated(packed) { acc(this@NewToOldAdapter) }
+        deserializer.readRepeated(packed) { acc(this@DeserializerNewToOldAdapter) }
     }
 
     override fun <T : com.toasttab.protokt.rt.KtMessage> readMessage(m: com.toasttab.protokt.rt.KtDeserializer<T>) =
         throw UnsupportedOperationException()
+}
+
+@Deprecated("for internal use only")
+fun NewToOldAdapter(serializer: KtMessageSerializer): com.toasttab.protokt.rt.KtMessageSerializer =
+    SerializerNewToOldAdapter(serializer)
+
+internal class SerializerNewToOldAdapter(
+    private val serializer: KtMessageSerializer
+) : com.toasttab.protokt.rt.KtMessageSerializer {
+    override fun write(i: Fixed32) {
+        serializer.writeFixed32(i.value.toUInt())
+    }
+
+    override fun write(i: SFixed32) {
+        serializer.writeSFixed32(i.value)
+    }
+
+    override fun write(i: UInt32) {
+        serializer.writeUInt32(i.value.toUInt())
+    }
+
+    override fun write(i: SInt32) {
+        serializer.writeSInt32(i.value)
+    }
+
+    override fun write(i: Int32) {
+        serializer.write(i.value)
+    }
+
+    override fun write(l: Fixed64) {
+        serializer.writeFixed64(l.value.toULong())
+    }
+
+    override fun write(l: SFixed64) {
+        serializer.writeSFixed64(l.value)
+    }
+
+    override fun write(l: UInt64) {
+        serializer.writeUInt64(l.value.toULong())
+    }
+
+    override fun write(l: SInt64) {
+        serializer.writeSInt64(l.value)
+    }
+
+    override fun write(l: Int64) {
+        serializer.write(l.value)
+    }
+
+    override fun write(f: Float) {
+        serializer.write(f)
+    }
+
+    override fun write(d: Double) {
+        serializer.write(d)
+    }
+
+    override fun write(s: String) {
+        serializer.write(s)
+    }
+
+    override fun write(b: Boolean) {
+        serializer.write(b)
+    }
+
+    override fun write(b: ByteArray) {
+        serializer.write(b)
+    }
+
+    override fun write(b: BytesSlice) {
+        serializer.write(com.toasttab.protokt.v1.BytesSlice(b.array, b.offset, b.length))
+    }
 }

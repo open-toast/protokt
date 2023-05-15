@@ -13,13 +13,14 @@
  * limitations under the License.
  */
 
+@file:Suppress("DEPRECATION")
+
 package com.toasttab.protokt.ext
 
 import com.google.auto.service.AutoService
-import com.toasttab.protokt.v1.Timestamp
+import com.toasttab.protokt.Timestamp
 import java.time.Instant
 
-@Suppress("DEPRECATION")
 @Deprecated("for backwards compatibility only")
 @AutoService(Converter::class)
 object InstantConverter : Converter<Instant, Timestamp> {
