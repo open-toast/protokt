@@ -23,6 +23,7 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
+import com.toasttab.protokt.v1.KtDsl
 import com.toasttab.protokt.v1.UnknownFieldSet
 import com.toasttab.protokt.v1.codegen.generate.Deprecation.handleDeprecation
 import com.toasttab.protokt.v1.codegen.util.FieldType
@@ -61,6 +62,7 @@ private class DslGenerator(
         )
         builder.addType(
             TypeSpec.classBuilder(msg.dslClassName)
+                .addAnnotation(KtDsl::class)
                 .addProperties(
                     properties.map {
                         PropertySpec.builder(it.name, it.dslPropertyType)
