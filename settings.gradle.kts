@@ -45,6 +45,7 @@ include(
     "examples:grpc-java-lite",
     "examples:grpc-kotlin",
     "examples:grpc-kotlin-lite",
+    "examples:grpc-node",
     "examples:protos",
 
     "extensions",

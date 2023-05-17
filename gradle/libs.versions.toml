@@ -41,6 +41,7 @@ wire = "4.5.1"
 jackson = "2.13.0"
 junit = "5.9.1"
 truth = "1.1.3"
+grpcJs = "1.8.14"
 
 # third party
 protoGoogleCommonProtos = "2.8.2"
