@@ -23,9 +23,9 @@ import io.grpc.examples.routeguide.RouteSummary
 
 object RouteGuideServer {
     fun main() {
-        val serialize_routeguide_Point: (Point) -> ByteArray = Point::serialize
+        val serialize_routeguide_Point: (Point) -> dynamic = { val arr = it.serialize(); js("Buffer.from(arr)") }
         val deserialize_routeguide_Point: (ByteArray) -> Point = Point.Deserializer::deserialize
-        val serialize_routeguide_Feature: (Feature) -> ByteArray = Feature::serialize
+        val serialize_routeguide_Feature: (Feature) -> dynamic = { val arr = it.serialize(); js("Buffer.from(arr)") }
         val deserialize_routeguide_Feature: (ByteArray) -> Feature = Feature.Deserializer::deserialize
         val serialize_routeguide_Rectangle: (Rectangle) -> ByteArray = Rectangle::serialize
         val deserialize_routeguide_Rectangle: (ByteArray) -> Rectangle = Rectangle.Deserializer::deserialize
@@ -43,7 +43,7 @@ object RouteGuideServer {
             // A feature with an empty name is returned if there's no feature at the given
             // position.
             getFeature: {
-                path: '/routeguide.RouteGuide/GetFeature',
+                path: '/io.grpc.examples.routeguide.RouteGuide/GetFeature',
                 requestStream: false,
                 responseStream: false,
                 //requestType: route_guide_pb.Point,
@@ -60,7 +60,7 @@ object RouteGuideServer {
             // repeated field), as the rectangle may cover a large area and contain a
             // huge number of features.
             listFeatures: {
-                path: '/routeguide.RouteGuide/ListFeatures',
+                path: '/io.grpc.examples.routeguide.RouteGuide/ListFeatures',
                 requestStream: false,
                 responseStream: true,
                 //requestType: route_guide_pb.Rectangle,
@@ -75,7 +75,7 @@ object RouteGuideServer {
             // Accepts a stream of Points on a route being traversed, returning a
             // RouteSummary when traversal is completed.
             recordRoute: {
-                path: '/routeguide.RouteGuide/RecordRoute',
+                path: '/io.grpc.examples.routeguide.RouteGuide/RecordRoute',
                 requestStream: true,
                 responseStream: false,
                 //requestType: route_guide_pb.Point,
@@ -90,7 +90,7 @@ object RouteGuideServer {
             // Accepts a stream of RouteNotes sent while a route is being traversed,
             // while receiving other RouteNotes (e.g. from other users).
             routeChat: {
-                path: '/routeguide.RouteGuide/RouteChat',
+                path: '/io.grpc.examples.routeguide.RouteGuide/RouteChat',
                 requestStream: true,
                 responseStream: true,
                 //requestType: route_guide_pb.RouteNote,
@@ -104,15 +104,15 @@ object RouteGuideServer {
         """
         js(decl)
 
-        val getFeature = { call: dynamic ->
-            println(call.request)
-            call.write(
+        val getFeature = { call: dynamic, callback: dynamic ->
+            println("received request: " + call.request)
+            callback(
+                null,
                 Feature {
                     name = "foo"
                     location = call.request
                 }
             )
-            call.end()
         }
 
         val listFeatures = {
