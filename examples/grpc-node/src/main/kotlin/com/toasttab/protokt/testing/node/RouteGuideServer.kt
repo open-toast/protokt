@@ -22,7 +22,7 @@ import io.grpc.examples.routeguide.RouteNote
 import io.grpc.examples.routeguide.RouteSummary
 import kotlin.js.json
 
-internal external class Buffer {
+external class Buffer {
     companion object {
         fun from(array: ByteArray): Buffer
     }
@@ -30,134 +30,147 @@ internal external class Buffer {
 
 object RouteGuideServer {
     fun main() {
-
-        val serialize_routeguide_Point: (Point) -> Buffer = { Buffer.from(it.serialize()) }
-        val deserialize_routeguide_Point: (ByteArray) -> Point = Point.Deserializer::deserialize
-        val serialize_routeguide_Feature: (Feature) -> Buffer = { Buffer.from(it.serialize()) }
-        val deserialize_routeguide_Feature: (ByteArray) -> Feature = Feature.Deserializer::deserialize
-        val serialize_routeguide_Rectangle: (Rectangle) -> Buffer = { Buffer.from(it.serialize()) }
-        val deserialize_routeguide_Rectangle: (ByteArray) -> Rectangle = Rectangle.Deserializer::deserialize
-        val serialize_routeguide_RouteSummary: (RouteSummary) -> Buffer = { Buffer.from(it.serialize()) }
-        val deserialize_routeguide_RouteSummary: (ByteArray) -> RouteSummary = RouteSummary.Deserializer::deserialize
-        val serialize_routeguide_RouteNote: (RouteNote) -> Buffer = { Buffer.from(it.serialize()) }
-        val deserialize_routeguide_RouteNote: (ByteArray) -> RouteNote = RouteNote.Deserializer::deserialize
-
-        val routeGuideService = json(
+        // todo: generate this
+        val RouteGuideService = json(
             "getFeature" to json(
                 "path" to "/io.grpc.examples.routeguide.RouteGuide/GetFeature",
                 "requestStream" to false,
                 "responseStream" to false,
-                "requestSerialize" to serialize_routeguide_Point,
-                "requestDeserialize" to deserialize_routeguide_Point,
-                "responseSerialize" to serialize_routeguide_Feature,
-                "responseDeserialize" to deserialize_routeguide_Feature
+                "requestSerialize" to { it: Point -> Buffer.from(it.serialize()) },
+                "requestDeserialize" to { it: ByteArray -> Point.deserialize(it) },
+                "responseSerialize" to { it: Feature -> Buffer.from(it.serialize()) },
+                "responseDeserialize" to { it: ByteArray -> Feature.deserialize(it) }
+            ),
+            "listFeatures" to json(
+                "path" to "/io.grpc.examples.routeguide.RouteGuide/ListFeatures",
+                "requestStream" to false,
+                "responseStream" to true,
+                "requestSerialize" to { it: Rectangle -> Buffer.from(it.serialize()) },
+                "requestDeserialize" to { it: ByteArray -> Rectangle.deserialize(it) },
+                "responseSerialize" to { it: Feature -> Buffer.from(it.serialize()) },
+                "responseDeserialize" to { it: ByteArray -> Feature.deserialize(it) }
+            ),
+            "recordRoute" to json(
+                "path" to "/io.grpc.examples.routeguide.RouteGuide/RecordRoute",
+                "requestStream" to true,
+                "responseStream" to false,
+                "requestSerialize" to { it: Point -> Buffer.from(it.serialize()) },
+                "requestDeserialize" to { it: ByteArray -> Point.deserialize(it) },
+                "responseSerialize" to { it: RouteSummary -> Buffer.from(it.serialize()) },
+                "responseDeserialize" to { it: ByteArray -> RouteSummary.deserialize(it) }
+            ),
+            "routeChat" to json(
+                "path" to "/io.grpc.examples.routeguide.RouteGuide/RouteChat",
+                "requestStream" to true,
+                "responseStream" to true,
+                "requestSerialize" to { it: RouteNote -> Buffer.from(it.serialize()) },
+                "requestDeserialize" to { it: ByteArray -> RouteNote.deserialize(it) },
+                "responseSerialize" to { it: RouteNote -> Buffer.from(it.serialize()) },
+                "responseDeserialize" to { it: ByteArray -> RouteNote.deserialize(it) }
             )
         )
 
-        val decl = """
-            var RouteGuideService = {
-            // A simple RPC.
-            //
-            // Obtains the feature at a given position.
-            //
-            // A feature with an empty name is returned if there's no feature at the given
-            // position.
-            getFeature: {
-                path: '/io.grpc.examples.routeguide.RouteGuide/GetFeature',
-                requestStream: false,
-                responseStream: false,
-                //requestType: route_guide_pb.Point,
-                //responseType: route_guide_pb.Feature,
-                requestSerialize: serialize_routeguide_Point,
-                requestDeserialize: deserialize_routeguide_Point,
-                responseSerialize: serialize_routeguide_Feature,
-                responseDeserialize: deserialize_routeguide_Feature,
-              },
-              // A server-to-client streaming RPC.
-            //
-            // Obtains the Features available within the given Rectangle.  Results are
-            // streamed rather than returned at once (e.g. in a response message with a
-            // repeated field), as the rectangle may cover a large area and contain a
-            // huge number of features.
-            listFeatures: {
-                path: '/io.grpc.examples.routeguide.RouteGuide/ListFeatures',
-                requestStream: false,
-                responseStream: true,
-                //requestType: route_guide_pb.Rectangle,
-                //responseType: route_guide_pb.Feature,
-                requestSerialize: serialize_routeguide_Rectangle,
-                requestDeserialize: deserialize_routeguide_Rectangle,
-                responseSerialize: serialize_routeguide_Feature,
-                responseDeserialize: deserialize_routeguide_Feature,
-              },
-              // A client-to-server streaming RPC.
-            //
-            // Accepts a stream of Points on a route being traversed, returning a
-            // RouteSummary when traversal is completed.
-            recordRoute: {
-                path: '/io.grpc.examples.routeguide.RouteGuide/RecordRoute',
-                requestStream: true,
-                responseStream: false,
-                //requestType: route_guide_pb.Point,
-                //responseType: route_guide_pb.RouteSummary,
-                requestSerialize: serialize_routeguide_Point,
-                requestDeserialize: deserialize_routeguide_Point,
-                responseSerialize: serialize_routeguide_RouteSummary,
-                responseDeserialize: deserialize_routeguide_RouteSummary,
-              },
-              // A Bidirectional streaming RPC.
-            //
-            // Accepts a stream of RouteNotes sent while a route is being traversed,
-            // while receiving other RouteNotes (e.g. from other users).
-            routeChat: {
-                path: '/io.grpc.examples.routeguide.RouteGuide/RouteChat',
-                requestStream: true,
-                responseStream: true,
-                //requestType: route_guide_pb.RouteNote,
-                //responseType: route_guide_pb.RouteNote,
-                requestSerialize: serialize_routeguide_RouteNote,
-                requestDeserialize: deserialize_routeguide_RouteNote,
-                responseSerialize: serialize_routeguide_RouteNote,
-                responseDeserialize: deserialize_routeguide_RouteNote,
-              },
-            };
-        """
-        js(decl)
+        val routeGuideService = object : RouteGuideService {
+            override fun getFeature(
+                call: ServerUnaryCall<Point, Feature>,
+                callback: (error: Any?, value: Feature, trailer: Metadata?, flags: Int?) -> Unit
+            ) {
+                println("received request: " + call.request)
+                callback(
+                    null,
+                    Feature {
+                        name = "foo"
+                        location = call.request
+                    },
+                    null,
+                    null
+                )
+            }
 
-        val getFeature = { call: dynamic, callback: dynamic ->
-            println("received request: " + call.request)
-            callback(
-                null,
-                Feature {
-                    name = "foo"
-                    location = call.request
+            override fun listFeatures(call: ServerWritableStream<Rectangle, Feature>) {
+                println("received ${call.request}")
+                call.write(
+                    Feature {
+                        name = "foo"
+                        location = Point { latitude = 2; longitude = 4 }
+                    },
+                    null
+                )
+                call.write(
+                    Feature {
+                        name = "bar"
+                        location = Point { latitude = 3; longitude = 5 }
+                    },
+                    null
+                )
+                call.end()
+            }
+
+            override fun recordRoute(
+                call: ServerReadableStream<Point, RouteSummary>,
+                callback: (error: Any?, value: RouteSummary, trailer: Metadata?, flags: Int?) -> Unit
+            ) {
+                call.on("data") {
+                    println(it as Point)
                 }
+                call.on("end") {
+                    callback(
+                        null,
+                        RouteSummary {
+                            pointCount = 4
+                            featureCount = 5
+                            distance = 6
+                            // elapsedTime = todo: figure this out
+                        },
+                        null,
+                        null
+                    )
+                }
+            }
+
+            override fun routeChat(call: ServerDuplexStream<RouteNote, RouteNote>) {
+                call.on("data") {
+                    println("got $it")
+                    call.write(it, null)
+                }
+
+                call.on("end") {
+                    call.end()
+                }
+            }
+        }
+
+        val routeServer = Server()
+        routeServer.addService(
+            RouteGuideService,
+            // todo: find a way to make this friendly to build
+            json(
+                "getFeature" to routeGuideService::getFeature,
+                "listFeatures" to routeGuideService::listFeatures,
+                "recordRoute" to routeGuideService::recordRoute,
+                "routeChat" to routeGuideService::routeChat
             )
-        }
-
-        val listFeatures = {
-        }
-
-        val recordRoute = {
-        }
-
-        val routeChat = {
-        }
-
-        js("var grpc = require('@grpc/grpc-js')")
-        var routeServer = Server()
-        val startServer = { js("routeServer.start()") }
-
-        val server = """
-          routeServer.addService(routeGuideService, {
-            getFeature: getFeature
-            //listFeatures: listFeatures,
-            //recordRoute: recordRoute,
-            //routeChat: routeChat
-          });
-            
-          routeServer.bindAsync('0.0.0.0:8980', grpc.ServerCredentials.createInsecure(), startServer)
-        """
-        js(server)
+        )
+        routeServer.bindAsync(
+            "0.0.0.0:8980",
+            ServerCredentials.createInsecure()
+        ) { _, _ -> routeServer.start() }
     }
+}
+
+// todo: generate this
+interface RouteGuideService {
+    fun getFeature(
+        call: ServerUnaryCall<Point, Feature>,
+        callback: (error: Any?, value: Feature, trailer: Metadata?, flags: Int?) -> Unit
+    )
+
+    fun listFeatures(call: ServerWritableStream<Rectangle, Feature>)
+
+    fun recordRoute(
+        call: ServerReadableStream<Point, RouteSummary>,
+        callback: (error: Any?, value: RouteSummary, trailer: Metadata?, flags: Int?) -> Unit
+    )
+
+    fun routeChat(call: ServerDuplexStream<RouteNote, RouteNote>)
 }
