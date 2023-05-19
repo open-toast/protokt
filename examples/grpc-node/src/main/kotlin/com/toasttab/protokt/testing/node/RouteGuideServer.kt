@@ -20,19 +20,39 @@ import io.grpc.examples.routeguide.Point
 import io.grpc.examples.routeguide.Rectangle
 import io.grpc.examples.routeguide.RouteNote
 import io.grpc.examples.routeguide.RouteSummary
+import kotlin.js.json
+
+internal external class Buffer {
+    companion object {
+        fun from(array: ByteArray): Buffer
+    }
+}
 
 object RouteGuideServer {
     fun main() {
-        val serialize_routeguide_Point: (Point) -> dynamic = { val arr = it.serialize(); js("Buffer.from(arr)") }
+
+        val serialize_routeguide_Point: (Point) -> Buffer = { Buffer.from(it.serialize()) }
         val deserialize_routeguide_Point: (ByteArray) -> Point = Point.Deserializer::deserialize
-        val serialize_routeguide_Feature: (Feature) -> dynamic = { val arr = it.serialize(); js("Buffer.from(arr)") }
+        val serialize_routeguide_Feature: (Feature) -> Buffer = { Buffer.from(it.serialize()) }
         val deserialize_routeguide_Feature: (ByteArray) -> Feature = Feature.Deserializer::deserialize
-        val serialize_routeguide_Rectangle: (Rectangle) -> ByteArray = Rectangle::serialize
+        val serialize_routeguide_Rectangle: (Rectangle) -> Buffer = { Buffer.from(it.serialize()) }
         val deserialize_routeguide_Rectangle: (ByteArray) -> Rectangle = Rectangle.Deserializer::deserialize
-        val serialize_routeguide_RouteSummary: (RouteSummary) -> ByteArray = RouteSummary::serialize
+        val serialize_routeguide_RouteSummary: (RouteSummary) -> Buffer = { Buffer.from(it.serialize()) }
         val deserialize_routeguide_RouteSummary: (ByteArray) -> RouteSummary = RouteSummary.Deserializer::deserialize
-        val serialize_routeguide_RouteNote: (RouteNote) -> ByteArray = RouteNote::serialize
+        val serialize_routeguide_RouteNote: (RouteNote) -> Buffer = { Buffer.from(it.serialize()) }
         val deserialize_routeguide_RouteNote: (ByteArray) -> RouteNote = RouteNote.Deserializer::deserialize
+
+        val routeGuideService = json(
+            "getFeature" to json(
+                "path" to "/io.grpc.examples.routeguide.RouteGuide/GetFeature",
+                "requestStream" to false,
+                "responseStream" to false,
+                "requestSerialize" to serialize_routeguide_Point,
+                "requestDeserialize" to deserialize_routeguide_Point,
+                "responseSerialize" to serialize_routeguide_Feature,
+                "responseDeserialize" to deserialize_routeguide_Feature
+            )
+        )
 
         val decl = """
             var RouteGuideService = {
@@ -125,15 +145,15 @@ object RouteGuideServer {
         }
 
         js("var grpc = require('@grpc/grpc-js')")
-        var routeServer = js("new grpc.Server()")
+        var routeServer = Server()
         val startServer = { js("routeServer.start()") }
 
         val server = """
-          routeServer.addService(RouteGuideService, {
-            getFeature: getFeature,
-            listFeatures: listFeatures,
-            recordRoute: recordRoute,
-            routeChat: routeChat
+          routeServer.addService(routeGuideService, {
+            getFeature: getFeature
+            //listFeatures: listFeatures,
+            //recordRoute: recordRoute,
+            //routeChat: routeChat
           });
             
           routeServer.bindAsync('0.0.0.0:8980', grpc.ServerCredentials.createInsecure(), startServer)
