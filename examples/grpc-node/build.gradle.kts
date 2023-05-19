@@ -38,6 +38,7 @@ dependencies {
     protoktExtensions(project(":extensions:protokt-extensions"))
 
     implementation(npm("@grpc/grpc-js", libs.versions.grpcJs.get()))
+    implementation(libs.kotlinxCoroutinesCore)
 
     testImplementation(kotlin("test"))
 }
