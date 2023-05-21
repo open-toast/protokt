@@ -222,3 +222,16 @@ internal fun Project.isMultiplatform() =
 
 private fun Project.isJs() =
     plugins.hasPlugin("org.jetbrains.kotlin.js")
+
+internal fun Project.appliedKotlinPlugin() =
+    when {
+        plugins.hasPlugin("org.jetbrains.kotlin.multiplatform") ->
+            "org.jetbrains.kotlin.multiplatform"
+        plugins.hasPlugin("org.jetbrains.kotlin.js") ->
+            "org.jetbrains.kotlin.js"
+        plugins.hasPlugin("org.jetbrains.kotlin.jvm") ->
+            "org.jetbrains.kotlin.jvm"
+        plugins.hasPlugin("org.jetbrains.kotlin.android") ->
+            "org.jetbrains.kotlin.android"
+        else -> null
+    }

@@ -16,7 +16,7 @@
 @file:JsModule("@grpc/grpc-js")
 @file:JsNonModule
 
-package com.toasttab.protokt.grpc.v1
+package com.toasttab.protokt.v1.grpc
 
 external class Server {
     internal fun addService(service: dynamic, implementation: dynamic)

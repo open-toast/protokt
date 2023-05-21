@@ -13,11 +13,11 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.grpc.v1
+package com.toasttab.protokt.v1.grpc
 
 import com.toasttab.protokt.v1.copyList
 
-class ServiceDescriptor(
+class ServiceDescriptor internal constructor(
     val name: String,
     methods: List<MethodDescriptor<*, *>>,
     val schemaDescriptor: Any? = null
@@ -29,4 +29,32 @@ class ServiceDescriptor(
             "name=$name, " +
             "methods=$methods, " +
             "schemaDescriptor=$schemaDescriptor)"
+
+    class Builder internal constructor(
+        private var name: String
+    ) {
+        private val methods = mutableListOf<MethodDescriptor<*, *>>()
+        private var schemaDescriptor: Any? = null
+
+        fun setName(name: String) =
+            apply { this.name = name }
+
+        fun addMethod(method: MethodDescriptor<*, *>) =
+            apply { methods.add(method) }
+
+        fun setSchemaDescriptor(schemaDescriptor: Any?) =
+            apply { this.schemaDescriptor = schemaDescriptor }
+
+        fun build() =
+            ServiceDescriptor(
+                name,
+                methods,
+                schemaDescriptor
+            )
+    }
+
+    companion object {
+        fun newBuilder(name: String) =
+            Builder(name)
+    }
 }

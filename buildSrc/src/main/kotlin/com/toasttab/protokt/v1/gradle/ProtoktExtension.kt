@@ -22,6 +22,7 @@ const val ONLY_GENERATE_GRPC = "only_generate_grpc"
 const val LITE = "lite"
 const val ONLY_GENERATE_DESCRIPTORS = "only_generate_descriptors"
 const val FORMAT_OUTPUT = "format_output"
+const val APPLIED_KOTLIN_PLUGIN = "applied_kotlin_plugin"
 
 open class ProtoktExtension {
     /**

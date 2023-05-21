@@ -13,17 +13,12 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.grpc.v1
+package com.toasttab.protokt.v1.grpc
 
-import com.toasttab.protokt.v1.KtDeserializer
-import com.toasttab.protokt.v1.KtMessage
-
-class KtMarshaller<T : KtMessage>(
-    private val deserializer: KtDeserializer<T>
-) : MethodDescriptor.Marshaller<T> {
-    override fun parse(bytes: ByteArray) =
-        deserializer.deserialize(bytes)
-
-    override fun serialize(value: T): dynamic =
-        value.serialize()
+internal external class Buffer {
+    companion object {
+        fun from(obj: dynamic): Buffer
+    }
 }
+
+internal fun shutUpKtLint() {}

@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.grpc.v1
+package com.toasttab.protokt.v1.grpc
 
 import com.toasttab.protokt.v1.unmodifiableList
 import kotlin.js.json

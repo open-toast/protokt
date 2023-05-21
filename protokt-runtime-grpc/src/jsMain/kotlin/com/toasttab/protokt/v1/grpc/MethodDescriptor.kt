@@ -13,9 +13,9 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.grpc.v1
+package com.toasttab.protokt.v1.grpc
 
-class MethodDescriptor<ReqT, RespT>(
+class MethodDescriptor<ReqT, RespT> internal constructor(
     val fullMethodName: String,
     val type: MethodType,
     val requestMarshaller: Marshaller<ReqT>,
@@ -52,6 +52,46 @@ class MethodDescriptor<ReqT, RespT>(
             "requestMarshaller=$requestMarshaller, " +
             "responseMarshaller=$responseMarshaller, " +
             "schemaDescriptor=$schemaDescriptor)"
+
+    class Builder<ReqT, RespT> internal constructor() {
+        private var requestMarshaller: Marshaller<ReqT>? = null
+        private var responseMarshaller: Marshaller<RespT>? = null
+        private var type: MethodType? = null
+        private var fullMethodName: String? = null
+        private var schemaDescriptor: Any? = null
+
+        fun setRequestMarshaller(requestMarshaller: Marshaller<ReqT>) =
+            apply { this.requestMarshaller = requestMarshaller }
+
+        fun setResponseMarshaller(responseMarshaller: Marshaller<RespT>) =
+            apply { this.responseMarshaller = responseMarshaller }
+
+        fun setType(type: MethodType) =
+            apply { this.type = type }
+
+        fun setFullMethodName(fullMethodName: String) =
+            apply { this.fullMethodName = fullMethodName }
+
+        fun setSchemaDescriptor(schemaDescriptor: Any?) =
+            apply { this.schemaDescriptor = schemaDescriptor }
+
+        fun build() =
+            MethodDescriptor(
+                checkNotNull(fullMethodName) { "fullMethodName" },
+                checkNotNull(type) { "type" },
+                checkNotNull(requestMarshaller) { "requestMarshaller" },
+                checkNotNull(responseMarshaller) { "responseMarshaller" },
+                schemaDescriptor
+            )
+    }
+
+    companion object {
+        fun <ReqT, RespT> newBuilder() =
+            Builder<ReqT, RespT>()
+
+        fun generateFullMethodName(fullServiceName: String, methodName: String) =
+            "$fullServiceName/$methodName"
+    }
 }
 
 private fun extractFullServiceName(fullMethodName: String): String? {

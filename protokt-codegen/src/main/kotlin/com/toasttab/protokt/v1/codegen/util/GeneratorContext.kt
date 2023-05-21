@@ -19,6 +19,7 @@ import com.google.common.base.CaseFormat.LOWER_CAMEL
 import com.google.common.base.CaseFormat.LOWER_UNDERSCORE
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.toasttab.protokt.v1.ProtoktProto
+import com.toasttab.protokt.v1.gradle.APPLIED_KOTLIN_PLUGIN
 import com.toasttab.protokt.v1.gradle.FORMAT_OUTPUT
 import com.toasttab.protokt.v1.gradle.GENERATE_GRPC
 import com.toasttab.protokt.v1.gradle.KOTLIN_EXTRA_CLASSPATH
@@ -50,6 +51,7 @@ class GeneratorContext(
     val lite = params.getOrDefault(LITE)
     val onlyGenerateDescriptors = params.getOrDefault(ONLY_GENERATE_DESCRIPTORS)
     val formatOutput = params.getOrDefault(FORMAT_OUTPUT)
+    val appliedKotlinPlugin = params[APPLIED_KOTLIN_PLUGIN]?.toKotlinPluginEnum()
     val protoktVersion = PROTOKT_VERSION
 
     val allPackagesByTypeName = packagesByTypeName(allFiles, respectJavaPackage(params))
@@ -91,3 +93,19 @@ private fun generateFdpObjectNames(files: List<FileDescriptorProto>): Map<String
                 ?: (fdp.name.substringBefore(".proto").substringAfterLast('/') + "_file_descriptor")
         )
     }
+
+private fun String.toKotlinPluginEnum() =
+    when (this) {
+        "org.jetbrains.kotlin.multiplatform" -> KotlinPlugin.MULTIPLATFORM
+        "org.jetbrains.kotlin.js" -> KotlinPlugin.JS
+        "org.jetbrains.kotlin.jvm" -> KotlinPlugin.JVM
+        "org.jetbrains.kotlin.android" -> KotlinPlugin.ANDROID
+        else -> null
+    }
+
+enum class KotlinPlugin {
+    MULTIPLATFORM,
+    JS,
+    JVM,
+    ANDROID
+}

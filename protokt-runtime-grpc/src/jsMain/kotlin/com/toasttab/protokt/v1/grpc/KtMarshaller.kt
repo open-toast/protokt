@@ -13,13 +13,17 @@
  * limitations under the License.
  */
 
-@file:JsModule("stream")
-@file:JsNonModule
+package com.toasttab.protokt.v1.grpc
 
-package com.toasttab.protokt.grpc.v1
+import com.toasttab.protokt.v1.KtDeserializer
+import com.toasttab.protokt.v1.KtMessage
 
-external interface Readable {
-    fun on(event: String, callback: (dynamic) -> Unit)
+class KtMarshaller<T : KtMessage>(
+    private val deserializer: KtDeserializer<T>
+) : MethodDescriptor.Marshaller<T> {
+    override fun parse(bytes: ByteArray) =
+        deserializer.deserialize(bytes)
+
+    override fun serialize(value: T): dynamic =
+        value.serialize()
 }
-
-external interface Writable

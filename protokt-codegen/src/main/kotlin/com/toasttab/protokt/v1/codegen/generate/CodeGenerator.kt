@@ -36,21 +36,21 @@ object CodeGenerator {
 
     fun generate(contents: ProtoFileContents) =
         contents.types.flatMap {
-            com.toasttab.protokt.v1.codegen.generate.CodeGenerator.generate(
+            generate(
                 it,
-                com.toasttab.protokt.v1.codegen.generate.CodeGenerator.Context(emptyList(), contents.info)
+                Context(emptyList(), contents.info)
             )
                 .map { type -> GeneratedType(it, type) }
         }
 
-    fun generate(type: TopLevelType, ctx: com.toasttab.protokt.v1.codegen.generate.CodeGenerator.Context): Iterable<TypeSpec> =
+    fun generate(type: TopLevelType, ctx: Context): Iterable<TypeSpec> =
         when (type) {
             is Message ->
                 withMessageName(type.className) {
-                    com.toasttab.protokt.v1.codegen.generate.CodeGenerator.nonGrpc(ctx) {
-                        com.toasttab.protokt.v1.codegen.generate.CodeGenerator.nonDescriptors(ctx) {
+                    nonGrpc(ctx) {
+                        nonDescriptors(ctx) {
                             listOf(
-                                com.toasttab.protokt.v1.codegen.generate.generateMessage(
+                                generateMessage(
                                     type,
                                     ctx.copy(enclosing = ctx.enclosing + type)
                                 )
@@ -60,34 +60,35 @@ object CodeGenerator {
                 }
             is Enum ->
                 withEnumName(type.className) {
-                    com.toasttab.protokt.v1.codegen.generate.CodeGenerator.nonGrpc(ctx) {
-                        com.toasttab.protokt.v1.codegen.generate.CodeGenerator.nonDescriptors(ctx) {
-                            listOf(com.toasttab.protokt.v1.codegen.generate.generateEnum(type, ctx))
+                    nonGrpc(ctx) {
+                        nonDescriptors(ctx) {
+                            listOf(generateEnum(type, ctx))
                         }
                     }
                 }
             is Service ->
                 withServiceName(type.name) {
-                    com.toasttab.protokt.v1.codegen.generate.generateService(
+                    generateService(
                         type,
                         ctx,
                         ctx.info.context.generateGrpc ||
-                            ctx.info.context.onlyGenerateGrpc
+                            ctx.info.context.onlyGenerateGrpc,
+                        ctx.info.context.appliedKotlinPlugin
                     )
                 }
         }
 
-    private fun <T> nonDescriptors(ctx: com.toasttab.protokt.v1.codegen.generate.CodeGenerator.Context, gen: () -> Iterable<T>) =
-        com.toasttab.protokt.v1.codegen.generate.CodeGenerator.nonDescriptors(ctx.info.context, emptyList(), gen)
+    private fun <T> nonDescriptors(ctx: Context, gen: () -> Iterable<T>) =
+        nonDescriptors(ctx.info.context, emptyList(), gen)
 
     private fun <T> nonDescriptors(ctx: GeneratorContext, default: T, gen: () -> T) =
-        com.toasttab.protokt.v1.codegen.generate.CodeGenerator.boolGen(!ctx.onlyGenerateDescriptors, default, gen)
+        boolGen(!ctx.onlyGenerateDescriptors, default, gen)
 
-    private fun <T> nonGrpc(ctx: com.toasttab.protokt.v1.codegen.generate.CodeGenerator.Context, gen: () -> Iterable<T>) =
-        com.toasttab.protokt.v1.codegen.generate.CodeGenerator.nonGrpc(ctx.info.context, emptyList(), gen)
+    private fun <T> nonGrpc(ctx: Context, gen: () -> Iterable<T>) =
+        nonGrpc(ctx.info.context, emptyList(), gen)
 
     private fun <T> nonGrpc(ctx: GeneratorContext, default: T, gen: () -> T) =
-        com.toasttab.protokt.v1.codegen.generate.CodeGenerator.boolGen(!ctx.onlyGenerateGrpc, default, gen)
+        boolGen(!ctx.onlyGenerateGrpc, default, gen)
 
     private fun <T> boolGen(bool: Boolean, default: T, gen: () -> T) =
         if (bool) {

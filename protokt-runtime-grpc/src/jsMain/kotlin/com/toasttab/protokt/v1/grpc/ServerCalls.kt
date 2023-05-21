@@ -13,12 +13,12 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.grpc.v1
+package com.toasttab.protokt.v1.grpc
 
-import com.toasttab.protokt.grpc.v1.MethodDescriptor.MethodType.BIDI_STREAMING
-import com.toasttab.protokt.grpc.v1.MethodDescriptor.MethodType.CLIENT_STREAMING
-import com.toasttab.protokt.grpc.v1.MethodDescriptor.MethodType.SERVER_STREAMING
-import com.toasttab.protokt.grpc.v1.MethodDescriptor.MethodType.UNARY
+import com.toasttab.protokt.v1.grpc.MethodDescriptor.MethodType.BIDI_STREAMING
+import com.toasttab.protokt.v1.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING
+import com.toasttab.protokt.v1.grpc.MethodDescriptor.MethodType.SERVER_STREAMING
+import com.toasttab.protokt.v1.grpc.MethodDescriptor.MethodType.UNARY
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow

@@ -27,6 +27,7 @@ import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
 import com.toasttab.protokt.v1.codegen.generate.CodeGenerator.Context
+import com.toasttab.protokt.v1.codegen.util.KotlinPlugin
 import com.toasttab.protokt.v1.codegen.util.Method
 import com.toasttab.protokt.v1.codegen.util.Service
 import com.toasttab.protokt.v1.codegen.util.comToasttabProtoktV1
@@ -34,18 +35,24 @@ import com.toasttab.protokt.v1.grpc.KtMarshaller
 import io.grpc.MethodDescriptor
 import io.grpc.MethodDescriptor.MethodType
 import io.grpc.ServiceDescriptor
+import kotlin.reflect.KClass
 
-fun generateService(s: Service, ctx: Context, generateService: Boolean) =
-    ServiceGenerator(s, ctx, generateService).generate()
+fun generateService(s: Service, ctx: Context, generateService: Boolean, kotlinPlugin: KotlinPlugin?) =
+    ServiceGenerator(s, ctx, generateService, kotlinPlugin).generate()
 
 private class ServiceGenerator(
     private val s: Service,
     private val ctx: Context,
-    private val generateService: Boolean
+    private val generateService: Boolean,
+    private val kotlinPlugin: KotlinPlugin?
 ) {
+    private val serviceDescriptor = pivotClassName(ServiceDescriptor::class)
+    private val methodDescriptor = pivotClassName(MethodDescriptor::class)
+    private val methodType = pivotClassName(MethodType::class)
+
     fun generate(): List<TypeSpec> {
         val service =
-            if (generateService) {
+            if (generateService && supportedPlugin()) {
                 TypeSpec.objectBuilder(s.name + "Grpc")
                     .addProperty(
                         PropertySpec.builder("SERVICE_NAME", String::class)
@@ -54,14 +61,14 @@ private class ServiceGenerator(
                             .build()
                     )
                     .addProperty(
-                        PropertySpec.builder("_serviceDescriptor", ServiceDescriptor::class)
+                        PropertySpec.builder("_serviceDescriptor", serviceDescriptor)
                             .addModifiers(KModifier.PRIVATE)
                             .delegate(
                                 buildCodeBlock {
                                     beginControlFlow("lazy")
                                     add(
                                         "%M(SERVICE_NAME)\n",
-                                        MemberName(ServiceDescriptor::class.asTypeName(), "newBuilder")
+                                        MemberName(staticOrCompanionMethod(serviceDescriptor), "newBuilder")
                                     )
                                     withIndent { serviceLines().forEach(::add) }
                                     endControlFlowWithoutNewline()
@@ -73,9 +80,7 @@ private class ServiceGenerator(
                         s.methods.map { method ->
                             PropertySpec.builder(
                                 "_" + method.name.decapitalize() + "Method",
-                                MethodDescriptor::class
-                                    .asTypeName()
-                                    .parameterizedBy(method.inputType, method.outputType)
+                                methodDescriptor.parameterizedBy(method.inputType, method.outputType)
                             )
                                 .addModifiers(KModifier.PRIVATE)
                                 .delegate(
@@ -83,18 +88,18 @@ private class ServiceGenerator(
                                         beginControlFlow("lazy")
                                         add(
                                             "%M<%T,·%T>()\n",
-                                            MemberName(MethodDescriptor::class.asTypeName(), "newBuilder"),
+                                            MemberName(staticOrCompanionMethod(methodDescriptor), "newBuilder"),
                                             method.inputType,
                                             method.outputType
                                         )
                                         withIndent {
                                             add(
                                                 ".setType(%M)\n",
-                                                MemberName(MethodType::class.asTypeName(), methodType(method))
+                                                MemberName(methodType, methodType(method))
                                             )
                                             add(
                                                 ".setFullMethodName(%M(SERVICE_NAME,·\"${method.name}\"))\n",
-                                                MemberName(MethodDescriptor::class.asTypeName(), "generateFullMethodName")
+                                                MemberName(staticOrCompanionMethod(methodDescriptor), "generateFullMethodName")
                                             )
                                             add(".setRequestMarshaller(%L)\n", method.requestMarshaller())
                                             add(".setResponseMarshaller(%L)\n", method.responseMarshaller())
@@ -109,14 +114,14 @@ private class ServiceGenerator(
                     .addFunction(
                         FunSpec.builder("getServiceDescriptor")
                             .addCode("return _serviceDescriptor")
-                            .addAnnotation(JvmStatic::class)
+                            .staticIfAppropriate()
                             .build()
                     )
                     .addFunctions(
                         s.methods.map { method ->
                             FunSpec.builder("get" + method.name + "Method")
                                 .addCode("return _" + method.name.decapitalize() + "Method")
-                                .addAnnotation(JvmStatic::class)
+                                .staticIfAppropriate()
                                 .build()
                         }
                     )
@@ -147,16 +152,37 @@ private class ServiceGenerator(
         return listOfNotNull(service, descriptor)
     }
 
-    private fun Method.requestMarshaller(): CodeBlock =
-        marshaller(options.protokt.requestMarshaller, inputType)
+    private fun supportedPlugin() =
+        try {
+            pivotClassName(Unit::class)
+            true
+        } catch (ex: IllegalStateException) {
+            false
+        }
 
-    private fun Method.responseMarshaller(): CodeBlock =
-        marshaller(options.protokt.responseMarshaller, outputType)
+    private fun pivotClassName(jvmClass: KClass<*>) =
+        when (kotlinPlugin) {
+            KotlinPlugin.JS -> ClassName(KtMarshaller::class.java.`package`!!.name, jvmClass.asTypeName().simpleNames)
+            KotlinPlugin.MULTIPLATFORM -> error("unsupported plugin for service generation: $kotlinPlugin")
+            else -> jvmClass.asTypeName()
+        }
 
-    private fun marshaller(string: String, type: ClassName) =
-        string.takeIf { it.isNotEmpty() }
-            ?.let { CodeBlock.of("%L", it) }
-            ?: CodeBlock.of("%T(%T)", KtMarshaller::class, type)
+    private fun staticOrCompanionMethod(type: ClassName) =
+        pivotPlugin(type, ClassName(type.packageName, type.simpleNames + "Companion"))
+
+    private fun <T> pivotPlugin(jvm: T, js: T) =
+        when (kotlinPlugin) {
+            KotlinPlugin.JS -> js
+            KotlinPlugin.MULTIPLATFORM -> error("unsupported plugin for service generation: $kotlinPlugin")
+            else -> jvm
+        }
+
+    private fun FunSpec.Builder.staticIfAppropriate() =
+        apply {
+            if (kotlinPlugin != KotlinPlugin.JS) {
+                addAnnotation(JvmStatic::class)
+            }
+        }
 
     private fun serviceLines() =
         s.methods.map {
@@ -169,13 +195,24 @@ private class ServiceGenerator(
         } else {
             "${ctx.info.protoPackage}.${s.name}"
         }
+}
 
-    private fun methodType(m: Method) = when {
-        m.clientStreaming && m.serverStreaming -> "BIDI_STREAMING"
-        m.clientStreaming -> "CLIENT_STREAMING"
-        m.serverStreaming -> "SERVER_STREAMING"
-        else -> "UNARY"
-    }
+private fun Method.requestMarshaller(): CodeBlock =
+    marshaller(options.protokt.requestMarshaller, inputType)
+
+private fun Method.responseMarshaller(): CodeBlock =
+    marshaller(options.protokt.responseMarshaller, outputType)
+
+private fun marshaller(string: String, type: ClassName) =
+    string.takeIf { it.isNotEmpty() }
+        ?.let { CodeBlock.of("%L", it) }
+        ?: CodeBlock.of("%T(%T)", KtMarshaller::class, type)
+
+private fun methodType(m: Method) = when {
+    m.clientStreaming && m.serverStreaming -> "BIDI_STREAMING"
+    m.clientStreaming -> "CLIENT_STREAMING"
+    m.serverStreaming -> "SERVER_STREAMING"
+    else -> "UNARY"
 }
 
 private fun String.decapitalize() =

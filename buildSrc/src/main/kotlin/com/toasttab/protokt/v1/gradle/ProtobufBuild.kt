@@ -65,6 +65,7 @@ internal fun configureProtobufPlugin(
                             option("$LITE=${ext.lite}")
                             option("$ONLY_GENERATE_DESCRIPTORS=${ext.onlyGenerateDescriptors}")
                             option("$FORMAT_OUTPUT=${ext.formatOutput}")
+                            option("$APPLIED_KOTLIN_PLUGIN=${project.appliedKotlinPlugin()}")
                         }
                     }
                 }

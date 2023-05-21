@@ -14,6 +14,7 @@
  */
 
 import com.google.protobuf.gradle.proto
+import com.toasttab.protokt.v1.gradle.protokt
 import com.toasttab.protokt.v1.gradle.protoktExtensions
 
 plugins {
@@ -46,4 +47,8 @@ sourceSets {
             srcDir("../protos/src/main/proto")
         }
     }
+}
+
+protokt {
+    generateGrpc = true
 }

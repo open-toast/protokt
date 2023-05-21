@@ -15,20 +15,18 @@
 
 package com.toasttab.protokt.testing.node
 
-import com.toasttab.protokt.grpc.v1.BindableService
-import com.toasttab.protokt.grpc.v1.KtMarshaller
-import com.toasttab.protokt.grpc.v1.MethodDescriptor
-import com.toasttab.protokt.grpc.v1.Server
-import com.toasttab.protokt.grpc.v1.ServerCalls
-import com.toasttab.protokt.grpc.v1.ServerCredentials
-import com.toasttab.protokt.grpc.v1.ServerServiceDefinition
-import com.toasttab.protokt.grpc.v1.ServiceDescriptor
-import com.toasttab.protokt.grpc.v1.Status
-import com.toasttab.protokt.grpc.v1.StatusException
-import com.toasttab.protokt.grpc.v1.addService
+import com.toasttab.protokt.v1.grpc.BindableService
+import com.toasttab.protokt.v1.grpc.Server
+import com.toasttab.protokt.v1.grpc.ServerCalls
+import com.toasttab.protokt.v1.grpc.ServerCredentials
+import com.toasttab.protokt.v1.grpc.ServerServiceDefinition
+import com.toasttab.protokt.v1.grpc.Status
+import com.toasttab.protokt.v1.grpc.StatusException
+import com.toasttab.protokt.v1.grpc.addService
 import io.grpc.examples.routeguide.Feature
 import io.grpc.examples.routeguide.Point
 import io.grpc.examples.routeguide.Rectangle
+import io.grpc.examples.routeguide.RouteGuideGrpc
 import io.grpc.examples.routeguide.RouteNote
 import io.grpc.examples.routeguide.RouteSummary
 import kotlinx.coroutines.flow.Flow
@@ -85,7 +83,7 @@ object RouteGuideServer {
         }
 
         val routeServer = Server()
-        routeServer.addService(routeGuideService, routeGuideServiceImpl)
+        routeServer.addService(RouteGuideGrpc.getServiceDescriptor(), routeGuideServiceImpl)
         routeServer.bindAsync(
             "0.0.0.0:8980",
             ServerCredentials.createInsecure()
@@ -93,84 +91,40 @@ object RouteGuideServer {
     }
 }
 
-// todo: generate this
-val getFeatureMethod =
-    MethodDescriptor(
-        "io.grpc.examples.routeguide.RouteGuide/GetFeature",
-        MethodDescriptor.MethodType.UNARY,
-        KtMarshaller(Point),
-        KtMarshaller(Feature)
-    )
-
-val listFeaturesMethod =
-    MethodDescriptor(
-        "io.grpc.examples.routeguide.RouteGuide/ListFeatures",
-        MethodDescriptor.MethodType.SERVER_STREAMING,
-        KtMarshaller(Rectangle),
-        KtMarshaller(Feature)
-    )
-
-val recordRouteMethod =
-    MethodDescriptor(
-        "io.grpc.examples.routeguide.RouteGuide/RecordRoute",
-        MethodDescriptor.MethodType.CLIENT_STREAMING,
-        KtMarshaller(Point),
-        KtMarshaller(RouteSummary)
-    )
-
-val routeChatMethod =
-    MethodDescriptor(
-        "io.grpc.examples.routeguide.RouteGuide/RouteChat",
-        MethodDescriptor.MethodType.BIDI_STREAMING,
-        KtMarshaller(RouteNote),
-        KtMarshaller(RouteNote)
-    )
-
-val routeGuideService =
-    ServiceDescriptor(
-        "io.grpc.examples.routeguide.RouteGuide",
-        listOf(
-            getFeatureMethod,
-            listFeaturesMethod,
-            recordRouteMethod,
-            routeChatMethod
-        )
-    )
-
 open class RouteGuideServiceCoroutineImplBase(
     open val coroutineContext: CoroutineContext = EmptyCoroutineContext
 ) : BindableService {
     final override fun bindService() =
-        ServerServiceDefinition.builder(routeGuideService)
+        ServerServiceDefinition.builder(RouteGuideGrpc.getServiceDescriptor())
             .addMethod(
-                getFeatureMethod,
+                RouteGuideGrpc.getGetFeatureMethod(),
                 ServerCalls.unaryServerMethodDefinition(
                     coroutineContext,
-                    getFeatureMethod,
+                    RouteGuideGrpc.getGetFeatureMethod(),
                     ::getFeature
                 )
             )
             .addMethod(
-                listFeaturesMethod,
+                RouteGuideGrpc.getListFeaturesMethod(),
                 ServerCalls.serverStreamingServerMethodDefinition(
                     coroutineContext,
-                    listFeaturesMethod,
+                    RouteGuideGrpc.getListFeaturesMethod(),
                     ::listFeatures,
                 )
             )
             .addMethod(
-                recordRouteMethod,
+                RouteGuideGrpc.getRecordRouteMethod(),
                 ServerCalls.clientStreamingServerMethodDefinition(
                     coroutineContext,
-                    recordRouteMethod,
+                    RouteGuideGrpc.getRecordRouteMethod(),
                     ::recordRoute
                 )
             )
             .addMethod(
-                routeChatMethod,
+                RouteGuideGrpc.getRouteChatMethod(),
                 ServerCalls.bidiStreamingServerMethodDefinition(
                     coroutineContext,
-                    routeChatMethod,
+                    RouteGuideGrpc.getRouteChatMethod(),
                     ::routeChat
                 )
             )
