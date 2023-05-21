@@ -19,7 +19,7 @@
 package com.toasttab.protokt.grpc.v1
 
 external class Server {
-    fun addService(service: dynamic, implementation: dynamic)
+    internal fun addService(service: dynamic, implementation: dynamic)
 
     fun bindAsync(
         port: String,

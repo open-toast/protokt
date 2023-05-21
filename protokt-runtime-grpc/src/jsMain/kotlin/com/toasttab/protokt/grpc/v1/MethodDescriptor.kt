@@ -15,8 +15,8 @@
 
 package com.toasttab.protokt.grpc.v1
 
-data class MethodDescriptor<ReqT, RespT>(
-    val name: String,
+class MethodDescriptor<ReqT, RespT>(
+    val fullMethodName: String,
     val type: MethodType,
     val requestMarshaller: Marshaller<ReqT>,
     val responseMarshaller: Marshaller<RespT>,
@@ -41,4 +41,31 @@ data class MethodDescriptor<ReqT, RespT>(
 
         fun serialize(value: T): dynamic
     }
+
+    internal val serviceName = extractFullServiceName(fullMethodName)
+    internal val bareMethodName = extractBareMethodName(fullMethodName)
+
+    override fun toString() =
+        "MethodDescriptor(" +
+            "name=$fullMethodName, " +
+            "type=$type, " +
+            "requestMarshaller=$requestMarshaller, " +
+            "responseMarshaller=$responseMarshaller, " +
+            "schemaDescriptor=$schemaDescriptor)"
+}
+
+private fun extractFullServiceName(fullMethodName: String): String? {
+    val index = fullMethodName.lastIndexOf('/')
+    if (index == -1) {
+        return null
+    }
+    return fullMethodName.substring(0, index)
+}
+
+private fun extractBareMethodName(fullMethodName: String): String? {
+    val index = fullMethodName.lastIndexOf('/')
+    if (index == -1) {
+        return null
+    }
+    return fullMethodName.substring(index + 1)
 }

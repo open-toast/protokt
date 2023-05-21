@@ -15,8 +15,18 @@
 
 package com.toasttab.protokt.grpc.v1
 
-data class ServiceDescriptor(
+import com.toasttab.protokt.v1.copyList
+
+class ServiceDescriptor(
     val name: String,
-    val methods: List<MethodDescriptor<*, *>>,
+    methods: List<MethodDescriptor<*, *>>,
     val schemaDescriptor: Any? = null
-)
+) {
+    val methods = copyList(methods)
+
+    override fun toString() =
+        "ServiceDescriptor(" +
+            "name=$name, " +
+            "methods=$methods, " +
+            "schemaDescriptor=$schemaDescriptor)"
+}

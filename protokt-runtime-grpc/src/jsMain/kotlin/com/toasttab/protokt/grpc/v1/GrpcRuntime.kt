@@ -257,15 +257,15 @@ class Status private constructor(
     }
 }
 
-fun Server.addServiceTyped(
+fun Server.addService(
     service: ServiceDescriptor,
-    implementation: dynamic
+    implementation: BindableService
 ) =
     addService(
         json(
             *service.methods.map { method ->
-                method.name.replaceFirstChar { it.lowercase() } to json(
-                    "path" to "/${service.name}/${method.name}",
+                method.lowerBareMethodName to json(
+                    "path" to "/${method.fullMethodName}",
                     "requestStream" to !method.type.clientSendsOneMessage,
                     "responseStream" to !method.type.serverSendsOneMessage,
                     "requestSerialize" to { it: dynamic -> Buffer.from(method.requestMarshaller.serialize(it)) },
@@ -275,5 +275,78 @@ fun Server.addServiceTyped(
                 )
             }.toTypedArray()
         ),
-        implementation
+        json(
+            *implementation.bindService().methods.map { (_, serverMethodDefinition) ->
+                serverMethodDefinition.methodDescriptor.lowerBareMethodName to
+                    serverMethodDefinition.handler
+            }.toTypedArray()
+        )
     )
+
+private val MethodDescriptor<*, *>.lowerBareMethodName
+    get() = bareMethodName!!.replaceFirstChar { it.lowercase() }
+
+interface BindableService {
+    fun bindService(): ServerServiceDefinition
+}
+
+class ServerServiceDefinition internal constructor(
+    val serviceDescriptor: ServiceDescriptor?,
+    internal val methods: Map<String, ServerMethodDefinition<*, *>>
+) {
+    class Builder internal constructor(
+        private val serviceName: String,
+        private val serviceDescriptor: ServiceDescriptor?
+    ) {
+        private val methods = mutableMapOf<String, ServerMethodDefinition<*, *>>()
+
+        fun addMethod(
+            method: MethodDescriptor<*, *>,
+            handler: dynamic
+        ) = apply {
+            require(serviceName == method.serviceName) {
+                "Method name should be prefixed with service name and separated with '/'. " +
+                    "Expected service name: '$serviceName'. Actual fully qualified method name: '${method.fullMethodName}'."
+            }
+            check(method.fullMethodName !in methods) {
+                "Method by same name already registered: ${method.fullMethodName}"
+            }
+            methods[method.fullMethodName] = ServerMethodDefinition(method, handler)
+        }
+
+        fun build(): ServerServiceDefinition {
+            val serviceDescriptor =
+                this.serviceDescriptor ?: ServiceDescriptor(serviceName, methods.values.map { it.methodDescriptor })
+
+            val tmpMethods = methods.toMutableMap()
+
+            serviceDescriptor.methods.forEach { descriptorMethod ->
+                val removed = tmpMethods.remove(descriptorMethod.fullMethodName)
+                checkNotNull(removed) {
+                    "No method bound for descriptor entry ${descriptorMethod.fullMethodName}"
+                }
+                check(removed.methodDescriptor == descriptorMethod) {
+                    "Bound method for ${descriptorMethod.fullMethodName} not same instance " +
+                        "as method in service descriptor"
+                }
+            }
+            check(tmpMethods.isEmpty()) {
+                "No entry in descriptor matching bound method ${tmpMethods.values.first()}"
+            }
+            return ServerServiceDefinition(serviceDescriptor, methods)
+        }
+    }
+
+    companion object {
+        fun builder(serviceName: String) =
+            Builder(serviceName, null)
+
+        fun builder(serviceDescriptor: ServiceDescriptor) =
+            Builder(serviceDescriptor.name, serviceDescriptor)
+    }
+}
+
+internal class ServerMethodDefinition<ReqT, RespT>(
+    val methodDescriptor: MethodDescriptor<ReqT, RespT>,
+    val handler: dynamic
+)

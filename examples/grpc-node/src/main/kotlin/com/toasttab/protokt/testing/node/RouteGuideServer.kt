@@ -15,15 +15,17 @@
 
 package com.toasttab.protokt.testing.node
 
+import com.toasttab.protokt.grpc.v1.BindableService
 import com.toasttab.protokt.grpc.v1.KtMarshaller
 import com.toasttab.protokt.grpc.v1.MethodDescriptor
 import com.toasttab.protokt.grpc.v1.Server
 import com.toasttab.protokt.grpc.v1.ServerCalls
 import com.toasttab.protokt.grpc.v1.ServerCredentials
+import com.toasttab.protokt.grpc.v1.ServerServiceDefinition
 import com.toasttab.protokt.grpc.v1.ServiceDescriptor
 import com.toasttab.protokt.grpc.v1.Status
 import com.toasttab.protokt.grpc.v1.StatusException
-import com.toasttab.protokt.grpc.v1.addServiceTyped
+import com.toasttab.protokt.grpc.v1.addService
 import io.grpc.examples.routeguide.Feature
 import io.grpc.examples.routeguide.Point
 import io.grpc.examples.routeguide.Rectangle
@@ -34,54 +36,9 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
-import kotlin.js.json
 
 object RouteGuideServer {
     fun main() {
-        val getFeatureMethod =
-            MethodDescriptor(
-                "GetFeature",
-                MethodDescriptor.MethodType.UNARY,
-                KtMarshaller(Point),
-                KtMarshaller(Feature)
-            )
-
-        val listFeaturesMethod =
-            MethodDescriptor(
-                "ListFeatures",
-                MethodDescriptor.MethodType.SERVER_STREAMING,
-                KtMarshaller(Rectangle),
-                KtMarshaller(Feature)
-            )
-
-        val recordRouteMethod =
-            MethodDescriptor(
-                "RecordRoute",
-                MethodDescriptor.MethodType.CLIENT_STREAMING,
-                KtMarshaller(Point),
-                KtMarshaller(RouteSummary)
-            )
-
-        val routeChatMethod =
-            MethodDescriptor(
-                "RouteChat",
-                MethodDescriptor.MethodType.BIDI_STREAMING,
-                KtMarshaller(RouteNote),
-                KtMarshaller(RouteNote)
-            )
-
-        // todo: generate this
-        val routeGuideService =
-            ServiceDescriptor(
-                "io.grpc.examples.routeguide.RouteGuide",
-                listOf(
-                    getFeatureMethod,
-                    listFeaturesMethod,
-                    recordRouteMethod,
-                    routeChatMethod
-                )
-            )
-
         val routeGuideServiceImpl = object : RouteGuideServiceCoroutineImplBase() {
             override suspend fun getFeature(request: Point): Feature {
                 println("received request: $request")
@@ -127,36 +84,7 @@ object RouteGuideServer {
         }
 
         val routeServer = Server()
-        routeServer.addServiceTyped(
-            routeGuideService,
-            // todo: find a way to make this friendly to build
-            json(
-                "getFeature" to
-                    ServerCalls.unaryServerMethodDefinition(
-                        routeGuideServiceImpl.coroutineContext,
-                        getFeatureMethod,
-                        routeGuideServiceImpl::getFeature
-                    ),
-                "listFeatures" to
-                    ServerCalls.serverStreamingServerMethodDefinition(
-                        routeGuideServiceImpl.coroutineContext,
-                        listFeaturesMethod,
-                        routeGuideServiceImpl::listFeatures,
-                    ),
-                "recordRoute" to
-                    ServerCalls.clientStreamingServerMethodDefinition(
-                        routeGuideServiceImpl.coroutineContext,
-                        recordRouteMethod,
-                        routeGuideServiceImpl::recordRoute
-                    ),
-                "routeChat" to
-                    ServerCalls.bidiStreamingServerMethodDefinition(
-                        routeGuideServiceImpl.coroutineContext,
-                        routeChatMethod,
-                        routeGuideServiceImpl::routeChat
-                    )
-            )
-        )
+        routeServer.addService(routeGuideService, routeGuideServiceImpl)
         routeServer.bindAsync(
             "0.0.0.0:8980",
             ServerCredentials.createInsecure()
@@ -165,9 +93,88 @@ object RouteGuideServer {
 }
 
 // todo: generate this
+val getFeatureMethod =
+    MethodDescriptor(
+        "io.grpc.examples.routeguide.RouteGuide/GetFeature",
+        MethodDescriptor.MethodType.UNARY,
+        KtMarshaller(Point),
+        KtMarshaller(Feature)
+    )
+
+val listFeaturesMethod =
+    MethodDescriptor(
+        "io.grpc.examples.routeguide.RouteGuide/ListFeatures",
+        MethodDescriptor.MethodType.SERVER_STREAMING,
+        KtMarshaller(Rectangle),
+        KtMarshaller(Feature)
+    )
+
+val recordRouteMethod =
+    MethodDescriptor(
+        "io.grpc.examples.routeguide.RouteGuide/RecordRoute",
+        MethodDescriptor.MethodType.CLIENT_STREAMING,
+        KtMarshaller(Point),
+        KtMarshaller(RouteSummary)
+    )
+
+val routeChatMethod =
+    MethodDescriptor(
+        "io.grpc.examples.routeguide.RouteGuide/RouteChat",
+        MethodDescriptor.MethodType.BIDI_STREAMING,
+        KtMarshaller(RouteNote),
+        KtMarshaller(RouteNote)
+    )
+
+val routeGuideService =
+    ServiceDescriptor(
+        "io.grpc.examples.routeguide.RouteGuide",
+        listOf(
+            getFeatureMethod,
+            listFeaturesMethod,
+            recordRouteMethod,
+            routeChatMethod
+        )
+    )
+
 open class RouteGuideServiceCoroutineImplBase(
     open val coroutineContext: CoroutineContext = EmptyCoroutineContext
-) {
+) : BindableService {
+    final override fun bindService() =
+        ServerServiceDefinition.builder(routeGuideService)
+            .addMethod(
+                getFeatureMethod,
+                ServerCalls.unaryServerMethodDefinition(
+                    coroutineContext,
+                    getFeatureMethod,
+                    ::getFeature
+                )
+            )
+            .addMethod(
+                listFeaturesMethod,
+                ServerCalls.serverStreamingServerMethodDefinition(
+                    coroutineContext,
+                    listFeaturesMethod,
+                    ::listFeatures,
+                )
+            )
+            .addMethod(
+                recordRouteMethod,
+                ServerCalls.clientStreamingServerMethodDefinition(
+                    coroutineContext,
+                    recordRouteMethod,
+                    ::recordRoute
+                )
+            )
+            .addMethod(
+                routeChatMethod,
+                ServerCalls.bidiStreamingServerMethodDefinition(
+                    coroutineContext,
+                    routeChatMethod,
+                    ::routeChat
+                )
+            )
+            .build()
+
     open suspend fun getFeature(request: Point): Feature =
         throw StatusException(Status.UNIMPLEMENTED.withDescription("Method io.grpc.examples.routeguide.RouteGuide.GetFeature is unimplemented"))
 
