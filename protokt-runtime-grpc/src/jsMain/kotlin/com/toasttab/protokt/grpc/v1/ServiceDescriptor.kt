@@ -13,37 +13,10 @@
  * limitations under the License.
  */
 
-import com.google.protobuf.gradle.proto
-import com.toasttab.protokt.v1.gradle.protoktExtensions
+package com.toasttab.protokt.grpc.v1
 
-plugins {
-    id("org.jetbrains.kotlin.js")
-}
-
-kotlin {
-    js(IR) {
-        nodejs {
-            testTask {
-                useMocha()
-            }
-        }
-        binaries.executable()
-        useCommonJs()
-    }
-}
-
-localProtokt()
-
-dependencies {
-    protoktExtensions(project(":extensions:protokt-extensions"))
-
-    implementation(project(":protokt-runtime-grpc"))
-}
-
-sourceSets {
-    named("jsMain") {
-        proto {
-            srcDir("../protos/src/main/proto")
-        }
-    }
-}
+data class ServiceDescriptor(
+    val name: String,
+    val methods: List<MethodDescriptor<*, *>>,
+    val schemaDescriptor: Any? = null
+)

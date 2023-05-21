@@ -13,13 +13,12 @@
  * limitations under the License.
  */
 
-@file:JsModule("stream")
-@file:JsNonModule
+package com.toasttab.protokt.grpc.v1
 
-package com.toasttab.protokt.testing.node
-
-external interface Readable {
-    fun on(event: String, callback: (dynamic) -> Unit)
+internal external class Buffer {
+    companion object {
+        fun from(obj: dynamic): Buffer
+    }
 }
 
-external interface Writable
+internal fun shutUpKtLint() {}

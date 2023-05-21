@@ -15,73 +15,74 @@
 
 package com.toasttab.protokt.testing.node
 
-import com.toasttab.protokt.testing.node.Status.UNIMPLEMENTED
+import com.toasttab.protokt.grpc.v1.KtMarshaller
+import com.toasttab.protokt.grpc.v1.MethodDescriptor
+import com.toasttab.protokt.grpc.v1.Server
+import com.toasttab.protokt.grpc.v1.ServerCalls
+import com.toasttab.protokt.grpc.v1.ServerCredentials
+import com.toasttab.protokt.grpc.v1.ServiceDescriptor
+import com.toasttab.protokt.grpc.v1.Status
+import com.toasttab.protokt.grpc.v1.StatusException
+import com.toasttab.protokt.grpc.v1.addServiceTyped
 import io.grpc.examples.routeguide.Feature
 import io.grpc.examples.routeguide.Point
 import io.grpc.examples.routeguide.Rectangle
 import io.grpc.examples.routeguide.RouteNote
 import io.grpc.examples.routeguide.RouteSummary
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.js.json
 
-external class Buffer {
-    companion object {
-        fun from(array: ByteArray): Buffer
-    }
-}
-
 object RouteGuideServer {
     fun main() {
-        // todo: generate this
-        val RouteGuideService = json(
-            "getFeature" to json(
-                "path" to "/io.grpc.examples.routeguide.RouteGuide/GetFeature",
-                "requestStream" to false,
-                "responseStream" to false,
-                "requestSerialize" to { it: Point -> Buffer.from(it.serialize()) },
-                "requestDeserialize" to { it: ByteArray -> Point.deserialize(it) },
-                "responseSerialize" to { it: Feature -> Buffer.from(it.serialize()) },
-                "responseDeserialize" to { it: ByteArray -> Feature.deserialize(it) }
-            ),
-            "listFeatures" to json(
-                "path" to "/io.grpc.examples.routeguide.RouteGuide/ListFeatures",
-                "requestStream" to false,
-                "responseStream" to true,
-                "requestSerialize" to { it: Rectangle -> Buffer.from(it.serialize()) },
-                "requestDeserialize" to { it: ByteArray -> Rectangle.deserialize(it) },
-                "responseSerialize" to { it: Feature -> Buffer.from(it.serialize()) },
-                "responseDeserialize" to { it: ByteArray -> Feature.deserialize(it) }
-            ),
-            "recordRoute" to json(
-                "path" to "/io.grpc.examples.routeguide.RouteGuide/RecordRoute",
-                "requestStream" to true,
-                "responseStream" to false,
-                "requestSerialize" to { it: Point -> Buffer.from(it.serialize()) },
-                "requestDeserialize" to { it: ByteArray -> Point.deserialize(it) },
-                "responseSerialize" to { it: RouteSummary -> Buffer.from(it.serialize()) },
-                "responseDeserialize" to { it: ByteArray -> RouteSummary.deserialize(it) }
-            ),
-            "routeChat" to json(
-                "path" to "/io.grpc.examples.routeguide.RouteGuide/RouteChat",
-                "requestStream" to true,
-                "responseStream" to true,
-                "requestSerialize" to { it: RouteNote -> Buffer.from(it.serialize()) },
-                "requestDeserialize" to { it: ByteArray -> RouteNote.deserialize(it) },
-                "responseSerialize" to { it: RouteNote -> Buffer.from(it.serialize()) },
-                "responseDeserialize" to { it: ByteArray -> RouteNote.deserialize(it) }
+        val getFeatureMethod =
+            MethodDescriptor(
+                "GetFeature",
+                MethodDescriptor.MethodType.UNARY,
+                KtMarshaller(Point),
+                KtMarshaller(Feature)
             )
-        )
 
-        val routeGuideService = object : RouteGuideServiceCoroutineImplBase() {
+        val listFeaturesMethod =
+            MethodDescriptor(
+                "ListFeatures",
+                MethodDescriptor.MethodType.SERVER_STREAMING,
+                KtMarshaller(Rectangle),
+                KtMarshaller(Feature)
+            )
+
+        val recordRouteMethod =
+            MethodDescriptor(
+                "RecordRoute",
+                MethodDescriptor.MethodType.CLIENT_STREAMING,
+                KtMarshaller(Point),
+                KtMarshaller(RouteSummary)
+            )
+
+        val routeChatMethod =
+            MethodDescriptor(
+                "RouteChat",
+                MethodDescriptor.MethodType.BIDI_STREAMING,
+                KtMarshaller(RouteNote),
+                KtMarshaller(RouteNote)
+            )
+
+        // todo: generate this
+        val routeGuideService =
+            ServiceDescriptor(
+                "io.grpc.examples.routeguide.RouteGuide",
+                listOf(
+                    getFeatureMethod,
+                    listFeaturesMethod,
+                    recordRouteMethod,
+                    routeChatMethod
+                )
+            )
+
+        val routeGuideServiceImpl = object : RouteGuideServiceCoroutineImplBase() {
             override suspend fun getFeature(request: Point): Feature {
                 println("received request: $request")
                 return Feature {
@@ -126,14 +127,34 @@ object RouteGuideServer {
         }
 
         val routeServer = Server()
-        routeServer.addService(
-            RouteGuideService,
+        routeServer.addServiceTyped(
+            routeGuideService,
             // todo: find a way to make this friendly to build
             json(
-                "getFeature" to routeGuideService::_getFeature,
-                "listFeatures" to routeGuideService::_listFeatures,
-                "recordRoute" to routeGuideService::_recordRoute,
-                "routeChat" to routeGuideService::_routeChat
+                "getFeature" to
+                    ServerCalls.unaryServerMethodDefinition(
+                        routeGuideServiceImpl.coroutineContext,
+                        getFeatureMethod,
+                        routeGuideServiceImpl::getFeature
+                    ),
+                "listFeatures" to
+                    ServerCalls.serverStreamingServerMethodDefinition(
+                        routeGuideServiceImpl.coroutineContext,
+                        listFeaturesMethod,
+                        routeGuideServiceImpl::listFeatures,
+                    ),
+                "recordRoute" to
+                    ServerCalls.clientStreamingServerMethodDefinition(
+                        routeGuideServiceImpl.coroutineContext,
+                        recordRouteMethod,
+                        routeGuideServiceImpl::recordRoute
+                    ),
+                "routeChat" to
+                    ServerCalls.bidiStreamingServerMethodDefinition(
+                        routeGuideServiceImpl.coroutineContext,
+                        routeChatMethod,
+                        routeGuideServiceImpl::routeChat
+                    )
             )
         )
         routeServer.bindAsync(
@@ -144,100 +165,18 @@ object RouteGuideServer {
 }
 
 // todo: generate this
-interface RouteGuideService {
-    fun _getFeature(
-        call: ServerUnaryCall<Point, Feature>,
-        callback: (error: Any?, value: Feature?, trailer: Metadata?, flags: Int?) -> Unit
-    )
-
-    fun _listFeatures(call: ServerWritableStream<Rectangle, Feature>)
-
-    fun _recordRoute(
-        call: ServerReadableStream<Point, RouteSummary>,
-        callback: (error: Any?, value: RouteSummary?, trailer: Metadata?, flags: Int?) -> Unit
-    )
-
-    fun _routeChat(call: ServerDuplexStream<RouteNote, RouteNote>)
-}
-
 open class RouteGuideServiceCoroutineImplBase(
     open val coroutineContext: CoroutineContext = EmptyCoroutineContext
-) : RouteGuideService {
+) {
     open suspend fun getFeature(request: Point): Feature =
-        throw StatusException(UNIMPLEMENTED, "Method io.grpc.examples.routeguide.RouteGuide.GetFeature is unimplemented")
+        throw StatusException(Status.UNIMPLEMENTED.withDescription("Method io.grpc.examples.routeguide.RouteGuide.GetFeature is unimplemented"))
 
     open fun listFeatures(request: Rectangle): Flow<Feature> =
-        throw StatusException(UNIMPLEMENTED, "Method io.grpc.examples.routeguide.RouteGuide.ListFeatures is unimplemented")
+        throw StatusException(Status.UNIMPLEMENTED.withDescription("Method io.grpc.examples.routeguide.RouteGuide.ListFeatures is unimplemented"))
 
     open suspend fun recordRoute(requests: Flow<Point>): RouteSummary =
-        throw StatusException(UNIMPLEMENTED, "Method io.grpc.examples.routeguide.RouteGuide.RecordRoute is unimplemented")
+        throw StatusException(Status.UNIMPLEMENTED.withDescription("Method io.grpc.examples.routeguide.RouteGuide.RecordRoute is unimplemented"))
 
     open fun routeChat(requests: Flow<RouteNote>): Flow<RouteNote> =
-        throw StatusException(UNIMPLEMENTED, "Method io.grpc.examples.routeguide.RouteGuide.RouteChat is unimplemented")
-
-    // todo: pull into runtime
-    final override fun _getFeature(
-        call: ServerUnaryCall<Point, Feature>,
-        callback: (error: Any?, value: Feature?, trailer: Metadata?, flags: Int?) -> Unit
-    ) {
-        CoroutineScope(coroutineContext).launch {
-            try {
-                callback(null, getFeature(call.request), null, null)
-            } catch (t: Throwable) {
-                callback(t, null, null, null)
-            }
-        }
-    }
-
-    final override fun _listFeatures(call: ServerWritableStream<Rectangle, Feature>) {
-        CoroutineScope(coroutineContext).launch {
-            listFeatures(call.request).collect { call.write(it, null) }
-            call.end()
-        }
-    }
-
-    final override fun _recordRoute(
-        call: ServerReadableStream<Point, RouteSummary>,
-        callback: (error: Any?, value: RouteSummary?, trailer: Metadata?, flags: Int?) -> Unit
-    ) {
-        val scope = CoroutineScope(coroutineContext)
-        val requests = callbackFlow<Point> {
-            call.on("data") {
-                scope.launch { send(it) }
-            }
-            call.on("end") {
-                close()
-            }
-            awaitClose()
-        }
-        scope.launch {
-            try {
-                callback(null, recordRoute(requests), null, null)
-            } catch (t: Throwable) {
-                callback(t, null, null, null)
-            }
-        }
-    }
-
-    final override fun _routeChat(call: ServerDuplexStream<RouteNote, RouteNote>) {
-        val scope = CoroutineScope(coroutineContext)
-        val requests = callbackFlow<RouteNote> {
-            call.on("data") {
-                scope.launch { send(it) }
-            }
-            call.on("end") {
-                close()
-            }
-            awaitClose()
-        }
-        scope.launch {
-            try {
-                routeChat(requests).collect { call.write(it, null) }
-                call.end()
-            } catch (t: Throwable) {
-                // todo: propagate error
-                call.end()
-            }
-        }
-    }
+        throw StatusException(Status.UNIMPLEMENTED.withDescription("Method io.grpc.examples.routeguide.RouteGuide.RouteChat is unimplemented"))
 }

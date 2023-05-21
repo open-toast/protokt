@@ -14,13 +14,32 @@
  */
 
 plugins {
-    id("protokt.jvm-conventions")
+    id("protokt.multiplatform-conventions")
 }
 
 enablePublishing()
 compatibleWithAndroid()
+trackKotlinApiCompatibility()
 
-dependencies {
-    implementation(project(":protokt-runtime"))
-    implementation(libs.grpcStub)
+kotlin {
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                api(project(":protokt-runtime"))
+            }
+        }
+
+        val jvmMain by getting {
+            dependencies {
+                implementation(libs.grpcStub)
+            }
+        }
+
+        val jsMain by getting {
+            dependencies {
+                implementation(npm("@grpc/grpc-js", libs.versions.grpcJs.get()))
+                implementation(libs.kotlinxCoroutinesCore)
+            }
+        }
+    }
 }

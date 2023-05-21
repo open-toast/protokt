@@ -13,37 +13,17 @@
  * limitations under the License.
  */
 
-import com.google.protobuf.gradle.proto
-import com.toasttab.protokt.v1.gradle.protoktExtensions
+package com.toasttab.protokt.grpc.v1
 
-plugins {
-    id("org.jetbrains.kotlin.js")
-}
+import com.toasttab.protokt.v1.KtDeserializer
+import com.toasttab.protokt.v1.KtMessage
 
-kotlin {
-    js(IR) {
-        nodejs {
-            testTask {
-                useMocha()
-            }
-        }
-        binaries.executable()
-        useCommonJs()
-    }
-}
+class KtMarshaller<T : KtMessage>(
+    private val deserializer: KtDeserializer<T>
+) : MethodDescriptor.Marshaller<T> {
+    override fun parse(bytes: ByteArray) =
+        deserializer.deserialize(bytes)
 
-localProtokt()
-
-dependencies {
-    protoktExtensions(project(":extensions:protokt-extensions"))
-
-    implementation(project(":protokt-runtime-grpc"))
-}
-
-sourceSets {
-    named("jsMain") {
-        proto {
-            srcDir("../protos/src/main/proto")
-        }
-    }
+    override fun serialize(value: T): dynamic =
+        value.serialize()
 }

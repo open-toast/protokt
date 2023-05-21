@@ -16,10 +16,10 @@
 @file:JsModule("@grpc/grpc-js")
 @file:JsNonModule
 
-package com.toasttab.protokt.testing.node
+package com.toasttab.protokt.grpc.v1
 
 external class Server {
-    internal fun addService(service: dynamic, implementation: dynamic)
+    fun addService(service: dynamic, implementation: dynamic)
 
     fun bindAsync(
         port: String,

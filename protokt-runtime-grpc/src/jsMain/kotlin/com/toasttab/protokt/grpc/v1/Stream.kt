@@ -13,10 +13,13 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.testing.node
+@file:JsModule("stream")
+@file:JsNonModule
 
-class StatusException(status: Status, description: String) : Exception()
+package com.toasttab.protokt.grpc.v1
 
-enum class Status {
-    UNIMPLEMENTED
+external interface Readable {
+    fun on(event: String, callback: (dynamic) -> Unit)
 }
+
+external interface Writable
