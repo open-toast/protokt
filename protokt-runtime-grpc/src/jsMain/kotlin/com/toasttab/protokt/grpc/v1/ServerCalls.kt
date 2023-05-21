@@ -23,6 +23,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
@@ -93,6 +94,7 @@ object ServerCalls {
         }
     }
 
+    // todo: use Http2ServerCallStream and propagate errors properly
     fun <ReqT, RespT> bidiStreamingServerMethodDefinition(
         context: CoroutineContext,
         descriptor: MethodDescriptor<ReqT, RespT>,
@@ -117,7 +119,6 @@ object ServerCalls {
                     implementation(requests).collect { call.write(it, null) }
                     call.end()
                 } catch (t: Throwable) {
-                    // todo: propagate error
                     call.end()
                 }
             }

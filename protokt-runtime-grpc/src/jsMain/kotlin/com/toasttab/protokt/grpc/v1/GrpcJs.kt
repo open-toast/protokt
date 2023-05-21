@@ -38,11 +38,11 @@ external class ServerCredentials {
 
 external class Metadata
 
-external interface ServerUnaryCall<ReqT, RespT> : ServerSurfaceCall, EventEmitter<RespT> {
+external interface ServerUnaryCall<ReqT, RespT> : ServerSurfaceCall, EventEmitter {
     val request: ReqT
 }
 
-external interface ServerSurfaceCall {
+external interface ServerSurfaceCall : EventEmitter {
     val cancelled: Boolean
     val metadata: Metadata
 
@@ -54,7 +54,9 @@ external interface ServerSurfaceCall {
 
 external interface Deadline
 
-external interface EventEmitter<T>
+external interface EventEmitter {
+    fun emit(event: String, arg: dynamic): Boolean
+}
 
 external interface ServerWritableStream<ReqT, RespT> : ServerSurfaceCall, ObjectWritable<RespT> {
     val request: ReqT
