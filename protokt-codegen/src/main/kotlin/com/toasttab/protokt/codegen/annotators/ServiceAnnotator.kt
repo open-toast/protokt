@@ -16,6 +16,7 @@
 package com.toasttab.protokt.codegen.annotators
 
 import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
@@ -29,6 +30,7 @@ import com.toasttab.protokt.codegen.model.possiblyQualify
 import com.toasttab.protokt.codegen.protoc.Method
 import com.toasttab.protokt.codegen.protoc.Service
 import com.toasttab.protokt.codegen.util.decapitalize
+import com.toasttab.protokt.grpc.SchemaDescriptor
 import io.grpc.MethodDescriptor
 import io.grpc.ServiceDescriptor
 
@@ -50,7 +52,7 @@ internal object ServiceAnnotator {
                                 """
                                     |lazy {
                                     |    ServiceDescriptor.newBuilder(SERVICE_NAME)
-                                    |${serviceLines(s)}
+                                    |${serviceLines(s, ctx)}
                                     |}
                                 """.bindMargin()
                             )
@@ -140,10 +142,17 @@ internal object ServiceAnnotator {
                     .qualifiedName
             } ?: "com.toasttab.protokt.grpc.KtMarshaller(${outputType.renderName(ctx.desc.kotlinPackage)})"
 
-    private fun serviceLines(s: Service) =
-        s.methods.joinToString("\n") {
-            "      .addMethod(_${it.name.decapitalize()}Method)"
-        } + "\n        .build()"
+    private fun serviceLines(s: Service, ctx: Context): CodeBlock {
+        return CodeBlock.of(
+            s.methods.joinToString("\n") {
+                "      .addMethod(_${it.name.decapitalize()}Method)"
+            } + "\n        .setSchemaDescriptor(%T(className = %S, fileDescriptorClassName = %S))" +
+                "\n        .build()",
+            SchemaDescriptor::class,
+            "${ctx.desc.kotlinPackage}.${s.name}",
+            "${ctx.desc.kotlinPackage}.${ctx.desc.context.fileDescriptorObjectName}"
+        )
+    }
 
     private fun renderQualifiedName(s: Service, ctx: Context) =
         if (ctx.desc.kotlinPackage.default) {

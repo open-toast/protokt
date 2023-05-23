@@ -91,7 +91,9 @@ class EnumDescriptor(
     val proto: EnumDescriptorProto,
     val file: FileDescriptor,
     val index: Int
-)
+) {
+    val fullName = computeFullName(file, null, proto.name.orEmpty())
+}
 
 class ServiceDescriptor(
     val proto: ServiceDescriptorProto,

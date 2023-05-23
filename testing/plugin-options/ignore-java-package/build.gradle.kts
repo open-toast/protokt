@@ -36,7 +36,7 @@ protokt {
 }
 
 dependencies {
-    implementation(project(":protokt-runtime-grpc"))
+    implementation(project(":protokt-runtime-grpc-lite"))
     implementation(libraries.grpcStub)
     implementation(libraries.protobufJava)
 }
