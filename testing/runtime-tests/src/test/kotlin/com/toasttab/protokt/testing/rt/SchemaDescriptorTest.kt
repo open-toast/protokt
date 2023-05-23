@@ -26,6 +26,6 @@ class SchemaDescriptorTest {
     fun `schemadescriptor has correct file descriptor`() {
         val schemaDescriptor = TestServiceGrpc.getServiceDescriptor().schemaDescriptor as SchemaDescriptor
         assertThat(schemaDescriptor.fileDescriptor.proto)
-            .isEqualTo(toasttab.protokt.testing.rt.ServicePackage.descriptor.proto)
+            .isEqualTo(toasttab.protokt.testing.rt.service_package_file_descriptor.descriptor.proto)
     }
 }
