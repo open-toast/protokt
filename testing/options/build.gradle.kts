@@ -32,6 +32,7 @@ dependencies {
     protoktExtensions(project(":third-party:proto-google-common-protos-extensions"))
 
     implementation(libs.grpcStub)
+    implementation(project(":protokt-runtime-grpc-lite"))
 
     testImplementation(kotlin("reflect"))
     testImplementation(project(":testing:protokt-generation"))

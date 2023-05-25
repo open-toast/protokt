@@ -32,7 +32,7 @@ protokt {
 dependencies {
     protobufExcludingProtobufJava(libs.protoGoogleCommonProtos)
 
-    api(project(":protokt-runtime-grpc"))
+    api(project(":protokt-runtime-grpc-lite"))
     api(project(":third-party:proto-google-common-protos"))
     api(libs.grpcStub)
 }

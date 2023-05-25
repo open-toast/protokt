@@ -156,6 +156,9 @@ public abstract interface class com/toasttab/protokt/rt/KtEnumDeserializer {
 	public abstract fun from (I)Lcom/toasttab/protokt/rt/KtEnum;
 }
 
+public abstract interface annotation class com/toasttab/protokt/rt/KtGeneratedFileDescriptor : java/lang/annotation/Annotation {
+}
+
 public abstract interface annotation class com/toasttab/protokt/rt/KtGeneratedMessage : java/lang/annotation/Annotation {
 	public abstract fun fullTypeName ()Ljava/lang/String;
 }
@@ -551,6 +554,9 @@ public abstract class com/toasttab/protokt/v1/KtEnum {
 
 public abstract interface class com/toasttab/protokt/v1/KtEnumDeserializer {
 	public abstract fun from (I)Lcom/toasttab/protokt/v1/KtEnum;
+}
+
+public abstract interface annotation class com/toasttab/protokt/v1/KtGeneratedFileDescriptor : java/lang/annotation/Annotation {
 }
 
 public abstract interface annotation class com/toasttab/protokt/v1/KtGeneratedMessage : java/lang/annotation/Annotation {

@@ -307,6 +307,7 @@ public final class com/toasttab/protokt/v1/Empty_protokt_descriptorsKt {
 public final class com/toasttab/protokt/v1/EnumDescriptor {
 	public fun <init> (Lcom/toasttab/protokt/v1/EnumDescriptorProto;Lcom/toasttab/protokt/v1/FileDescriptor;I)V
 	public final fun getFile ()Lcom/toasttab/protokt/v1/FileDescriptor;
+	public final fun getFullName ()Ljava/lang/String;
 	public final fun getIndex ()I
 	public final fun getProto ()Lcom/toasttab/protokt/v1/EnumDescriptorProto;
 }

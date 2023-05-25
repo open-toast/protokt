@@ -18,7 +18,8 @@ package com.toasttab.protokt.v1.grpc
 import com.toasttab.protokt.v1.unmodifiableList
 import kotlin.js.json
 
-class StatusException(status: Status) : Exception()
+// TODO: use this to send error
+class StatusException(@Suppress("UNUSED_PARAMETER") status: Status) : Exception()
 
 class Status private constructor(
     val code: Code,

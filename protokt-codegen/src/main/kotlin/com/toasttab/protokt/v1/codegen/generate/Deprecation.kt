@@ -112,9 +112,8 @@ object Deprecation {
         }
     }
 
-    fun TypeSpec.Builder.addDeprecationSuppression() {
+    fun TypeSpec.Builder.addDeprecationSuppression() =
         addAnnotation(deprecationSuppression())
-    }
 
     fun FunSpec.Builder.addDeprecationSuppression() {
         addAnnotation(deprecationSuppression())

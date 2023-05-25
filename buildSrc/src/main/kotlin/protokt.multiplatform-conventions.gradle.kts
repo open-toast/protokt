@@ -39,6 +39,14 @@ kotlin {
     }
 
     targets {
+        all {
+            compilations.all {
+                kotlinOptions {
+                    allWarningsAsErrors = true
+                }
+            }
+        }
+
         jvm().compilations.all {
             kotlinOptions {
                 freeCompilerArgs = listOf("-Xjvm-default=all")

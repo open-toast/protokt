@@ -26,6 +26,8 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.joinToCode
 import com.squareup.kotlinpoet.withIndent
+import com.toasttab.protokt.v1.KtGeneratedFileDescriptor
+import com.toasttab.protokt.v1.codegen.generate.Deprecation.addDeprecationSuppression
 import com.toasttab.protokt.v1.codegen.util.Enum
 import com.toasttab.protokt.v1.codegen.util.Message
 import com.toasttab.protokt.v1.codegen.util.ProtoFileContents
@@ -52,6 +54,9 @@ private constructor(
 
         val type =
             TypeSpec.objectBuilder(ctx.fileDescriptorObjectName)
+                .addDeprecationSuppression()
+                .addAnnotation(KtGeneratedFileDescriptor::class)
+                .addAnnotation(@Suppress("DEPRECATION") com.toasttab.protokt.rt.KtGeneratedFileDescriptor::class)
                 .addProperty(
                     PropertySpec.builder("descriptor", ClassName(comToasttabProtoktV1, "FileDescriptor"))
                         .delegate(

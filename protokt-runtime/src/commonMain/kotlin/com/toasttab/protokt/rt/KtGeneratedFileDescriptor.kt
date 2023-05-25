@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Toast, Inc.
+ * Copyright (c) 2023 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,30 +13,7 @@
  * limitations under the License.
  */
 
-import com.google.protobuf.gradle.proto
-import com.toasttab.protokt.v1.gradle.protokt
+package com.toasttab.protokt.rt
 
-plugins {
-    id("protokt.jvm-conventions")
-}
-
-localProtokt()
-pureKotlin()
-
-sourceSets {
-    main {
-        proto {
-            srcDir("${project.rootDir}/testing/interop/src/main/proto")
-        }
-    }
-}
-
-protokt {
-    respectJavaPackage = false
-}
-
-dependencies {
-    implementation(project(":protokt-runtime-grpc-lite"))
-    implementation(libs.grpcStub)
-    implementation(libs.protobufJava)
-}
+@Deprecated("for backwards compatibility only")
+annotation class KtGeneratedFileDescriptor

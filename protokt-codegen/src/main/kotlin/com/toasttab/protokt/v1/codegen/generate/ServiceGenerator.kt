@@ -32,6 +32,7 @@ import com.toasttab.protokt.v1.codegen.util.Method
 import com.toasttab.protokt.v1.codegen.util.Service
 import com.toasttab.protokt.v1.codegen.util.comToasttabProtoktV1
 import com.toasttab.protokt.v1.grpc.KtMarshaller
+import com.toasttab.protokt.v1.grpc.SchemaDescriptor
 import io.grpc.MethodDescriptor
 import io.grpc.MethodDescriptor.MethodType
 import io.grpc.ServiceDescriptor
@@ -46,13 +47,13 @@ private class ServiceGenerator(
     private val generateService: Boolean,
     private val kotlinPlugin: KotlinPlugin?
 ) {
-    private val serviceDescriptor = pivotClassName(ServiceDescriptor::class)
-    private val methodDescriptor = pivotClassName(MethodDescriptor::class)
-    private val methodType = pivotClassName(MethodType::class)
-
     fun generate(): List<TypeSpec> {
         val service =
             if (generateService && supportedPlugin()) {
+                val serviceDescriptor = pivotClassName(ServiceDescriptor::class)
+                val methodDescriptor = pivotClassName(MethodDescriptor::class)
+                val methodType = pivotClassName(MethodType::class)
+
                 TypeSpec.objectBuilder(s.name + "Grpc")
                     .addProperty(
                         PropertySpec.builder("SERVICE_NAME", String::class)
@@ -70,7 +71,7 @@ private class ServiceGenerator(
                                         "%M(SERVICE_NAME)\n",
                                         MemberName(staticOrCompanionMethod(serviceDescriptor), "newBuilder")
                                     )
-                                    withIndent { serviceLines().forEach(::add) }
+                                    withIndent { serviceLines(ctx).filterNotNull().forEach(::add) }
                                     endControlFlowWithoutNewline()
                                 }
                             )
@@ -184,10 +185,21 @@ private class ServiceGenerator(
             }
         }
 
-    private fun serviceLines() =
+    private fun serviceLines(ctx: Context) =
         s.methods.map {
             CodeBlock.of(".addMethod(_${it.name.decapitalize()}Method)\n")
-        } + CodeBlock.of(".build()\n")
+        } +
+            if (pivotPlugin(jvm = true, js = false)) {
+                CodeBlock.of(
+                    ".setSchemaDescriptor(%T(className = %S, fileDescriptorClassName = %S))\n",
+                    SchemaDescriptor::class,
+                    "${ctx.info.kotlinPackage}.${s.name}",
+                    "${ctx.info.kotlinPackage}.${ctx.info.context.fileDescriptorObjectName}"
+                )
+            } else {
+                null
+            } +
+            CodeBlock.of(".build()\n")
 
     private fun renderQualifiedName() =
         if (ctx.info.protoPackage == "") {

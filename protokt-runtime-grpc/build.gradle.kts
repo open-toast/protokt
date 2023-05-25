@@ -25,7 +25,8 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(project(":protokt-runtime"))
+                api(project(":protokt-runtime-grpc-lite"))
+                api(project(":protokt-core"))
             }
         }
 
