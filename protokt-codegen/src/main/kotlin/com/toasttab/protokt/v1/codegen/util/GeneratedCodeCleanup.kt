@@ -33,6 +33,9 @@ private fun stripApiMode(code: String) =
     code
         // https://stackoverflow.com/a/64970734
         .replace("public class ", "class ")
+        .replace("public abstract ", "abstract ")
+        .replace("public open ", "open ")
+        .replace("public final ", "final ")
         .replace("public val ", "val ")
         .replace("public var ", "var ")
         .replace("public fun ", "fun ")

@@ -251,14 +251,14 @@ private class ServiceGenerator(
 
                     val builder: KFunction1<String, ServerServiceDefinition.Builder> = ServerServiceDefinition::builder
                     addCode(
-                        "return %M(%M())",
+                        "return %M(%M())\n",
                         MemberName(pivotClassName(ServerServiceDefinition::class).nestedClass("Companion"), builder.name),
                         grpcServiceObjectClassName.member(getServiceDescriptorFunction.name)
                     )
 
                     s.methods.forEachIndexed { idx, method ->
                         addCode(
-                            ".%L(%M(this.context, %L(), ::%L))\n",
+                            ".%L(%M(this.context, %M(), ::%L))\n",
                             ServiceDescriptor.Builder::addMethod.name,
                             MemberName(pivotClassName(ServerCalls::class), methodDefinitionForMethod(method)),
                             grpcServiceObjectClassName.member(getMethodFunctions[idx].name),
