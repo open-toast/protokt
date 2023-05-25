@@ -18,7 +18,6 @@ package com.toasttab.protokt.v1.codegen.generate
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.LambdaTypeName
 import com.squareup.kotlinpoet.asTypeName
-import com.toasttab.protokt.v1.codegen.generate.Deprecation.addDeprecationSuppression
 import com.toasttab.protokt.v1.codegen.generate.Deprecation.handleDeprecation
 import com.toasttab.protokt.v1.codegen.util.Message
 
@@ -36,11 +35,6 @@ fun addConstructorFunction(msg: Message, addFunction: (FunSpec) -> Unit) {
             )
             .addStatement("return %T().apply(dsl).build()", msg.dslClassName)
             .handleDeprecation(msg)
-            .apply {
-                if (msg.options.default.deprecated) {
-                    addDeprecationSuppression()
-                }
-            }
             .build()
     )
 }

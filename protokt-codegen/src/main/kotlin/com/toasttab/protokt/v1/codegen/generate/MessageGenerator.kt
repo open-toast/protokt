@@ -29,7 +29,6 @@ import com.toasttab.protokt.v1.KtGeneratedMessage
 import com.toasttab.protokt.v1.UnknownFieldSet
 import com.toasttab.protokt.v1.codegen.generate.CodeGenerator.Context
 import com.toasttab.protokt.v1.codegen.generate.CodeGenerator.generate
-import com.toasttab.protokt.v1.codegen.generate.Deprecation.addDeprecationSuppression
 import com.toasttab.protokt.v1.codegen.generate.Deprecation.enclosingDeprecation
 import com.toasttab.protokt.v1.codegen.generate.Deprecation.handleDeprecation
 import com.toasttab.protokt.v1.codegen.generate.Deprecation.hasDeprecation
@@ -84,7 +83,6 @@ private class MessageGenerator(
     }
 
     private fun TypeSpec.Builder.handleDeprecatedKtGeneratedMessage() {
-        addDeprecationSuppression()
         addAnnotation(
             @Suppress("DEPRECATION")
             AnnotationSpec.builder(com.toasttab.protokt.rt.KtGeneratedMessage::class)

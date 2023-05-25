@@ -33,12 +33,12 @@ object ServerCalls {
         context: CoroutineContext,
         descriptor: MethodDescriptor<ReqT, RespT>,
         implementation: suspend (request: ReqT) -> RespT
-    ): (call: ServerUnaryCall<ReqT, RespT>, callback: (error: Any?, value: RespT?, trailer: Metadata?, flags: Int?) -> Unit) -> Unit {
+    ): ServerMethodDefinition<ReqT, RespT> {
         require(descriptor.type == UNARY) {
             "Expected a unary method descriptor but got $descriptor"
         }
 
-        return { call, callback ->
+        val handler = { call: ServerUnaryCall<ReqT, RespT>, callback: (error: Any?, value: RespT?, trailer: Metadata?, flags: Int?) -> Unit ->
             CoroutineScope(context).launch {
                 try {
                     callback(null, implementation(call.request), null, null)
@@ -47,6 +47,8 @@ object ServerCalls {
                 }
             }
         }
+
+        return ServerMethodDefinition(descriptor, handler)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -54,12 +56,12 @@ object ServerCalls {
         context: CoroutineContext,
         descriptor: MethodDescriptor<ReqT, RespT>,
         implementation: suspend (requests: Flow<ReqT>) -> RespT
-    ): (call: ServerReadableStream<ReqT, RespT>, callback: (error: Any?, value: RespT?, trailer: Metadata?, flags: Int?) -> Unit) -> Unit {
+    ): ServerMethodDefinition<ReqT, RespT> {
         require(descriptor.type == CLIENT_STREAMING) {
             "Expected a client streaming method descriptor but got $descriptor"
         }
 
-        return { call, callback ->
+        val handler = { call: ServerReadableStream<ReqT, RespT>, callback: (error: Any?, value: RespT?, trailer: Metadata?, flags: Int?) -> Unit ->
             val scope = CoroutineScope(context)
             val requests = callbackFlow<ReqT> {
                 call.on("data") {
@@ -78,22 +80,24 @@ object ServerCalls {
                 }
             }
         }
+        return ServerMethodDefinition(descriptor, handler)
     }
 
     fun <ReqT, RespT> serverStreamingServerMethodDefinition(
         context: CoroutineContext,
         descriptor: MethodDescriptor<ReqT, RespT>,
         implementation: (request: ReqT) -> Flow<RespT>
-    ): (call: ServerWritableStream<ReqT, RespT>) -> Unit {
+    ): ServerMethodDefinition<ReqT, RespT> {
         require(descriptor.type == SERVER_STREAMING) {
             "Expected a server streaming method descriptor but got $descriptor"
         }
-        return { call ->
+        val handler = { call: ServerWritableStream<ReqT, RespT> ->
             CoroutineScope(context).launch {
                 implementation(call.request).collect { call.write(it, null) }
                 call.end()
             }
         }
+        return ServerMethodDefinition(descriptor, handler)
     }
 
     // todo: use Http2ServerCallStream and propagate errors properly
@@ -102,11 +106,11 @@ object ServerCalls {
         context: CoroutineContext,
         descriptor: MethodDescriptor<ReqT, RespT>,
         implementation: (requests: Flow<ReqT>) -> Flow<RespT>
-    ): (call: ServerDuplexStream<ReqT, RespT>) -> Unit {
+    ): ServerMethodDefinition<ReqT, RespT> {
         require(descriptor.type == BIDI_STREAMING) {
             "Expected a bidi streaming method descriptor but got $descriptor"
         }
-        return { call ->
+        val handler = { call: ServerDuplexStream<ReqT, RespT> ->
             val scope = CoroutineScope(context)
             val requests = callbackFlow<ReqT> {
                 call.on("data") {
@@ -126,5 +130,6 @@ object ServerCalls {
                 }
             }
         }
+        return ServerMethodDefinition(descriptor, handler)
     }
 }

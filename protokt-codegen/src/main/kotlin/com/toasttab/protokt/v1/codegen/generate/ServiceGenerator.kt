@@ -20,6 +20,8 @@ import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.MemberName
+import com.squareup.kotlinpoet.MemberName.Companion.member
+import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
@@ -46,6 +48,7 @@ import io.grpc.kotlin.AbstractCoroutineServerImpl
 import io.grpc.kotlin.ServerCalls
 import kotlinx.coroutines.flow.Flow
 import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction1
 import kotlin.reflect.KFunction3
@@ -78,8 +81,9 @@ private class ServiceGenerator(
                     staticIfAppropriate()
                 }
 
+            val grpcServiceObjectClassName = ClassName(ctx.info.kotlinPackage, s.name + "Grpc")
             val grpcServiceObject =
-                TypeSpec.objectBuilder(s.name + "Grpc")
+                TypeSpec.objectBuilder(grpcServiceObjectClassName)
                     .addProperty(
                         PropertySpec.builder("SERVICE_NAME", String::class)
                             .addModifiers(KModifier.CONST)
@@ -93,7 +97,11 @@ private class ServiceGenerator(
                     .build()
 
             val coroutineServerBase =
-                coroutineServerBase(getServiceDescriptorFunction, getMethodFunctions)
+                coroutineServerBase(
+                    grpcServiceObjectClassName,
+                    getServiceDescriptorFunction,
+                    getMethodFunctions
+                )
 
             listOfNotNull(grpcServiceObject, coroutineServerBase)
         } else {
@@ -163,23 +171,33 @@ private class ServiceGenerator(
         }
 
     private fun coroutineServerBase(
-        serviceDescriptor: FunSpec,
+        grpcServiceObjectClassName: ClassName,
+        getServerDescriptorFunction: FunSpec,
         getMethodFunctions: List<FunSpec>
     ): TypeSpec? =
         if (kotlinPlugin == KotlinPlugin.JS) {
             val implementations = implementations()
-
-            TypeSpec.classBuilder(s.name + "CoroutineImplBase")
+            val coroutineServerClassName = ClassName(ctx.info.kotlinPackage, s.name + "CoroutineImplBase")
+            TypeSpec.classBuilder(coroutineServerClassName)
                 .addModifiers(KModifier.ABSTRACT)
                 .primaryConstructor(
                     FunSpec.constructorBuilder()
-                        .addParameter("coroutineContext", CoroutineContext::class)
+                        .addParameter(
+                            ParameterSpec.builder("coroutineContext", CoroutineContext::class)
+                                .defaultValue("%L", EmptyCoroutineContext::class.asClassName())
+                                .build()
+                        )
                         .build()
                 )
-                .addSuperclassConstructorParameter(CodeBlock.of("coroutineContext"))
+                .addSuperclassConstructorParameter("coroutineContext")
                 .superclass(pivotClassName(AbstractCoroutineServerImpl::class))
                 .addFunctions(implementations)
-                .addBindService(serviceDescriptor, getMethodFunctions, implementations)
+                .addBindService(
+                    grpcServiceObjectClassName,
+                    getServerDescriptorFunction,
+                    getMethodFunctions,
+                    implementations
+                )
                 .build()
         } else {
             null
@@ -188,6 +206,12 @@ private class ServiceGenerator(
     private fun implementations() =
         s.methods.map { method ->
             buildFunSpec(method.name.replaceFirstChar { it.lowercase() }) {
+                addModifiers(KModifier.OPEN)
+                when (methodType(method)) {
+                    MethodType.CLIENT_STREAMING, MethodType.UNARY ->
+                        addModifiers(KModifier.SUSPEND)
+                    else -> Unit
+                }
                 when (methodType(method)) {
                     MethodType.UNARY, MethodType.SERVER_STREAMING ->
                         addParameter("request", method.inputType)
@@ -203,19 +227,18 @@ private class ServiceGenerator(
                     MethodType.UNKNOWN -> error("unsupported method type")
                 }
                 addCode(
-                    CodeBlock.of(
-                        "throw %L(%L.%L(\"Method·%L.%L·is·unimplemented\"))",
-                        pivotClassName(StatusException::class),
-                        MemberName(pivotClassName(Status::class), Status::UNIMPLEMENTED.name),
-                        Status.UNIMPLEMENTED::withDescription.name,
-                        renderQualifiedName(),
-                        method.name
-                    )
+                    "throw %L(%L.%L(\"Method·%L.%L·is·unimplemented\"))",
+                    pivotClassName(StatusException::class),
+                    MemberName(pivotClassName(Status::class), Status::UNIMPLEMENTED.name),
+                    Status.UNIMPLEMENTED::withDescription.name,
+                    renderQualifiedName(),
+                    method.name
                 )
             }
         }
 
     private fun TypeSpec.Builder.addBindService(
+        grpcServiceObjectClassName: ClassName,
         getServiceDescriptorFunction: FunSpec,
         getMethodFunctions: List<FunSpec>,
         implementations: List<FunSpec>
@@ -228,24 +251,21 @@ private class ServiceGenerator(
 
                     val builder: KFunction1<String, ServerServiceDefinition.Builder> = ServerServiceDefinition::builder
                     addCode(
-                        CodeBlock.of(
-                            "%M(%M())",
-                            MemberName(pivotClassName(ServerServiceDefinition::class), builder.name),
-                            getServiceDescriptorFunction // todo
-                        )
+                        "return %M(%M())",
+                        MemberName(pivotClassName(ServerServiceDefinition::class).nestedClass("Companion"), builder.name),
+                        grpcServiceObjectClassName.member(getServiceDescriptorFunction.name)
                     )
 
                     s.methods.forEachIndexed { idx, method ->
                         addCode(
-                            CodeBlock.of(
-                                ".%L(%M(this.context, %N, ::%N))",
-                                ServiceDescriptor.Builder::addMethod.name,
-                                MemberName(pivotClassName(ServerCalls::class), methodDefinitionForMethod(method)),
-                                getMethodFunctions[idx], // todo
-                                implementations[idx]
-                            )
+                            ".%L(%M(this.context, %L(), ::%L))\n",
+                            ServiceDescriptor.Builder::addMethod.name,
+                            MemberName(pivotClassName(ServerCalls::class), methodDefinitionForMethod(method)),
+                            grpcServiceObjectClassName.member(getMethodFunctions[idx].name),
+                            implementations[idx].name
                         )
                     }
+                    addCode(".build()")
                 }
             )
         }

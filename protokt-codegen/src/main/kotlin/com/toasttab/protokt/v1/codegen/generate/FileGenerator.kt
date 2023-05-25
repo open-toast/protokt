@@ -16,6 +16,7 @@
 package com.toasttab.protokt.v1.codegen.generate
 
 import com.squareup.kotlinpoet.FileSpec
+import com.toasttab.protokt.v1.codegen.generate.Deprecation.addDeprecationSuppression
 import com.toasttab.protokt.v1.codegen.util.Message
 import com.toasttab.protokt.v1.codegen.util.ProtoFileContents
 
@@ -33,6 +34,7 @@ private class FileGenerator(
                 contents.info.kotlinPackage,
                 fileName(contents)
             ).apply {
+                addDeprecationSuppression()
                 // https://github.com/square/kotlinpoet/pull/533
                 addFileComment(
                     """

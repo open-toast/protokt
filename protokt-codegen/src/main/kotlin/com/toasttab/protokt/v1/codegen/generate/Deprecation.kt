@@ -16,6 +16,7 @@
 package com.toasttab.protokt.v1.codegen.generate
 
 import com.squareup.kotlinpoet.AnnotationSpec
+import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
@@ -106,16 +107,7 @@ object Deprecation {
             }
         }
 
-    fun TypeSpec.Builder.handleDeprecationSuppression(hasDeprecation: Boolean, ctx: Context) {
-        if (hasDeprecation && !enclosingDeprecation(ctx)) {
-            addDeprecationSuppression()
-        }
-    }
-
-    fun TypeSpec.Builder.addDeprecationSuppression() =
-        addAnnotation(deprecationSuppression())
-
-    fun FunSpec.Builder.addDeprecationSuppression() {
+    fun FileSpec.Builder.addDeprecationSuppression() {
         addAnnotation(deprecationSuppression())
     }
 

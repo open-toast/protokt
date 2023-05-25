@@ -27,8 +27,6 @@ import com.toasttab.protokt.v1.KtEnum
 import com.toasttab.protokt.v1.KtEnumDeserializer
 import com.toasttab.protokt.v1.codegen.generate.CodeGenerator.Context
 import com.toasttab.protokt.v1.codegen.generate.Deprecation.handleDeprecation
-import com.toasttab.protokt.v1.codegen.generate.Deprecation.handleDeprecationSuppression
-import com.toasttab.protokt.v1.codegen.generate.Deprecation.hasDeprecation
 import com.toasttab.protokt.v1.codegen.util.Enum
 
 fun generateEnum(e: Enum, ctx: Context) =
@@ -46,7 +44,6 @@ private class EnumGenerator(
             superclass(KtEnum::class)
             addKDoc()
             handleDeprecation(e.options.default.deprecated, e.options.protokt.deprecationMessage)
-            handleDeprecationSuppression(e.hasDeprecation, ctx)
             addConstructor()
             addEnumValues()
             addDeserializer()

@@ -15,29 +15,24 @@
 
 package com.toasttab.protokt.testing.node
 
-import com.toasttab.protokt.v1.grpc.BindableService
 import com.toasttab.protokt.v1.grpc.Server
-import com.toasttab.protokt.v1.grpc.ServerCalls
 import com.toasttab.protokt.v1.grpc.ServerCredentials
-import com.toasttab.protokt.v1.grpc.ServerServiceDefinition
-import com.toasttab.protokt.v1.grpc.Status
-import com.toasttab.protokt.v1.grpc.StatusException
 import com.toasttab.protokt.v1.grpc.addService
 import io.grpc.examples.routeguide.Feature
 import io.grpc.examples.routeguide.Point
 import io.grpc.examples.routeguide.Rectangle
+import io.grpc.examples.routeguide.RouteGuideCoroutineImplBase
 import io.grpc.examples.routeguide.RouteGuideGrpc
 import io.grpc.examples.routeguide.RouteNote
 import io.grpc.examples.routeguide.RouteSummary
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.EmptyCoroutineContext
 
 object RouteGuideServer {
     fun main() {
-        val routeGuideServiceImpl = object : RouteGuideServiceCoroutineImplBase() {
+        val routeGuideServiceImpl = object : RouteGuideCoroutineImplBase() {
             override suspend fun getFeature(request: Point): Feature {
                 println("received request: $request")
                 return Feature {
@@ -88,56 +83,4 @@ object RouteGuideServer {
             ServerCredentials.createInsecure()
         ) { _, _ -> routeServer.start() }
     }
-}
-
-open class RouteGuideServiceCoroutineImplBase(
-    open val coroutineContext: CoroutineContext = EmptyCoroutineContext
-) : BindableService {
-    final override fun bindService() =
-        ServerServiceDefinition.builder(RouteGuideGrpc.getServiceDescriptor())
-            .addMethod(
-                RouteGuideGrpc.getGetFeatureMethod(),
-                ServerCalls.unaryServerMethodDefinition(
-                    coroutineContext,
-                    RouteGuideGrpc.getGetFeatureMethod(),
-                    ::getFeature
-                )
-            )
-            .addMethod(
-                RouteGuideGrpc.getListFeaturesMethod(),
-                ServerCalls.serverStreamingServerMethodDefinition(
-                    coroutineContext,
-                    RouteGuideGrpc.getListFeaturesMethod(),
-                    ::listFeatures,
-                )
-            )
-            .addMethod(
-                RouteGuideGrpc.getRecordRouteMethod(),
-                ServerCalls.clientStreamingServerMethodDefinition(
-                    coroutineContext,
-                    RouteGuideGrpc.getRecordRouteMethod(),
-                    ::recordRoute
-                )
-            )
-            .addMethod(
-                RouteGuideGrpc.getRouteChatMethod(),
-                ServerCalls.bidiStreamingServerMethodDefinition(
-                    coroutineContext,
-                    RouteGuideGrpc.getRouteChatMethod(),
-                    ::routeChat
-                )
-            )
-            .build()
-
-    open suspend fun getFeature(request: Point): Feature =
-        throw StatusException(Status.UNIMPLEMENTED.withDescription("Method io.grpc.examples.routeguide.RouteGuide.GetFeature is unimplemented"))
-
-    open fun listFeatures(request: Rectangle): Flow<Feature> =
-        throw StatusException(Status.UNIMPLEMENTED.withDescription("Method io.grpc.examples.routeguide.RouteGuide.ListFeatures is unimplemented"))
-
-    open suspend fun recordRoute(requests: Flow<Point>): RouteSummary =
-        throw StatusException(Status.UNIMPLEMENTED.withDescription("Method io.grpc.examples.routeguide.RouteGuide.RecordRoute is unimplemented"))
-
-    open fun routeChat(requests: Flow<RouteNote>): Flow<RouteNote> =
-        throw StatusException(Status.UNIMPLEMENTED.withDescription("Method io.grpc.examples.routeguide.RouteGuide.RouteChat is unimplemented"))
 }

@@ -303,19 +303,18 @@ class ServerServiceDefinition internal constructor(
     ) {
         private val methods = mutableMapOf<String, ServerMethodDefinition<*, *>>()
 
-        fun addMethod(
-            method: MethodDescriptor<*, *>,
-            handler: dynamic
-        ) = apply {
-            require(serviceName == method.serviceName) {
-                "Method name should be prefixed with service name and separated with '/'. " +
-                    "Expected service name: '$serviceName'. Actual fully qualified method name: '${method.fullMethodName}'."
+        fun addMethod(def: ServerMethodDefinition<*, *>) =
+            apply {
+                require(serviceName == def.methodDescriptor.serviceName) {
+                    "Method name should be prefixed with service name and separated with '/'. " +
+                        "Expected service name: '$serviceName'. Actual fully qualified method name: " +
+                        "'${def.methodDescriptor.fullMethodName}'."
+                }
+                check(def.methodDescriptor.fullMethodName !in methods) {
+                    "Method by same name already registered: ${def.methodDescriptor.fullMethodName}"
+                }
+                methods[def.methodDescriptor.fullMethodName] = def
             }
-            check(method.fullMethodName !in methods) {
-                "Method by same name already registered: ${method.fullMethodName}"
-            }
-            methods[method.fullMethodName] = ServerMethodDefinition(method, handler)
-        }
 
         fun build(): ServerServiceDefinition {
             val serviceDescriptor =
@@ -349,9 +348,9 @@ class ServerServiceDefinition internal constructor(
     }
 }
 
-internal class ServerMethodDefinition<ReqT, RespT>(
-    val methodDescriptor: MethodDescriptor<ReqT, RespT>,
-    val handler: dynamic
+class ServerMethodDefinition<ReqT, RespT>(
+    internal val methodDescriptor: MethodDescriptor<ReqT, RespT>,
+    internal val handler: dynamic
 )
 
 /**
