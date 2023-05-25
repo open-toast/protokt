@@ -168,12 +168,7 @@ private class MapEntryGenerator(
         buildCodeBlock {
             add("0 -> return %T(key, value", msg.className)
             if (f.type == FieldType.Message) {
-                add(
-                    CodeBlock.of(
-                        " ?: %T().build()",
-                        value.className.nestedClass("${value.className.simpleName}Dsl")
-                    )
-                )
+                add(" ?: %T{}", value.className)
             }
             add(")")
         }
