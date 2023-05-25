@@ -38,6 +38,7 @@ dependencies {
 
     implementation(kotlin("reflect"))
 
+    implementation(libs.grpcKotlinStub)
     implementation(libs.grpcStub)
     implementation(libs.kotlinPoet)
     implementation(libs.kotlinxCoroutinesCore)

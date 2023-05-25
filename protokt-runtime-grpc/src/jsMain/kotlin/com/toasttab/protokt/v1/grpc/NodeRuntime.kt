@@ -21,4 +21,5 @@ internal external class Buffer {
     }
 }
 
+@Deprecated("shut up ktlint", level = DeprecationLevel.HIDDEN)
 internal fun shutUpKtLint() {}

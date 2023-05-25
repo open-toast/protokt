@@ -16,6 +16,8 @@
 package com.toasttab.protokt.v1.grpc
 
 import com.toasttab.protokt.v1.unmodifiableList
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.js.json
 
 // TODO: use this to send error
@@ -351,3 +353,21 @@ internal class ServerMethodDefinition<ReqT, RespT>(
     val methodDescriptor: MethodDescriptor<ReqT, RespT>,
     val handler: dynamic
 )
+
+/**
+ * Skeleton implementation of a coroutine-based gRPC server implementation.  Intended to be
+ * subclassed by generated code.
+ */
+abstract class AbstractCoroutineServerImpl(
+    /** The context in which to run server coroutines. */
+    open val context: CoroutineContext = EmptyCoroutineContext
+) : BindableService {
+    /*
+     * Each RPC is executed in its own coroutine scope built from [context].  We could have a parent
+     * scope, but it doesn't really add anything: we don't want users to be able to launch tasks
+     * in that scope easily, since almost all coroutines should be scoped to the RPC and cancelled
+     * if the RPC is cancelled.  Users who don't want that behavior should manage their own scope for
+     * it.  Additionally, gRPC server objects don't have their own notion of shutdown: shutting down
+     * a server means cancelling the RPCs, not calling a teardown on the server object.
+     */
+}

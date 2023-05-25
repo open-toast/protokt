@@ -30,7 +30,6 @@ import io.grpc.examples.routeguide.RouteGuideGrpc
 import io.grpc.examples.routeguide.RouteNote
 import io.grpc.examples.routeguide.RouteSummary
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlin.coroutines.CoroutineContext
