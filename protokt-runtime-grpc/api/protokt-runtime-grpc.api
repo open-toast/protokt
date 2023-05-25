@@ -1,0 +1,8 @@
+public final class com/toasttab/protokt/grpc/SchemaDescriptorExtensionsKt {
+	public static final fun getFileDescriptor (Lcom/toasttab/protokt/grpc/SchemaDescriptor;)Lcom/toasttab/protokt/FileDescriptor;
+}
+
+public final class com/toasttab/protokt/v1/grpc/SchemaDescriptorExtensionsKt {
+	public static final fun getFileDescriptor (Lcom/toasttab/protokt/v1/grpc/SchemaDescriptor;)Lcom/toasttab/protokt/v1/FileDescriptor;
+}
+

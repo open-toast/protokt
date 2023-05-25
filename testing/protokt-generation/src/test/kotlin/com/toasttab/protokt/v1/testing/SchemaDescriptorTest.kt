@@ -16,8 +16,8 @@
 package com.toasttab.protokt.v1.testing
 
 import com.google.common.truth.Truth.assertThat
-import com.toasttab.protokt.v1.FileDescriptor
 import com.toasttab.protokt.v1.grpc.SchemaDescriptor
+import com.toasttab.protokt.v1.grpc.fileDescriptor
 import org.junit.jupiter.api.Test
 import toasttab.protokt.v1.testing.TestServiceGrpc
 
@@ -29,7 +29,3 @@ class SchemaDescriptorTest {
             .isEqualTo(toasttab.protokt.v1.testing.service_package_file_descriptor.descriptor.proto)
     }
 }
-
-@Suppress("DEPRECATION")
-private val SchemaDescriptor.fileDescriptor: FileDescriptor
-    get() = fileDescriptorUntyped as FileDescriptor
