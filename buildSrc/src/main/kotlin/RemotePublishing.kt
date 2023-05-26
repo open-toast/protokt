@@ -179,7 +179,7 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
     }
 }
 
-fun promoteStagingRepo() {
+fun Project.promoteStagingRepo() {
     if (isRelease()) {
         apply(plugin = "io.codearte.nexus-staging")
 
