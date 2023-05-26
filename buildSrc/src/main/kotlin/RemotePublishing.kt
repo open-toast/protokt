@@ -191,7 +191,7 @@ fun Project.promoteStagingRepo() {
         }
 
         tasks.named("closeRepository") {
-            dependsOn(tasks.named("publishToRemote"))
+            dependsOn(tasks.withType<PublishToMavenRepository>())
         }
     } else {
         tasks.register("closeAndReleaseRepository")
