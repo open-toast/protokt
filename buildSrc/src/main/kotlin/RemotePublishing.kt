@@ -159,6 +159,7 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
                 it.repository == publishingExtension.repositories.getByName("integration")
             }
         )
+        dependsOn(tasks.withType<Jar>())
     }
 
     tasks.register("publishToRemote") {
@@ -173,6 +174,7 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
                     it.repository == publishingExtension.repositories.getByName("remote")
                 }
             )
+            dependsOn(tasks.withType<Jar>())
         }
     }
 }
@@ -186,6 +188,10 @@ fun Project.promoteStagingRepo() {
             password = Remote.password
             packageGroup = "com.toasttab"
             numberOfRetries = 50
+        }
+
+        tasks.named("closeRepository") {
+            dependsOn(tasks.named("publishToRemote"))
         }
     } else {
         tasks.register("closeAndReleaseRepository")
