@@ -159,6 +159,7 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
                 it.repository == publishingExtension.repositories.getByName("integration")
             }
         )
+        dependsOn(tasks.withType<Jar>())
     }
 
     tasks.register("publishToRemote") {
@@ -173,11 +174,12 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
                     it.repository == publishingExtension.repositories.getByName("remote")
                 }
             )
+            dependsOn(tasks.withType<Jar>())
         }
     }
 }
 
-fun Project.promoteStagingRepo() {
+fun promoteStagingRepo() {
     if (isRelease()) {
         apply(plugin = "io.codearte.nexus-staging")
 
