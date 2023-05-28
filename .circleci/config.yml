@@ -153,7 +153,10 @@ jobs:
       - read_cache
       - run:
           name: Publish release
-          command: "./gradlew publish closeAndReleaseRepository publishPlugins -Dorg.gradle.internal.http.socketTimeout=120000 -Dorg.gradle.internal.network.retry.max.attempts=1 -Dorg.gradle.internal.publish.checksums.insecure=true -PisMainHost=true"
+          command: "./gradlew publish publishPlugins -Dorg.gradle.internal.http.socketTimeout=120000 -Dorg.gradle.internal.network.retry.max.attempts=1 -Dorg.gradle.internal.publish.checksums.insecure=true"
+      - run:
+          name: Finalize release
+          command: "./gradlew closeAndReleaseRepository -Dorg.gradle.internal.http.socketTimeout=120000 -Dorg.gradle.internal.network.retry.max.attempts=1 -Dorg.gradle.internal.publish.checksums.insecure=true"
 
 workflows:
   version: 2.1
