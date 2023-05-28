@@ -24,7 +24,7 @@ plugins {
 spotless {
     kotlin {
         ktlint()
-        targetExclude("**/generated-sources/**")
+        targetExclude("**/build/generated/**")
     }
 }
 

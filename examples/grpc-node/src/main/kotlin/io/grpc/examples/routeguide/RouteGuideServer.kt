@@ -1,37 +1,17 @@
-/*
- * Copyright (c) 2023 Toast, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-package com.toasttab.protokt.testing.node
+package io.grpc.examples.routeguide
 
 import com.toasttab.protokt.v1.grpc.Server
 import com.toasttab.protokt.v1.grpc.ServerCredentials
 import com.toasttab.protokt.v1.grpc.addService
-import io.grpc.examples.routeguide.Feature
-import io.grpc.examples.routeguide.Point
-import io.grpc.examples.routeguide.Rectangle
-import io.grpc.examples.routeguide.RouteGuideCoroutineImplBase
-import io.grpc.examples.routeguide.RouteGuideGrpc
-import io.grpc.examples.routeguide.RouteNote
-import io.grpc.examples.routeguide.RouteSummary
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 
-object RouteGuideServer {
-    fun main() {
+class RouteGuideServer {
+    val port = 50051
+
+    fun start() {
         val routeGuideServiceImpl = object : RouteGuideCoroutineImplBase() {
             override suspend fun getFeature(request: Point): Feature {
                 println("received request: $request")
@@ -79,7 +59,7 @@ object RouteGuideServer {
         val routeServer = Server()
         routeServer.addService(RouteGuideGrpc.getServiceDescriptor(), routeGuideServiceImpl)
         routeServer.bindAsync(
-            "0.0.0.0:8980",
+            "0.0.0.0:$port",
             ServerCredentials.createInsecure()
         ) { _, _ -> routeServer.start() }
     }

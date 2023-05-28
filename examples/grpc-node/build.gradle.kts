@@ -16,6 +16,7 @@
 import com.google.protobuf.gradle.proto
 import com.toasttab.protokt.v1.gradle.protokt
 import com.toasttab.protokt.v1.gradle.protoktExtensions
+import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsExec
 
 plugins {
     id("org.jetbrains.kotlin.js")
@@ -51,4 +52,46 @@ sourceSets {
 
 protokt {
     generateGrpc = true
+}
+
+tasks.withType<NodeJsExec> {
+    args(listOfNotNull(properties["service"], properties["mode"]))
+}
+
+fun GradleBuild.setUp(service: String, mode: String) {
+    startParameter.projectProperties =
+        mapOf(
+            "service" to service,
+            "mode" to mode
+        )
+}
+
+tasks.register<GradleBuild>("HelloWorldServer") {
+    setUp("helloworld", "server")
+    tasks = listOf("run")
+}
+
+tasks.register<GradleBuild>("RouteGuideServer") {
+    setUp("routeguide", "server")
+    tasks = listOf("run")
+}
+
+tasks.register<GradleBuild>("AnimalsServer") {
+    setUp("animals", "server")
+    tasks = listOf("run")
+}
+
+tasks.register<GradleBuild>("HelloWorldClient") {
+    setUp("helloworld", "server")
+    tasks = listOf("run")
+}
+
+tasks.register<GradleBuild>("RouteGuideClient") {
+    setUp("routeguide", "server")
+    tasks = listOf("run")
+}
+
+tasks.register<GradleBuild>("AnimalsClient") {
+    setUp("animals", "server")
+    tasks = listOf("run")
 }

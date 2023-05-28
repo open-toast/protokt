@@ -13,8 +13,46 @@
  * limitations under the License.
  */
 
-import com.toasttab.protokt.testing.node.RouteGuideServer
+import io.grpc.examples.animals.AnimalsServer
+import io.grpc.examples.helloworld.HelloWorldServer
+import io.grpc.examples.routeguide.RouteGuideServer
+
+external val process: dynamic
 
 fun main() {
-    RouteGuideServer.main()
+    // https://stackoverflow.com/a/65088942
+    val argv = process.argv.slice(2) as Array<String>
+    val service = argv[0]
+    val mode = argv[1]
+
+    when (service) {
+        "helloworld" -> {
+            when (mode) {
+                "server" -> {
+                    HelloWorldServer().start()
+                }
+                "client" -> {}
+                else -> error("unsupported mode: $mode")
+            }
+        }
+        "routeguide" -> {
+            when (mode) {
+                "server" -> {
+                    RouteGuideServer().start()
+                }
+                "client" -> {}
+                else -> error("unsupported mode: $mode")
+            }
+        }
+        "animals" -> {
+            when (mode) {
+                "server" -> {
+                    AnimalsServer().start()
+                }
+                "client" -> {}
+                else -> error("unsupported mode: $mode")
+            }
+        }
+        else -> error("unsupported service: $service")
+    }
 }
