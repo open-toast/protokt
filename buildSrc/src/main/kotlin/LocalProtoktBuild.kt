@@ -38,7 +38,7 @@ fun Project.localProtokt() {
 fun Project.includeBuildSrc(vararg filePatterns: String) {
     the<SourceSetContainer>()["main"].java {
         srcDir(rootProject.file("buildSrc/src/main/kotlin"))
-        srcDir(rootProject.file("buildSrc/build/generated-sources/protobuf-version"))
+        srcDir(rootProject.file("buildSrc/build/generated/protobuf-version"))
 
         filePatterns.forEach { include(it) }
     }

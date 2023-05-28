@@ -40,7 +40,7 @@ tasks.withType<KotlinCompile> {
     dependsOn("generateVersions")
 }
 
-val versionOutputDir = file("$buildDir/generated-sources/protobuf-version")
+val versionOutputDir = file("$buildDir/generated/protobuf-version")
 
 sourceSets["main"].java.srcDir(versionOutputDir)
 
@@ -64,10 +64,11 @@ tasks.register("generateVersions") {
                  * See the License for the specific language governing permissions and
                  * limitations under the License.
                  */
-                 
+
                 package com.toasttab.protokt.v1.gradle
                 
                 const val DEFAULT_PROTOBUF_VERSION = "${libs.versions.protobuf.get()}"
+
             """.trimIndent()
         )
 
@@ -93,6 +94,7 @@ tasks.register("generateVersions") {
                 package com.toasttab.protokt.v1.gradle
 
                 const val PROTOKT_VERSION = "$version"
+
             """.trimIndent()
         )
     }
