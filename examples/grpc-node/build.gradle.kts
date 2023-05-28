@@ -38,7 +38,7 @@ localProtokt()
 dependencies {
     protoktExtensions(project(":extensions:protokt-extensions"))
 
-    implementation(project(":protokt-runtime-grpc"))
+    implementation(project(":protokt-runtime-grpc-lite"))
 }
 
 sourceSets {

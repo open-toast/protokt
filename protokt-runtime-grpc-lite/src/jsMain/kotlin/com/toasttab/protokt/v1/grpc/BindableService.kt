@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Toast, Inc.
+ * Copyright (c) 2023 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,27 +13,8 @@
  * limitations under the License.
  */
 
-plugins {
-    id("protokt.multiplatform-conventions")
-}
+package com.toasttab.protokt.v1.grpc
 
-enablePublishing()
-compatibleWithAndroid()
-trackKotlinApiCompatibility()
-
-kotlin {
-    sourceSets {
-        val commonMain by getting {
-            dependencies {
-                api(project(":protokt-runtime-grpc-lite"))
-                api(project(":protokt-core"))
-            }
-        }
-
-        val jvmMain by getting {
-            dependencies {
-                implementation(libs.grpcStub)
-            }
-        }
-    }
+interface BindableService {
+    fun bindService(): ServerServiceDefinition
 }

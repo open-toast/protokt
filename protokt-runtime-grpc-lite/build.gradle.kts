@@ -23,10 +23,22 @@ trackKotlinApiCompatibility()
 
 kotlin {
     sourceSets {
-        val jvmMain by getting {
+        val commonMain by getting {
             dependencies {
                 api(project(":protokt-runtime"))
+            }
+        }
+
+        val jvmMain by getting {
+            dependencies {
                 implementation(libs.grpcStub)
+            }
+        }
+
+        val jsMain by getting {
+            dependencies {
+                implementation(npm("@grpc/grpc-js", libs.versions.grpcJs.get()))
+                implementation(libs.kotlinxCoroutinesCore)
             }
         }
     }

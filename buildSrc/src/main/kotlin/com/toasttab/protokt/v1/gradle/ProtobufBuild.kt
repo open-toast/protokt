@@ -35,9 +35,7 @@ internal fun configureProtobufPlugin(
     project.apply(plugin = "com.google.protobuf")
 
     project.configure<ProtobufExtension> {
-        generatedFilesBaseDir = "${project.buildDir}/generated-sources"
-
-        configureSources(project, generatedFilesBaseDir)
+        configureSources(project)
 
         protoc {
             artifact = "com.google.protobuf:protoc:${ext.protocVersion}"
@@ -84,11 +82,11 @@ private fun extraClasspath(project: Project, task: GenerateProtoTask): String {
     return extensions.joinToString(";") { URLEncoder.encode(it.path, "UTF-8") }
 }
 
-private fun configureSources(project: Project, generatedSourcesPath: String) {
+private fun configureSources(project: Project) {
     project.afterEvaluate {
         if (project.tasks.findByName("sourcesJar") != null) {
             tasks.named<Jar>("sourcesJar").configure {
-                from("$generatedSourcesPath/main")
+                from("generated/source/proto/main")
             }
         }
     }

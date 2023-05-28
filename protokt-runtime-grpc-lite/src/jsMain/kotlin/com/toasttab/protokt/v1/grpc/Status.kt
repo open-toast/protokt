@@ -16,12 +16,6 @@
 package com.toasttab.protokt.v1.grpc
 
 import com.toasttab.protokt.v1.unmodifiableList
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.EmptyCoroutineContext
-import kotlin.js.json
-
-// TODO: use this to send error
-class StatusException(@Suppress("UNUSED_PARAMETER") status: Status) : Exception()
 
 class Status private constructor(
     val code: Code,
@@ -181,7 +175,7 @@ class Status private constructor(
             STATUS_LIST[value]
 
         private companion object {
-            val STATUS_LIST = unmodifiableList(Code.values().map(::Status))
+            val STATUS_LIST = unmodifiableList(values().map(::Status))
         }
     }
 
@@ -258,115 +252,4 @@ class Status private constructor(
         /** Unrecoverable data loss or corruption.  */
         val DATA_LOSS: Status = Status.Code.DATA_LOSS.toStatus()
     }
-}
-
-fun Server.addService(
-    service: ServiceDescriptor,
-    implementation: BindableService
-) =
-    addService(
-        json(
-            *service.methods.map { method ->
-                method.lowerBareMethodName to json(
-                    "path" to "/${method.fullMethodName}",
-                    "requestStream" to !method.type.clientSendsOneMessage,
-                    "responseStream" to !method.type.serverSendsOneMessage,
-                    "requestSerialize" to { it: dynamic -> Buffer.from(method.requestMarshaller.serialize(it)) },
-                    "requestDeserialize" to { it: ByteArray -> method.requestMarshaller.parse(it) },
-                    "responseSerialize" to { it: dynamic -> Buffer.from(method.responseMarshaller.serialize(it)) },
-                    "responseDeserialize" to { it: ByteArray -> method.responseMarshaller.parse(it) }
-                )
-            }.toTypedArray()
-        ),
-        json(
-            *implementation.bindService().methods.map { (_, serverMethodDefinition) ->
-                serverMethodDefinition.methodDescriptor.lowerBareMethodName to
-                    serverMethodDefinition.handler
-            }.toTypedArray()
-        )
-    )
-
-private val MethodDescriptor<*, *>.lowerBareMethodName
-    get() = bareMethodName!!.replaceFirstChar { it.lowercase() }
-
-interface BindableService {
-    fun bindService(): ServerServiceDefinition
-}
-
-class ServerServiceDefinition internal constructor(
-    val serviceDescriptor: ServiceDescriptor?,
-    internal val methods: Map<String, ServerMethodDefinition<*, *>>
-) {
-    class Builder internal constructor(
-        private val serviceName: String,
-        private val serviceDescriptor: ServiceDescriptor?
-    ) {
-        private val methods = mutableMapOf<String, ServerMethodDefinition<*, *>>()
-
-        fun addMethod(def: ServerMethodDefinition<*, *>) =
-            apply {
-                require(serviceName == def.methodDescriptor.serviceName) {
-                    "Method name should be prefixed with service name and separated with '/'. " +
-                        "Expected service name: '$serviceName'. Actual fully qualified method name: " +
-                        "'${def.methodDescriptor.fullMethodName}'."
-                }
-                check(def.methodDescriptor.fullMethodName !in methods) {
-                    "Method by same name already registered: ${def.methodDescriptor.fullMethodName}"
-                }
-                methods[def.methodDescriptor.fullMethodName] = def
-            }
-
-        fun build(): ServerServiceDefinition {
-            val serviceDescriptor =
-                this.serviceDescriptor ?: ServiceDescriptor(serviceName, methods.values.map { it.methodDescriptor })
-
-            val tmpMethods = methods.toMutableMap()
-
-            serviceDescriptor.methods.forEach { descriptorMethod ->
-                val removed = tmpMethods.remove(descriptorMethod.fullMethodName)
-                checkNotNull(removed) {
-                    "No method bound for descriptor entry ${descriptorMethod.fullMethodName}"
-                }
-                check(removed.methodDescriptor == descriptorMethod) {
-                    "Bound method for ${descriptorMethod.fullMethodName} not same instance " +
-                        "as method in service descriptor"
-                }
-            }
-            check(tmpMethods.isEmpty()) {
-                "No entry in descriptor matching bound method ${tmpMethods.values.first()}"
-            }
-            return ServerServiceDefinition(serviceDescriptor, methods)
-        }
-    }
-
-    companion object {
-        fun builder(serviceName: String) =
-            Builder(serviceName, null)
-
-        fun builder(serviceDescriptor: ServiceDescriptor) =
-            Builder(serviceDescriptor.name, serviceDescriptor)
-    }
-}
-
-class ServerMethodDefinition<ReqT, RespT>(
-    internal val methodDescriptor: MethodDescriptor<ReqT, RespT>,
-    internal val handler: dynamic
-)
-
-/**
- * Skeleton implementation of a coroutine-based gRPC server implementation.  Intended to be
- * subclassed by generated code.
- */
-abstract class AbstractCoroutineServerImpl(
-    /** The context in which to run server coroutines. */
-    open val context: CoroutineContext = EmptyCoroutineContext
-) : BindableService {
-    /*
-     * Each RPC is executed in its own coroutine scope built from [context].  We could have a parent
-     * scope, but it doesn't really add anything: we don't want users to be able to launch tasks
-     * in that scope easily, since almost all coroutines should be scoped to the RPC and cancelled
-     * if the RPC is cancelled.  Users who don't want that behavior should manage their own scope for
-     * it.  Additionally, gRPC server objects don't have their own notion of shutdown: shutting down
-     * a server means cancelling the RPCs, not calling a teardown on the server object.
-     */
 }
