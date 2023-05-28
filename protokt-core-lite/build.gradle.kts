@@ -26,6 +26,25 @@ enablePublishing()
 compatibleWithAndroid()
 trackKotlinApiCompatibility()
 
+spotless {
+    kotlin {
+        targetExclude(
+            "src/jvmMain/kotlin/com/toasttab/protokt/compiler/plugin.kt",
+            "src/jvmMain/kotlin/com/toasttab/protokt/any.kt",
+            "src/jvmMain/kotlin/com/toasttab/protokt/api.kt",
+            "src/jvmMain/kotlin/com/toasttab/protokt/descriptor.kt",
+            "src/jvmMain/kotlin/com/toasttab/protokt/duration.kt",
+            "src/jvmMain/kotlin/com/toasttab/protokt/empty.kt",
+            "src/jvmMain/kotlin/com/toasttab/protokt/field_mask.kt",
+            "src/jvmMain/kotlin/com/toasttab/protokt/source_context.kt",
+            "src/jvmMain/kotlin/com/toasttab/protokt/struct.kt",
+            "src/jvmMain/kotlin/com/toasttab/protokt/timestamp.kt",
+            "src/jvmMain/kotlin/com/toasttab/protokt/type.kt",
+            "src/jvmMain/kotlin/com/toasttab/protokt/wrappers.kt"
+        )
+    }
+}
+
 protokt {
     lite = true
 }

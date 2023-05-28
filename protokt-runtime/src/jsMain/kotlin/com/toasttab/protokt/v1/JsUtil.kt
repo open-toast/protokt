@@ -78,12 +78,12 @@ private var configuredLong = false
 
 @Suppress("UNUSED")
 private fun printErr(message: String) {
-    process.stderr.write(message + "\n")
+    Process.stderr.write(message + "\n")
 }
 
 @JsModule("process")
 @JsNonModule
-private external object process {
+private external object Process {
     val stderr: StdStream
 }
 

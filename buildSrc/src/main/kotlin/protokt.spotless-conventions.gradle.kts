@@ -29,7 +29,21 @@ allprojects {
         kotlin {
             ktlint().editorConfigOverride(editorConfigOverride)
             target("**/*.kt")
-            targetExclude("**/generated-sources/**")
+            targetExclude(
+                "**/generated-sources/**",
+                "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/compiler/plugin.kt",
+                "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/any.kt",
+                "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/api.kt",
+                "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/descriptor.kt",
+                "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/duration.kt",
+                "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/empty.kt",
+                "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/field_mask.kt",
+                "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/source_context.kt",
+                "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/struct.kt",
+                "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/timestamp.kt",
+                "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/type.kt",
+                "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/wrappers.kt"
+            )
         }
 
         kotlinGradle {
