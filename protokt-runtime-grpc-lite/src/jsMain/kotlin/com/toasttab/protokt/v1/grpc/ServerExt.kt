@@ -15,33 +15,36 @@
 
 package com.toasttab.protokt.v1.grpc
 
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 import kotlin.js.json
 
 fun Server.addService(
     service: ServiceDescriptor,
     implementation: BindableService
-) =
+) = apply {
     addService(
-        json(
-            *service.methods.map { method ->
-                method.lowerBareMethodName to json(
-                    "path" to "/${method.fullMethodName}",
-                    "requestStream" to !method.type.clientSendsOneMessage,
-                    "responseStream" to !method.type.serverSendsOneMessage,
-                    "requestSerialize" to { it: dynamic -> Buffer.from(method.requestMarshaller.serialize(it)) },
-                    "requestDeserialize" to { it: ByteArray -> method.requestMarshaller.parse(it) },
-                    "responseSerialize" to { it: dynamic -> Buffer.from(method.responseMarshaller.serialize(it)) },
-                    "responseDeserialize" to { it: ByteArray -> method.responseMarshaller.parse(it) }
-                )
-            }.toTypedArray()
-        ),
-        json(
-            *implementation.bindService().methods.map { (_, serverMethodDefinition) ->
-                serverMethodDefinition.methodDescriptor.lowerBareMethodName to
-                    serverMethodDefinition.handler
-            }.toTypedArray()
-        )
+        service.toServiceDefinition(),
+        implementation.toUntypedServiceImplementation()
+    )
+}
+
+private fun BindableService.toUntypedServiceImplementation() =
+    json(
+        *bindService().methods.map { (_, serverMethodDefinition) ->
+            serverMethodDefinition.methodDescriptor.lowerBareMethodName to
+                serverMethodDefinition.handler
+        }.toTypedArray()
     )
 
-private val MethodDescriptor<*, *>.lowerBareMethodName
-    get() = bareMethodName!!.replaceFirstChar { it.lowercase() }
+suspend fun Server.start(
+    address: String,
+    credentials: ServerCredentials
+) = apply {
+    suspendCoroutine { continuation ->
+        bindAsync(address, credentials) { _, _ ->
+            start()
+            continuation.resume(Unit)
+        }
+    }
+}

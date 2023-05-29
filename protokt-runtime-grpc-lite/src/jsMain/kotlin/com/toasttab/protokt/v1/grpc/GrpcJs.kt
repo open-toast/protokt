@@ -28,6 +28,8 @@ external class Server {
     )
 
     fun start()
+
+    fun forceShutdown()
 }
 
 external class ServerCredentials {
@@ -86,4 +88,12 @@ external interface ServerDuplexStream<ReqT, RespT> :
     ObjectWritable<RespT> {
 
     fun end(metadata: Metadata?)
+}
+
+external fun makeClientConstructor(serviceDefinition: dynamic): (address: String, credentials: ChannelCredentials) -> dynamic
+
+external class ChannelCredentials {
+    companion object {
+        fun createInsecure(): ChannelCredentials
+    }
 }

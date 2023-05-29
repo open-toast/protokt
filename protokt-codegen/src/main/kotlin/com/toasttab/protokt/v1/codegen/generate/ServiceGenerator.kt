@@ -15,11 +15,12 @@
 
 package com.toasttab.protokt.v1.codegen.generate
 
+import com.google.common.base.CaseFormat.LOWER_CAMEL
+import com.google.common.base.CaseFormat.UPPER_UNDERSCORE
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
-import com.squareup.kotlinpoet.MemberName
 import com.squareup.kotlinpoet.MemberName.Companion.member
 import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
@@ -37,6 +38,7 @@ import com.toasttab.protokt.v1.codegen.util.comToasttabProtoktV1
 import com.toasttab.protokt.v1.grpc.KtMarshaller
 import com.toasttab.protokt.v1.grpc.SchemaDescriptor
 import io.grpc.BindableService
+import io.grpc.ChannelCredentials
 import io.grpc.MethodDescriptor
 import io.grpc.MethodDescriptor.MethodType
 import io.grpc.ServerMethodDefinition
@@ -45,6 +47,8 @@ import io.grpc.ServiceDescriptor
 import io.grpc.Status
 import io.grpc.StatusException
 import io.grpc.kotlin.AbstractCoroutineServerImpl
+import io.grpc.kotlin.AbstractCoroutineStub
+import io.grpc.kotlin.ClientCalls
 import io.grpc.kotlin.ServerCalls
 import kotlinx.coroutines.flow.Flow
 import kotlin.coroutines.CoroutineContext
@@ -103,7 +107,14 @@ private class ServiceGenerator(
                     getMethodFunctions
                 )
 
-            listOfNotNull(grpcServiceObject, coroutineServerBase)
+            val coroutineStub =
+                coroutineStub(
+                    grpcServiceObjectClassName,
+                    getServiceDescriptorFunction,
+                    getMethodFunctions
+                )
+
+            listOfNotNull(grpcServiceObject, coroutineServerBase, coroutineStub)
         } else {
             emptyList()
         }
@@ -119,7 +130,7 @@ private class ServiceGenerator(
                             beginControlFlow("lazy")
                             add(
                                 "%M(SERVICE_NAME)\n",
-                                MemberName(staticOrCompanionMethod(serviceDescriptor), "newBuilder")
+                                staticOrCompanionMethod(serviceDescriptor).member("newBuilder")
                             )
                             withIndent { serviceLines(ctx).filterNotNull().forEach(::add) }
                             endControlFlowWithoutNewline()
@@ -145,18 +156,18 @@ private class ServiceGenerator(
                                 beginControlFlow("lazy")
                                 add(
                                     "%M<%T,·%T>()\n",
-                                    MemberName(staticOrCompanionMethod(methodDescriptor), "newBuilder"),
+                                    staticOrCompanionMethod(methodDescriptor).member("newBuilder"),
                                     method.inputType,
                                     method.outputType
                                 )
                                 withIndent {
                                     add(
                                         ".setType(%M)\n",
-                                        MemberName(methodType, methodType(method).name)
+                                        methodType.member(methodType(method).name)
                                     )
                                     add(
                                         ".setFullMethodName(%M(SERVICE_NAME,·\"${method.name}\"))\n",
-                                        MemberName(staticOrCompanionMethod(methodDescriptor), "generateFullMethodName")
+                                        staticOrCompanionMethod(methodDescriptor).member("generateFullMethodName")
                                     )
                                     add(".setRequestMarshaller(%L)\n", method.requestMarshaller())
                                     add(".setResponseMarshaller(%L)\n", method.responseMarshaller())
@@ -172,11 +183,11 @@ private class ServiceGenerator(
 
     private fun coroutineServerBase(
         grpcServiceObjectClassName: ClassName,
-        getServerDescriptorFunction: FunSpec,
+        getServiceDescriptorFunction: FunSpec,
         getMethodFunctions: List<FunSpec>
     ): TypeSpec? =
         if (kotlinPlugin == KotlinPlugin.JS) {
-            val implementations = implementations()
+            val implementations = serverImplementations()
             val coroutineServerClassName = ClassName(ctx.info.kotlinPackage, s.name + "CoroutineImplBase")
             TypeSpec.classBuilder(coroutineServerClassName)
                 .addModifiers(KModifier.ABSTRACT)
@@ -194,7 +205,7 @@ private class ServiceGenerator(
                 .addFunctions(implementations)
                 .addBindService(
                     grpcServiceObjectClassName,
-                    getServerDescriptorFunction,
+                    getServiceDescriptorFunction,
                     getMethodFunctions,
                     implementations
                 )
@@ -203,7 +214,7 @@ private class ServiceGenerator(
             null
         }
 
-    private fun implementations() =
+    private fun serverImplementations() =
         s.methods.map { method ->
             buildFunSpec(method.name.replaceFirstChar { it.lowercase() }) {
                 addModifiers(KModifier.OPEN)
@@ -229,7 +240,7 @@ private class ServiceGenerator(
                 addCode(
                     "throw %L(%L.%L(\"Method·%L.%L·is·unimplemented\"))",
                     pivotClassName(StatusException::class),
-                    MemberName(pivotClassName(Status::class), Status::UNIMPLEMENTED.name),
+                    pivotClassName(Status::class).member(Status::UNIMPLEMENTED.name),
                     Status.UNIMPLEMENTED::withDescription.name,
                     renderQualifiedName(),
                     method.name
@@ -252,7 +263,7 @@ private class ServiceGenerator(
                     val builder: KFunction1<String, ServerServiceDefinition.Builder> = ServerServiceDefinition::builder
                     addCode(
                         "return %M(%M())\n",
-                        MemberName(pivotClassName(ServerServiceDefinition::class).nestedClass("Companion"), builder.name),
+                        pivotClassName(ServerServiceDefinition::class).nestedClass("Companion").member(builder.name),
                         grpcServiceObjectClassName.member(getServiceDescriptorFunction.name)
                     )
 
@@ -260,7 +271,7 @@ private class ServiceGenerator(
                         addCode(
                             ".%L(%M(this.context, %M(), ::%L))\n",
                             ServiceDescriptor.Builder::addMethod.name,
-                            MemberName(pivotClassName(ServerCalls::class), methodDefinitionForMethod(method)),
+                            pivotClassName(ServerCalls::class).member(methodDefinitionForMethod(method)),
                             grpcServiceObjectClassName.member(getMethodFunctions[idx].name),
                             implementations[idx].name
                         )
@@ -293,6 +304,73 @@ private class ServiceGenerator(
                 def.name
             }
             MethodType.UNKNOWN -> error("unsupported method type")
+        }
+
+    private fun coroutineStub(
+        grpcServiceObjectClassName: ClassName,
+        getServiceDescriptorFunction: FunSpec,
+        getMethodFunctions: List<FunSpec>,
+    ): TypeSpec? =
+        if (kotlinPlugin == KotlinPlugin.JS) {
+            val coroutineStubClassName = ClassName(ctx.info.kotlinPackage, s.name + "CoroutineStub")
+            TypeSpec.classBuilder(coroutineStubClassName)
+                .primaryConstructor(
+                    FunSpec.constructorBuilder()
+                        .addParameter(ParameterSpec("address", String::class.asTypeName()))
+                        .addParameter(ParameterSpec("credentials", pivotClassName(ChannelCredentials::class)))
+                        .build()
+                )
+                .addSuperclassConstructorParameter("%M()", grpcServiceObjectClassName.member(getServiceDescriptorFunction.name))
+                .addSuperclassConstructorParameter("address")
+                .addSuperclassConstructorParameter("credentials")
+                .superclass(pivotClassName(AbstractCoroutineStub::class).parameterizedBy(coroutineStubClassName))
+                .addFunctions(clientImplementations(grpcServiceObjectClassName, getMethodFunctions))
+                .build()
+        } else {
+            null
+        }
+
+    private fun clientImplementations(
+        grpcServiceObjectClassName: ClassName,
+        getMethodFunctions: List<FunSpec>
+    ) =
+        s.methods.mapIndexed { idx, method ->
+            buildFunSpec(method.name.replaceFirstChar { it.lowercase() }) {
+                when (methodType(method)) {
+                    MethodType.CLIENT_STREAMING, MethodType.UNARY ->
+                        addModifiers(KModifier.SUSPEND)
+                    else -> Unit
+                }
+                val requestsVarName =
+                    when (methodType(method)) {
+                        MethodType.UNARY, MethodType.SERVER_STREAMING -> {
+                            val name = "request"
+                            addParameter(name, method.inputType)
+                            name
+                        }
+                        MethodType.CLIENT_STREAMING, MethodType.BIDI_STREAMING -> {
+                            val name = "requests"
+                            addParameter(name, Flow::class.asClassName().parameterizedBy(method.inputType))
+                            name
+                        }
+                        MethodType.UNKNOWN -> error("unsupported method type")
+                    }
+                when (methodType(method)) {
+                    MethodType.UNARY, MethodType.CLIENT_STREAMING ->
+                        returns(method.outputType)
+                    MethodType.SERVER_STREAMING, MethodType.BIDI_STREAMING ->
+                        returns(Flow::class.asClassName().parameterizedBy(method.outputType))
+                    MethodType.UNKNOWN -> error("unsupported method type")
+                }
+                val methodName = UPPER_UNDERSCORE.to(LOWER_CAMEL, methodType(method).name) + "Rpc"
+
+                addCode(
+                    "return %M(client, %M(), %L)",
+                    pivotClassName(ClientCalls::class).member(methodName),
+                    grpcServiceObjectClassName.member(getMethodFunctions[idx].name),
+                    requestsVarName
+                )
+            }
         }
 
     private fun serviceDescriptor() =

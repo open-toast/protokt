@@ -19,22 +19,17 @@ package io.grpc.examples.helloworld
 import com.toasttab.protokt.v1.grpc.Server
 import com.toasttab.protokt.v1.grpc.ServerCredentials
 import com.toasttab.protokt.v1.grpc.addService
+import com.toasttab.protokt.v1.grpc.start
 
 class HelloWorldServer {
     val port = 50051
     val server = Server()
 
-    fun start() {
-        server.apply {
-            addService(GreeterGrpc.getServiceDescriptor(), HelloWorldService())
-            bindAsync(
-                "0.0.0.0:$port",
-                ServerCredentials.createInsecure()
-            ) { _, _ ->
-                start()
-                println("Server started, listening on $port")
-            }
-        }
+    suspend fun start() {
+        server
+            .addService(GreeterGrpc.getServiceDescriptor(), HelloWorldService())
+            .start("0.0.0.0:$port", ServerCredentials.createInsecure())
+        println("Server started, listening on $port")
     }
 
     internal class HelloWorldService : GreeterCoroutineImplBase() {

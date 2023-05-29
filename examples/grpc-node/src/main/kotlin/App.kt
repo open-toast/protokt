@@ -14,12 +14,16 @@
  */
 
 import io.grpc.examples.animals.AnimalsServer
+import io.grpc.examples.helloworld.HelloWorldClient
 import io.grpc.examples.helloworld.HelloWorldServer
 import io.grpc.examples.routeguide.RouteGuideServer
 
 external val process: dynamic
 
-fun main() {
+// todo: adapt runtime from https://github.com/grpc/grpc/blob/v1.54.0/examples/node/static_codegen/route_guide/route_guide_client.js
+// https://github.com/grpc/grpc/blob/v1.54.0/examples/node/static_codegen/route_guide/route_guide_grpc_pb.js#L146
+
+suspend fun main() {
     // https://stackoverflow.com/a/65088942
     val argv = process.argv.slice(2) as Array<String>
     val service = argv[0]
@@ -31,7 +35,9 @@ fun main() {
                 "server" -> {
                     HelloWorldServer().start()
                 }
-                "client" -> {}
+                "client" -> {
+                    HelloWorldClient().greet()
+                }
                 else -> error("unsupported mode: $mode")
             }
         }

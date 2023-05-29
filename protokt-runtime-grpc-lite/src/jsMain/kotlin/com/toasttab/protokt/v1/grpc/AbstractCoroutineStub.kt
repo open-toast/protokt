@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Toast, Inc.
+ * Copyright (c) 2023 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,17 +13,14 @@
  * limitations under the License.
  */
 
-plugins {
-    id("protokt.grpc-examples-conventions")
-}
+package com.toasttab.protokt.v1.grpc
 
-dependencies {
-    implementation(project(":examples:protos"))
-    implementation(libs.grpcKotlinStub)
-    implementation(libs.kotlinx.coroutines.core)
-
-    runtimeOnly(libs.protobufJava)
-
-    testImplementation(kotlin("test-junit"))
-    testImplementation(libs.grpcTesting)
+abstract class AbstractCoroutineStub<S : AbstractCoroutineStub<S>>(
+    protected val client: dynamic
+) {
+    constructor(
+        serviceDescriptor: ServiceDescriptor,
+        address: String,
+        credentials: ChannelCredentials
+    ) : this(newClient(serviceDescriptor, address, credentials))
 }

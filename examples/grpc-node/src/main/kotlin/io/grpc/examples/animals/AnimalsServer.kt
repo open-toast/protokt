@@ -19,24 +19,19 @@ package io.grpc.examples.animals
 import com.toasttab.protokt.v1.grpc.Server
 import com.toasttab.protokt.v1.grpc.ServerCredentials
 import com.toasttab.protokt.v1.grpc.addService
+import com.toasttab.protokt.v1.grpc.start
 
 class AnimalsServer {
     val port = 50051
     val server = Server()
 
-    fun start() {
-        server.apply {
-            addService(DogGrpc.getServiceDescriptor(), DogService())
-            addService(PigGrpc.getServiceDescriptor(), PigService())
-            addService(SheepGrpc.getServiceDescriptor(), SheepService())
-            bindAsync(
-                "0.0.0.0:$port",
-                ServerCredentials.createInsecure()
-            ) { _, _ ->
-                start()
-                println("Server started, listening on $port")
-            }
-        }
+    suspend fun start() {
+        server
+            .addService(DogGrpc.getServiceDescriptor(), DogService())
+            .addService(PigGrpc.getServiceDescriptor(), PigService())
+            .addService(SheepGrpc.getServiceDescriptor(), SheepService())
+            .start("0.0.0.0:$port", ServerCredentials.createInsecure())
+        println("Server started, listening on $port")
     }
 
     internal class DogService : DogCoroutineImplBase() {

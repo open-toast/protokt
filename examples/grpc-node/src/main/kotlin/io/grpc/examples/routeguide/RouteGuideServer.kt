@@ -3,15 +3,15 @@ package io.grpc.examples.routeguide
 import com.toasttab.protokt.v1.grpc.Server
 import com.toasttab.protokt.v1.grpc.ServerCredentials
 import com.toasttab.protokt.v1.grpc.addService
+import com.toasttab.protokt.v1.grpc.start
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 
 class RouteGuideServer {
     val port = 50051
 
-    fun start() {
+    suspend fun start() {
         val routeGuideServiceImpl = object : RouteGuideCoroutineImplBase() {
             override suspend fun getFeature(request: Point): Feature {
                 println("received request: $request")
@@ -56,11 +56,8 @@ class RouteGuideServer {
                 }
         }
 
-        val routeServer = Server()
-        routeServer.addService(RouteGuideGrpc.getServiceDescriptor(), routeGuideServiceImpl)
-        routeServer.bindAsync(
-            "0.0.0.0:$port",
-            ServerCredentials.createInsecure()
-        ) { _, _ -> routeServer.start() }
+        Server()
+            .addService(RouteGuideGrpc.getServiceDescriptor(), routeGuideServiceImpl)
+            .start("0.0.0.0:$port", ServerCredentials.createInsecure())
     }
 }

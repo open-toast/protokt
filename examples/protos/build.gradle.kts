@@ -32,5 +32,5 @@ dependencies {
     implementation(libs.grpcKotlinStub)
     implementation(libs.grpcStub)
     implementation(libs.jackson)
-    implementation(libs.kotlinxCoroutinesCore)
+    implementation(libs.kotlinx.coroutines.core)
 }

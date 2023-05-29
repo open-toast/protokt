@@ -40,6 +40,9 @@ dependencies {
     protoktExtensions(project(":extensions:protokt-extensions"))
 
     implementation(project(":protokt-runtime-grpc-lite"))
+
+    testImplementation(kotlin("test"))
+    testImplementation(libs.kotlinx.coroutines.test)
 }
 
 sourceSets {
@@ -68,30 +71,30 @@ fun GradleBuild.setUp(service: String, mode: String) {
 
 tasks.register<GradleBuild>("HelloWorldServer") {
     setUp("helloworld", "server")
-    tasks = listOf("run")
+    tasks = listOf("nodeProductionRun")
 }
 
 tasks.register<GradleBuild>("RouteGuideServer") {
     setUp("routeguide", "server")
-    tasks = listOf("run")
+    tasks = listOf("nodeProductionRun")
 }
 
 tasks.register<GradleBuild>("AnimalsServer") {
     setUp("animals", "server")
-    tasks = listOf("run")
+    tasks = listOf("nodeProductionRun")
 }
 
 tasks.register<GradleBuild>("HelloWorldClient") {
-    setUp("helloworld", "server")
-    tasks = listOf("run")
+    setUp("helloworld", "client")
+    tasks = listOf("nodeProductionRun")
 }
 
 tasks.register<GradleBuild>("RouteGuideClient") {
-    setUp("routeguide", "server")
-    tasks = listOf("run")
+    setUp("routeguide", "client")
+    tasks = listOf("nodeProductionRun")
 }
 
 tasks.register<GradleBuild>("AnimalsClient") {
-    setUp("animals", "server")
-    tasks = listOf("run")
+    setUp("animals", "client")
+    tasks = listOf("nodeProductionRun")
 }

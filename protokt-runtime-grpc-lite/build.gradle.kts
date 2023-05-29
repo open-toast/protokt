@@ -38,7 +38,7 @@ kotlin {
         val jsMain by getting {
             dependencies {
                 implementation(npm("@grpc/grpc-js", libs.versions.grpcJs.get()))
-                implementation(libs.kotlinxCoroutinesCore)
+                implementation(libs.kotlinx.coroutines.core)
             }
         }
     }

@@ -24,7 +24,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
@@ -51,7 +50,6 @@ object ServerCalls {
         return ServerMethodDefinition(descriptor, handler)
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     fun <ReqT, RespT> clientStreamingServerMethodDefinition(
         context: CoroutineContext,
         descriptor: MethodDescriptor<ReqT, RespT>,
@@ -63,9 +61,9 @@ object ServerCalls {
 
         val handler = { call: ServerReadableStream<ReqT, RespT>, callback: (error: Any?, value: RespT?, trailer: Metadata?, flags: Int?) -> Unit ->
             val scope = CoroutineScope(context)
-            val requests = callbackFlow<ReqT> {
+            val requests = callbackFlow {
                 call.on("data") {
-                    scope.launch { send(it) }
+                    scope.launch { send(it as ReqT) }
                 }
                 call.on("end") {
                     close()

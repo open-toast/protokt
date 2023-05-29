@@ -34,7 +34,7 @@ dependencies {
 
     implementation(libs.grpcKotlinStub)
     implementation(libs.jackson)
-    implementation(libs.kotlinxCoroutinesCore)
+    implementation(libs.kotlinx.coroutines.core)
 
     runtimeOnly(libs.protobufLite)
 

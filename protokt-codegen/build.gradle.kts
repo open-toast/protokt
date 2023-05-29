@@ -41,7 +41,7 @@ dependencies {
     implementation(libs.grpcKotlinStub)
     implementation(libs.grpcStub)
     implementation(libs.kotlinPoet)
-    implementation(libs.kotlinxCoroutinesCore)
+    implementation(libs.kotlinx.coroutines.core)
     implementation(libs.ktlint)
     implementation(libs.ktlintStandardRuleSet)
     implementation(libs.protobufJava)

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Toast, Inc.
+ * Copyright (c) 2023 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,17 +13,16 @@
  * limitations under the License.
  */
 
-plugins {
-    id("protokt.grpc-examples-conventions")
-}
+package io.grpc.examples.helloworld
 
-dependencies {
-    implementation(project(":examples:protos"))
-    implementation(libs.grpcKotlinStub)
-    implementation(libs.kotlinx.coroutines.core)
+import com.toasttab.protokt.v1.grpc.ChannelCredentials
 
-    runtimeOnly(libs.protobufJava)
+class HelloWorldClient {
+    private val stub = GreeterCoroutineStub("localhost:50051", ChannelCredentials.createInsecure())
 
-    testImplementation(kotlin("test-junit"))
-    testImplementation(libs.grpcTesting)
+    suspend fun greet(name: String = "world"): HelloReply {
+        val reply = stub.sayHello(HelloRequest { this.name = name })
+        println("Greeting: ${reply.message}")
+        return reply
+    }
 }
