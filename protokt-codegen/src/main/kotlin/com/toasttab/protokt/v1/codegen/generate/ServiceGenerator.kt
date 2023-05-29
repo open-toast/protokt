@@ -238,9 +238,9 @@ private class ServiceGenerator(
                     MethodType.UNKNOWN -> error("unsupported method type")
                 }
                 addCode(
-                    "throw %L(%L.%L(\"Method·%L.%L·is·unimplemented\"))",
+                    "throw %T(%M.%L(\"Method·%L.%L·is·unimplemented\"))",
                     pivotClassName(StatusException::class),
-                    pivotClassName(Status::class).member(Status::UNIMPLEMENTED.name),
+                    pivotClassName(Status::class).nestedClass("Companion").member(Status::UNIMPLEMENTED.name),
                     Status.UNIMPLEMENTED::withDescription.name,
                     renderQualifiedName(),
                     method.name
@@ -269,7 +269,7 @@ private class ServiceGenerator(
 
                     s.methods.forEachIndexed { idx, method ->
                         addCode(
-                            ".%L(%M(this.context, %M(), ::%L))\n",
+                            ".%L(%M(context, %M(), ::%L))\n",
                             ServiceDescriptor.Builder::addMethod.name,
                             pivotClassName(ServerCalls::class).member(methodDefinitionForMethod(method)),
                             grpcServiceObjectClassName.member(getMethodFunctions[idx].name),
