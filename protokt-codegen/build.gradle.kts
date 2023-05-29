@@ -43,7 +43,7 @@ dependencies {
     implementation(libs.kotlinPoet)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.ktlint)
-    implementation(libs.ktlintStandardRuleSet)
+    implementation(libs.ktlintRuleSetStandard)
     implementation(libs.protobufJava)
 
     testImplementation(project(":testing:testing-util"))

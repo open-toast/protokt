@@ -15,9 +15,10 @@
 
 package com.toasttab.protokt.v1.codegen.util
 
-import com.pinterest.ktlint.core.KtLint
-import com.pinterest.ktlint.ruleset.standard.NoUnitReturnRule
+import com.pinterest.ktlint.rule.engine.api.Code
+import com.pinterest.ktlint.rule.engine.api.KtLintRuleEngine
 import com.pinterest.ktlint.ruleset.standard.StandardRuleSetProvider
+import com.pinterest.ktlint.ruleset.standard.rules.NO_UNIT_RETURN_RULE_ID
 
 fun tidy(rawCode: String, context: GeneratorContext): String {
     var code = stripApiMode(rawCode)
@@ -35,6 +36,7 @@ private fun stripApiMode(code: String) =
         .replace("public class ", "class ")
         .replace("public abstract ", "abstract ")
         .replace("public open ", "open ")
+        .replace("public suspend ", "suspend ")
         .replace("public final ", "final ")
         .replace("public const ", "const ")
         .replace("public val ", "val ")
@@ -47,13 +49,7 @@ private fun stripApiMode(code: String) =
         .replace("public data ", "data ")
 
 private fun format(code: String) =
-    KtLint.format(
-        KtLint.ExperimentalParams(
-            text = code,
-            ruleProviders = ruleProviders(),
-            cb = { _, _ -> }
-        )
-    )
+    KtLintRuleEngine(ruleProviders()).format(Code.fromSnippet(code))
 
 private fun ruleProviders() =
     StandardRuleSetProvider()
@@ -65,5 +61,5 @@ private fun ruleProviders() =
         // This could be avoided if the deserializer is moved out of the
         // companion object into a private top-level function, but is required
         // in strict API mode.
-        .filterNot { it.createNewRuleInstance().id == NoUnitReturnRule().id }
+        .filterNot { it.ruleId == NO_UNIT_RETURN_RULE_ID }
         .toSet()
