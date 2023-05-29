@@ -20,7 +20,6 @@ import com.toasttab.protokt.v1.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING
 import com.toasttab.protokt.v1.grpc.MethodDescriptor.MethodType.SERVER_STREAMING
 import com.toasttab.protokt.v1.grpc.MethodDescriptor.MethodType.UNARY
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -99,7 +98,6 @@ object ServerCalls {
     }
 
     // todo: use Http2ServerCallStream and propagate errors properly
-    @OptIn(ExperimentalCoroutinesApi::class)
     fun <ReqT, RespT> bidiStreamingServerMethodDefinition(
         context: CoroutineContext,
         descriptor: MethodDescriptor<ReqT, RespT>,
@@ -110,9 +108,9 @@ object ServerCalls {
         }
         val handler = { call: ServerDuplexStream<ReqT, RespT> ->
             val scope = CoroutineScope(context)
-            val requests = callbackFlow<ReqT> {
+            val requests = callbackFlow {
                 call.on("data") {
-                    scope.launch { send(it) }
+                    scope.launch { send(it as ReqT) }
                 }
                 call.on("end") {
                     close()
