@@ -16,7 +16,7 @@
 package com.toasttab.protokt.v1.grpc
 
 abstract class AbstractCoroutineStub<S : AbstractCoroutineStub<S>>(
-    protected val client: dynamic
+    protected val client: Client
 ) {
     constructor(
         serviceDescriptor: ServiceDescriptor,

@@ -26,35 +26,25 @@ import kotlin.coroutines.suspendCoroutine
 
 object ClientCalls {
     suspend fun <ReqT, RespT> unaryRpc(
-        @Suppress("UNUSED_PARAMETER") client: dynamic,
+        client: Client,
         method: MethodDescriptor<ReqT, RespT>,
-        @Suppress("UNUSED_PARAMETER") request: ReqT
-    ): RespT {
-        return suspendCoroutine { continuation ->
-            @Suppress("UNUSED_VARIABLE")
+        request: ReqT
+    ): RespT =
+        suspendCoroutine { continuation ->
             val onResponse = { _: dynamic, resp: RespT ->
                 continuation.resume(resp)
             }
-
-            @Suppress("UNUSED_VARIABLE")
-            val methodName = method.lowerBareMethodName
-            js("client[methodName](request, onResponse)")
-            Unit
+            executeCall<Unit>(client, method, request, onResponse)
         }
-    }
 
     fun <ReqT, RespT> serverStreamingRpc(
-        @Suppress("UNUSED_PARAMETER") client: dynamic,
+        client: Client,
         method: MethodDescriptor<ReqT, RespT>,
-        @Suppress("UNUSED_PARAMETER") request: ReqT
-    ): Flow<RespT> {
-        @Suppress("UNUSED_VARIABLE")
-        val methodName = method.lowerBareMethodName
+        request: ReqT
+    ): Flow<RespT> =
+        callbackFlow {
+            val call = executeCall<ClientReadableStream<RespT>>(client, method, request)
 
-        @Suppress("UNCHECKED_CAST_TO_EXTERNAL_INTERFACE")
-        val call = js("client[methodName](request)") as ClientReadableStream<RespT>
-
-        return callbackFlow {
             call.on("data") {
                 launch { send(it as RespT) }
             }
@@ -63,44 +53,33 @@ object ClientCalls {
             }
             awaitClose()
         }
-    }
 
     suspend fun <ReqT, RespT> clientStreamingRpc(
-        @Suppress("UNUSED_PARAMETER") client: dynamic,
+        client: Client,
         method: MethodDescriptor<ReqT, RespT>,
         requests: Flow<ReqT>
     ): RespT {
         val context = currentCoroutineContext()
         return suspendCoroutine { continuation ->
-            @Suppress("UNUSED_VARIABLE")
-            val onResponse = { _: dynamic, resp: RespT ->
-                continuation.resume(resp)
-            }
-
-            @Suppress("UNUSED_VARIABLE")
-            val methodName = method.lowerBareMethodName
-
-            @Suppress("UNCHECKED_CAST_TO_EXTERNAL_INTERFACE")
-            val call = js("client[methodName](onResponse)") as ClientWritableStream<ReqT>
-
             CoroutineScope(context).launch {
+                val onResponse = { _: dynamic, resp: RespT ->
+                    continuation.resume(resp)
+                }
+                val call = executeCall<ClientWritableStream<ReqT>>(client, method, onResponse)
                 requests.collect { call.write(it, null) }
+                call.end()
             }
         }
     }
 
     fun <ReqT, RespT> bidiStreamingRpc(
-        @Suppress("UNUSED_PARAMETER") client: dynamic,
+        client: Client,
         method: MethodDescriptor<ReqT, RespT>,
         requests: Flow<ReqT>
-    ): Flow<RespT> {
-        @Suppress("UNUSED_VARIABLE")
-        val methodName = method.lowerBareMethodName
+    ): Flow<RespT> =
+        callbackFlow {
+            val call = executeCall<ClientDuplexStream<ReqT, RespT>>(client, method)
 
-        @Suppress("UNCHECKED_CAST_TO_EXTERNAL_INTERFACE")
-        val call = js("client[methodName]()") as ClientDuplexStream<ReqT, RespT>
-
-        return callbackFlow {
             call.on("data") {
                 launch { send(it as RespT) }
             }
@@ -116,16 +95,40 @@ object ClientCalls {
             }
             awaitClose()
         }
+
+    private fun <T> executeCall(
+        @Suppress("UNUSED_PARAMETER") client: Client,
+        method: MethodDescriptor<*, *>,
+        @Suppress("UNUSED_PARAMETER") request: Any? = null,
+        @Suppress("UNUSED_PARAMETER") onResponse: Any? = null
+    ): T {
+        @Suppress("UNUSED_VARIABLE")
+        val methodName = method.lowerBareMethodName
+
+        return when (method.type) {
+            MethodDescriptor.MethodType.UNARY ->
+                js("client[methodName](request, onResponse)")
+
+            MethodDescriptor.MethodType.SERVER_STREAMING ->
+                js("client[methodName](request)")
+
+            MethodDescriptor.MethodType.CLIENT_STREAMING ->
+                js("client[methodName](onResponse)")
+
+            MethodDescriptor.MethodType.BIDI_STREAMING ->
+                js("client[methodName]()")
+
+            MethodDescriptor.MethodType.UNKNOWN -> error("unsupported call type")
+        } as T
     }
 }
 
-@Suppress("UNUSED_PARAMETER")
 fun newClient(
     service: ServiceDescriptor,
-    address: String,
-    credentials: ChannelCredentials
+    @Suppress("UNUSED_PARAMETER") address: String,
+    @Suppress("UNUSED_PARAMETER") credentials: ChannelCredentials
 ): dynamic {
     @Suppress("UNUSED_VARIABLE")
     val constructor = makeClientConstructor(service.toServiceDefinition())
-    return js("new constructor(address, credentials)")
+    return js("new constructor(address, credentials)") as Client
 }

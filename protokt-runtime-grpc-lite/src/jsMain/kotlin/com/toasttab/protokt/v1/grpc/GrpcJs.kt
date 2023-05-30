@@ -113,6 +113,8 @@ external interface ClientDuplexStream<ReqT, RespT> :
     fun end(metadata: Metadata?)
 }
 
+external class Client
+
 external fun makeClientConstructor(serviceDefinition: dynamic): (address: String, credentials: ChannelCredentials) -> dynamic
 
 external class ChannelCredentials {
