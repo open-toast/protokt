@@ -46,7 +46,9 @@ suspend fun main() {
                 "server" -> {
                     RouteGuideServer().start()
                 }
-                "client" -> {}
+                "client" -> {
+                    io.grpc.examples.routeguide.main()
+                }
                 else -> error("unsupported mode: $mode")
             }
         }

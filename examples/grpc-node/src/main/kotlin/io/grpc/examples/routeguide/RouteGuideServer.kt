@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 
 class RouteGuideServer {
-    val port = 50051
+    val port = 8980
 
     suspend fun start() {
         val routeGuideServiceImpl = object : RouteGuideCoroutineImplBase() {

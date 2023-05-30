@@ -15,7 +15,12 @@
 
 package com.toasttab.protokt.v1.grpc
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.launch
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -38,31 +43,79 @@ object ClientCalls {
         }
     }
 
-    @Suppress("UNUSED_PARAMETER")
     fun <ReqT, RespT> serverStreamingRpc(
-        client: dynamic,
+        @Suppress("UNUSED_PARAMETER") client: dynamic,
         method: MethodDescriptor<ReqT, RespT>,
-        request: ReqT
+        @Suppress("UNUSED_PARAMETER") request: ReqT
     ): Flow<RespT> {
-        TODO()
+        @Suppress("UNUSED_VARIABLE")
+        val methodName = method.lowerBareMethodName
+
+        @Suppress("UNCHECKED_CAST_TO_EXTERNAL_INTERFACE")
+        val call = js("client[methodName](request)") as ClientReadableStream<RespT>
+
+        return callbackFlow {
+            call.on("data") {
+                launch { send(it as RespT) }
+            }
+            call.on("end") {
+                close()
+            }
+            awaitClose()
+        }
     }
 
-    @Suppress("UNUSED_PARAMETER")
     suspend fun <ReqT, RespT> clientStreamingRpc(
-        client: dynamic,
+        @Suppress("UNUSED_PARAMETER") client: dynamic,
         method: MethodDescriptor<ReqT, RespT>,
         requests: Flow<ReqT>
     ): RespT {
-        TODO()
+        val context = currentCoroutineContext()
+        return suspendCoroutine { continuation ->
+            @Suppress("UNUSED_VARIABLE")
+            val onResponse = { _: dynamic, resp: RespT ->
+                continuation.resume(resp)
+            }
+
+            @Suppress("UNUSED_VARIABLE")
+            val methodName = method.lowerBareMethodName
+
+            @Suppress("UNCHECKED_CAST_TO_EXTERNAL_INTERFACE")
+            val call = js("client[methodName](onResponse)") as ClientWritableStream<ReqT>
+
+            CoroutineScope(context).launch {
+                requests.collect { call.write(it, null) }
+            }
+        }
     }
 
-    @Suppress("UNUSED_PARAMETER")
     fun <ReqT, RespT> bidiStreamingRpc(
-        client: dynamic,
+        @Suppress("UNUSED_PARAMETER") client: dynamic,
         method: MethodDescriptor<ReqT, RespT>,
         requests: Flow<ReqT>
     ): Flow<RespT> {
-        TODO()
+        @Suppress("UNUSED_VARIABLE")
+        val methodName = method.lowerBareMethodName
+
+        @Suppress("UNCHECKED_CAST_TO_EXTERNAL_INTERFACE")
+        val call = js("client[methodName]()") as ClientDuplexStream<ReqT, RespT>
+
+        return callbackFlow {
+            call.on("data") {
+                launch { send(it as RespT) }
+            }
+            call.on("end") {
+                close()
+            }
+
+            launch {
+                requests.collect {
+                    call.write(it, null)
+                }
+                call.end()
+            }
+            awaitClose()
+        }
     }
 }
 

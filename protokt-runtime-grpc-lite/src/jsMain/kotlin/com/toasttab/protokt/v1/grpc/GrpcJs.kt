@@ -90,6 +90,29 @@ external interface ServerDuplexStream<ReqT, RespT> :
     fun end(metadata: Metadata?)
 }
 
+external interface SurfaceCall : EventEmitter {
+    val call: dynamic
+
+    fun cancel()
+    fun getPeer(): String
+}
+
+external interface ClientReadableStream<RespT> :
+    SurfaceCall,
+    ObjectReadable<RespT>
+
+external interface ClientWritableStream<ReqT> :
+    SurfaceCall,
+    ObjectWritable<ReqT>
+
+external interface ClientDuplexStream<ReqT, RespT> :
+    SurfaceCall,
+    ObjectReadable<RespT>,
+    ObjectWritable<ReqT> {
+
+    fun end(metadata: Metadata?)
+}
+
 external fun makeClientConstructor(serviceDefinition: dynamic): (address: String, credentials: ChannelCredentials) -> dynamic
 
 external class ChannelCredentials {
