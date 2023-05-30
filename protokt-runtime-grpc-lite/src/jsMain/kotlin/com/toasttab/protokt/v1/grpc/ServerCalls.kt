@@ -61,12 +61,8 @@ object ServerCalls {
         val handler = { call: ServerReadableStream<ReqT, RespT>, callback: (error: Any?, value: RespT?, trailer: Metadata?, flags: Int?) -> Unit ->
             val scope = CoroutineScope(context)
             val requests = callbackFlow {
-                call.on("data") {
-                    scope.launch { send(it as ReqT) }
-                }
-                call.on("end") {
-                    close()
-                }
+                call.on("data") { scope.launch { send(it as ReqT) } }
+                call.on("end") { close() }
                 awaitClose()
             }
             scope.launch {
@@ -109,12 +105,8 @@ object ServerCalls {
         val handler = { call: ServerDuplexStream<ReqT, RespT> ->
             val scope = CoroutineScope(context)
             val requests = callbackFlow {
-                call.on("data") {
-                    scope.launch { send(it as ReqT) }
-                }
-                call.on("end") {
-                    close()
-                }
+                call.on("data") { scope.launch { send(it as ReqT) } }
+                call.on("end") { close() }
                 awaitClose()
             }
             scope.launch {

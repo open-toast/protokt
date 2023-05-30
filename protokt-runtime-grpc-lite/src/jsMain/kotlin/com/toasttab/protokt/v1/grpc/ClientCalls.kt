@@ -31,9 +31,7 @@ object ClientCalls {
         request: ReqT
     ): RespT =
         suspendCoroutine { continuation ->
-            val onResponse = { _: dynamic, resp: RespT ->
-                continuation.resume(resp)
-            }
+            val onResponse = { _: dynamic, resp: RespT -> continuation.resume(resp) }
             executeCall<Unit>(client, method, request, onResponse)
         }
 
@@ -44,13 +42,8 @@ object ClientCalls {
     ): Flow<RespT> =
         callbackFlow {
             val call = executeCall<ClientReadableStream<RespT>>(client, method, request)
-
-            call.on("data") {
-                launch { send(it as RespT) }
-            }
-            call.on("end") {
-                close()
-            }
+            call.on("data") { launch { send(it as RespT) } }
+            call.on("end") { close() }
             awaitClose()
         }
 
@@ -62,9 +55,7 @@ object ClientCalls {
         val context = currentCoroutineContext()
         return suspendCoroutine { continuation ->
             CoroutineScope(context).launch {
-                val onResponse = { _: dynamic, resp: RespT ->
-                    continuation.resume(resp)
-                }
+                val onResponse = { _: dynamic, resp: RespT -> continuation.resume(resp) }
                 val call = executeCall<ClientWritableStream<ReqT>>(client, method, onResponse)
                 requests.collect { call.write(it, null) }
                 call.end()
@@ -79,18 +70,11 @@ object ClientCalls {
     ): Flow<RespT> =
         callbackFlow {
             val call = executeCall<ClientDuplexStream<ReqT, RespT>>(client, method)
-
-            call.on("data") {
-                launch { send(it as RespT) }
-            }
-            call.on("end") {
-                close()
-            }
+            call.on("data") { launch { send(it as RespT) } }
+            call.on("end") { close() }
 
             launch {
-                requests.collect {
-                    call.write(it, null)
-                }
+                requests.collect { call.write(it, null) }
                 call.end()
             }
             awaitClose()
@@ -118,7 +102,8 @@ object ClientCalls {
             MethodDescriptor.MethodType.BIDI_STREAMING ->
                 js("client[methodName]()")
 
-            MethodDescriptor.MethodType.UNKNOWN -> error("unsupported call type")
+            MethodDescriptor.MethodType.UNKNOWN ->
+                error("unsupported call type")
         } as T
     }
 }
