@@ -127,7 +127,7 @@ fun newClient(
     service: ServiceDescriptor,
     @Suppress("UNUSED_PARAMETER") address: String,
     @Suppress("UNUSED_PARAMETER") credentials: ChannelCredentials
-): dynamic {
+): Client {
     @Suppress("UNUSED_VARIABLE")
     val constructor = makeClientConstructor(service.toServiceDefinition())
     return js("new constructor(address, credentials)") as Client
