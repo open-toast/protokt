@@ -16,7 +16,6 @@
 import io.grpc.examples.animals.AnimalsServer
 import io.grpc.examples.helloworld.HelloWorldClient
 import io.grpc.examples.helloworld.HelloWorldServer
-import io.grpc.examples.routeguide.RouteGuideServer
 
 external val process: dynamic
 
@@ -44,10 +43,10 @@ suspend fun main() {
         "routeguide" -> {
             when (mode) {
                 "server" -> {
-                    RouteGuideServer().start()
+                    io.grpc.examples.routeguide.serverMain()
                 }
                 "client" -> {
-                    io.grpc.examples.routeguide.main()
+                    io.grpc.examples.routeguide.clientMain()
                 }
                 else -> error("unsupported mode: $mode")
             }

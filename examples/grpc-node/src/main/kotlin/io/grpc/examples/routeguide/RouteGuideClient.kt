@@ -123,14 +123,14 @@ class RouteGuideClient {
     }
 }
 
-suspend fun main() {
-    // todo: val features = emptyList<Feature>() // Database.features()
+suspend fun clientMain() {
+    val features = Database.features()
 
     RouteGuideClient().let {
         it.getFeature(409146138, -746188906)
         it.getFeature(0, 0)
         it.listFeatures(400000000, -750000000, 420000000, -730000000)
-        // it.recordRoute(it.generateRoutePoints(features, 10))
+        it.recordRoute(it.generateRoutePoints(features, 10))
         it.routeChat()
     }
 }

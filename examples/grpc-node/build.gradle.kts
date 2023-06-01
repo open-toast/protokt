@@ -20,6 +20,7 @@ import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsExec
 
 plugins {
     id("org.jetbrains.kotlin.js")
+    id("org.jetbrains.kotlin.plugin.serialization") version libs.versions.kotlin
 }
 
 kotlin {
@@ -40,6 +41,7 @@ dependencies {
     protoktExtensions(project(":extensions:protokt-extensions"))
 
     implementation(project(":protokt-runtime-grpc-lite"))
+    implementation(libs.kotlinx.serialization.json)
 
     testImplementation(kotlin("test"))
     testImplementation(libs.kotlinx.coroutines.test)

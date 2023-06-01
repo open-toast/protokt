@@ -56,7 +56,7 @@ object ClientCalls {
         return suspendCoroutine { continuation ->
             CoroutineScope(context).launch {
                 val onResponse = { _: dynamic, resp: RespT -> continuation.resume(resp) }
-                val call = executeCall<ClientWritableStream<ReqT>>(client, method, onResponse)
+                val call = executeCall<ClientWritableStream<ReqT>>(client, method, null, onResponse)
                 requests.collect { call.write(it, null) }
                 call.end()
             }

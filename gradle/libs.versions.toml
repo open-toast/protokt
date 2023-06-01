@@ -17,6 +17,7 @@ grpc = "1.51.0"
 grpcKotlin = "1.3.0"
 kotlinPoet = "1.13.2"
 kotlinx-coroutines = "1.6.0"
+kotlinx-serialization = "1.5.1"
 ktlint = "0.49.1"
 protobuf = "3.21.7"
 protobufJs = "6.11.3"
@@ -88,5 +89,6 @@ jackson = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", versi
 junit = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
 junitVintage = { module = "org.junit.vintage:junit-vintage-engine" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 protobufLite = { module = "com.google.protobuf:protobuf-javalite", version.ref = "protobuf" }
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
