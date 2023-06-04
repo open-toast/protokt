@@ -24,7 +24,8 @@ import kotlin.math.sqrt
 
 private const val EARTH_RADIUS_IN_M = 6371000
 
-private fun Int.toRadians() = Math.toRadians(toDouble())
+// java.lang.Math.toRadians(toDouble())
+private fun Int.toRadians() = toDouble() * 0.017453292519943295
 
 infix fun Point.distanceTo(other: Point): Int {
     val lat1 = latitude.toRadians()

@@ -15,12 +15,10 @@
 
 import com.google.protobuf.gradle.proto
 import com.toasttab.protokt.v1.gradle.protokt
-import com.toasttab.protokt.v1.gradle.protoktExtensions
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsExec
 
 plugins {
     id("org.jetbrains.kotlin.js")
-    id("org.jetbrains.kotlin.plugin.serialization") version libs.versions.kotlin
 }
 
 kotlin {
@@ -37,11 +35,13 @@ kotlin {
 
 localProtokt()
 
-dependencies {
-    protoktExtensions(project(":extensions:protokt-extensions"))
+protokt {
+    onlyGenerateGrpc = true
+}
 
+dependencies {
     implementation(project(":protokt-runtime-grpc-lite"))
-    implementation(libs.kotlinx.serialization.json)
+    implementation(project(":examples:protos"))
 
     testImplementation(kotlin("test"))
     testImplementation(libs.kotlinx.coroutines.test)
@@ -53,10 +53,6 @@ sourceSets {
             srcDir("../protos/src/main/proto")
         }
     }
-}
-
-protokt {
-    generateGrpc = true
 }
 
 tasks.withType<NodeJsExec> {

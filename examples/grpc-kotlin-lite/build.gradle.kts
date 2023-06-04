@@ -25,13 +25,14 @@ pureKotlin()
 grpckt()
 
 protokt {
-    generateGrpc = true
+    onlyGenerateGrpc = true
     lite = true
 }
 
 dependencies {
     protobuf(project(":examples:protos"))
 
+    implementation(project(":examples:protos"))
     implementation(libs.grpcKotlinStub)
     implementation(libs.jackson)
     implementation(libs.kotlinx.coroutines.core)

@@ -13,24 +13,8 @@
  * limitations under the License.
  */
 
-import com.google.protobuf.gradle.protobuf
-import com.toasttab.protokt.v1.gradle.protokt
+package io.grpc.examples.routeguide
 
-plugins {
-    id("protokt.grpc-examples-conventions")
-}
-
-localProtokt()
-pureKotlin()
-
-protokt {
-    onlyGenerateGrpc = true
-}
-
-dependencies {
-    protobuf(project(":examples:protos"))
-
-    implementation(project(":examples:protos"))
-
-    runtimeOnly(libs.protobufJava)
+expect object Database {
+    fun features(): List<Feature>
 }

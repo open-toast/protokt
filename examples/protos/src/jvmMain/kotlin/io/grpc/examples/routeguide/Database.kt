@@ -22,8 +22,8 @@ import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.readValue
 
-object Database {
-    fun features(): List<Feature> {
+actual object Database {
+    actual fun features(): List<Feature> {
         return javaClass.getResourceAsStream("route_guide_db.json").use {
             ObjectMapper()
                 .registerModule(KotlinModule.Builder().build())

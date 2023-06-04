@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-import com.google.protobuf.gradle.proto
+import com.google.protobuf.gradle.protobuf
 import com.toasttab.protokt.v1.gradle.protokt
 
 plugins {
@@ -24,11 +24,14 @@ localProtokt()
 pureKotlin()
 
 protokt {
-    generateGrpc = true
+    onlyGenerateGrpc = true
     lite = true
 }
 
 dependencies {
+    protobuf(project(":examples:protos"))
+
+    implementation(project(":examples:protos"))
     implementation(libs.jackson)
 
     runtimeOnly(libs.protobufLite)
@@ -41,10 +44,6 @@ sourceSets {
         java {
             srcDir("../grpc-java/src/main/kotlin")
             srcDir("../protos/src/main/kotlin")
-        }
-
-        proto {
-            srcDir("../protos/src/main/proto")
         }
     }
 

@@ -16,7 +16,6 @@
 
 package io.grpc.examples.routeguide
 
-import com.toasttab.protokt.v1.Duration
 import com.toasttab.protokt.v1.grpc.Server
 import com.toasttab.protokt.v1.grpc.ServerCredentials
 import com.toasttab.protokt.v1.grpc.addService
@@ -25,52 +24,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flow
-import kotlin.math.atan2
-import kotlin.math.cos
-import kotlin.math.pow
-import kotlin.math.roundToInt
-import kotlin.math.sin
-import kotlin.math.sqrt
 import kotlin.time.ExperimentalTime
 import kotlin.time.TimeSource
-
-private const val EARTH_RADIUS_IN_M = 6371000
-
-private fun Int.toRadians() = toDouble() * 0.017453292519943295
-
-private const val MICROS_PER_SECOND = 1000000
-private const val NANOS_PER_MICROSECOND = 1000
-
-object Durations {
-    fun fromMicros(microseconds: Long) =
-        Duration {
-            seconds = microseconds / MICROS_PER_SECOND
-            nanos = (microseconds % MICROS_PER_SECOND * NANOS_PER_MICROSECOND).toInt()
-        }
-}
-
-operator fun Rectangle.contains(p: Point): Boolean {
-    val lowLong = minOf(lo!!.longitude, hi!!.longitude)
-    val hiLong = maxOf(lo.longitude, hi.longitude)
-    val lowLat = minOf(lo.latitude, hi.latitude)
-    val hiLat = maxOf(lo.latitude, hi.latitude)
-    return p.longitude in lowLong..hiLong && p.latitude in lowLat..hiLat
-}
-
-// todo: multiplatform
-infix fun Point.distanceTo(other: Point): Int {
-    val lat1 = latitude.toRadians()
-    val long1 = longitude.toRadians()
-    val lat2 = other.latitude.toRadians()
-    val long2 = other.latitude.toRadians()
-
-    val dLat = lat2 - lat1
-    val dLong = long2 - long1
-
-    val a = sin(dLat / 2).pow(2) + cos(lat1) * cos(lat2) * sin(dLong / 2).pow(2)
-    val c = 2 * atan2(sqrt(a), sqrt(1 - a))
-    return (EARTH_RADIUS_IN_M * c).roundToInt()
-}
 
 /**
  * Kotlin adaptation of RouteGuideServer from the Java gRPC example.

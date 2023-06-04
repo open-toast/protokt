@@ -3,8 +3,8 @@ package io.grpc.examples.routeguide
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
-object Database {
-    fun features() =
+actual object Database {
+    actual fun features() =
         Json.decodeFromString<FeatureDatabase>(featuresJson())
             .feature
             .map { f ->
@@ -23,7 +23,7 @@ object Database {
         js(
             """
                 JSON.stringify(
-                    require('../../../../../examples/protos/src/main/resources/io/grpc/examples/routeguide/route_guide_db.json')
+                    require('../../../../../examples/protos/src/commonMain/resources/io/grpc/examples/routeguide/route_guide_db.json')
                 )
             """
         ) as String

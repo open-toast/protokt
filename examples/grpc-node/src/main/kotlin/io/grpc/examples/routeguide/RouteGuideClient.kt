@@ -23,17 +23,6 @@ import kotlinx.coroutines.flow.flow
 import kotlin.random.Random
 import kotlin.random.nextLong
 
-// todo: multiplatform
-private fun Int.normalizeCoordinate(): Double = this / 1.0e7
-
-fun Point.toStr(): String {
-    val lat = latitude.normalizeCoordinate()
-    val long = longitude.normalizeCoordinate()
-    return "$lat, $long"
-}
-
-fun Feature.exists(): Boolean = name.isNotEmpty()
-
 class RouteGuideClient {
     private val random = Random(314159)
     private val stub = RouteGuideCoroutineStub("localhost:8980", ChannelCredentials.createInsecure())

@@ -16,21 +16,39 @@
 import com.toasttab.protokt.v1.gradle.protokt
 
 plugins {
-    id("protokt.jvm-conventions")
+    id("protokt.multiplatform-conventions")
+    id("org.jetbrains.kotlin.plugin.serialization") version libs.versions.kotlin
 }
 
 localProtokt()
-pureKotlin()
-grpckt()
 
 protokt {
-    generateGrpc = true
+    lite = true
 }
 
-dependencies {
-    implementation(project(":protokt-runtime-grpc"))
-    implementation(libs.grpcKotlinStub)
-    implementation(libs.grpcStub)
-    implementation(libs.jackson)
-    implementation(libs.kotlinx.coroutines.core)
+kotlin {
+    sourceSets {
+        val commonMain by getting {}
+
+        val jvmMain by getting {
+            dependencies {
+                implementation(libs.jackson)
+            }
+        }
+
+        val jsMain by getting {
+            dependencies {
+                implementation(libs.kotlinx.serialization.json)
+            }
+        }
+
+        jvm {
+            withJava()
+        }
+
+        js(IR) {
+            nodejs {}
+            useCommonJs()
+        }
+    }
 }
