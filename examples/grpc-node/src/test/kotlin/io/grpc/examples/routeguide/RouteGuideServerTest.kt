@@ -14,32 +14,43 @@
  * limitations under the License.
  */
 
-package io.grpc.examples.helloworld
+package io.grpc.examples.routeguide
 
 import com.toasttab.protokt.v1.grpc.ChannelCredentials
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
 import kotlin.test.AfterTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class HelloWorldServerTest {
-    private val server = HelloWorldServer()
+class RouteGuideServerTest {
+    private val server = RouteGuideServer(8980)
 
     @AfterTest
     fun after() {
-        server.server.forceShutdown()
+        server.stop()
     }
 
     @Test
-    fun animals() = runTest {
+    fun listFeatures() = runTest {
         server.start()
 
-        val stub = GreeterCoroutineStub("localhost:50051", ChannelCredentials.createInsecure())
-        val testName = "test name"
+        val stub = RouteGuideCoroutineStub("localhost:8980", ChannelCredentials.createInsecure())
 
-        val reply = stub.sayHello(HelloRequest { this.name = testName })
-        assertEquals("Hello $testName", reply.message)
+        val rectangle = Rectangle {
+            lo = Point {
+                latitude = 407838351
+                longitude = -746143763
+            }
+            hi = Point {
+                latitude = 407838351
+                longitude = -746143763
+            }
+        }
+
+        val features = stub.listFeatures(rectangle).toList()
+        assertEquals("Patriots Path, Mendham, NJ 07945, USA", features.first().name)
     }
 }

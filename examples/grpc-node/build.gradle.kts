@@ -60,15 +60,15 @@ protokt {
 }
 
 tasks.withType<NodeJsExec> {
-    args(listOfNotNull(properties["service"], properties["mode"]))
+    args(listOfNotNull(properties["service"], properties["mode"], properties["args"]))
 }
 
-fun GradleBuild.setUp(service: String, mode: String) {
+fun GradleBuild.setUp(service: String, mode: String, vararg extra: Pair<String, String>) {
     startParameter.projectProperties =
         mapOf(
             "service" to service,
             "mode" to mode
-        )
+        ) + extra.toMap()
 }
 
 tasks.register<GradleBuild>("HelloWorldServer") {
@@ -96,7 +96,13 @@ tasks.register<GradleBuild>("RouteGuideClient") {
     tasks = listOf("nodeProductionRun")
 }
 
-tasks.register<GradleBuild>("AnimalsClient") {
-    setUp("animals", "client")
+tasks.register<AnimalsClientTask>("AnimalsClient") {
+    doFirst { setUp("animals", "client", "args" to args) }
     tasks = listOf("nodeProductionRun")
+}
+
+abstract class AnimalsClientTask : GradleBuild() {
+    @Input
+    @Option(option = "args", description = "shim for JavaExec args")
+    lateinit var args: String
 }

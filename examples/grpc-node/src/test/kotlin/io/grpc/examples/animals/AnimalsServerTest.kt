@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.grpc.examples.helloworld
+package io.grpc.examples.animals
 
 import com.toasttab.protokt.v1.grpc.ChannelCredentials
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -24,8 +24,8 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class HelloWorldServerTest {
-    private val server = HelloWorldServer()
+class AnimalsServerTest {
+    private val server = AnimalsServer()
 
     @AfterTest
     fun after() {
@@ -36,10 +36,16 @@ class HelloWorldServerTest {
     fun animals() = runTest {
         server.start()
 
-        val stub = GreeterCoroutineStub("localhost:50051", ChannelCredentials.createInsecure())
-        val testName = "test name"
+        val dogStub = DogCoroutineStub("localhost:50051", ChannelCredentials.createInsecure())
+        val dogBark = dogStub.bark(BarkRequest { })
+        assertEquals("Bark!", dogBark.message)
 
-        val reply = stub.sayHello(HelloRequest { this.name = testName })
-        assertEquals("Hello $testName", reply.message)
+        val pigStub = PigCoroutineStub("localhost:50051", ChannelCredentials.createInsecure())
+        val pigOink = pigStub.oink(OinkRequest { })
+        assertEquals("Oink!", pigOink.message)
+
+        val sheepStub = SheepCoroutineStub("localhost:50051", ChannelCredentials.createInsecure())
+        val sheepBaa = sheepStub.baa(BaaRequest { })
+        assertEquals("Baa!", sheepBaa.message)
     }
 }

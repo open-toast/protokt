@@ -19,9 +19,6 @@ import io.grpc.examples.helloworld.HelloWorldServer
 
 external val process: dynamic
 
-// todo: adapt runtime from https://github.com/grpc/grpc/blob/v1.54.0/examples/node/static_codegen/route_guide/route_guide_client.js
-// https://github.com/grpc/grpc/blob/v1.54.0/examples/node/static_codegen/route_guide/route_guide_grpc_pb.js#L146
-
 suspend fun main() {
     // https://stackoverflow.com/a/65088942
     val argv = process.argv.slice(2) as Array<String>
@@ -56,7 +53,9 @@ suspend fun main() {
                 "server" -> {
                     AnimalsServer().start()
                 }
-                "client" -> {}
+                "client" -> {
+                    io.grpc.examples.animals.main(argv.drop(2).toTypedArray())
+                }
                 else -> error("unsupported mode: $mode")
             }
         }
