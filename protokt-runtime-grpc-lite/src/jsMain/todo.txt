@@ -1,0 +1,4 @@
+- integration with full grpc-node runtime:
+  - error propagation
+  - context propagation?
+  - metadata API

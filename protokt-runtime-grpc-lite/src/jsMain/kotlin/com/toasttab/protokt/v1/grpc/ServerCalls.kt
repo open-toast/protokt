@@ -93,7 +93,6 @@ object ServerCalls {
         return ServerMethodDefinition(descriptor, handler)
     }
 
-    // todo: use Http2ServerCallStream and propagate errors properly
     fun <ReqT, RespT> bidiStreamingServerMethodDefinition(
         context: CoroutineContext,
         descriptor: MethodDescriptor<ReqT, RespT>,
