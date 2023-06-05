@@ -50,16 +50,18 @@ Supports only version 3 of the Protocol Buffers language.
 and more
 - Representation of the well-known types as Kotlin nullable types: `StringValue`
 is represented as `String?`, etc.
-- Built on Protobuf's Java library: usage of CodedInputStream and
+- Multiplatform support for Kotlin JS
+- (JVM) Built on Protobuf's Java library: usage of CodedInputStream and
 CodedOutputStream for best performance
+- (JS) Built on protobufJS for best performance
 - gRPC [method descriptor and service descriptor generation](#grpc-code-generation)
-for use with [grpc-java](#integrating-with-grpcs-java-api) or 
-[grpc-kotlin](#integrating-with-grpcs-kotlin-api) (see examples  in [examples](examples))
+for use with [grpc-java](#integrating-with-grpcs-java-api), 
+[grpc-kotlin](#integrating-with-grpcs-kotlin-api), and
+[grpc-node](#integrating-with-grpcs-nodejs-api) (see examples  in [examples](examples))
 
 ### Not yet implemented
 
 - Kotlin/Native support
-- Kotlin/JS support
 - Protobuf JSON support 
 
 ### Compatibility
