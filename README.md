@@ -384,8 +384,11 @@ akin to `protobuf-java`'s `ByteString`.
 
 ## Extensions
 
+See extension options defined in
+[protokt.proto](extensions/protokt-extensions-lite/src/main/proto/protokt/v1/protokt.proto).
+
 See examples of each option in the [options](testing/options/src/main/proto)
-project. All protokt-specific options require importing `protokt/protokt.proto`
+project. All protokt-specific options require importing `protokt/v1/protokt.proto`
 in the protocol file.
 
 ### Wrapper Types
