@@ -33,6 +33,7 @@ Supports only version 3 of the Protocol Buffers language.
   + [Generated gRPC code](#generated-grpc-code)
   + [Integrating with gRPC's Java API](#integrating-with-grpcs-java-api)
   + [Integrating with gRPC's Kotlin API](#integrating-with-grpcs-kotlin-api)
+  + [Integrating with gRPC's NodeJS API](#integrating-with-grpcs-nodejs-api)
 * [IntelliJ integration](#intellij-integration)
 * [Command line code generation](#command-line-code-generation)
 * [Contribution](#contribution)
