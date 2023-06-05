@@ -96,8 +96,8 @@ apply plugin: 'com.toasttab.protokt'
 
 This will automatically download and install protokt, apply the Google protobuf
 plugin, and configure all the necessary boilerplate. By default it will also add
-`protokt-core` to the `api` scope of the project. You must explicitly choose to
-depend on `protobuf-java` or `protobuf-javalite`:
+`protokt-core` to the `api` scope of the project. On the JVM you must explicitly
+choose to depend on `protobuf-java` or `protobuf-javalite`:
 
 ```groovy
 dependencies {
@@ -401,13 +401,13 @@ Wrap a field by invoking the `(protokt.property).wrap` option:
 ```protobuf
 message WrapperMessage {
   google.protobuf.Timestamp instant = 1 [
-    (protokt.property).wrap = "java.time.Instant"
+    (protokt.v1.property).wrap = "java.time.Instant"
   ];
 }
 ```
 
 Converters implement the
-[Converter](extensions/protokt-extensions-api/src/main/kotlin/com/toasttab/protokt/ext/Converter.kt)
+[Converter](extensions/protokt-extensions-api/src/commonMain/kotlin/com/toasttab/protokt/v1/Converter.kt)
 interface:
 
 ```kotlin
@@ -476,7 +476,7 @@ private constructor(
 ```
 
 Each converter must be registered in a
-`META-INF/services/com.toasttab.protokt.ext.Converter`
+`META-INF/services/com.toasttab.protokt.v1.Converter`
 classpath resource following the standard `ServiceLoader` convention. For
 example, Google's [AutoService](https://github.com/google/auto/tree/master/service)
 can register converters with an annotation:
@@ -547,12 +547,12 @@ a nullable UUID:
 
 ```protobuf
 google.protobuf.BytesValue uuid = 1 [
-  (protokt.property).wrap = "java.util.UUID"
+  (protokt.v1.property).wrap = "java.util.UUID"
 ];
 
 // or:
 optional bytes optional_uuid = 2 [
-  (protokt.property).wrap = "java.util.UUID"
+  (protokt.v1.property).wrap = "java.util.UUID"
 ];
 ```
 
@@ -560,15 +560,15 @@ Wrapper types can be repeated:
 
 ```protobuf
 repeated bytes uuid = 1 [
-  (protokt.property).wrap = "java.util.UUID"
+  (protokt.v1.property).wrap = "java.util.UUID"
 ];
 ```
 
 And they can also be used for map keys and values:
 ```protobuf
 map<string, protokt.ext.InetSocketAddress> map_string_socket_address = 1 [
-  (protokt.property).key_wrap = "StringBox",
-  (protokt.property).value_wrap = "java.net.InetSocketAddress"
+  (protokt.v1.property).key_wrap = "StringBox",
+  (protokt.v1.property).value_wrap = "java.net.InetSocketAddress"
 ];
 ```
 
@@ -578,21 +578,21 @@ be referenced by its fully-qualified name and instead can be referenced by its
 simple name, as done with `StringBox` in the map example above.
 
 _N.b. Well-known type nullability is implemented with
-[predefined wrapper types](protokt-core/src/main/kotlin/com/toasttab/protokt)
+[predefined wrapper types](protokt-core-lite/src/commonMain/kotlin/com/toasttab/protokt/v1)
 for each message defined in
-[wrappers.proto](https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/wrappers.proto)._
+[wrappers.proto](https://github.com/protocolbuffers/protobuf/blob/main/src/google/protobuf/wrappers.proto)._
 
 ### Non-null fields
 If a message has no meaning whatsoever when a particular non-scalar field is
 missing, you can emulate proto2's `required` key word by using the
-`(protokt.property).non_null` option:
+`(protokt.v1.property).non_null` option:
 
 ```protobuf
 message Sample {}
 
 message NonNullSampleMessage {
   Sample non_null_sample = 1 [
-    (protokt.property).non_null = true
+    (protokt.v1.property).non_null = true
   ];
 }
 ```
@@ -605,7 +605,7 @@ Oneof fields can also be declared non-null:
 ```protobuf
 message NonNullSampleMessage {
   oneof non_null_oneof {
-    option (protokt.oneof).non_null = true;
+    option (protokt.v1.oneof).non_null = true;
 
     string message = 1;
   }
@@ -632,10 +632,10 @@ interface Model {
 ```
 
 ```protobuf
-package com.protokt.sample;
+package protokt.sample;
 
 message ImplementsSampleMessage {
-  option (protokt.class).implements = "Model";
+  option (protokt.v1.class).implements = "Model";
 
   string id = 1;
 }
@@ -659,10 +659,10 @@ protokt requires no inspection of it:
 
 ```protobuf
 message ImplementsWithDelegate {
-  option (protokt.class).implements = "Model2 by modelTwo";
+  option (protokt.v1.class).implements = "Model2 by modelTwo";
 
   ImplementsModel2 model_two = 1 [
-    (protokt.property).non_null = true
+    (protokt.v1.property).non_null = true
   ];
 }
 ```
@@ -672,7 +672,7 @@ Note that the `by` clause references the field by its lower camel case name.
 #### Oneof Fields
 
 Oneof fields can declare that they implement an interface with the 
-`(protokt.oneof).implements` option. Each possible field type of the oneof must
+`(protokt.v1.oneof).implements` option. Each possible field type of the oneof must
 also implement the interface. This allows access of common properties without a
 `when` statement that always ultimately extracts the same property.
 
@@ -706,12 +706,12 @@ import "protokt/protokt.proto";
 
 message MyObjectWithConfig {
   bytes id = 1 [
-    (protokt.property).wrap = "java.util.UUID"
+    (protokt.v1.property).wrap = "java.util.UUID"
   ];
 
   oneof Config {
-    option (protokt.oneof).non_null = true;
-    option (protokt.oneof).implements = "Config";
+    option (protokt.v1.oneof).non_null = true;
+    option (protokt.v1.oneof).implements = "Config";
 
     ServerSpecified server_specified = 2;
     ClientResolved client_resolved = 3;
@@ -719,7 +719,7 @@ message MyObjectWithConfig {
 }
 
 message ServerSpecified {
-  option (protokt.class).implements = "Config";
+  option (protokt.v1.class).implements = "Config";
 
   int32 version = 1;
 
@@ -728,14 +728,14 @@ message ServerSpecified {
 }
 
 message ClientResolved {
-  option (protokt.class).implements = "Config by config";
+  option (protokt.v1.class).implements = "Config by config";
 
   ServerSpecified config = 1 [
-    (protokt.property).non_null = true
+    (protokt.v1.property).non_null = true
   ];
 
   bytes last_known_address = 2 [
-    (protokt.property).wrap = "java.net.InetAddress"
+    (protokt.v1.property).wrap = "java.net.InetAddress"
   ];
 }
 ```
@@ -796,6 +796,12 @@ fun printVersion(config: MyObjectWithConfig.Config) {
 }
 ```
 
+This configuration is dangerous: since the oneof must be marked non-nullable, you
+cannot ABI-compatibly add new implementing fields to a producer before a consumer
+is updated with the new generated code. The old consumer will attempt to
+deserialize the new field as an unknown field and the non-null assertion on the
+oneof field during the constructor call will fail.
+
 ### BytesSlice
 
 When reading messages that contain other serialized messages as `bytes` fields,
@@ -809,7 +815,7 @@ message SliceModel {
   int64 version = 1;
 
   bytes encoded_message = 2 [
-    (protokt.property).bytes_slice = true
+    (protokt.v1.property).bytes_slice = true
   ];
 }
 ```
