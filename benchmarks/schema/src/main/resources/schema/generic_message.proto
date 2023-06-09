@@ -15,7 +15,7 @@
 
 syntax = "proto3";
 
-package toasttab.protokt.v1.benchmarks;
+package protokt.v1.benchmarks;
 
 option java_package = "com.toasttab.protokt.v1.benchmarks";
 

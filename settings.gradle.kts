@@ -70,7 +70,6 @@ include(
     "testing:options-api",
     "testing:options-test-configurations",
     "testing:plugin-options",
-    "testing:plugin-options:ignore-java-package",
     "testing:plugin-options:lite",
     "testing:protokt-generation",
     "testing:protokt-generation-2",

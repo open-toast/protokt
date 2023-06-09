@@ -16,10 +16,10 @@
 
 package io.grpc.examples.helloworld
 
-import com.toasttab.protokt.v1.grpc.Server
-import com.toasttab.protokt.v1.grpc.ServerCredentials
-import com.toasttab.protokt.v1.grpc.addService
-import com.toasttab.protokt.v1.grpc.start
+import protokt.v1.grpc.Server
+import protokt.v1.grpc.ServerCredentials
+import protokt.v1.grpc.addService
+import protokt.v1.grpc.start
 
 class HelloWorldServer {
     val port = 50051

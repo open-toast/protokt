@@ -1,9 +1,0 @@
-com.toasttab.protokt.v1.BoolValueConverter
-com.toasttab.protokt.v1.BytesValueConverter
-com.toasttab.protokt.v1.DoubleValueConverter
-com.toasttab.protokt.v1.FloatValueConverter
-com.toasttab.protokt.v1.Int32ValueConverter
-com.toasttab.protokt.v1.Int64ValueConverter
-com.toasttab.protokt.v1.StringValueConverter
-com.toasttab.protokt.v1.UInt32ValueConverter
-com.toasttab.protokt.v1.UInt64ValueConverter

@@ -26,7 +26,7 @@ gradlePlugin {
     plugins {
         create("protokt") {
             id = "com.toasttab.protokt.v1"
-            implementationClass = "com.toasttab.protokt.v1.gradle.ProtoktPlugin"
+            implementationClass = "protokt.v1.gradle.ProtoktPlugin"
             displayName = ProtoktProjectInfo.name
             description = ProtoktProjectInfo.description
             tags.set(listOf("protobuf", "kotlin"))
@@ -61,7 +61,7 @@ dependencies {
 }
 
 includeBuildSrc(
-    "com/toasttab/protokt/v1/gradle/*",
+    "protokt/v1/gradle/*",
     "com/google/protobuf/gradle/*"
 )
 

@@ -16,7 +16,7 @@
 package com.toasttab.protokt.rt
 
 import com.google.protobuf.CodedInputStream
-import com.toasttab.protokt.v1.NewToOldAdapter
+import protokt.v1.NewToOldAdapter
 import java.io.InputStream
 import java.nio.ByteBuffer
 
@@ -43,13 +43,13 @@ interface KtDeserializer<T : KtMessage> {
     fun deserialize(buffer: ByteBuffer): T =
         deserialize(deserializer(CodedInputStream.newInstance(buffer)))
 
-    fun deserialize(bytes: com.toasttab.protokt.v1.Bytes): T =
+    fun deserialize(bytes: protokt.v1.Bytes): T =
         deserialize(bytes.value)
 
-    fun deserialize(bytes: com.toasttab.protokt.v1.BytesSlice): T =
+    fun deserialize(bytes: protokt.v1.BytesSlice): T =
         deserialize(deserializer(CodedInputStream.newInstance(bytes.array, bytes.offset, bytes.length)))
 
-    fun deserialize(deserializer: com.toasttab.protokt.v1.KtMessageDeserializer): T =
+    fun deserialize(deserializer: protokt.v1.KtMessageDeserializer): T =
         deserialize(NewToOldAdapter(deserializer))
 
     @Deprecated("for ABI backwards compatibility only", level = DeprecationLevel.HIDDEN)

@@ -30,8 +30,8 @@ import com.toasttab.protokt.rt.UInt32
 import com.toasttab.protokt.rt.UInt64
 import com.toasttab.protokt.rt.UnknownFieldSet
 import com.toasttab.protokt.rt.sizeof
-import com.toasttab.protokt.v1.AbstractKtMessage
-import com.toasttab.protokt.v1.NewToOldAdapter
+import protokt.v1.AbstractKtMessage
+import protokt.v1.NewToOldAdapter
 import kotlin.Any
 import kotlin.Boolean
 import kotlin.Double
@@ -47,7 +47,7 @@ import kotlin.Unit
  *  The JSON representation for `DoubleValue` is JSON number.
  */
 @KtGeneratedMessage("google.protobuf.DoubleValue")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.DoubleValue")
+@protokt.v1.KtGeneratedMessage("google.protobuf.DoubleValue")
 @Deprecated("use v1")
 class DoubleValue private constructor(
     /**
@@ -67,7 +67,7 @@ class DoubleValue private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         if (value != 0.0) {
             NewToOldAdapter(serializer).write(Tag(9)).write(value)
         }
@@ -130,7 +130,7 @@ class DoubleValue private constructor(
  *  The JSON representation for `FloatValue` is JSON number.
  */
 @KtGeneratedMessage("google.protobuf.FloatValue")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.FloatValue")
+@protokt.v1.KtGeneratedMessage("google.protobuf.FloatValue")
 @Deprecated("use v1")
 class FloatValue private constructor(
     /**
@@ -150,7 +150,7 @@ class FloatValue private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         if (value != 0.0F) {
             NewToOldAdapter(serializer).write(Tag(13)).write(value)
         }
@@ -213,7 +213,7 @@ class FloatValue private constructor(
  *  The JSON representation for `Int64Value` is JSON string.
  */
 @KtGeneratedMessage("google.protobuf.Int64Value")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.Int64Value")
+@protokt.v1.KtGeneratedMessage("google.protobuf.Int64Value")
 @Deprecated("use v1")
 class Int64Value private constructor(
     /**
@@ -233,7 +233,7 @@ class Int64Value private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         if (value != 0L) {
             NewToOldAdapter(serializer).write(Tag(8)).write(Int64(value))
         }
@@ -296,7 +296,7 @@ class Int64Value private constructor(
  *  The JSON representation for `UInt64Value` is JSON string.
  */
 @KtGeneratedMessage("google.protobuf.UInt64Value")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.UInt64Value")
+@protokt.v1.KtGeneratedMessage("google.protobuf.UInt64Value")
 @Deprecated("use v1")
 class UInt64Value private constructor(
     /**
@@ -316,7 +316,7 @@ class UInt64Value private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         if (value != 0L) {
             NewToOldAdapter(serializer).write(Tag(8)).write(UInt64(value))
         }
@@ -379,7 +379,7 @@ class UInt64Value private constructor(
  *  The JSON representation for `Int32Value` is JSON number.
  */
 @KtGeneratedMessage("google.protobuf.Int32Value")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.Int32Value")
+@protokt.v1.KtGeneratedMessage("google.protobuf.Int32Value")
 @Deprecated("use v1")
 class Int32Value private constructor(
     /**
@@ -399,7 +399,7 @@ class Int32Value private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         if (value != 0) {
             NewToOldAdapter(serializer).write(Tag(8)).write(Int32(value))
         }
@@ -462,7 +462,7 @@ class Int32Value private constructor(
  *  The JSON representation for `UInt32Value` is JSON number.
  */
 @KtGeneratedMessage("google.protobuf.UInt32Value")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.UInt32Value")
+@protokt.v1.KtGeneratedMessage("google.protobuf.UInt32Value")
 @Deprecated("use v1")
 class UInt32Value private constructor(
     /**
@@ -482,7 +482,7 @@ class UInt32Value private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         if (value != 0) {
             NewToOldAdapter(serializer).write(Tag(8)).write(UInt32(value))
         }
@@ -545,7 +545,7 @@ class UInt32Value private constructor(
  *  The JSON representation for `BoolValue` is JSON `true` and `false`.
  */
 @KtGeneratedMessage("google.protobuf.BoolValue")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.BoolValue")
+@protokt.v1.KtGeneratedMessage("google.protobuf.BoolValue")
 @Deprecated("use v1")
 class BoolValue private constructor(
     /**
@@ -565,7 +565,7 @@ class BoolValue private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         if (value) {
             NewToOldAdapter(serializer).write(Tag(8)).write(value)
         }
@@ -628,7 +628,7 @@ class BoolValue private constructor(
  *  The JSON representation for `StringValue` is JSON string.
  */
 @KtGeneratedMessage("google.protobuf.StringValue")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.StringValue")
+@protokt.v1.KtGeneratedMessage("google.protobuf.StringValue")
 @Deprecated("use v1")
 class StringValue private constructor(
     /**
@@ -648,7 +648,7 @@ class StringValue private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         if (value.isNotEmpty()) {
             NewToOldAdapter(serializer).write(Tag(10)).write(value)
         }
@@ -711,7 +711,7 @@ class StringValue private constructor(
  *  The JSON representation for `BytesValue` is JSON string.
  */
 @KtGeneratedMessage("google.protobuf.BytesValue")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.BytesValue")
+@protokt.v1.KtGeneratedMessage("google.protobuf.BytesValue")
 @Deprecated("use v1")
 class BytesValue private constructor(
     /**
@@ -731,7 +731,7 @@ class BytesValue private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         if (value.isNotEmpty()) {
             NewToOldAdapter(serializer).write(Tag(10)).write(value)
         }

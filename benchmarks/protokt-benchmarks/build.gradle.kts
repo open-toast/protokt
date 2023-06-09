@@ -23,7 +23,7 @@ plugins {
 localProtokt()
 
 configure<JavaApplication> {
-    mainClass.set("com.toasttab.protokt.benchmarks.ProtoktBenchmarksKt")
+    mainClass.set("protokt.v1.benchmarks.ProtoktBenchmarksKt")
     executableDir = ".."
 }
 

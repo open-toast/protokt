@@ -23,8 +23,8 @@ import com.toasttab.protokt.rt.KtDeserializer
 import com.toasttab.protokt.rt.KtGeneratedMessage
 import com.toasttab.protokt.rt.KtMessageDeserializer
 import com.toasttab.protokt.rt.UnknownFieldSet
-import com.toasttab.protokt.v1.AbstractKtMessage
-import com.toasttab.protokt.v1.NewToOldAdapter
+import protokt.v1.AbstractKtMessage
+import protokt.v1.NewToOldAdapter
 import kotlin.Any
 import kotlin.Boolean
 import kotlin.Int
@@ -39,7 +39,7 @@ import kotlin.Unit
  *      service Foo {       rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty);     }
  */
 @KtGeneratedMessage("google.protobuf.Empty")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.Empty")
+@protokt.v1.KtGeneratedMessage("google.protobuf.Empty")
 @Deprecated("use v1")
 class Empty private constructor(
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
@@ -48,7 +48,7 @@ class Empty private constructor(
 
     private fun messageSize(): Int = unknownFields.size()
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         adapter.writeUnknown(unknownFields)
     }

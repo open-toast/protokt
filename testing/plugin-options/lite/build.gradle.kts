@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-import com.toasttab.protokt.v1.gradle.protokt
-import com.toasttab.protokt.v1.gradle.protoktExtensions
+import protokt.v1.gradle.protokt
+import protokt.v1.gradle.protoktExtensions
 
 plugins {
     id("protokt.jvm-conventions")

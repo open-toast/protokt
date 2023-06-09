@@ -15,7 +15,7 @@
 
 package com.toasttab.protokt.rt
 
-import com.toasttab.protokt.v1.KtMessageSerializer
+import protokt.v1.KtMessageSerializer
 
 @Deprecated("for backwards compatibility only")
 expect interface KtMessage {

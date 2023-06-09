@@ -26,8 +26,8 @@ import com.toasttab.protokt.rt.KtMessageDeserializer
 import com.toasttab.protokt.rt.Tag
 import com.toasttab.protokt.rt.UnknownFieldSet
 import com.toasttab.protokt.rt.sizeof
-import com.toasttab.protokt.v1.AbstractKtMessage
-import com.toasttab.protokt.v1.NewToOldAdapter
+import protokt.v1.AbstractKtMessage
+import protokt.v1.NewToOldAdapter
 import kotlin.Boolean
 import kotlin.Int
 import kotlin.String
@@ -86,7 +86,7 @@ import kotlin.Unit
  * }
  */
 @KtGeneratedMessage("google.protobuf.Any")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.Any")
+@protokt.v1.KtGeneratedMessage("google.protobuf.Any")
 @Deprecated("use v1")
 class Any private constructor(
     /**
@@ -132,7 +132,7 @@ class Any private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         if (typeUrl.isNotEmpty()) {
             adapter.write(Tag(10)).write(typeUrl)

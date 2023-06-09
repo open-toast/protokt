@@ -23,14 +23,9 @@ option java_package = "com.toasttab.protokt.v1";
 option java_outer_classname = "ProtoktProto";
 
 message ProtoktFileOptions {
-  // Specify the Kotlin package for the generated file. Precedence is given
-  // first to this Kotlin package, then to the Java package if enabled in
-  // the plugin options, and finally to the protobuf package.
-  string kotlin_package = 1;
-
   // Specify the name of the Kotlin object that contains the reference to this
   // file's FileDescriptor object.
-  string file_descriptor_object_name = 2;
+  string file_descriptor_object_name = 1;
 }
 
 extend google.protobuf.FileOptions {

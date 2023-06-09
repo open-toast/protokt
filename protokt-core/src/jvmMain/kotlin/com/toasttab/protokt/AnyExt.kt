@@ -40,15 +40,15 @@ private fun typeUrl(typeUrlPrefix: String, msg: KtMessage) =
     } + fullTypeName(msg::class)
 
 @Deprecated("use v1")
-inline fun <reified T : com.toasttab.protokt.v1.KtMessage> Any.isA() =
+inline fun <reified T : protokt.v1.KtMessage> Any.isA() =
     typeUrl.substringAfterLast('/') ==
         (
-            T::class.findAnnotation<com.toasttab.protokt.v1.KtGeneratedMessage>()?.fullTypeName
+            T::class.findAnnotation<protokt.v1.KtGeneratedMessage>()?.fullTypeName
                 ?: T::class.findAnnotation<com.toasttab.protokt.rt.KtGeneratedMessage>()?.fullTypeName
                 ?: error("class ${T::class} has no protokt generated message annotation")
             )
 
 private fun fullTypeName(klass: KClass<*>) =
-    klass.findAnnotation<com.toasttab.protokt.v1.KtGeneratedMessage>()?.fullTypeName
+    klass.findAnnotation<protokt.v1.KtGeneratedMessage>()?.fullTypeName
         ?: klass.findAnnotation<com.toasttab.protokt.rt.KtGeneratedMessage>()?.fullTypeName
         ?: error("class $klass has no protokt generated message annotation")

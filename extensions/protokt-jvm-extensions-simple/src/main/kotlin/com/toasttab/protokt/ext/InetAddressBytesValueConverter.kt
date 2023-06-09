@@ -21,7 +21,7 @@ import com.google.auto.service.AutoService
 import com.toasttab.protokt.BytesValue
 import com.toasttab.protokt.rt.Bytes
 import com.toasttab.protokt.rt.toBytes
-import com.toasttab.protokt.v1.InetAddressBytesConverter
+import protokt.v1.InetAddressBytesConverter
 import java.net.InetAddress
 
 @Deprecated("for backwards compatibility only")

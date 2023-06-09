@@ -16,7 +16,7 @@
 
 package io.grpc.examples.animals
 
-import com.toasttab.protokt.v1.grpc.ChannelCredentials
+import protokt.v1.grpc.ChannelCredentials
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import kotlin.test.AfterTest

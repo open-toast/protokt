@@ -30,8 +30,8 @@ import com.toasttab.protokt.rt.UnknownFieldSet
 import com.toasttab.protokt.rt.copyList
 import com.toasttab.protokt.rt.finishList
 import com.toasttab.protokt.rt.sizeof
-import com.toasttab.protokt.v1.AbstractKtMessage
-import com.toasttab.protokt.v1.NewToOldAdapter
+import protokt.v1.AbstractKtMessage
+import protokt.v1.NewToOldAdapter
 import kotlin.Boolean
 import kotlin.Int
 import kotlin.String
@@ -73,7 +73,7 @@ sealed class Syntax(
  * A protocol buffer message type.
  */
 @KtGeneratedMessage("google.protobuf.Type")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.Type")
+@protokt.v1.KtGeneratedMessage("google.protobuf.Type")
 @Deprecated("use v1")
 class Type private constructor(
     /**
@@ -128,7 +128,7 @@ class Type private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         if (name.isNotEmpty()) {
             adapter.write(Tag(10)).write(name)
@@ -275,7 +275,7 @@ class Type private constructor(
  * A single field of a message type.
  */
 @KtGeneratedMessage("google.protobuf.Field")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.Field")
+@protokt.v1.KtGeneratedMessage("google.protobuf.Field")
 @Deprecated("use v1")
 class Field private constructor(
     /**
@@ -360,7 +360,7 @@ class Field private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         if (kind.value != 0) {
             adapter.write(Tag(8)).write(kind)
@@ -719,7 +719,7 @@ class Field private constructor(
  * Enum type definition.
  */
 @KtGeneratedMessage("google.protobuf.Enum")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.Enum")
+@protokt.v1.KtGeneratedMessage("google.protobuf.Enum")
 @Deprecated("use v1")
 class Enum_ private constructor(
     /**
@@ -767,7 +767,7 @@ class Enum_ private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         if (name.isNotEmpty()) {
             adapter.write(Tag(10)).write(name)
@@ -894,7 +894,7 @@ class Enum_ private constructor(
  * Enum value definition.
  */
 @KtGeneratedMessage("google.protobuf.EnumValue")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.EnumValue")
+@protokt.v1.KtGeneratedMessage("google.protobuf.EnumValue")
 @Deprecated("use v1")
 class EnumValue private constructor(
     /**
@@ -928,7 +928,7 @@ class EnumValue private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         if (name.isNotEmpty()) {
             adapter.write(Tag(10)).write(name)
@@ -1023,7 +1023,7 @@ class EnumValue private constructor(
  * A protocol buffer option, which can be attached to a message, field, enumeration, etc.
  */
 @KtGeneratedMessage("google.protobuf.Option")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.Option")
+@protokt.v1.KtGeneratedMessage("google.protobuf.Option")
 @Deprecated("use v1")
 class Option private constructor(
     /**
@@ -1054,7 +1054,7 @@ class Option private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         if (name.isNotEmpty()) {
             adapter.write(Tag(10)).write(name)

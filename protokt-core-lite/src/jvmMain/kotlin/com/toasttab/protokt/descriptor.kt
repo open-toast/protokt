@@ -34,8 +34,8 @@ import com.toasttab.protokt.rt.UnknownFieldSet
 import com.toasttab.protokt.rt.copyList
 import com.toasttab.protokt.rt.finishList
 import com.toasttab.protokt.rt.sizeof
-import com.toasttab.protokt.v1.AbstractKtMessage
-import com.toasttab.protokt.v1.NewToOldAdapter
+import protokt.v1.AbstractKtMessage
+import protokt.v1.NewToOldAdapter
 import kotlin.Any
 import kotlin.Boolean
 import kotlin.Deprecated
@@ -52,7 +52,7 @@ import kotlin.collections.MutableList
  * The protocol compiler can output a FileDescriptorSet containing the .proto files it parses.
  */
 @KtGeneratedMessage("google.protobuf.FileDescriptorSet")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.FileDescriptorSet")
+@protokt.v1.KtGeneratedMessage("google.protobuf.FileDescriptorSet")
 @Deprecated("use v1")
 class FileDescriptorSet private constructor(
     val `file`: List<FileDescriptorProto>,
@@ -69,7 +69,7 @@ class FileDescriptorSet private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         if (file.isNotEmpty()) {
             file.forEach { adapter.write(Tag(10)).write(it) }
@@ -140,7 +140,7 @@ class FileDescriptorSet private constructor(
  * Describes a complete .proto file.
  */
 @KtGeneratedMessage("google.protobuf.FileDescriptorProto")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.FileDescriptorProto")
+@protokt.v1.KtGeneratedMessage("google.protobuf.FileDescriptorProto")
 @Deprecated("use v1")
 class FileDescriptorProto private constructor(
     val name: String?,
@@ -224,7 +224,7 @@ class FileDescriptorProto private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         if (name != null) {
             adapter.write(Tag(10)).write(name)
@@ -494,7 +494,7 @@ class FileDescriptorProto private constructor(
  * Describes a message type.
  */
 @KtGeneratedMessage("google.protobuf.DescriptorProto")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.DescriptorProto")
+@protokt.v1.KtGeneratedMessage("google.protobuf.DescriptorProto")
 @Deprecated("use v1")
 class DescriptorProto private constructor(
     val name: String?,
@@ -551,7 +551,7 @@ class DescriptorProto private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         if (name != null) {
             adapter.write(Tag(10)).write(name)
@@ -790,7 +790,7 @@ class DescriptorProto private constructor(
     }
 
     @KtGeneratedMessage("google.protobuf.ExtensionRange")
-    @com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.ExtensionRange")
+    @protokt.v1.KtGeneratedMessage("google.protobuf.ExtensionRange")
     @Deprecated("use v1")
     class ExtensionRange private constructor(
         val start: Int?,
@@ -815,7 +815,7 @@ class DescriptorProto private constructor(
             return result
         }
 
-        override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+        override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
             val adapter = NewToOldAdapter(serializer)
             if (start != null) {
                 adapter.write(Tag(8)).write(Int32(start))
@@ -907,7 +907,7 @@ class DescriptorProto private constructor(
      * ranges in the same message. Reserved ranges may not overlap.
      */
     @KtGeneratedMessage("google.protobuf.ReservedRange")
-    @com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.ReservedRange")
+    @protokt.v1.KtGeneratedMessage("google.protobuf.ReservedRange")
     @Deprecated("use v1")
     class ReservedRange private constructor(
         val start: Int?,
@@ -928,7 +928,7 @@ class DescriptorProto private constructor(
             return result
         }
 
-        override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+        override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
             val adapter = NewToOldAdapter(serializer)
             if (start != null) {
                 adapter.write(Tag(8)).write(Int32(start))
@@ -1003,7 +1003,7 @@ class DescriptorProto private constructor(
 }
 
 @KtGeneratedMessage("google.protobuf.ExtensionRangeOptions")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.ExtensionRangeOptions")
+@protokt.v1.KtGeneratedMessage("google.protobuf.ExtensionRangeOptions")
 @Deprecated("use v1")
 class ExtensionRangeOptions private constructor(
     /**
@@ -1024,7 +1024,7 @@ class ExtensionRangeOptions private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         if (uninterpretedOption.isNotEmpty()) {
             uninterpretedOption.forEach { adapter.write(Tag(7994)).write(it) }
@@ -1097,7 +1097,7 @@ class ExtensionRangeOptions private constructor(
  * Describes a field within a message.
  */
 @KtGeneratedMessage("google.protobuf.FieldDescriptorProto")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.FieldDescriptorProto")
+@protokt.v1.KtGeneratedMessage("google.protobuf.FieldDescriptorProto")
 @Deprecated("use v1")
 class FieldDescriptorProto private constructor(
     val name: String?,
@@ -1202,7 +1202,7 @@ class FieldDescriptorProto private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         if (name != null) {
             adapter.write(Tag(10)).write(name)
@@ -1512,7 +1512,7 @@ class FieldDescriptorProto private constructor(
  * Describes a oneof.
  */
 @KtGeneratedMessage("google.protobuf.OneofDescriptorProto")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.OneofDescriptorProto")
+@protokt.v1.KtGeneratedMessage("google.protobuf.OneofDescriptorProto")
 @Deprecated("use v1")
 class OneofDescriptorProto private constructor(
     val name: String?,
@@ -1533,7 +1533,7 @@ class OneofDescriptorProto private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         if (name != null) {
             adapter.write(Tag(10)).write(name)
@@ -1609,7 +1609,7 @@ class OneofDescriptorProto private constructor(
  * Describes an enum type.
  */
 @KtGeneratedMessage("google.protobuf.EnumDescriptorProto")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.EnumDescriptorProto")
+@protokt.v1.KtGeneratedMessage("google.protobuf.EnumDescriptorProto")
 @Deprecated("use v1")
 class EnumDescriptorProto private constructor(
     val name: String?,
@@ -1649,7 +1649,7 @@ class EnumDescriptorProto private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         if (name != null) {
             adapter.write(Tag(10)).write(name)
@@ -1790,7 +1790,7 @@ class EnumDescriptorProto private constructor(
      * that it can appropriately represent the entire int32 domain.
      */
     @KtGeneratedMessage("google.protobuf.EnumReservedRange")
-    @com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.EnumReservedRange")
+    @protokt.v1.KtGeneratedMessage("google.protobuf.EnumReservedRange")
     @Deprecated("use v1")
     class EnumReservedRange private constructor(
         val start: Int?,
@@ -1811,7 +1811,7 @@ class EnumDescriptorProto private constructor(
             return result
         }
 
-        override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+        override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
             val adapter = NewToOldAdapter(serializer)
             if (start != null) {
                 adapter.write(Tag(8)).write(Int32(start))
@@ -1890,7 +1890,7 @@ class EnumDescriptorProto private constructor(
  * Describes a value within an enum.
  */
 @KtGeneratedMessage("google.protobuf.EnumValueDescriptorProto")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.EnumValueDescriptorProto")
+@protokt.v1.KtGeneratedMessage("google.protobuf.EnumValueDescriptorProto")
 @Deprecated("use v1")
 class EnumValueDescriptorProto private constructor(
     val name: String?,
@@ -1915,7 +1915,7 @@ class EnumValueDescriptorProto private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         if (name != null) {
             adapter.write(Tag(10)).write(name)
@@ -2005,7 +2005,7 @@ class EnumValueDescriptorProto private constructor(
  * Describes a service.
  */
 @KtGeneratedMessage("google.protobuf.ServiceDescriptorProto")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.ServiceDescriptorProto")
+@protokt.v1.KtGeneratedMessage("google.protobuf.ServiceDescriptorProto")
 @Deprecated("use v1")
 class ServiceDescriptorProto private constructor(
     val name: String?,
@@ -2030,7 +2030,7 @@ class ServiceDescriptorProto private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         if (name != null) {
             adapter.write(Tag(10)).write(name)
@@ -2128,7 +2128,7 @@ class ServiceDescriptorProto private constructor(
  * Describes a method of a service.
  */
 @KtGeneratedMessage("google.protobuf.MethodDescriptorProto")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.MethodDescriptorProto")
+@protokt.v1.KtGeneratedMessage("google.protobuf.MethodDescriptorProto")
 @Deprecated("use v1")
 class MethodDescriptorProto private constructor(
     val name: String?,
@@ -2175,7 +2175,7 @@ class MethodDescriptorProto private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         if (name != null) {
             adapter.write(Tag(10)).write(name)
@@ -2301,7 +2301,7 @@ class MethodDescriptorProto private constructor(
 }
 
 @KtGeneratedMessage("google.protobuf.FileOptions")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.FileOptions")
+@protokt.v1.KtGeneratedMessage("google.protobuf.FileOptions")
 @Suppress("DEPRECATION")
 @Deprecated("use v1")
 class FileOptions private constructor(
@@ -2485,7 +2485,7 @@ class FileOptions private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         if (javaPackage != null) {
             adapter.write(Tag(10)).write(javaPackage)
@@ -2844,7 +2844,7 @@ class FileOptions private constructor(
 }
 
 @KtGeneratedMessage("google.protobuf.MessageOptions")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.MessageOptions")
+@protokt.v1.KtGeneratedMessage("google.protobuf.MessageOptions")
 @Deprecated("use v1")
 class MessageOptions private constructor(
     /**
@@ -2920,7 +2920,7 @@ class MessageOptions private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         if (messageSetWireFormat != null) {
             adapter.write(Tag(8)).write(messageSetWireFormat)
@@ -3040,7 +3040,7 @@ class MessageOptions private constructor(
 }
 
 @KtGeneratedMessage("google.protobuf.FieldOptions")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.FieldOptions")
+@protokt.v1.KtGeneratedMessage("google.protobuf.FieldOptions")
 @Deprecated("use v1")
 class FieldOptions private constructor(
     /**
@@ -3154,7 +3154,7 @@ class FieldOptions private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         if (ctype != null) {
             adapter.write(Tag(8)).write(ctype)
@@ -3372,7 +3372,7 @@ class FieldOptions private constructor(
 }
 
 @KtGeneratedMessage("google.protobuf.OneofOptions")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.OneofOptions")
+@protokt.v1.KtGeneratedMessage("google.protobuf.OneofOptions")
 @Deprecated("use v1")
 class OneofOptions private constructor(
     /**
@@ -3393,7 +3393,7 @@ class OneofOptions private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         if (uninterpretedOption.isNotEmpty()) {
             uninterpretedOption.forEach { adapter.write(Tag(7994)).write(it) }
@@ -3460,7 +3460,7 @@ class OneofOptions private constructor(
 }
 
 @KtGeneratedMessage("google.protobuf.EnumOptions")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.EnumOptions")
+@protokt.v1.KtGeneratedMessage("google.protobuf.EnumOptions")
 @Deprecated("use v1")
 class EnumOptions private constructor(
     /**
@@ -3497,7 +3497,7 @@ class EnumOptions private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         if (allowAlias != null) {
             adapter.write(Tag(16)).write(allowAlias)
@@ -3590,7 +3590,7 @@ class EnumOptions private constructor(
 }
 
 @KtGeneratedMessage("google.protobuf.EnumValueOptions")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.EnumValueOptions")
+@protokt.v1.KtGeneratedMessage("google.protobuf.EnumValueOptions")
 @Deprecated("use v1")
 class EnumValueOptions private constructor(
     /**
@@ -3620,7 +3620,7 @@ class EnumValueOptions private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         if (deprecated != null) {
             adapter.write(Tag(8)).write(deprecated)
@@ -3701,7 +3701,7 @@ class EnumValueOptions private constructor(
 }
 
 @KtGeneratedMessage("google.protobuf.ServiceOptions")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.ServiceOptions")
+@protokt.v1.KtGeneratedMessage("google.protobuf.ServiceOptions")
 @Deprecated("use v1")
 class ServiceOptions private constructor(
     /**
@@ -3731,7 +3731,7 @@ class ServiceOptions private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         if (deprecated != null) {
             adapter.write(Tag(264)).write(deprecated)
@@ -3812,7 +3812,7 @@ class ServiceOptions private constructor(
 }
 
 @KtGeneratedMessage("google.protobuf.MethodOptions")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.MethodOptions")
+@protokt.v1.KtGeneratedMessage("google.protobuf.MethodOptions")
 @Deprecated("use v1")
 class MethodOptions private constructor(
     /**
@@ -3846,7 +3846,7 @@ class MethodOptions private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         if (deprecated != null) {
             adapter.write(Tag(264)).write(deprecated)
@@ -3975,7 +3975,7 @@ class MethodOptions private constructor(
  * produced by Descriptor::CopyTo()) will never have UninterpretedOptions in them.
  */
 @KtGeneratedMessage("google.protobuf.UninterpretedOption")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.UninterpretedOption")
+@protokt.v1.KtGeneratedMessage("google.protobuf.UninterpretedOption")
 @Deprecated("use v1")
 class UninterpretedOption private constructor(
     val name: List<NamePart>,
@@ -4020,7 +4020,7 @@ class UninterpretedOption private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         if (name.isNotEmpty()) {
             name.forEach { adapter.write(Tag(18)).write(it) }
@@ -4171,7 +4171,7 @@ class UninterpretedOption private constructor(
      * represents "foo.(bar.baz).moo".
      */
     @KtGeneratedMessage("google.protobuf.NamePart")
-    @com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.NamePart")
+    @protokt.v1.KtGeneratedMessage("google.protobuf.NamePart")
     @Deprecated("use v1")
     class NamePart private constructor(
         val namePart: String,
@@ -4192,7 +4192,7 @@ class UninterpretedOption private constructor(
             return result
         }
 
-        override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+        override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
             val adapter = NewToOldAdapter(serializer)
             if (namePart.isNotEmpty()) {
                 adapter.write(Tag(10)).write(namePart)
@@ -4270,7 +4270,7 @@ class UninterpretedOption private constructor(
  * generated.
  */
 @KtGeneratedMessage("google.protobuf.SourceCodeInfo")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.SourceCodeInfo")
+@protokt.v1.KtGeneratedMessage("google.protobuf.SourceCodeInfo")
 @Deprecated("use v1")
 class SourceCodeInfo private constructor(
     /**
@@ -4315,7 +4315,7 @@ class SourceCodeInfo private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         if (location.isNotEmpty()) {
             location.forEach { adapter.write(Tag(10)).write(it) }
@@ -4382,7 +4382,7 @@ class SourceCodeInfo private constructor(
     }
 
     @KtGeneratedMessage("google.protobuf.Location")
-    @com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.Location")
+    @protokt.v1.KtGeneratedMessage("google.protobuf.Location")
     @Deprecated("use v1")
     class Location private constructor(
         /**
@@ -4476,7 +4476,7 @@ class SourceCodeInfo private constructor(
             return result
         }
 
-        override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+        override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
             val adapter = NewToOldAdapter(serializer)
             if (path.isNotEmpty()) {
                 adapter.write(Tag(10)).write(UInt32(path.sumOf { sizeof(Int32(it)) }))
@@ -4628,7 +4628,7 @@ class SourceCodeInfo private constructor(
  * references to different source .proto files.
  */
 @KtGeneratedMessage("google.protobuf.GeneratedCodeInfo")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.GeneratedCodeInfo")
+@protokt.v1.KtGeneratedMessage("google.protobuf.GeneratedCodeInfo")
 @Deprecated("use v1")
 class GeneratedCodeInfo private constructor(
     /**
@@ -4649,7 +4649,7 @@ class GeneratedCodeInfo private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         if (annotation.isNotEmpty()) {
             annotation.forEach { adapter.write(Tag(10)).write(it) }
@@ -4716,7 +4716,7 @@ class GeneratedCodeInfo private constructor(
     }
 
     @KtGeneratedMessage("google.protobuf.Annotation")
-    @com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.Annotation")
+    @protokt.v1.KtGeneratedMessage("google.protobuf.Annotation")
     @Deprecated("use v1")
     class Annotation private constructor(
         /**
@@ -4762,7 +4762,7 @@ class GeneratedCodeInfo private constructor(
             return result
         }
 
-        override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+        override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
             val adapter = NewToOldAdapter(serializer)
             if (path.isNotEmpty()) {
                 adapter.write(Tag(10)).write(UInt32(path.sumOf { sizeof(Int32(it)) }))

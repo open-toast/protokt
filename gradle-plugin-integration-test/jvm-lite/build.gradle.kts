@@ -59,7 +59,7 @@ sourceSets {
     test {
         java {
             val common = "../multiplatform/src/commonTest/kotlin"
-            val lite = "../../testing/plugin-options/lite/src/test/kotlin/com/toasttab/protokt/testing/lite"
+            val lite = "../../testing/plugin-options/lite/src/test/kotlin/protokt/v1/testing/lite"
             check(file(common).exists())
             check(file(lite).exists())
             srcDir(common)

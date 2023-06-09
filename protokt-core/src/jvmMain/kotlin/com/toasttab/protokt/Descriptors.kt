@@ -17,7 +17,7 @@
 
 package com.toasttab.protokt
 
-import com.toasttab.protokt.v1.finishList
+import protokt.v1.finishList
 
 @Deprecated("use v1")
 class FileDescriptor(

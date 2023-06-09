@@ -14,7 +14,7 @@
  */
 
 import com.google.protobuf.gradle.protobuf
-import com.toasttab.protokt.v1.gradle.protokt
+import protokt.v1.gradle.protokt
 
 plugins {
     id("protokt.grpc-examples-conventions")
@@ -58,7 +58,7 @@ sourceSets {
     test {
         java {
             srcDir("../grpc-kotlin/src/test/kotlin")
-            srcDir("../../testing/plugin-options/lite/src/test/kotlin/com/toasttab/protokt/testing/lite")
+            srcDir("../../testing/plugin-options/lite/src/test/kotlin/protokt/v1/testing/lite")
         }
     }
 }

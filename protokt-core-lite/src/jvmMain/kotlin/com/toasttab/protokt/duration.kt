@@ -27,8 +27,8 @@ import com.toasttab.protokt.rt.KtMessageDeserializer
 import com.toasttab.protokt.rt.Tag
 import com.toasttab.protokt.rt.UnknownFieldSet
 import com.toasttab.protokt.rt.sizeof
-import com.toasttab.protokt.v1.AbstractKtMessage
-import com.toasttab.protokt.v1.NewToOldAdapter
+import protokt.v1.AbstractKtMessage
+import protokt.v1.NewToOldAdapter
 import kotlin.Any
 import kotlin.Boolean
 import kotlin.Int
@@ -83,7 +83,7 @@ import kotlin.Unit
  *
  */
 @KtGeneratedMessage("google.protobuf.Duration")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.Duration")
+@protokt.v1.KtGeneratedMessage("google.protobuf.Duration")
 @Deprecated("use v1")
 class Duration private constructor(
     /**
@@ -115,7 +115,7 @@ class Duration private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         if (seconds != 0L) {
             adapter.write(Tag(8)).write(Int64(seconds))

@@ -82,7 +82,6 @@ wireRuntime = { module = "com.squareup.wire:wire-runtime", version.ref = "wire" 
 protoGoogleCommonProtos = { module = "com.google.api.grpc:proto-google-common-protos", version.ref = "protoGoogleCommonProtos" }
 
 # test
-grpcKotlinGenerator = { module = "io.grpc:protoc-gen-grpc-kotlin", version.ref = "grpcKotlin" }
 grpcKotlinStub = { module = "io.grpc:grpc-kotlin-stub", version.ref = "grpcKotlin" }
 grpcTesting = { module = "io.grpc:grpc-testing", version.ref = "grpc" }
 jackson = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }

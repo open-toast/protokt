@@ -16,7 +16,7 @@
 
 package io.grpc.examples.routeguide
 
-import com.toasttab.protokt.v1.grpc.ChannelCredentials
+import protokt.v1.grpc.ChannelCredentials
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest

@@ -16,7 +16,7 @@
 
 package io.grpc.examples.animals
 
-import com.toasttab.protokt.v1.grpc.ChannelCredentials
+import protokt.v1.grpc.ChannelCredentials
 
 class AnimalsClient(
     port: Int

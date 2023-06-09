@@ -34,8 +34,8 @@ import com.toasttab.protokt.rt.UnknownFieldSet
 import com.toasttab.protokt.rt.copyList
 import com.toasttab.protokt.rt.finishList
 import com.toasttab.protokt.rt.sizeof
-import com.toasttab.protokt.v1.AbstractKtMessage
-import com.toasttab.protokt.v1.NewToOldAdapter
+import protokt.v1.AbstractKtMessage
+import protokt.v1.NewToOldAdapter
 import kotlin.Any
 import kotlin.Boolean
 import kotlin.Int
@@ -49,7 +49,7 @@ import kotlin.collections.MutableList
  * The version number of protocol compiler.
  */
 @KtGeneratedMessage("google.protobuf.compiler.Version")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.compiler.Version")
+@protokt.v1.KtGeneratedMessage("google.protobuf.compiler.Version")
 class Version private constructor(
     val major: Int?,
     val minor: Int?,
@@ -81,7 +81,7 @@ class Version private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         if (major != null) {
             adapter.write(Tag(8)).write(Int32(major))
@@ -182,7 +182,7 @@ class Version private constructor(
  * An encoded CodeGeneratorRequest is written to the plugin's stdin.
  */
 @KtGeneratedMessage("google.protobuf.compiler.CodeGeneratorRequest")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.compiler.CodeGeneratorRequest")
+@protokt.v1.KtGeneratedMessage("google.protobuf.compiler.CodeGeneratorRequest")
 class CodeGeneratorRequest private constructor(
     /**
      * The .proto files that were explicitly listed on the command-line.  The code generator should
@@ -233,7 +233,7 @@ class CodeGeneratorRequest private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         if (fileToGenerate.isNotEmpty()) {
             fileToGenerate.forEach { adapter.write(Tag(10)).write(it) }
@@ -351,7 +351,7 @@ class CodeGeneratorRequest private constructor(
  * The plugin writes an encoded CodeGeneratorResponse to stdout.
  */
 @KtGeneratedMessage("google.protobuf.compiler.CodeGeneratorResponse")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.compiler.CodeGeneratorResponse")
+@protokt.v1.KtGeneratedMessage("google.protobuf.compiler.CodeGeneratorResponse")
 class CodeGeneratorResponse private constructor(
     /**
      * Error message.  If non-empty, code generation failed.  The plugin process should exit with
@@ -388,7 +388,7 @@ class CodeGeneratorResponse private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         if (error != null) {
             adapter.write(Tag(10)).write(error)
@@ -509,7 +509,7 @@ class CodeGeneratorResponse private constructor(
      * Represents a single generated file.
      */
     @KtGeneratedMessage("google.protobuf.compiler.File")
-    @com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.compiler.File")
+    @protokt.v1.KtGeneratedMessage("google.protobuf.compiler.File")
     class File private constructor(
         /**
          * The file name, relative to the output directory.  The name must not contain "." or ".."
@@ -587,7 +587,7 @@ class CodeGeneratorResponse private constructor(
             return result
         }
 
-        override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+        override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
             val adapter = NewToOldAdapter(serializer)
             if (name != null) {
                 adapter.write(Tag(10)).write(name)

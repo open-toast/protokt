@@ -20,6 +20,7 @@ import io.grpc.testing.GrpcServerRule
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule
+import protokt.v1.io.grpc.examples.routeguide.Database
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

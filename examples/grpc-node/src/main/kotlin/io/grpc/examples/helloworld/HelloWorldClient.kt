@@ -15,7 +15,7 @@
 
 package io.grpc.examples.helloworld
 
-import com.toasttab.protokt.v1.grpc.ChannelCredentials
+import protokt.v1.grpc.ChannelCredentials
 
 class HelloWorldClient {
     private val stub = GreeterCoroutineStub("localhost:50051", ChannelCredentials.createInsecure())

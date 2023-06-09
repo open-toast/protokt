@@ -22,7 +22,7 @@ import com.toasttab.protokt.BytesValue
 import com.toasttab.protokt.rt.Bytes
 import com.toasttab.protokt.rt.sizeof
 import com.toasttab.protokt.rt.toBytes
-import com.toasttab.protokt.v1.UuidBytesConverter
+import protokt.v1.UuidBytesConverter
 import java.util.UUID
 
 @Deprecated("for backwards compatibility only")

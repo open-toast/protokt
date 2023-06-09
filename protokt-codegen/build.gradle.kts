@@ -14,7 +14,7 @@
  */
 
 import com.google.protobuf.gradle.proto
-import com.toasttab.protokt.v1.gradle.CODEGEN_NAME
+import protokt.v1.gradle.CODEGEN_NAME
 
 plugins {
     id("protokt.jvm-conventions")
@@ -28,7 +28,7 @@ enablePublishing(defaultJars = false)
 
 application {
     applicationName = CODEGEN_NAME
-    mainClass.set("com.toasttab.protokt.v1.MainKt")
+    mainClass.set("protokt.v1.codegen.MainKt")
 }
 
 dependencies {
@@ -84,7 +84,7 @@ sourceSets {
 }
 
 includeBuildSrc(
-    "com/toasttab/protokt/v1/gradle/ProtoktExtension.kt",
-    "com/toasttab/protokt/v1/gradle/ProtoktVersion.kt",
-    "com/toasttab/protokt/v1/gradle/ProtobufVersion.kt"
+    "protokt/v1/gradle/ProtoktExtension.kt",
+    "protokt/v1/gradle/ProtoktVersion.kt",
+    "protokt/v1/gradle/ProtobufVersion.kt"
 )

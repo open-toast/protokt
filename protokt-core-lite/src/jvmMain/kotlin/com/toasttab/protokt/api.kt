@@ -27,8 +27,8 @@ import com.toasttab.protokt.rt.UnknownFieldSet
 import com.toasttab.protokt.rt.copyList
 import com.toasttab.protokt.rt.finishList
 import com.toasttab.protokt.rt.sizeof
-import com.toasttab.protokt.v1.AbstractKtMessage
-import com.toasttab.protokt.v1.NewToOldAdapter
+import protokt.v1.AbstractKtMessage
+import protokt.v1.NewToOldAdapter
 import kotlin.Any
 import kotlin.Boolean
 import kotlin.Int
@@ -47,7 +47,7 @@ import kotlin.collections.MutableList
  * message itself. See https://cloud.google.com/apis/design/glossary for detailed terminology.
  */
 @KtGeneratedMessage("google.protobuf.Api")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.Api")
+@protokt.v1.KtGeneratedMessage("google.protobuf.Api")
 @Deprecated("use v1")
 class Api private constructor(
     /**
@@ -125,7 +125,7 @@ class Api private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         if (name.isNotEmpty()) {
             adapter.write(Tag(10)).write(name)
@@ -285,7 +285,7 @@ class Api private constructor(
  * Method represents a method of an API interface.
  */
 @KtGeneratedMessage("google.protobuf.Method")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.Method")
+@protokt.v1.KtGeneratedMessage("google.protobuf.Method")
 @Deprecated("use v1")
 class Method private constructor(
     /**
@@ -347,7 +347,7 @@ class Method private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         if (name.isNotEmpty()) {
             adapter.write(Tag(10)).write(name)
@@ -545,7 +545,7 @@ class Method private constructor(
  *  ...     }
  */
 @KtGeneratedMessage("google.protobuf.Mixin")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.Mixin")
+@protokt.v1.KtGeneratedMessage("google.protobuf.Mixin")
 @Deprecated("use v1")
 class Mixin private constructor(
     /**
@@ -572,7 +572,7 @@ class Mixin private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         if (name.isNotEmpty()) {
             adapter.write(Tag(10)).write(name)

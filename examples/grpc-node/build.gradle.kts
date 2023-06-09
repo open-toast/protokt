@@ -14,7 +14,7 @@
  */
 
 import com.google.protobuf.gradle.proto
-import com.toasttab.protokt.v1.gradle.protokt
+import protokt.v1.gradle.protokt
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsExec
 
 plugins {

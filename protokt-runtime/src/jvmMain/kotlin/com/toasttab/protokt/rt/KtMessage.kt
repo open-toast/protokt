@@ -27,7 +27,7 @@ actual interface KtMessage {
 
     actual fun serialize(): ByteArray
 
-    actual fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer)
+    actual fun serialize(serializer: protokt.v1.KtMessageSerializer)
 
     fun serialize(outputStream: OutputStream) {
         serialize(CodedOutputStream.newInstance(outputStream))

@@ -14,7 +14,7 @@
  */
 
 import com.google.protobuf.gradle.testProtobuf
-import com.toasttab.protokt.v1.gradle.testProtoktExtensions
+import protokt.v1.gradle.testProtoktExtensions
 
 plugins {
     id("protokt.jvm-conventions")

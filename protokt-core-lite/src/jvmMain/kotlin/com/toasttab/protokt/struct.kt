@@ -32,8 +32,8 @@ import com.toasttab.protokt.rt.finishList
 import com.toasttab.protokt.rt.finishMap
 import com.toasttab.protokt.rt.sizeof
 import com.toasttab.protokt.rt.sizeofMap
-import com.toasttab.protokt.v1.AbstractKtMessage
-import com.toasttab.protokt.v1.NewToOldAdapter
+import protokt.v1.AbstractKtMessage
+import protokt.v1.NewToOldAdapter
 import kotlin.Any
 import kotlin.Boolean
 import kotlin.Double
@@ -84,7 +84,7 @@ sealed class NullValue(
  *  The JSON representation for `Struct` is JSON object.
  */
 @KtGeneratedMessage("google.protobuf.Struct")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.Struct")
+@protokt.v1.KtGeneratedMessage("google.protobuf.Struct")
 @Deprecated("use v1")
 class Struct private constructor(
     /**
@@ -104,7 +104,7 @@ class Struct private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         if (fields.isNotEmpty()) {
             fields.entries.forEach { adapter.write(Tag(10)).write(FieldsEntry(it.key, it.value))
@@ -181,7 +181,7 @@ class Struct private constructor(
         override val messageSize: Int
             get() = sizeof(key, value)
 
-        override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+        override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
             val adapter = NewToOldAdapter(serializer)
             adapter.write(Tag(10)).write(key)
 
@@ -216,7 +216,7 @@ class Struct private constructor(
  *  The JSON representation for `Value` is JSON value.
  */
 @KtGeneratedMessage("google.protobuf.Value")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.Value")
+@protokt.v1.KtGeneratedMessage("google.protobuf.Value")
 @Deprecated("use v1")
 class Value private constructor(
     /**
@@ -248,7 +248,7 @@ class Value private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         when (kind) {
             is Value.Kind.NullValue -> {
@@ -380,7 +380,7 @@ class Value private constructor(
  *  The JSON representation for `ListValue` is JSON array.
  */
 @KtGeneratedMessage("google.protobuf.ListValue")
-@com.toasttab.protokt.v1.KtGeneratedMessage("google.protobuf.ListValue")
+@protokt.v1.KtGeneratedMessage("google.protobuf.ListValue")
 @Deprecated("use v1")
 class ListValue private constructor(
     /**
@@ -400,7 +400,7 @@ class ListValue private constructor(
         return result
     }
 
-    override fun serialize(serializer: com.toasttab.protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
         val adapter = NewToOldAdapter(serializer)
         if (values.isNotEmpty()) {
             values.forEach { adapter.write(Tag(10)).write(it) }

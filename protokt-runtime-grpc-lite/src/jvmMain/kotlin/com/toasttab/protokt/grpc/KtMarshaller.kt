@@ -15,7 +15,7 @@
 
 package com.toasttab.protokt.grpc
 
-import com.toasttab.protokt.v1.KtDeserializer
+import protokt.v1.KtDeserializer
 import io.grpc.MethodDescriptor
 import java.io.InputStream
 

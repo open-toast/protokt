@@ -22,6 +22,7 @@ import io.grpc.examples.routeguide.RouteGuideGrpcKt.RouteGuideCoroutineStub
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import protokt.v1.io.grpc.examples.routeguide.Database
 import java.io.Closeable
 import java.util.concurrent.TimeUnit
 import kotlin.random.Random

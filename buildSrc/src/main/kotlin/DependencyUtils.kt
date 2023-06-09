@@ -50,21 +50,3 @@ fun Project.defaultProtoc() {
         }
     }
 }
-
-fun Project.grpckt() {
-    configure<ProtobufExtension> {
-        plugins {
-            id("grpckt") {
-                artifact = "${findLibrary("grpcKotlinGenerator")}:jdk8@jar"
-            }
-        }
-
-        generateProtoTasks {
-            all().forEach {
-                it.plugins {
-                    id("grpckt")
-                }
-            }
-        }
-    }
-}

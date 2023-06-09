@@ -16,10 +16,11 @@
 
 package io.grpc.examples.routeguide
 
-import com.toasttab.protokt.v1.grpc.ChannelCredentials
+import protokt.v1.grpc.ChannelCredentials
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import protokt.v1.io.grpc.examples.routeguide.Database
 import kotlin.random.Random
 import kotlin.random.nextLong
 
