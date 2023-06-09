@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.grpc.examples.helloworld
+package protokt.v1.helloworld
 
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder

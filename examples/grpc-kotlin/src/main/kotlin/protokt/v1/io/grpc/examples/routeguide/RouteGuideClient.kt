@@ -1,6 +1,6 @@
 /*
  * Copyright 2020 gRPC authors.
- * Copyright 2023 Toast, Inc.
+ * Copyright 2021 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,27 @@
  * limitations under the License.
  */
 
-package io.grpc.examples.routeguide
+package protokt.v1.io.grpc.examples.routeguide
 
-import protokt.v1.grpc.ChannelCredentials
+import io.grpc.ManagedChannel
+import io.grpc.ManagedChannelBuilder
+import io.grpc.examples.routeguide.RouteGuideGrpcKt.RouteGuideCoroutineStub
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import protokt.v1.io.grpc.examples.routeguide.Database
+import java.io.Closeable
+import java.util.concurrent.TimeUnit
 import kotlin.random.Random
 import kotlin.random.nextLong
 
-class RouteGuideClient {
+class RouteGuideClient(private val channel: ManagedChannel) : Closeable {
     private val random = Random(314159)
-    private val stub = RouteGuideCoroutineStub("localhost:8980", ChannelCredentials.createInsecure())
+    private val stub = RouteGuideCoroutineStub(channel)
+
+    override fun close() {
+        channel.shutdown().awaitTermination(5, TimeUnit.SECONDS)
+    }
 
     suspend fun getFeature(latitude: Int, longitude: Int) {
         println("*** GetFeature: lat=$latitude lon=$longitude")
@@ -113,10 +121,12 @@ class RouteGuideClient {
     }
 }
 
-suspend fun clientMain() {
+suspend fun main() {
     val features = Database.features()
 
-    RouteGuideClient().let {
+    val channel = ManagedChannelBuilder.forAddress("localhost", 8980).usePlaintext().build()
+
+    RouteGuideClient(channel).use {
         it.getFeature(409146138, -746188906)
         it.getFeature(0, 0)
         it.listFeatures(400000000, -750000000, 420000000, -730000000)

@@ -120,17 +120,15 @@ private class ServiceGenerator(
         }
 
     private fun TypeSpec.Builder.addServiceDescriptor() =
-        apply {
-            val serviceDescriptor = pivotClassName(ServiceDescriptor::class)
             addProperty(
-                PropertySpec.builder("_serviceDescriptor", serviceDescriptor)
+                PropertySpec.builder("_serviceDescriptor", pivotClassName(ServiceDescriptor::class))
                     .addModifiers(KModifier.PRIVATE)
                     .delegate(
                         buildCodeBlock {
                             beginControlFlow("lazy")
                             add(
                                 "%M(SERVICE_NAME)\n",
-                                staticOrCompanionMethod(serviceDescriptor).member("newBuilder")
+                                staticOrCompanion(ServiceDescriptor::class).member("newBuilder")
                             )
                             withIndent { serviceLines(ctx).filterNotNull().forEach(::add) }
                             endControlFlowWithoutNewline()
@@ -138,17 +136,13 @@ private class ServiceGenerator(
                     )
                     .build()
             )
-        }
 
     private fun TypeSpec.Builder.addMethodProperties() =
-        apply {
-            val methodDescriptor = pivotClassName(MethodDescriptor::class)
-            val methodType = pivotClassName(MethodType::class)
             addProperties(
                 s.methods.map { method ->
                     PropertySpec.builder(
                         "_" + method.name.decapitalize() + "Method",
-                        methodDescriptor.parameterizedBy(method.inputType, method.outputType)
+                        pivotClassName(MethodDescriptor::class).parameterizedBy(method.inputType, method.outputType)
                     )
                         .addModifiers(KModifier.PRIVATE)
                         .delegate(
@@ -156,18 +150,18 @@ private class ServiceGenerator(
                                 beginControlFlow("lazy")
                                 add(
                                     "%M<%T,·%T>()\n",
-                                    staticOrCompanionMethod(methodDescriptor).member("newBuilder"),
+                                    staticOrCompanion(MethodDescriptor::class).member("newBuilder"),
                                     method.inputType,
                                     method.outputType
                                 )
                                 withIndent {
                                     add(
                                         ".setType(%M)\n",
-                                        methodType.member(methodType(method).name)
+                                        pivotClassName(MethodType::class).member(methodType(method).name)
                                     )
                                     add(
                                         ".setFullMethodName(%M(SERVICE_NAME,·\"${method.name}\"))\n",
-                                        staticOrCompanionMethod(methodDescriptor).member("generateFullMethodName")
+                                        staticOrCompanion(MethodDescriptor::class).member("generateFullMethodName")
                                     )
                                     add(".setRequestMarshaller(%L)\n", method.requestMarshaller())
                                     add(".setResponseMarshaller(%L)\n", method.responseMarshaller())
@@ -179,14 +173,13 @@ private class ServiceGenerator(
                         .build()
                 }
             )
-        }
 
     private fun coroutineServerBase(
         grpcServiceObjectClassName: ClassName,
         getServiceDescriptorFunction: FunSpec,
         getMethodFunctions: List<FunSpec>
     ): TypeSpec? =
-        if (kotlinPlugin == KotlinPlugin.JS) {
+        if (!ctx.info.context.onlyGenerateGrpcDescriptors) {
             val implementations = serverImplementations()
             val coroutineServerClassName = ClassName(ctx.info.kotlinPackage, s.name + "CoroutineImplBase")
             TypeSpec.classBuilder(coroutineServerClassName)
@@ -240,7 +233,7 @@ private class ServiceGenerator(
                 addCode(
                     "throw %T(%M.%L(\"Method·%L.%L·is·unimplemented\"))",
                     pivotClassName(StatusException::class),
-                    pivotClassName(Status::class).nestedClass("Companion").member(Status::UNIMPLEMENTED.name),
+                    staticOrCompanion(Status::class).member(Status::UNIMPLEMENTED.name),
                     Status.UNIMPLEMENTED::withDescription.name,
                     renderQualifiedName(),
                     method.name
@@ -263,7 +256,7 @@ private class ServiceGenerator(
                     val builder: KFunction1<String, ServerServiceDefinition.Builder> = ServerServiceDefinition::builder
                     addCode(
                         "return %M(%M())\n",
-                        pivotClassName(ServerServiceDefinition::class).nestedClass("Companion").member(builder.name),
+                        staticOrCompanion(ServerServiceDefinition::class).member(builder.name),
                         grpcServiceObjectClassName.member(getServiceDescriptorFunction.name)
                     )
 
@@ -311,7 +304,7 @@ private class ServiceGenerator(
         getServiceDescriptorFunction: FunSpec,
         getMethodFunctions: List<FunSpec>,
     ): TypeSpec? =
-        if (kotlinPlugin == KotlinPlugin.JS) {
+        if (!ctx.info.context.onlyGenerateGrpcDescriptors) {
             val coroutineStubClassName = ClassName(ctx.info.kotlinPackage, s.name + "CoroutineStub")
             TypeSpec.classBuilder(coroutineStubClassName)
                 .primaryConstructor(
@@ -407,8 +400,10 @@ private class ServiceGenerator(
             else -> jvmClass.asTypeName()
         }
 
-    private fun staticOrCompanionMethod(type: ClassName) =
-        pivotPlugin(type, ClassName(type.packageName, type.simpleNames + "Companion"))
+    private fun staticOrCompanion(jvmClass: KClass<*>) =
+        pivotClassName(jvmClass).let {
+            pivotPlugin(it, ClassName(it.packageName, it.simpleNames + "Companion"))
+        }
 
     private fun <T> pivotPlugin(jvm: T, js: T) =
         when (kotlinPlugin) {

@@ -20,6 +20,7 @@ const val GENERATE_GRPC = "generate_grpc"
 const val ONLY_GENERATE_GRPC = "only_generate_grpc"
 const val LITE = "lite"
 const val ONLY_GENERATE_DESCRIPTORS = "only_generate_descriptors"
+const val ONLY_GENERATE_GRPC_DESCRIPTORS = "only_generate_grpc_descriptors"
 const val FORMAT_OUTPUT = "format_output"
 const val APPLIED_KOTLIN_PLUGIN = "applied_kotlin_plugin"
 
@@ -42,6 +43,12 @@ open class ProtoktExtension {
      * set to `false`.
      */
     var onlyGenerateGrpc = false
+
+    /**
+     * Whether to _only_ generate gRPC method and server descriptors and not
+     * generate Kotlin coroutine-based bindings.
+     */
+    var onlyGenerateGrpcDescriptors = false
 
     /**
      * Whether to generate embedded descriptors for runtime reflective

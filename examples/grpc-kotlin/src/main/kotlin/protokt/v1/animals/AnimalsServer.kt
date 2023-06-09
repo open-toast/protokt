@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.grpc.examples.animals
+package protokt.v1.animals
 
 import io.grpc.Server
 import io.grpc.ServerBuilder

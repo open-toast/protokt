@@ -13,9 +13,11 @@
  * limitations under the License.
  */
 
-import io.grpc.examples.animals.AnimalsServer
-import io.grpc.examples.helloworld.HelloWorldClient
-import io.grpc.examples.helloworld.HelloWorldServer
+import protokt.v1.animals.AnimalsServer
+import protokt.v1.helloworld.HelloWorldClient
+import protokt.v1.helloworld.HelloWorldServer
+import protokt.v1.io.grpc.examples.routeguide.clientMain
+import protokt.v1.io.grpc.examples.routeguide.serverMain
 
 external val process: dynamic
 
@@ -40,10 +42,10 @@ suspend fun main() {
         "routeguide" -> {
             when (mode) {
                 "server" -> {
-                    io.grpc.examples.routeguide.serverMain()
+                    serverMain()
                 }
                 "client" -> {
-                    io.grpc.examples.routeguide.clientMain()
+                    clientMain()
                 }
                 else -> error("unsupported mode: $mode")
             }
@@ -54,7 +56,7 @@ suspend fun main() {
                     AnimalsServer().start()
                 }
                 "client" -> {
-                    io.grpc.examples.animals.main(argv.drop(2).toTypedArray())
+                    protokt.v1.animals.main(argv.drop(2).toTypedArray())
                 }
                 else -> error("unsupported mode: $mode")
             }

@@ -14,17 +14,24 @@
  * limitations under the License.
  */
 
-package io.grpc.examples.animals
+package protokt.v1.animals
 
-import io.grpc.ManagedChannel
-import io.grpc.ManagedChannelBuilder
-import java.io.Closeable
-import java.util.concurrent.TimeUnit
+import protokt.v1.grpc.ChannelCredentials
 
-class AnimalsClient(private val channel: ManagedChannel) : Closeable {
-    private val dogStub: DogGrpcKt.DogCoroutineStub by lazy { DogGrpcKt.DogCoroutineStub(channel) }
-    private val pigStub: PigGrpcKt.PigCoroutineStub by lazy { PigGrpcKt.PigCoroutineStub(channel) }
-    private val sheepStub: SheepGrpcKt.SheepCoroutineStub by lazy { SheepGrpcKt.SheepCoroutineStub(channel) }
+class AnimalsClient(
+    port: Int
+) {
+    private val dogStub by lazy {
+        DogCoroutineStub("localhost:$port", ChannelCredentials.createInsecure())
+    }
+
+    private val pigStub by lazy {
+        PigCoroutineStub("localhost:$port", ChannelCredentials.createInsecure())
+    }
+
+    private val sheepStub by lazy {
+        SheepCoroutineStub("localhost:$port", ChannelCredentials.createInsecure())
+    }
 
     suspend fun bark() {
         val request = BarkRequest {}
@@ -43,10 +50,6 @@ class AnimalsClient(private val channel: ManagedChannel) : Closeable {
         val response = sheepStub.baa(request)
         println("Received: ${response.message}")
     }
-
-    override fun close() {
-        channel.shutdown().awaitTermination(5, TimeUnit.SECONDS)
-    }
 }
 
 /**
@@ -61,10 +64,7 @@ suspend fun main(args: Array<String>) {
     }
 
     val port = 50051
-
-    val channel = ManagedChannelBuilder.forAddress("localhost", port).usePlaintext().build()
-
-    val client = AnimalsClient(channel)
+    val client = AnimalsClient(port)
 
     args.forEach {
         when (it) {

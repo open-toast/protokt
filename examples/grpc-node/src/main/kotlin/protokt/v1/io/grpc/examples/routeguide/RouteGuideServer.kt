@@ -1,6 +1,6 @@
 /*
  * Copyright 2020 gRPC authors.
- * Copyright 2021 Toast, Inc.
+ * Copyright 2023 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,56 +14,44 @@
  * limitations under the License.
  */
 
-package io.grpc.examples.routeguide
+package protokt.v1.io.grpc.examples.routeguide
 
-import com.google.common.base.Stopwatch
-import com.google.common.base.Ticker
-import io.grpc.Server
-import io.grpc.ServerBuilder
+import protokt.v1.grpc.Server
+import protokt.v1.grpc.ServerCredentials
+import protokt.v1.grpc.addService
+import protokt.v1.grpc.start
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flow
 import protokt.v1.io.grpc.examples.routeguide.Database
 import protokt.v1.io.grpc.examples.routeguide.Durations
-import java.util.Collections
-import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.TimeUnit
+import kotlin.time.ExperimentalTime
+import kotlin.time.TimeSource
 
 /**
  * Kotlin adaptation of RouteGuideServer from the Java gRPC example.
  */
 class RouteGuideServer(
-    val port: Int,
-    val features: Collection<Feature> = Database.features(),
-    val server: Server = ServerBuilder.forPort(port).addService(RouteGuideService(features)).build()
+    private val port: Int
 ) {
+    private val server = Server()
 
-    fun start() {
-        server.start()
+    suspend fun start() {
+        server
+            .addService(RouteGuideGrpc.getServiceDescriptor(), RouteGuideService(Database.features()))
+            .start("0.0.0.0:$port", ServerCredentials.createInsecure())
         println("Server started, listening on $port")
-        Runtime.getRuntime().addShutdownHook(
-            Thread {
-                println("*** shutting down gRPC server since JVM is shutting down")
-                this@RouteGuideServer.stop()
-                println("*** server shut down")
-            }
-        )
     }
 
     fun stop() {
-        server.shutdown()
-    }
-
-    fun blockUntilShutdown() {
-        server.awaitTermination()
+        server.forceShutdown()
     }
 
     internal class RouteGuideService(
-        private val features: Collection<Feature>,
-        private val ticker: Ticker = Ticker.systemTicker()
-    ) : RouteGuideGrpcKt.RouteGuideCoroutineImplBase() {
-        private val routeNotes = ConcurrentHashMap<Point, MutableList<RouteNote>>()
+        private val features: Collection<Feature>
+    ) : RouteGuideCoroutineImplBase() {
+        private val routeNotes = mutableMapOf<Point, MutableList<RouteNote>>()
 
         override suspend fun getFeature(request: Point): Feature =
             // No feature was found, return an unnamed feature.
@@ -72,12 +60,13 @@ class RouteGuideServer(
         override fun listFeatures(request: Rectangle): Flow<Feature> =
             features.asFlow().filter { it.exists() && it.location!! in request }
 
+        @OptIn(ExperimentalTime::class)
         override suspend fun recordRoute(requests: Flow<Point>): RouteSummary {
             var pointCount = 0
             var featureCount = 0
             var distance = 0
             var previous: Point? = null
-            val stopwatch = Stopwatch.createStarted(ticker)
+            val timeMark = TimeSource.Monotonic.markNow()
             requests.collect { request ->
                 pointCount++
                 if (getFeature(request).exists()) {
@@ -93,14 +82,14 @@ class RouteGuideServer(
                 this.pointCount = pointCount
                 this.featureCount = featureCount
                 this.distance = distance
-                this.elapsedTime = Durations.fromMicros(stopwatch.elapsed(TimeUnit.MICROSECONDS))
+                this.elapsedTime = Durations.fromMicros(timeMark.elapsedNow().inWholeMicroseconds)
             }
         }
 
         override fun routeChat(requests: Flow<RouteNote>): Flow<RouteNote> = flow {
             requests.collect { note ->
-                val notes: MutableList<RouteNote> = routeNotes.computeIfAbsent(note.location!!) {
-                    Collections.synchronizedList(mutableListOf<RouteNote>())
+                val notes: MutableList<RouteNote> = routeNotes.getOrPut(note.location!!) {
+                    mutableListOf()
                 }
                 for (prevNote in notes.toTypedArray()) { // thread-safe snapshot
                     emit(prevNote)
@@ -111,9 +100,8 @@ class RouteGuideServer(
     }
 }
 
-fun main() {
+suspend fun serverMain() {
     val port = 8980
     val server = RouteGuideServer(port)
     server.start()
-    server.blockUntilShutdown()
 }

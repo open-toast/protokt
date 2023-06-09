@@ -26,6 +26,7 @@ import protokt.v1.gradle.KOTLIN_EXTRA_CLASSPATH
 import protokt.v1.gradle.LITE
 import protokt.v1.gradle.ONLY_GENERATE_DESCRIPTORS
 import protokt.v1.gradle.ONLY_GENERATE_GRPC
+import protokt.v1.gradle.ONLY_GENERATE_GRPC_DESCRIPTORS
 import protokt.v1.gradle.PROTOKT_VERSION
 import protokt.v1.gradle.ProtoktExtension
 import java.net.URLDecoder
@@ -47,6 +48,7 @@ class GeneratorContext(
     val onlyGenerateGrpc = params.getOrDefault(ONLY_GENERATE_GRPC)
     val lite = params.getOrDefault(LITE)
     val onlyGenerateDescriptors = params.getOrDefault(ONLY_GENERATE_DESCRIPTORS)
+    val onlyGenerateGrpcDescriptors = params.getOrDefault(ONLY_GENERATE_GRPC_DESCRIPTORS)
     val formatOutput = params.getOrDefault(FORMAT_OUTPUT)
     val appliedKotlinPlugin = params[APPLIED_KOTLIN_PLUGIN]?.toKotlinPluginEnum()
     val protoktVersion = PROTOKT_VERSION

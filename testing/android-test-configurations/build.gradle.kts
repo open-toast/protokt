@@ -19,7 +19,7 @@ plugins {
 
 android {
     namespace = "com.toasttab.protokt.testing.android"
-    compileSdkVersion(31)
+    compileSdk = 31
     namespace = "com.toasttab.protokt.v1.testing.android"
 
     sourceSets["test"].java.srcDir("../android/src/test/java")

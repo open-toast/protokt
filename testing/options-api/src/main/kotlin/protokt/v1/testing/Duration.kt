@@ -18,15 +18,15 @@ package protokt.v1.testing
 import com.google.auto.service.AutoService
 import protokt.v1.Converter
 
-data class Duration(val value: com.toasttab.protokt.v1.Duration)
+data class Duration(val value: protokt.v1.google.protobuf.Duration)
 
 @AutoService(Converter::class)
-object DurationConverter : Converter<Duration, com.toasttab.protokt.v1.Duration> {
+object DurationConverter : Converter<Duration, protokt.v1.google.protobuf.Duration> {
     override val wrapper = Duration::class
 
-    override val wrapped = com.toasttab.protokt.v1.Duration::class
+    override val wrapped = protokt.v1.google.protobuf.Duration::class
 
-    override fun wrap(unwrapped: com.toasttab.protokt.v1.Duration) =
+    override fun wrap(unwrapped: protokt.v1.google.protobuf.Duration) =
         Duration(unwrapped)
 
     override fun unwrap(wrapped: Duration) =

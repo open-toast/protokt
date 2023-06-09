@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package io.grpc.examples.helloworld
+package protokt.v1.helloworld
 
 import protokt.v1.grpc.ChannelCredentials
 

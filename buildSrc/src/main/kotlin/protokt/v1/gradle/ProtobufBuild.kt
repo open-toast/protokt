@@ -61,6 +61,7 @@ internal fun configureProtobufPlugin(
                             option("$ONLY_GENERATE_GRPC=${ext.onlyGenerateGrpc}")
                             option("$LITE=${ext.lite}")
                             option("$ONLY_GENERATE_DESCRIPTORS=${ext.onlyGenerateDescriptors}")
+                            option("$ONLY_GENERATE_GRPC_DESCRIPTORS=${ext.onlyGenerateGrpcDescriptors}")
                             option("$FORMAT_OUTPUT=${ext.formatOutput}")
                             option("$APPLIED_KOTLIN_PLUGIN=${project.appliedKotlinPlugin()}")
                         }

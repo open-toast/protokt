@@ -22,7 +22,6 @@ plugins {
 
 localProtokt()
 pureKotlin()
-grpckt()
 
 protokt {
     onlyGenerateGrpc = true

@@ -14,41 +14,27 @@
  * limitations under the License.
  */
 
-package io.grpc.examples.animals
+package protokt.v1.helloworld
 
 import protokt.v1.grpc.Server
 import protokt.v1.grpc.ServerCredentials
 import protokt.v1.grpc.addService
 import protokt.v1.grpc.start
 
-class AnimalsServer {
+class HelloWorldServer {
     val port = 50051
     val server = Server()
 
     suspend fun start() {
         server
-            .addService(DogGrpc.getServiceDescriptor(), DogService())
-            .addService(PigGrpc.getServiceDescriptor(), PigService())
-            .addService(SheepGrpc.getServiceDescriptor(), SheepService())
+            .addService(GreeterGrpc.getServiceDescriptor(), HelloWorldService())
             .start("0.0.0.0:$port", ServerCredentials.createInsecure())
         println("Server started, listening on $port")
     }
 
-    internal class DogService : DogCoroutineImplBase() {
-        override suspend fun bark(request: BarkRequest) = BarkReply {
-            message = "Bark!"
-        }
-    }
-
-    internal class PigService : PigCoroutineImplBase() {
-        override suspend fun oink(request: OinkRequest) = OinkReply {
-            message = "Oink!"
-        }
-    }
-
-    internal class SheepService : SheepCoroutineImplBase() {
-        override suspend fun baa(request: BaaRequest) = BaaReply {
-            message = "Baa!"
+    internal class HelloWorldService : GreeterCoroutineImplBase() {
+        override suspend fun sayHello(request: HelloRequest) = HelloReply {
+            message = "Hello ${request.name}"
         }
     }
 }
