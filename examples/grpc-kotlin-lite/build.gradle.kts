@@ -25,7 +25,10 @@ pureKotlin()
 
 protokt {
     generate {
-        grpcKotlinLite()
+        types = false
+        descriptors = false
+        grpcDescriptors = true
+        grpcKotlinStubs = true
     }
 }
 
@@ -34,7 +37,6 @@ dependencies {
 
     implementation(project(":examples:protos"))
     implementation(libs.grpc.kotlin.stub)
-    implementation(libs.jackson)
     implementation(libs.kotlinx.coroutines.core)
 
     runtimeOnly(libs.protobuf.lite)
@@ -48,7 +50,6 @@ sourceSets {
     main {
         java {
             srcDir("../grpc-kotlin/src/main/kotlin")
-            srcDir("../protos/src/main/kotlin")
         }
         resources {
             srcDir("../protos/src/main/resources")

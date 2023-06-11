@@ -30,76 +30,76 @@ dependencies {
 tasks.register<JavaExec>("HelloWorldServer") {
     dependsOn("classes")
     classpath = sourceSets["main"].runtimeClasspath
-    mainClass.set("io.grpc.examples.helloworld.HelloWorldServerKt")
+    mainClass.set("protokt.v1.helloworld.HelloWorldServerKt")
 }
 
 tasks.register<JavaExec>("RouteGuideServer") {
     dependsOn("classes")
     classpath = sourceSets["main"].runtimeClasspath
-    mainClass.set("io.grpc.examples.routeguide.RouteGuideServerKt")
+    mainClass.set("protokt.v1.io.grpc.examples.routeguide.RouteGuideServerKt")
 }
 
 tasks.register<JavaExec>("AnimalsServer") {
     dependsOn("classes")
     classpath = sourceSets["main"].runtimeClasspath
-    mainClass.set("io.grpc.examples.animals.AnimalsServerKt")
+    mainClass.set("protokt.v1.animals.AnimalsServerKt")
 }
 
 tasks.register<JavaExec>("HelloWorldClient") {
     dependsOn("classes")
     classpath = sourceSets["main"].runtimeClasspath
-    mainClass.set("io.grpc.examples.helloworld.HelloWorldClientKt")
+    mainClass.set("protokt.v1.helloworld.HelloWorldClientKt")
 }
 
 tasks.register<JavaExec>("RouteGuideClient") {
     dependsOn("classes")
     classpath = sourceSets["main"].runtimeClasspath
-    mainClass.set("io.grpc.examples.routeguide.RouteGuideClientKt")
+    mainClass.set("protokt.v1.io.grpc.examples.routeguide.RouteGuideClientKt")
 }
 
 tasks.register<JavaExec>("AnimalsClient") {
     dependsOn("classes")
     classpath = sourceSets["main"].runtimeClasspath
-    mainClass.set("io.grpc.examples.animals.AnimalsClientKt")
+    mainClass.set("protokt.v1.animals.AnimalsClientKt")
 }
 
 val helloWorldServerStartScripts = tasks.register<CreateStartScripts>("helloWorldServerStartScripts") {
-    mainClass.set("io.grpc.examples.helloworld.HelloWorldServerKt")
+    mainClass.set("protokt.v1.helloworld.HelloWorldServerKt")
     applicationName = "hello-world-server"
     outputDir = tasks.named<CreateStartScripts>("startScripts").get().outputDir
     classpath = tasks.named<CreateStartScripts>("startScripts").get().classpath
 }
 
 val routeGuideServerStartScripts = tasks.register<CreateStartScripts>("routeGuideServerStartScripts") {
-    mainClass.set("io.grpc.examples.routeguide.RouteGuideServerKt")
+    mainClass.set("protokt.v1.io.grpc.examples.routeguide.RouteGuideServerKt")
     applicationName = "route-guide-server"
     outputDir = tasks.named<CreateStartScripts>("startScripts").get().outputDir
     classpath = tasks.named<CreateStartScripts>("startScripts").get().classpath
 }
 
 val animalsServerStartScripts = tasks.register<CreateStartScripts>("animalsServerStartScripts") {
-    mainClass.set("io.grpc.examples.animals.AnimalsServerKt")
+    mainClass.set("protokt.v1.animals.AnimalsServerKt")
     applicationName = "animals-server"
     outputDir = tasks.named<CreateStartScripts>("startScripts").get().outputDir
     classpath = tasks.named<CreateStartScripts>("startScripts").get().classpath
 }
 
 val helloWorldClientStartScripts = tasks.register<CreateStartScripts>("helloWorldClientStartScripts") {
-    mainClass.set("io.grpc.examples.helloworld.HelloWorldClientKt")
+    mainClass.set("protokt.v1.helloworld.HelloWorldClientKt")
     applicationName = "hello-world-client"
     outputDir = tasks.named<CreateStartScripts>("startScripts").get().outputDir
     classpath = tasks.named<CreateStartScripts>("startScripts").get().classpath
 }
 
 val routeGuideClientStartScripts = tasks.register<CreateStartScripts>("routeGuideClientStartScripts") {
-    mainClass.set("io.grpc.examples.routeguide.RouteGuideClientKt")
+    mainClass.set("protokt.v1.io.grpc.examples.routeguide.RouteGuideClientKt")
     applicationName = "route-guide-client"
     outputDir = tasks.named<CreateStartScripts>("startScripts").get().outputDir
     classpath = tasks.named<CreateStartScripts>("startScripts").get().classpath
 }
 
 val animalsClientStartScripts = tasks.register<CreateStartScripts>("animalsClientStartScripts") {
-    mainClass.set("io.grpc.examples.animals.AnimalsClientKt")
+    mainClass.set("protokt.v1.animals.AnimalsClientKt")
     applicationName = "route-guide-client"
     outputDir = tasks.named<CreateStartScripts>("startScripts").get().outputDir
     classpath = tasks.named<CreateStartScripts>("startScripts").get().classpath

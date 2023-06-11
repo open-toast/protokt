@@ -25,7 +25,10 @@ pureKotlin()
 
 protokt {
     generate {
-        all()
+        types = false
+        descriptors = true
+        grpcDescriptors = true
+        grpcKotlinStubs = true
     }
 }
 

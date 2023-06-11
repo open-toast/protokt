@@ -14,21 +14,14 @@
  * limitations under the License.
  */
 
-package protokt.v1.io.grpc.examples
+package protokt.v1.io.grpc.examples.routeguide
 
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import protokt.v1.io.grpc.examples.routeguide.Database
-import protokt.v1.io.grpc.examples.routeguide.Feature
-import protokt.v1.io.grpc.examples.routeguide.Point
-import protokt.v1.io.grpc.examples.routeguide.Rectangle
 import protokt.v1.io.grpc.examples.routeguide.RouteGuideGrpcKt.RouteGuideCoroutineStub
-import protokt.v1.io.grpc.examples.routeguide.RouteNote
-import protokt.v1.io.grpc.examples.routeguide.exists
-import protokt.v1.io.grpc.examples.routeguide.toStr
 import java.io.Closeable
 import java.util.concurrent.TimeUnit
 import kotlin.random.Random

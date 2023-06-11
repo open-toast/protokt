@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package protokt.v1.io.grpc.examples
+package protokt.v1.io.grpc.examples.routeguide
 
 import com.google.common.base.Stopwatch
 import com.google.common.base.Ticker
@@ -24,17 +24,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flow
-import protokt.v1.io.grpc.examples.routeguide.Database
-import protokt.v1.io.grpc.examples.routeguide.Durations
-import protokt.v1.io.grpc.examples.routeguide.Feature
-import protokt.v1.io.grpc.examples.routeguide.Point
-import protokt.v1.io.grpc.examples.routeguide.Rectangle
-import protokt.v1.io.grpc.examples.routeguide.RouteGuideGrpcKt
-import protokt.v1.io.grpc.examples.routeguide.RouteNote
-import protokt.v1.io.grpc.examples.routeguide.RouteSummary
-import protokt.v1.io.grpc.examples.routeguide.contains
-import protokt.v1.io.grpc.examples.routeguide.distanceTo
-import protokt.v1.io.grpc.examples.routeguide.exists
 import java.util.Collections
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.TimeUnit
