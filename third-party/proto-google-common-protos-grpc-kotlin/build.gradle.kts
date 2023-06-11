@@ -26,6 +26,7 @@ compatibleWithAndroid()
 trackKotlinApiCompatibility()
 
 protokt {
+    onlyGenerateGrpc = true
     onlyGenerateGrpcDescriptors = true
 }
 
