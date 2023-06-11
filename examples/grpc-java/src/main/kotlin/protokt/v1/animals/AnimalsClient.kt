@@ -61,7 +61,7 @@ class AnimalsClient(
  * Talk to the animals. Fluent in dog, pig and sheep.
  */
 fun main(args: Array<String>) {
-    val usage = "usage: ./gradlew :examples:grpc-java:AnimalsClient --args={dog|pig|sheep}"
+    val usage = "usage: ./gradlew :examples:grpc-java[-lite]:AnimalsClient --args={dog|pig|sheep}"
 
     if (args.isEmpty()) {
         println("No animals specified.")
