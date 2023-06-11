@@ -19,12 +19,12 @@ plugins {
 
 android {
     namespace = "com.toasttab.protokt.testing.android"
-    compileSdkVersion(31)
+    compileSdk = 31
     namespace = "com.toasttab.protokt.v1.testing.android"
 }
 
 localProtokt()
 
 dependencies {
-    testImplementation(libs.protobufLite)
+    testImplementation(libs.protobuf.lite)
 }

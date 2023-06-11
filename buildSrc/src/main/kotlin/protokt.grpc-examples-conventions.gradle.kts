@@ -20,11 +20,11 @@ plugins {
 
 dependencies {
     implementation(project(":protokt-runtime-grpc-lite"))
-    implementation(findLibrary("grpcStub"))
+    implementation(findLibrary("grpc-stub"))
 
-    runtimeOnly(findLibrary("grpcNetty"))
+    runtimeOnly(findLibrary("grpc-netty"))
 
-    testRuntimeOnly(findLibrary("junitVintage"))
+    testRuntimeOnly(findLibrary("junit-vintage"))
 }
 
 tasks.register<JavaExec>("HelloWorldServer") {

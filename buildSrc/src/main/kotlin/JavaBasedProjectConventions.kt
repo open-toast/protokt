@@ -32,7 +32,7 @@ fun Project.javaBasedProjectConventions() {
     dependencies {
         "api"(kotlin("stdlib"))
 
-        "testImplementation"(findLibrary("junit"))
+        "testImplementation"(findLibrary("junit-jupiter"))
         "testImplementation"(findLibrary("truth"))
     }
 

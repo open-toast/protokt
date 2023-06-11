@@ -25,5 +25,5 @@ application {
 
 dependencies {
     implementation(project(":testing:conformance:driver"))
-    implementation(libs.protobufJava)
+    implementation(libs.protobuf.java)
 }

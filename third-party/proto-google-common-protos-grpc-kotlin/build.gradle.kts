@@ -38,5 +38,5 @@ dependencies {
 
     api(project(":protokt-runtime-grpc"))
     api(project(":third-party:proto-google-common-protos-grpc"))
-    api(libs.grpcKotlinStub)
+    api(libs.grpc.kotlin.stub)
 }

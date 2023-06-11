@@ -33,8 +33,8 @@ dependencies {
     implementation(kotlin("reflect"))
     implementation(project(":protokt-runtime-grpc"))
     implementation(project(":testing:protobuf-java"))
-    implementation(libs.grpcStub)
+    implementation(libs.grpc.stub)
 
     testImplementation(libs.jackson)
-    testImplementation(libs.protobufJava)
+    testImplementation(libs.protobuf.java)
 }

@@ -33,10 +33,10 @@ dependencies {
     protoktExtensions(project(":testing:options-api"))
     protoktExtensions(project(":third-party:proto-google-common-protos-extensions"))
 
-    implementation(libs.grpcStub)
+    implementation(libs.grpc.stub)
     implementation(project(":protokt-runtime-grpc-lite"))
 
     testImplementation(kotlin("reflect"))
     testImplementation(project(":testing:protokt-generation"))
-    testImplementation(libs.protobufJava)
+    testImplementation(libs.protobuf.java)
 }

@@ -31,13 +31,13 @@ kotlin {
 
         val jvmMain by getting {
             dependencies {
-                implementation(libs.grpcStub)
+                implementation(libs.grpc.stub)
             }
         }
 
         val jsMain by getting {
             dependencies {
-                implementation(npm("@grpc/grpc-js", libs.versions.grpcJs.get()))
+                implementation(npm("@grpc/grpc-js", libs.versions.grpc.js.get()))
                 implementation(libs.kotlinx.coroutines.core)
             }
         }

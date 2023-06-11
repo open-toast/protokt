@@ -29,5 +29,5 @@ localProtokt()
 pureKotlin()
 
 dependencies {
-    testImplementation(libs.protobufLite)
+    testImplementation(libs.protobuf.lite)
 }

@@ -35,7 +35,7 @@ dependencies {
     implementation(project(":examples:protos"))
     implementation(libs.jackson)
 
-    runtimeOnly(libs.protobufLite)
+    runtimeOnly(libs.protobuf.lite)
 
     testImplementation(project(":protokt-util"))
 }

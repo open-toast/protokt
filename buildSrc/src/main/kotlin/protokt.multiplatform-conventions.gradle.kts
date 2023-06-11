@@ -32,7 +32,7 @@ kotlin {
     sourceSets {
         val jvmTest by getting {
             dependencies {
-                implementation(findLibrary("junit"))
+                implementation(findLibrary("junit-jupiter"))
                 implementation(findLibrary("truth"))
             }
         }

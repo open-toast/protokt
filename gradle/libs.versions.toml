@@ -13,14 +13,14 @@
 
 [versions]
 autoService = "1.0.1"
-grpc = "1.51.0"
-grpcKotlin = "1.3.0"
+grpc-java = "1.51.0"
+grpc-kotlin = "1.3.0"
 kotlinPoet = "1.13.2"
 kotlinx-coroutines = "1.6.0"
 kotlinx-serialization = "1.5.1"
 ktlint = "0.49.1"
-protobuf = "3.21.7"
-protobufJs = "6.11.3"
+protobuf-java = "3.21.7"
+protobuf-js = "6.11.3"
 protobufGradlePlugin = "0.9.1"
 
 # build
@@ -42,7 +42,7 @@ wire = "4.5.1"
 jackson = "2.13.0"
 junit = "5.9.1"
 truth = "1.1.3"
-grpcJs = "1.8.14"
+grpc-js = "1.8.14"
 
 # third party
 protoGoogleCommonProtos = "2.8.2"
@@ -55,15 +55,16 @@ wire = { id = "com.squareup.wire", version.ref = "wire" }
 [libraries]
 autoService = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
 autoServiceAnnotations = { module = "com.google.auto.service:auto-service-annotations", version.ref = "autoService" }
-grpcNetty = { module = "io.grpc:grpc-netty", version.ref = "grpc" }
-grpcStub = { module = "io.grpc:grpc-stub", version.ref = "grpc" }
+grpc-kotlin-gen = { module = "io.grpc:protoc-gen-grpc-kotlin", version.ref = "grpc-kotlin" }
+grpc-netty = { module = "io.grpc:grpc-netty", version.ref = "grpc-java" }
+grpc-stub = { module = "io.grpc:grpc-stub", version.ref = "grpc-java" }
 kotlinPoet = { module = "com.squareup:kotlinpoet", version.ref = "kotlinPoet" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 ktlint = { module = "com.pinterest.ktlint:ktlint-rule-engine", version.ref = "ktlint" }
 ktlintRuleSetStandard = { module = "com.pinterest.ktlint:ktlint-ruleset-standard", version.ref = "ktlint" }
-protobufGradlePlugin = { module = "com.google.protobuf:protobuf-gradle-plugin", version.ref = "protobufGradlePlugin" }
-protobufJava = { module ="com.google.protobuf:protobuf-java", version.ref = "protobuf" }
-protoc = { module = "com.google.protobuf:protoc", version.ref = "protobuf" }
+protobuf-gradlePlugin = { module = "com.google.protobuf:protobuf-gradle-plugin", version.ref = "protobufGradlePlugin" }
+protobuf-java = { module ="com.google.protobuf:protobuf-java", version.ref = "protobuf-java" }
+protoc = { module = "com.google.protobuf:protoc", version.ref = "protobuf-java" }
 
 # build
 androidGradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
@@ -74,20 +75,20 @@ kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", ver
 spotlessGradlePlugin = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless" }
 
 # benchmarks
-jmhCore = { module = "org.openjdk.jmh:jmh-core", version.ref = "jmh" }
-jmhGenerator = { module = "org.openjdk.jmh:jmh-generator-annprocess", version.ref = "jmh" }
+jmh-core = { module = "org.openjdk.jmh:jmh-core", version.ref = "jmh" }
+jmh-generator = { module = "org.openjdk.jmh:jmh-generator-annprocess", version.ref = "jmh" }
 wireRuntime = { module = "com.squareup.wire:wire-runtime", version.ref = "wire" }
 
 # third party
 protoGoogleCommonProtos = { module = "com.google.api.grpc:proto-google-common-protos", version.ref = "protoGoogleCommonProtos" }
 
 # test
-grpcKotlinStub = { module = "io.grpc:grpc-kotlin-stub", version.ref = "grpcKotlin" }
-grpcTesting = { module = "io.grpc:grpc-testing", version.ref = "grpc" }
+grpc-kotlin-stub = { module = "io.grpc:grpc-kotlin-stub", version.ref = "grpc-kotlin" }
+grpc-testing = { module = "io.grpc:grpc-testing", version.ref = "grpc-java" }
 jackson = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
-junit = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
-junitVintage = { module = "org.junit.vintage:junit-vintage-engine" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
+junit-vintage = { module = "org.junit.vintage:junit-vintage-engine" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
-protobufLite = { module = "com.google.protobuf:protobuf-javalite", version.ref = "protobuf" }
+protobuf-lite = { module = "com.google.protobuf:protobuf-javalite", version.ref = "protobuf-java" }
 truth = { module = "com.google.truth:truth", version.ref = "truth" }

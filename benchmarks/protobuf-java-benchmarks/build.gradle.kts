@@ -28,7 +28,7 @@ configure<JavaApplication> {
 
 dependencies {
     implementation(project(":benchmarks:benchmarks-util"))
-    implementation(libs.protobufJava)
+    implementation(libs.protobuf.java)
 
     protobuf(project(":benchmarks:schema"))
 }

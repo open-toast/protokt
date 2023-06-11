@@ -31,7 +31,7 @@ dependencies {
     implementation(libs.binaryCompatibilityValidator)
     implementation(libs.gradleMavenPublishPlugin)
     implementation(libs.kotlinGradlePlugin)
-    implementation(libs.protobufGradlePlugin)
+    implementation(libs.protobuf.gradlePlugin)
     implementation(libs.spotlessGradlePlugin)
     implementation(kotlin("gradle-plugin-api"))
 }
@@ -67,7 +67,7 @@ tasks.register("generateVersions") {
 
                 package protokt.v1.gradle
                 
-                const val DEFAULT_PROTOBUF_VERSION = "${libs.versions.protobuf.get()}"
+                const val DEFAULT_PROTOBUF_VERSION = "${libs.versions.protobuf.java.get()}"
 
             """.trimIndent()
         )

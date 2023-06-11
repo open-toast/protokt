@@ -29,5 +29,5 @@ dependencies {
 
     testProtobuf(project(":testing:options"))
 
-    testImplementation(libs.protobufJava)
+    testImplementation(libs.protobuf.java)
 }

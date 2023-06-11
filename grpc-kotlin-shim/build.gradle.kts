@@ -22,7 +22,7 @@ enablePublishing()
 val grpcKotlinGenerator = configurations.create("grpcKotlinGenerator")
 
 dependencies {
-    grpcKotlinGenerator("io.grpc:protoc-gen-grpc-kotlin:1.3.0") {
+    grpcKotlinGenerator(libs.grpc.kotlin.gen) {
         artifact {
             name = "protoc-gen-grpc-kotlin"
             classifier = "jdk8"

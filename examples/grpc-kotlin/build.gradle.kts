@@ -33,11 +33,11 @@ dependencies {
     protobuf(project(":examples:protos"))
 
     implementation(project(":examples:protos"))
-    implementation(libs.grpcKotlinStub)
+    implementation(libs.grpc.kotlin.stub)
     implementation(libs.kotlinx.coroutines.core)
 
-    runtimeOnly(libs.protobufJava)
+    runtimeOnly(libs.protobuf.java)
 
     testImplementation(kotlin("test-junit"))
-    testImplementation(libs.grpcTesting)
+    testImplementation(libs.grpc.testing)
 }

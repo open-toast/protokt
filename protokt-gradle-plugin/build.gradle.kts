@@ -57,7 +57,7 @@ publishing {
 dependencies {
     implementation(kotlin("gradle-plugin"))
     implementation(gradleApi())
-    implementation(libs.protobufGradlePlugin)
+    implementation(libs.protobuf.gradlePlugin)
 }
 
 includeBuildSrc(

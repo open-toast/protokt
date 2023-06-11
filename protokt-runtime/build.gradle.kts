@@ -25,13 +25,13 @@ kotlin {
     sourceSets {
         val jvmMain by getting {
             dependencies {
-                compileOnly(libs.protobufJava)
+                compileOnly(libs.protobuf.java)
             }
         }
 
         val jsMain by getting {
             dependencies {
-                api(npm("protobufjs", libs.versions.protobufJs.get()))
+                api(npm("protobufjs", libs.versions.protobuf.js.get()))
             }
         }
     }

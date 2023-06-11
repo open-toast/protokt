@@ -39,17 +39,17 @@ dependencies {
 
     implementation(kotlin("reflect"))
 
-    implementation(libs.grpcKotlinStub)
-    implementation(libs.grpcStub)
+    implementation(libs.grpc.kotlin.stub)
+    implementation(libs.grpc.stub)
     implementation(libs.kotlinPoet)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.ktlint)
     implementation(libs.ktlintRuleSetStandard)
-    implementation(libs.protobufJava)
+    implementation(libs.protobuf.java)
 
     testImplementation(project(":testing:testing-util"))
 
-    testImplementation(libs.junit)
+    testImplementation(libs.junit.jupiter)
     testImplementation(libs.truth)
 }
 

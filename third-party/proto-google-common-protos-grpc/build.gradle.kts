@@ -38,5 +38,5 @@ dependencies {
 
     api(project(":protokt-runtime-grpc-lite"))
     api(project(":third-party:proto-google-common-protos"))
-    api(libs.grpcStub)
+    api(libs.grpc.stub)
 }

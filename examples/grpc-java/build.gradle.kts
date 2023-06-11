@@ -34,5 +34,5 @@ dependencies {
 
     implementation(project(":examples:protos"))
 
-    runtimeOnly(libs.protobufJava)
+    runtimeOnly(libs.protobuf.java)
 }

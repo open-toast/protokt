@@ -64,12 +64,12 @@ kotlin {
 
         val jvmTest by getting {
             dependencies {
-                implementation(libs.protobufJava)
+                implementation(libs.protobuf.java)
             }
         }
     }
 }
 
 dependencies {
-    protobuf(libs.protobufJava)
+    protobuf(libs.protobuf.java)
 }

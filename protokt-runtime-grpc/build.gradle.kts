@@ -32,7 +32,7 @@ kotlin {
 
         val jvmMain by getting {
             dependencies {
-                implementation(libs.grpcStub)
+                implementation(libs.grpc.stub)
             }
         }
     }
