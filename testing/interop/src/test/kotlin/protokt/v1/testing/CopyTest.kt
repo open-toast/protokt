@@ -17,7 +17,7 @@ package protokt.v1.testing
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
-import tutorial.Person
+import protokt.v1.tutorial.Person
 
 class CopyTest {
     @Test

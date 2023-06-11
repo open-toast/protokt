@@ -31,7 +31,7 @@ message ImportsWrapperModel {
   ];
 
   google.protobuf.Duration superfluous_duration = 3 [
-    (.protokt.v1.property).wrap = "com.toasttab.protokt.v1.testing.options.Duration",
+    (.protokt.v1.property).wrap = "protokt.v1.testing.Duration",
     (.protokt.v1.property).non_null = true
   ];
 }

@@ -15,5 +15,4 @@
 
 package protokt.v1.grpc
 
-// TODO: use this to send error
 class StatusException(@Suppress("UNUSED_PARAMETER") status: Status) : Exception()

@@ -16,19 +16,18 @@
 package protokt.v1
 
 import com.google.auto.service.AutoService
-import java.net.InetSocketAddress
 
 @AutoService(Converter::class)
-object InetSocketAddressConverter : Converter<InetSocketAddress, InetSocketAddress> {
+object InetSocketAddressConverter : Converter<java.net.InetSocketAddress, InetSocketAddress> {
 
-    override val wrapper = InetSocketAddress::class
+    override val wrapper = java.net.InetSocketAddress::class
 
     override val wrapped = InetSocketAddress::class
 
     override fun wrap(unwrapped: InetSocketAddress) =
-        InetSocketAddress(unwrapped.address, unwrapped.port)
+        java.net.InetSocketAddress(unwrapped.address, unwrapped.port)
 
-    override fun unwrap(wrapped: InetSocketAddress) =
+    override fun unwrap(wrapped: java.net.InetSocketAddress) =
         InetSocketAddress {
             address = wrapped.address
             port = wrapped.port

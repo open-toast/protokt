@@ -81,7 +81,7 @@ message OneofWrappers {
     option (.protokt.v1.oneof).non_null = true;
 
     bytes id_oneof = 1 [
-      (.protokt.v1.property).wrap = "com.toasttab.protokt.v1.testing.options.Id"
+      (.protokt.v1.property).wrap = "protokt.v1.testing.Id"
     ];
 
     bytes uuid_oneof = 2 [

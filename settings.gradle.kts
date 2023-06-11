@@ -41,6 +41,8 @@ include(
     "protokt-gradle-plugin",
     "protokt-util",
 
+    "grpc-kotlin-shim",
+
     "examples",
     "examples:grpc-java",
     "examples:grpc-java-lite",
@@ -89,5 +91,6 @@ include(
     "third-party:proto-google-common-protos-extensions",
     "third-party:proto-google-common-protos-extensions-lite",
     "third-party:proto-google-common-protos-grpc",
+    "third-party:proto-google-common-protos-grpc-kotlin",
     "third-party:proto-google-common-protos-lite"
 )

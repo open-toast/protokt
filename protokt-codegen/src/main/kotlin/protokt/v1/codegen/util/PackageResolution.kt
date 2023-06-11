@@ -27,7 +27,7 @@ val protoktV1GoogleProto = Bytes::class.java.`package`.name + "." + googleProtob
 fun packagesByFileName(protoFileList: List<FileDescriptorProto>) =
     protoFileList.associate { it.name to resolvePackage(it) }
 
-private fun resolvePackage(fdp: FileDescriptorProto) =
+fun resolvePackage(fdp: FileDescriptorProto) =
     if (fdp.`package`.startsWith("protokt.v1")) {
         fdp.`package`
     } else {

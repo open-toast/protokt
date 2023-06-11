@@ -1,6 +1,5 @@
 /*
- * Copyright 2020 gRPC authors.
- * Copyright 2021 Toast, Inc.
+ * Copyright (c) 2020 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +17,7 @@ package protokt.v1.helloworld
 
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
-import io.grpc.examples.helloworld.GreeterGrpcKt.GreeterCoroutineStub
+import protokt.v1.helloworld.GreeterGrpcKt.GreeterCoroutineStub
 import java.io.Closeable
 import java.util.concurrent.TimeUnit
 

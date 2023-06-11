@@ -19,8 +19,6 @@ package protokt.v1.testing;
 
 import "protokt/v1/protokt.proto";
 
-option (.protokt.v1.file).kotlin_package = "com.toasttab.protokt.v1.testing";
-
 message MpTest {
   string foo = 1;
 }

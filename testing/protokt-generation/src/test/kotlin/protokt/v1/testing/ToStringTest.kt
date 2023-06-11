@@ -16,11 +16,9 @@
 package protokt.v1.testing
 
 import com.google.common.truth.Truth.assertThat
-import com.toasttab.protokt.v1.UnknownField
-import com.toasttab.protokt.v1.UnknownFieldSet
 import org.junit.jupiter.api.Test
-import toasttab.protokt.v1.testing.ToStringTest2
-import toasttab.protokt.v1.testing.ToStringTestEmpty
+import protokt.v1.UnknownField
+import protokt.v1.UnknownFieldSet
 
 class ToStringTest {
     @Test

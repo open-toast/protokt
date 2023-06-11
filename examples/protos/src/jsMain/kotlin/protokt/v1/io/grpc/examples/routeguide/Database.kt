@@ -23,7 +23,7 @@ actual object Database {
         js(
             """
                 JSON.stringify(
-                    require('../../../../../examples/protos/src/commonMain/resources/io/grpc/examples/routeguide/route_guide_db.json')
+                    require('../../../../../examples/protos/src/commonMain/resources/protokt/v1/io/grpc/examples/routeguide/route_guide_db.json')
                 )
             """
         ) as String

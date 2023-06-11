@@ -17,20 +17,13 @@ package protokt.v1.testing
 
 import com.google.common.truth.Truth.assertThat
 import com.google.protobuf.ByteString
-import com.toasttab.protokt.v1.Bytes
-import com.toasttab.protokt.v1.Timestamp
 import com.toasttab.protokt.v1.testing.TestOuterClass
-import protokt.v1.pack
-import protokt.v1.unpack
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import toasttab.protokt.v1.testing.ListTest
-import toasttab.protokt.v1.testing.MapTest
-import toasttab.protokt.v1.testing.RepeatedAnyTest
-import toasttab.protokt.v1.testing.RepeatedPackedTest
-import toasttab.protokt.v1.testing.RepeatedTest
-import toasttab.protokt.v1.testing.RepeatedUnpackedTest
-import toasttab.protokt.v1.testing.RepeatedWktTest
+import protokt.v1.Bytes
+import protokt.v1.google.protobuf.Timestamp
+import protokt.v1.google.protobuf.pack
+import protokt.v1.google.protobuf.unpack
 import kotlin.random.Random
 import com.google.protobuf.Timestamp as JavaTimestamp
 import com.toasttab.protokt.v1.testing.TestOuterClass.ListTest as JavaListTest
@@ -41,7 +34,7 @@ import com.toasttab.protokt.v1.testing.TestOuterClass.RepeatedTest as JavaRepeat
 import com.toasttab.protokt.v1.testing.TestOuterClass.RepeatedUnpackedTest as JavaRepeatedUnpackedTest
 import com.toasttab.protokt.v1.testing.TestOuterClass.RepeatedWktTest as JavaRepeatedWktTest
 import com.toasttab.protokt.v1.testing.TestOuterClass.Test as JavaTest
-import toasttab.protokt.v1.testing.Test as KtTest
+import protokt.v1.testing.Test as KtTest
 
 class CollectionsJavaInteropTest {
     private val content = "this is a test"
@@ -221,8 +214,8 @@ class CollectionsJavaInteropTest {
                     RepeatedAnyTest.deserialize(
                         RepeatedAnyTest {
                             list = listOf(
-                                com.toasttab.protokt.v1.Any.pack(protoktSimple),
-                                com.toasttab.protokt.v1.Any.pack(protoktSimple0)
+                                protokt.v1.google.protobuf.Any.pack(protoktSimple),
+                                protokt.v1.google.protobuf.Any.pack(protoktSimple0)
                             )
                         }.serialize()
                     ).list.map { it.unpack(KtTest) }
@@ -235,8 +228,8 @@ class CollectionsJavaInteropTest {
                     JavaRepeatedAnyTest.parseFrom(
                         RepeatedAnyTest {
                             list = listOf(
-                                com.toasttab.protokt.v1.Any.pack(protoktSimple),
-                                com.toasttab.protokt.v1.Any.pack(protoktSimple0)
+                                protokt.v1.google.protobuf.Any.pack(protoktSimple),
+                                protokt.v1.google.protobuf.Any.pack(protoktSimple0)
                             )
                         }.serialize()
                     ).listList.map { it.unpack(javaSimple.javaClass) }

@@ -17,10 +17,6 @@ package protokt.v1.testing
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
-import toasttab.protokt.v1.testing.HasAnEnum
-import toasttab.protokt.v1.testing.HasMoreEnum
-import toasttab.protokt.v1.testing.MoreEnum
-import toasttab.protokt.v1.testing.SomeEnum
 
 class EnumTest {
     @Test

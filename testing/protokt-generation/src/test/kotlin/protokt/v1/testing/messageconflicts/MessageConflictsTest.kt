@@ -17,44 +17,6 @@ package protokt.v1.testing.messageconflicts
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
-import toasttab.protokt.v1.testing.messageconflicts.AbstractKtDeserializer
-import toasttab.protokt.v1.testing.messageconflicts.AbstractKtEnum
-import toasttab.protokt.v1.testing.messageconflicts.Any
-import toasttab.protokt.v1.testing.messageconflicts.Boolean
-import toasttab.protokt.v1.testing.messageconflicts.Bytes
-import toasttab.protokt.v1.testing.messageconflicts.BytesSlice
-import toasttab.protokt.v1.testing.messageconflicts.Deserializer
-import toasttab.protokt.v1.testing.messageconflicts.Double
-import toasttab.protokt.v1.testing.messageconflicts.Enum
-import toasttab.protokt.v1.testing.messageconflicts.Fixed32
-import toasttab.protokt.v1.testing.messageconflicts.Fixed32Val
-import toasttab.protokt.v1.testing.messageconflicts.Fixed64
-import toasttab.protokt.v1.testing.messageconflicts.Fixed64Val
-import toasttab.protokt.v1.testing.messageconflicts.Float
-import toasttab.protokt.v1.testing.messageconflicts.Int
-import toasttab.protokt.v1.testing.messageconflicts.Int32
-import toasttab.protokt.v1.testing.messageconflicts.Int64
-import toasttab.protokt.v1.testing.messageconflicts.KtDeserializer
-import toasttab.protokt.v1.testing.messageconflicts.KtEnum
-import toasttab.protokt.v1.testing.messageconflicts.KtEnumDeserializer
-import toasttab.protokt.v1.testing.messageconflicts.KtEnumSerializer
-import toasttab.protokt.v1.testing.messageconflicts.KtMessage
-import toasttab.protokt.v1.testing.messageconflicts.KtSerializer
-import toasttab.protokt.v1.testing.messageconflicts.LengthDelimitedVal
-import toasttab.protokt.v1.testing.messageconflicts.List
-import toasttab.protokt.v1.testing.messageconflicts.Long
-import toasttab.protokt.v1.testing.messageconflicts.Map
-import toasttab.protokt.v1.testing.messageconflicts.SFixed64
-import toasttab.protokt.v1.testing.messageconflicts.SInt32
-import toasttab.protokt.v1.testing.messageconflicts.SInt64
-import toasttab.protokt.v1.testing.messageconflicts.String
-import toasttab.protokt.v1.testing.messageconflicts.Tag
-import toasttab.protokt.v1.testing.messageconflicts.UInt32
-import toasttab.protokt.v1.testing.messageconflicts.UInt64
-import toasttab.protokt.v1.testing.messageconflicts.Unit
-import toasttab.protokt.v1.testing.messageconflicts.UnknownField
-import toasttab.protokt.v1.testing.messageconflicts.UnknownValue
-import toasttab.protokt.v1.testing.messageconflicts.VarintVal
 
 class MessageConflictsTest {
     @Test

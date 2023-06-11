@@ -15,8 +15,8 @@
 
 package protokt.v1.grpc
 
-import protokt.v1.KtDeserializer
 import io.grpc.MethodDescriptor
+import protokt.v1.KtDeserializer
 import java.io.InputStream
 
 @Suppress("DEPRECATION")

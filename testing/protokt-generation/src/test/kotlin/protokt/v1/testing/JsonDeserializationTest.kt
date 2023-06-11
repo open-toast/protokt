@@ -24,14 +24,11 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.google.common.truth.Truth.assertThat
-import com.toasttab.protokt.v1.KtEnum
-import com.toasttab.protokt.v1.KtEnumDeserializer
-import com.toasttab.protokt.v1.KtMessage
-import com.toasttab.protokt.v1.UnknownFieldSet
 import org.junit.jupiter.api.Test
-import toasttab.protokt.v1.testing.AnEnum
-import toasttab.protokt.v1.testing.RootMessage
-import toasttab.protokt.v1.testing.ToDeserialize
+import protokt.v1.KtEnum
+import protokt.v1.KtEnumDeserializer
+import protokt.v1.KtMessage
+import protokt.v1.UnknownFieldSet
 
 class JsonDeserializationTest {
     private val mapper =

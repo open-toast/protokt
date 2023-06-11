@@ -16,9 +16,7 @@
 package protokt.v1.testing
 
 import com.google.common.truth.Truth.assertThat
-import protokt.v1.testing.propertyType
 import org.junit.jupiter.api.Test
-import toasttab.protokt.v1.testing.options.TestProto3OptionalWrapperType
 import java.time.LocalDate
 import kotlin.reflect.full.createType
 

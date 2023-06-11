@@ -15,9 +15,8 @@
 
 package protokt.v1.testing
 
-import com.toasttab.protokt.v1.testing.options.pkg.checkDurationTypes
 import org.junit.jupiter.api.Test
-import toasttab.protokt.v1.testing.options.ImportsWrapperModel
+import protokt.v1.testing.pkg.checkDurationTypes
 
 class SharedSimpleNamesTest {
     @Test

@@ -19,7 +19,6 @@ import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import protokt.v1.UuidBytesConverter
 import java.util.UUID
 
 class UuidBytesConverterTest {

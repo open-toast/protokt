@@ -17,19 +17,18 @@ package protokt.v1.testing
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
-import toasttab.protokt.v1.testing.file_descriptor_name_collision_file_descriptor
 
 class FileDescriptorNameCollisionTest {
     @Test
     fun `files with same name have same descriptor object name`() {
-        assertThat(toasttab.protokt.v1.testing.file_descriptor_name_collision1_file_descriptor::class.simpleName)
-            .isEqualTo(toasttab.protokt.v1.testing.other.file_descriptor_name_collision1_file_descriptor::class.simpleName)
+        assertThat(file_descriptor_name_collision1_file_descriptor::class.simpleName)
+            .isEqualTo(protokt.v1.testing.other.file_descriptor_name_collision1_file_descriptor::class.simpleName)
     }
 
     @Test
     fun `file in other project depending on a duplicated name chooses the right one`() {
         // having only one dependency ensures that any deduplication done on the descriptor object names is resilient
         assertThat(file_descriptor_name_collision_file_descriptor.descriptor.dependencies)
-            .containsExactly(toasttab.protokt.v1.testing.other.file_descriptor_name_collision1_file_descriptor.descriptor)
+            .containsExactly(protokt.v1.testing.other.file_descriptor_name_collision1_file_descriptor.descriptor)
     }
 }

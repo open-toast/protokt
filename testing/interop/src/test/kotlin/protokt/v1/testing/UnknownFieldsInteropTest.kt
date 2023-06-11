@@ -17,17 +17,17 @@ package protokt.v1.testing
 
 import com.google.common.truth.Truth.assertThat
 import com.google.protobuf.ByteString
-import com.toasttab.protokt.v1.Bytes
-import com.toasttab.protokt.v1.Fixed32Val
-import com.toasttab.protokt.v1.Fixed64Val
-import com.toasttab.protokt.v1.LengthDelimitedVal
-import com.toasttab.protokt.v1.UnknownField
-import com.toasttab.protokt.v1.UnknownFieldSet
-import com.toasttab.protokt.v1.VarintVal
 import org.junit.jupiter.api.Test
+import protokt.v1.Bytes
+import protokt.v1.Fixed32Val
+import protokt.v1.Fixed64Val
+import protokt.v1.LengthDelimitedVal
+import protokt.v1.UnknownField
+import protokt.v1.UnknownFieldSet
+import protokt.v1.VarintVal
 import com.google.protobuf.UnknownFieldSet as JavaUnknownFieldSet
 import com.toasttab.protokt.v1.testing.TestOuterClass.Test as JavaTest
-import toasttab.protokt.v1.testing.Test as KtTest
+import protokt.v1.testing.Test as KtTest
 
 class UnknownFieldsInteropTest {
     private val content = "this is a test".toByteArray()

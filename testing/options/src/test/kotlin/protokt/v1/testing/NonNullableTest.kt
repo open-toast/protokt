@@ -16,11 +16,8 @@
 package protokt.v1.testing
 
 import com.google.common.truth.Truth.assertThat
-import protokt.v1.testing.propertyIsMarkedNullable
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import toasttab.protokt.v1.testing.options.NonNullModel
-import toasttab.protokt.v1.testing.options.NonNullModelMirror
 
 class NonNullableTest {
     @Test

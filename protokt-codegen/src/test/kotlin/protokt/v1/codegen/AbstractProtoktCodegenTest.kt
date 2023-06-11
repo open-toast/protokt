@@ -18,12 +18,12 @@ package protokt.v1.codegen
 import com.google.common.base.CaseFormat
 import com.google.common.io.Resources
 import com.google.protobuf.compiler.PluginProtos
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.io.TempDir
 import protokt.v1.gradle.ProtoktExtension
 import protokt.v1.testing.ProcessOutput
 import protokt.v1.testing.projectRoot
 import protokt.v1.testing.runCommand
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.io.TempDir
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.PrintStream
@@ -89,7 +89,7 @@ abstract class AbstractProtoktCodegenTest {
 
         val out = ByteArrayOutputStream()
         val err = ByteArrayOutputStream()
-        val code = main(generatedFile.readBytes(), out, PrintStream(err))
+        val code = main(generatedFile.inputStream(), out, PrintStream(err))
         return if (code == 0) {
             Success(PluginProtos.CodeGeneratorResponse.parseFrom(out.toByteArray()))
         } else {
@@ -112,10 +112,9 @@ private val codegenTestingResources =
         "src",
         "test",
         "resources",
-        "com",
-        "toasttab",
         "protokt",
-        "v1"
+        "v1",
+        "codegen"
     )
 
 private val binGenerator =
@@ -134,10 +133,9 @@ private val generatedFile =
             "src",
             "test",
             "resources",
-            "com",
-            "toasttab",
             "protokt",
             "v1",
+            "codegen",
             "test-proto-bin-request.bin"
         ).toString()
     )

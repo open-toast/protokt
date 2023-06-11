@@ -13,12 +13,11 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.v1.testing.options.pkg
+package protokt.v1.testing.pkg
 
 import com.google.common.truth.Truth.assertThat
-import protokt.v1.testing.propertyType
 import org.junit.jupiter.api.Test
-import toasttab.protokt.v1.testing.options.ImportsWrapperModel
+import protokt.v1.testing.propertyType
 import kotlin.reflect.KClass
 import kotlin.reflect.full.createType
 
@@ -31,11 +30,11 @@ class SharedSimpleNamesAlternativePackageTest {
 
 fun checkDurationTypes(klass: KClass<*>) {
     assertThat(klass.propertyType("nativeDuration"))
-        .isEqualTo(com.toasttab.protokt.v1.Duration::class.createType())
+        .isEqualTo(protokt.v1.google.protobuf.Duration::class.createType())
 
     assertThat(klass.propertyType("javaDuration"))
         .isEqualTo(java.time.Duration::class.createType())
 
     assertThat(klass.propertyType("superfluousDuration"))
-        .isEqualTo(com.toasttab.protokt.v1.testing.options.Duration::class.createType())
+        .isEqualTo(protokt.v1.testing.Duration::class.createType())
 }

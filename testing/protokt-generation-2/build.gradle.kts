@@ -23,5 +23,7 @@ localProtokt()
 pureKotlin()
 
 dependencies {
+    implementation(libs.protobufJava)
+
     protoktExtensions(project(":testing:protokt-generation"))
 }

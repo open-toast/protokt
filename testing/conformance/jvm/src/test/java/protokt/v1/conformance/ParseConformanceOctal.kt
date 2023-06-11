@@ -16,8 +16,8 @@
 package protokt.v1.conformance
 
 import com.google.common.truth.Truth.assertThat
-import com.toasttab.protokt.v1_test_messages.proto3.TestAllTypesProto3
 import org.junit.jupiter.api.Test
+import protokt.v1.protobuf_test_messages.proto3.TestAllTypesProto3
 
 /**
  * Use to parse the error message output from protobuf conformance tests, e.g.:

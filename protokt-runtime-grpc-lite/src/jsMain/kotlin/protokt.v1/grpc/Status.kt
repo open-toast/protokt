@@ -15,7 +15,7 @@
 
 package protokt.v1.grpc
 
-import com.toasttab.protokt.v1.unmodifiableList
+import protokt.v1.unmodifiableList
 
 class Status private constructor(
     val code: Code,

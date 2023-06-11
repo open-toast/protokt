@@ -16,10 +16,11 @@
 package com.toasttab.protokt.thirdparty.ext
 
 import com.google.auto.service.AutoService
-import com.google.type.Date
+import protokt.v1.google.type.Date
 import java.time.LocalDate
 
 @Suppress("DEPRECATION")
+@Deprecated("use v1")
 @AutoService(com.toasttab.protokt.ext.Converter::class)
 object LocalDateGoogleConverter : com.toasttab.protokt.ext.Converter<LocalDate, Date> {
     override val wrapper = LocalDate::class

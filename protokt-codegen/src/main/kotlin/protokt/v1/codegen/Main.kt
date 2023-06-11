@@ -24,20 +24,23 @@ import com.toasttab.protokt.v1.ProtoktProto
 import protokt.v1.codegen.generate.generateFile
 import protokt.v1.codegen.util.ErrorContext.withFileName
 import protokt.v1.codegen.util.GeneratorContext
+import protokt.v1.codegen.util.PluginParams
 import protokt.v1.codegen.util.formatErrorMessage
+import protokt.v1.codegen.util.generateGrpcKotlinStubs
 import protokt.v1.codegen.util.parseFileContents
 import protokt.v1.codegen.util.tidy
+import java.io.InputStream
 import java.io.OutputStream
 import java.io.PrintStream
 import kotlin.system.exitProcess
 
 fun main() {
-    exitProcess(main(System.`in`.use { it.readBytes() }, System.out, System.err))
+    exitProcess(main(System.`in`, System.out, System.err))
 }
 
-internal fun main(bytes: ByteArray, out: OutputStream, err: PrintStream) =
+internal fun main(`in`: InputStream, out: OutputStream, err: PrintStream) =
     try {
-        main(bytes, out)
+        main(`in`, out)
         0
     } catch (t: Throwable) {
         err.println(formatErrorMessage())
@@ -45,9 +48,9 @@ internal fun main(bytes: ByteArray, out: OutputStream, err: PrintStream) =
         -1
     }
 
-private fun main(bytes: ByteArray, out: OutputStream) {
-    val req = parseCodeGeneratorRequest(bytes)
-    val params = parseParams(req)
+private fun main(`in`: InputStream, out: OutputStream) {
+    val req = parseCodeGeneratorRequest(`in`)
+    val params = PluginParams(parseParams(req))
     val filesToGenerate = req.fileToGenerateList.toSet()
 
     val files = req.protoFileList
@@ -62,6 +65,7 @@ private fun main(bytes: ByteArray, out: OutputStream) {
         CodeGeneratorResponse.newBuilder()
             .setSupportedFeatures(Feature.FEATURE_PROTO3_OPTIONAL.number.toLong())
             .addAllFile(files)
+            .addAllFile(generateGrpcKotlinStubs(params, req))
             .build()
             .writeTo(out)
     }
@@ -83,9 +87,9 @@ private fun parseParams(req: CodeGeneratorRequest) =
             .associate { it.substringBefore('=') to it.substringAfter('=', "") }
     }
 
-private fun parseCodeGeneratorRequest(bytes: ByteArray) =
+private fun parseCodeGeneratorRequest(`in`: InputStream) =
     CodeGeneratorRequest.parseFrom(
-        bytes,
+        `in`,
         ExtensionRegistry.newInstance()
             .also { ProtoktProto.registerAllExtensions(it) }
     )

@@ -54,7 +54,7 @@ message ContainsOneofThatImplements {
   }
 
   oneof OneofModelFullyQualified {
-    option (.protokt.v1.oneof).implements = "com.toasttab.protokt.v1.testing.options.OneofModel";
+    option (.protokt.v1.oneof).implements = "protokt.v1.testing.OneofModel";
 
     ImplementsOneof1 implements_one_with_full_qualification = 4;
   }

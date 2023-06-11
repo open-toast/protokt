@@ -16,11 +16,11 @@
 package protokt.v1.testing
 
 import com.google.common.truth.Truth.assertThat
-import com.toasttab.protokt.v1.Any
-import com.toasttab.protokt.v1.Timestamp
-import protokt.v1.pack
-import protokt.v1.unpack
 import org.junit.jupiter.api.Test
+import protokt.v1.google.protobuf.Any
+import protokt.v1.google.protobuf.Timestamp
+import protokt.v1.google.protobuf.pack
+import protokt.v1.google.protobuf.unpack
 
 class AnyTest {
     @Test

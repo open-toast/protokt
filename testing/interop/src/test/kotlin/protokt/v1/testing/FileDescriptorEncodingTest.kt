@@ -19,26 +19,24 @@ import com.google.common.truth.Truth.assertThat
 import com.google.protobuf.DescriptorProtos
 import com.google.protobuf.Descriptors
 import com.google.protobuf.GeneratedMessageV3
-import com.toasttab.protokt.v1.Api
-import com.toasttab.protokt.v1.Descriptor
-import com.toasttab.protokt.v1.DescriptorProto
-import com.toasttab.protokt.v1.FileDescriptor
-import com.toasttab.protokt.v1.FileDescriptorProto
-import com.toasttab.protokt.v1.Type
-import com.toasttab.protokt.v1.descriptor
 import com.toasttab.protokt.v1.testing.DeeplyNested
 import com.toasttab.protokt.v1.testing.HasAService
 import org.junit.jupiter.api.Test
-import toasttab.protokt.v1.testing.DeeplyNested1.DeeplyNested2.DeeplyNested3.DeeplyNested4
-import toasttab.protokt.v1.testing.FooService
-import toasttab.protokt.v1.testing.descriptor
+import protokt.v1.google.protobuf.Api
+import protokt.v1.google.protobuf.Descriptor
+import protokt.v1.google.protobuf.DescriptorProto
+import protokt.v1.google.protobuf.FileDescriptor
+import protokt.v1.google.protobuf.FileDescriptorProto
+import protokt.v1.google.protobuf.Type
+import protokt.v1.google.protobuf.descriptor
+import protokt.v1.testing.DeeplyNested1.DeeplyNested2.DeeplyNested3.DeeplyNested4
 import kotlin.reflect.KClass
 
 // Assert against a sampling of generated descriptors.
 class FileDescriptorEncodingTest {
     @Test
     fun `encoding of file descriptors is equal`() {
-        assertFileDescriptorsAreEqual(com.toasttab.protokt.v1.Any.descriptor, com.google.protobuf.Any::class)
+        assertFileDescriptorsAreEqual(protokt.v1.google.protobuf.Any.descriptor, com.google.protobuf.Any::class)
         assertFileDescriptorsAreEqual(Api.descriptor, com.google.protobuf.Api::class)
         assertFileDescriptorsAreEqual(FileDescriptorProto.descriptor, DescriptorProtos.FileDescriptorProto::class)
         assertFileDescriptorsAreEqual(Type.descriptor, com.google.protobuf.Type::class)
@@ -81,7 +79,7 @@ class FileDescriptorEncodingTest {
 
     @Test
     fun `check re-encoding to protobuf-java FDP`() {
-        assertEqualComponents(com.toasttab.protokt.v1.Any.descriptor, com.google.protobuf.Any::class)
+        assertEqualComponents(protokt.v1.google.protobuf.Any.descriptor, com.google.protobuf.Any::class)
         assertEqualComponents(Api.descriptor, com.google.protobuf.Api::class)
         assertEqualComponents(FileDescriptorProto.descriptor, DescriptorProtos.FileDescriptorProto::class)
         assertEqualComponents(Type.descriptor, com.google.protobuf.Type::class)
@@ -137,14 +135,14 @@ class FileDescriptorEncodingTest {
         // top-level enum
         assertThat(
             DescriptorProtos.EnumDescriptorProto.parseFrom(
-                com.toasttab.protokt.v1.Syntax.descriptor.proto.serialize()
+                protokt.v1.google.protobuf.Syntax.descriptor.proto.serialize()
             )
         ).isEqualTo(com.google.protobuf.Syntax.getDescriptor().toProto())
 
         // nested enum
         assertThat(
             DescriptorProtos.EnumDescriptorProto.parseFrom(
-                com.toasttab.protokt.v1.Field.Cardinality.descriptor.proto.serialize()
+                protokt.v1.google.protobuf.Field.Cardinality.descriptor.proto.serialize()
             )
         ).isEqualTo(com.google.protobuf.Field.Cardinality.getDescriptor().toProto())
     }

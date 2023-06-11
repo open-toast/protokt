@@ -15,42 +15,23 @@
 
 package protokt.v1.codegen.util
 
-import com.google.common.base.CaseFormat.LOWER_CAMEL
-import com.google.common.base.CaseFormat.LOWER_UNDERSCORE
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.toasttab.protokt.v1.ProtoktProto
-import protokt.v1.gradle.APPLIED_KOTLIN_PLUGIN
-import protokt.v1.gradle.FORMAT_OUTPUT
-import protokt.v1.gradle.GENERATE_GRPC
-import protokt.v1.gradle.KOTLIN_EXTRA_CLASSPATH
-import protokt.v1.gradle.LITE
-import protokt.v1.gradle.ONLY_GENERATE_DESCRIPTORS
-import protokt.v1.gradle.ONLY_GENERATE_GRPC
-import protokt.v1.gradle.ONLY_GENERATE_GRPC_DESCRIPTORS
 import protokt.v1.gradle.PROTOKT_VERSION
-import protokt.v1.gradle.ProtoktExtension
-import java.net.URLDecoder
-import kotlin.reflect.full.declaredMemberProperties
 
 class GeneratorContext(
     val fdp: FileDescriptorProto,
-    params: Map<String, String>,
+    params: PluginParams,
     allFiles: List<FileDescriptorProto>
 ) {
-    val classLookup =
-        ClassLookup(
-            params.getOrDefault(KOTLIN_EXTRA_CLASSPATH, "")
-                .split(";")
-                .map { URLDecoder.decode(it, "UTF-8") }
-        )
+    val classLookup = params.classLookup
+    val generateGrpc = params.generateGrpc
+    val onlyGenerateGrpc = params.onlyGenerateGrpc
+    val lite = params.lite
+    val onlyGenerateDescriptors = params.onlyGenerateDescriptors
+    val formatOutput = params.formatOutput
+    val appliedKotlinPlugin = params.appliedKotlinPlugin
 
-    val generateGrpc = params.getOrDefault(GENERATE_GRPC)
-    val onlyGenerateGrpc = params.getOrDefault(ONLY_GENERATE_GRPC)
-    val lite = params.getOrDefault(LITE)
-    val onlyGenerateDescriptors = params.getOrDefault(ONLY_GENERATE_DESCRIPTORS)
-    val onlyGenerateGrpcDescriptors = params.getOrDefault(ONLY_GENERATE_GRPC_DESCRIPTORS)
-    val formatOutput = params.getOrDefault(FORMAT_OUTPUT)
-    val appliedKotlinPlugin = params[APPLIED_KOTLIN_PLUGIN]?.toKotlinPluginEnum()
     val protoktVersion = PROTOKT_VERSION
 
     val allPackagesByFileName = packagesByFileName(allFiles)
@@ -65,17 +46,6 @@ class GeneratorContext(
     val proto3 = fdp.syntax == "proto3"
 }
 
-private fun Map<String, String>.getOrDefault(key: String): Boolean {
-    val defaultExtension = ProtoktExtension()
-
-    val defaultValue =
-        defaultExtension::class.declaredMemberProperties
-            .single { it.name == LOWER_UNDERSCORE.to(LOWER_CAMEL, key) }
-            .call(defaultExtension) as Boolean
-
-    return get(key)?.toBoolean() ?: defaultValue
-}
-
 val FileDescriptorProto.fileOptions
     get() = FileOptions(options, options.getExtension(ProtoktProto.file))
 
@@ -88,19 +58,3 @@ private fun generateFdpObjectNames(files: List<FileDescriptorProto>): Map<String
                 ?: (fdp.name.substringBefore(".proto").substringAfterLast('/') + "_file_descriptor")
         )
     }
-
-private fun String.toKotlinPluginEnum() =
-    when (this) {
-        "org.jetbrains.kotlin.multiplatform" -> KotlinPlugin.MULTIPLATFORM
-        "org.jetbrains.kotlin.js" -> KotlinPlugin.JS
-        "org.jetbrains.kotlin.jvm" -> KotlinPlugin.JVM
-        "org.jetbrains.kotlin.android" -> KotlinPlugin.ANDROID
-        else -> null
-    }
-
-enum class KotlinPlugin {
-    MULTIPLATFORM,
-    JS,
-    JVM,
-    ANDROID
-}

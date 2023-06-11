@@ -15,9 +15,9 @@
 
 package protokt.v1.testing
 
+import org.junit.jupiter.api.fail
 import protokt.v1.testing.ProcessOutput.Src.ERR
 import protokt.v1.testing.ProcessOutput.Src.OUT
-import org.junit.jupiter.api.fail
 import java.io.File
 import java.nio.file.Path
 import java.util.concurrent.TimeUnit
@@ -39,7 +39,7 @@ fun String.runCommand(
             .apply { environment().putAll(env) }
             .start()
 
-    if (!proc.waitFor(60, TimeUnit.SECONDS)) {
+    if (!proc.waitFor(10, TimeUnit.SECONDS)) {
         fail("Process '$this' took too long")
     }
 

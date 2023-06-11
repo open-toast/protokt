@@ -22,7 +22,6 @@ import io.grpc.ManagedChannelBuilder
 import io.grpc.Status
 import io.grpc.stub.ClientCalls
 import io.grpc.stub.StreamObserver
-import protokt.v1.io.grpc.examples.routeguide.Database
 import java.io.Closeable
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit

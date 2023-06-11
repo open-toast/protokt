@@ -15,12 +15,12 @@
 
 package protokt.v1.conformance
 
-import protokt.v1.testing.ProcessOutput
-import protokt.v1.testing.projectRoot
-import protokt.v1.testing.runCommand
 import org.junit.jupiter.api.fail
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
+import protokt.v1.testing.ProcessOutput
+import protokt.v1.testing.projectRoot
+import protokt.v1.testing.runCommand
 import java.io.File
 import java.nio.file.Path
 

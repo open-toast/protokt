@@ -14,7 +14,6 @@
  */
 
 import com.google.protobuf.gradle.ProtobufExtension
-import com.google.protobuf.gradle.id
 import com.google.protobuf.gradle.protobuf
 import org.gradle.api.Project
 import org.gradle.api.artifacts.MinimalExternalModuleDependency

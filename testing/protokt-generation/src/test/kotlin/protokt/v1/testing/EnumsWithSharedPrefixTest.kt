@@ -16,10 +16,6 @@
 package protokt.v1.testing
 
 import org.junit.jupiter.api.Test
-import toasttab.protokt.v1.testing.AnEnumType
-import toasttab.protokt.v1.testing.AnEnumTypeLowerCase
-import toasttab.protokt.v1.testing.AnEnumTypeNoTerminalUnderscore
-import toasttab.protokt.v1.testing.AnEnumTypeNotPrefixed
 
 class EnumsWithSharedPrefixTest {
     @Test

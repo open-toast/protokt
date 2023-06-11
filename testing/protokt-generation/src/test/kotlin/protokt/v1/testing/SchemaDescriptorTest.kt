@@ -16,16 +16,15 @@
 package protokt.v1.testing
 
 import com.google.common.truth.Truth.assertThat
+import org.junit.jupiter.api.Test
 import protokt.v1.grpc.SchemaDescriptor
 import protokt.v1.grpc.fileDescriptor
-import org.junit.jupiter.api.Test
-import toasttab.protokt.v1.testing.TestServiceGrpc
 
 class SchemaDescriptorTest {
     @Test
     fun `schemaDescriptor has correct file descriptor`() {
         val schemaDescriptor = TestServiceGrpc.getServiceDescriptor().schemaDescriptor as SchemaDescriptor
         assertThat(schemaDescriptor.fileDescriptor.proto)
-            .isEqualTo(toasttab.protokt.v1.testing.service_package_file_descriptor.descriptor.proto)
+            .isEqualTo(service_package_file_descriptor.descriptor.proto)
     }
 }

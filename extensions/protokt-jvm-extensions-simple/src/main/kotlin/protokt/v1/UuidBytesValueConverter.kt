@@ -16,8 +16,7 @@
 package protokt.v1
 
 import com.google.auto.service.AutoService
-import protokt.v1.Converter
-import protokt.v1.OptimizedSizeOfConverter
+import protokt.v1.google.protobuf.BytesValue
 import java.util.UUID
 
 @AutoService(Converter::class)

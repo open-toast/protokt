@@ -15,17 +15,14 @@
 
 package protokt.v1.conformance
 
-import com.toasttab.protokt.v1.Bytes
-import com.toasttab.protokt.v1.KtDeserializer
-import com.toasttab.protokt.v1.KtMessage
-import com.toasttab.protokt.v1.conformance.ConformanceResponse.Result.ParseError
-import com.toasttab.protokt.v1.conformance.ConformanceResponse.Result.RuntimeError
-import com.toasttab.protokt.v1.conformance.ConformanceResponse.Result.SerializeError
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.runBlocking
-import protokt.v1.conformance.ConformanceStepResult
-import protokt.v1.conformance.Failure
-import protokt.v1.conformance.Proceed
+import protokt.v1.Bytes
+import protokt.v1.KtDeserializer
+import protokt.v1.KtMessage
+import protokt.v1.conformance.ConformanceResponse.Result.ParseError
+import protokt.v1.conformance.ConformanceResponse.Result.RuntimeError
+import protokt.v1.conformance.ConformanceResponse.Result.SerializeError
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 

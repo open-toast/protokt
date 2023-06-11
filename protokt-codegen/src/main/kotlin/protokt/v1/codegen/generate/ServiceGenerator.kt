@@ -30,13 +30,6 @@ import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
-import protokt.v1.codegen.generate.CodeGenerator.Context
-import protokt.v1.codegen.util.KotlinPlugin
-import protokt.v1.codegen.util.Method
-import protokt.v1.codegen.util.Service
-import protokt.v1.codegen.util.protoktV1
-import protokt.v1.grpc.KtMarshaller
-import protokt.v1.grpc.SchemaDescriptor
 import io.grpc.BindableService
 import io.grpc.ChannelCredentials
 import io.grpc.MethodDescriptor
@@ -51,6 +44,13 @@ import io.grpc.kotlin.AbstractCoroutineStub
 import io.grpc.kotlin.ClientCalls
 import io.grpc.kotlin.ServerCalls
 import kotlinx.coroutines.flow.Flow
+import protokt.v1.codegen.generate.CodeGenerator.Context
+import protokt.v1.codegen.util.KotlinPlugin
+import protokt.v1.codegen.util.Method
+import protokt.v1.codegen.util.Service
+import protokt.v1.codegen.util.protoktV1GoogleProto
+import protokt.v1.grpc.KtMarshaller
+import protokt.v1.grpc.SchemaDescriptor
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.reflect.KClass
@@ -120,66 +120,66 @@ private class ServiceGenerator(
         }
 
     private fun TypeSpec.Builder.addServiceDescriptor() =
-            addProperty(
-                PropertySpec.builder("_serviceDescriptor", pivotClassName(ServiceDescriptor::class))
+        addProperty(
+            PropertySpec.builder("_serviceDescriptor", pivotClassName(ServiceDescriptor::class))
+                .addModifiers(KModifier.PRIVATE)
+                .delegate(
+                    buildCodeBlock {
+                        beginControlFlow("lazy")
+                        add(
+                            "%M(SERVICE_NAME)\n",
+                            staticOrCompanion(ServiceDescriptor::class).member("newBuilder")
+                        )
+                        withIndent { serviceLines(ctx).filterNotNull().forEach(::add) }
+                        endControlFlowWithoutNewline()
+                    }
+                )
+                .build()
+        )
+
+    private fun TypeSpec.Builder.addMethodProperties() =
+        addProperties(
+            s.methods.map { method ->
+                PropertySpec.builder(
+                    "_" + method.name.decapitalize() + "Method",
+                    pivotClassName(MethodDescriptor::class).parameterizedBy(method.inputType, method.outputType)
+                )
                     .addModifiers(KModifier.PRIVATE)
                     .delegate(
                         buildCodeBlock {
                             beginControlFlow("lazy")
                             add(
-                                "%M(SERVICE_NAME)\n",
-                                staticOrCompanion(ServiceDescriptor::class).member("newBuilder")
+                                "%M<%T,·%T>()\n",
+                                staticOrCompanion(MethodDescriptor::class).member("newBuilder"),
+                                method.inputType,
+                                method.outputType
                             )
-                            withIndent { serviceLines(ctx).filterNotNull().forEach(::add) }
+                            withIndent {
+                                add(
+                                    ".setType(%M)\n",
+                                    pivotClassName(MethodType::class).member(methodType(method).name)
+                                )
+                                add(
+                                    ".setFullMethodName(%M(SERVICE_NAME,·\"${method.name}\"))\n",
+                                    staticOrCompanion(MethodDescriptor::class).member("generateFullMethodName")
+                                )
+                                add(".setRequestMarshaller(%L)\n", method.requestMarshaller())
+                                add(".setResponseMarshaller(%L)\n", method.responseMarshaller())
+                                add(".build()\n")
+                            }
                             endControlFlowWithoutNewline()
                         }
                     )
                     .build()
-            )
-
-    private fun TypeSpec.Builder.addMethodProperties() =
-            addProperties(
-                s.methods.map { method ->
-                    PropertySpec.builder(
-                        "_" + method.name.decapitalize() + "Method",
-                        pivotClassName(MethodDescriptor::class).parameterizedBy(method.inputType, method.outputType)
-                    )
-                        .addModifiers(KModifier.PRIVATE)
-                        .delegate(
-                            buildCodeBlock {
-                                beginControlFlow("lazy")
-                                add(
-                                    "%M<%T,·%T>()\n",
-                                    staticOrCompanion(MethodDescriptor::class).member("newBuilder"),
-                                    method.inputType,
-                                    method.outputType
-                                )
-                                withIndent {
-                                    add(
-                                        ".setType(%M)\n",
-                                        pivotClassName(MethodType::class).member(methodType(method).name)
-                                    )
-                                    add(
-                                        ".setFullMethodName(%M(SERVICE_NAME,·\"${method.name}\"))\n",
-                                        staticOrCompanion(MethodDescriptor::class).member("generateFullMethodName")
-                                    )
-                                    add(".setRequestMarshaller(%L)\n", method.requestMarshaller())
-                                    add(".setResponseMarshaller(%L)\n", method.responseMarshaller())
-                                    add(".build()\n")
-                                }
-                                endControlFlowWithoutNewline()
-                            }
-                        )
-                        .build()
-                }
-            )
+            }
+        )
 
     private fun coroutineServerBase(
         grpcServiceObjectClassName: ClassName,
         getServiceDescriptorFunction: FunSpec,
         getMethodFunctions: List<FunSpec>
     ): TypeSpec? =
-        if (!ctx.info.context.onlyGenerateGrpcDescriptors) {
+        if (kotlinPlugin == KotlinPlugin.JS) {
             val implementations = serverImplementations()
             val coroutineServerClassName = ClassName(ctx.info.kotlinPackage, s.name + "CoroutineImplBase")
             TypeSpec.classBuilder(coroutineServerClassName)
@@ -304,7 +304,7 @@ private class ServiceGenerator(
         getServiceDescriptorFunction: FunSpec,
         getMethodFunctions: List<FunSpec>,
     ): TypeSpec? =
-        if (!ctx.info.context.onlyGenerateGrpcDescriptors) {
+        if (kotlinPlugin == KotlinPlugin.JS) {
             val coroutineStubClassName = ClassName(ctx.info.kotlinPackage, s.name + "CoroutineStub")
             TypeSpec.classBuilder(coroutineStubClassName)
                 .primaryConstructor(
@@ -370,7 +370,7 @@ private class ServiceGenerator(
         if (!ctx.info.context.onlyGenerateGrpc && !ctx.info.context.lite) {
             TypeSpec.objectBuilder(s.name)
                 .addProperty(
-                    PropertySpec.builder("descriptor", ClassName(protoktV1, "ServiceDescriptor"))
+                    PropertySpec.builder("descriptor", ClassName(protoktV1GoogleProto, "ServiceDescriptor"))
                         .delegate(
                             buildCodeBlock {
                                 beginControlFlow("lazy")

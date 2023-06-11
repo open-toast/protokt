@@ -15,6 +15,7 @@
 
 package protokt.v1.testing
 
+import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
 
 class MultiplatformGenerationTest {

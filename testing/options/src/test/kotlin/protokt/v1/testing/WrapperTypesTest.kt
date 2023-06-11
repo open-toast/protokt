@@ -16,10 +16,10 @@
 package protokt.v1.testing
 
 import com.google.common.truth.Truth.assertThat
-import com.toasttab.protokt.v1.Bytes
-import com.toasttab.protokt.v1.testing.options.OneofWrappers.WrappedOneof
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import protokt.v1.Bytes
+import protokt.v1.testing.OneofWrappers.WrappedOneof
 import java.net.InetAddress
 import java.net.InetSocketAddress
 import java.time.Duration

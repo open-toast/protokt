@@ -15,8 +15,8 @@
 
 package protokt.v1.grpc
 
-import com.toasttab.protokt.v1.KtDeserializer
-import com.toasttab.protokt.v1.KtMessage
+import protokt.v1.KtDeserializer
+import protokt.v1.KtMessage
 
 class KtMarshaller<T : KtMessage>(
     private val deserializer: KtDeserializer<T>

@@ -26,6 +26,14 @@ pureKotlin()
 enablePublishing()
 trackKotlinApiCompatibility()
 
+spotless {
+    kotlin {
+        targetExclude(
+            "src/main/kotlin/com/toasttab/protokt/ext/inet_socket_address.kt"
+        )
+    }
+}
+
 protokt {
     lite = true
 }

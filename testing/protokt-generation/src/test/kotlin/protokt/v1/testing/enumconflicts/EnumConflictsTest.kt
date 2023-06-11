@@ -17,44 +17,6 @@ package protokt.v1.testing.enumconflicts
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
-import toasttab.protokt.v1.testing.enumconflicts.AbstractKtDeserializer
-import toasttab.protokt.v1.testing.enumconflicts.AbstractKtEnum
-import toasttab.protokt.v1.testing.enumconflicts.Any
-import toasttab.protokt.v1.testing.enumconflicts.Boolean
-import toasttab.protokt.v1.testing.enumconflicts.Bytes
-import toasttab.protokt.v1.testing.enumconflicts.BytesSlice
-import toasttab.protokt.v1.testing.enumconflicts.Deserializer
-import toasttab.protokt.v1.testing.enumconflicts.Double
-import toasttab.protokt.v1.testing.enumconflicts.Enum
-import toasttab.protokt.v1.testing.enumconflicts.Fixed32
-import toasttab.protokt.v1.testing.enumconflicts.Fixed32Val
-import toasttab.protokt.v1.testing.enumconflicts.Fixed64
-import toasttab.protokt.v1.testing.enumconflicts.Fixed64Val
-import toasttab.protokt.v1.testing.enumconflicts.Float
-import toasttab.protokt.v1.testing.enumconflicts.Int
-import toasttab.protokt.v1.testing.enumconflicts.Int32
-import toasttab.protokt.v1.testing.enumconflicts.Int64
-import toasttab.protokt.v1.testing.enumconflicts.KtDeserializer
-import toasttab.protokt.v1.testing.enumconflicts.KtEnum
-import toasttab.protokt.v1.testing.enumconflicts.KtEnumDeserializer
-import toasttab.protokt.v1.testing.enumconflicts.KtEnumSerializer
-import toasttab.protokt.v1.testing.enumconflicts.KtMessage
-import toasttab.protokt.v1.testing.enumconflicts.KtSerializer
-import toasttab.protokt.v1.testing.enumconflicts.LengthDelimitedVal
-import toasttab.protokt.v1.testing.enumconflicts.List
-import toasttab.protokt.v1.testing.enumconflicts.Long
-import toasttab.protokt.v1.testing.enumconflicts.Map
-import toasttab.protokt.v1.testing.enumconflicts.SFixed64
-import toasttab.protokt.v1.testing.enumconflicts.SInt32
-import toasttab.protokt.v1.testing.enumconflicts.SInt64
-import toasttab.protokt.v1.testing.enumconflicts.String
-import toasttab.protokt.v1.testing.enumconflicts.Tag
-import toasttab.protokt.v1.testing.enumconflicts.UInt32
-import toasttab.protokt.v1.testing.enumconflicts.UInt64
-import toasttab.protokt.v1.testing.enumconflicts.Unit
-import toasttab.protokt.v1.testing.enumconflicts.UnknownField
-import toasttab.protokt.v1.testing.enumconflicts.UnknownValue
-import toasttab.protokt.v1.testing.enumconflicts.VarintVal
 
 class EnumConflictsTest {
     @Test

@@ -23,7 +23,7 @@ plugins {
 defaultProtoc()
 
 dependencies {
-    implementation(libs.protobufJava)
+    compileOnly(libs.protobufJava)
 }
 
 sourceSets {

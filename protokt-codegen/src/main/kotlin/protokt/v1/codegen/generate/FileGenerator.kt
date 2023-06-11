@@ -27,7 +27,7 @@ private class FileGenerator(
     private val contents: ProtoFileContents
 ) {
     fun generate(): FileSpec? {
-        val descs = protokt.v1.codegen.generate.CodeGenerator.generate(contents)
+        val descs = CodeGenerator.generate(contents)
 
         val builder =
             FileSpec.builder(

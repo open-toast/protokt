@@ -17,12 +17,11 @@ package protokt.v1.testing
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
-import toasttab.protokt.v1.testing.TestServiceGrpc
 
 class ServicePackageTest {
     @Test
     fun `service has protobuf package`() {
         assertThat(TestServiceGrpc.SERVICE_NAME.substringBeforeLast("."))
-            .isEqualTo("toasttab.protokt.v1.testing")
+            .isEqualTo("protokt.v1.testing")
     }
 }

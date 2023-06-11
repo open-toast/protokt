@@ -27,6 +27,7 @@ trackKotlinApiCompatibility()
 
 protokt {
     onlyGenerateGrpc = true
+    onlyGenerateGrpcDescriptors = true
 }
 
 dependencies {

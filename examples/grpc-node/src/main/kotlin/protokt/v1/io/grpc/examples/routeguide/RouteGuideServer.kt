@@ -16,16 +16,14 @@
 
 package protokt.v1.io.grpc.examples.routeguide
 
-import protokt.v1.grpc.Server
-import protokt.v1.grpc.ServerCredentials
-import protokt.v1.grpc.addService
-import protokt.v1.grpc.start
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flow
-import protokt.v1.io.grpc.examples.routeguide.Database
-import protokt.v1.io.grpc.examples.routeguide.Durations
+import protokt.v1.grpc.Server
+import protokt.v1.grpc.ServerCredentials
+import protokt.v1.grpc.addService
+import protokt.v1.grpc.start
 import kotlin.time.ExperimentalTime
 import kotlin.time.TimeSource
 

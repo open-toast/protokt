@@ -13,7 +13,6 @@
  * limitations under the License.
  */
 
-import protokt.v1.gradle.isMultiplatform
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.KotlinJvm
 import com.vanniktech.maven.publish.KotlinMultiplatform
@@ -29,6 +28,7 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
 import org.gradle.plugins.signing.SigningExtension
+import protokt.v1.gradle.isMultiplatform
 
 private object Pgp {
     val key by lazy {

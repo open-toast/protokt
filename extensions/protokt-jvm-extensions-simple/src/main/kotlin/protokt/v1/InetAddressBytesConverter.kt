@@ -16,7 +16,6 @@
 package protokt.v1
 
 import com.google.auto.service.AutoService
-import protokt.v1.Converter
 import java.net.InetAddress
 
 @AutoService(Converter::class)

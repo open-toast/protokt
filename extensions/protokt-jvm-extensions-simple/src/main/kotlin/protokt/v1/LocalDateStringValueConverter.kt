@@ -16,7 +16,7 @@
 package protokt.v1
 
 import com.google.auto.service.AutoService
-import protokt.v1.Converter
+import protokt.v1.google.protobuf.StringValue
 import java.time.LocalDate
 
 @AutoService(Converter::class)

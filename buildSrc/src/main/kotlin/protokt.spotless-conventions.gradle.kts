@@ -42,7 +42,8 @@ allprojects {
                 "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/struct.kt",
                 "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/timestamp.kt",
                 "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/type.kt",
-                "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/wrappers.kt"
+                "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/wrappers.kt",
+                "extensions/protokt-jvm-extensions-lite/src/main/kotlin/com/toasttab/protokt/ext/inet_socket_address.kt"
             )
         }
 
@@ -52,7 +53,7 @@ allprojects {
             targetExclude("buildSrc/build/**")
             licenseHeaderFile(
                 rootProject.file("gradle/license-header-c-style"),
-                "(package |@file|import |fun )|buildscript |plugins |subprojects "
+                "(package |@file|import |fun )|buildscript |plugins |subprojects |spotless "
             )
         }
 

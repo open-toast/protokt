@@ -16,8 +16,8 @@
 package protokt.v1.testing
 
 import com.google.common.truth.Truth.assertThat
-import com.toasttab.protokt.v1.BytesSlice
 import org.junit.jupiter.api.Test
+import protokt.v1.BytesSlice
 
 class BytesSliceTest {
     @Test

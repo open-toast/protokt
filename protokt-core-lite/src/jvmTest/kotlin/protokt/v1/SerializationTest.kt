@@ -15,7 +15,9 @@
 
 package protokt.v1
 
+import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
+import protokt.v1.google.protobuf.Duration
 
 class SerializationTest {
     @Test

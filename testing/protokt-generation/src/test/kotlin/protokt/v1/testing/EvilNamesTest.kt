@@ -17,8 +17,8 @@ package protokt.v1.testing
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
-import toasttab.protokt.v1.testing.data.evil_names_file_descriptor
-import toasttab.protokt.v1.testing.data.import_evil_names_file_descriptor
+import protokt.v1.testing.data.evil_names_file_descriptor
+import protokt.v1.testing.data.import_evil_names_file_descriptor
 
 class EvilNamesTest {
     @Test
