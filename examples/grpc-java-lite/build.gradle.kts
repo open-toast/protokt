@@ -50,7 +50,7 @@ sourceSets {
 
     test {
         java {
-            srcDir("../../testing/plugin-options/lite/src/test/kotlin/protokt/v1/testing/lite")
+            srcDir(liteOptionTestSourceDir())
         }
     }
 }

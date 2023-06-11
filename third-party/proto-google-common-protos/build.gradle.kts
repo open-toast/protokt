@@ -37,6 +37,12 @@ kotlin {
                 api(project(":third-party:proto-google-common-protos-lite"))
             }
         }
+
+        val commonTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+            }
+        }
     }
 }
 

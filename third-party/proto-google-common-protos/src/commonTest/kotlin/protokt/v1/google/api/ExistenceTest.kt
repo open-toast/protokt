@@ -13,31 +13,14 @@
  * limitations under the License.
  */
 
-import protokt.v1.gradle.protokt
+package protokt.v1.google.api
 
-plugins {
-    id("protokt.jvm-conventions")
-}
+import kotlin.test.Test
+import kotlin.test.assertNotNull
 
-localProtokt()
-pureKotlin()
-enablePublishing()
-compatibleWithAndroid()
-trackKotlinApiCompatibility()
-
-protokt {
-    generate {
-        types = false
-        descriptors = false
-        grpcKotlinStubs = true
-        grpcDescriptors = true // todo: should be able to be removed
+class ExistenceTest {
+    @Test
+    fun descriptors_exist() {
+        assertNotNull(AuthProto::class)
     }
-}
-
-dependencies {
-    protobufExcludingProtobufJava(libs.protoGoogleCommonProtos)
-
-    api(project(":protokt-runtime-grpc"))
-    api(project(":third-party:proto-google-common-protos-grpc"))
-    api(libs.grpcKotlinStub)
 }

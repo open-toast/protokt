@@ -58,7 +58,7 @@ sourceSets {
     test {
         java {
             srcDir("../grpc-kotlin/src/test/kotlin")
-            srcDir("../../testing/plugin-options/lite/src/test/kotlin/protokt/v1/testing/lite")
+            srcDir(liteOptionTestSourceDir())
         }
     }
 }

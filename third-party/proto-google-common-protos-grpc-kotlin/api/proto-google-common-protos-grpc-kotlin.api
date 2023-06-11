@@ -1,0 +1,52 @@
+public final class protokt/v1/google/longrunning/OperationsGrpc {
+	public static final field INSTANCE Lprotokt/v1/google/longrunning/OperationsGrpc;
+	public static final field SERVICE_NAME Ljava/lang/String;
+	public static final fun getCancelOperationMethod ()Lio/grpc/MethodDescriptor;
+	public static final fun getDeleteOperationMethod ()Lio/grpc/MethodDescriptor;
+	public static final fun getGetOperationMethod ()Lio/grpc/MethodDescriptor;
+	public static final fun getListOperationsMethod ()Lio/grpc/MethodDescriptor;
+	public static final fun getServiceDescriptor ()Lio/grpc/ServiceDescriptor;
+	public static final fun getWaitOperationMethod ()Lio/grpc/MethodDescriptor;
+}
+
+public final class protokt/v1/google/longrunning/OperationsGrpcKt {
+	public static final field INSTANCE Lprotokt/v1/google/longrunning/OperationsGrpcKt;
+	public static final field SERVICE_NAME Ljava/lang/String;
+	public static final fun getCancelOperationMethod ()Lio/grpc/MethodDescriptor;
+	public static final fun getDeleteOperationMethod ()Lio/grpc/MethodDescriptor;
+	public static final fun getGetOperationMethod ()Lio/grpc/MethodDescriptor;
+	public static final fun getListOperationsMethod ()Lio/grpc/MethodDescriptor;
+	public static final fun getServiceDescriptor ()Lio/grpc/ServiceDescriptor;
+	public static final fun getWaitOperationMethod ()Lio/grpc/MethodDescriptor;
+}
+
+public abstract class protokt/v1/google/longrunning/OperationsGrpcKt$OperationsCoroutineImplBase : io/grpc/kotlin/AbstractCoroutineServerImpl {
+	public fun <init> ()V
+	public fun <init> (Lkotlin/coroutines/CoroutineContext;)V
+	public synthetic fun <init> (Lkotlin/coroutines/CoroutineContext;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun bindService ()Lio/grpc/ServerServiceDefinition;
+	public fun cancelOperation (Lprotokt/v1/google/longrunning/CancelOperationRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun deleteOperation (Lprotokt/v1/google/longrunning/DeleteOperationRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun getOperation (Lprotokt/v1/google/longrunning/GetOperationRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun listOperations (Lprotokt/v1/google/longrunning/ListOperationsRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun waitOperation (Lprotokt/v1/google/longrunning/WaitOperationRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class protokt/v1/google/longrunning/OperationsGrpcKt$OperationsCoroutineStub : io/grpc/kotlin/AbstractCoroutineStub {
+	public fun <init> (Lio/grpc/Channel;)V
+	public fun <init> (Lio/grpc/Channel;Lio/grpc/CallOptions;)V
+	public synthetic fun <init> (Lio/grpc/Channel;Lio/grpc/CallOptions;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun build (Lio/grpc/Channel;Lio/grpc/CallOptions;)Lio/grpc/stub/AbstractStub;
+	public fun build (Lio/grpc/Channel;Lio/grpc/CallOptions;)Lprotokt/v1/google/longrunning/OperationsGrpcKt$OperationsCoroutineStub;
+	public final fun cancelOperation (Lprotokt/v1/google/longrunning/CancelOperationRequest;Lio/grpc/Metadata;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun cancelOperation$default (Lprotokt/v1/google/longrunning/OperationsGrpcKt$OperationsCoroutineStub;Lprotokt/v1/google/longrunning/CancelOperationRequest;Lio/grpc/Metadata;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+	public final fun deleteOperation (Lprotokt/v1/google/longrunning/DeleteOperationRequest;Lio/grpc/Metadata;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun deleteOperation$default (Lprotokt/v1/google/longrunning/OperationsGrpcKt$OperationsCoroutineStub;Lprotokt/v1/google/longrunning/DeleteOperationRequest;Lio/grpc/Metadata;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+	public final fun getOperation (Lprotokt/v1/google/longrunning/GetOperationRequest;Lio/grpc/Metadata;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun getOperation$default (Lprotokt/v1/google/longrunning/OperationsGrpcKt$OperationsCoroutineStub;Lprotokt/v1/google/longrunning/GetOperationRequest;Lio/grpc/Metadata;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+	public final fun listOperations (Lprotokt/v1/google/longrunning/ListOperationsRequest;Lio/grpc/Metadata;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun listOperations$default (Lprotokt/v1/google/longrunning/OperationsGrpcKt$OperationsCoroutineStub;Lprotokt/v1/google/longrunning/ListOperationsRequest;Lio/grpc/Metadata;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+	public final fun waitOperation (Lprotokt/v1/google/longrunning/WaitOperationRequest;Lio/grpc/Metadata;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun waitOperation$default (Lprotokt/v1/google/longrunning/OperationsGrpcKt$OperationsCoroutineStub;Lprotokt/v1/google/longrunning/WaitOperationRequest;Lio/grpc/Metadata;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+}
+

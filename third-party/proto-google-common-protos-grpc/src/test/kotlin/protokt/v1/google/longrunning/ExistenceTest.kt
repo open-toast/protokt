@@ -13,31 +13,14 @@
  * limitations under the License.
  */
 
-import protokt.v1.gradle.protokt
+package protokt.v1.google.longrunning
 
-plugins {
-    id("protokt.jvm-conventions")
-}
+import com.google.common.truth.Truth.assertThat
+import org.junit.jupiter.api.Test
 
-localProtokt()
-pureKotlin()
-enablePublishing()
-compatibleWithAndroid()
-trackKotlinApiCompatibility()
-
-protokt {
-    generate {
-        types = false
-        descriptors = false
-        grpcKotlinStubs = true
-        grpcDescriptors = true // todo: should be able to be removed
+class ExistenceTest {
+    @Test
+    fun `descriptors exist`() {
+        assertThat(OperationsGrpc::class).isNotNull()
     }
-}
-
-dependencies {
-    protobufExcludingProtobufJava(libs.protoGoogleCommonProtos)
-
-    api(project(":protokt-runtime-grpc"))
-    api(project(":third-party:proto-google-common-protos-grpc"))
-    api(libs.grpcKotlinStub)
 }

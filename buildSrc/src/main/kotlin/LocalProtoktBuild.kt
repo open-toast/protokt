@@ -22,6 +22,7 @@ import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
 import protokt.v1.gradle.CODEGEN_NAME
 import protokt.v1.gradle.configureProtokt
+import java.io.File
 
 fun Project.localProtokt() {
     configureProtokt(this, null) {
@@ -48,4 +49,11 @@ fun Project.pureKotlin() {
     tasks.withType<JavaCompile> {
         enabled = false
     }
+}
+
+fun Project.liteOptionTestSourceDir(): File {
+    val dir = rootProject.file("testing/plugin-options/lite/src/test/kotlin/protokt/v1/testing/lite")
+    check(dir.exists())
+    check(dir.isDirectory)
+    return dir
 }

@@ -33,3 +33,21 @@ protokt {
 dependencies {
     protobufExcludingProtobufJava(libs.protoGoogleCommonProtos)
 }
+
+kotlin {
+    sourceSets {
+        val commonTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+            }
+        }
+
+        val jvmTest by getting {
+            dependencies {
+                implementation(project(":protokt-util"))
+            }
+        }
+
+        jvmTest.kotlin.srcDir(liteOptionTestSourceDir())
+    }
+}
