@@ -21,8 +21,8 @@ plugins {
 }
 
 protokt {
-    lite = true
     formatOutput = false // https://github.com/pinterest/ktlint/issues/1195
+    generate { lite() }
 }
 
 tasks {
