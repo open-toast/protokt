@@ -30,7 +30,6 @@ protokt {
         types = false
         descriptors = false
         grpcKotlinStubs = true
-        grpcDescriptors = true // todo: should be able to be removed
     }
 }
 

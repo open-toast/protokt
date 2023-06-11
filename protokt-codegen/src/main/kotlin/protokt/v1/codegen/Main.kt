@@ -61,11 +61,13 @@ private fun main(`in`: InputStream, out: OutputStream) {
             fileSpec?.let { response(it, context) }
         }
 
-    if (files.isNotEmpty()) {
+    val grpcKotlinFiles = generateGrpcKotlinStubs(params, req)
+
+    if (files.isNotEmpty() || grpcKotlinFiles.isNotEmpty()) {
         CodeGeneratorResponse.newBuilder()
             .setSupportedFeatures(Feature.FEATURE_PROTO3_OPTIONAL.number.toLong())
             .addAllFile(files)
-            .addAllFile(generateGrpcKotlinStubs(params, req))
+            .addAllFile(grpcKotlinFiles)
             .build()
             .writeTo(out)
     }
