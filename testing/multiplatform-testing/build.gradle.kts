@@ -35,23 +35,7 @@ kotlin {
             }
         }
 
-        js(IR) {
-            browser {
-                testTask {
-                    useKarma {
-                        useFirefoxHeadless()
-                    }
-                }
-            }
-
-            nodejs {
-                testTask {
-                    useMocha()
-                }
-            }
-
-            useCommonJs()
-        }
+        js(IR) { configureJsTests() }
     }
 }
 
