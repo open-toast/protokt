@@ -13,9 +13,9 @@
  * limitations under the License.
  */
 
-import com.toasttab.protokt.v1.gradle.ProtoktExtension
-import com.toasttab.protokt.v1.gradle.ProtoktPlugin
-import com.toasttab.protokt.v1.gradle.protoktExtensions
+import protokt.v1.gradle.ProtoktExtension
+import protokt.v1.gradle.ProtoktPlugin
+import protokt.v1.gradle.protoktExtensions
 
 plugins {
     id("org.jetbrains.kotlin.multiplatform")

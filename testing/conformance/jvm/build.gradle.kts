@@ -20,7 +20,7 @@ plugins {
 
 application {
     applicationName = "protokt-conformance"
-    mainClass.set("com.toasttab.protokt.v1.conformance.MainKt")
+    mainClass.set("protokt.v1.conformance.MainKt")
 }
 
 dependencies {

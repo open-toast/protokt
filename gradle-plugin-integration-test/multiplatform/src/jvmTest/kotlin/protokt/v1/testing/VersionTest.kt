@@ -13,22 +13,18 @@
  * limitations under the License.
  */
 
-syntax = "proto3";
+package protokt.v1.testing
 
-package toasttab.protokt.v1.testing;
+import protokt.v1.KtMessage
+import kotlin.test.Test
+import kotlin.test.assertTrue
 
-option (.protokt.v1.file).kotlin_package = "com.toasttab.protokt.v1.testing";
+class VersionTest {
+    @Test
+    fun `runtime version should match project version`() {
+        val version = System.getenv("version")
+        val runtimeJarPath = KtMessage::class.java.protectionDomain.codeSource.location.toString()
 
-import "protokt/v1/protokt.proto";
-
-message TestMessage {
-  string baz = 1;
-
-  oneof bar {
-    string foo = 2;
-  }
-
-  enum Foo {
-    FOO_FIRST_UNSPECIFIED = 0;
-  }
+        assertTrue(runtimeJarPath.endsWith("protokt-runtime-jvm-$version.jar"))
+    }
 }

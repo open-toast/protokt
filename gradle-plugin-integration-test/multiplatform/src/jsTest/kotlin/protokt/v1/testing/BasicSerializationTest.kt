@@ -13,10 +13,10 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.v1.testing
+package protokt.v1.testing
 
-import com.toasttab.protokt.v1.Timestamp
-import com.toasttab.protokt.v1.configureLong
+import protokt.v1.google.protobuf.Timestamp
+import protokt.v1.configureLong
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
