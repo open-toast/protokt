@@ -46,7 +46,9 @@ spotless {
 }
 
 protokt {
-    lite = true
+    generate {
+        lite()
+    }
 }
 
 kotlin {

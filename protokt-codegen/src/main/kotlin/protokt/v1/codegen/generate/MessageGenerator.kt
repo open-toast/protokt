@@ -36,7 +36,11 @@ import protokt.v1.codegen.generate.Implements.handleSuperInterface
 import protokt.v1.codegen.util.Message
 
 fun generateMessage(msg: Message, ctx: Context) =
-    MessageGenerator(msg, ctx).generate()
+    if (ctx.info.context.generateTypes) {
+        MessageGenerator(msg, ctx).generate()
+    } else {
+        null
+    }
 
 private class MessageGenerator(
     private val msg: Message,

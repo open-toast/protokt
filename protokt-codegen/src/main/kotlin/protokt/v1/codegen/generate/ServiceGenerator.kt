@@ -57,20 +57,19 @@ import kotlin.reflect.KClass
 import kotlin.reflect.KFunction1
 import kotlin.reflect.KFunction3
 
-fun generateService(s: Service, ctx: Context, generateService: Boolean, kotlinPlugin: KotlinPlugin?) =
-    ServiceGenerator(s, ctx, generateService, kotlinPlugin).generate()
+fun generateService(s: Service, ctx: Context, kotlinPlugin: KotlinPlugin?) =
+    ServiceGenerator(s, ctx, kotlinPlugin).generate()
 
 private class ServiceGenerator(
     private val s: Service,
     private val ctx: Context,
-    private val generateService: Boolean,
     private val kotlinPlugin: KotlinPlugin?
 ) {
     fun generate(): List<TypeSpec> =
-        grpcImplementations() + listOfNotNull(serviceDescriptor())
+        (grpcImplementations() + serviceDescriptor()).filterNotNull()
 
     private fun grpcImplementations(): List<TypeSpec> =
-        if (generateService && supportedPlugin()) {
+        if (supportedPlugin()) {
             val getMethodFunctions =
                 s.methods.map { method ->
                     FunSpec.builder("get" + method.name + "Method")
@@ -87,34 +86,48 @@ private class ServiceGenerator(
 
             val grpcServiceObjectClassName = ClassName(ctx.info.kotlinPackage, s.name + "Grpc")
             val grpcServiceObject =
-                TypeSpec.objectBuilder(grpcServiceObjectClassName)
-                    .addProperty(
-                        PropertySpec.builder("SERVICE_NAME", String::class)
-                            .addModifiers(KModifier.CONST)
-                            .initializer("\"" + renderQualifiedName() + "\"")
-                            .build()
-                    )
-                    .addServiceDescriptor()
-                    .addMethodProperties()
-                    .addFunction(getServiceDescriptorFunction)
-                    .addFunctions(getMethodFunctions)
-                    .build()
+                if (ctx.info.context.generateGrpcDescriptors) {
+                    TypeSpec.objectBuilder(grpcServiceObjectClassName)
+                        .addProperty(
+                            PropertySpec.builder("SERVICE_NAME", String::class)
+                                .addModifiers(KModifier.CONST)
+                                .initializer("\"" + renderQualifiedName() + "\"")
+                                .build()
+                        )
+                        .addServiceDescriptor()
+                        .addMethodProperties()
+                        .addFunction(getServiceDescriptorFunction)
+                        .addFunctions(getMethodFunctions)
+                        .build()
+                } else {
+                    null
+                }
 
-            val coroutineServerBase =
-                coroutineServerBase(
-                    grpcServiceObjectClassName,
-                    getServiceDescriptorFunction,
-                    getMethodFunctions
-                )
+            val grpcKtObject =
+                if (kotlinPlugin == KotlinPlugin.JS && ctx.info.context.generateGrpcKotlinStubs) {
+                    val grpcKtClassName = ClassName(ctx.info.kotlinPackage, s.name + "GrpcKt")
+                    TypeSpec.objectBuilder(grpcKtClassName)
+                        .addType(
+                            coroutineServerBase(
+                                grpcServiceObjectClassName,
+                                getServiceDescriptorFunction,
+                                getMethodFunctions
+                            )
+                        )
+                        .addType(
+                            coroutineStub(
+                                grpcKtClassName,
+                                grpcServiceObjectClassName,
+                                getServiceDescriptorFunction,
+                                getMethodFunctions
+                            )
+                        )
+                        .build()
+                } else {
+                    null
+                }
 
-            val coroutineStub =
-                coroutineStub(
-                    grpcServiceObjectClassName,
-                    getServiceDescriptorFunction,
-                    getMethodFunctions
-                )
-
-            listOfNotNull(grpcServiceObject, coroutineServerBase, coroutineStub)
+            listOfNotNull(grpcServiceObject, grpcKtObject)
         } else {
             emptyList()
         }
@@ -178,34 +191,31 @@ private class ServiceGenerator(
         grpcServiceObjectClassName: ClassName,
         getServiceDescriptorFunction: FunSpec,
         getMethodFunctions: List<FunSpec>
-    ): TypeSpec? =
-        if (kotlinPlugin == KotlinPlugin.JS) {
-            val implementations = serverImplementations()
-            val coroutineServerClassName = ClassName(ctx.info.kotlinPackage, s.name + "CoroutineImplBase")
-            TypeSpec.classBuilder(coroutineServerClassName)
-                .addModifiers(KModifier.ABSTRACT)
-                .primaryConstructor(
-                    FunSpec.constructorBuilder()
-                        .addParameter(
-                            ParameterSpec.builder("coroutineContext", CoroutineContext::class)
-                                .defaultValue("%L", EmptyCoroutineContext::class.asClassName())
-                                .build()
-                        )
-                        .build()
-                )
-                .addSuperclassConstructorParameter("coroutineContext")
-                .superclass(pivotClassName(AbstractCoroutineServerImpl::class))
-                .addFunctions(implementations)
-                .addBindService(
-                    grpcServiceObjectClassName,
-                    getServiceDescriptorFunction,
-                    getMethodFunctions,
-                    implementations
-                )
-                .build()
-        } else {
-            null
-        }
+    ): TypeSpec {
+        val implementations = serverImplementations()
+        val coroutineServerClassName = ClassName(ctx.info.kotlinPackage, s.name + "CoroutineImplBase")
+        return TypeSpec.classBuilder(coroutineServerClassName)
+            .addModifiers(KModifier.ABSTRACT)
+            .primaryConstructor(
+                FunSpec.constructorBuilder()
+                    .addParameter(
+                        ParameterSpec.builder("coroutineContext", CoroutineContext::class)
+                            .defaultValue("%L", EmptyCoroutineContext::class.asClassName())
+                            .build()
+                    )
+                    .build()
+            )
+            .addSuperclassConstructorParameter("coroutineContext")
+            .superclass(pivotClassName(AbstractCoroutineServerImpl::class))
+            .addFunctions(implementations)
+            .addBindService(
+                grpcServiceObjectClassName,
+                getServiceDescriptorFunction,
+                getMethodFunctions,
+                implementations
+            )
+            .build()
+    }
 
     private fun serverImplementations() =
         s.methods.map { method ->
@@ -300,28 +310,26 @@ private class ServiceGenerator(
         }
 
     private fun coroutineStub(
+        grpcKtClassName: ClassName,
         grpcServiceObjectClassName: ClassName,
         getServiceDescriptorFunction: FunSpec,
         getMethodFunctions: List<FunSpec>,
-    ): TypeSpec? =
-        if (kotlinPlugin == KotlinPlugin.JS) {
-            val coroutineStubClassName = ClassName(ctx.info.kotlinPackage, s.name + "CoroutineStub")
-            TypeSpec.classBuilder(coroutineStubClassName)
-                .primaryConstructor(
-                    FunSpec.constructorBuilder()
-                        .addParameter(ParameterSpec("address", String::class.asTypeName()))
-                        .addParameter(ParameterSpec("credentials", pivotClassName(ChannelCredentials::class)))
-                        .build()
-                )
-                .addSuperclassConstructorParameter("%M()", grpcServiceObjectClassName.member(getServiceDescriptorFunction.name))
-                .addSuperclassConstructorParameter("address")
-                .addSuperclassConstructorParameter("credentials")
-                .superclass(pivotClassName(AbstractCoroutineStub::class).parameterizedBy(coroutineStubClassName))
-                .addFunctions(clientImplementations(grpcServiceObjectClassName, getMethodFunctions))
-                .build()
-        } else {
-            null
-        }
+    ): TypeSpec {
+        val coroutineStubClassName = ClassName(ctx.info.kotlinPackage, grpcKtClassName.simpleName, s.name + "CoroutineStub")
+        return TypeSpec.classBuilder(coroutineStubClassName)
+            .primaryConstructor(
+                FunSpec.constructorBuilder()
+                    .addParameter(ParameterSpec("address", String::class.asTypeName()))
+                    .addParameter(ParameterSpec("credentials", pivotClassName(ChannelCredentials::class)))
+                    .build()
+            )
+            .addSuperclassConstructorParameter("%M()", grpcServiceObjectClassName.member(getServiceDescriptorFunction.name))
+            .addSuperclassConstructorParameter("address")
+            .addSuperclassConstructorParameter("credentials")
+            .superclass(pivotClassName(AbstractCoroutineStub::class).parameterizedBy(coroutineStubClassName))
+            .addFunctions(clientImplementations(grpcServiceObjectClassName, getMethodFunctions))
+            .build()
+    }
 
     private fun clientImplementations(
         grpcServiceObjectClassName: ClassName,
@@ -367,7 +375,7 @@ private class ServiceGenerator(
         }
 
     private fun serviceDescriptor() =
-        if (!ctx.info.context.onlyGenerateGrpc && !ctx.info.context.lite) {
+        if (ctx.info.context.generateDescriptors) {
             TypeSpec.objectBuilder(s.name)
                 .addProperty(
                     PropertySpec.builder("descriptor", ClassName(protoktV1GoogleProto, "ServiceDescriptor"))

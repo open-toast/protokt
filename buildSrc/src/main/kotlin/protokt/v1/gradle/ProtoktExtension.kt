@@ -16,11 +16,10 @@
 package protokt.v1.gradle
 
 const val KOTLIN_EXTRA_CLASSPATH = "kotlin_extra_classpath"
-const val GENERATE_GRPC = "generate_grpc"
-const val ONLY_GENERATE_GRPC = "only_generate_grpc"
-const val LITE = "lite"
-const val ONLY_GENERATE_DESCRIPTORS = "only_generate_descriptors"
-const val ONLY_GENERATE_GRPC_DESCRIPTORS = "only_generate_grpc_descriptors"
+const val GENERATE_TYPES = "generate_types"
+const val GENERATE_DESCRIPTORS = "generate_descriptors"
+const val GENERATE_GRPC_DESCRIPTORS = "generate_grpc_descriptors"
+const val GENERATE_GRPC_KOTLIN_STUBS = "generate_grpc_kotlin_stubs"
 const val FORMAT_OUTPUT = "format_output"
 const val APPLIED_KOTLIN_PLUGIN = "applied_kotlin_plugin"
 
@@ -30,43 +29,85 @@ open class ProtoktExtension {
      */
     var protocVersion = DEFAULT_PROTOBUF_VERSION
 
-    /**
-     * Whether to generate gRPC-specific code such as MethodDescriptors and
-     * ServiceDescriptors. If enabled, the project will have to import gRPC's
-     * stub dependency to compile.
-     */
-    var generateGrpc = false
+    internal var generate: Generate = Generate()
 
-    /**
-     * Whether to _only_ generate gRPC-specific code. Useful to generate
-     * libraries that have already had a version compiled with `generateGrpc`
-     * set to `false`.
-     */
-    var onlyGenerateGrpc = false
-
-    /**
-     * Whether to _only_ generate gRPC method and server descriptors and not
-     * generate Kotlin coroutine-based bindings.
-     */
-    var onlyGenerateGrpcDescriptors = false
-
-    /**
-     * Whether to generate embedded descriptors for runtime reflective
-     * access. Beware: if this option is enabled and any generated file depends
-     * on a file generated in a different run of the code generator in which
-     * this option was not enabled, the generated code will fail to compile.
-     */
-    var lite = false
-
-    /**
-     * Whether to _only_ generate descriptor code. Useful to generate
-     * libraries that have already had a version compiled with `lite`
-     * set to `true`.
-     */
-    var onlyGenerateDescriptors = false
+    fun generate(configure: Generate.() -> Unit) {
+        generate.configure()
+    }
 
     /**
      * Whether to format the generated code.
      */
     var formatOutput = true
+
+    class Generate {
+        /**
+         * Whether to messages and enums.
+         */
+        var types = true
+
+        /**
+         * Whether to generate embedded descriptors for runtime reflective
+         * access. Beware: if this option is enabled and any generated file depends
+         * on a file generated in a different run of the code generator in which
+         * this option was not enabled, the generated code will fail to compile.
+         */
+        var descriptors = true
+
+        /**
+         * Whether to generate gRPC-specific code such as MethodDescriptors and
+         * ServiceDescriptors. If enabled, the project will have to import gRPC's
+         * stub dependency to compile.
+         */
+        var grpcDescriptors = false
+
+        /**
+         * Whether to generate Kotlin coroutine-based bindings for gRPC code. If
+         * enabled, the project will have to import gRPC's Kotlin stub dependency
+         * to compile.
+         */
+        var grpcKotlinStubs = false
+
+        /**
+         * Generates only message and enum types.
+         */
+        fun lite() {
+            types = true
+            descriptors = false
+            grpcDescriptors = false
+            grpcKotlinStubs = false
+        }
+
+        /**
+         * Generates message and enum types as well as gRPC descriptors not tied
+         * to any implementation of gRPC on the target platform.
+         */
+        fun grpcLite() {
+            types = true
+            descriptors = false
+            grpcDescriptors = true
+            grpcKotlinStubs = false
+        }
+
+        /**
+         * Generates message and enum types as well as gRPC descriptors and Kotlin
+         * coroutine-based implementations.
+         */
+        fun grpcKotlinLite() {
+            types = true
+            descriptors = false
+            grpcDescriptors = true
+            grpcKotlinStubs = true
+        }
+
+        /**
+         * Generates all variations of code.
+         */
+        fun all() {
+            types = true
+            descriptors = true
+            grpcDescriptors = true
+            grpcKotlinStubs = true
+        }
+    }
 }

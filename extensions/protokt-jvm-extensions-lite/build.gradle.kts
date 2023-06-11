@@ -35,7 +35,9 @@ spotless {
 }
 
 protokt {
-    lite = true
+    generate {
+        lite()
+    }
 }
 
 dependencies {

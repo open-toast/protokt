@@ -27,8 +27,7 @@ fun generateGrpcKotlinStubs(
 ): List<CodeGeneratorResponse.File> =
     if (
         params.appliedKotlinPlugin in setOf(KotlinPlugin.JVM, KotlinPlugin.ANDROID) &&
-        (params.generateGrpc || params.onlyGenerateGrpc) &&
-        !params.onlyGenerateGrpcDescriptors
+        params.generateGrpcKotlinStubs
     ) {
         val out = ReadableByteArrayOutputStream()
         GeneratorRunner.mainAsProtocPlugin(stripPackages(request).toByteArray().inputStream(), out)

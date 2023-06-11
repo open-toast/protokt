@@ -18,6 +18,7 @@ package protokt.v1.helloworld
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import protokt.v1.grpc.ChannelCredentials
+import protokt.v1.helloworld.GreeterGrpcKt.GreeterCoroutineStub
 import kotlin.test.AfterTest
 import kotlin.test.Test
 import kotlin.test.assertEquals

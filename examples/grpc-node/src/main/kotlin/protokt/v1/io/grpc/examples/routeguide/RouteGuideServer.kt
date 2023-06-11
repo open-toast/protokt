@@ -24,6 +24,7 @@ import protokt.v1.grpc.Server
 import protokt.v1.grpc.ServerCredentials
 import protokt.v1.grpc.addService
 import protokt.v1.grpc.start
+import protokt.v1.io.grpc.examples.routeguide.RouteGuideGrpcKt.RouteGuideCoroutineImplBase
 import kotlin.time.ExperimentalTime
 import kotlin.time.TimeSource
 

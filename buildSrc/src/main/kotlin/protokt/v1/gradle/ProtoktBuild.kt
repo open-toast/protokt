@@ -204,10 +204,10 @@ internal fun Project.resolveProtoktCoreDep(protoktVersion: Any?): Dependency? {
     }
 
     val artifactId =
-        if (the<ProtoktExtension>().lite) {
-            "protokt-core-lite"
-        } else {
+        if (the<ProtoktExtension>().generate.descriptors) {
             "protokt-core"
+        } else {
+            "protokt-core-lite"
         }
 
     return if (protoktVersion == null) {

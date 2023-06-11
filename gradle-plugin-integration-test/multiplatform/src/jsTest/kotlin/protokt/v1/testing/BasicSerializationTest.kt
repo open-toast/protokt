@@ -15,8 +15,8 @@
 
 package protokt.v1.testing
 
-import protokt.v1.google.protobuf.Timestamp
 import protokt.v1.configureLong
+import protokt.v1.google.protobuf.Timestamp
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals

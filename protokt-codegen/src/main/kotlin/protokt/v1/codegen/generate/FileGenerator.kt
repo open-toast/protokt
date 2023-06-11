@@ -60,7 +60,7 @@ private class FileGenerator(
                 addConstructorFunction(it, builder::addFunction)
             }
 
-        if (!contents.info.context.lite) {
+        if (contents.info.context.generateDescriptors) {
             val fileDescriptorInfo = FileDescriptorResolver.resolveFileDescriptor(contents)
 
             if (fileDescriptorInfo != null) {
@@ -77,14 +77,24 @@ private class FileGenerator(
 private fun fileName(contents: ProtoFileContents): String {
     val pkg = contents.info.kotlinPackage
     val name = contents.info.name
-    val suffixes = mutableListOf<String>()
-    if (contents.info.context.onlyGenerateDescriptors) {
-        suffixes.add("_protokt_descriptors")
-    } else if (contents.info.context.onlyGenerateGrpc) {
-        suffixes.add("_protokt_grpc")
-    }
     val dir = pkg.replace('.', '/') + '/'
     val fileNameBase = name.substringAfterLast('/').removeSuffix(".proto")
 
-    return dir + fileNameBase + suffixes.joinToString("") + ".kt"
+    return dir + fileNameBase + suffixes(contents).joinToString("") + ".kt"
+}
+
+private fun suffixes(contents: ProtoFileContents): List<String> {
+    val suffixes = mutableListOf<String>()
+    if (!contents.info.context.generateTypes) {
+        if (contents.info.context.generateDescriptors) {
+            suffixes.add("_descriptors")
+        }
+        if (contents.info.context.generateGrpcDescriptors) {
+            suffixes.add("_grpc")
+        }
+        if (contents.info.context.generateGrpcKotlinStubs) {
+            suffixes.add("_grpc_kotlin")
+        }
+    }
+    return suffixes
 }

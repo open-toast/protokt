@@ -15,6 +15,9 @@
 
 package protokt.v1.animals
 
+import protokt.v1.animals.DogGrpcKt.DogCoroutineImplBase
+import protokt.v1.animals.PigGrpcKt.PigCoroutineImplBase
+import protokt.v1.animals.SheepGrpcKt.SheepCoroutineImplBase
 import protokt.v1.grpc.Server
 import protokt.v1.grpc.ServerCredentials
 import protokt.v1.grpc.addService

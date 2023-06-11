@@ -26,7 +26,9 @@ pureKotlin()
 trackKotlinApiCompatibility()
 
 protokt {
-    onlyGenerateDescriptors = true
+    generate {
+        types = false
+    }
 }
 
 dependencies {

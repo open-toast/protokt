@@ -25,7 +25,9 @@ compatibleWithAndroid()
 trackKotlinApiCompatibility()
 
 protokt {
-    lite = true
+    generate {
+        lite()
+    }
 }
 
 kotlin {

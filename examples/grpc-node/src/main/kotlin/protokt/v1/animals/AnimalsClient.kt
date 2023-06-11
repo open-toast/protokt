@@ -15,6 +15,9 @@
 
 package protokt.v1.animals
 
+import protokt.v1.animals.DogGrpcKt.DogCoroutineStub
+import protokt.v1.animals.PigGrpcKt.PigCoroutineStub
+import protokt.v1.animals.SheepGrpcKt.SheepCoroutineStub
 import protokt.v1.grpc.ChannelCredentials
 
 class AnimalsClient(

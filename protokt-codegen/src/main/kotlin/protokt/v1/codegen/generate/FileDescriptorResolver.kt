@@ -44,11 +44,7 @@ private constructor(
 ) {
     private val ctx = contents.info.context
 
-    private fun resolveFileDescriptor(): FileDescriptorInfo? {
-        if (ctx.lite || ctx.onlyGenerateGrpc) {
-            return null
-        }
-
+    private fun resolveFileDescriptor(): FileDescriptorInfo {
         val dependencies = dependencies()
 
         val type =

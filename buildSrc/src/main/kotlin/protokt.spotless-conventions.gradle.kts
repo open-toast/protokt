@@ -31,6 +31,7 @@ allprojects {
             target("**/*.kt")
             targetExclude(
                 "buildSrc/build/generated-sources/**",
+                "**/generated/**",
                 "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/compiler/plugin.kt",
                 "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/any.kt",
                 "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/api.kt",

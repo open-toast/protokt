@@ -24,9 +24,9 @@ localProtokt()
 pureKotlin()
 
 protokt {
-    onlyGenerateGrpc = true
-    onlyGenerateGrpcDescriptors = true
-    lite = true
+    generate {
+        grpcLite()
+    }
 }
 
 dependencies {

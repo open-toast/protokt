@@ -36,7 +36,12 @@ kotlin {
 localProtokt()
 
 protokt {
-    onlyGenerateGrpc = true
+    generate {
+        types = false
+        descriptors = false
+        grpcDescriptors = true
+        grpcKotlinStubs = true
+    }
 }
 
 dependencies {

@@ -16,15 +16,16 @@
 package protokt.v1.codegen.util
 
 import com.google.common.base.CaseFormat
+import com.squareup.kotlinpoet.asClassName
 import protokt.v1.gradle.APPLIED_KOTLIN_PLUGIN
 import protokt.v1.gradle.FORMAT_OUTPUT
-import protokt.v1.gradle.GENERATE_GRPC
+import protokt.v1.gradle.GENERATE_DESCRIPTORS
+import protokt.v1.gradle.GENERATE_GRPC_DESCRIPTORS
+import protokt.v1.gradle.GENERATE_GRPC_KOTLIN_STUBS
+import protokt.v1.gradle.GENERATE_TYPES
 import protokt.v1.gradle.KOTLIN_EXTRA_CLASSPATH
-import protokt.v1.gradle.LITE
-import protokt.v1.gradle.ONLY_GENERATE_DESCRIPTORS
-import protokt.v1.gradle.ONLY_GENERATE_GRPC
-import protokt.v1.gradle.ONLY_GENERATE_GRPC_DESCRIPTORS
 import protokt.v1.gradle.ProtoktExtension
+import protokt.v1.gradle.ProtoktExtension.Generate
 import java.net.URLDecoder
 import kotlin.reflect.full.declaredMemberProperties
 
@@ -38,24 +39,36 @@ class PluginParams(
                 .map { URLDecoder.decode(it, "UTF-8") }
         )
 
-    val generateGrpc = params.getOrDefault(GENERATE_GRPC)
-    val onlyGenerateGrpc = params.getOrDefault(ONLY_GENERATE_GRPC)
-    val lite = params.getOrDefault(LITE)
-    val onlyGenerateDescriptors = params.getOrDefault(ONLY_GENERATE_DESCRIPTORS)
-    val onlyGenerateGrpcDescriptors = params.getOrDefault(ONLY_GENERATE_GRPC_DESCRIPTORS)
-    val formatOutput = params.getOrDefault(FORMAT_OUTPUT)
+    val generateTypes = params.getOrDefault<Generate>(GENERATE_TYPES)
+    val generateDescriptors = params.getOrDefault<Generate>(GENERATE_DESCRIPTORS)
+    val generateGrpcDescriptors = params.getOrDefault<Generate>(GENERATE_GRPC_DESCRIPTORS)
+    val generateGrpcKotlinStubs = params.getOrDefault<Generate>(GENERATE_GRPC_KOTLIN_STUBS)
+    val formatOutput = params.getOrDefault<ProtoktExtension>(FORMAT_OUTPUT)
     val appliedKotlinPlugin = params[APPLIED_KOTLIN_PLUGIN]?.toKotlinPluginEnum()
 }
 
-private fun Map<String, String>.getOrDefault(key: String): Boolean {
-    val defaultExtension = ProtoktExtension()
+private inline fun <reified T> Map<String, String>.getOrDefault(key: String): Boolean {
+    val inParams = get(key)?.toBoolean()
+    return if (inParams != null) {
+        inParams
+    } else {
+        val default = T::class.constructors.single().call()!!
 
-    val defaultValue =
-        defaultExtension::class.declaredMemberProperties
-            .single { it.name == CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, key) }
-            .call(defaultExtension) as Boolean
+        val prefix =
+            T::class.asClassName()
+                .simpleNames
+                .filter { it != ProtoktExtension::class.simpleName }
+                .joinToString("_") { it.lowercase() }
 
-    return get(key)?.toBoolean() ?: defaultValue
+        default::class.declaredMemberProperties
+            .single {
+                it.name == CaseFormat.LOWER_UNDERSCORE.to(
+                    CaseFormat.LOWER_CAMEL,
+                    key.removePrefix(prefix + "_")
+                )
+            }
+            .call(default) as Boolean
+    }
 }
 
 private fun String.toKotlinPluginEnum() =

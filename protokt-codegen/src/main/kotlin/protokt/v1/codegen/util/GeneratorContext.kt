@@ -25,10 +25,10 @@ class GeneratorContext(
     allFiles: List<FileDescriptorProto>
 ) {
     val classLookup = params.classLookup
-    val generateGrpc = params.generateGrpc
-    val onlyGenerateGrpc = params.onlyGenerateGrpc
-    val lite = params.lite
-    val onlyGenerateDescriptors = params.onlyGenerateDescriptors
+    val generateTypes = params.generateTypes
+    val generateDescriptors = params.generateDescriptors
+    val generateGrpcDescriptors = params.generateGrpcDescriptors
+    val generateGrpcKotlinStubs = params.generateGrpcKotlinStubs
     val formatOutput = params.formatOutput
     val appliedKotlinPlugin = params.appliedKotlinPlugin
 

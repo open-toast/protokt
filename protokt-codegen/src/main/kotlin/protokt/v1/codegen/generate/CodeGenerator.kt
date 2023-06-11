@@ -21,7 +21,6 @@ import protokt.v1.codegen.util.ErrorContext.withEnumName
 import protokt.v1.codegen.util.ErrorContext.withMessageName
 import protokt.v1.codegen.util.ErrorContext.withServiceName
 import protokt.v1.codegen.util.GeneratedType
-import protokt.v1.codegen.util.GeneratorContext
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.ProtoFileContents
 import protokt.v1.codegen.util.ProtoFileInfo
@@ -36,64 +35,35 @@ object CodeGenerator {
 
     fun generate(contents: ProtoFileContents) =
         contents.types.flatMap {
-            protokt.v1.codegen.generate.CodeGenerator.generate(
+            generate(
                 it,
-                protokt.v1.codegen.generate.CodeGenerator.Context(emptyList(), contents.info)
+                Context(emptyList(), contents.info)
             )
                 .map { type -> GeneratedType(it, type) }
         }
 
-    fun generate(type: TopLevelType, ctx: protokt.v1.codegen.generate.CodeGenerator.Context): Iterable<TypeSpec> =
+    fun generate(type: TopLevelType, ctx: Context): Iterable<TypeSpec> =
         when (type) {
             is Message ->
                 withMessageName(type.className) {
-                    protokt.v1.codegen.generate.CodeGenerator.nonGrpc(ctx) {
-                        protokt.v1.codegen.generate.CodeGenerator.nonDescriptors(ctx) {
-                            listOf(
-                                protokt.v1.codegen.generate.generateMessage(
-                                    type,
-                                    ctx.copy(enclosing = ctx.enclosing + type)
-                                )
-                            )
-                        }
-                    }
+                    listOfNotNull(
+                        generateMessage(
+                            type,
+                            ctx.copy(enclosing = ctx.enclosing + type)
+                        )
+                    )
                 }
             is Enum ->
                 withEnumName(type.className) {
-                    protokt.v1.codegen.generate.CodeGenerator.nonGrpc(ctx) {
-                        protokt.v1.codegen.generate.CodeGenerator.nonDescriptors(ctx) {
-                            listOf(protokt.v1.codegen.generate.generateEnum(type, ctx))
-                        }
-                    }
+                    listOfNotNull(generateEnum(type, ctx))
                 }
             is Service ->
                 withServiceName(type.name) {
-                    protokt.v1.codegen.generate.generateService(
+                    generateService(
                         type,
                         ctx,
-                        ctx.info.context.generateGrpc ||
-                            ctx.info.context.onlyGenerateGrpc,
                         ctx.info.context.appliedKotlinPlugin
                     )
                 }
-        }
-
-    private fun <T> nonDescriptors(ctx: protokt.v1.codegen.generate.CodeGenerator.Context, gen: () -> Iterable<T>) =
-        protokt.v1.codegen.generate.CodeGenerator.nonDescriptors(ctx.info.context, emptyList(), gen)
-
-    private fun <T> nonDescriptors(ctx: GeneratorContext, default: T, gen: () -> T) =
-        protokt.v1.codegen.generate.CodeGenerator.boolGen(!ctx.onlyGenerateDescriptors, default, gen)
-
-    private fun <T> nonGrpc(ctx: protokt.v1.codegen.generate.CodeGenerator.Context, gen: () -> Iterable<T>) =
-        protokt.v1.codegen.generate.CodeGenerator.nonGrpc(ctx.info.context, emptyList(), gen)
-
-    private fun <T> nonGrpc(ctx: GeneratorContext, default: T, gen: () -> T) =
-        protokt.v1.codegen.generate.CodeGenerator.boolGen(!ctx.onlyGenerateGrpc, default, gen)
-
-    private fun <T> boolGen(bool: Boolean, default: T, gen: () -> T) =
-        if (bool) {
-            gen()
-        } else {
-            default
         }
 }

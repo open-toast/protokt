@@ -25,7 +25,9 @@ compatibleWithAndroid()
 trackKotlinApiCompatibility()
 
 protokt {
-    onlyGenerateDescriptors = true
+    generate {
+        types = false
+    }
 }
 
 kotlin {

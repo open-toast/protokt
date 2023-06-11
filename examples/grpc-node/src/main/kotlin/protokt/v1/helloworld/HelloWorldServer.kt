@@ -19,6 +19,7 @@ import protokt.v1.grpc.Server
 import protokt.v1.grpc.ServerCredentials
 import protokt.v1.grpc.addService
 import protokt.v1.grpc.start
+import protokt.v1.helloworld.GreeterGrpcKt.GreeterCoroutineImplBase
 
 class HelloWorldServer {
     val port = 50051

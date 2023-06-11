@@ -30,7 +30,11 @@ import protokt.v1.codegen.generate.Deprecation.handleDeprecation
 import protokt.v1.codegen.util.Enum
 
 fun generateEnum(e: Enum, ctx: Context) =
-    EnumGenerator(e, ctx).generate()
+    if (ctx.info.context.generateTypes) {
+        EnumGenerator(e, ctx).generate()
+    } else {
+        null
+    }
 
 private class EnumGenerator(
     val e: Enum,

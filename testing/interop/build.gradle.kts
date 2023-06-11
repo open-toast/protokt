@@ -23,7 +23,10 @@ localProtokt()
 pureKotlin()
 
 protokt {
-    onlyGenerateGrpcDescriptors = true
+    generate {
+        types = true
+        grpcDescriptors = true
+    }
 }
 
 dependencies {

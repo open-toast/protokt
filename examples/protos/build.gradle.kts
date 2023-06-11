@@ -23,7 +23,9 @@ plugins {
 localProtokt()
 
 protokt {
-    lite = true
+    generate {
+        lite()
+    }
 }
 
 kotlin {

@@ -57,11 +57,10 @@ internal fun configureProtobufPlugin(
                     id("protokt") {
                         project.afterEvaluate {
                             option("$KOTLIN_EXTRA_CLASSPATH=${extraClasspath(project, task)}")
-                            option("$GENERATE_GRPC=${ext.generateGrpc}")
-                            option("$ONLY_GENERATE_GRPC=${ext.onlyGenerateGrpc}")
-                            option("$LITE=${ext.lite}")
-                            option("$ONLY_GENERATE_DESCRIPTORS=${ext.onlyGenerateDescriptors}")
-                            option("$ONLY_GENERATE_GRPC_DESCRIPTORS=${ext.onlyGenerateGrpcDescriptors}")
+                            option("$GENERATE_TYPES=${ext.generate.types}")
+                            option("$GENERATE_DESCRIPTORS=${ext.generate.descriptors}")
+                            option("$GENERATE_GRPC_DESCRIPTORS=${ext.generate.grpcDescriptors}")
+                            option("$GENERATE_GRPC_KOTLIN_STUBS=${ext.generate.grpcKotlinStubs}")
                             option("$FORMAT_OUTPUT=${ext.formatOutput}")
                             option("$APPLIED_KOTLIN_PLUGIN=${project.appliedKotlinPlugin()}")
                         }
