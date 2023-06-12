@@ -66,7 +66,9 @@ allprojects {
             )
             targetExclude(
                 "**/generated-sources/**",
-                "**/io/grpc/examples/**"
+                "**/protokt/v1/animals/**",
+                "**/protokt/v1/helloworld/**",
+                "**/protokt/v1/io/grpc/examples/**"
             )
         }
 
