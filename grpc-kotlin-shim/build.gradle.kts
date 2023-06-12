@@ -17,8 +17,6 @@ plugins {
     id("protokt.jvm-conventions")
 }
 
-enablePublishing()
-
 val grpcKotlinGenerator = configurations.create("grpcKotlinGenerator")
 
 dependencies {
