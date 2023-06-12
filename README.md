@@ -959,7 +959,7 @@ abstract classes.
 
 #### `grpcKotlinStubs` and gRPC's Kotlin API
 
-Protokt uses `grpc-kotlin` to generate Kotlin coroutine-based stubs that links
+Protokt uses `grpc-kotlin` to generate Kotlin coroutine-based stubs that compile
 against protokt's generated types.
 
 #### Integrating with gRPC's Java API
