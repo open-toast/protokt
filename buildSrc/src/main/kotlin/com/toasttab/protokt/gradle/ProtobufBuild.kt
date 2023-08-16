@@ -31,8 +31,6 @@ internal fun configureProtobufPlugin(project: Project, ext: ProtoktExtension, bi
     project.apply(plugin = "com.google.protobuf")
 
     project.configure<ProtobufExtension> {
-        generatedFilesBaseDir = "${project.buildDir}/generated-sources"
-
         configureSources(project, generatedFilesBaseDir)
 
         protoc {
