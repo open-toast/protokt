@@ -15,6 +15,7 @@
 
 package protokt.v1
 
+// TODO: should constructor make a defensive copy?
 class Bytes(internal val value: ByteArray) {
     val bytes
         get() = clone(value)
