@@ -65,7 +65,8 @@ allprojects {
                 "(package |@file|import |fun )"
             )
             targetExclude(
-                "**/generated-sources/**",
+                "**/generated/source/proto/*/protokt/**",
+                "**/build/generated-sources/kotlin-dsl-*/**",
                 "**/protokt/v1/animals/**",
                 "**/protokt/v1/helloworld/**",
                 "**/protokt/v1/io/grpc/examples/**"
@@ -86,7 +87,9 @@ allprojects {
                     "testing/conformance/driver/src/main/proto/proto3/test_messages_proto3.proto",
                     "testing/interop/src/main/proto/tutorial/addressbook.proto"
                 ).map(rootProject::file) +
-                    "node_modules/**"
+                    "node_modules/**" +
+                    "**/build/extracted-include-protos/**" +
+                    "**/build/resources/**"
             )
             licenseHeaderFile(
                 rootProject.file("gradle/license-header-c-style"),

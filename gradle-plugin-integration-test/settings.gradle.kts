@@ -29,6 +29,6 @@ rootProject.name = "gradle-plugin-integration-test"
 listOf(
     "jvm-regular",
     "jvm-lite",
-    "js",
-    "multiplatform"
+    "multiplatform",
+    "wrapper-types"
 ).forEach { include(it) }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast, Inc.
+ * Copyright (c) 2023 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,24 +13,19 @@
  * limitations under the License.
  */
 
-syntax = "proto3";
+plugins {
+    kotlin("jvm")
+    kotlin("kapt")
+}
 
-package testing;
+dependencies {
+    implementation("com.toasttab.protokt:protokt-core:$version")
+    implementation(libs.autoServiceAnnotations)
 
-import "protokt/v1/protokt.proto";
+    kapt(libs.autoService)
+}
 
-message TestMessage {
-  string baz = 1;
-
-  oneof bar {
-    string foo = 2;
-  }
-
-  enum Foo {
-    FOO_FIRST_UNSPECIFIED = 0;
-  }
-
-  message Submessage {
-    TestMessage qux = 1 [(protokt.v1.property).non_null = true];
-  }
+configure<JavaPluginExtension> {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }

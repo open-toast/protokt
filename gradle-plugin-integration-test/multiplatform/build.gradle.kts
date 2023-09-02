@@ -18,14 +18,7 @@ import protokt.v1.gradle.ProtoktPlugin
 import protokt.v1.gradle.protoktExtensions
 
 plugins {
-    id("org.jetbrains.kotlin.multiplatform")
-}
-
-spotless {
-    kotlin {
-        ktlint()
-        targetExclude("**/build/generated/**")
-    }
+    kotlin("multiplatform")
 }
 
 kotlin {
@@ -62,7 +55,7 @@ kotlin {
 
         val jvmTest by getting {
             dependencies {
-                implementation("com.google.protobuf:protobuf-javalite:3.19.1")
+                implementation(libs.protobuf.java)
             }
         }
 
@@ -96,11 +89,11 @@ dependencies {
 }
 
 tasks.named("jsNodeTest") {
-    enabled = System.getProperty("kotlin.version", "1.8.21") == "1.8.21"
+    enabled = System.getProperty("kotlin.version", libs.versions.kotlin.get()) == libs.versions.kotlin.get()
 }
 
 tasks.named("jsBrowserTest") {
-    enabled = System.getProperty("kotlin.version", "1.8.21") == "1.8.21"
+    enabled = System.getProperty("kotlin.version", libs.versions.kotlin.get()) == libs.versions.kotlin.get()
 }
 
 configure<JavaPluginExtension> {

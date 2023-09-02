@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast, Inc.
+ * Copyright (c) 2023 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,24 +13,23 @@
  * limitations under the License.
  */
 
-syntax = "proto3";
+package protokt.v1.testing
 
-package testing;
+import com.google.auto.service.AutoService
+import protokt.v1.Bytes
+import protokt.v1.Converter
 
-import "protokt/v1/protokt.proto";
+data class Id(val value: String)
 
-message TestMessage {
-  string baz = 1;
+@AutoService(Converter::class)
+object IdConverter : Converter<Id, Bytes> {
+    override val wrapper = Id::class
 
-  oneof bar {
-    string foo = 2;
-  }
+    override val wrapped = Bytes::class
 
-  enum Foo {
-    FOO_FIRST_UNSPECIFIED = 0;
-  }
+    override fun wrap(unwrapped: Bytes) =
+        Id(String(unwrapped.bytes))
 
-  message Submessage {
-    TestMessage qux = 1 [(protokt.v1.property).non_null = true];
-  }
+    override fun unwrap(wrapped: Id) =
+        Bytes(wrapped.value.toByteArray())
 }

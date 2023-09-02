@@ -30,8 +30,8 @@ buildscript {
 
     dependencies {
         classpath("com.toasttab.protokt:protokt-gradle-plugin:$version")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${System.getProperty("kotlin.version", "1.5.32")}")
-        classpath("com.diffplug.spotless:spotless-plugin-gradle:5.15.0")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${System.getProperty("kotlin.version", libs.versions.kotlin.get())}")
+        classpath("com.diffplug.spotless:spotless-plugin-gradle:${libs.versions.spotless.get()}")
     }
 }
 
@@ -42,8 +42,45 @@ allprojects {
     apply(plugin = "com.diffplug.spotless")
 
     configure<SpotlessExtension> {
-        kotlinGradle { ktlint() }
+        val editorConfigOverride =
+            mapOf(
+                "ktlint_standard_trailing-comma-on-call-site" to "disabled",
+                "ktlint_standard_trailing-comma-on-declaration-site" to "disabled"
+            )
+
+        kotlinGradle {
+            target("**/*.kts")
+            targetExclude("**/build/generated/**")
+            ktlint().editorConfigOverride(editorConfigOverride)
+        }
+
+        kotlin {
+            target("**/*.kt")
+            targetExclude("**/build/generated/**")
+            ktlint().editorConfigOverride(editorConfigOverride)
+        }
+
+        format("kotlinLicense") {
+            target("**/*.kt")
+            licenseHeaderFile(
+                rootProject.file("gradle/license-header-c-style"),
+                "(package |@file|import |fun )"
+            )
+            targetExclude("**/generated-sources/**")
+        }
+
+        format("protobufLicense") {
+            target("**/*.proto")
+            licenseHeaderFile(
+                rootProject.file("gradle/license-header-c-style"),
+                "(syntax )"
+            )
+        }
     }
+}
+
+repositories {
+    mavenCentral()
 }
 
 subprojects {
@@ -69,7 +106,7 @@ subprojects {
                 apiVersion =
                     System.getProperty("kotlin.version")
                         ?.substringBeforeLast(".")
-                        ?: "1.5"
+                        ?: libs.versions.kotlin.get().substringBeforeLast(".")
 
                 languageVersion = apiVersion
             }

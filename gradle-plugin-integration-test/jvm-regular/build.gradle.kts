@@ -16,7 +16,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.jetbrains.kotlin.jvm")
+    kotlin("jvm")
     id("com.toasttab.protokt.v1")
 }
 
@@ -29,7 +29,7 @@ tasks {
         useJUnitPlatform()
     }
 
-    if (System.getProperty("kotlin.version", "1.8.21") == "1.8.21") {
+    if (System.getProperty("kotlin.version", libs.versions.kotlin.get()) == libs.versions.kotlin.get()) {
         withType<KotlinCompile> {
             kotlinOptions {
                 allWarningsAsErrors = true
@@ -44,8 +44,8 @@ dependencies {
     protoktExtensions("com.toasttab.protokt:protokt-jvm-extensions:$version")
 
     testImplementation(kotlin("test-junit5"))
-    testImplementation("org.junit.jupiter:junit-jupiter:5.7.2")
-    testImplementation("com.google.protobuf:protobuf-java:3.19.1")
+    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.protobuf.java)
 }
 
 sourceSets {
