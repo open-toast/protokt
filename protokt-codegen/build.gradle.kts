@@ -22,9 +22,6 @@ plugins {
     application
 }
 
-version = rootProject.version
-group = "com.toasttab.protokt"
-
 defaultProtoc()
 
 enablePublishing(defaultJars = false)
