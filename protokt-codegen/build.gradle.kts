@@ -17,10 +17,7 @@ import com.google.protobuf.gradle.proto
 import protokt.v1.gradle.CODEGEN_NAME
 
 plugins {
-    //id("protokt.jvm-conventions")
-    kotlin("jvm")
-    idea
-    java
+    id("protokt.jvm-conventions")
     id("com.google.protobuf")
     application
 }
@@ -88,19 +85,12 @@ sourceSets {
         proto {
             srcDir("../extensions/protokt-extensions-lite/src/main/proto")
         }
-        java {
-            file("${layout.buildDirectory.get()}/generated/source/proto/main/java").walkTopDown().forEach { logger.quiet(it.absolutePath) }
-            srcDir("${layout.buildDirectory}/generated/source/proto/main/java")
-        }
     }
 }
 
 includeBuildSrc(
     "protokt/v1/gradle/ProtoktExtension.kt",
     "protokt/v1/gradle/ProtoktVersion.kt",
-    "protokt/v1/gradle/ProtobufVersion.kt"
+    "protokt/v1/gradle/ProtobufVersion.kt",
+    "**/*.java" // don't override the protobuf-gradle-plugin; todo: fix this function to not need this
 )
-
-tasks.withType<JavaCompile> {
-    enabled = true
-}

@@ -23,6 +23,7 @@ import com.google.protobuf.gradle.proto
 import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Dependency
+import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.api.file.SourceDirectorySet
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.tasks.SourceSet
@@ -91,7 +92,7 @@ private fun Project.createExtensionConfigurationsAndConfigureProtobuf() {
     when {
         isMultiplatform() -> {
             configureProtoktConfigurations(KotlinMultiplatformExtension::class, "commonMain", "commonTest")
-            linkGenerateProtoToSourceCompileForKotlinJsOrMpp("commonMain", "commonTest")
+            linkGenerateProtoToSourceCompileForKotlinMpp("commonMain", "commonTest")
         }
         isJs() -> {
             configureProtoktConfigurations(KotlinJsProjectExtension::class, "main", "test")
@@ -108,12 +109,13 @@ private fun Project.createExtensionConfigurationsAndConfigureProtobuf() {
     }
 }
 
-private fun Project.linkGenerateProtoToSourceCompileForKotlinJsOrMpp(mainSourceSetName: String, testSourceSetName: String) {
+private fun Project.linkGenerateProtoToSourceCompileForKotlinMpp(mainSourceSetName: String, testSourceSetName: String) {
     linkGenerateProtoTasksAndIncludeGeneratedSource(mainSourceSetName, false)
     linkGenerateProtoTasksAndIncludeGeneratedSource(testSourceSetName, true)
 
     tasks.withType<Jar> {
         from(fileTree("${layout.buildDirectory.get()}/extracted-protos/main"))
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE // TODO: figure out how to get rid of this
     }
 }
 

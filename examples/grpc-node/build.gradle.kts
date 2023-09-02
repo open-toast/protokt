@@ -47,6 +47,7 @@ protokt {
 dependencies {
     implementation(project(":protokt-runtime-grpc-lite"))
     implementation(project(":examples:protos"))
+    implementation(libs.kotlinx.coroutines.core)
 
     testImplementation(kotlin("test"))
     testImplementation(libs.kotlinx.coroutines.test)

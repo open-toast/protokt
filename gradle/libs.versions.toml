@@ -37,7 +37,7 @@ spotless = "6.21.0"
 datasets = "0.1.0"
 download = "5.4.0"
 jmh = "1.26"
-wire = "4.5.1"
+wire = "4.8.1"
 
 # test
 jackson = "2.13.0"
