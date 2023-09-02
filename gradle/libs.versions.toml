@@ -23,6 +23,7 @@ ktlint = "0.50.0"
 protobuf-java = "3.21.7"
 protobuf-js = "6.11.3"
 protobufGradlePlugin = "0.9.4"
+slf4j = "2.0.6"
 
 # build
 androidGradlePlugin = "7.4.2"
@@ -67,6 +68,7 @@ ktlintRuleSetStandard = { module = "com.pinterest.ktlint:ktlint-ruleset-standard
 protobuf-gradlePlugin = { module = "com.google.protobuf:protobuf-gradle-plugin", version.ref = "protobufGradlePlugin" }
 protobuf-java = { module ="com.google.protobuf:protobuf-java", version.ref = "protobuf-java" }
 protoc = { module = "com.google.protobuf:protoc", version.ref = "protobuf-java" }
+slf4jSimple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 
 # build
 androidGradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }

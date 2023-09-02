@@ -50,6 +50,7 @@ dependencies {
     implementation(libs.ktlint)
     implementation(libs.ktlintRuleSetStandard)
     implementation(libs.protobuf.java)
+    implementation(libs.slf4jSimple)
 
     testImplementation(project(":testing:testing-util"))
 
