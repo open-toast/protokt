@@ -17,10 +17,16 @@ import com.google.protobuf.gradle.proto
 import protokt.v1.gradle.CODEGEN_NAME
 
 plugins {
-    id("protokt.jvm-conventions")
+    //id("protokt.jvm-conventions")
+    kotlin("jvm")
+    idea
+    java
     id("com.google.protobuf")
     application
 }
+
+version = rootProject.version
+group = "com.toasttab.protokt"
 
 defaultProtoc()
 
@@ -41,6 +47,7 @@ dependencies {
 
     implementation(libs.grpc.kotlin.stub)
     implementation(libs.grpc.stub)
+    implementation(libs.kotlinLogging)
     implementation(libs.kotlinPoet)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.ktlint)
@@ -81,6 +88,10 @@ sourceSets {
         proto {
             srcDir("../extensions/protokt-extensions-lite/src/main/proto")
         }
+        java {
+            file("${layout.buildDirectory.get()}/generated/source/proto/main/java").walkTopDown().forEach { logger.quiet(it.absolutePath) }
+            srcDir("${layout.buildDirectory}/generated/source/proto/main/java")
+        }
     }
 }
 
@@ -89,3 +100,7 @@ includeBuildSrc(
     "protokt/v1/gradle/ProtoktVersion.kt",
     "protokt/v1/gradle/ProtobufVersion.kt"
 )
+
+tasks.withType<JavaCompile> {
+    enabled = true
+}
