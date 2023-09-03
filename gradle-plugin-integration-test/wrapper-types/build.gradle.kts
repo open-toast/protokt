@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2023 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,21 +13,19 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        gradlePluginPortal()
-    }
-    dependencies {
-        classpath("gradle.plugin.net.vivin:gradle-semantic-build-versioning:4.0.0")
-    }
+plugins {
+    kotlin("jvm")
+    kotlin("kapt")
 }
 
-apply(plugin = "net.vivin.gradle-semantic-build-versioning")
+dependencies {
+    implementation("com.toasttab.protokt:protokt-core:$version")
+    implementation("com.google.auto.service:auto-service-annotations:1.0.1")
 
-rootProject.name = "gradle-plugin-integration-test"
+    kapt("com.google.auto.service:auto-service:1.0.1")
+}
 
-listOf(
-    "jvm-regular",
-    "jvm-lite",
-    "wrapper-types"
-).forEach { include(it) }
+configure<JavaPluginExtension> {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}

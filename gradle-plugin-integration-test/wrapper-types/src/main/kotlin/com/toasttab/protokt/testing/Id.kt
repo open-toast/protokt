@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2023 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,21 +13,22 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        gradlePluginPortal()
-    }
-    dependencies {
-        classpath("gradle.plugin.net.vivin:gradle-semantic-build-versioning:4.0.0")
-    }
+package com.toasttab.protokt.testing
+
+import com.google.auto.service.AutoService
+import com.toasttab.protokt.ext.Converter
+
+data class Id(val value: String)
+
+@AutoService(Converter::class)
+object IdConverter : Converter<Id, ByteArray> {
+    override val wrapper = Id::class
+
+    override val wrapped = ByteArray::class
+
+    override fun wrap(unwrapped: ByteArray) =
+        Id(String(unwrapped))
+
+    override fun unwrap(wrapped: Id) =
+        wrapped.value.toByteArray()
 }
-
-apply(plugin = "net.vivin.gradle-semantic-build-versioning")
-
-rootProject.name = "gradle-plugin-integration-test"
-
-listOf(
-    "jvm-regular",
-    "jvm-lite",
-    "wrapper-types"
-).forEach { include(it) }
