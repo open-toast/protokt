@@ -31,6 +31,7 @@ fun Project.lint() {
             ktlint()
             target("**/*.kt")
             targetExclude("**/generated-sources/**")
+            targetExclude("**/generated/source/**")
         }
 
         kotlinGradle {
