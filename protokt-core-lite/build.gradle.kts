@@ -21,7 +21,7 @@ plugins {
     kotlin("kapt")
 }
 
-localProtokt(false)
+localProtokt()
 enablePublishing()
 compatibleWithAndroid()
 trackKotlinApiCompatibility()

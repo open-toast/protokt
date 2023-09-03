@@ -19,7 +19,7 @@ plugins {
     id("protokt.multiplatform-conventions")
 }
 
-localProtokt(excludeProtoktProtos = false)
+localProtokt()
 enablePublishing()
 compatibleWithAndroid()
 trackKotlinApiCompatibility()
