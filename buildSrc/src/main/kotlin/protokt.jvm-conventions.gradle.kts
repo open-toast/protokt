@@ -19,3 +19,9 @@ plugins {
 }
 
 javaBasedProjectConventions()
+
+kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
+}

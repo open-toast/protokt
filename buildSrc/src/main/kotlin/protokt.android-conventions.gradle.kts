@@ -24,3 +24,9 @@ javaBasedProjectConventions()
 repositories {
     google()
 }
+
+kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
+}
