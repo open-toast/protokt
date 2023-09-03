@@ -123,6 +123,9 @@ workflows:
             parameters:
               jdk: ["8", "11", "17"]
               kotlin: ["1.5.32", "1.6.21", "1.7.20", "1.8.0"]
+            exclude:
+              - jdk: "17"
+                kotlin: "1.5.32"
       - release:
           context: OSS
           filters:
