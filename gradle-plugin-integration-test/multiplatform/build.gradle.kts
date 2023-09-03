@@ -13,6 +13,7 @@
  * limitations under the License.
  */
 
+import protokt.v1.gradle.ProtoktExtension
 import protokt.v1.gradle.ProtoktPlugin
 import protokt.v1.gradle.protoktExtensions
 
@@ -54,7 +55,7 @@ kotlin {
 
         val jvmTest by getting {
             dependencies {
-                implementation(libs.protobuf.java)
+                runtimeOnly(libs.protobuf.java)
             }
         }
 
@@ -65,7 +66,6 @@ kotlin {
     targets {
         jvm().compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
                 freeCompilerArgs = listOf("-Xjvm-default=all")
             }
         }
@@ -79,6 +79,10 @@ tasks.named<Test>("jvmTest") {
 // awkward that we have to apply the plugin after source sets are configured
 apply<ProtoktPlugin>()
 
+configure<ProtoktExtension> {
+    formatOutput = false // https://github.com/pinterest/ktlint/issues/1195
+}
+
 dependencies {
     protoktExtensions("com.toasttab.protokt:protokt-extensions:$version")
 }
@@ -91,7 +95,14 @@ tasks.named("jsBrowserTest") {
     enabled = System.getProperty("kotlin.version", libs.versions.kotlin.get()) == libs.versions.kotlin.get()
 }
 
-configure<JavaPluginExtension> {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(System.getProperty("java-integration.version", libs.versions.java.get()).toInt()))
+    }
+}
+
+kotlin {
+    jvmToolchain {
+        (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(System.getProperty("java-integration.version", libs.versions.java.get()).toInt()))
+    }
 }

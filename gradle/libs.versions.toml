@@ -41,6 +41,7 @@ jmh = "1.26"
 wire = "4.8.1"
 
 # test
+java = "11"
 jackson = "2.15.2"
 junit = "5.9.3"
 truth = "1.1.3"

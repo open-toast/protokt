@@ -39,7 +39,7 @@ fun Project.javaBasedProjectConventions() {
     tasks.withType<KotlinCompile> {
         kotlinOptions {
             allWarningsAsErrors = true
-            jvmTarget = "1.8"
+            jvmTarget = "11"
             freeCompilerArgs = listOf("-Xjvm-default=all")
         }
     }
@@ -49,7 +49,7 @@ fun Project.javaBasedProjectConventions() {
     }
 
     configure<JavaPluginExtension> {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 }

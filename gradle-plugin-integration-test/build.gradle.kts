@@ -30,7 +30,7 @@ buildscript {
 
     dependencies {
         classpath("com.toasttab.protokt:protokt-gradle-plugin:$version")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${System.getProperty("kotlin.version", libs.versions.kotlin.get())}")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${System.getProperty("kotlin-integration.version", libs.versions.kotlin.get())}")
         classpath("com.diffplug.spotless:spotless-plugin-gradle:${libs.versions.spotless.get()}")
     }
 }
@@ -101,10 +101,9 @@ subprojects {
         withType<KotlinCompile> {
             kotlinOptions {
                 allWarningsAsErrors = true
-                jvmTarget = "1.8"
 
                 apiVersion =
-                    System.getProperty("kotlin.version")
+                    System.getProperty("kotlin-integration.version")
                         ?.substringBeforeLast(".")
                         ?: libs.versions.kotlin.get().substringBeforeLast(".")
 

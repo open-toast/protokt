@@ -13,30 +13,19 @@
  * limitations under the License.
  */
 
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     kotlin("jvm")
     id("com.toasttab.protokt.v1")
 }
 
 protokt {
+    formatOutput = false // https://github.com/pinterest/ktlint/issues/1195
     generate { lite() }
 }
 
 tasks {
     withType<Test> {
         useJUnitPlatform()
-    }
-
-    if (System.getProperty("kotlin.version", libs.versions.kotlin.get()) == libs.versions.kotlin.get()) {
-        withType<KotlinCompile> {
-            kotlinOptions {
-                allWarningsAsErrors = true
-                jvmTarget = "1.8"
-                freeCompilerArgs = listOf("-Xjvm-default=all")
-            }
-        }
     }
 }
 
@@ -68,7 +57,14 @@ sourceSets {
     }
 }
 
-configure<JavaPluginExtension> {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(System.getProperty("java-integration.version", libs.versions.java.get()).toInt()))
+    }
+}
+
+kotlin {
+    jvmToolchain {
+        (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(System.getProperty("java-integration.version", libs.versions.java.get()).toInt()))
+    }
 }
