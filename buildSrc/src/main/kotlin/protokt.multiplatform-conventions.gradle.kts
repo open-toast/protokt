@@ -62,3 +62,15 @@ tasks.named<Test>("jvmTest") {
 }
 
 pureKotlin()
+
+kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
+}
