@@ -26,7 +26,6 @@ public final class protokt/v1/google/longrunning/OperationsGrpcKt$OperationsCoro
 	public fun <init> (Lio/grpc/Channel;Lio/grpc/CallOptions;)V
 	public synthetic fun <init> (Lio/grpc/Channel;Lio/grpc/CallOptions;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public synthetic fun build (Lio/grpc/Channel;Lio/grpc/CallOptions;)Lio/grpc/stub/AbstractStub;
-	public fun build (Lio/grpc/Channel;Lio/grpc/CallOptions;)Lprotokt/v1/google/longrunning/OperationsGrpcKt$OperationsCoroutineStub;
 	public final fun cancelOperation (Lprotokt/v1/google/longrunning/CancelOperationRequest;Lio/grpc/Metadata;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public static synthetic fun cancelOperation$default (Lprotokt/v1/google/longrunning/OperationsGrpcKt$OperationsCoroutineStub;Lprotokt/v1/google/longrunning/CancelOperationRequest;Lio/grpc/Metadata;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
 	public final fun deleteOperation (Lprotokt/v1/google/longrunning/DeleteOperationRequest;Lio/grpc/Metadata;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
