@@ -30,7 +30,7 @@ androidGradlePlugin = "7.4.2"
 animalSnifferGradlePlugin = "1.5.4"
 binaryCompatibilityValidator = "0.13.2"
 gradleMavenPublishPlugin = "0.25.2"
-kotlin = "1.8.21"
+kotlin = "1.9.10"
 pluginPublish = "1.2.0"
 spotless = "6.21.0"
 

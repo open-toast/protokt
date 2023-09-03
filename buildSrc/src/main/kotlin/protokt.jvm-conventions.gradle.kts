@@ -15,7 +15,7 @@
 
 plugins {
     id("protokt.common-conventions")
-    id("org.jetbrains.kotlin.jvm")
+    kotlin("jvm")
 }
 
 javaBasedProjectConventions()

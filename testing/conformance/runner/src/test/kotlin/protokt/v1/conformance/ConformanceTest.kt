@@ -36,27 +36,41 @@ class ConformanceTest {
         JS_IR("js-ir") {
             override fun driver() =
                 jsConformanceDriver(project)
+
+            override fun handle(t: Throwable) {
+                val stderr = jsStderrLog(project).toFile()
+                if (stderr.exists()) {
+                    fail("test failed; stderr:\n" + stderr.readText())
+                } else {
+                    throw t
+                }
+            }
         }, // https://github.com/pinterest/ktlint/issues/1933
         ;
 
         abstract fun driver(): Path
+
+        open fun handle(t: Throwable) {
+            throw t
+        }
     }
 
     companion object {
         @JvmStatic
         fun runners() =
-            ConformanceRunner.values()
+            ConformanceRunner.entries
     }
 
     @ParameterizedTest
     @MethodSource("runners")
     fun `run conformance tests`(runner: ConformanceRunner) {
-        command(runner)
-            .runCommand(
-                projectRoot.toPath(),
-                libPathOverride
-            )
-            .orFail("Conformance tests failed", ProcessOutput.Src.ERR)
+        try {
+            command(runner)
+                .runCommand(projectRoot.toPath(), libPathOverride)
+                .orFail("Conformance tests failed", ProcessOutput.Src.ERR)
+        } catch (t: Throwable) {
+            runner.handle(t)
+        }
 
         println("Conformance tests passed")
     }
@@ -82,6 +96,9 @@ private val jvmConformanceDriver =
 
 private fun jsConformanceDriver(project: String) =
     Path.of(File(projectRoot.parentFile, project).absolutePath, "run.sh")
+
+private fun jsStderrLog(project: String) =
+    Path.of(File(projectRoot.parentFile, project).absolutePath, "build", "conformance-run")
 
 private fun failureList(project: String) =
     "--failure_list ../$project/failure_list_kt.txt"

@@ -40,6 +40,7 @@ fun String.runCommand(
             .start()
 
     if (!proc.waitFor(10, TimeUnit.SECONDS)) {
+        proc.destroyForcibly()
         fail("Process '$this' took too long")
     }
 
