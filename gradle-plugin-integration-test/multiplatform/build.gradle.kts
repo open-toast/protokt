@@ -13,7 +13,6 @@
  * limitations under the License.
  */
 
-import protokt.v1.gradle.ProtoktExtension
 import protokt.v1.gradle.ProtoktPlugin
 import protokt.v1.gradle.protoktExtensions
 
