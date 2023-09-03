@@ -14,10 +14,10 @@
  */
 
 import com.google.protobuf.gradle.GenerateProtoTask
+import com.google.protobuf.gradle.ProtobufExtract
 import org.gradle.api.Project
 import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.api.tasks.compile.JavaCompile
-import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
@@ -26,18 +26,44 @@ import protokt.v1.gradle.CODEGEN_NAME
 import protokt.v1.gradle.configureProtokt
 import java.io.File
 
-fun Project.localProtokt() {
+fun Project.localProtokt(excludeGoogleProtos: Boolean = true, excludeProtoktProtos: Boolean = true) {
     configureProtokt(this, null) {
         "$rootDir/protokt-codegen/build/install/$CODEGEN_NAME/bin/$CODEGEN_NAME"
-    }
-
-    dependencies {
-        "compileOnly"(findLibrary("protobuf-java"))
     }
 
     afterEvaluate {
         tasks.withType<GenerateProtoTask> {
             dependsOn(":protokt-codegen:installDist")
+        }
+
+        // https://github.com/google/protobuf-gradle-plugin/issues/731#issuecomment-1701387813
+        if (excludeGoogleProtos) {
+            val remove = tasks.register("removeGoogleProtos") {
+                dependsOn(tasks.withType<ProtobufExtract>().filterNot { it.name.startsWith("extractInclude") })
+                doFirst {
+                    layout.buildDirectory.file("extracted-protos").get().asFile.listFiles()!!.forEach {
+                        File(it, "google/protobuf").deleteRecursively()
+                    }
+                }
+            }
+            tasks.withType<com.google.protobuf.gradle.GenerateProtoTask> {
+                dependsOn(remove)
+            }
+        }
+
+        // https://github.com/google/protobuf-gradle-plugin/issues/731#issuecomment-1701387813
+        if (excludeProtoktProtos) {
+            val remove = tasks.register("removeProtoktProtos") {
+                dependsOn(tasks.withType<ProtobufExtract>().filterNot { it.name.startsWith("extractInclude") })
+                doFirst {
+                    layout.buildDirectory.file("extracted-protos").get().asFile.listFiles()!!.forEach {
+                        File(it, "protokt").deleteRecursively()
+                    }
+                }
+            }
+            tasks.withType<com.google.protobuf.gradle.GenerateProtoTask> {
+                dependsOn(remove)
+            }
         }
     }
 }

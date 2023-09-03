@@ -25,5 +25,6 @@ application {
 
 dependencies {
     implementation(project(":testing:conformance:driver"))
-    implementation(libs.protobuf.java)
+
+    runtimeOnly(libs.protobuf.java)
 }

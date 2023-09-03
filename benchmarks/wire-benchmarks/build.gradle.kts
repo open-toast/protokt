@@ -33,13 +33,13 @@ wire {
     sourcePath("../schema/src/main/resources")
 
     kotlin {
-        out = "$buildDir/generated-sources/proto/main/java"
+        out = layout.buildDirectory.file("generated-sources/proto/main/java").get().asFile.absolutePath
     }
 }
 
 sourceSets {
     main {
-        java.srcDirs.add(file("$buildDir/generated-sources/proto/main/java"))
+        java.srcDir(layout.buildDirectory.file("generated-sources/proto/main/java"))
     }
 }
 

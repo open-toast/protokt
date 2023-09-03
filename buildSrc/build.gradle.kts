@@ -23,6 +23,7 @@ repositories {
     mavenCentral()
     gradlePluginPortal()
     google()
+    mavenLocal()
 }
 
 dependencies {
@@ -40,13 +41,13 @@ tasks.withType<KotlinCompile> {
     dependsOn("generateVersions")
 }
 
-val versionOutputDir = file("$buildDir/generated/protobuf-version")
+val versionOutputDir = layout.buildDirectory.file("generated/protobuf-version")
 
 sourceSets["main"].java.srcDir(versionOutputDir)
 
 tasks.register("generateVersions") {
     doFirst {
-        val protobuf = File(versionOutputDir, "protokt/v1/gradle/ProtobufVersion.kt")
+        val protobuf = File(versionOutputDir.get().asFile, "protokt/v1/gradle/ProtobufVersion.kt")
         protobuf.parentFile.mkdirs()
         protobuf.writeText(
             """
@@ -72,7 +73,7 @@ tasks.register("generateVersions") {
             """.trimIndent()
         )
 
-        val protokt = File(versionOutputDir, "protokt/v1/gradle/ProtoktVersion.kt")
+        val protokt = File(versionOutputDir.get().asFile, "protokt/v1/gradle/ProtoktVersion.kt")
         protokt.parentFile.mkdirs()
         protokt.writeText(
             """

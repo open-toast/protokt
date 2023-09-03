@@ -32,7 +32,8 @@ dependencies {
 
     implementation(kotlin("reflect"))
     implementation(project(":benchmarks:benchmarks-util"))
-    implementation(libs.protobuf.java)
+
+    runtimeOnly(libs.protobuf.java)
 }
 
 tasks.named("run") {

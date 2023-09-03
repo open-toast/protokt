@@ -192,6 +192,7 @@ private fun Project.configureJs(): Pair<String, String> {
     afterEvaluate {
         tasks.withType<Jar> {
             from(fileTree("${layout.buildDirectory.get()}/extracted-protos/${mainSourceSet.name}"))
+            duplicatesStrategy = DuplicatesStrategy.EXCLUDE // TODO: figure out how to get rid of this
         }
         tasks.register("generateProto") { dependsOn("generateJsMainProto") }
         tasks.register("generateTestProto") { dependsOn("generateJsTestProto") }

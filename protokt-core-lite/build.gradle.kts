@@ -21,7 +21,7 @@ plugins {
     kotlin("kapt")
 }
 
-localProtokt()
+localProtokt(false)
 enablePublishing()
 compatibleWithAndroid()
 trackKotlinApiCompatibility()
@@ -64,7 +64,7 @@ kotlin {
 
         val jvmTest by getting {
             dependencies {
-                implementation(libs.protobuf.java)
+                runtimeOnly(libs.protobuf.java)
             }
         }
     }
