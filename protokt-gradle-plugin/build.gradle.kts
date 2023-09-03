@@ -20,7 +20,7 @@ plugins {
 }
 
 gradlePlugin {
-    isAutomatedPublishing = true
+    isAutomatedPublishing = false
 
     plugins {
         create("protokt") {
