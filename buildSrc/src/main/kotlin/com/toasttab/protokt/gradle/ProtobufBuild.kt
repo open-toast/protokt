@@ -80,7 +80,7 @@ private fun extraClasspath(project: Project, task: GenerateProtoTask): String {
     // manually do what protobuf-gradle-plugin used to do.
     // https://github.com/google/protobuf-gradle-plugin/commit/0521fe707ccedee7a0b4ce0fb88409eefb04e59d
     project.tasks.withType<ProtobufExtract>().filter { it.name.startsWith("extractInclude") }.forEach {
-        // it.inputFiles.from(extensions)
+        it.inputFiles.from(extensions)
     }
 
     return extensions.joinToString(";") { URLEncoder.encode(it.path, "UTF-8") }
