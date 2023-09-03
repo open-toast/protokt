@@ -21,7 +21,6 @@ plugins {
 }
 
 protokt {
-    formatOutput = false // https://github.com/pinterest/ktlint/issues/1195
     generate { lite() }
 }
 
@@ -30,7 +29,7 @@ tasks {
         useJUnitPlatform()
     }
 
-    if (System.getProperty("kotlin.version", "1.8.21") == "1.8.21") {
+    if (System.getProperty("kotlin.version", libs.versions.kotlin.get()) == libs.versions.kotlin.get()) {
         withType<KotlinCompile> {
             kotlinOptions {
                 allWarningsAsErrors = true

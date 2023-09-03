@@ -20,10 +20,6 @@ plugins {
     id("com.toasttab.protokt.v1")
 }
 
-protokt {
-    formatOutput = false // https://github.com/pinterest/ktlint/issues/1195
-}
-
 tasks {
     withType<Test> {
         useJUnitPlatform()
