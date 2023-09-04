@@ -62,11 +62,11 @@ tasks.named<Test>("jvmTest") {
 pureKotlin()
 
 kotlin {
-    jvmToolchain(libs.versions.java.get().toInt())
+    jvmToolchain(findVersion("java").toInt())
 }
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(libs.versions.java.get().toInt()))
+        languageVersion.set(JavaLanguageVersion.of(findVersion("java").toInt()))
     }
 }

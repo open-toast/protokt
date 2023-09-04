@@ -26,14 +26,14 @@ repositories {
 }
 
 kotlin {
-    jvmToolchain(libs.versions.java.get().toInt())
+    jvmToolchain(findVersion("java").toInt())
 }
 
 // remove after AGP 8.1.0
 // https://issuetracker.google.com/issues/260059413
 android {
     compileOptions {
-        sourceCompatibility = JavaVersion.valueOf("VERSION_${libs.versions.java.get().toInt()}")
-        targetCompatibility = JavaVersion.valueOf("VERSION_${libs.versions.java.get().toInt()}")
+        sourceCompatibility = JavaVersion.valueOf("VERSION_${findVersion("java").toInt()}")
+        targetCompatibility = JavaVersion.valueOf("VERSION_${findVersion("java").toInt()}")
     }
 }

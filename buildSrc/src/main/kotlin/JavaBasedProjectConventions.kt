@@ -48,6 +48,6 @@ fun Project.javaBasedProjectConventions() {
     }
 
     the<JavaPluginExtension>().toolchain {
-        languageVersion.set(JavaLanguageVersion.of(libs.versions.java.get().toInt()))
+        languageVersion.set(JavaLanguageVersion.of(findVersion("java").toInt()))
     }
 }

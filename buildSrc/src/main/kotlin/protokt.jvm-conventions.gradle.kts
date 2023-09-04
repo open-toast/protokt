@@ -21,5 +21,5 @@ plugins {
 javaBasedProjectConventions()
 
 kotlin {
-    jvmToolchain(libs.versions.java.get().toInt())
+    jvmToolchain(findVersion("java").toInt())
 }
