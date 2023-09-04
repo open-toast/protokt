@@ -22,6 +22,10 @@ buildscript {
     }
 }
 
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.4.0"
+}
+
 apply(plugin = "net.vivin.gradle-semantic-build-versioning")
 
 rootProject.name = "gradle-plugin-integration-test"
