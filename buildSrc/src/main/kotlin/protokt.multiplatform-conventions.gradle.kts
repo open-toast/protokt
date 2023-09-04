@@ -51,8 +51,6 @@ kotlin {
             kotlinOptions {
                 freeCompilerArgs = listOf("-Xjvm-default=all")
             }
-
-            jvmToolchain(8)
         }
     }
 }
@@ -64,13 +62,11 @@ tasks.named<Test>("jvmTest") {
 pureKotlin()
 
 kotlin {
-    jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
-    }
+    jvmToolchain(libs.versions.java.get().toInt())
 }
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
+        languageVersion.set(JavaLanguageVersion.of(libs.versions.java.get().toInt()))
     }
 }

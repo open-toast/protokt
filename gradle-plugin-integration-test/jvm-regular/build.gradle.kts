@@ -58,7 +58,5 @@ java {
 }
 
 kotlin {
-    jvmToolchain {
-        (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(System.getProperty("java-integration.version", libs.versions.java.get()).toInt()))
-    }
+    jvmToolchain(System.getProperty("java-integration.version", libs.versions.java.get()).toInt())
 }
