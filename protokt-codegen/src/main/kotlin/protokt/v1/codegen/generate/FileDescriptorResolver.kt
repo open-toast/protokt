@@ -90,42 +90,15 @@ private constructor(
 
     private fun fileDescriptorParts() =
         encodeFileDescriptor(
-            clearJsonInfo(
-                ctx.fdp.toBuilder()
-                    .clearSourceCodeInfo()
-                    .build()
-            )
+            ctx.fdp.toBuilder()
+                .clearSourceCodeInfo()
+                .build()
         )
 
     private fun dependencyLines(dependencies: List<TypeName>) =
         dependencies
             .map { CodeBlock.of("%T.descriptor", it) }
             .joinToCode(",\n")
-
-    private fun clearJsonInfo(fileDescriptorProto: DescriptorProtos.FileDescriptorProto) =
-        fileDescriptorProto.toBuilder()
-            .clearMessageType()
-            .addAllMessageType(clearJsonInfo(fileDescriptorProto.messageTypeList))
-            .build()
-
-    private fun clearJsonInfo(descriptorProtos: Iterable<DescriptorProtos.DescriptorProto>): Iterable<DescriptorProtos.DescriptorProto> =
-        descriptorProtos.map { dp ->
-            dp.toBuilder()
-                .clearField()
-                .addAllField(
-                    dp.fieldList
-                        .map { fdp ->
-                            fdp.toBuilder()
-                                .clearJsonName()
-                                .build()
-                        }
-                )
-                .clearNestedType()
-                .addAllNestedType(
-                    clearJsonInfo(dp.nestedTypeList)
-                )
-                .build()
-        }
 
     private fun dependencies() =
         ctx.fdp.dependencyList
