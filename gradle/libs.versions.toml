@@ -15,20 +15,22 @@
 autoService = "1.0.1"
 grpc-java = "1.56.1"
 grpc-kotlin = "1.3.0"
-kotlinPoet = "1.13.2"
+kotlinLogging = "5.1.0"
+kotlinPoet = "1.14.2"
 kotlinx-coroutines = "1.6.0"
 kotlinx-serialization = "1.5.1"
 ktlint = "0.50.0"
 protobuf-java = "3.21.7"
 protobuf-js = "6.11.3"
-protobufGradlePlugin = "0.9.1"
+protobufGradlePlugin = "0.9.4"
+slf4j = "2.0.6"
 
 # build
 androidGradlePlugin = "7.4.2"
 animalSnifferGradlePlugin = "1.5.4"
 binaryCompatibilityValidator = "0.13.2"
 gradleMavenPublishPlugin = "0.25.2"
-kotlin = "1.8.21"
+kotlin = "1.9.10"
 pluginPublish = "1.2.0"
 spotless = "6.21.0"
 
@@ -36,16 +38,17 @@ spotless = "6.21.0"
 datasets = "0.1.0"
 download = "5.4.0"
 jmh = "1.26"
-wire = "4.5.1"
+wire = "4.8.1"
 
 # test
-jackson = "2.13.0"
-junit = "5.9.1"
+java = "11"
+jackson = "2.15.2"
+junit = "5.9.3"
 truth = "1.1.3"
 grpc-js = "1.8.14"
 
 # third party
-protoGoogleCommonProtos = "2.8.2"
+protoGoogleCommonProtos = "2.21.0"
 
 [plugins]
 download = { id = "de.undercouch.download", version.ref = "download" }
@@ -58,6 +61,7 @@ autoServiceAnnotations = { module = "com.google.auto.service:auto-service-annota
 grpc-kotlin-gen = { module = "io.grpc:protoc-gen-grpc-kotlin", version.ref = "grpc-kotlin" }
 grpc-netty = { module = "io.grpc:grpc-netty", version.ref = "grpc-java" }
 grpc-stub = { module = "io.grpc:grpc-stub", version.ref = "grpc-java" }
+kotlinLogging = { module = "io.github.oshai:kotlin-logging", version.ref = "kotlinLogging" }
 kotlinPoet = { module = "com.squareup:kotlinpoet", version.ref = "kotlinPoet" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 ktlint = { module = "com.pinterest.ktlint:ktlint-rule-engine", version.ref = "ktlint" }
@@ -65,6 +69,7 @@ ktlintRuleSetStandard = { module = "com.pinterest.ktlint:ktlint-ruleset-standard
 protobuf-gradlePlugin = { module = "com.google.protobuf:protobuf-gradle-plugin", version.ref = "protobufGradlePlugin" }
 protobuf-java = { module ="com.google.protobuf:protobuf-java", version.ref = "protobuf-java" }
 protoc = { module = "com.google.protobuf:protoc", version.ref = "protobuf-java" }
+slf4jSimple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 
 # build
 androidGradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }

@@ -13,14 +13,14 @@
  * limitations under the License.
  */
 
-import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.tasks.testing.Test
-import org.gradle.kotlin.dsl.configure
+import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.kotlin
 import org.gradle.kotlin.dsl.repositories
+import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -39,7 +39,6 @@ fun Project.javaBasedProjectConventions() {
     tasks.withType<KotlinCompile> {
         kotlinOptions {
             allWarningsAsErrors = true
-            jvmTarget = "1.8"
             freeCompilerArgs = listOf("-Xjvm-default=all")
         }
     }
@@ -48,8 +47,7 @@ fun Project.javaBasedProjectConventions() {
         useJUnitPlatform()
     }
 
-    configure<JavaPluginExtension> {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+    the<JavaPluginExtension>().toolchain {
+        languageVersion.set(JavaLanguageVersion.of(findVersion("java").toInt()))
     }
 }

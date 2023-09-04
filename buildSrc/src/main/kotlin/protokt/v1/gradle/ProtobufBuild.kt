@@ -17,6 +17,8 @@ package protokt.v1.gradle
 
 import com.google.protobuf.gradle.GenerateProtoTask
 import com.google.protobuf.gradle.ProtobufExtension
+import com.google.protobuf.gradle.ProtobufExtract
+import com.google.protobuf.gradle.ProtobufPlugin
 import com.google.protobuf.gradle.id
 import org.gradle.api.Project
 import org.gradle.api.file.FileCollection
@@ -25,6 +27,7 @@ import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.named
+import org.gradle.kotlin.dsl.withType
 import java.net.URLEncoder
 
 internal fun configureProtobufPlugin(
@@ -32,7 +35,7 @@ internal fun configureProtobufPlugin(
     ext: ProtoktExtension,
     binaryPath: String
 ) {
-    project.apply(plugin = "com.google.protobuf")
+    project.apply<ProtobufPlugin>()
 
     project.configure<ProtobufExtension> {
         configureSources(project)
@@ -77,6 +80,14 @@ private fun extraClasspath(project: Project, task: GenerateProtoTask): String {
     if (task.isTest) {
         extensions += project.configurations.getByName(TEST_EXTENSIONS)
     }
+
+    // Must explicitly register input files here; if any extensions dependencies are project dependencies then Gradle
+    // won't pick them up as dependencies unless we do this. There may be a better way to do this but for now just
+    // manually do what protobuf-gradle-plugin used to do.
+    // https://github.com/google/protobuf-gradle-plugin/commit/0521fe707ccedee7a0b4ce0fb88409eefb04e59d
+    project.tasks.withType<ProtobufExtract>()
+        .filter { it.name.startsWith("extractInclude") }
+        .forEach { it.inputFiles.from(extensions) }
 
     return extensions.joinToString(";") { URLEncoder.encode(it.path, "UTF-8") }
 }

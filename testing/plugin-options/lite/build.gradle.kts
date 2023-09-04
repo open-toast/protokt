@@ -34,5 +34,6 @@ dependencies {
 
     testImplementation(kotlin("reflect"))
     testImplementation(project(":protokt-util"))
-    testImplementation(libs.protobuf.lite)
+
+    testRuntimeOnly(libs.protobuf.lite)
 }

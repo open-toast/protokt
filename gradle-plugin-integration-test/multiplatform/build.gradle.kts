@@ -55,7 +55,7 @@ kotlin {
 
         val jvmTest by getting {
             dependencies {
-                implementation(libs.protobuf.java)
+                runtimeOnly(libs.protobuf.java)
             }
         }
 
@@ -66,7 +66,6 @@ kotlin {
     targets {
         jvm().compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
                 freeCompilerArgs = listOf("-Xjvm-default=all")
             }
         }
@@ -96,7 +95,14 @@ tasks.named("jsBrowserTest") {
     enabled = System.getProperty("kotlin.version", libs.versions.kotlin.get()) == libs.versions.kotlin.get()
 }
 
-configure<JavaPluginExtension> {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(System.getProperty("java-integration.version", libs.versions.java.get()).toInt()))
+    }
+}
+
+kotlin {
+    jvmToolchain {
+        (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(System.getProperty("java-integration.version", libs.versions.java.get()).toInt()))
+    }
 }

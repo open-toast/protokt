@@ -33,6 +33,29 @@ public final class protokt/v1/google/api/Billing_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/google/api/Billing$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 }
 
+public final class protokt/v1/google/api/ClientProto {
+	public static final field INSTANCE Lprotokt/v1/google/api/ClientProto;
+	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
+}
+
+public final class protokt/v1/google/api/Client_descriptorsKt {
+	public static final fun getDescriptor (Lprotokt/v1/google/api/ClientLibraryDestination$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/api/ClientLibraryOrganization$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/api/ClientLibrarySettings$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/api/CommonLanguageSettings$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/api/CppSettings$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/api/DotnetSettings$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/api/GoSettings$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/api/JavaSettings$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/api/MethodSettings$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/api/MethodSettings$LongRunning$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/api/NodeSettings$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/api/PhpSettings$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/api/Publishing$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/api/PythonSettings$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/api/RubySettings$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+}
+
 public final class protokt/v1/google/api/ConfigChangeProto {
 	public static final field INSTANCE Lprotokt/v1/google/api/ConfigChangeProto;
 	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
@@ -319,11 +342,15 @@ public final class protokt/v1/google/cloud/audit/Audit_log_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/google/cloud/audit/AuditLog$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/cloud/audit/AuthenticationInfo$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/cloud/audit/AuthorizationInfo$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/cloud/audit/OrgPolicyViolationInfo$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/cloud/audit/PolicyViolationInfo$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/cloud/audit/RequestMetadata$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/cloud/audit/ResourceLocation$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$FirstPartyPrincipal$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$ThirdPartyPrincipal$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/cloud/audit/ViolationInfo$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/cloud/audit/ViolationInfo$PolicyType$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 }
 
 public final class protokt/v1/google/geo/type/ViewportProto {
@@ -427,6 +454,15 @@ public final class protokt/v1/google/rpc/context/Attribute_context_descriptorsKt
 	public static final fun getDescriptor (Lprotokt/v1/google/rpc/context/AttributeContext$Request$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/rpc/context/AttributeContext$Resource$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/rpc/context/AttributeContext$Response$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+}
+
+public final class protokt/v1/google/rpc/context/AuditContextProto {
+	public static final field INSTANCE Lprotokt/v1/google/rpc/context/AuditContextProto;
+	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
+}
+
+public final class protokt/v1/google/rpc/context/Audit_context_descriptorsKt {
+	public static final fun getDescriptor (Lprotokt/v1/google/rpc/context/AuditContext$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 }
 
 public final class protokt/v1/google/type/CalendarPeriodProto {

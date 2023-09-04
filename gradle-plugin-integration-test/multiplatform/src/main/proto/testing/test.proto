@@ -17,6 +17,7 @@ syntax = "proto3";
 
 package testing;
 
+import "google/protobuf/wrappers.proto";
 import "protokt/v1/protokt.proto";
 
 message TestMessage {
@@ -25,6 +26,8 @@ message TestMessage {
   oneof bar {
     string foo = 2;
   }
+
+  google.protobuf.BoolValue qux = 3;
 
   enum Foo {
     FOO_FIRST_UNSPECIFIED = 0;

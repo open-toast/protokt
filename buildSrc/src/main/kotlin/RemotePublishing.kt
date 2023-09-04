@@ -55,7 +55,7 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
         repositories {
             maven {
                 name = "integration"
-                setUrl("${project.rootProject.buildDir}/repos/integration")
+                setUrl("${project.rootProject.layout.buildDirectory.get()}/repos/integration")
             }
         }
     }

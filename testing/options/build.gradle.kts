@@ -38,5 +38,6 @@ dependencies {
 
     testImplementation(kotlin("reflect"))
     testImplementation(project(":testing:protokt-generation"))
-    testImplementation(libs.protobuf.java)
+
+    testRuntimeOnly(libs.protobuf.java)
 }

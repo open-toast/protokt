@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableTable
 import com.google.common.collect.Table
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.asClassName
+import io.github.oshai.kotlinlogging.KotlinLogging
 import protokt.v1.Converter
 import protokt.v1.OptimizedSizeOfConverter
 import java.io.File
@@ -29,7 +30,11 @@ import kotlin.reflect.full.hasAnnotation
 import kotlin.reflect.full.memberProperties
 
 class ClassLookup(classpath: List<String>) {
+    private val logger = KotlinLogging.logger { }
+
     private val classLoader by lazy {
+        logger.info { "Creating class loader with extra classpath: $classpath" }
+
         val current = Thread.currentThread().contextClassLoader
 
         when {

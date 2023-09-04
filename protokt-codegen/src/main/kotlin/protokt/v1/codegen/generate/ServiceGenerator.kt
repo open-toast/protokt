@@ -72,14 +72,16 @@ private class ServiceGenerator(
         if (supportedPlugin()) {
             val getMethodFunctions =
                 s.methods.map { method ->
-                    FunSpec.builder("get" + method.name + "Method")
-                        .addCode("return _" + method.name.decapitalize() + "Method")
-                        .staticIfAppropriate()
-                        .build()
+                    buildFunSpec("get" + method.name + "Method") {
+                        returns(pivotClassName(MethodDescriptor::class).parameterizedBy(method.inputType, method.outputType))
+                        addCode("return _" + method.name.decapitalize() + "Method")
+                        staticIfAppropriate()
+                    }
                 }
 
             val getServiceDescriptorFunction =
                 buildFunSpec("getServiceDescriptor") {
+                    returns(pivotClassName(ServiceDescriptor::class))
                     addCode("return _serviceDescriptor")
                     staticIfAppropriate()
                 }

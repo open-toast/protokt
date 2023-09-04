@@ -19,22 +19,22 @@ plugins {
     alias(libs.plugins.download)
 }
 
-val archive = file("$buildDir/datasets-${libs.versions.datasets.get()}.zip")
+val archive = layout.buildDirectory.file("datasets-${libs.versions.datasets.get()}.zip")
 
 tasks.register<Download>("download") {
-    enabled = !archive.exists()
+    enabled = !archive.get().asFile.exists()
 
     src("https://proto-benchmarks.s3.amazonaws.com/datasets-${libs.versions.datasets.get()}.zip")
     tempAndMove(true)
-    dest(buildDir)
+    dest(layout.buildDirectory)
 }
 
 tasks.register<Copy>("datasets") {
     dependsOn("download")
-    enabled = !archive.exists()
+    enabled = !archive.get().asFile.exists()
 
     from(zipTree(archive))
-    into(file("$buildDir/datasets"))
+    into(layout.buildDirectory.file("datasets"))
 }
 
 tasks.register("run") {

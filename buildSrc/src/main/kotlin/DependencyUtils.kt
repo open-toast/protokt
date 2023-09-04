@@ -34,6 +34,15 @@ fun Project.findLibrary(name: String): String =
         .get() // provider
         .run { "$module:$versionConstraint" }
 
+fun Project.findVersion(name: String): String =
+    rootProject
+        .extensions
+        .getByType<VersionCatalogsExtension>()
+        .named("libs")
+        .findVersion(name)
+        .get() // optional
+        .requiredVersion
+
 fun Project.protobufExcludingProtobufJava(dependency: Provider<MinimalExternalModuleDependency>) {
     dependencies {
         protobuf(dependency.get().toString()) {

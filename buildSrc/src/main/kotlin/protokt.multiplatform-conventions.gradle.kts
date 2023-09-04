@@ -14,7 +14,7 @@
  */
 
 plugins {
-    id("org.jetbrains.kotlin.multiplatform")
+    kotlin("multiplatform")
     id("protokt.common-conventions")
 }
 
@@ -51,8 +51,6 @@ kotlin {
             kotlinOptions {
                 freeCompilerArgs = listOf("-Xjvm-default=all")
             }
-
-            jvmToolchain(8)
         }
     }
 }
@@ -62,3 +60,13 @@ tasks.named<Test>("jvmTest") {
 }
 
 pureKotlin()
+
+kotlin {
+    jvmToolchain(findVersion("java").toInt())
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(findVersion("java").toInt()))
+    }
+}

@@ -47,4 +47,6 @@ dependencies {
     implementation(libs.autoServiceAnnotations)
 
     kapt(libs.autoService)
+
+    testRuntimeOnly(libs.protobuf.lite)
 }

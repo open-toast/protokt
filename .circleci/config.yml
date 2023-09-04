@@ -131,7 +131,7 @@ jobs:
 
       - run:
           name: Integration tests
-          command: cd gradle-plugin-integration-test && ./gradlew clean build -Dkotlin.version=<<parameters.kotlin>> --stacktrace
+          command: cd gradle-plugin-integration-test && ./gradlew clean build -Dkotlin-integration.version=<<parameters.kotlin>> -Djava-integration.version=<<parameters.jdk>> --stacktrace
 
       - run:
           name: Save test results
@@ -170,8 +170,8 @@ workflows:
             - build
           matrix:
             parameters:
-              jdk: ["8", "11", "17"]
-              kotlin: ["1.8.21"]
+              jdk: ["11", "17"]
+              kotlin: ["1.8.22", "1.9.10"]
       - release:
           context: OSS
           filters:

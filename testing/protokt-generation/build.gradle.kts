@@ -37,5 +37,6 @@ dependencies {
     implementation(libs.grpc.stub)
 
     testImplementation(libs.jackson)
-    testImplementation(libs.protobuf.java)
+
+    testRuntimeOnly(libs.protobuf.java)
 }

@@ -38,6 +38,12 @@ kotlin {
             }
         }
 
+        val jvmTest by getting {
+            dependencies {
+                runtimeOnly(libs.protobuf.java) // unclear why this is needed; no tests
+            }
+        }
+
         val jsMain by getting {
             dependencies {
                 implementation(libs.kotlinx.serialization.json)

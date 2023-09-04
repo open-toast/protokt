@@ -16,11 +16,24 @@
 plugins {
     id("protokt.common-conventions")
     id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    kotlin("android")
 }
 
 javaBasedProjectConventions()
 
 repositories {
     google()
+}
+
+kotlin {
+    jvmToolchain(findVersion("java").toInt())
+}
+
+// remove after AGP 8.1.0
+// https://issuetracker.google.com/issues/260059413
+android {
+    compileOptions {
+        sourceCompatibility = JavaVersion.valueOf("VERSION_${findVersion("java").toInt()}")
+        targetCompatibility = JavaVersion.valueOf("VERSION_${findVersion("java").toInt()}")
+    }
 }

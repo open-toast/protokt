@@ -110,6 +110,7 @@ private class MapEntryGenerator(
                 )
                 .addFunction(
                     buildFunSpec("entrySize") {
+                        returns(Int::class)
                         if (key.type.sizeFn is FieldType.Method) {
                             addParameter("key", key.className)
                         }

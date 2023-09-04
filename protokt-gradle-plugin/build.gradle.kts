@@ -65,7 +65,7 @@ includeBuildSrc(
     "com/google/protobuf/gradle/*"
 )
 
-val versionOutputDir = file("$buildDir/generated-sources/protokt-version")
+val versionOutputDir = layout.buildDirectory.file("generated-sources/protokt-version")
 
 // why is this broken via sourceSets["main"].java.srcDir?
 (sourceSets["main"] as org.gradle.api.internal.HasConvention)

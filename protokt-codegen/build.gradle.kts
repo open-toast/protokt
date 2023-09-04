@@ -41,11 +41,13 @@ dependencies {
 
     implementation(libs.grpc.kotlin.stub)
     implementation(libs.grpc.stub)
+    implementation(libs.kotlinLogging)
     implementation(libs.kotlinPoet)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.ktlint)
     implementation(libs.ktlintRuleSetStandard)
     implementation(libs.protobuf.java)
+    implementation(libs.slf4jSimple)
 
     testImplementation(project(":testing:testing-util"))
 
@@ -87,5 +89,6 @@ sourceSets {
 includeBuildSrc(
     "protokt/v1/gradle/ProtoktExtension.kt",
     "protokt/v1/gradle/ProtoktVersion.kt",
-    "protokt/v1/gradle/ProtobufVersion.kt"
+    "protokt/v1/gradle/ProtobufVersion.kt",
+    "**/*.java" // don't override the protobuf-gradle-plugin; todo: fix this function to not need this
 )

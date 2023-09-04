@@ -33,5 +33,11 @@ protokt {
 kotlin {
     sourceSets {
         val commonMain by getting {}
+
+        val jvmTest by getting {
+            dependencies {
+                runtimeOnly(libs.protobuf.lite) // unclear why this is needed; no tests
+            }
+        }
     }
 }
