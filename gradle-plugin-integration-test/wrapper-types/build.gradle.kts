@@ -28,7 +28,7 @@ dependencies {
 // pin to the runtime version of protokt
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(libs.versions.java.get()).toInt())
+        languageVersion.set(JavaLanguageVersion.of(libs.versions.java.get().toInt()))
     }
 }
 
