@@ -13,25 +13,22 @@
  * limitations under the License.
  */
 
-plugins {
-    kotlin("jvm")
-    kotlin("kapt")
-}
+package com.toasttab.protokt.testing
 
-dependencies {
-    implementation("com.toasttab.protokt:protokt-core:$version")
-    implementation(libs.autoServiceAnnotations)
+import com.google.auto.service.AutoService
+import com.toasttab.protokt.ext.Converter
 
-    kapt(libs.autoService)
-}
+data class Id(val value: String)
 
-// pin to the runtime version of protokt
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(libs.versions.java.get()).toInt())
-    }
-}
+@AutoService(Converter::class)
+object IdConverter : Converter<Id, ByteArray> {
+    override val wrapper = Id::class
 
-kotlin {
-    jvmToolchain(libs.versions.java.get().toInt())
+    override val wrapped = ByteArray::class
+
+    override fun wrap(unwrapped: ByteArray) =
+        Id(String(unwrapped))
+
+    override fun unwrap(wrapped: Id) =
+        wrapped.value.toByteArray()
 }

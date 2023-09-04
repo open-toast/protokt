@@ -13,25 +13,14 @@
  * limitations under the License.
  */
 
-plugins {
-    kotlin("jvm")
-    kotlin("kapt")
-}
+syntax = "proto3";
 
-dependencies {
-    implementation("com.toasttab.protokt:protokt-core:$version")
-    implementation(libs.autoServiceAnnotations)
+package toasttab.protokt.testing;
 
-    kapt(libs.autoService)
-}
+option java_package = "com.toasttab.protokt.testing";
 
-// pin to the runtime version of protokt
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(libs.versions.java.get()).toInt())
-    }
-}
+import "protokt/protokt.proto";
 
-kotlin {
-    jvmToolchain(libs.versions.java.get().toInt())
+message WrapperTest {
+  bytes foo = 1 [(.protokt.property).wrap = "Id"];
 }
