@@ -66,7 +66,7 @@ class ConformanceTest {
     fun `run conformance tests`(runner: ConformanceRunner) {
         try {
             command(runner)
-                .runCommand(projectRoot.toPath(), libPathOverride)
+                .runCommand(projectRoot.toPath())
                 .orFail("Conformance tests failed", ProcessOutput.Src.ERR)
         } catch (t: Throwable) {
             runner.handle(t)
@@ -86,7 +86,7 @@ private fun <T> pivotOs(mac: T, linux: T) =
     }
 
 private val binDir =
-    Path.of("bin", pivotOs("darwin", "ubuntu-16.04-x86_64")).toString()
+    Path.of("bin", pivotOs("darwin", "ubuntu-20.04-x86_64")).toString()
 
 private val baseCommand =
     Path.of(binDir, "conformance-test-runner")
@@ -105,9 +105,3 @@ private fun failureList(project: String) =
 
 private fun command(runner: ConformanceTest.ConformanceRunner) =
     "$baseCommand --enforce_recommended ${failureList(runner.project)} ${runner.driver()}"
-
-private val libPathOverride =
-    mapOf(
-        pivotOs("DYLD_LIBRARY_PATH", "LD_LIBRARY_PATH") to
-            Path.of(binDir, ".libs").toString()
-    )

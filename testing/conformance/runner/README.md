@@ -19,32 +19,18 @@ cd protobuf/
 Mac conformance tests:
 
 ```sh
-protobuf % ./configure
-protobuf % make clean
-protobuf % make
-protobuf % cd conformance
-conformance % make
-conformance % cd ..
-protobuf % cp conformance/.libs/conformance-test-runner ../protokt/testing/conformance-driver/bin/darwin/conformance-test-runner
-protobuf % rm ../protokt/testing/conformance-driver/bin/darwin/.libs/*
-protobuf % cp src/.libs/libprotobuf.xx.dylib ../protokt/testing/conformance-driver/bin/darwin/.libs/
+protobuf % cmake . -DCMAKE_CXX_STANDARD=14 -Dprotobuf_BUILD_CONFORMANCE=ON && cmake --build .
+protobuf % cp bin/conformance-test-runner ../protokt/testing/conformance/runner/bin/darwin/conformance-test-runner
 ```
 
 Ubuntu conformance tests:
 
 ```sh
-protobuf % docker run -v $(pwd):/tmp -t -i ubuntu:16.04 /bin/bash
-root@38f7a53696b9:/# apt-get update && apt-get install build-essential
+protobuf % git clean -fdx
+protobuf % docker run -v $(pwd):/tmp -t -i ubuntu:20.04 /bin/bash
+root@38f7a53696b9:/# apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential cmake
 root@38f7a53696b9:/# cd tmp/
-root@38f7a53696b9:/tmp# ./configure
-root@38f7a53696b9:/tmp# make clean
-root@38f7a53696b9:/tmp# make
-root@38f7a53696b9:/tmp# cd conformance
-root@38f7a53696b9:/tmp/conformance# make
+root@38f7a53696b9:/tmp# cmake . -DCMAKE_CXX_STANDARD=14 -Dprotobuf_BUILD_CONFORMANCE=ON && cmake --build .
 root@38f7a53696b9:/tmp/conformance# exit
-protobuf % cp conformance/.libs/conformance-test-runner ../protokt/testing/conformance-driver/bin/ubuntu-16.04-x86_64/conformance-test-runner
-protobuf % rm ../protokt/testing/conformance-driver/bin/ubuntu-16.04-x86_64/.libs/*
-protobuf % cp src/.libs/libprotobuf.so.xx ../protokt/testing/conformance-driver/bin/ubuntu-16.04-x86_64/.libs/
+protobuf % cp conformance_test_runner ../protokt/testing/conformance/runner/bin/ubuntu-16.04-x86_64/conformance-test-runner
 ```
-
-Note that the `xx` version numbers on `libprotobuf.so.xx` and `libprotobuf.xx.dylib` will change.
