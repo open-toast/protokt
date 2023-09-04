@@ -15,7 +15,6 @@
 
 package protokt.v1.codegen.generate
 
-import com.google.protobuf.DescriptorProtos
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
