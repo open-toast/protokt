@@ -48,7 +48,7 @@ commands:
 
       - run:
           name: Install dependencies
-          command: DEBIAN_FRONTEND=noninteractive apk add --update alpine-sdk cmake
+          command: DEBIAN_FRONTEND=noninteractive apk add --update alpine-sdk cmake linux-headers
 
       - run:
           name: Build Protobuf
