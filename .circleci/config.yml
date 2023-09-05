@@ -48,7 +48,7 @@ commands:
 
       - run:
           name: Install dependencies
-          command: DEBIAN_FRONTEND=noninteractive apk add cmake
+          command: DEBIAN_FRONTEND=noninteractive apk add cmake && apk add g++
 
       - run:
           name: Build Protobuf
