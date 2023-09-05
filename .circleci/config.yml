@@ -56,7 +56,7 @@ commands:
     steps:
       - run:
           name: Clone Protobuf
-          command: git clone --depth 1 --branch v$(cat protobuf-version) https://github.com/protocolbuffers/protobuf.git build/ci/protobuf
+          command: git clone --depth 1 --branch v$(cat build/ci/protobuf-version) https://github.com/protocolbuffers/protobuf.git build/ci/protobuf
 
       - run:
           name: Install dependencies
