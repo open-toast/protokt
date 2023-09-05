@@ -92,6 +92,12 @@ jobs:
             apk add firefox
 
       - run:
+          name: Compile early (temp)
+          command: ./gradlew compileTestKotlin
+
+      - write_cache
+
+      - run:
           name: Build and test
           command: ./gradlew clean check publishToIntegrationRepository --stacktrace --refresh-dependencies
 
@@ -107,8 +113,6 @@ jobs:
            run:
              name: Benchmarks
              command: ./gradlew benchmarks:run
-
-      - write_cache
 
       - run:
           name: Save test results
