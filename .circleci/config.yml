@@ -44,7 +44,7 @@ commands:
     steps:
       - run:
           name: Clone Protobuf
-          command: git clone --depth 1 --branch v3.24.2 https://github.com/protocolbuffers/protobuf.git && cd protobuf/
+          command: git clone --depth 1 --branch v3.24.2 https://github.com/protocolbuffers/protobuf.git
 
       - run:
           name: Install dependencies
@@ -52,7 +52,7 @@ commands:
 
       - run:
           name: Build Protobuf
-          command: cmake . -DCMAKE_CXX_STANDARD=14 -Dprotobuf_BUILD_CONFORMANCE=ON && cmake --build .
+          command: cd protobuf && cmake . -DCMAKE_CXX_STANDARD=14 -Dprotobuf_BUILD_CONFORMANCE=ON && cmake --build .
 
 jobs:
   build:
