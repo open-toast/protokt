@@ -28,6 +28,8 @@ commands:
           key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
       - restore_cache:
           key: v1-gradle-cache-{{ checksum "build.gradle.kts" }}
+      - restore_cache:
+          key: v1-protobuf-{{ checksum "protobuf-version" }}
 
   write_cache:
     steps:
@@ -39,6 +41,16 @@ commands:
           paths:
             - ~/.gradle/caches
           key: v1-gradle-cache-{{ checksum "build.gradle.kts" }}
+      - save_cache:
+          paths:
+            - protobuf
+          key: v1-protobuf-{{ checksum "protobuf-version" }}
+
+  parse_protobuf_version:
+    steps:
+      - run:
+          name: Parse protobuf version
+          command: grep -E 'protobuf-java = "' gradle/libs.versions.toml > protobuf-version
 
   build_conformance_runner:
     steps:
@@ -59,6 +71,7 @@ jobs:
     executor: builder
     steps:
       - checkout
+      - parse_protobuf_version
       - read_cache
       - node/install
       - build_conformance_runner
