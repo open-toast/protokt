@@ -50,7 +50,7 @@ commands:
     steps:
       - run:
           name: Parse protobuf version
-          command: sed -n 's/^protobuf-java\ =\ "\(.*\)"$/\1/p' gradle/libs.versions.toml > build/ci/protobuf-version
+          command: mkdir -p build/ci/protobuf && sed -n 's/^protobuf-java\ =\ "\(.*\)"$/\1/p' gradle/libs.versions.toml > build/ci/protobuf-version && cat build/ci/protobuf-version
 
   build_conformance_runner:
     steps:
