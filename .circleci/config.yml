@@ -59,19 +59,15 @@ commands:
           command: ls ci/protobuf
       - run:
           name: Clone Protobuf
-          command: test -f ci/protobuf/conformance-test-runner || git clone --depth 1 --branch v$(cat ci/protobuf-version) https://github.com/protocolbuffers/protobuf.git ci/protobuf
+          command: test -f ci/protobuf/conformance_test_runner || git clone --depth 1 --branch v$(cat ci/protobuf-version) https://github.com/protocolbuffers/protobuf.git ci/protobuf
 
       - run:
           name: Install dependencies
-          command: test -f ci/protobuf/conformance-test-runner || DEBIAN_FRONTEND=noninteractive apk add --update alpine-sdk cmake linux-headers
+          command: test -f ci/protobuf/conformance_test_runner || DEBIAN_FRONTEND=noninteractive apk add --update alpine-sdk cmake linux-headers
 
       - run:
           name: Build Protobuf
-          command: test -f ci/protobuf/conformance-test-runner || cd ci/protobuf && git submodule update --init --recursive && cmake . -DCMAKE_CXX_STANDARD=14 -Dprotobuf_BUILD_CONFORMANCE=ON && cmake --build .
-
-      - run:
-          name: List Protobuf
-          command: ls ci/protobuf
+          command: test -f ci/protobuf/conformance_test_runner || cd ci/protobuf && git submodule update --init --recursive && cmake . -DCMAKE_CXX_STANDARD=14 -Dprotobuf_BUILD_CONFORMANCE=ON && cmake --build .
 
 jobs:
   build:

@@ -89,7 +89,7 @@ private val binDir =
     pivotOs(Path.of("bin", "darwin"), Path.of(projectRoot.parentFile.parentFile.parentFile.absolutePath, "ci", "protobuf")).toString()
 
 private val baseCommand =
-    Path.of(binDir, "conformance-test-runner")
+    Path.of(binDir, pivotOs("conformance-test-runner", "conformance_test_runner"))
 
 private val jvmConformanceDriver =
     Path.of(File(projectRoot.parentFile, "jvm").absolutePath, "build", "install", "protokt-conformance", "bin", "protokt-conformance")
