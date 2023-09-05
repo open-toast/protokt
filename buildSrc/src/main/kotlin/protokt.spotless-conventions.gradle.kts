@@ -30,6 +30,7 @@ allprojects {
             ktlint().editorConfigOverride(editorConfigOverride)
             target("**/*.kt")
             targetExclude(
+                "protobuf/**",
                 "buildSrc/build/generated-sources/**",
                 "**/generated/**",
                 "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/compiler/plugin.kt",
@@ -65,6 +66,7 @@ allprojects {
                 "(package |@file|import |fun )"
             )
             targetExclude(
+                "protobuf/**",
                 "**/generated/source/proto/*/protokt/**",
                 "**/build/generated-sources/kotlin-dsl-*/**",
                 "**/protokt/v1/animals/**",
@@ -77,6 +79,7 @@ allprojects {
             target("**/*.proto")
             targetExclude(
                 listOf(
+                    "protobuf/**",
                     "benchmarks/schema/src/main/resources/schema/benchmarks.proto",
                     "examples/protos/src/main/proto/animals/dog.proto",
                     "examples/protos/src/main/proto/animals/pig.proto",

@@ -50,13 +50,13 @@ commands:
     steps:
       - run:
           name: Parse protobuf version
-          command: grep -E 'protobuf-java = "' gradle/libs.versions.toml > protobuf-version
+          command: sed -n 's/^protobuf-java\ =\ "\(.*\)"$/\1/p' gradle/libs.versions.toml > protobuf-version
 
   build_conformance_runner:
     steps:
       - run:
           name: Clone Protobuf
-          command: git clone --depth 1 --branch v3.24.2 https://github.com/protocolbuffers/protobuf.git
+          command: git clone --depth 1 --branch v$(cat protobuf-version) https://github.com/protocolbuffers/protobuf.git
 
       - run:
           name: Install dependencies
