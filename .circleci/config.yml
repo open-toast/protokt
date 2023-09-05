@@ -48,11 +48,11 @@ commands:
 
       - run:
           name: Install dependencies
-          command: DEBIAN_FRONTEND=noninteractive apk add cmake && apk add g++
+          command: DEBIAN_FRONTEND=noninteractive apk add cmake gcc g++
 
       - run:
           name: Build Protobuf
-          command: cd protobuf && cmake . -DCMAKE_CXX_STANDARD=14 -Dprotobuf_BUILD_CONFORMANCE=ON && cmake --build .
+          command: cd protobuf && git submodule update --init --recursive && cmake . -DCMAKE_CXX_STANDARD=14 -Dprotobuf_BUILD_CONFORMANCE=ON && cmake --build .
 
 jobs:
   build:
