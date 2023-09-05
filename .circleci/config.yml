@@ -48,7 +48,7 @@ commands:
 
       - run:
           name: Install dependencies
-          command: apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential cmake
+          command: sudo apt-get update && DEBIAN_FRONTEND=noninteractive sudo apt-get install -y build-essential cmake
 
       - run:
           name: Build Protobuf
