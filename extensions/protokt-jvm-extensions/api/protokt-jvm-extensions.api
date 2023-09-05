@@ -1,0 +1,9 @@
+public final class protokt/v1/InetSocketAddressProto {
+	public static final field INSTANCE Lprotokt/v1/InetSocketAddressProto;
+	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
+}
+
+public final class protokt/v1/Inet_socket_address_descriptorsKt {
+	public static final fun getDescriptor (Lprotokt/v1/InetSocketAddress$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+}
+

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2019 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,25 +16,25 @@
 import de.undercouch.gradle.tasks.download.Download
 
 plugins {
-    id("de.undercouch.download")
+    alias(libs.plugins.download)
 }
 
-val archive = file("$buildDir/datasets-${versions.datasets}.zip")
+val archive = layout.buildDirectory.file("datasets-${libs.versions.datasets.get()}.zip")
 
 tasks.register<Download>("download") {
-    enabled = !archive.exists()
+    enabled = !archive.get().asFile.exists()
 
-    src("https://proto-benchmarks.s3.amazonaws.com/datasets-${versions.datasets}.zip")
+    src("https://proto-benchmarks.s3.amazonaws.com/datasets-${libs.versions.datasets.get()}.zip")
     tempAndMove(true)
-    dest(buildDir)
+    dest(layout.buildDirectory)
 }
 
 tasks.register<Copy>("datasets") {
     dependsOn("download")
-    enabled = !archive.exists()
+    enabled = !archive.get().asFile.exists()
 
     from(zipTree(archive))
-    into(file("$buildDir/datasets"))
+    into(layout.buildDirectory.file("datasets"))
 }
 
 tasks.register("run") {

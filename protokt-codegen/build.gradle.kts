@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2019 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,7 @@
  */
 
 import com.google.protobuf.gradle.proto
-import com.toasttab.protokt.gradle.CODEGEN_NAME
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import protokt.v1.gradle.CODEGEN_NAME
 
 plugins {
     id("protokt.jvm-conventions")
@@ -23,39 +22,37 @@ plugins {
     application
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        languageVersion = "1.6"
-        apiVersion = "1.6"
-    }
-}
+defaultProtoc()
 
 enablePublishing(defaultJars = false)
 
 application {
     applicationName = CODEGEN_NAME
-    mainClass.set("com.toasttab.protokt.MainKt")
+    mainClass.set("protokt.v1.codegen.MainKt")
 }
 
 dependencies {
     implementation(project(":extensions:protokt-extensions-api"))
     implementation(project(":protokt-runtime"))
     implementation(project(":protokt-runtime-grpc-lite"))
-    implementation(project(":protokt-util"))
+    implementation(project(":grpc-kotlin-shim"))
 
     implementation(kotlin("reflect"))
 
-    implementation(libraries.arrow)
-    implementation(libraries.grpcStub)
-    implementation(libraries.kotlinPoet)
-    implementation(libraries.kotlinxCollections)
-    implementation(libraries.kotlinxCoroutinesCore)
-    implementation(libraries.protobufJava)
+    implementation(libs.grpc.kotlin.stub)
+    implementation(libs.grpc.stub)
+    implementation(libs.kotlinLogging)
+    implementation(libs.kotlinPoet)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.ktlint)
+    implementation(libs.ktlintRuleSetStandard)
+    implementation(libs.protobuf.java)
+    implementation(libs.slf4jSimple)
 
     testImplementation(project(":testing:testing-util"))
 
-    testImplementation(libraries.junit)
-    testImplementation(libraries.truth)
+    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.truth)
 }
 
 configure<PublishingExtension> {
@@ -75,12 +72,6 @@ configure<PublishingExtension> {
     }
 }
 
-protobuf {
-    protoc {
-        artifact = libraries.protoc
-    }
-}
-
 tasks.withType<Test> {
     afterEvaluate {
         environment("PROTOC_PATH", configurations.named("protobufToolsLocator_protoc").get().singleFile)
@@ -94,3 +85,10 @@ sourceSets {
         }
     }
 }
+
+includeBuildSrc(
+    "protokt/v1/gradle/ProtoktExtension.kt",
+    "protokt/v1/gradle/ProtoktVersion.kt",
+    "protokt/v1/gradle/ProtobufVersion.kt",
+    "**/*.java" // don't override the protobuf-gradle-plugin; todo: fix this function to not need this
+)

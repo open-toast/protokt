@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2019 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,42 +13,42 @@
  * limitations under the License.
  */
 
-import com.google.protobuf.gradle.proto
 import com.google.protobuf.gradle.protobuf
-import com.toasttab.protokt.gradle.protokt
+import protokt.v1.gradle.protokt
 
 plugins {
-    id("protokt.jvm-conventions")
-    kotlin("kapt")
+    id("protokt.multiplatform-conventions")
 }
 
 localProtokt()
-pureKotlin()
 enablePublishing()
 compatibleWithAndroid()
 trackKotlinApiCompatibility()
 
 protokt {
-    onlyGenerateDescriptors = true
+    generate {
+        types = false
+    }
+}
+
+kotlin {
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                api(project(":extensions:protokt-extensions-api"))
+                api(project(":protokt-core-lite"))
+            }
+        }
+
+        val jvmMain by getting {
+            dependencies {
+                implementation(kotlin("reflect"))
+            }
+        }
+    }
 }
 
 dependencies {
-    api(project(":extensions:protokt-extensions-api"))
-    api(project(":protokt-core-lite"))
-
-    protobuf(libraries.protobufJava)
-    compileOnly(libraries.protobufJava)
-
-    implementation(libraries.autoServiceAnnotations)
-    implementation(kotlin("reflect"))
-
-    kapt(libraries.autoService)
-}
-
-sourceSets {
-    main {
-        proto {
-            srcDir("../protokt-runtime/src/main/resources")
-        }
-    }
+    protobuf(libs.protobuf.java)
+    protobuf(files("../protokt-runtime/src/main/resources"))
 }

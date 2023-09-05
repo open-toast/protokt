@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Toast Inc.
+ * Copyright (c) 2021 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-import com.toasttab.protokt.gradle.protokt
-import com.toasttab.protokt.gradle.protoktExtensions
+import protokt.v1.gradle.protokt
+import protokt.v1.gradle.protoktExtensions
 
 plugins {
     id("protokt.jvm-conventions")
@@ -24,7 +24,9 @@ localProtokt()
 pureKotlin()
 
 protokt {
-    lite = true
+    generate {
+        lite()
+    }
 }
 
 dependencies {
@@ -32,4 +34,6 @@ dependencies {
 
     testImplementation(kotlin("reflect"))
     testImplementation(project(":protokt-util"))
+
+    testRuntimeOnly(libs.protobuf.lite)
 }

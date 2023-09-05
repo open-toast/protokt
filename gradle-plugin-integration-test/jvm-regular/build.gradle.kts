@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Toast Inc.
+ * Copyright (c) 2021 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,11 +13,13 @@
  * limitations under the License.
  */
 
-import com.toasttab.protokt.gradle.protoktExtensions
-
 plugins {
-    id("org.jetbrains.kotlin.jvm")
-    id("com.toasttab.protokt")
+    kotlin("jvm")
+    id("com.toasttab.protokt.v1")
+}
+
+protokt {
+    formatOutput = false // https://github.com/pinterest/ktlint/issues/1195
 }
 
 tasks {
@@ -27,10 +29,34 @@ tasks {
 }
 
 dependencies {
-    protoktExtensions("com.toasttab.protokt:protokt-extensions:$version")
+    protoktExtensions("com.toasttab.protokt:protokt-jvm-extensions:$version")
 
     testImplementation(kotlin("test-junit5"))
-    testImplementation("org.junit.jupiter:junit-jupiter:5.7.2")
-    testImplementation("com.google.protobuf:protobuf-java:3.19.1")
-    testImplementation("com.toasttab.protokt:protokt-util:$version")
+    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.protobuf.java)
+}
+
+sourceSets {
+    main {
+        proto {
+            srcDir("../multiplatform/src/main/proto")
+        }
+    }
+    test {
+        java {
+            val common = "../multiplatform/src/commonTest/kotlin"
+            check(file(common).exists())
+            srcDir(common)
+        }
+    }
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(System.getProperty("java-integration.version", libs.versions.java.get()).toInt()))
+    }
+}
+
+kotlin {
+    jvmToolchain(System.getProperty("java-integration.version", libs.versions.java.get()).toInt())
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Toast Inc.
+ * Copyright (c) 2020 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,26 +13,41 @@
  * limitations under the License.
  */
 
-import com.google.protobuf.gradle.protobuf
-import com.toasttab.protokt.gradle.protokt
+import protokt.v1.gradle.protokt
 
 plugins {
-    id("protokt.jvm-conventions")
+    id("protokt.multiplatform-conventions")
 }
 
 localProtokt()
-pureKotlin()
 enablePublishing()
+compatibleWithAndroid()
 trackKotlinApiCompatibility()
 
 protokt {
-    onlyGenerateDescriptors = true
+    generate {
+        types = false
+    }
+}
+
+kotlin {
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                api(project(":third-party:proto-google-common-protos-lite"))
+            }
+        }
+
+        val commonTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+            }
+        }
+
+        js(IR) { configureJsTests() }
+    }
 }
 
 dependencies {
-    protobuf(libraries.protoGoogleCommonProtos) {
-        exclude(group = "com.google.protobuf", module = "protobuf-java")
-    }
-
-    api(project(":third-party:proto-google-common-protos-lite"))
+    protobufExcludingProtobufJava(libs.protoGoogleCommonProtos)
 }

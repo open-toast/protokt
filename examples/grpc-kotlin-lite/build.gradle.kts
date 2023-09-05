@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Toast Inc.
+ * Copyright (c) 2021 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,8 @@
  * limitations under the License.
  */
 
-import com.google.protobuf.gradle.ProtobufExtension
-import com.google.protobuf.gradle.id
 import com.google.protobuf.gradle.protobuf
-import com.toasttab.protokt.gradle.protokt
+import protokt.v1.gradle.protokt
 
 plugins {
     id("protokt.grpc-examples-conventions")
@@ -26,52 +24,42 @@ localProtokt()
 pureKotlin()
 
 protokt {
-    generateGrpc = true
-    lite = true
-}
-
-configure<ProtobufExtension> {
-    plugins {
-        id("grpckt") {
-            artifact = libraries.grpcKotlinGenerator
-        }
-    }
-
-    generateProtoTasks {
-        all().forEach {
-            it.plugins {
-                id("grpckt")
-            }
-        }
+    generate {
+        types = false
+        descriptors = false
+        grpcDescriptors = true
+        grpcKotlinStubs = true
     }
 }
 
 dependencies {
     protobuf(project(":examples:protos"))
 
-    implementation(libraries.grpcKotlin)
-    implementation(libraries.jackson)
-    implementation(libraries.kotlinxCoroutinesCore)
+    implementation(project(":examples:protos"))
+    implementation(libs.grpc.kotlin.stub)
+    implementation(libs.kotlinx.coroutines.core)
 
-    runtimeOnly(libraries.protobufLite)
+    runtimeOnly(libs.protobuf.lite)
 
     testImplementation(kotlin("test-junit"))
+    testImplementation(libs.grpc.testing)
     testImplementation(project(":protokt-util"))
-    testImplementation("io.grpc:grpc-testing:${versions.grpc}")
 }
 
 sourceSets {
     main {
         java {
             srcDir("../grpc-kotlin/src/main/kotlin")
-            srcDir("../protos/src/main/kotlin")
+        }
+        resources {
+            srcDir("../protos/src/main/resources")
         }
     }
 
     test {
         java {
             srcDir("../grpc-kotlin/src/test/kotlin")
-            srcDir("../../testing/plugin-options/lite/src/test/kotlin/com/toasttab/protokt/testing/lite")
+            srcDir(liteOptionTestSourceDir())
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast Inc.
+ * Copyright (c) 2022 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ enablePublishing()
 trackKotlinApiCompatibility()
 
 dependencies {
-    api(project(":extensions:protokt-extensions"))
+    api(project(":extensions:protokt-jvm-extensions"))
     api(project(":third-party:proto-google-common-protos"))
     api(project(":third-party:proto-google-common-protos-extensions-lite"))
 }

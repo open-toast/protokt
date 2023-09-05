@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Toast Inc.
+ * Copyright (c) 2021 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,17 +13,34 @@
  * limitations under the License.
  */
 
+import com.google.protobuf.gradle.protobuf
+import protokt.v1.gradle.protokt
+
 plugins {
     id("protokt.grpc-examples-conventions")
 }
 
-dependencies {
-    implementation(project(":examples:protos"))
-    implementation(libraries.grpcKotlin)
-    implementation(libraries.kotlinxCoroutinesCore)
+localProtokt()
+pureKotlin()
 
-    runtimeOnly(libraries.protobufJava)
+protokt {
+    generate {
+        types = false
+        descriptors = true
+        grpcDescriptors = true
+        grpcKotlinStubs = true
+    }
+}
+
+dependencies {
+    protobuf(project(":examples:protos"))
+
+    implementation(project(":examples:protos"))
+    implementation(libs.grpc.kotlin.stub)
+    implementation(libs.kotlinx.coroutines.core)
+
+    runtimeOnly(libs.protobuf.java)
 
     testImplementation(kotlin("test-junit"))
-    testImplementation("io.grpc:grpc-testing:${versions.grpc}")
+    testImplementation(libs.grpc.testing)
 }

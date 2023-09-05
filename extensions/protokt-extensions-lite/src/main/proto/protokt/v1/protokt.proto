@@ -1,0 +1,196 @@
+/*
+ * Copyright (c) 2019 Toast, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto3";
+
+package protokt.v1;
+
+import "google/protobuf/descriptor.proto";
+
+option java_package = "com.toasttab.protokt.v1";
+option java_outer_classname = "ProtoktProto";
+
+message ProtoktFileOptions {
+  // Specify the name of the Kotlin object that contains the reference to this
+  // file's FileDescriptor object.
+  string file_descriptor_object_name = 1;
+}
+
+extend google.protobuf.FileOptions {
+  ProtoktFileOptions file = 1072;
+}
+
+message ProtoktMessageOptions {
+  // Declares that the message class implements an interface. Scoping rules
+  // are the same as those for declaring wrapper types.
+  string implements = 1;
+
+  // Provides a message for deprecation
+  string deprecation_message = 2;
+}
+
+extend google.protobuf.MessageOptions {
+  ProtoktMessageOptions class = 1072;
+}
+
+message ProtoktFieldOptions {
+  // Makes a message-type field non-nullable in the generated Kotlin code.
+  // Beware that deserialization will NPE if the field is missing from the
+  // protobuf payload. Adding a non-null field to an existing message is a
+  // backwards-incompatible change.
+  //
+  // For example:
+  //
+  // message Foo {
+  //   string id = 1 [(protokt.property).non_null = true];
+  // }
+  bool non_null = 1;
+
+  // Expose a wrapper class instead of a raw protobuf type.
+  //
+  // For example:
+  //
+  // message Foo {
+  //   string id = 1 [(protokt.property).wrap = "com.foo.FooId"];
+  // }
+  //
+  // data class FooId(val value: String)
+  //
+  // will yield:
+  // class Foo(val id: FooId) ...
+  //
+  // If the Kotlin package (or Java package, if the Kotlin package is
+  // unspecified) of this file is the same as the package of the wrapper type,
+  // full qualification is optional.
+  //
+  // This option can be applied to repeated fields.
+  string wrap = 2;
+
+  // Maps a bytes field to BytesSlice. If deserialized from a byte array,
+  // BytesSlice will point to the source array without copying the subarray.
+  bool bytes_slice = 3;
+
+  // Provides a message for deprecation
+  string deprecation_message = 4;
+
+  // Expose a wrapper class instead of a raw protobuf type for the key type of
+  // a map.
+  //
+  // For example:
+  //
+  // message Foo {
+  //   map<string, int32> map = 1 [(protokt.property).key_wrap = "com.foo.FooId"];
+  // }
+  //
+  // data class FooId(val value: String)
+  //
+  // will yield:
+  // class Foo(val map: Map<FooId, String>) ...
+  //
+  // Scoping rules  are the same as those for declaring regular field wrapper types.
+  string key_wrap = 5;
+
+  // Expose a wrapper class instead of a raw protobuf type for the value type of
+  // a map.
+  //
+  // For example:
+  //
+  // message Foo {
+  //   map<int32, strig> map = 1 [(protokt.property).value_wrap = "com.foo.FooId"];
+  // }
+  //
+  // data class FooId(val value: String)
+  //
+  // will yield:
+  // class Foo(val map: Map<Int, FooId>) ...
+  //
+  // Scoping rules  are the same as those for declaring regular field wrapper types.
+  string value_wrap = 6;
+}
+
+extend google.protobuf.FieldOptions {
+  ProtoktFieldOptions property = 1072;
+}
+
+message ProtoktOneofOptions {
+  // Makes a oneof field non-nullable in generated Kotlin code. Beware that
+  // deserialization will NPE if the field is missing from the protobuf payload.
+  // Adding a non-null field to an existing message is a backwards-incompatible
+  // change.
+  //
+  // For example:
+  //
+  // message Message {
+  //   oneof some_field_name {
+  //     option (protokt.oneof).non_null = true;
+  //
+  //     string id = 1;
+  //   }
+  // }
+  //
+  bool non_null = 1;
+
+  // Make the sealed class implement an interface, enforcing the presence of a
+  // property in each possible variant. Scoping rules  are the same as those
+  // for declaring wrapper types.
+  string implements = 2;
+
+  // Provides a message for deprecation
+  string deprecation_message = 3;
+}
+
+extend google.protobuf.OneofOptions {
+  ProtoktOneofOptions oneof = 1072;
+}
+
+message ProtoktEnumOptions {
+  // Provides a message for deprecation
+  string deprecation_message = 1;
+}
+
+extend google.protobuf.EnumOptions {
+  ProtoktEnumOptions enum = 1072;
+}
+
+message ProtoktEnumValueOptions {
+  // Provides a message for deprecation
+  string deprecation_message = 1;
+}
+
+extend google.protobuf.EnumValueOptions {
+  ProtoktEnumValueOptions enum_value = 1072;
+}
+
+message ProtoktServiceOptions {}
+
+extend google.protobuf.ServiceOptions {
+  ProtoktServiceOptions service = 1072;
+}
+
+message ProtoktMethodOptions {
+  // Provides a custom request marshaller for the generated method descriptor.
+  // Substitutes the provided expression directly for
+  // `com.toasttab.protokt.grpc.KtMarshaller(<request_type>)`
+  string request_marshaller = 1;
+
+  // Provides a custom response marshaller for the generated method descriptor.
+  // Substitutes the provided expression directly for
+  // `com.toasttab.protokt.grpc.KtMarshaller(<response_type>)`
+  string response_marshaller = 2;
+}
+
+extend google.protobuf.MethodOptions {
+  ProtoktMethodOptions method = 1072;
+}

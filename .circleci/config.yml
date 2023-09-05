@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  node: circleci/node@5.0.2
+
 parameters:
   benchmarks:
     type: boolean
@@ -16,7 +19,7 @@ executors:
       - image: alvrme/alpine-android:android-31-jdk<<parameters.jdk>>
     environment:
       GRADLE_OPTS: "-Dorg.gradle.daemon=false"
-    resource_class: medium+
+    resource_class: large
 
 commands:
   read_cache:
@@ -25,6 +28,8 @@ commands:
           key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
       - restore_cache:
           key: v1-gradle-cache-{{ checksum "build.gradle.kts" }}
+      - restore_cache:
+          key: v2-protobuf-{{ checksum "ci/protobuf-version" }}
 
   write_cache:
     steps:
@@ -36,17 +41,62 @@ commands:
           paths:
             - ~/.gradle/caches
           key: v1-gradle-cache-{{ checksum "build.gradle.kts" }}
+      - save_cache:
+          paths:
+            - ci/protobuf
+          key: v2-protobuf-{{ checksum "ci/protobuf-version" }}
+
+  parse_protobuf_version:
+    steps:
+      - run:
+          name: Parse protobuf version
+          command: mkdir -p ci/protobuf && sed -n 's/^protobuf-java\ =\ "\(.*\)"$/\1/p' gradle/libs.versions.toml > ci/protobuf-version && cat ci/protobuf-version
+
+  build_conformance_runner:
+    steps:
+      - run:
+          name: List Protobuf 1
+          command: ls ci/protobuf
+      - run:
+          name: Clone Protobuf
+          command: test -f ci/protobuf/conformance_test_runner || git clone --depth 1 --branch v$(cat ci/protobuf-version) https://github.com/protocolbuffers/protobuf.git ci/protobuf
+
+      - run:
+          name: Install dependencies
+          command: test -f ci/protobuf/conformance_test_runner || DEBIAN_FRONTEND=noninteractive apk add --update alpine-sdk cmake linux-headers
+
+      - run:
+          name: Build Protobuf
+          command: ./build_protobuf.sh
 
 jobs:
   build:
     executor: builder
     steps:
       - checkout
+      - parse_protobuf_version
       - read_cache
+      - node/install
+      - build_conformance_runner
+
+      - run:
+          name: Install protobufjs
+          command: |
+            npm install protobufjs@6.11.3
+
+      - run:
+          name: Install long.js
+          command: |
+            npm install long@5.2.0
+
+      - run:
+          name: Install Firefox
+          command: |
+            apk add firefox
 
       - run:
           name: Build and test
-          command: ./gradlew clean check publishToIntegrationRepository --stacktrace
+          command: ./gradlew clean check publishToIntegrationRepository --stacktrace --refresh-dependencies
 
       - persist_to_workspace:
           root: build/repos
@@ -72,6 +122,7 @@ jobs:
 
       - store_test_results:
           path: ~/test-results
+
       - store_artifacts:
           path: ~/test-results/junit
 
@@ -89,13 +140,42 @@ jobs:
     steps:
       - checkout
       - read_cache
+      - node/install
+
+      - run:
+          name: Install protobufjs
+          command: |
+            npm install protobufjs@6.11.3
+
+      - run:
+          name: Install long.js
+          command: |
+            npm install long@5.2.0
+
+      - run:
+          name: Install Firefox
+          command: |
+            apk add firefox
 
       - attach_workspace:
           at: build/repos
 
       - run:
           name: Integration tests
-          command: cd gradle-plugin-integration-test && ./gradlew clean build -Dkotlin.version=<<parameters.kotlin>> --stacktrace
+          command: cd gradle-plugin-integration-test && ./gradlew clean build -Dkotlin-integration.version=<<parameters.kotlin>> -Djava-integration.version=<<parameters.jdk>> --stacktrace
+
+      - run:
+          name: Save test results
+          command: |
+            mkdir -p ~/test-results/junit/
+            find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
+          when: always
+
+      - store_test_results:
+          path: ~/test-results
+
+      - store_artifacts:
+          path: ~/test-results/junit
 
   release:
     executor: builder
@@ -103,8 +183,8 @@ jobs:
       - checkout
       - read_cache
       - run:
-            name: Publish release
-            command: "./gradlew build -x test publishToRemote publishPlugins -Dorg.gradle.internal.http.socketTimeout=120000 -Dorg.gradle.internal.network.retry.max.attempts=1 -Dorg.gradle.internal.publish.checksums.insecure=true"
+          name: Publish release
+          command: "./gradlew publish publishPlugins -Dorg.gradle.internal.http.socketTimeout=120000 -Dorg.gradle.internal.network.retry.max.attempts=1 -Dorg.gradle.internal.publish.checksums.insecure=true"
       - run:
           name: Finalize release
           command: "./gradlew closeAndReleaseRepository -Dorg.gradle.internal.http.socketTimeout=120000 -Dorg.gradle.internal.network.retry.max.attempts=1 -Dorg.gradle.internal.publish.checksums.insecure=true"
@@ -121,8 +201,8 @@ workflows:
             - build
           matrix:
             parameters:
-              jdk: ["8", "11", "17"]
-              kotlin: ["1.6.21", "1.7.21", "1.8.22"]
+              jdk: ["11", "17"]
+              kotlin: ["1.8.22", "1.9.10"]
       - release:
           context: OSS
           filters:

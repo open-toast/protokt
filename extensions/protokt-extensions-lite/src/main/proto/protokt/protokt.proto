@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2019 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,8 @@ option java_package = "com.toasttab.protokt.ext";
 option java_outer_classname = "ProtoktProto";
 
 message ProtoktFileOptions {
+  option deprecated = true;
+
   // Specify the Kotlin package for the generated file. Precedence is given
   // first to this Kotlin package, then to the Java package if enabled in
   // the plugin options, and finally to the protobuf package.
@@ -38,6 +40,8 @@ extend google.protobuf.FileOptions {
 }
 
 message ProtoktMessageOptions {
+  option deprecated = true;
+
   // Declares that the message class implements an interface. Scoping rules
   // are the same as those for declaring wrapper types.
   string implements = 1;
@@ -51,6 +55,8 @@ extend google.protobuf.MessageOptions {
 }
 
 message ProtoktFieldOptions {
+  option deprecated = true;
+
   // Makes a message-type field non-nullable in the generated Kotlin code.
   // Beware that deserialization will NPE if the field is missing from the
   // protobuf payload. Adding a non-null field to an existing message is a
@@ -130,6 +136,8 @@ extend google.protobuf.FieldOptions {
 }
 
 message ProtoktOneofOptions {
+  option deprecated = true;
+
   // Makes a oneof field non-nullable in generated Kotlin code. Beware that
   // deserialization will NPE if the field is missing from the protobuf payload.
   // Adding a non-null field to an existing message is a backwards-incompatible
@@ -161,6 +169,8 @@ extend google.protobuf.OneofOptions {
 }
 
 message ProtoktEnumOptions {
+  option deprecated = true;
+
   // Provides a message for deprecation
   string deprecation_message = 1;
 }
@@ -170,6 +180,8 @@ extend google.protobuf.EnumOptions {
 }
 
 message ProtoktEnumValueOptions {
+  option deprecated = true;
+
   // Provides a message for deprecation
   string deprecation_message = 1;
 }
@@ -178,13 +190,17 @@ extend google.protobuf.EnumValueOptions {
   ProtoktEnumValueOptions enum_value = 1072;
 }
 
-message ProtoktServiceOptions {}
+message ProtoktServiceOptions {
+  option deprecated = true;
+}
 
 extend google.protobuf.ServiceOptions {
   ProtoktServiceOptions service = 1072;
 }
 
 message ProtoktMethodOptions {
+  option deprecated = true;
+
   // Provides a custom request marshaller for the generated method descriptor.
   // Substitutes the provided expression directly for
   // `com.toasttab.protokt.grpc.KtMarshaller(<request_type>)`

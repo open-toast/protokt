@@ -3,8 +3,18 @@ public final class com/toasttab/protokt/thirdparty/ext/LocalDateGoogleConverter 
 	public fun getWrapped ()Lkotlin/reflect/KClass;
 	public fun getWrapper ()Lkotlin/reflect/KClass;
 	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
-	public fun unwrap (Ljava/time/LocalDate;)Lcom/google/type/Date;
-	public fun wrap (Lcom/google/type/Date;)Ljava/time/LocalDate;
+	public fun unwrap (Ljava/time/LocalDate;)Lprotokt/v1/google/type/Date;
 	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun wrap (Lprotokt/v1/google/type/Date;)Ljava/time/LocalDate;
+}
+
+public final class protokt/v1/google/type/LocalDateConverter : protokt/v1/Converter {
+	public static final field INSTANCE Lprotokt/v1/google/type/LocalDateConverter;
+	public fun getWrapped ()Lkotlin/reflect/KClass;
+	public fun getWrapper ()Lkotlin/reflect/KClass;
+	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun unwrap (Ljava/time/LocalDate;)Lprotokt/v1/google/type/Date;
+	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun wrap (Lprotokt/v1/google/type/Date;)Ljava/time/LocalDate;
 }
 

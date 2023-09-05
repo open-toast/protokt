@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast Inc.
+ * Copyright (c) 2022 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,18 +15,18 @@
 
 syntax = "proto2";
 
-package toasttab.protokt.codegen.testing;
+package toasttab.protokt.v1.codegen.testing;
 
-import "protokt/protokt.proto";
+import "protokt/v1/protokt.proto";
 
 message TestMessageWithBadNonNullOptionalField {
   optional REPLACE value = 1 [
-    (.protokt.property).non_null = true
+    (.protokt.v1.property).non_null = true
   ];
-
-  enum Foo {
-    FOO = 0;
-  }
-
-  message Bar {}
 }
+
+enum Foo {
+  FOO = 0;
+}
+
+message Bar {}

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast Inc.
+ * Copyright (c) 2022 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,22 +13,7 @@
  * limitations under the License.
  */
 
-import com.toasttab.protokt.gradle.MANIFEST_VERSION_PROPERTY
-import org.gradle.jvm.tasks.Jar
-import org.gradle.kotlin.dsl.attributes
-
-plugins {
-    idea
-}
+plugins { idea }
 
 version = rootProject.version
-
-tasks {
-    withType<Jar> {
-        manifest {
-            attributes(
-                MANIFEST_VERSION_PROPERTY to "${project.version}"
-            )
-        }
-    }
-}
+group = "com.toasttab.protokt"

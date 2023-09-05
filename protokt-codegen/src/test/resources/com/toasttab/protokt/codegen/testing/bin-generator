@@ -1,2 +1,0 @@
-#!/usr/bin/env bash
-exec cat > protokt-codegen/src/test/resources/com/toasttab/protokt/test-proto-bin-request.bin

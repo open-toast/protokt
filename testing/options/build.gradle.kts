@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2019 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-import com.toasttab.protokt.gradle.protokt
-import com.toasttab.protokt.gradle.protoktExtensions
+import protokt.v1.gradle.protokt
+import protokt.v1.gradle.protoktExtensions
 
 plugins {
     id("protokt.jvm-conventions")
@@ -24,17 +24,20 @@ localProtokt()
 pureKotlin()
 
 protokt {
-    generateGrpc = true
+    generate {
+        grpcDescriptors = true
+    }
 }
 
 dependencies {
     protoktExtensions(project(":testing:options-api"))
-    protoktExtensions(project(":testing:runtime-tests"))
     protoktExtensions(project(":third-party:proto-google-common-protos-extensions"))
 
-    implementation(libraries.grpcStub)
+    implementation(libs.grpc.stub)
     implementation(project(":protokt-runtime-grpc-lite"))
 
     testImplementation(kotlin("reflect"))
-    testImplementation(libraries.protobufJava)
+    testImplementation(project(":testing:protokt-generation"))
+
+    testRuntimeOnly(libs.protobuf.java)
 }

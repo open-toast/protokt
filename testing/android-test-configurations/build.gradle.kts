@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Toast Inc.
+ * Copyright (c) 2021 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,9 @@ plugins {
 }
 
 android {
-    compileSdkVersion(31)
+    namespace = "com.toasttab.protokt.testing.android"
+    compileSdk = 31
+    namespace = "com.toasttab.protokt.v1.testing.android"
 
     sourceSets["test"].java.srcDir("../android/src/test/java")
 }
@@ -27,5 +29,5 @@ localProtokt()
 pureKotlin()
 
 dependencies {
-    testImplementation(libraries.protobufLite)
+    testRuntimeOnly(libs.protobuf.lite)
 }
