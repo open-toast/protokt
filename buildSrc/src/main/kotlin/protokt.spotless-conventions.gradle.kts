@@ -30,7 +30,7 @@ allprojects {
             ktlint().editorConfigOverride(editorConfigOverride)
             target("**/*.kt")
             targetExclude(
-                "**/build/ci/protobuf/**",
+                "**/ci/protobuf/**",
                 "buildSrc/build/generated-sources/**",
                 "**/generated/**",
                 "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/compiler/plugin.kt",
@@ -66,7 +66,7 @@ allprojects {
                 "(package |@file|import |fun )"
             )
             targetExclude(
-                "**/build/ci/protobuf/**",
+                "**/ci/protobuf/**",
                 "**/generated/source/proto/*/protokt/**",
                 "**/build/generated-sources/kotlin-dsl-*/**",
                 "**/protokt/v1/animals/**",
@@ -92,7 +92,7 @@ allprojects {
                     "node_modules/**" +
                     "**/build/extracted-include-protos/**" +
                     "**/build/resources/**" +
-                    "**/build/ci/protobuf/**"
+                    "**/ci/protobuf/**"
             )
             licenseHeaderFile(
                 rootProject.file("gradle/license-header-c-style"),

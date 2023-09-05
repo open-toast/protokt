@@ -29,7 +29,7 @@ commands:
       - restore_cache:
           key: v1-gradle-cache-{{ checksum "build.gradle.kts" }}
       - restore_cache:
-          key: v1-protobuf-{{ checksum "build/ci/protobuf-version" }}
+          key: v1-protobuf-{{ checksum "ci/protobuf-version" }}
 
   write_cache:
     steps:
@@ -44,19 +44,19 @@ commands:
       - save_cache:
           paths:
             - build/ci/protobuf
-          key: v1-protobuf-{{ checksum "build/ci/protobuf-version" }}
+          key: v1-protobuf-{{ checksum "ci/protobuf-version" }}
 
   parse_protobuf_version:
     steps:
       - run:
           name: Parse protobuf version
-          command: mkdir -p build/ci/protobuf && sed -n 's/^protobuf-java\ =\ "\(.*\)"$/\1/p' gradle/libs.versions.toml > build/ci/protobuf-version && cat build/ci/protobuf-version
+          command: mkdir -p ci/protobuf && sed -n 's/^protobuf-java\ =\ "\(.*\)"$/\1/p' gradle/libs.versions.toml > ci/protobuf-version && cat ci/protobuf-version
 
   build_conformance_runner:
     steps:
       - run:
           name: Clone Protobuf
-          command: git clone --depth 1 --branch v$(cat build/ci/protobuf-version) https://github.com/protocolbuffers/protobuf.git build/ci/protobuf
+          command: git clone --depth 1 --branch v$(cat ci/protobuf-version) https://github.com/protocolbuffers/protobuf.git ci/protobuf
 
       - run:
           name: Install dependencies
@@ -64,7 +64,7 @@ commands:
 
       - run:
           name: Build Protobuf
-          command: cd build/ci/protobuf && git submodule update --init --recursive && cmake . -DCMAKE_CXX_STANDARD=14 -Dprotobuf_BUILD_CONFORMANCE=ON && cmake --build .
+          command: cd ci/protobuf && git submodule update --init --recursive && cmake . -DCMAKE_CXX_STANDARD=14 -Dprotobuf_BUILD_CONFORMANCE=ON && cmake --build .
 
 jobs:
   build:
