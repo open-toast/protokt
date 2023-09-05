@@ -86,7 +86,7 @@ private fun <T> pivotOs(mac: T, linux: T) =
     }
 
 private val binDir =
-    Path.of("bin", pivotOs("darwin", "ubuntu-20.04-x86_64")).toString()
+    pivotOs(Path.of("bin", "darwin"), Path.of(projectRoot.parentFile.parentFile.parentFile.absolutePath, "ci", "protobuf")).toString()
 
 private val baseCommand =
     Path.of(binDir, "conformance-test-runner")
