@@ -43,8 +43,8 @@ commands:
           key: v1-gradle-cache-{{ checksum "build.gradle.kts" }}
       - save_cache:
           paths:
-            - build/ci/protobuf
-          key: v1-protobuf-{{ checksum "ci/protobuf-version" }}
+            - ci/protobuf
+          key: v2-protobuf-{{ checksum "ci/protobuf-version" }}
 
   parse_protobuf_version:
     steps:
@@ -56,15 +56,19 @@ commands:
     steps:
       - run:
           name: Clone Protobuf
-          command: git clone --depth 1 --branch v$(cat ci/protobuf-version) https://github.com/protocolbuffers/protobuf.git ci/protobuf
+          command: test -f ci/protobuf/.git || git clone --depth 1 --branch v$(cat ci/protobuf-version) https://github.com/protocolbuffers/protobuf.git ci/protobuf
 
       - run:
           name: Install dependencies
-          command: DEBIAN_FRONTEND=noninteractive apk add --update alpine-sdk cmake linux-headers
+          command: test -f ci/protobuf/.git || DEBIAN_FRONTEND=noninteractive apk add --update alpine-sdk cmake linux-headers
 
       - run:
           name: Build Protobuf
-          command: cd ci/protobuf && git submodule update --init --recursive && cmake . -DCMAKE_CXX_STANDARD=14 -Dprotobuf_BUILD_CONFORMANCE=ON && cmake --build .
+          command: test -f ci/protobuf/.git || cd ci/protobuf && git submodule update --init --recursive && cmake . -DCMAKE_CXX_STANDARD=14 -Dprotobuf_BUILD_CONFORMANCE=ON && cmake --build .
+
+      - run:
+          name: List Protobuf
+          command: ls ci/protobuf
 
 jobs:
   build:
@@ -113,6 +117,8 @@ jobs:
            run:
              name: Benchmarks
              command: ./gradlew benchmarks:run
+
+      # - write_cache
 
       - run:
           name: Save test results
