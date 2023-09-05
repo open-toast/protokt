@@ -27,7 +27,7 @@ Ubuntu conformance tests:
 
 ```sh
 protobuf % git clean -fdx
-protobuf % docker run -v $(pwd):/tmp -t -i ubuntu:20.04 /bin/bash
+protobuf % docker run -v $(pwd):/tmp --platform linux/x86_64 -t -i ubuntu:20.04 /bin/bash
 root@38f7a53696b9:/# apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential cmake
 root@38f7a53696b9:/# cd tmp/
 root@38f7a53696b9:/tmp# cmake . -DCMAKE_CXX_STANDARD=14 -Dprotobuf_BUILD_CONFORMANCE=ON && cmake --build .
