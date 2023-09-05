@@ -55,6 +55,9 @@ commands:
   build_conformance_runner:
     steps:
       - run:
+          name: List Protobuf 1
+          command: ls ci/protobuf
+      - run:
           name: Clone Protobuf
           command: test -f ci/protobuf/conformance-test-runner || git clone --depth 1 --branch v$(cat ci/protobuf-version) https://github.com/protocolbuffers/protobuf.git ci/protobuf
 
