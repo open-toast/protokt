@@ -29,7 +29,7 @@ commands:
       - restore_cache:
           key: v1-gradle-cache-{{ checksum "build.gradle.kts" }}
       - restore_cache:
-          key: v1-protobuf-{{ checksum "protobuf-version" }}
+          key: v1-protobuf-{{ checksum "build/ci/protobuf-version" }}
 
   write_cache:
     steps:
@@ -44,7 +44,7 @@ commands:
       - save_cache:
           paths:
             - build/ci/protobuf
-          key: v1-protobuf-{{ checksum "protobuf-version" }}
+          key: v1-protobuf-{{ checksum "build/ci/protobuf-version" }}
 
   parse_protobuf_version:
     steps:
