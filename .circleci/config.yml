@@ -44,7 +44,7 @@ commands:
     steps:
       - run:
           name: Clone Protobuf
-          command: git clone git@github.com:protocolbuffers/protobuf && cd protobuf/
+          command: git clone https://github.com/protocolbuffers/protobuf.git && cd protobuf/
 
       - run:
           name: Install dependencies
