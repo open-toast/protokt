@@ -28,7 +28,6 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
 import org.gradle.plugins.signing.SigningExtension
-import protokt.v1.gradle.isMultiplatform
 
 private object Pgp {
     val key by lazy {
@@ -62,9 +61,10 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
 
     if (defaultJars) {
         configure<MavenPublishBaseExtension> {
-            if (isMultiplatform()) {
+            pluginManager.withPlugin("org.jetbrains.kotlin.mpp") {
                 configure(KotlinMultiplatform(JavadocJar.Empty()))
-            } else {
+            }
+            pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
                 configure(KotlinJvm(JavadocJar.Javadoc()))
             }
             publishToMavenCentral(SonatypeHost.DEFAULT)
