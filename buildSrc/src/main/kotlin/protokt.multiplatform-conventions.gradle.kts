@@ -32,8 +32,8 @@ kotlin {
     sourceSets {
         val jvmTest by getting {
             dependencies {
-                implementation(findLibrary("junit-jupiter"))
-                implementation(findLibrary("truth"))
+                implementation(libs.junit.jupiter)
+                implementation(libs.truth)
             }
         }
     }
@@ -46,12 +46,6 @@ kotlin {
                 }
             }
         }
-
-        jvm().compilations.all {
-            kotlinOptions {
-                freeCompilerArgs = listOf("-Xjvm-default=all")
-            }
-        }
     }
 }
 
@@ -62,11 +56,11 @@ tasks.named<Test>("jvmTest") {
 pureKotlin()
 
 kotlin {
-    jvmToolchain(findVersion("java").toInt())
+    jvmToolchain(libs.versions.java.get().toInt())
 }
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(findVersion("java").toInt()))
+        languageVersion.set(JavaLanguageVersion.of(libs.versions.java.get().toInt()))
     }
 }

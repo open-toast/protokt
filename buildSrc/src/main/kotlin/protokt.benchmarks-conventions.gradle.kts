@@ -19,6 +19,6 @@ plugins {
 }
 
 dependencies {
-    implementation(findLibrary("jmh-core"))
-    kapt(findLibrary("jmh-generator"))
+    implementation(libs.jmh.core)
+    kapt(libs.jmh.generator)
 }

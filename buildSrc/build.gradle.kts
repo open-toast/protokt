@@ -40,4 +40,5 @@ dependencies {
     implementation(libs.protobuf.gradlePlugin)
     implementation(libs.spotlessGradlePlugin)
     implementation(kotlin("gradle-plugin-api"))
+    implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 }

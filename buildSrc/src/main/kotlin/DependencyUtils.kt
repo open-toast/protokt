@@ -15,33 +15,17 @@
 
 import com.google.protobuf.gradle.ProtobufExtension
 import com.google.protobuf.gradle.protobuf
+import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.api.Project
 import org.gradle.api.artifacts.MinimalExternalModuleDependency
-import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.provider.Provider
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.exclude
-import org.gradle.kotlin.dsl.getByType
+import org.gradle.kotlin.dsl.the
 
-fun Project.findLibrary(name: String): String =
-    rootProject
-        .extensions
-        .getByType<VersionCatalogsExtension>()
-        .named("libs")
-        .findLibrary(name)
-        .get() // optional
-        .get() // provider
-        .run { "$module:$versionConstraint" }
-
-fun Project.findVersion(name: String): String =
-    rootProject
-        .extensions
-        .getByType<VersionCatalogsExtension>()
-        .named("libs")
-        .findVersion(name)
-        .get() // optional
-        .requiredVersion
+val Project.libs
+    get() = the<LibrariesForLibs>()
 
 fun Project.protobufExcludingProtobufJava(dependency: Provider<MinimalExternalModuleDependency>) {
     dependencies {
@@ -54,7 +38,7 @@ fun Project.protobufExcludingProtobufJava(dependency: Provider<MinimalExternalMo
 fun Project.defaultProtoc() {
     configure<ProtobufExtension> {
         protoc {
-            artifact = findLibrary("protoc")
+            artifact = libs.protoc.get().toString()
         }
     }
 }

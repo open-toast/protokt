@@ -32,8 +32,8 @@ fun Project.javaBasedProjectConventions() {
     dependencies {
         "api"(kotlin("stdlib"))
 
-        "testImplementation"(findLibrary("junit-jupiter"))
-        "testImplementation"(findLibrary("truth"))
+        "testImplementation"(libs.junit.jupiter)
+        "testImplementation"(libs.truth)
     }
 
     tasks.withType<KotlinCompile> {
@@ -47,6 +47,6 @@ fun Project.javaBasedProjectConventions() {
     }
 
     the<JavaPluginExtension>().toolchain {
-        languageVersion.set(JavaLanguageVersion.of(findVersion("java").toInt()))
+        languageVersion.set(JavaLanguageVersion.of(libs.versions.java.get().toInt()))
     }
 }
