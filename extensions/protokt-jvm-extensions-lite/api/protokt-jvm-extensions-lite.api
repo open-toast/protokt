@@ -13,8 +13,26 @@ public final class com/toasttab/protokt/ext/InetSocketAddress : protokt/v1/Abstr
 }
 
 public final class com/toasttab/protokt/ext/InetSocketAddress$Deserializer : com/toasttab/protokt/rt/KtDeserializer, kotlin/jvm/functions/Function1 {
+	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/ext/InetSocketAddress;
+	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
+	public fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/ext/InetSocketAddress;
+	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
+	public fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/ext/InetSocketAddress;
+	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
 	public fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/ext/InetSocketAddress;
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/ext/InetSocketAddress;
+	public synthetic fun deserialize (Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
+	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/ext/InetSocketAddress;
+	public synthetic fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public fun deserialize (Lprotokt/v1/Bytes;)Lcom/toasttab/protokt/ext/InetSocketAddress;
+	public synthetic fun deserialize (Lprotokt/v1/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
+	public fun deserialize (Lprotokt/v1/BytesSlice;)Lcom/toasttab/protokt/ext/InetSocketAddress;
+	public synthetic fun deserialize (Lprotokt/v1/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/ext/InetSocketAddress;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public fun deserialize ([B)Lcom/toasttab/protokt/ext/InetSocketAddress;
+	public synthetic fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
 	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/ext/InetSocketAddress;
 }
