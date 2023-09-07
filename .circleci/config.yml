@@ -65,7 +65,7 @@ jobs:
 
       - run:
           name: Build and test
-          command: ./gradlew clean check publishToIntegrationRepository --stacktrace --refresh-dependencies
+          command: ./gradlew clean check publishToIntegrationRepository --stacktrace
 
       - persist_to_workspace:
           root: build/repos

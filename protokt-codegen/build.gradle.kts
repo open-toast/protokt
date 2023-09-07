@@ -19,6 +19,7 @@ import protokt.v1.gradle.CODEGEN_NAME
 plugins {
     id("protokt.jvm-conventions")
     id("com.google.protobuf")
+    alias(libs.plugins.buildConfig)
     application
 }
 
@@ -86,9 +87,14 @@ sourceSets {
     }
 }
 
+buildConfig {
+    useKotlinOutput { topLevelConstants = true }
+    packageName.set("protokt.v1.gradle")
+    buildConfigField("String", "DEFAULT_PROTOBUF_VERSION", "\"${libs.versions.protobuf.java.get()}\"")
+    buildConfigField("String", "PROTOKT_VERSION", "\"$version\"")
+}
+
 includeBuildSrc(
     "protokt/v1/gradle/ProtoktExtension.kt",
-    "protokt/v1/gradle/ProtoktVersion.kt",
-    "protokt/v1/gradle/ProtobufVersion.kt",
     "**/*.java" // don't override the protobuf-gradle-plugin; todo: fix this function to not need this
 )

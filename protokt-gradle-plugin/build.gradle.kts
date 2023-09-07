@@ -16,6 +16,7 @@
 plugins {
     `kotlin-dsl`
     id("protokt.jvm-conventions")
+    alias(libs.plugins.buildConfig)
     alias(libs.plugins.pluginPublish)
 }
 
@@ -65,11 +66,9 @@ includeBuildSrc(
     "com/google/protobuf/gradle/*"
 )
 
-val versionOutputDir = layout.buildDirectory.file("generated-sources/protokt-version")
-
-// why is this broken via sourceSets["main"].java.srcDir?
-(sourceSets["main"] as org.gradle.api.internal.HasConvention)
-    .convention
-    .getPlugin(org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet::class.java)
-    .kotlin
-    .srcDir(versionOutputDir)
+buildConfig {
+    useKotlinOutput { topLevelConstants = true }
+    packageName.set("protokt.v1.gradle")
+    buildConfigField("String", "DEFAULT_PROTOBUF_VERSION", "\"${libs.versions.protobuf.java.get()}\"")
+    buildConfigField("String", "PROTOKT_VERSION", "\"$version\"")
+}

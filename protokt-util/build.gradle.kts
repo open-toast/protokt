@@ -17,6 +17,7 @@ plugins {
     id("protokt.jvm-conventions")
 }
 
+// todo: remove?
 enablePublishing()
 
 includeBuildSrc("ProtoktExtension.kt")

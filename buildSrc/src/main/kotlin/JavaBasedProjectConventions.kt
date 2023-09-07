@@ -39,7 +39,6 @@ fun Project.javaBasedProjectConventions() {
     tasks.withType<KotlinCompile> {
         kotlinOptions {
             allWarningsAsErrors = true
-            freeCompilerArgs = listOf("-Xjvm-default=all")
         }
     }
 
