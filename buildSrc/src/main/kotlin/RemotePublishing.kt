@@ -14,6 +14,7 @@
  */
 
 import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.KotlinJs
 import com.vanniktech.maven.publish.KotlinJvm
 import com.vanniktech.maven.publish.KotlinMultiplatform
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
@@ -62,12 +63,15 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
     if (defaultJars) {
         configure<MavenPublishBaseExtension> {
             pluginManager.withPlugin("org.jetbrains.kotlin.mpp") {
-                configure(KotlinMultiplatform(JavadocJar.Empty()))
+                configure(KotlinMultiplatform(JavadocJar.Javadoc()))
             }
             pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
                 configure(KotlinJvm(JavadocJar.Javadoc()))
             }
-            publishToMavenCentral(SonatypeHost.DEFAULT)
+            pluginManager.withPlugin("org.jetbrains.kotlin.js") {
+                configure(KotlinJs(JavadocJar.Javadoc()))
+            }
+            publishToMavenCentral(SonatypeHost.DEFAULT, true)
             pom {
                 name.set(ProtoktProjectInfo.name)
                 description.set(ProtoktProjectInfo.description)
