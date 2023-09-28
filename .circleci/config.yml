@@ -153,7 +153,7 @@ jobs:
       - read_cache
       - run:
           name: Publish release
-          command: "ORG_GRADLE_PROJECT_mavenCentralUsername=$OSSRH_USERNAME ORG_GRADLE_PROJECT_mavenCentralPassword=$OSSRH_PASSWORD ./gradlew publishAllPublicationsToMavenCentral publishPlugins -Dorg.gradle.internal.http.socketTimeout=120000 -Dorg.gradle.internal.network.retry.max.attempts=1 -Dorg.gradle.internal.publish.checksums.insecure=true --no-configuration-cache"
+          command: "./gradlew publishAllPublicationsToMavenCentral publishPlugins -PmavenCentralUsername=$OSSRH_USERNAME -PmavenCentralPassword=$OSSRH_PASSWORD -Dorg.gradle.internal.http.socketTimeout=120000 -Dorg.gradle.internal.network.retry.max.attempts=1 -Dorg.gradle.internal.publish.checksums.insecure=true --no-configuration-cache"
 
 workflows:
   version: 2.1

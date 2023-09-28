@@ -63,13 +63,13 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
     if (defaultJars) {
         configure<MavenPublishBaseExtension> {
             pluginManager.withPlugin("org.jetbrains.kotlin.mpp") {
-                configure(KotlinMultiplatform(JavadocJar.Javadoc()))
+                configure(KotlinMultiplatform(JavadocJar.Empty()))
             }
             pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
-                configure(KotlinJvm(JavadocJar.Javadoc()))
+                configure(KotlinJvm(JavadocJar.Empty()))
             }
             pluginManager.withPlugin("org.jetbrains.kotlin.js") {
-                configure(KotlinJs(JavadocJar.Javadoc()))
+                configure(KotlinJs(JavadocJar.Empty()))
             }
             publishToMavenCentral(SonatypeHost.DEFAULT, true)
             pom {
