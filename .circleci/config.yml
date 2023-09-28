@@ -152,6 +152,10 @@ jobs:
       - checkout
       - read_cache
       - run:
+          command: "export ORG_GRADLE_PROJECT_mavenCentralUsername=$OSSRH_USERNAME"
+      - run:
+          command: "export ORG_GRADLE_PROJECT_mavenCentralPassword=$OSSRH_PASSWORD"
+      - run:
           name: Publish release
           command: "./gradlew publish publishPlugins -Dorg.gradle.internal.http.socketTimeout=120000 -Dorg.gradle.internal.network.retry.max.attempts=1 -Dorg.gradle.internal.publish.checksums.insecure=true"
       - run:
@@ -176,6 +180,6 @@ workflows:
           context: OSS
           filters:
               tags:
-                only: /^\d+\.\d+\.\d+$/
+                only: /^\d+\.\d+\.[0-9A-Za-z-\.]+$/
               branches:
                 ignore: /.*/
