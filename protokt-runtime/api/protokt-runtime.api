@@ -506,20 +506,27 @@ public final class protokt/v1/BytesSlice {
 	public static final field Companion Lprotokt/v1/BytesSlice$Companion;
 	public fun <init> ([B)V
 	public fun <init> ([BII)V
+	public static final fun empty ()Lprotokt/v1/BytesSlice;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getLength ()I
 	public fun hashCode ()I
 	public final fun isEmpty ()Z
 	public final fun isNotEmpty ()Z
+	public static final fun toBytes (Lprotokt/v1/BytesSlice;)Lprotokt/v1/Bytes;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/BytesSlice$Companion {
 	public final fun empty ()Lprotokt/v1/BytesSlice;
+	public final fun toBytes (Lprotokt/v1/BytesSlice;)Lprotokt/v1/Bytes;
 }
 
-public final class protokt/v1/BytesSliceKt {
-	public static final fun toBytes (Lprotokt/v1/BytesSlice;)Lprotokt/v1/Bytes;
+public final class protokt/v1/Collections {
+	public static final field INSTANCE Lprotokt/v1/Collections;
+	public static final fun copyList (Ljava/util/List;)Ljava/util/List;
+	public static final fun copyMap (Ljava/util/Map;)Ljava/util/Map;
+	public static final fun unmodifiableList (Ljava/util/List;)Ljava/util/List;
+	public static final fun unmodifiableMap (Ljava/util/Map;)Ljava/util/Map;
 }
 
 public final class protokt/v1/Fixed32Val : protokt/v1/UnknownValue {
@@ -546,14 +553,10 @@ public final class protokt/v1/Fixed64Val : protokt/v1/UnknownValue {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/JvmBytesKt {
+public final class protokt/v1/JvmBytes {
+	public static final field INSTANCE Lprotokt/v1/JvmBytes;
 	public static final fun asReadOnlyBuffer (Lprotokt/v1/Bytes;)Ljava/nio/ByteBuffer;
 	public static final fun inputStream (Lprotokt/v1/Bytes;)Ljava/io/InputStream;
-}
-
-public final class protokt/v1/JvmRuntimeUtilsKt {
-	public static final fun unmodifiableList (Ljava/util/List;)Ljava/util/List;
-	public static final fun unmodifiableMap (Ljava/util/Map;)Ljava/util/Map;
 }
 
 public abstract interface class protokt/v1/KtDeserializer : com/toasttab/protokt/rt/KtDeserializer {
@@ -693,14 +696,8 @@ public final class protokt/v1/NewToOldAdapterKt {
 	public static final fun NewToOldAdapter (Lprotokt/v1/KtMessageSerializer;)Lcom/toasttab/protokt/rt/KtMessageSerializer;
 }
 
-public final class protokt/v1/RuntimeUtilsKt {
-	public static final fun copyList (Ljava/util/List;)Ljava/util/List;
-	public static final fun copyMap (Ljava/util/Map;)Ljava/util/Map;
-	public static final fun finishList (Ljava/util/List;)Ljava/util/List;
-	public static final fun finishMap (Ljava/util/Map;)Ljava/util/Map;
-}
-
-public final class protokt/v1/SizeCodecsKt {
+public final class protokt/v1/SizeCodecs {
+	public static final field INSTANCE Lprotokt/v1/SizeCodecs;
 	public static final fun sizeOf (I)I
 	public static final fun sizeOf (J)I
 	public static final fun sizeOf (Ljava/lang/String;)I
@@ -709,9 +706,9 @@ public final class protokt/v1/SizeCodecsKt {
 	public static final fun sizeOf (Lprotokt/v1/KtEnum;)I
 	public static final fun sizeOf (Lprotokt/v1/KtMessage;)I
 	public static final fun sizeOf ([B)I
+	public static final fun sizeOf-OsBMiQA (Ljava/util/Map;ILkotlin/jvm/functions/Function2;)I
 	public static final fun sizeOf-VKZWuLQ (J)I
 	public static final fun sizeOf-WZ4Q5Ns (I)I
-	public static final fun sizeOfMap-OsBMiQA (Ljava/util/Map;ILkotlin/jvm/functions/Function2;)I
 	public static final fun sizeOfSInt32 (I)I
 	public static final fun sizeOfSInt64 (J)I
 }

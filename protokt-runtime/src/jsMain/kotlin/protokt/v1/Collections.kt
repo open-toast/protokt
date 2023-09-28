@@ -15,11 +15,35 @@
 
 package protokt.v1
 
-actual fun <T> unmodifiableList(list: List<T>): List<T> =
-    UnmodifiableList(list)
+actual object Collections {
+    actual fun <K, V> unmodifiableMap(map: Map<K, V>?): Map<K, V> =
+        if (map.isNullOrEmpty()) {
+            emptyMap()
+        } else {
+            unmodifiableMap(map)
+        }
 
-actual fun <K, V> unmodifiableMap(map: Map<K, V>): Map<K, V> =
-    UnmodifiableMap(map)
+    actual fun <K, V> copyMap(map: Map<K, V>): Map<K, V> =
+        if (map.isEmpty()) {
+            emptyMap()
+        } else {
+            unmodifiableMap(LinkedHashMap(map))
+        }
+
+    actual fun <T> unmodifiableList(list: List<T>?): List<T> =
+        if (list.isNullOrEmpty()) {
+            emptyList()
+        } else {
+            unmodifiableList(list)
+        }
+
+    actual fun <T> copyList(list: List<T>): List<T> =
+        if (list.isEmpty()) {
+            emptyList()
+        } else {
+            unmodifiableList(ArrayList(list))
+        }
+}
 
 private class UnmodifiableList<T>(
     private val delegate: List<T>

@@ -15,6 +15,8 @@
 
 package protokt.v1
 
+import kotlin.jvm.JvmStatic
+
 class BytesSlice(
     internal val array: ByteArray,
     internal val offset: Int,
@@ -46,10 +48,12 @@ class BytesSlice(
     companion object {
         private val EMPTY = BytesSlice(ByteArray(0), 0, 0)
 
+        @JvmStatic
         fun empty() =
             EMPTY
+
+        @JvmStatic
+        fun BytesSlice.toBytes() =
+            Bytes(array.sliceArray(offset until offset + length))
     }
 }
-
-fun BytesSlice.toBytes() =
-    Bytes(array.sliceArray(offset until offset + length))

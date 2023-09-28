@@ -19,34 +19,21 @@ import com.pinterest.ktlint.rule.engine.api.Code
 import com.pinterest.ktlint.rule.engine.api.KtLintRuleEngine
 import com.pinterest.ktlint.ruleset.standard.StandardRuleSetProvider
 import com.pinterest.ktlint.ruleset.standard.rules.NO_UNIT_RETURN_RULE_ID
+import io.github.oshai.kotlinlogging.KotlinLogging
 
-fun tidy(rawCode: String, context: GeneratorContext): String {
-    var code = stripApiMode(rawCode)
+private val logger = KotlinLogging.logger { }
+
+fun tidy(code: String, context: GeneratorContext) =
     if (context.formatOutput) {
-        code = format(code)
+        try {
+            format(code)
+        } catch (t: Throwable) {
+            logger.error { "Failed to format generated code; try disabling code formatting." }
+            throw t
+        }
+    } else {
+        code
     }
-    return code
-}
-
-// strips Explicit API mode declarations
-// https://kotlinlang.org/docs/whatsnew14.html#explicit-api-mode-for-library-authors
-private fun stripApiMode(code: String) =
-    code
-        // https://stackoverflow.com/a/64970734
-        .replace("public class ", "class ")
-        .replace("public abstract ", "abstract ")
-        .replace("public open ", "open ")
-        .replace("public suspend ", "suspend ")
-        .replace("public final ", "final ")
-        .replace("public const ", "const ")
-        .replace("public val ", "val ")
-        .replace("public var ", "var ")
-        .replace("public fun ", "fun ")
-        .replace("public object ", "object ")
-        .replace("public companion ", "companion ")
-        .replace("public override ", "override ")
-        .replace("public sealed ", "sealed ")
-        .replace("public data ", "data ")
 
 private fun format(code: String) =
     KtLintRuleEngine(ruleProviders()).format(Code.fromSnippet(code))

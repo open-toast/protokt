@@ -15,6 +15,8 @@
 
 package protokt.v1
 
+import protokt.v1.SizeCodecs.sizeOf
+
 class UnknownField
 private constructor(
     val fieldNumber: UInt,

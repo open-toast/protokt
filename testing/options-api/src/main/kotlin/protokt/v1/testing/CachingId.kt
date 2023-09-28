@@ -19,7 +19,7 @@ import com.google.auto.service.AutoService
 import protokt.v1.Bytes
 import protokt.v1.Converter
 import protokt.v1.OptimizedSizeOfConverter
-import protokt.v1.sizeOf
+import protokt.v1.SizeCodecs.sizeOf
 
 data class CachingId(
     internal val value: Bytes

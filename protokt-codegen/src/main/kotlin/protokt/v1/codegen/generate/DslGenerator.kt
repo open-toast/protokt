@@ -73,14 +73,14 @@ private class DslGenerator(
                                     setter(
                                         FunSpec.setterBuilder()
                                             .addParameter("newValue", Map::class)
-                                            .addCode("field = %M(newValue)", runtimeFunction("copyMap"))
+                                            .addCode("field = %M(newValue)", copyMap)
                                             .build()
                                     )
                                 } else if (it.repeated) {
                                     setter(
                                         FunSpec.setterBuilder()
                                             .addParameter("newValue", List::class)
-                                            .addCode("field = %M(newValue)", runtimeFunction("copyList"))
+                                            .addCode("field = %M(newValue)", copyList)
                                             .build()
                                     )
                                 }

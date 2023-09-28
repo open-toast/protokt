@@ -42,7 +42,7 @@ private class FileGenerator(
                         Source: ${contents.info.name}
                     """.trimIndent()
                 )
-                indent("    ")
+                indent("  ")
             }
 
         var anyCodeAdded = false

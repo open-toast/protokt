@@ -15,6 +15,10 @@
 
 package protokt.v1
 
+import protokt.v1.Collections.unmodifiableList
+import protokt.v1.Collections.unmodifiableMap
+import protokt.v1.SizeCodecs.sizeOf
+
 class UnknownFieldSet
 private constructor(
     val unknownFields: Map<UInt, Field>
@@ -54,7 +58,7 @@ private constructor(
         }
 
         fun build() =
-            UnknownFieldSet(finishMap(map.mapValues { (_, v) -> v.build() }))
+            UnknownFieldSet(unmodifiableMap(map.mapValues { (_, v) -> v.build() }))
     }
 
     // If unknown fields are keyed by tag instead of field number then the bit
@@ -150,10 +154,10 @@ private constructor(
 
             fun build() =
                 Field(
-                    finishList(varint),
-                    finishList(fixed32),
-                    finishList(fixed64),
-                    finishList(lengthDelimited)
+                    unmodifiableList(varint),
+                    unmodifiableList(fixed32),
+                    unmodifiableList(fixed64),
+                    unmodifiableList(lengthDelimited)
                 )
         }
     }

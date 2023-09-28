@@ -21,8 +21,12 @@ import java.nio.ByteBuffer
 internal actual fun clone(bytes: ByteArray) =
     bytes.clone()
 
-fun Bytes.asReadOnlyBuffer(): ByteBuffer =
-    ByteBuffer.wrap(value).asReadOnlyBuffer()
+object JvmBytes {
+    @JvmStatic
+    fun Bytes.asReadOnlyBuffer(): ByteBuffer =
+        ByteBuffer.wrap(value).asReadOnlyBuffer()
 
-fun Bytes.inputStream(): InputStream =
-    value.inputStream()
+    @JvmStatic
+    fun Bytes.inputStream(): InputStream =
+        value.inputStream()
+}
