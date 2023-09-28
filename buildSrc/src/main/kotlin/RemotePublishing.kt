@@ -92,6 +92,14 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
                 }
             }
         }
+
+        afterEvaluate {
+            if (tasks.findByName("generateProto") != null) {
+                tasks.withType<Jar> {
+                    dependsOn("generateProto")
+                }
+            }
+        }
     }
 
     if (isRelease()) {
