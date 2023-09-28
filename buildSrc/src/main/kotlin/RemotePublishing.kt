@@ -113,6 +113,10 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
                 .withType<MavenPublication>()
                 .forEach(::sign)
         }
+
+        tasks.withType<PublishToMavenRepository> {
+            dependsOn("signJvmPublication")
+        }
     }
 
     tasks.register("publishToIntegrationRepository") {
