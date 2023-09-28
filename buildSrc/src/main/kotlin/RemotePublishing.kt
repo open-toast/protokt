@@ -62,11 +62,11 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
 
     if (defaultJars) {
         configure<MavenPublishBaseExtension> {
-            pluginManager.withPlugin("org.jetbrains.kotlin.mpp") {
+            pluginManager.withPlugin("org.jetbrains.kotlin.multiplatform") {
                 configure(KotlinMultiplatform(JavadocJar.Empty()))
             }
             pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
-                configure(KotlinJvm(JavadocJar.Empty()))
+                configure(KotlinJvm(JavadocJar.Empty(), true))
             }
             pluginManager.withPlugin("org.jetbrains.kotlin.js") {
                 configure(KotlinJs(JavadocJar.Empty()))
@@ -89,14 +89,6 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
                         name.set("Toast Open Source")
                         email.set("opensource@toasttab.com")
                     }
-                }
-            }
-        }
-
-        afterEvaluate {
-            if (tasks.findByName("generateProto") != null) {
-                tasks.withType<Jar> {
-                    dependsOn("generateProto")
                 }
             }
         }

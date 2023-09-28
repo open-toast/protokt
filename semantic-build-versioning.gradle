@@ -1,0 +1,8 @@
+preRelease {
+    startingVersion = 'alpha.0'
+
+    // The bumping scheme is alpha.0 -> alpha.1 -> ... -> alpha.n
+    bump = {
+        "alpha.${((it - ~/^alpha\./) as int) + 1}"
+    }
+}
