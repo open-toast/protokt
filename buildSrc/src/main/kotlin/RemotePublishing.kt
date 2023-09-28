@@ -13,6 +13,7 @@
  * limitations under the License.
  */
 
+import com.google.protobuf.gradle.GenerateProtoTask
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.KotlinJs
 import com.vanniktech.maven.publish.KotlinJvm
@@ -28,6 +29,7 @@ import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
+import org.gradle.plugins.signing.Sign
 import org.gradle.plugins.signing.SigningExtension
 
 private object Pgp {
@@ -94,10 +96,8 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
         }
 
         afterEvaluate {
-            if (tasks.findByName("generateProto") != null) {
-                tasks.withType<Jar> {
-                    dependsOn("generateProto")
-                }
+            tasks.withType<Jar> {
+                dependsOn(tasks.withType<GenerateProtoTask>())
             }
         }
     }
@@ -115,7 +115,7 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
         }
 
         tasks.withType<PublishToMavenRepository> {
-            dependsOn("signJvmPublication")
+            dependsOn(tasks.withType<Sign>())
         }
     }
 
