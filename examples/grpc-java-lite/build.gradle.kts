@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Toast Inc.
+ * Copyright (c) 2021 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-import com.google.protobuf.gradle.proto
-import com.toasttab.protokt.gradle.protokt
+import com.google.protobuf.gradle.protobuf
+import protokt.v1.gradle.protokt
 
 plugins {
     id("protokt.grpc-examples-conventions")
@@ -24,14 +24,18 @@ localProtokt()
 pureKotlin()
 
 protokt {
-    generateGrpc = true
-    lite = true
+    generate {
+        grpcLite()
+    }
 }
 
 dependencies {
-    implementation(libraries.jackson)
+    protobuf(project(":examples:protos"))
 
-    runtimeOnly(libraries.protobufLite)
+    implementation(project(":examples:protos"))
+    implementation(libs.jackson)
+
+    runtimeOnly(libs.protobuf.lite)
 
     testImplementation(project(":protokt-util"))
 }
@@ -42,15 +46,11 @@ sourceSets {
             srcDir("../grpc-java/src/main/kotlin")
             srcDir("../protos/src/main/kotlin")
         }
-
-        proto {
-            srcDir("../protos/src/main/proto")
-        }
     }
 
     test {
         java {
-            srcDir("../../testing/plugin-options/lite/src/test/kotlin/com/toasttab/protokt/testing/lite")
+            srcDir(liteOptionTestSourceDir())
         }
     }
 }

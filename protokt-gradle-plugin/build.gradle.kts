@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2019 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,30 +16,23 @@
 plugins {
     `kotlin-dsl`
     id("protokt.jvm-conventions")
-    id("com.gradle.plugin-publish") version "0.11.0"
+    alias(libs.plugins.buildConfig)
+    alias(libs.plugins.pluginPublish)
 }
 
 gradlePlugin {
-    isAutomatedPublishing = false
+    website.set(ProtoktProjectInfo.url)
+    vcsUrl.set(ProtoktProjectInfo.url)
 
     plugins {
         create("protokt") {
-            id = "com.toasttab.protokt"
-            implementationClass = "com.toasttab.protokt.gradle.plugin.ProtoktPlugin"
+            id = "com.toasttab.protokt.v1"
+            implementationClass = "protokt.v1.gradle.ProtoktPlugin"
             displayName = ProtoktProjectInfo.name
             description = ProtoktProjectInfo.description
+            tags.set(listOf("protobuf", "kotlin"))
         }
     }
-}
-
-pluginBundle {
-    mavenCoordinates {
-        group = "${project.group}"
-    }
-    website = ProtoktProjectInfo.url
-    vcsUrl = ProtoktProjectInfo.url
-    description = ProtoktProjectInfo.description
-    tags = listOf("protobuf", "kotlin")
 }
 
 ext[com.gradle.publish.PublishTask.GRADLE_PUBLISH_KEY] = System.getenv("GRADLE_PORTAL_PUBLISH_KEY")
@@ -49,12 +42,33 @@ tasks.named("publishPlugins") {
     enabled = isRelease()
 }
 
-enablePublishing()
+enablePublishing(defaultJars = false)
 
-dependencies {
-    implementation(project(":protokt-util"))
-    implementation(gradleApi())
-    implementation(libraries.protobufPlugin)
+publishing {
+    publications {
+        create<MavenPublication>("main") {
+            from(components.getByName("java"))
+            artifactId = project.name
+            version = project.version.toString()
+            groupId = project.group.toString()
+        }
+    }
 }
 
-includeCommonGradleSource("*")
+dependencies {
+    implementation(kotlin("gradle-plugin"))
+    implementation(gradleApi())
+    implementation(libs.protobuf.gradlePlugin)
+}
+
+includeBuildSrc(
+    "protokt/v1/gradle/*",
+    "com/google/protobuf/gradle/*"
+)
+
+buildConfig {
+    useKotlinOutput { topLevelConstants = true }
+    packageName.set("protokt.v1.gradle")
+    buildConfigField("String", "DEFAULT_PROTOBUF_VERSION", "\"${libs.versions.protobuf.java.get()}\"")
+    buildConfigField("String", "PROTOKT_VERSION", "\"$version\"")
+}

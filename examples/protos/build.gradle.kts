@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Toast Inc.
+ * Copyright (c) 2021 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,41 +13,50 @@
  * limitations under the License.
  */
 
-import com.google.protobuf.gradle.ProtobufExtension
-import com.google.protobuf.gradle.id
-import com.toasttab.protokt.gradle.protokt
+import protokt.v1.gradle.protokt
 
 plugins {
-    id("protokt.jvm-conventions")
+    id("protokt.multiplatform-conventions")
+    id("org.jetbrains.kotlin.plugin.serialization") version libs.versions.kotlin
 }
 
 localProtokt()
-pureKotlin()
 
 protokt {
-    generateGrpc = true
+    generate {
+        lite()
+    }
 }
 
-configure<ProtobufExtension> {
-    plugins {
-        id("grpckt") {
-            artifact = libraries.grpcKotlinGenerator
-        }
-    }
+kotlin {
+    sourceSets {
+        val commonMain by getting {}
 
-    generateProtoTasks {
-        all().forEach {
-            it.plugins {
-                id("grpckt")
+        val jvmMain by getting {
+            dependencies {
+                implementation(libs.jackson)
             }
         }
-    }
-}
 
-dependencies {
-    implementation(project(":protokt-runtime-grpc"))
-    implementation(libraries.grpcKotlin)
-    implementation(libraries.grpcStub)
-    implementation(libraries.jackson)
-    implementation(libraries.kotlinxCoroutinesCore)
+        val jvmTest by getting {
+            dependencies {
+                runtimeOnly(libs.protobuf.java) // unclear why this is needed; no tests
+            }
+        }
+
+        val jsMain by getting {
+            dependencies {
+                implementation(libs.kotlinx.serialization.json)
+            }
+        }
+
+        jvm {
+            withJava()
+        }
+
+        js(IR) {
+            nodejs {}
+            useCommonJs()
+        }
+    }
 }

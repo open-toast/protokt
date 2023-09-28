@@ -20,12 +20,18 @@ plugins {
 
 dependencies {
     implementation("com.toasttab.protokt:protokt-core:$version")
-    implementation("com.google.auto.service:auto-service-annotations:1.0.1")
+    implementation(libs.autoServiceAnnotations)
 
-    kapt("com.google.auto.service:auto-service:1.0.1")
+    kapt(libs.autoService)
 }
 
-configure<JavaPluginExtension> {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+// pin to the runtime version of protokt
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(libs.versions.java.get().toInt()))
+    }
+}
+
+kotlin {
+    jvmToolchain(libs.versions.java.get().toInt())
 }

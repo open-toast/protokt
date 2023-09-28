@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2019 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ plugins {
 
 dependencies {
     implementation(project(":protokt-core"))
-    implementation(libraries.autoServiceAnnotations)
+    implementation(libs.autoServiceAnnotations)
 
-    kapt(libraries.autoService)
+    kapt(libs.autoService)
 }

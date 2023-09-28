@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Toast Inc.
+ * Copyright (c) 2021 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,12 +13,26 @@
  * limitations under the License.
  */
 
+import com.google.protobuf.gradle.protobuf
+import protokt.v1.gradle.protokt
+
 plugins {
     id("protokt.grpc-examples-conventions")
 }
 
+localProtokt()
+pureKotlin()
+
+protokt {
+    generate {
+        grpcDescriptors = true
+    }
+}
+
 dependencies {
+    protobuf(project(":examples:protos"))
+
     implementation(project(":examples:protos"))
 
-    runtimeOnly(libraries.protobufJava)
+    runtimeOnly(libs.protobuf.java)
 }

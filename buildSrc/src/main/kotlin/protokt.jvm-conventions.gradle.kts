@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast Inc.
+ * Copyright (c) 2022 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,11 @@
 
 plugins {
     id("protokt.common-conventions")
-    id("org.jetbrains.kotlin.jvm")
+    kotlin("jvm")
 }
 
 javaBasedProjectConventions()
+
+kotlin {
+    jvmToolchain(libs.versions.java.get().toInt())
+}

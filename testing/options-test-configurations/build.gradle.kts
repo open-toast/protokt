@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Toast Inc.
+ * Copyright (c) 2020 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  */
 
 import com.google.protobuf.gradle.testProtobuf
-import com.toasttab.protokt.gradle.testProtoktExtensions
+import protokt.v1.gradle.testProtoktExtensions
 
 plugins {
     id("protokt.jvm-conventions")
@@ -28,4 +28,6 @@ dependencies {
     testProtoktExtensions(project(":third-party:proto-google-common-protos-extensions"))
 
     testProtobuf(project(":testing:options"))
+
+    testRuntimeOnly(libs.protobuf.java)
 }

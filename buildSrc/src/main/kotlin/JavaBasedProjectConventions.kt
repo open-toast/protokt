@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast Inc.
+ * Copyright (c) 2022 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,14 +13,14 @@
  * limitations under the License.
  */
 
-import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.tasks.testing.Test
-import org.gradle.kotlin.dsl.configure
+import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.kotlin
 import org.gradle.kotlin.dsl.repositories
+import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -30,19 +30,15 @@ fun Project.javaBasedProjectConventions() {
     }
 
     dependencies {
-        "api"(kotlin("stdlib", "1.5.32"))
+        "api"(kotlin("stdlib"))
 
-        "testImplementation"(libraries.junit)
-        "testImplementation"(libraries.truth)
+        "testImplementation"(libs.junit.jupiter)
+        "testImplementation"(libs.truth)
     }
 
     tasks.withType<KotlinCompile> {
         kotlinOptions {
             allWarningsAsErrors = true
-            jvmTarget = "1.8"
-            freeCompilerArgs = listOf("-Xinline-classes")
-            languageVersion = "1.5"
-            apiVersion = "1.5"
         }
     }
 
@@ -50,8 +46,7 @@ fun Project.javaBasedProjectConventions() {
         useJUnitPlatform()
     }
 
-    configure<JavaPluginExtension> {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+    the<JavaPluginExtension>().toolchain {
+        languageVersion.set(JavaLanguageVersion.of(libs.versions.java.get().toInt()))
     }
 }

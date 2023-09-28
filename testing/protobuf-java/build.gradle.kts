@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2019 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * limitations under the License.
  */
 
-import com.google.protobuf.gradle.ProtobufExtension
 import com.google.protobuf.gradle.proto
 
 plugins {
@@ -21,20 +20,16 @@ plugins {
     id("com.google.protobuf")
 }
 
+defaultProtoc()
+
 dependencies {
-    implementation(libraries.protobufJava)
+    compileOnly(libs.protobuf.java)
 }
 
 sourceSets {
     main {
         proto {
-            srcDir("${project.rootDir}/testing/runtime-tests/src/main/proto")
+            srcDir("${project.rootDir}/testing/interop/src/main/proto")
         }
-    }
-}
-
-configure<ProtobufExtension> {
-    protoc {
-        artifact = libraries.protoc
     }
 }

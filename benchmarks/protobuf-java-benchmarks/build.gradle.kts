@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2019 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,20 +19,16 @@ plugins {
     application
 }
 
-configure<JavaApplication> {
-    mainClassName = "com.toasttab.protokt.benchmarks.ProtobufBenchmarksKt"
-    executableDir = ".."
-}
+defaultProtoc()
 
-protobuf {
-    protoc {
-        artifact = libraries.protoc
-    }
+configure<JavaApplication> {
+    mainClass.set("com.toasttab.protokt.benchmarks.ProtobufBenchmarksKt")
+    executableDir = ".."
 }
 
 dependencies {
     implementation(project(":benchmarks:benchmarks-util"))
-    implementation(libraries.protobufJava)
+    implementation(libs.protobuf.java)
 
     protobuf(project(":benchmarks:schema"))
 }

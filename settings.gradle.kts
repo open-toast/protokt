@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2019 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 
 buildscript {
     repositories {
+        maven(url = "https://repo1.maven.org/maven2")
         gradlePluginPortal()
     }
     dependencies {
@@ -36,31 +37,42 @@ include(
     "protokt-gradle-plugin",
     "protokt-util",
 
+    "grpc-kotlin-shim",
+
     "examples",
     "examples:grpc-java",
     "examples:grpc-java-lite",
     "examples:grpc-kotlin",
     "examples:grpc-kotlin-lite",
+    "examples:grpc-node",
     "examples:protos",
 
     "extensions",
-    "extensions:protokt-extensions-api",
-    "extensions:protokt-extensions-simple",
     "extensions:protokt-extensions",
+    "extensions:protokt-extensions-api",
     "extensions:protokt-extensions-lite",
+    "extensions:protokt-jvm-extensions",
+    "extensions:protokt-jvm-extensions-lite",
+    "extensions:protokt-jvm-extensions-simple",
 
     "testing:android",
     "testing:android-test-configurations",
-    "testing:conformance-driver",
-    "testing:conformance-tests",
+    "testing:conformance",
+    "testing:conformance:driver",
+    "testing:conformance:js-ir",
+    "testing:conformance:jvm",
+    "testing:conformance:runner",
+    "testing:interop",
+    "testing:multiplatform-testing",
     "testing:options",
     "testing:options-api",
     "testing:options-test-configurations",
     "testing:plugin-options",
-    "testing:plugin-options:ignore-java-package",
     "testing:plugin-options:lite",
+    "testing:protokt-generation",
+    "testing:protokt-generation-2",
     "testing:protobuf-java",
-    "testing:runtime-tests",
+    "testing:protobufjs",
     "testing:testing-util",
 
     "benchmarks",
@@ -75,5 +87,6 @@ include(
     "third-party:proto-google-common-protos-extensions",
     "third-party:proto-google-common-protos-extensions-lite",
     "third-party:proto-google-common-protos-grpc",
+    "third-party:proto-google-common-protos-grpc-kotlin",
     "third-party:proto-google-common-protos-lite"
 )

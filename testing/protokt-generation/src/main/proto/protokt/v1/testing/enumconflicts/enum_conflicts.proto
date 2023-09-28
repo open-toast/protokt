@@ -1,0 +1,58 @@
+/*
+ * Copyright (c) 2022 Toast, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+syntax = "proto3";
+
+package protokt.v1.testing.enumconflicts;
+
+enum Boolean { boolean = 0; }
+enum Double { double = 0; }
+enum Float { float = 0; }
+enum Int { int = 0; }
+enum List { list = 0; }
+enum Long { long = 0; }
+enum Map { map = 0; }
+enum String { string = 0; }
+enum Unit { unit = 0; }
+enum Enum { enum = 0; }
+enum Int32 { int32 = 0; }
+enum Int64 { int64 = 0; }
+enum Fixed32 { fixed32 = 0; }
+enum Fixed64 { fixed64 = 0; }
+enum SFixed64 { sfixed64 = 0; }
+enum SInt32 { sint32 = 0; }
+enum SInt64 { sint64 = 0; }
+enum UInt32 { uint32 = 0; }
+enum UInt64 { uint64 = 0; }
+enum Bytes { bytes = 0; }
+enum Deserializer { deserializer = 0; }
+enum KtDeserializer { ktdeserializer = 0; }
+enum KtSerializer { ktserializer = 0; }
+enum KtEnumSerializer { ktenumserializer = 0; }
+enum Tag { tag = 0; }
+enum UnknownFieldSet { unknownfieldset = 0; }
+enum KtEnum { ktenum = 0; }
+enum AbstractKtDeserializer { abstractktdeserializer = 0; }
+enum KtMessage { ktmessage = 0; }
+enum AbstractKtEnum { abstractktenum = 0; }
+enum BytesSlice { bytesslice = 0; }
+enum KtEnumDeserializer { ktenumdeserializer = 0; }
+enum UnknownField { unknownfield = 0; }
+enum UnknownValue { unknownvalue = 0; }
+enum VarintVal { varintval = 0; }
+enum Fixed32Val { fiex32val = 0; }
+enum Fixed64Val { fixed64val = 0; }
+enum LengthDelimitedVal { lengthdelimitedval = 0; }
+enum Any { any = 0; }

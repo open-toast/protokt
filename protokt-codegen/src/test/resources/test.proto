@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2019 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,10 +15,10 @@
 
 syntax = "proto3";
 
-package toasttab.protokt.codegen.testing;
-
-import "protokt/protokt.proto";
+package toasttab.protokt.v1.codegen.testing;
 
 message TestMessage {
   string value = 1;
 }
+
+message Empty {}

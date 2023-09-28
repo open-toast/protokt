@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Toast Inc.
+ * Copyright (c) 2020 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,10 @@ plugins {
     id("protokt.jvm-conventions")
 }
 
+// used by integration testing project
 enablePublishing()
 
-includeCommonGradleSource("ProtoktExtension.kt")
+includeBuildSrc("ProtoktExtension.kt")
 
 dependencies {
     testImplementation(project(":extensions:protokt-extensions"))

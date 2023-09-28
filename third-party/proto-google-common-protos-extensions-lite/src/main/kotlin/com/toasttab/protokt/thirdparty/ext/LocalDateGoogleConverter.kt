@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast Inc.
+ * Copyright (c) 2022 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,13 @@
 package com.toasttab.protokt.thirdparty.ext
 
 import com.google.auto.service.AutoService
-import com.google.type.Date
-import com.toasttab.protokt.ext.Converter
+import protokt.v1.google.type.Date
 import java.time.LocalDate
 
-@AutoService(Converter::class)
-object LocalDateGoogleConverter : Converter<LocalDate, Date> {
+@Suppress("DEPRECATION")
+@Deprecated("use v1")
+@AutoService(com.toasttab.protokt.ext.Converter::class)
+object LocalDateGoogleConverter : com.toasttab.protokt.ext.Converter<LocalDate, Date> {
     override val wrapper = LocalDate::class
 
     override val wrapped = Date::class

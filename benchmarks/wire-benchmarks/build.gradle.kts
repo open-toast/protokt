@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2019 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,24 +13,11 @@
  * limitations under the License.
  */
 
-import com.squareup.wire.gradle.WireExtension
-
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath(libraries.wireGradle)
-    }
-}
-
 plugins {
     id("protokt.benchmarks-conventions")
     application
+    alias(libs.plugins.wire)
 }
-
-apply(plugin = "com.squareup.wire")
 
 application {
     mainClass.set("com.toasttab.protokt.benchmarks.WireBenchmarksKt")
@@ -39,20 +26,20 @@ application {
 
 dependencies {
     implementation(project(":benchmarks:benchmarks-util"))
-    implementation(libraries.wireRuntime)
+    implementation(libs.wireRuntime)
 }
 
-configure<WireExtension> {
+wire {
     sourcePath("../schema/src/main/resources")
 
     kotlin {
-        out = "$buildDir/generated-sources/proto/main/java"
+        out = layout.buildDirectory.file("generated-sources/proto/main/java").get().asFile.absolutePath
     }
 }
 
 sourceSets {
     main {
-        java.srcDirs.add(file("$buildDir/generated-sources/proto/main/java"))
+        java.srcDir(layout.buildDirectory.file("generated-sources/proto/main/java"))
     }
 }
 

@@ -1,0 +1,6 @@
+- protobuf configuration in JS projects
+- jsMain source set for JS projects is hacky
+- integration with full grpc-node runtime:
+  - error propagation
+  - context propagation?
+  - metadata API

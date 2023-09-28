@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  node: circleci/node@5.0.2
+
 parameters:
   benchmarks:
     type: boolean
@@ -16,7 +19,7 @@ executors:
       - image: alvrme/alpine-android:android-31-jdk<<parameters.jdk>>
     environment:
       GRADLE_OPTS: "-Dorg.gradle.daemon=false"
-    resource_class: medium+
+    resource_class: large
 
 commands:
   read_cache:
@@ -43,6 +46,22 @@ jobs:
     steps:
       - checkout
       - read_cache
+      - node/install
+
+      - run:
+          name: Install protobufjs
+          command: |
+            npm install protobufjs@6.11.3
+
+      - run:
+          name: Install long.js
+          command: |
+            npm install long@5.2.0
+
+      - run:
+          name: Install Firefox
+          command: |
+            apk add firefox
 
       - run:
           name: Build and test
@@ -72,6 +91,7 @@ jobs:
 
       - store_test_results:
           path: ~/test-results
+
       - store_artifacts:
           path: ~/test-results/junit
 
@@ -89,13 +109,42 @@ jobs:
     steps:
       - checkout
       - read_cache
+      - node/install
+
+      - run:
+          name: Install protobufjs
+          command: |
+            npm install protobufjs@6.11.3
+
+      - run:
+          name: Install long.js
+          command: |
+            npm install long@5.2.0
+
+      - run:
+          name: Install Firefox
+          command: |
+            apk add firefox
 
       - attach_workspace:
           at: build/repos
 
       - run:
           name: Integration tests
-          command: cd gradle-plugin-integration-test && ./gradlew clean build -Dkotlin.version=<<parameters.kotlin>> --stacktrace
+          command: cd gradle-plugin-integration-test && ./gradlew clean build -Dkotlin-integration.version=<<parameters.kotlin>> -Djava-integration.version=<<parameters.jdk>> --stacktrace
+
+      - run:
+          name: Save test results
+          command: |
+            mkdir -p ~/test-results/junit/
+            find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
+          when: always
+
+      - store_test_results:
+          path: ~/test-results
+
+      - store_artifacts:
+          path: ~/test-results/junit
 
   release:
     executor: builder
@@ -103,8 +152,8 @@ jobs:
       - checkout
       - read_cache
       - run:
-            name: Publish release
-            command: "./gradlew build -x test publishToRemote publishPlugins -Dorg.gradle.internal.http.socketTimeout=120000 -Dorg.gradle.internal.network.retry.max.attempts=1 -Dorg.gradle.internal.publish.checksums.insecure=true"
+          name: Publish release
+          command: "./gradlew publish publishPlugins -Dorg.gradle.internal.http.socketTimeout=120000 -Dorg.gradle.internal.network.retry.max.attempts=1 -Dorg.gradle.internal.publish.checksums.insecure=true"
       - run:
           name: Finalize release
           command: "./gradlew closeAndReleaseRepository -Dorg.gradle.internal.http.socketTimeout=120000 -Dorg.gradle.internal.network.retry.max.attempts=1 -Dorg.gradle.internal.publish.checksums.insecure=true"
@@ -121,8 +170,8 @@ workflows:
             - build
           matrix:
             parameters:
-              jdk: ["8", "11", "17"]
-              kotlin: ["1.6.21", "1.7.21", "1.8.22"]
+              jdk: ["11", "17"]
+              kotlin: ["1.8.22", "1.9.10"]
       - release:
           context: OSS
           filters:

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast Inc.
+ * Copyright (c) 2022 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,24 @@
 plugins {
     id("protokt.common-conventions")
     id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    kotlin("android")
 }
 
 javaBasedProjectConventions()
 
 repositories {
     google()
+}
+
+kotlin {
+    jvmToolchain(libs.versions.java.get().toInt())
+}
+
+// remove after AGP 8.1.0
+// https://issuetracker.google.com/issues/260059413
+android {
+    compileOptions {
+        sourceCompatibility = JavaVersion.valueOf("VERSION_${libs.versions.java.get().toInt()}")
+        targetCompatibility = JavaVersion.valueOf("VERSION_${libs.versions.java.get().toInt()}")
+    }
 }

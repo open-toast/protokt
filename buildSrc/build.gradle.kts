@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast Inc.
+ * Copyright (c) 2019 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,23 +15,30 @@
 
 plugins {
     `kotlin-dsl`
+    alias(libs.plugins.buildConfig)
+}
+
+buildConfig {
+    useKotlinOutput { topLevelConstants = true }
+    packageName.set("protokt.v1.gradle")
+    buildConfigField("String", "DEFAULT_PROTOBUF_VERSION", "\"${libs.versions.protobuf.java.get()}\"")
+    buildConfigField("String", "PROTOKT_VERSION", "\"$version\"")
 }
 
 repositories {
+    mavenCentral()
     gradlePluginPortal()
     google()
-    mavenCentral()
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21")
-    implementation("com.android.tools.build:gradle:4.1.0")
-
-    implementation("com.diffplug.spotless:spotless-plugin-gradle:6.5.2")
-    implementation("com.google.protobuf:protobuf-gradle-plugin:0.9.1")
-    implementation("io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.30.0")
-    implementation("com.google.guava:guava:31.1-jre")
-    implementation("ru.vyarus:gradle-animalsniffer-plugin:1.5.4")
-    implementation("org.jetbrains.kotlinx:binary-compatibility-validator:0.8.0")
+    implementation(libs.androidGradlePlugin)
+    implementation(libs.animalSnifferGradlePlugin)
+    implementation(libs.binaryCompatibilityValidator)
+    implementation(libs.gradleMavenPublishPlugin)
+    implementation(libs.kotlinGradlePlugin)
+    implementation(libs.protobuf.gradlePlugin)
+    implementation(libs.spotlessGradlePlugin)
     implementation(kotlin("gradle-plugin-api"))
+    implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 }
