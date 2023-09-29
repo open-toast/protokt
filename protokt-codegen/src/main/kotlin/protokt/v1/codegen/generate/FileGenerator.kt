@@ -20,6 +20,8 @@ import protokt.v1.codegen.generate.Deprecation.addDeprecationSuppression
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.ProtoFileContents
 
+val INDENT = "  "
+
 fun generateFile(contents: ProtoFileContents) =
     FileGenerator(contents).generate()
 
@@ -42,6 +44,7 @@ private class FileGenerator(
                         Source: ${contents.info.name}
                     """.trimIndent()
                 )
+                indent(INDENT)
             }
 
         var anyCodeAdded = false
