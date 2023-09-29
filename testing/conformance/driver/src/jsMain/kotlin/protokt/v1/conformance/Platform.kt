@@ -44,7 +44,7 @@ internal actual object Platform {
         deserializer: KtDeserializer<T>
     ): ConformanceStepResult<T>? {
         val size = readSize() ?: return null
-        return deserialize(Bytes(readBytes(size)), deserializer)
+        return deserialize(Bytes.from(readBytes(size)), deserializer)
     }
 
     private suspend fun readBytes(size: Int) =
