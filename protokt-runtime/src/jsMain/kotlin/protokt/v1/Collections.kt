@@ -20,28 +20,28 @@ actual object Collections {
         if (map.isNullOrEmpty()) {
             emptyMap()
         } else {
-            unmodifiableMap(map)
+            UnmodifiableMap(map)
         }
 
     actual fun <K, V> copyMap(map: Map<K, V>): Map<K, V> =
         if (map.isEmpty()) {
             emptyMap()
         } else {
-            unmodifiableMap(LinkedHashMap(map))
+            UnmodifiableMap(LinkedHashMap(map))
         }
 
     actual fun <T> unmodifiableList(list: List<T>?): List<T> =
         if (list.isNullOrEmpty()) {
             emptyList()
         } else {
-            unmodifiableList(list)
+            UnmodifiableList(list)
         }
 
     actual fun <T> copyList(list: List<T>): List<T> =
         if (list.isEmpty()) {
             emptyList()
         } else {
-            unmodifiableList(ArrayList(list))
+            UnmodifiableList(ArrayList(list))
         }
 }
 

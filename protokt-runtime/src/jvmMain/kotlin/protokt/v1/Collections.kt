@@ -23,7 +23,7 @@ actual object Collections {
         if (map.isNullOrEmpty()) {
             emptyMap()
         } else {
-            _unmodifiableMap(map)
+            Collections.unmodifiableMap(map)
         }
 
     @JvmStatic
@@ -31,7 +31,7 @@ actual object Collections {
         if (map.isEmpty()) {
             emptyMap()
         } else {
-            _unmodifiableMap(LinkedHashMap(map))
+            Collections.unmodifiableMap(LinkedHashMap(map))
         }
 
     @JvmStatic
@@ -39,7 +39,7 @@ actual object Collections {
         if (list.isNullOrEmpty()) {
             emptyList()
         } else {
-            _unmodifiableList(list)
+            Collections.unmodifiableList(list)
         }
 
     @JvmStatic
@@ -47,12 +47,6 @@ actual object Collections {
         if (list.isEmpty()) {
             emptyList()
         } else {
-            _unmodifiableList(ArrayList(list))
+            Collections.unmodifiableList(ArrayList(list))
         }
-
-    private fun <T> _unmodifiableList(list: List<T>) =
-        Collections.unmodifiableList(list)
-
-    private fun <K, V> _unmodifiableMap(map: Map<K, V>) =
-        Collections.unmodifiableMap(map)
 }
