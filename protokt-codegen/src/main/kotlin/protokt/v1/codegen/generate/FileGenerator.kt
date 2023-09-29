@@ -42,7 +42,6 @@ private class FileGenerator(
                         Source: ${contents.info.name}
                     """.trimIndent()
                 )
-                indent("  ")
             }
 
         var anyCodeAdded = false

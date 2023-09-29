@@ -26,4 +26,7 @@ actual abstract class AbstractKtMessage actual constructor() : KtMessage {
         check(res.size == messageSize) { "Expected $messageSize, got ${res.size}" }
         return res
     }
+
+    actual final override fun serializeToBytes(): Bytes =
+        Bytes(serialize())
 }
