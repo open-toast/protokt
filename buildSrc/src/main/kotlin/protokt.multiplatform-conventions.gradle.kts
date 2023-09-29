@@ -23,10 +23,6 @@ kotlin {
         withJava()
     }
 
-    js(IR) {
-        configureJsTests()
-    }
-
     sourceSets {
         val commonTest by getting {
             dependencies {
