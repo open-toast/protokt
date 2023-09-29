@@ -13,11 +13,11 @@
  * limitations under the License.
  */
 
-package protokt.v1.testing
+package protokt.v1
 
-import com.google.common.truth.Truth.assertThat
-import org.junit.jupiter.api.Test
-import protokt.v1.BytesSlice
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNotEquals
 
 class BytesSliceTest {
     @Test
@@ -25,21 +25,21 @@ class BytesSliceTest {
         val slice1 = BytesSlice(byteArrayOf(1, 2, 3, 4, 5), 1, 3)
         val slice2 = BytesSlice(byteArrayOf(0, 1, 2, 3, 4, 5, 6), 2, 3)
 
-        assertThat(slice1).isEqualTo(slice2)
-        assertThat(slice1.hashCode()).isEqualTo(slice2.hashCode())
+        assertEquals(slice1, slice2)
+        assertEquals(slice1.hashCode(), slice2.hashCode())
     }
 
     @Test
     fun testEqualsDifferentLengths() {
         val array = byteArrayOf(1, 2, 3, 4, 5)
 
-        assertThat(BytesSlice(array, 0, 3)).isNotEqualTo(BytesSlice(array, 0, 4))
+        assertNotEquals(BytesSlice(array, 0, 3), BytesSlice(array, 0, 4))
     }
 
     @Test
     fun testEqualsDifferentOffsets() {
         val array = byteArrayOf(1, 2, 3, 4, 5)
 
-        assertThat(BytesSlice(array, 0, 3)).isNotEqualTo(BytesSlice(array, 1, 4))
+        assertNotEquals(BytesSlice(array, 0, 3), BytesSlice(array, 1, 4))
     }
 }

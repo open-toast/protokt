@@ -32,5 +32,5 @@ object InetAddressBytesConverter : Converter<InetAddress, Bytes> {
     }
 
     override fun unwrap(wrapped: InetAddress): Bytes =
-        Bytes(wrapped.address)
+        Bytes.from(wrapped.address)
 }

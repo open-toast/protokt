@@ -43,7 +43,7 @@ object UuidBytesConverter : OptimizedSizeOfConverter<UUID, Bytes> {
     }
 
     override fun unwrap(wrapped: UUID): Bytes =
-        Bytes(
+        Bytes.from(
             ByteBuffer.allocate(16)
                 .putLong(wrapped.mostSignificantBits)
                 .putLong(wrapped.leastSignificantBits)

@@ -29,4 +29,8 @@ object JvmBytes {
     @JvmStatic
     fun Bytes.inputStream(): InputStream =
         value.inputStream()
+
+    @JvmStatic
+    fun Bytes.Companion.from(stream: InputStream) =
+        Bytes(stream.readBytes())
 }

@@ -40,8 +40,8 @@ class CollectionsJavaInteropTest {
     private val content = "this is a test"
     private val content0 = "this is another test"
 
-    private val bytesContent = Bytes(content.toByteArray())
-    private val bytesContent0 = Bytes(content0.toByteArray())
+    private val bytesContent = Bytes.from(content.toByteArray())
+    private val bytesContent0 = Bytes.from(content0.toByteArray())
 
     private val protoktSimple = KtTest { `val` = bytesContent }
     private val protoktSimple0 = KtTest { `val` = bytesContent0 }

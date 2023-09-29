@@ -92,7 +92,7 @@ internal actual object Platform {
     }
 
     actual fun <T : KtMessage> deserialize(
-        bytes: Bytes,
+        bytes: ByteArray,
         deserializer: KtDeserializer<T>
     ): ConformanceStepResult<T> =
         try {

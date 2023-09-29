@@ -17,7 +17,6 @@ package protokt.v1.conformance
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.runBlocking
-import protokt.v1.Bytes
 import protokt.v1.KtDeserializer
 import protokt.v1.KtMessage
 import protokt.v1.conformance.ConformanceResponse.Result.ParseError
@@ -45,7 +44,7 @@ internal actual object Platform {
                 val requestBuf = ByteArray(size)
                 val read = System.`in`.read(requestBuf)
                 require(read == size) { "Expected to read $size bytes but read $read" }
-                deserialize(Bytes(requestBuf), deserializer)
+                deserialize(requestBuf, deserializer)
             } else {
                 null
             }
@@ -60,7 +59,7 @@ internal actual object Platform {
     }
 
     actual fun <T : KtMessage> deserialize(
-        bytes: Bytes,
+        bytes: ByteArray,
         deserializer: KtDeserializer<T>
     ): ConformanceStepResult<T> =
         try {

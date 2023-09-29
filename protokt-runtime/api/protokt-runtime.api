@@ -171,6 +171,7 @@ public abstract interface class com/toasttab/protokt/rt/KtMessage {
 	public abstract fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
 	public abstract fun serialize (Ljava/io/OutputStream;)V
 	public abstract fun serialize (Lprotokt/v1/KtMessageSerializer;)V
+	public abstract fun serializeToBytes ()Lprotokt/v1/Bytes;
 }
 
 public final class com/toasttab/protokt/rt/KtMessage$DefaultImpls {
@@ -481,44 +482,43 @@ public abstract class protokt/v1/AbstractKtMessage : protokt/v1/KtMessage {
 	public fun serialize (Lcom/google/protobuf/CodedOutputStream;)V
 	public final fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
 	public fun serialize (Ljava/io/OutputStream;)V
+	public final fun serializeToBytes ()Lprotokt/v1/Bytes;
 }
 
 public final class protokt/v1/Bytes {
 	public static final field Companion Lprotokt/v1/Bytes$Companion;
-	public fun <init> ([B)V
+	public static final fun empty ()Lprotokt/v1/Bytes;
 	public fun equals (Ljava/lang/Object;)Z
+	public static final fun from ([B)Lprotokt/v1/Bytes;
 	public final fun getBytes ()[B
 	public fun hashCode ()I
 	public final fun isEmpty ()Z
 	public final fun isNotEmpty ()Z
+	public final fun toBytesSlice ()Lprotokt/v1/BytesSlice;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/Bytes$Companion {
 	public final fun empty ()Lprotokt/v1/Bytes;
-}
-
-public final class protokt/v1/BytesKt {
-	public static final fun toBytesSlice (Lprotokt/v1/Bytes;)Lprotokt/v1/BytesSlice;
+	public final fun from ([B)Lprotokt/v1/Bytes;
 }
 
 public final class protokt/v1/BytesSlice {
 	public static final field Companion Lprotokt/v1/BytesSlice$Companion;
-	public fun <init> ([B)V
-	public fun <init> ([BII)V
 	public static final fun empty ()Lprotokt/v1/BytesSlice;
 	public fun equals (Ljava/lang/Object;)Z
+	public static final fun from ([B)Lprotokt/v1/BytesSlice;
 	public final fun getLength ()I
 	public fun hashCode ()I
 	public final fun isEmpty ()Z
 	public final fun isNotEmpty ()Z
-	public static final fun toBytes (Lprotokt/v1/BytesSlice;)Lprotokt/v1/Bytes;
+	public final fun toBytes ()Lprotokt/v1/Bytes;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/BytesSlice$Companion {
 	public final fun empty ()Lprotokt/v1/BytesSlice;
-	public final fun toBytes (Lprotokt/v1/BytesSlice;)Lprotokt/v1/Bytes;
+	public final fun from ([B)Lprotokt/v1/BytesSlice;
 }
 
 public final class protokt/v1/Collections {
@@ -556,6 +556,7 @@ public final class protokt/v1/Fixed64Val : protokt/v1/UnknownValue {
 public final class protokt/v1/JvmBytes {
 	public static final field INSTANCE Lprotokt/v1/JvmBytes;
 	public static final fun asReadOnlyBuffer (Lprotokt/v1/Bytes;)Ljava/nio/ByteBuffer;
+	public static final fun from (Lprotokt/v1/Bytes$Companion;Ljava/io/InputStream;)Lprotokt/v1/Bytes;
 	public static final fun inputStream (Lprotokt/v1/Bytes;)Ljava/io/InputStream;
 }
 

@@ -17,18 +17,21 @@ package protokt.v1
 
 import kotlin.jvm.JvmStatic
 
-class BytesSlice(
+class BytesSlice internal constructor(
     internal val array: ByteArray,
     internal val offset: Int,
     val length: Int
 ) {
-    constructor(array: ByteArray) : this(array, 0, array.size)
+    internal constructor(array: ByteArray) : this(array, 0, array.size)
 
     fun isEmpty() =
         length == 0
 
     fun isNotEmpty() =
         length > 0
+
+    fun toBytes() =
+        Bytes(array.sliceArray(offset until offset + length))
 
     private fun asSequence() = sequence {
         for (i in offset until length + offset) {
@@ -53,7 +56,7 @@ class BytesSlice(
             EMPTY
 
         @JvmStatic
-        fun BytesSlice.toBytes() =
-            Bytes(array.sliceArray(offset until offset + length))
+        fun from(bytes: ByteArray) =
+            Bytes.from(bytes).toBytesSlice()
     }
 }

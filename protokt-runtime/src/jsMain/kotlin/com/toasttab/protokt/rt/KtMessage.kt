@@ -15,6 +15,7 @@
 
 package com.toasttab.protokt.rt
 
+import protokt.v1.Bytes
 import protokt.v1.KtMessageSerializer
 
 @Deprecated("for backwards compatibility only")
@@ -24,4 +25,6 @@ actual interface KtMessage {
     actual fun serialize(serializer: KtMessageSerializer)
 
     actual fun serialize(): ByteArray
+
+    actual fun serializeToBytes(): Bytes
 }

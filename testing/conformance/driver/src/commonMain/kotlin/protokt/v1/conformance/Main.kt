@@ -33,7 +33,7 @@ fun main() = Platform.runBlockingMain {
                             is Proceed -> {
                                 when (val result = Platform.serialize(payload.value)) {
                                     is Failure -> result.failure
-                                    is Proceed -> Result.ProtobufPayload(Bytes(result.value))
+                                    is Proceed -> Result.ProtobufPayload(Bytes.from(result.value))
                                 }
                             }
                         }
@@ -52,7 +52,7 @@ private suspend fun nextRequest() =
 
 private fun payload(request: Proceed<ConformanceRequest>) =
     Platform.deserialize(
-        (request.value.payload as ProtobufPayload).protobufPayload,
+        (request.value.payload as ProtobufPayload).protobufPayload.bytes,
         TestAllTypesProto3
     )
 

@@ -15,8 +15,9 @@
 
 package protokt.v1
 
-// TODO: should constructor make a defensive copy?
-class Bytes(
+import kotlin.jvm.JvmStatic
+
+class Bytes internal constructor(
     internal val value: ByteArray
 ) {
     val bytes
@@ -27,6 +28,9 @@ class Bytes(
 
     fun isEmpty() =
         value.isEmpty()
+
+    fun toBytesSlice() =
+        BytesSlice(value)
 
     override fun equals(other: Any?) =
         other is Bytes && value.contentEquals(other.value)
@@ -40,12 +44,14 @@ class Bytes(
     companion object {
         private val EMPTY = Bytes(ByteArray(0))
 
+        @JvmStatic
         fun empty() =
             EMPTY
+
+        @JvmStatic
+        fun from(bytes: ByteArray) =
+            Bytes(clone(bytes))
     }
 }
 
 internal expect fun clone(bytes: ByteArray): ByteArray
-
-fun Bytes.toBytesSlice() =
-    BytesSlice(value)
