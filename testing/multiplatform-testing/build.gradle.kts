@@ -34,8 +34,6 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
-
-        js(IR) { configureJsTests() }
     }
 }
 
