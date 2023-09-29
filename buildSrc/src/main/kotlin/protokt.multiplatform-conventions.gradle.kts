@@ -27,6 +27,7 @@ kotlin {
         browser {}
         nodejs {}
         useCommonJs()
+        configureJsTests()
     }
 
     sourceSets {
