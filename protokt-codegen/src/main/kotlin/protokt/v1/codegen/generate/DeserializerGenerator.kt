@@ -70,6 +70,7 @@ private class DeserializerGenerator(
             .addFunction(
                 buildFunSpec("deserialize") {
                     addModifiers(KModifier.OVERRIDE)
+                    addAnnotation(JvmStatic::class)
                     addParameter("deserializer", KtMessageDeserializer::class)
                     returns(msg.className)
                     if (properties.isNotEmpty()) {

@@ -20,8 +20,6 @@ import protokt.v1.codegen.generate.Deprecation.addDeprecationSuppression
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.ProtoFileContents
 
-val INDENT = "  "
-
 fun generateFile(contents: ProtoFileContents) =
     FileGenerator(contents).generate()
 
