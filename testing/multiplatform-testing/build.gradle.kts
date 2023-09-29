@@ -28,12 +28,6 @@ kotlin {
                 runtimeOnly(libs.protobuf.java)
             }
         }
-
-        val jsTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-            }
-        }
     }
 }
 
