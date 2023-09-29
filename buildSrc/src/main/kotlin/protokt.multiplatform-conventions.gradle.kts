@@ -24,9 +24,6 @@ kotlin {
     }
 
     js(IR) {
-        browser {}
-        nodejs {}
-        useCommonJs()
         configureJsTests()
     }
 
