@@ -23,8 +23,6 @@ import protokt.v1.KtEnum
 import protokt.v1.KtMessage
 import protokt.v1.KtMessageSerializer
 import protokt.v1.SizeCodecs
-import protokt.v1.SizeCodecs.sizeOfSInt32
-import protokt.v1.SizeCodecs.sizeOfSInt64
 import protokt.v1.codegen.generate.sizeOf
 import kotlin.reflect.KClass
 
@@ -47,19 +45,19 @@ sealed class FieldType {
         override val kotlinRepresentation: KClass<*>? = null
     ) : FieldType()
 
-    object Bool : Scalar(Boolean::class)
-    object Double : Scalar(kotlin.Double::class)
-    object Float : Scalar(kotlin.Float::class)
-    object Fixed32 : Scalar(UInt::class)
-    object Fixed64 : Scalar(ULong::class)
-    object Int32 : Scalar(Int::class)
-    object Int64 : Scalar(Long::class)
-    object SFixed32 : Scalar(Int::class)
-    object SFixed64 : Scalar(Long::class)
-    object SInt32 : Scalar(Int::class)
-    object SInt64 : Scalar(Long::class)
-    object UInt32 : Scalar(UInt::class)
-    object UInt64 : Scalar(ULong::class)
+    data object Bool : Scalar(Boolean::class)
+    data object Double : Scalar(kotlin.Double::class)
+    data object Float : Scalar(kotlin.Float::class)
+    data object Fixed32 : Scalar(UInt::class)
+    data object Fixed64 : Scalar(ULong::class)
+    data object Int32 : Scalar(Int::class)
+    data object Int64 : Scalar(Long::class)
+    data object SFixed32 : Scalar(Int::class)
+    data object SFixed64 : Scalar(Long::class)
+    data object SInt32 : Scalar(Int::class)
+    data object SInt64 : Scalar(Long::class)
+    data object UInt32 : Scalar(UInt::class)
+    data object UInt64 : Scalar(ULong::class)
 
     val protoktFieldType
         get() = when (this) {
