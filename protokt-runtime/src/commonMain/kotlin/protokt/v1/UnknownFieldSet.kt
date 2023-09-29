@@ -19,8 +19,7 @@ import protokt.v1.Collections.unmodifiableList
 import protokt.v1.Collections.unmodifiableMap
 import protokt.v1.SizeCodecs.sizeOf
 
-class UnknownFieldSet
-private constructor(
+class UnknownFieldSet private constructor(
     val unknownFields: Map<UInt, Field>
 ) {
     fun size() =

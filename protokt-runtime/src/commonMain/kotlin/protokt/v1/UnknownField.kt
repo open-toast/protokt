@@ -16,9 +16,9 @@
 package protokt.v1
 
 import protokt.v1.SizeCodecs.sizeOf
+import kotlin.jvm.JvmInline
 
-class UnknownField
-private constructor(
+class UnknownField private constructor(
     val fieldNumber: UInt,
     val value: UnknownValue
 ) {
@@ -41,22 +41,34 @@ interface UnknownValue {
     fun size(): Int
 }
 
-data class VarintVal(val value: ULong) : UnknownValue {
+@JvmInline
+value class VarintVal(
+    val value: ULong
+) : UnknownValue {
     override fun size() =
         sizeOf(value)
 }
 
-data class Fixed32Val(val value: UInt) : UnknownValue {
+@JvmInline
+value class Fixed32Val(
+    val value: UInt
+) : UnknownValue {
     override fun size() =
         4
 }
 
-data class Fixed64Val(val value: ULong) : UnknownValue {
+@JvmInline
+value class Fixed64Val(
+    val value: ULong
+) : UnknownValue {
     override fun size() =
         8
 }
 
-data class LengthDelimitedVal(val value: Bytes) : UnknownValue {
+@JvmInline
+value class LengthDelimitedVal(
+    val value: Bytes
+) : UnknownValue {
     override fun size() =
         sizeOf(value)
 }
