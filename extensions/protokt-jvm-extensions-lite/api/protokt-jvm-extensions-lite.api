@@ -62,6 +62,7 @@ public final class protokt/v1/InetSocketAddress : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/InetSocketAddress$Deserializer;
 	public synthetic fun <init> (Ljava/net/InetAddress;ILprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/InetSocketAddress;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/InetSocketAddress;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAddress ()Ljava/net/InetAddress;
 	public fun getMessageSize ()I

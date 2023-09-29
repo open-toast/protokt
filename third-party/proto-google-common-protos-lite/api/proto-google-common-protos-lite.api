@@ -2,6 +2,7 @@ public final class protokt/v1/google/api/Advice : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/Advice$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Advice;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Advice;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDescription ()Ljava/lang/String;
 	public fun getMessageSize ()I
@@ -40,6 +41,7 @@ public final class protokt/v1/google/api/AuthProvider : protokt/v1/AbstractKtMes
 	public static final field Deserializer Lprotokt/v1/google/api/AuthProvider$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/AuthProvider;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/AuthProvider;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAudiences ()Ljava/lang/String;
 	public final fun getAuthorizationUrl ()Ljava/lang/String;
@@ -84,6 +86,7 @@ public final class protokt/v1/google/api/AuthRequirement : protokt/v1/AbstractKt
 	public static final field Deserializer Lprotokt/v1/google/api/AuthRequirement$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/AuthRequirement;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/AuthRequirement;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAudiences ()Ljava/lang/String;
 	public fun getMessageSize ()I
@@ -116,6 +119,7 @@ public final class protokt/v1/google/api/Authentication : protokt/v1/AbstractKtM
 	public static final field Deserializer Lprotokt/v1/google/api/Authentication$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Authentication;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Authentication;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getProviders ()Ljava/util/List;
@@ -148,6 +152,7 @@ public final class protokt/v1/google/api/AuthenticationRule : protokt/v1/Abstrac
 	public static final field Deserializer Lprotokt/v1/google/api/AuthenticationRule$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/google/api/OAuthRequirements;ZLjava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/AuthenticationRule;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/AuthenticationRule;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAllowWithoutCredential ()Z
 	public fun getMessageSize ()I
@@ -186,6 +191,7 @@ public final class protokt/v1/google/api/Backend : protokt/v1/AbstractKtMessage 
 	public static final field Deserializer Lprotokt/v1/google/api/Backend$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Backend;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Backend;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getRules ()Ljava/util/List;
@@ -220,6 +226,7 @@ public final class protokt/v1/google/api/BackendRule : protokt/v1/AbstractKtMess
 	public static final field Deserializer Lprotokt/v1/google/api/BackendRule$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;DDDLprotokt/v1/google/api/BackendRule$PathTranslation;Lprotokt/v1/google/api/BackendRule$Authentication;Ljava/lang/String;Ljava/util/Map;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/BackendRule;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/BackendRule;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAddress ()Ljava/lang/String;
 	public final fun getAuthentication ()Lprotokt/v1/google/api/BackendRule$Authentication;
@@ -326,6 +333,7 @@ public final class protokt/v1/google/api/Billing : protokt/v1/AbstractKtMessage 
 	public static final field Deserializer Lprotokt/v1/google/api/Billing$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Billing;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Billing;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getConsumerDestinations ()Ljava/util/List;
 	public fun getMessageSize ()I
@@ -339,6 +347,7 @@ public final class protokt/v1/google/api/Billing$BillingDestination : protokt/v1
 	public static final field Deserializer Lprotokt/v1/google/api/Billing$BillingDestination$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Billing$BillingDestination;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Billing$BillingDestination;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getMetrics ()Ljava/util/List;
@@ -515,6 +524,7 @@ public final class protokt/v1/google/api/ClientLibrarySettings : protokt/v1/Abst
 	public static final field Deserializer Lprotokt/v1/google/api/ClientLibrarySettings$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/google/api/LaunchStage;ZLprotokt/v1/google/api/JavaSettings;Lprotokt/v1/google/api/CppSettings;Lprotokt/v1/google/api/PhpSettings;Lprotokt/v1/google/api/PythonSettings;Lprotokt/v1/google/api/NodeSettings;Lprotokt/v1/google/api/DotnetSettings;Lprotokt/v1/google/api/RubySettings;Lprotokt/v1/google/api/GoSettings;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/ClientLibrarySettings;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/ClientLibrarySettings;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCppSettings ()Lprotokt/v1/google/api/CppSettings;
 	public final fun getDotnetSettings ()Lprotokt/v1/google/api/DotnetSettings;
@@ -574,6 +584,7 @@ public final class protokt/v1/google/api/CommonLanguageSettings : protokt/v1/Abs
 	public static final field Deserializer Lprotokt/v1/google/api/CommonLanguageSettings$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/CommonLanguageSettings;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/CommonLanguageSettings;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDestinations ()Ljava/util/List;
 	public fun getMessageSize ()I
@@ -606,6 +617,7 @@ public final class protokt/v1/google/api/ConfigChange : protokt/v1/AbstractKtMes
 	public static final field Deserializer Lprotokt/v1/google/api/ConfigChange$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/google/api/ChangeType;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/ConfigChange;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/ConfigChange;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAdvices ()Ljava/util/List;
 	public final fun getChangeType ()Lprotokt/v1/google/api/ChangeType;
@@ -657,6 +669,7 @@ public final class protokt/v1/google/api/Context : protokt/v1/AbstractKtMessage 
 	public static final field Deserializer Lprotokt/v1/google/api/Context$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Context;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Context;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getRules ()Ljava/util/List;
@@ -691,6 +704,7 @@ public final class protokt/v1/google/api/ContextRule : protokt/v1/AbstractKtMess
 	public static final field Deserializer Lprotokt/v1/google/api/ContextRule$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/ContextRule;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/ContextRule;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAllowedRequestExtensions ()Ljava/util/List;
 	public final fun getAllowedResponseExtensions ()Ljava/util/List;
@@ -732,6 +746,7 @@ public final class protokt/v1/google/api/Control : protokt/v1/AbstractKtMessage 
 	public static final field Deserializer Lprotokt/v1/google/api/Control$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Control;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Control;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getEnvironment ()Ljava/lang/String;
 	public fun getMessageSize ()I
@@ -765,6 +780,7 @@ public final class protokt/v1/google/api/CppSettings : protokt/v1/AbstractKtMess
 	public static final field Deserializer Lprotokt/v1/google/api/CppSettings$Deserializer;
 	public synthetic fun <init> (Lprotokt/v1/google/api/CommonLanguageSettings;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/CppSettings;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/CppSettings;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCommon ()Lprotokt/v1/google/api/CommonLanguageSettings;
 	public fun getMessageSize ()I
@@ -794,6 +810,7 @@ public final class protokt/v1/google/api/CustomHttpPattern : protokt/v1/Abstract
 	public static final field Deserializer Lprotokt/v1/google/api/CustomHttpPattern$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/CustomHttpPattern;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/CustomHttpPattern;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getKind ()Ljava/lang/String;
 	public fun getMessageSize ()I
@@ -826,6 +843,7 @@ public final class protokt/v1/google/api/Distribution : protokt/v1/AbstractKtMes
 	public static final field Deserializer Lprotokt/v1/google/api/Distribution$Deserializer;
 	public synthetic fun <init> (JDDLprotokt/v1/google/api/Distribution$Range;Lprotokt/v1/google/api/Distribution$BucketOptions;Ljava/util/List;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Distribution;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Distribution;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBucketCounts ()Ljava/util/List;
 	public final fun getBucketOptions ()Lprotokt/v1/google/api/Distribution$BucketOptions;
@@ -845,6 +863,7 @@ public final class protokt/v1/google/api/Distribution$BucketOptions : protokt/v1
 	public static final field Deserializer Lprotokt/v1/google/api/Distribution$BucketOptions$Deserializer;
 	public synthetic fun <init> (Lprotokt/v1/google/api/Distribution$BucketOptions$Options;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Distribution$BucketOptions;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Distribution$BucketOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getOptions ()Lprotokt/v1/google/api/Distribution$BucketOptions$Options;
@@ -877,6 +896,7 @@ public final class protokt/v1/google/api/Distribution$BucketOptions$Explicit : p
 	public static final field Deserializer Lprotokt/v1/google/api/Distribution$BucketOptions$Explicit$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Distribution$BucketOptions$Explicit;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Distribution$BucketOptions$Explicit;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBounds ()Ljava/util/List;
 	public fun getMessageSize ()I
@@ -906,6 +926,7 @@ public final class protokt/v1/google/api/Distribution$BucketOptions$Exponential 
 	public static final field Deserializer Lprotokt/v1/google/api/Distribution$BucketOptions$Exponential$Deserializer;
 	public synthetic fun <init> (IDDLprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Distribution$BucketOptions$Exponential;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Distribution$BucketOptions$Exponential;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getGrowthFactor ()D
 	public fun getMessageSize ()I
@@ -941,6 +962,7 @@ public final class protokt/v1/google/api/Distribution$BucketOptions$Linear : pro
 	public static final field Deserializer Lprotokt/v1/google/api/Distribution$BucketOptions$Linear$Deserializer;
 	public synthetic fun <init> (IDDLprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Distribution$BucketOptions$Linear;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Distribution$BucketOptions$Linear;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getNumFiniteBuckets ()I
@@ -1043,6 +1065,7 @@ public final class protokt/v1/google/api/Distribution$Exemplar : protokt/v1/Abst
 	public static final field Deserializer Lprotokt/v1/google/api/Distribution$Exemplar$Deserializer;
 	public synthetic fun <init> (DLprotokt/v1/google/protobuf/Timestamp;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Distribution$Exemplar;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Distribution$Exemplar;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAttachments ()Ljava/util/List;
 	public fun getMessageSize ()I
@@ -1078,6 +1101,7 @@ public final class protokt/v1/google/api/Distribution$Range : protokt/v1/Abstrac
 	public static final field Deserializer Lprotokt/v1/google/api/Distribution$Range$Deserializer;
 	public synthetic fun <init> (DDLprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Distribution$Range;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Distribution$Range;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getMax ()D
 	public fun getMessageSize ()I
@@ -1114,6 +1138,7 @@ public final class protokt/v1/google/api/Documentation : protokt/v1/AbstractKtMe
 	public static final field Deserializer Lprotokt/v1/google/api/Documentation$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Documentation;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Documentation;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDocumentationRootUrl ()Ljava/lang/String;
 	public fun getMessageSize ()I
@@ -1164,6 +1189,7 @@ public final class protokt/v1/google/api/DocumentationRule : protokt/v1/Abstract
 	public static final field Deserializer Lprotokt/v1/google/api/DocumentationRule$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/DocumentationRule;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/DocumentationRule;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDeprecationDescription ()Ljava/lang/String;
 	public final fun getDescription ()Ljava/lang/String;
@@ -1199,6 +1225,7 @@ public final class protokt/v1/google/api/DotnetSettings : protokt/v1/AbstractKtM
 	public static final field Deserializer Lprotokt/v1/google/api/DotnetSettings$Deserializer;
 	public synthetic fun <init> (Lprotokt/v1/google/api/CommonLanguageSettings;Ljava/util/Map;Ljava/util/Map;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/DotnetSettings;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/DotnetSettings;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCommon ()Lprotokt/v1/google/api/CommonLanguageSettings;
 	public final fun getForcedNamespaceAliases ()Ljava/util/List;
@@ -1243,6 +1270,7 @@ public final class protokt/v1/google/api/Endpoint : protokt/v1/AbstractKtMessage
 	public static final field Deserializer Lprotokt/v1/google/api/Endpoint$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;ZLjava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Endpoint;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Endpoint;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAliases ()Ljava/util/List;
 	public final fun getAllowCors ()Z
@@ -1469,6 +1497,7 @@ public final class protokt/v1/google/api/GoSettings : protokt/v1/AbstractKtMessa
 	public static final field Deserializer Lprotokt/v1/google/api/GoSettings$Deserializer;
 	public synthetic fun <init> (Lprotokt/v1/google/api/CommonLanguageSettings;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/GoSettings;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/GoSettings;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCommon ()Lprotokt/v1/google/api/CommonLanguageSettings;
 	public fun getMessageSize ()I
@@ -1498,6 +1527,7 @@ public final class protokt/v1/google/api/Http : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/Http$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;ZLprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Http;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Http;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getFullyDecodeReservedExpansion ()Z
 	public fun getMessageSize ()I
@@ -1530,6 +1560,7 @@ public final class protokt/v1/google/api/HttpBody : protokt/v1/AbstractKtMessage
 	public static final field Deserializer Lprotokt/v1/google/api/HttpBody$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/Bytes;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/HttpBody;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/HttpBody;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getContentType ()Ljava/lang/String;
 	public final fun getData ()Lprotokt/v1/Bytes;
@@ -1571,6 +1602,7 @@ public final class protokt/v1/google/api/HttpRule : protokt/v1/AbstractKtMessage
 	public static final field Deserializer Lprotokt/v1/google/api/HttpRule$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/google/api/HttpRule$Pattern;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/HttpRule;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/HttpRule;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAdditionalBindings ()Ljava/util/List;
 	public final fun getBody ()Ljava/lang/String;
@@ -1685,6 +1717,7 @@ public final class protokt/v1/google/api/JavaSettings : protokt/v1/AbstractKtMes
 	public static final field Deserializer Lprotokt/v1/google/api/JavaSettings$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/util/Map;Lprotokt/v1/google/api/CommonLanguageSettings;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/JavaSettings;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/JavaSettings;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCommon ()Lprotokt/v1/google/api/CommonLanguageSettings;
 	public final fun getLibraryPackage ()Ljava/lang/String;
@@ -1720,6 +1753,7 @@ public final class protokt/v1/google/api/JwtLocation : protokt/v1/AbstractKtMess
 	public static final field Deserializer Lprotokt/v1/google/api/JwtLocation$Deserializer;
 	public synthetic fun <init> (Lprotokt/v1/google/api/JwtLocation$In;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/JwtLocation;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/JwtLocation;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getIn ()Lprotokt/v1/google/api/JwtLocation$In;
 	public fun getMessageSize ()I
@@ -1788,6 +1822,7 @@ public final class protokt/v1/google/api/LabelDescriptor : protokt/v1/AbstractKt
 	public static final field Deserializer Lprotokt/v1/google/api/LabelDescriptor$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/google/api/LabelDescriptor$ValueType;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/LabelDescriptor;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/LabelDescriptor;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDescription ()Ljava/lang/String;
 	public final fun getKey ()Ljava/lang/String;
@@ -1903,6 +1938,7 @@ public final class protokt/v1/google/api/LogDescriptor : protokt/v1/AbstractKtMe
 	public static final field Deserializer Lprotokt/v1/google/api/LogDescriptor$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/LogDescriptor;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/LogDescriptor;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDescription ()Ljava/lang/String;
 	public final fun getDisplayName ()Ljava/lang/String;
@@ -1945,6 +1981,7 @@ public final class protokt/v1/google/api/Logging : protokt/v1/AbstractKtMessage 
 	public static final field Deserializer Lprotokt/v1/google/api/Logging$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Logging;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Logging;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getConsumerDestinations ()Ljava/util/List;
 	public fun getMessageSize ()I
@@ -1967,6 +2004,7 @@ public final class protokt/v1/google/api/Logging$LoggingDestination : protokt/v1
 	public static final field Deserializer Lprotokt/v1/google/api/Logging$LoggingDestination$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Logging$LoggingDestination;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Logging$LoggingDestination;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getLogs ()Ljava/util/List;
 	public fun getMessageSize ()I
@@ -2014,6 +2052,7 @@ public final class protokt/v1/google/api/MethodSettings : protokt/v1/AbstractKtM
 	public static final field Deserializer Lprotokt/v1/google/api/MethodSettings$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/google/api/MethodSettings$LongRunning;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/MethodSettings;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/MethodSettings;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getLongRunning ()Lprotokt/v1/google/api/MethodSettings$LongRunning;
 	public fun getMessageSize ()I
@@ -2036,6 +2075,7 @@ public final class protokt/v1/google/api/MethodSettings$LongRunning : protokt/v1
 	public static final field Deserializer Lprotokt/v1/google/api/MethodSettings$LongRunning$Deserializer;
 	public synthetic fun <init> (Lprotokt/v1/google/protobuf/Duration;FLprotokt/v1/google/protobuf/Duration;Lprotokt/v1/google/protobuf/Duration;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/MethodSettings$LongRunning;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/MethodSettings$LongRunning;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getInitialPollDelay ()Lprotokt/v1/google/protobuf/Duration;
 	public final fun getMaxPollDelay ()Lprotokt/v1/google/protobuf/Duration;
@@ -2085,6 +2125,7 @@ public final class protokt/v1/google/api/Metric : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/Metric$Deserializer;
 	public synthetic fun <init> (Ljava/util/Map;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Metric;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Metric;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getLabels ()Ljava/util/Map;
 	public fun getMessageSize ()I
@@ -2117,6 +2158,7 @@ public final class protokt/v1/google/api/MetricDescriptor : protokt/v1/AbstractK
 	public static final field Deserializer Lprotokt/v1/google/api/MetricDescriptor$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Lprotokt/v1/google/api/MetricDescriptor$MetricKind;Lprotokt/v1/google/api/MetricDescriptor$ValueType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/google/api/MetricDescriptor$MetricDescriptorMetadata;Lprotokt/v1/google/api/LaunchStage;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/MetricDescriptor;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/MetricDescriptor;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDescription ()Ljava/lang/String;
 	public final fun getDisplayName ()Ljava/lang/String;
@@ -2177,6 +2219,7 @@ public final class protokt/v1/google/api/MetricDescriptor$MetricDescriptorMetada
 	public static final field Deserializer Lprotokt/v1/google/api/MetricDescriptor$MetricDescriptorMetadata$Deserializer;
 	public synthetic fun <init> (Lprotokt/v1/google/api/LaunchStage;Lprotokt/v1/google/protobuf/Duration;Lprotokt/v1/google/protobuf/Duration;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/MetricDescriptor$MetricDescriptorMetadata;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/MetricDescriptor$MetricDescriptorMetadata;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getIngestDelay ()Lprotokt/v1/google/protobuf/Duration;
 	public final fun getLaunchStage ()Lprotokt/v1/google/api/LaunchStage;
@@ -2293,6 +2336,7 @@ public final class protokt/v1/google/api/MetricRule : protokt/v1/AbstractKtMessa
 	public static final field Deserializer Lprotokt/v1/google/api/MetricRule$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/util/Map;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/MetricRule;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/MetricRule;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getMetricCosts ()Ljava/util/Map;
@@ -2325,6 +2369,7 @@ public final class protokt/v1/google/api/MonitoredResource : protokt/v1/Abstract
 	public static final field Deserializer Lprotokt/v1/google/api/MonitoredResource$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/util/Map;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/MonitoredResource;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/MonitoredResource;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getLabels ()Ljava/util/Map;
 	public fun getMessageSize ()I
@@ -2357,6 +2402,7 @@ public final class protokt/v1/google/api/MonitoredResourceDescriptor : protokt/v
 	public static final field Deserializer Lprotokt/v1/google/api/MonitoredResourceDescriptor$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Lprotokt/v1/google/api/LaunchStage;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/MonitoredResourceDescriptor;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/MonitoredResourceDescriptor;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDescription ()Ljava/lang/String;
 	public final fun getDisplayName ()Ljava/lang/String;
@@ -2401,6 +2447,7 @@ public final class protokt/v1/google/api/MonitoredResourceMetadata : protokt/v1/
 	public static final field Deserializer Lprotokt/v1/google/api/MonitoredResourceMetadata$Deserializer;
 	public synthetic fun <init> (Lprotokt/v1/google/protobuf/Struct;Ljava/util/Map;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/MonitoredResourceMetadata;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/MonitoredResourceMetadata;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getSystemLabels ()Lprotokt/v1/google/protobuf/Struct;
@@ -2439,6 +2486,7 @@ public final class protokt/v1/google/api/Monitoring : protokt/v1/AbstractKtMessa
 	public static final field Deserializer Lprotokt/v1/google/api/Monitoring$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Monitoring;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Monitoring;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getConsumerDestinations ()Ljava/util/List;
 	public fun getMessageSize ()I
@@ -2461,6 +2509,7 @@ public final class protokt/v1/google/api/Monitoring$MonitoringDestination : prot
 	public static final field Deserializer Lprotokt/v1/google/api/Monitoring$MonitoringDestination$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Monitoring$MonitoringDestination;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Monitoring$MonitoringDestination;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getMetrics ()Ljava/util/List;
@@ -2508,6 +2557,7 @@ public final class protokt/v1/google/api/NodeSettings : protokt/v1/AbstractKtMes
 	public static final field Deserializer Lprotokt/v1/google/api/NodeSettings$Deserializer;
 	public synthetic fun <init> (Lprotokt/v1/google/api/CommonLanguageSettings;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/NodeSettings;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/NodeSettings;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCommon ()Lprotokt/v1/google/api/CommonLanguageSettings;
 	public fun getMessageSize ()I
@@ -2537,6 +2587,7 @@ public final class protokt/v1/google/api/OAuthRequirements : protokt/v1/Abstract
 	public static final field Deserializer Lprotokt/v1/google/api/OAuthRequirements$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/OAuthRequirements;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/OAuthRequirements;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCanonicalScopes ()Ljava/lang/String;
 	public fun getMessageSize ()I
@@ -2566,6 +2617,7 @@ public final class protokt/v1/google/api/Page : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/Page$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Page;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Page;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getContent ()Ljava/lang/String;
 	public fun getMessageSize ()I
@@ -2601,6 +2653,7 @@ public final class protokt/v1/google/api/PhpSettings : protokt/v1/AbstractKtMess
 	public static final field Deserializer Lprotokt/v1/google/api/PhpSettings$Deserializer;
 	public synthetic fun <init> (Lprotokt/v1/google/api/CommonLanguageSettings;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/PhpSettings;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/PhpSettings;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCommon ()Lprotokt/v1/google/api/CommonLanguageSettings;
 	public fun getMessageSize ()I
@@ -2630,6 +2683,7 @@ public final class protokt/v1/google/api/ProjectProperties : protokt/v1/Abstract
 	public static final field Deserializer Lprotokt/v1/google/api/ProjectProperties$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/ProjectProperties;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/ProjectProperties;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getProperties ()Ljava/util/List;
@@ -2659,6 +2713,7 @@ public final class protokt/v1/google/api/Property : protokt/v1/AbstractKtMessage
 	public static final field Deserializer Lprotokt/v1/google/api/Property$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/google/api/Property$PropertyType;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Property;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Property;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDescription ()Ljava/lang/String;
 	public fun getMessageSize ()I
@@ -2730,6 +2785,7 @@ public final class protokt/v1/google/api/Publishing : protokt/v1/AbstractKtMessa
 	public static final field Deserializer Lprotokt/v1/google/api/Publishing$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Lprotokt/v1/google/api/ClientLibraryOrganization;Ljava/util/List;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Publishing;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Publishing;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getApiShortName ()Ljava/lang/String;
 	public final fun getCodeownerGithubTeams ()Ljava/util/List;
@@ -2786,6 +2842,7 @@ public final class protokt/v1/google/api/PythonSettings : protokt/v1/AbstractKtM
 	public static final field Deserializer Lprotokt/v1/google/api/PythonSettings$Deserializer;
 	public synthetic fun <init> (Lprotokt/v1/google/api/CommonLanguageSettings;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/PythonSettings;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/PythonSettings;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCommon ()Lprotokt/v1/google/api/CommonLanguageSettings;
 	public fun getMessageSize ()I
@@ -2815,6 +2872,7 @@ public final class protokt/v1/google/api/Quota : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/Quota$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Quota;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Quota;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getLimits ()Ljava/util/List;
 	public fun getMessageSize ()I
@@ -2853,6 +2911,7 @@ public final class protokt/v1/google/api/QuotaLimit : protokt/v1/AbstractKtMessa
 	public static final field Deserializer Lprotokt/v1/google/api/QuotaLimit$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;JJLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/QuotaLimit;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/QuotaLimit;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDefaultLimit ()J
 	public final fun getDescription ()Ljava/lang/String;
@@ -2909,6 +2968,7 @@ public final class protokt/v1/google/api/ResourceDescriptor : protokt/v1/Abstrac
 	public static final field Deserializer Lprotokt/v1/google/api/ResourceDescriptor$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Lprotokt/v1/google/api/ResourceDescriptor$History;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/ResourceDescriptor;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/ResourceDescriptor;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getHistory ()Lprotokt/v1/google/api/ResourceDescriptor$History;
 	public fun getMessageSize ()I
@@ -3013,6 +3073,7 @@ public final class protokt/v1/google/api/ResourceReference : protokt/v1/Abstract
 	public static final field Deserializer Lprotokt/v1/google/api/ResourceReference$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/ResourceReference;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/ResourceReference;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getChildType ()Ljava/lang/String;
 	public fun getMessageSize ()I
@@ -3050,6 +3111,7 @@ public final class protokt/v1/google/api/RoutingParameter : protokt/v1/AbstractK
 	public static final field Deserializer Lprotokt/v1/google/api/RoutingParameter$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/RoutingParameter;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/RoutingParameter;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getField ()Ljava/lang/String;
 	public fun getMessageSize ()I
@@ -3082,6 +3144,7 @@ public final class protokt/v1/google/api/RoutingRule : protokt/v1/AbstractKtMess
 	public static final field Deserializer Lprotokt/v1/google/api/RoutingRule$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/RoutingRule;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/RoutingRule;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getRoutingParameters ()Ljava/util/List;
@@ -3111,6 +3174,7 @@ public final class protokt/v1/google/api/RubySettings : protokt/v1/AbstractKtMes
 	public static final field Deserializer Lprotokt/v1/google/api/RubySettings$Deserializer;
 	public synthetic fun <init> (Lprotokt/v1/google/api/CommonLanguageSettings;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/RubySettings;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/RubySettings;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCommon ()Lprotokt/v1/google/api/CommonLanguageSettings;
 	public fun getMessageSize ()I
@@ -3140,6 +3204,7 @@ public final class protokt/v1/google/api/Service : protokt/v1/AbstractKtMessage 
 	public static final field Deserializer Lprotokt/v1/google/api/Service$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lprotokt/v1/google/api/Documentation;Lprotokt/v1/google/api/Backend;Lprotokt/v1/google/api/Http;Lprotokt/v1/google/api/Quota;Lprotokt/v1/google/api/Authentication;Lprotokt/v1/google/api/Context;Lprotokt/v1/google/api/Usage;Ljava/util/List;Lkotlin/UInt;Lprotokt/v1/google/api/Control;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lprotokt/v1/google/api/Billing;Lprotokt/v1/google/api/Logging;Lprotokt/v1/google/api/Monitoring;Lprotokt/v1/google/api/SystemParameters;Ljava/lang/String;Lprotokt/v1/google/api/SourceInfo;Lprotokt/v1/google/api/Publishing;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Service;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Service;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getApis ()Ljava/util/List;
 	public final fun getAuthentication ()Lprotokt/v1/google/api/Authentication;
@@ -3248,6 +3313,7 @@ public final class protokt/v1/google/api/SourceInfo : protokt/v1/AbstractKtMessa
 	public static final field Deserializer Lprotokt/v1/google/api/SourceInfo$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/SourceInfo;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/SourceInfo;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getSourceFiles ()Ljava/util/List;
@@ -3281,6 +3347,7 @@ public final class protokt/v1/google/api/SystemParameter : protokt/v1/AbstractKt
 	public static final field Deserializer Lprotokt/v1/google/api/SystemParameter$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/SystemParameter;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/SystemParameter;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getHttpHeader ()Ljava/lang/String;
 	public fun getMessageSize ()I
@@ -3316,6 +3383,7 @@ public final class protokt/v1/google/api/SystemParameterRule : protokt/v1/Abstra
 	public static final field Deserializer Lprotokt/v1/google/api/SystemParameterRule$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/SystemParameterRule;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/SystemParameterRule;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getParameters ()Ljava/util/List;
@@ -3348,6 +3416,7 @@ public final class protokt/v1/google/api/SystemParameters : protokt/v1/AbstractK
 	public static final field Deserializer Lprotokt/v1/google/api/SystemParameters$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/SystemParameters;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/SystemParameters;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getRules ()Ljava/util/List;
@@ -3383,6 +3452,7 @@ public final class protokt/v1/google/api/Usage : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/Usage$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Ljava/util/List;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Usage;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Usage;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getProducerNotificationChannel ()Ljava/lang/String;
@@ -3423,6 +3493,7 @@ public final class protokt/v1/google/api/UsageRule : protokt/v1/AbstractKtMessag
 	public static final field Deserializer Lprotokt/v1/google/api/UsageRule$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;ZZLprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/UsageRule;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/UsageRule;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAllowUnregisteredCalls ()Z
 	public fun getMessageSize ()I
@@ -3458,6 +3529,7 @@ public final class protokt/v1/google/api/Visibility : protokt/v1/AbstractKtMessa
 	public static final field Deserializer Lprotokt/v1/google/api/Visibility$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Visibility;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Visibility;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getRules ()Ljava/util/List;
@@ -3492,6 +3564,7 @@ public final class protokt/v1/google/api/VisibilityRule : protokt/v1/AbstractKtM
 	public static final field Deserializer Lprotokt/v1/google/api/VisibilityRule$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/VisibilityRule;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/VisibilityRule;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getRestriction ()Ljava/lang/String;
@@ -3560,6 +3633,7 @@ public final class protokt/v1/google/cloud/audit/AuditLog : protokt/v1/AbstractK
 	public static final field Deserializer Lprotokt/v1/google/cloud/audit/AuditLog$Deserializer;
 	public synthetic fun <init> (Lprotokt/v1/google/rpc/Status;Lprotokt/v1/google/cloud/audit/AuthenticationInfo;Lprotokt/v1/google/cloud/audit/RequestMetadata;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;JLprotokt/v1/google/protobuf/Any;Lprotokt/v1/google/protobuf/Struct;Lprotokt/v1/google/protobuf/Struct;Lprotokt/v1/google/protobuf/Struct;Lprotokt/v1/google/protobuf/Struct;Lprotokt/v1/google/cloud/audit/ResourceLocation;Lprotokt/v1/google/cloud/audit/PolicyViolationInfo;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/AuditLog;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/cloud/audit/AuditLog;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAuthenticationInfo ()Lprotokt/v1/google/cloud/audit/AuthenticationInfo;
 	public final fun getAuthorizationInfo ()Ljava/util/List;
@@ -3643,6 +3717,7 @@ public final class protokt/v1/google/cloud/audit/AuthenticationInfo : protokt/v1
 	public static final field Deserializer Lprotokt/v1/google/cloud/audit/AuthenticationInfo$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/google/protobuf/Struct;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/AuthenticationInfo;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/cloud/audit/AuthenticationInfo;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAuthoritySelector ()Ljava/lang/String;
 	public fun getMessageSize ()I
@@ -3687,6 +3762,7 @@ public final class protokt/v1/google/cloud/audit/AuthorizationInfo : protokt/v1/
 	public static final field Deserializer Lprotokt/v1/google/cloud/audit/AuthorizationInfo$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ZLprotokt/v1/google/rpc/context/AttributeContext$Resource;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/AuthorizationInfo;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/cloud/audit/AuthorizationInfo;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getGranted ()Z
 	public fun getMessageSize ()I
@@ -3725,6 +3801,7 @@ public final class protokt/v1/google/cloud/audit/OrgPolicyViolationInfo : protok
 	public static final field Deserializer Lprotokt/v1/google/cloud/audit/OrgPolicyViolationInfo$Deserializer;
 	public synthetic fun <init> (Lprotokt/v1/google/protobuf/Struct;Ljava/lang/String;Ljava/util/Map;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/OrgPolicyViolationInfo;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/cloud/audit/OrgPolicyViolationInfo;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getPayload ()Lprotokt/v1/google/protobuf/Struct;
@@ -3763,6 +3840,7 @@ public final class protokt/v1/google/cloud/audit/PolicyViolationInfo : protokt/v
 	public static final field Deserializer Lprotokt/v1/google/cloud/audit/PolicyViolationInfo$Deserializer;
 	public synthetic fun <init> (Lprotokt/v1/google/cloud/audit/OrgPolicyViolationInfo;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/PolicyViolationInfo;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/cloud/audit/PolicyViolationInfo;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getOrgPolicyViolationInfo ()Lprotokt/v1/google/cloud/audit/OrgPolicyViolationInfo;
@@ -3792,6 +3870,7 @@ public final class protokt/v1/google/cloud/audit/RequestMetadata : protokt/v1/Ab
 	public static final field Deserializer Lprotokt/v1/google/cloud/audit/RequestMetadata$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/google/rpc/context/AttributeContext$Request;Lprotokt/v1/google/rpc/context/AttributeContext$Peer;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/RequestMetadata;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/cloud/audit/RequestMetadata;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCallerIp ()Ljava/lang/String;
 	public final fun getCallerNetwork ()Ljava/lang/String;
@@ -3833,6 +3912,7 @@ public final class protokt/v1/google/cloud/audit/ResourceLocation : protokt/v1/A
 	public static final field Deserializer Lprotokt/v1/google/cloud/audit/ResourceLocation$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/ResourceLocation;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/cloud/audit/ResourceLocation;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCurrentLocations ()Ljava/util/List;
 	public fun getMessageSize ()I
@@ -3865,6 +3945,7 @@ public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo : 
 	public static final field Deserializer Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$Deserializer;
 	public synthetic fun <init> (Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$Authority;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAuthority ()Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$Authority;
 	public fun getMessageSize ()I
@@ -3913,6 +3994,7 @@ public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$Fi
 	public static final field Deserializer Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$FirstPartyPrincipal$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/google/protobuf/Struct;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$FirstPartyPrincipal;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$FirstPartyPrincipal;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getPrincipalEmail ()Ljava/lang/String;
@@ -3956,6 +4038,7 @@ public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$Th
 	public static final field Deserializer Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$ThirdPartyPrincipal$Deserializer;
 	public synthetic fun <init> (Lprotokt/v1/google/protobuf/Struct;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$ThirdPartyPrincipal;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$ThirdPartyPrincipal;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getThirdPartyClaims ()Lprotokt/v1/google/protobuf/Struct;
@@ -3985,6 +4068,7 @@ public final class protokt/v1/google/cloud/audit/ViolationInfo : protokt/v1/Abst
 	public static final field Deserializer Lprotokt/v1/google/cloud/audit/ViolationInfo$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/google/cloud/audit/ViolationInfo$PolicyType;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/ViolationInfo;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/cloud/audit/ViolationInfo;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCheckedValue ()Ljava/lang/String;
 	public final fun getConstraint ()Ljava/lang/String;
@@ -4055,6 +4139,7 @@ public final class protokt/v1/google/geo/type/Viewport : protokt/v1/AbstractKtMe
 	public static final field Deserializer Lprotokt/v1/google/geo/type/Viewport$Deserializer;
 	public synthetic fun <init> (Lprotokt/v1/google/type/LatLng;Lprotokt/v1/google/type/LatLng;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/geo/type/Viewport;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/geo/type/Viewport;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getHigh ()Lprotokt/v1/google/type/LatLng;
 	public final fun getLow ()Lprotokt/v1/google/type/LatLng;
@@ -4091,6 +4176,7 @@ public final class protokt/v1/google/logging/type/HttpRequest : protokt/v1/Abstr
 	public static final field Deserializer Lprotokt/v1/google/logging/type/HttpRequest$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;JIJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;ZZZJLjava/lang/String;Lprotokt/v1/google/protobuf/Duration;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/logging/type/HttpRequest;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/logging/type/HttpRequest;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCacheFillBytes ()J
 	public final fun getCacheHit ()Z
@@ -4218,6 +4304,7 @@ public final class protokt/v1/google/longrunning/CancelOperationRequest : protok
 	public static final field Deserializer Lprotokt/v1/google/longrunning/CancelOperationRequest$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/longrunning/CancelOperationRequest;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/longrunning/CancelOperationRequest;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getName ()Ljava/lang/String;
@@ -4247,6 +4334,7 @@ public final class protokt/v1/google/longrunning/DeleteOperationRequest : protok
 	public static final field Deserializer Lprotokt/v1/google/longrunning/DeleteOperationRequest$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/longrunning/DeleteOperationRequest;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/longrunning/DeleteOperationRequest;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getName ()Ljava/lang/String;
@@ -4276,6 +4364,7 @@ public final class protokt/v1/google/longrunning/GetOperationRequest : protokt/v
 	public static final field Deserializer Lprotokt/v1/google/longrunning/GetOperationRequest$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/longrunning/GetOperationRequest;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/longrunning/GetOperationRequest;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getName ()Ljava/lang/String;
@@ -4305,6 +4394,7 @@ public final class protokt/v1/google/longrunning/ListOperationsRequest : protokt
 	public static final field Deserializer Lprotokt/v1/google/longrunning/ListOperationsRequest$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/longrunning/ListOperationsRequest;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/longrunning/ListOperationsRequest;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getFilter ()Ljava/lang/String;
 	public fun getMessageSize ()I
@@ -4343,6 +4433,7 @@ public final class protokt/v1/google/longrunning/ListOperationsResponse : protok
 	public static final field Deserializer Lprotokt/v1/google/longrunning/ListOperationsResponse$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/longrunning/ListOperationsResponse;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/longrunning/ListOperationsResponse;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getNextPageToken ()Ljava/lang/String;
@@ -4375,6 +4466,7 @@ public final class protokt/v1/google/longrunning/Operation : protokt/v1/Abstract
 	public static final field Deserializer Lprotokt/v1/google/longrunning/Operation$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/google/protobuf/Any;ZLprotokt/v1/google/longrunning/Operation$Result;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/longrunning/Operation;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/longrunning/Operation;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDone ()Z
 	public fun getMessageSize ()I
@@ -4438,6 +4530,7 @@ public final class protokt/v1/google/longrunning/OperationInfo : protokt/v1/Abst
 	public static final field Deserializer Lprotokt/v1/google/longrunning/OperationInfo$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/longrunning/OperationInfo;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/longrunning/OperationInfo;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getMetadataType ()Ljava/lang/String;
@@ -4481,6 +4574,7 @@ public final class protokt/v1/google/longrunning/WaitOperationRequest : protokt/
 	public static final field Deserializer Lprotokt/v1/google/longrunning/WaitOperationRequest$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/google/protobuf/Duration;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/longrunning/WaitOperationRequest;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/longrunning/WaitOperationRequest;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getName ()Ljava/lang/String;
@@ -4513,6 +4607,7 @@ public final class protokt/v1/google/rpc/BadRequest : protokt/v1/AbstractKtMessa
 	public static final field Deserializer Lprotokt/v1/google/rpc/BadRequest$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/BadRequest;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/BadRequest;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getFieldViolations ()Ljava/util/List;
 	public fun getMessageSize ()I
@@ -4543,6 +4638,7 @@ public final class protokt/v1/google/rpc/BadRequest$FieldViolation : protokt/v1/
 	public static final field Deserializer Lprotokt/v1/google/rpc/BadRequest$FieldViolation$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/BadRequest$FieldViolation;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/BadRequest$FieldViolation;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDescription ()Ljava/lang/String;
 	public final fun getField ()Ljava/lang/String;
@@ -4659,6 +4755,7 @@ public final class protokt/v1/google/rpc/DebugInfo : protokt/v1/AbstractKtMessag
 	public static final field Deserializer Lprotokt/v1/google/rpc/DebugInfo$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/DebugInfo;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/DebugInfo;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDetail ()Ljava/lang/String;
 	public fun getMessageSize ()I
@@ -4691,6 +4788,7 @@ public final class protokt/v1/google/rpc/ErrorInfo : protokt/v1/AbstractKtMessag
 	public static final field Deserializer Lprotokt/v1/google/rpc/ErrorInfo$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/ErrorInfo;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/ErrorInfo;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDomain ()Ljava/lang/String;
 	public fun getMessageSize ()I
@@ -4739,6 +4837,7 @@ public final class protokt/v1/google/rpc/Help : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/rpc/Help$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/Help;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/Help;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getLinks ()Ljava/util/List;
 	public fun getMessageSize ()I
@@ -4769,6 +4868,7 @@ public final class protokt/v1/google/rpc/Help$Link : protokt/v1/AbstractKtMessag
 	public static final field Deserializer Lprotokt/v1/google/rpc/Help$Link$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/Help$Link;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/Help$Link;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDescription ()Ljava/lang/String;
 	public fun getMessageSize ()I
@@ -4801,6 +4901,7 @@ public final class protokt/v1/google/rpc/LocalizedMessage : protokt/v1/AbstractK
 	public static final field Deserializer Lprotokt/v1/google/rpc/LocalizedMessage$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/LocalizedMessage;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/LocalizedMessage;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getLocale ()Ljava/lang/String;
 	public final fun getMessage ()Ljava/lang/String;
@@ -4833,6 +4934,7 @@ public final class protokt/v1/google/rpc/PreconditionFailure : protokt/v1/Abstra
 	public static final field Deserializer Lprotokt/v1/google/rpc/PreconditionFailure$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/PreconditionFailure;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/PreconditionFailure;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
@@ -4863,6 +4965,7 @@ public final class protokt/v1/google/rpc/PreconditionFailure$Violation : protokt
 	public static final field Deserializer Lprotokt/v1/google/rpc/PreconditionFailure$Violation$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/PreconditionFailure$Violation;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/PreconditionFailure$Violation;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDescription ()Ljava/lang/String;
 	public fun getMessageSize ()I
@@ -4898,6 +5001,7 @@ public final class protokt/v1/google/rpc/QuotaFailure : protokt/v1/AbstractKtMes
 	public static final field Deserializer Lprotokt/v1/google/rpc/QuotaFailure$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/QuotaFailure;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/QuotaFailure;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
@@ -4928,6 +5032,7 @@ public final class protokt/v1/google/rpc/QuotaFailure$Violation : protokt/v1/Abs
 	public static final field Deserializer Lprotokt/v1/google/rpc/QuotaFailure$Violation$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/QuotaFailure$Violation;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/QuotaFailure$Violation;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDescription ()Ljava/lang/String;
 	public fun getMessageSize ()I
@@ -4960,6 +5065,7 @@ public final class protokt/v1/google/rpc/RequestInfo : protokt/v1/AbstractKtMess
 	public static final field Deserializer Lprotokt/v1/google/rpc/RequestInfo$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/RequestInfo;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/RequestInfo;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getRequestId ()Ljava/lang/String;
@@ -4992,6 +5098,7 @@ public final class protokt/v1/google/rpc/ResourceInfo : protokt/v1/AbstractKtMes
 	public static final field Deserializer Lprotokt/v1/google/rpc/ResourceInfo$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/ResourceInfo;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/ResourceInfo;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDescription ()Ljava/lang/String;
 	public fun getMessageSize ()I
@@ -5030,6 +5137,7 @@ public final class protokt/v1/google/rpc/RetryInfo : protokt/v1/AbstractKtMessag
 	public static final field Deserializer Lprotokt/v1/google/rpc/RetryInfo$Deserializer;
 	public synthetic fun <init> (Lprotokt/v1/google/protobuf/Duration;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/RetryInfo;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/RetryInfo;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getRetryDelay ()Lprotokt/v1/google/protobuf/Duration;
@@ -5059,6 +5167,7 @@ public final class protokt/v1/google/rpc/Status : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/rpc/Status$Deserializer;
 	public synthetic fun <init> (ILjava/lang/String;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/Status;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/Status;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCode ()I
 	public final fun getDetails ()Ljava/util/List;
@@ -5098,6 +5207,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext : protokt/v1/A
 	public static final field Deserializer Lprotokt/v1/google/rpc/context/AttributeContext$Deserializer;
 	public synthetic fun <init> (Lprotokt/v1/google/rpc/context/AttributeContext$Peer;Lprotokt/v1/google/rpc/context/AttributeContext$Peer;Lprotokt/v1/google/rpc/context/AttributeContext$Request;Lprotokt/v1/google/rpc/context/AttributeContext$Response;Lprotokt/v1/google/rpc/context/AttributeContext$Resource;Lprotokt/v1/google/rpc/context/AttributeContext$Api;Lprotokt/v1/google/rpc/context/AttributeContext$Peer;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/context/AttributeContext;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/context/AttributeContext;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getApi ()Lprotokt/v1/google/rpc/context/AttributeContext$Api;
 	public final fun getDestination ()Lprotokt/v1/google/rpc/context/AttributeContext$Peer;
@@ -5118,6 +5228,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Api : protokt/
 	public static final field Deserializer Lprotokt/v1/google/rpc/context/AttributeContext$Api$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/context/AttributeContext$Api;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/context/AttributeContext$Api;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getOperation ()Ljava/lang/String;
@@ -5179,6 +5290,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Auth : protokt
 	public static final field Deserializer Lprotokt/v1/google/rpc/context/AttributeContext$Auth$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Lprotokt/v1/google/protobuf/Struct;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/context/AttributeContext$Auth;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/context/AttributeContext$Auth;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAccessLevels ()Ljava/util/List;
 	public final fun getAudiences ()Ljava/util/List;
@@ -5233,6 +5345,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Peer : protokt
 	public static final field Deserializer Lprotokt/v1/google/rpc/context/AttributeContext$Peer$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;JLjava/util/Map;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/context/AttributeContext$Peer;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/context/AttributeContext$Peer;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getIp ()Ljava/lang/String;
 	public final fun getLabels ()Ljava/util/Map;
@@ -5274,6 +5387,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Request : prot
 	public static final field Deserializer Lprotokt/v1/google/rpc/context/AttributeContext$Request$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/google/protobuf/Timestamp;JLjava/lang/String;Ljava/lang/String;Lprotokt/v1/google/rpc/context/AttributeContext$Auth;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/context/AttributeContext$Request;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/context/AttributeContext$Request;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAuth ()Lprotokt/v1/google/rpc/context/AttributeContext$Auth;
 	public final fun getHeaders ()Ljava/util/Map;
@@ -5336,6 +5450,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Resource : pro
 	public static final field Deserializer Lprotokt/v1/google/rpc/context/AttributeContext$Resource$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljava/lang/String;Ljava/util/Map;Ljava/lang/String;Lprotokt/v1/google/protobuf/Timestamp;Lprotokt/v1/google/protobuf/Timestamp;Lprotokt/v1/google/protobuf/Timestamp;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/context/AttributeContext$Resource;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/context/AttributeContext$Resource;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAnnotations ()Ljava/util/Map;
 	public final fun getCreateTime ()Lprotokt/v1/google/protobuf/Timestamp;
@@ -5398,6 +5513,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Response : pro
 	public static final field Deserializer Lprotokt/v1/google/rpc/context/AttributeContext$Response$Deserializer;
 	public synthetic fun <init> (JJLjava/util/Map;Lprotokt/v1/google/protobuf/Timestamp;Lprotokt/v1/google/protobuf/Duration;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/context/AttributeContext$Response;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/context/AttributeContext$Response;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBackendLatency ()Lprotokt/v1/google/protobuf/Duration;
 	public final fun getCode ()J
@@ -5443,6 +5559,7 @@ public final class protokt/v1/google/rpc/context/AuditContext : protokt/v1/Abstr
 	public static final field Deserializer Lprotokt/v1/google/rpc/context/AuditContext$Deserializer;
 	public synthetic fun <init> (Lprotokt/v1/Bytes;Lprotokt/v1/google/protobuf/Struct;Lprotokt/v1/google/protobuf/Struct;ILjava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/context/AuditContext;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/context/AuditContext;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAuditLog ()Lprotokt/v1/Bytes;
 	public fun getMessageSize ()I
@@ -5536,6 +5653,7 @@ public final class protokt/v1/google/type/Color : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/type/Color$Deserializer;
 	public synthetic fun <init> (FFFLjava/lang/Float;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/Color;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/type/Color;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAlpha ()Ljava/lang/Float;
 	public final fun getBlue ()F
@@ -5578,6 +5696,7 @@ public final class protokt/v1/google/type/Date : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/type/Date$Deserializer;
 	public synthetic fun <init> (IIILprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/Date;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/type/Date;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDay ()I
 	public fun getMessageSize ()I
@@ -5617,6 +5736,7 @@ public final class protokt/v1/google/type/DateTime : protokt/v1/AbstractKtMessag
 	public static final field Deserializer Lprotokt/v1/google/type/DateTime$Deserializer;
 	public synthetic fun <init> (IIIIIIILprotokt/v1/google/type/DateTime$TimeOffset;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/DateTime;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/type/DateTime;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDay ()I
 	public final fun getHours ()I
@@ -5745,6 +5865,7 @@ public final class protokt/v1/google/type/Decimal : protokt/v1/AbstractKtMessage
 	public static final field Deserializer Lprotokt/v1/google/type/Decimal$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/Decimal;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/type/Decimal;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
@@ -5778,6 +5899,7 @@ public final class protokt/v1/google/type/Expr : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/type/Expr$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/Expr;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/type/Expr;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDescription ()Ljava/lang/String;
 	public final fun getExpression ()Ljava/lang/String;
@@ -5820,6 +5942,7 @@ public final class protokt/v1/google/type/Fraction : protokt/v1/AbstractKtMessag
 	public static final field Deserializer Lprotokt/v1/google/type/Fraction$Deserializer;
 	public synthetic fun <init> (JJLprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/Fraction;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/type/Fraction;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDenominator ()J
 	public fun getMessageSize ()I
@@ -5856,6 +5979,7 @@ public final class protokt/v1/google/type/Interval : protokt/v1/AbstractKtMessag
 	public static final field Deserializer Lprotokt/v1/google/type/Interval$Deserializer;
 	public synthetic fun <init> (Lprotokt/v1/google/protobuf/Timestamp;Lprotokt/v1/google/protobuf/Timestamp;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/Interval;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/type/Interval;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getEndTime ()Lprotokt/v1/google/protobuf/Timestamp;
 	public fun getMessageSize ()I
@@ -5892,6 +6016,7 @@ public final class protokt/v1/google/type/LatLng : protokt/v1/AbstractKtMessage 
 	public static final field Deserializer Lprotokt/v1/google/type/LatLng$Deserializer;
 	public synthetic fun <init> (DDLprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/LatLng;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/type/LatLng;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getLatitude ()D
 	public final fun getLongitude ()D
@@ -5928,6 +6053,7 @@ public final class protokt/v1/google/type/LocalizedText : protokt/v1/AbstractKtM
 	public static final field Deserializer Lprotokt/v1/google/type/LocalizedText$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/LocalizedText;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/type/LocalizedText;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getLanguageCode ()Ljava/lang/String;
 	public fun getMessageSize ()I
@@ -5964,6 +6090,7 @@ public final class protokt/v1/google/type/Money : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/type/Money$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;JILprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/Money;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/type/Money;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCurrencyCode ()Ljava/lang/String;
 	public fun getMessageSize ()I
@@ -6071,6 +6198,7 @@ public final class protokt/v1/google/type/PhoneNumber : protokt/v1/AbstractKtMes
 	public static final field Deserializer Lprotokt/v1/google/type/PhoneNumber$Deserializer;
 	public synthetic fun <init> (Lprotokt/v1/google/type/PhoneNumber$Kind;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/PhoneNumber;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/type/PhoneNumber;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getExtension ()Ljava/lang/String;
 	public final fun getKind ()Lprotokt/v1/google/type/PhoneNumber$Kind;
@@ -6129,6 +6257,7 @@ public final class protokt/v1/google/type/PhoneNumber$ShortCode : protokt/v1/Abs
 	public static final field Deserializer Lprotokt/v1/google/type/PhoneNumber$ShortCode$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/PhoneNumber$ShortCode;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/type/PhoneNumber$ShortCode;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getNumber ()Ljava/lang/String;
@@ -6165,6 +6294,7 @@ public final class protokt/v1/google/type/PostalAddress : protokt/v1/AbstractKtM
 	public static final field Deserializer Lprotokt/v1/google/type/PostalAddress$Deserializer;
 	public synthetic fun <init> (ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/PostalAddress;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/type/PostalAddress;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAddressLines ()Ljava/util/List;
 	public final fun getAdministrativeArea ()Ljava/lang/String;
@@ -6228,6 +6358,7 @@ public final class protokt/v1/google/type/Quaternion : protokt/v1/AbstractKtMess
 	public static final field Deserializer Lprotokt/v1/google/type/Quaternion$Deserializer;
 	public synthetic fun <init> (DDDDLprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/Quaternion;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/type/Quaternion;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
@@ -6270,6 +6401,7 @@ public final class protokt/v1/google/type/TimeOfDay : protokt/v1/AbstractKtMessa
 	public static final field Deserializer Lprotokt/v1/google/type/TimeOfDay$Deserializer;
 	public synthetic fun <init> (IIIILprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/TimeOfDay;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/type/TimeOfDay;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getHours ()I
 	public fun getMessageSize ()I
@@ -6308,6 +6440,7 @@ public final class protokt/v1/google/type/TimeZone : protokt/v1/AbstractKtMessag
 	public static final field Deserializer Lprotokt/v1/google/type/TimeZone$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/TimeZone;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/type/TimeZone;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getId ()Ljava/lang/String;
 	public fun getMessageSize ()I

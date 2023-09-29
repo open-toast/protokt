@@ -2,6 +2,7 @@ public final class protokt/v1/ProtoktEnumOptions : protokt/v1/AbstractKtMessage 
 	public static final field Deserializer Lprotokt/v1/ProtoktEnumOptions$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktEnumOptions;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/ProtoktEnumOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDeprecationMessage ()Ljava/lang/String;
 	public fun getMessageSize ()I
@@ -31,6 +32,7 @@ public final class protokt/v1/ProtoktEnumValueOptions : protokt/v1/AbstractKtMes
 	public static final field Deserializer Lprotokt/v1/ProtoktEnumValueOptions$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktEnumValueOptions;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/ProtoktEnumValueOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDeprecationMessage ()Ljava/lang/String;
 	public fun getMessageSize ()I
@@ -60,6 +62,7 @@ public final class protokt/v1/ProtoktFieldOptions : protokt/v1/AbstractKtMessage
 	public static final field Deserializer Lprotokt/v1/ProtoktFieldOptions$Deserializer;
 	public synthetic fun <init> (ZLjava/lang/String;ZLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktFieldOptions;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/ProtoktFieldOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBytesSlice ()Z
 	public final fun getDeprecationMessage ()Ljava/lang/String;
@@ -104,6 +107,7 @@ public final class protokt/v1/ProtoktFileOptions : protokt/v1/AbstractKtMessage 
 	public static final field Deserializer Lprotokt/v1/ProtoktFileOptions$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktFileOptions;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/ProtoktFileOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getFileDescriptorObjectName ()Ljava/lang/String;
 	public fun getMessageSize ()I
@@ -144,6 +148,7 @@ public final class protokt/v1/ProtoktMessageOptions : protokt/v1/AbstractKtMessa
 	public static final field Deserializer Lprotokt/v1/ProtoktMessageOptions$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktMessageOptions;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/ProtoktMessageOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDeprecationMessage ()Ljava/lang/String;
 	public final fun getImplements ()Ljava/lang/String;
@@ -176,6 +181,7 @@ public final class protokt/v1/ProtoktMethodOptions : protokt/v1/AbstractKtMessag
 	public static final field Deserializer Lprotokt/v1/ProtoktMethodOptions$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktMethodOptions;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/ProtoktMethodOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getRequestMarshaller ()Ljava/lang/String;
@@ -208,6 +214,7 @@ public final class protokt/v1/ProtoktOneofOptions : protokt/v1/AbstractKtMessage
 	public static final field Deserializer Lprotokt/v1/ProtoktOneofOptions$Deserializer;
 	public synthetic fun <init> (ZLjava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktOneofOptions;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/ProtoktOneofOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDeprecationMessage ()Ljava/lang/String;
 	public final fun getImplements ()Ljava/lang/String;
@@ -243,6 +250,7 @@ public final class protokt/v1/ProtoktServiceOptions : protokt/v1/AbstractKtMessa
 	public static final field Deserializer Lprotokt/v1/ProtoktServiceOptions$Deserializer;
 	public synthetic fun <init> (Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktServiceOptions;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/ProtoktServiceOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
@@ -269,6 +277,7 @@ public final class protokt/v1/protokt/ProtoktEnumOptions : protokt/v1/AbstractKt
 	public static final field Deserializer Lprotokt/v1/protokt/ProtoktEnumOptions$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktEnumOptions;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/protokt/ProtoktEnumOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDeprecationMessage ()Ljava/lang/String;
 	public fun getMessageSize ()I
@@ -298,6 +307,7 @@ public final class protokt/v1/protokt/ProtoktEnumValueOptions : protokt/v1/Abstr
 	public static final field Deserializer Lprotokt/v1/protokt/ProtoktEnumValueOptions$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktEnumValueOptions;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/protokt/ProtoktEnumValueOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDeprecationMessage ()Ljava/lang/String;
 	public fun getMessageSize ()I
@@ -327,6 +337,7 @@ public final class protokt/v1/protokt/ProtoktFieldOptions : protokt/v1/AbstractK
 	public static final field Deserializer Lprotokt/v1/protokt/ProtoktFieldOptions$Deserializer;
 	public synthetic fun <init> (ZLjava/lang/String;ZLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktFieldOptions;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/protokt/ProtoktFieldOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBytesSlice ()Z
 	public final fun getDeprecationMessage ()Ljava/lang/String;
@@ -371,6 +382,7 @@ public final class protokt/v1/protokt/ProtoktFileOptions : protokt/v1/AbstractKt
 	public static final field Deserializer Lprotokt/v1/protokt/ProtoktFileOptions$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktFileOptions;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/protokt/ProtoktFileOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getFileDescriptorObjectName ()Ljava/lang/String;
 	public final fun getKotlinPackage ()Ljava/lang/String;
@@ -414,6 +426,7 @@ public final class protokt/v1/protokt/ProtoktMessageOptions : protokt/v1/Abstrac
 	public static final field Deserializer Lprotokt/v1/protokt/ProtoktMessageOptions$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktMessageOptions;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/protokt/ProtoktMessageOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDeprecationMessage ()Ljava/lang/String;
 	public final fun getImplements ()Ljava/lang/String;
@@ -446,6 +459,7 @@ public final class protokt/v1/protokt/ProtoktMethodOptions : protokt/v1/Abstract
 	public static final field Deserializer Lprotokt/v1/protokt/ProtoktMethodOptions$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktMethodOptions;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/protokt/ProtoktMethodOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getRequestMarshaller ()Ljava/lang/String;
@@ -478,6 +492,7 @@ public final class protokt/v1/protokt/ProtoktOneofOptions : protokt/v1/AbstractK
 	public static final field Deserializer Lprotokt/v1/protokt/ProtoktOneofOptions$Deserializer;
 	public synthetic fun <init> (ZLjava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktOneofOptions;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/protokt/ProtoktOneofOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDeprecationMessage ()Ljava/lang/String;
 	public final fun getImplements ()Ljava/lang/String;
@@ -513,6 +528,7 @@ public final class protokt/v1/protokt/ProtoktServiceOptions : protokt/v1/Abstrac
 	public static final field Deserializer Lprotokt/v1/protokt/ProtoktServiceOptions$Deserializer;
 	public synthetic fun <init> (Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktServiceOptions;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/protokt/ProtoktServiceOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
