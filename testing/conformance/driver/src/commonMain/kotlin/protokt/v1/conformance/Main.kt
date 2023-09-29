@@ -15,7 +15,6 @@
 
 package protokt.v1.conformance
 
-import protokt.v1.Bytes
 import protokt.v1.conformance.ConformanceRequest.Payload.ProtobufPayload
 import protokt.v1.conformance.ConformanceResponse.Result
 import protokt.v1.protobuf_test_messages.proto3.TestAllTypesProto3
@@ -33,7 +32,7 @@ fun main() = Platform.runBlockingMain {
                             is Proceed -> {
                                 when (val result = Platform.serialize(payload.value)) {
                                     is Failure -> result.failure
-                                    is Proceed -> Result.ProtobufPayload(Bytes.from(result.value))
+                                    is Proceed -> Result.ProtobufPayload(result.value)
                                 }
                             }
                         }

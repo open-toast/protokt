@@ -16,6 +16,7 @@
 package protokt.v1.conformance
 
 import kotlinx.coroutines.CoroutineScope
+import protokt.v1.Bytes
 import protokt.v1.KtDeserializer
 import protokt.v1.KtMessage
 
@@ -35,5 +36,5 @@ internal expect object Platform {
         deserializer: KtDeserializer<T>
     ): ConformanceStepResult<T>
 
-    fun serialize(message: KtMessage): ConformanceStepResult<ByteArray>
+    fun serialize(message: KtMessage): ConformanceStepResult<Bytes>
 }

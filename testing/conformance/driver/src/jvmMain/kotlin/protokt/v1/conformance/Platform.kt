@@ -17,6 +17,7 @@ package protokt.v1.conformance
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.runBlocking
+import protokt.v1.Bytes
 import protokt.v1.KtDeserializer
 import protokt.v1.KtMessage
 import protokt.v1.conformance.ConformanceResponse.Result.ParseError
@@ -68,9 +69,9 @@ internal actual object Platform {
             Failure(ParseError(t.stackTraceToString()))
         }
 
-    actual fun serialize(message: KtMessage): ConformanceStepResult<ByteArray> =
+    actual fun serialize(message: KtMessage): ConformanceStepResult<Bytes> =
         try {
-            Proceed(message.serialize())
+            Proceed(message.serializeToBytes())
         } catch (t: Throwable) {
             Failure(SerializeError(t.stackTraceToString()))
         }
