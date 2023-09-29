@@ -719,11 +719,11 @@ public final class protokt/v1/SizeCodecs {
 	public static final fun sizeOf (Lprotokt/v1/KtEnum;)I
 	public static final fun sizeOf (Lprotokt/v1/KtMessage;)I
 	public static final fun sizeOf ([B)I
-	public static final fun sizeOf-OsBMiQA (Ljava/util/Map;ILkotlin/jvm/functions/Function2;)I
-	public static final fun sizeOf-VKZWuLQ (J)I
-	public static final fun sizeOf-WZ4Q5Ns (I)I
+	public static final fun sizeOfMap (Ljava/util/Map;ILkotlin/jvm/functions/Function2;)I
 	public static final fun sizeOfSInt32 (I)I
 	public static final fun sizeOfSInt64 (J)I
+	public static final fun sizeOfUInt32 (I)I
+	public static final fun sizeOfUInt64 (J)I
 }
 
 public final class protokt/v1/UnknownField {

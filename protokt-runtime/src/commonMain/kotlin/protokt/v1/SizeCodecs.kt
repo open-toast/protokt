@@ -15,6 +15,7 @@
 
 package protokt.v1
 
+import kotlin.jvm.JvmName
 import kotlin.jvm.JvmStatic
 
 object SizeCodecs {
@@ -65,6 +66,7 @@ object SizeCodecs {
         }
 
     @JvmStatic
+    @JvmName("sizeOfUInt32")
     fun sizeOf(i: UInt) =
         when {
             i and (0.inv() shl 7).toUInt() == 0u -> 1
@@ -75,6 +77,7 @@ object SizeCodecs {
         }
 
     @JvmStatic
+    @JvmName("sizeOfUInt64")
     fun sizeOf(l: ULong): Int {
         var value = l.toLong()
         if (value and (0L.inv() shl 7) == 0L) {
@@ -137,6 +140,7 @@ object SizeCodecs {
     }
 
     @JvmStatic
+    @JvmName("sizeOfMap")
     fun <K, V> sizeOf(
         m: Map<K, V>,
         tag: UInt,
