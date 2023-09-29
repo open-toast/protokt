@@ -31,5 +31,5 @@ object IdConverter : Converter<Id, Bytes> {
         Id(String(unwrapped.bytes))
 
     override fun unwrap(wrapped: Id) =
-        Bytes(wrapped.value.toByteArray())
+        Bytes.from(wrapped.value.toByteArray())
 }
