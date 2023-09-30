@@ -45,6 +45,7 @@ import protokt.v1.codegen.util.FieldType.SInt32
 import protokt.v1.codegen.util.FieldType.SInt64
 import protokt.v1.codegen.util.FieldType.UInt32
 import protokt.v1.codegen.util.FieldType.UInt64
+import protokt.v1.codegen.util.KotlinPlugin
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.Oneof
 import protokt.v1.codegen.util.StandardField
@@ -70,7 +71,9 @@ private class DeserializerGenerator(
             .addFunction(
                 buildFunSpec("deserialize") {
                     addModifiers(KModifier.OVERRIDE)
-                    addAnnotation(JvmStatic::class)
+                    if (ctx.info.context.appliedKotlinPlugin != KotlinPlugin.JS) {
+                        addAnnotation(JvmStatic::class) // can't put this here generally until JS code is actually common code in a multiplatform module
+                    }
                     addParameter("deserializer", KtMessageDeserializer::class)
                     returns(msg.className)
                     if (properties.isNotEmpty()) {
