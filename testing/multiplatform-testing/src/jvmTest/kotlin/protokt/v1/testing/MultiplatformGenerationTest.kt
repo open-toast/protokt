@@ -21,10 +21,7 @@ import org.junit.jupiter.api.Test
 class MultiplatformGenerationTest {
     @Test
     fun `test multiplatform test round trip`() {
-        val mpTest =
-            MpTest.MpTestDsl().apply {
-                foo = "1"
-            }.build()
+        val mpTest = MpTest { foo = "1" }
 
         val deserialized = MpTest.deserialize(mpTest.serialize())
 
