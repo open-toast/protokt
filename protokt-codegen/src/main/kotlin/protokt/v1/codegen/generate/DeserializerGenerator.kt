@@ -120,12 +120,12 @@ private class DeserializerGenerator(
                     addParameter(
                         "dsl",
                         LambdaTypeName.get(
-                            msg.dslClassName,
+                            msg.builderClassName,
                             emptyList(),
                             Unit::class.asTypeName()
                         )
                     )
-                    addStatement("return %T().apply(dsl).build()", msg.dslClassName)
+                    addStatement("return %T().apply(dsl).build()", msg.builderClassName)
                     build()
                 }
             )

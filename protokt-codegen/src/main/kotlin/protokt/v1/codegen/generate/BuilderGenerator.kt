@@ -23,37 +23,38 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
-import protokt.v1.KtDsl
+import protokt.v1.KtBuilderDsl
 import protokt.v1.UnknownFieldSet
 import protokt.v1.codegen.generate.Deprecation.handleDeprecation
+import protokt.v1.codegen.util.BUILDER
 import protokt.v1.codegen.util.FieldType
 import protokt.v1.codegen.util.Message
 
-internal fun TypeSpec.Builder.handleDsl(msg: Message, properties: List<PropertyInfo>) =
-    apply { DslGenerator(msg, properties).addDsl(this) }
+internal fun TypeSpec.Builder.handleBuilder(msg: Message, properties: List<PropertyInfo>) =
+    apply { BuilderGenerator(msg, properties).addBuilder(this) }
 
-private class DslGenerator(
+private class BuilderGenerator(
     private val msg: Message,
     private val properties: List<PropertyInfo>
 ) {
-    fun addDsl(builder: TypeSpec.Builder) {
+    fun addBuilder(builder: TypeSpec.Builder) {
         builder.addFunction(
             FunSpec.builder("copy")
                 .returns(msg.className)
                 .addParameter(
-                    "dsl",
+                    "builder",
                     LambdaTypeName.get(
-                        msg.dslClassName,
+                        msg.builderClassName,
                         emptyList(),
                         Unit::class.asTypeName()
                     )
                 )
                 .addCode(
                     buildCodeBlock {
-                        beginControlFlow("return %T().apply", msg.dslClassName)
-                        dslLines().forEach { add("%L\n", it) }
+                        beginControlFlow("return %T().apply", msg.builderClassName)
+                        builderLines().forEach { add("%L\n", it) }
                         addStatement("unknownFields = this@%L.unknownFields", msg.className.simpleName)
-                        addStatement("dsl()")
+                        addStatement("builder()")
                         endControlFlowWithoutNewline()
                         add(".build()")
                     }
@@ -61,11 +62,11 @@ private class DslGenerator(
                 .build()
         )
         builder.addType(
-            TypeSpec.classBuilder(msg.dslClassName)
-                .addAnnotation(KtDsl::class)
+            TypeSpec.classBuilder(msg.builderClassName)
+                .addAnnotation(KtBuilderDsl::class)
                 .addProperties(
                     properties.map {
-                        PropertySpec.builder(it.name, it.dslPropertyType)
+                        PropertySpec.builder(it.name, it.builderPropertyType)
                             .mutable(true)
                             .handleDeprecation(it.deprecation)
                             .apply {
@@ -127,7 +128,7 @@ private class DslGenerator(
         )
     }
 
-    private fun dslLines() =
+    private fun builderLines() =
         properties.map {
             CodeBlock.of(
                 "%N = this@%L.%N",
@@ -137,3 +138,6 @@ private class DslGenerator(
             )
         }
 }
+
+val Message.builderClassName
+    get() = className.nestedClass(BUILDER)

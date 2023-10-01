@@ -568,6 +568,9 @@ public final class protokt/v1/JvmBytes {
 	public static final fun inputStream (Lprotokt/v1/Bytes;)Ljava/io/InputStream;
 }
 
+public abstract interface annotation class protokt/v1/KtBuilderDsl : java/lang/annotation/Annotation {
+}
+
 public abstract interface class protokt/v1/KtDeserializer : com/toasttab/protokt/rt/KtDeserializer {
 	public abstract fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
 	public abstract fun deserialize (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
@@ -588,9 +591,6 @@ public final class protokt/v1/KtDeserializer$DefaultImpls {
 	public static fun deserialize (Lprotokt/v1/KtDeserializer;Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public static fun deserialize (Lprotokt/v1/KtDeserializer;Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
 	public static fun deserialize (Lprotokt/v1/KtDeserializer;Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-}
-
-public abstract interface annotation class protokt/v1/KtDsl : java/lang/annotation/Annotation {
 }
 
 public abstract class protokt/v1/KtEnum {
