@@ -8,6 +8,7 @@ public final class protokt/v1/ProtoktEnumOptions : protokt/v1/AbstractKtMessage 
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktEnumOptions;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
@@ -16,7 +17,7 @@ public final class protokt/v1/ProtoktEnumOptions$Deserializer : protokt/v1/Abstr
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/ProtoktEnumOptions;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktEnumOptions;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktEnumOptions;
 }
 
 public final class protokt/v1/ProtoktEnumOptions$ProtoktEnumOptionsDsl {
@@ -38,6 +39,7 @@ public final class protokt/v1/ProtoktEnumValueOptions : protokt/v1/AbstractKtMes
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktEnumValueOptions;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
@@ -46,7 +48,7 @@ public final class protokt/v1/ProtoktEnumValueOptions$Deserializer : protokt/v1/
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/ProtoktEnumValueOptions;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktEnumValueOptions;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktEnumValueOptions;
 }
 
 public final class protokt/v1/ProtoktEnumValueOptions$ProtoktEnumValueOptionsDsl {
@@ -73,6 +75,7 @@ public final class protokt/v1/ProtoktFieldOptions : protokt/v1/AbstractKtMessage
 	public final fun getValueWrap ()Ljava/lang/String;
 	public final fun getWrap ()Ljava/lang/String;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktFieldOptions;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
@@ -81,7 +84,7 @@ public final class protokt/v1/ProtoktFieldOptions$Deserializer : protokt/v1/Abst
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/ProtoktFieldOptions;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktFieldOptions;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktFieldOptions;
 }
 
 public final class protokt/v1/ProtoktFieldOptions$ProtoktFieldOptionsDsl {
@@ -113,6 +116,7 @@ public final class protokt/v1/ProtoktFileOptions : protokt/v1/AbstractKtMessage 
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktFileOptions;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
@@ -121,7 +125,7 @@ public final class protokt/v1/ProtoktFileOptions$Deserializer : protokt/v1/Abstr
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/ProtoktFileOptions;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktFileOptions;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktFileOptions;
 }
 
 public final class protokt/v1/ProtoktFileOptions$ProtoktFileOptionsDsl {
@@ -131,17 +135,6 @@ public final class protokt/v1/ProtoktFileOptions$ProtoktFileOptionsDsl {
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun setFileDescriptorObjectName (Ljava/lang/String;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
-}
-
-public final class protokt/v1/ProtoktKt {
-	public static final fun ProtoktEnumOptions (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktEnumOptions;
-	public static final fun ProtoktEnumValueOptions (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktEnumValueOptions;
-	public static final fun ProtoktFieldOptions (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktFieldOptions;
-	public static final fun ProtoktFileOptions (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktFileOptions;
-	public static final fun ProtoktMessageOptions (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktMessageOptions;
-	public static final fun ProtoktMethodOptions (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktMethodOptions;
-	public static final fun ProtoktOneofOptions (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktOneofOptions;
-	public static final fun ProtoktServiceOptions (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktServiceOptions;
 }
 
 public final class protokt/v1/ProtoktMessageOptions : protokt/v1/AbstractKtMessage {
@@ -155,6 +148,7 @@ public final class protokt/v1/ProtoktMessageOptions : protokt/v1/AbstractKtMessa
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktMessageOptions;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
@@ -163,7 +157,7 @@ public final class protokt/v1/ProtoktMessageOptions$Deserializer : protokt/v1/Ab
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/ProtoktMessageOptions;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktMessageOptions;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktMessageOptions;
 }
 
 public final class protokt/v1/ProtoktMessageOptions$ProtoktMessageOptionsDsl {
@@ -188,6 +182,7 @@ public final class protokt/v1/ProtoktMethodOptions : protokt/v1/AbstractKtMessag
 	public final fun getResponseMarshaller ()Ljava/lang/String;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktMethodOptions;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
@@ -196,7 +191,7 @@ public final class protokt/v1/ProtoktMethodOptions$Deserializer : protokt/v1/Abs
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/ProtoktMethodOptions;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktMethodOptions;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktMethodOptions;
 }
 
 public final class protokt/v1/ProtoktMethodOptions$ProtoktMethodOptionsDsl {
@@ -222,6 +217,7 @@ public final class protokt/v1/ProtoktOneofOptions : protokt/v1/AbstractKtMessage
 	public final fun getNonNull ()Z
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktOneofOptions;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
@@ -230,7 +226,7 @@ public final class protokt/v1/ProtoktOneofOptions$Deserializer : protokt/v1/Abst
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/ProtoktOneofOptions;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktOneofOptions;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktOneofOptions;
 }
 
 public final class protokt/v1/ProtoktOneofOptions$ProtoktOneofOptionsDsl {
@@ -255,6 +251,7 @@ public final class protokt/v1/ProtoktServiceOptions : protokt/v1/AbstractKtMessa
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktServiceOptions;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
@@ -263,7 +260,7 @@ public final class protokt/v1/ProtoktServiceOptions$Deserializer : protokt/v1/Ab
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/ProtoktServiceOptions;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktServiceOptions;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ProtoktServiceOptions;
 }
 
 public final class protokt/v1/ProtoktServiceOptions$ProtoktServiceOptionsDsl {
@@ -283,6 +280,7 @@ public final class protokt/v1/protokt/ProtoktEnumOptions : protokt/v1/AbstractKt
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktEnumOptions;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
@@ -291,7 +289,7 @@ public final class protokt/v1/protokt/ProtoktEnumOptions$Deserializer : protokt/
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/protokt/ProtoktEnumOptions;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktEnumOptions;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktEnumOptions;
 }
 
 public final class protokt/v1/protokt/ProtoktEnumOptions$ProtoktEnumOptionsDsl {
@@ -313,6 +311,7 @@ public final class protokt/v1/protokt/ProtoktEnumValueOptions : protokt/v1/Abstr
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktEnumValueOptions;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
@@ -321,7 +320,7 @@ public final class protokt/v1/protokt/ProtoktEnumValueOptions$Deserializer : pro
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/protokt/ProtoktEnumValueOptions;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktEnumValueOptions;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktEnumValueOptions;
 }
 
 public final class protokt/v1/protokt/ProtoktEnumValueOptions$ProtoktEnumValueOptionsDsl {
@@ -348,6 +347,7 @@ public final class protokt/v1/protokt/ProtoktFieldOptions : protokt/v1/AbstractK
 	public final fun getValueWrap ()Ljava/lang/String;
 	public final fun getWrap ()Ljava/lang/String;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktFieldOptions;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
@@ -356,7 +356,7 @@ public final class protokt/v1/protokt/ProtoktFieldOptions$Deserializer : protokt
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/protokt/ProtoktFieldOptions;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktFieldOptions;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktFieldOptions;
 }
 
 public final class protokt/v1/protokt/ProtoktFieldOptions$ProtoktFieldOptionsDsl {
@@ -389,6 +389,7 @@ public final class protokt/v1/protokt/ProtoktFileOptions : protokt/v1/AbstractKt
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktFileOptions;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
@@ -397,7 +398,7 @@ public final class protokt/v1/protokt/ProtoktFileOptions$Deserializer : protokt/
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/protokt/ProtoktFileOptions;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktFileOptions;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktFileOptions;
 }
 
 public final class protokt/v1/protokt/ProtoktFileOptions$ProtoktFileOptionsDsl {
@@ -411,17 +412,6 @@ public final class protokt/v1/protokt/ProtoktFileOptions$ProtoktFileOptionsDsl {
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/protokt/ProtoktKt {
-	public static final fun ProtoktEnumOptions (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktEnumOptions;
-	public static final fun ProtoktEnumValueOptions (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktEnumValueOptions;
-	public static final fun ProtoktFieldOptions (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktFieldOptions;
-	public static final fun ProtoktFileOptions (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktFileOptions;
-	public static final fun ProtoktMessageOptions (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktMessageOptions;
-	public static final fun ProtoktMethodOptions (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktMethodOptions;
-	public static final fun ProtoktOneofOptions (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktOneofOptions;
-	public static final fun ProtoktServiceOptions (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktServiceOptions;
-}
-
 public final class protokt/v1/protokt/ProtoktMessageOptions : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/protokt/ProtoktMessageOptions$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -433,6 +423,7 @@ public final class protokt/v1/protokt/ProtoktMessageOptions : protokt/v1/Abstrac
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktMessageOptions;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
@@ -441,7 +432,7 @@ public final class protokt/v1/protokt/ProtoktMessageOptions$Deserializer : proto
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/protokt/ProtoktMessageOptions;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktMessageOptions;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktMessageOptions;
 }
 
 public final class protokt/v1/protokt/ProtoktMessageOptions$ProtoktMessageOptionsDsl {
@@ -466,6 +457,7 @@ public final class protokt/v1/protokt/ProtoktMethodOptions : protokt/v1/Abstract
 	public final fun getResponseMarshaller ()Ljava/lang/String;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktMethodOptions;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
@@ -474,7 +466,7 @@ public final class protokt/v1/protokt/ProtoktMethodOptions$Deserializer : protok
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/protokt/ProtoktMethodOptions;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktMethodOptions;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktMethodOptions;
 }
 
 public final class protokt/v1/protokt/ProtoktMethodOptions$ProtoktMethodOptionsDsl {
@@ -500,6 +492,7 @@ public final class protokt/v1/protokt/ProtoktOneofOptions : protokt/v1/AbstractK
 	public final fun getNonNull ()Z
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktOneofOptions;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
@@ -508,7 +501,7 @@ public final class protokt/v1/protokt/ProtoktOneofOptions$Deserializer : protokt
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/protokt/ProtoktOneofOptions;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktOneofOptions;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktOneofOptions;
 }
 
 public final class protokt/v1/protokt/ProtoktOneofOptions$ProtoktOneofOptionsDsl {
@@ -533,6 +526,7 @@ public final class protokt/v1/protokt/ProtoktServiceOptions : protokt/v1/Abstrac
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktServiceOptions;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
@@ -541,7 +535,7 @@ public final class protokt/v1/protokt/ProtoktServiceOptions$Deserializer : proto
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/protokt/ProtoktServiceOptions;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktServiceOptions;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/protokt/ProtoktServiceOptions;
 }
 
 public final class protokt/v1/protokt/ProtoktServiceOptions$ProtoktServiceOptionsDsl {
