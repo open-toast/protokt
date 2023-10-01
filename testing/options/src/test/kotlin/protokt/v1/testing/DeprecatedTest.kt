@@ -19,7 +19,6 @@ import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
 import kotlin.reflect.KAnnotatedElement
 import kotlin.reflect.KClass
-import kotlin.reflect.KFunction
 
 @Suppress("DEPRECATION")
 class DeprecatedTest {
