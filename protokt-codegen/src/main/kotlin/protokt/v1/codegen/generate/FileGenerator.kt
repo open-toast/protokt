@@ -52,14 +52,6 @@ private class FileGenerator(
             builder.addType(it.typeSpec)
         }
 
-        descs
-            .map { it.rawType }
-            .filterIsInstance<Message>()
-            .forEach {
-                anyCodeAdded = true
-                addConstructorFunction(it, builder::addFunction)
-            }
-
         if (contents.info.context.generateDescriptors) {
             val fileDescriptorInfo = FileDescriptorResolver.resolveFileDescriptor(contents)
 

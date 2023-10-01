@@ -113,26 +113,13 @@ private class DeserializerGenerator(
                     endControlFlow()
                 }
             )
-            .apply {
-                msg.nestedTypes
-                    .filterIsInstance<Message>()
-                    .filterNot { it.mapEntry }
-                    .forEach { addConstructorFunction(it, ::addFunction) }
-            }
             .addFunction(
                 buildFunSpec("invoke") {
+                    if (ctx.info.context.appliedKotlinPlugin != KotlinPlugin.JS) {
+                        addAnnotation(JvmStatic::class) // todo: remove when JS code is common in multiplatform
+                    }
+                    addModifiers(KModifier.OPERATOR)
                     returns(msg.className)
-                    addAnnotation(
-                        AnnotationSpec.builder(Deprecated::class)
-                            .addMember("for ABI backwards compatibility only".embed())
-                            .addMember(
-                                CodeBlock.of(
-                                    "level = %M",
-                                    MemberName(DeprecationLevel::class.asClassName(), DeprecationLevel.HIDDEN.name)
-                                )
-                            )
-                            .build()
-                    )
                     addParameter(
                         "dsl",
                         LambdaTypeName.get(
