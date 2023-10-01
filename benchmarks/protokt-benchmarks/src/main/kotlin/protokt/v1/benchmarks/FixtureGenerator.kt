@@ -102,7 +102,7 @@ class FixtureGenerator(private val weight: Int) {
         BenchmarkDataset {
             this.name = name
             messageName = msg.qualifiedName!!
-            payload = (0..size).map { randomMessageValue(msg).serializeToBytes() }
+            payload = (0..size).map { Bytes.from(randomMessageValue(msg)) }
         }
 }
 

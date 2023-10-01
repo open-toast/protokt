@@ -17,6 +17,4 @@ package protokt.v1
 
 expect abstract class AbstractKtMessage() : KtMessage {
     final override fun serialize(): ByteArray
-
-    final override fun serializeToBytes(): Bytes
 }

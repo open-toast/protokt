@@ -51,6 +51,10 @@ class Bytes internal constructor(
         @JvmStatic
         fun from(bytes: ByteArray) =
             Bytes(clone(bytes))
+
+        @JvmStatic
+        fun from(message: KtMessage) =
+            Bytes(message.serialize())
     }
 }
 

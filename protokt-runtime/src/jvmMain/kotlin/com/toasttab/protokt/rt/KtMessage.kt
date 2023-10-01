@@ -27,8 +27,6 @@ actual interface KtMessage {
 
     actual fun serialize(): ByteArray
 
-    actual fun serializeToBytes(): protokt.v1.Bytes
-
     actual fun serialize(serializer: protokt.v1.KtMessageSerializer)
 
     fun serialize(outputStream: OutputStream) {

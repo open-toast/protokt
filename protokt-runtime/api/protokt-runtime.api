@@ -171,7 +171,6 @@ public abstract interface class com/toasttab/protokt/rt/KtMessage {
 	public abstract fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
 	public abstract fun serialize (Ljava/io/OutputStream;)V
 	public abstract fun serialize (Lprotokt/v1/KtMessageSerializer;)V
-	public abstract fun serializeToBytes ()Lprotokt/v1/Bytes;
 }
 
 public final class com/toasttab/protokt/rt/KtMessage$DefaultImpls {
@@ -482,13 +481,13 @@ public abstract class protokt/v1/AbstractKtMessage : protokt/v1/KtMessage {
 	public fun serialize (Lcom/google/protobuf/CodedOutputStream;)V
 	public final fun serialize (Lcom/toasttab/protokt/rt/KtMessageSerializer;)V
 	public fun serialize (Ljava/io/OutputStream;)V
-	public final fun serializeToBytes ()Lprotokt/v1/Bytes;
 }
 
 public final class protokt/v1/Bytes {
 	public static final field Companion Lprotokt/v1/Bytes$Companion;
 	public static final fun empty ()Lprotokt/v1/Bytes;
 	public fun equals (Ljava/lang/Object;)Z
+	public static final fun from (Lprotokt/v1/KtMessage;)Lprotokt/v1/Bytes;
 	public static final fun from ([B)Lprotokt/v1/Bytes;
 	public final fun getBytes ()[B
 	public fun hashCode ()I
@@ -500,6 +499,7 @@ public final class protokt/v1/Bytes {
 
 public final class protokt/v1/Bytes$Companion {
 	public final fun empty ()Lprotokt/v1/Bytes;
+	public final fun from (Lprotokt/v1/KtMessage;)Lprotokt/v1/Bytes;
 	public final fun from ([B)Lprotokt/v1/Bytes;
 }
 

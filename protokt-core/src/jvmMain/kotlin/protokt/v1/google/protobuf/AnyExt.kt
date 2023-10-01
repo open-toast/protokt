@@ -15,6 +15,7 @@
 
 package protokt.v1.google.protobuf
 
+import protokt.v1.Bytes
 import protokt.v1.KtDeserializer
 import protokt.v1.KtGeneratedMessage
 import protokt.v1.KtMessage
@@ -27,7 +28,7 @@ fun Any.Deserializer.pack(
 ) =
     Any {
         typeUrl = typeUrl(typeUrlPrefix, msg)
-        value = msg.serializeToBytes()
+        value = Bytes.from(msg)
     }
 
 private fun typeUrl(typeUrlPrefix: String, msg: KtMessage) =
