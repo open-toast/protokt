@@ -45,11 +45,6 @@ class DeprecatedTest {
             DeprecatedModel::class,
             "deprecated in proto"
         )
-
-        assertFunctionDeprecation(
-            ::DeprecatedModel,
-            "deprecated in proto"
-        )
     }
 
     @Test
@@ -62,9 +57,9 @@ class DeprecatedTest {
     }
 
     @Test
-    fun `deprecated message DSL field`() {
+    fun `deprecated message builder field`() {
         assertFieldDeprecation(
-            DeprecatedModel.DeprecatedModelDsl::class,
+            DeprecatedModel.Builder::class,
             "id",
             "mildly deprecated"
         )
@@ -84,7 +79,7 @@ class DeprecatedTest {
     @Test
     fun `deprecated message DSL field with long message`() {
         assertFieldDeprecation(
-            DeprecatedModel.DeprecatedModelDsl::class,
+            DeprecatedModel.Builder::class,
             "longMessage",
             "really really really really really really really really really " +
                 "really really really really really really really really really " +
@@ -140,17 +135,6 @@ class DeprecatedTest {
 
         assertThat(
             klass.annotations
-                .filterIsInstance<Deprecated>()
-                .single()
-                .message
-        ).isEqualTo(message)
-    }
-
-    private fun assertFunctionDeprecation(fn: KFunction<*>, message: String) {
-        assertThat(fn.annotationClasses).contains(Deprecated::class)
-
-        assertThat(
-            fn.annotations
                 .filterIsInstance<Deprecated>()
                 .single()
                 .message
