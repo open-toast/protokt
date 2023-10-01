@@ -105,7 +105,7 @@ internal actual object Platform {
 
     actual fun serialize(message: KtMessage): ConformanceStepResult<Bytes> =
         try {
-            Proceed(message.serializeToBytes())
+            Proceed(Bytes.from(message))
         } catch (t: Throwable) {
             Failure(SerializeError(t.stackTraceToString()))
         } catch (d: dynamic) {
