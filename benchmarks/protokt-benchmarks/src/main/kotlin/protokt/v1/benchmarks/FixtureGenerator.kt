@@ -91,7 +91,7 @@ class FixtureGenerator(private val weight: Int) {
             Boolean::class -> random.nextInt() % 2 == 0
             Float::class -> random.nextFloat()
             Double::class -> random.nextDouble()
-            Bytes::class -> Bytes(ByteArray(randomSize()).also { random.nextBytes(it) })
+            Bytes::class -> Bytes.from(ByteArray(randomSize()).also { random.nextBytes(it) })
             String::class -> String(ByteArray(randomSize()).also { random.nextBytes(it) })
             else -> throw IllegalArgumentException("unknown $cls")
         }
@@ -102,9 +102,7 @@ class FixtureGenerator(private val weight: Int) {
         BenchmarkDataset {
             this.name = name
             messageName = msg.qualifiedName!!
-            payload = (0..size).map {
-                Bytes(randomMessageValue(msg).serialize())
-            }
+            payload = (0..size).map { Bytes.from(randomMessageValue(msg)) }
         }
 }
 

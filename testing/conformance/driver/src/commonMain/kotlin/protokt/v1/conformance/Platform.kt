@@ -32,9 +32,9 @@ internal expect object Platform {
     fun writeToStdOut(bytes: ByteArray)
 
     fun <T : KtMessage> deserialize(
-        bytes: Bytes,
+        bytes: ByteArray,
         deserializer: KtDeserializer<T>
     ): ConformanceStepResult<T>
 
-    fun serialize(message: KtMessage): ConformanceStepResult<ByteArray>
+    fun serialize(message: KtMessage): ConformanceStepResult<Bytes>
 }

@@ -63,7 +63,7 @@ private class MessageGenerator(
                 handleEquals(properties)
                 handleHashCode(properties)
                 handleToString(properties)
-                handleDsl(msg, properties)
+                handleBuilder(msg, properties)
                 addType(generateDeserializer(msg, ctx, properties))
                 addTypes(msg.nestedTypes.flatMap { generate(it, ctx) })
             }.build()

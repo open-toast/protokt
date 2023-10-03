@@ -16,11 +16,14 @@
 package protokt.v1.codegen.util
 
 import com.squareup.kotlinpoet.CodeBlock
+import com.squareup.kotlinpoet.MemberName
+import com.squareup.kotlinpoet.MemberName.Companion.member
+import com.squareup.kotlinpoet.asTypeName
 import protokt.v1.KtEnum
 import protokt.v1.KtMessage
 import protokt.v1.KtMessageSerializer
-import protokt.v1.sizeOfSInt32
-import protokt.v1.sizeOfSInt64
+import protokt.v1.SizeCodecs
+import protokt.v1.codegen.generate.sizeOf
 import kotlin.reflect.KClass
 
 sealed class FieldType {
@@ -33,28 +36,28 @@ sealed class FieldType {
         override val ktRepresentation: KClass<*>? = null
     ) : FieldType()
 
-    object Enum : Nonscalar(ktRepresentation = KtEnum::class)
-    object Message : Nonscalar(ktRepresentation = KtMessage::class)
-    object String : Nonscalar(kotlin.String::class)
-    object Bytes : Nonscalar(protokt.v1.Bytes::class)
+    data object Enum : Nonscalar(ktRepresentation = KtEnum::class)
+    data object Message : Nonscalar(ktRepresentation = KtMessage::class)
+    data object String : Nonscalar(kotlin.String::class)
+    data object Bytes : Nonscalar(protokt.v1.Bytes::class)
 
     sealed class Scalar(
         override val kotlinRepresentation: KClass<*>? = null
     ) : FieldType()
 
-    object Bool : Scalar(Boolean::class)
-    object Double : Scalar(kotlin.Double::class)
-    object Float : Scalar(kotlin.Float::class)
-    object Fixed32 : Scalar(UInt::class)
-    object Fixed64 : Scalar(ULong::class)
-    object Int32 : Scalar(Int::class)
-    object Int64 : Scalar(Long::class)
-    object SFixed32 : Scalar(Int::class)
-    object SFixed64 : Scalar(Long::class)
-    object SInt32 : Scalar(Int::class)
-    object SInt64 : Scalar(Long::class)
-    object UInt32 : Scalar(UInt::class)
-    object UInt64 : Scalar(ULong::class)
+    data object Bool : Scalar(Boolean::class)
+    data object Double : Scalar(kotlin.Double::class)
+    data object Float : Scalar(kotlin.Float::class)
+    data object Fixed32 : Scalar(UInt::class)
+    data object Fixed64 : Scalar(ULong::class)
+    data object Int32 : Scalar(Int::class)
+    data object Int64 : Scalar(Long::class)
+    data object SFixed32 : Scalar(Int::class)
+    data object SFixed64 : Scalar(Long::class)
+    data object SInt32 : Scalar(Int::class)
+    data object SInt64 : Scalar(Long::class)
+    data object UInt32 : Scalar(UInt::class)
+    data object UInt64 : Scalar(ULong::class)
 
     val protoktFieldType
         get() = when (this) {
@@ -83,16 +86,16 @@ sealed class FieldType {
 
     sealed interface SizeFn
     class Const(val size: Int) : SizeFn
-    class Method(val name: kotlin.String) : SizeFn
+    class Method(val method: MemberName) : SizeFn
 
     val sizeFn: SizeFn
         get() = when (this) {
             Bool -> Const(1)
             Double, Fixed64, SFixed64 -> Const(8)
             Float, Fixed32, SFixed32 -> Const(4)
-            SInt32 -> Method(::sizeOfSInt32.name)
-            SInt64 -> Method(::sizeOfSInt64.name)
-            else -> Method("sizeOf")
+            SInt32 -> Method(SizeCodecs::class.asTypeName().member(SizeCodecs::sizeOfSInt32.name))
+            SInt64 -> Method(SizeCodecs::class.asTypeName().member(SizeCodecs::sizeOfSInt64.name))
+            else -> Method(sizeOf)
         }
 
     val scalar

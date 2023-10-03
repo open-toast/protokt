@@ -32,7 +32,6 @@ sealed class TopLevelType
 class Message(
     val className: ClassName,
     val deserializerClassName: ClassName,
-    val dslClassName: ClassName,
     val fields: List<Field>,
     val nestedTypes: List<TopLevelType>,
     val mapEntry: Boolean,

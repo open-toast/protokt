@@ -44,7 +44,7 @@ internal actual object Platform {
         deserializer: KtDeserializer<T>
     ): ConformanceStepResult<T>? {
         val size = readSize() ?: return null
-        return deserialize(Bytes(readBytes(size)), deserializer)
+        return deserialize(readBytes(size), deserializer)
     }
 
     private suspend fun readBytes(size: Int) =
@@ -92,7 +92,7 @@ internal actual object Platform {
     }
 
     actual fun <T : KtMessage> deserialize(
-        bytes: Bytes,
+        bytes: ByteArray,
         deserializer: KtDeserializer<T>
     ): ConformanceStepResult<T> =
         try {
@@ -103,9 +103,9 @@ internal actual object Platform {
             Failure(ParseError(d.toString()))
         }
 
-    actual fun serialize(message: KtMessage): ConformanceStepResult<ByteArray> =
+    actual fun serialize(message: KtMessage): ConformanceStepResult<Bytes> =
         try {
-            Proceed(message.serialize())
+            Proceed(Bytes.from(message))
         } catch (t: Throwable) {
             Failure(SerializeError(t.stackTraceToString()))
         } catch (d: dynamic) {

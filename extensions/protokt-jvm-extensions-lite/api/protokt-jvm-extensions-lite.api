@@ -62,24 +62,19 @@ public final class protokt/v1/InetSocketAddress : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/InetSocketAddress$Deserializer;
 	public synthetic fun <init> (Ljava/net/InetAddress;ILprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/InetSocketAddress;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/InetSocketAddress;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAddress ()Ljava/net/InetAddress;
 	public fun getMessageSize ()I
 	public final fun getPort ()I
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/InetSocketAddress;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/InetSocketAddress$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/InetSocketAddress;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/InetSocketAddress;
-}
-
-public final class protokt/v1/InetSocketAddress$InetSocketAddressDsl {
+public final class protokt/v1/InetSocketAddress$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/InetSocketAddress;
 	public final fun getAddress ()Ljava/net/InetAddress;
@@ -90,6 +85,13 @@ public final class protokt/v1/InetSocketAddress$InetSocketAddressDsl {
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
+public final class protokt/v1/InetSocketAddress$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/InetSocketAddress;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/InetSocketAddress;
+}
+
 public final class protokt/v1/InetSocketAddressConverter : protokt/v1/Converter {
 	public static final field INSTANCE Lprotokt/v1/InetSocketAddressConverter;
 	public fun getWrapped ()Lkotlin/reflect/KClass;
@@ -98,9 +100,5 @@ public final class protokt/v1/InetSocketAddressConverter : protokt/v1/Converter 
 	public fun unwrap (Ljava/net/InetSocketAddress;)Lprotokt/v1/InetSocketAddress;
 	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
 	public fun wrap (Lprotokt/v1/InetSocketAddress;)Ljava/net/InetSocketAddress;
-}
-
-public final class protokt/v1/Inet_socket_addressKt {
-	public static final fun InetSocketAddress (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/InetSocketAddress;
 }
 

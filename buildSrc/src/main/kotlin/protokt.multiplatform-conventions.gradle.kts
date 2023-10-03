@@ -24,12 +24,16 @@ kotlin {
     }
 
     js(IR) {
-        browser {}
-        nodejs {}
-        useCommonJs()
+        configureJsTests()
     }
 
     sourceSets {
+        val commonTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+            }
+        }
+
         val jvmTest by getting {
             dependencies {
                 implementation(libs.junit.jupiter)

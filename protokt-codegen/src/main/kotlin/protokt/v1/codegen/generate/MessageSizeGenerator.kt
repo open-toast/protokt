@@ -117,7 +117,7 @@ fun sizeOf(
                 "sizeOf(${f.tag}u) + " +
                     "%elementsSize:L.let·{·it·+·%sizeOf:M(it.toUInt())·}",
                 mapOf(
-                    "sizeOf" to runtimeFunction("sizeOf"),
+                    "sizeOf" to sizeOf,
                     "elementsSize" to f.elementsSize()
                 )
             )
@@ -126,7 +126,7 @@ fun sizeOf(
             namedCodeBlock(
                 "(%sizeOf:M(${f.tag}u) * %name:L.size) + %elementsSize:L",
                 mapOf(
-                    "sizeOf" to runtimeFunction("sizeOf"),
+                    "sizeOf" to sizeOf,
                     "name" to name,
                     "elementsSize" to
                         f.elementsSize(
@@ -140,7 +140,7 @@ fun sizeOf(
             buildCodeBlock {
                 add(
                     "%M(${f.tag}u) + %L",
-                    runtimeFunction("sizeOf"),
+                    sizeOf,
                     interceptFieldSizeof(f, name, ctx)
                 )
             }
@@ -169,7 +169,7 @@ private fun sizeOfMap(
     return buildCodeBlock {
         add(
             "%M($name, ${f.tag}u)·{·%L,·%L·->\n",
-            runtimeFunction("sizeOfMap"),
+            sizeOf,
             mapEntry.key.loopVar("k"),
             mapEntry.value.loopVar("v")
         )
@@ -189,7 +189,7 @@ private fun StandardField.loopVar(name: String) =
 fun StandardField.sizeOf(value: CodeBlock): CodeBlock =
     when (val fn = type.sizeFn) {
         is FieldType.Const -> CodeBlock.of(fn.size.toString())
-        is FieldType.Method -> CodeBlock.of("%M(%L)", runtimeFunction(fn.name), value)
+        is FieldType.Method -> CodeBlock.of("%M(%L)", fn.method, value)
     }
 
 fun StandardField.elementsSize(

@@ -16,6 +16,7 @@
 package protokt.v1
 
 import com.google.auto.service.AutoService
+import protokt.v1.SizeCodecs.sizeOf
 import protokt.v1.google.protobuf.BytesValue
 import java.util.UUID
 
@@ -26,7 +27,7 @@ object UuidBytesValueConverter : OptimizedSizeOfConverter<UUID, BytesValue> {
     override val wrapped = BytesValue::class
 
     private val sizeOfProxy =
-        BytesValue { value = Bytes(ByteArray(16)) }
+        BytesValue { value = Bytes.from(ByteArray(16)) }
 
     override fun sizeOf(wrapped: UUID) =
         sizeOf(sizeOfProxy)

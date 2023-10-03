@@ -15,16 +15,13 @@
 
 package protokt.v1.codegen.generate
 
-import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.LambdaTypeName
-import com.squareup.kotlinpoet.MemberName
 import com.squareup.kotlinpoet.ParameterizedTypeName
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeSpec
-import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
@@ -45,6 +42,7 @@ import protokt.v1.codegen.util.FieldType.SInt32
 import protokt.v1.codegen.util.FieldType.SInt64
 import protokt.v1.codegen.util.FieldType.UInt32
 import protokt.v1.codegen.util.FieldType.UInt64
+import protokt.v1.codegen.util.KotlinPlugin
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.Oneof
 import protokt.v1.codegen.util.StandardField
@@ -70,6 +68,9 @@ private class DeserializerGenerator(
             .addFunction(
                 buildFunSpec("deserialize") {
                     addModifiers(KModifier.OVERRIDE)
+                    if (ctx.info.context.appliedKotlinPlugin != KotlinPlugin.JS) {
+                        addAnnotation(JvmStatic::class) // can't put this here generally until JS code is actually common code in a multiplatform module
+                    }
                     addParameter("deserializer", KtMessageDeserializer::class)
                     returns(msg.className)
                     if (properties.isNotEmpty()) {
@@ -109,35 +110,22 @@ private class DeserializerGenerator(
                     endControlFlow()
                 }
             )
-            .apply {
-                msg.nestedTypes
-                    .filterIsInstance<Message>()
-                    .filterNot { it.mapEntry }
-                    .forEach { addConstructorFunction(it, ::addFunction) }
-            }
             .addFunction(
                 buildFunSpec("invoke") {
+                    if (ctx.info.context.appliedKotlinPlugin != KotlinPlugin.JS) {
+                        addAnnotation(JvmStatic::class) // todo: remove when JS code is common in multiplatform
+                    }
+                    addModifiers(KModifier.OPERATOR)
                     returns(msg.className)
-                    addAnnotation(
-                        AnnotationSpec.builder(Deprecated::class)
-                            .addMember("for ABI backwards compatibility only".embed())
-                            .addMember(
-                                CodeBlock.of(
-                                    "level = %M",
-                                    MemberName(DeprecationLevel::class.asClassName(), DeprecationLevel.HIDDEN.name)
-                                )
-                            )
-                            .build()
-                    )
                     addParameter(
                         "dsl",
                         LambdaTypeName.get(
-                            msg.dslClassName,
+                            msg.builderClassName,
                             emptyList(),
                             Unit::class.asTypeName()
                         )
                     )
-                    addStatement("return %T().apply(dsl).build()", msg.dslClassName)
+                    addStatement("return %T().apply(dsl).build()", msg.builderClassName)
                     build()
                 }
             )

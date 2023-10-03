@@ -485,75 +485,90 @@ public abstract class protokt/v1/AbstractKtMessage : protokt/v1/KtMessage {
 
 public final class protokt/v1/Bytes {
 	public static final field Companion Lprotokt/v1/Bytes$Companion;
-	public fun <init> ([B)V
+	public static final fun empty ()Lprotokt/v1/Bytes;
 	public fun equals (Ljava/lang/Object;)Z
+	public static final fun from (Lprotokt/v1/KtMessage;)Lprotokt/v1/Bytes;
+	public static final fun from ([B)Lprotokt/v1/Bytes;
 	public final fun getBytes ()[B
 	public fun hashCode ()I
 	public final fun isEmpty ()Z
 	public final fun isNotEmpty ()Z
+	public final fun toBytesSlice ()Lprotokt/v1/BytesSlice;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/Bytes$Companion {
 	public final fun empty ()Lprotokt/v1/Bytes;
-}
-
-public final class protokt/v1/BytesKt {
-	public static final fun toBytesSlice (Lprotokt/v1/Bytes;)Lprotokt/v1/BytesSlice;
+	public final fun from (Lprotokt/v1/KtMessage;)Lprotokt/v1/Bytes;
+	public final fun from ([B)Lprotokt/v1/Bytes;
 }
 
 public final class protokt/v1/BytesSlice {
 	public static final field Companion Lprotokt/v1/BytesSlice$Companion;
-	public fun <init> ([B)V
-	public fun <init> ([BII)V
+	public static final fun empty ()Lprotokt/v1/BytesSlice;
 	public fun equals (Ljava/lang/Object;)Z
+	public static final fun from ([B)Lprotokt/v1/BytesSlice;
 	public final fun getLength ()I
 	public fun hashCode ()I
 	public final fun isEmpty ()Z
 	public final fun isNotEmpty ()Z
+	public final fun toBytes ()Lprotokt/v1/Bytes;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/BytesSlice$Companion {
 	public final fun empty ()Lprotokt/v1/BytesSlice;
+	public final fun from ([B)Lprotokt/v1/BytesSlice;
 }
 
-public final class protokt/v1/BytesSliceKt {
-	public static final fun toBytes (Lprotokt/v1/BytesSlice;)Lprotokt/v1/Bytes;
+public final class protokt/v1/Collections {
+	public static final field INSTANCE Lprotokt/v1/Collections;
+	public static final fun copyList (Ljava/util/List;)Ljava/util/List;
+	public static final fun copyMap (Ljava/util/Map;)Ljava/util/Map;
+	public static final fun unmodifiableList (Ljava/util/List;)Ljava/util/List;
+	public static final fun unmodifiableMap (Ljava/util/Map;)Ljava/util/Map;
 }
 
 public final class protokt/v1/Fixed32Val : protokt/v1/UnknownValue {
-	public synthetic fun <init> (ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1-pVg5ArA ()I
-	public final fun copy-WZ4Q5Ns (I)Lprotokt/v1/Fixed32Val;
-	public static synthetic fun copy-WZ4Q5Ns$default (Lprotokt/v1/Fixed32Val;IILjava/lang/Object;)Lprotokt/v1/Fixed32Val;
+	public static final synthetic fun box-impl (I)Lprotokt/v1/Fixed32Val;
+	public static fun constructor-impl (I)I
 	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (ILjava/lang/Object;)Z
+	public static final fun equals-impl0 (II)Z
 	public final fun getValue-pVg5ArA ()I
 	public fun hashCode ()I
+	public static fun hashCode-impl (I)I
 	public fun size ()I
+	public static fun size-impl (I)I
 	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (I)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()I
 }
 
 public final class protokt/v1/Fixed64Val : protokt/v1/UnknownValue {
-	public synthetic fun <init> (JLkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1-s-VKNKU ()J
-	public final fun copy-VKZWuLQ (J)Lprotokt/v1/Fixed64Val;
-	public static synthetic fun copy-VKZWuLQ$default (Lprotokt/v1/Fixed64Val;JILjava/lang/Object;)Lprotokt/v1/Fixed64Val;
+	public static final synthetic fun box-impl (J)Lprotokt/v1/Fixed64Val;
+	public static fun constructor-impl (J)J
 	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (JLjava/lang/Object;)Z
+	public static final fun equals-impl0 (JJ)Z
 	public final fun getValue-s-VKNKU ()J
 	public fun hashCode ()I
+	public static fun hashCode-impl (J)I
 	public fun size ()I
+	public static fun size-impl (J)I
 	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (J)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()J
 }
 
-public final class protokt/v1/JvmBytesKt {
+public final class protokt/v1/JvmBytes {
+	public static final field INSTANCE Lprotokt/v1/JvmBytes;
 	public static final fun asReadOnlyBuffer (Lprotokt/v1/Bytes;)Ljava/nio/ByteBuffer;
+	public static final fun from (Lprotokt/v1/Bytes$Companion;Ljava/io/InputStream;)Lprotokt/v1/Bytes;
 	public static final fun inputStream (Lprotokt/v1/Bytes;)Ljava/io/InputStream;
 }
 
-public final class protokt/v1/JvmRuntimeUtilsKt {
-	public static final fun unmodifiableList (Ljava/util/List;)Ljava/util/List;
-	public static final fun unmodifiableMap (Ljava/util/Map;)Ljava/util/Map;
+public abstract interface annotation class protokt/v1/KtBuilderDsl : java/lang/annotation/Annotation {
 }
 
 public abstract interface class protokt/v1/KtDeserializer : com/toasttab/protokt/rt/KtDeserializer {
@@ -576,9 +591,6 @@ public final class protokt/v1/KtDeserializer$DefaultImpls {
 	public static fun deserialize (Lprotokt/v1/KtDeserializer;Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public static fun deserialize (Lprotokt/v1/KtDeserializer;Ljava/io/InputStream;)Lcom/toasttab/protokt/rt/KtMessage;
 	public static fun deserialize (Lprotokt/v1/KtDeserializer;Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
-}
-
-public abstract interface annotation class protokt/v1/KtDsl : java/lang/annotation/Annotation {
 }
 
 public abstract class protokt/v1/KtEnum {
@@ -677,15 +689,19 @@ public final class protokt/v1/KtMessageSerializer$DefaultImpls {
 }
 
 public final class protokt/v1/LengthDelimitedVal : protokt/v1/UnknownValue {
-	public fun <init> (Lprotokt/v1/Bytes;)V
-	public final fun component1 ()Lprotokt/v1/Bytes;
-	public final fun copy (Lprotokt/v1/Bytes;)Lprotokt/v1/LengthDelimitedVal;
-	public static synthetic fun copy$default (Lprotokt/v1/LengthDelimitedVal;Lprotokt/v1/Bytes;ILjava/lang/Object;)Lprotokt/v1/LengthDelimitedVal;
+	public static final synthetic fun box-impl (Lprotokt/v1/Bytes;)Lprotokt/v1/LengthDelimitedVal;
+	public static fun constructor-impl (Lprotokt/v1/Bytes;)Lprotokt/v1/Bytes;
 	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (Lprotokt/v1/Bytes;Ljava/lang/Object;)Z
+	public static final fun equals-impl0 (Lprotokt/v1/Bytes;Lprotokt/v1/Bytes;)Z
 	public final fun getValue ()Lprotokt/v1/Bytes;
 	public fun hashCode ()I
+	public static fun hashCode-impl (Lprotokt/v1/Bytes;)I
 	public fun size ()I
+	public static fun size-impl (Lprotokt/v1/Bytes;)I
 	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (Lprotokt/v1/Bytes;)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()Lprotokt/v1/Bytes;
 }
 
 public final class protokt/v1/NewToOldAdapterKt {
@@ -693,14 +709,8 @@ public final class protokt/v1/NewToOldAdapterKt {
 	public static final fun NewToOldAdapter (Lprotokt/v1/KtMessageSerializer;)Lcom/toasttab/protokt/rt/KtMessageSerializer;
 }
 
-public final class protokt/v1/RuntimeUtilsKt {
-	public static final fun copyList (Ljava/util/List;)Ljava/util/List;
-	public static final fun copyMap (Ljava/util/Map;)Ljava/util/Map;
-	public static final fun finishList (Ljava/util/List;)Ljava/util/List;
-	public static final fun finishMap (Ljava/util/Map;)Ljava/util/Map;
-}
-
-public final class protokt/v1/SizeCodecsKt {
+public final class protokt/v1/SizeCodecs {
+	public static final field INSTANCE Lprotokt/v1/SizeCodecs;
 	public static final fun sizeOf (I)I
 	public static final fun sizeOf (J)I
 	public static final fun sizeOf (Ljava/lang/String;)I
@@ -709,11 +719,11 @@ public final class protokt/v1/SizeCodecsKt {
 	public static final fun sizeOf (Lprotokt/v1/KtEnum;)I
 	public static final fun sizeOf (Lprotokt/v1/KtMessage;)I
 	public static final fun sizeOf ([B)I
-	public static final fun sizeOf-VKZWuLQ (J)I
-	public static final fun sizeOf-WZ4Q5Ns (I)I
-	public static final fun sizeOfMap-OsBMiQA (Ljava/util/Map;ILkotlin/jvm/functions/Function2;)I
+	public static final fun sizeOfMap (Ljava/util/Map;ILkotlin/jvm/functions/Function2;)I
 	public static final fun sizeOfSInt32 (I)I
 	public static final fun sizeOfSInt64 (J)I
+	public static final fun sizeOfUInt32 (I)I
+	public static final fun sizeOfUInt64 (J)I
 }
 
 public final class protokt/v1/UnknownField {
@@ -775,14 +785,18 @@ public abstract interface class protokt/v1/UnknownValue {
 }
 
 public final class protokt/v1/VarintVal : protokt/v1/UnknownValue {
-	public synthetic fun <init> (JLkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1-s-VKNKU ()J
-	public final fun copy-VKZWuLQ (J)Lprotokt/v1/VarintVal;
-	public static synthetic fun copy-VKZWuLQ$default (Lprotokt/v1/VarintVal;JILjava/lang/Object;)Lprotokt/v1/VarintVal;
+	public static final synthetic fun box-impl (J)Lprotokt/v1/VarintVal;
+	public static fun constructor-impl (J)J
 	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (JLjava/lang/Object;)Z
+	public static final fun equals-impl0 (JJ)Z
 	public final fun getValue-s-VKNKU ()J
 	public fun hashCode ()I
+	public static fun hashCode-impl (J)I
 	public fun size ()I
+	public static fun size-impl (J)I
 	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (J)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()J
 }
 

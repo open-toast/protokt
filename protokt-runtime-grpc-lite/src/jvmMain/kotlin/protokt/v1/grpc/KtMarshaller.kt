@@ -24,7 +24,7 @@ class KtMarshaller<T : com.toasttab.protokt.rt.KtMessage> private constructor(
     private val new: KtDeserializer<T>?,
     private val old: com.toasttab.protokt.rt.KtDeserializer<T>?
 ) : MethodDescriptor.Marshaller<T> {
-    constructor(new: KtDeserializer<T>) : this(new, null)
+    constructor(deserializer: KtDeserializer<T>) : this(deserializer, null)
 
     @Deprecated("for backwards compatibility only")
     constructor(old: com.toasttab.protokt.rt.KtDeserializer<T>) : this(null, old)

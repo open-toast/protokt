@@ -32,7 +32,7 @@ class WellKnownTypesTest {
                 uint32 = 998u
                 bool = false
                 string = "some-string"
-                bytes = Bytes(byteArrayOf(4, 5, 3))
+                bytes = Bytes.from(byteArrayOf(4, 5, 3))
             }
 
         assertThat(WellKnownTypes.deserialize(original.serialize()))

@@ -45,7 +45,7 @@ internal actual object Platform {
                 val requestBuf = ByteArray(size)
                 val read = System.`in`.read(requestBuf)
                 require(read == size) { "Expected to read $size bytes but read $read" }
-                deserialize(Bytes(requestBuf), deserializer)
+                deserialize(requestBuf, deserializer)
             } else {
                 null
             }
@@ -60,7 +60,7 @@ internal actual object Platform {
     }
 
     actual fun <T : KtMessage> deserialize(
-        bytes: Bytes,
+        bytes: ByteArray,
         deserializer: KtDeserializer<T>
     ): ConformanceStepResult<T> =
         try {
@@ -69,9 +69,9 @@ internal actual object Platform {
             Failure(ParseError(t.stackTraceToString()))
         }
 
-    actual fun serialize(message: KtMessage): ConformanceStepResult<ByteArray> =
+    actual fun serialize(message: KtMessage): ConformanceStepResult<Bytes> =
         try {
-            Proceed(message.serialize())
+            Proceed(Bytes.from(message))
         } catch (t: Throwable) {
             Failure(SerializeError(t.stackTraceToString()))
         }

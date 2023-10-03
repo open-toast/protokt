@@ -56,7 +56,7 @@ class FileContentParser(
             } +
             services.mapIndexed { idx, desc ->
                 withServiceName(desc.name) {
-                    ServiceParser(ctx, idx, desc).toService()
+                    ServiceParser(idx, desc).toService()
                 }
             }
 }

@@ -15,7 +15,7 @@
 
 package protokt.v1.grpc
 
-import protokt.v1.copyList
+import protokt.v1.Collections.copyList
 
 class ServiceDescriptor internal constructor(
     val name: String,

@@ -20,7 +20,6 @@ import com.google.protobuf.DescriptorProtos.ServiceDescriptorProto
 import com.toasttab.protokt.v1.ProtoktProto
 
 class ServiceParser(
-    private val ctx: GeneratorContext,
     private val idx: Int,
     private val desc: ServiceDescriptorProto
 ) {

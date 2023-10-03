@@ -50,8 +50,7 @@ class MessageParser(
             index = idx,
             fullProtobufTypeName = "${ctx.fdp.`package`}.$typeName",
             className = ctx.className(simpleNames),
-            deserializerClassName = ctx.className(simpleNames + DESERIALIZER),
-            dslClassName = ctx.className(simpleNames + "${typeName}$DSL")
+            deserializerClassName = ctx.className(simpleNames + DESERIALIZER)
         )
     }
 }

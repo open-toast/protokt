@@ -18,6 +18,7 @@ package protokt.v1.testing
 import com.google.auto.service.AutoService
 import protokt.v1.Bytes
 import protokt.v1.Converter
+import protokt.v1.JvmBytes.from
 
 data class Id(val value: String)
 
@@ -31,5 +32,5 @@ object IdConverter : Converter<Id, Bytes> {
         Id(String(unwrapped.bytes))
 
     override fun unwrap(wrapped: Id) =
-        Bytes(wrapped.value.toByteArray())
+        Bytes.from(wrapped.value.toByteArray().inputStream())
 }

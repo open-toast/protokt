@@ -17,7 +17,6 @@ package protokt.v1.codegen.generate
 
 import com.squareup.kotlinpoet.FileSpec
 import protokt.v1.codegen.generate.Deprecation.addDeprecationSuppression
-import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.ProtoFileContents
 
 fun generateFile(contents: ProtoFileContents) =
@@ -42,7 +41,7 @@ private class FileGenerator(
                         Source: ${contents.info.name}
                     """.trimIndent()
                 )
-                indent("    ")
+                indent(INDENT)
             }
 
         var anyCodeAdded = false
@@ -51,14 +50,6 @@ private class FileGenerator(
             anyCodeAdded = true
             builder.addType(it.typeSpec)
         }
-
-        descs
-            .map { it.rawType }
-            .filterIsInstance<Message>()
-            .forEach {
-                anyCodeAdded = true
-                addConstructorFunction(it, builder::addFunction)
-            }
 
         if (contents.info.context.generateDescriptors) {
             val fileDescriptorInfo = FileDescriptorResolver.resolveFileDescriptor(contents)

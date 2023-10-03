@@ -33,7 +33,7 @@ class WrapperTypesTest {
             id = Id("asdf")
             ipAddress = InetAddress.getByAddress(byteArrayOf(0, 0, 0, 1))
             uuid = UUID.randomUUID()
-            cachingId = CachingId(Bytes("asdf".toByteArray()))
+            cachingId = CachingId(Bytes.from("asdf".toByteArray()))
             socketAddress = InetSocketAddress(InetAddress.getLocalHost(), 8080)
             instant = Instant.now()
             duration = Duration.ofSeconds(5)

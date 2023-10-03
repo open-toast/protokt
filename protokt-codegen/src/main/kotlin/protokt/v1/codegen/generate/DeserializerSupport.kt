@@ -46,9 +46,9 @@ fun wrapDeserializedValueForConstructor(p: PropertyInfo) =
         }
     } else {
         if (p.map) {
-            CodeBlock.of("%M(%N)", runtimeFunction("finishMap"), p.name)
+            CodeBlock.of("%M(%N)", unmodifiableMap, p.name)
         } else if (p.repeated) {
-            CodeBlock.of("%M(%N)", runtimeFunction("finishList"), p.name)
+            CodeBlock.of("%M(%N)", unmodifiableList, p.name)
         } else {
             buildCodeBlock {
                 add("%N", p.name)

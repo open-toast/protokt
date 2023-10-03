@@ -17,7 +17,7 @@
 
 package com.toasttab.protokt
 
-import protokt.v1.finishList
+import protokt.v1.Collections.unmodifiableList
 
 @Deprecated("use v1")
 class FileDescriptor(
@@ -27,17 +27,17 @@ class FileDescriptor(
     val messageTypes =
         proto.messageType.mapIndexed { idx, proto ->
             Descriptor(proto, this, idx)
-        }.let(::finishList)
+        }.let(::unmodifiableList)
 
     val enumTypes =
         proto.enumType.mapIndexed { idx, proto ->
             EnumDescriptor(proto, this, idx)
-        }.let(::finishList)
+        }.let(::unmodifiableList)
 
     val services =
         proto.service.mapIndexed { idx, proto ->
             ServiceDescriptor(proto, this, idx)
-        }.let(::finishList)
+        }.let(::unmodifiableList)
 
     companion object {
         fun buildFrom(
@@ -55,7 +55,7 @@ class FileDescriptor(
 
             return FileDescriptor(
                 FileDescriptorProto.deserialize(descriptorBytes),
-                finishList(dependencies)
+                unmodifiableList(dependencies)
             )
         }
     }
@@ -83,12 +83,12 @@ class Descriptor(
     val nestedTypes =
         proto.nestedType.mapIndexed { idx, proto ->
             Descriptor(proto, file, idx, this)
-        }.let(::finishList)
+        }.let(::unmodifiableList)
 
     val enumTypes =
         proto.enumType.mapIndexed { idx, proto ->
             EnumDescriptor(proto, file, idx)
-        }.let(::finishList)
+        }.let(::unmodifiableList)
 }
 
 @Deprecated("use v1")

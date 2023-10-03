@@ -22,7 +22,7 @@ import protokt.v1.BytesSlice
 class BytesSliceTest {
     private val model =
         SliceModel {
-            slice = BytesSlice("asdf".toByteArray())
+            slice = BytesSlice.from("asdf".toByteArray())
         }
 
     @Test

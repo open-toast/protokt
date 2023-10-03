@@ -19,12 +19,17 @@ import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
-import com.squareup.kotlinpoet.MemberName
+import com.squareup.kotlinpoet.MemberName.Companion.member
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeName
+import com.squareup.kotlinpoet.asTypeName
+import protokt.v1.Collections
+import protokt.v1.SizeCodecs
 import protokt.v1.codegen.generate.CodeGenerator.Context
-import protokt.v1.codegen.util.protoktV1
 import kotlin.reflect.KClass
+import kotlin.reflect.KFunction1
+
+val INDENT = "  "
 
 fun String.embed() =
     "\"" + this + "\""
@@ -55,7 +60,25 @@ fun buildFunSpec(name: String, funSpecBuilder: FunSpec.Builder.() -> Unit): FunS
 fun namedCodeBlock(format: String, arguments: Map<String, *>) =
     CodeBlock.builder().addNamed(format, arguments).build()
 
-fun runtimeFunction(name: String) = MemberName(protoktV1, name)
+private val _sizeOf: KFunction1<Int, Int> = SizeCodecs::sizeOf
+
+val sizeOf = SizeCodecs::class.asTypeName().member(_sizeOf.name)
+
+private val _copyMap: KFunction1<Map<Any, Any>, Map<Any, Any>> = Collections::copyMap
+
+val copyMap = Collections::class.asTypeName().member(_copyMap.name)
+
+private val _copyList: KFunction1<List<Any>, List<Any>> = Collections::copyList
+
+val copyList = Collections::class.asTypeName().member(_copyList.name)
+
+private val _unmodifiableMap: KFunction1<Map<Any, Any>, Map<Any, Any>> = Collections::unmodifiableMap
+
+val unmodifiableMap = Collections::class.asTypeName().member(_unmodifiableMap.name)
+
+private val _unmodifiableList: KFunction1<List<Any>, List<Any>> = Collections::unmodifiableList
+
+val unmodifiableList = Collections::class.asTypeName().member(_unmodifiableList.name)
 
 fun CodeBlock.Builder.endControlFlowWithoutNewline() {
     unindent()

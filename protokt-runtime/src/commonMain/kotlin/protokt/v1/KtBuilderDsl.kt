@@ -15,10 +15,5 @@
 
 package protokt.v1
 
-import java.util.Collections
-
-actual fun <T> unmodifiableList(list: List<T>): List<T> =
-    Collections.unmodifiableList(list)
-
-actual fun <K, V> unmodifiableMap(map: Map<K, V>): Map<K, V> =
-    Collections.unmodifiableMap(map)
+@DslMarker
+annotation class KtBuilderDsl

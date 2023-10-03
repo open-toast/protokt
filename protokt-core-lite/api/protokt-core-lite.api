@@ -3608,17 +3608,19 @@ public final class protokt/v1/google/protobuf/Any : protokt/v1/AbstractKtMessage
 	public static final field Deserializer Lprotokt/v1/google/protobuf/Any$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/Bytes;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Any;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Any;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getTypeUrl ()Ljava/lang/String;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getValue ()Lprotokt/v1/Bytes;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Any;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/Any$AnyDsl {
+public final class protokt/v1/google/protobuf/Any$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/Any;
 	public final fun getTypeUrl ()Ljava/lang/String;
@@ -3633,17 +3635,14 @@ public final class protokt/v1/google/protobuf/Any$Deserializer : protokt/v1/Abst
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Any;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Any;
-}
-
-public final class protokt/v1/google/protobuf/AnyKt {
-	public static final fun Any (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Any;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Any;
 }
 
 public final class protokt/v1/google/protobuf/Api : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/Api$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/String;Lprotokt/v1/google/protobuf/SourceContext;Ljava/util/List;Lprotokt/v1/google/protobuf/Syntax;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Api;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Api;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getMethods ()Ljava/util/List;
@@ -3655,11 +3654,12 @@ public final class protokt/v1/google/protobuf/Api : protokt/v1/AbstractKtMessage
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getVersion ()Ljava/lang/String;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Api;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/Api$ApiDsl {
+public final class protokt/v1/google/protobuf/Api$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/Api;
 	public final fun getMethods ()Ljava/util/List;
@@ -3684,29 +3684,25 @@ public final class protokt/v1/google/protobuf/Api$Deserializer : protokt/v1/Abst
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Api;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Api;
-}
-
-public final class protokt/v1/google/protobuf/ApiKt {
-	public static final fun Api (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Api;
-	public static final fun Method (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Method;
-	public static final fun Mixin (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Mixin;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Api;
 }
 
 public final class protokt/v1/google/protobuf/BoolValue : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/BoolValue$Deserializer;
 	public synthetic fun <init> (ZLprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/BoolValue;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/BoolValue;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getValue ()Z
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/BoolValue;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/BoolValue$BoolValueDsl {
+public final class protokt/v1/google/protobuf/BoolValue$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/BoolValue;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
@@ -3719,7 +3715,7 @@ public final class protokt/v1/google/protobuf/BoolValue$Deserializer : protokt/v
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/BoolValue;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/BoolValue;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/BoolValue;
 }
 
 public final class protokt/v1/google/protobuf/BoolValueConverter : protokt/v1/Converter {
@@ -3736,16 +3732,18 @@ public final class protokt/v1/google/protobuf/BytesValue : protokt/v1/AbstractKt
 	public static final field Deserializer Lprotokt/v1/google/protobuf/BytesValue$Deserializer;
 	public synthetic fun <init> (Lprotokt/v1/Bytes;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/BytesValue;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/BytesValue;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getValue ()Lprotokt/v1/Bytes;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/BytesValue;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/BytesValue$BytesValueDsl {
+public final class protokt/v1/google/protobuf/BytesValue$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/BytesValue;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
@@ -3758,7 +3756,7 @@ public final class protokt/v1/google/protobuf/BytesValue$Deserializer : protokt/
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/BytesValue;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/BytesValue;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/BytesValue;
 }
 
 public final class protokt/v1/google/protobuf/BytesValueConverter : protokt/v1/Converter {
@@ -3771,34 +3769,11 @@ public final class protokt/v1/google/protobuf/BytesValueConverter : protokt/v1/C
 	public fun wrap (Lprotokt/v1/google/protobuf/BytesValue;)Lprotokt/v1/Bytes;
 }
 
-public final class protokt/v1/google/protobuf/DescriptorKt {
-	public static final fun DescriptorProto (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/DescriptorProto;
-	public static final fun EnumDescriptorProto (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumDescriptorProto;
-	public static final fun EnumOptions (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumOptions;
-	public static final fun EnumValueDescriptorProto (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumValueDescriptorProto;
-	public static final fun EnumValueOptions (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumValueOptions;
-	public static final fun ExtensionRangeOptions (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/ExtensionRangeOptions;
-	public static final fun FieldDescriptorProto (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FieldDescriptorProto;
-	public static final fun FieldOptions (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FieldOptions;
-	public static final fun FileDescriptorProto (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FileDescriptorProto;
-	public static final fun FileDescriptorSet (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FileDescriptorSet;
-	public static final fun FileOptions (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FileOptions;
-	public static final fun GeneratedCodeInfo (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/GeneratedCodeInfo;
-	public static final fun MessageOptions (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/MessageOptions;
-	public static final fun MethodDescriptorProto (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/MethodDescriptorProto;
-	public static final fun MethodOptions (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/MethodOptions;
-	public static final fun OneofDescriptorProto (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/OneofDescriptorProto;
-	public static final fun OneofOptions (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/OneofOptions;
-	public static final fun ServiceDescriptorProto (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/ServiceDescriptorProto;
-	public static final fun ServiceOptions (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/ServiceOptions;
-	public static final fun SourceCodeInfo (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/SourceCodeInfo;
-	public static final fun UninterpretedOption (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/UninterpretedOption;
-}
-
 public final class protokt/v1/google/protobuf/DescriptorProto : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/DescriptorProto$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lprotokt/v1/google/protobuf/MessageOptions;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/DescriptorProto;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/DescriptorProto;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getEnumType ()Ljava/util/List;
 	public final fun getExtension ()Ljava/util/List;
@@ -3813,11 +3788,12 @@ public final class protokt/v1/google/protobuf/DescriptorProto : protokt/v1/Abstr
 	public final fun getReservedRange ()Ljava/util/List;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/DescriptorProto;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/DescriptorProto$DescriptorProtoDsl {
+public final class protokt/v1/google/protobuf/DescriptorProto$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/DescriptorProto;
 	public final fun getEnumType ()Ljava/util/List;
@@ -3845,18 +3821,17 @@ public final class protokt/v1/google/protobuf/DescriptorProto$DescriptorProtoDsl
 }
 
 public final class protokt/v1/google/protobuf/DescriptorProto$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public final fun ExtensionRange (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/DescriptorProto$ExtensionRange;
-	public final fun ReservedRange (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/DescriptorProto$ReservedRange;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/DescriptorProto;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/DescriptorProto;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/DescriptorProto;
 }
 
 public final class protokt/v1/google/protobuf/DescriptorProto$ExtensionRange : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/DescriptorProto$ExtensionRange$Deserializer;
 	public synthetic fun <init> (Ljava/lang/Integer;Ljava/lang/Integer;Lprotokt/v1/google/protobuf/ExtensionRangeOptions;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/DescriptorProto$ExtensionRange;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/DescriptorProto$ExtensionRange;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getEnd ()Ljava/lang/Integer;
 	public fun getMessageSize ()I
@@ -3864,18 +3839,12 @@ public final class protokt/v1/google/protobuf/DescriptorProto$ExtensionRange : p
 	public final fun getStart ()Ljava/lang/Integer;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/DescriptorProto$ExtensionRange;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/DescriptorProto$ExtensionRange$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/DescriptorProto$ExtensionRange;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/DescriptorProto$ExtensionRange;
-}
-
-public final class protokt/v1/google/protobuf/DescriptorProto$ExtensionRange$ExtensionRangeDsl {
+public final class protokt/v1/google/protobuf/DescriptorProto$ExtensionRange$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/DescriptorProto$ExtensionRange;
 	public final fun getEnd ()Ljava/lang/Integer;
@@ -3888,28 +3857,30 @@ public final class protokt/v1/google/protobuf/DescriptorProto$ExtensionRange$Ext
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
+public final class protokt/v1/google/protobuf/DescriptorProto$ExtensionRange$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/DescriptorProto$ExtensionRange;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/DescriptorProto$ExtensionRange;
+}
+
 public final class protokt/v1/google/protobuf/DescriptorProto$ReservedRange : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/DescriptorProto$ReservedRange$Deserializer;
 	public synthetic fun <init> (Ljava/lang/Integer;Ljava/lang/Integer;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/DescriptorProto$ReservedRange;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/DescriptorProto$ReservedRange;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getEnd ()Ljava/lang/Integer;
 	public fun getMessageSize ()I
 	public final fun getStart ()Ljava/lang/Integer;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/DescriptorProto$ReservedRange;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/DescriptorProto$ReservedRange$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/DescriptorProto$ReservedRange;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/DescriptorProto$ReservedRange;
-}
-
-public final class protokt/v1/google/protobuf/DescriptorProto$ReservedRange$ReservedRangeDsl {
+public final class protokt/v1/google/protobuf/DescriptorProto$ReservedRange$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/DescriptorProto$ReservedRange;
 	public final fun getEnd ()Ljava/lang/Integer;
@@ -3920,33 +3891,42 @@ public final class protokt/v1/google/protobuf/DescriptorProto$ReservedRange$Rese
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
+public final class protokt/v1/google/protobuf/DescriptorProto$ReservedRange$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/DescriptorProto$ReservedRange;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/DescriptorProto$ReservedRange;
+}
+
 public final class protokt/v1/google/protobuf/DoubleValue : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/DoubleValue$Deserializer;
 	public synthetic fun <init> (DLprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/DoubleValue;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/DoubleValue;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getValue ()D
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/DoubleValue;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/DoubleValue$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/DoubleValue;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/DoubleValue;
-}
-
-public final class protokt/v1/google/protobuf/DoubleValue$DoubleValueDsl {
+public final class protokt/v1/google/protobuf/DoubleValue$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/DoubleValue;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getValue ()D
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 	public final fun setValue (D)V
+}
+
+public final class protokt/v1/google/protobuf/DoubleValue$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/DoubleValue;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/DoubleValue;
 }
 
 public final class protokt/v1/google/protobuf/DoubleValueConverter : protokt/v1/Converter {
@@ -3963,24 +3943,19 @@ public final class protokt/v1/google/protobuf/Duration : protokt/v1/AbstractKtMe
 	public static final field Deserializer Lprotokt/v1/google/protobuf/Duration$Deserializer;
 	public synthetic fun <init> (JILprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Duration;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Duration;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getNanos ()I
 	public final fun getSeconds ()J
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Duration;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/Duration$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Duration;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Duration;
-}
-
-public final class protokt/v1/google/protobuf/Duration$DurationDsl {
+public final class protokt/v1/google/protobuf/Duration$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/Duration;
 	public final fun getNanos ()I
@@ -3991,44 +3966,46 @@ public final class protokt/v1/google/protobuf/Duration$DurationDsl {
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/protobuf/DurationKt {
-	public static final fun Duration (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Duration;
+public final class protokt/v1/google/protobuf/Duration$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Duration;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Duration;
 }
 
 public final class protokt/v1/google/protobuf/Empty : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/Empty$Deserializer;
 	public synthetic fun <init> (Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Empty;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Empty;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Empty;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/Empty$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Empty;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Empty;
-}
-
-public final class protokt/v1/google/protobuf/Empty$EmptyDsl {
+public final class protokt/v1/google/protobuf/Empty$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/Empty;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/protobuf/EmptyKt {
-	public static final fun Empty (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Empty;
+public final class protokt/v1/google/protobuf/Empty$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Empty;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Empty;
 }
 
 public final class protokt/v1/google/protobuf/Enum : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/Enum$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/util/List;Lprotokt/v1/google/protobuf/SourceContext;Lprotokt/v1/google/protobuf/Syntax;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Enum;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Enum;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getEnumvalue ()Ljava/util/List;
 	public fun getMessageSize ()I
@@ -4038,18 +4015,12 @@ public final class protokt/v1/google/protobuf/Enum : protokt/v1/AbstractKtMessag
 	public final fun getSyntax ()Lprotokt/v1/google/protobuf/Syntax;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Enum;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/Enum$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Enum;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Enum;
-}
-
-public final class protokt/v1/google/protobuf/Enum$EnumDsl {
+public final class protokt/v1/google/protobuf/Enum$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/Enum;
 	public final fun getEnumvalue ()Ljava/util/List;
@@ -4066,10 +4037,18 @@ public final class protokt/v1/google/protobuf/Enum$EnumDsl {
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
+public final class protokt/v1/google/protobuf/Enum$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Enum;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Enum;
+}
+
 public final class protokt/v1/google/protobuf/EnumDescriptorProto : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/EnumDescriptorProto$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Lprotokt/v1/google/protobuf/EnumOptions;Ljava/util/List;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumDescriptorProto;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/EnumDescriptorProto;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getName ()Ljava/lang/String;
@@ -4079,19 +4058,12 @@ public final class protokt/v1/google/protobuf/EnumDescriptorProto : protokt/v1/A
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getValue ()Ljava/util/List;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumDescriptorProto;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/EnumDescriptorProto$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public final fun EnumReservedRange (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumDescriptorProto$EnumReservedRange;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/EnumDescriptorProto;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumDescriptorProto;
-}
-
-public final class protokt/v1/google/protobuf/EnumDescriptorProto$EnumDescriptorProtoDsl {
+public final class protokt/v1/google/protobuf/EnumDescriptorProto$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/EnumDescriptorProto;
 	public final fun getName ()Ljava/lang/String;
@@ -4108,28 +4080,30 @@ public final class protokt/v1/google/protobuf/EnumDescriptorProto$EnumDescriptor
 	public final fun setValue (Ljava/util/List;)V
 }
 
+public final class protokt/v1/google/protobuf/EnumDescriptorProto$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/EnumDescriptorProto;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumDescriptorProto;
+}
+
 public final class protokt/v1/google/protobuf/EnumDescriptorProto$EnumReservedRange : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/EnumDescriptorProto$EnumReservedRange$Deserializer;
 	public synthetic fun <init> (Ljava/lang/Integer;Ljava/lang/Integer;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumDescriptorProto$EnumReservedRange;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/EnumDescriptorProto$EnumReservedRange;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getEnd ()Ljava/lang/Integer;
 	public fun getMessageSize ()I
 	public final fun getStart ()Ljava/lang/Integer;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumDescriptorProto$EnumReservedRange;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/EnumDescriptorProto$EnumReservedRange$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/EnumDescriptorProto$EnumReservedRange;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumDescriptorProto$EnumReservedRange;
-}
-
-public final class protokt/v1/google/protobuf/EnumDescriptorProto$EnumReservedRange$EnumReservedRangeDsl {
+public final class protokt/v1/google/protobuf/EnumDescriptorProto$EnumReservedRange$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/EnumDescriptorProto$EnumReservedRange;
 	public final fun getEnd ()Ljava/lang/Integer;
@@ -4140,10 +4114,18 @@ public final class protokt/v1/google/protobuf/EnumDescriptorProto$EnumReservedRa
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
+public final class protokt/v1/google/protobuf/EnumDescriptorProto$EnumReservedRange$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/EnumDescriptorProto$EnumReservedRange;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumDescriptorProto$EnumReservedRange;
+}
+
 public final class protokt/v1/google/protobuf/EnumOptions : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/EnumOptions$Deserializer;
 	public synthetic fun <init> (Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumOptions;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/EnumOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAllowAlias ()Ljava/lang/Boolean;
 	public final fun getDeprecated ()Ljava/lang/Boolean;
@@ -4151,18 +4133,12 @@ public final class protokt/v1/google/protobuf/EnumOptions : protokt/v1/AbstractK
 	public final fun getUninterpretedOption ()Ljava/util/List;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumOptions;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/EnumOptions$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/EnumOptions;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumOptions;
-}
-
-public final class protokt/v1/google/protobuf/EnumOptions$EnumOptionsDsl {
+public final class protokt/v1/google/protobuf/EnumOptions$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/EnumOptions;
 	public final fun getAllowAlias ()Ljava/lang/Boolean;
@@ -4175,10 +4151,18 @@ public final class protokt/v1/google/protobuf/EnumOptions$EnumOptionsDsl {
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
+public final class protokt/v1/google/protobuf/EnumOptions$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/EnumOptions;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumOptions;
+}
+
 public final class protokt/v1/google/protobuf/EnumValue : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/EnumValue$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;ILjava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumValue;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/EnumValue;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getName ()Ljava/lang/String;
@@ -4186,18 +4170,12 @@ public final class protokt/v1/google/protobuf/EnumValue : protokt/v1/AbstractKtM
 	public final fun getOptions ()Ljava/util/List;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumValue;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/EnumValue$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/EnumValue;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumValue;
-}
-
-public final class protokt/v1/google/protobuf/EnumValue$EnumValueDsl {
+public final class protokt/v1/google/protobuf/EnumValue$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/EnumValue;
 	public final fun getName ()Ljava/lang/String;
@@ -4210,10 +4188,18 @@ public final class protokt/v1/google/protobuf/EnumValue$EnumValueDsl {
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
+public final class protokt/v1/google/protobuf/EnumValue$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/EnumValue;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumValue;
+}
+
 public final class protokt/v1/google/protobuf/EnumValueDescriptorProto : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/EnumValueDescriptorProto$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Integer;Lprotokt/v1/google/protobuf/EnumValueOptions;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumValueDescriptorProto;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/EnumValueDescriptorProto;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getName ()Ljava/lang/String;
@@ -4221,18 +4207,12 @@ public final class protokt/v1/google/protobuf/EnumValueDescriptorProto : protokt
 	public final fun getOptions ()Lprotokt/v1/google/protobuf/EnumValueOptions;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumValueDescriptorProto;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/EnumValueDescriptorProto$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/EnumValueDescriptorProto;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumValueDescriptorProto;
-}
-
-public final class protokt/v1/google/protobuf/EnumValueDescriptorProto$EnumValueDescriptorProtoDsl {
+public final class protokt/v1/google/protobuf/EnumValueDescriptorProto$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/EnumValueDescriptorProto;
 	public final fun getName ()Ljava/lang/String;
@@ -4245,28 +4225,30 @@ public final class protokt/v1/google/protobuf/EnumValueDescriptorProto$EnumValue
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
+public final class protokt/v1/google/protobuf/EnumValueDescriptorProto$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/EnumValueDescriptorProto;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumValueDescriptorProto;
+}
+
 public final class protokt/v1/google/protobuf/EnumValueOptions : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/EnumValueOptions$Deserializer;
 	public synthetic fun <init> (Ljava/lang/Boolean;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumValueOptions;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/EnumValueOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDeprecated ()Ljava/lang/Boolean;
 	public fun getMessageSize ()I
 	public final fun getUninterpretedOption ()Ljava/util/List;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumValueOptions;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/EnumValueOptions$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/EnumValueOptions;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumValueOptions;
-}
-
-public final class protokt/v1/google/protobuf/EnumValueOptions$EnumValueOptionsDsl {
+public final class protokt/v1/google/protobuf/EnumValueOptions$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/EnumValueOptions;
 	public final fun getDeprecated ()Ljava/lang/Boolean;
@@ -4277,27 +4259,29 @@ public final class protokt/v1/google/protobuf/EnumValueOptions$EnumValueOptionsD
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
+public final class protokt/v1/google/protobuf/EnumValueOptions$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/EnumValueOptions;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumValueOptions;
+}
+
 public final class protokt/v1/google/protobuf/ExtensionRangeOptions : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/ExtensionRangeOptions$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/ExtensionRangeOptions;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/ExtensionRangeOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getUninterpretedOption ()Ljava/util/List;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/ExtensionRangeOptions;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/ExtensionRangeOptions$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/ExtensionRangeOptions;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/ExtensionRangeOptions;
-}
-
-public final class protokt/v1/google/protobuf/ExtensionRangeOptions$ExtensionRangeOptionsDsl {
+public final class protokt/v1/google/protobuf/ExtensionRangeOptions$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/ExtensionRangeOptions;
 	public final fun getUninterpretedOption ()Ljava/util/List;
@@ -4306,10 +4290,18 @@ public final class protokt/v1/google/protobuf/ExtensionRangeOptions$ExtensionRan
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
+public final class protokt/v1/google/protobuf/ExtensionRangeOptions$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/ExtensionRangeOptions;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/ExtensionRangeOptions;
+}
+
 public final class protokt/v1/google/protobuf/Field : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/Field$Deserializer;
 	public synthetic fun <init> (Lprotokt/v1/google/protobuf/Field$Kind;Lprotokt/v1/google/protobuf/Field$Cardinality;ILjava/lang/String;Ljava/lang/String;IZLjava/util/List;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Field;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Field;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCardinality ()Lprotokt/v1/google/protobuf/Field$Cardinality;
 	public final fun getDefaultValue ()Ljava/lang/String;
@@ -4324,8 +4316,36 @@ public final class protokt/v1/google/protobuf/Field : protokt/v1/AbstractKtMessa
 	public final fun getTypeUrl ()Ljava/lang/String;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Field;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/protobuf/Field$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/protobuf/Field;
+	public final fun getCardinality ()Lprotokt/v1/google/protobuf/Field$Cardinality;
+	public final fun getDefaultValue ()Ljava/lang/String;
+	public final fun getJsonName ()Ljava/lang/String;
+	public final fun getKind ()Lprotokt/v1/google/protobuf/Field$Kind;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getNumber ()I
+	public final fun getOneofIndex ()I
+	public final fun getOptions ()Ljava/util/List;
+	public final fun getPacked ()Z
+	public final fun getTypeUrl ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setCardinality (Lprotokt/v1/google/protobuf/Field$Cardinality;)V
+	public final fun setDefaultValue (Ljava/lang/String;)V
+	public final fun setJsonName (Ljava/lang/String;)V
+	public final fun setKind (Lprotokt/v1/google/protobuf/Field$Kind;)V
+	public final fun setName (Ljava/lang/String;)V
+	public final fun setNumber (I)V
+	public final fun setOneofIndex (I)V
+	public final fun setOptions (Ljava/util/List;)V
+	public final fun setPacked (Z)V
+	public final fun setTypeUrl (Ljava/lang/String;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
 public abstract class protokt/v1/google/protobuf/Field$Cardinality : protokt/v1/KtEnum {
@@ -4364,34 +4384,7 @@ public final class protokt/v1/google/protobuf/Field$Deserializer : protokt/v1/Ab
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Field;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Field;
-}
-
-public final class protokt/v1/google/protobuf/Field$FieldDsl {
-	public fun <init> ()V
-	public final fun build ()Lprotokt/v1/google/protobuf/Field;
-	public final fun getCardinality ()Lprotokt/v1/google/protobuf/Field$Cardinality;
-	public final fun getDefaultValue ()Ljava/lang/String;
-	public final fun getJsonName ()Ljava/lang/String;
-	public final fun getKind ()Lprotokt/v1/google/protobuf/Field$Kind;
-	public final fun getName ()Ljava/lang/String;
-	public final fun getNumber ()I
-	public final fun getOneofIndex ()I
-	public final fun getOptions ()Ljava/util/List;
-	public final fun getPacked ()Z
-	public final fun getTypeUrl ()Ljava/lang/String;
-	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
-	public final fun setCardinality (Lprotokt/v1/google/protobuf/Field$Cardinality;)V
-	public final fun setDefaultValue (Ljava/lang/String;)V
-	public final fun setJsonName (Ljava/lang/String;)V
-	public final fun setKind (Lprotokt/v1/google/protobuf/Field$Kind;)V
-	public final fun setName (Ljava/lang/String;)V
-	public final fun setNumber (I)V
-	public final fun setOneofIndex (I)V
-	public final fun setOptions (Ljava/util/List;)V
-	public final fun setPacked (Z)V
-	public final fun setTypeUrl (Ljava/lang/String;)V
-	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Field;
 }
 
 public abstract class protokt/v1/google/protobuf/Field$Kind : protokt/v1/KtEnum {
@@ -4490,6 +4483,7 @@ public final class protokt/v1/google/protobuf/FieldDescriptorProto : protokt/v1/
 	public static final field Deserializer Lprotokt/v1/google/protobuf/FieldDescriptorProto$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Integer;Lprotokt/v1/google/protobuf/FieldDescriptorProto$Label;Lprotokt/v1/google/protobuf/FieldDescriptorProto$Type;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/google/protobuf/FieldOptions;Ljava/lang/Integer;Ljava/lang/String;Ljava/lang/Boolean;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FieldDescriptorProto;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/FieldDescriptorProto;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDefaultValue ()Ljava/lang/String;
 	public final fun getExtendee ()Ljava/lang/String;
@@ -4505,18 +4499,12 @@ public final class protokt/v1/google/protobuf/FieldDescriptorProto : protokt/v1/
 	public final fun getTypeName ()Ljava/lang/String;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FieldDescriptorProto;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/FieldDescriptorProto$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/FieldDescriptorProto;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FieldDescriptorProto;
-}
-
-public final class protokt/v1/google/protobuf/FieldDescriptorProto$FieldDescriptorProtoDsl {
+public final class protokt/v1/google/protobuf/FieldDescriptorProto$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/FieldDescriptorProto;
 	public final fun getDefaultValue ()Ljava/lang/String;
@@ -4543,6 +4531,13 @@ public final class protokt/v1/google/protobuf/FieldDescriptorProto$FieldDescript
 	public final fun setType (Lprotokt/v1/google/protobuf/FieldDescriptorProto$Type;)V
 	public final fun setTypeName (Ljava/lang/String;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/FieldDescriptorProto$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/FieldDescriptorProto;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FieldDescriptorProto;
 }
 
 public abstract class protokt/v1/google/protobuf/FieldDescriptorProto$Label : protokt/v1/KtEnum {
@@ -4665,23 +4660,18 @@ public final class protokt/v1/google/protobuf/FieldMask : protokt/v1/AbstractKtM
 	public static final field Deserializer Lprotokt/v1/google/protobuf/FieldMask$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FieldMask;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/FieldMask;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getPaths ()Ljava/util/List;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FieldMask;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/FieldMask$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/FieldMask;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FieldMask;
-}
-
-public final class protokt/v1/google/protobuf/FieldMask$FieldMaskDsl {
+public final class protokt/v1/google/protobuf/FieldMask$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/FieldMask;
 	public final fun getPaths ()Ljava/util/List;
@@ -4690,10 +4680,18 @@ public final class protokt/v1/google/protobuf/FieldMask$FieldMaskDsl {
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
+public final class protokt/v1/google/protobuf/FieldMask$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/FieldMask;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FieldMask;
+}
+
 public final class protokt/v1/google/protobuf/FieldOptions : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/FieldOptions$Deserializer;
 	public synthetic fun <init> (Lprotokt/v1/google/protobuf/FieldOptions$CType;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Lprotokt/v1/google/protobuf/FieldOptions$JSType;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FieldOptions;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/FieldOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCtype ()Lprotokt/v1/google/protobuf/FieldOptions$CType;
 	public final fun getDeprecated ()Ljava/lang/Boolean;
@@ -4706,8 +4704,32 @@ public final class protokt/v1/google/protobuf/FieldOptions : protokt/v1/Abstract
 	public final fun getUnverifiedLazy ()Ljava/lang/Boolean;
 	public final fun getWeak ()Ljava/lang/Boolean;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FieldOptions;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/protobuf/FieldOptions$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/protobuf/FieldOptions;
+	public final fun getCtype ()Lprotokt/v1/google/protobuf/FieldOptions$CType;
+	public final fun getDeprecated ()Ljava/lang/Boolean;
+	public final fun getJstype ()Lprotokt/v1/google/protobuf/FieldOptions$JSType;
+	public final fun getLazy ()Ljava/lang/Boolean;
+	public final fun getPacked ()Ljava/lang/Boolean;
+	public final fun getUninterpretedOption ()Ljava/util/List;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun getUnverifiedLazy ()Ljava/lang/Boolean;
+	public final fun getWeak ()Ljava/lang/Boolean;
+	public final fun setCtype (Lprotokt/v1/google/protobuf/FieldOptions$CType;)V
+	public final fun setDeprecated (Ljava/lang/Boolean;)V
+	public final fun setJstype (Lprotokt/v1/google/protobuf/FieldOptions$JSType;)V
+	public final fun setLazy (Ljava/lang/Boolean;)V
+	public final fun setPacked (Ljava/lang/Boolean;)V
+	public final fun setUninterpretedOption (Ljava/util/List;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+	public final fun setUnverifiedLazy (Ljava/lang/Boolean;)V
+	public final fun setWeak (Ljava/lang/Boolean;)V
 }
 
 public abstract class protokt/v1/google/protobuf/FieldOptions$CType : protokt/v1/KtEnum {
@@ -4742,30 +4764,7 @@ public final class protokt/v1/google/protobuf/FieldOptions$Deserializer : protok
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/FieldOptions;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FieldOptions;
-}
-
-public final class protokt/v1/google/protobuf/FieldOptions$FieldOptionsDsl {
-	public fun <init> ()V
-	public final fun build ()Lprotokt/v1/google/protobuf/FieldOptions;
-	public final fun getCtype ()Lprotokt/v1/google/protobuf/FieldOptions$CType;
-	public final fun getDeprecated ()Ljava/lang/Boolean;
-	public final fun getJstype ()Lprotokt/v1/google/protobuf/FieldOptions$JSType;
-	public final fun getLazy ()Ljava/lang/Boolean;
-	public final fun getPacked ()Ljava/lang/Boolean;
-	public final fun getUninterpretedOption ()Ljava/util/List;
-	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
-	public final fun getUnverifiedLazy ()Ljava/lang/Boolean;
-	public final fun getWeak ()Ljava/lang/Boolean;
-	public final fun setCtype (Lprotokt/v1/google/protobuf/FieldOptions$CType;)V
-	public final fun setDeprecated (Ljava/lang/Boolean;)V
-	public final fun setJstype (Lprotokt/v1/google/protobuf/FieldOptions$JSType;)V
-	public final fun setLazy (Ljava/lang/Boolean;)V
-	public final fun setPacked (Ljava/lang/Boolean;)V
-	public final fun setUninterpretedOption (Ljava/util/List;)V
-	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
-	public final fun setUnverifiedLazy (Ljava/lang/Boolean;)V
-	public final fun setWeak (Ljava/lang/Boolean;)V
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FieldOptions;
 }
 
 public abstract class protokt/v1/google/protobuf/FieldOptions$JSType : protokt/v1/KtEnum {
@@ -4796,14 +4795,11 @@ public final class protokt/v1/google/protobuf/FieldOptions$JSType$UNRECOGNIZED :
 	public fun <init> (I)V
 }
 
-public final class protokt/v1/google/protobuf/Field_maskKt {
-	public static final fun FieldMask (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FieldMask;
-}
-
 public final class protokt/v1/google/protobuf/FileDescriptorProto : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/FileDescriptorProto$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lprotokt/v1/google/protobuf/FileOptions;Lprotokt/v1/google/protobuf/SourceCodeInfo;Ljava/util/List;Ljava/util/List;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FileDescriptorProto;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/FileDescriptorProto;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDependency ()Ljava/util/List;
 	public final fun getEnumType ()Ljava/util/List;
@@ -4820,18 +4816,12 @@ public final class protokt/v1/google/protobuf/FileDescriptorProto : protokt/v1/A
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getWeakDependency ()Ljava/util/List;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FileDescriptorProto;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/FileDescriptorProto$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/FileDescriptorProto;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FileDescriptorProto;
-}
-
-public final class protokt/v1/google/protobuf/FileDescriptorProto$FileDescriptorProtoDsl {
+public final class protokt/v1/google/protobuf/FileDescriptorProto$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/FileDescriptorProto;
 	public final fun getDependency ()Ljava/util/List;
@@ -4862,27 +4852,29 @@ public final class protokt/v1/google/protobuf/FileDescriptorProto$FileDescriptor
 	public final fun setWeakDependency (Ljava/util/List;)V
 }
 
+public final class protokt/v1/google/protobuf/FileDescriptorProto$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/FileDescriptorProto;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FileDescriptorProto;
+}
+
 public final class protokt/v1/google/protobuf/FileDescriptorSet : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/FileDescriptorSet$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FileDescriptorSet;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/FileDescriptorSet;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getFile ()Ljava/util/List;
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FileDescriptorSet;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/FileDescriptorSet$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/FileDescriptorSet;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FileDescriptorSet;
-}
-
-public final class protokt/v1/google/protobuf/FileDescriptorSet$FileDescriptorSetDsl {
+public final class protokt/v1/google/protobuf/FileDescriptorSet$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/FileDescriptorSet;
 	public final fun getFile ()Ljava/util/List;
@@ -4891,10 +4883,18 @@ public final class protokt/v1/google/protobuf/FileDescriptorSet$FileDescriptorSe
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
+public final class protokt/v1/google/protobuf/FileDescriptorSet$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/FileDescriptorSet;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FileDescriptorSet;
+}
+
 public final class protokt/v1/google/protobuf/FileOptions : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/FileOptions$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/google/protobuf/FileOptions$OptimizeMode;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FileOptions;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/FileOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCcEnableArenas ()Ljava/lang/Boolean;
 	public final fun getCcGenericServices ()Ljava/lang/Boolean;
@@ -4920,18 +4920,12 @@ public final class protokt/v1/google/protobuf/FileOptions : protokt/v1/AbstractK
 	public final fun getUninterpretedOption ()Ljava/util/List;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FileOptions;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/FileOptions$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/FileOptions;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FileOptions;
-}
-
-public final class protokt/v1/google/protobuf/FileOptions$FileOptionsDsl {
+public final class protokt/v1/google/protobuf/FileOptions$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/FileOptions;
 	public final fun getCcEnableArenas ()Ljava/lang/Boolean;
@@ -4980,6 +4974,13 @@ public final class protokt/v1/google/protobuf/FileOptions$FileOptionsDsl {
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
+public final class protokt/v1/google/protobuf/FileOptions$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/FileOptions;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FileOptions;
+}
+
 public abstract class protokt/v1/google/protobuf/FileOptions$OptimizeMode : protokt/v1/KtEnum {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/FileOptions$OptimizeMode$Deserializer;
 	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -5012,29 +5013,31 @@ public final class protokt/v1/google/protobuf/FloatValue : protokt/v1/AbstractKt
 	public static final field Deserializer Lprotokt/v1/google/protobuf/FloatValue$Deserializer;
 	public synthetic fun <init> (FLprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FloatValue;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/FloatValue;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getValue ()F
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FloatValue;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/FloatValue$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/FloatValue;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FloatValue;
-}
-
-public final class protokt/v1/google/protobuf/FloatValue$FloatValueDsl {
+public final class protokt/v1/google/protobuf/FloatValue$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/FloatValue;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getValue ()F
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 	public final fun setValue (F)V
+}
+
+public final class protokt/v1/google/protobuf/FloatValue$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/FloatValue;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FloatValue;
 }
 
 public final class protokt/v1/google/protobuf/FloatValueConverter : protokt/v1/Converter {
@@ -5051,11 +5054,13 @@ public final class protokt/v1/google/protobuf/GeneratedCodeInfo : protokt/v1/Abs
 	public static final field Deserializer Lprotokt/v1/google/protobuf/GeneratedCodeInfo$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/GeneratedCodeInfo;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/GeneratedCodeInfo;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAnnotation ()Ljava/util/List;
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/GeneratedCodeInfo;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
@@ -5064,6 +5069,7 @@ public final class protokt/v1/google/protobuf/GeneratedCodeInfo$Annotation : pro
 	public static final field Deserializer Lprotokt/v1/google/protobuf/GeneratedCodeInfo$Annotation$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;Ljava/lang/Integer;Ljava/lang/Integer;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/GeneratedCodeInfo$Annotation;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/GeneratedCodeInfo$Annotation;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBegin ()Ljava/lang/Integer;
 	public final fun getEnd ()Ljava/lang/Integer;
@@ -5072,11 +5078,12 @@ public final class protokt/v1/google/protobuf/GeneratedCodeInfo$Annotation : pro
 	public final fun getSourceFile ()Ljava/lang/String;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/GeneratedCodeInfo$Annotation;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/GeneratedCodeInfo$Annotation$AnnotationDsl {
+public final class protokt/v1/google/protobuf/GeneratedCodeInfo$Annotation$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/GeneratedCodeInfo$Annotation;
 	public final fun getBegin ()Ljava/lang/Integer;
@@ -5095,18 +5102,10 @@ public final class protokt/v1/google/protobuf/GeneratedCodeInfo$Annotation$Deser
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/GeneratedCodeInfo$Annotation;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/GeneratedCodeInfo$Annotation;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/GeneratedCodeInfo$Annotation;
 }
 
-public final class protokt/v1/google/protobuf/GeneratedCodeInfo$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public final fun Annotation (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/GeneratedCodeInfo$Annotation;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/GeneratedCodeInfo;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/GeneratedCodeInfo;
-}
-
-public final class protokt/v1/google/protobuf/GeneratedCodeInfo$GeneratedCodeInfoDsl {
+public final class protokt/v1/google/protobuf/GeneratedCodeInfo$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/GeneratedCodeInfo;
 	public final fun getAnnotation ()Ljava/util/List;
@@ -5115,33 +5114,42 @@ public final class protokt/v1/google/protobuf/GeneratedCodeInfo$GeneratedCodeInf
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
+public final class protokt/v1/google/protobuf/GeneratedCodeInfo$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/GeneratedCodeInfo;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/GeneratedCodeInfo;
+}
+
 public final class protokt/v1/google/protobuf/Int32Value : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/Int32Value$Deserializer;
 	public synthetic fun <init> (ILprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Int32Value;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Int32Value;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getValue ()I
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Int32Value;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/Int32Value$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Int32Value;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Int32Value;
-}
-
-public final class protokt/v1/google/protobuf/Int32Value$Int32ValueDsl {
+public final class protokt/v1/google/protobuf/Int32Value$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/Int32Value;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getValue ()I
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 	public final fun setValue (I)V
+}
+
+public final class protokt/v1/google/protobuf/Int32Value$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Int32Value;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Int32Value;
 }
 
 public final class protokt/v1/google/protobuf/Int32ValueConverter : protokt/v1/Converter {
@@ -5158,29 +5166,31 @@ public final class protokt/v1/google/protobuf/Int64Value : protokt/v1/AbstractKt
 	public static final field Deserializer Lprotokt/v1/google/protobuf/Int64Value$Deserializer;
 	public synthetic fun <init> (JLprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Int64Value;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Int64Value;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getValue ()J
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Int64Value;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/Int64Value$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Int64Value;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Int64Value;
-}
-
-public final class protokt/v1/google/protobuf/Int64Value$Int64ValueDsl {
+public final class protokt/v1/google/protobuf/Int64Value$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/Int64Value;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getValue ()J
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 	public final fun setValue (J)V
+}
+
+public final class protokt/v1/google/protobuf/Int64Value$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Int64Value;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Int64Value;
 }
 
 public final class protokt/v1/google/protobuf/Int64ValueConverter : protokt/v1/Converter {
@@ -5197,23 +5207,18 @@ public final class protokt/v1/google/protobuf/ListValue : protokt/v1/AbstractKtM
 	public static final field Deserializer Lprotokt/v1/google/protobuf/ListValue$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/ListValue;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/ListValue;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getValues ()Ljava/util/List;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/ListValue;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/ListValue$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/ListValue;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/ListValue;
-}
-
-public final class protokt/v1/google/protobuf/ListValue$ListValueDsl {
+public final class protokt/v1/google/protobuf/ListValue$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/ListValue;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
@@ -5222,10 +5227,18 @@ public final class protokt/v1/google/protobuf/ListValue$ListValueDsl {
 	public final fun setValues (Ljava/util/List;)V
 }
 
+public final class protokt/v1/google/protobuf/ListValue$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/ListValue;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/ListValue;
+}
+
 public final class protokt/v1/google/protobuf/MessageOptions : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/MessageOptions$Deserializer;
 	public synthetic fun <init> (Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/MessageOptions;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/MessageOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDeprecated ()Ljava/lang/Boolean;
 	public final fun getMapEntry ()Ljava/lang/Boolean;
@@ -5235,18 +5248,12 @@ public final class protokt/v1/google/protobuf/MessageOptions : protokt/v1/Abstra
 	public final fun getUninterpretedOption ()Ljava/util/List;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/MessageOptions;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/MessageOptions$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/MessageOptions;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/MessageOptions;
-}
-
-public final class protokt/v1/google/protobuf/MessageOptions$MessageOptionsDsl {
+public final class protokt/v1/google/protobuf/MessageOptions$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/MessageOptions;
 	public final fun getDeprecated ()Ljava/lang/Boolean;
@@ -5263,10 +5270,18 @@ public final class protokt/v1/google/protobuf/MessageOptions$MessageOptionsDsl {
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
+public final class protokt/v1/google/protobuf/MessageOptions$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/MessageOptions;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/MessageOptions;
+}
+
 public final class protokt/v1/google/protobuf/Method : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/Method$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ZLjava/lang/String;ZLjava/util/List;Lprotokt/v1/google/protobuf/Syntax;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Method;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Method;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getName ()Ljava/lang/String;
@@ -5278,18 +5293,12 @@ public final class protokt/v1/google/protobuf/Method : protokt/v1/AbstractKtMess
 	public final fun getSyntax ()Lprotokt/v1/google/protobuf/Syntax;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Method;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/Method$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Method;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Method;
-}
-
-public final class protokt/v1/google/protobuf/Method$MethodDsl {
+public final class protokt/v1/google/protobuf/Method$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/Method;
 	public final fun getName ()Ljava/lang/String;
@@ -5310,10 +5319,18 @@ public final class protokt/v1/google/protobuf/Method$MethodDsl {
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
+public final class protokt/v1/google/protobuf/Method$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Method;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Method;
+}
+
 public final class protokt/v1/google/protobuf/MethodDescriptorProto : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/MethodDescriptorProto$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/google/protobuf/MethodOptions;Ljava/lang/Boolean;Ljava/lang/Boolean;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/MethodDescriptorProto;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/MethodDescriptorProto;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getClientStreaming ()Ljava/lang/Boolean;
 	public final fun getInputType ()Ljava/lang/String;
@@ -5324,18 +5341,12 @@ public final class protokt/v1/google/protobuf/MethodDescriptorProto : protokt/v1
 	public final fun getServerStreaming ()Ljava/lang/Boolean;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/MethodDescriptorProto;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/MethodDescriptorProto$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/MethodDescriptorProto;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/MethodDescriptorProto;
-}
-
-public final class protokt/v1/google/protobuf/MethodDescriptorProto$MethodDescriptorProtoDsl {
+public final class protokt/v1/google/protobuf/MethodDescriptorProto$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/MethodDescriptorProto;
 	public final fun getClientStreaming ()Ljava/lang/Boolean;
@@ -5354,10 +5365,18 @@ public final class protokt/v1/google/protobuf/MethodDescriptorProto$MethodDescri
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
+public final class protokt/v1/google/protobuf/MethodDescriptorProto$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/MethodDescriptorProto;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/MethodDescriptorProto;
+}
+
 public final class protokt/v1/google/protobuf/MethodOptions : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/MethodOptions$Deserializer;
 	public synthetic fun <init> (Ljava/lang/Boolean;Lprotokt/v1/google/protobuf/MethodOptions$IdempotencyLevel;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/MethodOptions;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/MethodOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDeprecated ()Ljava/lang/Boolean;
 	public final fun getIdempotencyLevel ()Lprotokt/v1/google/protobuf/MethodOptions$IdempotencyLevel;
@@ -5365,15 +5384,29 @@ public final class protokt/v1/google/protobuf/MethodOptions : protokt/v1/Abstrac
 	public final fun getUninterpretedOption ()Ljava/util/List;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/MethodOptions;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/protobuf/MethodOptions$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/protobuf/MethodOptions;
+	public final fun getDeprecated ()Ljava/lang/Boolean;
+	public final fun getIdempotencyLevel ()Lprotokt/v1/google/protobuf/MethodOptions$IdempotencyLevel;
+	public final fun getUninterpretedOption ()Ljava/util/List;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setDeprecated (Ljava/lang/Boolean;)V
+	public final fun setIdempotencyLevel (Lprotokt/v1/google/protobuf/MethodOptions$IdempotencyLevel;)V
+	public final fun setUninterpretedOption (Ljava/util/List;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
 public final class protokt/v1/google/protobuf/MethodOptions$Deserializer : protokt/v1/AbstractKtDeserializer {
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/MethodOptions;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/MethodOptions;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/MethodOptions;
 }
 
 public abstract class protokt/v1/google/protobuf/MethodOptions$IdempotencyLevel : protokt/v1/KtEnum {
@@ -5404,41 +5437,23 @@ public final class protokt/v1/google/protobuf/MethodOptions$IdempotencyLevel$UNR
 	public fun <init> (I)V
 }
 
-public final class protokt/v1/google/protobuf/MethodOptions$MethodOptionsDsl {
-	public fun <init> ()V
-	public final fun build ()Lprotokt/v1/google/protobuf/MethodOptions;
-	public final fun getDeprecated ()Ljava/lang/Boolean;
-	public final fun getIdempotencyLevel ()Lprotokt/v1/google/protobuf/MethodOptions$IdempotencyLevel;
-	public final fun getUninterpretedOption ()Ljava/util/List;
-	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
-	public final fun setDeprecated (Ljava/lang/Boolean;)V
-	public final fun setIdempotencyLevel (Lprotokt/v1/google/protobuf/MethodOptions$IdempotencyLevel;)V
-	public final fun setUninterpretedOption (Ljava/util/List;)V
-	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
-}
-
 public final class protokt/v1/google/protobuf/Mixin : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/Mixin$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Mixin;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Mixin;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getName ()Ljava/lang/String;
 	public final fun getRoot ()Ljava/lang/String;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Mixin;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/Mixin$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Mixin;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Mixin;
-}
-
-public final class protokt/v1/google/protobuf/Mixin$MixinDsl {
+public final class protokt/v1/google/protobuf/Mixin$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/Mixin;
 	public final fun getName ()Ljava/lang/String;
@@ -5447,6 +5462,13 @@ public final class protokt/v1/google/protobuf/Mixin$MixinDsl {
 	public final fun setName (Ljava/lang/String;)V
 	public final fun setRoot (Ljava/lang/String;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/Mixin$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Mixin;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Mixin;
 }
 
 public abstract class protokt/v1/google/protobuf/NullValue : protokt/v1/KtEnum {
@@ -5473,24 +5495,19 @@ public final class protokt/v1/google/protobuf/OneofDescriptorProto : protokt/v1/
 	public static final field Deserializer Lprotokt/v1/google/protobuf/OneofDescriptorProto$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/google/protobuf/OneofOptions;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/OneofDescriptorProto;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/OneofDescriptorProto;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getName ()Ljava/lang/String;
 	public final fun getOptions ()Lprotokt/v1/google/protobuf/OneofOptions;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/OneofDescriptorProto;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/OneofDescriptorProto$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/OneofDescriptorProto;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/OneofDescriptorProto;
-}
-
-public final class protokt/v1/google/protobuf/OneofDescriptorProto$OneofDescriptorProtoDsl {
+public final class protokt/v1/google/protobuf/OneofDescriptorProto$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/OneofDescriptorProto;
 	public final fun getName ()Ljava/lang/String;
@@ -5501,27 +5518,29 @@ public final class protokt/v1/google/protobuf/OneofDescriptorProto$OneofDescript
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
+public final class protokt/v1/google/protobuf/OneofDescriptorProto$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/OneofDescriptorProto;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/OneofDescriptorProto;
+}
+
 public final class protokt/v1/google/protobuf/OneofOptions : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/OneofOptions$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/OneofOptions;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/OneofOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getUninterpretedOption ()Ljava/util/List;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/OneofOptions;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/OneofOptions$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/OneofOptions;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/OneofOptions;
-}
-
-public final class protokt/v1/google/protobuf/OneofOptions$OneofOptionsDsl {
+public final class protokt/v1/google/protobuf/OneofOptions$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/OneofOptions;
 	public final fun getUninterpretedOption ()Ljava/util/List;
@@ -5530,28 +5549,30 @@ public final class protokt/v1/google/protobuf/OneofOptions$OneofOptionsDsl {
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
+public final class protokt/v1/google/protobuf/OneofOptions$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/OneofOptions;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/OneofOptions;
+}
+
 public final class protokt/v1/google/protobuf/Option : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/Option$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/google/protobuf/Any;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Option;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Option;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getName ()Ljava/lang/String;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getValue ()Lprotokt/v1/google/protobuf/Any;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Option;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/Option$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Option;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Option;
-}
-
-public final class protokt/v1/google/protobuf/Option$OptionDsl {
+public final class protokt/v1/google/protobuf/Option$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/Option;
 	public final fun getName ()Ljava/lang/String;
@@ -5562,10 +5583,18 @@ public final class protokt/v1/google/protobuf/Option$OptionDsl {
 	public final fun setValue (Lprotokt/v1/google/protobuf/Any;)V
 }
 
+public final class protokt/v1/google/protobuf/Option$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Option;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Option;
+}
+
 public final class protokt/v1/google/protobuf/ServiceDescriptorProto : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/ServiceDescriptorProto$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Lprotokt/v1/google/protobuf/ServiceOptions;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/ServiceDescriptorProto;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/ServiceDescriptorProto;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getMethod ()Ljava/util/List;
@@ -5573,18 +5602,12 @@ public final class protokt/v1/google/protobuf/ServiceDescriptorProto : protokt/v
 	public final fun getOptions ()Lprotokt/v1/google/protobuf/ServiceOptions;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/ServiceDescriptorProto;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/ServiceDescriptorProto$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/ServiceDescriptorProto;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/ServiceDescriptorProto;
-}
-
-public final class protokt/v1/google/protobuf/ServiceDescriptorProto$ServiceDescriptorProtoDsl {
+public final class protokt/v1/google/protobuf/ServiceDescriptorProto$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/ServiceDescriptorProto;
 	public final fun getMethod ()Ljava/util/List;
@@ -5597,28 +5620,30 @@ public final class protokt/v1/google/protobuf/ServiceDescriptorProto$ServiceDesc
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
+public final class protokt/v1/google/protobuf/ServiceDescriptorProto$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/ServiceDescriptorProto;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/ServiceDescriptorProto;
+}
+
 public final class protokt/v1/google/protobuf/ServiceOptions : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/ServiceOptions$Deserializer;
 	public synthetic fun <init> (Ljava/lang/Boolean;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/ServiceOptions;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/ServiceOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDeprecated ()Ljava/lang/Boolean;
 	public fun getMessageSize ()I
 	public final fun getUninterpretedOption ()Ljava/util/List;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/ServiceOptions;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/ServiceOptions$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/ServiceOptions;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/ServiceOptions;
-}
-
-public final class protokt/v1/google/protobuf/ServiceOptions$ServiceOptionsDsl {
+public final class protokt/v1/google/protobuf/ServiceOptions$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/ServiceOptions;
 	public final fun getDeprecated ()Ljava/lang/Boolean;
@@ -5629,31 +5654,49 @@ public final class protokt/v1/google/protobuf/ServiceOptions$ServiceOptionsDsl {
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
+public final class protokt/v1/google/protobuf/ServiceOptions$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/ServiceOptions;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/ServiceOptions;
+}
+
 public final class protokt/v1/google/protobuf/SourceCodeInfo : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/SourceCodeInfo$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/SourceCodeInfo;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/SourceCodeInfo;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getLocation ()Ljava/util/List;
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/SourceCodeInfo;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class protokt/v1/google/protobuf/SourceCodeInfo$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/protobuf/SourceCodeInfo;
+	public final fun getLocation ()Ljava/util/List;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setLocation (Ljava/util/List;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
 public final class protokt/v1/google/protobuf/SourceCodeInfo$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public final fun Location (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/SourceCodeInfo$Location;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/SourceCodeInfo;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/SourceCodeInfo;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/SourceCodeInfo;
 }
 
 public final class protokt/v1/google/protobuf/SourceCodeInfo$Location : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/SourceCodeInfo$Location$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/SourceCodeInfo$Location;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/SourceCodeInfo$Location;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getLeadingComments ()Ljava/lang/String;
 	public final fun getLeadingDetachedComments ()Ljava/util/List;
@@ -5663,18 +5706,12 @@ public final class protokt/v1/google/protobuf/SourceCodeInfo$Location : protokt/
 	public final fun getTrailingComments ()Ljava/lang/String;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/SourceCodeInfo$Location;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/SourceCodeInfo$Location$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/SourceCodeInfo$Location;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/SourceCodeInfo$Location;
-}
-
-public final class protokt/v1/google/protobuf/SourceCodeInfo$Location$LocationDsl {
+public final class protokt/v1/google/protobuf/SourceCodeInfo$Location$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/SourceCodeInfo$Location;
 	public final fun getLeadingComments ()Ljava/lang/String;
@@ -5691,36 +5728,29 @@ public final class protokt/v1/google/protobuf/SourceCodeInfo$Location$LocationDs
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/protobuf/SourceCodeInfo$SourceCodeInfoDsl {
-	public fun <init> ()V
-	public final fun build ()Lprotokt/v1/google/protobuf/SourceCodeInfo;
-	public final fun getLocation ()Ljava/util/List;
-	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
-	public final fun setLocation (Ljava/util/List;)V
-	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+public final class protokt/v1/google/protobuf/SourceCodeInfo$Location$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/SourceCodeInfo$Location;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/SourceCodeInfo$Location;
 }
 
 public final class protokt/v1/google/protobuf/SourceContext : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/SourceContext$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/SourceContext;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/SourceContext;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getFileName ()Ljava/lang/String;
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/SourceContext;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/SourceContext$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/SourceContext;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/SourceContext;
-}
-
-public final class protokt/v1/google/protobuf/SourceContext$SourceContextDsl {
+public final class protokt/v1/google/protobuf/SourceContext$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/SourceContext;
 	public final fun getFileName ()Ljava/lang/String;
@@ -5729,37 +5759,42 @@ public final class protokt/v1/google/protobuf/SourceContext$SourceContextDsl {
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/protobuf/Source_contextKt {
-	public static final fun SourceContext (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/SourceContext;
+public final class protokt/v1/google/protobuf/SourceContext$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/SourceContext;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/SourceContext;
 }
 
 public final class protokt/v1/google/protobuf/StringValue : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/StringValue$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/StringValue;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/StringValue;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getValue ()Ljava/lang/String;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/StringValue;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/StringValue$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/StringValue;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/StringValue;
-}
-
-public final class protokt/v1/google/protobuf/StringValue$StringValueDsl {
+public final class protokt/v1/google/protobuf/StringValue$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/StringValue;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getValue ()Ljava/lang/String;
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 	public final fun setValue (Ljava/lang/String;)V
+}
+
+public final class protokt/v1/google/protobuf/StringValue$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/StringValue;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/StringValue;
 }
 
 public final class protokt/v1/google/protobuf/StringValueConverter : protokt/v1/Converter {
@@ -5776,23 +5811,18 @@ public final class protokt/v1/google/protobuf/Struct : protokt/v1/AbstractKtMess
 	public static final field Deserializer Lprotokt/v1/google/protobuf/Struct$Deserializer;
 	public synthetic fun <init> (Ljava/util/Map;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Struct;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Struct;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getFields ()Ljava/util/Map;
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Struct;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/Struct$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Struct;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Struct;
-}
-
-public final class protokt/v1/google/protobuf/Struct$StructDsl {
+public final class protokt/v1/google/protobuf/Struct$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/Struct;
 	public final fun getFields ()Ljava/util/Map;
@@ -5801,10 +5831,11 @@ public final class protokt/v1/google/protobuf/Struct$StructDsl {
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/protobuf/StructKt {
-	public static final fun ListValue (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/ListValue;
-	public static final fun Struct (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Struct;
-	public static final fun Value (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Value;
+public final class protokt/v1/google/protobuf/Struct$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Struct;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Struct;
 }
 
 public abstract class protokt/v1/google/protobuf/Syntax : protokt/v1/KtEnum {
@@ -5835,24 +5866,19 @@ public final class protokt/v1/google/protobuf/Timestamp : protokt/v1/AbstractKtM
 	public static final field Deserializer Lprotokt/v1/google/protobuf/Timestamp$Deserializer;
 	public synthetic fun <init> (JILprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Timestamp;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Timestamp;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getNanos ()I
 	public final fun getSeconds ()J
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Timestamp;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/Timestamp$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Timestamp;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Timestamp;
-}
-
-public final class protokt/v1/google/protobuf/Timestamp$TimestampDsl {
+public final class protokt/v1/google/protobuf/Timestamp$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/Timestamp;
 	public final fun getNanos ()I
@@ -5863,14 +5889,18 @@ public final class protokt/v1/google/protobuf/Timestamp$TimestampDsl {
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/protobuf/TimestampKt {
-	public static final fun Timestamp (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Timestamp;
+public final class protokt/v1/google/protobuf/Timestamp$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Timestamp;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Timestamp;
 }
 
 public final class protokt/v1/google/protobuf/Type : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/Type$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lprotokt/v1/google/protobuf/SourceContext;Lprotokt/v1/google/protobuf/Syntax;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Type;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Type;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getFields ()Ljava/util/List;
 	public fun getMessageSize ()I
@@ -5881,18 +5911,12 @@ public final class protokt/v1/google/protobuf/Type : protokt/v1/AbstractKtMessag
 	public final fun getSyntax ()Lprotokt/v1/google/protobuf/Syntax;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Type;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/Type$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Type;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Type;
-}
-
-public final class protokt/v1/google/protobuf/Type$TypeDsl {
+public final class protokt/v1/google/protobuf/Type$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/Type;
 	public final fun getFields ()Ljava/util/List;
@@ -5911,41 +5935,42 @@ public final class protokt/v1/google/protobuf/Type$TypeDsl {
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/protobuf/TypeKt {
-	public static final fun Enum (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Enum;
-	public static final fun EnumValue (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumValue;
-	public static final fun Field (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Field;
-	public static final fun Option (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Option;
-	public static final fun Type (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Type;
+public final class protokt/v1/google/protobuf/Type$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Type;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Type;
 }
 
 public final class protokt/v1/google/protobuf/UInt32Value : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/UInt32Value$Deserializer;
 	public synthetic fun <init> (ILprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/UInt32Value;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/UInt32Value;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getValue-pVg5ArA ()I
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/UInt32Value;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/UInt32Value$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/UInt32Value;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/UInt32Value;
-}
-
-public final class protokt/v1/google/protobuf/UInt32Value$UInt32ValueDsl {
+public final class protokt/v1/google/protobuf/UInt32Value$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/UInt32Value;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getValue-pVg5ArA ()I
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 	public final fun setValue-WZ4Q5Ns (I)V
+}
+
+public final class protokt/v1/google/protobuf/UInt32Value$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/UInt32Value;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/UInt32Value;
 }
 
 public final class protokt/v1/google/protobuf/UInt32ValueConverter : protokt/v1/Converter {
@@ -5962,29 +5987,31 @@ public final class protokt/v1/google/protobuf/UInt64Value : protokt/v1/AbstractK
 	public static final field Deserializer Lprotokt/v1/google/protobuf/UInt64Value$Deserializer;
 	public synthetic fun <init> (JLprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/UInt64Value;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/UInt64Value;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getValue-s-VKNKU ()J
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/UInt64Value;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/UInt64Value$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/UInt64Value;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/UInt64Value;
-}
-
-public final class protokt/v1/google/protobuf/UInt64Value$UInt64ValueDsl {
+public final class protokt/v1/google/protobuf/UInt64Value$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/UInt64Value;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getValue-s-VKNKU ()J
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 	public final fun setValue-VKZWuLQ (J)V
+}
+
+public final class protokt/v1/google/protobuf/UInt64Value$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/UInt64Value;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/UInt64Value;
 }
 
 public final class protokt/v1/google/protobuf/UInt64ValueConverter : protokt/v1/Converter {
@@ -6001,6 +6028,7 @@ public final class protokt/v1/google/protobuf/UninterpretedOption : protokt/v1/A
 	public static final field Deserializer Lprotokt/v1/google/protobuf/UninterpretedOption$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;Lkotlin/ULong;Ljava/lang/Long;Ljava/lang/Double;Lprotokt/v1/Bytes;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/UninterpretedOption;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/UninterpretedOption;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAggregateValue ()Ljava/lang/String;
 	public final fun getDoubleValue ()Ljava/lang/Double;
@@ -6012,51 +6040,12 @@ public final class protokt/v1/google/protobuf/UninterpretedOption : protokt/v1/A
 	public final fun getStringValue ()Lprotokt/v1/Bytes;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/UninterpretedOption;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/UninterpretedOption$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public final fun NamePart (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/UninterpretedOption$NamePart;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/UninterpretedOption;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/UninterpretedOption;
-}
-
-public final class protokt/v1/google/protobuf/UninterpretedOption$NamePart : protokt/v1/AbstractKtMessage {
-	public static final field Deserializer Lprotokt/v1/google/protobuf/UninterpretedOption$NamePart$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;ZLprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/UninterpretedOption$NamePart;
-	public fun equals (Ljava/lang/Object;)Z
-	public fun getMessageSize ()I
-	public final fun getNamePart ()Ljava/lang/String;
-	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
-	public fun hashCode ()I
-	public final fun isExtension ()Z
-	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class protokt/v1/google/protobuf/UninterpretedOption$NamePart$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/UninterpretedOption$NamePart;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/UninterpretedOption$NamePart;
-}
-
-public final class protokt/v1/google/protobuf/UninterpretedOption$NamePart$NamePartDsl {
-	public fun <init> ()V
-	public final fun build ()Lprotokt/v1/google/protobuf/UninterpretedOption$NamePart;
-	public final fun getNamePart ()Ljava/lang/String;
-	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
-	public final fun isExtension ()Z
-	public final fun setExtension (Z)V
-	public final fun setNamePart (Ljava/lang/String;)V
-	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
-}
-
-public final class protokt/v1/google/protobuf/UninterpretedOption$UninterpretedOptionDsl {
+public final class protokt/v1/google/protobuf/UninterpretedOption$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/UninterpretedOption;
 	public final fun getAggregateValue ()Ljava/lang/String;
@@ -6077,24 +6066,76 @@ public final class protokt/v1/google/protobuf/UninterpretedOption$UninterpretedO
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
+public final class protokt/v1/google/protobuf/UninterpretedOption$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/UninterpretedOption;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/UninterpretedOption;
+}
+
+public final class protokt/v1/google/protobuf/UninterpretedOption$NamePart : protokt/v1/AbstractKtMessage {
+	public static final field Deserializer Lprotokt/v1/google/protobuf/UninterpretedOption$NamePart$Deserializer;
+	public synthetic fun <init> (Ljava/lang/String;ZLprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/UninterpretedOption$NamePart;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/UninterpretedOption$NamePart;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getMessageSize ()I
+	public final fun getNamePart ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/UninterpretedOption$NamePart;
+	public final fun isExtension ()Z
+	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/protobuf/UninterpretedOption$NamePart$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/protobuf/UninterpretedOption$NamePart;
+	public final fun getNamePart ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun isExtension ()Z
+	public final fun setExtension (Z)V
+	public final fun setNamePart (Ljava/lang/String;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/UninterpretedOption$NamePart$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/UninterpretedOption$NamePart;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/UninterpretedOption$NamePart;
+}
+
 public final class protokt/v1/google/protobuf/Value : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/Value$Deserializer;
 	public synthetic fun <init> (Lprotokt/v1/google/protobuf/Value$Kind;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Value;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Value;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getKind ()Lprotokt/v1/google/protobuf/Value$Kind;
 	public fun getMessageSize ()I
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Value;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/protobuf/Value$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/protobuf/Value;
+	public final fun getKind ()Lprotokt/v1/google/protobuf/Value$Kind;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setKind (Lprotokt/v1/google/protobuf/Value$Kind;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
 public final class protokt/v1/google/protobuf/Value$Deserializer : protokt/v1/AbstractKtDeserializer {
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/Value;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Value;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Value;
 }
 
 public abstract class protokt/v1/google/protobuf/Value$Kind {
@@ -6166,31 +6207,11 @@ public final class protokt/v1/google/protobuf/Value$Kind$StructValue : protokt/v
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/Value$ValueDsl {
-	public fun <init> ()V
-	public final fun build ()Lprotokt/v1/google/protobuf/Value;
-	public final fun getKind ()Lprotokt/v1/google/protobuf/Value$Kind;
-	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
-	public final fun setKind (Lprotokt/v1/google/protobuf/Value$Kind;)V
-	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
-}
-
-public final class protokt/v1/google/protobuf/WrappersKt {
-	public static final fun BoolValue (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/BoolValue;
-	public static final fun BytesValue (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/BytesValue;
-	public static final fun DoubleValue (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/DoubleValue;
-	public static final fun FloatValue (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FloatValue;
-	public static final fun Int32Value (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Int32Value;
-	public static final fun Int64Value (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Int64Value;
-	public static final fun StringValue (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/StringValue;
-	public static final fun UInt32Value (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/UInt32Value;
-	public static final fun UInt64Value (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/UInt64Value;
-}
-
 public final class protokt/v1/google/protobuf/compiler/CodeGeneratorRequest : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/compiler/CodeGeneratorRequest$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;Lprotokt/v1/google/protobuf/compiler/Version;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/compiler/CodeGeneratorRequest;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/compiler/CodeGeneratorRequest;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCompilerVersion ()Lprotokt/v1/google/protobuf/compiler/Version;
 	public final fun getFileToGenerate ()Ljava/util/List;
@@ -6199,11 +6220,12 @@ public final class protokt/v1/google/protobuf/compiler/CodeGeneratorRequest : pr
 	public final fun getProtoFile ()Ljava/util/List;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/compiler/CodeGeneratorRequest;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/compiler/CodeGeneratorRequest$CodeGeneratorRequestDsl {
+public final class protokt/v1/google/protobuf/compiler/CodeGeneratorRequest$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/compiler/CodeGeneratorRequest;
 	public final fun getCompilerVersion ()Lprotokt/v1/google/protobuf/compiler/Version;
@@ -6222,13 +6244,14 @@ public final class protokt/v1/google/protobuf/compiler/CodeGeneratorRequest$Dese
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/compiler/CodeGeneratorRequest;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/compiler/CodeGeneratorRequest;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/compiler/CodeGeneratorRequest;
 }
 
 public final class protokt/v1/google/protobuf/compiler/CodeGeneratorResponse : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/compiler/CodeGeneratorResponse$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Lkotlin/ULong;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/compiler/CodeGeneratorResponse;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/compiler/CodeGeneratorResponse;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getError ()Ljava/lang/String;
 	public final fun getFile ()Ljava/util/List;
@@ -6236,11 +6259,12 @@ public final class protokt/v1/google/protobuf/compiler/CodeGeneratorResponse : p
 	public final fun getSupportedFeatures-6VbMDqA ()Lkotlin/ULong;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/compiler/CodeGeneratorResponse;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/compiler/CodeGeneratorResponse$CodeGeneratorResponseDsl {
+public final class protokt/v1/google/protobuf/compiler/CodeGeneratorResponse$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/compiler/CodeGeneratorResponse;
 	public final fun getError ()Ljava/lang/String;
@@ -6254,11 +6278,10 @@ public final class protokt/v1/google/protobuf/compiler/CodeGeneratorResponse$Cod
 }
 
 public final class protokt/v1/google/protobuf/compiler/CodeGeneratorResponse$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public final fun File (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/compiler/CodeGeneratorResponse$File;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/compiler/CodeGeneratorResponse;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/compiler/CodeGeneratorResponse;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/compiler/CodeGeneratorResponse;
 }
 
 public abstract class protokt/v1/google/protobuf/compiler/CodeGeneratorResponse$Feature : protokt/v1/KtEnum {
@@ -6289,6 +6312,7 @@ public final class protokt/v1/google/protobuf/compiler/CodeGeneratorResponse$Fil
 	public static final field Deserializer Lprotokt/v1/google/protobuf/compiler/CodeGeneratorResponse$File$Deserializer;
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/google/protobuf/GeneratedCodeInfo;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/compiler/CodeGeneratorResponse$File;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/compiler/CodeGeneratorResponse$File;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getContent ()Ljava/lang/String;
 	public final fun getGeneratedCodeInfo ()Lprotokt/v1/google/protobuf/GeneratedCodeInfo;
@@ -6297,18 +6321,12 @@ public final class protokt/v1/google/protobuf/compiler/CodeGeneratorResponse$Fil
 	public final fun getName ()Ljava/lang/String;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/compiler/CodeGeneratorResponse$File;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/compiler/CodeGeneratorResponse$File$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/compiler/CodeGeneratorResponse$File;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/compiler/CodeGeneratorResponse$File;
-}
-
-public final class protokt/v1/google/protobuf/compiler/CodeGeneratorResponse$File$FileDsl {
+public final class protokt/v1/google/protobuf/compiler/CodeGeneratorResponse$File$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/compiler/CodeGeneratorResponse$File;
 	public final fun getContent ()Ljava/lang/String;
@@ -6323,16 +6341,18 @@ public final class protokt/v1/google/protobuf/compiler/CodeGeneratorResponse$Fil
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/protobuf/compiler/PluginKt {
-	public static final fun CodeGeneratorRequest (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/compiler/CodeGeneratorRequest;
-	public static final fun CodeGeneratorResponse (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/compiler/CodeGeneratorResponse;
-	public static final fun Version (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/compiler/Version;
+public final class protokt/v1/google/protobuf/compiler/CodeGeneratorResponse$File$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/compiler/CodeGeneratorResponse$File;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/compiler/CodeGeneratorResponse$File;
 }
 
 public final class protokt/v1/google/protobuf/compiler/Version : protokt/v1/AbstractKtMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/compiler/Version$Deserializer;
 	public synthetic fun <init> (Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/compiler/Version;
+	public static fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/compiler/Version;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getMajor ()Ljava/lang/Integer;
 	public fun getMessageSize ()I
@@ -6341,18 +6361,12 @@ public final class protokt/v1/google/protobuf/compiler/Version : protokt/v1/Abst
 	public final fun getSuffix ()Ljava/lang/String;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/compiler/Version;
 	public fun serialize (Lprotokt/v1/KtMessageSerializer;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/protobuf/compiler/Version$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/compiler/Version;
-	public final synthetic fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/compiler/Version;
-}
-
-public final class protokt/v1/google/protobuf/compiler/Version$VersionDsl {
+public final class protokt/v1/google/protobuf/compiler/Version$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/compiler/Version;
 	public final fun getMajor ()Ljava/lang/Integer;
@@ -6365,5 +6379,12 @@ public final class protokt/v1/google/protobuf/compiler/Version$VersionDsl {
 	public final fun setPatch (Ljava/lang/Integer;)V
 	public final fun setSuffix (Ljava/lang/String;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/compiler/Version$Deserializer : protokt/v1/AbstractKtDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
+	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
+	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/protobuf/compiler/Version;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/compiler/Version;
 }
 

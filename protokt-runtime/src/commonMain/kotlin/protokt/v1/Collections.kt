@@ -15,33 +15,15 @@
 
 package protokt.v1
 
-fun <K, V> finishMap(map: Map<K, V>?): Map<K, V> =
-    if (map.isNullOrEmpty()) {
-        emptyMap()
-    } else {
-        unmodifiableMap(map)
-    }
+expect object Collections {
+    fun <K, V> unmodifiableMap(map: Map<K, V>?): Map<K, V>
 
-fun <K, V> copyMap(map: Map<K, V>): Map<K, V> =
-    if (map.isEmpty()) {
-        emptyMap()
-    } else {
-        unmodifiableMap(LinkedHashMap(map))
-    }
+    fun <K, V> copyMap(map: Map<K, V>): Map<K, V>
 
-fun <T> finishList(list: List<T>?): List<T> =
-    if (list.isNullOrEmpty()) {
-        emptyList()
-    } else {
-        unmodifiableList(list)
-    }
+    fun <T> unmodifiableList(list: List<T>?): List<T>
 
-fun <T> copyList(list: List<T>): List<T> =
-    if (list.isEmpty()) {
-        emptyList()
-    } else {
-        unmodifiableList(ArrayList(list))
-    }
+    fun <T> copyList(list: List<T>): List<T>
+}
 
 internal inline fun <reified T> T.equalsUsingSequence(
     other: Any?,
@@ -54,7 +36,3 @@ internal inline fun <reified T> T.equalsUsingSequence(
 
 internal fun hashCodeUsingSequence(asSequence: Sequence<*>) =
     asSequence.fold(1) { hash, elt -> 31 * hash + elt.hashCode() }
-
-expect fun <T> unmodifiableList(list: List<T>): List<T>
-
-expect fun <K, V> unmodifiableMap(map: Map<K, V>): Map<K, V>

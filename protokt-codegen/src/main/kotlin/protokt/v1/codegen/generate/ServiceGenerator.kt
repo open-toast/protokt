@@ -47,8 +47,8 @@ import kotlinx.coroutines.flow.Flow
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.util.KotlinPlugin
 import protokt.v1.codegen.util.Method
+import protokt.v1.codegen.util.PROTOKT_V1_GOOGLE_PROTO
 import protokt.v1.codegen.util.Service
-import protokt.v1.codegen.util.protoktV1GoogleProto
 import protokt.v1.grpc.KtMarshaller
 import protokt.v1.grpc.SchemaDescriptor
 import kotlin.coroutines.CoroutineContext
@@ -380,7 +380,7 @@ private class ServiceGenerator(
         if (ctx.info.context.generateDescriptors) {
             TypeSpec.objectBuilder(s.name)
                 .addProperty(
-                    PropertySpec.builder("descriptor", ClassName(protoktV1GoogleProto, "ServiceDescriptor"))
+                    PropertySpec.builder("descriptor", ClassName(PROTOKT_V1_GOOGLE_PROTO, "ServiceDescriptor"))
                         .delegate(
                             buildCodeBlock {
                                 beginControlFlow("lazy")

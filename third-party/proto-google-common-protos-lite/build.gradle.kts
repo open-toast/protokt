@@ -49,7 +49,5 @@ kotlin {
         }
 
         jvmTest.kotlin.srcDir(liteOptionTestSourceDir())
-
-        js(IR) { configureJsTests() }
     }
 }

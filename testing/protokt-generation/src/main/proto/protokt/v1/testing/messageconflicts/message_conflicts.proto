@@ -43,7 +43,7 @@ message KtSerializer {}
 message KtEnumSerializer {}
 message KtMessageSerializer {}
 message Tag {}
-message UnknownFieldSet { message Builder {} }
+message UnknownFieldSet {}
 message KtEnum {}
 message AbstractKtDeserializer {}
 message KtMessage {}
@@ -58,3 +58,4 @@ message Fixed32Val {}
 message Fixed64Val {}
 message LengthDelimitedVal {}
 message Any {}
+message Builder {}

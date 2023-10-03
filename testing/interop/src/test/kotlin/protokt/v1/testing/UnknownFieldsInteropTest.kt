@@ -31,7 +31,7 @@ import protokt.v1.testing.Test as KtTest
 
 class UnknownFieldsInteropTest {
     private val content = "this is a test".toByteArray()
-    private val protoktSimple = KtTest { `val` = Bytes(content) }
+    private val protoktSimple = KtTest { `val` = Bytes.from(content) }
 
     private val javaSimple =
         JavaTest.newBuilder()

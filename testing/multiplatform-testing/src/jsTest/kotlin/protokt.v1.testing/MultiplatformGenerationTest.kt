@@ -21,10 +21,7 @@ import kotlin.test.assertEquals
 class MultiplatformGenerationTest {
     @Test
     fun test_mp_test_round_trip() {
-        val mpTest =
-            MpTest.MpTestDsl().apply {
-                foo = "1"
-            }.build()
+        val mpTest = MpTest { foo = "1" }
 
         val deserialized = MpTest.deserialize(mpTest.serialize())
 

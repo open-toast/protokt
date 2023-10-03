@@ -69,8 +69,9 @@ fun GradleBuild.setUp(service: String, mode: String, vararg extra: Pair<String, 
     startParameter.projectProperties =
         mapOf(
             "service" to service,
-            "mode" to mode
-        ) + extra.toMap()
+            "mode" to mode,
+            *extra
+        )
 }
 
 tasks.register<GradleBuild>("HelloWorldServer") {

@@ -28,7 +28,7 @@ fun Any.Deserializer.pack(
 ) =
     Any {
         typeUrl = typeUrl(typeUrlPrefix, msg)
-        value = Bytes(msg.serialize())
+        value = Bytes.from(msg)
     }
 
 private fun typeUrl(typeUrlPrefix: String, msg: KtMessage) =

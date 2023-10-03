@@ -19,27 +19,26 @@ import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.squareup.kotlinpoet.ClassName
 import protokt.v1.Bytes
 
-const val googleProtobuf = "google.protobuf"
-
-val protoktV1 = Bytes::class.java.`package`.name
-val protoktV1GoogleProto = Bytes::class.java.`package`.name + "." + googleProtobuf
+val PROTOKT_V1 = Bytes::class.java.`package`.name
+const val DOT_GOOGLE_PROTOBUF = ".google.protobuf"
+val PROTOKT_V1_GOOGLE_PROTO = PROTOKT_V1 + DOT_GOOGLE_PROTOBUF
 
 fun packagesByFileName(protoFileList: List<FileDescriptorProto>) =
     protoFileList.associate { it.name to resolvePackage(it) }
 
 fun resolvePackage(fdp: FileDescriptorProto) =
-    if (fdp.`package`.startsWith("protokt.v1")) {
+    if (fdp.`package`.startsWith(PROTOKT_V1)) {
         fdp.`package`
     } else {
-        "protokt.v1." + fdp.`package`
+        "$PROTOKT_V1." + fdp.`package`
     }
 
 fun requalifyProtoType(typeName: String): ClassName =
     // type name might have a `.` prefix
     ClassName.bestGuess(
-        if (typeName.startsWith(".protokt.v1")) {
+        if (typeName.startsWith(".$PROTOKT_V1")) {
             typeName.removePrefix(".")
         } else {
-            "protokt.v1." + typeName.removePrefix(".")
+            "$PROTOKT_V1." + typeName.removePrefix(".")
         }
     )

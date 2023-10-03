@@ -29,9 +29,9 @@ import com.squareup.kotlinpoet.withIndent
 import protokt.v1.KtGeneratedFileDescriptor
 import protokt.v1.codegen.util.Enum
 import protokt.v1.codegen.util.Message
+import protokt.v1.codegen.util.PROTOKT_V1_GOOGLE_PROTO
 import protokt.v1.codegen.util.ProtoFileContents
 import protokt.v1.codegen.util.TopLevelType
-import protokt.v1.codegen.util.protoktV1GoogleProto
 
 class FileDescriptorInfo(
     val fdp: TypeSpec,
@@ -52,7 +52,7 @@ private constructor(
                 .addAnnotation(KtGeneratedFileDescriptor::class)
                 .addAnnotation(@Suppress("DEPRECATION") com.toasttab.protokt.rt.KtGeneratedFileDescriptor::class)
                 .addProperty(
-                    PropertySpec.builder("descriptor", ClassName(protoktV1GoogleProto, "FileDescriptor"))
+                    PropertySpec.builder("descriptor", ClassName(PROTOKT_V1_GOOGLE_PROTO, "FileDescriptor"))
                         .delegate(
                             buildCodeBlock {
                                 beginControlFlow("lazy")
@@ -60,7 +60,7 @@ private constructor(
                                 withIndent { add(descriptorLines()) }
                                 add("\n)\n\n")
 
-                                add("%T.buildFrom(\n", ClassName(protoktV1GoogleProto, "FileDescriptor"))
+                                add("%T.buildFrom(\n", ClassName(PROTOKT_V1_GOOGLE_PROTO, "FileDescriptor"))
                                 withIndent {
                                     add("descriptorData,\n")
                                     add("listOf(\n")
@@ -147,7 +147,7 @@ private constructor(
     private fun enumDescriptorExtensionProperties() =
         contents.types.flatMap { findEnums(emptyList(), it) }
             .map { (enum, containingTypes) ->
-                PropertySpec.builder("descriptor", ClassName(protoktV1GoogleProto, "EnumDescriptor"))
+                PropertySpec.builder("descriptor", ClassName(PROTOKT_V1_GOOGLE_PROTO, "EnumDescriptor"))
                     .receiver(enum.deserializerClassName)
                     .getter(
                         FunSpec.getterBuilder()
@@ -194,7 +194,7 @@ private constructor(
     private fun messageDescriptorExtensionProperties() =
         contents.types.flatMap { findMessages(emptyList(), it) }
             .map { (msg, containingTypes) ->
-                PropertySpec.builder("descriptor", ClassName(protoktV1GoogleProto, "Descriptor"))
+                PropertySpec.builder("descriptor", ClassName(PROTOKT_V1_GOOGLE_PROTO, "Descriptor"))
                     .receiver(msg.deserializerClassName)
                     .getter(
                         FunSpec.getterBuilder()

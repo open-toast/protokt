@@ -18,7 +18,7 @@ package protokt.v1.codegen.util
 import com.squareup.kotlinpoet.ClassName
 
 const val DESERIALIZER = "Deserializer"
-const val DSL = "Dsl"
+const val BUILDER = "Builder"
 
 fun GeneratorContext.className(simpleNames: List<String>) =
     ClassName(kotlinPackage, simpleNames)

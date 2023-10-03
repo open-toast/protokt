@@ -16,6 +16,8 @@
 package protokt.v1
 
 import com.google.auto.service.AutoService
+import protokt.v1.JvmBytes.asReadOnlyBuffer
+import protokt.v1.SizeCodecs.sizeOf
 import java.nio.ByteBuffer
 import java.util.UUID
 
@@ -41,7 +43,7 @@ object UuidBytesConverter : OptimizedSizeOfConverter<UUID, Bytes> {
     }
 
     override fun unwrap(wrapped: UUID): Bytes =
-        Bytes(
+        Bytes.from(
             ByteBuffer.allocate(16)
                 .putLong(wrapped.mostSignificantBits)
                 .putLong(wrapped.leastSignificantBits)
