@@ -63,8 +63,6 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
     }
 
     configure<MavenPublishBaseExtension> {
-        publishToMavenCentral(SonatypeHost.DEFAULT, true)
-
         pom {
             name.set(ProtoktProjectInfo.name)
             description.set(ProtoktProjectInfo.description)
@@ -105,19 +103,27 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
     }
 
     if (isRelease()) {
+        configure<MavenPublishBaseExtension> {
+            publishToMavenCentral(SonatypeHost.DEFAULT, true)
+        }
+
         apply(plugin = "signing")
 
         configure<SigningExtension> {
             useInMemoryPgpKeys(Pgp.key, Pgp.password)
 
-            the<PublishingExtension>()
-                .publications
-                .withType<MavenPublication>()
-                .forEach(::sign)
+            afterEvaluate {
+                the<PublishingExtension>()
+                    .publications
+                    .withType<MavenPublication>()
+                    .forEach(::sign)
+            }
         }
 
-        tasks.withType<PublishToMavenRepository> {
-            dependsOn(tasks.withType<Sign>())
+        afterEvaluate {
+            tasks.withType<PublishToMavenRepository> {
+                dependsOn(tasks.withType<Sign>())
+            }
         }
     }
 
