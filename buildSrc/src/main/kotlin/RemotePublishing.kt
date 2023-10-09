@@ -62,8 +62,30 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
         }
     }
 
-    if (defaultJars) {
-        configure<MavenPublishBaseExtension> {
+    configure<MavenPublishBaseExtension> {
+        publishToMavenCentral(SonatypeHost.DEFAULT, true)
+        
+        pom {
+            name.set(ProtoktProjectInfo.name)
+            description.set(ProtoktProjectInfo.description)
+            url.set(ProtoktProjectInfo.url)
+            scm { url.set(ProtoktProjectInfo.url) }
+            licenses {
+                license {
+                    name.set("The Apache License, Version 2.0")
+                    url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                }
+            }
+            developers {
+                developer {
+                    id.set("Toast")
+                    name.set("Toast Open Source")
+                    email.set("opensource@toasttab.com")
+                }
+            }
+        }
+
+        if (defaultJars) {
             pluginManager.withPlugin("org.jetbrains.kotlin.multiplatform") {
                 configure(KotlinMultiplatform(JavadocJar.Empty()))
             }
@@ -72,26 +94,6 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
             }
             pluginManager.withPlugin("org.jetbrains.kotlin.js") {
                 configure(KotlinJs(JavadocJar.Empty()))
-            }
-            publishToMavenCentral(SonatypeHost.DEFAULT, true)
-            pom {
-                name.set(ProtoktProjectInfo.name)
-                description.set(ProtoktProjectInfo.description)
-                url.set(ProtoktProjectInfo.url)
-                scm { url.set(ProtoktProjectInfo.url) }
-                licenses {
-                    license {
-                        name.set("The Apache License, Version 2.0")
-                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-                    }
-                }
-                developers {
-                    developer {
-                        id.set("Toast")
-                        name.set("Toast Open Source")
-                        email.set("opensource@toasttab.com")
-                    }
-                }
             }
         }
 
