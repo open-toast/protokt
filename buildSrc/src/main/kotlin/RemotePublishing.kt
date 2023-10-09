@@ -64,7 +64,7 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
 
     configure<MavenPublishBaseExtension> {
         publishToMavenCentral(SonatypeHost.DEFAULT, true)
-        
+
         pom {
             name.set(ProtoktProjectInfo.name)
             description.set(ProtoktProjectInfo.description)
