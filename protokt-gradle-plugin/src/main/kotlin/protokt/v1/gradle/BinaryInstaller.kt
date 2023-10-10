@@ -16,19 +16,20 @@
 package protokt.v1.gradle
 
 import org.gradle.api.Project
-import org.gradle.api.artifacts.Dependency
 
 private const val CODEGEN_CONFIGURATION = "protoktCodegen"
 
 internal fun binaryFromArtifact(project: Project): String {
+    configureArtifact(project)
+
     project.afterEvaluate {
-        installBinary(project, configureArtifact(project))
+        installBinary(project)
     }
 
     return "${getTargetDirectory(project)}/bin/$CODEGEN_NAME"
 }
 
-private fun installBinary(project: Project, artifact: Dependency) {
+private fun installBinary(project: Project) {
     val targetDir = getTargetDirectory(project)
 
     if (PROTOKT_VERSION.endsWith("-SNAPSHOT") || !targetDir.exists()) {
@@ -37,7 +38,6 @@ private fun installBinary(project: Project, artifact: Dependency) {
         val toolsArchive = project.zipTree(
             project.configurations
                 .getByName(CODEGEN_CONFIGURATION)
-                .fileCollection(artifact)
                 .singleFile
         )
 
@@ -48,10 +48,10 @@ private fun installBinary(project: Project, artifact: Dependency) {
     }
 }
 
-private fun configureArtifact(project: Project): Dependency {
+private fun configureArtifact(project: Project) {
     project.configurations.create(CODEGEN_CONFIGURATION)
 
-    return project.dependencies.add(
+    project.dependencies.add(
         CODEGEN_CONFIGURATION,
         mapOf(
             "group" to "com.toasttab.protokt",
@@ -60,7 +60,7 @@ private fun configureArtifact(project: Project): Dependency {
             "classifier" to "dist",
             "ext" to "zip"
         )
-    )!!
+    )
 }
 
 private fun getTargetDirectory(project: Project) =
