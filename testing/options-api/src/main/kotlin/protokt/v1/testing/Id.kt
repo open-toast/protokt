@@ -18,7 +18,6 @@ package protokt.v1.testing
 import com.google.auto.service.AutoService
 import protokt.v1.Bytes
 import protokt.v1.Converter
-import protokt.v1.JvmBytes.from
 
 data class Id(val value: String)
 
