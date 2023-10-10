@@ -41,7 +41,7 @@ actual class Bytes internal actual constructor(value: ByteArray) : AbstractBytes
 
         @JvmStatic
         fun from(stream: InputStream) =
-            Bytes(stream.readBytes())
+            AbstractBytes.from(stream.readBytes())
     }
 }
 
