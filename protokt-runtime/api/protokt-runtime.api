@@ -453,10 +453,7 @@ public final class com/toasttab/protokt/rt/VarintVal : com/toasttab/protokt/rt/U
 }
 
 public abstract class protokt/v1/AbstractBytes {
-	public static final fun empty ()Lprotokt/v1/Bytes;
 	public final fun equals (Ljava/lang/Object;)Z
-	public static final fun from (Lprotokt/v1/KtMessage;)Lprotokt/v1/Bytes;
-	public static final fun from ([B)Lprotokt/v1/Bytes;
 	public final fun getBytes ()[B
 	public final fun hashCode ()I
 	public final fun isEmpty ()Z
