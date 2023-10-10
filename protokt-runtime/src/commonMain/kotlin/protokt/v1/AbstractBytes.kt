@@ -15,8 +15,6 @@
 
 package protokt.v1
 
-import kotlin.jvm.JvmStatic
-
 abstract class AbstractBytes internal constructor(
     internal val value: ByteArray
 ) {
@@ -44,15 +42,12 @@ abstract class AbstractBytes internal constructor(
     internal companion object {
         private val EMPTY = Bytes(ByteArray(0))
 
-        @JvmStatic
         fun empty() =
             EMPTY
 
-        @JvmStatic
         fun from(bytes: ByteArray) =
             Bytes(clone(bytes))
 
-        @JvmStatic
         fun from(message: KtMessage) =
             Bytes(message.serialize())
     }
