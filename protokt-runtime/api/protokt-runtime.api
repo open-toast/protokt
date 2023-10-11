@@ -452,6 +452,16 @@ public final class com/toasttab/protokt/rt/VarintVal : com/toasttab/protokt/rt/U
 	public fun toString ()Ljava/lang/String;
 }
 
+public abstract class protokt/v1/AbstractBytes {
+	public final fun equals (Ljava/lang/Object;)Z
+	public final fun getBytes ()[B
+	public final fun hashCode ()I
+	public final fun isEmpty ()Z
+	public final fun isNotEmpty ()Z
+	public final fun toBytesSlice ()Lprotokt/v1/BytesSlice;
+	public final fun toString ()Ljava/lang/String;
+}
+
 public abstract class protokt/v1/AbstractKtDeserializer : protokt/v1/KtDeserializer {
 	public fun <init> ()V
 	public synthetic fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lcom/toasttab/protokt/rt/KtMessage;
@@ -483,22 +493,19 @@ public abstract class protokt/v1/AbstractKtMessage : protokt/v1/KtMessage {
 	public fun serialize (Ljava/io/OutputStream;)V
 }
 
-public final class protokt/v1/Bytes {
+public final class protokt/v1/Bytes : protokt/v1/AbstractBytes {
 	public static final field Companion Lprotokt/v1/Bytes$Companion;
+	public final fun asReadOnlyBuffer ()Ljava/nio/ByteBuffer;
 	public static final fun empty ()Lprotokt/v1/Bytes;
-	public fun equals (Ljava/lang/Object;)Z
+	public static final fun from (Ljava/io/InputStream;)Lprotokt/v1/Bytes;
 	public static final fun from (Lprotokt/v1/KtMessage;)Lprotokt/v1/Bytes;
 	public static final fun from ([B)Lprotokt/v1/Bytes;
-	public final fun getBytes ()[B
-	public fun hashCode ()I
-	public final fun isEmpty ()Z
-	public final fun isNotEmpty ()Z
-	public final fun toBytesSlice ()Lprotokt/v1/BytesSlice;
-	public fun toString ()Ljava/lang/String;
+	public final fun inputStream ()Ljava/io/InputStream;
 }
 
 public final class protokt/v1/Bytes$Companion {
 	public final fun empty ()Lprotokt/v1/Bytes;
+	public final fun from (Ljava/io/InputStream;)Lprotokt/v1/Bytes;
 	public final fun from (Lprotokt/v1/KtMessage;)Lprotokt/v1/Bytes;
 	public final fun from ([B)Lprotokt/v1/Bytes;
 }
@@ -559,13 +566,6 @@ public final class protokt/v1/Fixed64Val : protokt/v1/UnknownValue {
 	public fun toString ()Ljava/lang/String;
 	public static fun toString-impl (J)Ljava/lang/String;
 	public final synthetic fun unbox-impl ()J
-}
-
-public final class protokt/v1/JvmBytes {
-	public static final field INSTANCE Lprotokt/v1/JvmBytes;
-	public static final fun asReadOnlyBuffer (Lprotokt/v1/Bytes;)Ljava/nio/ByteBuffer;
-	public static final fun from (Lprotokt/v1/Bytes$Companion;Ljava/io/InputStream;)Lprotokt/v1/Bytes;
-	public static final fun inputStream (Lprotokt/v1/Bytes;)Ljava/io/InputStream;
 }
 
 public abstract interface annotation class protokt/v1/KtBuilderDsl : java/lang/annotation/Annotation {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast, Inc.
+ * Copyright (c) 2023 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,22 +15,18 @@
 
 package protokt.v1
 
-import java.io.InputStream
-import java.nio.ByteBuffer
+actual class Bytes internal actual constructor(value: ByteArray) : AbstractBytes(value) {
+    actual companion object {
+        actual fun empty() =
+            AbstractBytes.empty()
+
+        actual fun from(bytes: ByteArray) =
+            AbstractBytes.from(bytes)
+
+        actual fun from(message: KtMessage) =
+            AbstractBytes.from(message)
+    }
+}
 
 internal actual fun clone(bytes: ByteArray) =
-    bytes.clone()
-
-object JvmBytes {
-    @JvmStatic
-    fun Bytes.asReadOnlyBuffer(): ByteBuffer =
-        ByteBuffer.wrap(value).asReadOnlyBuffer()
-
-    @JvmStatic
-    fun Bytes.inputStream(): InputStream =
-        value.inputStream()
-
-    @JvmStatic
-    fun Bytes.Companion.from(stream: InputStream) =
-        Bytes(stream.readBytes())
-}
+    bytes.copyOf()

@@ -17,44 +17,18 @@ package protokt.v1
 
 import kotlin.jvm.JvmStatic
 
-class Bytes internal constructor(
-    internal val value: ByteArray
-) {
-    val bytes
-        get() = clone(value)
-
-    fun isNotEmpty() =
-        value.isNotEmpty()
-
-    fun isEmpty() =
-        value.isEmpty()
-
-    fun toBytesSlice() =
-        BytesSlice(value)
-
-    override fun equals(other: Any?) =
-        other is Bytes && value.contentEquals(other.value)
-
-    override fun hashCode() =
-        value.contentHashCode()
-
-    override fun toString() =
-        value.contentToString()
-
+expect class Bytes internal constructor(
+    value: ByteArray
+) : AbstractBytes {
     companion object {
-        private val EMPTY = Bytes(ByteArray(0))
+        @JvmStatic
+        fun empty(): Bytes
 
         @JvmStatic
-        fun empty() =
-            EMPTY
+        fun from(bytes: ByteArray): Bytes
 
         @JvmStatic
-        fun from(bytes: ByteArray) =
-            Bytes(clone(bytes))
-
-        @JvmStatic
-        fun from(message: KtMessage) =
-            Bytes(message.serialize())
+        fun from(message: KtMessage): Bytes
     }
 }
 
