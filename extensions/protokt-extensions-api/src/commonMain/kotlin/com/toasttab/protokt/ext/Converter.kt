@@ -18,4 +18,10 @@ package com.toasttab.protokt.ext
 import protokt.v1.Converter
 
 @Deprecated("for backwards compatibility only")
-interface Converter<S : Any, T : Any> : Converter<T, S>
+interface Converter<S : Any, T : Any> : Converter<T, S> {
+    val wrapper
+        get() = kotlinClass
+
+    val wrapped
+        get() = protoClass
+}

@@ -74,6 +74,18 @@ message Wrappers {
     (.protokt.v1.property).wrap = "java.time.LocalDate",
     (.protokt.v1.property).non_null = true
   ];
+
+  optional bytes optional_uuid = 12 [
+    (.protokt.v1.property).wrap = "java.util.UUID"
+  ];
+
+  optional bytes optional_ip_address = 13 [
+    (.protokt.v1.property).wrap = "java.net.InetAddress"
+  ];
+
+  optional string optional_local_date = 14 [
+    (.protokt.v1.property).wrap = "java.time.LocalDate"
+  ];
 }
 
 message OneofWrappers {

@@ -50,7 +50,7 @@ class ClassLookup(classpath: List<String>) {
         }
     }
 
-    private val convertersByProtoTAndKotlinT by lazy {
+    private val convertersByProtoClassNameAndKotlinClassName by lazy {
         classLoader.getResources("META-INF/services/${Converter::class.qualifiedName}")
             .asSequence()
             .plus(@Suppress("DEPRECATION") classLoader.getResources("META-INF/services/${com.toasttab.protokt.ext.Converter::class.qualifiedName}").asSequence())
@@ -82,7 +82,7 @@ class ClassLookup(classpath: List<String>) {
         }
 
     fun converter(protoClassName: ClassName, kotlinClassName: ClassName): ConverterDetails {
-        val converters = convertersByProtoTAndKotlinT.get(protoClassName, kotlinClassName) ?: emptyList()
+        val converters = convertersByProtoClassNameAndKotlinClassName.get(protoClassName, kotlinClassName) ?: emptyList()
 
         require(converters.isNotEmpty()) {
             "No converter found for wrapper type $kotlinClassName from type $protoClassName"
@@ -96,15 +96,14 @@ class ClassLookup(classpath: List<String>) {
 
         return ConverterDetails(
             converter::class.asClassName(),
-            protoClassName,
             kotlinClassName,
             converter is OptimizedSizeOfConverter<*, *>,
-            converterRequiresNullableProperty(converter)
+            cannotDeserializeDefaultValue(converter)
         )
     }
 }
 
-private fun <T : Any> converterRequiresNullableProperty(converter: Converter<T, *>): Boolean {
+private fun <T : Any> cannotDeserializeDefaultValue(converter: Converter<T, *>): Boolean {
     fun tryWrap(unwrapped: T) =
         try {
             converter.wrap(unwrapped)
@@ -131,7 +130,6 @@ private fun <T : Any> converterRequiresNullableProperty(converter: Converter<T, 
 
 class ConverterDetails(
     val converterClassName: ClassName,
-    val protoClassName: ClassName,
     val kotlinClassName: ClassName,
     val optimizedSizeof: Boolean,
     val cannotDeserializeDefaultValue: Boolean

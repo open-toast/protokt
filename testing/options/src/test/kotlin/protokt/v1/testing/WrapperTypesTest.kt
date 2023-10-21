@@ -41,6 +41,9 @@ class WrapperTypesTest {
             nullableUuid = UUID.randomUUID()
             nullableLocalDate = LocalDate.of(1950, 10, 4)
             googleDate = LocalDate.of(1950, 10, 4)
+            optionalUuid = UUID.randomUUID()
+            optionalIpAddress = InetAddress.getByAddress(byteArrayOf(0, 0, 0, 1))
+            optionalLocalDate = LocalDate.of(1950, 10, 4)
         }
 
     @Test
@@ -147,6 +150,51 @@ class WrapperTypesTest {
         val deserialized = Wrappers.deserialize(model.serialize())
 
         assertThat(deserialized.googleDate).isEqualTo(model.googleDate)
+    }
+
+    @Test
+    fun `round trip should preserve optional uuid`() {
+        val deserialized = Wrappers.deserialize(model.serialize())
+
+        assertThat(deserialized.optionalUuid).isEqualTo(model.optionalUuid)
+    }
+
+    @Test
+    fun `round trip should preserve optional uuid when null`() {
+        val deserialized =
+            Wrappers.deserialize(model.copy { optionalUuid = null }.serialize())
+
+        assertThat(deserialized.optionalUuid).isNull()
+    }
+
+    @Test
+    fun `round trip should preserve optional localdate`() {
+        val deserialized = Wrappers.deserialize(model.serialize())
+
+        assertThat(deserialized.optionalLocalDate).isEqualTo(model.optionalLocalDate)
+    }
+
+    @Test
+    fun `round trip should preserve optional localdate when null`() {
+        val deserialized =
+            Wrappers.deserialize(model.copy { optionalLocalDate = null }.serialize())
+
+        assertThat(deserialized.optionalLocalDate).isNull()
+    }
+
+    @Test
+    fun `round trip should preserve optional ipaddress`() {
+        val deserialized = Wrappers.deserialize(model.serialize())
+
+        assertThat(deserialized.optionalIpAddress).isEqualTo(model.optionalIpAddress)
+    }
+
+    @Test
+    fun `round trip should preserve optional ipaddress when null`() {
+        val deserialized =
+            Wrappers.deserialize(model.copy { optionalIpAddress = null }.serialize())
+
+        assertThat(deserialized.optionalIpAddress).isNull()
     }
 
     @Test
