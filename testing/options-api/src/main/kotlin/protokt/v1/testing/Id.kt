@@ -23,9 +23,9 @@ data class Id(val value: String)
 
 @AutoService(Converter::class)
 object IdConverter : Converter<Bytes, Id> {
-    override val kotlinClass = Id::class
+    override val wrapper = Id::class
 
-    override val protoClass = Bytes::class
+    override val wrapped = Bytes::class
 
     override fun wrap(unwrapped: Bytes) =
         Id(String(unwrapped.bytes))

@@ -23,9 +23,9 @@ import java.time.LocalDate
 @Deprecated("use v1")
 @AutoService(com.toasttab.protokt.ext.Converter::class)
 object LocalDateGoogleConverter : com.toasttab.protokt.ext.Converter<LocalDate, Date> {
-    override val kotlinClass = LocalDate::class
+    override val wrapper = LocalDate::class
 
-    override val protoClass = Date::class
+    override val wrapped = Date::class
 
     override fun wrap(unwrapped: Date): LocalDate =
         LocalDate.of(unwrapped.year, unwrapped.month, unwrapped.day)

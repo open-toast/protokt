@@ -18,9 +18,9 @@ package protokt.v1.google.protobuf
 import protokt.v1.Converter
 
 object Int64ValueConverter : Converter<Int64Value, Long> {
-    override val kotlinClass = Long::class
+    override val wrapper = Long::class
 
-    override val protoClass = Int64Value::class
+    override val wrapped = Int64Value::class
 
     override fun wrap(unwrapped: Int64Value) =
         unwrapped.value

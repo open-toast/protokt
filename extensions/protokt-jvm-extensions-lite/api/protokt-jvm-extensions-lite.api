@@ -50,8 +50,8 @@ public final class com/toasttab/protokt/ext/InetSocketAddress$InetSocketAddressD
 
 public final class com/toasttab/protokt/ext/InetSocketAddressConverter : com/toasttab/protokt/ext/Converter {
 	public static final field INSTANCE Lcom/toasttab/protokt/ext/InetSocketAddressConverter;
-	public fun getKotlinClass ()Lkotlin/reflect/KClass;
-	public fun getProtoClass ()Lkotlin/reflect/KClass;
+	public fun getWrapped ()Lkotlin/reflect/KClass;
+	public fun getWrapper ()Lkotlin/reflect/KClass;
 	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
 	public fun unwrap (Ljava/net/InetSocketAddress;)Lcom/toasttab/protokt/ext/InetSocketAddress;
 	public fun wrap (Lcom/toasttab/protokt/ext/InetSocketAddress;)Ljava/net/InetSocketAddress;
@@ -94,8 +94,8 @@ public final class protokt/v1/InetSocketAddress$Deserializer : protokt/v1/Abstra
 
 public final class protokt/v1/InetSocketAddressConverter : protokt/v1/Converter {
 	public static final field INSTANCE Lprotokt/v1/InetSocketAddressConverter;
-	public fun getKotlinClass ()Lkotlin/reflect/KClass;
-	public fun getProtoClass ()Lkotlin/reflect/KClass;
+	public fun getWrapped ()Lkotlin/reflect/KClass;
+	public fun getWrapper ()Lkotlin/reflect/KClass;
 	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
 	public fun unwrap (Ljava/net/InetSocketAddress;)Lprotokt/v1/InetSocketAddress;
 	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;

@@ -27,9 +27,9 @@ data class CachingId(
 
 @AutoService(Converter::class)
 object CachingIdConverter : OptimizedSizeOfConverter<Bytes, CachingId> {
-    override val kotlinClass = CachingId::class
+    override val wrapper = CachingId::class
 
-    override val protoClass = Bytes::class
+    override val wrapped = Bytes::class
 
     override fun sizeOf(wrapped: CachingId) =
         sizeOf(wrapped.value)

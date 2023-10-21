@@ -22,9 +22,9 @@ import java.util.UUID
 
 @AutoService(Converter::class)
 object UuidBytesConverter : OptimizedSizeOfConverter<Bytes, UUID> {
-    override val kotlinClass = UUID::class
+    override val wrapper = UUID::class
 
-    override val protoClass = Bytes::class
+    override val wrapped = Bytes::class
 
     private val sizeOfProxy = ByteArray(16)
 

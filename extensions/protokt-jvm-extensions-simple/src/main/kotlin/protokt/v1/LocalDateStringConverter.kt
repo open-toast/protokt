@@ -20,9 +20,9 @@ import java.time.LocalDate
 
 @AutoService(Converter::class)
 object LocalDateStringConverter : Converter<String, LocalDate> {
-    override val kotlinClass = LocalDate::class
+    override val wrapper = LocalDate::class
 
-    override val protoClass = String::class
+    override val wrapped = String::class
 
     override fun wrap(unwrapped: String): LocalDate =
         LocalDate.parse(unwrapped)

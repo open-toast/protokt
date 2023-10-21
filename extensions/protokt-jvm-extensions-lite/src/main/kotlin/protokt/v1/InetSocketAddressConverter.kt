@@ -20,9 +20,9 @@ import com.google.auto.service.AutoService
 @AutoService(Converter::class)
 object InetSocketAddressConverter : Converter<InetSocketAddress, java.net.InetSocketAddress> {
 
-    override val kotlinClass = java.net.InetSocketAddress::class
+    override val wrapper = java.net.InetSocketAddress::class
 
-    override val protoClass = InetSocketAddress::class
+    override val wrapped = InetSocketAddress::class
 
     override fun wrap(unwrapped: InetSocketAddress) =
         java.net.InetSocketAddress(unwrapped.address, unwrapped.port)

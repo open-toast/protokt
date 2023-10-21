@@ -6,8 +6,8 @@ public abstract interface class com/toasttab/protokt/ext/OptimizedSizeofConverte
 }
 
 public abstract interface class protokt/v1/Converter {
-	public abstract fun getKotlinClass ()Lkotlin/reflect/KClass;
-	public abstract fun getProtoClass ()Lkotlin/reflect/KClass;
+	public abstract fun getWrapped ()Lkotlin/reflect/KClass;
+	public abstract fun getWrapper ()Lkotlin/reflect/KClass;
 	public abstract fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
 	public abstract fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
 }

@@ -28,9 +28,9 @@ import java.util.UUID
 @Deprecated("for backwards compatibility only")
 @AutoService(Converter::class)
 object UuidBytesValueConverter : OptimizedSizeofConverter<UUID, BytesValue> {
-    override val kotlinClass = UUID::class
+    override val wrapper = UUID::class
 
-    override val protoClass = BytesValue::class
+    override val wrapped = BytesValue::class
 
     private val sizeofProxy =
         BytesValue { value = Bytes(ByteArray(16)) }

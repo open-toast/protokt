@@ -65,7 +65,7 @@ class ClassLookup(classpath: List<String>) {
                     }
             }.run {
                 val table = HashBasedTable.create<ClassName, ClassName, MutableList<Converter<*, *>>>()
-                forEach { table.getOrPut(it.protoClass.asClassName(), it.kotlinClass.asClassName()) { mutableListOf() }.add(it) }
+                forEach { table.getOrPut(it.wrapped.asClassName(), it.wrapper.asClassName()) { mutableListOf() }.add(it) }
                 ImmutableTable.builder<ClassName, ClassName, List<Converter<*, *>>>().putAll(table).build()
             }
     }
@@ -112,7 +112,7 @@ private fun <T : Any> cannotDeserializeDefaultValue(converter: Converter<T, *>):
         }
 
     val protoDefault: Any? =
-        when (converter.protoClass) {
+        when (converter.wrapped) {
             Int::class -> 0
             Long::class -> 0
             UInt::class -> 0u
