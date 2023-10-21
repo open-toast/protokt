@@ -81,11 +81,11 @@ class ClassLookup(classpath: List<String>) {
             throw Exception("Class not found: ${className.canonicalName}")
         }
 
-    fun converter(protoClass: ClassName, kotlinClass: ClassName): ConverterDetails {
-        val converters = convertersByProtoTAndKotlinT.get(protoClass, kotlinClass) ?: emptyList()
+    fun converter(protoClassName: ClassName, kotlinClassName: ClassName): ConverterDetails {
+        val converters = convertersByProtoTAndKotlinT.get(protoClassName, kotlinClassName) ?: emptyList()
 
         require(converters.isNotEmpty()) {
-            "No converter found for wrapper type $kotlinClass from type $protoClass"
+            "No converter found for wrapper type $kotlinClassName from type $protoClassName"
         }
 
         val converter =
@@ -96,6 +96,8 @@ class ClassLookup(classpath: List<String>) {
 
         return ConverterDetails(
             converter::class.asClassName(),
+            protoClassName,
+            kotlinClassName,
             converter is OptimizedSizeOfConverter<*, *>,
             converterRequiresNullableProperty(converter)
         )
@@ -128,7 +130,9 @@ private fun <T : Any> converterRequiresNullableProperty(converter: Converter<T, 
 }
 
 class ConverterDetails(
-    val className: ClassName,
+    val converterClassName: ClassName,
+    val protoClassName: ClassName,
+    val kotlinClassName: ClassName,
     val optimizedSizeof: Boolean,
     val requiresNullableProperty: Boolean
 )
