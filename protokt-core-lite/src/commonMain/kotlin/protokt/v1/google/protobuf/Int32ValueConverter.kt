@@ -17,10 +17,10 @@ package protokt.v1.google.protobuf
 
 import protokt.v1.Converter
 
-object Int32ValueConverter : Converter<Int, Int32Value> {
-    override val wrapper = Int::class
+object Int32ValueConverter : Converter<Int32Value, Int> {
+    override val kotlinClass = Int::class
 
-    override val wrapped = Int32Value::class
+    override val protoClass = Int32Value::class
 
     override fun wrap(unwrapped: Int32Value) =
         unwrapped.value

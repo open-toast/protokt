@@ -15,6 +15,6 @@
 
 package protokt.v1
 
-interface OptimizedSizeOfConverter<S : Any, T : Any> : Converter<S, T> {
-    fun sizeOf(wrapped: S): Int
+interface OptimizedSizeOfConverter<ProtoT : Any, KotlinT : Any> : Converter<ProtoT, KotlinT> {
+    fun sizeOf(wrapped: KotlinT): Int
 }

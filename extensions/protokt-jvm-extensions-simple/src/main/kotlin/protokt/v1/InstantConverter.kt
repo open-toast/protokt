@@ -20,10 +20,10 @@ import protokt.v1.google.protobuf.Timestamp
 import java.time.Instant
 
 @AutoService(Converter::class)
-object InstantConverter : Converter<Instant, Timestamp> {
-    override val wrapper = Instant::class
+object InstantConverter : Converter<Timestamp, Instant> {
+    override val kotlinClass = Instant::class
 
-    override val wrapped = Timestamp::class
+    override val protoClass = Timestamp::class
 
     override fun wrap(unwrapped: Timestamp): Instant =
         Instant.ofEpochSecond(unwrapped.seconds, unwrapped.nanos.toLong())

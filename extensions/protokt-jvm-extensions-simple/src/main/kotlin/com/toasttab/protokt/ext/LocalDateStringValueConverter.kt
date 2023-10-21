@@ -25,9 +25,9 @@ import java.time.LocalDate
 @Deprecated("for backwards compatibility only")
 @AutoService(Converter::class)
 object LocalDateStringValueConverter : Converter<LocalDate, StringValue> {
-    override val wrapper = LocalDate::class
+    override val kotlinClass = LocalDate::class
 
-    override val wrapped = StringValue::class
+    override val protoClass = StringValue::class
 
     override fun wrap(unwrapped: StringValue) =
         LocalDateStringConverter.wrap(unwrapped.value)

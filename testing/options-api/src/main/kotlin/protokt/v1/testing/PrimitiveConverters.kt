@@ -22,9 +22,9 @@ import protokt.v1.Converter
 data class BoolBox(val wrapped: Boolean)
 
 @AutoService(Converter::class)
-object BooleanConverter : Converter<BoolBox, Boolean> {
-    override val wrapped = Boolean::class
-    override val wrapper = BoolBox::class
+object BooleanConverter : Converter<Boolean, BoolBox> {
+    override val protoClass = Boolean::class
+    override val kotlinClass = BoolBox::class
     override fun unwrap(wrapped: BoolBox) = wrapped.wrapped
     override fun wrap(unwrapped: Boolean) = BoolBox(unwrapped)
 }
@@ -32,9 +32,9 @@ object BooleanConverter : Converter<BoolBox, Boolean> {
 data class ByteArrayBox(val wrapped: Bytes)
 
 @AutoService(Converter::class)
-object BytesConverter : Converter<ByteArrayBox, Bytes> {
-    override val wrapped = Bytes::class
-    override val wrapper = ByteArrayBox::class
+object BytesConverter : Converter<Bytes, ByteArrayBox> {
+    override val protoClass = Bytes::class
+    override val kotlinClass = ByteArrayBox::class
     override fun unwrap(wrapped: ByteArrayBox) = wrapped.wrapped
     override fun wrap(unwrapped: Bytes) = ByteArrayBox(unwrapped)
 }
@@ -42,9 +42,9 @@ object BytesConverter : Converter<ByteArrayBox, Bytes> {
 data class DoubleBox(val wrapped: Double)
 
 @AutoService(Converter::class)
-object DoubleConverter : Converter<DoubleBox, Double> {
-    override val wrapped = Double::class
-    override val wrapper = DoubleBox::class
+object DoubleConverter : Converter<Double, DoubleBox> {
+    override val protoClass = Double::class
+    override val kotlinClass = DoubleBox::class
     override fun unwrap(wrapped: DoubleBox) = wrapped.wrapped
     override fun wrap(unwrapped: Double) = DoubleBox(unwrapped)
 }
@@ -52,9 +52,9 @@ object DoubleConverter : Converter<DoubleBox, Double> {
 data class IntBox(val wrapped: Int)
 
 @AutoService(Converter::class)
-object IntConverter : Converter<IntBox, Int> {
-    override val wrapped = Int::class
-    override val wrapper = IntBox::class
+object IntConverter : Converter<Int, IntBox> {
+    override val protoClass = Int::class
+    override val kotlinClass = IntBox::class
     override fun unwrap(wrapped: IntBox) = wrapped.wrapped
     override fun wrap(unwrapped: Int) = IntBox(unwrapped)
 }
@@ -62,9 +62,9 @@ object IntConverter : Converter<IntBox, Int> {
 data class UIntBox(val wrapped: UInt)
 
 @AutoService(Converter::class)
-object UIntConverter : Converter<UIntBox, UInt> {
-    override val wrapped = UInt::class
-    override val wrapper = UIntBox::class
+object UIntConverter : Converter<UInt, UIntBox> {
+    override val protoClass = UInt::class
+    override val kotlinClass = UIntBox::class
     override fun unwrap(wrapped: UIntBox) = wrapped.wrapped
     override fun wrap(unwrapped: UInt) = UIntBox(unwrapped)
 }
@@ -72,9 +72,9 @@ object UIntConverter : Converter<UIntBox, UInt> {
 data class LongBox(val wrapped: Long)
 
 @AutoService(Converter::class)
-object LongConverter : Converter<LongBox, Long> {
-    override val wrapped = Long::class
-    override val wrapper = LongBox::class
+object LongConverter : Converter<Long, LongBox> {
+    override val protoClass = Long::class
+    override val kotlinClass = LongBox::class
     override fun unwrap(wrapped: LongBox) = wrapped.wrapped
     override fun wrap(unwrapped: Long) = LongBox(unwrapped)
 }
@@ -82,9 +82,9 @@ object LongConverter : Converter<LongBox, Long> {
 data class ULongBox(val wrapped: ULong)
 
 @AutoService(Converter::class)
-object ULongConverter : Converter<ULongBox, ULong> {
-    override val wrapped = ULong::class
-    override val wrapper = ULongBox::class
+object ULongConverter : Converter<ULong, ULongBox> {
+    override val protoClass = ULong::class
+    override val kotlinClass = ULongBox::class
     override fun unwrap(wrapped: ULongBox) = wrapped.wrapped
     override fun wrap(unwrapped: ULong) = ULongBox(unwrapped)
 }
@@ -92,9 +92,9 @@ object ULongConverter : Converter<ULongBox, ULong> {
 data class FloatBox(val wrapped: Float)
 
 @AutoService(Converter::class)
-object FloatConverter : Converter<FloatBox, Float> {
-    override val wrapped = Float::class
-    override val wrapper = FloatBox::class
+object FloatConverter : Converter<Float, FloatBox> {
+    override val protoClass = Float::class
+    override val kotlinClass = FloatBox::class
     override fun unwrap(wrapped: FloatBox) = wrapped.wrapped
     override fun wrap(unwrapped: Float) = FloatBox(unwrapped)
 }
@@ -102,9 +102,9 @@ object FloatConverter : Converter<FloatBox, Float> {
 data class StringBox(val wrapped: String)
 
 @AutoService(Converter::class)
-object StringConverter : Converter<StringBox, String> {
-    override val wrapped = String::class
-    override val wrapper = StringBox::class
+object StringConverter : Converter<String, StringBox> {
+    override val protoClass = String::class
+    override val kotlinClass = StringBox::class
     override fun unwrap(wrapped: StringBox) = wrapped.wrapped
     override fun wrap(unwrapped: String) = StringBox(unwrapped)
 }

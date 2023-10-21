@@ -17,10 +17,10 @@ package protokt.v1.google.protobuf
 
 import protokt.v1.Converter
 
-object BoolValueConverter : Converter<Boolean, BoolValue> {
-    override val wrapper = Boolean::class
+object BoolValueConverter : Converter<BoolValue, Boolean> {
+    override val kotlinClass = Boolean::class
 
-    override val wrapped = BoolValue::class
+    override val protoClass = BoolValue::class
 
     override fun wrap(unwrapped: BoolValue) =
         unwrapped.value

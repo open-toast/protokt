@@ -20,10 +20,10 @@ import protokt.v1.google.protobuf.BytesValue
 import java.net.InetAddress
 
 @AutoService(Converter::class)
-object InetAddressBytesValueConverter : Converter<InetAddress, BytesValue> {
-    override val wrapper = InetAddress::class
+object InetAddressBytesValueConverter : Converter<BytesValue, InetAddress> {
+    override val kotlinClass = InetAddress::class
 
-    override val wrapped = BytesValue::class
+    override val protoClass = BytesValue::class
 
     override fun wrap(unwrapped: BytesValue) =
         InetAddressBytesConverter.wrap(unwrapped.value)

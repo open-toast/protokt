@@ -17,10 +17,10 @@ package protokt.v1.google.protobuf
 
 import protokt.v1.Converter
 
-object StringValueConverter : Converter<String, StringValue> {
-    override val wrapper = String::class
+object StringValueConverter : Converter<StringValue, String> {
+    override val kotlinClass = String::class
 
-    override val wrapped = StringValue::class
+    override val protoClass = StringValue::class
 
     override fun wrap(unwrapped: StringValue) =
         unwrapped.value

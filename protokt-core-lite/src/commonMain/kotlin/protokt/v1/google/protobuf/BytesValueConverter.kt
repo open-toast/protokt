@@ -18,10 +18,10 @@ package protokt.v1.google.protobuf
 import protokt.v1.Bytes
 import protokt.v1.Converter
 
-object BytesValueConverter : Converter<Bytes, BytesValue> {
-    override val wrapper = Bytes::class
+object BytesValueConverter : Converter<BytesValue, Bytes> {
+    override val kotlinClass = Bytes::class
 
-    override val wrapped = BytesValue::class
+    override val protoClass = BytesValue::class
 
     override fun wrap(unwrapped: BytesValue) =
         unwrapped.value

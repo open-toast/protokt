@@ -24,9 +24,9 @@ import java.time.Instant
 @Deprecated("for backwards compatibility only")
 @AutoService(Converter::class)
 object InstantConverter : Converter<Instant, Timestamp> {
-    override val wrapper = Instant::class
+    override val kotlinClass = Instant::class
 
-    override val wrapped = Timestamp::class
+    override val protoClass = Timestamp::class
 
     override fun wrap(unwrapped: Timestamp): Instant =
         Instant.ofEpochSecond(unwrapped.seconds, unwrapped.nanos.toLong())

@@ -27,9 +27,9 @@ import java.net.InetAddress
 @Deprecated("for backwards compatibility only")
 @AutoService(Converter::class)
 object InetAddressBytesValueConverter : Converter<InetAddress, BytesValue> {
-    override val wrapper = InetAddress::class
+    override val kotlinClass = InetAddress::class
 
-    override val wrapped = BytesValue::class
+    override val protoClass = BytesValue::class
 
     override fun wrap(unwrapped: BytesValue) =
         InetAddressBytesConverter.wrap(unwrapped.value.toBytes())

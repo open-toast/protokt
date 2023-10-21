@@ -23,9 +23,9 @@ import com.toasttab.protokt.Duration
 @Deprecated("for backwards compatibility only")
 @AutoService(Converter::class)
 object DurationConverter : Converter<java.time.Duration, Duration> {
-    override val wrapper = java.time.Duration::class
+    override val kotlinClass = java.time.Duration::class
 
-    override val wrapped = Duration::class
+    override val protoClass = Duration::class
 
     override fun wrap(unwrapped: Duration): java.time.Duration =
         java.time.Duration.ofSeconds(unwrapped.seconds, unwrapped.nanos.toLong())

@@ -20,10 +20,10 @@ import protokt.v1.Converter
 import java.time.LocalDate
 
 @AutoService(Converter::class)
-object LocalDateConverter : Converter<LocalDate, Date> {
-    override val wrapper = LocalDate::class
+object LocalDateConverter : Converter<Date, LocalDate> {
+    override val kotlinClass = LocalDate::class
 
-    override val wrapped = Date::class
+    override val protoClass = Date::class
 
     override fun wrap(unwrapped: Date): LocalDate =
         LocalDate.of(unwrapped.year, unwrapped.month, unwrapped.day)

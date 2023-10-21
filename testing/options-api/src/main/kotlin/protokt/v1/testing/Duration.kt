@@ -21,10 +21,10 @@ import protokt.v1.Converter
 data class Duration(val value: protokt.v1.google.protobuf.Duration)
 
 @AutoService(Converter::class)
-object DurationConverter : Converter<Duration, protokt.v1.google.protobuf.Duration> {
-    override val wrapper = Duration::class
+object DurationConverter : Converter<protokt.v1.google.protobuf.Duration, Duration> {
+    override val kotlinClass = Duration::class
 
-    override val wrapped = protokt.v1.google.protobuf.Duration::class
+    override val protoClass = protokt.v1.google.protobuf.Duration::class
 
     override fun wrap(unwrapped: protokt.v1.google.protobuf.Duration) =
         Duration(unwrapped)

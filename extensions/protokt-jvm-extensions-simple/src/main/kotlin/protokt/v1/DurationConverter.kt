@@ -18,10 +18,10 @@ package protokt.v1
 import com.google.auto.service.AutoService
 
 @AutoService(Converter::class)
-object DurationConverter : Converter<java.time.Duration, protokt.v1.google.protobuf.Duration> {
-    override val wrapper = java.time.Duration::class
+object DurationConverter : Converter<protokt.v1.google.protobuf.Duration, java.time.Duration> {
+    override val kotlinClass = java.time.Duration::class
 
-    override val wrapped = protokt.v1.google.protobuf.Duration::class
+    override val protoClass = protokt.v1.google.protobuf.Duration::class
 
     override fun wrap(unwrapped: protokt.v1.google.protobuf.Duration): java.time.Duration =
         java.time.Duration.ofSeconds(unwrapped.seconds, unwrapped.nanos.toLong())

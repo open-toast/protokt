@@ -64,7 +64,7 @@ class ClassLookup(classpath: List<String>) {
                     }
             }.run {
                 val table = HashBasedTable.create<ClassName, ClassName, MutableList<Converter<*, *>>>()
-                forEach { table.getOrPut(it.wrapper.asClassName(), it.wrapped.asClassName()) { mutableListOf() }.add(it) }
+                forEach { table.getOrPut(it.kotlinClass.asClassName(), it.protoClass.asClassName()) { mutableListOf() }.add(it) }
                 ImmutableTable.builder<ClassName, ClassName, List<Converter<*, *>>>().putAll(table).build()
             }
     }
