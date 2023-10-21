@@ -56,16 +56,17 @@ private class PropertyAnnotator(
         return when (field) {
             is StandardField -> {
                 annotateStandard(field).let { type ->
+                    val wrapperRequiresNullability = field.wrapperRequiresNullability(ctx)
                     PropertyInfo(
                         name = field.fieldName,
-                        propertyType = propertyType(field, type),
+                        propertyType = propertyType(field, type, wrapperRequiresNullability),
                         deserializeType = deserializeType(field, type),
                         builderPropertyType = dslPropertyType(field, type),
                         defaultValue = field.defaultValue(ctx),
                         fieldType = field.type,
                         repeated = field.repeated,
                         map = field.map,
-                        nullable = field.nullable || field.optional || field.wrapperRequiresNullability(ctx),
+                        nullable = field.nullable || field.optional || wrapperRequiresNullability,
                         nonNullOption = field.hasNonNullOption,
                         overrides = field.overrides(ctx, msg),
                         wrapped = field.wrapped,
