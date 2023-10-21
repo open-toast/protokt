@@ -69,6 +69,8 @@ private fun standardFieldExecution(
 }
 
 private fun StandardField.nonDefault(ctx: Context): CodeBlock {
+    // todo: check if intercept happens; if so, assign to var and reuse? have to hoist out of this method though because this is within an if
+
     val name = interceptValueAccess(this, ctx, CodeBlock.of("%N", fieldName))
     return when {
         optional -> CodeBlock.of("%N != null", fieldName)

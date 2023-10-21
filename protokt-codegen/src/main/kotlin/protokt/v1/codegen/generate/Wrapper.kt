@@ -74,7 +74,7 @@ internal object Wrapper {
             } else {
                 interceptValueAccess(f, ctx, accessSize)
             }
-        } ?: interceptValueAccess(f, ctx, accessSize)
+        } ?: accessSize
 
     fun interceptFieldSizeof(
         f: StandardField,
