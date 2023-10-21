@@ -21,11 +21,14 @@ import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.asTypeName
 import protokt.v1.BytesSlice
+import protokt.v1.Converter
+import protokt.v1.OptimizedSizeOfConverter
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.WellKnownTypes.wrapWithWellKnownInterception
 import protokt.v1.codegen.util.ConverterDetails
 import protokt.v1.codegen.util.FieldType
 import protokt.v1.codegen.util.StandardField
+import kotlin.reflect.KFunction2
 
 internal object Wrapper {
     val StandardField.wrapped
@@ -80,7 +83,8 @@ internal object Wrapper {
     ) =
         f.withWrapper(ctx) {
             if (it.optimizedSizeof) {
-                CodeBlock.of("%T.sizeOf(%L)", it.converterClassName, accessSize)
+                val sizeOf = OptimizedSizeOfConverter<Any, Any>::sizeOf
+                callConverterMethod(sizeOf, it, accessSize, true)
             } else {
                 f.sizeOf(accessSize)
             }
@@ -92,11 +96,24 @@ internal object Wrapper {
         accessValue: CodeBlock
     ): CodeBlock =
         f.withWrapper(ctx) {
-            CodeBlock.of("%T.unwrap(%L)", it.converterClassName, accessValue)
+            val unwrap = Converter<Any, Any>::unwrap
+            callConverterMethod(unwrap, it, accessValue, true)
         } ?: accessValue
 
     fun wrapField(wrapName: TypeName, arg: CodeBlock) =
         CodeBlock.of("%T.wrap(%L)", wrapName, arg)
+
+    private fun callConverterMethod(
+        methodName: KFunction2<*, *, *>,
+        converterDetails: ConverterDetails,
+        access: CodeBlock,
+        nullChecked: Boolean
+    ) =
+        if (converterDetails.requiresNullableProperty && !nullChecked) {
+            CodeBlock.of("%L?.run(%T::%L)", access, converterDetails.converterClassName, methodName.name)
+        } else {
+            CodeBlock.of("%T.%L(%L)", converterDetails.converterClassName, methodName.name, access)
+        }
 
     fun wrapper(f: StandardField, ctx: Context) =
         f.withWrapper(ctx, ConverterDetails::converterClassName)
