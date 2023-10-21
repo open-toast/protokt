@@ -134,7 +134,7 @@ class ConverterDetails(
     val protoClassName: ClassName,
     val kotlinClassName: ClassName,
     val optimizedSizeof: Boolean,
-    val requiresNullableProperty: Boolean
+    val cannotDeserializeDefaultValue: Boolean
 )
 
 private fun <R, C, V> Table<R, C, V>.getOrPut(r: R, c: C, v: () -> V): V =

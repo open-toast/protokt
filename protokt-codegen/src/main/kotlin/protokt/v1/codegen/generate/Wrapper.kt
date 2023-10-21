@@ -24,6 +24,7 @@ import protokt.v1.BytesSlice
 import protokt.v1.Converter
 import protokt.v1.OptimizedSizeOfConverter
 import protokt.v1.codegen.generate.CodeGenerator.Context
+import protokt.v1.codegen.generate.Nullability.hasNonNullOption
 import protokt.v1.codegen.generate.WellKnownTypes.wrapWithWellKnownInterception
 import protokt.v1.codegen.util.ConverterDetails
 import protokt.v1.codegen.util.FieldType
@@ -35,7 +36,9 @@ internal object Wrapper {
         get() = wrapWithWellKnownInterception != null
 
     fun StandardField.wrapperRequiresNullability(ctx: Context) =
-        withWrapper(ctx, ConverterDetails::requiresNullableProperty) ?: false
+        withWrapper(ctx) {
+            it.cannotDeserializeDefaultValue && !repeated && !hasNonNullOption
+        } ?: false
 
     private fun <T> StandardField.withWrapper(
         wrapOption: String?,
@@ -83,8 +86,7 @@ internal object Wrapper {
     ) =
         f.withWrapper(ctx) {
             if (it.optimizedSizeof) {
-                val sizeOf = OptimizedSizeOfConverter<Any, Any>::sizeOf
-                callConverterMethod(sizeOf, it, accessSize, true)
+                callConverterMethod(OptimizedSizeOfConverter<Any, Any>::sizeOf, it, accessSize)
             } else {
                 f.sizeOf(accessSize)
             }
@@ -96,23 +98,21 @@ internal object Wrapper {
         accessValue: CodeBlock
     ): CodeBlock =
         f.withWrapper(ctx) {
-            val unwrap = Converter<Any, Any>::unwrap
-            callConverterMethod(unwrap, it, accessValue, true)
+            callConverterMethod(Converter<Any, Any>::unwrap, it, accessValue)
         } ?: accessValue
 
     fun wrapField(wrapName: TypeName, arg: CodeBlock) =
         CodeBlock.of("%T.wrap(%L)", wrapName, arg)
 
     private fun callConverterMethod(
-        methodName: KFunction2<*, *, *>,
+        method: KFunction2<*, *, *>,
         converterDetails: ConverterDetails,
         access: CodeBlock,
-        nullChecked: Boolean
     ) =
-        if (converterDetails.requiresNullableProperty && !nullChecked) {
-            CodeBlock.of("%L?.run(%T::%L)", access, converterDetails.converterClassName, methodName.name)
+        if (converterDetails.cannotDeserializeDefaultValue) {
+            CodeBlock.of("%L?.run(%T::%L)", access, converterDetails.converterClassName, method.name)
         } else {
-            CodeBlock.of("%T.%L(%L)", converterDetails.converterClassName, methodName.name, access)
+            CodeBlock.of("%T.%L(%L)", converterDetails.converterClassName, method.name, access)
         }
 
     fun wrapper(f: StandardField, ctx: Context) =
@@ -162,6 +162,12 @@ internal object Wrapper {
     fun mapKeyConverter(f: StandardField, ctx: Context) =
         f.withKeyWrap(ctx, ConverterDetails::converterClassName)
 
+    fun interceptMapValueTypeName(f: StandardField, ctx: Context) =
+        f.withValueWrap(ctx, ConverterDetails::kotlinClassName)
+
+    fun mapValueConverter(f: StandardField, ctx: Context) =
+        f.withValueWrap(ctx, ConverterDetails::converterClassName)
+
     private fun <R> StandardField.withValueWrap(
         ctx: Context,
         ifWrapped: (ConverterDetails) -> R
@@ -171,12 +177,6 @@ internal object Wrapper {
             ctx,
             ifWrapped
         )
-
-    fun interceptMapValueTypeName(f: StandardField, ctx: Context) =
-        f.withValueWrap(ctx, ConverterDetails::protoClassName)
-
-    fun mapValueConverter(f: StandardField, ctx: Context) =
-        f.withValueWrap(ctx, ConverterDetails::converterClassName)
 
     private fun converter(protoClassName: ClassName, kotlinClassName: ClassName, ctx: Context) =
         ctx.info.context.classLookup.converter(protoClassName, kotlinClassName)
