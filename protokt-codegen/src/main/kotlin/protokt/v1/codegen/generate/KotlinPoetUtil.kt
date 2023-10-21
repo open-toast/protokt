@@ -37,7 +37,7 @@ fun String.embed() =
 fun String.bindSpaces() =
     replace(" ", "·")
 
-fun constructorProperty(name: String, type: KClass<*>, override: Boolean = false) =
+fun constructorProperty(name: String, type: KClass<*>, override: Boolean) =
     PropertySpec.builder(name, type).apply {
         initializer(name)
         if (override) {
@@ -45,7 +45,7 @@ fun constructorProperty(name: String, type: KClass<*>, override: Boolean = false
         }
     }.build()
 
-fun constructorProperty(name: String, type: TypeName, override: Boolean = false) =
+fun constructorProperty(name: String, type: TypeName, override: Boolean) =
     PropertySpec.builder(name, type).apply {
         initializer(name)
         if (override) {

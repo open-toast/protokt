@@ -50,8 +50,8 @@ private class MapEntryGenerator(
         TypeSpec.classBuilder(msg.className).apply {
             addModifiers(KModifier.PRIVATE)
             superclass(AbstractKtMessage::class)
-            addProperty(constructorProperty("key", key.className))
-            addProperty(constructorProperty("value", value.className))
+            addProperty(constructorProperty("key", key.className, false))
+            addProperty(constructorProperty("value", value.className, false))
             addConstructor()
             addMessageSize()
             addSerialize()
