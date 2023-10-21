@@ -610,19 +610,20 @@ Wrapper types that wrap protobuf messages are nullable. For example,
 can be made non-nullable by using the non-null option described below.
 
 Wrapper types that wrap protobuf primitives, for example `java.util.UUID`
-which wraps `bytes`, are not nullable and may present malformed inputs to
-converters when absent in deserialization. It is up to the converter to
-determine what behavior should be in these cases. To represent nullable
-primitive wrappers use well-known types or Proto3's `optional`. For example for
-a nullable UUID:
+which wraps `bytes`, are nullable when they cannot wrap their wrapped type's 
+default value. For example, a UUID cannot wrap an empty byte array and each of
+the following declarations will produce a nullable property:
 
 ```protobuf
-google.protobuf.BytesValue uuid = 1 [
+bytes uuid = 1 [
   (protokt.v1.property).wrap = "java.util.UUID"
 ];
 
-// or:
 optional bytes optional_uuid = 2 [
+  (protokt.v1.property).wrap = "java.util.UUID"
+];
+
+google.protobuf.BytesValue nullable_uuid = 3 [
   (protokt.v1.property).wrap = "java.util.UUID"
 ];
 ```
