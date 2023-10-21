@@ -114,7 +114,7 @@ private fun <T : Any> cannotDeserializeDefaultValue(converter: Converter<T, *>):
     val protoDefault: Any? =
         when (converter.wrapped) {
             Int::class -> 0
-            Long::class -> 0
+            Long::class -> 0L
             UInt::class -> 0u
             ULong::class -> 0uL
             Float::class -> 0.0F
