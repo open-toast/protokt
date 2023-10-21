@@ -21,6 +21,7 @@ import com.google.common.collect.Table
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.asClassName
 import io.github.oshai.kotlinlogging.KotlinLogging
+import protokt.v1.Bytes
 import protokt.v1.Converter
 import protokt.v1.OptimizedSizeOfConverter
 import java.io.File
@@ -49,7 +50,7 @@ class ClassLookup(classpath: List<String>) {
         }
     }
 
-    private val convertersByWrapperAndWrapped by lazy {
+    private val convertersByProtoTAndKotlinT by lazy {
         classLoader.getResources("META-INF/services/${Converter::class.qualifiedName}")
             .asSequence()
             .plus(@Suppress("DEPRECATION") classLoader.getResources("META-INF/services/${com.toasttab.protokt.ext.Converter::class.qualifiedName}").asSequence())
@@ -64,7 +65,7 @@ class ClassLookup(classpath: List<String>) {
                     }
             }.run {
                 val table = HashBasedTable.create<ClassName, ClassName, MutableList<Converter<*, *>>>()
-                forEach { table.getOrPut(it.kotlinClass.asClassName(), it.protoClass.asClassName()) { mutableListOf() }.add(it) }
+                forEach { table.getOrPut(it.protoClass.asClassName(), it.kotlinClass.asClassName()) { mutableListOf() }.add(it) }
                 ImmutableTable.builder<ClassName, ClassName, List<Converter<*, *>>>().putAll(table).build()
             }
     }
@@ -80,11 +81,11 @@ class ClassLookup(classpath: List<String>) {
             throw Exception("Class not found: ${className.canonicalName}")
         }
 
-    fun converter(wrapper: ClassName, wrapped: ClassName): ConverterDetails {
-        val converters = convertersByWrapperAndWrapped.get(wrapper, wrapped) ?: emptyList()
+    fun converter(protoClass: ClassName, kotlinClass: ClassName): ConverterDetails {
+        val converters = convertersByProtoTAndKotlinT.get(protoClass, kotlinClass) ?: emptyList()
 
         require(converters.isNotEmpty()) {
-            "No converter found for wrapper type $wrapper from type $wrapped"
+            "No converter found for wrapper type $kotlinClass from type $protoClass"
         }
 
         val converter =
@@ -95,14 +96,41 @@ class ClassLookup(classpath: List<String>) {
 
         return ConverterDetails(
             converter::class.asClassName(),
-            converter is OptimizedSizeOfConverter<*, *>
+            converter is OptimizedSizeOfConverter<*, *>,
+            converterRequiresNullableProperty(converter)
         )
     }
 }
 
+private fun <T : Any> converterRequiresNullableProperty(converter: Converter<T, *>): Boolean {
+    fun tryWrap(unwrapped: T) =
+        try {
+            converter.wrap(unwrapped)
+        } catch (_: Exception) {
+            null
+        }
+
+    val protoDefault: Any? =
+        when (converter.protoClass) {
+            Int::class -> 0
+            Long::class -> 0
+            UInt::class -> 0u
+            ULong::class -> 0uL
+            Float::class -> 0.0F
+            Double::class -> 0.0
+            String::class -> ""
+            Bytes::class -> Bytes.empty()
+            else -> null
+        }
+
+    @Suppress("UNCHECKED_CAST")
+    return protoDefault == null || tryWrap(protoDefault as T) == null
+}
+
 class ConverterDetails(
     val className: ClassName,
-    val optimizedSizeof: Boolean
+    val optimizedSizeof: Boolean,
+    val requiresNullableProperty: Boolean
 )
 
 private fun <R, C, V> Table<R, C, V>.getOrPut(r: R, c: C, v: () -> V): V =

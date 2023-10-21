@@ -30,26 +30,31 @@ internal object Wrapper {
     val StandardField.wrapped
         get() = wrapWithWellKnownInterception != null
 
+    fun StandardField.wrapperRequiresNullability(ctx: Context) =
+        withWrapper(ctx) { protoClass, kotlinClass ->
+            converter(protoClass, kotlinClass, ctx).requiresNullableProperty
+        } ?: false
+
     private fun <T> StandardField.withWrapper(
         wrapOption: String?,
         pkg: String,
-        ifWrapped: (ClassName, ClassName) -> T
+        ifWrapped: (protoClass: ClassName, kotlinClass: ClassName) -> T
     ) =
         wrapOption?.let { wrap ->
             ifWrapped(
-                inferClassName(wrap, pkg),
                 protoTypeName.takeIf { it.isNotEmpty() }
                     ?.let { className }
                     // Protobuf primitives have no typeName
                     ?: requireNotNull(type.kotlinRepresentation) {
                         "no kotlin representation for type of $fieldName: $type"
-                    }.asClassName()
+                    }.asClassName(),
+                inferClassName(wrap, pkg)
             )
         }
 
     private fun <R> StandardField.withWrapper(
         ctx: Context,
-        ifWrapped: (wrapper: ClassName, wrapped: ClassName) -> R
+        ifWrapped: (protoClass: ClassName, kotlinClass: ClassName) -> R
     ) =
         withWrapper(
             wrapWithWellKnownInterception,
@@ -62,8 +67,8 @@ internal object Wrapper {
         accessSize: CodeBlock,
         ctx: Context
     ): CodeBlock =
-        f.withWrapper(ctx) { wrapper, wrapped ->
-            val converter = converter(wrapper, wrapped, ctx)
+        f.withWrapper(ctx) { protoClass, kotlinClass ->
+            val converter = converter(protoClass, kotlinClass, ctx)
             if (converter.optimizedSizeof) {
                 accessSize
             } else {
@@ -76,8 +81,8 @@ internal object Wrapper {
         accessSize: CodeBlock,
         ctx: Context
     ) =
-        f.withWrapper(ctx) { wrapper, wrapped ->
-            val converter = converter(wrapper, wrapped, ctx)
+        f.withWrapper(ctx) { protoClass, kotlinClass ->
+            val converter = converter(protoClass, kotlinClass, ctx)
             if (converter.optimizedSizeof) {
                 CodeBlock.of("%T.sizeOf(%L)", converter.className, accessSize)
             } else {
@@ -90,10 +95,10 @@ internal object Wrapper {
         ctx: Context,
         accessValue: CodeBlock
     ): CodeBlock =
-        f.withWrapper(ctx) { wrapper, wrapped ->
+        f.withWrapper(ctx) { protoClass, kotlinClass ->
             CodeBlock.of(
                 "%T.unwrap(%L)",
-                converter(wrapper, wrapped, ctx).className,
+                converter(protoClass, kotlinClass, ctx).className,
                 accessValue
             )
         } ?: accessValue
@@ -102,8 +107,8 @@ internal object Wrapper {
         CodeBlock.of("%T.wrap(%L)", wrapName, arg)
 
     fun wrapper(f: StandardField, ctx: Context) =
-        f.withWrapper(ctx) { wrapper, wrapped ->
-            converter(wrapper, wrapped, ctx).className
+        f.withWrapper(ctx) { protoClass, kotlinClass ->
+            converter(protoClass, kotlinClass, ctx).className
         }
 
     fun interceptRead(f: StandardField, readFunction: CodeBlock) =
@@ -128,7 +133,7 @@ internal object Wrapper {
         if (f.bytesSlice) {
             BytesSlice::class.asTypeName()
         } else {
-            f.withWrapper(ctx, wrapperTypeName())
+            f.withWrapper(ctx, kotlinTypeName())
         }
 
     private val StandardField.bytesSlice
@@ -136,7 +141,7 @@ internal object Wrapper {
 
     private fun <R> StandardField.withKeyWrap(
         ctx: Context,
-        ifWrapped: (wrapper: ClassName, wrapped: ClassName) -> R
+        ifWrapped: (protoClass: ClassName, kotlinClass: ClassName) -> R
     ) =
         mapEntry!!.key.withWrapper(
             options.protokt.keyWrap.takeIf { it.isNotEmpty() },
@@ -145,11 +150,11 @@ internal object Wrapper {
         )
 
     fun interceptMapKeyTypeName(f: StandardField, ctx: Context) =
-        f.withKeyWrap(ctx, wrapperTypeName())
+        f.withKeyWrap(ctx, kotlinTypeName())
 
     fun mapKeyConverter(f: StandardField, ctx: Context) =
-        f.withKeyWrap(ctx) { wrapper, wrapped ->
-            converter(wrapper, wrapped, ctx).className
+        f.withKeyWrap(ctx) { protoClass, kotlinClass ->
+            converter(protoClass, kotlinClass, ctx).className
         }
 
     private fun <R> StandardField.withValueWrap(
@@ -163,16 +168,16 @@ internal object Wrapper {
         )
 
     fun interceptMapValueTypeName(f: StandardField, ctx: Context) =
-        f.withValueWrap(ctx) { wrapper, _ -> wrapper }
+        f.withValueWrap(ctx) { protoClass, _ -> protoClass }
 
     fun mapValueConverter(f: StandardField, ctx: Context) =
-        f.withValueWrap(ctx) { wrapper, wrapped ->
-            converter(wrapper, wrapped, ctx).className
+        f.withValueWrap(ctx) { protoClass, kotlinClass ->
+            converter(protoClass, kotlinClass, ctx).className
         }
 
-    private fun wrapperTypeName() =
-        { wrapper: ClassName, _: Any -> wrapper }
+    private fun kotlinTypeName() =
+        { _: Any, kotlinClass: ClassName -> kotlinClass }
 
-    private fun converter(wrapper: ClassName, wrapped: ClassName, ctx: Context) =
-        ctx.info.context.classLookup.converter(wrapper, wrapped)
+    private fun converter(protoClass: ClassName, kotlinClass: ClassName, ctx: Context) =
+        ctx.info.context.classLookup.converter(protoClass, kotlinClass)
 }
