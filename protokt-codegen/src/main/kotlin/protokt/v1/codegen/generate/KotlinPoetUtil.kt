@@ -29,7 +29,7 @@ import protokt.v1.codegen.generate.CodeGenerator.Context
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction1
 
-val INDENT = "  "
+const val INDENT = "  "
 
 fun String.embed() =
     "\"" + this + "\""
