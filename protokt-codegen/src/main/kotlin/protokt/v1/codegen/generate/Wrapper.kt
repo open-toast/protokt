@@ -82,15 +82,16 @@ internal object Wrapper {
     fun interceptFieldSizeof(
         f: StandardField,
         accessSize: CodeBlock,
+        fieldAccess: CodeBlock,
         ctx: Context
     ) =
         f.withWrapper(ctx) {
             if (it.optimizedSizeof) {
-                callConverterMethod(OptimizedSizeOfConverter<Any, Any>::sizeOf, it, accessSize)
+                callConverterMethod(OptimizedSizeOfConverter<Any, Any>::sizeOf, it, fieldAccess)
             } else {
-                f.sizeOf(accessSize)
+                accessSize
             }
-        } ?: f.sizeOf(accessSize)
+        } ?: accessSize
 
     fun interceptValueAccess(
         f: StandardField,
@@ -102,18 +103,14 @@ internal object Wrapper {
         } ?: accessValue
 
     fun wrapField(wrapName: TypeName, arg: CodeBlock) =
-        CodeBlock.of("%T.wrap(%L)", wrapName, arg)
+        CodeBlock.of("%T.%L(%L)", wrapName, Converter<Any, Any>::wrap.name, arg)
 
     private fun callConverterMethod(
         method: KFunction2<*, *, *>,
         converterDetails: ConverterDetails,
         access: CodeBlock,
     ) =
-        if (converterDetails.cannotDeserializeDefaultValue) {
-            CodeBlock.of("%L?.run(%T::%L)", access, converterDetails.converterClassName, method.name)
-        } else {
-            CodeBlock.of("%T.%L(%L)", converterDetails.converterClassName, method.name, access)
-        }
+        CodeBlock.of("%T.%L(%L)", converterDetails.converterClassName, method.name, access)
 
     fun wrapper(f: StandardField, ctx: Context) =
         f.withWrapper(ctx, ConverterDetails::converterClassName)
