@@ -96,15 +96,15 @@ class ClassLookup(classpath: List<String>) {
 
         val defaultValueFailure = tryDeserializeDefaultValue(converter)
 
-        if (converter.acceptsDefaultValue && defaultValueFailure != null) {
-            error(
+        if (converter.acceptsDefaultValue) {
+            require(defaultValueFailure == null) {
                 "Converter $converter claims to work on protobuf default value but it does not; " +
-                    "it fails with ${defaultValueFailure.stackTraceToString()}"
-            )
-        }
-
-        if (!converter.acceptsDefaultValue && defaultValueFailure == null) {
-            error("Converter $converter claims not to work on protobuf default value but it does")
+                    "it fails with ${defaultValueFailure!!.stackTraceToString()}"
+            }
+        } else {
+            require(defaultValueFailure != null) {
+                "Converter $converter claims not to work on protobuf default value but it does"
+            }
         }
 
         return ConverterDetails(
