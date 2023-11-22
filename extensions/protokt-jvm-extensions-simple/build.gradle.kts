@@ -22,7 +22,8 @@ enablePublishing()
 trackKotlinApiCompatibility()
 
 dependencies {
-    implementation(project(":protokt-core-lite"))
+    api(project(":protokt-core-lite"))
+
     implementation(libs.autoServiceAnnotations)
 
     kapt(libs.autoService)

@@ -21,11 +21,7 @@ import java.nio.ByteBuffer
 import java.util.UUID
 
 @AutoService(Converter::class)
-object UuidBytesConverter : OptimizedSizeOfConverter<Bytes, UUID> {
-    override val wrapper = UUID::class
-
-    override val wrapped = Bytes::class
-
+object UuidBytesConverter : AbstractConverter<Bytes, UUID>(), OptimizedSizeOfConverter<Bytes, UUID> {
     override val acceptsDefaultValue = false
 
     private val sizeOfProxy = ByteArray(16)

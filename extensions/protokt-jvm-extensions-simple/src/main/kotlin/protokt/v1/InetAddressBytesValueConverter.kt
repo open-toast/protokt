@@ -20,11 +20,7 @@ import protokt.v1.google.protobuf.BytesValue
 import java.net.InetAddress
 
 @AutoService(Converter::class)
-object InetAddressBytesValueConverter : Converter<BytesValue, InetAddress> {
-    override val wrapper = InetAddress::class
-
-    override val wrapped = BytesValue::class
-
+object InetAddressBytesValueConverter : AbstractConverter<BytesValue, InetAddress>() {
     override fun wrap(unwrapped: BytesValue) =
         InetAddressBytesConverter.wrap(unwrapped.value)
 

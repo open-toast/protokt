@@ -20,11 +20,7 @@ import protokt.v1.google.protobuf.StringValue
 import java.time.LocalDate
 
 @AutoService(Converter::class)
-object LocalDateStringValueConverter : Converter<StringValue, LocalDate> {
-    override val wrapper = LocalDate::class
-
-    override val wrapped = StringValue::class
-
+object LocalDateStringValueConverter : AbstractConverter<StringValue, LocalDate>() {
     override fun wrap(unwrapped: StringValue) =
         LocalDateStringConverter.wrap(unwrapped.value)
 

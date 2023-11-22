@@ -16,17 +16,14 @@
 package protokt.v1.testing
 
 import com.google.auto.service.AutoService
+import protokt.v1.AbstractConverter
 import protokt.v1.Bytes
 import protokt.v1.Converter
 
 data class Id(val value: String)
 
 @AutoService(Converter::class)
-object IdConverter : Converter<Bytes, Id> {
-    override val wrapper = Id::class
-
-    override val wrapped = Bytes::class
-
+object IdConverter : AbstractConverter<Bytes, Id>() {
     override fun wrap(unwrapped: Bytes) =
         Id(String(unwrapped.bytes))
 

@@ -16,15 +16,12 @@
 package protokt.v1.google.type
 
 import com.google.auto.service.AutoService
+import protokt.v1.AbstractConverter
 import protokt.v1.Converter
 import java.time.LocalDate
 
 @AutoService(Converter::class)
-object LocalDateConverter : Converter<Date, LocalDate> {
-    override val wrapper = LocalDate::class
-
-    override val wrapped = Date::class
-
+object LocalDateConverter : AbstractConverter<Date, LocalDate>() {
     override fun wrap(unwrapped: Date): LocalDate =
         LocalDate.of(unwrapped.year, unwrapped.month, unwrapped.day)
 
