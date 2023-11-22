@@ -1,18 +1,42 @@
 public abstract interface class com/toasttab/protokt/ext/Converter : protokt/v1/Converter {
 }
 
+public final class com/toasttab/protokt/ext/Converter$DefaultImpls {
+	public static fun getAcceptsDefaultValue (Lcom/toasttab/protokt/ext/Converter;)Z
+}
+
 public abstract interface class com/toasttab/protokt/ext/OptimizedSizeofConverter : com/toasttab/protokt/ext/Converter {
 	public abstract fun sizeof (Ljava/lang/Object;)I
 }
 
+public final class com/toasttab/protokt/ext/OptimizedSizeofConverter$DefaultImpls {
+	public static fun getAcceptsDefaultValue (Lcom/toasttab/protokt/ext/OptimizedSizeofConverter;)Z
+}
+
+public abstract class protokt/v1/AbstractConverter : protokt/v1/Converter {
+	public fun <init> ()V
+	public fun getAcceptsDefaultValue ()Z
+	public final fun getWrapped ()Lkotlin/reflect/KClass;
+	public final fun getWrapper ()Lkotlin/reflect/KClass;
+}
+
 public abstract interface class protokt/v1/Converter {
+	public abstract fun getAcceptsDefaultValue ()Z
 	public abstract fun getWrapped ()Lkotlin/reflect/KClass;
 	public abstract fun getWrapper ()Lkotlin/reflect/KClass;
 	public abstract fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
 	public abstract fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
 }
 
+public final class protokt/v1/Converter$DefaultImpls {
+	public static fun getAcceptsDefaultValue (Lprotokt/v1/Converter;)Z
+}
+
 public abstract interface class protokt/v1/OptimizedSizeOfConverter : protokt/v1/Converter {
 	public abstract fun sizeOf (Ljava/lang/Object;)I
+}
+
+public final class protokt/v1/OptimizedSizeOfConverter$DefaultImpls {
+	public static fun getAcceptsDefaultValue (Lprotokt/v1/OptimizedSizeOfConverter;)Z
 }
 
