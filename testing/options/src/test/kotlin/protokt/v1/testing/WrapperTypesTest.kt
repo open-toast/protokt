@@ -44,6 +44,9 @@ class WrapperTypesTest {
             optionalUuid = UUID.randomUUID()
             optionalIpAddress = InetAddress.getByAddress(byteArrayOf(0, 0, 0, 1))
             optionalLocalDate = LocalDate.of(1950, 10, 4)
+            nonNullUuid = UUID.randomUUID()
+            nonNullIpAddress = InetAddress.getByAddress(byteArrayOf(0, 0, 0, 1))
+            nonNullLocalDate = LocalDate.of(1950, 10, 4)
         }
 
     @Test
@@ -59,6 +62,21 @@ class WrapperTypesTest {
     @Test
     fun `localDate property is nullable`() {
         assertThat(Wrappers::class.propertyIsMarkedNullable("localDate")).isTrue()
+    }
+
+    @Test
+    fun `nonnull uuid property is not nullable`() {
+        assertThat(Wrappers::class.propertyIsMarkedNullable("nonNullUuid")).isTrue()
+    }
+
+    @Test
+    fun `nonnull ipAddress property is not nullable`() {
+        assertThat(Wrappers::class.propertyIsMarkedNullable("nonNullIpAddress")).isTrue()
+    }
+
+    @Test
+    fun `nonnull localDate property is not nullable`() {
+        assertThat(Wrappers::class.propertyIsMarkedNullable("nonNullLocalDate")).isTrue()
     }
 
     @Test
