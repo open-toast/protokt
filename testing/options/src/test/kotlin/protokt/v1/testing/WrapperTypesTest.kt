@@ -66,17 +66,17 @@ class WrapperTypesTest {
 
     @Test
     fun `nonnull uuid property is not nullable`() {
-        assertThat(Wrappers::class.propertyIsMarkedNullable("nonNullUuid")).isTrue()
+        assertThat(Wrappers::class.propertyIsMarkedNullable("nonNullUuid")).isFalse()
     }
 
     @Test
     fun `nonnull ipAddress property is not nullable`() {
-        assertThat(Wrappers::class.propertyIsMarkedNullable("nonNullIpAddress")).isTrue()
+        assertThat(Wrappers::class.propertyIsMarkedNullable("nonNullIpAddress")).isFalse()
     }
 
     @Test
     fun `nonnull localDate property is not nullable`() {
-        assertThat(Wrappers::class.propertyIsMarkedNullable("nonNullLocalDate")).isTrue()
+        assertThat(Wrappers::class.propertyIsMarkedNullable("nonNullLocalDate")).isFalse()
     }
 
     @Test
