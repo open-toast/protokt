@@ -24,6 +24,8 @@ object InetAddressBytesConverter : Converter<Bytes, InetAddress> {
 
     override val wrapped = Bytes::class
 
+    override val acceptsDefaultValue = false
+
     override fun wrap(unwrapped: Bytes): InetAddress {
         require(unwrapped.isNotEmpty()) {
             "cannot unwrap absent InetAddress"

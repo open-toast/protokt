@@ -94,21 +94,35 @@ class ClassLookup(classpath: List<String>) {
                 .firstOrNull()
                 ?: converters.first()
 
+        val defaultValueFailure = tryDeserializeDefaultValue(converter)
+
+        if (converter.acceptsDefaultValue && defaultValueFailure != null) {
+            error(
+                "Converter $converter claims to work on protobuf default value but it does not; " +
+                    "it fails with ${defaultValueFailure.stackTraceToString()}"
+            )
+        }
+
+        if (!converter.acceptsDefaultValue && defaultValueFailure == null) {
+            error("Converter $converter claims not to work on protobuf default value but it does")
+        }
+
         return ConverterDetails(
             converter::class.asClassName(),
             kotlinClassName,
             converter is OptimizedSizeOfConverter<*, *>,
-            cannotDeserializeDefaultValue(converter)
+            !converter.acceptsDefaultValue
         )
     }
 }
 
-private fun <T : Any> cannotDeserializeDefaultValue(converter: Converter<T, *>): Boolean {
+private fun <T : Any> tryDeserializeDefaultValue(converter: Converter<T, *>): Throwable? {
     fun tryWrap(unwrapped: T) =
         try {
             converter.wrap(unwrapped)
-        } catch (_: Exception) {
             null
+        } catch (t: Throwable) {
+            t
         }
 
     val protoDefault: Any? =
@@ -125,7 +139,7 @@ private fun <T : Any> cannotDeserializeDefaultValue(converter: Converter<T, *>):
         }
 
     @Suppress("UNCHECKED_CAST")
-    return protoDefault == null || tryWrap(protoDefault as T) == null
+    return if (protoDefault == null) null else tryWrap(protoDefault as T)
 }
 
 class ConverterDetails(

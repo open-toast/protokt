@@ -22,6 +22,9 @@ interface Converter<ProtobufT : Any, KotlinT : Any> {
 
     val wrapped: KClass<ProtobufT>
 
+    val acceptsDefaultValue
+        get() = true
+
     fun wrap(unwrapped: ProtobufT): KotlinT
 
     fun unwrap(wrapped: KotlinT): ProtobufT

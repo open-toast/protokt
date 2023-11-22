@@ -1,6 +1,0 @@
-- remove integration with JS plugin; devise scheme to generate common/JVM/JS code, perhaps via multiple protobuf plugin invocations
-
-- integration with full grpc-node runtime:
-  - error propagation
-  - context propagation?
-  - metadata API

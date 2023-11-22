@@ -24,6 +24,8 @@ object LocalDateStringConverter : Converter<String, LocalDate> {
 
     override val wrapped = String::class
 
+    override val acceptsDefaultValue = false
+
     override fun wrap(unwrapped: String): LocalDate =
         LocalDate.parse(unwrapped)
 
