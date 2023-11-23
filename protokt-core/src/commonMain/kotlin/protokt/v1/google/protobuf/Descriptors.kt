@@ -85,6 +85,16 @@ class Descriptor(
         proto.enumType.mapIndexed { idx, proto ->
             EnumDescriptor(proto, file, idx)
         }.let(::unmodifiableList)
+
+    val fields =
+        proto.field.mapIndexed { idx, proto ->
+            FieldDescriptor(proto, file, idx, this, null, false)
+        }.let(::unmodifiableList)
+
+    val oneofs =
+        proto.oneofDecl.mapIndexed { idx, proto ->
+            OneofDescriptor(proto, file, idx)
+        }.let(::unmodifiableList)
 }
 
 class EnumDescriptor(
@@ -93,6 +103,67 @@ class EnumDescriptor(
     val index: Int
 ) {
     val fullName = computeFullName(file, null, proto.name.orEmpty())
+}
+
+class FieldDescriptor(
+    val proto: FieldDescriptorProto,
+    val file: FileDescriptor,
+    val index: Int,
+    private val _messageType: Descriptor?,
+    private val _enumType: EnumDescriptor?,
+    val isExtension: Boolean
+) {
+    val name = proto.name.orEmpty()
+
+    val fullName = computeFullName(file, null, proto.name.orEmpty())
+
+    val containingOneof =
+        if (isExtension) {
+            null
+        } else {
+            proto.oneofIndex?.let(messageType.oneofs::get)
+        }
+
+    val messageType
+        get() = requireNotNull(_messageType) {
+            "not a message"
+        }
+
+    val enumType
+        get() = requireNotNull(_enumType) {
+            "not an enum; todo: crosslink"
+        }
+
+    val isRepeated =
+        proto.label == FieldDescriptorProto.Label.REPEATED
+
+    val isRequired =
+        proto.label == FieldDescriptorProto.Label.REQUIRED
+
+    val isOptional =
+        proto.label == FieldDescriptorProto.Label.OPTIONAL
+
+    val isMap =
+        isRepeated &&
+                proto.type == FieldDescriptorProto.Type.MESSAGE &&
+                (messageType.proto.options?.mapEntry ?: false)
+
+    val hasPresence =
+        !isRepeated &&
+                (
+                        proto.type == FieldDescriptorProto.Type.MESSAGE
+                                || proto.type == FieldDescriptorProto.Type.GROUP
+                                || containingOneof != null
+                                || file.proto.syntax == Syntax.PROTO2.name
+                        )
+}
+
+class OneofDescriptor(
+    val proto: OneofDescriptorProto,
+    val file: FileDescriptor,
+    val index: Int
+) {
+    val name = proto.name.orEmpty()
 }
 
 class ServiceDescriptor(
