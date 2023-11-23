@@ -17,7 +17,6 @@ import protokt.v1.gradle.protokt
 
 plugins {
     id("protokt.multiplatform-conventions")
-    kotlin("kapt")
 }
 
 localProtokt()
@@ -47,10 +46,6 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 api(project(":protokt-core-lite"))
-
-                implementation(libs.autoServiceAnnotations)
-
-                // "kapt"(libs.autoService)
             }
         }
 

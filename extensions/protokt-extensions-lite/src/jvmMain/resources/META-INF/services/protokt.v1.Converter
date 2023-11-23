@@ -1,0 +1,10 @@
+com.toasttab.protokt.ext.InetAddressBytesValueConverter
+com.toasttab.protokt.ext.DurationConverter
+com.toasttab.protokt.ext.InetSocketAddressConverter
+com.toasttab.protokt.ext.InstantConverter
+com.toasttab.protokt.ext.LocalDateConverter
+com.toasttab.protokt.ext.LocalDateStringConverter
+com.toasttab.protokt.ext.LocalDateStringValueConverter
+com.toasttab.protokt.ext.UuidBytesValueConverter
+com.toasttab.protokt.ext.InetAddressConverter
+com.toasttab.protokt.ext.UuidConverter

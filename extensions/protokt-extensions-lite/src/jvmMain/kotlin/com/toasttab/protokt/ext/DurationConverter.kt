@@ -17,11 +17,9 @@
 
 package com.toasttab.protokt.ext
 
-import com.google.auto.service.AutoService
 import com.toasttab.protokt.Duration
 
 @Deprecated("for backwards compatibility only")
-@AutoService(Converter::class)
 object DurationConverter : Converter<java.time.Duration, Duration> {
     override val wrapper = java.time.Duration::class
 

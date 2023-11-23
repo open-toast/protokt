@@ -18,18 +18,19 @@ package com.toasttab.protokt.ext
 import java.net.InetAddress
 
 @Deprecated("for backwards compatibility only")
-object InetAddressConverter {
-    val wrapper = InetAddress::class
+@Suppress("DEPRECATION")
+object InetAddressConverter : Converter<InetAddress, ByteArray> {
+    override val wrapper = InetAddress::class
 
-    val wrapped = ByteArray::class
+    override val wrapped = ByteArray::class
 
-    fun wrap(unwrapped: ByteArray): InetAddress {
+    override fun wrap(unwrapped: ByteArray): InetAddress {
         require(unwrapped.isNotEmpty()) {
             "cannot unwrap absent InetAddress"
         }
         return InetAddress.getByAddress(unwrapped)
     }
 
-    fun unwrap(wrapped: InetAddress) =
+    override fun unwrap(wrapped: InetAddress) =
         wrapped.address
 }

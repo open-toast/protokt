@@ -17,7 +17,6 @@
 
 package com.toasttab.protokt.ext
 
-import com.google.auto.service.AutoService
 import com.toasttab.protokt.BytesValue
 import com.toasttab.protokt.rt.Bytes
 import com.toasttab.protokt.rt.asReadOnlyBuffer
@@ -26,7 +25,6 @@ import java.nio.ByteBuffer
 import java.util.UUID
 
 @Deprecated("for backwards compatibility only")
-@AutoService(Converter::class)
 object UuidBytesValueConverter : OptimizedSizeofConverter<UUID, BytesValue> {
     override val wrapper = UUID::class
 
