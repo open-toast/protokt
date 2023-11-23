@@ -24,6 +24,14 @@ enablePublishing()
 compatibleWithAndroid()
 trackKotlinApiCompatibility()
 
+spotless {
+    kotlin {
+        targetExclude(
+            "src/jvmMain/kotlin/com/toasttab/protokt/ext/protokt.kt"
+        )
+    }
+}
+
 protokt {
     generate {
         lite()

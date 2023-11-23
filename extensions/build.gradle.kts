@@ -16,7 +16,9 @@
 spotless {
     kotlin {
         targetExclude(
-            "protokt-jvm-extensions-lite/src/main/kotlin/com/toasttab/protokt/ext/inet_socket_address.kt"
+            "protokt-jvm-extensions-lite/src/main/kotlin/com/toasttab/protokt/ext/inet_socket_address.kt",
+            "protokt-extensions-lite/src/jvmMain/kotlin/com/toasttab/protokt/ext/protokt.kt",
+            "protokt-extensions/src/jvmMain/kotlin/com/toasttab/protokt/ext/ProtoktProto.kt"
         )
     }
 }
