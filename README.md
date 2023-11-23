@@ -423,13 +423,16 @@ interface:
 
 ```kotlin
 interface Converter<ProtobufT : Any, KotlinT : Any> {
-    val wrapper: KClass<KotlinT>
+  val wrapper: KClass<KotlinT>
 
-    val wrapped: KClass<ProtobufT>
+  val wrapped: KClass<ProtobufT>
 
-    fun wrap(unwrapped: ProtobufT): KotlinT
+  val acceptsDefaultValue
+    get() = true
 
-    fun unwrap(wrapped: KotlinT): ProtobufT
+  fun wrap(unwrapped: ProtobufT): KotlinT
+
+  fun unwrap(wrapped: KotlinT): ProtobufT
 }
 ```
 
@@ -437,11 +440,7 @@ and protokt will reference the converter's methods to wrap and unwrap from
 protobuf primitives:
 
 ```kotlin
-object InstantConverter : Converter<Timestamp, Instant> {
-    override val wrapper = Instant::class
-
-    override val wrapped = Timestamp::class
-
+object InstantConverter : AbstractConverter<Timestamp, Instant>() {
     override fun wrap(unwrapped: Timestamp): Instant =
         Instant.ofEpochSecond(unwrapped.seconds, unwrapped.nanos.toLong())
 
@@ -611,7 +610,8 @@ can be made non-nullable by using the non-null option described below.
 
 Wrapper types that wrap protobuf primitives, for example `java.util.UUID`
 which wraps `bytes`, are nullable when they cannot wrap their wrapped type's 
-default value. For example, a UUID cannot wrap an empty byte array and each of
+default value. Converters must override `acceptsDefaultValue` to be `false` in 
+these cases. For example, a UUID cannot wrap an empty byte array and each of
 the following declarations will produce a nullable property:
 
 ```protobuf
@@ -627,6 +627,8 @@ google.protobuf.BytesValue nullable_uuid = 3 [
   (protokt.v1.property).wrap = "java.util.UUID"
 ];
 ```
+
+This behavior can be overridden with the [`non_null` option](#non-null-fields).
 
 Wrapper types can be repeated:
 
