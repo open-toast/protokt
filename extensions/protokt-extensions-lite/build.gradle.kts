@@ -21,7 +21,6 @@ plugins {
 
 localProtokt()
 enablePublishing()
-compatibleWithAndroid()
 trackKotlinApiCompatibility()
 
 spotless {
