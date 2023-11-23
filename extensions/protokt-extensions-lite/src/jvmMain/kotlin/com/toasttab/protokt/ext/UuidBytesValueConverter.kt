@@ -20,9 +20,9 @@ package com.toasttab.protokt.ext
 import com.google.auto.service.AutoService
 import com.toasttab.protokt.BytesValue
 import com.toasttab.protokt.rt.Bytes
+import com.toasttab.protokt.rt.asReadOnlyBuffer
 import com.toasttab.protokt.rt.sizeof
-import com.toasttab.protokt.rt.toBytes
-import protokt.v1.UuidBytesConverter
+import java.nio.ByteBuffer
 import java.util.UUID
 
 @Deprecated("for backwards compatibility only")
@@ -38,9 +38,23 @@ object UuidBytesValueConverter : OptimizedSizeofConverter<UUID, BytesValue> {
     override fun sizeof(wrapped: UUID) =
         sizeof(sizeofProxy)
 
-    override fun wrap(unwrapped: BytesValue) =
-        UuidBytesConverter.wrap(unwrapped.value.toBytes())
+    override fun wrap(unwrapped: BytesValue): UUID {
+        val buf = unwrapped.value.asReadOnlyBuffer()
 
-    override fun unwrap(wrapped: UUID) =
-        BytesValue { value = Bytes(UuidBytesConverter.unwrap(wrapped).bytes) }
+        require(buf.remaining() == 16) {
+            "UUID source must have size 16; had ${buf.remaining()}"
+        }
+
+        return buf.run { UUID(long, long) }
+    }
+
+    override fun unwrap(wrapped: UUID): BytesValue =
+        BytesValue {
+            value = Bytes(
+                ByteBuffer.allocate(16)
+                    .putLong(wrapped.mostSignificantBits)
+                    .putLong(wrapped.leastSignificantBits)
+                    .array()
+            )
+        }
 }

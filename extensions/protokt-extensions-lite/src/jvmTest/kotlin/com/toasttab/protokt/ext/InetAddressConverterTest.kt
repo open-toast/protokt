@@ -15,18 +15,18 @@
 
 package com.toasttab.protokt.ext
 
-import com.google.common.truth.Truth.assertThat
+import com.google.common.truth.Truth
 import org.junit.jupiter.api.Test
-import protokt.v1.InetAddressBytesConverter
 import java.net.InetAddress
 
-class InetAddressBytesConverterTest {
+@Suppress("DEPRECATION")
+class InetAddressConverterTest {
     @Test
     fun `conversion works`() {
         val address = InetAddress.getLocalHost()
 
-        assertThat(
-            InetAddressBytesConverter.wrap(InetAddressBytesConverter.unwrap(address))
+        Truth.assertThat(
+            InetAddressConverter.wrap(InetAddressConverter.unwrap(address))
         ).isEqualTo(address)
     }
 }

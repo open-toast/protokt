@@ -17,6 +17,7 @@ import protokt.v1.gradle.protokt
 
 plugins {
     id("protokt.multiplatform-conventions")
+    kotlin("kapt")
 }
 
 localProtokt()
@@ -27,6 +28,7 @@ trackKotlinApiCompatibility()
 spotless {
     kotlin {
         targetExclude(
+            "src/jvmMain/kotlin/com/toasttab/protokt/ext/inet_socket_address.kt",
             "src/jvmMain/kotlin/com/toasttab/protokt/ext/protokt.kt"
         )
     }
@@ -41,6 +43,16 @@ protokt {
 kotlin {
     sourceSets {
         val commonMain by getting {}
+
+        val jvmMain by getting {
+            dependencies {
+                api(project(":protokt-core-lite"))
+
+                implementation(libs.autoServiceAnnotations)
+
+                // "kapt"(libs.autoService)
+            }
+        }
 
         val jvmTest by getting {
             dependencies {

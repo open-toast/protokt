@@ -20,8 +20,6 @@ package com.toasttab.protokt.ext
 import com.google.auto.service.AutoService
 import com.toasttab.protokt.BytesValue
 import com.toasttab.protokt.rt.Bytes
-import com.toasttab.protokt.rt.toBytes
-import protokt.v1.InetAddressBytesConverter
 import java.net.InetAddress
 
 @Deprecated("for backwards compatibility only")
@@ -31,9 +29,13 @@ object InetAddressBytesValueConverter : Converter<InetAddress, BytesValue> {
 
     override val wrapped = BytesValue::class
 
-    override fun wrap(unwrapped: BytesValue) =
-        InetAddressBytesConverter.wrap(unwrapped.value.toBytes())
+    override fun wrap(unwrapped: BytesValue): InetAddress {
+        require(unwrapped.value.isNotEmpty()) {
+            "cannot unwrap absent InetAddress"
+        }
+        return InetAddress.getByAddress(unwrapped.value.bytes)
+    }
 
-    override fun unwrap(wrapped: InetAddress) =
-        BytesValue { value = Bytes(InetAddressBytesConverter.unwrap(wrapped).bytes) }
+    override fun unwrap(wrapped: InetAddress): BytesValue =
+        BytesValue { Bytes(wrapped.address) }
 }

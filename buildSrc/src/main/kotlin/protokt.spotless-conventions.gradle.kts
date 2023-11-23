@@ -59,6 +59,7 @@ allprojects {
             targetExclude(
                 "**/buildSrc/build/generated/source/buildConfig/main/main/**",
                 "**/build/generated-sources/kotlin-dsl-*/**",
+                "**/build/generated/source/**",
                 "**/protokt/v1/animals/**",
                 "**/protokt/v1/helloworld/**",
                 "**/protokt/v1/io/grpc/examples/**"
