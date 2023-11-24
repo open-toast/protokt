@@ -21,6 +21,7 @@ import "protokt/v1/protokt.proto";
 
 option java_package = "com.toasttab.protokt.v1";
 option java_outer_classname = "InetSocketAddressProto";
+option (protokt.v1.file).file_descriptor_object_name = "InetSocketAddressProto";
 
 message InetSocketAddress {
   bytes address = 1 [
