@@ -54,7 +54,7 @@ message FieldOptions {
   // For example:
   //
   // message Foo {
-  //   string id = 1 [(protokt.property).non_null = true];
+  //   string id = 1 [(protokt.v1.property).non_null = true];
   // }
   bool non_null = 1;
 
@@ -63,7 +63,7 @@ message FieldOptions {
   // For example:
   //
   // message Foo {
-  //   string id = 1 [(protokt.property).wrap = "com.foo.FooId"];
+  //   string id = 1 [(protokt.v1.property).wrap = "com.foo.FooId"];
   // }
   //
   // data class FooId(val value: String)
@@ -91,7 +91,7 @@ message FieldOptions {
   // For example:
   //
   // message Foo {
-  //   map<string, int32> map = 1 [(protokt.property).key_wrap = "com.foo.FooId"];
+  //   map<string, int32> map = 1 [(protokt.v1.property).key_wrap = "com.foo.FooId"];
   // }
   //
   // data class FooId(val value: String)
@@ -108,7 +108,7 @@ message FieldOptions {
   // For example:
   //
   // message Foo {
-  //   map<int32, strig> map = 1 [(protokt.property).value_wrap = "com.foo.FooId"];
+  //   map<int32, strig> map = 1 [(protokt.v1.property).value_wrap = "com.foo.FooId"];
   // }
   //
   // data class FooId(val value: String)
@@ -134,7 +134,7 @@ message OneofOptions {
   //
   // message Message {
   //   oneof some_field_name {
-  //     option (protokt.oneof).non_null = true;
+  //     option (protokt.v1.oneof).non_null = true;
   //
   //     string id = 1;
   //   }
