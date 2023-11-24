@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast, Inc.
+ * Copyright (c) 2023 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,3 +14,20 @@
  */
 
 package com.toasttab.protokt.ext
+
+import com.google.common.truth.Truth.assertThat
+import org.junit.jupiter.api.Test
+import java.net.InetAddress
+import java.net.InetSocketAddress
+
+@Suppress("DEPRECATION")
+class InetSocketAddressConverterTest {
+    @Test
+    fun `conversion works`() {
+        val addr = InetSocketAddress(InetAddress.getLocalHost(), 8080)
+
+        assertThat(
+            InetSocketAddressConverter.wrap(InetSocketAddressConverter.unwrap(addr))
+        ).isEqualTo(addr)
+    }
+}
