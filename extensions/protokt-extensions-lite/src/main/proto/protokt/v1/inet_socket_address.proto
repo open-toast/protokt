@@ -24,9 +24,6 @@ option java_outer_classname = "InetSocketAddressProto";
 option (protokt.v1.file).file_descriptor_object_name = "InetSocketAddressProto";
 
 message InetSocketAddress {
-  bytes address = 1 [
-    (protokt.v1.property).wrap = "java.net.InetAddress"
-  ];
-
+  bytes address = 1;
   int32 port = 2;
 }
