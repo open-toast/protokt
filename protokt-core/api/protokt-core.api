@@ -208,14 +208,14 @@ public final class com/toasttab/protokt/compiler/PluginProtos {
 	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
 }
 
-public final class protokt/v1/google/protobuf/AnyExtKt {
-	public static final fun pack (Lprotokt/v1/google/protobuf/Any$Deserializer;Lprotokt/v1/KtMessage;Ljava/lang/String;)Lprotokt/v1/google/protobuf/Any;
-	public static synthetic fun pack$default (Lprotokt/v1/google/protobuf/Any$Deserializer;Lprotokt/v1/KtMessage;Ljava/lang/String;ILjava/lang/Object;)Lprotokt/v1/google/protobuf/Any;
-}
-
 public final class protokt/v1/google/protobuf/AnyProto {
 	public static final field INSTANCE Lprotokt/v1/google/protobuf/AnyProto;
 	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
+}
+
+public final class protokt/v1/google/protobuf/AnyUtil {
+	public static final fun pack (Lprotokt/v1/google/protobuf/Any$Deserializer;Lprotokt/v1/KtMessage;Ljava/lang/String;)Lprotokt/v1/google/protobuf/Any;
+	public static synthetic fun pack$default (Lprotokt/v1/google/protobuf/Any$Deserializer;Lprotokt/v1/KtMessage;Ljava/lang/String;ILjava/lang/Object;)Lprotokt/v1/google/protobuf/Any;
 }
 
 public final class protokt/v1/google/protobuf/Any_descriptorsKt {
@@ -320,6 +320,7 @@ public final class protokt/v1/google/protobuf/Field_mask_descriptorsKt {
 public final class protokt/v1/google/protobuf/FileDescriptor {
 	public static final field Companion Lprotokt/v1/google/protobuf/FileDescriptor$Companion;
 	public synthetic fun <init> (Lprotokt/v1/google/protobuf/FileDescriptorProto;Ljava/util/List;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public static final fun buildFrom ([Ljava/lang/String;Ljava/util/List;)Lprotokt/v1/google/protobuf/FileDescriptor;
 	public final fun getDependencies ()Ljava/util/List;
 	public final fun getEnumTypes ()Ljava/util/List;
 	public final fun getMessageTypes ()Ljava/util/List;

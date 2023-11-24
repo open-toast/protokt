@@ -729,8 +729,12 @@ public final class protokt/v1/SizeCodecs {
 public final class protokt/v1/UnknownField {
 	public static final field Companion Lprotokt/v1/UnknownField$Companion;
 	public synthetic fun <init> (ILprotokt/v1/UnknownValue;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public static final fun fixed32-feOb9K0 (II)Lprotokt/v1/UnknownField;
+	public static final fun fixed64-GO25_AU (IJ)Lprotokt/v1/UnknownField;
 	public final fun getFieldNumber-pVg5ArA ()I
 	public final fun getValue ()Lprotokt/v1/UnknownValue;
+	public static final fun lengthDelimited-qim9Vi0 (I[B)Lprotokt/v1/UnknownField;
+	public static final fun varint-qim9Vi0 (IJ)Lprotokt/v1/UnknownField;
 }
 
 public final class protokt/v1/UnknownField$Companion {

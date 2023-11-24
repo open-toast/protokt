@@ -13,6 +13,8 @@
  * limitations under the License.
  */
 
+@file:JvmName("AnyUtil")
+
 package protokt.v1.google.protobuf
 
 import protokt.v1.Bytes

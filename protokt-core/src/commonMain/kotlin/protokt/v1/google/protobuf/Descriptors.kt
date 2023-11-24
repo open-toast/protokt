@@ -16,6 +16,7 @@
 package protokt.v1.google.protobuf
 
 import protokt.v1.Collections.unmodifiableList
+import kotlin.jvm.JvmStatic
 
 class FileDescriptor private constructor(
     val proto: FileDescriptorProto,
@@ -37,6 +38,7 @@ class FileDescriptor private constructor(
         }.let(::unmodifiableList)
 
     companion object {
+        @JvmStatic
         fun buildFrom(
             data: Array<String>,
             dependencies: List<FileDescriptor>
