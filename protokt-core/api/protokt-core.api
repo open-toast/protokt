@@ -214,6 +214,7 @@ public final class protokt/v1/google/protobuf/AnyProto {
 }
 
 public final class protokt/v1/google/protobuf/AnyUtil {
+	public static final fun pack (Lprotokt/v1/google/protobuf/Any$Deserializer;Lprotokt/v1/KtMessage;)Lprotokt/v1/google/protobuf/Any;
 	public static final fun pack (Lprotokt/v1/google/protobuf/Any$Deserializer;Lprotokt/v1/KtMessage;Ljava/lang/String;)Lprotokt/v1/google/protobuf/Any;
 	public static synthetic fun pack$default (Lprotokt/v1/google/protobuf/Any$Deserializer;Lprotokt/v1/KtMessage;Ljava/lang/String;ILjava/lang/Object;)Lprotokt/v1/google/protobuf/Any;
 }

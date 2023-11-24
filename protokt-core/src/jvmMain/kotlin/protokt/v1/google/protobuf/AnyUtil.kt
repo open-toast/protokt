@@ -23,6 +23,7 @@ import protokt.v1.KtGeneratedMessage
 import protokt.v1.KtMessage
 import kotlin.reflect.KClass
 
+@JvmOverloads
 fun Any.Deserializer.pack(
     msg: KtMessage,
     typeUrlPrefix: String = "type.googleapis.com"
