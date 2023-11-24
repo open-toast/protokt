@@ -128,7 +128,6 @@ public abstract interface class com/toasttab/protokt/rt/KtDeserializer {
 	public fun deserialize (Ljava/nio/ByteBuffer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public fun deserialize (Lprotokt/v1/Bytes;)Lcom/toasttab/protokt/rt/KtMessage;
 	public fun deserialize (Lprotokt/v1/BytesSlice;)Lcom/toasttab/protokt/rt/KtMessage;
-	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public fun deserialize ([B)Lcom/toasttab/protokt/rt/KtMessage;
 }
 
@@ -639,11 +638,6 @@ public final class protokt/v1/LengthDelimitedVal : protokt/v1/UnknownValue {
 	public fun toString ()Ljava/lang/String;
 	public static fun toString-impl (Lprotokt/v1/Bytes;)Ljava/lang/String;
 	public final synthetic fun unbox-impl ()Lprotokt/v1/Bytes;
-}
-
-public final class protokt/v1/NewToOldAdapterKt {
-	public static final fun NewToOldAdapter (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessageDeserializer;
-	public static final fun NewToOldAdapter (Lprotokt/v1/KtMessageSerializer;)Lcom/toasttab/protokt/rt/KtMessageSerializer;
 }
 
 public final class protokt/v1/SizeCodecs {
