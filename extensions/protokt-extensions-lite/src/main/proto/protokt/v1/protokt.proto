@@ -22,17 +22,17 @@ import "google/protobuf/descriptor.proto";
 option java_package = "com.toasttab.protokt.v1";
 option java_outer_classname = "ProtoktProto";
 
-message FileOptions {
+message ProtoktFileOptions {
   // Specify the name of the Kotlin object that contains the reference to this
   // file's FileDescriptor object.
   string file_descriptor_object_name = 1;
 }
 
 extend google.protobuf.FileOptions {
-  FileOptions file = 1072;
+  ProtoktFileOptions file = 1072;
 }
 
-message MessageOptions {
+message ProtoktMessageOptions {
   // Declares that the message class implements an interface. Scoping rules
   // are the same as those for declaring wrapper types.
   string implements = 1;
@@ -42,10 +42,10 @@ message MessageOptions {
 }
 
 extend google.protobuf.MessageOptions {
-  MessageOptions class = 1072;
+  ProtoktMessageOptions class = 1072;
 }
 
-message FieldOptions {
+message ProtoktFieldOptions {
   // Makes a message-type field non-nullable in the generated Kotlin code.
   // Beware that deserialization will NPE if the field is missing from the
   // protobuf payload. Adding a non-null field to an existing message is a
@@ -54,7 +54,7 @@ message FieldOptions {
   // For example:
   //
   // message Foo {
-  //   string id = 1 [(protokt.v1.property).non_null = true];
+  //   string id = 1 [(protokt.property).non_null = true];
   // }
   bool non_null = 1;
 
@@ -63,7 +63,7 @@ message FieldOptions {
   // For example:
   //
   // message Foo {
-  //   string id = 1 [(protokt.v1.property).wrap = "com.foo.FooId"];
+  //   string id = 1 [(protokt.property).wrap = "com.foo.FooId"];
   // }
   //
   // data class FooId(val value: String)
@@ -91,7 +91,7 @@ message FieldOptions {
   // For example:
   //
   // message Foo {
-  //   map<string, int32> map = 1 [(protokt.v1.property).key_wrap = "com.foo.FooId"];
+  //   map<string, int32> map = 1 [(protokt.property).key_wrap = "com.foo.FooId"];
   // }
   //
   // data class FooId(val value: String)
@@ -108,7 +108,7 @@ message FieldOptions {
   // For example:
   //
   // message Foo {
-  //   map<int32, strig> map = 1 [(protokt.v1.property).value_wrap = "com.foo.FooId"];
+  //   map<int32, strig> map = 1 [(protokt.property).value_wrap = "com.foo.FooId"];
   // }
   //
   // data class FooId(val value: String)
@@ -121,10 +121,10 @@ message FieldOptions {
 }
 
 extend google.protobuf.FieldOptions {
-  FieldOptions property = 1072;
+  ProtoktFieldOptions property = 1072;
 }
 
-message OneofOptions {
+message ProtoktOneofOptions {
   // Makes a oneof field non-nullable in generated Kotlin code. Beware that
   // deserialization will NPE if the field is missing from the protobuf payload.
   // Adding a non-null field to an existing message is a backwards-incompatible
@@ -134,7 +134,7 @@ message OneofOptions {
   //
   // message Message {
   //   oneof some_field_name {
-  //     option (protokt.v1.oneof).non_null = true;
+  //     option (protokt.oneof).non_null = true;
   //
   //     string id = 1;
   //   }
@@ -152,34 +152,34 @@ message OneofOptions {
 }
 
 extend google.protobuf.OneofOptions {
-  OneofOptions oneof = 1072;
+  ProtoktOneofOptions oneof = 1072;
 }
 
-message EnumOptions {
+message ProtoktEnumOptions {
   // Provides a message for deprecation
   string deprecation_message = 1;
 }
 
 extend google.protobuf.EnumOptions {
-  EnumOptions enum = 1072;
+  ProtoktEnumOptions enum = 1072;
 }
 
-message EnumValueOptions {
+message ProtoktEnumValueOptions {
   // Provides a message for deprecation
   string deprecation_message = 1;
 }
 
 extend google.protobuf.EnumValueOptions {
-  EnumValueOptions enum_value = 1072;
+  ProtoktEnumValueOptions enum_value = 1072;
 }
 
-message ServiceOptions {}
+message ProtoktServiceOptions {}
 
 extend google.protobuf.ServiceOptions {
-  ServiceOptions service = 1072;
+  ProtoktServiceOptions service = 1072;
 }
 
-message MethodOptions {
+message ProtoktMethodOptions {
   // Provides a custom request marshaller for the generated method descriptor.
   // Substitutes the provided expression directly for
   // `com.toasttab.protokt.grpc.KtMarshaller(<request_type>)`
@@ -192,5 +192,5 @@ message MethodOptions {
 }
 
 extend google.protobuf.MethodOptions {
-  MethodOptions method = 1072;
+  ProtoktMethodOptions method = 1072;
 }

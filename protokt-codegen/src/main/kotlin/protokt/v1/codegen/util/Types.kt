@@ -18,7 +18,14 @@ package protokt.v1.codegen.util
 import com.google.protobuf.DescriptorProtos
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.TypeSpec
-import com.toasttab.protokt.v1.ProtoktProto
+import com.toasttab.protokt.v1.ProtoktProto.ProtoktEnumOptions
+import com.toasttab.protokt.v1.ProtoktProto.ProtoktEnumValueOptions
+import com.toasttab.protokt.v1.ProtoktProto.ProtoktFieldOptions
+import com.toasttab.protokt.v1.ProtoktProto.ProtoktFileOptions
+import com.toasttab.protokt.v1.ProtoktProto.ProtoktMessageOptions
+import com.toasttab.protokt.v1.ProtoktProto.ProtoktMethodOptions
+import com.toasttab.protokt.v1.ProtoktProto.ProtoktOneofOptions
+import com.toasttab.protokt.v1.ProtoktProto.ProtoktServiceOptions
 
 sealed class TopLevelType
 
@@ -35,7 +42,7 @@ class Message(
 
 data class MessageOptions(
     val default: DescriptorProtos.MessageOptions,
-    val protokt: ProtoktProto.MessageOptions
+    val protokt: ProtoktMessageOptions
 )
 
 class Enum(
@@ -56,12 +63,12 @@ class Enum(
 
 class EnumOptions(
     val default: DescriptorProtos.EnumOptions,
-    val protokt: ProtoktProto.EnumOptions
+    val protokt: ProtoktEnumOptions
 )
 
 class EnumValueOptions(
     val default: DescriptorProtos.EnumValueOptions,
-    val protokt: ProtoktProto.EnumValueOptions
+    val protokt: ProtoktEnumValueOptions
 )
 
 class Service(
@@ -74,7 +81,7 @@ class Service(
 
 class ServiceOptions(
     val default: DescriptorProtos.ServiceOptions,
-    val protokt: ProtoktProto.ServiceOptions
+    val protokt: ProtoktServiceOptions
 )
 
 class Method(
@@ -89,7 +96,7 @@ class Method(
 
 class MethodOptions(
     val default: DescriptorProtos.MethodOptions,
-    val protokt: ProtoktProto.MethodOptions
+    val protokt: ProtoktMethodOptions
 )
 
 sealed class Field {
@@ -131,12 +138,12 @@ class MapEntry(
 
 class FieldOptions(
     val default: DescriptorProtos.FieldOptions,
-    val protokt: ProtoktProto.FieldOptions
+    val protokt: ProtoktFieldOptions
 )
 
 class OneofOptions(
     val default: DescriptorProtos.OneofOptions,
-    val protokt: ProtoktProto.OneofOptions
+    val protokt: ProtoktOneofOptions
 )
 
 class ProtoFileInfo(
@@ -151,7 +158,7 @@ class ProtoFileInfo(
 
 class FileOptions(
     val default: DescriptorProtos.FileOptions,
-    val protokt: ProtoktProto.FileOptions
+    val protokt: ProtoktFileOptions
 )
 
 class ProtoFileContents(

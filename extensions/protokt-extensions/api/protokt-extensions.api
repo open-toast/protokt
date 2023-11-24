@@ -4,14 +4,14 @@ public final class protokt/v1/ProtoktProto {
 }
 
 public final class protokt/v1/Protokt_descriptorsKt {
-	public static final fun getDescriptor (Lprotokt/v1/EnumOptions$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
-	public static final fun getDescriptor (Lprotokt/v1/EnumValueOptions$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
-	public static final fun getDescriptor (Lprotokt/v1/FieldOptions$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
-	public static final fun getDescriptor (Lprotokt/v1/FileOptions$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
-	public static final fun getDescriptor (Lprotokt/v1/MessageOptions$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
-	public static final fun getDescriptor (Lprotokt/v1/MethodOptions$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
-	public static final fun getDescriptor (Lprotokt/v1/OneofOptions$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
-	public static final fun getDescriptor (Lprotokt/v1/ServiceOptions$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/ProtoktEnumOptions$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/ProtoktEnumValueOptions$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/ProtoktFieldOptions$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/ProtoktFileOptions$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/ProtoktMessageOptions$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/ProtoktMethodOptions$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/ProtoktOneofOptions$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/ProtoktServiceOptions$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 }
 
 public final class protokt/v1/protokt/ProtoktProto {
