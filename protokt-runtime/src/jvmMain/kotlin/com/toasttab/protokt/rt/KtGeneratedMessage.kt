@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Toast, Inc.
+ * Copyright (c) 2019 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,5 +15,10 @@
 
 package com.toasttab.protokt.rt
 
-@Deprecated("for backwards compatibility only")
-annotation class KtGeneratedFileDescriptor
+@Target(AnnotationTarget.CLASS)
+annotation class KtGeneratedMessage(
+    /**
+     * The full protocol buffer type name of this message used for packing into an Any.
+     */
+    val fullTypeName: String
+)

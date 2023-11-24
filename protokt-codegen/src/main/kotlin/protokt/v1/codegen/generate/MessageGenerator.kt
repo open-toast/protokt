@@ -29,9 +29,7 @@ import protokt.v1.KtGeneratedMessage
 import protokt.v1.UnknownFieldSet
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.CodeGenerator.generate
-import protokt.v1.codegen.generate.Deprecation.enclosingDeprecation
 import protokt.v1.codegen.generate.Deprecation.handleDeprecation
-import protokt.v1.codegen.generate.Deprecation.hasDeprecation
 import protokt.v1.codegen.generate.Implements.handleSuperInterface
 import protokt.v1.codegen.util.Message
 
@@ -75,23 +73,9 @@ private class MessageGenerator(
                 .addMember(msg.fullProtobufTypeName.embed())
                 .build()
         )
-        handleDeprecatedKtGeneratedMessage()
-        // put this back when handleDeprecatedKtGeneratedMessage() is removed
-        // if (suppressDeprecation()) {
-        //     addDeprecationSuppression()
-        // }
         handleDeprecation(
             msg.options.default.deprecated,
             msg.options.protokt.deprecationMessage
-        )
-    }
-
-    private fun TypeSpec.Builder.handleDeprecatedKtGeneratedMessage() {
-        addAnnotation(
-            @Suppress("DEPRECATION")
-            AnnotationSpec.builder(com.toasttab.protokt.rt.KtGeneratedMessage::class)
-                .addMember(msg.fullProtobufTypeName.embed())
-                .build()
         )
     }
 
@@ -232,12 +216,6 @@ private class MessageGenerator(
                 prop.name
             )
         }
-
-    private fun suppressDeprecation() =
-        msg.hasDeprecation && (!enclosingDeprecation(ctx) || messageIsTopLevel())
-
-    private fun messageIsTopLevel() =
-        msg.className.simpleNames.size == 1
 }
 
 fun formatDoc(lines: List<String>) =

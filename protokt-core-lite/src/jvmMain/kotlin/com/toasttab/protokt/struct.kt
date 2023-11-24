@@ -23,7 +23,9 @@ import com.toasttab.protokt.rt.KtDeserializer
 import com.toasttab.protokt.rt.KtEnum
 import com.toasttab.protokt.rt.KtEnumDeserializer
 import com.toasttab.protokt.rt.KtGeneratedMessage
+import com.toasttab.protokt.rt.KtMessage
 import com.toasttab.protokt.rt.KtMessageDeserializer
+import com.toasttab.protokt.rt.KtMessageSerializer
 import com.toasttab.protokt.rt.Tag
 import com.toasttab.protokt.rt.UnknownFieldSet
 import com.toasttab.protokt.rt.copyList
@@ -32,8 +34,6 @@ import com.toasttab.protokt.rt.finishList
 import com.toasttab.protokt.rt.finishMap
 import com.toasttab.protokt.rt.sizeof
 import com.toasttab.protokt.rt.sizeofMap
-import protokt.v1.AbstractKtMessage
-import protokt.v1.NewToOldAdapter
 import kotlin.Any
 import kotlin.Boolean
 import kotlin.Double
@@ -53,7 +53,6 @@ import kotlin.collections.MutableMap
  *
  *  The JSON representation for `Struct` is JSON object.
  */
-@Deprecated("use v1")
 sealed class NullValue(
     override val `value`: Int,
     override val name: String,
@@ -84,15 +83,13 @@ sealed class NullValue(
  *  The JSON representation for `Struct` is JSON object.
  */
 @KtGeneratedMessage("google.protobuf.Struct")
-@protokt.v1.KtGeneratedMessage("google.protobuf.Struct")
-@Deprecated("use v1")
 class Struct private constructor(
     /**
      * Unordered map of dynamically typed values.
      */
     val fields: Map<String, Value>,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -104,13 +101,12 @@ class Struct private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         if (fields.isNotEmpty()) {
-            fields.entries.forEach { adapter.write(Tag(10)).write(FieldsEntry(it.key, it.value))
+            fields.entries.forEach { serializer.write(Tag(10)).write(FieldsEntry(it.key, it.value))
             }
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is Struct &&
@@ -177,15 +173,14 @@ class Struct private constructor(
     private class FieldsEntry(
         val key: String,
         val `value`: Value,
-    ) : AbstractKtMessage() {
+    ) : KtMessage {
         override val messageSize: Int
             get() = sizeof(key, value)
 
-        override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-            val adapter = NewToOldAdapter(serializer)
-            adapter.write(Tag(10)).write(key)
+        override fun serialize(serializer: KtMessageSerializer) {
+            serializer.write(Tag(10)).write(key)
 
-            adapter.write(Tag(18)).write(value)
+            serializer.write(Tag(18)).write(value)
         }
 
         companion object Deserializer : KtDeserializer<FieldsEntry> {
@@ -216,15 +211,13 @@ class Struct private constructor(
  *  The JSON representation for `Value` is JSON value.
  */
 @KtGeneratedMessage("google.protobuf.Value")
-@protokt.v1.KtGeneratedMessage("google.protobuf.Value")
-@Deprecated("use v1")
 class Value private constructor(
     /**
      * The kind of value.
      */
     val kind: Kind?,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -248,30 +241,29 @@ class Value private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         when (kind) {
             is Value.Kind.NullValue -> {
-                adapter.write(Tag(8)).write(kind.nullValue)
+                serializer.write(Tag(8)).write(kind.nullValue)
             }
             is Value.Kind.NumberValue -> {
-                adapter.write(Tag(17)).write(kind.numberValue)
+                serializer.write(Tag(17)).write(kind.numberValue)
             }
             is Value.Kind.StringValue -> {
-                adapter.write(Tag(26)).write(kind.stringValue)
+                serializer.write(Tag(26)).write(kind.stringValue)
             }
             is Value.Kind.BoolValue -> {
-                adapter.write(Tag(32)).write(kind.boolValue)
+                serializer.write(Tag(32)).write(kind.boolValue)
             }
             is Value.Kind.StructValue -> {
-                adapter.write(Tag(42)).write(kind.structValue)
+                serializer.write(Tag(42)).write(kind.structValue)
             }
             is Value.Kind.ListValue -> {
-                adapter.write(Tag(50)).write(kind.listValue)
+                serializer.write(Tag(50)).write(kind.listValue)
             }
             null -> Unit
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is Value &&
@@ -380,15 +372,13 @@ class Value private constructor(
  *  The JSON representation for `ListValue` is JSON array.
  */
 @KtGeneratedMessage("google.protobuf.ListValue")
-@protokt.v1.KtGeneratedMessage("google.protobuf.ListValue")
-@Deprecated("use v1")
 class ListValue private constructor(
     /**
      * Repeated field of dynamically typed values.
      */
     val values: List<Value>,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -400,12 +390,11 @@ class ListValue private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         if (values.isNotEmpty()) {
-            values.forEach { adapter.write(Tag(10)).write(it) }
+            values.forEach { serializer.write(Tag(10)).write(it) }
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is ListValue &&

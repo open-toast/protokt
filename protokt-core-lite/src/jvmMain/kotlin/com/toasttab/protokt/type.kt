@@ -24,14 +24,14 @@ import com.toasttab.protokt.rt.KtDeserializer
 import com.toasttab.protokt.rt.KtEnum
 import com.toasttab.protokt.rt.KtEnumDeserializer
 import com.toasttab.protokt.rt.KtGeneratedMessage
+import com.toasttab.protokt.rt.KtMessage
 import com.toasttab.protokt.rt.KtMessageDeserializer
+import com.toasttab.protokt.rt.KtMessageSerializer
 import com.toasttab.protokt.rt.Tag
 import com.toasttab.protokt.rt.UnknownFieldSet
 import com.toasttab.protokt.rt.copyList
 import com.toasttab.protokt.rt.finishList
 import com.toasttab.protokt.rt.sizeof
-import protokt.v1.AbstractKtMessage
-import protokt.v1.NewToOldAdapter
 import kotlin.Boolean
 import kotlin.Int
 import kotlin.String
@@ -73,8 +73,6 @@ sealed class Syntax(
  * A protocol buffer message type.
  */
 @KtGeneratedMessage("google.protobuf.Type")
-@protokt.v1.KtGeneratedMessage("google.protobuf.Type")
-@Deprecated("use v1")
 class Type private constructor(
     /**
      * The fully qualified message name.
@@ -101,7 +99,7 @@ class Type private constructor(
      */
     val syntax: Syntax,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -128,27 +126,26 @@ class Type private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         if (name.isNotEmpty()) {
-            adapter.write(Tag(10)).write(name)
+            serializer.write(Tag(10)).write(name)
         }
         if (fields.isNotEmpty()) {
-            fields.forEach { adapter.write(Tag(18)).write(it) }
+            fields.forEach { serializer.write(Tag(18)).write(it) }
         }
         if (oneofs.isNotEmpty()) {
-            oneofs.forEach { adapter.write(Tag(26)).write(it) }
+            oneofs.forEach { serializer.write(Tag(26)).write(it) }
         }
         if (options.isNotEmpty()) {
-            options.forEach { adapter.write(Tag(34)).write(it) }
+            options.forEach { serializer.write(Tag(34)).write(it) }
         }
         if (sourceContext  != null) {
-            adapter.write(Tag(42)).write(sourceContext)
+            serializer.write(Tag(42)).write(sourceContext)
         }
         if (syntax.value != 0) {
-            adapter.write(Tag(48)).write(syntax)
+            serializer.write(Tag(48)).write(syntax)
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: kotlin.Any?): Boolean = other is Type &&
@@ -275,8 +272,6 @@ class Type private constructor(
  * A single field of a message type.
  */
 @KtGeneratedMessage("google.protobuf.Field")
-@protokt.v1.KtGeneratedMessage("google.protobuf.Field")
-@Deprecated("use v1")
 class Field private constructor(
     /**
      * The field type.
@@ -321,7 +316,7 @@ class Field private constructor(
      */
     val defaultValue: String,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -360,39 +355,38 @@ class Field private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         if (kind.value != 0) {
-            adapter.write(Tag(8)).write(kind)
+            serializer.write(Tag(8)).write(kind)
         }
         if (cardinality.value != 0) {
-            adapter.write(Tag(16)).write(cardinality)
+            serializer.write(Tag(16)).write(cardinality)
         }
         if (number != 0) {
-            adapter.write(Tag(24)).write(Int32(number))
+            serializer.write(Tag(24)).write(Int32(number))
         }
         if (name.isNotEmpty()) {
-            adapter.write(Tag(34)).write(name)
+            serializer.write(Tag(34)).write(name)
         }
         if (typeUrl.isNotEmpty()) {
-            adapter.write(Tag(50)).write(typeUrl)
+            serializer.write(Tag(50)).write(typeUrl)
         }
         if (oneofIndex != 0) {
-            adapter.write(Tag(56)).write(Int32(oneofIndex))
+            serializer.write(Tag(56)).write(Int32(oneofIndex))
         }
         if (packed) {
-            adapter.write(Tag(64)).write(packed)
+            serializer.write(Tag(64)).write(packed)
         }
         if (options.isNotEmpty()) {
-            options.forEach { adapter.write(Tag(74)).write(it) }
+            options.forEach { serializer.write(Tag(74)).write(it) }
         }
         if (jsonName.isNotEmpty()) {
-            adapter.write(Tag(82)).write(jsonName)
+            serializer.write(Tag(82)).write(jsonName)
         }
         if (defaultValue.isNotEmpty()) {
-            adapter.write(Tag(90)).write(defaultValue)
+            serializer.write(Tag(90)).write(defaultValue)
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: kotlin.Any?): Boolean = other is Field &&
@@ -719,8 +713,6 @@ class Field private constructor(
  * Enum type definition.
  */
 @KtGeneratedMessage("google.protobuf.Enum")
-@protokt.v1.KtGeneratedMessage("google.protobuf.Enum")
-@Deprecated("use v1")
 class Enum_ private constructor(
     /**
      * Enum type name.
@@ -743,7 +735,7 @@ class Enum_ private constructor(
      */
     val syntax: Syntax,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -767,24 +759,23 @@ class Enum_ private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         if (name.isNotEmpty()) {
-            adapter.write(Tag(10)).write(name)
+            serializer.write(Tag(10)).write(name)
         }
         if (enumvalue.isNotEmpty()) {
-            enumvalue.forEach { adapter.write(Tag(18)).write(it) }
+            enumvalue.forEach { serializer.write(Tag(18)).write(it) }
         }
         if (options.isNotEmpty()) {
-            options.forEach { adapter.write(Tag(26)).write(it) }
+            options.forEach { serializer.write(Tag(26)).write(it) }
         }
         if (sourceContext  != null) {
-            adapter.write(Tag(34)).write(sourceContext)
+            serializer.write(Tag(34)).write(sourceContext)
         }
         if (syntax.value != 0) {
-            adapter.write(Tag(40)).write(syntax)
+            serializer.write(Tag(40)).write(syntax)
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: kotlin.Any?): Boolean = other is Enum_ &&
@@ -894,8 +885,6 @@ class Enum_ private constructor(
  * Enum value definition.
  */
 @KtGeneratedMessage("google.protobuf.EnumValue")
-@protokt.v1.KtGeneratedMessage("google.protobuf.EnumValue")
-@Deprecated("use v1")
 class EnumValue private constructor(
     /**
      * Enum value name.
@@ -910,7 +899,7 @@ class EnumValue private constructor(
      */
     val options: List<Option>,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -928,18 +917,17 @@ class EnumValue private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         if (name.isNotEmpty()) {
-            adapter.write(Tag(10)).write(name)
+            serializer.write(Tag(10)).write(name)
         }
         if (number != 0) {
-            adapter.write(Tag(16)).write(Int32(number))
+            serializer.write(Tag(16)).write(Int32(number))
         }
         if (options.isNotEmpty()) {
-            options.forEach { adapter.write(Tag(26)).write(it) }
+            options.forEach { serializer.write(Tag(26)).write(it) }
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: kotlin.Any?): Boolean = other is EnumValue &&
@@ -1023,8 +1011,6 @@ class EnumValue private constructor(
  * A protocol buffer option, which can be attached to a message, field, enumeration, etc.
  */
 @KtGeneratedMessage("google.protobuf.Option")
-@protokt.v1.KtGeneratedMessage("google.protobuf.Option")
-@Deprecated("use v1")
 class Option private constructor(
     /**
      * The option's name. For protobuf built-in options (options defined in descriptor.proto), this
@@ -1039,7 +1025,7 @@ class Option private constructor(
      */
     val `value`: Any?,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -1054,15 +1040,14 @@ class Option private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         if (name.isNotEmpty()) {
-            adapter.write(Tag(10)).write(name)
+            serializer.write(Tag(10)).write(name)
         }
         if (value  != null) {
-            adapter.write(Tag(18)).write(value)
+            serializer.write(Tag(18)).write(value)
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: kotlin.Any?): Boolean = other is Option &&

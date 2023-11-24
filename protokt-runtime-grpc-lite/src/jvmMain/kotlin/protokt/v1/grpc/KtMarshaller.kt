@@ -17,21 +17,15 @@ package protokt.v1.grpc
 
 import io.grpc.MethodDescriptor
 import protokt.v1.KtDeserializer
+import protokt.v1.KtMessage
 import java.io.InputStream
 
-@Suppress("DEPRECATION")
-class KtMarshaller<T : com.toasttab.protokt.rt.KtMessage> private constructor(
-    private val new: KtDeserializer<T>?,
-    private val old: com.toasttab.protokt.rt.KtDeserializer<T>?
+class KtMarshaller<T : KtMessage>(
+    private val companion: KtDeserializer<T>
 ) : MethodDescriptor.Marshaller<T> {
-    constructor(deserializer: KtDeserializer<T>) : this(deserializer, null)
-
-    @Deprecated("for backwards compatibility only")
-    constructor(old: com.toasttab.protokt.rt.KtDeserializer<T>) : this(null, old)
-
     override fun stream(value: T) =
         value.serialize().inputStream()
 
     override fun parse(stream: InputStream) =
-        new?.deserialize(stream) ?: old!!.deserialize(stream)
+        companion.deserialize(stream)
 }

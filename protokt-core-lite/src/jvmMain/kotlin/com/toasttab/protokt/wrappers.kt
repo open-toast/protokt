@@ -24,14 +24,14 @@ import com.toasttab.protokt.rt.Int32
 import com.toasttab.protokt.rt.Int64
 import com.toasttab.protokt.rt.KtDeserializer
 import com.toasttab.protokt.rt.KtGeneratedMessage
+import com.toasttab.protokt.rt.KtMessage
 import com.toasttab.protokt.rt.KtMessageDeserializer
+import com.toasttab.protokt.rt.KtMessageSerializer
 import com.toasttab.protokt.rt.Tag
 import com.toasttab.protokt.rt.UInt32
 import com.toasttab.protokt.rt.UInt64
 import com.toasttab.protokt.rt.UnknownFieldSet
 import com.toasttab.protokt.rt.sizeof
-import protokt.v1.AbstractKtMessage
-import protokt.v1.NewToOldAdapter
 import kotlin.Any
 import kotlin.Boolean
 import kotlin.Double
@@ -47,15 +47,13 @@ import kotlin.Unit
  *  The JSON representation for `DoubleValue` is JSON number.
  */
 @KtGeneratedMessage("google.protobuf.DoubleValue")
-@protokt.v1.KtGeneratedMessage("google.protobuf.DoubleValue")
-@Deprecated("use v1")
 class DoubleValue private constructor(
     /**
      * The double value.
      */
     val `value`: Double,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -67,11 +65,11 @@ class DoubleValue private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: KtMessageSerializer) {
         if (value != 0.0) {
-            NewToOldAdapter(serializer).write(Tag(9)).write(value)
+            serializer.write(Tag(9)).write(value)
         }
-        NewToOldAdapter(serializer).writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is DoubleValue &&
@@ -130,15 +128,13 @@ class DoubleValue private constructor(
  *  The JSON representation for `FloatValue` is JSON number.
  */
 @KtGeneratedMessage("google.protobuf.FloatValue")
-@protokt.v1.KtGeneratedMessage("google.protobuf.FloatValue")
-@Deprecated("use v1")
 class FloatValue private constructor(
     /**
      * The float value.
      */
     val `value`: Float,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -150,11 +146,11 @@ class FloatValue private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: KtMessageSerializer) {
         if (value != 0.0F) {
-            NewToOldAdapter(serializer).write(Tag(13)).write(value)
+            serializer.write(Tag(13)).write(value)
         }
-        NewToOldAdapter(serializer).writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is FloatValue &&
@@ -213,15 +209,13 @@ class FloatValue private constructor(
  *  The JSON representation for `Int64Value` is JSON string.
  */
 @KtGeneratedMessage("google.protobuf.Int64Value")
-@protokt.v1.KtGeneratedMessage("google.protobuf.Int64Value")
-@Deprecated("use v1")
 class Int64Value private constructor(
     /**
      * The int64 value.
      */
     val `value`: Long,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -233,11 +227,11 @@ class Int64Value private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: KtMessageSerializer) {
         if (value != 0L) {
-            NewToOldAdapter(serializer).write(Tag(8)).write(Int64(value))
+            serializer.write(Tag(8)).write(Int64(value))
         }
-        NewToOldAdapter(serializer).writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is Int64Value &&
@@ -296,15 +290,13 @@ class Int64Value private constructor(
  *  The JSON representation for `UInt64Value` is JSON string.
  */
 @KtGeneratedMessage("google.protobuf.UInt64Value")
-@protokt.v1.KtGeneratedMessage("google.protobuf.UInt64Value")
-@Deprecated("use v1")
 class UInt64Value private constructor(
     /**
      * The uint64 value.
      */
     val `value`: Long,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -316,11 +308,11 @@ class UInt64Value private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: KtMessageSerializer) {
         if (value != 0L) {
-            NewToOldAdapter(serializer).write(Tag(8)).write(UInt64(value))
+            serializer.write(Tag(8)).write(UInt64(value))
         }
-        NewToOldAdapter(serializer).writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is UInt64Value &&
@@ -379,15 +371,13 @@ class UInt64Value private constructor(
  *  The JSON representation for `Int32Value` is JSON number.
  */
 @KtGeneratedMessage("google.protobuf.Int32Value")
-@protokt.v1.KtGeneratedMessage("google.protobuf.Int32Value")
-@Deprecated("use v1")
 class Int32Value private constructor(
     /**
      * The int32 value.
      */
     val `value`: Int,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -399,11 +389,11 @@ class Int32Value private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: KtMessageSerializer) {
         if (value != 0) {
-            NewToOldAdapter(serializer).write(Tag(8)).write(Int32(value))
+            serializer.write(Tag(8)).write(Int32(value))
         }
-        NewToOldAdapter(serializer).writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is Int32Value &&
@@ -462,15 +452,13 @@ class Int32Value private constructor(
  *  The JSON representation for `UInt32Value` is JSON number.
  */
 @KtGeneratedMessage("google.protobuf.UInt32Value")
-@protokt.v1.KtGeneratedMessage("google.protobuf.UInt32Value")
-@Deprecated("use v1")
 class UInt32Value private constructor(
     /**
      * The uint32 value.
      */
     val `value`: Int,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -482,11 +470,11 @@ class UInt32Value private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: KtMessageSerializer) {
         if (value != 0) {
-            NewToOldAdapter(serializer).write(Tag(8)).write(UInt32(value))
+            serializer.write(Tag(8)).write(UInt32(value))
         }
-        NewToOldAdapter(serializer).writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is UInt32Value &&
@@ -545,15 +533,13 @@ class UInt32Value private constructor(
  *  The JSON representation for `BoolValue` is JSON `true` and `false`.
  */
 @KtGeneratedMessage("google.protobuf.BoolValue")
-@protokt.v1.KtGeneratedMessage("google.protobuf.BoolValue")
-@Deprecated("use v1")
 class BoolValue private constructor(
     /**
      * The bool value.
      */
     val `value`: Boolean,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -565,11 +551,11 @@ class BoolValue private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: KtMessageSerializer) {
         if (value) {
-            NewToOldAdapter(serializer).write(Tag(8)).write(value)
+            serializer.write(Tag(8)).write(value)
         }
-        NewToOldAdapter(serializer).writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is BoolValue &&
@@ -628,15 +614,13 @@ class BoolValue private constructor(
  *  The JSON representation for `StringValue` is JSON string.
  */
 @KtGeneratedMessage("google.protobuf.StringValue")
-@protokt.v1.KtGeneratedMessage("google.protobuf.StringValue")
-@Deprecated("use v1")
 class StringValue private constructor(
     /**
      * The string value.
      */
     val `value`: String,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -648,11 +632,11 @@ class StringValue private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: KtMessageSerializer) {
         if (value.isNotEmpty()) {
-            NewToOldAdapter(serializer).write(Tag(10)).write(value)
+            serializer.write(Tag(10)).write(value)
         }
-        NewToOldAdapter(serializer).writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is StringValue &&
@@ -711,15 +695,13 @@ class StringValue private constructor(
  *  The JSON representation for `BytesValue` is JSON string.
  */
 @KtGeneratedMessage("google.protobuf.BytesValue")
-@protokt.v1.KtGeneratedMessage("google.protobuf.BytesValue")
-@Deprecated("use v1")
 class BytesValue private constructor(
     /**
      * The bytes value.
      */
     val `value`: Bytes,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -731,11 +713,11 @@ class BytesValue private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
+    override fun serialize(serializer: KtMessageSerializer) {
         if (value.isNotEmpty()) {
-            NewToOldAdapter(serializer).write(Tag(10)).write(value)
+            serializer.write(Tag(10)).write(value)
         }
-        NewToOldAdapter(serializer).writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is BytesValue &&

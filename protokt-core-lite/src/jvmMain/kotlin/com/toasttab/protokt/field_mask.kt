@@ -21,14 +21,14 @@ package com.toasttab.protokt
 
 import com.toasttab.protokt.rt.KtDeserializer
 import com.toasttab.protokt.rt.KtGeneratedMessage
+import com.toasttab.protokt.rt.KtMessage
 import com.toasttab.protokt.rt.KtMessageDeserializer
+import com.toasttab.protokt.rt.KtMessageSerializer
 import com.toasttab.protokt.rt.Tag
 import com.toasttab.protokt.rt.UnknownFieldSet
 import com.toasttab.protokt.rt.copyList
 import com.toasttab.protokt.rt.finishList
 import com.toasttab.protokt.rt.sizeof
-import protokt.v1.AbstractKtMessage
-import protokt.v1.NewToOldAdapter
 import kotlin.Any
 import kotlin.Boolean
 import kotlin.Int
@@ -169,15 +169,13 @@ import kotlin.collections.MutableList
  * verify the included field paths, and return an `INVALID_ARGUMENT` error if any path is unmappable.
  */
 @KtGeneratedMessage("google.protobuf.FieldMask")
-@protokt.v1.KtGeneratedMessage("google.protobuf.FieldMask")
-@Deprecated("use v1")
 class FieldMask private constructor(
     /**
      * The set of field mask paths.
      */
     val paths: List<String>,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -189,12 +187,11 @@ class FieldMask private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         if (paths.isNotEmpty()) {
-            paths.forEach { adapter.write(Tag(10)).write(it) }
+            paths.forEach { serializer.write(Tag(10)).write(it) }
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is FieldMask &&

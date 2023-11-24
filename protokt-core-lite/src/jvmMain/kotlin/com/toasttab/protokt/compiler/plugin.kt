@@ -26,6 +26,7 @@ import com.toasttab.protokt.rt.KtDeserializer
 import com.toasttab.protokt.rt.KtEnum
 import com.toasttab.protokt.rt.KtEnumDeserializer
 import com.toasttab.protokt.rt.KtGeneratedMessage
+import com.toasttab.protokt.rt.KtMessage
 import com.toasttab.protokt.rt.KtMessageDeserializer
 import com.toasttab.protokt.rt.KtMessageSerializer
 import com.toasttab.protokt.rt.Tag
@@ -34,8 +35,6 @@ import com.toasttab.protokt.rt.UnknownFieldSet
 import com.toasttab.protokt.rt.copyList
 import com.toasttab.protokt.rt.finishList
 import com.toasttab.protokt.rt.sizeof
-import protokt.v1.AbstractKtMessage
-import protokt.v1.NewToOldAdapter
 import kotlin.Any
 import kotlin.Boolean
 import kotlin.Int
@@ -49,7 +48,6 @@ import kotlin.collections.MutableList
  * The version number of protocol compiler.
  */
 @KtGeneratedMessage("google.protobuf.compiler.Version")
-@protokt.v1.KtGeneratedMessage("google.protobuf.compiler.Version")
 class Version private constructor(
     val major: Int?,
     val minor: Int?,
@@ -60,7 +58,7 @@ class Version private constructor(
      */
     val suffix: String?,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -81,21 +79,20 @@ class Version private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         if (major != null) {
-            adapter.write(Tag(8)).write(Int32(major))
+            serializer.write(Tag(8)).write(Int32(major))
         }
         if (minor != null) {
-            adapter.write(Tag(16)).write(Int32(minor))
+            serializer.write(Tag(16)).write(Int32(minor))
         }
         if (patch != null) {
-            adapter.write(Tag(24)).write(Int32(patch))
+            serializer.write(Tag(24)).write(Int32(patch))
         }
         if (suffix != null) {
-            adapter.write(Tag(34)).write(suffix)
+            serializer.write(Tag(34)).write(suffix)
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is Version &&
@@ -182,7 +179,6 @@ class Version private constructor(
  * An encoded CodeGeneratorRequest is written to the plugin's stdin.
  */
 @KtGeneratedMessage("google.protobuf.compiler.CodeGeneratorRequest")
-@protokt.v1.KtGeneratedMessage("google.protobuf.compiler.CodeGeneratorRequest")
 class CodeGeneratorRequest private constructor(
     /**
      * The .proto files that were explicitly listed on the command-line.  The code generator should
@@ -212,7 +208,7 @@ class CodeGeneratorRequest private constructor(
      */
     val protoFile: List<FileDescriptorProto>,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -233,21 +229,20 @@ class CodeGeneratorRequest private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         if (fileToGenerate.isNotEmpty()) {
-            fileToGenerate.forEach { adapter.write(Tag(10)).write(it) }
+            fileToGenerate.forEach { serializer.write(Tag(10)).write(it) }
         }
         if (parameter != null) {
-            adapter.write(Tag(18)).write(parameter)
+            serializer.write(Tag(18)).write(parameter)
         }
         if (compilerVersion != null) {
-            adapter.write(Tag(26)).write(compilerVersion)
+            serializer.write(Tag(26)).write(compilerVersion)
         }
         if (protoFile.isNotEmpty()) {
-            protoFile.forEach { adapter.write(Tag(122)).write(it) }
+            protoFile.forEach { serializer.write(Tag(122)).write(it) }
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is CodeGeneratorRequest &&
@@ -351,7 +346,6 @@ class CodeGeneratorRequest private constructor(
  * The plugin writes an encoded CodeGeneratorResponse to stdout.
  */
 @KtGeneratedMessage("google.protobuf.compiler.CodeGeneratorResponse")
-@protokt.v1.KtGeneratedMessage("google.protobuf.compiler.CodeGeneratorResponse")
 class CodeGeneratorResponse private constructor(
     /**
      * Error message.  If non-empty, code generation failed.  The plugin process should exit with
@@ -370,7 +364,7 @@ class CodeGeneratorResponse private constructor(
     val supportedFeatures: Long?,
     val `file`: List<File>,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -388,18 +382,17 @@ class CodeGeneratorResponse private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         if (error != null) {
-            adapter.write(Tag(10)).write(error)
+            serializer.write(Tag(10)).write(error)
         }
         if (supportedFeatures != null) {
-            adapter.write(Tag(16)).write(UInt64(supportedFeatures))
+            serializer.write(Tag(16)).write(UInt64(supportedFeatures))
         }
         if (file.isNotEmpty()) {
-            file.forEach { adapter.write(Tag(122)).write(it) }
+            file.forEach { serializer.write(Tag(122)).write(it) }
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is CodeGeneratorResponse &&
@@ -509,7 +502,6 @@ class CodeGeneratorResponse private constructor(
      * Represents a single generated file.
      */
     @KtGeneratedMessage("google.protobuf.compiler.File")
-    @protokt.v1.KtGeneratedMessage("google.protobuf.compiler.File")
     class File private constructor(
         /**
          * The file name, relative to the output directory.  The name must not contain "." or ".."
@@ -566,7 +558,7 @@ class CodeGeneratorResponse private constructor(
          */
         val generatedCodeInfo: GeneratedCodeInfo?,
         val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-    ) : AbstractKtMessage() {
+    ) : KtMessage {
         override val messageSize: Int by lazy { messageSize() }
 
         private fun messageSize(): Int {
@@ -587,21 +579,20 @@ class CodeGeneratorResponse private constructor(
             return result
         }
 
-        override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-            val adapter = NewToOldAdapter(serializer)
+        override fun serialize(serializer: KtMessageSerializer) {
             if (name != null) {
-                adapter.write(Tag(10)).write(name)
+                serializer.write(Tag(10)).write(name)
             }
             if (insertionPoint != null) {
-                adapter.write(Tag(18)).write(insertionPoint)
+                serializer.write(Tag(18)).write(insertionPoint)
             }
             if (content != null) {
-                adapter.write(Tag(122)).write(content)
+                serializer.write(Tag(122)).write(content)
             }
             if (generatedCodeInfo != null) {
-                adapter.write(Tag(130)).write(generatedCodeInfo)
+                serializer.write(Tag(130)).write(generatedCodeInfo)
             }
-            adapter.writeUnknown(unknownFields)
+            serializer.writeUnknown(unknownFields)
         }
 
         override fun equals(other: Any?): Boolean = other is File &&

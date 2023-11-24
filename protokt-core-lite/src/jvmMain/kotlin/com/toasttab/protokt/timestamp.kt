@@ -23,12 +23,12 @@ import com.toasttab.protokt.rt.Int32
 import com.toasttab.protokt.rt.Int64
 import com.toasttab.protokt.rt.KtDeserializer
 import com.toasttab.protokt.rt.KtGeneratedMessage
+import com.toasttab.protokt.rt.KtMessage
 import com.toasttab.protokt.rt.KtMessageDeserializer
+import com.toasttab.protokt.rt.KtMessageSerializer
 import com.toasttab.protokt.rt.Tag
 import com.toasttab.protokt.rt.UnknownFieldSet
 import com.toasttab.protokt.rt.sizeof
-import protokt.v1.AbstractKtMessage
-import protokt.v1.NewToOldAdapter
 import kotlin.Any
 import kotlin.Boolean
 import kotlin.Int
@@ -121,8 +121,6 @@ import kotlin.Unit
  *
  */
 @KtGeneratedMessage("google.protobuf.Timestamp")
-@protokt.v1.KtGeneratedMessage("google.protobuf.Timestamp")
-@Deprecated("use v1")
 class Timestamp private constructor(
     /**
      * Represents seconds of UTC time since Unix epoch 1970-01-01T00:00:00Z. Must be from
@@ -136,7 +134,7 @@ class Timestamp private constructor(
      */
     val nanos: Int,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -151,15 +149,14 @@ class Timestamp private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         if (seconds != 0L) {
-            adapter.write(Tag(8)).write(Int64(seconds))
+            serializer.write(Tag(8)).write(Int64(seconds))
         }
         if (nanos != 0) {
-            adapter.write(Tag(16)).write(Int32(nanos))
+            serializer.write(Tag(16)).write(Int32(nanos))
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is Timestamp &&

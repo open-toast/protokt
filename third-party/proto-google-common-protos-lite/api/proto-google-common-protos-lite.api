@@ -23,7 +23,6 @@ public final class protokt/v1/google/api/Advice$Builder {
 }
 
 public final class protokt/v1/google/api/Advice$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Advice;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Advice;
@@ -69,7 +68,6 @@ public final class protokt/v1/google/api/AuthProvider$Builder {
 }
 
 public final class protokt/v1/google/api/AuthProvider$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/AuthProvider;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/AuthProvider;
@@ -103,7 +101,6 @@ public final class protokt/v1/google/api/AuthRequirement$Builder {
 }
 
 public final class protokt/v1/google/api/AuthRequirement$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/AuthRequirement;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/AuthRequirement;
@@ -137,7 +134,6 @@ public final class protokt/v1/google/api/Authentication$Builder {
 }
 
 public final class protokt/v1/google/api/Authentication$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Authentication;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Authentication;
@@ -177,7 +173,6 @@ public final class protokt/v1/google/api/AuthenticationRule$Builder {
 }
 
 public final class protokt/v1/google/api/AuthenticationRule$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/AuthenticationRule;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/AuthenticationRule;
@@ -208,7 +203,6 @@ public final class protokt/v1/google/api/Backend$Builder {
 }
 
 public final class protokt/v1/google/api/Backend$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Backend;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Backend;
@@ -288,7 +282,6 @@ public final class protokt/v1/google/api/BackendRule$Builder {
 }
 
 public final class protokt/v1/google/api/BackendRule$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/BackendRule;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/BackendRule;
@@ -365,7 +358,6 @@ public final class protokt/v1/google/api/Billing$BillingDestination$Builder {
 }
 
 public final class protokt/v1/google/api/Billing$BillingDestination$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Billing$BillingDestination;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Billing$BillingDestination;
@@ -381,7 +373,6 @@ public final class protokt/v1/google/api/Billing$Builder {
 }
 
 public final class protokt/v1/google/api/Billing$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Billing;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Billing;
@@ -550,7 +541,6 @@ public final class protokt/v1/google/api/ClientLibrarySettings$Builder {
 }
 
 public final class protokt/v1/google/api/ClientLibrarySettings$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/ClientLibrarySettings;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/ClientLibrarySettings;
@@ -584,7 +574,6 @@ public final class protokt/v1/google/api/CommonLanguageSettings$Builder {
 }
 
 public final class protokt/v1/google/api/CommonLanguageSettings$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/CommonLanguageSettings;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/CommonLanguageSettings;
@@ -627,7 +616,6 @@ public final class protokt/v1/google/api/ConfigChange$Builder {
 }
 
 public final class protokt/v1/google/api/ConfigChange$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/ConfigChange;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/ConfigChange;
@@ -658,7 +646,6 @@ public final class protokt/v1/google/api/Context$Builder {
 }
 
 public final class protokt/v1/google/api/Context$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Context;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Context;
@@ -701,7 +688,6 @@ public final class protokt/v1/google/api/ContextRule$Builder {
 }
 
 public final class protokt/v1/google/api/ContextRule$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/ContextRule;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/ContextRule;
@@ -732,7 +718,6 @@ public final class protokt/v1/google/api/Control$Builder {
 }
 
 public final class protokt/v1/google/api/Control$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Control;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Control;
@@ -763,7 +748,6 @@ public final class protokt/v1/google/api/CppSettings$Builder {
 }
 
 public final class protokt/v1/google/api/CppSettings$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/CppSettings;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/CppSettings;
@@ -797,7 +781,6 @@ public final class protokt/v1/google/api/CustomHttpPattern$Builder {
 }
 
 public final class protokt/v1/google/api/CustomHttpPattern$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/CustomHttpPattern;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/CustomHttpPattern;
@@ -849,7 +832,6 @@ public final class protokt/v1/google/api/Distribution$BucketOptions$Builder {
 }
 
 public final class protokt/v1/google/api/Distribution$BucketOptions$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Distribution$BucketOptions;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Distribution$BucketOptions;
@@ -880,7 +862,6 @@ public final class protokt/v1/google/api/Distribution$BucketOptions$Explicit$Bui
 }
 
 public final class protokt/v1/google/api/Distribution$BucketOptions$Explicit$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Distribution$BucketOptions$Explicit;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Distribution$BucketOptions$Explicit;
@@ -917,7 +898,6 @@ public final class protokt/v1/google/api/Distribution$BucketOptions$Exponential$
 }
 
 public final class protokt/v1/google/api/Distribution$BucketOptions$Exponential$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Distribution$BucketOptions$Exponential;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Distribution$BucketOptions$Exponential;
@@ -954,7 +934,6 @@ public final class protokt/v1/google/api/Distribution$BucketOptions$Linear$Build
 }
 
 public final class protokt/v1/google/api/Distribution$BucketOptions$Linear$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Distribution$BucketOptions$Linear;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Distribution$BucketOptions$Linear;
@@ -1018,7 +997,6 @@ public final class protokt/v1/google/api/Distribution$Builder {
 }
 
 public final class protokt/v1/google/api/Distribution$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Distribution;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Distribution;
@@ -1055,7 +1033,6 @@ public final class protokt/v1/google/api/Distribution$Exemplar$Builder {
 }
 
 public final class protokt/v1/google/api/Distribution$Exemplar$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Distribution$Exemplar;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Distribution$Exemplar;
@@ -1089,7 +1066,6 @@ public final class protokt/v1/google/api/Distribution$Range$Builder {
 }
 
 public final class protokt/v1/google/api/Distribution$Range$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Distribution$Range;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Distribution$Range;
@@ -1135,7 +1111,6 @@ public final class protokt/v1/google/api/Documentation$Builder {
 }
 
 public final class protokt/v1/google/api/Documentation$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Documentation;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Documentation;
@@ -1172,7 +1147,6 @@ public final class protokt/v1/google/api/DocumentationRule$Builder {
 }
 
 public final class protokt/v1/google/api/DocumentationRule$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/DocumentationRule;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/DocumentationRule;
@@ -1218,7 +1192,6 @@ public final class protokt/v1/google/api/DotnetSettings$Builder {
 }
 
 public final class protokt/v1/google/api/DotnetSettings$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/DotnetSettings;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/DotnetSettings;
@@ -1258,7 +1231,6 @@ public final class protokt/v1/google/api/Endpoint$Builder {
 }
 
 public final class protokt/v1/google/api/Endpoint$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Endpoint;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Endpoint;
@@ -1473,7 +1445,6 @@ public final class protokt/v1/google/api/GoSettings$Builder {
 }
 
 public final class protokt/v1/google/api/GoSettings$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/GoSettings;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/GoSettings;
@@ -1507,7 +1478,6 @@ public final class protokt/v1/google/api/Http$Builder {
 }
 
 public final class protokt/v1/google/api/Http$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Http;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Http;
@@ -1544,7 +1514,6 @@ public final class protokt/v1/google/api/HttpBody$Builder {
 }
 
 public final class protokt/v1/google/api/HttpBody$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/HttpBody;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/HttpBody;
@@ -1587,7 +1556,6 @@ public final class protokt/v1/google/api/HttpRule$Builder {
 }
 
 public final class protokt/v1/google/api/HttpRule$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/HttpRule;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/HttpRule;
@@ -1693,7 +1661,6 @@ public final class protokt/v1/google/api/JavaSettings$Builder {
 }
 
 public final class protokt/v1/google/api/JavaSettings$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/JavaSettings;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/JavaSettings;
@@ -1727,7 +1694,6 @@ public final class protokt/v1/google/api/JwtLocation$Builder {
 }
 
 public final class protokt/v1/google/api/JwtLocation$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/JwtLocation;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/JwtLocation;
@@ -1800,7 +1766,6 @@ public final class protokt/v1/google/api/LabelDescriptor$Builder {
 }
 
 public final class protokt/v1/google/api/LabelDescriptor$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/LabelDescriptor;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/LabelDescriptor;
@@ -1916,7 +1881,6 @@ public final class protokt/v1/google/api/LogDescriptor$Builder {
 }
 
 public final class protokt/v1/google/api/LogDescriptor$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/LogDescriptor;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/LogDescriptor;
@@ -1950,7 +1914,6 @@ public final class protokt/v1/google/api/Logging$Builder {
 }
 
 public final class protokt/v1/google/api/Logging$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Logging;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Logging;
@@ -1984,7 +1947,6 @@ public final class protokt/v1/google/api/Logging$LoggingDestination$Builder {
 }
 
 public final class protokt/v1/google/api/Logging$LoggingDestination$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Logging$LoggingDestination;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Logging$LoggingDestination;
@@ -2018,7 +1980,6 @@ public final class protokt/v1/google/api/MethodSettings$Builder {
 }
 
 public final class protokt/v1/google/api/MethodSettings$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/MethodSettings;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/MethodSettings;
@@ -2058,7 +2019,6 @@ public final class protokt/v1/google/api/MethodSettings$LongRunning$Builder {
 }
 
 public final class protokt/v1/google/api/MethodSettings$LongRunning$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/MethodSettings$LongRunning;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/MethodSettings$LongRunning;
@@ -2092,7 +2052,6 @@ public final class protokt/v1/google/api/Metric$Builder {
 }
 
 public final class protokt/v1/google/api/Metric$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Metric;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Metric;
@@ -2153,7 +2112,6 @@ public final class protokt/v1/google/api/MetricDescriptor$Builder {
 }
 
 public final class protokt/v1/google/api/MetricDescriptor$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/MetricDescriptor;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/MetricDescriptor;
@@ -2190,7 +2148,6 @@ public final class protokt/v1/google/api/MetricDescriptor$MetricDescriptorMetada
 }
 
 public final class protokt/v1/google/api/MetricDescriptor$MetricDescriptorMetadata$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/MetricDescriptor$MetricDescriptorMetadata;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/MetricDescriptor$MetricDescriptorMetadata;
@@ -2300,7 +2257,6 @@ public final class protokt/v1/google/api/MetricRule$Builder {
 }
 
 public final class protokt/v1/google/api/MetricRule$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/MetricRule;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/MetricRule;
@@ -2334,7 +2290,6 @@ public final class protokt/v1/google/api/MonitoredResource$Builder {
 }
 
 public final class protokt/v1/google/api/MonitoredResource$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/MonitoredResource;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/MonitoredResource;
@@ -2380,7 +2335,6 @@ public final class protokt/v1/google/api/MonitoredResourceDescriptor$Builder {
 }
 
 public final class protokt/v1/google/api/MonitoredResourceDescriptor$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/MonitoredResourceDescriptor;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/MonitoredResourceDescriptor;
@@ -2414,7 +2368,6 @@ public final class protokt/v1/google/api/MonitoredResourceMetadata$Builder {
 }
 
 public final class protokt/v1/google/api/MonitoredResourceMetadata$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/MonitoredResourceMetadata;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/MonitoredResourceMetadata;
@@ -2448,7 +2401,6 @@ public final class protokt/v1/google/api/Monitoring$Builder {
 }
 
 public final class protokt/v1/google/api/Monitoring$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Monitoring;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Monitoring;
@@ -2482,7 +2434,6 @@ public final class protokt/v1/google/api/Monitoring$MonitoringDestination$Builde
 }
 
 public final class protokt/v1/google/api/Monitoring$MonitoringDestination$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Monitoring$MonitoringDestination;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Monitoring$MonitoringDestination;
@@ -2513,7 +2464,6 @@ public final class protokt/v1/google/api/NodeSettings$Builder {
 }
 
 public final class protokt/v1/google/api/NodeSettings$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/NodeSettings;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/NodeSettings;
@@ -2544,7 +2494,6 @@ public final class protokt/v1/google/api/OAuthRequirements$Builder {
 }
 
 public final class protokt/v1/google/api/OAuthRequirements$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/OAuthRequirements;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/OAuthRequirements;
@@ -2581,7 +2530,6 @@ public final class protokt/v1/google/api/Page$Builder {
 }
 
 public final class protokt/v1/google/api/Page$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Page;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Page;
@@ -2612,7 +2560,6 @@ public final class protokt/v1/google/api/PhpSettings$Builder {
 }
 
 public final class protokt/v1/google/api/PhpSettings$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/PhpSettings;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/PhpSettings;
@@ -2643,7 +2590,6 @@ public final class protokt/v1/google/api/ProjectProperties$Builder {
 }
 
 public final class protokt/v1/google/api/ProjectProperties$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/ProjectProperties;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/ProjectProperties;
@@ -2680,7 +2626,6 @@ public final class protokt/v1/google/api/Property$Builder {
 }
 
 public final class protokt/v1/google/api/Property$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Property;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Property;
@@ -2774,7 +2719,6 @@ public final class protokt/v1/google/api/Publishing$Builder {
 }
 
 public final class protokt/v1/google/api/Publishing$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Publishing;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Publishing;
@@ -2805,7 +2749,6 @@ public final class protokt/v1/google/api/PythonSettings$Builder {
 }
 
 public final class protokt/v1/google/api/PythonSettings$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/PythonSettings;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/PythonSettings;
@@ -2839,7 +2782,6 @@ public final class protokt/v1/google/api/Quota$Builder {
 }
 
 public final class protokt/v1/google/api/Quota$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Quota;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Quota;
@@ -2897,7 +2839,6 @@ public final class protokt/v1/google/api/QuotaLimit$Builder {
 }
 
 public final class protokt/v1/google/api/QuotaLimit$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/QuotaLimit;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/QuotaLimit;
@@ -2946,7 +2887,6 @@ public final class protokt/v1/google/api/ResourceDescriptor$Builder {
 }
 
 public final class protokt/v1/google/api/ResourceDescriptor$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/ResourceDescriptor;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/ResourceDescriptor;
@@ -3032,7 +2972,6 @@ public final class protokt/v1/google/api/ResourceReference$Builder {
 }
 
 public final class protokt/v1/google/api/ResourceReference$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/ResourceReference;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/ResourceReference;
@@ -3066,7 +3005,6 @@ public final class protokt/v1/google/api/RoutingParameter$Builder {
 }
 
 public final class protokt/v1/google/api/RoutingParameter$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/RoutingParameter;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/RoutingParameter;
@@ -3097,7 +3035,6 @@ public final class protokt/v1/google/api/RoutingRule$Builder {
 }
 
 public final class protokt/v1/google/api/RoutingRule$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/RoutingRule;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/RoutingRule;
@@ -3128,7 +3065,6 @@ public final class protokt/v1/google/api/RubySettings$Builder {
 }
 
 public final class protokt/v1/google/api/RubySettings$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/RubySettings;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/RubySettings;
@@ -3234,7 +3170,6 @@ public final class protokt/v1/google/api/Service$Builder {
 }
 
 public final class protokt/v1/google/api/Service$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Service;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Service;
@@ -3265,7 +3200,6 @@ public final class protokt/v1/google/api/SourceInfo$Builder {
 }
 
 public final class protokt/v1/google/api/SourceInfo$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/SourceInfo;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/SourceInfo;
@@ -3302,7 +3236,6 @@ public final class protokt/v1/google/api/SystemParameter$Builder {
 }
 
 public final class protokt/v1/google/api/SystemParameter$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/SystemParameter;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/SystemParameter;
@@ -3336,7 +3269,6 @@ public final class protokt/v1/google/api/SystemParameterRule$Builder {
 }
 
 public final class protokt/v1/google/api/SystemParameterRule$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/SystemParameterRule;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/SystemParameterRule;
@@ -3367,7 +3299,6 @@ public final class protokt/v1/google/api/SystemParameters$Builder {
 }
 
 public final class protokt/v1/google/api/SystemParameters$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/SystemParameters;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/SystemParameters;
@@ -3404,7 +3335,6 @@ public final class protokt/v1/google/api/Usage$Builder {
 }
 
 public final class protokt/v1/google/api/Usage$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Usage;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Usage;
@@ -3441,7 +3371,6 @@ public final class protokt/v1/google/api/UsageRule$Builder {
 }
 
 public final class protokt/v1/google/api/UsageRule$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/UsageRule;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/UsageRule;
@@ -3472,7 +3401,6 @@ public final class protokt/v1/google/api/Visibility$Builder {
 }
 
 public final class protokt/v1/google/api/Visibility$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/Visibility;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Visibility;
@@ -3506,7 +3434,6 @@ public final class protokt/v1/google/api/VisibilityRule$Builder {
 }
 
 public final class protokt/v1/google/api/VisibilityRule$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/api/VisibilityRule;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/VisibilityRule;
@@ -3615,7 +3542,6 @@ public final class protokt/v1/google/cloud/audit/AuditLog$Builder {
 }
 
 public final class protokt/v1/google/cloud/audit/AuditLog$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/cloud/audit/AuditLog;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/AuditLog;
@@ -3661,7 +3587,6 @@ public final class protokt/v1/google/cloud/audit/AuthenticationInfo$Builder {
 }
 
 public final class protokt/v1/google/cloud/audit/AuthenticationInfo$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/cloud/audit/AuthenticationInfo;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/AuthenticationInfo;
@@ -3701,7 +3626,6 @@ public final class protokt/v1/google/cloud/audit/AuthorizationInfo$Builder {
 }
 
 public final class protokt/v1/google/cloud/audit/AuthorizationInfo$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/cloud/audit/AuthorizationInfo;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/AuthorizationInfo;
@@ -3741,7 +3665,6 @@ public final class protokt/v1/google/cloud/audit/OrgPolicyViolationInfo$Builder 
 }
 
 public final class protokt/v1/google/cloud/audit/OrgPolicyViolationInfo$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/cloud/audit/OrgPolicyViolationInfo;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/OrgPolicyViolationInfo;
@@ -3772,7 +3695,6 @@ public final class protokt/v1/google/cloud/audit/PolicyViolationInfo$Builder {
 }
 
 public final class protokt/v1/google/cloud/audit/PolicyViolationInfo$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/cloud/audit/PolicyViolationInfo;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/PolicyViolationInfo;
@@ -3815,7 +3737,6 @@ public final class protokt/v1/google/cloud/audit/RequestMetadata$Builder {
 }
 
 public final class protokt/v1/google/cloud/audit/RequestMetadata$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/cloud/audit/RequestMetadata;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/RequestMetadata;
@@ -3849,7 +3770,6 @@ public final class protokt/v1/google/cloud/audit/ResourceLocation$Builder {
 }
 
 public final class protokt/v1/google/cloud/audit/ResourceLocation$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/cloud/audit/ResourceLocation;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/ResourceLocation;
@@ -3908,7 +3828,6 @@ public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$Bu
 }
 
 public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo;
@@ -3942,7 +3861,6 @@ public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$Fi
 }
 
 public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$FirstPartyPrincipal$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$FirstPartyPrincipal;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$FirstPartyPrincipal;
@@ -3973,7 +3891,6 @@ public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$Th
 }
 
 public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$ThirdPartyPrincipal$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$ThirdPartyPrincipal;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$ThirdPartyPrincipal;
@@ -4013,7 +3930,6 @@ public final class protokt/v1/google/cloud/audit/ViolationInfo$Builder {
 }
 
 public final class protokt/v1/google/cloud/audit/ViolationInfo$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/cloud/audit/ViolationInfo;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/ViolationInfo;
@@ -4079,7 +3995,6 @@ public final class protokt/v1/google/geo/type/Viewport$Builder {
 }
 
 public final class protokt/v1/google/geo/type/Viewport$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/geo/type/Viewport;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/geo/type/Viewport;
@@ -4152,7 +4067,6 @@ public final class protokt/v1/google/logging/type/HttpRequest$Builder {
 }
 
 public final class protokt/v1/google/logging/type/HttpRequest$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/logging/type/HttpRequest;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/logging/type/HttpRequest;
@@ -4235,7 +4149,6 @@ public final class protokt/v1/google/longrunning/CancelOperationRequest$Builder 
 }
 
 public final class protokt/v1/google/longrunning/CancelOperationRequest$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/longrunning/CancelOperationRequest;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/longrunning/CancelOperationRequest;
@@ -4266,7 +4179,6 @@ public final class protokt/v1/google/longrunning/DeleteOperationRequest$Builder 
 }
 
 public final class protokt/v1/google/longrunning/DeleteOperationRequest$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/longrunning/DeleteOperationRequest;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/longrunning/DeleteOperationRequest;
@@ -4297,7 +4209,6 @@ public final class protokt/v1/google/longrunning/GetOperationRequest$Builder {
 }
 
 public final class protokt/v1/google/longrunning/GetOperationRequest$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/longrunning/GetOperationRequest;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/longrunning/GetOperationRequest;
@@ -4337,7 +4248,6 @@ public final class protokt/v1/google/longrunning/ListOperationsRequest$Builder {
 }
 
 public final class protokt/v1/google/longrunning/ListOperationsRequest$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/longrunning/ListOperationsRequest;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/longrunning/ListOperationsRequest;
@@ -4371,7 +4281,6 @@ public final class protokt/v1/google/longrunning/ListOperationsResponse$Builder 
 }
 
 public final class protokt/v1/google/longrunning/ListOperationsResponse$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/longrunning/ListOperationsResponse;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/longrunning/ListOperationsResponse;
@@ -4411,7 +4320,6 @@ public final class protokt/v1/google/longrunning/Operation$Builder {
 }
 
 public final class protokt/v1/google/longrunning/Operation$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/longrunning/Operation;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/longrunning/Operation;
@@ -4470,7 +4378,6 @@ public final class protokt/v1/google/longrunning/OperationInfo$Builder {
 }
 
 public final class protokt/v1/google/longrunning/OperationInfo$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/longrunning/OperationInfo;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/longrunning/OperationInfo;
@@ -4504,7 +4411,6 @@ public final class protokt/v1/google/longrunning/WaitOperationRequest$Builder {
 }
 
 public final class protokt/v1/google/longrunning/WaitOperationRequest$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/longrunning/WaitOperationRequest;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/longrunning/WaitOperationRequest;
@@ -4535,7 +4441,6 @@ public final class protokt/v1/google/rpc/BadRequest$Builder {
 }
 
 public final class protokt/v1/google/rpc/BadRequest$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/BadRequest;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/BadRequest;
@@ -4569,7 +4474,6 @@ public final class protokt/v1/google/rpc/BadRequest$FieldViolation$Builder {
 }
 
 public final class protokt/v1/google/rpc/BadRequest$FieldViolation$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/BadRequest$FieldViolation;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/BadRequest$FieldViolation;
@@ -4687,7 +4591,6 @@ public final class protokt/v1/google/rpc/DebugInfo$Builder {
 }
 
 public final class protokt/v1/google/rpc/DebugInfo$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/DebugInfo;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/DebugInfo;
@@ -4724,7 +4627,6 @@ public final class protokt/v1/google/rpc/ErrorInfo$Builder {
 }
 
 public final class protokt/v1/google/rpc/ErrorInfo$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/ErrorInfo;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/ErrorInfo;
@@ -4755,7 +4657,6 @@ public final class protokt/v1/google/rpc/Help$Builder {
 }
 
 public final class protokt/v1/google/rpc/Help$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/Help;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/Help;
@@ -4789,7 +4690,6 @@ public final class protokt/v1/google/rpc/Help$Link$Builder {
 }
 
 public final class protokt/v1/google/rpc/Help$Link$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/Help$Link;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/Help$Link;
@@ -4823,7 +4723,6 @@ public final class protokt/v1/google/rpc/LocalizedMessage$Builder {
 }
 
 public final class protokt/v1/google/rpc/LocalizedMessage$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/LocalizedMessage;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/LocalizedMessage;
@@ -4854,7 +4753,6 @@ public final class protokt/v1/google/rpc/PreconditionFailure$Builder {
 }
 
 public final class protokt/v1/google/rpc/PreconditionFailure$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/PreconditionFailure;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/PreconditionFailure;
@@ -4891,7 +4789,6 @@ public final class protokt/v1/google/rpc/PreconditionFailure$Violation$Builder {
 }
 
 public final class protokt/v1/google/rpc/PreconditionFailure$Violation$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/PreconditionFailure$Violation;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/PreconditionFailure$Violation;
@@ -4922,7 +4819,6 @@ public final class protokt/v1/google/rpc/QuotaFailure$Builder {
 }
 
 public final class protokt/v1/google/rpc/QuotaFailure$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/QuotaFailure;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/QuotaFailure;
@@ -4956,7 +4852,6 @@ public final class protokt/v1/google/rpc/QuotaFailure$Violation$Builder {
 }
 
 public final class protokt/v1/google/rpc/QuotaFailure$Violation$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/QuotaFailure$Violation;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/QuotaFailure$Violation;
@@ -4990,7 +4885,6 @@ public final class protokt/v1/google/rpc/RequestInfo$Builder {
 }
 
 public final class protokt/v1/google/rpc/RequestInfo$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/RequestInfo;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/RequestInfo;
@@ -5030,7 +4924,6 @@ public final class protokt/v1/google/rpc/ResourceInfo$Builder {
 }
 
 public final class protokt/v1/google/rpc/ResourceInfo$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/ResourceInfo;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/ResourceInfo;
@@ -5061,7 +4954,6 @@ public final class protokt/v1/google/rpc/RetryInfo$Builder {
 }
 
 public final class protokt/v1/google/rpc/RetryInfo$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/RetryInfo;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/RetryInfo;
@@ -5098,7 +4990,6 @@ public final class protokt/v1/google/rpc/Status$Builder {
 }
 
 public final class protokt/v1/google/rpc/Status$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/Status;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/Status;
@@ -5160,7 +5051,6 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Api$Builder {
 }
 
 public final class protokt/v1/google/rpc/context/AttributeContext$Api$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/context/AttributeContext$Api;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/context/AttributeContext$Api;
@@ -5203,7 +5093,6 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Auth$Builder {
 }
 
 public final class protokt/v1/google/rpc/context/AttributeContext$Auth$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/context/AttributeContext$Auth;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/context/AttributeContext$Auth;
@@ -5233,7 +5122,6 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Builder {
 }
 
 public final class protokt/v1/google/rpc/context/AttributeContext$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/context/AttributeContext;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/context/AttributeContext;
@@ -5276,7 +5164,6 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Peer$Builder {
 }
 
 public final class protokt/v1/google/rpc/context/AttributeContext$Peer$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/context/AttributeContext$Peer;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/context/AttributeContext$Peer;
@@ -5340,7 +5227,6 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Request$Builde
 }
 
 public final class protokt/v1/google/rpc/context/AttributeContext$Request$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/context/AttributeContext$Request;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/context/AttributeContext$Request;
@@ -5404,7 +5290,6 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Resource$Build
 }
 
 public final class protokt/v1/google/rpc/context/AttributeContext$Resource$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/context/AttributeContext$Resource;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/context/AttributeContext$Resource;
@@ -5447,7 +5332,6 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Response$Build
 }
 
 public final class protokt/v1/google/rpc/context/AttributeContext$Response$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/context/AttributeContext$Response;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/context/AttributeContext$Response;
@@ -5490,7 +5374,6 @@ public final class protokt/v1/google/rpc/context/AuditContext$Builder {
 }
 
 public final class protokt/v1/google/rpc/context/AuditContext$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/rpc/context/AuditContext;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/context/AuditContext;
@@ -5578,7 +5461,6 @@ public final class protokt/v1/google/type/Color$Builder {
 }
 
 public final class protokt/v1/google/type/Color$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/type/Color;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/Color;
@@ -5615,7 +5497,6 @@ public final class protokt/v1/google/type/Date$Builder {
 }
 
 public final class protokt/v1/google/type/Date$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/type/Date;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/Date;
@@ -5667,7 +5548,6 @@ public final class protokt/v1/google/type/DateTime$Builder {
 }
 
 public final class protokt/v1/google/type/DateTime$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/type/DateTime;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/DateTime;
@@ -5771,7 +5651,6 @@ public final class protokt/v1/google/type/Decimal$Builder {
 }
 
 public final class protokt/v1/google/type/Decimal$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/type/Decimal;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/Decimal;
@@ -5811,7 +5690,6 @@ public final class protokt/v1/google/type/Expr$Builder {
 }
 
 public final class protokt/v1/google/type/Expr$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/type/Expr;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/Expr;
@@ -5845,7 +5723,6 @@ public final class protokt/v1/google/type/Fraction$Builder {
 }
 
 public final class protokt/v1/google/type/Fraction$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/type/Fraction;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/Fraction;
@@ -5879,7 +5756,6 @@ public final class protokt/v1/google/type/Interval$Builder {
 }
 
 public final class protokt/v1/google/type/Interval$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/type/Interval;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/Interval;
@@ -5913,7 +5789,6 @@ public final class protokt/v1/google/type/LatLng$Builder {
 }
 
 public final class protokt/v1/google/type/LatLng$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/type/LatLng;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/LatLng;
@@ -5947,7 +5822,6 @@ public final class protokt/v1/google/type/LocalizedText$Builder {
 }
 
 public final class protokt/v1/google/type/LocalizedText$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/type/LocalizedText;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/LocalizedText;
@@ -5984,7 +5858,6 @@ public final class protokt/v1/google/type/Money$Builder {
 }
 
 public final class protokt/v1/google/type/Money$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/type/Money;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/Money;
@@ -6086,7 +5959,6 @@ public final class protokt/v1/google/type/PhoneNumber$Builder {
 }
 
 public final class protokt/v1/google/type/PhoneNumber$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/type/PhoneNumber;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/PhoneNumber;
@@ -6145,7 +6017,6 @@ public final class protokt/v1/google/type/PhoneNumber$ShortCode$Builder {
 }
 
 public final class protokt/v1/google/type/PhoneNumber$ShortCode$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/type/PhoneNumber$ShortCode;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/PhoneNumber$ShortCode;
@@ -6206,7 +6077,6 @@ public final class protokt/v1/google/type/PostalAddress$Builder {
 }
 
 public final class protokt/v1/google/type/PostalAddress$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/type/PostalAddress;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/PostalAddress;
@@ -6246,7 +6116,6 @@ public final class protokt/v1/google/type/Quaternion$Builder {
 }
 
 public final class protokt/v1/google/type/Quaternion$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/type/Quaternion;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/Quaternion;
@@ -6286,7 +6155,6 @@ public final class protokt/v1/google/type/TimeOfDay$Builder {
 }
 
 public final class protokt/v1/google/type/TimeOfDay$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/type/TimeOfDay;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/TimeOfDay;
@@ -6320,7 +6188,6 @@ public final class protokt/v1/google/type/TimeZone$Builder {
 }
 
 public final class protokt/v1/google/type/TimeZone$Deserializer : protokt/v1/AbstractKtDeserializer {
-	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/KtMessage;
 	public fun deserialize (Lprotokt/v1/KtMessageDeserializer;)Lprotokt/v1/google/type/TimeZone;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/TimeZone;

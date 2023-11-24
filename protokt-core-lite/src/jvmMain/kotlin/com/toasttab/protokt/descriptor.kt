@@ -26,7 +26,9 @@ import com.toasttab.protokt.rt.KtDeserializer
 import com.toasttab.protokt.rt.KtEnum
 import com.toasttab.protokt.rt.KtEnumDeserializer
 import com.toasttab.protokt.rt.KtGeneratedMessage
+import com.toasttab.protokt.rt.KtMessage
 import com.toasttab.protokt.rt.KtMessageDeserializer
+import com.toasttab.protokt.rt.KtMessageSerializer
 import com.toasttab.protokt.rt.Tag
 import com.toasttab.protokt.rt.UInt32
 import com.toasttab.protokt.rt.UInt64
@@ -34,8 +36,6 @@ import com.toasttab.protokt.rt.UnknownFieldSet
 import com.toasttab.protokt.rt.copyList
 import com.toasttab.protokt.rt.finishList
 import com.toasttab.protokt.rt.sizeof
-import protokt.v1.AbstractKtMessage
-import protokt.v1.NewToOldAdapter
 import kotlin.Any
 import kotlin.Boolean
 import kotlin.Deprecated
@@ -52,12 +52,10 @@ import kotlin.collections.MutableList
  * The protocol compiler can output a FileDescriptorSet containing the .proto files it parses.
  */
 @KtGeneratedMessage("google.protobuf.FileDescriptorSet")
-@protokt.v1.KtGeneratedMessage("google.protobuf.FileDescriptorSet")
-@Deprecated("use v1")
 class FileDescriptorSet private constructor(
     val `file`: List<FileDescriptorProto>,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -69,12 +67,11 @@ class FileDescriptorSet private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         if (file.isNotEmpty()) {
-            file.forEach { adapter.write(Tag(10)).write(it) }
+            file.forEach { serializer.write(Tag(10)).write(it) }
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is FileDescriptorSet &&
@@ -140,8 +137,6 @@ class FileDescriptorSet private constructor(
  * Describes a complete .proto file.
  */
 @KtGeneratedMessage("google.protobuf.FileDescriptorProto")
-@protokt.v1.KtGeneratedMessage("google.protobuf.FileDescriptorProto")
-@Deprecated("use v1")
 class FileDescriptorProto private constructor(
     val name: String?,
     val `package`: String?,
@@ -177,7 +172,7 @@ class FileDescriptorProto private constructor(
      */
     val syntax: String?,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -224,45 +219,44 @@ class FileDescriptorProto private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         if (name != null) {
-            adapter.write(Tag(10)).write(name)
+            serializer.write(Tag(10)).write(name)
         }
         if (`package` != null) {
-            adapter.write(Tag(18)).write(`package`)
+            serializer.write(Tag(18)).write(`package`)
         }
         if (dependency.isNotEmpty()) {
-            dependency.forEach { adapter.write(Tag(26)).write(it) }
+            dependency.forEach { serializer.write(Tag(26)).write(it) }
         }
         if (messageType.isNotEmpty()) {
-            messageType.forEach { adapter.write(Tag(34)).write(it) }
+            messageType.forEach { serializer.write(Tag(34)).write(it) }
         }
         if (enumType.isNotEmpty()) {
-            enumType.forEach { adapter.write(Tag(42)).write(it) }
+            enumType.forEach { serializer.write(Tag(42)).write(it) }
         }
         if (service.isNotEmpty()) {
-            service.forEach { adapter.write(Tag(50)).write(it) }
+            service.forEach { serializer.write(Tag(50)).write(it) }
         }
         if (extension.isNotEmpty()) {
-            extension.forEach { adapter.write(Tag(58)).write(it) }
+            extension.forEach { serializer.write(Tag(58)).write(it) }
         }
         if (options != null) {
-            adapter.write(Tag(66)).write(options)
+            serializer.write(Tag(66)).write(options)
         }
         if (sourceCodeInfo != null) {
-            adapter.write(Tag(74)).write(sourceCodeInfo)
+            serializer.write(Tag(74)).write(sourceCodeInfo)
         }
         if (publicDependency.isNotEmpty()) {
-            publicDependency.forEach { adapter.write(Tag(80)).write(Int32(it)) }
+            publicDependency.forEach { serializer.write(Tag(80)).write(Int32(it)) }
         }
         if (weakDependency.isNotEmpty()) {
-            weakDependency.forEach { adapter.write(Tag(88)).write(Int32(it)) }
+            weakDependency.forEach { serializer.write(Tag(88)).write(Int32(it)) }
         }
         if (syntax != null) {
-            adapter.write(Tag(98)).write(syntax)
+            serializer.write(Tag(98)).write(syntax)
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is FileDescriptorProto &&
@@ -494,8 +488,6 @@ class FileDescriptorProto private constructor(
  * Describes a message type.
  */
 @KtGeneratedMessage("google.protobuf.DescriptorProto")
-@protokt.v1.KtGeneratedMessage("google.protobuf.DescriptorProto")
-@Deprecated("use v1")
 class DescriptorProto private constructor(
     val name: String?,
     val `field`: List<FieldDescriptorProto>,
@@ -512,7 +504,7 @@ class DescriptorProto private constructor(
      */
     val reservedName: List<String>,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -551,39 +543,38 @@ class DescriptorProto private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         if (name != null) {
-            adapter.write(Tag(10)).write(name)
+            serializer.write(Tag(10)).write(name)
         }
         if (field.isNotEmpty()) {
-            field.forEach { adapter.write(Tag(18)).write(it) }
+            field.forEach { serializer.write(Tag(18)).write(it) }
         }
         if (nestedType.isNotEmpty()) {
-            nestedType.forEach { adapter.write(Tag(26)).write(it) }
+            nestedType.forEach { serializer.write(Tag(26)).write(it) }
         }
         if (enumType.isNotEmpty()) {
-            enumType.forEach { adapter.write(Tag(34)).write(it) }
+            enumType.forEach { serializer.write(Tag(34)).write(it) }
         }
         if (extensionRange.isNotEmpty()) {
-            extensionRange.forEach { adapter.write(Tag(42)).write(it) }
+            extensionRange.forEach { serializer.write(Tag(42)).write(it) }
         }
         if (extension.isNotEmpty()) {
-            extension.forEach { adapter.write(Tag(50)).write(it) }
+            extension.forEach { serializer.write(Tag(50)).write(it) }
         }
         if (options != null) {
-            adapter.write(Tag(58)).write(options)
+            serializer.write(Tag(58)).write(options)
         }
         if (oneofDecl.isNotEmpty()) {
-            oneofDecl.forEach { adapter.write(Tag(66)).write(it) }
+            oneofDecl.forEach { serializer.write(Tag(66)).write(it) }
         }
         if (reservedRange.isNotEmpty()) {
-            reservedRange.forEach { adapter.write(Tag(74)).write(it) }
+            reservedRange.forEach { serializer.write(Tag(74)).write(it) }
         }
         if (reservedName.isNotEmpty()) {
-            reservedName.forEach { adapter.write(Tag(82)).write(it) }
+            reservedName.forEach { serializer.write(Tag(82)).write(it) }
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is DescriptorProto &&
@@ -790,14 +781,12 @@ class DescriptorProto private constructor(
     }
 
     @KtGeneratedMessage("google.protobuf.ExtensionRange")
-    @protokt.v1.KtGeneratedMessage("google.protobuf.ExtensionRange")
-    @Deprecated("use v1")
     class ExtensionRange private constructor(
         val start: Int?,
         val end: Int?,
         val options: ExtensionRangeOptions?,
         val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-    ) : AbstractKtMessage() {
+    ) : KtMessage {
         override val messageSize: Int by lazy { messageSize() }
 
         private fun messageSize(): Int {
@@ -815,18 +804,17 @@ class DescriptorProto private constructor(
             return result
         }
 
-        override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-            val adapter = NewToOldAdapter(serializer)
+        override fun serialize(serializer: KtMessageSerializer) {
             if (start != null) {
-                adapter.write(Tag(8)).write(Int32(start))
+                serializer.write(Tag(8)).write(Int32(start))
             }
             if (end != null) {
-                adapter.write(Tag(16)).write(Int32(end))
+                serializer.write(Tag(16)).write(Int32(end))
             }
             if (options != null) {
-                adapter.write(Tag(26)).write(options)
+                serializer.write(Tag(26)).write(options)
             }
-            adapter.writeUnknown(unknownFields)
+            serializer.writeUnknown(unknownFields)
         }
 
         override fun equals(other: Any?): Boolean = other is ExtensionRange &&
@@ -907,13 +895,11 @@ class DescriptorProto private constructor(
      * ranges in the same message. Reserved ranges may not overlap.
      */
     @KtGeneratedMessage("google.protobuf.ReservedRange")
-    @protokt.v1.KtGeneratedMessage("google.protobuf.ReservedRange")
-    @Deprecated("use v1")
     class ReservedRange private constructor(
         val start: Int?,
         val end: Int?,
         val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-    ) : AbstractKtMessage() {
+    ) : KtMessage {
         override val messageSize: Int by lazy { messageSize() }
 
         private fun messageSize(): Int {
@@ -928,15 +914,14 @@ class DescriptorProto private constructor(
             return result
         }
 
-        override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-            val adapter = NewToOldAdapter(serializer)
+        override fun serialize(serializer: KtMessageSerializer) {
             if (start != null) {
-                adapter.write(Tag(8)).write(Int32(start))
+                serializer.write(Tag(8)).write(Int32(start))
             }
             if (end != null) {
-                adapter.write(Tag(16)).write(Int32(end))
+                serializer.write(Tag(16)).write(Int32(end))
             }
-            adapter.writeUnknown(unknownFields)
+            serializer.writeUnknown(unknownFields)
         }
 
         override fun equals(other: Any?): Boolean = other is ReservedRange &&
@@ -1003,15 +988,13 @@ class DescriptorProto private constructor(
 }
 
 @KtGeneratedMessage("google.protobuf.ExtensionRangeOptions")
-@protokt.v1.KtGeneratedMessage("google.protobuf.ExtensionRangeOptions")
-@Deprecated("use v1")
 class ExtensionRangeOptions private constructor(
     /**
      * The parser stores options it doesn't recognize here. See above.
      */
     val uninterpretedOption: List<UninterpretedOption>,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -1024,12 +1007,11 @@ class ExtensionRangeOptions private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         if (uninterpretedOption.isNotEmpty()) {
-            uninterpretedOption.forEach { adapter.write(Tag(7994)).write(it) }
+            uninterpretedOption.forEach { serializer.write(Tag(7994)).write(it) }
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is ExtensionRangeOptions &&
@@ -1097,8 +1079,6 @@ class ExtensionRangeOptions private constructor(
  * Describes a field within a message.
  */
 @KtGeneratedMessage("google.protobuf.FieldDescriptorProto")
-@protokt.v1.KtGeneratedMessage("google.protobuf.FieldDescriptorProto")
-@Deprecated("use v1")
 class FieldDescriptorProto private constructor(
     val name: String?,
     /**
@@ -1160,7 +1140,7 @@ class FieldDescriptorProto private constructor(
      */
     val proto3Optional: Boolean?,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -1202,42 +1182,41 @@ class FieldDescriptorProto private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         if (name != null) {
-            adapter.write(Tag(10)).write(name)
+            serializer.write(Tag(10)).write(name)
         }
         if (extendee != null) {
-            adapter.write(Tag(18)).write(extendee)
+            serializer.write(Tag(18)).write(extendee)
         }
         if (number != null) {
-            adapter.write(Tag(24)).write(Int32(number))
+            serializer.write(Tag(24)).write(Int32(number))
         }
         if (label != null) {
-            adapter.write(Tag(32)).write(label)
+            serializer.write(Tag(32)).write(label)
         }
         if (type != null) {
-            adapter.write(Tag(40)).write(type)
+            serializer.write(Tag(40)).write(type)
         }
         if (typeName != null) {
-            adapter.write(Tag(50)).write(typeName)
+            serializer.write(Tag(50)).write(typeName)
         }
         if (defaultValue != null) {
-            adapter.write(Tag(58)).write(defaultValue)
+            serializer.write(Tag(58)).write(defaultValue)
         }
         if (options != null) {
-            adapter.write(Tag(66)).write(options)
+            serializer.write(Tag(66)).write(options)
         }
         if (oneofIndex != null) {
-            adapter.write(Tag(72)).write(Int32(oneofIndex))
+            serializer.write(Tag(72)).write(Int32(oneofIndex))
         }
         if (jsonName != null) {
-            adapter.write(Tag(82)).write(jsonName)
+            serializer.write(Tag(82)).write(jsonName)
         }
         if (proto3Optional != null) {
-            adapter.write(Tag(136)).write(proto3Optional)
+            serializer.write(Tag(136)).write(proto3Optional)
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is FieldDescriptorProto &&
@@ -1512,13 +1491,11 @@ class FieldDescriptorProto private constructor(
  * Describes a oneof.
  */
 @KtGeneratedMessage("google.protobuf.OneofDescriptorProto")
-@protokt.v1.KtGeneratedMessage("google.protobuf.OneofDescriptorProto")
-@Deprecated("use v1")
 class OneofDescriptorProto private constructor(
     val name: String?,
     val options: OneofOptions?,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -1533,15 +1510,14 @@ class OneofDescriptorProto private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         if (name != null) {
-            adapter.write(Tag(10)).write(name)
+            serializer.write(Tag(10)).write(name)
         }
         if (options != null) {
-            adapter.write(Tag(18)).write(options)
+            serializer.write(Tag(18)).write(options)
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is OneofDescriptorProto &&
@@ -1609,8 +1585,6 @@ class OneofDescriptorProto private constructor(
  * Describes an enum type.
  */
 @KtGeneratedMessage("google.protobuf.EnumDescriptorProto")
-@protokt.v1.KtGeneratedMessage("google.protobuf.EnumDescriptorProto")
-@Deprecated("use v1")
 class EnumDescriptorProto private constructor(
     val name: String?,
     val `value`: List<EnumValueDescriptorProto>,
@@ -1625,7 +1599,7 @@ class EnumDescriptorProto private constructor(
      */
     val reservedName: List<String>,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -1649,24 +1623,23 @@ class EnumDescriptorProto private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         if (name != null) {
-            adapter.write(Tag(10)).write(name)
+            serializer.write(Tag(10)).write(name)
         }
         if (value.isNotEmpty()) {
-            value.forEach { adapter.write(Tag(18)).write(it) }
+            value.forEach { serializer.write(Tag(18)).write(it) }
         }
         if (options != null) {
-            adapter.write(Tag(26)).write(options)
+            serializer.write(Tag(26)).write(options)
         }
         if (reservedRange.isNotEmpty()) {
-            reservedRange.forEach { adapter.write(Tag(34)).write(it) }
+            reservedRange.forEach { serializer.write(Tag(34)).write(it) }
         }
         if (reservedName.isNotEmpty()) {
-            reservedName.forEach { adapter.write(Tag(42)).write(it) }
+            reservedName.forEach { serializer.write(Tag(42)).write(it) }
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is EnumDescriptorProto &&
@@ -1790,13 +1763,11 @@ class EnumDescriptorProto private constructor(
      * that it can appropriately represent the entire int32 domain.
      */
     @KtGeneratedMessage("google.protobuf.EnumReservedRange")
-    @protokt.v1.KtGeneratedMessage("google.protobuf.EnumReservedRange")
-    @Deprecated("use v1")
     class EnumReservedRange private constructor(
         val start: Int?,
         val end: Int?,
         val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-    ) : AbstractKtMessage() {
+    ) : KtMessage {
         override val messageSize: Int by lazy { messageSize() }
 
         private fun messageSize(): Int {
@@ -1811,15 +1782,14 @@ class EnumDescriptorProto private constructor(
             return result
         }
 
-        override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-            val adapter = NewToOldAdapter(serializer)
+        override fun serialize(serializer: KtMessageSerializer) {
             if (start != null) {
-                adapter.write(Tag(8)).write(Int32(start))
+                serializer.write(Tag(8)).write(Int32(start))
             }
             if (end != null) {
-                adapter.write(Tag(16)).write(Int32(end))
+                serializer.write(Tag(16)).write(Int32(end))
             }
-            adapter.writeUnknown(unknownFields)
+            serializer.writeUnknown(unknownFields)
         }
 
         override fun equals(other: Any?): Boolean = other is EnumReservedRange &&
@@ -1890,14 +1860,12 @@ class EnumDescriptorProto private constructor(
  * Describes a value within an enum.
  */
 @KtGeneratedMessage("google.protobuf.EnumValueDescriptorProto")
-@protokt.v1.KtGeneratedMessage("google.protobuf.EnumValueDescriptorProto")
-@Deprecated("use v1")
 class EnumValueDescriptorProto private constructor(
     val name: String?,
     val number: Int?,
     val options: EnumValueOptions?,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -1915,18 +1883,17 @@ class EnumValueDescriptorProto private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         if (name != null) {
-            adapter.write(Tag(10)).write(name)
+            serializer.write(Tag(10)).write(name)
         }
         if (number != null) {
-            adapter.write(Tag(16)).write(Int32(number))
+            serializer.write(Tag(16)).write(Int32(number))
         }
         if (options != null) {
-            adapter.write(Tag(26)).write(options)
+            serializer.write(Tag(26)).write(options)
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is EnumValueDescriptorProto &&
@@ -2005,14 +1972,12 @@ class EnumValueDescriptorProto private constructor(
  * Describes a service.
  */
 @KtGeneratedMessage("google.protobuf.ServiceDescriptorProto")
-@protokt.v1.KtGeneratedMessage("google.protobuf.ServiceDescriptorProto")
-@Deprecated("use v1")
 class ServiceDescriptorProto private constructor(
     val name: String?,
     val method: List<MethodDescriptorProto>,
     val options: ServiceOptions?,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -2030,18 +1995,17 @@ class ServiceDescriptorProto private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         if (name != null) {
-            adapter.write(Tag(10)).write(name)
+            serializer.write(Tag(10)).write(name)
         }
         if (method.isNotEmpty()) {
-            method.forEach { adapter.write(Tag(18)).write(it) }
+            method.forEach { serializer.write(Tag(18)).write(it) }
         }
         if (options != null) {
-            adapter.write(Tag(26)).write(options)
+            serializer.write(Tag(26)).write(options)
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is ServiceDescriptorProto &&
@@ -2128,8 +2092,6 @@ class ServiceDescriptorProto private constructor(
  * Describes a method of a service.
  */
 @KtGeneratedMessage("google.protobuf.MethodDescriptorProto")
-@protokt.v1.KtGeneratedMessage("google.protobuf.MethodDescriptorProto")
-@Deprecated("use v1")
 class MethodDescriptorProto private constructor(
     val name: String?,
     /**
@@ -2148,7 +2110,7 @@ class MethodDescriptorProto private constructor(
      */
     val serverStreaming: Boolean?,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -2175,27 +2137,26 @@ class MethodDescriptorProto private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         if (name != null) {
-            adapter.write(Tag(10)).write(name)
+            serializer.write(Tag(10)).write(name)
         }
         if (inputType != null) {
-            adapter.write(Tag(18)).write(inputType)
+            serializer.write(Tag(18)).write(inputType)
         }
         if (outputType != null) {
-            adapter.write(Tag(26)).write(outputType)
+            serializer.write(Tag(26)).write(outputType)
         }
         if (options != null) {
-            adapter.write(Tag(34)).write(options)
+            serializer.write(Tag(34)).write(options)
         }
         if (clientStreaming != null) {
-            adapter.write(Tag(40)).write(clientStreaming)
+            serializer.write(Tag(40)).write(clientStreaming)
         }
         if (serverStreaming != null) {
-            adapter.write(Tag(48)).write(serverStreaming)
+            serializer.write(Tag(48)).write(serverStreaming)
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is MethodDescriptorProto &&
@@ -2301,9 +2262,7 @@ class MethodDescriptorProto private constructor(
 }
 
 @KtGeneratedMessage("google.protobuf.FileOptions")
-@protokt.v1.KtGeneratedMessage("google.protobuf.FileOptions")
 @Suppress("DEPRECATION")
-@Deprecated("use v1")
 class FileOptions private constructor(
     /**
      * Sets the Java package where classes generated from this .proto will be placed.  By default,
@@ -2412,7 +2371,7 @@ class FileOptions private constructor(
      */
     val uninterpretedOption: List<UninterpretedOption>,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -2485,72 +2444,71 @@ class FileOptions private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         if (javaPackage != null) {
-            adapter.write(Tag(10)).write(javaPackage)
+            serializer.write(Tag(10)).write(javaPackage)
         }
         if (javaOuterClassname != null) {
-            adapter.write(Tag(66)).write(javaOuterClassname)
+            serializer.write(Tag(66)).write(javaOuterClassname)
         }
         if (optimizeFor != null) {
-            adapter.write(Tag(72)).write(optimizeFor)
+            serializer.write(Tag(72)).write(optimizeFor)
         }
         if (javaMultipleFiles != null) {
-            adapter.write(Tag(80)).write(javaMultipleFiles)
+            serializer.write(Tag(80)).write(javaMultipleFiles)
         }
         if (goPackage != null) {
-            adapter.write(Tag(90)).write(goPackage)
+            serializer.write(Tag(90)).write(goPackage)
         }
         if (ccGenericServices != null) {
-            adapter.write(Tag(128)).write(ccGenericServices)
+            serializer.write(Tag(128)).write(ccGenericServices)
         }
         if (javaGenericServices != null) {
-            adapter.write(Tag(136)).write(javaGenericServices)
+            serializer.write(Tag(136)).write(javaGenericServices)
         }
         if (pyGenericServices != null) {
-            adapter.write(Tag(144)).write(pyGenericServices)
+            serializer.write(Tag(144)).write(pyGenericServices)
         }
         if (javaGenerateEqualsAndHash != null) {
-            adapter.write(Tag(160)).write(javaGenerateEqualsAndHash)
+            serializer.write(Tag(160)).write(javaGenerateEqualsAndHash)
         }
         if (deprecated != null) {
-            adapter.write(Tag(184)).write(deprecated)
+            serializer.write(Tag(184)).write(deprecated)
         }
         if (javaStringCheckUtf8 != null) {
-            adapter.write(Tag(216)).write(javaStringCheckUtf8)
+            serializer.write(Tag(216)).write(javaStringCheckUtf8)
         }
         if (ccEnableArenas != null) {
-            adapter.write(Tag(248)).write(ccEnableArenas)
+            serializer.write(Tag(248)).write(ccEnableArenas)
         }
         if (objcClassPrefix != null) {
-            adapter.write(Tag(290)).write(objcClassPrefix)
+            serializer.write(Tag(290)).write(objcClassPrefix)
         }
         if (csharpNamespace != null) {
-            adapter.write(Tag(298)).write(csharpNamespace)
+            serializer.write(Tag(298)).write(csharpNamespace)
         }
         if (swiftPrefix != null) {
-            adapter.write(Tag(314)).write(swiftPrefix)
+            serializer.write(Tag(314)).write(swiftPrefix)
         }
         if (phpClassPrefix != null) {
-            adapter.write(Tag(322)).write(phpClassPrefix)
+            serializer.write(Tag(322)).write(phpClassPrefix)
         }
         if (phpNamespace != null) {
-            adapter.write(Tag(330)).write(phpNamespace)
+            serializer.write(Tag(330)).write(phpNamespace)
         }
         if (phpGenericServices != null) {
-            adapter.write(Tag(336)).write(phpGenericServices)
+            serializer.write(Tag(336)).write(phpGenericServices)
         }
         if (phpMetadataNamespace != null) {
-            adapter.write(Tag(354)).write(phpMetadataNamespace)
+            serializer.write(Tag(354)).write(phpMetadataNamespace)
         }
         if (rubyPackage != null) {
-            adapter.write(Tag(362)).write(rubyPackage)
+            serializer.write(Tag(362)).write(rubyPackage)
         }
         if (uninterpretedOption.isNotEmpty()) {
-            uninterpretedOption.forEach { adapter.write(Tag(7994)).write(it) }
+            uninterpretedOption.forEach { serializer.write(Tag(7994)).write(it) }
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is FileOptions &&
@@ -2844,8 +2802,6 @@ class FileOptions private constructor(
 }
 
 @KtGeneratedMessage("google.protobuf.MessageOptions")
-@protokt.v1.KtGeneratedMessage("google.protobuf.MessageOptions")
-@Deprecated("use v1")
 class MessageOptions private constructor(
     /**
      * Set true to use the old proto1 MessageSet wire format for extensions. This is provided for
@@ -2895,7 +2851,7 @@ class MessageOptions private constructor(
      */
     val uninterpretedOption: List<UninterpretedOption>,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -2920,24 +2876,23 @@ class MessageOptions private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         if (messageSetWireFormat != null) {
-            adapter.write(Tag(8)).write(messageSetWireFormat)
+            serializer.write(Tag(8)).write(messageSetWireFormat)
         }
         if (noStandardDescriptorAccessor != null) {
-            adapter.write(Tag(16)).write(noStandardDescriptorAccessor)
+            serializer.write(Tag(16)).write(noStandardDescriptorAccessor)
         }
         if (deprecated != null) {
-            adapter.write(Tag(24)).write(deprecated)
+            serializer.write(Tag(24)).write(deprecated)
         }
         if (mapEntry != null) {
-            adapter.write(Tag(56)).write(mapEntry)
+            serializer.write(Tag(56)).write(mapEntry)
         }
         if (uninterpretedOption.isNotEmpty()) {
-            uninterpretedOption.forEach { adapter.write(Tag(7994)).write(it) }
+            uninterpretedOption.forEach { serializer.write(Tag(7994)).write(it) }
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is MessageOptions &&
@@ -3040,8 +2995,6 @@ class MessageOptions private constructor(
 }
 
 @KtGeneratedMessage("google.protobuf.FieldOptions")
-@protokt.v1.KtGeneratedMessage("google.protobuf.FieldOptions")
-@Deprecated("use v1")
 class FieldOptions private constructor(
     /**
      * The ctype option instructs the C++ code generator to use a different representation of the
@@ -3120,7 +3073,7 @@ class FieldOptions private constructor(
      */
     val uninterpretedOption: List<UninterpretedOption>,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -3154,33 +3107,32 @@ class FieldOptions private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         if (ctype != null) {
-            adapter.write(Tag(8)).write(ctype)
+            serializer.write(Tag(8)).write(ctype)
         }
         if (packed != null) {
-            adapter.write(Tag(16)).write(packed)
+            serializer.write(Tag(16)).write(packed)
         }
         if (deprecated != null) {
-            adapter.write(Tag(24)).write(deprecated)
+            serializer.write(Tag(24)).write(deprecated)
         }
         if (lazy != null) {
-            adapter.write(Tag(40)).write(lazy)
+            serializer.write(Tag(40)).write(lazy)
         }
         if (jstype != null) {
-            adapter.write(Tag(48)).write(jstype)
+            serializer.write(Tag(48)).write(jstype)
         }
         if (weak != null) {
-            adapter.write(Tag(80)).write(weak)
+            serializer.write(Tag(80)).write(weak)
         }
         if (unverifiedLazy != null) {
-            adapter.write(Tag(120)).write(unverifiedLazy)
+            serializer.write(Tag(120)).write(unverifiedLazy)
         }
         if (uninterpretedOption.isNotEmpty()) {
-            uninterpretedOption.forEach { adapter.write(Tag(7994)).write(it) }
+            uninterpretedOption.forEach { serializer.write(Tag(7994)).write(it) }
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is FieldOptions &&
@@ -3372,15 +3324,13 @@ class FieldOptions private constructor(
 }
 
 @KtGeneratedMessage("google.protobuf.OneofOptions")
-@protokt.v1.KtGeneratedMessage("google.protobuf.OneofOptions")
-@Deprecated("use v1")
 class OneofOptions private constructor(
     /**
      * The parser stores options it doesn't recognize here. See above.
      */
     val uninterpretedOption: List<UninterpretedOption>,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -3393,12 +3343,11 @@ class OneofOptions private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         if (uninterpretedOption.isNotEmpty()) {
-            uninterpretedOption.forEach { adapter.write(Tag(7994)).write(it) }
+            uninterpretedOption.forEach { serializer.write(Tag(7994)).write(it) }
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is OneofOptions &&
@@ -3460,8 +3409,6 @@ class OneofOptions private constructor(
 }
 
 @KtGeneratedMessage("google.protobuf.EnumOptions")
-@protokt.v1.KtGeneratedMessage("google.protobuf.EnumOptions")
-@Deprecated("use v1")
 class EnumOptions private constructor(
     /**
      * Set this option to true to allow mapping different tag names to the same value.
@@ -3478,7 +3425,7 @@ class EnumOptions private constructor(
      */
     val uninterpretedOption: List<UninterpretedOption>,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -3497,18 +3444,17 @@ class EnumOptions private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         if (allowAlias != null) {
-            adapter.write(Tag(16)).write(allowAlias)
+            serializer.write(Tag(16)).write(allowAlias)
         }
         if (deprecated != null) {
-            adapter.write(Tag(24)).write(deprecated)
+            serializer.write(Tag(24)).write(deprecated)
         }
         if (uninterpretedOption.isNotEmpty()) {
-            uninterpretedOption.forEach { adapter.write(Tag(7994)).write(it) }
+            uninterpretedOption.forEach { serializer.write(Tag(7994)).write(it) }
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is EnumOptions &&
@@ -3590,8 +3536,6 @@ class EnumOptions private constructor(
 }
 
 @KtGeneratedMessage("google.protobuf.EnumValueOptions")
-@protokt.v1.KtGeneratedMessage("google.protobuf.EnumValueOptions")
-@Deprecated("use v1")
 class EnumValueOptions private constructor(
     /**
      * Is this enum value deprecated? Depending on the target platform, this can emit Deprecated
@@ -3604,7 +3548,7 @@ class EnumValueOptions private constructor(
      */
     val uninterpretedOption: List<UninterpretedOption>,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -3620,15 +3564,14 @@ class EnumValueOptions private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         if (deprecated != null) {
-            adapter.write(Tag(8)).write(deprecated)
+            serializer.write(Tag(8)).write(deprecated)
         }
         if (uninterpretedOption.isNotEmpty()) {
-            uninterpretedOption.forEach { adapter.write(Tag(7994)).write(it) }
+            uninterpretedOption.forEach { serializer.write(Tag(7994)).write(it) }
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is EnumValueOptions &&
@@ -3701,8 +3644,6 @@ class EnumValueOptions private constructor(
 }
 
 @KtGeneratedMessage("google.protobuf.ServiceOptions")
-@protokt.v1.KtGeneratedMessage("google.protobuf.ServiceOptions")
-@Deprecated("use v1")
 class ServiceOptions private constructor(
     /**
      * Is this service deprecated? Depending on the target platform, this can emit Deprecated
@@ -3715,7 +3656,7 @@ class ServiceOptions private constructor(
      */
     val uninterpretedOption: List<UninterpretedOption>,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -3731,15 +3672,14 @@ class ServiceOptions private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         if (deprecated != null) {
-            adapter.write(Tag(264)).write(deprecated)
+            serializer.write(Tag(264)).write(deprecated)
         }
         if (uninterpretedOption.isNotEmpty()) {
-            uninterpretedOption.forEach { adapter.write(Tag(7994)).write(it) }
+            uninterpretedOption.forEach { serializer.write(Tag(7994)).write(it) }
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is ServiceOptions &&
@@ -3812,8 +3752,6 @@ class ServiceOptions private constructor(
 }
 
 @KtGeneratedMessage("google.protobuf.MethodOptions")
-@protokt.v1.KtGeneratedMessage("google.protobuf.MethodOptions")
-@Deprecated("use v1")
 class MethodOptions private constructor(
     /**
      * Is this method deprecated? Depending on the target platform, this can emit Deprecated
@@ -3827,7 +3765,7 @@ class MethodOptions private constructor(
      */
     val uninterpretedOption: List<UninterpretedOption>,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -3846,18 +3784,17 @@ class MethodOptions private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         if (deprecated != null) {
-            adapter.write(Tag(264)).write(deprecated)
+            serializer.write(Tag(264)).write(deprecated)
         }
         if (idempotencyLevel != null) {
-            adapter.write(Tag(272)).write(idempotencyLevel)
+            serializer.write(Tag(272)).write(idempotencyLevel)
         }
         if (uninterpretedOption.isNotEmpty()) {
-            uninterpretedOption.forEach { adapter.write(Tag(7994)).write(it) }
+            uninterpretedOption.forEach { serializer.write(Tag(7994)).write(it) }
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is MethodOptions &&
@@ -3975,8 +3912,6 @@ class MethodOptions private constructor(
  * produced by Descriptor::CopyTo()) will never have UninterpretedOptions in them.
  */
 @KtGeneratedMessage("google.protobuf.UninterpretedOption")
-@protokt.v1.KtGeneratedMessage("google.protobuf.UninterpretedOption")
-@Deprecated("use v1")
 class UninterpretedOption private constructor(
     val name: List<NamePart>,
     /**
@@ -3990,7 +3925,7 @@ class UninterpretedOption private constructor(
     val stringValue: Bytes?,
     val aggregateValue: String?,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -4020,30 +3955,29 @@ class UninterpretedOption private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         if (name.isNotEmpty()) {
-            name.forEach { adapter.write(Tag(18)).write(it) }
+            name.forEach { serializer.write(Tag(18)).write(it) }
         }
         if (identifierValue != null) {
-            adapter.write(Tag(26)).write(identifierValue)
+            serializer.write(Tag(26)).write(identifierValue)
         }
         if (positiveIntValue != null) {
-            adapter.write(Tag(32)).write(UInt64(positiveIntValue))
+            serializer.write(Tag(32)).write(UInt64(positiveIntValue))
         }
         if (negativeIntValue != null) {
-            adapter.write(Tag(40)).write(Int64(negativeIntValue))
+            serializer.write(Tag(40)).write(Int64(negativeIntValue))
         }
         if (doubleValue != null) {
-            adapter.write(Tag(49)).write(doubleValue)
+            serializer.write(Tag(49)).write(doubleValue)
         }
         if (stringValue != null) {
-            adapter.write(Tag(58)).write(stringValue)
+            serializer.write(Tag(58)).write(stringValue)
         }
         if (aggregateValue != null) {
-            adapter.write(Tag(66)).write(aggregateValue)
+            serializer.write(Tag(66)).write(aggregateValue)
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is UninterpretedOption &&
@@ -4171,13 +4105,11 @@ class UninterpretedOption private constructor(
      * represents "foo.(bar.baz).moo".
      */
     @KtGeneratedMessage("google.protobuf.NamePart")
-    @protokt.v1.KtGeneratedMessage("google.protobuf.NamePart")
-    @Deprecated("use v1")
     class NamePart private constructor(
         val namePart: String,
         val isExtension: Boolean,
         val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-    ) : AbstractKtMessage() {
+    ) : KtMessage {
         override val messageSize: Int by lazy { messageSize() }
 
         private fun messageSize(): Int {
@@ -4192,15 +4124,14 @@ class UninterpretedOption private constructor(
             return result
         }
 
-        override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-            val adapter = NewToOldAdapter(serializer)
+        override fun serialize(serializer: KtMessageSerializer) {
             if (namePart.isNotEmpty()) {
-                adapter.write(Tag(10)).write(namePart)
+                serializer.write(Tag(10)).write(namePart)
             }
             if (isExtension) {
-                adapter.write(Tag(16)).write(isExtension)
+                serializer.write(Tag(16)).write(isExtension)
             }
-            adapter.writeUnknown(unknownFields)
+            serializer.writeUnknown(unknownFields)
         }
 
         override fun equals(other: Any?): Boolean = other is NamePart &&
@@ -4270,8 +4201,6 @@ class UninterpretedOption private constructor(
  * generated.
  */
 @KtGeneratedMessage("google.protobuf.SourceCodeInfo")
-@protokt.v1.KtGeneratedMessage("google.protobuf.SourceCodeInfo")
-@Deprecated("use v1")
 class SourceCodeInfo private constructor(
     /**
      * A Location identifies a piece of source code in a .proto file which corresponds to a
@@ -4303,7 +4232,7 @@ class SourceCodeInfo private constructor(
      */
     val location: List<Location>,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -4315,12 +4244,11 @@ class SourceCodeInfo private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         if (location.isNotEmpty()) {
-            location.forEach { adapter.write(Tag(10)).write(it) }
+            location.forEach { serializer.write(Tag(10)).write(it) }
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is SourceCodeInfo &&
@@ -4382,8 +4310,6 @@ class SourceCodeInfo private constructor(
     }
 
     @KtGeneratedMessage("google.protobuf.Location")
-    @protokt.v1.KtGeneratedMessage("google.protobuf.Location")
-    @Deprecated("use v1")
     class Location private constructor(
         /**
          * Identifies which part of the FileDescriptorProto was defined at this location.
@@ -4449,7 +4375,7 @@ class SourceCodeInfo private constructor(
         val trailingComments: String?,
         val leadingDetachedComments: List<String>,
         val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-    ) : AbstractKtMessage() {
+    ) : KtMessage {
         override val messageSize: Int by lazy { messageSize() }
 
         private fun messageSize(): Int {
@@ -4476,26 +4402,25 @@ class SourceCodeInfo private constructor(
             return result
         }
 
-        override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-            val adapter = NewToOldAdapter(serializer)
+        override fun serialize(serializer: KtMessageSerializer) {
             if (path.isNotEmpty()) {
-                adapter.write(Tag(10)).write(UInt32(path.sumOf { sizeof(Int32(it)) }))
-                path.forEach { adapter.write(Int32(it)) }
+                serializer.write(Tag(10)).write(UInt32(path.sumOf{sizeof(Int32(it))}))
+                path.forEach { serializer.write(Int32(it)) }
             }
             if (span.isNotEmpty()) {
-                adapter.write(Tag(18)).write(UInt32(span.sumOf { sizeof(Int32(it)) }))
-                span.forEach { adapter.write(Int32(it)) }
+                serializer.write(Tag(18)).write(UInt32(span.sumOf{sizeof(Int32(it))}))
+                span.forEach { serializer.write(Int32(it)) }
             }
             if (leadingComments != null) {
-                adapter.write(Tag(26)).write(leadingComments)
+                serializer.write(Tag(26)).write(leadingComments)
             }
             if (trailingComments != null) {
-                adapter.write(Tag(34)).write(trailingComments)
+                serializer.write(Tag(34)).write(trailingComments)
             }
             if (leadingDetachedComments.isNotEmpty()) {
-                leadingDetachedComments.forEach { adapter.write(Tag(50)).write(it) }
+                leadingDetachedComments.forEach { serializer.write(Tag(50)).write(it) }
             }
-            adapter.writeUnknown(unknownFields)
+            serializer.writeUnknown(unknownFields)
         }
 
         override fun equals(other: Any?): Boolean = other is Location &&
@@ -4628,8 +4553,6 @@ class SourceCodeInfo private constructor(
  * references to different source .proto files.
  */
 @KtGeneratedMessage("google.protobuf.GeneratedCodeInfo")
-@protokt.v1.KtGeneratedMessage("google.protobuf.GeneratedCodeInfo")
-@Deprecated("use v1")
 class GeneratedCodeInfo private constructor(
     /**
      * An Annotation connects some span of text in generated code to an element of its generating
@@ -4637,7 +4560,7 @@ class GeneratedCodeInfo private constructor(
      */
     val `annotation`: List<Annotation>,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -4649,12 +4572,11 @@ class GeneratedCodeInfo private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         if (annotation.isNotEmpty()) {
-            annotation.forEach { adapter.write(Tag(10)).write(it) }
+            annotation.forEach { serializer.write(Tag(10)).write(it) }
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is GeneratedCodeInfo &&
@@ -4716,8 +4638,6 @@ class GeneratedCodeInfo private constructor(
     }
 
     @KtGeneratedMessage("google.protobuf.Annotation")
-    @protokt.v1.KtGeneratedMessage("google.protobuf.Annotation")
-    @Deprecated("use v1")
     class Annotation private constructor(
         /**
          * Identifies the element in the original source .proto file. This field is formatted the
@@ -4740,7 +4660,7 @@ class GeneratedCodeInfo private constructor(
          */
         val end: Int?,
         val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-    ) : AbstractKtMessage() {
+    ) : KtMessage {
         override val messageSize: Int by lazy { messageSize() }
 
         private fun messageSize(): Int {
@@ -4762,22 +4682,21 @@ class GeneratedCodeInfo private constructor(
             return result
         }
 
-        override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-            val adapter = NewToOldAdapter(serializer)
+        override fun serialize(serializer: KtMessageSerializer) {
             if (path.isNotEmpty()) {
-                adapter.write(Tag(10)).write(UInt32(path.sumOf { sizeof(Int32(it)) }))
-                path.forEach { adapter.write(Int32(it)) }
+                serializer.write(Tag(10)).write(UInt32(path.sumOf{sizeof(Int32(it))}))
+                path.forEach { serializer.write(Int32(it)) }
             }
             if (sourceFile != null) {
-                adapter.write(Tag(18)).write(sourceFile)
+                serializer.write(Tag(18)).write(sourceFile)
             }
             if (begin != null) {
-                adapter.write(Tag(24)).write(Int32(begin))
+                serializer.write(Tag(24)).write(Int32(begin))
             }
             if (end != null) {
-                adapter.write(Tag(32)).write(Int32(end))
+                serializer.write(Tag(32)).write(Int32(end))
             }
-            adapter.writeUnknown(unknownFields)
+            serializer.writeUnknown(unknownFields)
         }
 
         override fun equals(other: Any?): Boolean = other is Annotation &&

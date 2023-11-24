@@ -21,12 +21,12 @@ package com.toasttab.protokt
 
 import com.toasttab.protokt.rt.KtDeserializer
 import com.toasttab.protokt.rt.KtGeneratedMessage
+import com.toasttab.protokt.rt.KtMessage
 import com.toasttab.protokt.rt.KtMessageDeserializer
+import com.toasttab.protokt.rt.KtMessageSerializer
 import com.toasttab.protokt.rt.Tag
 import com.toasttab.protokt.rt.UnknownFieldSet
 import com.toasttab.protokt.rt.sizeof
-import protokt.v1.AbstractKtMessage
-import protokt.v1.NewToOldAdapter
 import kotlin.Any
 import kotlin.Boolean
 import kotlin.Int
@@ -38,8 +38,6 @@ import kotlin.Unit
  * which it is defined.
  */
 @KtGeneratedMessage("google.protobuf.SourceContext")
-@protokt.v1.KtGeneratedMessage("google.protobuf.SourceContext")
-@Deprecated("use v1")
 class SourceContext private constructor(
     /**
      * The path-qualified name of the .proto file that contained the associated protobuf element.
@@ -47,7 +45,7 @@ class SourceContext private constructor(
      */
     val fileName: String,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -59,12 +57,11 @@ class SourceContext private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         if (fileName.isNotEmpty()) {
-            adapter.write(Tag(10)).write(fileName)
+            serializer.write(Tag(10)).write(fileName)
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is SourceContext &&

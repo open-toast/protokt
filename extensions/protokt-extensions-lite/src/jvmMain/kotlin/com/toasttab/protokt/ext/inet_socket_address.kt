@@ -28,8 +28,6 @@ import com.toasttab.protokt.rt.KtMessageSerializer
 import com.toasttab.protokt.rt.Tag
 import com.toasttab.protokt.rt.UnknownFieldSet
 import com.toasttab.protokt.rt.sizeof
-import protokt.v1.AbstractKtMessage
-import protokt.v1.NewToOldAdapter
 import java.net.InetAddress
 import kotlin.Any
 import kotlin.Boolean
@@ -38,13 +36,11 @@ import kotlin.String
 import kotlin.Unit
 
 @KtGeneratedMessage("protokt.ext.InetSocketAddress")
-@protokt.v1.KtGeneratedMessage("protokt.ext.InetSocketAddress")
-@Deprecated("use v1")
 class InetSocketAddress private constructor(
     val address: InetAddress,
     val port: Int,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -60,15 +56,14 @@ class InetSocketAddress private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         if (com.toasttab.protokt.ext.InetAddressConverter.unwrap(address).isNotEmpty()) {
-            adapter.write(Tag(10)).write(com.toasttab.protokt.ext.InetAddressConverter.unwrap(address))
+            serializer.write(Tag(10)).write(com.toasttab.protokt.ext.InetAddressConverter.unwrap(address))
         }
         if (port != 0) {
-            adapter.write(Tag(16)).write(Int32(port))
+            serializer.write(Tag(16)).write(Int32(port))
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: Any?): Boolean = other is InetSocketAddress &&

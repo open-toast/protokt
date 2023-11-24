@@ -22,12 +22,12 @@ package com.toasttab.protokt
 import com.toasttab.protokt.rt.Bytes
 import com.toasttab.protokt.rt.KtDeserializer
 import com.toasttab.protokt.rt.KtGeneratedMessage
+import com.toasttab.protokt.rt.KtMessage
 import com.toasttab.protokt.rt.KtMessageDeserializer
+import com.toasttab.protokt.rt.KtMessageSerializer
 import com.toasttab.protokt.rt.Tag
 import com.toasttab.protokt.rt.UnknownFieldSet
 import com.toasttab.protokt.rt.sizeof
-import protokt.v1.AbstractKtMessage
-import protokt.v1.NewToOldAdapter
 import kotlin.Boolean
 import kotlin.Int
 import kotlin.String
@@ -86,8 +86,6 @@ import kotlin.Unit
  * }
  */
 @KtGeneratedMessage("google.protobuf.Any")
-@protokt.v1.KtGeneratedMessage("google.protobuf.Any")
-@Deprecated("use v1")
 class Any private constructor(
     /**
      * A URL/resource name that uniquely identifies the type of the serialized protocol buffer
@@ -117,7 +115,7 @@ class Any private constructor(
      */
     val `value`: Bytes,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
-) : AbstractKtMessage() {
+) : KtMessage {
     override val messageSize: Int by lazy { messageSize() }
 
     private fun messageSize(): Int {
@@ -132,15 +130,14 @@ class Any private constructor(
         return result
     }
 
-    override fun serialize(serializer: protokt.v1.KtMessageSerializer) {
-        val adapter = NewToOldAdapter(serializer)
+    override fun serialize(serializer: KtMessageSerializer) {
         if (typeUrl.isNotEmpty()) {
-            adapter.write(Tag(10)).write(typeUrl)
+            serializer.write(Tag(10)).write(typeUrl)
         }
         if (value.isNotEmpty()) {
-            adapter.write(Tag(18)).write(value)
+            serializer.write(Tag(18)).write(value)
         }
-        adapter.writeUnknown(unknownFields)
+        serializer.writeUnknown(unknownFields)
     }
 
     override fun equals(other: kotlin.Any?): Boolean = other is Any &&
