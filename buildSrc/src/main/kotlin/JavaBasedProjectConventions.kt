@@ -39,6 +39,9 @@ fun Project.javaBasedProjectConventions() {
     tasks.withType<KotlinCompile> {
         kotlinOptions {
             allWarningsAsErrors = true
+
+            // do not generate DefaultImpls objects since we do not target < JVM 1.8
+            freeCompilerArgs = listOf("-Xjvm-default=all")
         }
     }
 

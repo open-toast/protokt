@@ -50,6 +50,13 @@ kotlin {
                 }
             }
         }
+
+        jvm().compilations.all {
+            kotlinOptions {
+                // do not generate DefaultImpls objects since we do not target < JVM 1.8
+                freeCompilerArgs = listOf("-Xjvm-default=all")
+            }
+        }
     }
 }
 
