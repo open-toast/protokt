@@ -51,7 +51,7 @@ kotlin {
 
         val jvmTest by getting {
             dependencies {
-                runtimeOnly(libs.protobuf.lite) // unclear why this is needed; no tests
+                runtimeOnly(libs.protobuf.lite)
             }
         }
     }
