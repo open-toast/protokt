@@ -17,7 +17,7 @@ package protokt.v1.google.protobuf
 
 import protokt.v1.Collections.unmodifiableList
 
-class FileDescriptor(
+class FileDescriptor private constructor(
     val proto: FileDescriptorProto,
     val dependencies: List<FileDescriptor>
 ) {
@@ -58,13 +58,13 @@ class FileDescriptor(
     }
 }
 
-class Descriptor(
+class Descriptor private constructor(
     val proto: DescriptorProto,
     val file: FileDescriptor,
     val index: Int,
     val fullName: String
 ) {
-    constructor(
+    internal constructor(
         proto: DescriptorProto,
         file: FileDescriptor,
         index: Int,
@@ -87,7 +87,7 @@ class Descriptor(
         }.let(::unmodifiableList)
 }
 
-class EnumDescriptor(
+class EnumDescriptor internal constructor(
     val proto: EnumDescriptorProto,
     val file: FileDescriptor,
     val index: Int
@@ -95,7 +95,7 @@ class EnumDescriptor(
     val fullName = computeFullName(file, null, proto.name.orEmpty())
 }
 
-class ServiceDescriptor(
+class ServiceDescriptor internal constructor(
     val proto: ServiceDescriptorProto,
     val file: FileDescriptor,
     val index: Int
