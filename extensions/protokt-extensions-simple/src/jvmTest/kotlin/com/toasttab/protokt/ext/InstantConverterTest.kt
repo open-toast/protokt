@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast, Inc.
+ * Copyright (c) 2019 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,19 +13,20 @@
  * limitations under the License.
  */
 
-plugins {
-    id("protokt.jvm-conventions")
-    kotlin("kapt")
-}
+package com.toasttab.protokt.ext
 
-enablePublishing()
-trackKotlinApiCompatibility()
+import com.google.common.truth.Truth.assertThat
+import org.junit.jupiter.api.Test
+import java.time.Instant
 
-dependencies {
-    api(project(":extensions:protokt-extensions-lite"))
-    api(project(":third-party:proto-google-common-protos-lite"))
+@Suppress("DEPRECATION")
+class InstantConverterTest {
+    @Test
+    fun `conversion works`() {
+        val instant = Instant.now()
 
-    implementation(libs.autoServiceAnnotations)
-
-    kapt(libs.autoService)
+        assertThat(
+            InstantConverter.wrap(InstantConverter.unwrap(instant))
+        ).isEqualTo(instant)
+    }
 }

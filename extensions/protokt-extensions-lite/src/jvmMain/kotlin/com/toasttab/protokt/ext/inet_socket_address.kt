@@ -72,9 +72,9 @@ class InetSocketAddress private constructor(
     }
 
     override fun equals(other: Any?): Boolean = other is InetSocketAddress &&
-        other.address == address &&
-        other.port == port &&
-        other.unknownFields == unknownFields
+            other.address == address &&
+            other.port == port &&
+            other.unknownFields == unknownFields
 
     override fun hashCode(): Int {
         var result = unknownFields.hashCode()
@@ -84,17 +84,17 @@ class InetSocketAddress private constructor(
     }
 
     override fun toString(): String = "InetSocketAddress(" +
-        "address=$address, " +
-        "port=$port" +
-        "${if (unknownFields.isEmpty()) "" else ", unknownFields=$unknownFields"})"
+            "address=$address, " +
+            "port=$port" +
+            "${if (unknownFields.isEmpty()) "" else ", unknownFields=$unknownFields"})"
 
     fun copy(dsl: InetSocketAddressDsl.() -> Unit): InetSocketAddress =
-            InetSocketAddress.Deserializer {
-        address = this@InetSocketAddress.address
-        port = this@InetSocketAddress.port
-        unknownFields = this@InetSocketAddress.unknownFields
-        dsl()
-    }
+        InetSocketAddress.Deserializer {
+            address = this@InetSocketAddress.address
+            port = this@InetSocketAddress.port
+            unknownFields = this@InetSocketAddress.unknownFields
+            dsl()
+        }
 
     class InetSocketAddressDsl {
         var address: InetAddress? = null
@@ -104,9 +104,9 @@ class InetSocketAddress private constructor(
         var unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 
         fun build(): InetSocketAddress = InetSocketAddress(address ?:
-                com.toasttab.protokt.ext.InetAddressConverter.wrap(com.toasttab.protokt.rt.Bytes.empty().bytes),
-        port,
-         unknownFields)
+        com.toasttab.protokt.ext.InetAddressConverter.wrap(com.toasttab.protokt.rt.Bytes.empty().bytes),
+            port,
+            unknownFields)
     }
 
     companion object Deserializer : KtDeserializer<InetSocketAddress>,
@@ -118,19 +118,19 @@ class InetSocketAddress private constructor(
             while (true) {
                 when(deserializer.readTag()) {
                     0 -> return InetSocketAddress(address ?:
-                            com.toasttab.protokt.ext.InetAddressConverter.wrap(com.toasttab.protokt.rt.Bytes.empty().bytes),
-                            port,
-                            UnknownFieldSet.from(unknownFields))
+                    com.toasttab.protokt.ext.InetAddressConverter.wrap(com.toasttab.protokt.rt.Bytes.empty().bytes),
+                        port,
+                        UnknownFieldSet.from(unknownFields))
                     10 -> address =
-                            com.toasttab.protokt.ext.InetAddressConverter.wrap(deserializer.readBytes().bytes)
+                        com.toasttab.protokt.ext.InetAddressConverter.wrap(deserializer.readBytes().bytes)
                     16 -> port = deserializer.readInt32()
                     else -> unknownFields = (unknownFields ?:
-                            UnknownFieldSet.Builder()).also {it.add(deserializer.readUnknown()) }
+                    UnknownFieldSet.Builder()).also {it.add(deserializer.readUnknown()) }
                 }
             }
         }
 
         override fun invoke(dsl: InetSocketAddressDsl.() -> Unit): InetSocketAddress =
-                InetSocketAddressDsl().apply(dsl).build()
+            InetSocketAddressDsl().apply(dsl).build()
     }
 }

@@ -51,9 +51,7 @@ include(
     "extensions:protokt-extensions",
     "extensions:protokt-extensions-api",
     "extensions:protokt-extensions-lite",
-    "extensions:protokt-jvm-extensions",
-    "extensions:protokt-jvm-extensions-lite",
-    "extensions:protokt-jvm-extensions-simple",
+    "extensions:protokt-extensions-simple",
 
     "testing:android",
     "testing:android-test-configurations",

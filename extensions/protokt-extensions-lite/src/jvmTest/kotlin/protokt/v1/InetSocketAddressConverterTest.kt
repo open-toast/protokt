@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast, Inc.
+ * Copyright (c) 2023 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,19 +13,20 @@
  * limitations under the License.
  */
 
-plugins {
-    id("protokt.jvm-conventions")
-    kotlin("kapt")
-}
+package protokt.v1
 
-enablePublishing()
-trackKotlinApiCompatibility()
+import com.google.common.truth.Truth.assertThat
+import org.junit.jupiter.api.Test
+import java.net.InetAddress
+import java.net.InetSocketAddress
 
-dependencies {
-    api(project(":extensions:protokt-extensions-lite"))
-    api(project(":third-party:proto-google-common-protos-lite"))
+class InetSocketAddressConverterTest {
+    @Test
+    fun `conversion works`() {
+        val addr = InetSocketAddress(InetAddress.getLocalHost(), 8080)
 
-    implementation(libs.autoServiceAnnotations)
-
-    kapt(libs.autoService)
+        assertThat(
+            InetSocketAddressConverter.wrap(InetSocketAddressConverter.unwrap(addr))
+        ).isEqualTo(addr)
+    }
 }

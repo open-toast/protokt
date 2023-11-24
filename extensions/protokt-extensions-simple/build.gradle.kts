@@ -13,50 +13,19 @@
  * limitations under the License.
  */
 
-import protokt.v1.gradle.protokt
-import protokt.v1.gradle.protoktExtensions
-
 plugins {
     id("protokt.multiplatform-conventions")
 }
 
-localProtokt()
 enablePublishing()
 trackKotlinApiCompatibility()
 
-spotless {
-    kotlin {
-        targetExclude(
-            "src/jvmMain/kotlin/com/toasttab/protokt/ext/inet_socket_address.kt",
-            "src/jvmMain/kotlin/com/toasttab/protokt/ext/protokt.kt"
-        )
-    }
-}
-
-protokt {
-    generate {
-        lite()
-    }
-}
-
 kotlin {
     sourceSets {
-        val commonMain by getting {}
-
         val jvmMain by getting {
             dependencies {
                 api(project(":protokt-core-lite"))
             }
         }
-
-        val jvmTest by getting {
-            dependencies {
-                runtimeOnly(libs.protobuf.lite) // unclear why this is needed; no tests
-            }
-        }
     }
-}
-
-dependencies {
-    protoktExtensions(project(":extensions:protokt-extensions-simple"))
 }

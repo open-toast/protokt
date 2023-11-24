@@ -78,9 +78,9 @@ class ProtoktFileOptions private constructor(
     }
 
     override fun equals(other: Any?): Boolean = other is ProtoktFileOptions &&
-        other.kotlinPackage == kotlinPackage &&
-        other.fileDescriptorObjectName == fileDescriptorObjectName &&
-        other.unknownFields == unknownFields
+            other.kotlinPackage == kotlinPackage &&
+            other.fileDescriptorObjectName == fileDescriptorObjectName &&
+            other.unknownFields == unknownFields
 
     override fun hashCode(): Int {
         var result = unknownFields.hashCode()
@@ -90,17 +90,17 @@ class ProtoktFileOptions private constructor(
     }
 
     override fun toString(): String = "ProtoktFileOptions(" +
-        "kotlinPackage=$kotlinPackage, " +
-        "fileDescriptorObjectName=$fileDescriptorObjectName" +
-        "${if (unknownFields.isEmpty()) "" else ", unknownFields=$unknownFields"})"
+            "kotlinPackage=$kotlinPackage, " +
+            "fileDescriptorObjectName=$fileDescriptorObjectName" +
+            "${if (unknownFields.isEmpty()) "" else ", unknownFields=$unknownFields"})"
 
     fun copy(dsl: ProtoktFileOptionsDsl.() -> Unit): ProtoktFileOptions =
-            ProtoktFileOptions.Deserializer {
-        kotlinPackage = this@ProtoktFileOptions.kotlinPackage
-        fileDescriptorObjectName = this@ProtoktFileOptions.fileDescriptorObjectName
-        unknownFields = this@ProtoktFileOptions.unknownFields
-        dsl()
-    }
+        ProtoktFileOptions.Deserializer {
+            kotlinPackage = this@ProtoktFileOptions.kotlinPackage
+            fileDescriptorObjectName = this@ProtoktFileOptions.fileDescriptorObjectName
+            unknownFields = this@ProtoktFileOptions.unknownFields
+            dsl()
+        }
 
     class ProtoktFileOptionsDsl {
         var kotlinPackage: String = ""
@@ -110,8 +110,8 @@ class ProtoktFileOptions private constructor(
         var unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 
         fun build(): ProtoktFileOptions = ProtoktFileOptions(kotlinPackage,
-        fileDescriptorObjectName,
-         unknownFields)
+            fileDescriptorObjectName,
+            unknownFields)
     }
 
     companion object Deserializer : KtDeserializer<ProtoktFileOptions>,
@@ -123,18 +123,18 @@ class ProtoktFileOptions private constructor(
             while (true) {
                 when(deserializer.readTag()) {
                     0 -> return ProtoktFileOptions(kotlinPackage,
-                            fileDescriptorObjectName,
-                            UnknownFieldSet.from(unknownFields))
+                        fileDescriptorObjectName,
+                        UnknownFieldSet.from(unknownFields))
                     10 -> kotlinPackage = deserializer.readString()
                     18 -> fileDescriptorObjectName = deserializer.readString()
                     else -> unknownFields = (unknownFields ?:
-                            UnknownFieldSet.Builder()).also {it.add(deserializer.readUnknown()) }
+                    UnknownFieldSet.Builder()).also {it.add(deserializer.readUnknown()) }
                 }
             }
         }
 
         override fun invoke(dsl: ProtoktFileOptionsDsl.() -> Unit): ProtoktFileOptions =
-                ProtoktFileOptionsDsl().apply(dsl).build()
+            ProtoktFileOptionsDsl().apply(dsl).build()
     }
 }
 
@@ -179,9 +179,9 @@ class ProtoktMessageOptions private constructor(
     }
 
     override fun equals(other: Any?): Boolean = other is ProtoktMessageOptions &&
-        other.implements == implements &&
-        other.deprecationMessage == deprecationMessage &&
-        other.unknownFields == unknownFields
+            other.implements == implements &&
+            other.deprecationMessage == deprecationMessage &&
+            other.unknownFields == unknownFields
 
     override fun hashCode(): Int {
         var result = unknownFields.hashCode()
@@ -191,17 +191,17 @@ class ProtoktMessageOptions private constructor(
     }
 
     override fun toString(): String = "ProtoktMessageOptions(" +
-        "implements=$implements, " +
-        "deprecationMessage=$deprecationMessage" +
-        "${if (unknownFields.isEmpty()) "" else ", unknownFields=$unknownFields"})"
+            "implements=$implements, " +
+            "deprecationMessage=$deprecationMessage" +
+            "${if (unknownFields.isEmpty()) "" else ", unknownFields=$unknownFields"})"
 
     fun copy(dsl: ProtoktMessageOptionsDsl.() -> Unit): ProtoktMessageOptions =
-            ProtoktMessageOptions.Deserializer {
-        implements = this@ProtoktMessageOptions.implements
-        deprecationMessage = this@ProtoktMessageOptions.deprecationMessage
-        unknownFields = this@ProtoktMessageOptions.unknownFields
-        dsl()
-    }
+        ProtoktMessageOptions.Deserializer {
+            implements = this@ProtoktMessageOptions.implements
+            deprecationMessage = this@ProtoktMessageOptions.deprecationMessage
+            unknownFields = this@ProtoktMessageOptions.unknownFields
+            dsl()
+        }
 
     class ProtoktMessageOptionsDsl {
         var implements: String = ""
@@ -211,8 +211,8 @@ class ProtoktMessageOptions private constructor(
         var unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 
         fun build(): ProtoktMessageOptions = ProtoktMessageOptions(implements,
-        deprecationMessage,
-         unknownFields)
+            deprecationMessage,
+            unknownFields)
     }
 
     companion object Deserializer : KtDeserializer<ProtoktMessageOptions>,
@@ -225,12 +225,12 @@ class ProtoktMessageOptions private constructor(
             while (true) {
                 when(deserializer.readTag()) {
                     0 -> return ProtoktMessageOptions(implements,
-                            deprecationMessage,
-                            UnknownFieldSet.from(unknownFields))
+                        deprecationMessage,
+                        UnknownFieldSet.from(unknownFields))
                     10 -> implements = deserializer.readString()
                     18 -> deprecationMessage = deserializer.readString()
                     else -> unknownFields = (unknownFields ?:
-                            UnknownFieldSet.Builder()).also {it.add(deserializer.readUnknown()) }
+                    UnknownFieldSet.Builder()).also {it.add(deserializer.readUnknown()) }
                 }
             }
         }
@@ -362,13 +362,13 @@ class ProtoktFieldOptions private constructor(
     }
 
     override fun equals(other: Any?): Boolean = other is ProtoktFieldOptions &&
-        other.nonNull == nonNull &&
-        other.wrap == wrap &&
-        other.bytesSlice == bytesSlice &&
-        other.deprecationMessage == deprecationMessage &&
-        other.keyWrap == keyWrap &&
-        other.valueWrap == valueWrap &&
-        other.unknownFields == unknownFields
+            other.nonNull == nonNull &&
+            other.wrap == wrap &&
+            other.bytesSlice == bytesSlice &&
+            other.deprecationMessage == deprecationMessage &&
+            other.keyWrap == keyWrap &&
+            other.valueWrap == valueWrap &&
+            other.unknownFields == unknownFields
 
     override fun hashCode(): Int {
         var result = unknownFields.hashCode()
@@ -382,25 +382,25 @@ class ProtoktFieldOptions private constructor(
     }
 
     override fun toString(): String = "ProtoktFieldOptions(" +
-        "nonNull=$nonNull, " +
-        "wrap=$wrap, " +
-        "bytesSlice=$bytesSlice, " +
-        "deprecationMessage=$deprecationMessage, " +
-        "keyWrap=$keyWrap, " +
-        "valueWrap=$valueWrap" +
-        "${if (unknownFields.isEmpty()) "" else ", unknownFields=$unknownFields"})"
+            "nonNull=$nonNull, " +
+            "wrap=$wrap, " +
+            "bytesSlice=$bytesSlice, " +
+            "deprecationMessage=$deprecationMessage, " +
+            "keyWrap=$keyWrap, " +
+            "valueWrap=$valueWrap" +
+            "${if (unknownFields.isEmpty()) "" else ", unknownFields=$unknownFields"})"
 
     fun copy(dsl: ProtoktFieldOptionsDsl.() -> Unit): ProtoktFieldOptions =
-            ProtoktFieldOptions.Deserializer {
-        nonNull = this@ProtoktFieldOptions.nonNull
-        wrap = this@ProtoktFieldOptions.wrap
-        bytesSlice = this@ProtoktFieldOptions.bytesSlice
-        deprecationMessage = this@ProtoktFieldOptions.deprecationMessage
-        keyWrap = this@ProtoktFieldOptions.keyWrap
-        valueWrap = this@ProtoktFieldOptions.valueWrap
-        unknownFields = this@ProtoktFieldOptions.unknownFields
-        dsl()
-    }
+        ProtoktFieldOptions.Deserializer {
+            nonNull = this@ProtoktFieldOptions.nonNull
+            wrap = this@ProtoktFieldOptions.wrap
+            bytesSlice = this@ProtoktFieldOptions.bytesSlice
+            deprecationMessage = this@ProtoktFieldOptions.deprecationMessage
+            keyWrap = this@ProtoktFieldOptions.keyWrap
+            valueWrap = this@ProtoktFieldOptions.valueWrap
+            unknownFields = this@ProtoktFieldOptions.unknownFields
+            dsl()
+        }
 
     class ProtoktFieldOptionsDsl {
         var nonNull: Boolean = false
@@ -418,12 +418,12 @@ class ProtoktFieldOptions private constructor(
         var unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 
         fun build(): ProtoktFieldOptions = ProtoktFieldOptions(nonNull,
-        wrap,
-        bytesSlice,
-        deprecationMessage,
-        keyWrap,
-        valueWrap,
-         unknownFields)
+            wrap,
+            bytesSlice,
+            deprecationMessage,
+            keyWrap,
+            valueWrap,
+            unknownFields)
     }
 
     companion object Deserializer : KtDeserializer<ProtoktFieldOptions>,
@@ -439,12 +439,12 @@ class ProtoktFieldOptions private constructor(
             while (true) {
                 when(deserializer.readTag()) {
                     0 -> return ProtoktFieldOptions(nonNull,
-                            wrap,
-                            bytesSlice,
-                            deprecationMessage,
-                            keyWrap,
-                            valueWrap,
-                            UnknownFieldSet.from(unknownFields))
+                        wrap,
+                        bytesSlice,
+                        deprecationMessage,
+                        keyWrap,
+                        valueWrap,
+                        UnknownFieldSet.from(unknownFields))
                     8 -> nonNull = deserializer.readBool()
                     18 -> wrap = deserializer.readString()
                     24 -> bytesSlice = deserializer.readBool()
@@ -452,13 +452,13 @@ class ProtoktFieldOptions private constructor(
                     42 -> keyWrap = deserializer.readString()
                     50 -> valueWrap = deserializer.readString()
                     else -> unknownFields = (unknownFields ?:
-                            UnknownFieldSet.Builder()).also {it.add(deserializer.readUnknown()) }
+                    UnknownFieldSet.Builder()).also {it.add(deserializer.readUnknown()) }
                 }
             }
         }
 
         override fun invoke(dsl: ProtoktFieldOptionsDsl.() -> Unit): ProtoktFieldOptions =
-                ProtoktFieldOptionsDsl().apply(dsl).build()
+            ProtoktFieldOptionsDsl().apply(dsl).build()
     }
 }
 
@@ -521,10 +521,10 @@ class ProtoktOneofOptions private constructor(
     }
 
     override fun equals(other: Any?): Boolean = other is ProtoktOneofOptions &&
-        other.nonNull == nonNull &&
-        other.implements == implements &&
-        other.deprecationMessage == deprecationMessage &&
-        other.unknownFields == unknownFields
+            other.nonNull == nonNull &&
+            other.implements == implements &&
+            other.deprecationMessage == deprecationMessage &&
+            other.unknownFields == unknownFields
 
     override fun hashCode(): Int {
         var result = unknownFields.hashCode()
@@ -535,19 +535,19 @@ class ProtoktOneofOptions private constructor(
     }
 
     override fun toString(): String = "ProtoktOneofOptions(" +
-        "nonNull=$nonNull, " +
-        "implements=$implements, " +
-        "deprecationMessage=$deprecationMessage" +
-        "${if (unknownFields.isEmpty()) "" else ", unknownFields=$unknownFields"})"
+            "nonNull=$nonNull, " +
+            "implements=$implements, " +
+            "deprecationMessage=$deprecationMessage" +
+            "${if (unknownFields.isEmpty()) "" else ", unknownFields=$unknownFields"})"
 
     fun copy(dsl: ProtoktOneofOptionsDsl.() -> Unit): ProtoktOneofOptions =
-            ProtoktOneofOptions.Deserializer {
-        nonNull = this@ProtoktOneofOptions.nonNull
-        implements = this@ProtoktOneofOptions.implements
-        deprecationMessage = this@ProtoktOneofOptions.deprecationMessage
-        unknownFields = this@ProtoktOneofOptions.unknownFields
-        dsl()
-    }
+        ProtoktOneofOptions.Deserializer {
+            nonNull = this@ProtoktOneofOptions.nonNull
+            implements = this@ProtoktOneofOptions.implements
+            deprecationMessage = this@ProtoktOneofOptions.deprecationMessage
+            unknownFields = this@ProtoktOneofOptions.unknownFields
+            dsl()
+        }
 
     class ProtoktOneofOptionsDsl {
         var nonNull: Boolean = false
@@ -559,9 +559,9 @@ class ProtoktOneofOptions private constructor(
         var unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 
         fun build(): ProtoktOneofOptions = ProtoktOneofOptions(nonNull,
-        implements,
-        deprecationMessage,
-         unknownFields)
+            implements,
+            deprecationMessage,
+            unknownFields)
     }
 
     companion object Deserializer : KtDeserializer<ProtoktOneofOptions>,
@@ -574,20 +574,20 @@ class ProtoktOneofOptions private constructor(
             while (true) {
                 when(deserializer.readTag()) {
                     0 -> return ProtoktOneofOptions(nonNull,
-                            implements,
-                            deprecationMessage,
-                            UnknownFieldSet.from(unknownFields))
+                        implements,
+                        deprecationMessage,
+                        UnknownFieldSet.from(unknownFields))
                     8 -> nonNull = deserializer.readBool()
                     18 -> implements = deserializer.readString()
                     26 -> deprecationMessage = deserializer.readString()
                     else -> unknownFields = (unknownFields ?:
-                            UnknownFieldSet.Builder()).also {it.add(deserializer.readUnknown()) }
+                    UnknownFieldSet.Builder()).also {it.add(deserializer.readUnknown()) }
                 }
             }
         }
 
         override fun invoke(dsl: ProtoktOneofOptionsDsl.() -> Unit): ProtoktOneofOptions =
-                ProtoktOneofOptionsDsl().apply(dsl).build()
+            ProtoktOneofOptionsDsl().apply(dsl).build()
     }
 }
 
@@ -621,8 +621,8 @@ class ProtoktEnumOptions private constructor(
     }
 
     override fun equals(other: Any?): Boolean = other is ProtoktEnumOptions &&
-        other.deprecationMessage == deprecationMessage &&
-        other.unknownFields == unknownFields
+            other.deprecationMessage == deprecationMessage &&
+            other.unknownFields == unknownFields
 
     override fun hashCode(): Int {
         var result = unknownFields.hashCode()
@@ -631,15 +631,15 @@ class ProtoktEnumOptions private constructor(
     }
 
     override fun toString(): String = "ProtoktEnumOptions(" +
-        "deprecationMessage=$deprecationMessage" +
-        "${if (unknownFields.isEmpty()) "" else ", unknownFields=$unknownFields"})"
+            "deprecationMessage=$deprecationMessage" +
+            "${if (unknownFields.isEmpty()) "" else ", unknownFields=$unknownFields"})"
 
     fun copy(dsl: ProtoktEnumOptionsDsl.() -> Unit): ProtoktEnumOptions =
-            ProtoktEnumOptions.Deserializer {
-        deprecationMessage = this@ProtoktEnumOptions.deprecationMessage
-        unknownFields = this@ProtoktEnumOptions.unknownFields
-        dsl()
-    }
+        ProtoktEnumOptions.Deserializer {
+            deprecationMessage = this@ProtoktEnumOptions.deprecationMessage
+            unknownFields = this@ProtoktEnumOptions.unknownFields
+            dsl()
+        }
 
     class ProtoktEnumOptionsDsl {
         var deprecationMessage: String = ""
@@ -647,7 +647,7 @@ class ProtoktEnumOptions private constructor(
         var unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 
         fun build(): ProtoktEnumOptions = ProtoktEnumOptions(deprecationMessage,
-         unknownFields)
+            unknownFields)
     }
 
     companion object Deserializer : KtDeserializer<ProtoktEnumOptions>,
@@ -658,16 +658,16 @@ class ProtoktEnumOptions private constructor(
             while (true) {
                 when(deserializer.readTag()) {
                     0 -> return ProtoktEnumOptions(deprecationMessage,
-                            UnknownFieldSet.from(unknownFields))
+                        UnknownFieldSet.from(unknownFields))
                     10 -> deprecationMessage = deserializer.readString()
                     else -> unknownFields = (unknownFields ?:
-                            UnknownFieldSet.Builder()).also {it.add(deserializer.readUnknown()) }
+                    UnknownFieldSet.Builder()).also {it.add(deserializer.readUnknown()) }
                 }
             }
         }
 
         override fun invoke(dsl: ProtoktEnumOptionsDsl.() -> Unit): ProtoktEnumOptions =
-                ProtoktEnumOptionsDsl().apply(dsl).build()
+            ProtoktEnumOptionsDsl().apply(dsl).build()
     }
 }
 
@@ -701,8 +701,8 @@ class ProtoktEnumValueOptions private constructor(
     }
 
     override fun equals(other: Any?): Boolean = other is ProtoktEnumValueOptions &&
-        other.deprecationMessage == deprecationMessage &&
-        other.unknownFields == unknownFields
+            other.deprecationMessage == deprecationMessage &&
+            other.unknownFields == unknownFields
 
     override fun hashCode(): Int {
         var result = unknownFields.hashCode()
@@ -711,15 +711,15 @@ class ProtoktEnumValueOptions private constructor(
     }
 
     override fun toString(): String = "ProtoktEnumValueOptions(" +
-        "deprecationMessage=$deprecationMessage" +
-        "${if (unknownFields.isEmpty()) "" else ", unknownFields=$unknownFields"})"
+            "deprecationMessage=$deprecationMessage" +
+            "${if (unknownFields.isEmpty()) "" else ", unknownFields=$unknownFields"})"
 
     fun copy(dsl: ProtoktEnumValueOptionsDsl.() -> Unit): ProtoktEnumValueOptions =
-            ProtoktEnumValueOptions.Deserializer {
-        deprecationMessage = this@ProtoktEnumValueOptions.deprecationMessage
-        unknownFields = this@ProtoktEnumValueOptions.unknownFields
-        dsl()
-    }
+        ProtoktEnumValueOptions.Deserializer {
+            deprecationMessage = this@ProtoktEnumValueOptions.deprecationMessage
+            unknownFields = this@ProtoktEnumValueOptions.unknownFields
+            dsl()
+        }
 
     class ProtoktEnumValueOptionsDsl {
         var deprecationMessage: String = ""
@@ -727,7 +727,7 @@ class ProtoktEnumValueOptions private constructor(
         var unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 
         fun build(): ProtoktEnumValueOptions = ProtoktEnumValueOptions(deprecationMessage,
-         unknownFields)
+            unknownFields)
     }
 
     companion object Deserializer : KtDeserializer<ProtoktEnumValueOptions>,
@@ -739,10 +739,10 @@ class ProtoktEnumValueOptions private constructor(
             while (true) {
                 when(deserializer.readTag()) {
                     0 -> return ProtoktEnumValueOptions(deprecationMessage,
-                            UnknownFieldSet.from(unknownFields))
+                        UnknownFieldSet.from(unknownFields))
                     10 -> deprecationMessage = deserializer.readString()
                     else -> unknownFields = (unknownFields ?:
-                            UnknownFieldSet.Builder()).also {it.add(deserializer.readUnknown()) }
+                    UnknownFieldSet.Builder()).also {it.add(deserializer.readUnknown()) }
                 }
             }
         }
@@ -768,18 +768,18 @@ class ProtoktServiceOptions private constructor(
     }
 
     override fun equals(other: Any?): Boolean =
-            other is ProtoktServiceOptions && other.unknownFields == unknownFields
+        other is ProtoktServiceOptions && other.unknownFields == unknownFields
 
     override fun hashCode(): Int = unknownFields.hashCode()
 
     override fun toString(): String = "ProtoktServiceOptions(${if (unknownFields.isEmpty())
-            "" else "unknownFields=$unknownFields"})"
+        "" else "unknownFields=$unknownFields"})"
 
     fun copy(dsl: ProtoktServiceOptionsDsl.() -> Unit): ProtoktServiceOptions =
-            ProtoktServiceOptions.Deserializer {
-        unknownFields = this@ProtoktServiceOptions.unknownFields
-        dsl()
-    }
+        ProtoktServiceOptions.Deserializer {
+            unknownFields = this@ProtoktServiceOptions.unknownFields
+            dsl()
+        }
 
     class ProtoktServiceOptionsDsl {
         var unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
@@ -796,7 +796,7 @@ class ProtoktServiceOptions private constructor(
                 when(deserializer.readTag()) {
                     0 -> return ProtoktServiceOptions(UnknownFieldSet.from(unknownFields))
                     else -> unknownFields = (unknownFields ?:
-                            UnknownFieldSet.Builder()).also {it.add(deserializer.readUnknown()) }
+                    UnknownFieldSet.Builder()).also {it.add(deserializer.readUnknown()) }
                 }
             }
         }
@@ -848,9 +848,9 @@ class ProtoktMethodOptions private constructor(
     }
 
     override fun equals(other: Any?): Boolean = other is ProtoktMethodOptions &&
-        other.requestMarshaller == requestMarshaller &&
-        other.responseMarshaller == responseMarshaller &&
-        other.unknownFields == unknownFields
+            other.requestMarshaller == requestMarshaller &&
+            other.responseMarshaller == responseMarshaller &&
+            other.unknownFields == unknownFields
 
     override fun hashCode(): Int {
         var result = unknownFields.hashCode()
@@ -860,17 +860,17 @@ class ProtoktMethodOptions private constructor(
     }
 
     override fun toString(): String = "ProtoktMethodOptions(" +
-        "requestMarshaller=$requestMarshaller, " +
-        "responseMarshaller=$responseMarshaller" +
-        "${if (unknownFields.isEmpty()) "" else ", unknownFields=$unknownFields"})"
+            "requestMarshaller=$requestMarshaller, " +
+            "responseMarshaller=$responseMarshaller" +
+            "${if (unknownFields.isEmpty()) "" else ", unknownFields=$unknownFields"})"
 
     fun copy(dsl: ProtoktMethodOptionsDsl.() -> Unit): ProtoktMethodOptions =
-            ProtoktMethodOptions.Deserializer {
-        requestMarshaller = this@ProtoktMethodOptions.requestMarshaller
-        responseMarshaller = this@ProtoktMethodOptions.responseMarshaller
-        unknownFields = this@ProtoktMethodOptions.unknownFields
-        dsl()
-    }
+        ProtoktMethodOptions.Deserializer {
+            requestMarshaller = this@ProtoktMethodOptions.requestMarshaller
+            responseMarshaller = this@ProtoktMethodOptions.responseMarshaller
+            unknownFields = this@ProtoktMethodOptions.unknownFields
+            dsl()
+        }
 
     class ProtoktMethodOptionsDsl {
         var requestMarshaller: String = ""
@@ -880,8 +880,8 @@ class ProtoktMethodOptions private constructor(
         var unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 
         fun build(): ProtoktMethodOptions = ProtoktMethodOptions(requestMarshaller,
-        responseMarshaller,
-         unknownFields)
+            responseMarshaller,
+            unknownFields)
     }
 
     companion object Deserializer : KtDeserializer<ProtoktMethodOptions>,
@@ -893,17 +893,17 @@ class ProtoktMethodOptions private constructor(
             while (true) {
                 when(deserializer.readTag()) {
                     0 -> return ProtoktMethodOptions(requestMarshaller,
-                            responseMarshaller,
-                            UnknownFieldSet.from(unknownFields))
+                        responseMarshaller,
+                        UnknownFieldSet.from(unknownFields))
                     10 -> requestMarshaller = deserializer.readString()
                     18 -> responseMarshaller = deserializer.readString()
                     else -> unknownFields = (unknownFields ?:
-                            UnknownFieldSet.Builder()).also {it.add(deserializer.readUnknown()) }
+                    UnknownFieldSet.Builder()).also {it.add(deserializer.readUnknown()) }
                 }
             }
         }
 
         override fun invoke(dsl: ProtoktMethodOptionsDsl.() -> Unit): ProtoktMethodOptions =
-                ProtoktMethodOptionsDsl().apply(dsl).build()
+            ProtoktMethodOptionsDsl().apply(dsl).build()
     }
 }

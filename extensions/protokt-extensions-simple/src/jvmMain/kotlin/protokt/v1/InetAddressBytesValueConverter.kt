@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast, Inc.
+ * Copyright (c) 2023 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,19 +13,19 @@
  * limitations under the License.
  */
 
-plugins {
-    id("protokt.jvm-conventions")
-    kotlin("kapt")
-}
+package protokt.v1
 
-enablePublishing()
-trackKotlinApiCompatibility()
+import protokt.v1.google.protobuf.BytesValue
+import java.net.InetAddress
 
-dependencies {
-    api(project(":extensions:protokt-extensions-lite"))
-    api(project(":third-party:proto-google-common-protos-lite"))
+object InetAddressBytesValueConverter : Converter<InetAddress, BytesValue> {
+    override val wrapper = InetAddress::class
 
-    implementation(libs.autoServiceAnnotations)
+    override val wrapped = BytesValue::class
 
-    kapt(libs.autoService)
+    override fun wrap(unwrapped: BytesValue) =
+        InetAddressBytesConverter.wrap(unwrapped.value)
+
+    override fun unwrap(wrapped: InetAddress) =
+        BytesValue { value = InetAddressBytesConverter.unwrap(wrapped) }
 }

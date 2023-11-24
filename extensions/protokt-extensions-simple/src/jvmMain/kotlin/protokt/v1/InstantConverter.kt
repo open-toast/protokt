@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast, Inc.
+ * Copyright (c) 2023 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,19 +13,22 @@
  * limitations under the License.
  */
 
-plugins {
-    id("protokt.jvm-conventions")
-    kotlin("kapt")
-}
+package protokt.v1
 
-enablePublishing()
-trackKotlinApiCompatibility()
+import protokt.v1.google.protobuf.Timestamp
+import java.time.Instant
 
-dependencies {
-    api(project(":extensions:protokt-extensions-lite"))
-    api(project(":third-party:proto-google-common-protos-lite"))
+object InstantConverter : Converter<Instant, Timestamp> {
+    override val wrapper = Instant::class
 
-    implementation(libs.autoServiceAnnotations)
+    override val wrapped = Timestamp::class
 
-    kapt(libs.autoService)
+    override fun wrap(unwrapped: Timestamp): Instant =
+        Instant.ofEpochSecond(unwrapped.seconds, unwrapped.nanos.toLong())
+
+    override fun unwrap(wrapped: Instant) =
+        Timestamp {
+            seconds = wrapped.epochSecond
+            nanos = wrapped.nano
+        }
 }

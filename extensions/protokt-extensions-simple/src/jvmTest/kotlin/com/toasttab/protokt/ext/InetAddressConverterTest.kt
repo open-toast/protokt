@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast, Inc.
+ * Copyright (c) 2023 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,19 +13,20 @@
  * limitations under the License.
  */
 
-plugins {
-    id("protokt.jvm-conventions")
-    kotlin("kapt")
-}
+package com.toasttab.protokt.ext
 
-enablePublishing()
-trackKotlinApiCompatibility()
+import com.google.common.truth.Truth.assertThat
+import org.junit.jupiter.api.Test
+import java.net.InetAddress
 
-dependencies {
-    api(project(":extensions:protokt-extensions-lite"))
-    api(project(":third-party:proto-google-common-protos-lite"))
+@Suppress("DEPRECATION")
+class InetAddressConverterTest {
+    @Test
+    fun `conversion works`() {
+        val address = InetAddress.getLocalHost()
 
-    implementation(libs.autoServiceAnnotations)
-
-    kapt(libs.autoService)
+        assertThat(
+            InetAddressConverter.wrap(InetAddressConverter.unwrap(address))
+        ).isEqualTo(address)
+    }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast, Inc.
+ * Copyright (c) 2019 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,19 +13,20 @@
  * limitations under the License.
  */
 
-plugins {
-    id("protokt.jvm-conventions")
-    kotlin("kapt")
-}
+package protokt.v1
 
-enablePublishing()
-trackKotlinApiCompatibility()
+object InetSocketAddressConverter : Converter<java.net.InetSocketAddress, InetSocketAddress> {
 
-dependencies {
-    api(project(":extensions:protokt-extensions-lite"))
-    api(project(":third-party:proto-google-common-protos-lite"))
+    override val wrapper = java.net.InetSocketAddress::class
 
-    implementation(libs.autoServiceAnnotations)
+    override val wrapped = InetSocketAddress::class
 
-    kapt(libs.autoService)
+    override fun wrap(unwrapped: InetSocketAddress) =
+        java.net.InetSocketAddress(unwrapped.address, unwrapped.port)
+
+    override fun unwrap(wrapped: java.net.InetSocketAddress) =
+        InetSocketAddress {
+            address = wrapped.address
+            port = wrapped.port
+        }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast, Inc.
+ * Copyright (c) 2023 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,19 +13,22 @@
  * limitations under the License.
  */
 
-plugins {
-    id("protokt.jvm-conventions")
-    kotlin("kapt")
-}
+package protokt.v1
 
-enablePublishing()
-trackKotlinApiCompatibility()
+import java.net.InetAddress
 
-dependencies {
-    api(project(":extensions:protokt-extensions-lite"))
-    api(project(":third-party:proto-google-common-protos-lite"))
+object InetAddressBytesConverter : Converter<InetAddress, Bytes> {
+    override val wrapper = InetAddress::class
 
-    implementation(libs.autoServiceAnnotations)
+    override val wrapped = Bytes::class
 
-    kapt(libs.autoService)
+    override fun wrap(unwrapped: Bytes): InetAddress {
+        require(unwrapped.isNotEmpty()) {
+            "cannot unwrap absent InetAddress"
+        }
+        return InetAddress.getByAddress(unwrapped.bytes)
+    }
+
+    override fun unwrap(wrapped: InetAddress): Bytes =
+        Bytes.from(wrapped.address)
 }

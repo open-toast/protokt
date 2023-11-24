@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast, Inc.
+ * Copyright (c) 2023 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,19 +13,18 @@
  * limitations under the License.
  */
 
-plugins {
-    id("protokt.jvm-conventions")
-    kotlin("kapt")
-}
+package protokt.v1
 
-enablePublishing()
-trackKotlinApiCompatibility()
+import java.time.LocalDate
 
-dependencies {
-    api(project(":extensions:protokt-extensions-lite"))
-    api(project(":third-party:proto-google-common-protos-lite"))
+object LocalDateStringConverter : Converter<LocalDate, String> {
+    override val wrapper = LocalDate::class
 
-    implementation(libs.autoServiceAnnotations)
+    override val wrapped = String::class
 
-    kapt(libs.autoService)
+    override fun wrap(unwrapped: String): LocalDate =
+        LocalDate.parse(unwrapped)
+
+    override fun unwrap(wrapped: LocalDate) =
+        wrapped.toString()
 }

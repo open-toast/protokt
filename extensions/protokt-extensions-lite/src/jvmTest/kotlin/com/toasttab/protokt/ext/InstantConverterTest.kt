@@ -14,19 +14,3 @@
  */
 
 package com.toasttab.protokt.ext
-
-import com.google.common.truth.Truth.assertThat
-import org.junit.jupiter.api.Test
-import java.time.Instant
-
-@Suppress("DEPRECATION")
-class InstantConverterTest {
-    @Test
-    fun `conversion works`() {
-        val instant = Instant.now()
-
-        assertThat(
-            InstantConverter.wrap(InstantConverter.unwrap(instant))
-        ).isEqualTo(instant)
-    }
-}

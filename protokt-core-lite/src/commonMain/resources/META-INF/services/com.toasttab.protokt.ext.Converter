@@ -1,9 +1,0 @@
-protokt.v1.google.protobuf.BoolValueConverter
-protokt.v1.google.protobuf.BytesValueConverter
-protokt.v1.google.protobuf.DoubleValueConverter
-protokt.v1.google.protobuf.FloatValueConverter
-protokt.v1.google.protobuf.Int32ValueConverter
-protokt.v1.google.protobuf.Int64ValueConverter
-protokt.v1.google.protobuf.StringValueConverter
-protokt.v1.google.protobuf.UInt32ValueConverter
-protokt.v1.google.protobuf.UInt64ValueConverter
