@@ -47,12 +47,6 @@ kotlin {
                 api(project(":protokt-core-lite"))
             }
         }
-
-        val jvmMain by getting {
-            dependencies {
-                implementation(kotlin("reflect"))
-            }
-        }
     }
 }
 
