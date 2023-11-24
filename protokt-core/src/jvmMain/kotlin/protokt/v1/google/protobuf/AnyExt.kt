@@ -20,7 +20,6 @@ import protokt.v1.KtDeserializer
 import protokt.v1.KtGeneratedMessage
 import protokt.v1.KtMessage
 import kotlin.reflect.KClass
-import kotlin.reflect.full.findAnnotation
 
 fun Any.Deserializer.pack(
     msg: KtMessage,
@@ -51,13 +50,13 @@ inline fun <reified T : KtMessage> Any.unpack(deserializer: KtDeserializer<T>): 
 inline fun <reified T : KtMessage> Any.isA() =
     typeUrl.substringAfterLast('/') ==
         (
-            T::class.findAnnotation<KtGeneratedMessage>()?.fullTypeName
-                ?: T::class.findAnnotation<com.toasttab.protokt.rt.KtGeneratedMessage>()?.fullTypeName
+            T::class.java.getAnnotation(KtGeneratedMessage::class.java)?.fullTypeName
+                ?: T::class.java.getAnnotation(com.toasttab.protokt.rt.KtGeneratedMessage::class.java)?.fullTypeName
                 ?: error("class ${T::class} has no protokt generated message annotation")
             )
 
 @Suppress("DEPRECATION")
 private fun fullTypeName(klass: KClass<*>) =
-    klass.findAnnotation<KtGeneratedMessage>()?.fullTypeName
-        ?: klass.findAnnotation<com.toasttab.protokt.rt.KtGeneratedMessage>()?.fullTypeName
+    klass.java.getAnnotation(KtGeneratedMessage::class.java)?.fullTypeName
+        ?: klass.java.getAnnotation(com.toasttab.protokt.rt.KtGeneratedMessage::class.java)?.fullTypeName
         ?: error("class $klass has no protokt generated message annotation")
