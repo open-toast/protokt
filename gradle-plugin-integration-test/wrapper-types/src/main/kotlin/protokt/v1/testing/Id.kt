@@ -22,7 +22,7 @@ import protokt.v1.Converter
 data class Id(val value: String)
 
 @AutoService(Converter::class)
-object IdConverter : Converter<Id, Bytes> {
+object IdConverter : Converter<Bytes, Id> {
     override val wrapper = Id::class
 
     override val wrapped = Bytes::class

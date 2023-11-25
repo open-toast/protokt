@@ -17,7 +17,7 @@ package protokt.v1.google.protobuf
 
 import protokt.v1.Converter
 
-object DoubleValueConverter : Converter<Double, DoubleValue> {
+object DoubleValueConverter : Converter<DoubleValue, Double> {
     override val wrapper = Double::class
 
     override val wrapped = DoubleValue::class

@@ -15,13 +15,20 @@
 
 package protokt.v1
 
-object DurationConverter : AbstractConverter<protokt.v1.google.protobuf.Duration, java.time.Duration>() {
-    override fun wrap(unwrapped: protokt.v1.google.protobuf.Duration): java.time.Duration =
-        java.time.Duration.ofSeconds(unwrapped.seconds, unwrapped.nanos.toLong())
+import java.lang.reflect.ParameterizedType
+import kotlin.jvm.internal.Reflection
+import kotlin.reflect.KClass
 
-    override fun unwrap(wrapped: java.time.Duration) =
-        protokt.v1.google.protobuf.Duration {
-            seconds = wrapped.seconds
-            nanos = wrapped.nano
-        }
+abstract class AbstractConverter<ProtobufT : Any, KotlinT : Any> : Converter<ProtobufT, KotlinT> {
+    final override val wrapper: KClass<KotlinT>
+        get() = resolveType(1)
+
+    final override val wrapped: KClass<ProtobufT>
+        get() = resolveType(0)
 }
+
+@Suppress("UNCHECKED_CAST")
+private fun <T : Any> Any.resolveType(index: Int) =
+    Reflection.getOrCreateKotlinClass(
+        (this::class.java.genericSuperclass as ParameterizedType).actualTypeArguments[index] as Class<T>
+    ) as KClass<T>

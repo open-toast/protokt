@@ -41,7 +41,43 @@ class WrapperTypesTest {
             nullableUuid = UUID.randomUUID()
             nullableLocalDate = LocalDate.of(1950, 10, 4)
             googleDate = LocalDate.of(1950, 10, 4)
+            optionalUuid = UUID.randomUUID()
+            optionalIpAddress = InetAddress.getByAddress(byteArrayOf(0, 0, 0, 1))
+            optionalLocalDate = LocalDate.of(1950, 10, 4)
+            nonNullUuid = UUID.randomUUID()
+            nonNullIpAddress = InetAddress.getByAddress(byteArrayOf(0, 0, 0, 1))
+            nonNullLocalDate = LocalDate.of(1950, 10, 4)
         }
+
+    @Test
+    fun `uuid property is nullable`() {
+        assertThat(Wrappers::class.propertyIsMarkedNullable("uuid")).isTrue()
+    }
+
+    @Test
+    fun `ipAddress property is nullable`() {
+        assertThat(Wrappers::class.propertyIsMarkedNullable("ipAddress")).isTrue()
+    }
+
+    @Test
+    fun `localDate property is nullable`() {
+        assertThat(Wrappers::class.propertyIsMarkedNullable("localDate")).isTrue()
+    }
+
+    @Test
+    fun `nonnull uuid property is not nullable`() {
+        assertThat(Wrappers::class.propertyIsMarkedNullable("nonNullUuid")).isFalse()
+    }
+
+    @Test
+    fun `nonnull ipAddress property is not nullable`() {
+        assertThat(Wrappers::class.propertyIsMarkedNullable("nonNullIpAddress")).isFalse()
+    }
+
+    @Test
+    fun `nonnull localDate property is not nullable`() {
+        assertThat(Wrappers::class.propertyIsMarkedNullable("nonNullLocalDate")).isFalse()
+    }
 
     @Test
     fun `round trip should preserve model`() {
@@ -135,6 +171,51 @@ class WrapperTypesTest {
     }
 
     @Test
+    fun `round trip should preserve optional uuid`() {
+        val deserialized = Wrappers.deserialize(model.serialize())
+
+        assertThat(deserialized.optionalUuid).isEqualTo(model.optionalUuid)
+    }
+
+    @Test
+    fun `round trip should preserve optional uuid when null`() {
+        val deserialized =
+            Wrappers.deserialize(model.copy { optionalUuid = null }.serialize())
+
+        assertThat(deserialized.optionalUuid).isNull()
+    }
+
+    @Test
+    fun `round trip should preserve optional localdate`() {
+        val deserialized = Wrappers.deserialize(model.serialize())
+
+        assertThat(deserialized.optionalLocalDate).isEqualTo(model.optionalLocalDate)
+    }
+
+    @Test
+    fun `round trip should preserve optional localdate when null`() {
+        val deserialized =
+            Wrappers.deserialize(model.copy { optionalLocalDate = null }.serialize())
+
+        assertThat(deserialized.optionalLocalDate).isNull()
+    }
+
+    @Test
+    fun `round trip should preserve optional ipaddress`() {
+        val deserialized = Wrappers.deserialize(model.serialize())
+
+        assertThat(deserialized.optionalIpAddress).isEqualTo(model.optionalIpAddress)
+    }
+
+    @Test
+    fun `round trip should preserve optional ipaddress when null`() {
+        val deserialized =
+            Wrappers.deserialize(model.copy { optionalIpAddress = null }.serialize())
+
+        assertThat(deserialized.optionalIpAddress).isNull()
+    }
+
+    @Test
     fun `round trip should preserve id oneof`() {
         val deserialized = OneofWrappers.deserialize(
             OneofWrappers {
@@ -151,7 +232,7 @@ class WrapperTypesTest {
     fun `round trip should preserve uuid oneof`() {
         val deserialized = OneofWrappers.deserialize(
             OneofWrappers {
-                wrappedOneof = WrappedOneof.UuidOneof(model.uuid)
+                wrappedOneof = WrappedOneof.UuidOneof(model.uuid!!)
             }.serialize()
         )
 
@@ -164,7 +245,7 @@ class WrapperTypesTest {
     fun `round trip should preserve ip address oneof`() {
         val deserialized = OneofWrappers.deserialize(
             OneofWrappers {
-                wrappedOneof = WrappedOneof.IpAddressOneof(model.ipAddress)
+                wrappedOneof = WrappedOneof.IpAddressOneof(model.ipAddress!!)
             }.serialize()
         )
 
@@ -229,7 +310,7 @@ class WrapperTypesTest {
     fun `round trip should preserve localdate oneof`() {
         val deserialized = OneofWrappers.deserialize(
             OneofWrappers {
-                wrappedOneof = WrappedOneof.LocalDateOneof(model.localDate)
+                wrappedOneof = WrappedOneof.LocalDateOneof(model.localDate!!)
             }.serialize()
         )
 

@@ -54,8 +54,8 @@ object Nullability {
             o.className.copy(nullable = true)
         }
 
-    fun propertyType(f: StandardField, type: TypeName) =
-        if (f.nullable) {
+    fun propertyType(f: StandardField, type: TypeName, wrapperRequiresNullability: Boolean) =
+        if (f.nullable || wrapperRequiresNullability) {
             type.copy(nullable = true)
         } else {
             type

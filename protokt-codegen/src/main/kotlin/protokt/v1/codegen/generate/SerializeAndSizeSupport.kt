@@ -19,7 +19,9 @@ import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.buildCodeBlock
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Nullability.hasNonNullOption
+import protokt.v1.codegen.generate.Nullability.nullable
 import protokt.v1.codegen.generate.Wrapper.interceptValueAccess
+import protokt.v1.codegen.generate.Wrapper.wrapperRequiresNullability
 import protokt.v1.codegen.util.FieldType
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.Oneof
@@ -69,16 +71,23 @@ private fun standardFieldExecution(
 }
 
 private fun StandardField.nonDefault(ctx: Context): CodeBlock {
-    val name = interceptValueAccess(this, ctx, CodeBlock.of("%N", fieldName))
-    return when {
-        optional -> CodeBlock.of("%N != null", fieldName)
-        repeated -> CodeBlock.of("%N.isNotEmpty()", fieldName)
-        type == FieldType.Message -> CodeBlock.of("%N != null", fieldName)
-        type == FieldType.Bytes || type == FieldType.String -> CodeBlock.of("%L.isNotEmpty()", name)
-        type == FieldType.Enum -> CodeBlock.of("%L.value != 0", name)
-        type == FieldType.Bool -> name
-        type.scalar -> CodeBlock.of("%L != %L", name, type.defaultValue)
-        else -> error("Field doesn't have nondefault check: $this, $type")
+    val valueAccess = interceptValueAccess(this, ctx, CodeBlock.of("%N", fieldName))
+    val defaultCheck =
+        when {
+            optional -> CodeBlock.of("%N != null", fieldName)
+            repeated -> CodeBlock.of("%N.isNotEmpty()", fieldName)
+            type == FieldType.Message -> CodeBlock.of("%N != null", fieldName)
+            type == FieldType.Bytes || type == FieldType.String -> CodeBlock.of("%L.isNotEmpty()", valueAccess)
+            type == FieldType.Enum -> CodeBlock.of("%L.value != 0", valueAccess)
+            type == FieldType.Bool -> valueAccess
+            type.scalar -> CodeBlock.of("%L != %L", valueAccess, type.defaultValue)
+            else -> error("Field doesn't have nondefault check: $this, $type")
+        }
+
+    return if (!nullable && wrapperRequiresNullability(ctx)) {
+        CodeBlock.of("%L != null && %L", fieldName, defaultCheck)
+    } else {
+        defaultCheck
     }
 }
 

@@ -467,10 +467,8 @@ public final class protokt/v1/InetSocketAddress$Deserializer : protokt/v1/Abstra
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/InetSocketAddress;
 }
 
-public final class protokt/v1/InetSocketAddressConverter : protokt/v1/Converter {
+public final class protokt/v1/InetSocketAddressConverter : protokt/v1/AbstractConverter {
 	public static final field INSTANCE Lprotokt/v1/InetSocketAddressConverter;
-	public fun getWrapped ()Lkotlin/reflect/KClass;
-	public fun getWrapper ()Lkotlin/reflect/KClass;
 	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
 	public fun unwrap (Ljava/net/InetSocketAddress;)Lprotokt/v1/InetSocketAddress;
 	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;

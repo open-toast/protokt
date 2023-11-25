@@ -18,11 +18,7 @@ package protokt.v1
 import protokt.v1.google.protobuf.Timestamp
 import java.time.Instant
 
-object InstantConverter : Converter<Instant, Timestamp> {
-    override val wrapper = Instant::class
-
-    override val wrapped = Timestamp::class
-
+object InstantConverter : AbstractConverter<Timestamp, Instant>() {
     override fun wrap(unwrapped: Timestamp): Instant =
         Instant.ofEpochSecond(unwrapped.seconds, unwrapped.nanos.toLong())
 

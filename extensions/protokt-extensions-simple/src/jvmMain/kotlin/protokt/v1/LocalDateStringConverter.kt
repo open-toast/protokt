@@ -17,10 +17,8 @@ package protokt.v1
 
 import java.time.LocalDate
 
-object LocalDateStringConverter : Converter<LocalDate, String> {
-    override val wrapper = LocalDate::class
-
-    override val wrapped = String::class
+object LocalDateStringConverter : AbstractConverter<String, LocalDate>() {
+    override val acceptsDefaultValue = false
 
     override fun wrap(unwrapped: String): LocalDate =
         LocalDate.parse(unwrapped)

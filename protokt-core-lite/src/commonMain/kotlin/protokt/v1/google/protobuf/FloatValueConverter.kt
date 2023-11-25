@@ -17,7 +17,7 @@ package protokt.v1.google.protobuf
 
 import protokt.v1.Converter
 
-object FloatValueConverter : Converter<Float, FloatValue> {
+object FloatValueConverter : Converter<FloatValue, Float> {
     override val wrapper = Float::class
 
     override val wrapped = FloatValue::class

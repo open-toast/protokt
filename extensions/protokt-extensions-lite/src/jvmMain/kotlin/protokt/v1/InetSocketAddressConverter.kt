@@ -15,12 +15,7 @@
 
 package protokt.v1
 
-object InetSocketAddressConverter : Converter<java.net.InetSocketAddress, InetSocketAddress> {
-
-    override val wrapper = java.net.InetSocketAddress::class
-
-    override val wrapped = InetSocketAddress::class
-
+object InetSocketAddressConverter : AbstractConverter<InetSocketAddress, java.net.InetSocketAddress>() {
     override fun wrap(unwrapped: InetSocketAddress) =
         java.net.InetSocketAddress(
             InetAddressBytesConverter.wrap(unwrapped.address),

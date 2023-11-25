@@ -21,6 +21,7 @@ import com.google.common.collect.Table
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.asClassName
 import io.github.oshai.kotlinlogging.KotlinLogging
+import protokt.v1.Bytes
 import protokt.v1.Converter
 import protokt.v1.OptimizedSizeOfConverter
 import java.io.File
@@ -49,10 +50,9 @@ class ClassLookup(classpath: List<String>) {
         }
     }
 
-    private val convertersByWrapperAndWrapped by lazy {
+    private val convertersByProtoClassNameAndKotlinClassName by lazy {
         classLoader.getResources("META-INF/services/${Converter::class.qualifiedName}")
             .asSequence()
-            .plus(@Suppress("DEPRECATION") classLoader.getResources("META-INF/services/${com.toasttab.protokt.ext.Converter::class.qualifiedName}").asSequence())
             .flatMap { url ->
                 url.openStream()
                     .bufferedReader()
@@ -64,7 +64,7 @@ class ClassLookup(classpath: List<String>) {
                     }
             }.run {
                 val table = HashBasedTable.create<ClassName, ClassName, MutableList<Converter<*, *>>>()
-                forEach { table.getOrPut(it.wrapper.asClassName(), it.wrapped.asClassName()) { mutableListOf() }.add(it) }
+                forEach { table.getOrPut(it.wrapped.asClassName(), it.wrapper.asClassName()) { mutableListOf() }.add(it) }
                 ImmutableTable.builder<ClassName, ClassName, List<Converter<*, *>>>().putAll(table).build()
             }
     }
@@ -80,11 +80,11 @@ class ClassLookup(classpath: List<String>) {
             throw Exception("Class not found: ${className.canonicalName}")
         }
 
-    fun converter(wrapper: ClassName, wrapped: ClassName): ConverterDetails {
-        val converters = convertersByWrapperAndWrapped.get(wrapper, wrapped) ?: emptyList()
+    fun converter(protoClassName: ClassName, kotlinClassName: ClassName): ConverterDetails {
+        val converters = convertersByProtoClassNameAndKotlinClassName.get(protoClassName, kotlinClassName) ?: emptyList()
 
         require(converters.isNotEmpty()) {
-            "No converter found for wrapper type $wrapper from type $wrapped"
+            "No converter found for wrapper type $kotlinClassName from type $protoClassName"
         }
 
         val converter =
@@ -93,16 +93,59 @@ class ClassLookup(classpath: List<String>) {
                 .firstOrNull()
                 ?: converters.first()
 
+        val defaultValueFailure = tryDeserializeDefaultValue(converter)
+
+        if (converter.acceptsDefaultValue) {
+            require(defaultValueFailure == null) {
+                "Converter $converter claims to work on protobuf default value but it does not; " +
+                    "it fails with ${defaultValueFailure!!.stackTraceToString()}"
+            }
+        } else {
+            require(defaultValueFailure != null) {
+                "Converter $converter claims not to work on protobuf default value but it does"
+            }
+        }
+
         return ConverterDetails(
             converter::class.asClassName(),
-            converter is OptimizedSizeOfConverter<*, *>
+            kotlinClassName,
+            converter is OptimizedSizeOfConverter<*, *>,
+            !converter.acceptsDefaultValue
         )
     }
 }
 
+private fun <T : Any> tryDeserializeDefaultValue(converter: Converter<T, *>): Throwable? {
+    fun tryWrap(unwrapped: T) =
+        try {
+            converter.wrap(unwrapped)
+            null
+        } catch (t: Throwable) {
+            t
+        }
+
+    val protoDefault: Any? =
+        when (converter.wrapped) {
+            Int::class -> 0
+            Long::class -> 0L
+            UInt::class -> 0u
+            ULong::class -> 0uL
+            Float::class -> 0.0F
+            Double::class -> 0.0
+            String::class -> ""
+            Bytes::class -> Bytes.empty()
+            else -> null
+        }
+
+    @Suppress("UNCHECKED_CAST")
+    return if (protoDefault == null) null else tryWrap(protoDefault as T)
+}
+
 class ConverterDetails(
-    val className: ClassName,
-    val optimizedSizeof: Boolean
+    val converterClassName: ClassName,
+    val kotlinClassName: ClassName,
+    val optimizedSizeof: Boolean,
+    val cannotDeserializeDefaultValue: Boolean
 )
 
 private fun <R, C, V> Table<R, C, V>.getOrPut(r: R, c: C, v: () -> V): V =
