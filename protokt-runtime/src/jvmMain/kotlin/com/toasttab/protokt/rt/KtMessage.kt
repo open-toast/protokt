@@ -18,9 +18,6 @@ package com.toasttab.protokt.rt
 import com.google.protobuf.CodedOutputStream
 import java.io.OutputStream
 
-/**
- * Base type for all Kotlin generated types.
- */
 @Suppress("DEPRECATION")
 interface KtMessage {
     val messageSize: Int
