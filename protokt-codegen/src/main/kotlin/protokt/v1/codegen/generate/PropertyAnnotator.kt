@@ -32,6 +32,7 @@ import protokt.v1.codegen.generate.Wrapper.interceptMapKeyTypeName
 import protokt.v1.codegen.generate.Wrapper.interceptMapValueTypeName
 import protokt.v1.codegen.generate.Wrapper.interceptTypeName
 import protokt.v1.codegen.generate.Wrapper.wrapped
+import protokt.v1.codegen.generate.Wrapper.wrapperRequiresNullability
 import protokt.v1.codegen.util.ErrorContext.withFieldName
 import protokt.v1.codegen.util.Field
 import protokt.v1.codegen.util.FieldType
@@ -55,16 +56,17 @@ private class PropertyAnnotator(
         return when (field) {
             is StandardField -> {
                 annotateStandard(field).let { type ->
+                    val wrapperRequiresNullability = field.wrapperRequiresNullability(ctx)
                     PropertyInfo(
                         name = field.fieldName,
-                        propertyType = propertyType(field, type),
+                        propertyType = propertyType(field, type, wrapperRequiresNullability),
                         deserializeType = deserializeType(field, type),
                         builderPropertyType = dslPropertyType(field, type),
                         defaultValue = field.defaultValue(ctx),
                         fieldType = field.type,
                         repeated = field.repeated,
                         map = field.map,
-                        nullable = field.nullable || field.optional,
+                        nullable = field.nullable || field.optional || wrapperRequiresNullability,
                         nonNullOption = field.hasNonNullOption,
                         overrides = field.overrides(ctx, msg),
                         wrapped = field.wrapped,

@@ -17,12 +17,15 @@ package protokt.v1
 
 import kotlin.reflect.KClass
 
-interface Converter<S : Any, T : Any> {
-    val wrapper: KClass<S>
+interface Converter<ProtobufT : Any, KotlinT : Any> {
+    val wrapper: KClass<KotlinT>
 
-    val wrapped: KClass<T>
+    val wrapped: KClass<ProtobufT>
 
-    fun wrap(unwrapped: T): S
+    val acceptsDefaultValue
+        get() = true
 
-    fun unwrap(wrapped: S): T
+    fun wrap(unwrapped: ProtobufT): KotlinT
+
+    fun unwrap(wrapped: KotlinT): ProtobufT
 }

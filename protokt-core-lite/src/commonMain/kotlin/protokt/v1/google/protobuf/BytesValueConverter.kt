@@ -18,7 +18,7 @@ package protokt.v1.google.protobuf
 import protokt.v1.Bytes
 import protokt.v1.Converter
 
-object BytesValueConverter : Converter<Bytes, BytesValue> {
+object BytesValueConverter : Converter<BytesValue, Bytes> {
     override val wrapper = Bytes::class
 
     override val wrapped = BytesValue::class

@@ -15,16 +15,20 @@
 
 package protokt.v1
 
-import com.google.auto.service.AutoService
-import java.time.LocalDate
+import java.lang.reflect.ParameterizedType
+import kotlin.jvm.internal.Reflection
+import kotlin.reflect.KClass
 
-@AutoService(Converter::class)
-object LocalDateStringConverter : AbstractConverter<String, LocalDate>() {
-    override val acceptsDefaultValue = false
+abstract class AbstractConverter<ProtobufT : Any, KotlinT : Any> : Converter<ProtobufT, KotlinT> {
+    final override val wrapper: KClass<KotlinT>
+        get() = resolveType(1)
 
-    override fun wrap(unwrapped: String): LocalDate =
-        LocalDate.parse(unwrapped)
-
-    override fun unwrap(wrapped: LocalDate) =
-        wrapped.toString()
+    final override val wrapped: KClass<ProtobufT>
+        get() = resolveType(0)
 }
+
+@Suppress("UNCHECKED_CAST")
+private fun <T : Any> Any.resolveType(index: Int) =
+    Reflection.getOrCreateKotlinClass(
+        (this::class.java.genericSuperclass as ParameterizedType).actualTypeArguments[index] as Class<T>
+    ) as KClass<T>

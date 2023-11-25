@@ -21,11 +21,7 @@ import protokt.v1.google.protobuf.BytesValue
 import java.util.UUID
 
 @AutoService(Converter::class)
-object UuidBytesValueConverter : OptimizedSizeOfConverter<UUID, BytesValue> {
-    override val wrapper = UUID::class
-
-    override val wrapped = BytesValue::class
-
+object UuidBytesValueConverter : AbstractConverter<BytesValue, UUID>(), OptimizedSizeOfConverter<BytesValue, UUID> {
     private val sizeOfProxy =
         BytesValue { value = Bytes.from(ByteArray(16)) }
 

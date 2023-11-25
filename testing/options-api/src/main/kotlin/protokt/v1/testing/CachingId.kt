@@ -16,6 +16,7 @@
 package protokt.v1.testing
 
 import com.google.auto.service.AutoService
+import protokt.v1.AbstractConverter
 import protokt.v1.Bytes
 import protokt.v1.Converter
 import protokt.v1.OptimizedSizeOfConverter
@@ -26,11 +27,7 @@ data class CachingId(
 )
 
 @AutoService(Converter::class)
-object CachingIdConverter : OptimizedSizeOfConverter<CachingId, Bytes> {
-    override val wrapper = CachingId::class
-
-    override val wrapped = Bytes::class
-
+object CachingIdConverter : AbstractConverter<Bytes, CachingId>(), OptimizedSizeOfConverter<Bytes, CachingId> {
     override fun sizeOf(wrapped: CachingId) =
         sizeOf(wrapped.value)
 

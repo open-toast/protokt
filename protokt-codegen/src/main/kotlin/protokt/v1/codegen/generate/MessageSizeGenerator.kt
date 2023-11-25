@@ -102,7 +102,7 @@ fun sizeOf(
     ctx: Context,
     oneOfFieldAccess: CodeBlock? = null
 ): CodeBlock {
-    val name =
+    val fieldAccess =
         oneOfFieldAccess
             ?: if (f.repeated) {
                 CodeBlock.of("%N", f.fieldName)
@@ -111,7 +111,7 @@ fun sizeOf(
             }
 
     return when {
-        f.map -> sizeOfMap(f, name, ctx)
+        f.map -> sizeOfMap(f, fieldAccess, ctx)
         f.repeated && f.packed -> {
             namedCodeBlock(
                 "sizeOf(${f.tag}u) + " +
@@ -127,7 +127,7 @@ fun sizeOf(
                 "(%sizeOf:M(${f.tag}u) * %name:L.size) + %elementsSize:L",
                 mapOf(
                     "sizeOf" to sizeOf,
-                    "name" to name,
+                    "name" to fieldAccess,
                     "elementsSize" to
                         f.elementsSize(
                             interceptValueAccess(f, ctx, CodeBlock.of("it")),
@@ -141,7 +141,7 @@ fun sizeOf(
                 add(
                     "%M(${f.tag}u) + %L",
                     sizeOf,
-                    interceptFieldSizeof(f, name, ctx)
+                    interceptFieldSizeof(f, f.sizeOf(fieldAccess), fieldAccess, ctx)
                 )
             }
         }
@@ -186,7 +186,7 @@ private fun StandardField.loopVar(name: String) =
         "_"
     }
 
-fun StandardField.sizeOf(value: CodeBlock): CodeBlock =
+private fun StandardField.sizeOf(value: CodeBlock): CodeBlock =
     when (val fn = type.sizeFn) {
         is FieldType.Const -> CodeBlock.of(fn.size.toString())
         is FieldType.Method -> CodeBlock.of("%M(%L)", fn.method, value)

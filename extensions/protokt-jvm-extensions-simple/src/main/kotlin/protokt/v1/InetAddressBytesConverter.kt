@@ -19,10 +19,8 @@ import com.google.auto.service.AutoService
 import java.net.InetAddress
 
 @AutoService(Converter::class)
-object InetAddressBytesConverter : Converter<InetAddress, Bytes> {
-    override val wrapper = InetAddress::class
-
-    override val wrapped = Bytes::class
+object InetAddressBytesConverter : AbstractConverter<Bytes, InetAddress>() {
+    override val acceptsDefaultValue = false
 
     override fun wrap(unwrapped: Bytes): InetAddress {
         require(unwrapped.isNotEmpty()) {

@@ -17,7 +17,7 @@ package protokt.v1.google.protobuf
 
 import protokt.v1.Converter
 
-object UInt64ValueConverter : Converter<ULong, UInt64Value> {
+object UInt64ValueConverter : Converter<UInt64Value, ULong> {
     override val wrapper = ULong::class
 
     override val wrapped = UInt64Value::class
