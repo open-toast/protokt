@@ -34,6 +34,7 @@ import kotlin.String
 import kotlin.Unit
 
 @KtGeneratedMessage("protokt.ProtoktFileOptions")
+@Deprecated("use v1")
 class ProtoktFileOptions private constructor(
     /**
      * Specify the Kotlin package for the generated file. Precedence is given first to this Kotlin
@@ -134,6 +135,7 @@ class ProtoktFileOptions private constructor(
 }
 
 @KtGeneratedMessage("protokt.ProtoktMessageOptions")
+@Deprecated("use v1")
 class ProtoktMessageOptions private constructor(
     /**
      * Declares that the message class implements an interface. Scoping rules are the same as those
@@ -233,6 +235,7 @@ class ProtoktMessageOptions private constructor(
 }
 
 @KtGeneratedMessage("protokt.ProtoktFieldOptions")
+@Deprecated("use v1")
 class ProtoktFieldOptions private constructor(
     /**
      * Makes a message-type field non-nullable in the generated Kotlin code. Beware that
@@ -452,6 +455,7 @@ class ProtoktFieldOptions private constructor(
 }
 
 @KtGeneratedMessage("protokt.ProtoktOneofOptions")
+@Deprecated("use v1")
 class ProtoktOneofOptions private constructor(
     /**
      * Makes a oneof field non-nullable in generated Kotlin code. Beware that deserialization will
@@ -578,6 +582,7 @@ class ProtoktOneofOptions private constructor(
 }
 
 @KtGeneratedMessage("protokt.ProtoktEnumOptions")
+@Deprecated("use v1")
 class ProtoktEnumOptions private constructor(
     /**
      * Provides a message for deprecation
@@ -655,6 +660,7 @@ class ProtoktEnumOptions private constructor(
 }
 
 @KtGeneratedMessage("protokt.ProtoktEnumValueOptions")
+@Deprecated("use v1")
 class ProtoktEnumValueOptions private constructor(
     /**
      * Provides a message for deprecation
@@ -733,6 +739,7 @@ class ProtoktEnumValueOptions private constructor(
 }
 
 @KtGeneratedMessage("protokt.ProtoktServiceOptions")
+@Deprecated("use v1")
 class ProtoktServiceOptions private constructor(
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
 ) : KtMessage {
@@ -784,6 +791,7 @@ class ProtoktServiceOptions private constructor(
 }
 
 @KtGeneratedMessage("protokt.ProtoktMethodOptions")
+@Deprecated("use v1")
 class ProtoktMethodOptions private constructor(
     /**
      * Provides a custom request marshaller for the generated method descriptor. Substitutes the

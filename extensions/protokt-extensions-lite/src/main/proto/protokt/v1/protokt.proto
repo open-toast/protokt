@@ -108,7 +108,7 @@ message FieldOptions {
   // For example:
   //
   // message Foo {
-  //   map<int32, strig> map = 1 [(protokt.v1.property).value_wrap = "com.foo.FooId"];
+  //   map<int32, string> map = 1 [(protokt.v1.property).value_wrap = "com.foo.FooId"];
   // }
   //
   // data class FooId(val value: String)

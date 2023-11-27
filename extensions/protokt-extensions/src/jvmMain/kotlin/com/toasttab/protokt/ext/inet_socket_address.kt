@@ -24,6 +24,7 @@ import com.toasttab.protokt.FileDescriptor
 import com.toasttab.protokt.rt.KtGeneratedFileDescriptor
 
 @KtGeneratedFileDescriptor
+@Deprecated("use v1")
 object InetSocketAddressProto {
     val descriptor: FileDescriptor by lazy {
                 val descriptorData = arrayOf(
