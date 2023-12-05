@@ -17,48 +17,10 @@ package protokt.v1.codegen.generate
 
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.FileSpec
-import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
-import protokt.v1.codegen.generate.CodeGenerator.Context
-import protokt.v1.codegen.util.Enum
-import protokt.v1.codegen.util.Message
-import protokt.v1.codegen.util.Oneof
-import protokt.v1.codegen.util.StandardField
 
 object Deprecation {
-    fun enclosingDeprecation(ctx: Context): Boolean {
-        return if (ctx.enclosing.isEmpty()) {
-            false
-        } else {
-            ctx.enclosing
-                .subList(0, ctx.enclosing.size)
-                .any { it.hasDeprecation }
-        }
-    }
-
-    val Message.hasDeprecation: Boolean
-        get() =
-            options.default.deprecated ||
-                fields.any {
-                    when (it) {
-                        is StandardField -> it.options.default.deprecated
-                        is Oneof -> it.fields.any { f -> f.options.default.deprecated }
-                    }
-                } ||
-                nestedTypes.any {
-                    when (it) {
-                        is Message -> it.hasDeprecation
-                        is Enum -> it.hasDeprecation
-                        else -> false
-                    }
-                }
-
-    val Enum.hasDeprecation
-        get() =
-            options.default.deprecated ||
-                values.any { it.options.default.deprecated }
-
     fun renderOptions(message: String) =
         RenderOptions(message.ifBlank { null }?.bindSpaces())
 
@@ -86,17 +48,6 @@ object Deprecation {
             )
         }
     }
-
-    fun FunSpec.Builder.handleDeprecation(msg: Message) =
-        apply {
-            if (msg.options.default.deprecated) {
-                addAnnotation(
-                    AnnotationSpec.builder(Deprecated::class)
-                        .handleDeprecationMessage(msg.options.protokt.deprecationMessage)
-                        .build()
-                )
-            }
-        }
 
     private fun AnnotationSpec.Builder.handleDeprecationMessage(message: String) =
         apply {

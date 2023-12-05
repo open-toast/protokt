@@ -17,7 +17,7 @@ package protokt.v1.codegen.util
 
 import com.google.common.base.CaseFormat
 import com.google.protobuf.DescriptorProtos.EnumDescriptorProto
-import com.toasttab.protokt.v1.ProtoktProto
+import com.toasttab.protokt.v1.ProtoktProtos
 
 class EnumParser(
     private val ctx: GeneratorContext,
@@ -40,7 +40,7 @@ class EnumParser(
                     newEnumValueName(enumTypeNamePrefixToStrip, t.name),
                     EnumValueOptions(
                         t.options,
-                        t.options.getExtension(ProtoktProto.enumValue)
+                        t.options.getExtension(ProtoktProtos.enumValue)
                     ),
                     enumIdx
                 )
@@ -48,7 +48,7 @@ class EnumParser(
             index = idx,
             options = EnumOptions(
                 desc.options,
-                desc.options.getExtension(ProtoktProto.enum_)
+                desc.options.getExtension(ProtoktProtos.enum_)
             ),
             className = ctx.className(simpleNames),
             deserializerClassName = ctx.className(simpleNames + DESERIALIZER)

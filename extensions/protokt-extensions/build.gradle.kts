@@ -25,6 +25,15 @@ enablePublishing()
 compatibleWithAndroid()
 trackKotlinApiCompatibility()
 
+spotless {
+    kotlin {
+        targetExclude(
+            "src/jvmMain/kotlin/com/toasttab/protokt/ext/inet_socket_address.kt",
+            "src/jvmMain/kotlin/com/toasttab/protokt/ext/protokt.kt"
+        )
+    }
+}
+
 protokt {
     generate {
         types = false

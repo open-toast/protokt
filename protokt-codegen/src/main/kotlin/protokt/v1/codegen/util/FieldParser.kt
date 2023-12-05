@@ -27,7 +27,7 @@ import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.google.protobuf.DescriptorProtos.OneofDescriptorProto
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.asTypeName
-import com.toasttab.protokt.v1.ProtoktProto
+import com.toasttab.protokt.v1.ProtoktProtos
 import protokt.v1.codegen.generate.Wrapper.wrapperRequiresNonNullOptionForNonNullity
 import protokt.v1.codegen.util.ErrorContext.withFieldName
 
@@ -90,7 +90,7 @@ class FieldParser(
             fields = oneofStdFields,
             options = OneofOptions(
                 oneof.options,
-                oneof.options.getExtension(ProtoktProto.oneof)
+                oneof.options.getExtension(ProtoktProtos.oneof)
             ),
             // index relative to all oneofs in this message
             index = idx - fields.filterIsInstance<StandardField>().count()
@@ -103,7 +103,7 @@ class FieldParser(
         withinOneof: Boolean = false
     ): StandardField {
         val fieldType = toFieldType(fdp.type)
-        val protoktOptions = fdp.options.getExtension(ProtoktProto.property)
+        val protoktOptions = fdp.options.getExtension(ProtoktProtos.property)
         val repeated = fdp.label == LABEL_REPEATED
         val mapEntry = mapEntry(fdp)
         val optional = optional(fdp)

@@ -17,8 +17,7 @@ package protokt.v1
 
 import org.khronos.webgl.Uint8Array
 
-@Suppress("DEPRECATION")
-actual interface KtDeserializer<T : com.toasttab.protokt.rt.KtMessage> {
+actual interface KtDeserializer<T : KtMessage> {
     actual fun deserialize(bytes: Bytes): T
 
     actual fun deserialize(bytes: ByteArray): T

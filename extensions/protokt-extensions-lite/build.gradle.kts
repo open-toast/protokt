@@ -14,6 +14,7 @@
  */
 
 import protokt.v1.gradle.protokt
+import protokt.v1.gradle.protoktExtensions
 
 plugins {
     id("protokt.multiplatform-conventions")
@@ -21,8 +22,16 @@ plugins {
 
 localProtokt()
 enablePublishing()
-compatibleWithAndroid()
 trackKotlinApiCompatibility()
+
+spotless {
+    kotlin {
+        targetExclude(
+            "src/jvmMain/kotlin/com/toasttab/protokt/ext/inet_socket_address.kt",
+            "src/jvmMain/kotlin/com/toasttab/protokt/ext/protokt.kt"
+        )
+    }
+}
 
 protokt {
     generate {
@@ -34,10 +43,20 @@ kotlin {
     sourceSets {
         val commonMain by getting {}
 
+        val jvmMain by getting {
+            dependencies {
+                api(project(":protokt-core-lite"))
+            }
+        }
+
         val jvmTest by getting {
             dependencies {
-                runtimeOnly(libs.protobuf.lite) // unclear why this is needed; no tests
+                runtimeOnly(libs.protobuf.lite)
             }
         }
     }
+}
+
+dependencies {
+    protoktExtensions(project(":extensions:protokt-extensions-simple"))
 }

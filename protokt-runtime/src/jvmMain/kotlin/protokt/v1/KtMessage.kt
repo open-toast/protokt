@@ -15,13 +15,19 @@
 
 package protokt.v1
 
-@Suppress("DEPRECATION")
-actual interface KtMessage : com.toasttab.protokt.rt.KtMessage {
-    actual override val messageSize: Int
+import com.google.protobuf.CodedOutputStream
+import java.io.OutputStream
 
-    override fun serialize(serializer: com.toasttab.protokt.rt.KtMessageSerializer) {
-        throw UnsupportedOperationException()
-    }
+actual interface KtMessage {
+    actual val messageSize: Int
 
-    actual override fun serialize(serializer: KtMessageSerializer)
+    actual fun serialize(serializer: KtMessageSerializer)
+
+    actual fun serialize(): ByteArray
+
+    fun serialize(outputStream: OutputStream) =
+        CodedOutputStream.newInstance(outputStream).run {
+            serialize(serializer(this))
+            flush()
+        }
 }

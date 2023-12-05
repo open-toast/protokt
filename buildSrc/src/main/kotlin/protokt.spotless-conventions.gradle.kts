@@ -32,19 +32,11 @@ allprojects {
             targetExclude(
                 "buildSrc/build/generated-sources/**",
                 "**/generated/**",
-                "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/compiler/plugin.kt",
-                "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/any.kt",
-                "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/api.kt",
-                "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/descriptor.kt",
-                "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/duration.kt",
-                "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/empty.kt",
-                "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/field_mask.kt",
-                "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/source_context.kt",
-                "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/struct.kt",
-                "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/timestamp.kt",
-                "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/type.kt",
-                "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/wrappers.kt",
-                "extensions/protokt-jvm-extensions-lite/src/main/kotlin/com/toasttab/protokt/ext/inet_socket_address.kt"
+                "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/**/*.kt",
+                "extensions/protokt-jvm-extensions-lite/src/main/kotlin/com/toasttab/protokt/ext/**.kt",
+                "extensions/protokt-extensions-lite/src/jvmMain/kotlin/com/toasttab/protokt/ext/**.kt",
+                "extensions/protokt-extensions/src/jvmMain/kotlin/com/toasttab/protokt/ext/**.kt",
+                "protokt-core/src/jvmMain/kotlin/com/toasttab/protokt/**/*.kt"
             )
         }
 
@@ -67,6 +59,7 @@ allprojects {
             targetExclude(
                 "**/buildSrc/build/generated/source/buildConfig/main/main/**",
                 "**/build/generated-sources/kotlin-dsl-*/**",
+                "**/build/generated/source/**",
                 "**/protokt/v1/animals/**",
                 "**/protokt/v1/helloworld/**",
                 "**/protokt/v1/io/grpc/examples/**"

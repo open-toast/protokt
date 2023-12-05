@@ -53,7 +53,6 @@ class ClassLookup(classpath: List<String>) {
     private val convertersByProtoClassNameAndKotlinClassName by lazy {
         classLoader.getResources("META-INF/services/${Converter::class.qualifiedName}")
             .asSequence()
-            .plus(@Suppress("DEPRECATION") classLoader.getResources("META-INF/services/${com.toasttab.protokt.ext.Converter::class.qualifiedName}").asSequence())
             .flatMap { url ->
                 url.openStream()
                     .bufferedReader()
