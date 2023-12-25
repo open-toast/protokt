@@ -26,6 +26,7 @@ import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
 import protokt.v1.AbstractKtMessage
 import protokt.v1.KtGeneratedMessage
+import protokt.v1.KtProperty
 import protokt.v1.UnknownFieldSet
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.CodeGenerator.generate
@@ -86,6 +87,13 @@ private class MessageGenerator(
         addProperties(
             properties.map { property ->
                 PropertySpec.builder(property.name, property.propertyType).apply {
+                    if (property.number != null) {
+                        addAnnotation(
+                            AnnotationSpec.builder(KtProperty::class)
+                                .addMember("${property.number}")
+                                .build()
+                        )
+                    }
                     initializer(property.name)
                     if (property.overrides) {
                         addModifiers(KModifier.OVERRIDE)

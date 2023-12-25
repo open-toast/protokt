@@ -59,6 +59,7 @@ private class PropertyAnnotator(
                     val wrapperRequiresNullability = field.wrapperRequiresNullability(ctx)
                     PropertyInfo(
                         name = field.fieldName,
+                        number = field.number,
                         propertyType = propertyType(field, type, wrapperRequiresNullability),
                         deserializeType = deserializeType(field, type),
                         builderPropertyType = dslPropertyType(field, type),
@@ -149,6 +150,7 @@ private class PropertyAnnotator(
 
 class PropertyInfo(
     val name: String,
+    val number: Int? = null,
     val propertyType: TypeName,
     val deserializeType: TypeName,
     val builderPropertyType: TypeName,
