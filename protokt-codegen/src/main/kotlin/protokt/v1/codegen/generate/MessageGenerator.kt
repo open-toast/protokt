@@ -50,15 +50,16 @@ private class MessageGenerator(
             generateMapEntry(msg, ctx)
         } else {
             val properties = annotateProperties(msg, ctx)
+            val propertySpecs = properties(properties)
 
             TypeSpec.classBuilder(msg.className).apply {
                 annotateMessageDocumentation(ctx)?.let { addKdoc(formatDoc(it)) }
                 handleAnnotations()
-                handleConstructor(properties)
+                handleConstructor(propertySpecs)
                 addTypes(annotateOneofs(msg, ctx))
                 handleMessageSize()
-                addFunction(generateMessageSize(msg, ctx))
-                addFunction(generateSerializer(msg, ctx))
+                addFunction(generateMessageSize(msg, propertySpecs, ctx))
+                addFunction(generateSerializer(msg, propertySpecs, ctx))
                 handleEquals(properties)
                 handleHashCode(properties)
                 handleToString(properties)
@@ -81,28 +82,10 @@ private class MessageGenerator(
     }
 
     private fun TypeSpec.Builder.handleConstructor(
-        properties: List<PropertyInfo>
+        properties: List<PropertySpec>
     ) = apply {
         superclass(AbstractKtMessage::class)
-        addProperties(
-            properties.map { property ->
-                PropertySpec.builder(property.name, property.propertyType).apply {
-                    if (property.number != null) {
-                        addAnnotation(
-                            AnnotationSpec.builder(KtProperty::class)
-                                .addMember("${property.number}")
-                                .build()
-                        )
-                    }
-                    initializer(property.name)
-                    if (property.overrides) {
-                        addModifiers(KModifier.OVERRIDE)
-                    }
-                    property.documentation?.let { addKdoc(formatDoc(it)) }
-                    handleDeprecation(property.deprecation)
-                }.build()
-            }
-        )
+        addProperties(properties)
         addProperty(
             PropertySpec.builder("unknownFields", UnknownFieldSet::class)
                 .initializer("unknownFields")
@@ -111,7 +94,7 @@ private class MessageGenerator(
         primaryConstructor(
             FunSpec.constructorBuilder()
                 .addModifiers(KModifier.PRIVATE)
-                .addParameters(properties.map { ParameterSpec(it.name, it.propertyType) })
+                .addParameters(properties.map { ParameterSpec(it.name, it.type) })
                 .addParameter(
                     ParameterSpec.builder("unknownFields", UnknownFieldSet::class)
                         .defaultValue("%T.empty()", UnknownFieldSet::class)
@@ -121,6 +104,25 @@ private class MessageGenerator(
         )
         handleSuperInterface(msg, ctx)
     }
+
+    private fun properties(properties: List<PropertyInfo>) =
+        properties.map { property ->
+            PropertySpec.builder(property.name, property.propertyType).apply {
+                if (property.number != null) {
+                    addAnnotation(
+                        AnnotationSpec.builder(KtProperty::class)
+                            .addMember("${property.number}")
+                            .build()
+                    )
+                }
+                initializer(property.name)
+                if (property.overrides) {
+                    addModifiers(KModifier.OVERRIDE)
+                }
+                property.documentation?.let { addKdoc(formatDoc(it)) }
+                handleDeprecation(property.deprecation)
+            }.build()
+        }
 
     private fun TypeSpec.Builder.handleMessageSize() =
         addProperty(

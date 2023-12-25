@@ -18,6 +18,7 @@ package protokt.v1.codegen.generate
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.buildCodeBlock
 import protokt.v1.KtMessageSerializer
 import protokt.v1.codegen.generate.CodeGenerator.Context
@@ -29,20 +30,22 @@ import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.Oneof
 import protokt.v1.codegen.util.StandardField
 
-fun generateSerializer(msg: Message, ctx: Context) =
-    SerializerGenerator(msg, ctx).generate()
+fun generateSerializer(msg: Message, properties: List<PropertySpec>, ctx: Context) =
+    SerializerGenerator(msg, properties, ctx).generate()
 
 private class SerializerGenerator(
     private val msg: Message,
+    private val properties: List<PropertySpec>,
     private val ctx: Context
 ) {
     fun generate(): FunSpec {
         val fieldSerializations =
             msg.mapFields(
                 ctx,
+                properties,
                 true,
-                { serialize(it, ctx) },
-                { oneof, std -> serialize(std, ctx, oneof) }
+                { f, p: PropertySpec -> serialize(f, ctx, p) },
+                { oneof, std, p -> serialize(std, ctx, p, oneof) }
             )
 
         return buildFunSpec("serialize") {
@@ -54,9 +57,12 @@ private class SerializerGenerator(
     }
 }
 
+// TODO: don't use `f.fieldName` at all; only use the previously generated property (for oneofs too)
+// TODO: replicate this failure with a map called `val`; possibly other cases from protovalidate with mainline protokt
 fun serialize(
     f: StandardField,
     ctx: Context,
+    p: PropertySpec? = null,
     o: Oneof? = null
 ): CodeBlock {
     val fieldAccess =
@@ -80,10 +86,10 @@ fun serialize(
                     "elementsSize" to f.elementsSize()
                 )
             )
-            add("%N.forEach·{·serializer.%L·}", f.fieldName, f.write(CodeBlock.of("it")))
+            add("%N.forEach·{·serializer.%L·}", (p ?: f.fieldName), f.write(CodeBlock.of("it")))
         }
         f.map -> buildCodeBlock {
-            beginControlFlow("${f.fieldName}.entries.forEach")
+            beginControlFlow("%N.entries.forEach", p ?: f.fieldName)
             add(
                 "serializer.writeTag(${f.tag.value}u).write(%L)\n",
                 f.boxMap(ctx)
@@ -95,7 +101,7 @@ fun serialize(
                 "%name:N.forEach·{·" +
                     "serializer.writeTag(${f.tag.value}u).%write:L·}",
                 mapOf(
-                    "name" to f.fieldName,
+                    "name" to (p ?: f.fieldName),
                     "write" to f.write(fieldAccess)
                 )
             )
