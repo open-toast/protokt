@@ -17,21 +17,26 @@ package protokt.v1
 
 import protokt.v1.SizeCodecs.sizeOf
 import kotlin.jvm.JvmInline
+import kotlin.jvm.JvmStatic
 
 class UnknownField private constructor(
     val fieldNumber: UInt,
     val value: UnknownValue
 ) {
     companion object {
+        @JvmStatic
         fun varint(fieldNumber: UInt, varint: Long) =
             UnknownField(fieldNumber, VarintVal(varint.toULong()))
 
+        @JvmStatic
         fun fixed32(fieldNumber: UInt, fixed32: UInt) =
             UnknownField(fieldNumber, Fixed32Val(fixed32))
 
+        @JvmStatic
         fun fixed64(fieldNumber: UInt, fixed64: ULong) =
             UnknownField(fieldNumber, Fixed64Val(fixed64))
 
+        @JvmStatic
         fun lengthDelimited(fieldNumber: UInt, bytes: ByteArray) =
             UnknownField(fieldNumber, LengthDelimitedVal(Bytes(bytes)))
     }

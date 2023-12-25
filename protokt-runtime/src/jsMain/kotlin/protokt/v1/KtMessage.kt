@@ -15,11 +15,10 @@
 
 package protokt.v1
 
-@Suppress("DEPRECATION")
-actual interface KtMessage : com.toasttab.protokt.rt.KtMessage {
-    actual override val messageSize: Int
+actual interface KtMessage {
+    actual val messageSize: Int
 
-    actual override fun serialize(serializer: KtMessageSerializer)
+    actual fun serialize(serializer: KtMessageSerializer)
 
-    actual override fun serialize(): ByteArray
+    actual fun serialize(): ByteArray
 }

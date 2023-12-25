@@ -50,6 +50,14 @@ kotlin {
                 }
             }
         }
+
+        jvm().compilations.all {
+            kotlinOptions {
+                // do not generate DefaultImpls objects since we do not target < JVM 1.8
+                // https://blog.jetbrains.com/kotlin/2020/07/kotlin-1-4-m3-generating-default-methods-in-interfaces
+                freeCompilerArgs = listOf("-Xjvm-default=all")
+            }
+        }
     }
 }
 

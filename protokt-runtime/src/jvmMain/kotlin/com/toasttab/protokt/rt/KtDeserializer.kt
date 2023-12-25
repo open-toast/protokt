@@ -16,7 +16,6 @@
 package com.toasttab.protokt.rt
 
 import com.google.protobuf.CodedInputStream
-import protokt.v1.NewToOldAdapter
 import java.io.InputStream
 import java.nio.ByteBuffer
 
@@ -49,6 +48,34 @@ interface KtDeserializer<T : KtMessage> {
     fun deserialize(bytes: protokt.v1.BytesSlice): T =
         deserialize(deserializer(CodedInputStream.newInstance(bytes.array, bytes.offset, bytes.length)))
 
-    fun deserialize(deserializer: protokt.v1.KtMessageDeserializer): T =
-        deserialize(NewToOldAdapter(deserializer))
+    @Deprecated("for ABI backwards compatibility only", level = DeprecationLevel.HIDDEN)
+    object DefaultImpls {
+        @JvmStatic
+        fun <T : KtMessage> deserialize(deserializer: KtDeserializer<T>, bytes: ByteArray): T =
+            deserializer.deserialize(deserializer(CodedInputStream.newInstance(bytes), bytes))
+
+        @JvmStatic
+        fun <T : KtMessage> deserialize(deserializer: KtDeserializer<T>, bytes: Bytes): T =
+            deserializer.deserialize(bytes.value)
+
+        @JvmStatic
+        fun <T : KtMessage> deserialize(deserializer: KtDeserializer<T>, bytes: BytesSlice): T =
+            deserializer.deserialize(deserializer(CodedInputStream.newInstance(bytes.array, bytes.offset, bytes.length)))
+
+        @JvmStatic
+        fun <T : KtMessage> deserialize(deserializer: KtDeserializer<T>, buffer: ByteBuffer): T =
+            deserializer.deserialize(deserializer(CodedInputStream.newInstance(buffer)))
+
+        @JvmStatic
+        fun <T : KtMessage> deserialize(deserializer: KtDeserializer<T>, stream: CodedInputStream): T =
+            deserializer.deserialize(deserializer(stream))
+
+        @JvmStatic
+        fun <T : KtMessage> deserialize(deserializer: KtDeserializer<T>, stream: InputStream): T =
+            deserializer.deserialize(deserializer(CodedInputStream.newInstance(stream)))
+
+        @JvmStatic
+        fun <T : KtMessage> deserialize(deserializer: KtDeserializer<T>, messageDeserializer: KtMessageDeserializer): T =
+            deserializer.deserialize(messageDeserializer)
+    }
 }

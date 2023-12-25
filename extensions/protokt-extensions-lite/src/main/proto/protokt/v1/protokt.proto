@@ -20,7 +20,7 @@ package protokt.v1;
 import "google/protobuf/descriptor.proto";
 
 option java_package = "com.toasttab.protokt.v1";
-option java_outer_classname = "ProtoktProto";
+option java_outer_classname = "ProtoktProtos";
 
 message FileOptions {
   // Specify the name of the Kotlin object that contains the reference to this
@@ -108,7 +108,7 @@ message FieldOptions {
   // For example:
   //
   // message Foo {
-  //   map<int32, strig> map = 1 [(protokt.v1.property).value_wrap = "com.foo.FooId"];
+  //   map<int32, string> map = 1 [(protokt.v1.property).value_wrap = "com.foo.FooId"];
   // }
   //
   // data class FooId(val value: String)

@@ -50,7 +50,6 @@ private constructor(
         val type =
             TypeSpec.objectBuilder(ctx.fileDescriptorObjectName)
                 .addAnnotation(KtGeneratedFileDescriptor::class)
-                .addAnnotation(@Suppress("DEPRECATION") com.toasttab.protokt.rt.KtGeneratedFileDescriptor::class)
                 .addProperty(
                     PropertySpec.builder("descriptor", ClassName(PROTOKT_V1_GOOGLE_PROTO, "FileDescriptor"))
                         .delegate(

@@ -30,7 +30,7 @@ tasks {
 }
 
 dependencies {
-    protoktExtensions("com.toasttab.protokt:protokt-jvm-extensions-lite:$version")
+    protoktExtensions("com.toasttab.protokt:protokt-extensions-lite:$version")
     protoktExtensions(project(":wrapper-types"))
 
     testImplementation(kotlin("test-junit5"))

@@ -16,8 +16,9 @@
 package protokt.v1.google.protobuf
 
 import protokt.v1.Collections.unmodifiableList
+import kotlin.jvm.JvmStatic
 
-class FileDescriptor(
+class FileDescriptor private constructor(
     val proto: FileDescriptorProto,
     val dependencies: List<FileDescriptor>
 ) {
@@ -37,6 +38,7 @@ class FileDescriptor(
         }.let(::unmodifiableList)
 
     companion object {
+        @JvmStatic
         fun buildFrom(
             data: Array<String>,
             dependencies: List<FileDescriptor>
@@ -58,13 +60,13 @@ class FileDescriptor(
     }
 }
 
-class Descriptor(
+class Descriptor private constructor(
     val proto: DescriptorProto,
     val file: FileDescriptor,
     val index: Int,
     val fullName: String
 ) {
-    constructor(
+    internal constructor(
         proto: DescriptorProto,
         file: FileDescriptor,
         index: Int,
@@ -97,7 +99,7 @@ class Descriptor(
         }.let(::unmodifiableList)
 }
 
-class EnumDescriptor(
+class EnumDescriptor internal constructor(
     val proto: EnumDescriptorProto,
     val file: FileDescriptor,
     val index: Int
@@ -145,17 +147,17 @@ class FieldDescriptor(
 
     val isMap =
         isRepeated &&
-                proto.type == FieldDescriptorProto.Type.MESSAGE &&
-                (messageType.proto.options?.mapEntry ?: false)
+            proto.type == FieldDescriptorProto.Type.MESSAGE &&
+            (messageType.proto.options?.mapEntry ?: false)
 
     val hasPresence =
         !isRepeated &&
-                (
-                        proto.type == FieldDescriptorProto.Type.MESSAGE
-                                || proto.type == FieldDescriptorProto.Type.GROUP
-                                || containingOneof != null
-                                || file.proto.syntax == Syntax.PROTO2.name
-                        )
+            (
+                proto.type == FieldDescriptorProto.Type.MESSAGE ||
+                    proto.type == FieldDescriptorProto.Type.GROUP ||
+                    containingOneof != null ||
+                    file.proto.syntax == Syntax.PROTO2.name
+                )
 }
 
 class OneofDescriptor(
@@ -166,7 +168,7 @@ class OneofDescriptor(
     val name = proto.name.orEmpty()
 }
 
-class ServiceDescriptor(
+class ServiceDescriptor internal constructor(
     val proto: ServiceDescriptorProto,
     val file: FileDescriptor,
     val index: Int

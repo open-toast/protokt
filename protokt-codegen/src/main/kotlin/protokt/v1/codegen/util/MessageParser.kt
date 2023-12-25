@@ -16,7 +16,7 @@
 package protokt.v1.codegen.util
 
 import com.google.protobuf.DescriptorProtos.DescriptorProto
-import com.toasttab.protokt.v1.ProtoktProto
+import com.toasttab.protokt.v1.ProtoktProtos
 
 class MessageParser(
     private val ctx: GeneratorContext,
@@ -45,7 +45,7 @@ class MessageParser(
             mapEntry = desc.options?.mapEntry == true,
             options = MessageOptions(
                 desc.options,
-                desc.options.getExtension(ProtoktProto.class_)
+                desc.options.getExtension(ProtoktProtos.class_)
             ),
             index = idx,
             fullProtobufTypeName = "${ctx.fdp.`package`}.$typeName",

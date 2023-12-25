@@ -20,7 +20,7 @@ import com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.Feature
 import com.squareup.kotlinpoet.FileSpec
-import com.toasttab.protokt.v1.ProtoktProto
+import com.toasttab.protokt.v1.ProtoktProtos
 import protokt.v1.codegen.generate.generateFile
 import protokt.v1.codegen.util.ErrorContext.withFileName
 import protokt.v1.codegen.util.GeneratorContext
@@ -93,5 +93,5 @@ private fun parseCodeGeneratorRequest(`in`: InputStream) =
     CodeGeneratorRequest.parseFrom(
         `in`,
         ExtensionRegistry.newInstance()
-            .also { ProtoktProto.registerAllExtensions(it) }
+            .also { ProtoktProtos.registerAllExtensions(it) }
     )
