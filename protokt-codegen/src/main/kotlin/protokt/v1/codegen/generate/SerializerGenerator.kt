@@ -58,7 +58,6 @@ private class SerializerGenerator(
 }
 
 // TODO: don't use `f.fieldName` at all; only use the previously generated property (for oneofs too)
-// TODO: replicate this failure with a map called `val`; possibly other cases from protovalidate with mainline protokt
 fun serialize(
     f: StandardField,
     ctx: Context,
