@@ -236,12 +236,10 @@ public final class protokt/v1/google/protobuf/Api_descriptorsKt {
 
 public final class protokt/v1/google/protobuf/Descriptor {
 	public final fun getEnumTypes ()Ljava/util/List;
-	public final fun getFields ()Ljava/util/List;
 	public final fun getFile ()Lprotokt/v1/google/protobuf/FileDescriptor;
 	public final fun getFullName ()Ljava/lang/String;
 	public final fun getIndex ()I
 	public final fun getNestedTypes ()Ljava/util/List;
-	public final fun getOneofs ()Ljava/util/List;
 	public final fun getProto ()Lprotokt/v1/google/protobuf/DescriptorProto;
 }
 
@@ -311,24 +309,6 @@ public final class protokt/v1/google/protobuf/EnumDescriptor {
 	public final fun getProto ()Lprotokt/v1/google/protobuf/EnumDescriptorProto;
 }
 
-public final class protokt/v1/google/protobuf/FieldDescriptor {
-	public fun <init> (Lprotokt/v1/google/protobuf/FieldDescriptorProto;Lprotokt/v1/google/protobuf/FileDescriptor;ILprotokt/v1/google/protobuf/Descriptor;Lprotokt/v1/google/protobuf/EnumDescriptor;Z)V
-	public final fun getContainingOneof ()Lprotokt/v1/google/protobuf/OneofDescriptor;
-	public final fun getEnumType ()Lprotokt/v1/google/protobuf/EnumDescriptor;
-	public final fun getFile ()Lprotokt/v1/google/protobuf/FileDescriptor;
-	public final fun getFullName ()Ljava/lang/String;
-	public final fun getHasPresence ()Z
-	public final fun getIndex ()I
-	public final fun getMessageType ()Lprotokt/v1/google/protobuf/Descriptor;
-	public final fun getName ()Ljava/lang/String;
-	public final fun getProto ()Lprotokt/v1/google/protobuf/FieldDescriptorProto;
-	public final fun isExtension ()Z
-	public final fun isMap ()Z
-	public final fun isOptional ()Z
-	public final fun isRepeated ()Z
-	public final fun isRequired ()Z
-}
-
 public final class protokt/v1/google/protobuf/FieldMaskProto {
 	public static final field INSTANCE Lprotokt/v1/google/protobuf/FieldMaskProto;
 	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
@@ -351,14 +331,6 @@ public final class protokt/v1/google/protobuf/FileDescriptor {
 
 public final class protokt/v1/google/protobuf/FileDescriptor$Companion {
 	public final fun buildFrom ([Ljava/lang/String;Ljava/util/List;)Lprotokt/v1/google/protobuf/FileDescriptor;
-}
-
-public final class protokt/v1/google/protobuf/OneofDescriptor {
-	public fun <init> (Lprotokt/v1/google/protobuf/OneofDescriptorProto;Lprotokt/v1/google/protobuf/FileDescriptor;I)V
-	public final fun getFile ()Lprotokt/v1/google/protobuf/FileDescriptor;
-	public final fun getIndex ()I
-	public final fun getName ()Ljava/lang/String;
-	public final fun getProto ()Lprotokt/v1/google/protobuf/OneofDescriptorProto;
 }
 
 public final class protokt/v1/google/protobuf/ServiceDescriptor {
