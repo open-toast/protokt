@@ -25,9 +25,8 @@ class MessageParser(
     private val enclosingMessages: List<String>
 ) {
     fun toMessage(): Message {
-        val typeName = desc.name
         val fieldList = FieldParser(ctx, desc, enclosingMessages).toFields()
-        val simpleNames = enclosingMessages + typeName
+        val simpleNames = enclosingMessages + desc.name
         return Message(
             fields = fieldList.sortedBy {
                 when (it) {
@@ -48,7 +47,7 @@ class MessageParser(
                 desc.options.getExtension(ProtoktProtos.class_)
             ),
             index = idx,
-            fullProtobufTypeName = "${ctx.fdp.`package`}.$typeName",
+            fullProtobufTypeName = "${ctx.fdp.`package`}.${simpleNames.joinToString(".")}",
             className = ctx.className(simpleNames),
             deserializerClassName = ctx.className(simpleNames + DESERIALIZER)
         )
