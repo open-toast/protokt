@@ -18,5 +18,5 @@ syntax = "proto2";
 package protokt.v1.testing;
 
 message TestProto2Maps {
-  map<int32, int32> map = 1;
+  map<int32, int32> val = 1;
 }
