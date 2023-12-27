@@ -44,7 +44,7 @@ private class SerializerGenerator(
                 ctx,
                 properties,
                 true,
-                { f, p: PropertySpec -> serialize(f, ctx, p) },
+                { f, p -> serialize(f, ctx, p) },
                 { oneof, std, p -> serialize(std, ctx, p, oneof) }
             )
 
