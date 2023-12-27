@@ -16,6 +16,7 @@
 package protokt.v1.codegen.generate
 
 import com.squareup.kotlinpoet.CodeBlock
+import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.buildCodeBlock
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Nullability.hasNonNullOption
@@ -29,19 +30,21 @@ import protokt.v1.codegen.util.StandardField
 
 fun Message.mapFields(
     ctx: Context,
+    properties: List<PropertySpec>,
     skipConditionalForUnpackedRepeatedFields: Boolean,
-    std: (StandardField) -> CodeBlock,
-    oneof: (Oneof, StandardField) -> CodeBlock,
+    std: (StandardField, PropertySpec) -> CodeBlock,
+    oneof: (Oneof, StandardField, PropertySpec) -> CodeBlock,
     oneofPreControlFlow: CodeBlock.Builder.(Oneof) -> Unit = {}
 ): List<CodeBlock> =
-    fields.map { field ->
-        when (field) {
-            is StandardField ->
-                standardFieldExecution(ctx, field, skipConditionalForUnpackedRepeatedFields) { std(field) }
-            is Oneof ->
-                oneofFieldExecution(field, { oneof(field, it) }, oneofPreControlFlow)
+    fields.zip(properties)
+        .map { (field, property) ->
+            when (field) {
+                is StandardField ->
+                    standardFieldExecution(ctx, field, skipConditionalForUnpackedRepeatedFields) { std(field, property) }
+                is Oneof ->
+                    oneofFieldExecution(field, { oneof(field, it, property) }, oneofPreControlFlow)
+            }
         }
-    }
 
 private fun standardFieldExecution(
     ctx: Context,

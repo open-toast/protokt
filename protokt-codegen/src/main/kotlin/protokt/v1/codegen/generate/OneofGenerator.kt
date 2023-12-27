@@ -21,6 +21,7 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
+import protokt.v1.KtProperty
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Deprecation.renderOptions
 import protokt.v1.codegen.generate.Implements.handleSuperInterface
@@ -73,6 +74,11 @@ private class OneofGenerator(
                             }
                             .addProperty(
                                 PropertySpec.builder(v.fieldName, v.type)
+                                    .addAnnotation(
+                                        AnnotationSpec.builder(KtProperty::class)
+                                            .addMember("${v.number}")
+                                            .build()
+                                    )
                                     .initializer(v.fieldName)
                                     .build()
                             )
@@ -96,6 +102,7 @@ private class OneofGenerator(
     private fun info(f: StandardField) =
         OneofGeneratorInfo(
             fieldName = f.fieldName,
+            number = f.number,
             type =
             if (f.wrapped) {
                 interceptTypeName(f, ctx) ?: f.className
@@ -119,6 +126,7 @@ private class OneofGenerator(
 class OneofGeneratorInfo(
     val fieldName: String,
     val type: TypeName,
+    val number: Int,
     val documentation: List<String>?,
     val deprecation: Deprecation.RenderOptions?
 )

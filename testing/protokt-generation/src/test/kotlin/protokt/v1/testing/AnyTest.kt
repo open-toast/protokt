@@ -17,10 +17,12 @@ package protokt.v1.testing
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
+import protokt.v1.KtGeneratedMessage
 import protokt.v1.google.protobuf.Any
 import protokt.v1.google.protobuf.Timestamp
 import protokt.v1.google.protobuf.pack
 import protokt.v1.google.protobuf.unpack
+import kotlin.reflect.full.findAnnotation
 
 class AnyTest {
     @Test
@@ -32,5 +34,11 @@ class AnyTest {
             .isEqualTo("type.googleapis.com/google.protobuf.Timestamp")
 
         assertThat(packed.unpack(Timestamp)).isEqualTo(timestamp)
+    }
+
+    @Test
+    fun `nested messages get correct type name`() {
+        assertThat(DocTestRoot.NestedDocTest::class.findAnnotation<KtGeneratedMessage>()!!.fullTypeName)
+            .isEqualTo("protokt.v1.testing.DocTestRoot.NestedDocTest")
     }
 }

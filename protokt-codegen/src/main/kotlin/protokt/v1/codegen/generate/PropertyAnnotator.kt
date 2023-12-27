@@ -59,13 +59,15 @@ private class PropertyAnnotator(
                     val wrapperRequiresNullability = field.wrapperRequiresNullability(ctx)
                     PropertyInfo(
                         name = field.fieldName,
+                        number = field.number,
                         propertyType = propertyType(field, type, wrapperRequiresNullability),
                         deserializeType = deserializeType(field, type),
                         builderPropertyType = dslPropertyType(field, type),
-                        defaultValue = field.defaultValue(ctx),
+                        defaultValue = field.defaultValue(ctx, msg.mapEntry),
                         fieldType = field.type,
                         repeated = field.repeated,
                         map = field.map,
+                        mapEntry = msg.mapEntry,
                         nullable = field.nullable || field.optional || wrapperRequiresNullability,
                         nonNullOption = field.hasNonNullOption,
                         overrides = field.overrides(ctx, msg),
@@ -81,7 +83,7 @@ private class PropertyAnnotator(
                     propertyType = propertyType(field),
                     deserializeType = field.className.copy(nullable = true),
                     builderPropertyType = field.className.copy(nullable = true),
-                    defaultValue = field.defaultValue(ctx),
+                    defaultValue = field.defaultValue(ctx, false),
                     oneof = true,
                     nullable = field.nullable,
                     nonNullOption = field.hasNonNullOption,
@@ -128,7 +130,7 @@ private class PropertyAnnotator(
         val vType: TypeName
     )
 
-    private fun Field.defaultValue(ctx: Context) =
+    private fun Field.defaultValue(ctx: Context, mapEntry: Boolean) =
         when (this) {
             is StandardField ->
                 interceptDefaultValue(
@@ -138,7 +140,7 @@ private class PropertyAnnotator(
                         repeated -> CodeBlock.of("emptyList()")
                         type == FieldType.Message -> CodeBlock.of("null")
                         type == FieldType.Enum -> CodeBlock.of("%T.from(0)", className)
-                        nullable -> CodeBlock.of("null")
+                        nullable && !mapEntry -> CodeBlock.of("null")
                         else -> type.defaultValue
                     },
                     ctx
@@ -149,12 +151,14 @@ private class PropertyAnnotator(
 
 class PropertyInfo(
     val name: String,
+    val number: Int? = null,
     val propertyType: TypeName,
     val deserializeType: TypeName,
     val builderPropertyType: TypeName,
     val defaultValue: CodeBlock,
     val nullable: Boolean,
     val nonNullOption: Boolean,
+    val mapEntry: Boolean = false,
     val fieldType: FieldType? = null,
     val repeated: Boolean = false,
     val map: Boolean = false,

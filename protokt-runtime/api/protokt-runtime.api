@@ -625,6 +625,10 @@ public abstract interface class protokt/v1/KtMessageSerializer {
 	public fun writeUnknown (Lprotokt/v1/UnknownFieldSet;)V
 }
 
+public abstract interface annotation class protokt/v1/KtProperty : java/lang/annotation/Annotation {
+	public abstract fun number ()I
+}
+
 public final class protokt/v1/LengthDelimitedVal : protokt/v1/UnknownValue {
 	public static final synthetic fun box-impl (Lprotokt/v1/Bytes;)Lprotokt/v1/LengthDelimitedVal;
 	public static fun constructor-impl (Lprotokt/v1/Bytes;)Lprotokt/v1/Bytes;

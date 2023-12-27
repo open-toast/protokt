@@ -18,6 +18,7 @@ package protokt.v1.codegen.generate
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.buildCodeBlock
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Nullability.hasNonNullOption
@@ -31,11 +32,12 @@ import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.Oneof
 import protokt.v1.codegen.util.StandardField
 
-fun generateMessageSize(msg: Message, ctx: Context) =
-    MessageSizeGenerator(msg, ctx).generate()
+fun generateMessageSize(msg: Message, properties: List<PropertySpec>, ctx: Context) =
+    MessageSizeGenerator(msg, properties, ctx).generate()
 
 private class MessageSizeGenerator(
     private val msg: Message,
+    private val properties: List<PropertySpec>,
     private val ctx: Context
 ) {
     private val resultVarName =
@@ -51,9 +53,10 @@ private class MessageSizeGenerator(
         val fieldSizes =
             msg.mapFields(
                 ctx,
+                properties,
                 false,
-                { CodeBlock.of("$resultVarName·+=·%L", sizeOf(it, ctx)) },
-                { oneof, std -> sizeofOneof(oneof, std) },
+                { std, _ -> CodeBlock.of("$resultVarName·+=·%L", sizeOf(std, ctx)) },
+                { oneof, std, _ -> sizeofOneof(oneof, std) },
                 {
                     if (it.hasNonNullOption) {
                         add("$resultVarName·+=·")
