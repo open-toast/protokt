@@ -71,7 +71,7 @@ fun serialize(
                 if (f.repeated) { CodeBlock.of("it") } else { CodeBlock.of("%N", p) }
             )
         } else {
-            interceptValueAccess(f, ctx, CodeBlock.of("%N.%N", o.fieldName, p))
+            interceptValueAccess(f, ctx, CodeBlock.of("%N.%N", o.fieldName, f.fieldName))
         }
 
     return when {
