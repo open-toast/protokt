@@ -57,11 +57,10 @@ private class SerializerGenerator(
     }
 }
 
-// TODO: don't use `f.fieldName` at all; only use the previously generated property (for oneofs too)
 fun serialize(
     f: StandardField,
     ctx: Context,
-    p: PropertySpec? = null,
+    p: PropertySpec,
     o: Oneof? = null
 ): CodeBlock {
     val fieldAccess =
@@ -69,10 +68,10 @@ fun serialize(
             interceptValueAccess(
                 f,
                 ctx,
-                if (f.repeated) { CodeBlock.of("it") } else { CodeBlock.of("%N", f.fieldName) }
+                if (f.repeated) { CodeBlock.of("it") } else { CodeBlock.of("%N", p) }
             )
         } else {
-            interceptValueAccess(f, ctx, CodeBlock.of("%N.%N", o.fieldName, f.fieldName))
+            interceptValueAccess(f, ctx, CodeBlock.of("%N.%N", o.fieldName, p))
         }
 
     return when {
@@ -85,10 +84,10 @@ fun serialize(
                     "elementsSize" to f.elementsSize()
                 )
             )
-            add("%N.forEach·{·serializer.%L·}", (p ?: f.fieldName), f.write(CodeBlock.of("it")))
+            add("%N.forEach·{·serializer.%L·}", p, f.write(CodeBlock.of("it")))
         }
         f.map -> buildCodeBlock {
-            beginControlFlow("%N.entries.forEach", p ?: f.fieldName)
+            beginControlFlow("%N.entries.forEach", p)
             add(
                 "serializer.writeTag(${f.tag.value}u).write(%L)\n",
                 f.boxMap(ctx)
@@ -100,7 +99,7 @@ fun serialize(
                 "%name:N.forEach·{·" +
                     "serializer.writeTag(${f.tag.value}u).%write:L·}",
                 mapOf(
-                    "name" to (p ?: f.fieldName),
+                    "name" to p,
                     "write" to f.write(fieldAccess)
                 )
             )

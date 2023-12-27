@@ -99,7 +99,13 @@ sealed class Field {
 class StandardField(
     val number: Int,
     val tag: Tag,
+
+    /**
+     * Don't use as an argument to %N; instead route the PropertySpec through.
+     * TODO: Do this plumbing universally.
+     */
     override val fieldName: String,
+
     val type: FieldType,
     val className: ClassName,
     val repeated: Boolean,

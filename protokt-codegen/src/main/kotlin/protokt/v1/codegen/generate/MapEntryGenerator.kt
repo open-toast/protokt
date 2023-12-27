@@ -46,12 +46,15 @@ private class MapEntryGenerator(
     private val key = msg.fields[0] as StandardField
     private val value = msg.fields[1] as StandardField
 
+    private val keyProp = constructorProperty("key", key.className, false)
+    private val valProp = constructorProperty("value", value.className, false)
+
     fun generate() =
         TypeSpec.classBuilder(msg.className).apply {
             addModifiers(KModifier.PRIVATE)
             superclass(AbstractKtMessage::class)
-            addProperty(constructorProperty("key", key.className, false))
-            addProperty(constructorProperty("value", value.className, false))
+            addProperty(keyProp)
+            addProperty(valProp)
             addConstructor()
             addMessageSize()
             addSerialize()
@@ -92,8 +95,8 @@ private class MapEntryGenerator(
             buildFunSpec("serialize") {
                 addModifiers(KModifier.OVERRIDE)
                 addParameter("serializer", KtMessageSerializer::class)
-                addStatement("%L", serialize(key, ctx))
-                addStatement("%L", serialize(value, ctx))
+                addStatement("%L", serialize(key, ctx, keyProp))
+                addStatement("%L", serialize(value, ctx, valProp))
             }
         )
     }
