@@ -112,7 +112,7 @@ private fun getDescriptorsByTypeName() =
         .associateBy { it.fullName }
 
 private fun getConverters(): Iterable<Converter<*, *>> {
-    val classLoader = Any::class.java.classLoader
+    val classLoader = Thread.currentThread().contextClassLoader
 
     return classLoader.getResources("META-INF/services/${Converter::class.qualifiedName}")
         .asSequence()

@@ -35,7 +35,7 @@ import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.isSubclassOf
 
-internal object ProtoktReflect {
+object ProtoktReflect {
     private val reflectedGettersByClass =
         CacheBuilder.newBuilder()
             .build(
