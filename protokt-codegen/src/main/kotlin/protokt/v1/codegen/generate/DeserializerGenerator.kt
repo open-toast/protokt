@@ -83,7 +83,7 @@ private class DeserializerGenerator(
                     beginControlFlow("when (deserializer.readTag())")
                     val constructor =
                         buildCodeBlock {
-                            add("0·->·return·%T(\n", msg.className)
+                            add("0u·->·return·%T(\n", msg.className)
                             withIndent {
                                 constructorLines(properties).forEach(::add)
                             }
@@ -92,7 +92,7 @@ private class DeserializerGenerator(
                     addStatement("%L", constructor)
                     deserializerInfo.forEach {
                         addStatement(
-                            "%L -> %N = %L",
+                            "%Lu -> %N = %L",
                             it.tag,
                             it.fieldName,
                             it.value
@@ -156,7 +156,7 @@ private class DeserializerGenerator(
             CodeBlock.of("%T.from(unknownFields)", UnknownFieldSet::class)
 
     private class DeserializerInfo(
-        val tag: Int,
+        val tag: UInt,
         val fieldName: String,
         val value: CodeBlock
     )

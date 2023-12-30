@@ -17,7 +17,7 @@ package protokt.v1
 
 internal fun deserializer(reader: Reader): KtMessageDeserializer {
     return object : KtMessageDeserializer {
-        var lastTag = 0
+        var lastTag = 0u
         var endPosition = reader.len
 
         override fun readDouble() =
@@ -53,14 +53,14 @@ internal fun deserializer(reader: Reader): KtMessageDeserializer {
         override fun readUInt64() =
             Long.fromProtobufJsLong(reader.uint64()).toULong()
 
-        override fun readTag(): Int {
+        override fun readTag(): UInt {
             lastTag =
                 if (reader.pos == endPosition) {
-                    0
+                    0u
                 } else {
                     val tag = readInt32()
                     check(tag ushr 3 != 0) { "Invalid tag" }
-                    tag
+                    tag.toUInt()
                 }
             return lastTag
         }
@@ -73,7 +73,7 @@ internal fun deserializer(reader: Reader): KtMessageDeserializer {
             readBytes().toBytesSlice()
 
         override fun readUnknown(): UnknownField {
-            val fieldNumber = (lastTag ushr 3).toUInt()
+            val fieldNumber = (lastTag.toInt() ushr 3).toUInt()
 
             return when (tagWireType(lastTag)) {
                 0 -> UnknownField.varint(fieldNumber, readInt64())
@@ -115,5 +115,5 @@ internal fun deserializer(reader: Reader): KtMessageDeserializer {
     }
 }
 
-private fun tagWireType(tag: Int) =
-    tag and ((1 shl 3) - 1)
+private fun tagWireType(tag: UInt) =
+    tag.toInt() and ((1 shl 3) - 1)

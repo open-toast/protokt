@@ -166,11 +166,10 @@ class ProtoFileContents(
 )
 
 class GeneratedType(
-    val rawType: TopLevelType,
     val typeSpec: TypeSpec
 )
 
-sealed class Tag(val value: Int) : Comparable<Tag> {
+sealed class Tag(val value: UInt) : Comparable<Tag> {
     class Packed(
         number: Int
     ) : Tag(computeTag(number, 2))
@@ -188,4 +187,4 @@ sealed class Tag(val value: Int) : Comparable<Tag> {
 }
 
 private fun computeTag(fieldNumber: Int, wireType: Int) =
-    (fieldNumber shl 3) or wireType
+    (fieldNumber shl 3).toUInt() or wireType.toUInt()

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Toast, Inc.
+ * Copyright (c) 2008 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,12 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.rt
+syntax = "proto2";
 
-@Deprecated("use v1")
-@Target(AnnotationTarget.CLASS)
-annotation class KtGeneratedMessage(
-    /**
-     * The full protocol buffer type name of this message used for packing into an Any.
-     */
-    val fullTypeName: String
-)
+package protobuf_unittest_import;
+
+option java_package = "com.google.protobuf.test";
+
+message PublicImportMessage {
+  optional int32 e = 1;
+}

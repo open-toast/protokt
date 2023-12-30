@@ -48,10 +48,15 @@ const val EXTENSIONS = "protoktExtensions"
 
 const val TEST_EXTENSIONS = "testProtoktExtensions"
 
-fun configureProtokt(project: Project, protoktVersion: Any?, resolveBinary: () -> String) {
+fun configureProtokt(
+    project: Project,
+    protoktVersion: Any?,
+    disableJava: Boolean = true,
+    resolveBinary: () -> String
+) {
     injectKotlinPluginsIntoProtobufGradle()
     val ext = project.extensions.create<ProtoktExtension>("protokt")
-    configureProtobufPlugin(project, ext, resolveBinary())
+    configureProtobufPlugin(project, ext, disableJava, resolveBinary())
 
     project.createExtensionConfigurationsAndConfigureProtobuf()
 
