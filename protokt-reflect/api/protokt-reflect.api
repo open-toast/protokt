@@ -1407,7 +1407,6 @@ public final class protokt/v1/google/protobuf/RuntimeContext {
 	public static final field Companion Lprotokt/v1/google/protobuf/RuntimeContext$Companion;
 	public fun <init> (Ljava/util/Map;Ljava/lang/Iterable;)V
 	public final fun protobufJavaValue (Ljava/lang/Object;)Ljava/lang/Object;
-	public final fun unwrap (Ljava/lang/Object;Lcom/google/protobuf/Descriptors$FieldDescriptor;)Ljava/lang/Object;
 }
 
 public final class protokt/v1/google/protobuf/RuntimeContext$Companion {

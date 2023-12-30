@@ -63,7 +63,7 @@ class RuntimeContext(
         }
 
     @Suppress("UNCHECKED_CAST")
-    fun unwrap(
+    internal fun unwrap(
         value: Any,
         field: FieldDescriptor,
     ) = ((DEFAULT_CONVERTERS[field.messageType.fullName] ?: convertersByWrappedType.getValue(value::class)) as Converter<Any, Any>).unwrap(
