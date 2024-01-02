@@ -1,0 +1,18 @@
+name: Gradle
+inputs:
+  command:
+    required: true
+  working-directory:
+    required: true
+    default: .
+runs:
+  using: composite
+  steps:
+    - name: Make gradle executable
+      shell: bash
+      run: chmod +x gradlew
+    - name: Run gradle
+      shell: bash
+      run: ./gradlew ${{ inputs.command }} --no-daemon --stacktrace
+      working-directory: ${{ inputs.working-directory }}
+        
