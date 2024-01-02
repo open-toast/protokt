@@ -1405,8 +1405,7 @@ public final class protokt/v1/google/protobuf/ProtoktReflectKt {
 
 public final class protokt/v1/google/protobuf/RuntimeContext {
 	public static final field Companion Lprotokt/v1/google/protobuf/RuntimeContext$Companion;
-	public fun <init> (Ljava/util/Map;Ljava/lang/Iterable;)V
-	public final fun protobufJavaValue (Ljava/lang/Object;)Ljava/lang/Object;
+	public final fun convertValue (Ljava/lang/Object;)Ljava/lang/Object;
 }
 
 public final class protokt/v1/google/protobuf/RuntimeContext$Companion {
