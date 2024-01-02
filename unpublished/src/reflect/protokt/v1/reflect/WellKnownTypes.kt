@@ -13,17 +13,15 @@
  * limitations under the License.
  */
 
-package protokt.v1.codegen.generate
+package protokt.v1.reflect
 
 import protokt.v1.Bytes
-import protokt.v1.codegen.util.DOT_GOOGLE_PROTOBUF
-import protokt.v1.codegen.util.StandardField
 
 internal object WellKnownTypes {
-    val StandardField.wrapWithWellKnownInterception
-        get() = options.protokt.wrap.takeIf { it.isNotEmpty() }
-            ?: if (protoTypeName.startsWith("$DOT_GOOGLE_PROTOBUF.")) {
-                classNameForWellKnownType(protoTypeName.removePrefix("$DOT_GOOGLE_PROTOBUF."))
+    fun wrapWithWellKnownInterception(wrap: String, typeName: String) =
+        wrap.takeIf { it.isNotEmpty() }
+            ?: if (typeName.startsWith("$DOT_GOOGLE_PROTOBUF.")) {
+                classNameForWellKnownType(typeName.removePrefix("$DOT_GOOGLE_PROTOBUF."))
             } else {
                 null
             }

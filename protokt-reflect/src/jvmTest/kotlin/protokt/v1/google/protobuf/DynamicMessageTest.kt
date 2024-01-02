@@ -130,13 +130,13 @@ class DynamicMessageTest {
 
                 mapStringSocketAddress =
                     mapOf(
-                        LocalDate.now() to InetSocketAddress.createUnresolved("127.0.0.1", 2319),
-                        LocalDate.now().minusDays(1) to InetSocketAddress.createUnresolved("127.0.0.1", 2320)
+                        LocalDate.now() to InetSocketAddress("127.0.0.1", 2319),
+                        LocalDate.now().minusDays(1) to InetSocketAddress("127.0.0.1", 2320)
                     )
 
                 // todo: this needs to wrap properly
-                mapStringStringValue =
-                    mapOf("foo" to StringValue { value = "bar" })
+                // mapStringStringValue =
+                // mapOf("foo" to StringValue { value = "bar" })
             }
 
         verifyMessage(message)

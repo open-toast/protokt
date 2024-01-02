@@ -18,6 +18,7 @@ package protokt.v1.reflect
 import protokt.v1.Bytes
 
 internal val PROTOKT_V1 = Bytes::class.java.`package`.name
+internal const val DOT_GOOGLE_PROTOBUF = ".google.protobuf"
 
 internal fun typeName(protoTypeName: String, fieldType: FieldType): String {
     val fullyProtoQualified = protoTypeName.startsWith(".")

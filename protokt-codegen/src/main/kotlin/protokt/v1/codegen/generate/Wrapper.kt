@@ -25,18 +25,18 @@ import protokt.v1.Converter
 import protokt.v1.OptimizedSizeOfConverter
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Nullability.hasNonNullOption
-import protokt.v1.codegen.generate.WellKnownTypes.wrapWithWellKnownInterception
 import protokt.v1.codegen.util.GeneratorContext
 import protokt.v1.codegen.util.StandardField
 import protokt.v1.reflect.ClassLookup
 import protokt.v1.reflect.ConverterDetails
 import protokt.v1.reflect.FieldType
+import protokt.v1.reflect.WellKnownTypes.wrapWithWellKnownInterception
 import protokt.v1.reflect.inferClassName
 import kotlin.reflect.KFunction2
 
 internal object Wrapper {
     val StandardField.wrapped
-        get() = wrapWithWellKnownInterception != null
+        get() = wrapWithWellKnownInterception(options.protokt.wrap, protoTypeName) != null
 
     fun StandardField.wrapperRequiresNullability(ctx: Context) =
         wrapperRequiresNonNullOptionForNonNullity(ctx.info.context) && !hasNonNullOption
@@ -69,7 +69,7 @@ internal object Wrapper {
         ctx: GeneratorContext,
         ifWrapped: (ConverterDetails) -> R
     ) =
-        withWrapper(wrapWithWellKnownInterception, ctx, ifWrapped)
+        withWrapper(wrapWithWellKnownInterception(options.protokt.wrap, protoTypeName), ctx, ifWrapped)
 
     fun interceptSizeof(
         f: StandardField,

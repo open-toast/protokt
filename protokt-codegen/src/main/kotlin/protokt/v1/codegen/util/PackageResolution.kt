@@ -16,10 +16,10 @@
 package protokt.v1.codegen.util
 
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
+import protokt.v1.reflect.DOT_GOOGLE_PROTOBUF
 import protokt.v1.reflect.PROTOKT_V1
 import protokt.v1.reflect.resolvePackage
 
-const val DOT_GOOGLE_PROTOBUF = ".google.protobuf"
 val PROTOKT_V1_GOOGLE_PROTO = PROTOKT_V1 + DOT_GOOGLE_PROTOBUF
 
 fun packagesByFileName(protoFileList: List<FileDescriptorProto>) =

@@ -37,6 +37,7 @@ import protokt.v1.KtGeneratedMessage
 import protokt.v1.KtMessage
 import protokt.v1.reflect.ClassLookup
 import protokt.v1.reflect.FieldType
+import protokt.v1.reflect.WellKnownTypes
 import protokt.v1.reflect.inferClassName
 import protokt.v1.reflect.resolvePackage
 import protokt.v1.reflect.typeName
@@ -77,8 +78,7 @@ class RuntimeContext internal constructor(
                     type,
                     field.name
                 ),
-                inferClassName(wrap, resolvePackage(field.file.`package`))
-                    .let { (pkg, names) -> pkg + "." + names.joinToString(".") }
+                wrap
             )
 
         @Suppress("UNCHECKED_CAST")
@@ -140,7 +140,7 @@ private fun toDynamicMessage(
         .apply {
             descriptor.fields.forEach { field ->
                 ProtoktReflect.getField(message, field)?.let { value ->
-                    val wrap = wrap(field)
+                    val fieldOptions = fieldOptions(field)
 
                     setField(
                         field,
@@ -152,24 +152,20 @@ private fun toDynamicMessage(
                                     field.enumType.findValueByNumberCreatingIfUnknown(((value as KtEnum).value))
                                 }
 
-                            // todo: unwrap keys and values if wrapped
                             field.isMapField ->
-                                convertMap(value, field, context)
+                                convertMap(value, field, fieldOptions, context)
 
-                            // todo: unwrap elements if wrapped
                             field.isRepeated ->
-                                (value as List<*>).map {
-                                    if (isWrapped(field, wrap)) {
-                                        context.convertValue(context.unwrap(it!!, field, wrap!!))
-                                    } else {
-                                        context.convertValue(it)
-                                    }
+                                convertList((value as List<*>), field, fieldOptions, context)
+
+                            else -> {
+                                val wrap = wrap(field, fieldOptions)
+                                if (wrap == null) {
+                                    context.convertValue(value)
+                                } else {
+                                    context.convertValue(context.unwrap(value, field, wrap))
                                 }
-
-                            isWrapped(field, wrap) ->
-                                context.convertValue(context.unwrap(value, field, wrap!!))
-
-                            else -> context.convertValue(value)
+                            }
                         },
                     )
                 }
@@ -179,56 +175,52 @@ private fun toDynamicMessage(
         .build()
 }
 
-private val WRAPPER_TYPE_NAMES =
-    setOf(
-        "google.protobuf.DoubleValue",
-        "google.protobuf.FloatValue",
-        "google.protobuf.Int64Value",
-        "google.protobuf.UInt64Value",
-        "google.protobuf.Int32Value",
-        "google.protobuf.UInt32Value",
-        "google.protobuf.BoolValue",
-        "google.protobuf.StringValue",
-        "google.protobuf.BytesValue"
-    )
-
-private fun isWrapped(field: FieldDescriptor, wrap: String?): Boolean {
-    if (field.type == FieldDescriptor.Type.MESSAGE && field.messageType.fullName in WRAPPER_TYPE_NAMES) {
-        return true
-    }
-
-    return wrap != null
-}
-
-private fun wrap(field: FieldDescriptor): String? {
-    if (field.type == FieldDescriptor.Type.MESSAGE && field.messageType.fullName in WRAPPER_TYPE_NAMES) {
-        return field.messageType.fullName
-    }
-
+private fun fieldOptions(field: FieldDescriptor): ProtoktProtos.FieldOptions {
     val options = field.toProto().options
 
-    val propertyOptions =
-        if (options.hasField(ProtoktProtos.property.descriptor)) {
-            options.getField(ProtoktProtos.property.descriptor) as ProtoktProtos.FieldOptions
-        } else if (options.unknownFields.hasField(ProtoktProtos.property.number)) {
-            ProtoktProtos.FieldOptions.parseFrom(
-                options.unknownFields.getField(ProtoktProtos.property.number)
-                    .lengthDelimitedList
-                    .last()
-            )
-        } else {
-            return null
-        }
+    return if (options.hasField(ProtoktProtos.property.descriptor)) {
+        options.getField(ProtoktProtos.property.descriptor) as ProtoktProtos.FieldOptions
+    } else if (options.unknownFields.hasField(ProtoktProtos.property.number)) {
+        ProtoktProtos.FieldOptions.parseFrom(
+            options.unknownFields.getField(ProtoktProtos.property.number)
+                .lengthDelimitedList
+                .last()
+        )
+    } else {
+        ProtoktProtos.FieldOptions.getDefaultInstance()
+    }
+}
 
-    return propertyOptions.wrap.takeIf { it.isNotEmpty() }
-        ?: propertyOptions.keyWrap.takeIf { it.isNotEmpty() }
-        ?: propertyOptions.valueWrap.takeIf { it.isNotEmpty() }
+private fun wrap(field: FieldDescriptor, fieldOptions: ProtoktProtos.FieldOptions) =
+    getClassName(fieldOptions.wrap, field)
+
+private fun getClassName(wrap: String, field: FieldDescriptor): String? =
+    wrap.takeIf { it.isNotEmpty() }
+        ?: WellKnownTypes.wrapWithWellKnownInterception(wrap, field.toProto().typeName)
+            ?.let { inferClassName(it, resolvePackage(field.file.`package`)) }
+            ?.let { (pkg, names) -> pkg + "." + names.joinToString(".") }
+
+private fun convertList(
+    value: List<*>,
+    field: FieldDescriptor,
+    fieldOptions: ProtoktProtos.FieldOptions,
+    context: RuntimeContext
+): List<*> {
+    val wrap = wrap(field, fieldOptions)
+    return value.map {
+        if (wrap == null) {
+            context.convertValue(it)
+        } else {
+            context.convertValue(context.unwrap(it!!, field, wrap))
+        }
+    }
 }
 
 private fun convertMap(
     value: Any,
     field: FieldDescriptor,
-    context: RuntimeContext,
+    fieldOptions: ProtoktProtos.FieldOptions,
+    context: RuntimeContext
 ): List<MapEntry<*, *>> {
     val keyDesc = field.messageType.findFieldByNumber(1)
     val valDesc = field.messageType.findFieldByNumber(2)
@@ -247,6 +239,9 @@ private fun convertMap(
             valDesc.defaultValue
         }
 
+    val keyWrap = getClassName(fieldOptions.keyWrap, keyDesc)
+    val valWrap = getClassName(fieldOptions.valueWrap, valDesc)
+
     val defaultEntry =
         MapEntry.newDefaultInstance(
             field.messageType,
@@ -258,8 +253,20 @@ private fun convertMap(
 
     return (value as Map<*, *>).map { (k, v) ->
         defaultEntry.toBuilder()
-            .setKey(context.convertValue(k))
-            .setValue(context.convertValue(v))
+            .setKey(
+                if (keyWrap == null) {
+                    context.convertValue(k)
+                } else {
+                    context.convertValue(context.unwrap(k!!, keyDesc, keyWrap))
+                }
+            )
+            .setValue(
+                if (valWrap == null) {
+                    context.convertValue(v)
+                } else {
+                    context.convertValue(context.unwrap(v!!, valDesc, valWrap))
+                }
+            )
             .build()
     }
 }
