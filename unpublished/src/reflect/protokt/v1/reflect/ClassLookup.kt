@@ -13,14 +13,11 @@
  * limitations under the License.
  */
 
-package protokt.v1.codegen.util
+package protokt.v1.reflect
 
 import com.google.common.collect.HashBasedTable
 import com.google.common.collect.ImmutableTable
 import com.google.common.collect.Table
-import com.squareup.kotlinpoet.ClassName
-import com.squareup.kotlinpoet.asClassName
-import io.github.oshai.kotlinlogging.KotlinLogging
 import protokt.v1.Bytes
 import protokt.v1.Converter
 import protokt.v1.OptimizedSizeOfConverter
@@ -31,11 +28,7 @@ import kotlin.reflect.full.hasAnnotation
 import kotlin.reflect.full.memberProperties
 
 class ClassLookup(classpath: List<String>) {
-    private val logger = KotlinLogging.logger { }
-
     private val classLoader by lazy {
-        logger.info { "Creating class loader with extra classpath: $classpath" }
-
         val current = Thread.currentThread().contextClassLoader
 
         when {
@@ -63,28 +56,32 @@ class ClassLookup(classpath: List<String>) {
                             .toList()
                     }
             }.run {
-                val table = HashBasedTable.create<ClassName, ClassName, MutableList<Converter<*, *>>>()
-                forEach { table.getOrPut(it.wrapped.asClassName(), it.wrapper.asClassName()) { mutableListOf() }.add(it) }
-                ImmutableTable.builder<ClassName, ClassName, List<Converter<*, *>>>().putAll(table).build()
+                val table = HashBasedTable.create<String, String, MutableList<Converter<*, *>>>()
+                forEach { table.getOrPut(it.wrapped.qualifiedName!!, it.wrapper.qualifiedName!!) { mutableListOf() }.add(it) }
+                ImmutableTable.builder<String, String, List<Converter<*, *>>>().putAll(table).build()
             }
     }
 
-    private val classLookup = mutableMapOf<ClassName, KClass<*>>()
+    private val classLookup = mutableMapOf<String, KClass<*>>()
 
-    fun properties(className: ClassName): Collection<String> =
+    fun properties(canonicalClassName: String): Collection<String> =
         try {
-            classLookup.getOrPut(className) {
-                classLoader.loadClass(className.canonicalName).kotlin
+            classLookup.getOrPut(canonicalClassName) {
+                classLoader.loadClass(canonicalClassName).kotlin
             }.memberProperties.map { it.name }
         } catch (t: Throwable) {
-            throw Exception("Class not found: ${className.canonicalName}")
+            throw Exception("Class not found: $canonicalClassName")
         }
 
-    fun converter(protoClassName: ClassName, kotlinClassName: ClassName): ConverterDetails {
-        val converters = convertersByProtoClassNameAndKotlinClassName.get(protoClassName, kotlinClassName) ?: emptyList()
+    fun converter(protoClassCanonicalName: String, kotlinClassCanonicalName: String): ConverterDetails {
+        val converters =
+            convertersByProtoClassNameAndKotlinClassName.get(
+                protoClassCanonicalName,
+                kotlinClassCanonicalName
+            ) ?: emptyList()
 
         require(converters.isNotEmpty()) {
-            "No converter found for wrapper type $kotlinClassName from type $protoClassName"
+            "No converter found for wrapper type $kotlinClassCanonicalName from type $protoClassCanonicalName"
         }
 
         val converter =
@@ -107,8 +104,8 @@ class ClassLookup(classpath: List<String>) {
         }
 
         return ConverterDetails(
-            converter::class.asClassName(),
-            kotlinClassName,
+            converter::class,
+            kotlinClassCanonicalName,
             converter is OptimizedSizeOfConverter<*, *>,
             !converter.acceptsDefaultValue
         )
@@ -142,8 +139,8 @@ private fun <T : Any> tryDeserializeDefaultValue(converter: Converter<T, *>): Th
 }
 
 class ConverterDetails(
-    val converterClassName: ClassName,
-    val kotlinClassName: ClassName,
+    val converterClass: KClass<*>,
+    val kotlinCanonicalClassName: String,
     val optimizedSizeof: Boolean,
     val cannotDeserializeDefaultValue: Boolean
 )

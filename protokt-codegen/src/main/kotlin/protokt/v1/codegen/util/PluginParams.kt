@@ -26,6 +26,7 @@ import protokt.v1.gradle.GENERATE_TYPES
 import protokt.v1.gradle.KOTLIN_EXTRA_CLASSPATH
 import protokt.v1.gradle.ProtoktExtension
 import protokt.v1.gradle.ProtoktExtension.Generate
+import protokt.v1.reflect.ClassLookup
 import java.net.URLDecoder
 import kotlin.reflect.full.declaredMemberProperties
 

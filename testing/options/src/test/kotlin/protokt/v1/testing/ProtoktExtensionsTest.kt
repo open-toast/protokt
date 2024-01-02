@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Toast, Inc.
+ * Copyright (c) 2023 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,15 +13,16 @@
  * limitations under the License.
  */
 
-plugins {
-    id("protokt.jvm-conventions")
-}
+package protokt.v1.testing
 
-// used by integration testing project
-enablePublishing()
+import com.google.common.truth.Truth.assertThat
+import org.junit.jupiter.api.Test
+import protokt.v1.util.PROTOKT_EXTENSIONS_CLASS_NAME
+import protokt.v1.ProtoktProtos
 
-includeBuildSrc("ProtoktExtension.kt")
-
-dependencies {
-    testImplementation(project(":extensions:protokt-extensions"))
+class ProtoktExtensionsTest {
+    @Test
+    fun `protokt extensions class name is correct`() {
+        assertThat(PROTOKT_EXTENSIONS_CLASS_NAME).isEqualTo(ProtoktProtos::class.qualifiedName)
+    }
 }

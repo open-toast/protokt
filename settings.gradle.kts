@@ -36,7 +36,6 @@ include(
     "protokt-runtime-grpc",
     "protokt-runtime-grpc-lite",
     "protokt-gradle-plugin",
-    "protokt-util",
 
     "grpc-kotlin-shim",
 

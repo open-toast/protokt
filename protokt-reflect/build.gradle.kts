@@ -14,6 +14,7 @@
  */
 
 import com.google.protobuf.gradle.proto
+import protokt.v1.gradle.testProtoktExtensions
 
 /*
  * Copyright (c) 2023 Toast, Inc.
@@ -58,8 +59,15 @@ tasks.withType<JavaCompile> { enabled = true }
 
 sourceSets {
     main {
+        java {
+            srcDir("../unpublished/src/reflect")
+        }
         proto {
             srcDir("../extensions/protokt-extensions-lite/src/main/proto")
         }
     }
+}
+
+dependencies {
+    testProtoktExtensions(project(":extensions:protokt-extensions"))
 }

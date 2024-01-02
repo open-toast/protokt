@@ -22,7 +22,7 @@ import protokt.v1.proto3_unittest.TestAllTypes
 import protokt.v1.protobuf_unittest_import.ImportMessage
 import protokt.v1.protobuf_unittest_import.PublicImportMessage
 
-fun getAllSet() =
+fun getAllTypesAllSet() =
     TestAllTypes {
         optionalInt32 = 101
         optionalInt64 = 102

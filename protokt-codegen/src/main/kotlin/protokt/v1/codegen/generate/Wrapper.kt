@@ -26,7 +26,7 @@ import protokt.v1.OptimizedSizeOfConverter
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Nullability.hasNonNullOption
 import protokt.v1.codegen.generate.WellKnownTypes.wrapWithWellKnownInterception
-import protokt.v1.codegen.util.ConverterDetails
+import protokt.v1.reflect.ConverterDetails
 import protokt.v1.codegen.util.FieldType
 import protokt.v1.codegen.util.GeneratorContext
 import protokt.v1.codegen.util.StandardField
@@ -112,10 +112,10 @@ internal object Wrapper {
         converterDetails: ConverterDetails,
         access: CodeBlock,
     ) =
-        CodeBlock.of("%T.%L(%L)", converterDetails.converterClassName, method.name, access)
+        CodeBlock.of("%T.%L(%L)", converterDetails.converterClass.asClassName(), method.name, access)
 
     fun wrapper(f: StandardField, ctx: Context) =
-        f.withWrapper(ctx.info.context, ConverterDetails::converterClassName)
+        f.withWrapper(ctx.info.context, ::converterClassName)
 
     fun interceptRead(f: StandardField, readFunction: CodeBlock) =
         if (f.bytesSlice) {
@@ -139,7 +139,7 @@ internal object Wrapper {
         if (f.bytesSlice) {
             BytesSlice::class.asTypeName()
         } else {
-            f.withWrapper(ctx.info.context, ConverterDetails::kotlinClassName)
+            f.withWrapper(ctx.info.context, ::kotlinClassName)
         }
 
     private val StandardField.bytesSlice
@@ -156,16 +156,22 @@ internal object Wrapper {
         )
 
     fun interceptMapKeyTypeName(f: StandardField, ctx: Context) =
-        f.withKeyWrap(ctx, ConverterDetails::kotlinClassName)
+        f.withKeyWrap(ctx, ::kotlinClassName)
 
     fun mapKeyConverter(f: StandardField, ctx: Context) =
-        f.withKeyWrap(ctx, ConverterDetails::converterClassName)
+        f.withKeyWrap(ctx, ::converterClassName)
 
     fun interceptMapValueTypeName(f: StandardField, ctx: Context) =
-        f.withValueWrap(ctx, ConverterDetails::kotlinClassName)
+        f.withValueWrap(ctx, ::kotlinClassName)
 
     fun mapValueConverter(f: StandardField, ctx: Context) =
-        f.withValueWrap(ctx, ConverterDetails::converterClassName)
+        f.withValueWrap(ctx, ::converterClassName)
+
+    private fun kotlinClassName(converterDetails: ConverterDetails) =
+        ClassName.bestGuess(converterDetails.kotlinCanonicalClassName)
+
+    private fun converterClassName(converterDetails: ConverterDetails) =
+        converterDetails.converterClass.asClassName()
 
     private fun <R> StandardField.withValueWrap(
         ctx: Context,
@@ -178,5 +184,5 @@ internal object Wrapper {
         )
 
     private fun converter(protoClassName: ClassName, kotlinClassName: ClassName, ctx: GeneratorContext) =
-        ctx.classLookup.converter(protoClassName, kotlinClassName)
+        ctx.classLookup.converter(protoClassName.canonicalName, kotlinClassName.canonicalName)
 }

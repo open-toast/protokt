@@ -36,7 +36,6 @@ dependencies {
     testImplementation(kotlin("test-junit5"))
     testImplementation(libs.junit.jupiter)
     testImplementation(libs.protobuf.java)
-    testImplementation("com.toasttab.protokt:protokt-util:$version")
 }
 
 sourceSets {
@@ -53,6 +52,8 @@ sourceSets {
             check(file(lite).exists())
             srcDir(common)
             srcDir(lite)
+
+            srcDir(rootProject.file("../unpublished/src/lite-util"))
         }
     }
 }

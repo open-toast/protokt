@@ -41,3 +41,11 @@ dependencies {
 
     testRuntimeOnly(libs.protobuf.java)
 }
+
+sourceSets {
+    test {
+        java {
+            srcDir(rootProject.file("unpublished/src/lite-util"))
+        }
+    }
+}

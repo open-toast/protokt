@@ -81,6 +81,10 @@ tasks.withType<Test> {
 
 sourceSets {
     main {
+        java {
+            srcDir("../unpublished/src/reflect")
+            srcDir("../buildSrc/src/shared/codegen")
+        }
         proto {
             srcDir("../extensions/protokt-extensions-lite/src/main/proto")
         }
@@ -93,8 +97,3 @@ buildConfig {
     buildConfigField("String", "DEFAULT_PROTOBUF_VERSION", "\"${libs.versions.protobuf.java.get()}\"")
     buildConfigField("String", "PROTOKT_VERSION", "\"$version\"")
 }
-
-includeBuildSrc(
-    "protokt/v1/gradle/ProtoktExtension.kt",
-    "**/*.java" // don't override the protobuf-gradle-plugin; todo: fix this function to not need this
-)

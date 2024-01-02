@@ -27,7 +27,7 @@ object Implements {
         msg: Message
     ) =
         msg.superInterface(ctx)
-            ?.let { fieldName in ctx.info.context.classLookup.properties(it) }
+            ?.let { fieldName in ctx.info.context.classLookup.properties(it.canonicalName) }
             ?: false
 
     fun TypeSpec.Builder.handleSuperInterface(implements: ClassName?, v: OneofGeneratorInfo? = null) =

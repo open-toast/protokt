@@ -44,7 +44,7 @@ kotlin {
 
         val jvmTest by getting {
             dependencies {
-                implementation(project(":protokt-util"))
+                implementation(rootProject.fileTree("unpublished/src/lite-util"))
             }
         }
 

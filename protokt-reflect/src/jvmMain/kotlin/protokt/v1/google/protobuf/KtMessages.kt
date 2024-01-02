@@ -36,21 +36,28 @@ import protokt.v1.KtGeneratedFileDescriptor
 import protokt.v1.KtGeneratedMessage
 import protokt.v1.KtMessage
 import protokt.v1.google.protobuf.RuntimeContext.Companion.DEFAULT_CONVERTERS
+import protokt.v1.reflect.ClassLookup
 import kotlin.Any
 import kotlin.reflect.KClass
 import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.full.findAnnotation
 
 fun KtMessage.toDynamicMessage(context: RuntimeContext): DynamicMessage =
-    context.protobufJavaValue(this) as DynamicMessage
+    context.convertValue(this) as DynamicMessage
 
 class RuntimeContext(
-    internal val descriptorsByFullTypeName: Map<String, Descriptors.Descriptor>,
+    descriptors: Iterable<Descriptors.Descriptor>,
     converters: Iterable<Converter<*, *>>,
 ) {
-    private val convertersByWrappedType = converters.associateBy { it.wrapper }
+    internal val descriptorsByTypeName = descriptors.associateBy { it.fullName }
+    private val convertersByWrappedType = converters.associateBy { it.wrapper to type(it.wrapped) }
 
-    fun protobufJavaValue(value: Any?) =
+    private fun type(klass: KClass<*>): KClass<*> =
+        when {
+            else -> error("unimplemented: $klass")
+        }
+
+    fun convertValue(value: Any?) =
         when (value) {
             is KtEnum -> value.value
             is UInt -> value.toInt()
@@ -62,13 +69,20 @@ class RuntimeContext(
             else -> value
         }
 
-    @Suppress("UNCHECKED_CAST")
-    internal fun unwrap(
-        value: Any,
-        field: FieldDescriptor,
-    ) = ((DEFAULT_CONVERTERS[field.messageType.fullName] ?: convertersByWrappedType.getValue(value::class)) as Converter<Any, Any>).unwrap(
-        value,
-    )
+    internal fun unwrap(value: Any, field: FieldDescriptor): Any {
+        val defaultConverter =
+            if (field.type == FieldDescriptor.Type.MESSAGE) {
+                DEFAULT_CONVERTERS[field.messageType.fullName]
+            } else {
+                null
+            }
+
+        // todo!
+        val converter = defaultConverter ?: convertersByWrappedType.getValue(value::class to Any::class)
+
+        @Suppress("UNCHECKED_CAST")
+        return (converter as Converter<Any, Any>).unwrap(value)
+    }
 
     companion object {
         internal val DEFAULT_CONVERTERS: Map<String, Converter<*, *>> =
@@ -84,23 +98,28 @@ class RuntimeContext(
                 "google.protobuf.BytesValue" to BytesValueConverter,
             )
 
-        private val reflectiveContext by lazy { RuntimeContext(getDescriptorsByTypeName(), getConverters()) }
+        private val reflectiveContext by lazy {
+            ClassLookup(emptyList())
+            RuntimeContext(getDescriptors(), getConverters())
+        }
 
         fun getContextReflectively() =
             reflectiveContext
     }
 }
 
-private fun getDescriptorsByTypeName() =
+private fun getDescriptors() =
     ClassGraph()
-        .enableAllInfo()
+        .enableAnnotationInfo()
         .scan()
-        .getClassesWithAnnotation(KtGeneratedFileDescriptor::class.java)
-        .asSequence()
-        .map {
-            @Suppress("UNCHECKED_CAST")
-            it.loadClass().kotlin as KClass<Any>
+        .use {
+            it.getClassesWithAnnotation(KtGeneratedFileDescriptor::class.java)
+                .map { info ->
+                    @Suppress("UNCHECKED_CAST")
+                    info.loadClass().kotlin as KClass<Any>
+                }
         }
+        .asSequence()
         .map { klassWithDescriptor ->
             klassWithDescriptor
                 .declaredMemberProperties
@@ -109,7 +128,7 @@ private fun getDescriptorsByTypeName() =
         }
         .flatMap { it.toProtobufJavaDescriptor().messageTypes }
         .flatMap(::collectDescriptors)
-        .associateBy { it.fullName }
+        .asIterable()
 
 private fun getConverters(): Iterable<Converter<*, *>> {
     val classLoader = Thread.currentThread().contextClassLoader
@@ -143,7 +162,7 @@ private fun toDynamicMessage(
     context: RuntimeContext,
 ): Message {
     val descriptor =
-        context.descriptorsByFullTypeName
+        context.descriptorsByTypeName
             .getValue(message::class.findAnnotation<KtGeneratedMessage>()!!.fullTypeName)
 
     return DynamicMessage.newBuilder(descriptor)
@@ -164,12 +183,12 @@ private fun toDynamicMessage(
                                 convertMap(value, field, context)
 
                             field.isRepeated ->
-                                (value as List<*>).map(context::protobufJavaValue)
+                                (value as List<*>).map(context::convertValue)
 
                             isWrapped(field) ->
-                                context.protobufJavaValue(context.unwrap(value, field))
+                                context.convertValue(context.unwrap(value, field))
 
-                            else -> context.protobufJavaValue(value)
+                            else -> context.convertValue(value)
                         },
                     )
                 }
@@ -180,11 +199,28 @@ private fun toDynamicMessage(
 }
 
 private fun isWrapped(field: FieldDescriptor): Boolean {
-    val options = field.toProto().options.getExtension(ProtoktProtos.property)
-    return options.wrap.isNotEmpty() ||
-        options.keyWrap.isNotEmpty() ||
-        options.valueWrap.isNotEmpty() ||
-        (field.type == FieldDescriptor.Type.MESSAGE && field.messageType.fullName in DEFAULT_CONVERTERS)
+    if (field.type == FieldDescriptor.Type.MESSAGE && field.messageType.fullName in DEFAULT_CONVERTERS) {
+        return true
+    }
+
+    val options = field.toProto().options
+
+    val propertyOptions =
+        if (options.hasField(ProtoktProtos.property.descriptor)) {
+            options.getField(ProtoktProtos.property.descriptor) as ProtoktProtos.FieldOptions
+        } else if (options.unknownFields.hasField(ProtoktProtos.property.number)) {
+            ProtoktProtos.FieldOptions.parseFrom(
+                options.unknownFields.getField(ProtoktProtos.property.number)
+                    .lengthDelimitedList
+                    .last()
+            )
+        } else {
+            return false
+        }
+
+    return propertyOptions.wrap.isNotEmpty() ||
+            propertyOptions.keyWrap.isNotEmpty() ||
+            propertyOptions.valueWrap.isNotEmpty()
 }
 
 private fun convertMap(
@@ -194,6 +230,7 @@ private fun convertMap(
 ): List<MapEntry<*, *>> {
     val keyDesc = field.messageType.findFieldByNumber(1)
     val valDesc = field.messageType.findFieldByNumber(2)
+
     val keyDefault =
         if (keyDesc.type == Descriptors.FieldDescriptor.Type.MESSAGE) {
             null
@@ -214,13 +251,13 @@ private fun convertMap(
             WireFormat.FieldType.valueOf(keyDesc.type.name),
             keyDefault,
             WireFormat.FieldType.valueOf(valDesc.type.name),
-            valDefault,
+            valDefault
         ) as MapEntry<Any?, Any?>
 
     return (value as Map<*, *>).map { (k, v) ->
         defaultEntry.toBuilder()
-            .setKey(context.protobufJavaValue(k))
-            .setValue(context.protobufJavaValue(v))
+            .setKey(context.convertValue(k))
+            .setValue(context.convertValue(v))
             .build()
     }
 }
@@ -236,13 +273,9 @@ private fun mapUnknownFields(message: KtMessage): UnknownFieldSet {
                     field.varint.forEach { addVarint(it.value.toLong()) }
                     field.fixed32.forEach { addFixed32(it.value.toInt()) }
                     field.fixed64.forEach { addFixed64(it.value.toLong()) }
-                    field.lengthDelimited.forEach {
-                        addLengthDelimited(
-                            UnsafeByteOperations.unsafeWrap(it.value.asReadOnlyBuffer()),
-                        )
-                    }
+                    field.lengthDelimited.forEach { addLengthDelimited(UnsafeByteOperations.unsafeWrap(it.value.asReadOnlyBuffer())) }
                 }
-                .build(),
+                .build()
         )
     }
 
