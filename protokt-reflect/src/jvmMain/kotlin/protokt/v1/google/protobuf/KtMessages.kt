@@ -219,8 +219,8 @@ private fun isWrapped(field: FieldDescriptor): Boolean {
         }
 
     return propertyOptions.wrap.isNotEmpty() ||
-            propertyOptions.keyWrap.isNotEmpty() ||
-            propertyOptions.valueWrap.isNotEmpty()
+        propertyOptions.keyWrap.isNotEmpty() ||
+        propertyOptions.valueWrap.isNotEmpty()
 }
 
 private fun convertMap(

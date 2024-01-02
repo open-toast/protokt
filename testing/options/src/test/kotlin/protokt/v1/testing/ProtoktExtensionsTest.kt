@@ -17,8 +17,8 @@ package protokt.v1.testing
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
-import protokt.v1.util.PROTOKT_EXTENSIONS_CLASS_NAME
 import protokt.v1.ProtoktProtos
+import protokt.v1.util.PROTOKT_EXTENSIONS_CLASS_NAME
 
 class ProtoktExtensionsTest {
     @Test
