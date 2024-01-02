@@ -13,15 +13,13 @@
  * limitations under the License.
  */
 
-package protokt.v1.google.protobuf
+package protokt.v1.testing
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
 import protokt.v1.KtMessage
-import protokt.v1.testing.MapWrappers
-import protokt.v1.testing.OneofWrappers
-import protokt.v1.testing.RepeatedWrappers
-import protokt.v1.testing.Wrappers
+import protokt.v1.google.protobuf.RuntimeContext
+import protokt.v1.google.protobuf.toDynamicMessage
 import java.net.InetAddress
 import java.net.InetSocketAddress
 import java.time.Duration

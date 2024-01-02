@@ -14,6 +14,7 @@
  */
 
 import protokt.v1.gradle.protokt
+import protokt.v1.gradle.protoktExtensions
 
 plugins {
     id("protokt.jvm-conventions")
@@ -30,11 +31,14 @@ protokt {
 }
 
 dependencies {
-    implementation(kotlin("reflect"))
-    implementation(project(":protokt-runtime-grpc"))
-    implementation(project(":testing:protobuf-java"))
-    implementation(libs.grpc.stub)
+    protoktExtensions(project(":extensions:protokt-extensions"))
 
+    implementation(libs.grpc.stub)
+    implementation(project(":protokt-runtime-grpc"))
+
+    testImplementation(project(":protokt-reflect"))
+    testImplementation(project(":testing:protobuf-java"))
+    testImplementation(kotlin("reflect"))
     testImplementation(libs.jackson)
     testImplementation(libs.protobuf.java)
 }

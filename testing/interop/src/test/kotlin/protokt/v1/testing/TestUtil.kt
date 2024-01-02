@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package protokt.v1.google.protobuf
+package protokt.v1.testing
 
 import protokt.v1.Bytes
 import protokt.v1.proto3_unittest.ForeignEnum

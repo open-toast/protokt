@@ -51,3 +51,11 @@ kotlin {
         jvmTest.kotlin.srcDir(liteOptionTestSourceDir())
     }
 }
+
+sourceSets {
+    test {
+        java {
+            srcDir(rootProject.file("unpublished/src/lite-util"))
+        }
+    }
+}

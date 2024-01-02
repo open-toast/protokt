@@ -28,7 +28,6 @@ import protokt.v1.codegen.generate.Wrapper.mapValueConverter
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.Oneof
 import protokt.v1.codegen.util.StandardField
-import protokt.v1.reflect.FieldType
 
 internal fun generateSerializer(msg: Message, properties: List<PropertySpec>, ctx: Context) =
     SerializerGenerator(msg, properties, ctx).generate()
@@ -115,9 +114,6 @@ internal fun serialize(
 }
 
 private fun StandardField.boxMap(ctx: Context): CodeBlock {
-    if (type != FieldType.Message) {
-        return CodeBlock.of("")
-    }
     val keyParam =
         mapKeyConverter(this, ctx)
             ?.let { CodeBlock.of("%T.unwrap(it.key)", it) }

@@ -45,11 +45,11 @@ internal object Wrapper {
         withWrapper(ctx) { it.cannotDeserializeDefaultValue && !repeated } ?: false
 
     private fun <T> StandardField.withWrapper(
-        wrapOption: String?,
+        wrap: String,
         ctx: GeneratorContext,
         ifWrapped: (ConverterDetails) -> T
     ) =
-        wrapOption?.let { wrap ->
+        wrapWithWellKnownInterception(wrap, protoTypeName)?.let {
             ifWrapped(
                 converter(
                     ClassLookup.evaluateProtobufTypeCanonicalName(
@@ -58,7 +58,7 @@ internal object Wrapper {
                         type,
                         fieldName
                     ),
-                    inferClassName(wrap, ctx.kotlinPackage)
+                    inferClassName(it, ctx.kotlinPackage)
                         .let { (pkg, names) -> ClassName(pkg, names).canonicalName },
                     ctx
                 )
@@ -69,7 +69,7 @@ internal object Wrapper {
         ctx: GeneratorContext,
         ifWrapped: (ConverterDetails) -> R
     ) =
-        withWrapper(wrapWithWellKnownInterception(options.protokt.wrap, protoTypeName), ctx, ifWrapped)
+        withWrapper(options.protokt.wrap, ctx, ifWrapped)
 
     fun interceptSizeof(
         f: StandardField,
@@ -98,6 +98,7 @@ internal object Wrapper {
             }
         } ?: accessSize
 
+    // todo: this doesn't intercept map keys or values correctly
     fun interceptValueAccess(
         f: StandardField,
         ctx: Context,
@@ -153,7 +154,7 @@ internal object Wrapper {
         ifWrapped: (ConverterDetails) -> R
     ) =
         mapEntry!!.key.withWrapper(
-            options.protokt.keyWrap.takeIf { it.isNotEmpty() },
+            options.protokt.keyWrap,
             ctx.info.context,
             ifWrapped
         )
@@ -181,7 +182,7 @@ internal object Wrapper {
         ifWrapped: (ConverterDetails) -> R
     ) =
         mapEntry!!.value.withWrapper(
-            options.protokt.valueWrap.takeIf { it.isNotEmpty() },
+            options.protokt.valueWrap,
             ctx.info.context,
             ifWrapped
         )
