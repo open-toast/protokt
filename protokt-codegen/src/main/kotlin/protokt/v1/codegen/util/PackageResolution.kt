@@ -16,10 +16,8 @@
 package protokt.v1.codegen.util
 
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
-import com.squareup.kotlinpoet.ClassName
-import protokt.v1.Bytes
+import protokt.v1.reflect.PROTOKT_V1
 
-val PROTOKT_V1 = Bytes::class.java.`package`.name
 const val DOT_GOOGLE_PROTOBUF = ".google.protobuf"
 val PROTOKT_V1_GOOGLE_PROTO = PROTOKT_V1 + DOT_GOOGLE_PROTOBUF
 
@@ -32,13 +30,3 @@ fun resolvePackage(fdp: FileDescriptorProto) =
     } else {
         "$PROTOKT_V1." + fdp.`package`
     }
-
-fun requalifyProtoType(typeName: String): ClassName =
-    // type name might have a `.` prefix
-    ClassName.bestGuess(
-        if (typeName.startsWith(".$PROTOKT_V1")) {
-            typeName.removePrefix(".")
-        } else {
-            "$PROTOKT_V1." + typeName.removePrefix(".")
-        }
-    )

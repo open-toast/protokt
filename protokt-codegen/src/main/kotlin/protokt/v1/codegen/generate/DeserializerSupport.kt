@@ -18,9 +18,9 @@ package protokt.v1.codegen.generate
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
-import protokt.v1.codegen.util.FieldType
+import protokt.v1.reflect.FieldType
 
-fun deserializeVarInitialState(p: PropertyInfo) =
+internal fun deserializeVarInitialState(p: PropertyInfo) =
     if (
         (p.repeated || p.wrapped || p.nullable || p.fieldType == FieldType.Message) &&
         !p.mapEntry
@@ -30,7 +30,7 @@ fun deserializeVarInitialState(p: PropertyInfo) =
         p.defaultValue
     }
 
-fun wrapDeserializedValueForConstructor(p: PropertyInfo) =
+internal fun wrapDeserializedValueForConstructor(p: PropertyInfo) =
     if (p.nonNullOption) {
         buildCodeBlock {
             beginControlFlow("requireNotNull(%N)", p.name)

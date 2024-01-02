@@ -27,7 +27,7 @@ import kotlin.reflect.KClass
 import kotlin.reflect.full.hasAnnotation
 import kotlin.reflect.full.memberProperties
 
-class ClassLookup(classpath: List<String>) {
+internal class ClassLookup(classpath: List<String>) {
     private val classLoader by lazy {
         val current = Thread.currentThread().contextClassLoader
 
@@ -104,11 +104,26 @@ class ClassLookup(classpath: List<String>) {
         }
 
         return ConverterDetails(
-            converter::class,
+            converter,
             kotlinClassCanonicalName,
             converter is OptimizedSizeOfConverter<*, *>,
             !converter.acceptsDefaultValue
         )
+    }
+
+    companion object {
+        fun evaluateProtobufTypeCanonicalName(
+            fieldDescriptorTypeName: String,
+            canonicalClassName: String,
+            type: FieldType,
+            fieldName: String
+        ): String =
+            fieldDescriptorTypeName.takeIf { it.isNotEmpty() }
+                ?.let { canonicalClassName }
+                // Protobuf primitives have no typeName
+                ?: requireNotNull(type.kotlinRepresentation) {
+                    "no kotlin representation for type of $fieldName: $type"
+                }.qualifiedName!!
     }
 }
 
@@ -139,7 +154,7 @@ private fun <T : Any> tryDeserializeDefaultValue(converter: Converter<T, *>): Th
 }
 
 class ConverterDetails(
-    val converterClass: KClass<*>,
+    val converter: Converter<*, *>,
     val kotlinCanonicalClassName: String,
     val optimizedSizeof: Boolean,
     val cannotDeserializeDefaultValue: Boolean

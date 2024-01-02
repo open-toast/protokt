@@ -13,20 +13,15 @@
  * limitations under the License.
  */
 
-package protokt.v1.codegen.util
+package protokt.v1.reflect
 
-import com.squareup.kotlinpoet.CodeBlock
-import com.squareup.kotlinpoet.MemberName
-import com.squareup.kotlinpoet.MemberName.Companion.member
-import com.squareup.kotlinpoet.asTypeName
+import com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Type
 import protokt.v1.KtEnum
 import protokt.v1.KtMessage
 import protokt.v1.KtMessageSerializer
-import protokt.v1.SizeCodecs
-import protokt.v1.codegen.generate.sizeOf
 import kotlin.reflect.KClass
 
-sealed class FieldType {
+internal sealed class FieldType {
     open val kotlinRepresentation: KClass<*>? = null
     open val inlineRepresentation: KClass<*>? = null
     open val ktRepresentation: KClass<*>? = null
@@ -84,20 +79,6 @@ sealed class FieldType {
             else -> "write"
         }
 
-    sealed interface SizeFn
-    class Const(val size: Int) : SizeFn
-    class Method(val method: MemberName) : SizeFn
-
-    val sizeFn: SizeFn
-        get() = when (this) {
-            Bool -> Const(1)
-            Double, Fixed64, SFixed64 -> Const(8)
-            Float, Fixed32, SFixed32 -> Const(4)
-            SInt32 -> Method(SizeCodecs::class.asTypeName().member(SizeCodecs::sizeOfSInt32.name))
-            SInt64 -> Method(SizeCodecs::class.asTypeName().member(SizeCodecs::sizeOfSInt64.name))
-            else -> Method(sizeOf)
-        }
-
     val scalar
         get() = this is Scalar
 
@@ -125,18 +106,27 @@ sealed class FieldType {
             SFixed32 -> 5
         }
 
-    val defaultValue: CodeBlock
-        get() = when (this) {
-            Message -> CodeBlock.of("null")
-            Enum -> error("enums do not have defaults; this is bug in the code generator")
-            Bool -> CodeBlock.of("false")
-            Fixed32, UInt32 -> CodeBlock.of("0u")
-            Int32, SFixed32, SInt32 -> CodeBlock.of("0")
-            Fixed64, UInt64 -> CodeBlock.of("0uL")
-            Int64, SFixed64, SInt64 -> CodeBlock.of("0L")
-            Float -> CodeBlock.of("0.0F")
-            Double -> CodeBlock.of("0.0")
-            Bytes -> CodeBlock.of("%T.empty()", protokt.v1.Bytes::class)
-            String -> CodeBlock.of("\"\"")
-        }
+    companion object {
+        fun from(type: Type) =
+            when (type) {
+                Type.TYPE_BOOL -> Bool
+                Type.TYPE_BYTES -> Bytes
+                Type.TYPE_DOUBLE -> Double
+                Type.TYPE_ENUM -> Enum
+                Type.TYPE_FIXED32 -> Fixed32
+                Type.TYPE_FIXED64 -> Fixed64
+                Type.TYPE_FLOAT -> Float
+                Type.TYPE_INT32 -> Int32
+                Type.TYPE_INT64 -> Int64
+                Type.TYPE_MESSAGE -> Message
+                Type.TYPE_SFIXED32 -> SFixed32
+                Type.TYPE_SFIXED64 -> SFixed64
+                Type.TYPE_SINT32 -> SInt32
+                Type.TYPE_SINT64 -> SInt64
+                Type.TYPE_STRING -> String
+                Type.TYPE_UINT32 -> UInt32
+                Type.TYPE_UINT64 -> UInt64
+                else -> error("Unknown type: $type")
+            }
+    }
 }

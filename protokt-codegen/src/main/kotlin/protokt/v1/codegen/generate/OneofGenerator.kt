@@ -31,7 +31,7 @@ import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.Oneof
 import protokt.v1.codegen.util.StandardField
 
-fun annotateOneofs(msg: Message, ctx: Context) =
+internal fun annotateOneofs(msg: Message, ctx: Context) =
     OneofGenerator(msg, ctx).generate()
 
 private class OneofGenerator(

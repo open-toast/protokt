@@ -20,5 +20,5 @@ import com.squareup.kotlinpoet.ClassName
 const val DESERIALIZER = "Deserializer"
 const val BUILDER = "Builder"
 
-fun GeneratorContext.className(simpleNames: List<String>) =
+internal fun GeneratorContext.className(simpleNames: List<String>) =
     ClassName(kotlinPackage, simpleNames)

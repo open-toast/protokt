@@ -22,7 +22,7 @@ import protokt.v1.codegen.util.Field
 import protokt.v1.codegen.util.Oneof
 import protokt.v1.codegen.util.StandardField
 
-fun annotatePropertyDocumentation(field: Field, ctx: Context) =
+internal fun annotatePropertyDocumentation(field: Field, ctx: Context) =
     PropertyDocumentationAnnotator(field, ctx).annotate()
 
 private class PropertyDocumentationAnnotator(

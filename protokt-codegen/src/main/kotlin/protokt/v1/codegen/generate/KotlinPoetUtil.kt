@@ -85,7 +85,7 @@ fun CodeBlock.Builder.endControlFlowWithoutNewline() {
     add("}")
 }
 
-fun inferClassName(className: String, ctx: Context) =
+internal fun inferClassName(className: String, ctx: Context) =
     inferClassName(className, ctx.info.kotlinPackage)
 
 fun inferClassName(className: String, pkg: String): ClassName {

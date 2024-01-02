@@ -26,10 +26,11 @@ import protokt.v1.OptimizedSizeOfConverter
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Nullability.hasNonNullOption
 import protokt.v1.codegen.generate.WellKnownTypes.wrapWithWellKnownInterception
-import protokt.v1.codegen.util.FieldType
 import protokt.v1.codegen.util.GeneratorContext
 import protokt.v1.codegen.util.StandardField
+import protokt.v1.reflect.ClassLookup
 import protokt.v1.reflect.ConverterDetails
+import protokt.v1.reflect.FieldType
 import kotlin.reflect.KFunction2
 
 internal object Wrapper {
@@ -50,12 +51,12 @@ internal object Wrapper {
         wrapOption?.let { wrap ->
             ifWrapped(
                 converter(
-                    protoTypeName.takeIf { it.isNotEmpty() }
-                        ?.let { className }
-                        // Protobuf primitives have no typeName
-                        ?: requireNotNull(type.kotlinRepresentation) {
-                            "no kotlin representation for type of $fieldName: $type"
-                        }.asClassName(),
+                    ClassLookup.evaluateProtobufTypeCanonicalName(
+                        protoTypeName,
+                        className.canonicalName,
+                        type,
+                        fieldName
+                    ).let(ClassName::bestGuess),
                     inferClassName(wrap, ctx.kotlinPackage),
                     ctx
                 )
@@ -112,7 +113,7 @@ internal object Wrapper {
         converterDetails: ConverterDetails,
         access: CodeBlock,
     ) =
-        CodeBlock.of("%T.%L(%L)", converterDetails.converterClass.asClassName(), method.name, access)
+        CodeBlock.of("%T.%L(%L)", converterDetails.converter::class.asClassName(), method.name, access)
 
     fun wrapper(f: StandardField, ctx: Context) =
         f.withWrapper(ctx.info.context, ::converterClassName)
@@ -171,7 +172,7 @@ internal object Wrapper {
         ClassName.bestGuess(converterDetails.kotlinCanonicalClassName)
 
     private fun converterClassName(converterDetails: ConverterDetails) =
-        converterDetails.converterClass.asClassName()
+        converterDetails.converter::class.asClassName()
 
     private fun <R> StandardField.withValueWrap(
         ctx: Context,

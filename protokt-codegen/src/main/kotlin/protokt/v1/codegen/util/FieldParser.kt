@@ -26,12 +26,13 @@ import com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Type
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.google.protobuf.DescriptorProtos.OneofDescriptorProto
 import com.squareup.kotlinpoet.ClassName
-import com.squareup.kotlinpoet.asTypeName
 import com.toasttab.protokt.v1.ProtoktProtos
 import protokt.v1.codegen.generate.Wrapper.wrapperRequiresNonNullOptionForNonNullity
 import protokt.v1.codegen.util.ErrorContext.withFieldName
+import protokt.v1.reflect.FieldType
+import protokt.v1.reflect.typeName
 
-class FieldParser(
+internal class FieldParser(
     private val ctx: GeneratorContext,
     private val desc: DescriptorProto,
     private val enclosingMessages: List<String>
@@ -102,7 +103,7 @@ class FieldParser(
         fdp: FieldDescriptorProto,
         withinOneof: Boolean = false
     ): StandardField {
-        val fieldType = toFieldType(fdp.type)
+        val fieldType = FieldType.from(fdp.type)
         val protoktOptions = fdp.options.getExtension(ProtoktProtos.property)
         val repeated = fdp.label == LABEL_REPEATED
         val mapEntry = mapEntry(fdp)
@@ -126,7 +127,7 @@ class FieldParser(
             fieldName = LOWER_UNDERSCORE.to(LOWER_CAMEL, fdp.name),
             options = FieldOptions(fdp.options, protoktOptions),
             protoTypeName = fdp.typeName,
-            className = typeName(fdp.typeName, fieldType),
+            className = ClassName.bestGuess(typeName(fdp.typeName, fieldType)),
             index = idx
         )
 
@@ -176,22 +177,6 @@ class FieldParser(
                     typeName.substring(idx + 1),
                     typeList.firstOrNull { it.name == typeName.substring(0, idx) }
                 )
-            }
-        }
-    }
-
-    private fun typeName(protoTypeName: String, fieldType: FieldType): ClassName {
-        val fullyProtoQualified = protoTypeName.startsWith(".")
-
-        return if (fullyProtoQualified) {
-            requalifyProtoType(protoTypeName)
-        } else {
-            protoTypeName.let {
-                if (it.isEmpty()) {
-                    fieldType.protoktFieldType.asTypeName()
-                } else {
-                    ClassName.bestGuess(it)
-                }
             }
         }
     }
@@ -258,25 +243,3 @@ class FieldParser(
         }
     }
 }
-
-private fun toFieldType(type: Type) =
-    when (type) {
-        Type.TYPE_BOOL -> FieldType.Bool
-        Type.TYPE_BYTES -> FieldType.Bytes
-        Type.TYPE_DOUBLE -> FieldType.Double
-        Type.TYPE_ENUM -> FieldType.Enum
-        Type.TYPE_FIXED32 -> FieldType.Fixed32
-        Type.TYPE_FIXED64 -> FieldType.Fixed64
-        Type.TYPE_FLOAT -> FieldType.Float
-        Type.TYPE_INT32 -> FieldType.Int32
-        Type.TYPE_INT64 -> FieldType.Int64
-        Type.TYPE_MESSAGE -> FieldType.Message
-        Type.TYPE_SFIXED32 -> FieldType.SFixed32
-        Type.TYPE_SFIXED64 -> FieldType.SFixed64
-        Type.TYPE_SINT32 -> FieldType.SInt32
-        Type.TYPE_SINT64 -> FieldType.SInt64
-        Type.TYPE_STRING -> FieldType.String
-        Type.TYPE_UINT32 -> FieldType.UInt32
-        Type.TYPE_UINT64 -> FieldType.UInt64
-        else -> error("Unknown type: $type")
-    }

@@ -19,7 +19,7 @@ import protokt.v1.Bytes
 import protokt.v1.codegen.util.DOT_GOOGLE_PROTOBUF
 import protokt.v1.codegen.util.StandardField
 
-object WellKnownTypes {
+internal object WellKnownTypes {
     val StandardField.wrapWithWellKnownInterception
         get() = options.protokt.wrap.takeIf { it.isNotEmpty() }
             ?: if (protoTypeName.startsWith("$DOT_GOOGLE_PROTOBUF.")) {

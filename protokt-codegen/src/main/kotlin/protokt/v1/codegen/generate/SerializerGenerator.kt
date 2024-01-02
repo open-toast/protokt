@@ -25,12 +25,12 @@ import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Wrapper.interceptValueAccess
 import protokt.v1.codegen.generate.Wrapper.mapKeyConverter
 import protokt.v1.codegen.generate.Wrapper.mapValueConverter
-import protokt.v1.codegen.util.FieldType
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.Oneof
 import protokt.v1.codegen.util.StandardField
+import protokt.v1.reflect.FieldType
 
-fun generateSerializer(msg: Message, properties: List<PropertySpec>, ctx: Context) =
+internal fun generateSerializer(msg: Message, properties: List<PropertySpec>, ctx: Context) =
     SerializerGenerator(msg, properties, ctx).generate()
 
 private class SerializerGenerator(
@@ -57,7 +57,7 @@ private class SerializerGenerator(
     }
 }
 
-fun serialize(
+internal fun serialize(
     f: StandardField,
     ctx: Context,
     p: PropertySpec,

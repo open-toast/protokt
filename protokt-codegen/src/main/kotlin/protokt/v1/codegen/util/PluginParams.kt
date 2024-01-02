@@ -30,7 +30,7 @@ import protokt.v1.reflect.ClassLookup
 import java.net.URLDecoder
 import kotlin.reflect.full.declaredMemberProperties
 
-class PluginParams(
+internal class PluginParams(
     params: Map<String, String>
 ) {
     val classLookup =

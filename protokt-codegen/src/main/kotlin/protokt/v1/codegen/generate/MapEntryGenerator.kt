@@ -30,13 +30,15 @@ import protokt.v1.KtMessageDeserializer
 import protokt.v1.KtMessageSerializer
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.util.DESERIALIZER
-import protokt.v1.codegen.util.FieldType
 import protokt.v1.codegen.util.MapEntry
 import protokt.v1.codegen.util.Message
+import protokt.v1.codegen.util.SizeFn
 import protokt.v1.codegen.util.StandardField
+import protokt.v1.codegen.util.sizeFn
+import protokt.v1.reflect.FieldType
 import kotlin.reflect.KProperty0
 
-fun generateMapEntry(msg: Message, ctx: Context) =
+internal fun generateMapEntry(msg: Message, ctx: Context) =
     MapEntryGenerator(msg, ctx).generate()
 
 private class MapEntryGenerator(
@@ -114,10 +116,10 @@ private class MapEntryGenerator(
                 .addFunction(
                     buildFunSpec("entrySize") {
                         returns(Int::class)
-                        if (key.type.sizeFn is FieldType.Method) {
+                        if (key.type.sizeFn is SizeFn.Method) {
                             addParameter("key", key.className)
                         }
-                        if (value.type.sizeFn is FieldType.Method) {
+                        if (value.type.sizeFn is SizeFn.Method) {
                             addParameter("value", value.className)
                         }
                         addStatement("return %L + %L", sizeOf(key, ctx), sizeOf(value, ctx))
@@ -178,15 +180,15 @@ private class MapEntryGenerator(
         }
 }
 
-fun sizeOfCall(mapEntry: MapEntry, keyStr: CodeBlock, valueStr: CodeBlock) =
-    if (mapEntry.key.type.sizeFn is FieldType.Method) {
-        if (mapEntry.value.type.sizeFn is FieldType.Method) {
+internal fun sizeOfCall(mapEntry: MapEntry, keyStr: CodeBlock, valueStr: CodeBlock) =
+    if (mapEntry.key.type.sizeFn is SizeFn.Method) {
+        if (mapEntry.value.type.sizeFn is SizeFn.Method) {
             CodeBlock.of("entrySize(%L,·%L)", keyStr, valueStr)
         } else {
             CodeBlock.of("entrySize(%L)", keyStr)
         }
     } else {
-        if (mapEntry.value.type.sizeFn is FieldType.Method) {
+        if (mapEntry.value.type.sizeFn is SizeFn.Method) {
             CodeBlock.of("entrySize(%L)", valueStr)
         } else {
             CodeBlock.of("entrySize()")

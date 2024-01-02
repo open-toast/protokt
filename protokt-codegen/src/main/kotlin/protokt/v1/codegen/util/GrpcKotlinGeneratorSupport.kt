@@ -21,7 +21,7 @@ import io.grpc.kotlin.generator.GeneratorRunner
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 
-fun generateGrpcKotlinStubs(
+internal fun generateGrpcKotlinStubs(
     params: PluginParams,
     request: CodeGeneratorRequest
 ): List<CodeGeneratorResponse.File> =

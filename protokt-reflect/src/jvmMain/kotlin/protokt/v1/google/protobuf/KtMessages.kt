@@ -35,8 +35,9 @@ import protokt.v1.KtEnum
 import protokt.v1.KtGeneratedFileDescriptor
 import protokt.v1.KtGeneratedMessage
 import protokt.v1.KtMessage
-import protokt.v1.google.protobuf.RuntimeContext.Companion.DEFAULT_CONVERTERS
 import protokt.v1.reflect.ClassLookup
+import protokt.v1.reflect.FieldType
+import protokt.v1.reflect.typeName
 import kotlin.Any
 import kotlin.reflect.KClass
 import kotlin.reflect.full.declaredMemberProperties
@@ -45,17 +46,11 @@ import kotlin.reflect.full.findAnnotation
 fun KtMessage.toDynamicMessage(context: RuntimeContext): DynamicMessage =
     context.convertValue(this) as DynamicMessage
 
-class RuntimeContext(
+class RuntimeContext internal constructor(
     descriptors: Iterable<Descriptors.Descriptor>,
-    converters: Iterable<Converter<*, *>>,
+    private val classLookup: ClassLookup
 ) {
     internal val descriptorsByTypeName = descriptors.associateBy { it.fullName }
-    private val convertersByWrappedType = converters.associateBy { it.wrapper to type(it.wrapped) }
-
-    private fun type(klass: KClass<*>): KClass<*> =
-        when {
-            else -> error("unimplemented: $klass")
-        }
 
     fun convertValue(value: Any?) =
         when (value) {
@@ -70,37 +65,28 @@ class RuntimeContext(
         }
 
     internal fun unwrap(value: Any, field: FieldDescriptor): Any {
-        val defaultConverter =
-            if (field.type == FieldDescriptor.Type.MESSAGE) {
-                DEFAULT_CONVERTERS[field.messageType.fullName]
-            } else {
-                null
-            }
-
-        // todo!
-        val converter = defaultConverter ?: convertersByWrappedType.getValue(value::class to Any::class)
+        val proto = field.toProto()
+        val type = FieldType.from(proto.type)
+        val converterDetails =
+            classLookup.converter(
+                ClassLookup.evaluateProtobufTypeCanonicalName(
+                    proto.typeName,
+                    typeName(proto.typeName, type),
+                    type,
+                    field.name
+                ),
+                // todo: ths is not right; have to infer kotlin name like we do in codegen
+                value::class.qualifiedName!!
+            )
 
         @Suppress("UNCHECKED_CAST")
-        return (converter as Converter<Any, Any>).unwrap(value)
+        val converter = converterDetails.converter as Converter<Any, Any>
+        return converter.unwrap(value)
     }
 
     companion object {
-        internal val DEFAULT_CONVERTERS: Map<String, Converter<*, *>> =
-            mapOf(
-                "google.protobuf.DoubleValue" to DoubleValueConverter,
-                "google.protobuf.FloatValue" to FloatValueConverter,
-                "google.protobuf.Int64Value" to Int64ValueConverter,
-                "google.protobuf.UInt64Value" to UInt64ValueConverter,
-                "google.protobuf.Int32Value" to Int32ValueConverter,
-                "google.protobuf.UInt32Value" to UInt32ValueConverter,
-                "google.protobuf.BoolValue" to BoolValueConverter,
-                "google.protobuf.StringValue" to StringValueConverter,
-                "google.protobuf.BytesValue" to BytesValueConverter,
-            )
-
         private val reflectiveContext by lazy {
-            ClassLookup(emptyList())
-            RuntimeContext(getDescriptors(), getConverters())
+            RuntimeContext(getDescriptors(), ClassLookup(emptyList()))
         }
 
         fun getContextReflectively() =
@@ -129,23 +115,6 @@ private fun getDescriptors() =
         .flatMap { it.toProtobufJavaDescriptor().messageTypes }
         .flatMap(::collectDescriptors)
         .asIterable()
-
-private fun getConverters(): Iterable<Converter<*, *>> {
-    val classLoader = Thread.currentThread().contextClassLoader
-
-    return classLoader.getResources("META-INF/services/${Converter::class.qualifiedName}")
-        .asSequence()
-        .flatMap { url ->
-            url.openStream()
-                .bufferedReader()
-                .useLines { lines ->
-                    lines.map { it.substringBefore("#").trim() }
-                        .filter { it.isNotEmpty() }
-                        .map { classLoader.loadClass(it).kotlin.objectInstance as Converter<*, *> }
-                        .toList()
-                }
-        }.asIterable()
-}
 
 private fun collectDescriptors(descriptor: Descriptors.Descriptor): Iterable<Descriptors.Descriptor> =
     listOf(descriptor) + descriptor.nestedTypes.flatMap(::collectDescriptors)
@@ -179,9 +148,11 @@ private fun toDynamicMessage(
                                     field.enumType.findValueByNumberCreatingIfUnknown(((value as KtEnum).value))
                                 }
 
+                            // todo: unwrap keys and values if wrapped
                             field.isMapField ->
                                 convertMap(value, field, context)
 
+                            // todo: unwrap elements if wrapped
                             field.isRepeated ->
                                 (value as List<*>).map(context::convertValue)
 
@@ -198,8 +169,21 @@ private fun toDynamicMessage(
         .build()
 }
 
+private val WRAPPER_TYPE_NAMES =
+    setOf(
+        "google.protobuf.DoubleValue",
+        "google.protobuf.FloatValue",
+        "google.protobuf.Int64Value",
+        "google.protobuf.UInt64Value",
+        "google.protobuf.Int32Value",
+        "google.protobuf.UInt32Value",
+        "google.protobuf.BoolValue",
+        "google.protobuf.StringValue",
+        "google.protobuf.BytesValue"
+    )
+
 private fun isWrapped(field: FieldDescriptor): Boolean {
-    if (field.type == FieldDescriptor.Type.MESSAGE && field.messageType.fullName in DEFAULT_CONVERTERS) {
+    if (field.type == FieldDescriptor.Type.MESSAGE && field.messageType.fullName in WRAPPER_TYPE_NAMES) {
         return true
     }
 

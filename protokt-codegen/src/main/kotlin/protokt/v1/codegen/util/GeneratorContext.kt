@@ -19,7 +19,7 @@ import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.toasttab.protokt.v1.ProtoktProtos
 import protokt.v1.gradle.PROTOKT_VERSION
 
-class GeneratorContext(
+internal class GeneratorContext(
     val fdp: FileDescriptorProto,
     params: PluginParams,
     allFiles: List<FileDescriptorProto>

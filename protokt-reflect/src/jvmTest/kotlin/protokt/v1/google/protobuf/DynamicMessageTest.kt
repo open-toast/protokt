@@ -16,7 +16,6 @@
 package protokt.v1.google.protobuf
 
 import com.google.common.truth.Truth.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import protokt.v1.KtMessage
 import protokt.v1.testing.MapWrappers
@@ -32,39 +31,33 @@ import java.util.UUID
 
 class DynamicMessageTest {
     @Test
-    @Disabled
     fun `dynamic message serialization`() {
         val message = getAllTypesAllSet()
 
-        verifyMessage(message)
+        ; verifyMessage(message)
     }
 
     @Test
-    @Disabled
     fun `dynamic message with wrapped fields`() {
         val message =
             Wrappers {
                 uuid = UUID.randomUUID()
-                /*
-                ipAddress = InetAddress.getByName("127.0.0.1")
-                socketAddress = InetSocketAddress.createUnresolved("127.0.0.1", 2319)
+                // ipAddress = InetAddress.getByName("127.0.0.1")
+                socketAddress = InetSocketAddress("127.0.0.1", 2319)
                 instant = Instant.now()
                 duration = Duration.ofSeconds(623, 2319)
                 localDate = LocalDate.now()
                 nullableUuid = UUID.randomUUID()
                 nullableLocalDate = LocalDate.now().minusDays(1)
                 optionalUuid = UUID.randomUUID()
-                optionalIpAddress = InetAddress.getByName("127.0.0.2")
+                // optionalIpAddress = InetAddress.getByName("127.0.0.2")
                 optionalLocalDate = LocalDate.now().minusDays(2)
-
-                 */
             }
 
         verifyMessage(message)
     }
 
     @Test
-    @Disabled
     fun `dynamic message with oneof fields`() {
         val message1 =
             OneofWrappers { wrappedOneof = OneofWrappers.WrappedOneof.UuidOneof(UUID.randomUUID()) }
@@ -108,7 +101,6 @@ class DynamicMessageTest {
     }
 
     @Test
-    @Disabled
     fun `dynamic message with repeated fields`() {
         val message =
             RepeatedWrappers {
@@ -120,7 +112,6 @@ class DynamicMessageTest {
     }
 
     @Test
-    @Disabled
     fun `dynamic message with map fields`() {
         val message =
             MapWrappers {
