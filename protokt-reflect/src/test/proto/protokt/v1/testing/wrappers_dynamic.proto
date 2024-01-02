@@ -69,6 +69,8 @@ message Wrappers {
   optional string optional_local_date = 14 [
     (.protokt.v1.property).wrap = "java.time.LocalDate"
   ];
+
+  google.protobuf.StringValue optional_string = 15;
 }
 
 message OneofWrappers {
@@ -106,6 +108,8 @@ message OneofWrappers {
     google.protobuf.StringValue nullable_local_date_oneof = 10 [
       (.protokt.v1.property).wrap = "java.time.LocalDate"
     ];
+
+    google.protobuf.StringValue optional_string = 11;
   }
 }
 
@@ -117,6 +121,8 @@ message RepeatedWrappers {
   repeated google.protobuf.BytesValue uuids_wrapped = 2 [
     (.protokt.v1.property).wrap = "java.util.UUID"
   ];
+
+  repeated google.protobuf.StringValue strings = 3;
 }
 
 message MapWrappers {
@@ -129,4 +135,6 @@ message MapWrappers {
     (.protokt.v1.property).key_wrap = "java.time.LocalDate",
     (.protokt.v1.property).value_wrap = "java.net.InetSocketAddress"
   ];
+
+  map<string, google.protobuf.StringValue> map_string_string_value = 9;
 }

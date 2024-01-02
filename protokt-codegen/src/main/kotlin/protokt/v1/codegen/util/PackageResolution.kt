@@ -17,6 +17,7 @@ package protokt.v1.codegen.util
 
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import protokt.v1.reflect.PROTOKT_V1
+import protokt.v1.reflect.resolvePackage
 
 const val DOT_GOOGLE_PROTOBUF = ".google.protobuf"
 val PROTOKT_V1_GOOGLE_PROTO = PROTOKT_V1 + DOT_GOOGLE_PROTOBUF
@@ -25,8 +26,4 @@ fun packagesByFileName(protoFileList: List<FileDescriptorProto>) =
     protoFileList.associate { it.name to resolvePackage(it) }
 
 fun resolvePackage(fdp: FileDescriptorProto) =
-    if (fdp.`package`.startsWith(PROTOKT_V1)) {
-        fdp.`package`
-    } else {
-        "$PROTOKT_V1." + fdp.`package`
-    }
+    resolvePackage(fdp.`package`)

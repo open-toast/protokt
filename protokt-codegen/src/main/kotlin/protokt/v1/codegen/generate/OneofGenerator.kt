@@ -44,7 +44,7 @@ private class OneofGenerator(
             val implements =
                 oneof.options.protokt.implements
                     .takeIf { it.isNotEmpty() }
-                    ?.let { inferClassName(it, ctx.info.kotlinPackage) }
+                    ?.let { inferClassName(it, ctx) }
 
             TypeSpec.classBuilder(oneof.name)
                 .addModifiers(KModifier.SEALED)

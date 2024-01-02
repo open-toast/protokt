@@ -34,7 +34,7 @@ class DynamicMessageTest {
     fun `dynamic message serialization`() {
         val message = getAllTypesAllSet()
 
-        ; verifyMessage(message)
+        verifyMessage(message)
     }
 
     @Test
@@ -52,6 +52,7 @@ class DynamicMessageTest {
                 optionalUuid = UUID.randomUUID()
                 // optionalIpAddress = InetAddress.getByName("127.0.0.2")
                 optionalLocalDate = LocalDate.now().minusDays(2)
+                optionalString = "foo"
             }
 
         verifyMessage(message)
@@ -70,7 +71,7 @@ class DynamicMessageTest {
         verifyMessage(message2)
 
         val message3 =
-            OneofWrappers { wrappedOneof = OneofWrappers.WrappedOneof.SocketAddressOneof(InetSocketAddress.createUnresolved("127.0.0.1", 2319)) }
+            OneofWrappers { wrappedOneof = OneofWrappers.WrappedOneof.SocketAddressOneof(InetSocketAddress("127.0.0.1", 2319)) }
 
         verifyMessage(message3)
 
@@ -98,6 +99,11 @@ class DynamicMessageTest {
             OneofWrappers { wrappedOneof = OneofWrappers.WrappedOneof.NullableLocalDateOneof(LocalDate.now()) }
 
         verifyMessage(message8)
+
+        val message9 =
+            OneofWrappers { wrappedOneof = OneofWrappers.WrappedOneof.OptionalString("foo") }
+
+        verifyMessage(message9)
     }
 
     @Test
@@ -106,6 +112,7 @@ class DynamicMessageTest {
             RepeatedWrappers {
                 uuids = listOf(UUID.randomUUID(), UUID.randomUUID())
                 uuidsWrapped = listOf(UUID.randomUUID(), UUID.randomUUID())
+                strings = listOf("foo")
             }
 
         verifyMessage(message)
@@ -126,6 +133,10 @@ class DynamicMessageTest {
                         LocalDate.now() to InetSocketAddress.createUnresolved("127.0.0.1", 2319),
                         LocalDate.now().minusDays(1) to InetSocketAddress.createUnresolved("127.0.0.1", 2320)
                     )
+
+                // todo: this needs to wrap properly
+                mapStringStringValue =
+                    mapOf("foo" to StringValue { value = "bar" })
             }
 
         verifyMessage(message)

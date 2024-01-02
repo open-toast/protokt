@@ -26,6 +26,7 @@ import com.squareup.kotlinpoet.asTypeName
 import protokt.v1.Collections
 import protokt.v1.SizeCodecs
 import protokt.v1.codegen.generate.CodeGenerator.Context
+import protokt.v1.reflect.inferClassName
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction1
 
@@ -87,12 +88,4 @@ fun CodeBlock.Builder.endControlFlowWithoutNewline() {
 
 internal fun inferClassName(className: String, ctx: Context) =
     inferClassName(className, ctx.info.kotlinPackage)
-
-fun inferClassName(className: String, pkg: String): ClassName {
-    val inferred = ClassName.bestGuess(className)
-    return if (inferred.packageName == "") {
-        ClassName(pkg, className.split("."))
-    } else {
-        inferred
-    }
-}
+        .let { (pkg, names) -> ClassName(pkg, names) }

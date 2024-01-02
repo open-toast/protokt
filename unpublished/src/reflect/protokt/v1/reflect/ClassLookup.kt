@@ -153,7 +153,7 @@ private fun <T : Any> tryDeserializeDefaultValue(converter: Converter<T, *>): Th
     return if (protoDefault == null) null else tryWrap(protoDefault as T)
 }
 
-class ConverterDetails(
+internal class ConverterDetails(
     val converter: Converter<*, *>,
     val kotlinCanonicalClassName: String,
     val optimizedSizeof: Boolean,

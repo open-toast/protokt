@@ -31,6 +31,7 @@ import protokt.v1.codegen.util.StandardField
 import protokt.v1.reflect.ClassLookup
 import protokt.v1.reflect.ConverterDetails
 import protokt.v1.reflect.FieldType
+import protokt.v1.reflect.inferClassName
 import kotlin.reflect.KFunction2
 
 internal object Wrapper {
@@ -56,8 +57,9 @@ internal object Wrapper {
                         className.canonicalName,
                         type,
                         fieldName
-                    ).let(ClassName::bestGuess),
-                    inferClassName(wrap, ctx.kotlinPackage),
+                    ),
+                    inferClassName(wrap, ctx.kotlinPackage)
+                        .let { (pkg, names) -> ClassName(pkg, names).canonicalName },
                     ctx
                 )
             )
@@ -184,6 +186,6 @@ internal object Wrapper {
             ifWrapped
         )
 
-    private fun converter(protoClassName: ClassName, kotlinClassName: ClassName, ctx: GeneratorContext) =
-        ctx.classLookup.converter(protoClassName.canonicalName, kotlinClassName.canonicalName)
+    private fun converter(protoClassName: String, kotlinClassName: String, ctx: GeneratorContext) =
+        ctx.classLookup.converter(protoClassName, kotlinClassName)
 }

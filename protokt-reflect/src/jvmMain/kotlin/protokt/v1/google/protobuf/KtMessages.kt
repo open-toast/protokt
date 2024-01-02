@@ -37,6 +37,8 @@ import protokt.v1.KtGeneratedMessage
 import protokt.v1.KtMessage
 import protokt.v1.reflect.ClassLookup
 import protokt.v1.reflect.FieldType
+import protokt.v1.reflect.inferClassName
+import protokt.v1.reflect.resolvePackage
 import protokt.v1.reflect.typeName
 import kotlin.Any
 import kotlin.reflect.KClass
@@ -64,7 +66,7 @@ class RuntimeContext internal constructor(
             else -> value
         }
 
-    internal fun unwrap(value: Any, field: FieldDescriptor): Any {
+    internal fun unwrap(value: Any, field: FieldDescriptor, wrap: String): Any {
         val proto = field.toProto()
         val type = FieldType.from(proto.type)
         val converterDetails =
@@ -75,8 +77,8 @@ class RuntimeContext internal constructor(
                     type,
                     field.name
                 ),
-                // todo: ths is not right; have to infer kotlin name like we do in codegen
-                value::class.qualifiedName!!
+                inferClassName(wrap, resolvePackage(field.file.`package`))
+                    .let { (pkg, names) -> pkg + "." + names.joinToString(".") }
             )
 
         @Suppress("UNCHECKED_CAST")
@@ -138,6 +140,8 @@ private fun toDynamicMessage(
         .apply {
             descriptor.fields.forEach { field ->
                 ProtoktReflect.getField(message, field)?.let { value ->
+                    val wrap = wrap(field)
+
                     setField(
                         field,
                         when {
@@ -154,10 +158,16 @@ private fun toDynamicMessage(
 
                             // todo: unwrap elements if wrapped
                             field.isRepeated ->
-                                (value as List<*>).map(context::convertValue)
+                                (value as List<*>).map {
+                                    if (isWrapped(field, wrap)) {
+                                        context.convertValue(context.unwrap(it!!, field, wrap!!))
+                                    } else {
+                                        context.convertValue(it)
+                                    }
+                                }
 
-                            isWrapped(field) ->
-                                context.convertValue(context.unwrap(value, field))
+                            isWrapped(field, wrap) ->
+                                context.convertValue(context.unwrap(value, field, wrap!!))
 
                             else -> context.convertValue(value)
                         },
@@ -182,9 +192,17 @@ private val WRAPPER_TYPE_NAMES =
         "google.protobuf.BytesValue"
     )
 
-private fun isWrapped(field: FieldDescriptor): Boolean {
+private fun isWrapped(field: FieldDescriptor, wrap: String?): Boolean {
     if (field.type == FieldDescriptor.Type.MESSAGE && field.messageType.fullName in WRAPPER_TYPE_NAMES) {
         return true
+    }
+
+    return wrap != null
+}
+
+private fun wrap(field: FieldDescriptor): String? {
+    if (field.type == FieldDescriptor.Type.MESSAGE && field.messageType.fullName in WRAPPER_TYPE_NAMES) {
+        return field.messageType.fullName
     }
 
     val options = field.toProto().options
@@ -199,12 +217,12 @@ private fun isWrapped(field: FieldDescriptor): Boolean {
                     .last()
             )
         } else {
-            return false
+            return null
         }
 
-    return propertyOptions.wrap.isNotEmpty() ||
-        propertyOptions.keyWrap.isNotEmpty() ||
-        propertyOptions.valueWrap.isNotEmpty()
+    return propertyOptions.wrap.takeIf { it.isNotEmpty() }
+        ?: propertyOptions.keyWrap.takeIf { it.isNotEmpty() }
+        ?: propertyOptions.valueWrap.takeIf { it.isNotEmpty() }
 }
 
 private fun convertMap(

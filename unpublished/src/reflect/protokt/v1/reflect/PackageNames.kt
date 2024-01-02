@@ -40,3 +40,10 @@ internal fun requalifyProtoType(typeName: String) =
     } else {
         "$PROTOKT_V1." + typeName.removePrefix(".")
     }
+
+internal fun resolvePackage(pkg: String) =
+    if (pkg.startsWith(PROTOKT_V1)) {
+        pkg
+    } else {
+        "$PROTOKT_V1.$pkg"
+    }
