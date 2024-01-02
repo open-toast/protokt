@@ -19,6 +19,8 @@ jobs:
       with:
         distribution: corretto
         java-version: 17
+    - name: Set up js stuff
+      run: npm install protobufjs@6.11.3 long@5.2.0
     - uses: ./.github/actions/gradle
       with:
         command: clean check publishToIntegrationRepository
