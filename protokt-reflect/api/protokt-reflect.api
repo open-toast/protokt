@@ -1397,14 +1397,12 @@ public final class protokt/v1/google/protobuf/KtMessages {
 public final class protokt/v1/google/protobuf/ProtoktReflect {
 	public static final field INSTANCE Lprotokt/v1/google/protobuf/ProtoktReflect;
 	public final fun getField (Lprotokt/v1/KtMessage;Lcom/google/protobuf/Descriptors$FieldDescriptor;)Ljava/lang/Object;
-}
-
-public final class protokt/v1/google/protobuf/ProtoktReflectKt {
-	public static final fun getUnknownFields (Lprotokt/v1/KtMessage;)Ljava/util/Map;
+	public final fun hasField (Lprotokt/v1/KtMessage;Lcom/google/protobuf/Descriptors$FieldDescriptor;)Z
 }
 
 public final class protokt/v1/google/protobuf/RuntimeContext {
 	public static final field Companion Lprotokt/v1/google/protobuf/RuntimeContext$Companion;
+	public fun <init> (Ljava/lang/Iterable;)V
 	public final fun convertValue (Ljava/lang/Object;)Ljava/lang/Object;
 }
 
