@@ -148,9 +148,6 @@ private class PropertyAnnotator(
         }
 }
 
-internal fun StandardField.interceptTypeName(ctx: Context) =
-    interceptTypeName(this, ctx) ?: className
-
 internal class PropertyInfo(
     val name: String,
     val number: Int? = null,

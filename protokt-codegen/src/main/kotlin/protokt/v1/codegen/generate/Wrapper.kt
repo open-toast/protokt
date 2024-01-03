@@ -138,12 +138,12 @@ internal object Wrapper {
             }
         }
 
-    fun interceptTypeName(f: StandardField, ctx: Context) =
-        if (f.bytesSlice) {
+    fun StandardField.interceptTypeName(ctx: Context) =
+        if (bytesSlice) {
             BytesSlice::class.asTypeName()
         } else {
-            f.withWrapper(ctx.info.context, ::kotlinClassName)
-        }
+            withWrapper(ctx.info.context, ::kotlinClassName)
+        } ?: className
 
     private val StandardField.bytesSlice
         get() = options.protokt.bytesSlice

@@ -29,6 +29,7 @@ import protokt.v1.KtMessage
 import protokt.v1.KtMessageDeserializer
 import protokt.v1.KtMessageSerializer
 import protokt.v1.codegen.generate.CodeGenerator.Context
+import protokt.v1.codegen.generate.Wrapper.interceptTypeName
 import protokt.v1.codegen.util.DESERIALIZER
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.SizeFn
@@ -44,11 +45,9 @@ private class MapEntryGenerator(
     private val msg: Message,
     private val ctx: Context
 ) {
-    private val key = (msg.fields[0] as StandardField)
+    private val key = msg.fields[0] as StandardField
     private val value = msg.fields[1] as StandardField
 
-    // todo: intercept keyWrap and valueWrap here
-    // todo: remove all `f.wrapped` checks from Wrapper.kt
     private val keyTypeName = key.interceptTypeName(ctx)
     private val valueTypeName = value.interceptTypeName(ctx)
 
