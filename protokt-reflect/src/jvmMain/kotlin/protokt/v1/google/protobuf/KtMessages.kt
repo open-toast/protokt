@@ -20,6 +20,7 @@ package protokt.v1.google.protobuf
 import com.google.protobuf.DescriptorProtos
 import com.google.protobuf.Descriptors
 import com.google.protobuf.Descriptors.FieldDescriptor
+import com.google.protobuf.Descriptors.FieldDescriptor.Type
 import com.google.protobuf.DynamicMessage
 import com.google.protobuf.MapEntry
 import com.google.protobuf.Message
@@ -48,6 +49,27 @@ import kotlin.reflect.full.findAnnotation
 
 fun KtMessage.toDynamicMessage(context: RuntimeContext): DynamicMessage =
     context.convertValue(this) as DynamicMessage
+
+fun KtMessage.hasField(field: FieldDescriptor): Boolean {
+    val value = getField(field)
+
+    return if (field.hasPresence()) {
+        value != null
+    } else {
+        value != defaultValue(field)
+    }
+}
+
+private fun defaultValue(field: FieldDescriptor) =
+    when (field.type) {
+        Type.UINT64, Type.FIXED64 -> 0uL
+        Type.UINT32, Type.FIXED32 -> 0u
+        Type.BYTES -> Bytes.empty()
+        else -> field.defaultValue
+    }
+
+fun KtMessage.getField(field: FieldDescriptor) =
+    ProtoktReflect.getField(this, field)
 
 class RuntimeContext internal constructor(
     descriptors: Iterable<Descriptors.Descriptor>,
@@ -143,13 +165,13 @@ private fun toDynamicMessage(
     return DynamicMessage.newBuilder(descriptor)
         .apply {
             descriptor.fields.forEach { field ->
-                ProtoktReflect.getField(message, field)?.let { value ->
+                message.getField(field)?.let { value ->
                     val fieldOptions = fieldOptions(field)
 
                     setField(
                         field,
                         when {
-                            field.type == Descriptors.FieldDescriptor.Type.ENUM ->
+                            field.type == Type.ENUM ->
                                 if (field.isRepeated) {
                                     (value as List<*>).map { field.enumType.findValueByNumberCreatingIfUnknown(((it as KtEnum).value)) }
                                 } else {
@@ -230,14 +252,14 @@ private fun convertMap(
     val valDesc = field.messageType.findFieldByNumber(2)
 
     val keyDefault =
-        if (keyDesc.type == Descriptors.FieldDescriptor.Type.MESSAGE) {
+        if (keyDesc.type == Type.MESSAGE) {
             null
         } else {
             keyDesc.defaultValue
         }
 
     val valDefault =
-        if (valDesc.type == Descriptors.FieldDescriptor.Type.MESSAGE) {
+        if (valDesc.type == Type.MESSAGE) {
             null
         } else {
             valDesc.defaultValue

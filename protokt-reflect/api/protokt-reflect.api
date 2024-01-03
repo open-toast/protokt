@@ -1391,13 +1391,9 @@ public final class protokt/v1/ServiceOptions$Deserializer : protokt/v1/AbstractK
 }
 
 public final class protokt/v1/google/protobuf/KtMessages {
+	public static final fun getField (Lprotokt/v1/KtMessage;Lcom/google/protobuf/Descriptors$FieldDescriptor;)Ljava/lang/Object;
+	public static final fun hasField (Lprotokt/v1/KtMessage;Lcom/google/protobuf/Descriptors$FieldDescriptor;)Z
 	public static final fun toDynamicMessage (Lprotokt/v1/KtMessage;Lprotokt/v1/google/protobuf/RuntimeContext;)Lcom/google/protobuf/DynamicMessage;
-}
-
-public final class protokt/v1/google/protobuf/ProtoktReflect {
-	public static final field INSTANCE Lprotokt/v1/google/protobuf/ProtoktReflect;
-	public final fun getField (Lprotokt/v1/KtMessage;Lcom/google/protobuf/Descriptors$FieldDescriptor;)Ljava/lang/Object;
-	public final fun hasField (Lprotokt/v1/KtMessage;Lcom/google/protobuf/Descriptors$FieldDescriptor;)Z
 }
 
 public final class protokt/v1/google/protobuf/RuntimeContext {

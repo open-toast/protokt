@@ -20,8 +20,9 @@ import com.google.protobuf.Descriptors.FieldDescriptor
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 import proto3_unittest.UnittestProto3
-import protokt.v1.google.protobuf.ProtoktReflect
 import protokt.v1.google.protobuf.RuntimeContext
+import protokt.v1.google.protobuf.getField
+import protokt.v1.google.protobuf.hasField
 import protokt.v1.proto3_unittest.TestAllTypes
 
 class ProtoktReflectTest {
@@ -30,13 +31,13 @@ class ProtoktReflectTest {
     @ParameterizedTest
     @MethodSource("optionalDescriptors")
     fun `hasField behavior matches for non-optional proto3 scalar fields`(field: FieldDescriptor) {
-        val protoDefault = TestAllTypes {}
+        val protoktDefault = TestAllTypes {}
         val javaDefault = UnittestProto3.TestAllTypes.getDefaultInstance()
 
         assertThat(javaDefault.hasField(field)).isFalse()
-        assertThat(ProtoktReflect.hasField(protoDefault, field)).isFalse()
+        assertThat(protoktDefault.hasField(field)).isFalse()
 
-        assertThat(context.convertValue(ProtoktReflect.getField(protoDefault, field)))
+        assertThat(context.convertValue(protoktDefault.getField(field)))
             .isEqualTo(javaDefault.getField(field))
     }
 

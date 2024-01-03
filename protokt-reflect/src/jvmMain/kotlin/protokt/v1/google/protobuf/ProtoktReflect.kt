@@ -19,7 +19,6 @@ import com.google.common.cache.CacheBuilder
 import com.google.common.cache.CacheLoader
 import com.google.protobuf.Descriptors.FieldDescriptor
 import com.google.protobuf.Descriptors.FieldDescriptor.Type
-import protokt.v1.Bytes
 import protokt.v1.Fixed32Val
 import protokt.v1.Fixed64Val
 import protokt.v1.KtEnum
@@ -36,7 +35,7 @@ import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.isSubclassOf
 
-object ProtoktReflect {
+internal object ProtoktReflect {
     private val reflectedGettersByClass =
         CacheBuilder.newBuilder()
             .build(
@@ -146,27 +145,9 @@ object ProtoktReflect {
             }
         }
 
-    fun hasField(message: KtMessage, field: FieldDescriptor): Boolean {
-        val value = getField(message, field)
-
-        return if (field.hasPresence()) {
-            value != null
-        } else {
-            value != defaultValue(field)
-        }
-    }
-
     fun getField(message: KtMessage, field: FieldDescriptor): Any? =
         reflectedGettersByClass[message::class](field, message)
 }
-
-private fun defaultValue(field: FieldDescriptor) =
-    when (field.type) {
-        Type.UINT64, Type.FIXED64 -> 0uL
-        Type.UINT32, Type.FIXED32 -> 0u
-        Type.BYTES -> Bytes.empty()
-        else -> field.defaultValue
-    }
 
 internal fun getUnknownFields(message: KtMessage) =
     message::class
