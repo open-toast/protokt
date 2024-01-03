@@ -32,6 +32,7 @@ import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Nullability.nullable
 import protokt.v1.codegen.generate.Wrapper.interceptDefaultValue
 import protokt.v1.codegen.generate.Wrapper.interceptTypeName
+import protokt.v1.codegen.generate.Wrapper.wrapField
 import protokt.v1.codegen.util.DESERIALIZER
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.SizeFn
@@ -184,11 +185,24 @@ private class MapEntryGenerator(
                 add("?: %L", keyPropInfo.defaultValue)
             }
             add(", value")
-            if (value.type == FieldType.Message && !valPropInfo.wrapped) {
-                add("?: %T {}", value.className)
-            } else if (valPropInfo.nullable || valPropInfo.wrapped) {
-                // todo: add a test verifying absent message wrapped value type uses the default
-                add("?: %L", interceptDefaultValue(value, CodeBlock.of("%T {}", value.className), ctx))
+            if (valPropInfo.nullable) {
+                if (valPropInfo.wrapped) {
+                    if (value.type == FieldType.Message) {
+                        add("?: %L", wrapField(value, ctx, CodeBlock.of("%T {}", value.className)))
+                    } else {
+                        add("?: %L", valPropInfo.defaultValue)
+                    }
+                } else {
+                    if (value.type == FieldType.Message) {
+                        add("?: %T {}", value.className)
+                    } else {
+                        add("?: %L", interceptDefaultValue(value, valPropInfo.defaultValue, ctx))
+                    }
+                }
+            } else {
+                if (valPropInfo.wrapped) {
+                    add("?: %L", valPropInfo.defaultValue)
+                }
             }
             add(")")
         }

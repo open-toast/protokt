@@ -31,7 +31,6 @@ import protokt.v1.UnknownFieldSet
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Wrapper.interceptRead
 import protokt.v1.codegen.generate.Wrapper.wrapField
-import protokt.v1.codegen.generate.Wrapper.wrapper
 import protokt.v1.codegen.util.KotlinPlugin
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.Oneof
@@ -215,7 +214,7 @@ private class DeserializerGenerator(
 
 internal fun deserialize(f: StandardField, ctx: Context, packed: Boolean = false): CodeBlock {
     val read = CodeBlock.of("deserializer.%L", interceptRead(f, f.readFn()))
-    val wrappedRead = wrapper(f, ctx)?.let { wrapField(it, read) } ?: read
+    val wrappedRead = wrapField(f, ctx, read) ?: read
 
     return when {
         f.isMap -> deserializeMap(f, read)

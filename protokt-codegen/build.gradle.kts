@@ -86,7 +86,7 @@ sourceSets {
             srcDir("../buildSrc/src/shared/codegen")
         }
         proto {
-            srcDir("../extensions/protokt-extensions-lite/src/main/proto")
+            srcDir("../extensions/protokt-extensions-lite/src/extensions-proto")
         }
     }
 }

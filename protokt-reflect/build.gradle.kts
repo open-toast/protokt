@@ -63,7 +63,9 @@ sourceSets {
             srcDir("../unpublished/src/reflect")
         }
         proto {
-            srcDir("../extensions/protokt-extensions-lite/src/main/proto")
+            srcDirs(
+                "../extensions/protokt-extensions-lite/src/extensions-proto"
+            )
         }
     }
 }

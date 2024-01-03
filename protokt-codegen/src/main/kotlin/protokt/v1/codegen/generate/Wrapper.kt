@@ -107,9 +107,6 @@ internal object Wrapper {
             callConverterMethod(Converter<Any, Any>::unwrap, it, accessValue)
         } ?: accessValue
 
-    fun wrapField(wrapName: TypeName, arg: CodeBlock) =
-        CodeBlock.of("%T.%L(%L)", wrapName, Converter<Any, Any>::wrap.name, arg)
-
     private fun callConverterMethod(
         method: KFunction2<*, *, *>,
         converterDetails: ConverterDetails,
@@ -134,9 +131,15 @@ internal object Wrapper {
             if (f.type == FieldType.Message && !f.repeated) {
                 defaultValue
             } else {
-                wrapper(f, ctx)?.let { wrapField(it, defaultValue) } ?: defaultValue
+                wrapField(f, ctx, defaultValue) ?: defaultValue
             }
         }
+
+    fun wrapField(f: StandardField, ctx: Context, argToConverter: CodeBlock) =
+        wrapper(f, ctx)?.let { wrapField(it, argToConverter) }
+
+    private fun wrapField(wrapName: TypeName, arg: CodeBlock) =
+        CodeBlock.of("%T.%L(%L)", wrapName, Converter<Any, Any>::wrap.name, arg)
 
     fun StandardField.interceptTypeName(ctx: Context) =
         if (bytesSlice) {
