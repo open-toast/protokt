@@ -148,12 +148,6 @@ internal object Wrapper {
     private val StandardField.bytesSlice
         get() = options.protokt.bytesSlice
 
-    fun interceptMapKeyTypeName(f: StandardField, ctx: Context) =
-        f.mapKey.withWrapper(ctx.info.context, ::kotlinClassName)
-
-    fun interceptMapValueTypeName(f: StandardField, ctx: Context) =
-        f.mapValue.withWrapper(ctx.info.context, ::kotlinClassName)
-
     private fun kotlinClassName(converterDetails: ConverterDetails) =
         ClassName.bestGuess(converterDetails.kotlinCanonicalClassName)
 

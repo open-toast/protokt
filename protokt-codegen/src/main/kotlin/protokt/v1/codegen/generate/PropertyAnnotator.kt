@@ -28,8 +28,6 @@ import protokt.v1.codegen.generate.Nullability.hasNonNullOption
 import protokt.v1.codegen.generate.Nullability.nullable
 import protokt.v1.codegen.generate.Nullability.propertyType
 import protokt.v1.codegen.generate.Wrapper.interceptDefaultValue
-import protokt.v1.codegen.generate.Wrapper.interceptMapKeyTypeName
-import protokt.v1.codegen.generate.Wrapper.interceptMapValueTypeName
 import protokt.v1.codegen.generate.Wrapper.interceptTypeName
 import protokt.v1.codegen.generate.Wrapper.wrapped
 import protokt.v1.codegen.generate.Wrapper.wrapperRequiresNullability
@@ -68,7 +66,6 @@ private class PropertyAnnotator(
                         fieldType = field.type,
                         repeated = field.repeated,
                         mapEntry = field.mapEntry,
-                        isMapEntry = msg.mapEntry,
                         nullable = field.nullable || field.optional || wrapperRequiresNullability,
                         nonNullOption = field.hasNonNullOption,
                         overrides = field.overrides(ctx, msg),
@@ -104,10 +101,9 @@ private class PropertyAnnotator(
 
     private fun annotateStandard(f: StandardField): TypeName =
         if (f.isMap) {
-            val mapTypes = resolveMapEntryTypes(f, ctx)
             Map::class
                 .asTypeName()
-                .parameterizedBy(mapTypes.kType, mapTypes.vType)
+                .parameterizedBy(f.mapKey.interceptTypeName(ctx), f.mapValue.interceptTypeName(ctx))
         } else {
             val parameter = f.interceptTypeName(ctx)
 
@@ -117,17 +113,6 @@ private class PropertyAnnotator(
                 parameter
             }
         }
-
-    private fun resolveMapEntryTypes(f: StandardField, ctx: Context) =
-        MapTypeParams(
-            interceptMapKeyTypeName(f, ctx) ?: f.mapKey.className,
-            interceptMapValueTypeName(f, ctx) ?: f.mapValue.className
-        )
-
-    private class MapTypeParams(
-        val kType: TypeName,
-        val vType: TypeName
-    )
 
     private fun Field.defaultValue(ctx: Context, mapEntry: Boolean) =
         when (this) {
@@ -157,7 +142,6 @@ internal class PropertyInfo(
     val defaultValue: CodeBlock,
     val nullable: Boolean,
     val nonNullOption: Boolean,
-    val isMapEntry: Boolean = false,
     val fieldType: FieldType? = null,
     val repeated: Boolean = false,
     val mapEntry: Message? = null,

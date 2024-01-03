@@ -29,6 +29,8 @@ import protokt.v1.KtMessage
 import protokt.v1.KtMessageDeserializer
 import protokt.v1.KtMessageSerializer
 import protokt.v1.codegen.generate.CodeGenerator.Context
+import protokt.v1.codegen.generate.Nullability.nullable
+import protokt.v1.codegen.generate.Wrapper.interceptDefaultValue
 import protokt.v1.codegen.generate.Wrapper.interceptTypeName
 import protokt.v1.codegen.util.DESERIALIZER
 import protokt.v1.codegen.util.Message
@@ -53,6 +55,10 @@ private class MapEntryGenerator(
 
     private val keyProp = constructorProperty("key", keyTypeName, false)
     private val valProp = constructorProperty("value", valueTypeName, false)
+
+    private val propInfo = annotateProperties(msg, ctx)
+    private val keyPropInfo = propInfo[0]
+    private val valPropInfo = propInfo[1]
 
     fun generate() =
         TypeSpec.classBuilder(msg.className).apply {
@@ -108,8 +114,6 @@ private class MapEntryGenerator(
     }
 
     private fun TypeSpec.Builder.addDeserializer() {
-        val propInfo = annotateProperties(msg, ctx)
-
         addType(
             TypeSpec.companionObjectBuilder(DESERIALIZER)
                 .superclass(
@@ -134,12 +138,12 @@ private class MapEntryGenerator(
                         addModifiers(KModifier.OVERRIDE)
                         addParameter("deserializer", KtMessageDeserializer::class)
                         returns(msg.className)
-                        addStatement("%L", deserializeVar(propInfo, ::key))
-                        addStatement("%L", deserializeVar(propInfo, ::value))
+                        addStatement("%L", deserializeVar(keyPropInfo, ::key))
+                        addStatement("%L", deserializeVar(valPropInfo, ::value))
                         addCode("\n")
                         beginControlFlow("while (true)")
                         beginControlFlow("when (deserializer.readTag())")
-                        addStatement("%L", constructOnZero(value))
+                        addStatement("%L", constructOnZero())
                         addStatement(
                             "${key.tag.value}u -> key = %L",
                             deserialize(key, ctx)
@@ -156,13 +160,12 @@ private class MapEntryGenerator(
         )
     }
 
-    private fun deserializeVar(propInfo: List<PropertyInfo>, accessor: KProperty0<StandardField>): CodeBlock {
+    private fun deserializeVar(prop: PropertyInfo, accessor: KProperty0<StandardField>): CodeBlock {
         val field = accessor.get()
-        val prop = propInfo.single { it.name == field.fieldName }
 
         return namedCodeBlock(
             "var ${accessor.name}" +
-                if (field.type == FieldType.Message) {
+                if (field.type == FieldType.Message || prop.wrapped || prop.nullable) {
                     ": %type:T"
                 } else {
                     ""
@@ -174,11 +177,18 @@ private class MapEntryGenerator(
         )
     }
 
-    private fun constructOnZero(f: StandardField) =
+    private fun constructOnZero() =
         buildCodeBlock {
-            add("0u -> return %T(key, value", msg.className)
-            if (f.type == FieldType.Message) {
-                add("!!")
+            add("0u -> return %T(key", msg.className)
+            if (keyPropInfo.nullable || keyPropInfo.wrapped) {
+                add("?: %L", keyPropInfo.defaultValue)
+            }
+            add(", value")
+            if (value.type == FieldType.Message && !valPropInfo.wrapped) {
+                add("?: %T {}", value.className)
+            } else if (valPropInfo.nullable || valPropInfo.wrapped) {
+                // todo: add a test verifying absent message wrapped value type uses the default
+                add("?: %L", interceptDefaultValue(value, CodeBlock.of("%T {}", value.className), ctx))
             }
             add(")")
         }

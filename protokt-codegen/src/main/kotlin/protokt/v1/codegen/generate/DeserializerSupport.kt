@@ -21,10 +21,7 @@ import com.squareup.kotlinpoet.withIndent
 import protokt.v1.reflect.FieldType
 
 internal fun deserializeVarInitialState(p: PropertyInfo) =
-    if (
-        (p.repeated || p.wrapped || p.nullable || p.fieldType == FieldType.Message) &&
-        !p.isMapEntry
-    ) {
+    if (p.repeated || p.wrapped || p.nullable || p.fieldType == FieldType.Message) {
         CodeBlock.of("null")
     } else {
         p.defaultValue
