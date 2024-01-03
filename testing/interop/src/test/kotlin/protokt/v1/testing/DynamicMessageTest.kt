@@ -40,7 +40,7 @@ class DynamicMessageTest {
         val message =
             Wrappers {
                 uuid = UUID.randomUUID()
-                // ipAddress = InetAddress.getByName("127.0.0.1")
+                ipAddress = InetAddress.getByName("127.0.0.1")
                 socketAddress = InetSocketAddress("127.0.0.1", 2319)
                 instant = Instant.now()
                 duration = Duration.ofSeconds(623, 2319)
@@ -48,7 +48,7 @@ class DynamicMessageTest {
                 nullableUuid = UUID.randomUUID()
                 nullableLocalDate = LocalDate.now().minusDays(1)
                 optionalUuid = UUID.randomUUID()
-                // optionalIpAddress = InetAddress.getByName("127.0.0.2")
+                optionalIpAddress = InetAddress.getByName("127.0.0.2")
                 optionalLocalDate = LocalDate.now().minusDays(2)
                 optionalString = "foo"
             }

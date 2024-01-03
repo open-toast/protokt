@@ -17,8 +17,9 @@ package protokt.v1.google.protobuf
 
 import com.google.common.cache.CacheBuilder
 import com.google.common.cache.CacheLoader
-import com.google.protobuf.Descriptors
 import com.google.protobuf.Descriptors.FieldDescriptor
+import com.google.protobuf.Descriptors.FieldDescriptor.Type
+import protokt.v1.Bytes
 import protokt.v1.Fixed32Val
 import protokt.v1.Fixed64Val
 import protokt.v1.KtEnum
@@ -106,7 +107,7 @@ object ProtoktReflect {
                 value.varint
                     .map(VarintVal::value)
                     .map {
-                        if (field.type == FieldDescriptor.Type.UINT64) {
+                        if (field.type == Type.UINT64) {
                             it
                         } else {
                             it.toLong()
@@ -123,7 +124,7 @@ object ProtoktReflect {
                 value.lengthDelimited
                     .map(LengthDelimitedVal::value)
                     .map {
-                        if (field.type == Descriptors.FieldDescriptor.Type.STRING) {
+                        if (field.type == Type.STRING) {
                             StandardCharsets.UTF_8.decode(it.asReadOnlyBuffer()).toString()
                         } else {
                             it
@@ -145,13 +146,29 @@ object ProtoktReflect {
             }
         }
 
-    fun getField(
-        message: KtMessage,
-        field: FieldDescriptor,
-    ): Any? = reflectedGettersByClass[message::class](field, message)
+    fun hasField(message: KtMessage, field: FieldDescriptor): Boolean {
+        val value = getField(message, field)
+
+        return if (field.hasPresence()) {
+            value != null
+        } else {
+            value != defaultValue(field)
+        }
+    }
+
+    fun getField(message: KtMessage, field: FieldDescriptor): Any? =
+        reflectedGettersByClass[message::class](field, message)
 }
 
-fun getUnknownFields(message: KtMessage) =
+private fun defaultValue(field: FieldDescriptor) =
+    when (field.type) {
+        Type.UINT64, Type.FIXED64 -> 0uL
+        Type.UINT32, Type.FIXED32 -> 0u
+        Type.BYTES -> Bytes.empty()
+        else -> field.defaultValue
+    }
+
+internal fun getUnknownFields(message: KtMessage) =
     message::class
         .declaredMemberProperties
         .firstOrNull { it.returnType.classifier == UnknownFieldSet::class }

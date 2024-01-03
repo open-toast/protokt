@@ -38,6 +38,7 @@ fun getAllTypesAllSet() =
         optionalDouble = 112.0
         optionalBool = true
         optionalString = "114"
+        optionalBytes = Bytes.from("115".toByteArray())
         optionalNestedMessage = TestAllTypes.NestedMessage { bb = 115 }
         optionalForeignMessage = ForeignMessage { c = 116 }
         optionalNestedEnum = TestAllTypes.NestedEnum.FOO

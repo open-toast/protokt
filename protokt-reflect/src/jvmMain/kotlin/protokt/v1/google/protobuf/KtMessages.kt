@@ -53,6 +53,8 @@ class RuntimeContext internal constructor(
     descriptors: Iterable<Descriptors.Descriptor>,
     private val classLookup: ClassLookup
 ) {
+    constructor(descriptors: Iterable<Descriptors.Descriptor>) : this(descriptors, DEFAULT_CLASS_LOOKUP)
+
     internal val descriptorsByTypeName = descriptors.associateBy { it.fullName }
 
     fun convertValue(value: Any?) =
@@ -87,8 +89,10 @@ class RuntimeContext internal constructor(
     }
 
     companion object {
+        private val DEFAULT_CLASS_LOOKUP by lazy { ClassLookup(emptyList()) }
+
         private val reflectiveContext by lazy {
-            RuntimeContext(getDescriptors(), ClassLookup(emptyList()))
+            RuntimeContext(getDescriptors(), DEFAULT_CLASS_LOOKUP)
         }
 
         fun getContextReflectively() =

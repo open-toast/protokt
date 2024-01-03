@@ -41,13 +41,13 @@ internal val FieldType.sizeFn
 internal val FieldType.defaultValue: CodeBlock
     get() = when (this) {
         FieldType.Message -> CodeBlock.of("null")
-        FieldType.Enum -> error("enums do not have defaults; this is bug in the code generator")
+        FieldType.Enum -> error("enums defaults are discovered external to this property; this is bug in the code generator")
         FieldType.Bool -> CodeBlock.of("false")
         FieldType.Fixed32, FieldType.UInt32 -> CodeBlock.of("0u")
         FieldType.Int32, FieldType.SFixed32, FieldType.SInt32 -> CodeBlock.of("0")
         FieldType.Fixed64, FieldType.UInt64 -> CodeBlock.of("0uL")
         FieldType.Int64, FieldType.SFixed64, FieldType.SInt64 -> CodeBlock.of("0L")
-        FieldType.Float -> CodeBlock.of("0.0F")
+        FieldType.Float -> CodeBlock.of("0.0f")
         FieldType.Double -> CodeBlock.of("0.0")
         FieldType.Bytes -> CodeBlock.of("%T.empty()", protokt.v1.Bytes::class)
         FieldType.String -> CodeBlock.of("\"\"")
