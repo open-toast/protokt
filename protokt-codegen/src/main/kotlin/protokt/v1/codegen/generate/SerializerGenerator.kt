@@ -23,8 +23,6 @@ import com.squareup.kotlinpoet.buildCodeBlock
 import protokt.v1.KtMessageSerializer
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Wrapper.interceptValueAccess
-import protokt.v1.codegen.generate.Wrapper.mapKeyConverter
-import protokt.v1.codegen.generate.Wrapper.mapValueConverter
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.Oneof
 import protokt.v1.codegen.util.StandardField
@@ -85,11 +83,11 @@ internal fun serialize(
             )
             add("%N.forEach·{·serializer.%L·}", p, f.write(CodeBlock.of("it")))
         }
-        f.map -> buildCodeBlock {
+        f.isMap -> buildCodeBlock {
             beginControlFlow("%N.entries.forEach", p)
             add(
                 "serializer.writeTag(${f.tag.value}u).write(%L)\n",
-                f.boxMap(ctx)
+                f.boxMap()
             )
             endControlFlowWithoutNewline()
         }
@@ -113,19 +111,13 @@ internal fun serialize(
     }
 }
 
-private fun StandardField.boxMap(ctx: Context): CodeBlock {
-    val keyParam =
-        mapKeyConverter(this, ctx)
-            ?.let { CodeBlock.of("%T.unwrap(it.key)", it) }
-            ?: CodeBlock.of("it.key")
-
-    val valParam =
-        mapValueConverter(this, ctx)
-            ?.let { CodeBlock.of("%T.unwrap(it.value)", it) }
-            ?: CodeBlock.of("it.value")
-
-    return CodeBlock.of("%T(%L, %L)", className, keyParam, valParam)
-}
+private fun StandardField.boxMap() =
+    CodeBlock.of(
+        "%T(%L, %L)",
+        className,
+        CodeBlock.of("it.key"),
+        CodeBlock.of("it.value")
+    )
 
 private fun StandardField.write(value: CodeBlock) =
     CodeBlock.of("%L(%L)", type.writeFn, value)

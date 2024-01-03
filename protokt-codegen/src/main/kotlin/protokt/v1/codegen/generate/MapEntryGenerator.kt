@@ -30,7 +30,6 @@ import protokt.v1.KtMessageDeserializer
 import protokt.v1.KtMessageSerializer
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.util.DESERIALIZER
-import protokt.v1.codegen.util.MapEntry
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.SizeFn
 import protokt.v1.codegen.util.StandardField
@@ -45,11 +44,16 @@ private class MapEntryGenerator(
     private val msg: Message,
     private val ctx: Context
 ) {
-    private val key = msg.fields[0] as StandardField
+    private val key = (msg.fields[0] as StandardField)
     private val value = msg.fields[1] as StandardField
 
-    private val keyProp = constructorProperty("key", key.className, false)
-    private val valProp = constructorProperty("value", value.className, false)
+    // todo: intercept keyWrap and valueWrap here
+    // todo: remove all `f.wrapped` checks from Wrapper.kt
+    private val keyTypeName = key.interceptTypeName(ctx)
+    private val valueTypeName = value.interceptTypeName(ctx)
+
+    private val keyProp = constructorProperty("key", keyTypeName, false)
+    private val valProp = constructorProperty("value", valueTypeName, false)
 
     fun generate() =
         TypeSpec.classBuilder(msg.className).apply {
@@ -66,8 +70,8 @@ private class MapEntryGenerator(
     private fun TypeSpec.Builder.addConstructor() {
         primaryConstructor(
             FunSpec.constructorBuilder()
-                .addParameter("key", key.className)
-                .addParameter("value", value.className)
+                .addParameter("key", keyTypeName)
+                .addParameter("value", valueTypeName)
                 .build()
         )
     }
@@ -81,7 +85,8 @@ private class MapEntryGenerator(
                         .addCode(
                             "return·%L",
                             sizeOfCall(
-                                MapEntry(key, value),
+                                key,
+                                value,
                                 CodeBlock.of("key"),
                                 CodeBlock.of("value")
                             )
@@ -117,10 +122,10 @@ private class MapEntryGenerator(
                     buildFunSpec("entrySize") {
                         returns(Int::class)
                         if (key.type.sizeFn is SizeFn.Method) {
-                            addParameter("key", key.className)
+                            addParameter("key", keyTypeName)
                         }
                         if (value.type.sizeFn is SizeFn.Method) {
-                            addParameter("value", value.className)
+                            addParameter("value", valueTypeName)
                         }
                         addStatement("return %L + %L", sizeOf(key, ctx), sizeOf(value, ctx))
                     }
@@ -174,21 +179,21 @@ private class MapEntryGenerator(
         buildCodeBlock {
             add("0u -> return %T(key, value", msg.className)
             if (f.type == FieldType.Message) {
-                add(" ?: %T{}", value.className)
+                add("!!")
             }
             add(")")
         }
 }
 
-internal fun sizeOfCall(mapEntry: MapEntry, keyStr: CodeBlock, valueStr: CodeBlock) =
-    if (mapEntry.key.type.sizeFn is SizeFn.Method) {
-        if (mapEntry.value.type.sizeFn is SizeFn.Method) {
+internal fun sizeOfCall(key: StandardField, value: StandardField, keyStr: CodeBlock, valueStr: CodeBlock) =
+    if (key.type.sizeFn is SizeFn.Method) {
+        if (value.type.sizeFn is SizeFn.Method) {
             CodeBlock.of("entrySize(%L,·%L)", keyStr, valueStr)
         } else {
             CodeBlock.of("entrySize(%L)", keyStr)
         }
     } else {
-        if (mapEntry.value.type.sizeFn is SizeFn.Method) {
+        if (value.type.sizeFn is SizeFn.Method) {
             CodeBlock.of("entrySize(%L)", valueStr)
         } else {
             CodeBlock.of("entrySize()")

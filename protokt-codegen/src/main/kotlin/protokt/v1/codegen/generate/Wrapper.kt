@@ -36,16 +36,16 @@ import kotlin.reflect.KFunction2
 
 internal object Wrapper {
     val StandardField.wrapped
-        get() = wrapWithWellKnownInterception(options.protokt.wrap, protoTypeName) != null
+        get() = wrapWithWellKnownInterception(options.wrap, protoTypeName) != null
 
     fun StandardField.wrapperRequiresNullability(ctx: Context) =
         wrapperRequiresNonNullOptionForNonNullity(ctx.info.context) && !hasNonNullOption
 
     fun StandardField.wrapperRequiresNonNullOptionForNonNullity(ctx: GeneratorContext) =
-        withWrapper(ctx) { it.cannotDeserializeDefaultValue && !repeated } ?: false
+        wrapped && withWrapper(ctx) { it.cannotDeserializeDefaultValue && !repeated } ?: false
 
     private fun <T> StandardField.withWrapper(
-        wrap: String,
+        wrap: String?,
         ctx: GeneratorContext,
         ifWrapped: (ConverterDetails) -> T
     ) =
@@ -69,7 +69,7 @@ internal object Wrapper {
         ctx: GeneratorContext,
         ifWrapped: (ConverterDetails) -> R
     ) =
-        withWrapper(options.protokt.wrap, ctx, ifWrapped)
+        withWrapper(options.wrap, ctx, ifWrapped)
 
     fun interceptSizeof(
         f: StandardField,
@@ -98,7 +98,6 @@ internal object Wrapper {
             }
         } ?: accessSize
 
-    // todo: this doesn't intercept map keys or values correctly
     fun interceptValueAccess(
         f: StandardField,
         ctx: Context,
@@ -149,43 +148,17 @@ internal object Wrapper {
     private val StandardField.bytesSlice
         get() = options.protokt.bytesSlice
 
-    private fun <R> StandardField.withKeyWrap(
-        ctx: Context,
-        ifWrapped: (ConverterDetails) -> R
-    ) =
-        mapEntry!!.key.withWrapper(
-            options.protokt.keyWrap,
-            ctx.info.context,
-            ifWrapped
-        )
-
     fun interceptMapKeyTypeName(f: StandardField, ctx: Context) =
-        f.withKeyWrap(ctx, ::kotlinClassName)
-
-    fun mapKeyConverter(f: StandardField, ctx: Context) =
-        f.withKeyWrap(ctx, ::converterClassName)
+        f.mapKey.withWrapper(ctx.info.context, ::kotlinClassName)
 
     fun interceptMapValueTypeName(f: StandardField, ctx: Context) =
-        f.withValueWrap(ctx, ::kotlinClassName)
-
-    fun mapValueConverter(f: StandardField, ctx: Context) =
-        f.withValueWrap(ctx, ::converterClassName)
+        f.mapValue.withWrapper(ctx.info.context, ::kotlinClassName)
 
     private fun kotlinClassName(converterDetails: ConverterDetails) =
         ClassName.bestGuess(converterDetails.kotlinCanonicalClassName)
 
     private fun converterClassName(converterDetails: ConverterDetails) =
         converterDetails.converter::class.asClassName()
-
-    private fun <R> StandardField.withValueWrap(
-        ctx: Context,
-        ifWrapped: (ConverterDetails) -> R
-    ) =
-        mapEntry!!.value.withWrapper(
-            options.protokt.valueWrap,
-            ctx.info.context,
-            ifWrapped
-        )
 
     private fun converter(protoClassName: String, kotlinClassName: String, ctx: GeneratorContext) =
         ctx.classLookup.converter(protoClassName, kotlinClassName)

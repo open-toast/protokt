@@ -45,29 +45,27 @@ private class MessageGenerator(
     private val msg: Message,
     private val ctx: Context
 ) {
-    fun generate() =
-        if (msg.mapEntry) {
-            generateMapEntry(msg, ctx)
-        } else {
-            val properties = annotateProperties(msg, ctx)
-            val propertySpecs = properties(properties)
+    fun generate(): TypeSpec {
+        val properties = annotateProperties(msg, ctx)
+        val propertySpecs = properties(properties)
 
-            TypeSpec.classBuilder(msg.className).apply {
-                annotateMessageDocumentation(ctx)?.let { addKdoc(formatDoc(it)) }
-                handleAnnotations()
-                handleConstructor(propertySpecs)
-                addTypes(annotateOneofs(msg, ctx))
-                handleMessageSize()
-                addFunction(generateMessageSize(msg, propertySpecs, ctx))
-                addFunction(generateSerializer(msg, propertySpecs, ctx))
-                handleEquals(properties)
-                handleHashCode(properties)
-                handleToString(properties)
-                handleBuilder(msg, properties)
-                addType(generateDeserializer(msg, ctx, properties))
-                addTypes(msg.nestedTypes.flatMap { generate(it, ctx) })
-            }.build()
-        }
+        return TypeSpec.classBuilder(msg.className).apply {
+            annotateMessageDocumentation(ctx)?.let { addKdoc(formatDoc(it)) }
+            handleAnnotations()
+            handleConstructor(propertySpecs)
+            addTypes(annotateOneofs(msg, ctx))
+            handleMessageSize()
+            addFunction(generateMessageSize(msg, propertySpecs, ctx))
+            addFunction(generateSerializer(msg, propertySpecs, ctx))
+            handleEquals(properties)
+            handleHashCode(properties)
+            handleToString(properties)
+            handleBuilder(msg, properties)
+            addType(generateDeserializer(msg, ctx, properties))
+            addTypes(properties.mapNotNull { it.mapEntry }.map { generateMapEntry(it, ctx) })
+            addTypes(msg.nestedTypes.filterNot { it is Message && it.mapEntry }.flatMap { generate(it, ctx) })
+        }.build()
+    }
 
     private fun TypeSpec.Builder.handleAnnotations() = apply {
         addAnnotation(

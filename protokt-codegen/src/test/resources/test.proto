@@ -17,12 +17,20 @@ syntax = "proto3";
 
 package toasttab.protokt.v1.codegen.testing;
 
+import "google/protobuf/wrappers.proto";
 import "protokt/v1/protokt.proto";
 
 message TestMessage {
+  // google.protobuf.DoubleValue double = 1;
+  map<string, string> map = 1;
+
+  /*
   map<int32, bytes> map_int_value_wrapped = 4 [
     (.protokt.v1.property).value_wrap = "java.util.UUID"
   ];
+   */
 }
 
+/*
 message Empty {}
+ */

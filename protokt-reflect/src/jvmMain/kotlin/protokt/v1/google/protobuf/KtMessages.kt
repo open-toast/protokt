@@ -221,10 +221,9 @@ private fun wrap(field: FieldDescriptor, fieldOptions: ProtoktProtos.FieldOption
     getClassName(fieldOptions.wrap, field)
 
 private fun getClassName(wrap: String, field: FieldDescriptor): String? =
-    wrap.takeIf { it.isNotEmpty() }
-        ?: WellKnownTypes.wrapWithWellKnownInterception(wrap, field.toProto().typeName)
-            ?.let { inferClassName(it, resolvePackage(field.file.`package`)) }
-            ?.let { (pkg, names) -> pkg + "." + names.joinToString(".") }
+    WellKnownTypes.wrapWithWellKnownInterception(wrap.takeIf { it.isNotEmpty() }, field.toProto().typeName)
+        ?.let { inferClassName(it, resolvePackage(field.file.`package`)) }
+        ?.let { (pkg, names) -> pkg + "." + names.joinToString(".") }
 
 private fun convertList(
     value: List<*>,

@@ -136,5 +136,5 @@ message MapWrappers {
     (.protokt.v1.property).value_wrap = "java.net.InetSocketAddress"
   ];
 
-  // map<string, google.protobuf.StringValue> map_string_string_value = 9;
+  map<string, google.protobuf.StringValue> map_string_string_value = 9;
 }

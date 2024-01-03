@@ -30,8 +30,6 @@ import protokt.v1.KtMessageDeserializer
 import protokt.v1.UnknownFieldSet
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Wrapper.interceptRead
-import protokt.v1.codegen.generate.Wrapper.mapKeyConverter
-import protokt.v1.codegen.generate.Wrapper.mapValueConverter
 import protokt.v1.codegen.generate.Wrapper.wrapField
 import protokt.v1.codegen.generate.Wrapper.wrapper
 import protokt.v1.codegen.util.KotlinPlugin
@@ -142,7 +140,7 @@ private class DeserializerGenerator(
     }
 
     private fun deserializeType(p: PropertyInfo) =
-        if (p.repeated || p.map) {
+        if (p.repeated || p.isMap) {
             p.deserializeType as ParameterizedTypeName
             ClassName(p.deserializeType.rawType.packageName, "Mutable" + p.deserializeType.rawType.simpleName)
                 .parameterizedBy(p.deserializeType.typeArguments)
@@ -220,7 +218,7 @@ internal fun deserialize(f: StandardField, ctx: Context, packed: Boolean = false
     val wrappedRead = wrapper(f, ctx)?.let { wrapField(it, read) } ?: read
 
     return when {
-        f.map -> deserializeMap(f, ctx, read)
+        f.isMap -> deserializeMap(f, read)
         f.repeated ->
             buildCodeBlock {
                 add("\n(%N ?: mutableListOf())", f.fieldName)
@@ -234,24 +232,14 @@ internal fun deserialize(f: StandardField, ctx: Context, packed: Boolean = false
     }
 }
 
-private fun deserializeMap(f: StandardField, ctx: Context, read: CodeBlock): CodeBlock {
-    val key =
-        mapKeyConverter(f, ctx)
-            ?.let { wrapField(it, CodeBlock.of("it.key")) }
-            ?: CodeBlock.of("it.key")
-
-    val value =
-        mapValueConverter(f, ctx)
-            ?.let { wrapField(it, CodeBlock.of("it.value")) }
-            ?: CodeBlock.of("it.value")
-
+private fun deserializeMap(f: StandardField, read: CodeBlock): CodeBlock {
     return buildCodeBlock {
         add("\n(%N ?: mutableMapOf())", f.fieldName)
         beginControlFlow(".apply")
         beginControlFlow("deserializer.readRepeated(false)")
         add(read)
         beginControlFlow(".let")
-        add("put(%L, %L)\n", key, value)
+        add("put(%L, %L)\n", CodeBlock.of("it.key"), CodeBlock.of("it.value"))
         endControlFlow()
         endControlFlow()
         endControlFlowWithoutNewline()

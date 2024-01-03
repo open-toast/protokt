@@ -23,7 +23,7 @@ import protokt.v1.reflect.FieldType
 internal fun deserializeVarInitialState(p: PropertyInfo) =
     if (
         (p.repeated || p.wrapped || p.nullable || p.fieldType == FieldType.Message) &&
-        !p.mapEntry
+        !p.isMapEntry
     ) {
         CodeBlock.of("null")
     } else {
@@ -48,7 +48,7 @@ internal fun wrapDeserializedValueForConstructor(p: PropertyInfo) =
             endControlFlowWithoutNewline()
         }
     } else {
-        if (p.map) {
+        if (p.isMap) {
             CodeBlock.of("%M(%N)", unmodifiableMap, p.name)
         } else if (p.repeated) {
             CodeBlock.of("%M(%N)", unmodifiableList, p.name)

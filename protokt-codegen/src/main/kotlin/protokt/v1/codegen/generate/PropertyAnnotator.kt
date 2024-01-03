@@ -67,8 +67,8 @@ private class PropertyAnnotator(
                         defaultValue = field.defaultValue(ctx, msg.mapEntry),
                         fieldType = field.type,
                         repeated = field.repeated,
-                        map = field.map,
-                        mapEntry = msg.mapEntry,
+                        mapEntry = field.mapEntry,
+                        isMapEntry = msg.mapEntry,
                         nullable = field.nullable || field.optional || wrapperRequiresNullability,
                         nonNullOption = field.hasNonNullOption,
                         overrides = field.overrides(ctx, msg),
@@ -103,13 +103,13 @@ private class PropertyAnnotator(
         }
 
     private fun annotateStandard(f: StandardField): TypeName =
-        if (f.map) {
+        if (f.isMap) {
             val mapTypes = resolveMapEntryTypes(f, ctx)
             Map::class
                 .asTypeName()
                 .parameterizedBy(mapTypes.kType, mapTypes.vType)
         } else {
-            val parameter = interceptTypeName(f, ctx) ?: f.className
+            val parameter = f.interceptTypeName(ctx)
 
             if (f.repeated) {
                 List::class.asTypeName().parameterizedBy(parameter)
@@ -119,12 +119,10 @@ private class PropertyAnnotator(
         }
 
     private fun resolveMapEntryTypes(f: StandardField, ctx: Context) =
-        f.mapEntry!!.let {
-            MapTypeParams(
-                interceptMapKeyTypeName(f, ctx) ?: it.key.className,
-                interceptMapValueTypeName(f, ctx) ?: it.value.className
-            )
-        }
+        MapTypeParams(
+            interceptMapKeyTypeName(f, ctx) ?: f.mapKey.className,
+            interceptMapValueTypeName(f, ctx) ?: f.mapValue.className
+        )
 
     private class MapTypeParams(
         val kType: TypeName,
@@ -137,7 +135,7 @@ private class PropertyAnnotator(
                 interceptDefaultValue(
                     this,
                     when {
-                        map -> CodeBlock.of("emptyMap()")
+                        isMap -> CodeBlock.of("emptyMap()")
                         repeated -> CodeBlock.of("emptyList()")
                         type == FieldType.Message -> CodeBlock.of("null")
                         type == FieldType.Enum -> CodeBlock.of("%T.from(0)", className)
@@ -150,6 +148,9 @@ private class PropertyAnnotator(
         }
 }
 
+internal fun StandardField.interceptTypeName(ctx: Context) =
+    interceptTypeName(this, ctx) ?: className
+
 internal class PropertyInfo(
     val name: String,
     val number: Int? = null,
@@ -159,13 +160,16 @@ internal class PropertyInfo(
     val defaultValue: CodeBlock,
     val nullable: Boolean,
     val nonNullOption: Boolean,
-    val mapEntry: Boolean = false,
+    val isMapEntry: Boolean = false,
     val fieldType: FieldType? = null,
     val repeated: Boolean = false,
-    val map: Boolean = false,
+    val mapEntry: Message? = null,
     val oneof: Boolean = false,
     val wrapped: Boolean = false,
     val overrides: Boolean = false,
     val documentation: List<String>?,
     val deprecation: Deprecation.RenderOptions? = null
-)
+) {
+    val isMap
+        get() = mapEntry != null
+}

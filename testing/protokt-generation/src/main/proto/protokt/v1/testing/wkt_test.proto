@@ -32,6 +32,5 @@ message WellKnownTypes {
 
   repeated google.protobuf.DoubleValue doubles = 10;
 
-  // todo!
-  //  map<string, google.protobuf.StringValue> string_values = 11;
+  map<string, google.protobuf.StringValue> string_values = 11;
 }

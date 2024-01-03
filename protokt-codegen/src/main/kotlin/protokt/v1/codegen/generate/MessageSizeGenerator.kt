@@ -25,8 +25,6 @@ import protokt.v1.codegen.generate.Nullability.hasNonNullOption
 import protokt.v1.codegen.generate.Wrapper.interceptFieldSizeof
 import protokt.v1.codegen.generate.Wrapper.interceptSizeof
 import protokt.v1.codegen.generate.Wrapper.interceptValueAccess
-import protokt.v1.codegen.generate.Wrapper.mapKeyConverter
-import protokt.v1.codegen.generate.Wrapper.mapValueConverter
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.Oneof
 import protokt.v1.codegen.util.SizeFn
@@ -115,7 +113,7 @@ internal fun sizeOf(
             }
 
     return when {
-        f.map -> sizeOfMap(f, fieldAccess, ctx)
+        f.isMap -> sizeOfMap(f, fieldAccess)
         f.repeated && f.packed -> {
             namedCodeBlock(
                 "sizeOf(${f.tag}u) + " +
@@ -154,28 +152,16 @@ internal fun sizeOf(
 
 private fun sizeOfMap(
     f: StandardField,
-    name: CodeBlock,
-    ctx: Context
+    name: CodeBlock
 ): CodeBlock {
-    val key =
-        mapKeyConverter(f, ctx)
-            ?.let { CodeBlock.of("%T.unwrap(k)", it) }
-            ?: CodeBlock.of("k")
-
-    val value =
-        mapValueConverter(f, ctx)
-            ?.let { CodeBlock.of("%T.unwrap(v)", it) }
-            ?: CodeBlock.of("v")
-
-    val mapEntry = f.mapEntry!!
-    val sizeOfCall = sizeOfCall(mapEntry, key, value)
+    val sizeOfCall = sizeOfCall(f.mapKey, f.mapValue, CodeBlock.of("k"), CodeBlock.of("v"))
 
     return buildCodeBlock {
         add(
             "%M($name, ${f.tag}u)·{·%L,·%L·->\n",
             sizeOf,
-            mapEntry.key.loopVar("k"),
-            mapEntry.value.loopVar("v")
+            f.mapKey.loopVar("k"),
+            f.mapValue.loopVar("v")
         )
         indent()
         add("%T.%L\n", f.className, sizeOfCall)

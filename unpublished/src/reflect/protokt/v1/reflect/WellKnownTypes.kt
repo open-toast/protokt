@@ -18,8 +18,8 @@ package protokt.v1.reflect
 import protokt.v1.Bytes
 
 internal object WellKnownTypes {
-    fun wrapWithWellKnownInterception(wrap: String, typeName: String) =
-        wrap.takeIf { it.isNotEmpty() }
+    fun wrapWithWellKnownInterception(wrap: String?, typeName: String) =
+        wrap
             ?: if (typeName.startsWith("$DOT_GOOGLE_PROTOBUF.")) {
                 classNameForWellKnownType(typeName.removePrefix("$DOT_GOOGLE_PROTOBUF."))
             } else {
