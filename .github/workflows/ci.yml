@@ -40,10 +40,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     
     steps:
-    - name: Disable autocrlf
-      run: | 
-        git config --global core.autocrlf false
-        git config --global core.eol lf
+#    - name: Disable autocrlf
+#      run: |
+#        git config --global core.autocrlf false
+#        git config --global core.eol lf
 
     - uses: actions/checkout@v3
       with:
@@ -64,6 +64,3 @@ jobs:
       with:
         command: -Dkotlin.version=${{ matrix.kotlin }} clean build --stacktrace
         working-directory: gradle-plugin-integration-test
-    - name: Git Diff
-      if: always()
-      run: git diff
