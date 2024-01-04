@@ -53,7 +53,7 @@ sourceSets {
             srcDir(common)
             srcDir(lite)
 
-            srcDir(rootProject.file("../unpublished/src/lite-util"))
+            srcDir(rootProject.file("../shared-src/lite-util"))
         }
     }
 }

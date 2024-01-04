@@ -41,21 +41,22 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
-
-        val jvmTest by getting {
-            dependencies {
-                implementation(rootProject.fileTree("unpublished/src/lite-util"))
-            }
-        }
-
-        jvmTest.kotlin.srcDir(liteOptionTestSourceDir())
     }
 }
 
 sourceSets {
     test {
         java {
-            srcDir(rootProject.file("unpublished/src/lite-util"))
+            srcDir(liteOptionTestSourceDir())
+            srcDir(rootProject.file("shared-src/lite-util"))
+        }
+    }
+}
+
+sourceSets {
+    test {
+        java {
+            srcDir(rootProject.file("shared-src/lite-util"))
         }
     }
 }

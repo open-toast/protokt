@@ -82,8 +82,8 @@ tasks.withType<Test> {
 sourceSets {
     main {
         java {
-            srcDir("../unpublished/src/reflect")
-            srcDir("../buildSrc/src/shared/codegen")
+            srcDir("../shared-src/codegen")
+            srcDir("../shared-src/reflect")
         }
         proto {
             srcDir("../extensions/protokt-extensions-lite/src/extensions-proto")

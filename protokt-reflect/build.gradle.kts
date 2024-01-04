@@ -45,7 +45,7 @@ tasks.withType<JavaCompile> { enabled = true }
 sourceSets {
     main {
         java {
-            srcDir("../unpublished/src/reflect")
+            srcDir(rootProject.file("shared-src/reflect"))
         }
         proto {
             srcDirs(

@@ -49,7 +49,7 @@ sourceSets {
     test {
         java {
             srcDir(liteOptionTestSourceDir())
-            srcDir(rootProject.file("unpublished/src/lite-util"))
+            srcDir(rootProject.file("shared-src/lite-util"))
         }
     }
 }

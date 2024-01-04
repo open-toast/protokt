@@ -45,7 +45,7 @@ dependencies {
 sourceSets {
     test {
         java {
-            srcDir(rootProject.file("unpublished/src/lite-util"))
+            srcDir(rootProject.file("shared-src/lite-util"))
         }
     }
 }

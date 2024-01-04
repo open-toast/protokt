@@ -58,8 +58,8 @@ sourceSets {
     test {
         java {
             srcDir("../grpc-kotlin/src/test/kotlin")
-            srcDir(rootProject.file("unpublished/src/lite-util"))
             srcDir(liteOptionTestSourceDir())
+            srcDir(rootProject.file("shared-src/lite-util"))
         }
     }
 }

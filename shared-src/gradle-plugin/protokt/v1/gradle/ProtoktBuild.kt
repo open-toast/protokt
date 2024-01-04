@@ -48,7 +48,7 @@ const val EXTENSIONS = "protoktExtensions"
 
 const val TEST_EXTENSIONS = "testProtoktExtensions"
 
-fun configureProtokt(
+internal fun configureProtokt(
     project: Project,
     protoktVersion: Any?,
     disableJava: Boolean = true,

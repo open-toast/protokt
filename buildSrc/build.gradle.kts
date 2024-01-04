@@ -46,8 +46,8 @@ dependencies {
 sourceSets {
     main {
         java {
-            srcDir("src/shared/codegen")
-            srcDir("src/shared/gradle-plugin")
+            srcDir("../shared-src/codegen")
+            srcDir("../shared-src/gradle-plugin")
         }
     }
 }
