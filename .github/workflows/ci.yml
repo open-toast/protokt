@@ -64,3 +64,6 @@ jobs:
       with:
         command: -Dkotlin.version=${{ matrix.kotlin }} clean build --stacktrace
         working-directory: gradle-plugin-integration-test
+    - name: Git Diff
+      if: always()
+      run: git diff
