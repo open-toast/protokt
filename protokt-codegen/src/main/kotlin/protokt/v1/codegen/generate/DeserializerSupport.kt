@@ -21,10 +21,7 @@ import com.squareup.kotlinpoet.withIndent
 import protokt.v1.codegen.util.FieldType
 
 fun deserializeVarInitialState(p: PropertyInfo) =
-    if (
-        (p.repeated || p.wrapped || p.nullable || p.fieldType == FieldType.Message) &&
-        !p.mapEntry
-    ) {
+    if (p.repeated || p.wrapped || p.nullable || p.fieldType == FieldType.Message) {
         CodeBlock.of("null")
     } else {
         p.defaultValue
@@ -48,7 +45,7 @@ fun wrapDeserializedValueForConstructor(p: PropertyInfo) =
             endControlFlowWithoutNewline()
         }
     } else {
-        if (p.map) {
+        if (p.isMap) {
             CodeBlock.of("%M(%N)", unmodifiableMap, p.name)
         } else if (p.repeated) {
             CodeBlock.of("%M(%N)", unmodifiableList, p.name)
