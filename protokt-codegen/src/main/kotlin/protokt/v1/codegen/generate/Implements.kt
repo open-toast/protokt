@@ -46,7 +46,6 @@ internal object Implements {
             if (msg.options.protokt.implements.isNotEmpty()) {
                 if (msg.options.protokt.implements.delegates()) {
                     addSuperinterface(
-                        // TODO: parameterize this by the ctx package?
                         ClassName.bestGuess(msg.options.protokt.implements.substringBefore(" by ")),
                         msg.options.protokt.implements.substringAfter(" by ")
                     )

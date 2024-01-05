@@ -23,7 +23,4 @@ import protokt.v1.reflect.resolvePackage
 val PROTOKT_V1_GOOGLE_PROTO = PROTOKT_V1 + DOT_GOOGLE_PROTOBUF
 
 fun packagesByFileName(protoFileList: List<FileDescriptorProto>) =
-    protoFileList.associate { it.name to resolvePackage(it) }
-
-fun resolvePackage(fdp: FileDescriptorProto) =
-    resolvePackage(fdp.`package`)
+    protoFileList.associate { it.name to resolvePackage(it.`package`) }

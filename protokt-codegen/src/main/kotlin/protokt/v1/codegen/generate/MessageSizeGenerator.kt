@@ -150,10 +150,7 @@ internal fun sizeOf(
     }
 }
 
-private fun sizeOfMap(
-    f: StandardField,
-    name: CodeBlock
-): CodeBlock {
+private fun sizeOfMap(f: StandardField, name: CodeBlock): CodeBlock {
     val sizeOfCall = sizeOfCall(f.mapKey, f.mapValue, CodeBlock.of("k"), CodeBlock.of("v"))
 
     return buildCodeBlock {
