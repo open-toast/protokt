@@ -15,8 +15,6 @@
 
 package protokt.v1.google.protobuf
 
-import com.google.common.cache.CacheBuilder
-import com.google.common.cache.CacheLoader
 import com.google.protobuf.Descriptors.FieldDescriptor
 import com.google.protobuf.Descriptors.FieldDescriptor.Type
 import protokt.v1.Fixed32Val
@@ -28,6 +26,7 @@ import protokt.v1.LengthDelimitedVal
 import protokt.v1.UnknownFieldSet
 import protokt.v1.VarintVal
 import java.nio.charset.StandardCharsets
+import java.util.concurrent.ConcurrentHashMap
 import kotlin.Any
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
@@ -36,18 +35,17 @@ import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.isSubclassOf
 
 internal object ProtoktReflect {
-    private val reflectedGettersByClass =
-        CacheBuilder.newBuilder()
-            .build(
-                object : CacheLoader<KClass<out KtMessage>, (FieldDescriptor, KtMessage) -> Any?>() {
-                    override fun load(messageClass: KClass<out KtMessage>) =
-                        { field: FieldDescriptor, message: KtMessage ->
-                            topLevelProperty(messageClass)(field, message)
-                                ?: oneofProperty(messageClass)(field, message)
-                                ?: getUnknownField(field, message)
-                        }
-                },
-            )
+    private val reflectedGettersByClass = ConcurrentHashMap<KClass<out KtMessage>, (FieldDescriptor, KtMessage) -> Any?>()
+
+    private fun getReflectedGettersByClass(messageClass: KClass<out KtMessage>) =
+        reflectedGettersByClass.computeIfAbsent(messageClass) {
+            {
+                    field, message ->
+                topLevelProperty(messageClass)(field, message)
+                    ?: oneofProperty(messageClass)(field, message)
+                    ?: getUnknownField(field, message)
+            }
+        }
 
     private fun topLevelProperty(klass: KClass<out KtMessage>): (FieldDescriptor, KtMessage) -> Any? {
         val gettersByNumber = gettersByNumber<KtMessage>(klass)
@@ -97,43 +95,40 @@ internal object ProtoktReflect {
         return { field, msg -> gettersByNumber[field.number]?.invoke(msg) }
     }
 
-    private fun getUnknownField(
-        field: FieldDescriptor,
-        message: KtMessage,
-    ) = getUnknownFields(message)[field.number.toUInt()]?.let { value ->
-        when {
-            value.varint.isNotEmpty() ->
-                value.varint
-                    .map(VarintVal::value)
-                    .map {
-                        if (field.type == Type.UINT64) {
-                            it
-                        } else {
-                            it.toLong()
+    private fun getUnknownField(field: FieldDescriptor, message: KtMessage) =
+        getUnknownFields(message)[field.number.toUInt()]?.let { value ->
+            when {
+                value.varint.isNotEmpty() ->
+                    value.varint
+                        .map(VarintVal::value)
+                        .map {
+                            if (field.type == Type.UINT64) {
+                                it
+                            } else {
+                                it.toLong()
+                            }
                         }
-                    }
 
-            value.fixed32.isNotEmpty() ->
-                value.fixed32.map(Fixed32Val::value)
+                value.fixed32.isNotEmpty() ->
+                    value.fixed32.map(Fixed32Val::value)
 
-            value.fixed64.isNotEmpty() ->
-                value.fixed64.map(Fixed64Val::value)
+                value.fixed64.isNotEmpty() ->
+                    value.fixed64.map(Fixed64Val::value)
 
-            value.lengthDelimited.isNotEmpty() ->
-                value.lengthDelimited
-                    .map(LengthDelimitedVal::value)
-                    .map {
-                        if (field.type == Type.STRING) {
-                            StandardCharsets.UTF_8.decode(it.asReadOnlyBuffer()).toString()
-                        } else {
-                            it
+                value.lengthDelimited.isNotEmpty() ->
+                    value.lengthDelimited
+                        .map(LengthDelimitedVal::value)
+                        .map {
+                            if (field.type == Type.STRING) {
+                                StandardCharsets.UTF_8.decode(it.asReadOnlyBuffer()).toString()
+                            } else {
+                                it
+                            }
                         }
-                    }
 
-            else -> error("unknown field for field number ${field.number} existed but was empty")
-        }
-    }
-        .let {
+                else -> error("unknown field for field number ${field.number} existed but was empty")
+            }
+        }.let {
             if (field.isRepeated) {
                 if (field.isMapField) {
                     it ?: emptyMap<Any, Any>()
@@ -146,7 +141,7 @@ internal object ProtoktReflect {
         }
 
     fun getField(message: KtMessage, field: FieldDescriptor): Any? =
-        reflectedGettersByClass[message::class](field, message)
+        getReflectedGettersByClass(message::class)(field, message)
 }
 
 internal fun getUnknownFields(message: KtMessage) =

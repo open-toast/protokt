@@ -16,7 +16,6 @@ autoService = "1.0.1"
 classgraph = "4.8.153"
 grpc-java = "1.58.0"
 grpc-kotlin = "1.4.0"
-guava = "33.0.0-android"
 kotlinLogging = "5.1.0"
 kotlinPoet = "1.14.2"
 kotlinx-coroutines = "1.6.0"
@@ -66,7 +65,6 @@ classgraph = { module = "io.github.classgraph:classgraph", version.ref = "classg
 grpc-kotlin-gen = { module = "io.grpc:protoc-gen-grpc-kotlin", version.ref = "grpc-kotlin" }
 grpc-netty = { module = "io.grpc:grpc-netty", version.ref = "grpc-java" }
 grpc-stub = { module = "io.grpc:grpc-stub", version.ref = "grpc-java" }
-guava = { module = "com.google.guava:guava", version.ref = "guava" }
 kotlinLogging = { module = "io.github.oshai:kotlin-logging", version.ref = "kotlinLogging" }
 kotlinPoet = { module = "com.squareup:kotlinpoet", version.ref = "kotlinPoet" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
