@@ -47,6 +47,9 @@ kotlin {
             compilations.all {
                 kotlinOptions {
                     allWarningsAsErrors = true
+                    // expect / actual classes are in Beta and emit a warning in Kotlin 1.9.20
+                    // see https://youtrack.jetbrains.com/issue/KT-61573
+                    freeCompilerArgs += "-Xexpect-actual-classes"
                 }
             }
         }
@@ -55,7 +58,7 @@ kotlin {
             kotlinOptions {
                 // do not generate DefaultImpls objects since we do not target < JVM 1.8
                 // https://blog.jetbrains.com/kotlin/2020/07/kotlin-1-4-m3-generating-default-methods-in-interfaces
-                freeCompilerArgs = listOf("-Xjvm-default=all")
+                freeCompilerArgs += "-Xjvm-default=all"
             }
         }
     }
