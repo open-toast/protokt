@@ -41,12 +41,10 @@ class ConformanceTest {
             override fun driver() =
                 jsConformanceDriver(project)
 
-            override fun doHandle(t: Throwable) {
+            override fun onFailure() {
                 val stderr = jsStderrLog(project).toFile()
                 if (stderr.exists() && stderr.readText().isNotEmpty()) {
-                    fail("test failed; stderr:\n" + stderr.readText())
-                } else {
-                    throw t
+                    println("stderr:\n" + stderr.readText())
                 }
             }
         }, // https://github.com/pinterest/ktlint/issues/1933
@@ -58,12 +56,11 @@ class ConformanceTest {
             if (failingTests.exists()) {
                 println("Failing tests:\n" + failingTests.readText())
             }
-            doHandle(t)
-        }
-
-        open fun doHandle(t: Throwable) {
+            onFailure()
             throw t
         }
+
+        open fun onFailure() = Unit
     }
 
     @BeforeEach
