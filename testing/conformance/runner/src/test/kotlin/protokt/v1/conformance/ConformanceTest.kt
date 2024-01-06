@@ -15,14 +15,18 @@
 
 package protokt.v1.conformance
 
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.fail
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.EnumSource
 import protokt.v1.testing.ProcessOutput
 import protokt.v1.testing.projectRoot
 import protokt.v1.testing.runCommand
 import java.io.File
 import java.nio.file.Path
+import kotlin.io.path.deleteIfExists
+import kotlin.io.path.exists
+import kotlin.io.path.readText
 
 class ConformanceTest {
     enum class ConformanceRunner(
@@ -37,9 +41,9 @@ class ConformanceTest {
             override fun driver() =
                 jsConformanceDriver(project)
 
-            override fun handle(t: Throwable) {
+            override fun doHandle(t: Throwable) {
                 val stderr = jsStderrLog(project).toFile()
-                if (stderr.exists()) {
+                if (stderr.exists() && stderr.readText().isNotEmpty()) {
                     fail("test failed; stderr:\n" + stderr.readText())
                 } else {
                     throw t
@@ -50,19 +54,25 @@ class ConformanceTest {
 
         abstract fun driver(): Path
 
-        open fun handle(t: Throwable) {
+        fun handle(t: Throwable) {
+            if (failingTests.exists()) {
+                println("Failing tests:\n" + failingTests.readText())
+            }
+            doHandle(t)
+        }
+
+        open fun doHandle(t: Throwable) {
             throw t
         }
     }
 
-    companion object {
-        @JvmStatic
-        fun runners() =
-            ConformanceRunner.entries
+    @BeforeEach
+    fun deleteFailingTests() {
+        failingTests.deleteIfExists()
     }
 
     @ParameterizedTest
-    @MethodSource("runners")
+    @EnumSource
     fun `run conformance tests`(runner: ConformanceRunner) {
         try {
             command(runner)
@@ -99,6 +109,9 @@ private fun jsConformanceDriver(project: String) =
 
 private fun jsStderrLog(project: String) =
     Path.of(File(projectRoot.parentFile, project).absolutePath, "build", "conformance-run")
+
+private val failingTests =
+    Path.of(projectRoot.absolutePath, "failing_tests.txt")
 
 private fun failureList(project: String) =
     "--failure_list ../$project/failure_list_kt.txt"
