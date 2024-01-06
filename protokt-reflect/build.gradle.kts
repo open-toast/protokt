@@ -22,7 +22,6 @@ plugins {
 
 localProtokt(false)
 enablePublishing()
-compatibleWithAndroid()
 trackKotlinApiCompatibility()
 
 kotlin {
