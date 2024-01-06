@@ -50,7 +50,6 @@ internal class ClassLookup(classpath: List<String>) {
                         lines.map { it.substringBefore("#").trim() }
                             .filter { it.isNotEmpty() }
                             .map { classLoader.loadClass(it).kotlin.objectInstance as Converter<*, *> }
-                            .toList()
                     }
             }.fold(mutableMapOf<String, MutableMap<String, MutableList<Converter<*, *>>>>()) { acc, converter ->
                 acc.apply {
