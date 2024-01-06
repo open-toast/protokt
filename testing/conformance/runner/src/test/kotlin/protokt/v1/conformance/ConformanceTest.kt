@@ -52,14 +52,6 @@ class ConformanceTest {
 
         abstract fun driver(): Path
 
-        fun handle(t: Throwable) {
-            if (failingTests.exists()) {
-                println("Failing tests:\n" + failingTests.readText())
-            }
-            onFailure()
-            throw t
-        }
-
         open fun onFailure() = Unit
     }
 
@@ -76,7 +68,11 @@ class ConformanceTest {
                 .runCommand(projectRoot.toPath(), libPathOverride)
                 .orFail("Conformance tests failed", ProcessOutput.Src.ERR)
         } catch (t: Throwable) {
-            runner.handle(t)
+            if (failingTests.exists()) {
+                println("Failing tests:\n" + failingTests.readText())
+            }
+            runner.onFailure()
+            throw t
         }
 
         println("Conformance tests passed")
