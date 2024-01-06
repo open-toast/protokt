@@ -27,12 +27,13 @@ slf4j = "2.0.6"
 
 # build
 androidGradlePlugin = "7.4.2"
-animalSnifferGradlePlugin = "1.5.4"
+animalSnifferGradlePlugin = "1.7.1"
 binaryCompatibilityValidator = "0.13.2"
 buildConfig = "3.1.0"
 gradleMavenPublishPlugin = "0.25.3"
+gummyBears = "0.8.0"
 java = "11"
-kotlin = "1.9.10"
+kotlin = "1.9.20"
 pluginPublish = "1.2.1"
 spotless = "6.21.0"
 
