@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast, Inc.
+ * Copyright (c) 2024 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,16 +14,20 @@
  */
 
 plugins {
-    id("protokt.jvm-conventions")
+    id("protokt.multiplatform-conventions")
 }
 
-dependencies {
-    testImplementation(project(":testing:testing-util"))
-    testImplementation(project(":protokt-json"))
-}
+enablePublishing()
+trackKotlinApiCompatibility()
 
-tasks.named<Test>("test") {
-    outputs.upToDateWhen { false }
-    dependsOn(":testing:conformance:js-ir:compileProductionExecutableKotlinJs")
-    dependsOn(":testing:conformance:jvm:installDist")
+kotlin {
+    sourceSets {
+        val jvmMain by getting {
+            dependencies {
+                api(project(":protokt-reflect"))
+                api(libs.protobuf.java)
+                api(libs.protobuf.javaUtil)
+            }
+        }
+    }
 }

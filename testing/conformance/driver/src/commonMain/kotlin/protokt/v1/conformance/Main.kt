@@ -15,6 +15,7 @@
 
 package protokt.v1.conformance
 
+import protokt.v1.conformance.ConformanceRequest.Payload.JsonPayload
 import protokt.v1.conformance.ConformanceRequest.Payload.ProtobufPayload
 import protokt.v1.conformance.ConformanceResponse.Result
 import protokt.v1.protobuf_test_messages.proto3.TestAllTypesProto3
@@ -22,43 +23,45 @@ import protokt.v1.protobuf_test_messages.proto3.TestAllTypesProto3
 fun main() = Platform.runBlockingMain {
     while (true) {
         val result =
-            when (val request = nextRequest()) {
+            when (val request = Platform.readMessageFromStdIn(ConformanceRequest)) {
                 null -> break
                 is Failure -> request.failure
-                is Proceed -> {
-                    if (isSupported(request.value)) {
-                        when (val payload = payload(request)) {
-                            is Failure -> payload.failure
-                            is Proceed -> {
-                                when (val result = Platform.serialize(payload.value)) {
-                                    is Failure -> result.failure
-                                    is Proceed -> Result.ProtobufPayload(result.value)
-                                }
-                            }
-                        }
-                    } else {
-                        Result.Skipped("Only proto3 supported.")
-                    }
-                }
+                is Proceed -> processRequest(request.value)
             }
 
         Platform.writeToStdOut(ConformanceResponse { this.result = result }.serialize())
     }
 }
 
-private suspend fun nextRequest() =
-    Platform.readMessageFromStdIn(ConformanceRequest)
+private suspend fun processRequest(request: ConformanceRequest) =
+    if (Platform.isSupported(request)) {
+        val deserializeResult =
+            when (val payload = request.payload) {
+                is ProtobufPayload -> Platform.deserializeProtobuf(payload.protobufPayload.bytes, TestAllTypesProto3)
+                is JsonPayload -> Platform.deserializeJson(payload.jsonPayload, TestAllTypesProto3)
+                else -> throw UnsupportedOperationException("unsupported payload format")
+            }
 
-private fun payload(request: Proceed<ConformanceRequest>) =
-    Platform.deserialize(
-        (request.value.payload as ProtobufPayload).protobufPayload.bytes,
-        TestAllTypesProto3
-    )
-
-private fun isSupported(request: ConformanceRequest) =
-    request.messageType == "protobuf_test_messages.proto3.TestAllTypesProto3" &&
-        request.requestedOutputFormat == WireFormat.PROTOBUF &&
-        request.payload is ProtobufPayload
+        when (deserializeResult) {
+            is Failure -> deserializeResult.failure
+            is Proceed ->
+                when (request.requestedOutputFormat) {
+                    WireFormat.PROTOBUF ->
+                        when (val result = Platform.serializeProtobuf(deserializeResult.value)) {
+                            is Failure -> result.failure
+                            is Proceed -> Result.ProtobufPayload(result.value)
+                        }
+                    WireFormat.JSON ->
+                        when (val result = Platform.serializeJson(deserializeResult.value)) {
+                            is Failure -> result.failure
+                            is Proceed -> Result.JsonPayload(result.value)
+                        }
+                    else -> throw UnsupportedOperationException("unsupported output format")
+                }
+        }
+    } else {
+        Result.Skipped("unsupported request")
+    }
 
 internal sealed class ConformanceStepResult<T>
 

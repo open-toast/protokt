@@ -31,10 +31,19 @@ internal expect object Platform {
 
     fun writeToStdOut(bytes: ByteArray)
 
-    fun <T : KtMessage> deserialize(
+    fun isSupported(request: ConformanceRequest): Boolean
+
+    fun <T : KtMessage> deserializeProtobuf(
         bytes: ByteArray,
         deserializer: KtDeserializer<T>
     ): ConformanceStepResult<T>
 
-    fun serialize(message: KtMessage): ConformanceStepResult<Bytes>
+    fun serializeProtobuf(message: KtMessage): ConformanceStepResult<Bytes>
+
+    fun <T : KtMessage> deserializeJson(
+        json: String,
+        deserializer: KtDeserializer<T>
+    ): ConformanceStepResult<T>
+
+    fun serializeJson(message: KtMessage): ConformanceStepResult<String>
 }

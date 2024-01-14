@@ -31,6 +31,7 @@ include(
     "protokt-codegen",
     "protokt-core",
     "protokt-core-lite",
+    "protokt-json",
     "protokt-reflect",
     "protokt-runtime",
     "protokt-runtime-grpc",

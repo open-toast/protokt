@@ -25,6 +25,7 @@ import org.khronos.webgl.Uint8Array
 import protokt.v1.Bytes
 import protokt.v1.KtDeserializer
 import protokt.v1.KtMessage
+import protokt.v1.conformance.ConformanceRequest.Payload.ProtobufPayload
 import protokt.v1.conformance.ConformanceResponse.Result.ParseError
 import protokt.v1.conformance.ConformanceResponse.Result.SerializeError
 import kotlin.coroutines.resume
@@ -44,7 +45,7 @@ internal actual object Platform {
         deserializer: KtDeserializer<T>
     ): ConformanceStepResult<T>? {
         val size = readSize() ?: return null
-        return deserialize(readBytes(size), deserializer)
+        return deserializeProtobuf(readBytes(size), deserializer)
     }
 
     private suspend fun readBytes(size: Int) =
@@ -91,7 +92,12 @@ internal actual object Platform {
         }
     }
 
-    actual fun <T : KtMessage> deserialize(
+    actual fun isSupported(request: ConformanceRequest) =
+        request.messageType == "protobuf_test_messages.proto3.TestAllTypesProto3" &&
+            request.requestedOutputFormat == WireFormat.PROTOBUF &&
+            request.payload is ProtobufPayload
+
+    actual fun <T : KtMessage> deserializeProtobuf(
         bytes: ByteArray,
         deserializer: KtDeserializer<T>
     ): ConformanceStepResult<T> =
@@ -103,7 +109,7 @@ internal actual object Platform {
             Failure(ParseError(d.toString()))
         }
 
-    actual fun serialize(message: KtMessage): ConformanceStepResult<Bytes> =
+    actual fun serializeProtobuf(message: KtMessage): ConformanceStepResult<Bytes> =
         try {
             Proceed(Bytes.from(message))
         } catch (t: Throwable) {
@@ -111,6 +117,15 @@ internal actual object Platform {
         } catch (d: dynamic) {
             Failure(SerializeError(d.toString()))
         }
+
+    actual fun <T : KtMessage> deserializeJson(
+        json: String,
+        deserializer: KtDeserializer<T>
+    ): ConformanceStepResult<T> =
+        throw UnsupportedOperationException("unsupported payload format")
+
+    actual fun serializeJson(message: KtMessage): ConformanceStepResult<String> =
+        throw UnsupportedOperationException("unsupported output format")
 }
 
 @JsModule("process")

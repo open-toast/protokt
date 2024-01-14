@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast, Inc.
+ * Copyright (c) 2024 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,17 +13,12 @@
  * limitations under the License.
  */
 
-plugins {
-    id("protokt.jvm-conventions")
-}
+package protokt.v1.json
 
-dependencies {
-    testImplementation(project(":testing:testing-util"))
-    testImplementation(project(":protokt-json"))
-}
+import com.google.protobuf.util.JsonFormat
+import protokt.v1.KtMessage
+import protokt.v1.google.protobuf.RuntimeContext
+import protokt.v1.google.protobuf.toDynamicMessage
 
-tasks.named<Test>("test") {
-    outputs.upToDateWhen { false }
-    dependsOn(":testing:conformance:js-ir:compileProductionExecutableKotlinJs")
-    dependsOn(":testing:conformance:jvm:installDist")
-}
+fun KtMessage.toJson(runtimeContext: RuntimeContext = RuntimeContext.getContextReflectively()) =
+    JsonFormat.printer().print(toDynamicMessage(runtimeContext))
