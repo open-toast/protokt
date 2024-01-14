@@ -17,6 +17,7 @@ package protokt.v1.conformance
 
 import protokt.v1.conformance.ConformanceRequest.Payload.JsonPayload
 import protokt.v1.conformance.ConformanceRequest.Payload.ProtobufPayload
+import protokt.v1.conformance.ConformanceResponse.Result
 import protokt.v1.protobuf_test_messages.proto3.TestAllTypesProto3
 
 fun main() = Platform.runBlockingMain {
@@ -24,42 +25,33 @@ fun main() = Platform.runBlockingMain {
         val result =
             when (val request = Platform.readMessageFromStdIn(ConformanceRequest)) {
                 null -> break
-                is Stop -> request.failure
-                is Proceed -> processRequest(request.value)
+                is Stop -> request.result
+                is Proceed ->
+                    when (val result = processRequest(request.value)) {
+                        is Stop -> result.result
+                        is Proceed -> result.value
+                    }
             }
 
         Platform.writeToStdOut(ConformanceResponse { this.result = result }.serialize())
     }
 }
 
-private suspend fun processRequest(request: ConformanceRequest): Result {
+private suspend fun processRequest(request: ConformanceRequest): ConformanceStepResult<Result> {
     if (!isSupported(request)) {
-        return ConformanceStepResult.SKIP
+        return ConformanceStepResult.skip()
     }
 
-    val deserializeResult =
-        when (val payload = request.payload) {
-            is ProtobufPayload -> Platform.deserializeProtobuf(payload.protobufPayload.bytes, TestAllTypesProto3)
-            is JsonPayload -> Platform.deserializeJson(payload.jsonPayload, TestAllTypesProto3)
-            else -> ConformanceStepResult.skip<TestAllTypesProto3>()
+    return when (val payload = request.payload) {
+        is ProtobufPayload -> Platform.deserializeProtobuf(payload.protobufPayload.bytes, TestAllTypesProto3)
+        is JsonPayload -> Platform.deserializeJson(payload.jsonPayload, TestAllTypesProto3)
+        else -> ConformanceStepResult.skip<TestAllTypesProto3>()
+    }.flatMap {
+        when (request.requestedOutputFormat) {
+            WireFormat.PROTOBUF -> Platform.serializeProtobuf(it).map(Result::ProtobufPayload)
+            WireFormat.JSON -> Platform.serializeJson(it).map(Result::JsonPayload)
+            else -> ConformanceStepResult.skip()
         }
-
-    return when (deserializeResult) {
-        is Stop -> deserializeResult.failure
-        is Proceed ->
-            when (request.requestedOutputFormat) {
-                WireFormat.PROTOBUF ->
-                    when (val result = Platform.serializeProtobuf(deserializeResult.value)) {
-                        is Stop -> result.result
-                        is Proceed -> Result.ProtobufPayload(result.value)
-                    }
-                WireFormat.JSON ->
-                    when (val result = Platform.serializeJson(deserializeResult.value)) {
-                        is Stop -> result.result
-                        is Proceed -> Result.JsonPayload(result.value)
-                    }
-                else -> ConformanceStepResult.SKIP
-            }
     }
 }
 
@@ -73,6 +65,18 @@ private fun isSupported(request: ConformanceRequest) =
         request.requestedOutputFormat != WireFormat.TEXT_FORMAT
 
 internal sealed class ConformanceStepResult<T> {
+    suspend fun <R> map(action: suspend (T) -> R): ConformanceStepResult<R> =
+        when (this) {
+            is Proceed<T> -> Proceed(action(value))
+            is Stop<T> -> Stop(result)
+        }
+
+    suspend fun <R> flatMap(action: suspend (T) -> ConformanceStepResult<R>): ConformanceStepResult<R> =
+        when (this) {
+            is Proceed<T> -> action(value)
+            is Stop<T> -> Stop(result)
+        }
+
     companion object {
         val SKIP = Result.Skipped("unsupported request")
 
