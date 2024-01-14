@@ -78,7 +78,10 @@ allprojects {
                     "examples/protos/src/main/proto/io/grpc/examples/route_guide.proto",
                     "testing/conformance/driver/src/main/proto/conformance/conformance.proto",
                     "testing/conformance/driver/src/main/proto/proto3/test_messages_proto3.proto",
-                    "testing/interop/src/main/proto/tutorial/addressbook.proto"
+                    "testing/interop/src/main/proto/tutorial/addressbook.proto",
+                    "testing/interop/src/main/proto/google/protobuf/unittest_import.proto",
+                    "testing/interop/src/main/proto/google/protobuf/unittest_import_public.proto",
+                    "testing/interop/src/main/proto/google/protobuf/unittest_proto3.proto",
                 ).map(rootProject::file) +
                     "node_modules/**" +
                     "**/build/extracted-include-protos/**" +

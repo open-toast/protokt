@@ -58,7 +58,7 @@ internal fun deserializer(
             stream.readUInt64().toULong()
 
         override fun readTag() =
-            stream.readTag()
+            stream.readTag().toUInt()
 
         override fun readBytes() =
             Bytes(stream.readByteArray())

@@ -19,6 +19,7 @@ import com.google.protobuf.DescriptorProtos
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.TypeSpec
 import com.toasttab.protokt.v1.ProtoktProtos
+import protokt.v1.reflect.FieldType
 
 sealed class TopLevelType
 
@@ -96,7 +97,7 @@ sealed class Field {
     abstract val fieldName: String
 }
 
-class StandardField(
+internal class StandardField(
     val number: Int,
     val tag: Tag,
 
@@ -111,16 +112,22 @@ class StandardField(
     val repeated: Boolean,
     val optional: Boolean,
     val packed: Boolean,
-    val mapEntry: MapEntry?,
+    val mapEntry: Message?,
     val protoTypeName: String,
     val options: FieldOptions,
     val index: Int
 ) : Field() {
-    val map
+    val isMap
         get() = mapEntry != null
+
+    val mapKey
+        get() = mapEntry!!.fields[0] as StandardField
+
+    val mapValue
+        get() = mapEntry!!.fields[1] as StandardField
 }
 
-class Oneof(
+internal class Oneof(
     val name: String,
     val className: ClassName,
     override val fieldName: String,
@@ -130,14 +137,10 @@ class Oneof(
     val index: Int
 ) : Field()
 
-class MapEntry(
-    val key: StandardField,
-    val value: StandardField
-)
-
 class FieldOptions(
     val default: DescriptorProtos.FieldOptions,
-    val protokt: ProtoktProtos.FieldOptions
+    val protokt: ProtoktProtos.FieldOptions,
+    val wrap: String?
 )
 
 class OneofOptions(
@@ -145,7 +148,7 @@ class OneofOptions(
     val protokt: ProtoktProtos.OneofOptions
 )
 
-class ProtoFileInfo(
+internal class ProtoFileInfo(
     val context: GeneratorContext
 ) {
     val name = context.fdp.name
@@ -160,17 +163,16 @@ class FileOptions(
     val protokt: ProtoktProtos.FileOptions
 )
 
-class ProtoFileContents(
+internal class ProtoFileContents(
     val info: ProtoFileInfo,
     val types: List<TopLevelType>
 )
 
 class GeneratedType(
-    val rawType: TopLevelType,
     val typeSpec: TypeSpec
 )
 
-sealed class Tag(val value: Int) : Comparable<Tag> {
+sealed class Tag(val value: UInt) : Comparable<Tag> {
     class Packed(
         number: Int
     ) : Tag(computeTag(number, 2))
@@ -188,4 +190,4 @@ sealed class Tag(val value: Int) : Comparable<Tag> {
 }
 
 private fun computeTag(fieldNumber: Int, wireType: Int) =
-    (fieldNumber shl 3) or wireType
+    (fieldNumber shl 3).toUInt() or wireType.toUInt()

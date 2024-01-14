@@ -27,7 +27,7 @@ import protokt.v1.codegen.util.ProtoFileInfo
 import protokt.v1.codegen.util.Service
 import protokt.v1.codegen.util.TopLevelType
 
-object CodeGenerator {
+internal object CodeGenerator {
     data class Context(
         val enclosing: List<Message>,
         val info: ProtoFileInfo
@@ -35,11 +35,7 @@ object CodeGenerator {
 
     fun generate(contents: ProtoFileContents) =
         contents.types.flatMap {
-            generate(
-                it,
-                Context(emptyList(), contents.info)
-            )
-                .map { type -> GeneratedType(it, type) }
+            generate(it, Context(emptyList(), contents.info)).map(::GeneratedType)
         }
 
     fun generate(type: TopLevelType, ctx: Context): Iterable<TypeSpec> =

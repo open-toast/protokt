@@ -28,19 +28,18 @@ import protokt.v1.codegen.generate.Nullability.hasNonNullOption
 import protokt.v1.codegen.generate.Nullability.nullable
 import protokt.v1.codegen.generate.Nullability.propertyType
 import protokt.v1.codegen.generate.Wrapper.interceptDefaultValue
-import protokt.v1.codegen.generate.Wrapper.interceptMapKeyTypeName
-import protokt.v1.codegen.generate.Wrapper.interceptMapValueTypeName
 import protokt.v1.codegen.generate.Wrapper.interceptTypeName
 import protokt.v1.codegen.generate.Wrapper.wrapped
 import protokt.v1.codegen.generate.Wrapper.wrapperRequiresNullability
 import protokt.v1.codegen.util.ErrorContext.withFieldName
 import protokt.v1.codegen.util.Field
-import protokt.v1.codegen.util.FieldType
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.Oneof
 import protokt.v1.codegen.util.StandardField
+import protokt.v1.codegen.util.defaultValue
+import protokt.v1.reflect.FieldType
 
-fun annotateProperties(msg: Message, ctx: Context) =
+internal fun annotateProperties(msg: Message, ctx: Context) =
     PropertyAnnotator(msg, ctx).annotate()
 
 private class PropertyAnnotator(
@@ -66,8 +65,7 @@ private class PropertyAnnotator(
                         defaultValue = field.defaultValue(ctx, msg.mapEntry),
                         fieldType = field.type,
                         repeated = field.repeated,
-                        map = field.map,
-                        mapEntry = msg.mapEntry,
+                        mapEntry = field.mapEntry,
                         nullable = field.nullable || field.optional || wrapperRequiresNullability,
                         nonNullOption = field.hasNonNullOption,
                         overrides = field.overrides(ctx, msg),
@@ -102,13 +100,12 @@ private class PropertyAnnotator(
         }
 
     private fun annotateStandard(f: StandardField): TypeName =
-        if (f.map) {
-            val mapTypes = resolveMapEntryTypes(f, ctx)
+        if (f.isMap) {
             Map::class
                 .asTypeName()
-                .parameterizedBy(mapTypes.kType, mapTypes.vType)
+                .parameterizedBy(f.mapKey.interceptTypeName(ctx), f.mapValue.interceptTypeName(ctx))
         } else {
-            val parameter = interceptTypeName(f, ctx) ?: f.className
+            val parameter = f.interceptTypeName(ctx)
 
             if (f.repeated) {
                 List::class.asTypeName().parameterizedBy(parameter)
@@ -117,26 +114,13 @@ private class PropertyAnnotator(
             }
         }
 
-    private fun resolveMapEntryTypes(f: StandardField, ctx: Context) =
-        f.mapEntry!!.let {
-            MapTypeParams(
-                interceptMapKeyTypeName(f, ctx) ?: it.key.className,
-                interceptMapValueTypeName(f, ctx) ?: it.value.className
-            )
-        }
-
-    private class MapTypeParams(
-        val kType: TypeName,
-        val vType: TypeName
-    )
-
     private fun Field.defaultValue(ctx: Context, mapEntry: Boolean) =
         when (this) {
             is StandardField ->
                 interceptDefaultValue(
                     this,
                     when {
-                        map -> CodeBlock.of("emptyMap()")
+                        isMap -> CodeBlock.of("emptyMap()")
                         repeated -> CodeBlock.of("emptyList()")
                         type == FieldType.Message -> CodeBlock.of("null")
                         type == FieldType.Enum -> CodeBlock.of("%T.from(0)", className)
@@ -149,7 +133,7 @@ private class PropertyAnnotator(
         }
 }
 
-class PropertyInfo(
+internal class PropertyInfo(
     val name: String,
     val number: Int? = null,
     val propertyType: TypeName,
@@ -158,13 +142,15 @@ class PropertyInfo(
     val defaultValue: CodeBlock,
     val nullable: Boolean,
     val nonNullOption: Boolean,
-    val mapEntry: Boolean = false,
     val fieldType: FieldType? = null,
     val repeated: Boolean = false,
-    val map: Boolean = false,
+    val mapEntry: Message? = null,
     val oneof: Boolean = false,
     val wrapped: Boolean = false,
     val overrides: Boolean = false,
     val documentation: List<String>?,
     val deprecation: Deprecation.RenderOptions? = null
-)
+) {
+    val isMap
+        get() = mapEntry != null
+}

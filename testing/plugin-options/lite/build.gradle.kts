@@ -33,7 +33,14 @@ dependencies {
     protoktExtensions(project(":third-party:proto-google-common-protos-extensions-lite"))
 
     testImplementation(kotlin("reflect"))
-    testImplementation(project(":protokt-util"))
 
     testRuntimeOnly(libs.protobuf.lite)
+}
+
+sourceSets {
+    test {
+        java {
+            srcDir(rootProject.file("shared-src/lite-util"))
+        }
+    }
 }

@@ -29,7 +29,7 @@ interface KtMessageDeserializer {
     fun readSInt64(): Long
     fun readString(): String
     fun readUInt64(): ULong
-    fun readTag(): Int
+    fun readTag(): UInt
     fun readUnknown(): UnknownField
     fun readRepeated(packed: Boolean, acc: KtMessageDeserializer.() -> Unit)
     fun <T : KtMessage> readMessage(m: KtDeserializer<T>): T

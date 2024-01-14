@@ -33,6 +33,8 @@ class WellKnownTypesTest {
                 bool = false
                 string = "some-string"
                 bytes = Bytes.from(byteArrayOf(4, 5, 3))
+                doubles = listOf(0.1, 0.2, 0.3)
+                stringValues = mapOf("foo" to "bar", "baz" to "qux")
             }
 
         assertThat(WellKnownTypes.deserialize(original.serialize()))

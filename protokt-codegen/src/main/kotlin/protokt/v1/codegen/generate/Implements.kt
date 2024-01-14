@@ -21,13 +21,13 @@ import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.StandardField
 
-object Implements {
+internal object Implements {
     fun StandardField.overrides(
         ctx: Context,
         msg: Message
     ) =
         msg.superInterface(ctx)
-            ?.let { fieldName in ctx.info.context.classLookup.properties(it) }
+            ?.let { fieldName in ctx.info.context.classLookup.properties(it.canonicalName) }
             ?: false
 
     fun TypeSpec.Builder.handleSuperInterface(implements: ClassName?, v: OneofGeneratorInfo? = null) =
@@ -46,7 +46,6 @@ object Implements {
             if (msg.options.protokt.implements.isNotEmpty()) {
                 if (msg.options.protokt.implements.delegates()) {
                     addSuperinterface(
-                        // TODO: parameterize this by the ctx package?
                         ClassName.bestGuess(msg.options.protokt.implements.substringBefore(" by ")),
                         msg.options.protokt.implements.substringAfter(" by ")
                     )

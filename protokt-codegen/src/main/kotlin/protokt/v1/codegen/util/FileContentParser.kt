@@ -22,13 +22,13 @@ import protokt.v1.codegen.util.ErrorContext.withEnumName
 import protokt.v1.codegen.util.ErrorContext.withMessageName
 import protokt.v1.codegen.util.ErrorContext.withServiceName
 
-fun parseFileContents(ctx: GeneratorContext) =
+internal fun parseFileContents(ctx: GeneratorContext) =
     ProtoFileContents(
         ProtoFileInfo(ctx),
         FileContentParser(ctx).parseContents()
     )
 
-class FileContentParser(
+internal class FileContentParser(
     private val ctx: GeneratorContext,
     private val enums: List<EnumDescriptorProto>,
     private val messages: List<DescriptorProto>,
@@ -51,7 +51,7 @@ class FileContentParser(
         } +
             messages.mapIndexed { idx, desc ->
                 withMessageName((enclosingMessages + desc.name).joinToString(".")) {
-                    MessageParser(ctx, idx, desc, enclosingMessages).toMessage()
+                    MessageParser(ctx, idx, desc, enclosingMessages, null, null).toMessage()
                 }
             } +
             services.mapIndexed { idx, desc ->

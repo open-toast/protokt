@@ -16,6 +16,12 @@
 package protokt.v1.codegen
 
 import org.junit.jupiter.api.Test
+import protokt.v1.AbstractConverter
+import protokt.v1.Bytes
+import protokt.v1.OptimizedSizeOfConverter
+import protokt.v1.SizeCodecs
+import java.nio.ByteBuffer
+import java.util.UUID
 
 class ProtoktCodegenTest : AbstractProtoktCodegenTest() {
     @Test
@@ -29,4 +35,31 @@ class ProtoktCodegenTest : AbstractProtoktCodegenTest() {
                 println(it.content)
             }
     }
+}
+
+object UuidBytesConverter : AbstractConverter<Bytes, UUID>(), OptimizedSizeOfConverter<Bytes, UUID> {
+    override val acceptsDefaultValue = false
+
+    private val sizeOfProxy = ByteArray(16)
+
+    override fun sizeOf(wrapped: UUID) =
+        SizeCodecs.sizeOf(sizeOfProxy)
+
+    override fun wrap(unwrapped: Bytes): UUID {
+        val buf = unwrapped.asReadOnlyBuffer()
+
+        require(buf.remaining() == 16) {
+            "UUID source must have size 16; had ${buf.remaining()}"
+        }
+
+        return buf.run { UUID(long, long) }
+    }
+
+    override fun unwrap(wrapped: UUID): Bytes =
+        Bytes.from(
+            ByteBuffer.allocate(16)
+                .putLong(wrapped.mostSignificantBits)
+                .putLong(wrapped.leastSignificantBits)
+                .array()
+        )
 }

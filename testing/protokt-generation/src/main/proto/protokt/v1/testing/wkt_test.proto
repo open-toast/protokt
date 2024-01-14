@@ -29,4 +29,8 @@ message WellKnownTypes {
   google.protobuf.BoolValue bool = 7;
   google.protobuf.StringValue string = 8;
   google.protobuf.BytesValue bytes = 9;
+
+  repeated google.protobuf.DoubleValue doubles = 10;
+
+  map<string, google.protobuf.StringValue> string_values = 11;
 }

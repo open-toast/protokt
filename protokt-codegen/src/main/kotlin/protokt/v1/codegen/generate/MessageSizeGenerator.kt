@@ -25,14 +25,13 @@ import protokt.v1.codegen.generate.Nullability.hasNonNullOption
 import protokt.v1.codegen.generate.Wrapper.interceptFieldSizeof
 import protokt.v1.codegen.generate.Wrapper.interceptSizeof
 import protokt.v1.codegen.generate.Wrapper.interceptValueAccess
-import protokt.v1.codegen.generate.Wrapper.mapKeyConverter
-import protokt.v1.codegen.generate.Wrapper.mapValueConverter
-import protokt.v1.codegen.util.FieldType
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.Oneof
+import protokt.v1.codegen.util.SizeFn
 import protokt.v1.codegen.util.StandardField
+import protokt.v1.codegen.util.sizeFn
 
-fun generateMessageSize(msg: Message, properties: List<PropertySpec>, ctx: Context) =
+internal fun generateMessageSize(msg: Message, properties: List<PropertySpec>, ctx: Context) =
     MessageSizeGenerator(msg, properties, ctx).generate()
 
 private class MessageSizeGenerator(
@@ -100,7 +99,7 @@ private class MessageSizeGenerator(
         }
 }
 
-fun sizeOf(
+internal fun sizeOf(
     f: StandardField,
     ctx: Context,
     oneOfFieldAccess: CodeBlock? = null
@@ -114,7 +113,7 @@ fun sizeOf(
             }
 
     return when {
-        f.map -> sizeOfMap(f, fieldAccess, ctx)
+        f.isMap -> sizeOfMap(f, fieldAccess)
         f.repeated && f.packed -> {
             namedCodeBlock(
                 "sizeOf(${f.tag}u) + " +
@@ -151,30 +150,15 @@ fun sizeOf(
     }
 }
 
-private fun sizeOfMap(
-    f: StandardField,
-    name: CodeBlock,
-    ctx: Context
-): CodeBlock {
-    val key =
-        mapKeyConverter(f, ctx)
-            ?.let { CodeBlock.of("%T.unwrap(k)", it) }
-            ?: CodeBlock.of("k")
-
-    val value =
-        mapValueConverter(f, ctx)
-            ?.let { CodeBlock.of("%T.unwrap(v)", it) }
-            ?: CodeBlock.of("v")
-
-    val mapEntry = f.mapEntry!!
-    val sizeOfCall = sizeOfCall(mapEntry, key, value)
+private fun sizeOfMap(f: StandardField, name: CodeBlock): CodeBlock {
+    val sizeOfCall = sizeOfCall(f.mapKey, f.mapValue, CodeBlock.of("k"), CodeBlock.of("v"))
 
     return buildCodeBlock {
         add(
             "%M($name, ${f.tag}u)·{·%L,·%L·->\n",
             sizeOf,
-            mapEntry.key.loopVar("k"),
-            mapEntry.value.loopVar("v")
+            f.mapKey.loopVar("k"),
+            f.mapValue.loopVar("v")
         )
         indent()
         add("%T.%L\n", f.className, sizeOfCall)
@@ -183,7 +167,7 @@ private fun sizeOfMap(
 }
 
 private fun StandardField.loopVar(name: String) =
-    if (type.sizeFn is FieldType.Method) {
+    if (type.sizeFn is SizeFn.Method) {
         name
     } else {
         "_"
@@ -191,18 +175,18 @@ private fun StandardField.loopVar(name: String) =
 
 private fun StandardField.sizeOf(value: CodeBlock): CodeBlock =
     when (val fn = type.sizeFn) {
-        is FieldType.Const -> CodeBlock.of(fn.size.toString())
-        is FieldType.Method -> CodeBlock.of("%M(%L)", fn.method, value)
+        is SizeFn.Const -> CodeBlock.of(fn.size.toString())
+        is SizeFn.Method -> CodeBlock.of("%M(%L)", fn.method, value)
     }
 
-fun StandardField.elementsSize(
+internal fun StandardField.elementsSize(
     fieldAccess: CodeBlock = CodeBlock.of("it"),
     parenthesize: Boolean = true
 ) =
     when (val sizeFn = type.sizeFn) {
-        is FieldType.Const ->
+        is SizeFn.Const ->
             CodeBlock.of("(%N.size * %L)", fieldName, sizeFn.size)
                 .let { if (parenthesize) CodeBlock.of("(%L)", it) else it }
-        is FieldType.Method ->
+        is SizeFn.Method ->
             CodeBlock.of("%N.sumOf·{·%L·}", fieldName, sizeOf(fieldAccess))
     }

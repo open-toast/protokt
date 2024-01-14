@@ -42,3 +42,12 @@ dependencies {
     implementation(kotlin("gradle-plugin-api"))
     implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 }
+
+sourceSets {
+    main {
+        java {
+            srcDir("../shared-src/codegen")
+            srcDir("../shared-src/gradle-plugin")
+        }
+    }
+}

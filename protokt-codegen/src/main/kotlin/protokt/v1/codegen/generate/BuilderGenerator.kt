@@ -27,8 +27,8 @@ import protokt.v1.KtBuilderDsl
 import protokt.v1.UnknownFieldSet
 import protokt.v1.codegen.generate.Deprecation.handleDeprecation
 import protokt.v1.codegen.util.BUILDER
-import protokt.v1.codegen.util.FieldType
 import protokt.v1.codegen.util.Message
+import protokt.v1.reflect.FieldType
 
 internal fun TypeSpec.Builder.handleBuilder(msg: Message, properties: List<PropertyInfo>) =
     apply { BuilderGenerator(msg, properties).addBuilder(this) }
@@ -70,7 +70,7 @@ private class BuilderGenerator(
                             .mutable(true)
                             .handleDeprecation(it.deprecation)
                             .apply {
-                                if (it.map) {
+                                if (it.isMap) {
                                     setter(
                                         FunSpec.setterBuilder()
                                             .addParameter("newValue", Map::class)
@@ -88,7 +88,7 @@ private class BuilderGenerator(
                             }
                             .initializer(
                                 when {
-                                    it.map -> CodeBlock.of("emptyMap()")
+                                    it.isMap -> CodeBlock.of("emptyMap()")
                                     it.repeated -> CodeBlock.of("emptyList()")
                                     it.fieldType == FieldType.Message || it.wrapped || it.nullable -> CodeBlock.of("null")
                                     else -> it.defaultValue

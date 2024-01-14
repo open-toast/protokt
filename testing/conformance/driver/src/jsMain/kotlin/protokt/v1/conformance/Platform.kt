@@ -44,7 +44,7 @@ internal actual object Platform {
         deserializer: KtDeserializer<T>
     ): ConformanceStepResult<T>? {
         val size = readSize() ?: return null
-        return deserialize(readBytes(size), deserializer)
+        return deserializeProtobuf(readBytes(size), deserializer)
     }
 
     private suspend fun readBytes(size: Int) =
@@ -91,26 +91,35 @@ internal actual object Platform {
         }
     }
 
-    actual fun <T : KtMessage> deserialize(
+    actual fun <T : KtMessage> deserializeProtobuf(
         bytes: ByteArray,
         deserializer: KtDeserializer<T>
     ): ConformanceStepResult<T> =
         try {
             Proceed(deserializer.deserialize(bytes))
         } catch (t: Throwable) {
-            Failure(ParseError(t.stackTraceToString()))
+            Stop(ParseError(t.stackTraceToString()))
         } catch (d: dynamic) {
-            Failure(ParseError(d.toString()))
+            Stop(ParseError(d.toString()))
         }
 
-    actual fun serialize(message: KtMessage): ConformanceStepResult<Bytes> =
+    actual fun serializeProtobuf(message: KtMessage): ConformanceStepResult<Bytes> =
         try {
             Proceed(Bytes.from(message))
         } catch (t: Throwable) {
-            Failure(SerializeError(t.stackTraceToString()))
+            Stop(SerializeError(t.stackTraceToString()))
         } catch (d: dynamic) {
-            Failure(SerializeError(d.toString()))
+            Stop(SerializeError(d.toString()))
         }
+
+    actual fun <T : KtMessage> deserializeJson(
+        json: String,
+        deserializer: KtDeserializer<T>
+    ): ConformanceStepResult<T> =
+        ConformanceStepResult.skip()
+
+    actual fun serializeJson(message: KtMessage): ConformanceStepResult<String> =
+        ConformanceStepResult.skip()
 }
 
 @JsModule("process")

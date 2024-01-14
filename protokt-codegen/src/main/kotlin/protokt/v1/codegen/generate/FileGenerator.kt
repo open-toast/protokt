@@ -19,7 +19,7 @@ import com.squareup.kotlinpoet.FileSpec
 import protokt.v1.codegen.generate.Deprecation.addDeprecationSuppression
 import protokt.v1.codegen.util.ProtoFileContents
 
-fun generateFile(contents: ProtoFileContents) =
+internal fun generateFile(contents: ProtoFileContents) =
     FileGenerator(contents).generate()
 
 private class FileGenerator(

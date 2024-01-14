@@ -17,7 +17,9 @@ package protokt.v1.codegen.util
 
 import com.google.protobuf.DescriptorProtos.MethodDescriptorProto
 import com.google.protobuf.DescriptorProtos.ServiceDescriptorProto
+import com.squareup.kotlinpoet.ClassName
 import com.toasttab.protokt.v1.ProtoktProtos
+import protokt.v1.reflect.requalifyProtoType
 
 class ServiceParser(
     private val idx: Int,
@@ -38,8 +40,8 @@ class ServiceParser(
     private fun toMethod(desc: MethodDescriptorProto) =
         Method(
             name = desc.name,
-            inputType = requalifyProtoType(desc.inputType),
-            outputType = requalifyProtoType(desc.outputType),
+            inputType = ClassName.bestGuess(requalifyProtoType(desc.inputType)),
+            outputType = ClassName.bestGuess(requalifyProtoType(desc.outputType)),
             clientStreaming = desc.clientStreaming,
             serverStreaming = desc.serverStreaming,
             deprecated = desc.options.deprecated,

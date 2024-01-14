@@ -19,6 +19,7 @@ plugins {
 
 dependencies {
     testImplementation(project(":testing:testing-util"))
+    testImplementation(project(":protokt-json"))
 }
 
 tasks.named<Test>("test") {

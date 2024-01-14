@@ -36,8 +36,6 @@ dependencies {
     implementation(libs.jackson)
 
     runtimeOnly(libs.protobuf.lite)
-
-    testImplementation(project(":protokt-util"))
 }
 
 sourceSets {
@@ -51,6 +49,7 @@ sourceSets {
     test {
         java {
             srcDir(liteOptionTestSourceDir())
+            srcDir(rootProject.file("shared-src/lite-util"))
         }
     }
 }

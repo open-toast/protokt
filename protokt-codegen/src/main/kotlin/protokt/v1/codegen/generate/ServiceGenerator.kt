@@ -57,7 +57,7 @@ import kotlin.reflect.KClass
 import kotlin.reflect.KFunction1
 import kotlin.reflect.KFunction3
 
-fun generateService(s: Service, ctx: Context, kotlinPlugin: KotlinPlugin?) =
+internal fun generateService(s: Service, ctx: Context, kotlinPlugin: KotlinPlugin?) =
     ServiceGenerator(s, ctx, kotlinPlugin).generate()
 
 private class ServiceGenerator(
