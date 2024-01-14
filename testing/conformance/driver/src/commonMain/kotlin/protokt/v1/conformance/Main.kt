@@ -22,22 +22,21 @@ import protokt.v1.protobuf_test_messages.proto3.TestAllTypesProto3
 
 fun main() = Platform.runBlockingMain {
     while (true) {
-        val result =
-            when (val request = Platform.readMessageFromStdIn(ConformanceRequest)) {
-                null -> break
-                is Stop -> request.result
-                is Proceed ->
-                    when (val result = processRequest(request.value)) {
+        val request = Platform.readMessageFromStdIn(ConformanceRequest) ?: break
+
+        Platform.writeToStdOut(
+            ConformanceResponse {
+                result =
+                    when (val result = request.flatMap(::processRequest)) {
                         is Stop -> result.result
                         is Proceed -> result.value
                     }
-            }
-
-        Platform.writeToStdOut(ConformanceResponse { this.result = result }.serialize())
+            }.serialize()
+        )
     }
 }
 
-private suspend fun processRequest(request: ConformanceRequest): ConformanceStepResult<Result> {
+private fun processRequest(request: ConformanceRequest): ConformanceStepResult<Result> {
     if (!isSupported(request)) {
         return ConformanceStepResult.skip()
     }
@@ -65,23 +64,21 @@ private fun isSupported(request: ConformanceRequest) =
         request.requestedOutputFormat != WireFormat.TEXT_FORMAT
 
 internal sealed class ConformanceStepResult<T> {
-    suspend fun <R> map(action: suspend (T) -> R): ConformanceStepResult<R> =
+    fun <R> map(action: (T) -> R) =
         when (this) {
             is Proceed<T> -> Proceed(action(value))
             is Stop<T> -> Stop(result)
         }
 
-    suspend fun <R> flatMap(action: suspend (T) -> ConformanceStepResult<R>): ConformanceStepResult<R> =
+    fun <R> flatMap(action: (T) -> ConformanceStepResult<R>) =
         when (this) {
             is Proceed<T> -> action(value)
             is Stop<T> -> Stop(result)
         }
 
     companion object {
-        val SKIP = Result.Skipped("unsupported request")
-
         fun <T> skip() =
-            Stop<T>(SKIP)
+            Stop<T>(Result.Skipped("unsupported request"))
     }
 }
 
