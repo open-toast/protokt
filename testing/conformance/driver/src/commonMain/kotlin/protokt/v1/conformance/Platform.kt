@@ -31,8 +31,6 @@ internal expect object Platform {
 
     fun writeToStdOut(bytes: ByteArray)
 
-    fun isSupported(request: ConformanceRequest): Boolean
-
     fun <T : KtMessage> deserializeProtobuf(
         bytes: ByteArray,
         deserializer: KtDeserializer<T>

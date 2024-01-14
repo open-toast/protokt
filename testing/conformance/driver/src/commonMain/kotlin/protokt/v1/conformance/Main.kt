@@ -25,7 +25,7 @@ fun main() = Platform.runBlockingMain {
         val result =
             when (val request = Platform.readMessageFromStdIn(ConformanceRequest)) {
                 null -> break
-                is Failure -> request.failure
+                is Stop -> request.failure
                 is Proceed -> processRequest(request.value)
             }
 
@@ -33,42 +33,59 @@ fun main() = Platform.runBlockingMain {
     }
 }
 
-private suspend fun processRequest(request: ConformanceRequest) =
-    if (Platform.isSupported(request)) {
-        val deserializeResult =
-            when (val payload = request.payload) {
-                is ProtobufPayload -> Platform.deserializeProtobuf(payload.protobufPayload.bytes, TestAllTypesProto3)
-                is JsonPayload -> Platform.deserializeJson(payload.jsonPayload, TestAllTypesProto3)
-                else -> throw UnsupportedOperationException("unsupported payload format")
-            }
-
-        when (deserializeResult) {
-            is Failure -> deserializeResult.failure
-            is Proceed ->
-                when (request.requestedOutputFormat) {
-                    WireFormat.PROTOBUF ->
-                        when (val result = Platform.serializeProtobuf(deserializeResult.value)) {
-                            is Failure -> result.failure
-                            is Proceed -> Result.ProtobufPayload(result.value)
-                        }
-                    WireFormat.JSON ->
-                        when (val result = Platform.serializeJson(deserializeResult.value)) {
-                            is Failure -> result.failure
-                            is Proceed -> Result.JsonPayload(result.value)
-                        }
-                    else -> throw UnsupportedOperationException("unsupported output format")
-                }
-        }
-    } else {
-        Result.Skipped("unsupported request")
+private suspend fun processRequest(request: ConformanceRequest): Result {
+    if (!isSupported(request)) {
+        return ConformanceStepResult.SKIP
     }
 
-internal sealed class ConformanceStepResult<T>
+    val deserializeResult =
+        when (val payload = request.payload) {
+            is ProtobufPayload -> Platform.deserializeProtobuf(payload.protobufPayload.bytes, TestAllTypesProto3)
+            is JsonPayload -> Platform.deserializeJson(payload.jsonPayload, TestAllTypesProto3)
+            else -> ConformanceStepResult.skip<TestAllTypesProto3>()
+        }
+
+    return when (deserializeResult) {
+        is Stop -> deserializeResult.failure
+        is Proceed ->
+            when (request.requestedOutputFormat) {
+                WireFormat.PROTOBUF ->
+                    when (val result = Platform.serializeProtobuf(deserializeResult.value)) {
+                        is Stop -> result.failure
+                        is Proceed -> Result.ProtobufPayload(result.value)
+                    }
+                WireFormat.JSON ->
+                    when (val result = Platform.serializeJson(deserializeResult.value)) {
+                        is Stop -> result.failure
+                        is Proceed -> Result.JsonPayload(result.value)
+                    }
+                else -> ConformanceStepResult.SKIP
+            }
+    }
+}
+
+private fun isSupported(request: ConformanceRequest) =
+    request.messageType == "protobuf_test_messages.proto3.TestAllTypesProto3" &&
+        // unclear why we have to filter this, but if we don't then JS and JVM impls throw on:
+        //   Recommended.Proto3.ProtobufInput.GroupUnknownFields_Drop.TextFormatOutput
+        //   Recommended.Proto3.ProtobufInput.GroupUnknownFields_Print.TextFormatOutput
+        //   Recommended.Proto3.ProtobufInput.RepeatedUnknownFields_Drop.TextFormatOutput
+        //   Recommended.Proto3.ProtobufInput.RepeatedUnknownFields_Print.TextFormatOutput
+        request.requestedOutputFormat != WireFormat.TEXT_FORMAT
+
+internal sealed class ConformanceStepResult<T> {
+    companion object {
+        val SKIP = Result.Skipped("unsupported request")
+
+        fun <T> skip() =
+            Stop<T>(SKIP)
+    }
+}
 
 internal class Proceed<T>(
     val value: T
 ) : ConformanceStepResult<T>()
 
-internal class Failure<T>(
+internal class Stop<T>(
     val failure: Result
 ) : ConformanceStepResult<T>()

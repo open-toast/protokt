@@ -20,10 +20,10 @@ import kotlinx.coroutines.runBlocking
 import protokt.v1.Bytes
 import protokt.v1.KtDeserializer
 import protokt.v1.KtMessage
-import protokt.v1.conformance.ConformanceRequest.Payload.ProtobufPayload
 import protokt.v1.conformance.ConformanceResponse.Result.ParseError
 import protokt.v1.conformance.ConformanceResponse.Result.RuntimeError
 import protokt.v1.conformance.ConformanceResponse.Result.SerializeError
+import protokt.v1.json.toJson
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
@@ -51,7 +51,7 @@ internal actual object Platform {
                 null
             }
         } catch (t: Throwable) {
-            Failure(RuntimeError(t.stackTraceToString()))
+            Stop(RuntimeError(t.stackTraceToString()))
         }
 
     actual fun writeToStdOut(bytes: ByteArray) {
@@ -60,11 +60,6 @@ internal actual object Platform {
         System.out.flush()
     }
 
-    actual fun isSupported(request: ConformanceRequest) =
-        request.messageType == "protobuf_test_messages.proto3.TestAllTypesProto3" &&
-            request.requestedOutputFormat == WireFormat.PROTOBUF &&
-            request.payload is ProtobufPayload
-
     actual fun <T : KtMessage> deserializeProtobuf(
         bytes: ByteArray,
         deserializer: KtDeserializer<T>
@@ -72,24 +67,28 @@ internal actual object Platform {
         try {
             Proceed(deserializer.deserialize(bytes))
         } catch (t: Throwable) {
-            Failure(ParseError(t.stackTraceToString()))
+            Stop(ParseError(t.stackTraceToString()))
         }
 
     actual fun serializeProtobuf(message: KtMessage): ConformanceStepResult<Bytes> =
         try {
             Proceed(Bytes.from(message))
         } catch (t: Throwable) {
-            Failure(SerializeError(t.stackTraceToString()))
+            Stop(SerializeError(t.stackTraceToString()))
         }
 
     actual fun <T : KtMessage> deserializeJson(
         json: String,
         deserializer: KtDeserializer<T>
     ): ConformanceStepResult<T> =
-        throw UnsupportedOperationException("unsupported payload format")
+        ConformanceStepResult.skip()
 
     actual fun serializeJson(message: KtMessage): ConformanceStepResult<String> =
-        throw UnsupportedOperationException("unsupported output format")
+        try {
+            Proceed(message.toJson())
+        } catch (t: Throwable) {
+            Stop(SerializeError(t.stackTraceToString()))
+        }
 }
 
 internal fun intToBytes(size: Int) =

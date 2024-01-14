@@ -40,6 +40,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                implementation(project(":protokt-json"))
                 implementation(libs.kotlinx.coroutines.core)
             }
         }
