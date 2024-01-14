@@ -13,12 +13,19 @@
  * limitations under the License.
  */
 
+@file:JvmName("KtMessages")
+
 package protokt.v1.json
 
 import com.google.protobuf.util.JsonFormat
+import com.google.protobuf.util.JsonFormat.Printer
 import protokt.v1.KtMessage
 import protokt.v1.google.protobuf.RuntimeContext
 import protokt.v1.google.protobuf.toDynamicMessage
 
-fun KtMessage.toJson(runtimeContext: RuntimeContext = RuntimeContext.getContextReflectively()) =
-    JsonFormat.printer().print(toDynamicMessage(runtimeContext))
+@JvmOverloads
+fun KtMessage.toJson(
+    runtimeContext: RuntimeContext = RuntimeContext.getContextReflectively(),
+    printer: Printer = JsonFormat.printer()
+) =
+    printer.print(toDynamicMessage(runtimeContext))
