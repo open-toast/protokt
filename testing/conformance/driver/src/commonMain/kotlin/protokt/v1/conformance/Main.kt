@@ -17,7 +17,6 @@ package protokt.v1.conformance
 
 import protokt.v1.conformance.ConformanceRequest.Payload.JsonPayload
 import protokt.v1.conformance.ConformanceRequest.Payload.ProtobufPayload
-import protokt.v1.conformance.ConformanceResponse.Result
 import protokt.v1.protobuf_test_messages.proto3.TestAllTypesProto3
 
 fun main() = Platform.runBlockingMain {
@@ -51,12 +50,12 @@ private suspend fun processRequest(request: ConformanceRequest): Result {
             when (request.requestedOutputFormat) {
                 WireFormat.PROTOBUF ->
                     when (val result = Platform.serializeProtobuf(deserializeResult.value)) {
-                        is Stop -> result.failure
+                        is Stop -> result.result
                         is Proceed -> Result.ProtobufPayload(result.value)
                     }
                 WireFormat.JSON ->
                     when (val result = Platform.serializeJson(deserializeResult.value)) {
-                        is Stop -> result.failure
+                        is Stop -> result.result
                         is Proceed -> Result.JsonPayload(result.value)
                     }
                 else -> ConformanceStepResult.SKIP
@@ -87,5 +86,5 @@ internal class Proceed<T>(
 ) : ConformanceStepResult<T>()
 
 internal class Stop<T>(
-    val failure: Result
+    val result: Result
 ) : ConformanceStepResult<T>()
