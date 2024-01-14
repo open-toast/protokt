@@ -1,0 +1,5 @@
+public final class protokt/v1/json/KtMessagesKt {
+	public static final fun toJson (Lprotokt/v1/KtMessage;Lprotokt/v1/google/protobuf/RuntimeContext;)Ljava/lang/String;
+	public static synthetic fun toJson$default (Lprotokt/v1/KtMessage;Lprotokt/v1/google/protobuf/RuntimeContext;ILjava/lang/Object;)Ljava/lang/String;
+}
+
