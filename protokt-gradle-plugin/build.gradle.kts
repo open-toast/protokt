@@ -61,10 +61,14 @@ dependencies {
     implementation(libs.protobuf.gradlePlugin)
 }
 
-includeBuildSrc(
-    "protokt/v1/gradle/*",
-    "com/google/protobuf/gradle/*"
-)
+sourceSets {
+    main {
+        java {
+            srcDir(rootProject.file("shared-src/codegen"))
+            srcDir(rootProject.file("shared-src/gradle-plugin"))
+        }
+    }
+}
 
 buildConfig {
     useKotlinOutput { topLevelConstants = true }
