@@ -29,7 +29,6 @@ import protokt.v1.KtMessage
 import protokt.v1.KtMessageDeserializer
 import protokt.v1.KtMessageSerializer
 import protokt.v1.codegen.generate.CodeGenerator.Context
-import protokt.v1.codegen.generate.Nullability.nullable
 import protokt.v1.codegen.generate.Wrapper.interceptDefaultValue
 import protokt.v1.codegen.generate.Wrapper.interceptTypeName
 import protokt.v1.codegen.generate.Wrapper.wrapField
