@@ -135,11 +135,11 @@ private class MapEntryGenerator(
                         beginControlFlow("when (deserializer.readTag())")
                         addStatement("%L", constructOnZero(value))
                         addStatement(
-                            "${key.tag.value} -> key = %L",
+                            "${key.tag.value}u -> key = %L",
                             deserialize(key, ctx)
                         )
                         addStatement(
-                            "${value.tag.value} -> value = %L",
+                            "${value.tag.value}u -> value = %L",
                             deserialize(value, ctx)
                         )
                         endControlFlow()
@@ -170,7 +170,7 @@ private class MapEntryGenerator(
 
     private fun constructOnZero(f: StandardField) =
         buildCodeBlock {
-            add("0 -> return %T(key, value", msg.className)
+            add("0u -> return %T(key, value", msg.className)
             if (f.type == FieldType.Message) {
                 add(" ?: %T{}", value.className)
             }
