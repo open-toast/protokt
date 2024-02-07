@@ -26,37 +26,40 @@ import protokt.v1.OptimizedSizeOfConverter
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Nullability.hasNonNullOption
 import protokt.v1.codegen.generate.WellKnownTypes.wrapWithWellKnownInterception
+import protokt.v1.codegen.util.ClassLookup
 import protokt.v1.codegen.util.ConverterDetails
 import protokt.v1.codegen.util.FieldType
 import protokt.v1.codegen.util.GeneratorContext
 import protokt.v1.codegen.util.StandardField
+import protokt.v1.codegen.util.inferClassName
 import kotlin.reflect.KFunction2
 
 internal object Wrapper {
     val StandardField.wrapped
-        get() = wrapWithWellKnownInterception != null
+        get() = wrapWithWellKnownInterception(options.wrap, protoTypeName) != null
 
     fun StandardField.wrapperRequiresNullability(ctx: Context) =
         wrapperRequiresNonNullOptionForNonNullity(ctx.info.context) && !hasNonNullOption
 
     fun StandardField.wrapperRequiresNonNullOptionForNonNullity(ctx: GeneratorContext) =
-        withWrapper(ctx) { it.cannotDeserializeDefaultValue && !repeated } ?: false
+        wrapped && withWrapper(ctx) { it.cannotDeserializeDefaultValue && !repeated } ?: false
 
     private fun <T> StandardField.withWrapper(
-        wrapOption: String?,
+        wrap: String?,
         ctx: GeneratorContext,
         ifWrapped: (ConverterDetails) -> T
     ) =
-        wrapOption?.let { wrap ->
+        wrapWithWellKnownInterception(wrap, protoTypeName)?.let {
             ifWrapped(
                 converter(
-                    protoTypeName.takeIf { it.isNotEmpty() }
-                        ?.let { className }
-                        // Protobuf primitives have no typeName
-                        ?: requireNotNull(type.kotlinRepresentation) {
-                            "no kotlin representation for type of $fieldName: $type"
-                        }.asClassName(),
-                    inferClassName(wrap, ctx.kotlinPackage),
+                    ClassLookup.evaluateProtobufTypeCanonicalName(
+                        protoTypeName,
+                        className.canonicalName,
+                        type,
+                        fieldName
+                    ),
+                    inferClassName(it, ctx.kotlinPackage)
+                        .let { (pkg, names) -> ClassName(pkg, names).canonicalName },
                     ctx
                 )
             )
@@ -66,7 +69,7 @@ internal object Wrapper {
         ctx: GeneratorContext,
         ifWrapped: (ConverterDetails) -> R
     ) =
-        withWrapper(wrapWithWellKnownInterception, ctx, ifWrapped)
+        withWrapper(options.wrap, ctx, ifWrapped)
 
     fun interceptSizeof(
         f: StandardField,
@@ -104,18 +107,15 @@ internal object Wrapper {
             callConverterMethod(Converter<Any, Any>::unwrap, it, accessValue)
         } ?: accessValue
 
-    fun wrapField(wrapName: TypeName, arg: CodeBlock) =
-        CodeBlock.of("%T.%L(%L)", wrapName, Converter<Any, Any>::wrap.name, arg)
-
     private fun callConverterMethod(
         method: KFunction2<*, *, *>,
         converterDetails: ConverterDetails,
         access: CodeBlock,
     ) =
-        CodeBlock.of("%T.%L(%L)", converterDetails.converterClassName, method.name, access)
+        CodeBlock.of("%T.%L(%L)", converterDetails.converter::class.asClassName(), method.name, access)
 
     fun wrapper(f: StandardField, ctx: Context) =
-        f.withWrapper(ctx.info.context, ConverterDetails::converterClassName)
+        f.withWrapper(ctx.info.context, ::converterClassName)
 
     fun interceptRead(f: StandardField, readFunction: CodeBlock) =
         if (f.bytesSlice) {
@@ -131,52 +131,32 @@ internal object Wrapper {
             if (f.type == FieldType.Message && !f.repeated) {
                 defaultValue
             } else {
-                wrapper(f, ctx)?.let { wrapField(it, defaultValue) } ?: defaultValue
+                wrapField(f, ctx, defaultValue) ?: defaultValue
             }
         }
 
-    fun interceptTypeName(f: StandardField, ctx: Context) =
-        if (f.bytesSlice) {
+    fun wrapField(f: StandardField, ctx: Context, argToConverter: CodeBlock) =
+        wrapper(f, ctx)?.let { wrapField(it, argToConverter) }
+
+    private fun wrapField(wrapName: TypeName, arg: CodeBlock) =
+        CodeBlock.of("%T.%L(%L)", wrapName, Converter<Any, Any>::wrap.name, arg)
+
+    fun StandardField.interceptTypeName(ctx: Context) =
+        if (bytesSlice) {
             BytesSlice::class.asTypeName()
         } else {
-            f.withWrapper(ctx.info.context, ConverterDetails::kotlinClassName)
-        }
+            withWrapper(ctx.info.context, ::kotlinClassName)
+        } ?: className
 
     private val StandardField.bytesSlice
         get() = options.protokt.bytesSlice
 
-    private fun <R> StandardField.withKeyWrap(
-        ctx: Context,
-        ifWrapped: (ConverterDetails) -> R
-    ) =
-        mapEntry!!.key.withWrapper(
-            options.protokt.keyWrap.takeIf { it.isNotEmpty() },
-            ctx.info.context,
-            ifWrapped
-        )
+    private fun kotlinClassName(converterDetails: ConverterDetails) =
+        ClassName.bestGuess(converterDetails.kotlinCanonicalClassName)
 
-    fun interceptMapKeyTypeName(f: StandardField, ctx: Context) =
-        f.withKeyWrap(ctx, ConverterDetails::kotlinClassName)
+    private fun converterClassName(converterDetails: ConverterDetails) =
+        converterDetails.converter::class.asClassName()
 
-    fun mapKeyConverter(f: StandardField, ctx: Context) =
-        f.withKeyWrap(ctx, ConverterDetails::converterClassName)
-
-    fun interceptMapValueTypeName(f: StandardField, ctx: Context) =
-        f.withValueWrap(ctx, ConverterDetails::kotlinClassName)
-
-    fun mapValueConverter(f: StandardField, ctx: Context) =
-        f.withValueWrap(ctx, ConverterDetails::converterClassName)
-
-    private fun <R> StandardField.withValueWrap(
-        ctx: Context,
-        ifWrapped: (ConverterDetails) -> R
-    ) =
-        mapEntry!!.value.withWrapper(
-            options.protokt.valueWrap.takeIf { it.isNotEmpty() },
-            ctx.info.context,
-            ifWrapped
-        )
-
-    private fun converter(protoClassName: ClassName, kotlinClassName: ClassName, ctx: GeneratorContext) =
+    private fun converter(protoClassName: String, kotlinClassName: String, ctx: GeneratorContext) =
         ctx.classLookup.converter(protoClassName, kotlinClassName)
 }

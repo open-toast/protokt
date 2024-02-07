@@ -22,10 +22,12 @@ class MessageParser(
     private val ctx: GeneratorContext,
     private val idx: Int,
     private val desc: DescriptorProto,
-    private val enclosingMessages: List<String>
+    private val enclosingMessages: List<String>,
+    private val keyWrap: String?,
+    private val valueWrap: String?
 ) {
     fun toMessage(): Message {
-        val fieldList = FieldParser(ctx, desc, enclosingMessages).toFields()
+        val fieldList = FieldParser(ctx, desc, enclosingMessages, keyWrap, valueWrap).toFields()
         val simpleNames = enclosingMessages + desc.name
         return Message(
             fields = fieldList.sortedBy {
@@ -41,7 +43,7 @@ class MessageParser(
                 emptyList(),
                 simpleNames
             ).parseContents(),
-            mapEntry = desc.options?.mapEntry == true,
+            mapEntry = desc.options.mapEntry,
             options = MessageOptions(
                 desc.options,
                 desc.options.getExtension(ProtoktProtos.class_)

@@ -111,13 +111,19 @@ class StandardField(
     val repeated: Boolean,
     val optional: Boolean,
     val packed: Boolean,
-    val mapEntry: MapEntry?,
+    val mapEntry: Message?,
     val protoTypeName: String,
     val options: FieldOptions,
     val index: Int
 ) : Field() {
-    val map
+    val isMap
         get() = mapEntry != null
+
+    val mapKey
+        get() = mapEntry!!.fields[0] as StandardField
+
+    val mapValue
+        get() = mapEntry!!.fields[1] as StandardField
 }
 
 class Oneof(
@@ -130,14 +136,10 @@ class Oneof(
     val index: Int
 ) : Field()
 
-class MapEntry(
-    val key: StandardField,
-    val value: StandardField
-)
-
 class FieldOptions(
     val default: DescriptorProtos.FieldOptions,
-    val protokt: ProtoktProtos.FieldOptions
+    val protokt: ProtoktProtos.FieldOptions,
+    val wrap: String?
 )
 
 class OneofOptions(
