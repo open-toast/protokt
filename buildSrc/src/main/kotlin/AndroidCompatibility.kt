@@ -13,12 +13,11 @@
  * limitations under the License.
  */
 
+import com.toasttab.expediter.gradle.ExpediterPlugin
+import com.toasttab.expediter.gradle.config.ExpediterExtension
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
-
-import com.toasttab.expediter.gradle.ExpediterPlugin
-import com.toasttab.expediter.gradle.config.ExpediterExtension
 import org.gradle.kotlin.dsl.dependencies
 
 fun Project.compatibleWithAndroid(api: Int = 19) {
