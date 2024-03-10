@@ -34,7 +34,7 @@ fun Project.compatibleWithAndroid(api: Int = 19) {
         application {
             sourceSet("main")
             configuration("runtimeClasspath")
-            configuration("provided")
+            configuration("_provided_")
         }
 
         ignore {
