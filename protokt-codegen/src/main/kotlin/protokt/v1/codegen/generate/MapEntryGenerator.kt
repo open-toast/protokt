@@ -29,14 +29,16 @@ import protokt.v1.KtMessage
 import protokt.v1.KtMessageDeserializer
 import protokt.v1.KtMessageSerializer
 import protokt.v1.codegen.generate.CodeGenerator.Context
+import protokt.v1.codegen.generate.Wrapper.interceptDefaultValue
+import protokt.v1.codegen.generate.Wrapper.interceptTypeName
+import protokt.v1.codegen.generate.Wrapper.wrapField
 import protokt.v1.codegen.util.DESERIALIZER
 import protokt.v1.codegen.util.FieldType
-import protokt.v1.codegen.util.MapEntry
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.StandardField
 import kotlin.reflect.KProperty0
 
-fun generateMapEntry(msg: Message, ctx: Context) =
+internal fun generateMapEntry(msg: Message, ctx: Context) =
     MapEntryGenerator(msg, ctx).generate()
 
 private class MapEntryGenerator(
@@ -46,8 +48,15 @@ private class MapEntryGenerator(
     private val key = msg.fields[0] as StandardField
     private val value = msg.fields[1] as StandardField
 
-    private val keyProp = constructorProperty("key", key.className, false)
-    private val valProp = constructorProperty("value", value.className, false)
+    private val keyTypeName = key.interceptTypeName(ctx)
+    private val valueTypeName = value.interceptTypeName(ctx)
+
+    private val keyProp = constructorProperty("key", keyTypeName, false)
+    private val valProp = constructorProperty("value", valueTypeName, false)
+
+    private val propInfo = annotateProperties(msg, ctx)
+    private val keyPropInfo = propInfo[0]
+    private val valPropInfo = propInfo[1]
 
     fun generate() =
         TypeSpec.classBuilder(msg.className).apply {
@@ -64,8 +73,8 @@ private class MapEntryGenerator(
     private fun TypeSpec.Builder.addConstructor() {
         primaryConstructor(
             FunSpec.constructorBuilder()
-                .addParameter("key", key.className)
-                .addParameter("value", value.className)
+                .addParameter("key", keyTypeName)
+                .addParameter("value", valueTypeName)
                 .build()
         )
     }
@@ -79,7 +88,8 @@ private class MapEntryGenerator(
                         .addCode(
                             "return·%L",
                             sizeOfCall(
-                                MapEntry(key, value),
+                                key,
+                                value,
                                 CodeBlock.of("key"),
                                 CodeBlock.of("value")
                             )
@@ -102,8 +112,6 @@ private class MapEntryGenerator(
     }
 
     private fun TypeSpec.Builder.addDeserializer() {
-        val propInfo = annotateProperties(msg, ctx)
-
         addType(
             TypeSpec.companionObjectBuilder(DESERIALIZER)
                 .superclass(
@@ -115,10 +123,10 @@ private class MapEntryGenerator(
                     buildFunSpec("entrySize") {
                         returns(Int::class)
                         if (key.type.sizeFn is FieldType.Method) {
-                            addParameter("key", key.className)
+                            addParameter("key", keyTypeName)
                         }
                         if (value.type.sizeFn is FieldType.Method) {
-                            addParameter("value", value.className)
+                            addParameter("value", valueTypeName)
                         }
                         addStatement("return %L + %L", sizeOf(key, ctx), sizeOf(value, ctx))
                     }
@@ -128,18 +136,18 @@ private class MapEntryGenerator(
                         addModifiers(KModifier.OVERRIDE)
                         addParameter("deserializer", KtMessageDeserializer::class)
                         returns(msg.className)
-                        addStatement("%L", deserializeVar(propInfo, ::key))
-                        addStatement("%L", deserializeVar(propInfo, ::value))
+                        addStatement("%L", deserializeVar(keyPropInfo, ::key))
+                        addStatement("%L", deserializeVar(valPropInfo, ::value))
                         addCode("\n")
                         beginControlFlow("while (true)")
                         beginControlFlow("when (deserializer.readTag())")
-                        addStatement("%L", constructOnZero(value))
+                        addStatement("%L", constructOnZero())
                         addStatement(
-                            "${key.tag.value} -> key = %L",
+                            "${key.tag.value}u -> key = %L",
                             deserialize(key, ctx)
                         )
                         addStatement(
-                            "${value.tag.value} -> value = %L",
+                            "${value.tag.value}u -> value = %L",
                             deserialize(value, ctx)
                         )
                         endControlFlow()
@@ -150,13 +158,12 @@ private class MapEntryGenerator(
         )
     }
 
-    private fun deserializeVar(propInfo: List<PropertyInfo>, accessor: KProperty0<StandardField>): CodeBlock {
+    private fun deserializeVar(prop: PropertyInfo, accessor: KProperty0<StandardField>): CodeBlock {
         val field = accessor.get()
-        val prop = propInfo.single { it.name == field.fieldName }
 
         return namedCodeBlock(
             "var ${accessor.name}" +
-                if (field.type == FieldType.Message) {
+                if (field.type == FieldType.Message || prop.wrapped || prop.nullable) {
                     ": %type:T"
                 } else {
                     ""
@@ -168,25 +175,45 @@ private class MapEntryGenerator(
         )
     }
 
-    private fun constructOnZero(f: StandardField) =
+    private fun constructOnZero() =
         buildCodeBlock {
-            add("0 -> return %T(key, value", msg.className)
-            if (f.type == FieldType.Message) {
-                add(" ?: %T{}", value.className)
+            add("0u -> return %T(key", msg.className)
+            if (keyPropInfo.nullable || keyPropInfo.wrapped) {
+                add("?: %L", keyPropInfo.defaultValue)
+            }
+            add(", value")
+            if (valPropInfo.nullable) {
+                if (valPropInfo.wrapped) {
+                    if (value.type == FieldType.Message) {
+                        add("?: %L", wrapField(value, ctx, CodeBlock.of("%T {}", value.className)))
+                    } else {
+                        add("?: %L", valPropInfo.defaultValue)
+                    }
+                } else {
+                    if (value.type == FieldType.Message) {
+                        add("?: %T {}", value.className)
+                    } else {
+                        add("?: %L", interceptDefaultValue(value, valPropInfo.defaultValue, ctx))
+                    }
+                }
+            } else {
+                if (valPropInfo.wrapped) {
+                    add("?: %L", valPropInfo.defaultValue)
+                }
             }
             add(")")
         }
 }
 
-fun sizeOfCall(mapEntry: MapEntry, keyStr: CodeBlock, valueStr: CodeBlock) =
-    if (mapEntry.key.type.sizeFn is FieldType.Method) {
-        if (mapEntry.value.type.sizeFn is FieldType.Method) {
+internal fun sizeOfCall(key: StandardField, value: StandardField, keyStr: CodeBlock, valueStr: CodeBlock) =
+    if (key.type.sizeFn is FieldType.Method) {
+        if (value.type.sizeFn is FieldType.Method) {
             CodeBlock.of("entrySize(%L,·%L)", keyStr, valueStr)
         } else {
             CodeBlock.of("entrySize(%L)", keyStr)
         }
     } else {
-        if (mapEntry.value.type.sizeFn is FieldType.Method) {
+        if (value.type.sizeFn is FieldType.Method) {
             CodeBlock.of("entrySize(%L)", valueStr)
         } else {
             CodeBlock.of("entrySize()")

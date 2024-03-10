@@ -70,7 +70,7 @@ private class BuilderGenerator(
                             .mutable(true)
                             .handleDeprecation(it.deprecation)
                             .apply {
-                                if (it.map) {
+                                if (it.isMap) {
                                     setter(
                                         FunSpec.setterBuilder()
                                             .addParameter("newValue", Map::class)
@@ -88,7 +88,7 @@ private class BuilderGenerator(
                             }
                             .initializer(
                                 when {
-                                    it.map -> CodeBlock.of("emptyMap()")
+                                    it.isMap -> CodeBlock.of("emptyMap()")
                                     it.repeated -> CodeBlock.of("emptyList()")
                                     it.fieldType == FieldType.Message || it.wrapped || it.nullable -> CodeBlock.of("null")
                                     else -> it.defaultValue

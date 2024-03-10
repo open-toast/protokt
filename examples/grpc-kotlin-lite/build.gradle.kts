@@ -43,7 +43,6 @@ dependencies {
 
     testImplementation(kotlin("test-junit"))
     testImplementation(libs.grpc.testing)
-    testImplementation(project(":protokt-util"))
 }
 
 sourceSets {
@@ -60,6 +59,7 @@ sourceSets {
         java {
             srcDir("../grpc-kotlin/src/test/kotlin")
             srcDir(liteOptionTestSourceDir())
+            srcDir(rootProject.file("shared-src/lite-util"))
         }
     }
 }

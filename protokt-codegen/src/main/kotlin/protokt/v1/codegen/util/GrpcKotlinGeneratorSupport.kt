@@ -44,7 +44,7 @@ private fun stripPackages(request: CodeGeneratorRequest) =
                 fdp.toBuilder()
                     .setOptions(
                         fdp.options.toBuilder()
-                            .setJavaPackage(resolvePackage(fdp))
+                            .setJavaPackage(resolvePackage(fdp.`package`))
                             .build()
                     )
                     .build()

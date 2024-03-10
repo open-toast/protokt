@@ -26,7 +26,6 @@ import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Deprecation.renderOptions
 import protokt.v1.codegen.generate.Implements.handleSuperInterface
 import protokt.v1.codegen.generate.Wrapper.interceptTypeName
-import protokt.v1.codegen.generate.Wrapper.wrapped
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.Oneof
 import protokt.v1.codegen.util.StandardField
@@ -44,7 +43,7 @@ private class OneofGenerator(
             val implements =
                 oneof.options.protokt.implements
                     .takeIf { it.isNotEmpty() }
-                    ?.let { inferClassName(it, ctx.info.kotlinPackage) }
+                    ?.let { inferClassName(it, ctx) }
 
             TypeSpec.classBuilder(oneof.name)
                 .addModifiers(KModifier.SEALED)
@@ -103,12 +102,7 @@ private class OneofGenerator(
         OneofGeneratorInfo(
             fieldName = f.fieldName,
             number = f.number,
-            type =
-            if (f.wrapped) {
-                interceptTypeName(f, ctx) ?: f.className
-            } else {
-                f.className
-            },
+            type = f.interceptTypeName(ctx),
             documentation = annotatePropertyDocumentation(f, ctx),
             deprecation = deprecation(f)
         )

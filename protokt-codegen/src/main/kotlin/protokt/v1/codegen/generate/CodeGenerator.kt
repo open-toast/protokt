@@ -35,11 +35,7 @@ object CodeGenerator {
 
     fun generate(contents: ProtoFileContents) =
         contents.types.flatMap {
-            generate(
-                it,
-                Context(emptyList(), contents.info)
-            )
-                .map { type -> GeneratedType(it, type) }
+            generate(it, Context(emptyList(), contents.info)).map(::GeneratedType)
         }
 
     fun generate(type: TopLevelType, ctx: Context): Iterable<TypeSpec> =

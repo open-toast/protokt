@@ -30,10 +30,7 @@ import protokt.v1.KtMessageDeserializer
 import protokt.v1.UnknownFieldSet
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Wrapper.interceptRead
-import protokt.v1.codegen.generate.Wrapper.mapKeyConverter
-import protokt.v1.codegen.generate.Wrapper.mapValueConverter
 import protokt.v1.codegen.generate.Wrapper.wrapField
-import protokt.v1.codegen.generate.Wrapper.wrapper
 import protokt.v1.codegen.util.FieldType
 import protokt.v1.codegen.util.FieldType.Enum
 import protokt.v1.codegen.util.FieldType.SFixed32
@@ -83,7 +80,7 @@ private class DeserializerGenerator(
                     beginControlFlow("when (deserializer.readTag())")
                     val constructor =
                         buildCodeBlock {
-                            add("0·->·return·%T(\n", msg.className)
+                            add("0u·->·return·%T(\n", msg.className)
                             withIndent {
                                 constructorLines(properties).forEach(::add)
                             }
@@ -92,7 +89,7 @@ private class DeserializerGenerator(
                     addStatement("%L", constructor)
                     deserializerInfo.forEach {
                         addStatement(
-                            "%L -> %N = %L",
+                            "%Lu -> %N = %L",
                             it.tag,
                             it.fieldName,
                             it.value
@@ -142,7 +139,7 @@ private class DeserializerGenerator(
     }
 
     private fun deserializeType(p: PropertyInfo) =
-        if (p.repeated || p.map) {
+        if (p.repeated || p.isMap) {
             p.deserializeType as ParameterizedTypeName
             ClassName(p.deserializeType.rawType.packageName, "Mutable" + p.deserializeType.rawType.simpleName)
                 .parameterizedBy(p.deserializeType.typeArguments)
@@ -156,7 +153,7 @@ private class DeserializerGenerator(
             CodeBlock.of("%T.from(unknownFields)", UnknownFieldSet::class)
 
     private class DeserializerInfo(
-        val tag: Int,
+        val tag: UInt,
         val fieldName: String,
         val value: CodeBlock
     )
@@ -217,10 +214,10 @@ private class DeserializerGenerator(
 
 fun deserialize(f: StandardField, ctx: Context, packed: Boolean = false): CodeBlock {
     val read = CodeBlock.of("deserializer.%L", interceptRead(f, f.readFn()))
-    val wrappedRead = wrapper(f, ctx)?.let { wrapField(it, read) } ?: read
+    val wrappedRead = wrapField(f, ctx, read) ?: read
 
     return when {
-        f.map -> deserializeMap(f, ctx, read)
+        f.isMap -> deserializeMap(f, read)
         f.repeated ->
             buildCodeBlock {
                 add("\n(%N ?: mutableListOf())", f.fieldName)
@@ -234,24 +231,14 @@ fun deserialize(f: StandardField, ctx: Context, packed: Boolean = false): CodeBl
     }
 }
 
-private fun deserializeMap(f: StandardField, ctx: Context, read: CodeBlock): CodeBlock {
-    val key =
-        mapKeyConverter(f, ctx)
-            ?.let { wrapField(it, CodeBlock.of("it.key")) }
-            ?: CodeBlock.of("it.key")
-
-    val value =
-        mapValueConverter(f, ctx)
-            ?.let { wrapField(it, CodeBlock.of("it.value")) }
-            ?: CodeBlock.of("it.value")
-
+private fun deserializeMap(f: StandardField, read: CodeBlock): CodeBlock {
     return buildCodeBlock {
         add("\n(%N ?: mutableMapOf())", f.fieldName)
         beginControlFlow(".apply")
         beginControlFlow("deserializer.readRepeated(false)")
         add(read)
         beginControlFlow(".let")
-        add("put(%L, %L)\n", key, value)
+        add("put(%L, %L)\n", CodeBlock.of("it.key"), CodeBlock.of("it.value"))
         endControlFlow()
         endControlFlow()
         endControlFlowWithoutNewline()

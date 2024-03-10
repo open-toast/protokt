@@ -15,10 +15,8 @@
 
 import com.google.protobuf.gradle.GenerateProtoTask
 import org.gradle.api.Project
-import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.kotlin.dsl.get
-import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsTargetDsl
 import protokt.v1.gradle.CODEGEN_NAME
@@ -34,13 +32,6 @@ fun Project.localProtokt() {
         tasks.withType<GenerateProtoTask> {
             dependsOn(":protokt-codegen:installDist")
         }
-    }
-}
-
-fun Project.includeBuildSrc(vararg filePatterns: String) {
-    the<SourceSetContainer>()["main"].java {
-        srcDir(rootProject.file("buildSrc/src/main/kotlin"))
-        filePatterns.forEach { include(it) }
     }
 }
 

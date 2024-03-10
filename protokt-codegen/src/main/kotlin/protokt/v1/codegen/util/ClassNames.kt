@@ -22,3 +22,25 @@ const val BUILDER = "Builder"
 
 fun GeneratorContext.className(simpleNames: List<String>) =
     ClassName(kotlinPackage, simpleNames)
+
+fun inferClassName(className: String, pkg: String): Pair<String, List<String>> {
+    val inferred = bestGuessPackageName(className)
+    return if (inferred == null) {
+        pkg to className.split(".")
+    } else {
+        inferred to className.substringAfter("$inferred.").split(".")
+    }
+}
+
+private fun bestGuessPackageName(classNameString: String): String? {
+    var p = 0
+    while (p < classNameString.length && Character.isLowerCase(classNameString.codePointAt(p))) {
+        p = classNameString.indexOf('.', p) + 1
+        require(p != 0) { "couldn't make a guess for $classNameString" }
+    }
+    return if (p != 0) {
+        classNameString.substring(0, p - 1)
+    } else {
+        null
+    }
+}

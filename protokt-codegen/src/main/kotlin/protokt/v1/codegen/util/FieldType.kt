@@ -15,6 +15,7 @@
 
 package protokt.v1.codegen.util
 
+import com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Type
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.MemberName
 import com.squareup.kotlinpoet.MemberName.Companion.member
@@ -139,4 +140,28 @@ sealed class FieldType {
             Bytes -> CodeBlock.of("%T.empty()", protokt.v1.Bytes::class)
             String -> CodeBlock.of("\"\"")
         }
+
+    companion object {
+        fun from(type: Type) =
+            when (type) {
+                Type.TYPE_BOOL -> Bool
+                Type.TYPE_BYTES -> Bytes
+                Type.TYPE_DOUBLE -> Double
+                Type.TYPE_ENUM -> Enum
+                Type.TYPE_FIXED32 -> Fixed32
+                Type.TYPE_FIXED64 -> Fixed64
+                Type.TYPE_FLOAT -> Float
+                Type.TYPE_INT32 -> Int32
+                Type.TYPE_INT64 -> Int64
+                Type.TYPE_MESSAGE -> Message
+                Type.TYPE_SFIXED32 -> SFixed32
+                Type.TYPE_SFIXED64 -> SFixed64
+                Type.TYPE_SINT32 -> SInt32
+                Type.TYPE_SINT64 -> SInt64
+                Type.TYPE_STRING -> String
+                Type.TYPE_UINT32 -> UInt32
+                Type.TYPE_UINT64 -> UInt64
+                else -> error("Unknown type: $type")
+            }
+    }
 }
