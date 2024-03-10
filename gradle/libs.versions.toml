@@ -27,9 +27,9 @@ slf4j = "2.0.6"
 
 # build
 androidGradlePlugin = "7.4.2"
-animalSnifferGradlePlugin = "1.5.4"
 binaryCompatibilityValidator = "0.13.2"
 buildConfig = "3.1.0"
+expediter = "0.0.17"
 gradleMavenPublishPlugin = "0.25.3"
 java = "11"
 kotlin = "1.9.10"
@@ -75,8 +75,8 @@ slf4jSimple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 
 # build
 androidGradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
-animalSnifferGradlePlugin = { module = "ru.vyarus:gradle-animalsniffer-plugin", version.ref = "animalSnifferGradlePlugin" }
 binaryCompatibilityValidator = { module = "org.jetbrains.kotlinx:binary-compatibility-validator", version.ref = "binaryCompatibilityValidator" }
+expediter = { module = "com.toasttab.expediter:plugin", version.ref = "expediter" }
 gradleMavenPublishPlugin = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "gradleMavenPublishPlugin" }
 kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 spotlessGradlePlugin = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless" }
