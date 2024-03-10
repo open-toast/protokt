@@ -19,6 +19,7 @@ import org.gradle.kotlin.dsl.configure
 
 import com.toasttab.expediter.gradle.ExpediterPlugin
 import com.toasttab.expediter.gradle.config.ExpediterExtension
+import org.gradle.kotlin.dsl.dependencies
 
 fun Project.compatibleWithAndroid(api: Int = 19) {
     apply<ExpediterPlugin>()
@@ -29,5 +30,25 @@ fun Project.compatibleWithAndroid(api: Int = 19) {
                 sdk = api
             }
         }
+
+        application {
+            sourceSet("main")
+            configuration("runtimeClasspath")
+            configuration("provided")
+        }
+
+        ignore {
+            callerStartsWith("com/google/protobuf/UnsafeUtil\$JvmMemoryAccessor")
+            callerStartsWith("kotlin/random/jdk8/PlatformThreadLocalRandom")
+            callerStartsWith("kotlin/internal/jdk8/JDK8PlatformImplementations")
+        }
+
+        failOnIssues = true
+    }
+
+    configurations.create("_provided_")
+
+    dependencies {
+        add("_provided_", libs.protobuf.lite)
     }
 }
