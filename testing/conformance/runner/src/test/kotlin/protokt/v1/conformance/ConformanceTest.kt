@@ -16,7 +16,6 @@
 package protokt.v1.conformance
 
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.fail
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
 import protokt.v1.testing.ProcessOutput

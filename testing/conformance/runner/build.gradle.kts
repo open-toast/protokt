@@ -44,7 +44,7 @@ object Os {
     const val MACOS_CLASSIFIER = "macos-latest"
     const val LINUX_CLASSIFIER = "ubuntu-latest"
 
-    val classifier by lazy {
+    val CLASSIFIER by lazy {
         val os = System.getProperty("os.name").lowercase()
 
         if (os.contains("linux")) {
@@ -62,7 +62,7 @@ dependencies {
     add("conformance", "build-protobuf-conformance-runner:conformance_test_runner:${libs.versions.protobuf.java.get()}") {
         artifact {
             extension = "exe"
-            classifier = Os.classifier
+            classifier = Os.CLASSIFIER
         }
     }
 }
@@ -80,7 +80,7 @@ tasks.register<Copy>("setupRunner") {
 
 tasks {
     test {
-        systemProperty("conformance-runner", layout.buildDirectory.dir("bin").get().file("conformance_test_runner-${libs.versions.protobuf.java.get()}-${Os.classifier}.exe").asFile.path)
+        systemProperty("conformance-runner", layout.buildDirectory.dir("bin").get().file("conformance_test_runner-${libs.versions.protobuf.java.get()}-${Os.CLASSIFIER}.exe").asFile.path)
 
         outputs.upToDateWhen { false }
 

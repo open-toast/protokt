@@ -20,7 +20,7 @@ jobs:
         distribution: corretto
         java-version: 17
     - name: Set up js stuff
-      run: npm install protobufjs@6.11.3 long@5.2.0
+      run: npm install protobufjs@7.2.6 long@5.2.3
     - uses: ./.github/actions/gradle
       with:
         command: clean check publishToIntegrationRepository
@@ -54,8 +54,8 @@ jobs:
       with:
         distribution: corretto
         java-version: ${{ matrix.jdk }}
-#    - name: Set up js stuff
-#      run: npm install protobufjs@6.11.3 long@5.2.0
+    # - name: Set up js stuff
+    #   run: npm install protobufjs@7.2.6 long@5.2.3
     - uses: actions/download-artifact@v4
       with:
         name: integration-repository
