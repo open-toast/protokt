@@ -595,7 +595,7 @@ public abstract interface class protokt/v1/KtMessageDeserializer {
 	public abstract fun readSInt32 ()I
 	public abstract fun readSInt64 ()J
 	public abstract fun readString ()Ljava/lang/String;
-	public abstract fun readTag ()I
+	public abstract fun readTag-pVg5ArA ()I
 	public fun readUInt32-pVg5ArA ()I
 	public abstract fun readUInt64-s-VKNKU ()J
 	public abstract fun readUnknown ()Lprotokt/v1/UnknownField;

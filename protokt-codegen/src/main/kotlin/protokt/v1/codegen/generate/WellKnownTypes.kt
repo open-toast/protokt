@@ -17,13 +17,12 @@ package protokt.v1.codegen.generate
 
 import protokt.v1.Bytes
 import protokt.v1.codegen.util.DOT_GOOGLE_PROTOBUF
-import protokt.v1.codegen.util.StandardField
 
-object WellKnownTypes {
-    val StandardField.wrapWithWellKnownInterception
-        get() = options.protokt.wrap.takeIf { it.isNotEmpty() }
-            ?: if (protoTypeName.startsWith("$DOT_GOOGLE_PROTOBUF.")) {
-                classNameForWellKnownType(protoTypeName.removePrefix("$DOT_GOOGLE_PROTOBUF."))
+internal object WellKnownTypes {
+    fun wrapWithWellKnownInterception(wrap: String?, typeName: String) =
+        wrap
+            ?: if (typeName.startsWith("$DOT_GOOGLE_PROTOBUF.")) {
+                classNameForWellKnownType(typeName.removePrefix("$DOT_GOOGLE_PROTOBUF."))
             } else {
                 null
             }

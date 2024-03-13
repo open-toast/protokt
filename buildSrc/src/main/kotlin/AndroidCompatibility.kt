@@ -22,6 +22,6 @@ fun Project.compatibleWithAndroid(api: Int = 19) {
     apply<AnimalSnifferPlugin>()
 
     dependencies {
-        add("signature", "com.toasttab.android:gummy-bears-api-$api:0.4.0@signature")
+        add("signature", "com.toasttab.android:gummy-bears-api-$api:${libs.versions.gummyBears.get()}@signature")
     }
 }

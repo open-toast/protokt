@@ -69,6 +69,15 @@ kotlin {
                 freeCompilerArgs = listOf("-Xjvm-default=all")
             }
         }
+
+        all {
+            compilations.all {
+                kotlinOptions {
+                    languageVersion = "1.8"
+                    apiVersion = "1.8"
+                }
+            }
+        }
     }
 }
 
