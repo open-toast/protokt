@@ -15,6 +15,6 @@
 
 package protokt.v1.testing
 
-interface Model {
-    val id: Id
+interface IModel2 {
+    val id: String
 }
