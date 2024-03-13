@@ -21,7 +21,7 @@ kotlinx-coroutines = "1.6.0"
 kotlinx-serialization = "1.5.1"
 ktlint = "1.0.0"
 protobuf-java = "3.21.7"
-protobuf-js = "6.11.3"
+protobuf-js = "7.2.6"
 protobufGradlePlugin = "0.9.4"
 slf4j = "2.0.6"
 
