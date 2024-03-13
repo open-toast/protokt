@@ -18,6 +18,13 @@ jobs:
       with:
         distribution: corretto
         java-version: 17
-    - uses: ./.github/actions/gradle
-      with:
-        command: publishAllPublicationsToMavenCentral publishPlugins -PmavenCentralUsername=$OSSRH_USERNAME -PmavenCentralPassword=$OSSRH_PASSWORD -Dorg.gradle.internal.http.socketTimeout=120000 -Dorg.gradle.internal.network.retry.max.attempts=1 -Dorg.gradle.internal.publish.checksums.insecure=true --no-configuration-cache
+    - name: Publish
+      run: publishAllPublicationsToMavenCentral publishPlugins --no-configuration-cache --no-stacktrace
+      env:
+        PGP_KEY: ${{ secrets.PGP_KEY }}
+        PGP_PASSWORD: ${{ secrets.PGP_PASSWORD }}
+        ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.OSSRH_USERNAME }}
+        ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.OSSRH_PASSWORD }}
+        GRADLE_PORTAL_PUBLISH_KEY: ${{ secrets.GRADLE_PORTAL_PUBLISH_KEY }}
+        GRADLE_PORTAL_PUBLISH_SECRET: ${{ secrets.GRADLE_PORTAL_PUBLISH_SECRET }}
+        GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.internal.http.socketTimeout=120000 -Dorg.gradle.internal.network.retry.max.attempts=1 -Dorg.gradle.internal.publish.checksums.insecure=true"
