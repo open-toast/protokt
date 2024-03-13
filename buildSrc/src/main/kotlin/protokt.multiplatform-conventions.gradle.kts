@@ -50,6 +50,8 @@ kotlin {
                     // expect / actual classes are in Beta and emit a warning in Kotlin 1.9.20
                     // see https://youtrack.jetbrains.com/issue/KT-61573
                     freeCompilerArgs += "-Xexpect-actual-classes"
+                    languageVersion = "1.8"
+                    apiVersion = "1.8"
                 }
             }
         }

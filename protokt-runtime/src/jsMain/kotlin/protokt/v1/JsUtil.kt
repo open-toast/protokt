@@ -49,8 +49,8 @@ internal fun protobufjsLong(@Suppress("UNUSED_PARAMETER") long: Long): dynamic {
 
     // conformance tests expect n6_1/o6_1 in node; normal kotlin expects low_1/high_1 in both browser and node
     val ret = js("{}")
-    ret.low = js("long.low_1 || long.n6_1")
-    ret.high = js("long.high_1 || long.o6_1")
+    ret.low = long.toInt()
+    ret.high = long.shr(32).toInt()
     return ret
 }
 
