@@ -19,7 +19,6 @@ import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsTargetDsl
-import org.jetbrains.kotlin.gradle.targets.js.testing.karma.KotlinKarma
 import protokt.v1.gradle.CODEGEN_NAME
 import protokt.v1.gradle.configureProtokt
 import java.io.File
