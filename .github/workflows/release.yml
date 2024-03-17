@@ -1,0 +1,30 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "[0-9]+\.[0-9]+\.[0-9A-Za-z-\.]+"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - uses: ./.github/actions/gradle-cache
+    - name: Set up java
+      uses: actions/setup-java@v3
+      with:
+        distribution: corretto
+        java-version: 17
+    - name: Publish
+      run: publishAllPublicationsToMavenCentral publishPlugins --no-configuration-cache --no-stacktrace
+      env:
+        PGP_KEY: ${{ secrets.PGP_KEY }}
+        PGP_PASSWORD: ${{ secrets.PGP_PASSWORD }}
+        ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.OSSRH_USERNAME }}
+        ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.OSSRH_PASSWORD }}
+        GRADLE_PORTAL_PUBLISH_KEY: ${{ secrets.GRADLE_PORTAL_PUBLISH_KEY }}
+        GRADLE_PORTAL_PUBLISH_SECRET: ${{ secrets.GRADLE_PORTAL_PUBLISH_SECRET }}
+        GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.internal.http.socketTimeout=120000 -Dorg.gradle.internal.network.retry.max.attempts=1 -Dorg.gradle.internal.publish.checksums.insecure=true"

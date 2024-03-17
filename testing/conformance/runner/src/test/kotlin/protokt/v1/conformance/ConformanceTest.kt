@@ -16,7 +16,6 @@
 package protokt.v1.conformance
 
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.fail
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
 import protokt.v1.testing.ProcessOutput
@@ -65,7 +64,7 @@ class ConformanceTest {
     fun `run conformance tests`(runner: ConformanceRunner) {
         try {
             command(runner)
-                .runCommand(projectRoot.toPath(), libPathOverride)
+                .runCommand(projectRoot.toPath())
                 .orFail("Conformance tests failed", ProcessOutput.Src.ERR)
         } catch (t: Throwable) {
             if (failingTests.exists()) {
@@ -78,21 +77,6 @@ class ConformanceTest {
         println("Conformance tests passed")
     }
 }
-
-private fun <T> pivotOs(mac: T, linux: T) =
-    with(System.getProperty("os.name")) {
-        when {
-            contains("Mac") -> mac
-            contains("Linux") -> linux
-            else -> fail("Unsupported OS")
-        }
-    }
-
-private val binDir =
-    Path.of("bin", pivotOs("darwin", "ubuntu-16.04-x86_64")).toString()
-
-private val baseCommand =
-    Path.of(binDir, "conformance-test-runner")
 
 private val jvmConformanceDriver =
     Path.of(File(projectRoot.parentFile, "jvm").absolutePath, "build", "install", "protokt-conformance", "bin", "protokt-conformance")
@@ -110,10 +94,4 @@ private fun failureList(project: String) =
     "--failure_list ../$project/failure_list_kt.txt"
 
 private fun command(runner: ConformanceTest.ConformanceRunner) =
-    "$baseCommand --enforce_recommended ${failureList(runner.project)} ${runner.driver()}"
-
-private val libPathOverride =
-    mapOf(
-        pivotOs("DYLD_LIBRARY_PATH", "LD_LIBRARY_PATH") to
-            Path.of(binDir, ".libs").toString()
-    )
+    "${System.getProperty("conformance-runner")} --enforce_recommended ${failureList(runner.project)} ${runner.driver()}"
