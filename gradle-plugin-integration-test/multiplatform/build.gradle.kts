@@ -31,6 +31,10 @@ kotlin {
             testTask {
                 useKarma {
                     useFirefoxHeadless()
+
+                    if (System.getProperty("os.name").lowercase().contains("mac")) {
+                        environment["FIREFOX_BIN"] = "/Applications/Firefox.app/Contents/MacOS/firefox"
+                    }
                 }
             }
         }
@@ -67,6 +71,17 @@ kotlin {
         jvm().compilations.all {
             kotlinOptions {
                 freeCompilerArgs = listOf("-Xjvm-default=all")
+            }
+        }
+
+        all {
+            compilations.all {
+                kotlinOptions {
+                    languageVersion = System.getProperty("kotlin-integration.version")
+                        ?.substringBeforeLast(".")
+                        ?: libs.versions.kotlin.get().substringBeforeLast(".")
+                    apiVersion = languageVersion
+                }
             }
         }
     }
