@@ -53,5 +53,5 @@ jobs:
         name: integration-repository
         path: build/repos/integration
     - name: Build and test
-      run: ./gradlew "-Dkotlin.version=${{ matrix.kotlin }}" clean build --stacktrace --no-daemon
+      run: ./gradlew "-Dkotlin-integration.version=${{ matrix.kotlin }}" clean build --stacktrace --no-daemon
       working-directory: gradle-plugin-integration-test
