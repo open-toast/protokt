@@ -15,7 +15,7 @@ jobs:
         fetch-depth: 0
     - uses: ./.github/actions/gradle-cache
     - name: Set up java
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4
       with:
         distribution: corretto
         java-version: 17
@@ -33,7 +33,7 @@ jobs:
     strategy:
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
-        kotlin: [ 1.8.22, 1.9.20 ]
+        kotlin: [ 1.8.22, 1.9.23 ]
         jdk: [ 11, 17 ]
 
     runs-on: ${{ matrix.os }}
@@ -44,7 +44,7 @@ jobs:
         fetch-depth: 0
     - uses: ./.github/actions/gradle-cache
     - name: Set up java
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4
       with:
         distribution: corretto
         java-version: ${{ matrix.jdk }}
@@ -53,5 +53,5 @@ jobs:
         name: integration-repository
         path: build/repos/integration
     - name: Build and test
-      run: ./gradlew "-Dkotlin.version=${{ matrix.kotlin }}" clean build --stacktrace --no-daemon
+      run: ./gradlew "-Dkotlin-integration.version=${{ matrix.kotlin }}" clean build --stacktrace --no-daemon
       working-directory: gradle-plugin-integration-test
