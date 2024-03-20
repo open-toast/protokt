@@ -26,7 +26,7 @@ import com.squareup.kotlinpoet.asTypeName
 import protokt.v1.Collections
 import protokt.v1.SizeCodecs
 import protokt.v1.codegen.generate.CodeGenerator.Context
-import protokt.v1.codegen.util.inferClassName
+import protokt.v1.reflect.inferClassName
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction1
 

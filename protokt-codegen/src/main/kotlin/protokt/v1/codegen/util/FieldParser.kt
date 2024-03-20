@@ -29,8 +29,10 @@ import com.squareup.kotlinpoet.ClassName
 import com.toasttab.protokt.v1.ProtoktProtos
 import protokt.v1.codegen.generate.Wrapper.wrapperRequiresNonNullOptionForNonNullity
 import protokt.v1.codegen.util.ErrorContext.withFieldName
+import protokt.v1.reflect.FieldType
+import protokt.v1.reflect.typeName
 
-class FieldParser(
+internal class FieldParser(
     private val ctx: GeneratorContext,
     private val desc: DescriptorProto,
     private val enclosingMessages: List<String>,

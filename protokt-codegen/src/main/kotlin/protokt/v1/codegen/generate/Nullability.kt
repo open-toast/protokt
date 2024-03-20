@@ -18,11 +18,11 @@ package protokt.v1.codegen.generate
 import com.squareup.kotlinpoet.TypeName
 import protokt.v1.codegen.generate.Wrapper.wrapped
 import protokt.v1.codegen.util.Field
-import protokt.v1.codegen.util.FieldType
 import protokt.v1.codegen.util.Oneof
 import protokt.v1.codegen.util.StandardField
+import protokt.v1.reflect.FieldType
 
-object Nullability {
+internal object Nullability {
     val Field.hasNonNullOption
         get() =
             when (this) {

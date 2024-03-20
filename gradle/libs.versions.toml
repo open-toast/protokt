@@ -13,6 +13,7 @@
 
 [versions]
 autoService = "1.1.1"
+classgraph = "4.8.153"
 grpc-java = "1.58.0"
 grpc-kotlin = "1.4.1"
 kotlinLogging = "5.1.0"
@@ -61,6 +62,7 @@ wire = { id = "com.squareup.wire", version.ref = "wire" }
 [libraries]
 autoService = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
 autoServiceAnnotations = { module = "com.google.auto.service:auto-service-annotations", version.ref = "autoService" }
+classgraph = { module = "io.github.classgraph:classgraph", version.ref = "classgraph" }
 grpc-kotlin-gen = { module = "io.grpc:protoc-gen-grpc-kotlin", version.ref = "grpc-kotlin" }
 grpc-netty = { module = "io.grpc:grpc-netty", version.ref = "grpc-java" }
 grpc-stub = { module = "io.grpc:grpc-stub", version.ref = "grpc-java" }

@@ -33,6 +33,7 @@ import java.net.URLEncoder
 internal fun configureProtobufPlugin(
     project: Project,
     ext: ProtoktExtension,
+    disableJava: Boolean,
     binaryPath: String
 ) {
     project.apply<ProtobufPlugin>()
@@ -52,8 +53,10 @@ internal fun configureProtobufPlugin(
 
         generateProtoTasks {
             for (task in all()) {
-                task.builtins {
-                    findByName("java")?.run(::remove)
+                if (disableJava) {
+                    task.builtins {
+                        findByName("java")?.run(::remove)
+                    }
                 }
 
                 task.plugins {

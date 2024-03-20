@@ -13,6 +13,7 @@
  * limitations under the License.
  */
 
+import com.google.protobuf.gradle.proto
 import protokt.v1.gradle.protokt
 import protokt.v1.gradle.protoktExtensions
 
@@ -53,6 +54,14 @@ kotlin {
             dependencies {
                 runtimeOnly(libs.protobuf.lite)
             }
+        }
+    }
+}
+
+sourceSets {
+    main {
+        proto {
+            srcDir("src/extensions-proto")
         }
     }
 }

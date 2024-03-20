@@ -31,21 +31,21 @@ import protokt.v1.UnknownFieldSet
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Wrapper.interceptRead
 import protokt.v1.codegen.generate.Wrapper.wrapField
-import protokt.v1.codegen.util.FieldType
-import protokt.v1.codegen.util.FieldType.Enum
-import protokt.v1.codegen.util.FieldType.SFixed32
-import protokt.v1.codegen.util.FieldType.SFixed64
-import protokt.v1.codegen.util.FieldType.SInt32
-import protokt.v1.codegen.util.FieldType.SInt64
-import protokt.v1.codegen.util.FieldType.UInt32
-import protokt.v1.codegen.util.FieldType.UInt64
 import protokt.v1.codegen.util.KotlinPlugin
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.Oneof
 import protokt.v1.codegen.util.StandardField
 import protokt.v1.codegen.util.Tag
+import protokt.v1.reflect.FieldType
+import protokt.v1.reflect.FieldType.Enum
+import protokt.v1.reflect.FieldType.SFixed32
+import protokt.v1.reflect.FieldType.SFixed64
+import protokt.v1.reflect.FieldType.SInt32
+import protokt.v1.reflect.FieldType.SInt64
+import protokt.v1.reflect.FieldType.UInt32
+import protokt.v1.reflect.FieldType.UInt64
 
-fun generateDeserializer(msg: Message, ctx: Context, properties: List<PropertyInfo>) =
+internal fun generateDeserializer(msg: Message, ctx: Context, properties: List<PropertyInfo>) =
     DeserializerGenerator(msg, ctx, properties).generate()
 
 private class DeserializerGenerator(
@@ -212,7 +212,7 @@ private class DeserializerGenerator(
         CodeBlock.of("%T(%L)", f.qualify(ff), deserialize(ff, ctx))
 }
 
-fun deserialize(f: StandardField, ctx: Context, packed: Boolean = false): CodeBlock {
+internal fun deserialize(f: StandardField, ctx: Context, packed: Boolean = false): CodeBlock {
     val read = CodeBlock.of("deserializer.%L", interceptRead(f, f.readFn()))
     val wrappedRead = wrapField(f, ctx, read) ?: read
 

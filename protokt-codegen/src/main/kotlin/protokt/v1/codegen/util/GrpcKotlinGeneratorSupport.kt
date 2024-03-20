@@ -18,10 +18,11 @@ package protokt.v1.codegen.util
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse
 import io.grpc.kotlin.generator.GeneratorRunner
+import protokt.v1.reflect.resolvePackage
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 
-fun generateGrpcKotlinStubs(
+internal fun generateGrpcKotlinStubs(
     params: PluginParams,
     request: CodeGeneratorRequest
 ): List<CodeGeneratorResponse.File> =

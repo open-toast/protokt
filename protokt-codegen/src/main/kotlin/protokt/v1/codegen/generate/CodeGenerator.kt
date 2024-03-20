@@ -27,7 +27,7 @@ import protokt.v1.codegen.util.ProtoFileInfo
 import protokt.v1.codegen.util.Service
 import protokt.v1.codegen.util.TopLevelType
 
-object CodeGenerator {
+internal object CodeGenerator {
     data class Context(
         val enclosing: List<Message>,
         val info: ProtoFileInfo

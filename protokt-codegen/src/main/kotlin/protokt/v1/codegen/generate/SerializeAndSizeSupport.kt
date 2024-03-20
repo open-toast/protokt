@@ -23,12 +23,13 @@ import protokt.v1.codegen.generate.Nullability.hasNonNullOption
 import protokt.v1.codegen.generate.Nullability.nullable
 import protokt.v1.codegen.generate.Wrapper.interceptValueAccess
 import protokt.v1.codegen.generate.Wrapper.wrapperRequiresNullability
-import protokt.v1.codegen.util.FieldType
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.Oneof
 import protokt.v1.codegen.util.StandardField
+import protokt.v1.codegen.util.defaultValue
+import protokt.v1.reflect.FieldType
 
-fun Message.mapFields(
+internal fun Message.mapFields(
     ctx: Context,
     properties: List<PropertySpec>,
     skipConditionalForUnpackedRepeatedFields: Boolean,
@@ -122,5 +123,5 @@ private fun oneofInstanceConditionals(f: Oneof, stmt: (StandardField) -> CodeBlo
             }
         }
 
-fun Oneof.qualify(f: StandardField) =
+internal fun Oneof.qualify(f: StandardField) =
     className.nestedClass(fieldTypeNames.getValue(f.fieldName))

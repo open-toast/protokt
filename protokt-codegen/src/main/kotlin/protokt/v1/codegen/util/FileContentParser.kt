@@ -22,13 +22,13 @@ import protokt.v1.codegen.util.ErrorContext.withEnumName
 import protokt.v1.codegen.util.ErrorContext.withMessageName
 import protokt.v1.codegen.util.ErrorContext.withServiceName
 
-fun parseFileContents(ctx: GeneratorContext) =
+internal fun parseFileContents(ctx: GeneratorContext) =
     ProtoFileContents(
         ProtoFileInfo(ctx),
         FileContentParser(ctx).parseContents()
     )
 
-class FileContentParser(
+internal class FileContentParser(
     private val ctx: GeneratorContext,
     private val enums: List<EnumDescriptorProto>,
     private val messages: List<DescriptorProto>,

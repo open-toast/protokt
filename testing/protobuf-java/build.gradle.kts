@@ -24,6 +24,7 @@ defaultProtoc()
 
 dependencies {
     compileOnly(libs.protobuf.java)
+    protobuf(project(":extensions:protokt-extensions"))
 }
 
 sourceSets {

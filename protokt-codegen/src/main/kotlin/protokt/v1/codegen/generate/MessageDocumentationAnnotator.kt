@@ -20,10 +20,10 @@ import com.google.protobuf.DescriptorProtos.FileDescriptorProto.MESSAGE_TYPE_FIE
 import com.google.protobuf.DescriptorProtos.SourceCodeInfo.Location
 import protokt.v1.codegen.generate.CodeGenerator.Context
 
-fun annotateMessageDocumentation(ctx: Context) =
+internal fun annotateMessageDocumentation(ctx: Context) =
     baseLocation(ctx)?.cleanDocumentation()
 
-fun baseLocation(ctx: Context, extraPath: List<Int> = emptyList()) =
+internal fun baseLocation(ctx: Context, extraPath: List<Int> = emptyList()) =
     ctx.info.sourceCodeInfo.locationList.firstOrNull { it.pathList == basePath(ctx) + extraPath }
 
 private fun basePath(ctx: Context): List<Int> {
