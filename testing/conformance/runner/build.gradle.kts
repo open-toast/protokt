@@ -23,7 +23,7 @@ repositories {
     ivy {
         setUrl("https://github.com/ogolberg/")
         patternLayout {
-            artifact("/[organization]/releases/download/v[revision]-0/[artifact]-[classifier]-v[revision]")
+            artifact("/[organization]/releases/download/[revision]/[artifact]-[classifier]-[revision]")
         }
 
         metadataSources {
@@ -57,9 +57,13 @@ object Os {
     }
 }
 
+// protobuf-java version is [java-specific major version].[protobuf version], e.g. 4.26.1
+// the conformance runner version is just [protobuf version], e.g. 26.1
+val conformanceVersion = libs.versions.protobuf.java.get().replace(Regex("^\\d+\\."), "")
+
 dependencies {
     testImplementation(project(":testing:testing-util"))
-    add("conformance", "build-protobuf-conformance-runner:conformance_test_runner:${libs.versions.protobuf.java.get()}") {
+    add("conformance", "build-protobuf-conformance-runner:conformance_test_runner:${conformanceVersion}") {
         artifact {
             extension = "exe"
             classifier = Os.CLASSIFIER
