@@ -57,7 +57,7 @@ object Os {
     }
 }
 
-// protobuf-java version is [java-specific major version].[protobuf version], e.g. 4.26.1
+// protobuf-java version is [java-specific major version].[protobuf version], e.g. 3.26.1
 // the conformance runner version is just [protobuf version], e.g. 26.1
 val conformanceVersion = libs.versions.protobuf.java.get().replace(Regex("^\\d+\\."), "")
 
