@@ -119,7 +119,7 @@ private class EnumGenerator(
                         addCode(
                             buildCodeBlock {
                                 beginControlFlow("return when (value)")
-                                e.values.forEach {
+                                e.values.distinctBy { it.number }.forEach {
                                     addStatement("%L -> %N", it.number, it.valueName)
                                 }
                                 addStatement("else -> UNRECOGNIZED(value)")
