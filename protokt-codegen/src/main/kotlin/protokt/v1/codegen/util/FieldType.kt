@@ -35,7 +35,7 @@ sealed class FieldType {
         override val ktRepresentation: KClass<*>? = null
     ) : FieldType()
 
-    data object Enum : Nonscalar(ktRepresentation = Enum::class)
+    data object Enum : Nonscalar(ktRepresentation = protokt.v1.Enum::class)
     data object Message : Nonscalar(ktRepresentation = Message::class)
     data object String : Nonscalar(kotlin.String::class)
     data object Bytes : Nonscalar(protokt.v1.Bytes::class)
