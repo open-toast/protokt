@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-@file:JvmName("AnyUtil")
+@file:JvmName("Anies")
 
 package protokt.v1.google.protobuf
 
