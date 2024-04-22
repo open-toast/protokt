@@ -18,8 +18,8 @@ package protokt.v1.conformance
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.runBlocking
 import protokt.v1.Bytes
-import protokt.v1.KtDeserializer
-import protokt.v1.KtMessage
+import protokt.v1.Deserializer
+import protokt.v1.Message
 import protokt.v1.conformance.ConformanceResponse.Result.ParseError
 import protokt.v1.conformance.ConformanceResponse.Result.RuntimeError
 import protokt.v1.conformance.ConformanceResponse.Result.SerializeError
@@ -35,8 +35,8 @@ internal actual object Platform {
         runBlocking(block = block)
     }
 
-    actual suspend fun <T : KtMessage> readMessageFromStdIn(
-        deserializer: KtDeserializer<T>
+    actual suspend fun <T : Message> readMessageFromStdIn(
+        deserializer: Deserializer<T>
     ): ConformanceStepResult<T>? =
         try {
             val sizeBuf = ByteArray(4)
@@ -59,9 +59,9 @@ internal actual object Platform {
         System.out.flush()
     }
 
-    actual fun <T : KtMessage> deserialize(
+    actual fun <T : Message> deserialize(
         bytes: ByteArray,
-        deserializer: KtDeserializer<T>
+        deserializer: Deserializer<T>
     ): ConformanceStepResult<T> =
         try {
             Proceed(deserializer.deserialize(bytes))
@@ -69,7 +69,7 @@ internal actual object Platform {
             Failure(ParseError(t.stackTraceToString()))
         }
 
-    actual fun serialize(message: KtMessage): ConformanceStepResult<Bytes> =
+    actual fun serialize(message: Message): ConformanceStepResult<Bytes> =
         try {
             Proceed(Bytes.from(message))
         } catch (t: Throwable) {

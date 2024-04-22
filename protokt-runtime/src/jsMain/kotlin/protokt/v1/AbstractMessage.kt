@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Toast, Inc.
+ * Copyright (c) 2022 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,15 @@
 
 package protokt.v1
 
-expect interface KtDeserializer<T : KtMessage> {
-    fun deserialize(deserializer: KtMessageDeserializer): T
+import org.khronos.webgl.Int8Array
 
-    fun deserialize(bytes: Bytes): T
-
-    fun deserialize(bytes: ByteArray): T
-
-    fun deserialize(bytes: BytesSlice): T
+actual abstract class AbstractMessage actual constructor() : Message {
+    actual final override fun serialize(): ByteArray {
+        val writer = Writer.create()
+        serialize(serializer(writer))
+        val buf = writer.finish()
+        val res = Int8Array(buf.buffer, buf.byteOffset, buf.length).unsafeCast<ByteArray>()
+        check(res.size == messageSize) { "Expected $messageSize, got ${res.size}" }
+        return res
+    }
 }

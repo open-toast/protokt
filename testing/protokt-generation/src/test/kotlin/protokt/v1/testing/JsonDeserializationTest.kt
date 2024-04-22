@@ -25,9 +25,9 @@ import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
-import protokt.v1.KtEnum
-import protokt.v1.KtEnumDeserializer
-import protokt.v1.KtMessage
+import protokt.v1.Enum
+import protokt.v1.EnumDeserializer
+import protokt.v1.Message
 import protokt.v1.UnknownFieldSet
 
 class JsonDeserializationTest {
@@ -52,7 +52,7 @@ class JsonDeserializationTest {
                     )
             )
             .registerModule(KotlinModule.Builder().build())
-            .addMixIn(KtMessage::class.java, KtMessageMixin::class.java)
+            .addMixIn(Message::class.java, KtMessageMixin::class.java)
 
     // Cannot simply annotate messageSize with @delegate:Transient, as lazy properties' getters
     // don't properly inherit the annotation. For now this seems to be the only way to always
@@ -98,8 +98,8 @@ class JsonDeserializationTest {
     }
 
     // Jackson does not support deserializing to sealed classes out of the box
-    class EnumFieldDeserializer<T : KtEnum>(
-        private val deserializer: KtEnumDeserializer<T>
+    class EnumFieldDeserializer<T : Enum>(
+        private val deserializer: EnumDeserializer<T>
     ) : JsonDeserializer<T>() {
         override fun deserialize(p: JsonParser, ctx: DeserializationContext) =
             deserializer.from(ctx.readValue(p, Map::class.java)["value"] as Int)

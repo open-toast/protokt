@@ -15,12 +15,10 @@
 
 package protokt.v1
 
-import com.google.protobuf.CodedOutputStream
+actual interface Message {
+    actual fun messageSize(): Int
 
-actual abstract class AbstractKtMessage actual constructor() : KtMessage {
-    actual final override fun serialize(): ByteArray {
-        val buf = ByteArray(messageSize)
-        serialize(serializer(CodedOutputStream.newInstance(buf)))
-        return buf
-    }
+    actual fun serialize(encoder: Encoder)
+
+    actual fun serialize(): ByteArray
 }

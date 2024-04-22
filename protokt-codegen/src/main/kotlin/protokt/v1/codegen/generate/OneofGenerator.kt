@@ -21,7 +21,7 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
-import protokt.v1.KtProperty
+import protokt.v1.Property
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Deprecation.renderOptions
 import protokt.v1.codegen.generate.Implements.handleSuperInterface
@@ -74,7 +74,7 @@ private class OneofGenerator(
                             .addProperty(
                                 PropertySpec.builder(v.fieldName, v.type)
                                     .addAnnotation(
-                                        AnnotationSpec.builder(KtProperty::class)
+                                        AnnotationSpec.builder(Property::class)
                                             .addMember("${v.number}")
                                             .build()
                                     )

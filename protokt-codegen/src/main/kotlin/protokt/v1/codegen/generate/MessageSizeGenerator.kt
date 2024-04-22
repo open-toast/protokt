@@ -63,7 +63,7 @@ private class MessageSizeGenerator(
             )
 
         return FunSpec.builder("messageSize")
-            .addModifiers(KModifier.PRIVATE)
+            .addModifiers(KModifier.OVERRIDE)
             .returns(Int::class)
             .addCode(
                 if (fieldSizes.isEmpty()) {

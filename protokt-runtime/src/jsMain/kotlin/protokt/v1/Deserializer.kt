@@ -15,10 +15,17 @@
 
 package protokt.v1
 
-expect interface KtMessage {
-    val messageSize: Int
+import org.khronos.webgl.Uint8Array
 
-    fun serialize(serializer: KtMessageSerializer)
+actual interface Deserializer<T : Message> {
+    actual fun deserialize(bytes: Bytes): T
 
-    fun serialize(): ByteArray
+    actual fun deserialize(bytes: ByteArray): T
+
+    actual fun deserialize(bytes: BytesSlice): T
+
+    actual fun deserialize(decoder: Decoder): T
+
+    fun deserialize(bytes: Uint8Array): T =
+        deserialize(decoder(Reader.create(bytes)))
 }

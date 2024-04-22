@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Toast, Inc.
+ * Copyright (c) 2019 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,17 +15,19 @@
 
 package protokt.v1
 
-import org.khronos.webgl.Uint8Array
+import com.google.protobuf.CodedOutputStream
+import java.io.OutputStream
 
-actual interface KtDeserializer<T : KtMessage> {
-    actual fun deserialize(bytes: Bytes): T
+actual interface Message {
+    actual fun messageSize(): Int
 
-    actual fun deserialize(bytes: ByteArray): T
+    actual fun serialize(encoder: Encoder)
 
-    actual fun deserialize(bytes: BytesSlice): T
+    actual fun serialize(): ByteArray
 
-    actual fun deserialize(deserializer: KtMessageDeserializer): T
-
-    fun deserialize(bytes: Uint8Array): T =
-        deserialize(deserializer(Reader.create(bytes)))
+    fun serialize(outputStream: OutputStream) =
+        CodedOutputStream.newInstance(outputStream).run {
+            serialize(serializer(this))
+            flush()
+        }
 }

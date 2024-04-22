@@ -17,8 +17,8 @@ package protokt.v1
 
 import com.google.protobuf.CodedOutputStream
 
-internal fun serializer(stream: CodedOutputStream): KtMessageSerializer {
-    return object : KtMessageSerializer {
+internal fun serializer(stream: CodedOutputStream): Encoder {
+    return object : Encoder {
         override fun writeFixed32(i: UInt) =
             stream.writeFixed32NoTag(i.toInt())
 

@@ -17,8 +17,8 @@ package protokt.v1
 
 import com.google.protobuf.CodedInputStream
 
-actual abstract class AbstractKtDeserializer<T : KtMessage> actual constructor() : KtDeserializer<T> {
-    actual abstract override fun deserialize(deserializer: KtMessageDeserializer): T
+actual abstract class AbstractDeserializer<T : Message> actual constructor() : Deserializer<T> {
+    actual abstract override fun deserialize(decoder: Decoder): T
 
     actual final override fun deserialize(bytes: Bytes) =
         deserialize(bytes.value)

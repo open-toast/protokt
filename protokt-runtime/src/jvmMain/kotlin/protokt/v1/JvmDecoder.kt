@@ -22,8 +22,8 @@ import com.google.protobuf.WireFormat
 internal fun deserializer(
     stream: CodedInputStream,
     bytes: ByteArray? = null
-): KtMessageDeserializer {
-    return object : KtMessageDeserializer {
+): Decoder {
+    return object : Decoder {
         override fun readDouble() =
             stream.readDouble()
 
@@ -97,7 +97,7 @@ internal fun deserializer(
         @Suppress("OVERRIDE_BY_INLINE")
         override inline fun readRepeated(
             packed: Boolean,
-            acc: KtMessageDeserializer.() -> Unit
+            acc: Decoder.() -> Unit
         ) {
             if (!packed ||
                 WireFormat.getTagWireType(stream.lastTag) !=
@@ -115,7 +115,7 @@ internal fun deserializer(
             }
         }
 
-        override fun <T : KtMessage> readMessage(m: KtDeserializer<T>): T {
+        override fun <T : Message> readMessage(m: Deserializer<T>): T {
             val limit = stream.pushLimit(stream.readRawVarint32())
             val res = m.deserialize(this)
             require(stream.isAtEnd)

@@ -15,10 +15,15 @@
 
 package protokt.v1
 
-actual interface KtMessage {
-    actual val messageSize: Int
+actual abstract class AbstractDeserializer<T : Message> actual constructor() : Deserializer<T> {
+    actual abstract override fun deserialize(decoder: Decoder): T
 
-    actual fun serialize(serializer: KtMessageSerializer)
+    actual final override fun deserialize(bytes: Bytes) =
+        deserialize(bytes.value)
 
-    actual fun serialize(): ByteArray
+    actual final override fun deserialize(bytes: ByteArray): T =
+        deserialize(decoder(Reader.create(bytes.asUint8Array())))
+
+    actual final override fun deserialize(bytes: BytesSlice): T =
+        deserialize(decoder(Reader.create(bytes.asUint8Array())))
 }

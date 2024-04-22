@@ -15,7 +15,7 @@
 
 package protokt.v1
 
-interface KtMessageDeserializer {
+interface Decoder {
     fun readBytes(): Bytes
     fun readBytesSlice(): BytesSlice
     fun readDouble(): Double
@@ -31,8 +31,8 @@ interface KtMessageDeserializer {
     fun readUInt64(): ULong
     fun readTag(): UInt
     fun readUnknown(): UnknownField
-    fun readRepeated(packed: Boolean, acc: KtMessageDeserializer.() -> Unit)
-    fun <T : KtMessage> readMessage(m: KtDeserializer<T>): T
+    fun readRepeated(packed: Boolean, acc: Decoder.() -> Unit)
+    fun <T : Message> readMessage(m: Deserializer<T>): T
 
     // protobufjs:
     // Protobuf allows int64 values for bool but reader.bool() reads an int32.
@@ -51,6 +51,6 @@ interface KtMessageDeserializer {
     fun readUInt32(): UInt =
         readInt32().toUInt()
 
-    fun <T : KtEnum> readEnum(e: KtEnumDeserializer<T>): T =
+    fun <T : Enum> readEnum(e: EnumDeserializer<T>): T =
         e.from(readInt32())
 }

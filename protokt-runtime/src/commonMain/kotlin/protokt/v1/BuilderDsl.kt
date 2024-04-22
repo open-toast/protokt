@@ -16,4 +16,4 @@
 package protokt.v1
 
 @DslMarker
-annotation class KtBuilderDsl
+annotation class BuilderDsl

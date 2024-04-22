@@ -25,8 +25,8 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
-import protokt.v1.AbstractKtDeserializer
-import protokt.v1.KtMessageDeserializer
+import protokt.v1.AbstractDeserializer
+import protokt.v1.Decoder
 import protokt.v1.UnknownFieldSet
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Wrapper.interceptRead
@@ -58,7 +58,7 @@ private class DeserializerGenerator(
 
         return TypeSpec.companionObjectBuilder(msg.deserializerClassName.simpleName)
             .superclass(
-                AbstractKtDeserializer::class
+                AbstractDeserializer::class
                     .asTypeName()
                     .parameterizedBy(msg.className)
             )
@@ -68,7 +68,7 @@ private class DeserializerGenerator(
                     if (ctx.info.context.appliedKotlinPlugin != KotlinPlugin.JS) {
                         addAnnotation(JvmStatic::class) // can't put this here generally until JS code is actually common code in a multiplatform module
                     }
-                    addParameter("deserializer", KtMessageDeserializer::class)
+                    addParameter("deserializer", Decoder::class)
                     returns(msg.className)
                     if (properties.isNotEmpty()) {
                         properties.forEach {
@@ -213,7 +213,7 @@ private class DeserializerGenerator(
 }
 
 fun deserialize(f: StandardField, ctx: Context, packed: Boolean = false): CodeBlock {
-    val read = CodeBlock.of("deserializer.%L", interceptRead(f, f.readFn()))
+    val read = CodeBlock.of("decoder.%L", interceptRead(f, f.readFn()))
     val wrappedRead = wrapField(f, ctx, read) ?: read
 
     return when {
@@ -222,7 +222,7 @@ fun deserialize(f: StandardField, ctx: Context, packed: Boolean = false): CodeBl
             buildCodeBlock {
                 add("\n(%N ?: mutableListOf())", f.fieldName)
                 beginControlFlow(".apply")
-                beginControlFlow("deserializer.readRepeated($packed)")
+                beginControlFlow("decoder.readRepeated($packed)")
                 add("add(%L)\n", wrappedRead)
                 endControlFlow()
                 endControlFlowWithoutNewline()

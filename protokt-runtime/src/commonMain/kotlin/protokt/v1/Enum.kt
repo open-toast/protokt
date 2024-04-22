@@ -15,19 +15,18 @@
 
 package protokt.v1
 
-import com.google.protobuf.CodedOutputStream
-import java.io.OutputStream
+abstract class Enum {
+    abstract val value: Int
+    abstract val name: String
 
-actual interface KtMessage {
-    actual val messageSize: Int
+    final override fun equals(other: Any?) =
+        other != null &&
+            other::class == this::class &&
+            (other as Enum).value == value
 
-    actual fun serialize(serializer: KtMessageSerializer)
+    final override fun hashCode() =
+        value
 
-    actual fun serialize(): ByteArray
-
-    fun serialize(outputStream: OutputStream) =
-        CodedOutputStream.newInstance(outputStream).run {
-            serialize(serializer(this))
-            flush()
-        }
+    final override fun toString() =
+        name
 }

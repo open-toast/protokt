@@ -15,15 +15,12 @@
 
 package protokt.v1
 
-actual abstract class AbstractKtDeserializer<T : KtMessage> actual constructor() : KtDeserializer<T> {
-    actual abstract override fun deserialize(deserializer: KtMessageDeserializer): T
+expect abstract class AbstractDeserializer<T : Message>() : Deserializer<T> {
+    abstract override fun deserialize(decoder: Decoder): T
 
-    actual final override fun deserialize(bytes: Bytes) =
-        deserialize(bytes.value)
+    final override fun deserialize(bytes: Bytes): T
 
-    actual final override fun deserialize(bytes: ByteArray): T =
-        deserialize(deserializer(Reader.create(bytes.asUint8Array())))
+    final override fun deserialize(bytes: ByteArray): T
 
-    actual final override fun deserialize(bytes: BytesSlice): T =
-        deserialize(deserializer(Reader.create(bytes.asUint8Array())))
+    final override fun deserialize(bytes: BytesSlice): T
 }

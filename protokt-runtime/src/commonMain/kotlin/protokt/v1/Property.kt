@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast, Inc.
+ * Copyright (c) 2023 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,10 +15,10 @@
 
 package protokt.v1
 
-@Target(AnnotationTarget.CLASS)
-annotation class KtGeneratedMessage(
+@Target(AnnotationTarget.PROPERTY)
+annotation class Property(
     /**
-     * The full protocol buffer type name of this message used for packing into an Any.
+     * The field's Protobuf field number.
      */
-    val fullTypeName: String
+    val number: Int
 )
