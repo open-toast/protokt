@@ -26,7 +26,7 @@ import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
 import protokt.v1.Enum
-import protokt.v1.EnumDeserializer
+import protokt.v1.EnumDecoder
 import protokt.v1.Message
 import protokt.v1.UnknownFieldSet
 
@@ -99,7 +99,7 @@ class JsonDeserializationTest {
 
     // Jackson does not support deserializing to sealed classes out of the box
     class EnumFieldDeserializer<T : Enum>(
-        private val deserializer: EnumDeserializer<T>
+        private val deserializer: EnumDecoder<T>
     ) : JsonDeserializer<T>() {
         override fun deserialize(p: JsonParser, ctx: DeserializationContext) =
             deserializer.from(ctx.readValue(p, Map::class.java)["value"] as Int)
