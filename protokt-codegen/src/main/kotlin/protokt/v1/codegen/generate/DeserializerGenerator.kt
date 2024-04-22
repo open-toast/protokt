@@ -68,7 +68,7 @@ private class DeserializerGenerator(
                     if (ctx.info.context.appliedKotlinPlugin != KotlinPlugin.JS) {
                         addAnnotation(JvmStatic::class) // can't put this here generally until JS code is actually common code in a multiplatform module
                     }
-                    addParameter("deserializer", Decoder::class)
+                    addParameter("decoder", Decoder::class)
                     returns(msg.className)
                     if (properties.isNotEmpty()) {
                         properties.forEach {
@@ -77,7 +77,7 @@ private class DeserializerGenerator(
                     }
                     addStatement("var·unknownFields:·%T?·=·null\n", UnknownFieldSet.Builder::class)
                     beginControlFlow("while (true)")
-                    beginControlFlow("when (deserializer.readTag())")
+                    beginControlFlow("when (deconder.readTag())")
                     val constructor =
                         buildCodeBlock {
                             add("0u·->·return·%T(\n", msg.className)
@@ -99,7 +99,7 @@ private class DeserializerGenerator(
                         buildCodeBlock {
                             add("(unknownFields ?: %T.Builder())", UnknownFieldSet::class)
                             beginControlFlow(".also")
-                            add("it.add(deserializer.readUnknown())\n")
+                            add("it.add(decoder.readUnknown())\n")
                             endControlFlowWithoutNewline()
                         }
                     addStatement("else -> unknownFields =\n%L", unknownFieldBuilder)
@@ -235,7 +235,7 @@ private fun deserializeMap(f: StandardField, read: CodeBlock): CodeBlock {
     return buildCodeBlock {
         add("\n(%N ?: mutableMapOf())", f.fieldName)
         beginControlFlow(".apply")
-        beginControlFlow("deserializer.readRepeated(false)")
+        beginControlFlow("decoder.readRepeated(false)")
         add(read)
         beginControlFlow(".let")
         add("put(%L, %L)\n", CodeBlock.of("it.key"), CodeBlock.of("it.value"))
