@@ -27,7 +27,7 @@ class AnyTest {
     @Test
     fun `test any pack and unpack`() {
         val timestamp = Timestamp { seconds = 1 }
-        val packed = Any.pack(timestamp)
+        val packed = protokt.v1.google.protobuf.Any.pack(timestamp)
 
         assertThat(packed.typeUrl)
             .isEqualTo("type.googleapis.com/google.protobuf.Timestamp")

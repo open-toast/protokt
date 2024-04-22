@@ -513,7 +513,7 @@ public abstract interface class protokt/v1/Decoder {
 	public abstract fun readBytes ()Lprotokt/v1/Bytes;
 	public abstract fun readBytesSlice ()Lprotokt/v1/BytesSlice;
 	public abstract fun readDouble ()D
-	public fun readEnum (Lprotokt/v1/EnumDeserializer;)Lprotokt/v1/Enum;
+	public fun readEnum (Lprotokt/v1/EnumDecoder;)Lprotokt/v1/Enum;
 	public abstract fun readFixed32-pVg5ArA ()I
 	public abstract fun readFixed64-s-VKNKU ()J
 	public abstract fun readFloat ()F
@@ -575,7 +575,7 @@ public abstract class protokt/v1/Enum {
 	public final fun toString ()Ljava/lang/String;
 }
 
-public abstract interface class protokt/v1/EnumDeserializer {
+public abstract interface class protokt/v1/EnumDecoder {
 	public abstract fun from (I)Lprotokt/v1/Enum;
 }
 

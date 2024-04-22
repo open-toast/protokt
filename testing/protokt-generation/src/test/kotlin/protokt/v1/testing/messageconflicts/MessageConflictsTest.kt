@@ -17,6 +17,10 @@ package protokt.v1.testing.messageconflicts
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
+import protokt.v1.testing.enumconflicts.AbstractDecoder
+import protokt.v1.testing.enumconflicts.Decoder
+import protokt.v1.testing.enumconflicts.Encoder
+import protokt.v1.testing.enumconflicts.EnumDecoder
 
 class MessageConflictsTest {
     @Test
@@ -44,17 +48,14 @@ class MessageConflictsTest {
                 UInt64::class,
                 Bytes::class,
                 Deserializer::class,
-                KtDeserializer::class,
-                KtSerializer::class,
-                KtEnumSerializer::class,
+                Decoder::class,
+                Encoder::class,
                 Tag::class,
                 UnknownField::class,
-                KtEnum::class,
-                AbstractKtDeserializer::class,
-                KtMessage::class,
-                AbstractKtEnum::class,
+                AbstractDecoder::class,
+                Message::class,
                 BytesSlice::class,
-                KtEnumDeserializer::class,
+                EnumDecoder::class,
                 UnknownField::class,
                 UnknownValue::class,
                 VarintVal::class,
