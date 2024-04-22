@@ -27,7 +27,7 @@ actual interface Message {
 
     fun serialize(outputStream: OutputStream) =
         CodedOutputStream.newInstance(outputStream).run {
-            serialize(serializer(this))
+            serialize(encoder(this))
             flush()
         }
 }
