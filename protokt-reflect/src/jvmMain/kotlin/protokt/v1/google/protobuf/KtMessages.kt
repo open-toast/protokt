@@ -79,7 +79,7 @@ class RuntimeContext internal constructor(
 
     internal val descriptorsByTypeName = descriptors.associateBy { it.fullName }
 
-    fun convertValue(value: Any?) =
+    fun convertValue(value: Any) =
         when (value) {
             is KtEnum -> value.value
             is UInt -> value.toInt()
@@ -234,7 +234,7 @@ private fun convertList(
     val wrap = wrap(field, fieldOptions)
     return value.map {
         if (wrap == null) {
-            context.convertValue(it)
+            it?.let(context::convertValue)
         } else {
             context.convertValue(context.unwrap(it!!, field, wrap))
         }
@@ -280,14 +280,14 @@ private fun convertMap(
         defaultEntry.toBuilder()
             .setKey(
                 if (keyWrap == null) {
-                    context.convertValue(k)
+                    k?.let(context::convertValue)
                 } else {
                     context.convertValue(context.unwrap(k!!, keyDesc, keyWrap))
                 }
             )
             .setValue(
                 if (valWrap == null) {
-                    context.convertValue(v)
+                    v?.let(context::convertValue)
                 } else {
                     context.convertValue(context.unwrap(v!!, valDesc, valWrap))
                 }

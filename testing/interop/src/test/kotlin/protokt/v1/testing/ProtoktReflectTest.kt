@@ -37,7 +37,7 @@ class ProtoktReflectTest {
         assertThat(javaDefault.hasField(field)).isFalse()
         assertThat(protoktDefault.hasField(field)).isFalse()
 
-        assertThat(context.convertValue(protoktDefault.getField(field)))
+        assertThat(protoktDefault.getField(field)?.let(context::convertValue))
             .isEqualTo(javaDefault.getField(field))
     }
 
