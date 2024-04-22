@@ -27,6 +27,8 @@ import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.Oneof
 import protokt.v1.codegen.util.StandardField
 
+internal const val ENCODER = "encoder"
+
 fun generateSerializer(msg: Message, properties: List<PropertySpec>, ctx: Context) =
     SerializerGenerator(msg, properties, ctx).generate()
 
@@ -47,9 +49,9 @@ private class SerializerGenerator(
 
         return buildFunSpec("serialize") {
             addModifiers(KModifier.OVERRIDE)
-            addParameter("encoder", Encoder::class)
+            addParameter(ENCODER, Encoder::class)
             fieldSerializations.forEach(::addCode)
-            addCode("encoder.writeUnknown(unknownFields)")
+            addCode("$ENCODER.writeUnknown(unknownFields)")
         }
     }
 }
@@ -74,19 +76,19 @@ fun serialize(
     return when {
         f.repeated && f.packed -> buildCodeBlock {
             addNamed(
-                "encoder.writeTag(${f.tag.value}u)" +
+                "$ENCODER.writeTag(${f.tag.value}u)" +
                     ".%writeUInt32:L(%elementsSize:L.toUInt())\n",
                 mapOf(
                     "writeUInt32" to Encoder::writeUInt32.name,
                     "elementsSize" to f.elementsSize()
                 )
             )
-            add("%N.forEach·{·encoder.%L·}", p, f.write(CodeBlock.of("it")))
+            add("%N.forEach·{·$ENCODER.%L·}", p, f.write(CodeBlock.of("it")))
         }
         f.isMap -> buildCodeBlock {
             beginControlFlow("%N.entries.forEach", p)
             add(
-                "encoder.writeTag(${f.tag.value}u).write(%L)\n",
+                "$ENCODER.writeTag(${f.tag.value}u).write(%L)\n",
                 f.boxMap()
             )
             endControlFlowWithoutNewline()
@@ -94,7 +96,7 @@ fun serialize(
         f.repeated -> buildCodeBlock {
             addNamed(
                 "%name:N.forEach·{·" +
-                    "encoder.writeTag(${f.tag.value}u).%write:L·}",
+                    "$ENCODER.writeTag(${f.tag.value}u).%write:L·}",
                 mapOf(
                     "name" to p,
                     "write" to f.write(fieldAccess)
@@ -104,7 +106,7 @@ fun serialize(
 
         else -> buildCodeBlock {
             add(
-                "encoder.writeTag(${f.tag.value}u).%L",
+                "$ENCODER.writeTag(${f.tag.value}u).%L",
                 f.write(fieldAccess)
             )
         }

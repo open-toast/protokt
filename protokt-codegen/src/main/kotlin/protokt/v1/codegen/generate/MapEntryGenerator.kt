@@ -99,7 +99,7 @@ private class MapEntryGenerator(
         addFunction(
             buildFunSpec("serialize") {
                 addModifiers(KModifier.OVERRIDE)
-                addParameter("encoder", Encoder::class)
+                addParameter(ENCODER, Encoder::class)
                 addStatement("%L", serialize(key, ctx, keyProp))
                 addStatement("%L", serialize(value, ctx, valProp))
             }
@@ -129,13 +129,13 @@ private class MapEntryGenerator(
                 .addFunction(
                     buildFunSpec("deserialize") {
                         addModifiers(KModifier.OVERRIDE)
-                        addParameter("decoder", Decoder::class)
+                        addParameter(DECODER, Decoder::class)
                         returns(msg.className)
                         addStatement("%L", deserializeVar(keyPropInfo, ::key))
                         addStatement("%L", deserializeVar(valPropInfo, ::value))
                         addCode("\n")
                         beginControlFlow("while (true)")
-                        beginControlFlow("when (decoder.readTag())")
+                        beginControlFlow("when ($DECODER.readTag())")
                         addStatement("%L", constructOnZero())
                         addStatement(
                             "${key.tag.value}u -> key = %L",
