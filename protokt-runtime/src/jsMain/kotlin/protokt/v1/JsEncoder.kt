@@ -15,7 +15,7 @@
 
 package protokt.v1
 
-internal fun serializer(writer: Writer): Encoder {
+internal fun encoder(writer: Writer): Encoder {
     return object : Encoder {
         override fun writeFixed32(i: UInt) {
             writer.fixed32(i.toInt())
