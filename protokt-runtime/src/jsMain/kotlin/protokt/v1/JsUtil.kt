@@ -35,7 +35,7 @@ internal fun BytesSlice.asUint8Array() =
         length,
     )
 
-internal fun protobufjsLong(@Suppress("UNUSED_PARAMETER") long: Long): dynamic {
+internal fun protobufjsLong(long: Long): dynamic {
     val ret = js("{}")
     ret.low = long.toInt()
     ret.high = long.shr(32).toInt()

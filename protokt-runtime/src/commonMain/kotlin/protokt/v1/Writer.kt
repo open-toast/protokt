@@ -15,7 +15,7 @@
 
 package protokt.v1
 
-interface KtMessageSerializer {
+interface Writer {
     fun writeFixed32(i: UInt)
     fun writeSFixed32(i: Int)
     fun writeUInt32(i: UInt)
@@ -39,11 +39,11 @@ interface KtMessageSerializer {
     fun writeTag(tag: UInt) =
         also { writeUInt32(tag) }
 
-    fun write(e: KtEnum) =
+    fun write(e: Enum) =
         write(e.value)
 
-    fun write(m: KtMessage) {
-        write(m.messageSize)
+    fun write(m: Message) {
+        write(m.messageSize())
         m.serialize(this)
     }
 

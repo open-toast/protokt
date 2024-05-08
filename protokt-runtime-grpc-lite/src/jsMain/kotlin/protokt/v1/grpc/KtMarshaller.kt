@@ -15,11 +15,11 @@
 
 package protokt.v1.grpc
 
-import protokt.v1.KtDeserializer
-import protokt.v1.KtMessage
+import protokt.v1.Deserializer
+import protokt.v1.Message
 
-class KtMarshaller<T : KtMessage>(
-    private val deserializer: KtDeserializer<T>
+class KtMarshaller<T : Message>(
+    private val deserializer: Deserializer<T>
 ) : MethodDescriptor.Marshaller<T> {
     override fun parse(bytes: ByteArray) =
         deserializer.deserialize(bytes)

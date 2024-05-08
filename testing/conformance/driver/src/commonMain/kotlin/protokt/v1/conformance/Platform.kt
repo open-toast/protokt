@@ -17,24 +17,24 @@ package protokt.v1.conformance
 
 import kotlinx.coroutines.CoroutineScope
 import protokt.v1.Bytes
-import protokt.v1.KtDeserializer
-import protokt.v1.KtMessage
+import protokt.v1.Deserializer
+import protokt.v1.Message
 
 internal expect object Platform {
     fun printErr(message: String)
 
     fun runBlockingMain(block: suspend CoroutineScope.() -> Unit)
 
-    suspend fun <T : KtMessage> readMessageFromStdIn(
-        deserializer: KtDeserializer<T>
+    suspend fun <T : Message> readMessageFromStdIn(
+        deserializer: Deserializer<T>
     ): ConformanceStepResult<T>?
 
     fun writeToStdOut(bytes: ByteArray)
 
-    fun <T : KtMessage> deserialize(
+    fun <T : Message> deserialize(
         bytes: ByteArray,
-        deserializer: KtDeserializer<T>
+        deserializer: Deserializer<T>
     ): ConformanceStepResult<T>
 
-    fun serialize(message: KtMessage): ConformanceStepResult<Bytes>
+    fun serialize(message: Message): ConformanceStepResult<Bytes>
 }

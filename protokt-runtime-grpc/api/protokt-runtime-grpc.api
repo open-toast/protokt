@@ -2,7 +2,7 @@ public final class com/toasttab/protokt/grpc/SchemaDescriptorExtensionsKt {
 	public static final fun getFileDescriptor (Lcom/toasttab/protokt/grpc/SchemaDescriptor;)Lcom/toasttab/protokt/FileDescriptor;
 }
 
-public final class protokt/v1/grpc/SchemaDescriptorExtKt {
+public final class protokt/v1/grpc/SchemaDescriptors {
 	public static final fun getFileDescriptor (Lprotokt/v1/grpc/SchemaDescriptor;)Lprotokt/v1/google/protobuf/FileDescriptor;
 }
 

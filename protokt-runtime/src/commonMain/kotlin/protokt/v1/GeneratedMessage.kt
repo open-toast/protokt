@@ -15,6 +15,10 @@
 
 package protokt.v1
 
-interface KtEnumDeserializer<V : KtEnum> {
-    fun from(value: Int): V
-}
+@Target(AnnotationTarget.CLASS)
+annotation class GeneratedMessage(
+    /**
+     * The full protocol buffer type name of this message used for packing into an Any.
+     */
+    val fullTypeName: String
+)

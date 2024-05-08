@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Toast, Inc.
+ * Copyright (c) 2022 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,20 +15,12 @@
 
 package protokt.v1
 
-actual class Bytes internal actual constructor(value: ByteArray) : AbstractBytes(value) {
-    // Annotation `@JvmStatic` is missing on actual declaration
-    @Suppress("ACTUAL_ANNOTATIONS_NOT_MATCH_EXPECT")
-    actual companion object {
-        actual fun empty() =
-            AbstractBytes.empty()
+import com.google.protobuf.CodedOutputStream
 
-        actual fun from(bytes: ByteArray) =
-            AbstractBytes.from(bytes)
-
-        actual fun from(message: Message) =
-            AbstractBytes.from(message)
+actual abstract class AbstractMessage actual constructor() : Message {
+    actual final override fun serialize(): ByteArray {
+        val buf = ByteArray(messageSize())
+        serialize(writer(CodedOutputStream.newInstance(buf)))
+        return buf
     }
 }
-
-internal actual fun clone(bytes: ByteArray) =
-    bytes.copyOf()

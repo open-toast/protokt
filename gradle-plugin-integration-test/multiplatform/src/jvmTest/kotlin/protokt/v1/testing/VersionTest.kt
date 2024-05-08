@@ -15,7 +15,7 @@
 
 package protokt.v1.testing
 
-import protokt.v1.KtMessage
+import protokt.v1.Message
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
@@ -23,7 +23,7 @@ class VersionTest {
     @Test
     fun `runtime version should match project version`() {
         val version = System.getenv("version")
-        val runtimeJarPath = KtMessage::class.java.protectionDomain.codeSource.location.toString()
+        val runtimeJarPath = Message::class.java.protectionDomain.codeSource.location.toString()
 
         assertTrue(runtimeJarPath.endsWith("protokt-runtime-jvm-$version.jar"))
     }

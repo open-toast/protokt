@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Toast, Inc.
+ * Copyright (c) 2022 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,4 +15,10 @@
 
 package protokt.v1
 
-annotation class KtGeneratedFileDescriptor
+actual interface Message {
+    actual fun messageSize(): Int
+
+    actual fun serialize(writer: Writer)
+
+    actual fun serialize(): ByteArray
+}

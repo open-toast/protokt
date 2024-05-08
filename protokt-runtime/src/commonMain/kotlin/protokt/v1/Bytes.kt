@@ -28,7 +28,7 @@ expect class Bytes internal constructor(
         fun from(bytes: ByteArray): Bytes
 
         @JvmStatic
-        fun from(message: KtMessage): Bytes
+        fun from(message: Message): Bytes
     }
 }
 

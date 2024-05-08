@@ -20,12 +20,14 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.buildCodeBlock
-import protokt.v1.KtMessageSerializer
+import protokt.v1.Writer
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Wrapper.interceptValueAccess
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.Oneof
 import protokt.v1.codegen.util.StandardField
+
+internal val WRITER = Writer::class.simpleName!!.lowercase()
 
 fun generateSerializer(msg: Message, properties: List<PropertySpec>, ctx: Context) =
     SerializerGenerator(msg, properties, ctx).generate()
@@ -47,9 +49,9 @@ private class SerializerGenerator(
 
         return buildFunSpec("serialize") {
             addModifiers(KModifier.OVERRIDE)
-            addParameter("serializer", KtMessageSerializer::class)
+            addParameter(WRITER, Writer::class)
             fieldSerializations.forEach(::addCode)
-            addCode("serializer.writeUnknown(unknownFields)")
+            addCode("$WRITER.writeUnknown(unknownFields)")
         }
     }
 }
@@ -74,19 +76,19 @@ fun serialize(
     return when {
         f.repeated && f.packed -> buildCodeBlock {
             addNamed(
-                "serializer.writeTag(${f.tag.value}u)" +
+                "$WRITER.writeTag(${f.tag.value}u)" +
                     ".%writeUInt32:L(%elementsSize:L.toUInt())\n",
                 mapOf(
-                    "writeUInt32" to KtMessageSerializer::writeUInt32.name,
+                    "writeUInt32" to Writer::writeUInt32.name,
                     "elementsSize" to f.elementsSize()
                 )
             )
-            add("%N.forEach·{·serializer.%L·}", p, f.write(CodeBlock.of("it")))
+            add("%N.forEach·{·$WRITER.%L·}", p, f.write(CodeBlock.of("it")))
         }
         f.isMap -> buildCodeBlock {
             beginControlFlow("%N.entries.forEach", p)
             add(
-                "serializer.writeTag(${f.tag.value}u).write(%L)\n",
+                "$WRITER.writeTag(${f.tag.value}u).write(%L)\n",
                 f.boxMap()
             )
             endControlFlowWithoutNewline()
@@ -94,7 +96,7 @@ fun serialize(
         f.repeated -> buildCodeBlock {
             addNamed(
                 "%name:N.forEach·{·" +
-                    "serializer.writeTag(${f.tag.value}u).%write:L·}",
+                    "$WRITER.writeTag(${f.tag.value}u).%write:L·}",
                 mapOf(
                     "name" to p,
                     "write" to f.write(fieldAccess)
@@ -104,7 +106,7 @@ fun serialize(
 
         else -> buildCodeBlock {
             add(
-                "serializer.writeTag(${f.tag.value}u).%L",
+                "$WRITER.writeTag(${f.tag.value}u).%L",
                 f.write(fieldAccess)
             )
         }

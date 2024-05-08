@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast, Inc.
+ * Copyright (c) 2023 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,19 +15,10 @@
 
 package protokt.v1
 
-import com.google.protobuf.CodedOutputStream
-import java.io.OutputStream
-
-actual interface KtMessage {
-    actual val messageSize: Int
-
-    actual fun serialize(serializer: KtMessageSerializer)
-
-    actual fun serialize(): ByteArray
-
-    fun serialize(outputStream: OutputStream) =
-        CodedOutputStream.newInstance(outputStream).run {
-            serialize(serializer(this))
-            flush()
-        }
-}
+@Target(AnnotationTarget.PROPERTY)
+annotation class GeneratedProperty(
+    /**
+     * The property's Protobuf field number.
+     */
+    val number: Int
+)

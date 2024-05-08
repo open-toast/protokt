@@ -13,19 +13,19 @@
  * limitations under the License.
  */
 
-@file:JvmName("AnyUtil")
+@file:JvmName("Anies")
 
 package protokt.v1.google.protobuf
 
 import protokt.v1.Bytes
-import protokt.v1.KtDeserializer
-import protokt.v1.KtGeneratedMessage
-import protokt.v1.KtMessage
+import protokt.v1.Deserializer
+import protokt.v1.GeneratedMessage
+import protokt.v1.Message
 import kotlin.reflect.KClass
 
 @JvmOverloads
 fun Any.Deserializer.pack(
-    msg: KtMessage,
+    msg: Message,
     typeUrlPrefix: String = "type.googleapis.com"
 ) =
     Any {
@@ -33,14 +33,14 @@ fun Any.Deserializer.pack(
         value = Bytes.from(msg)
     }
 
-private fun typeUrl(typeUrlPrefix: String, msg: KtMessage) =
+private fun typeUrl(typeUrlPrefix: String, msg: Message) =
     if (typeUrlPrefix.endsWith("/")) {
         typeUrlPrefix
     } else {
         "$typeUrlPrefix/"
     } + fullTypeName(msg::class)
 
-inline fun <reified T : KtMessage> Any.unpack(deserializer: KtDeserializer<T>): T {
+inline fun <reified T : Message> Any.unpack(deserializer: Deserializer<T>): T {
     require(isA<T>()) {
         "Type $typeUrl of the Any message does not match the given " +
             "deserializer ${deserializer::class.qualifiedName}"
@@ -50,16 +50,16 @@ inline fun <reified T : KtMessage> Any.unpack(deserializer: KtDeserializer<T>): 
 }
 
 @Suppress("DEPRECATION")
-inline fun <reified T : KtMessage> Any.isA() =
+inline fun <reified T : Message> Any.isA() =
     typeUrl.substringAfterLast('/') ==
         (
-            T::class.java.getAnnotation(KtGeneratedMessage::class.java)?.fullTypeName
+            T::class.java.getAnnotation(GeneratedMessage::class.java)?.fullTypeName
                 ?: T::class.java.getAnnotation(com.toasttab.protokt.rt.KtGeneratedMessage::class.java)?.fullTypeName
                 ?: error("class ${T::class} has no protokt generated message annotation")
             )
 
 @Suppress("DEPRECATION")
 private fun fullTypeName(klass: KClass<*>) =
-    klass.java.getAnnotation(KtGeneratedMessage::class.java)?.fullTypeName
+    klass.java.getAnnotation(GeneratedMessage::class.java)?.fullTypeName
         ?: klass.java.getAnnotation(com.toasttab.protokt.rt.KtGeneratedMessage::class.java)?.fullTypeName
         ?: error("class $klass has no protokt generated message annotation")
