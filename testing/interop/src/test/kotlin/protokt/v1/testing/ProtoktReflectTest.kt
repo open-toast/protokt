@@ -20,13 +20,12 @@ import com.google.protobuf.Descriptors.FieldDescriptor
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 import proto3_unittest.UnittestProto3
-import protokt.v1.google.protobuf.RuntimeContext
 import protokt.v1.google.protobuf.getField
 import protokt.v1.google.protobuf.hasField
 import protokt.v1.proto3_unittest.TestAllTypes
 
 class ProtoktReflectTest {
-    private val context = RuntimeContext.getContextReflectively()
+    private val context = getContextReflectively()
 
     @ParameterizedTest
     @MethodSource("optionalDescriptors")

@@ -39,6 +39,7 @@ dependencies {
     testImplementation(project(":protokt-reflect"))
     testImplementation(project(":testing:protobuf-java"))
     testImplementation(kotlin("reflect"))
+    testImplementation(libs.classgraph)
     testImplementation(libs.jackson)
     testImplementation(libs.protobuf.java)
 }

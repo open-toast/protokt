@@ -13,7 +13,6 @@
 
 [versions]
 autoService = "1.1.1"
-classgraph = "4.8.153"
 grpc-java = "1.58.0"
 grpc-kotlin = "1.4.1"
 kotlinLogging = "5.1.0"
@@ -45,6 +44,7 @@ jmh = "1.37"
 wire = "4.9.7"
 
 # test
+classgraph = "4.8.153"
 grpc-js = "1.8.14"
 jackson = "2.17.0"
 junit = "5.10.2"
@@ -62,7 +62,6 @@ wire = { id = "com.squareup.wire", version.ref = "wire" }
 [libraries]
 autoService = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
 autoServiceAnnotations = { module = "com.google.auto.service:auto-service-annotations", version.ref = "autoService" }
-classgraph = { module = "io.github.classgraph:classgraph", version.ref = "classgraph" }
 grpc-kotlin-gen = { module = "io.grpc:protoc-gen-grpc-kotlin", version.ref = "grpc-kotlin" }
 grpc-netty = { module = "io.grpc:grpc-netty", version.ref = "grpc-java" }
 grpc-stub = { module = "io.grpc:grpc-stub", version.ref = "grpc-java" }
@@ -93,6 +92,7 @@ wireRuntime = { module = "com.squareup.wire:wire-runtime", version.ref = "wire" 
 protoGoogleCommonProtos = { module = "com.google.api.grpc:proto-google-common-protos", version.ref = "protoGoogleCommonProtos" }
 
 # test
+classgraph = { module = "io.github.classgraph:classgraph", version.ref = "classgraph" }
 grpc-kotlin-stub = { module = "io.grpc:grpc-kotlin-stub", version.ref = "grpc-kotlin" }
 grpc-testing = { module = "io.grpc:grpc-testing", version.ref = "grpc-java" }
 jackson = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }

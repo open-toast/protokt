@@ -18,7 +18,6 @@ package protokt.v1.testing
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
 import protokt.v1.Message
-import protokt.v1.google.protobuf.RuntimeContext
 import protokt.v1.google.protobuf.toDynamicMessage
 import java.net.InetAddress
 import java.net.InetSocketAddress
@@ -140,7 +139,7 @@ class DynamicMessageTest {
     }
 
     private fun verifyMessage(message: Message) {
-        val dynamicMessage = message.toDynamicMessage(RuntimeContext.getContextReflectively())
+        val dynamicMessage = message.toDynamicMessage(getContextReflectively())
 
         assertThat(dynamicMessage.serializedSize).isEqualTo(message.messageSize())
         assertThat(dynamicMessage.toByteArray()).isEqualTo(message.serialize())
