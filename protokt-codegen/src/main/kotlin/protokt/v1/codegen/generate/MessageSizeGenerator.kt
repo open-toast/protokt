@@ -29,7 +29,7 @@ import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.Oneof
 import protokt.v1.codegen.util.StandardField
 
-internal const val MESSAGE_SIZE = "`\$messageSize`"
+internal const val MESSAGE_SIZE = "__messageSize__"
 
 fun generateMessageSize(msg: Message, properties: List<PropertySpec>, ctx: Context) =
     MessageSizeGenerator(msg, properties, ctx).generate()
