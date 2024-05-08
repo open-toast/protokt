@@ -19,6 +19,7 @@ import com.google.protobuf.DescriptorProtos
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.TypeSpec
 import com.toasttab.protokt.v1.ProtoktProtos
+import protokt.v1.reflect.FieldType
 
 sealed class TopLevelType
 
@@ -96,7 +97,7 @@ sealed class Field {
     abstract val fieldName: String
 }
 
-class StandardField(
+internal class StandardField(
     val number: Int,
     val tag: Tag,
 
@@ -126,7 +127,7 @@ class StandardField(
         get() = mapEntry!!.fields[1] as StandardField
 }
 
-class Oneof(
+internal class Oneof(
     val name: String,
     val className: ClassName,
     override val fieldName: String,
@@ -147,7 +148,7 @@ class OneofOptions(
     val protokt: ProtoktProtos.OneofOptions
 )
 
-class ProtoFileInfo(
+internal class ProtoFileInfo(
     val context: GeneratorContext
 ) {
     val name = context.fdp.name
@@ -162,7 +163,7 @@ class FileOptions(
     val protokt: ProtoktProtos.FileOptions
 )
 
-class ProtoFileContents(
+internal class ProtoFileContents(
     val info: ProtoFileInfo,
     val types: List<TopLevelType>
 )

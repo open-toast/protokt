@@ -34,7 +34,7 @@ import protokt.v1.codegen.generate.Deprecation.handleDeprecation
 import protokt.v1.codegen.generate.Implements.handleSuperInterface
 import protokt.v1.codegen.util.Message
 
-fun generateMessage(msg: Message, ctx: Context) =
+internal fun generateMessage(msg: Message, ctx: Context) =
     if (ctx.info.context.generateTypes) {
         MessageGenerator(msg, ctx).generate()
     } else {

@@ -121,7 +121,7 @@ private val binGenerator =
     File(codegenTestingResources.toFile(), "bin-generator")
 
 private val extensionsProto =
-    Path.of("extensions", "protokt-extensions-lite", "src", "main", "proto")
+    Path.of("extensions", "protokt-extensions-lite", "src", "extensions-proto")
 
 private val includeProtos =
     File(projectRoot, "build/extracted-include-protos/main")

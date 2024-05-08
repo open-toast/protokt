@@ -31,9 +31,11 @@ import protokt.v1.codegen.generate.Wrapper.interceptDefaultValue
 import protokt.v1.codegen.generate.Wrapper.interceptTypeName
 import protokt.v1.codegen.generate.Wrapper.wrapField
 import protokt.v1.codegen.util.DESERIALIZER
-import protokt.v1.codegen.util.FieldType
 import protokt.v1.codegen.util.Message
+import protokt.v1.codegen.util.SizeFn
 import protokt.v1.codegen.util.StandardField
+import protokt.v1.codegen.util.sizeFn
+import protokt.v1.reflect.FieldType
 import kotlin.reflect.KProperty0
 
 internal fun generateMapEntry(msg: Message, ctx: Context) =
@@ -117,10 +119,10 @@ private class MapEntryGenerator(
                 .addFunction(
                     buildFunSpec("entrySize") {
                         returns(Int::class)
-                        if (key.type.sizeFn is FieldType.Method) {
+                        if (key.type.sizeFn is SizeFn.Method) {
                             addParameter("key", keyTypeName)
                         }
-                        if (value.type.sizeFn is FieldType.Method) {
+                        if (value.type.sizeFn is SizeFn.Method) {
                             addParameter("value", valueTypeName)
                         }
                         addStatement("return %L + %L", sizeOf(key, ctx), sizeOf(value, ctx))
@@ -201,14 +203,14 @@ private class MapEntryGenerator(
 }
 
 internal fun sizeOfCall(key: StandardField, value: StandardField, keyStr: CodeBlock, valueStr: CodeBlock) =
-    if (key.type.sizeFn is FieldType.Method) {
-        if (value.type.sizeFn is FieldType.Method) {
+    if (key.type.sizeFn is SizeFn.Method) {
+        if (value.type.sizeFn is SizeFn.Method) {
             CodeBlock.of("entrySize(%L,·%L)", keyStr, valueStr)
         } else {
             CodeBlock.of("entrySize(%L)", keyStr)
         }
     } else {
-        if (value.type.sizeFn is FieldType.Method) {
+        if (value.type.sizeFn is SizeFn.Method) {
             CodeBlock.of("entrySize(%L)", valueStr)
         } else {
             CodeBlock.of("entrySize()")

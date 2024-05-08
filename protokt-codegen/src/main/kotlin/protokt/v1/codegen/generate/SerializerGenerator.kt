@@ -29,7 +29,7 @@ import protokt.v1.codegen.util.StandardField
 
 internal val WRITER = Writer::class.simpleName!!.lowercase()
 
-fun generateSerializer(msg: Message, properties: List<PropertySpec>, ctx: Context) =
+internal fun generateSerializer(msg: Message, properties: List<PropertySpec>, ctx: Context) =
     SerializerGenerator(msg, properties, ctx).generate()
 
 private class SerializerGenerator(
@@ -56,7 +56,7 @@ private class SerializerGenerator(
     }
 }
 
-fun serialize(
+internal fun serialize(
     f: StandardField,
     ctx: Context,
     p: PropertySpec,

@@ -49,17 +49,13 @@ inline fun <reified T : Message> Any.unpack(deserializer: Deserializer<T>): T {
     return deserializer.deserialize(value)
 }
 
-@Suppress("DEPRECATION")
 inline fun <reified T : Message> Any.isA() =
     typeUrl.substringAfterLast('/') ==
         (
             T::class.java.getAnnotation(GeneratedMessage::class.java)?.fullTypeName
-                ?: T::class.java.getAnnotation(com.toasttab.protokt.rt.KtGeneratedMessage::class.java)?.fullTypeName
                 ?: error("class ${T::class} has no protokt generated message annotation")
             )
 
-@Suppress("DEPRECATION")
 private fun fullTypeName(klass: KClass<*>) =
     klass.java.getAnnotation(GeneratedMessage::class.java)?.fullTypeName
-        ?: klass.java.getAnnotation(com.toasttab.protokt.rt.KtGeneratedMessage::class.java)?.fullTypeName
         ?: error("class $klass has no protokt generated message annotation")

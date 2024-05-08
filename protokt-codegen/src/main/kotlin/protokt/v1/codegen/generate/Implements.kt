@@ -21,7 +21,7 @@ import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.StandardField
 
-object Implements {
+internal object Implements {
     fun StandardField.overrides(
         ctx: Context,
         msg: Message

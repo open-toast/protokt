@@ -38,7 +38,7 @@ class FileDescriptorInfo(
     val properties: List<PropertySpec>
 )
 
-class FileDescriptorResolver
+internal class FileDescriptorResolver
 private constructor(
     private val contents: ProtoFileContents
 ) {

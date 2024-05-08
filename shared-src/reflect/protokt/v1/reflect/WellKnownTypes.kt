@@ -13,10 +13,9 @@
  * limitations under the License.
  */
 
-package protokt.v1.codegen.generate
+package protokt.v1.reflect
 
 import protokt.v1.Bytes
-import protokt.v1.codegen.util.DOT_GOOGLE_PROTOBUF
 
 internal object WellKnownTypes {
     fun wrapWithWellKnownInterception(wrap: String?, typeName: String) =
