@@ -32,7 +32,7 @@ jobs:
     needs: build
     strategy:
       matrix:
-        os: [ ubuntu-latest, windows-latest, macos-latest ]
+        os: [ ubuntu-latest, windows-latest, macos-14 ]
         kotlin: [ 1.8.22, 1.9.23 ]
         jdk: [ 11, 17 ]
 
