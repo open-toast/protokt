@@ -527,7 +527,7 @@ public abstract class protokt/v1/Enum {
 	public final fun toString ()Ljava/lang/String;
 }
 
-public abstract interface class protokt/v1/EnumDecoder {
+public abstract interface class protokt/v1/EnumReader {
 	public abstract fun from (I)Lprotokt/v1/Enum;
 }
 
@@ -570,6 +570,10 @@ public abstract interface annotation class protokt/v1/GeneratedMessage : java/la
 	public abstract fun fullTypeName ()Ljava/lang/String;
 }
 
+public abstract interface annotation class protokt/v1/GeneratedProperty : java/lang/annotation/Annotation {
+	public abstract fun number ()I
+}
+
 public final class protokt/v1/LengthDelimitedVal : protokt/v1/UnknownValue {
 	public static final synthetic fun box-impl (Lprotokt/v1/Bytes;)Lprotokt/v1/LengthDelimitedVal;
 	public static fun constructor-impl (Lprotokt/v1/Bytes;)Lprotokt/v1/Bytes;
@@ -593,16 +597,12 @@ public abstract interface class protokt/v1/Message {
 	public abstract fun serialize (Lprotokt/v1/Writer;)V
 }
 
-public abstract interface annotation class protokt/v1/Property : java/lang/annotation/Annotation {
-	public abstract fun number ()I
-}
-
 public abstract interface class protokt/v1/Reader {
 	public fun readBool ()Z
 	public abstract fun readBytes ()Lprotokt/v1/Bytes;
 	public abstract fun readBytesSlice ()Lprotokt/v1/BytesSlice;
 	public abstract fun readDouble ()D
-	public fun readEnum (Lprotokt/v1/EnumDecoder;)Lprotokt/v1/Enum;
+	public fun readEnum (Lprotokt/v1/EnumReader;)Lprotokt/v1/Enum;
 	public abstract fun readFixed32-pVg5ArA ()I
 	public abstract fun readFixed64-s-VKNKU ()J
 	public abstract fun readFloat ()F

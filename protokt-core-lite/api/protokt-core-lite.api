@@ -3311,7 +3311,7 @@ public abstract class protokt/v1/google/protobuf/Field$Cardinality : protokt/v1/
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/protobuf/Field$Cardinality$Deserializer : protokt/v1/EnumDecoder {
+public final class protokt/v1/google/protobuf/Field$Cardinality$Deserializer : protokt/v1/EnumReader {
 	public synthetic fun from (I)Lprotokt/v1/Enum;
 	public fun from (I)Lprotokt/v1/google/protobuf/Field$Cardinality;
 }
@@ -3349,7 +3349,7 @@ public abstract class protokt/v1/google/protobuf/Field$Kind : protokt/v1/Enum {
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/protobuf/Field$Kind$Deserializer : protokt/v1/EnumDecoder {
+public final class protokt/v1/google/protobuf/Field$Kind$Deserializer : protokt/v1/EnumReader {
 	public synthetic fun from (I)Lprotokt/v1/Enum;
 	public fun from (I)Lprotokt/v1/google/protobuf/Field$Kind;
 }
@@ -3501,7 +3501,7 @@ public abstract class protokt/v1/google/protobuf/FieldDescriptorProto$Label : pr
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/protobuf/FieldDescriptorProto$Label$Deserializer : protokt/v1/EnumDecoder {
+public final class protokt/v1/google/protobuf/FieldDescriptorProto$Label$Deserializer : protokt/v1/EnumReader {
 	public synthetic fun from (I)Lprotokt/v1/Enum;
 	public fun from (I)Lprotokt/v1/google/protobuf/FieldDescriptorProto$Label;
 }
@@ -3541,7 +3541,7 @@ public final class protokt/v1/google/protobuf/FieldDescriptorProto$Type$DOUBLE :
 	public static final field INSTANCE Lprotokt/v1/google/protobuf/FieldDescriptorProto$Type$DOUBLE;
 }
 
-public final class protokt/v1/google/protobuf/FieldDescriptorProto$Type$Deserializer : protokt/v1/EnumDecoder {
+public final class protokt/v1/google/protobuf/FieldDescriptorProto$Type$Deserializer : protokt/v1/EnumReader {
 	public synthetic fun from (I)Lprotokt/v1/Enum;
 	public fun from (I)Lprotokt/v1/google/protobuf/FieldDescriptorProto$Type;
 }
@@ -3696,7 +3696,7 @@ public final class protokt/v1/google/protobuf/FieldOptions$CType$CORD : protokt/
 	public static final field INSTANCE Lprotokt/v1/google/protobuf/FieldOptions$CType$CORD;
 }
 
-public final class protokt/v1/google/protobuf/FieldOptions$CType$Deserializer : protokt/v1/EnumDecoder {
+public final class protokt/v1/google/protobuf/FieldOptions$CType$Deserializer : protokt/v1/EnumReader {
 	public synthetic fun from (I)Lprotokt/v1/Enum;
 	public fun from (I)Lprotokt/v1/google/protobuf/FieldOptions$CType;
 }
@@ -3726,7 +3726,7 @@ public abstract class protokt/v1/google/protobuf/FieldOptions$JSType : protokt/v
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/protobuf/FieldOptions$JSType$Deserializer : protokt/v1/EnumDecoder {
+public final class protokt/v1/google/protobuf/FieldOptions$JSType$Deserializer : protokt/v1/EnumReader {
 	public synthetic fun from (I)Lprotokt/v1/Enum;
 	public fun from (I)Lprotokt/v1/google/protobuf/FieldOptions$JSType;
 }
@@ -3941,7 +3941,7 @@ public final class protokt/v1/google/protobuf/FileOptions$OptimizeMode$CODE_SIZE
 	public static final field INSTANCE Lprotokt/v1/google/protobuf/FileOptions$OptimizeMode$CODE_SIZE;
 }
 
-public final class protokt/v1/google/protobuf/FileOptions$OptimizeMode$Deserializer : protokt/v1/EnumDecoder {
+public final class protokt/v1/google/protobuf/FileOptions$OptimizeMode$Deserializer : protokt/v1/EnumReader {
 	public synthetic fun from (I)Lprotokt/v1/Enum;
 	public fun from (I)Lprotokt/v1/google/protobuf/FileOptions$OptimizeMode;
 }
@@ -4355,7 +4355,7 @@ public abstract class protokt/v1/google/protobuf/MethodOptions$IdempotencyLevel 
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/protobuf/MethodOptions$IdempotencyLevel$Deserializer : protokt/v1/EnumDecoder {
+public final class protokt/v1/google/protobuf/MethodOptions$IdempotencyLevel$Deserializer : protokt/v1/EnumReader {
 	public synthetic fun from (I)Lprotokt/v1/Enum;
 	public fun from (I)Lprotokt/v1/google/protobuf/MethodOptions$IdempotencyLevel;
 }
@@ -4416,7 +4416,7 @@ public abstract class protokt/v1/google/protobuf/NullValue : protokt/v1/Enum {
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/protobuf/NullValue$Deserializer : protokt/v1/EnumDecoder {
+public final class protokt/v1/google/protobuf/NullValue$Deserializer : protokt/v1/EnumReader {
 	public synthetic fun from (I)Lprotokt/v1/Enum;
 	public fun from (I)Lprotokt/v1/google/protobuf/NullValue;
 }
@@ -4773,7 +4773,7 @@ public abstract class protokt/v1/google/protobuf/Syntax : protokt/v1/Enum {
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/protobuf/Syntax$Deserializer : protokt/v1/EnumDecoder {
+public final class protokt/v1/google/protobuf/Syntax$Deserializer : protokt/v1/EnumReader {
 	public synthetic fun from (I)Lprotokt/v1/Enum;
 	public fun from (I)Lprotokt/v1/google/protobuf/Syntax;
 }
@@ -5210,7 +5210,7 @@ public abstract class protokt/v1/google/protobuf/compiler/CodeGeneratorResponse$
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/protobuf/compiler/CodeGeneratorResponse$Feature$Deserializer : protokt/v1/EnumDecoder {
+public final class protokt/v1/google/protobuf/compiler/CodeGeneratorResponse$Feature$Deserializer : protokt/v1/EnumReader {
 	public synthetic fun from (I)Lprotokt/v1/Enum;
 	public fun from (I)Lprotokt/v1/google/protobuf/compiler/CodeGeneratorResponse$Feature;
 }

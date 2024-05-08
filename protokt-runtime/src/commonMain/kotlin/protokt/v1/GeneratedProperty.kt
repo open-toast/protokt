@@ -16,9 +16,9 @@
 package protokt.v1
 
 @Target(AnnotationTarget.PROPERTY)
-annotation class Property(
+annotation class GeneratedProperty(
     /**
-     * The field's Protobuf field number.
+     * The property's Protobuf field number.
      */
     val number: Int
 )

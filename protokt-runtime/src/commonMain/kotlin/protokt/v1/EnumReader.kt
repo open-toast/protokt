@@ -15,6 +15,6 @@
 
 package protokt.v1
 
-interface EnumDecoder<E : Enum> {
+interface EnumReader<E : Enum> {
     fun from(value: Int): E
 }

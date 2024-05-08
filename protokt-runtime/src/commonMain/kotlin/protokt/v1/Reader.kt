@@ -51,6 +51,6 @@ interface Reader {
     fun readUInt32(): UInt =
         readInt32().toUInt()
 
-    fun <T : Enum> readEnum(e: EnumDecoder<T>): T =
+    fun <T : Enum> readEnum(e: EnumReader<T>): T =
         e.from(readInt32())
 }

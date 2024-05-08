@@ -20,8 +20,8 @@ import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.MemberName
 import com.squareup.kotlinpoet.MemberName.Companion.member
 import com.squareup.kotlinpoet.asTypeName
-import protokt.v1.Writer
 import protokt.v1.SizeCodecs
+import protokt.v1.Writer
 import protokt.v1.codegen.generate.sizeOf
 import kotlin.reflect.KClass
 
