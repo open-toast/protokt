@@ -302,7 +302,7 @@ public final class protokt/v1/google/api/BackendRule$PathTranslation$CONSTANT_AD
 	public static final field INSTANCE Lprotokt/v1/google/api/BackendRule$PathTranslation$CONSTANT_ADDRESS;
 }
 
-public final class protokt/v1/google/api/BackendRule$PathTranslation$Deserializer : protokt/v1/EnumDecoder {
+public final class protokt/v1/google/api/BackendRule$PathTranslation$Deserializer : protokt/v1/EnumReader {
 	public synthetic fun from (I)Lprotokt/v1/Enum;
 	public fun from (I)Lprotokt/v1/google/api/BackendRule$PathTranslation;
 }
@@ -393,7 +393,7 @@ public final class protokt/v1/google/api/ChangeType$CHANGE_TYPE_UNSPECIFIED : pr
 	public static final field INSTANCE Lprotokt/v1/google/api/ChangeType$CHANGE_TYPE_UNSPECIFIED;
 }
 
-public final class protokt/v1/google/api/ChangeType$Deserializer : protokt/v1/EnumDecoder {
+public final class protokt/v1/google/api/ChangeType$Deserializer : protokt/v1/EnumReader {
 	public synthetic fun from (I)Lprotokt/v1/Enum;
 	public fun from (I)Lprotokt/v1/google/api/ChangeType;
 }
@@ -421,7 +421,7 @@ public final class protokt/v1/google/api/ClientLibraryDestination$CLIENT_LIBRARY
 	public static final field INSTANCE Lprotokt/v1/google/api/ClientLibraryDestination$CLIENT_LIBRARY_DESTINATION_UNSPECIFIED;
 }
 
-public final class protokt/v1/google/api/ClientLibraryDestination$Deserializer : protokt/v1/EnumDecoder {
+public final class protokt/v1/google/api/ClientLibraryDestination$Deserializer : protokt/v1/EnumReader {
 	public synthetic fun from (I)Lprotokt/v1/Enum;
 	public fun from (I)Lprotokt/v1/google/api/ClientLibraryDestination;
 }
@@ -457,7 +457,7 @@ public final class protokt/v1/google/api/ClientLibraryOrganization$CLOUD : proto
 	public static final field INSTANCE Lprotokt/v1/google/api/ClientLibraryOrganization$CLOUD;
 }
 
-public final class protokt/v1/google/api/ClientLibraryOrganization$Deserializer : protokt/v1/EnumDecoder {
+public final class protokt/v1/google/api/ClientLibraryOrganization$Deserializer : protokt/v1/EnumReader {
 	public synthetic fun from (I)Lprotokt/v1/Enum;
 	public fun from (I)Lprotokt/v1/google/api/ClientLibraryOrganization;
 }
@@ -1299,7 +1299,7 @@ public final class protokt/v1/google/api/ErrorReason$CREDENTIALS_MISSING : proto
 	public static final field INSTANCE Lprotokt/v1/google/api/ErrorReason$CREDENTIALS_MISSING;
 }
 
-public final class protokt/v1/google/api/ErrorReason$Deserializer : protokt/v1/EnumDecoder {
+public final class protokt/v1/google/api/ErrorReason$Deserializer : protokt/v1/EnumReader {
 	public synthetic fun from (I)Lprotokt/v1/Enum;
 	public fun from (I)Lprotokt/v1/google/api/ErrorReason;
 }
@@ -1379,7 +1379,7 @@ public abstract class protokt/v1/google/api/FieldBehavior : protokt/v1/Enum {
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/api/FieldBehavior$Deserializer : protokt/v1/EnumDecoder {
+public final class protokt/v1/google/api/FieldBehavior$Deserializer : protokt/v1/EnumReader {
 	public synthetic fun from (I)Lprotokt/v1/Enum;
 	public fun from (I)Lprotokt/v1/google/api/FieldBehavior;
 }
@@ -1782,7 +1782,7 @@ public final class protokt/v1/google/api/LabelDescriptor$ValueType$BOOL : protok
 	public static final field INSTANCE Lprotokt/v1/google/api/LabelDescriptor$ValueType$BOOL;
 }
 
-public final class protokt/v1/google/api/LabelDescriptor$ValueType$Deserializer : protokt/v1/EnumDecoder {
+public final class protokt/v1/google/api/LabelDescriptor$ValueType$Deserializer : protokt/v1/EnumReader {
 	public synthetic fun from (I)Lprotokt/v1/Enum;
 	public fun from (I)Lprotokt/v1/google/api/LabelDescriptor$ValueType;
 }
@@ -1818,7 +1818,7 @@ public final class protokt/v1/google/api/LaunchStage$DEPRECATED : protokt/v1/goo
 	public static final field INSTANCE Lprotokt/v1/google/api/LaunchStage$DEPRECATED;
 }
 
-public final class protokt/v1/google/api/LaunchStage$Deserializer : protokt/v1/EnumDecoder {
+public final class protokt/v1/google/api/LaunchStage$Deserializer : protokt/v1/EnumReader {
 	public synthetic fun from (I)Lprotokt/v1/Enum;
 	public fun from (I)Lprotokt/v1/google/api/LaunchStage;
 }
@@ -2168,7 +2168,7 @@ public final class protokt/v1/google/api/MetricDescriptor$MetricKind$DELTA : pro
 	public static final field INSTANCE Lprotokt/v1/google/api/MetricDescriptor$MetricKind$DELTA;
 }
 
-public final class protokt/v1/google/api/MetricDescriptor$MetricKind$Deserializer : protokt/v1/EnumDecoder {
+public final class protokt/v1/google/api/MetricDescriptor$MetricKind$Deserializer : protokt/v1/EnumReader {
 	public synthetic fun from (I)Lprotokt/v1/Enum;
 	public fun from (I)Lprotokt/v1/google/api/MetricDescriptor$MetricKind;
 }
@@ -2204,7 +2204,7 @@ public final class protokt/v1/google/api/MetricDescriptor$ValueType$DOUBLE : pro
 	public static final field INSTANCE Lprotokt/v1/google/api/MetricDescriptor$ValueType$DOUBLE;
 }
 
-public final class protokt/v1/google/api/MetricDescriptor$ValueType$Deserializer : protokt/v1/EnumDecoder {
+public final class protokt/v1/google/api/MetricDescriptor$ValueType$Deserializer : protokt/v1/EnumReader {
 	public synthetic fun from (I)Lprotokt/v1/Enum;
 	public fun from (I)Lprotokt/v1/google/api/MetricDescriptor$ValueType;
 }
@@ -2646,7 +2646,7 @@ public final class protokt/v1/google/api/Property$PropertyType$DOUBLE : protokt/
 	public static final field INSTANCE Lprotokt/v1/google/api/Property$PropertyType$DOUBLE;
 }
 
-public final class protokt/v1/google/api/Property$PropertyType$Deserializer : protokt/v1/EnumDecoder {
+public final class protokt/v1/google/api/Property$PropertyType$Deserializer : protokt/v1/EnumReader {
 	public synthetic fun from (I)Lprotokt/v1/Enum;
 	public fun from (I)Lprotokt/v1/google/api/Property$PropertyType;
 }
@@ -2899,7 +2899,7 @@ public abstract class protokt/v1/google/api/ResourceDescriptor$History : protokt
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/api/ResourceDescriptor$History$Deserializer : protokt/v1/EnumDecoder {
+public final class protokt/v1/google/api/ResourceDescriptor$History$Deserializer : protokt/v1/EnumReader {
 	public synthetic fun from (I)Lprotokt/v1/Enum;
 	public fun from (I)Lprotokt/v1/google/api/ResourceDescriptor$History;
 }
@@ -2931,7 +2931,7 @@ public final class protokt/v1/google/api/ResourceDescriptor$Style$DECLARATIVE_FR
 	public static final field INSTANCE Lprotokt/v1/google/api/ResourceDescriptor$Style$DECLARATIVE_FRIENDLY;
 }
 
-public final class protokt/v1/google/api/ResourceDescriptor$Style$Deserializer : protokt/v1/EnumDecoder {
+public final class protokt/v1/google/api/ResourceDescriptor$Style$Deserializer : protokt/v1/EnumReader {
 	public synthetic fun from (I)Lprotokt/v1/Enum;
 	public fun from (I)Lprotokt/v1/google/api/ResourceDescriptor$Style;
 }
@@ -3446,7 +3446,7 @@ public abstract class protokt/v1/google/cloud/OperationResponseMapping : protokt
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/cloud/OperationResponseMapping$Deserializer : protokt/v1/EnumDecoder {
+public final class protokt/v1/google/cloud/OperationResponseMapping$Deserializer : protokt/v1/EnumReader {
 	public synthetic fun from (I)Lprotokt/v1/Enum;
 	public fun from (I)Lprotokt/v1/google/cloud/OperationResponseMapping;
 }
@@ -3950,7 +3950,7 @@ public final class protokt/v1/google/cloud/audit/ViolationInfo$PolicyType$CUSTOM
 	public static final field INSTANCE Lprotokt/v1/google/cloud/audit/ViolationInfo$PolicyType$CUSTOM_CONSTRAINT;
 }
 
-public final class protokt/v1/google/cloud/audit/ViolationInfo$PolicyType$Deserializer : protokt/v1/EnumDecoder {
+public final class protokt/v1/google/cloud/audit/ViolationInfo$PolicyType$Deserializer : protokt/v1/EnumReader {
 	public synthetic fun from (I)Lprotokt/v1/Enum;
 	public fun from (I)Lprotokt/v1/google/cloud/audit/ViolationInfo$PolicyType;
 }
@@ -4095,7 +4095,7 @@ public final class protokt/v1/google/logging/type/LogSeverity$DEFAULT : protokt/
 	public static final field INSTANCE Lprotokt/v1/google/logging/type/LogSeverity$DEFAULT;
 }
 
-public final class protokt/v1/google/logging/type/LogSeverity$Deserializer : protokt/v1/EnumDecoder {
+public final class protokt/v1/google/logging/type/LogSeverity$Deserializer : protokt/v1/EnumReader {
 	public synthetic fun from (I)Lprotokt/v1/Enum;
 	public fun from (I)Lprotokt/v1/google/logging/type/LogSeverity;
 }
@@ -4506,7 +4506,7 @@ public final class protokt/v1/google/rpc/Code$DEADLINE_EXCEEDED : protokt/v1/goo
 	public static final field INSTANCE Lprotokt/v1/google/rpc/Code$DEADLINE_EXCEEDED;
 }
 
-public final class protokt/v1/google/rpc/Code$Deserializer : protokt/v1/EnumDecoder {
+public final class protokt/v1/google/rpc/Code$Deserializer : protokt/v1/EnumReader {
 	public synthetic fun from (I)Lprotokt/v1/Enum;
 	public fun from (I)Lprotokt/v1/google/rpc/Code;
 }
@@ -5394,7 +5394,7 @@ public final class protokt/v1/google/type/CalendarPeriod$DAY : protokt/v1/google
 	public static final field INSTANCE Lprotokt/v1/google/type/CalendarPeriod$DAY;
 }
 
-public final class protokt/v1/google/type/CalendarPeriod$Deserializer : protokt/v1/EnumDecoder {
+public final class protokt/v1/google/type/CalendarPeriod$Deserializer : protokt/v1/EnumReader {
 	public synthetic fun from (I)Lprotokt/v1/Enum;
 	public fun from (I)Lprotokt/v1/google/type/CalendarPeriod;
 }
@@ -5589,7 +5589,7 @@ public final class protokt/v1/google/type/DayOfWeek$DAY_OF_WEEK_UNSPECIFIED : pr
 	public static final field INSTANCE Lprotokt/v1/google/type/DayOfWeek$DAY_OF_WEEK_UNSPECIFIED;
 }
 
-public final class protokt/v1/google/type/DayOfWeek$Deserializer : protokt/v1/EnumDecoder {
+public final class protokt/v1/google/type/DayOfWeek$Deserializer : protokt/v1/EnumReader {
 	public synthetic fun from (I)Lprotokt/v1/Enum;
 	public fun from (I)Lprotokt/v1/google/type/DayOfWeek;
 }
@@ -5882,7 +5882,7 @@ public final class protokt/v1/google/type/Month$DECEMBER : protokt/v1/google/typ
 	public static final field INSTANCE Lprotokt/v1/google/type/Month$DECEMBER;
 }
 
-public final class protokt/v1/google/type/Month$Deserializer : protokt/v1/EnumDecoder {
+public final class protokt/v1/google/type/Month$Deserializer : protokt/v1/EnumReader {
 	public synthetic fun from (I)Lprotokt/v1/Enum;
 	public fun from (I)Lprotokt/v1/google/type/Month;
 }
