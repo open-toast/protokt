@@ -54,7 +54,7 @@ private class MessageGenerator(
             handleAnnotations()
             handleConstructor(propertySpecs)
             addTypes(annotateOneofs(msg, ctx))
-            addFunction(generateMessageSize(msg, propertySpecs, ctx))
+            handleMessageSize(propertySpecs)
             addFunction(generateSerializer(msg, propertySpecs, ctx))
             handleEquals(properties)
             handleHashCode(properties)
@@ -120,6 +120,17 @@ private class MessageGenerator(
                 handleDeprecation(property.deprecation)
             }.build()
         }
+
+    private fun TypeSpec.Builder.handleMessageSize(propertySpecs: List<PropertySpec>) {
+        addProperty(generateMessageSize(msg, propertySpecs, ctx))
+        addFunction(
+            buildFunSpec("messageSize") {
+                returns(Int::class)
+                addModifiers(KModifier.OVERRIDE)
+                addStatement("return $MESSAGE_SIZE")
+            }
+        )
+    }
 
     private fun TypeSpec.Builder.handleEquals(
         properties: List<PropertyInfo>

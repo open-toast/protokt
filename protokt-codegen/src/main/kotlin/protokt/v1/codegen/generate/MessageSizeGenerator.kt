@@ -30,6 +30,8 @@ import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.Oneof
 import protokt.v1.codegen.util.StandardField
 
+internal const val MESSAGE_SIZE = "`\$messageSize`"
+
 fun generateMessageSize(msg: Message, properties: List<PropertySpec>, ctx: Context) =
     MessageSizeGenerator(msg, properties, ctx).generate()
 
@@ -47,7 +49,7 @@ private class MessageSizeGenerator(
             name
         }
 
-    fun generate(): FunSpec {
+    fun generate(): PropertySpec {
         val fieldSizes =
             msg.mapFields(
                 ctx,
@@ -62,19 +64,24 @@ private class MessageSizeGenerator(
                 }
             )
 
-        return FunSpec.builder("messageSize")
-            .addModifiers(KModifier.OVERRIDE)
-            .returns(Int::class)
-            .addCode(
-                if (fieldSizes.isEmpty()) {
-                    CodeBlock.of("return·unknownFields.size()")
-                } else {
-                    buildCodeBlock {
-                        addStatement("var·$resultVarName·=·0")
-                        fieldSizes.forEach { fs -> add(fs) }
-                        addStatement("$resultVarName·+=·unknownFields.size()")
-                        addStatement("return·$resultVarName")
-                    }
+        return PropertySpec.builder(MESSAGE_SIZE, Int::class)
+            .addModifiers(KModifier.PRIVATE)
+            .delegate(
+                buildCodeBlock {
+                    beginControlFlow("lazy")
+                    add(
+                        if (fieldSizes.isEmpty()) {
+                            CodeBlock.of("unknownFields.size()")
+                        } else {
+                            buildCodeBlock {
+                                addStatement("var·$resultVarName·=·0")
+                                fieldSizes.forEach { fs -> add(fs) }
+                                addStatement("$resultVarName·+=·unknownFields.size()")
+                                addStatement(resultVarName)
+                            }
+                        }
+                    )
+                    endControlFlow()
                 }
             )
             .build()
