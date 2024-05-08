@@ -12,11 +12,11 @@ public final class com/toasttab/protokt/grpc/SchemaDescriptor {
 }
 
 public final class protokt/v1/grpc/KtMarshaller : io/grpc/MethodDescriptor$Marshaller {
-	public fun <init> (Lprotokt/v1/KtDeserializer;)V
+	public fun <init> (Lprotokt/v1/Deserializer;)V
 	public synthetic fun parse (Ljava/io/InputStream;)Ljava/lang/Object;
-	public fun parse (Ljava/io/InputStream;)Lprotokt/v1/KtMessage;
+	public fun parse (Ljava/io/InputStream;)Lprotokt/v1/Message;
 	public synthetic fun stream (Ljava/lang/Object;)Ljava/io/InputStream;
-	public fun stream (Lprotokt/v1/KtMessage;)Ljava/io/ByteArrayInputStream;
+	public fun stream (Lprotokt/v1/Message;)Ljava/io/ByteArrayInputStream;
 }
 
 public final class protokt/v1/grpc/SchemaDescriptor {

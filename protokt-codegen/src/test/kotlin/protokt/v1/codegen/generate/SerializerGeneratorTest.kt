@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Toast, Inc.
+ * Copyright (c) 2024 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,12 +13,14 @@
  * limitations under the License.
  */
 
-package protokt.v1
+package protokt.v1.codegen.generate
 
-expect interface KtMessage {
-    val messageSize: Int
+import com.google.common.truth.Truth.assertThat
+import org.junit.jupiter.api.Test
 
-    fun serialize(serializer: KtMessageSerializer)
-
-    fun serialize(): ByteArray
+class SerializerGeneratorTest {
+    @Test
+    fun `writer is named correctly`() {
+        assertThat(WRITER).isEqualTo("writer")
+    }
 }

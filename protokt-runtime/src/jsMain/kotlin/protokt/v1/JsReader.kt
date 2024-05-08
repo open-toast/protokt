@@ -15,8 +15,8 @@
 
 package protokt.v1
 
-internal fun deserializer(reader: Reader): KtMessageDeserializer {
-    return object : KtMessageDeserializer {
+internal fun reader(reader: ProtobufJsReader): Reader {
+    return object : Reader {
         var lastTag = 0u
         var endPosition = reader.len
 
@@ -89,7 +89,7 @@ internal fun deserializer(reader: Reader): KtMessageDeserializer {
         @Suppress("OVERRIDE_BY_INLINE")
         override inline fun readRepeated(
             packed: Boolean,
-            acc: KtMessageDeserializer.() -> Unit
+            acc: Reader.() -> Unit
         ) {
             if (!packed || tagWireType(lastTag) != 2) {
                 acc(this)
@@ -102,7 +102,7 @@ internal fun deserializer(reader: Reader): KtMessageDeserializer {
             }
         }
 
-        override fun <T : KtMessage> readMessage(m: KtDeserializer<T>): T {
+        override fun <T : Message> readMessage(m: Deserializer<T>): T {
             val oldEndPosition = endPosition
             endPosition = readInt32() + reader.pos
             val ret = m.deserialize(this)

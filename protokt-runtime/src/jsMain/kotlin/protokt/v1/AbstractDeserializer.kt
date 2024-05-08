@@ -15,17 +15,15 @@
 
 package protokt.v1
 
-import com.google.protobuf.CodedInputStream
-
-actual abstract class AbstractKtDeserializer<T : KtMessage> actual constructor() : KtDeserializer<T> {
-    actual abstract override fun deserialize(deserializer: KtMessageDeserializer): T
+actual abstract class AbstractDeserializer<T : Message> actual constructor() : Deserializer<T> {
+    actual abstract override fun deserialize(reader: Reader): T
 
     actual final override fun deserialize(bytes: Bytes) =
         deserialize(bytes.value)
 
-    actual final override fun deserialize(bytes: ByteArray) =
-        deserialize(deserializer(CodedInputStream.newInstance(bytes), bytes))
+    actual final override fun deserialize(bytes: ByteArray): T =
+        deserialize(reader(ProtobufJsReader.create(bytes.asUint8Array())))
 
-    actual final override fun deserialize(bytes: BytesSlice) =
-        deserialize(deserializer(CodedInputStream.newInstance(bytes.array, bytes.offset, bytes.length)))
+    actual final override fun deserialize(bytes: BytesSlice): T =
+        deserialize(reader(ProtobufJsReader.create(bytes.asUint8Array())))
 }

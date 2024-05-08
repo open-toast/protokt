@@ -13,14 +13,12 @@
  * limitations under the License.
  */
 
-package protokt.v1
+@file:JvmName("SchemaDescriptors")
 
-expect interface KtDeserializer<T : KtMessage> {
-    fun deserialize(deserializer: KtMessageDeserializer): T
+package protokt.v1.grpc
 
-    fun deserialize(bytes: Bytes): T
+import protokt.v1.google.protobuf.FileDescriptor
 
-    fun deserialize(bytes: ByteArray): T
-
-    fun deserialize(bytes: BytesSlice): T
-}
+@Suppress("DEPRECATION")
+val SchemaDescriptor.fileDescriptor: FileDescriptor
+    get() = fileDescriptorUntyped as FileDescriptor

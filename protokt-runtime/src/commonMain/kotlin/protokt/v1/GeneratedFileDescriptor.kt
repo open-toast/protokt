@@ -13,10 +13,6 @@
  * limitations under the License.
  */
 
-package protokt.v1.grpc
+package protokt.v1
 
-import protokt.v1.google.protobuf.FileDescriptor
-
-@Suppress("DEPRECATION")
-val SchemaDescriptor.fileDescriptor: FileDescriptor
-    get() = fileDescriptorUntyped as FileDescriptor
+annotation class GeneratedFileDescriptor
