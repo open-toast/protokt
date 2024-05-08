@@ -119,7 +119,9 @@ private class EnumGenerator(
                         addCode(
                             buildCodeBlock {
                                 beginControlFlow("return when (value)")
-                                cases().forEach(::addStatement)
+                                e.values.distinctBy { it.number }.forEach {
+                                    addStatement("%L -> %N", it.number, it.valueName)
+                                }
                                 addStatement("else -> UNRECOGNIZED(value)")
                                 endControlFlowWithoutNewline()
                             }
@@ -129,9 +131,4 @@ private class EnumGenerator(
                 .build()
         )
     }
-
-    private fun cases() =
-        e.values
-            .distinctBy { it.number }
-            .map { "${it.number} -> ${it.valueName}" }
 }
