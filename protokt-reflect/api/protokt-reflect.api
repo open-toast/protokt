@@ -1239,12 +1239,7 @@ public final class protokt/v1/google/protobuf/Messages {
 }
 
 public final class protokt/v1/google/protobuf/RuntimeContext {
-	public static final field Companion Lprotokt/v1/google/protobuf/RuntimeContext$Companion;
 	public fun <init> (Ljava/lang/Iterable;)V
 	public final fun convertValue (Ljava/lang/Object;)Ljava/lang/Object;
-}
-
-public final class protokt/v1/google/protobuf/RuntimeContext$Companion {
-	public final fun getContextReflectively ()Lprotokt/v1/google/protobuf/RuntimeContext;
 }
 
