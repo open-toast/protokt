@@ -25,8 +25,8 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
 import protokt.v1.AbstractMessage
-import protokt.v1.GeneratedProperty
 import protokt.v1.GeneratedMessage
+import protokt.v1.GeneratedProperty
 import protokt.v1.UnknownFieldSet
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.CodeGenerator.generate

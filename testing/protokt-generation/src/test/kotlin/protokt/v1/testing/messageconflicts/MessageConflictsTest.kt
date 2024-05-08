@@ -17,9 +17,6 @@ package protokt.v1.testing.messageconflicts
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
-import protokt.v1.testing.enumconflicts.AbstractDecoder
-import protokt.v1.testing.enumconflicts.Decoder
-import protokt.v1.testing.enumconflicts.Encoder
 import protokt.v1.testing.enumconflicts.EnumDecoder
 
 class MessageConflictsTest {
