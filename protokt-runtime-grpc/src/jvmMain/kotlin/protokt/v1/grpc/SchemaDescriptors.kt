@@ -13,6 +13,8 @@
  * limitations under the License.
  */
 
+@file:JvmName("SchemaDescriptors")
+
 package protokt.v1.grpc
 
 import protokt.v1.google.protobuf.FileDescriptor
