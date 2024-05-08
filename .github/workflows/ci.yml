@@ -54,12 +54,8 @@ jobs:
         path: build/repos/integration
     - uses: browser-actions/setup-firefox@v1
       id: firefox-install
-    - name: echo
-      env:
-        FIREFOX_BIN: ${{steps.firefox-install.outputs.firefox-path}}
-      run: echo "$FIREFOX_BIN"
     - name: Build and test
-      env:
-        FIREFOX_BIN: ${{steps.firefox-install.outputs.firefox-path}}
+#      env:
+#        FIREFOX_BIN: ${{steps.firefox-install.outputs.firefox-path}}
       run: ./gradlew "-Dkotlin-integration.version=${{ matrix.kotlin }}" clean build --stacktrace --no-daemon
       working-directory: gradle-plugin-integration-test
