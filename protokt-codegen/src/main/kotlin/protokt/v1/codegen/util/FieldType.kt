@@ -20,7 +20,7 @@ import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.MemberName
 import com.squareup.kotlinpoet.MemberName.Companion.member
 import com.squareup.kotlinpoet.asTypeName
-import protokt.v1.Encoder
+import protokt.v1.Writer
 import protokt.v1.SizeCodecs
 import protokt.v1.codegen.generate.sizeOf
 import kotlin.reflect.KClass
@@ -72,14 +72,14 @@ sealed class FieldType {
 
     val writeFn
         get() = when (this) {
-            Fixed32 -> Encoder::writeFixed32.name
-            SFixed32 -> Encoder::writeSFixed32.name
-            UInt32 -> Encoder::writeUInt32.name
-            SInt32 -> Encoder::writeSInt32.name
-            Fixed64 -> Encoder::writeFixed64.name
-            SFixed64 -> Encoder::writeSFixed64.name
-            UInt64 -> Encoder::writeUInt64.name
-            SInt64 -> Encoder::writeSInt64.name
+            Fixed32 -> Writer::writeFixed32.name
+            SFixed32 -> Writer::writeSFixed32.name
+            UInt32 -> Writer::writeUInt32.name
+            SInt32 -> Writer::writeSInt32.name
+            Fixed64 -> Writer::writeFixed64.name
+            SFixed64 -> Writer::writeSFixed64.name
+            UInt64 -> Writer::writeUInt64.name
+            SInt64 -> Writer::writeSInt64.name
             else -> "write"
         }
 

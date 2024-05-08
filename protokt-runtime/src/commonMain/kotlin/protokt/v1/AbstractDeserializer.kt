@@ -16,7 +16,7 @@
 package protokt.v1
 
 expect abstract class AbstractDeserializer<T : Message>() : Deserializer<T> {
-    abstract override fun deserialize(decoder: Decoder): T
+    abstract override fun deserialize(reader: Reader): T
 
     final override fun deserialize(bytes: Bytes): T
 

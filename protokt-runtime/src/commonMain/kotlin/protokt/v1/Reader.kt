@@ -15,7 +15,7 @@
 
 package protokt.v1
 
-interface Decoder {
+interface Reader {
     fun readBytes(): Bytes
     fun readBytesSlice(): BytesSlice
     fun readDouble(): Double
@@ -31,7 +31,7 @@ interface Decoder {
     fun readUInt64(): ULong
     fun readTag(): UInt
     fun readUnknown(): UnknownField
-    fun readRepeated(packed: Boolean, acc: Decoder.() -> Unit)
+    fun readRepeated(packed: Boolean, acc: Reader.() -> Unit)
     fun <T : Message> readMessage(m: Deserializer<T>): T
 
     // protobufjs:

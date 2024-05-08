@@ -15,8 +15,8 @@
 
 package protokt.v1
 
-internal fun encoder(writer: Writer): Encoder {
-    return object : Encoder {
+internal fun writer(writer: ProtobufJsWriter): Writer {
+    return object : Writer {
         override fun writeFixed32(i: UInt) {
             writer.fixed32(i.toInt())
         }

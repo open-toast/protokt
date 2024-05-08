@@ -15,8 +15,8 @@
 
 package protokt.v1
 
-internal fun decoder(reader: Reader): Decoder {
-    return object : Decoder {
+internal fun reader(reader: ProtobufJsReader): Reader {
+    return object : Reader {
         var lastTag = 0u
         var endPosition = reader.len
 
@@ -89,7 +89,7 @@ internal fun decoder(reader: Reader): Decoder {
         @Suppress("OVERRIDE_BY_INLINE")
         override inline fun readRepeated(
             packed: Boolean,
-            acc: Decoder.() -> Unit
+            acc: Reader.() -> Unit
         ) {
             if (!packed || tagWireType(lastTag) != 2) {
                 acc(this)

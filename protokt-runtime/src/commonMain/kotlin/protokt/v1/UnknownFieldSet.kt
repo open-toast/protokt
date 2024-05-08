@@ -79,11 +79,11 @@ class UnknownFieldSet private constructor(
         private fun asSequence(): Sequence<UnknownValue> =
             (varint.asSequence() + fixed32 + fixed64 + lengthDelimited)
 
-        fun write(fieldNumber: UInt, serializer: Encoder) {
+        fun write(fieldNumber: UInt, serializer: Writer) {
             asSequence().forEach { serializer.write(it, fieldNumber) }
         }
 
-        private fun Encoder.write(
+        private fun Writer.write(
             unknownValue: UnknownValue,
             fieldNumber: UInt
         ) {
@@ -95,7 +95,7 @@ class UnknownFieldSet private constructor(
             }
         }
 
-        private fun Encoder.write(fieldNumber: UInt, wireType: Int) =
+        private fun Writer.write(fieldNumber: UInt, wireType: Int) =
             also { writeUInt32((fieldNumber shl 3) or wireType.toUInt()) }
 
         override fun equals(other: Any?) =

@@ -15,7 +15,7 @@
 
 package protokt.v1
 
-interface Encoder {
+interface Writer {
     fun writeFixed32(i: UInt)
     fun writeSFixed32(i: Int)
     fun writeUInt32(i: UInt)

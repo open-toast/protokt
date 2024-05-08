@@ -19,11 +19,11 @@ import com.google.protobuf.CodedInputStream
 import com.google.protobuf.InvalidProtocolBufferException
 import com.google.protobuf.WireFormat
 
-internal fun deserializer(
+internal fun reader(
     stream: CodedInputStream,
     bytes: ByteArray? = null
-): Decoder {
-    return object : Decoder {
+): Reader {
+    return object : Reader {
         override fun readDouble() =
             stream.readDouble()
 
@@ -97,7 +97,7 @@ internal fun deserializer(
         @Suppress("OVERRIDE_BY_INLINE")
         override inline fun readRepeated(
             packed: Boolean,
-            acc: Decoder.() -> Unit
+            acc: Reader.() -> Unit
         ) {
             if (!packed ||
                 WireFormat.getTagWireType(stream.lastTag) !=

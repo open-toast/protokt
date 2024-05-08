@@ -24,8 +24,8 @@ actual interface Deserializer<T : Message> {
 
     actual fun deserialize(bytes: BytesSlice): T
 
-    actual fun deserialize(decoder: Decoder): T
+    actual fun deserialize(reader: Reader): T
 
     fun deserialize(bytes: Uint8Array): T =
-        deserialize(decoder(Reader.create(bytes)))
+        deserialize(reader(Reader.create(bytes)))
 }

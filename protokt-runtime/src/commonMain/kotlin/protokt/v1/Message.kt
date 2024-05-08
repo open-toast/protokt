@@ -18,7 +18,7 @@ package protokt.v1
 expect interface Message {
     fun messageSize(): Int
 
-    fun serialize(encoder: Encoder)
+    fun serialize(writer: Writer)
 
     fun serialize(): ByteArray
 }

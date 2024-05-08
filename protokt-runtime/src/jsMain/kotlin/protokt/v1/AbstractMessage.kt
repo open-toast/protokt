@@ -20,7 +20,7 @@ import org.khronos.webgl.Int8Array
 actual abstract class AbstractMessage actual constructor() : Message {
     actual final override fun serialize(): ByteArray {
         val writer = Writer.create()
-        serialize(encoder(writer))
+        serialize(writer(writer))
         val buf = writer.finish()
         val res = Int8Array(buf.buffer, buf.byteOffset, buf.length).unsafeCast<ByteArray>()
         check(res.size == messageSize()) { "Expected ${messageSize()}, got ${res.size}" }

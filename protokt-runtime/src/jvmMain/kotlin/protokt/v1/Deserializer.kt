@@ -26,14 +26,14 @@ actual interface Deserializer<T : Message> {
 
     actual fun deserialize(bytes: BytesSlice): T
 
-    actual fun deserialize(decoder: Decoder): T
+    actual fun deserialize(reader: Reader): T
 
     fun deserialize(stream: InputStream): T =
-        deserialize(deserializer(CodedInputStream.newInstance(stream)))
+        deserialize(reader(CodedInputStream.newInstance(stream)))
 
     fun deserialize(stream: CodedInputStream): T =
-        deserialize(deserializer(stream))
+        deserialize(reader(stream))
 
     fun deserialize(buffer: ByteBuffer): T =
-        deserialize(deserializer(CodedInputStream.newInstance(buffer)))
+        deserialize(reader(CodedInputStream.newInstance(buffer)))
 }

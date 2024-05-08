@@ -18,7 +18,7 @@ package protokt.v1
 actual interface Message {
     actual fun messageSize(): Int
 
-    actual fun serialize(encoder: Encoder)
+    actual fun serialize(writer: Writer)
 
     actual fun serialize(): ByteArray
 }

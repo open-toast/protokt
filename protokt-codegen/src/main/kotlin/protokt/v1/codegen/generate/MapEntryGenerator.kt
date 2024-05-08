@@ -24,8 +24,8 @@ import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
 import protokt.v1.AbstractDeserializer
 import protokt.v1.AbstractMessage
-import protokt.v1.Decoder
-import protokt.v1.Encoder
+import protokt.v1.Reader
+import protokt.v1.Writer
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Wrapper.interceptDefaultValue
 import protokt.v1.codegen.generate.Wrapper.interceptTypeName
@@ -99,7 +99,7 @@ private class MapEntryGenerator(
         addFunction(
             buildFunSpec("serialize") {
                 addModifiers(KModifier.OVERRIDE)
-                addParameter(ENCODER, Encoder::class)
+                addParameter(WRITER, Writer::class)
                 addStatement("%L", serialize(key, ctx, keyProp))
                 addStatement("%L", serialize(value, ctx, valProp))
             }
@@ -129,13 +129,13 @@ private class MapEntryGenerator(
                 .addFunction(
                     buildFunSpec("deserialize") {
                         addModifiers(KModifier.OVERRIDE)
-                        addParameter(DECODER, Decoder::class)
+                        addParameter(READER, Reader::class)
                         returns(msg.className)
                         addStatement("%L", deserializeVar(keyPropInfo, ::key))
                         addStatement("%L", deserializeVar(valPropInfo, ::value))
                         addCode("\n")
                         beginControlFlow("while (true)")
-                        beginControlFlow("when ($DECODER.readTag())")
+                        beginControlFlow("when ($READER.readTag())")
                         addStatement("%L", constructOnZero())
                         addStatement(
                             "${key.tag.value}u -> key = %L",

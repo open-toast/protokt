@@ -20,7 +20,8 @@ package protokt.v1
 
 import org.khronos.webgl.Uint8Array
 
-internal external class Writer {
+@JsName("Writer")
+internal external class ProtobufJsWriter {
     fun bool(value: Boolean): Writer
 
     fun bytes(value: Uint8Array): Writer
@@ -58,7 +59,8 @@ internal external class Writer {
     }
 }
 
-internal external class Reader {
+@JsName("Reader")
+internal external class ProtobufJsReader {
     val len: Int
 
     val pos: Int

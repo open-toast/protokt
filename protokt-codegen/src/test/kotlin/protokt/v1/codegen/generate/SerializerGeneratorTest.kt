@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Toast, Inc.
+ * Copyright (c) 2024 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,14 +13,14 @@
  * limitations under the License.
  */
 
-package protokt.v1
+package protokt.v1.codegen.generate
 
-expect interface Deserializer<T : Message> {
-    fun deserialize(reader: Reader): T
+import com.google.common.truth.Truth.assertThat
+import org.junit.jupiter.api.Test
 
-    fun deserialize(bytes: Bytes): T
-
-    fun deserialize(bytes: ByteArray): T
-
-    fun deserialize(bytes: BytesSlice): T
+class SerializerGeneratorTest {
+    @Test
+    fun `writer is named correctly`() {
+        assertThat(WRITER).isEqualTo("writer")
+    }
 }

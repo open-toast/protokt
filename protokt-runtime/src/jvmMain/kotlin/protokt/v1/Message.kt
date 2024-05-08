@@ -21,13 +21,13 @@ import java.io.OutputStream
 actual interface Message {
     actual fun messageSize(): Int
 
-    actual fun serialize(encoder: Encoder)
+    actual fun serialize(writer: Writer)
 
     actual fun serialize(): ByteArray
 
     fun serialize(outputStream: OutputStream) =
         CodedOutputStream.newInstance(outputStream).run {
-            serialize(encoder(this))
+            serialize(writer(this))
             flush()
         }
 }
