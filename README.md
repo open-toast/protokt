@@ -945,7 +945,7 @@ when the gRPC generation options are enabled:
 protokt {
     generate {
         grpcDescriptors = true
-       grpcKotlinStubs = true
+        grpcKotlinStubs = true
     } 
 }
 ```
