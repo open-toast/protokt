@@ -23,7 +23,7 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
-import protokt.v1.KtBuilderDsl
+import protokt.v1.BuilderDsl
 import protokt.v1.UnknownFieldSet
 import protokt.v1.codegen.generate.Deprecation.handleDeprecation
 import protokt.v1.codegen.util.BUILDER
@@ -63,7 +63,7 @@ private class BuilderGenerator(
         )
         builder.addType(
             TypeSpec.classBuilder(msg.builderClassName)
-                .addAnnotation(KtBuilderDsl::class)
+                .addAnnotation(BuilderDsl::class)
                 .addProperties(
                     properties.map {
                         PropertySpec.builder(it.name, it.builderPropertyType)

@@ -16,7 +16,6 @@
 package protokt.v1.codegen.generate
 
 import com.squareup.kotlinpoet.CodeBlock
-import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.buildCodeBlock
@@ -30,6 +29,8 @@ import protokt.v1.codegen.util.Oneof
 import protokt.v1.codegen.util.SizeFn
 import protokt.v1.codegen.util.StandardField
 import protokt.v1.codegen.util.sizeFn
+
+internal const val MESSAGE_SIZE = "`\$messageSize`"
 
 internal fun generateMessageSize(msg: Message, properties: List<PropertySpec>, ctx: Context) =
     MessageSizeGenerator(msg, properties, ctx).generate()
@@ -48,7 +49,7 @@ private class MessageSizeGenerator(
             name
         }
 
-    fun generate(): FunSpec {
+    fun generate(): PropertySpec {
         val fieldSizes =
             msg.mapFields(
                 ctx,
@@ -63,19 +64,24 @@ private class MessageSizeGenerator(
                 }
             )
 
-        return FunSpec.builder("messageSize")
+        return PropertySpec.builder(MESSAGE_SIZE, Int::class)
             .addModifiers(KModifier.PRIVATE)
-            .returns(Int::class)
-            .addCode(
-                if (fieldSizes.isEmpty()) {
-                    CodeBlock.of("return·unknownFields.size()")
-                } else {
-                    buildCodeBlock {
-                        addStatement("var·$resultVarName·=·0")
-                        fieldSizes.forEach { fs -> add(fs) }
-                        addStatement("$resultVarName·+=·unknownFields.size()")
-                        addStatement("return·$resultVarName")
-                    }
+            .delegate(
+                buildCodeBlock {
+                    beginControlFlow("lazy")
+                    add(
+                        if (fieldSizes.isEmpty()) {
+                            CodeBlock.of("unknownFields.size()")
+                        } else {
+                            buildCodeBlock {
+                                addStatement("var·$resultVarName·=·0")
+                                fieldSizes.forEach { fs -> add(fs) }
+                                addStatement("$resultVarName·+=·unknownFields.size()")
+                                addStatement(resultVarName)
+                            }
+                        }
+                    )
+                    endControlFlow()
                 }
             )
             .build()

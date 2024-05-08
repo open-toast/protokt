@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast, Inc.
+ * Copyright (c) 2023 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,10 +15,10 @@
 
 package protokt.v1
 
-actual interface KtMessage {
-    actual val messageSize: Int
+expect interface Message {
+    fun messageSize(): Int
 
-    actual fun serialize(serializer: KtMessageSerializer)
+    fun serialize(writer: Writer)
 
-    actual fun serialize(): ByteArray
+    fun serialize(): ByteArray
 }

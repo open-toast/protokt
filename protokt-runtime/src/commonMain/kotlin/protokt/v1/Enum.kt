@@ -15,10 +15,18 @@
 
 package protokt.v1
 
-@Target(AnnotationTarget.CLASS)
-annotation class KtGeneratedMessage(
-    /**
-     * The full protocol buffer type name of this message used for packing into an Any.
-     */
-    val fullTypeName: String
-)
+abstract class Enum {
+    abstract val value: Int
+    abstract val name: String
+
+    final override fun equals(other: Any?) =
+        other != null &&
+            other::class == this::class &&
+            (other as Enum).value == value
+
+    final override fun hashCode() =
+        value
+
+    final override fun toString() =
+        name
+}

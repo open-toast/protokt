@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Toast, Inc.
+ * Copyright (c) 2022 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,10 +15,6 @@
 
 package protokt.v1
 
-@Target(AnnotationTarget.PROPERTY)
-annotation class KtProperty(
-    /**
-     * The field's Protobuf field number.
-     */
-    val number: Int
-)
+expect abstract class AbstractMessage() : Message {
+    final override fun serialize(): ByteArray
+}

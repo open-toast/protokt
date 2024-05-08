@@ -28,7 +28,11 @@ internal class EnumParser(
     fun toEnum(): Enum {
         val enumTypeNamePrefixToStrip =
             (CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, desc.name) + '_')
-                .takeIf { desc.valueList.all { e -> e.name.startsWith(it) } }
+                .takeIf {
+                    desc.valueList.all { e ->
+                        e.name.startsWith(it) && e.name.length > it.length && !e.name[it.length].isDigit()
+                    }
+                }
 
         val simpleNames = enclosingMessages + desc.name
 

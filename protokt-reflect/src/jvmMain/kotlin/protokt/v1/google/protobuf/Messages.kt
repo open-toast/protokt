@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-@file:JvmName("KtMessages")
+@file:JvmName("Messages")
 
 package protokt.v1.google.protobuf
 
@@ -23,7 +23,6 @@ import com.google.protobuf.Descriptors.FieldDescriptor
 import com.google.protobuf.Descriptors.FieldDescriptor.Type
 import com.google.protobuf.DynamicMessage
 import com.google.protobuf.MapEntry
-import com.google.protobuf.Message
 import com.google.protobuf.UnknownFieldSet
 import com.google.protobuf.UnknownFieldSet.Field
 import com.google.protobuf.UnsafeByteOperations
@@ -32,10 +31,10 @@ import com.toasttab.protokt.v1.ProtoktProtos
 import io.github.classgraph.ClassGraph
 import protokt.v1.Bytes
 import protokt.v1.Converter
-import protokt.v1.KtEnum
-import protokt.v1.KtGeneratedFileDescriptor
-import protokt.v1.KtGeneratedMessage
-import protokt.v1.KtMessage
+import protokt.v1.Enum
+import protokt.v1.GeneratedFileDescriptor
+import protokt.v1.GeneratedMessage
+import protokt.v1.Message
 import protokt.v1.reflect.ClassLookup
 import protokt.v1.reflect.FieldType
 import protokt.v1.reflect.WellKnownTypes
@@ -46,11 +45,12 @@ import kotlin.Any
 import kotlin.reflect.KClass
 import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.full.findAnnotation
+import com.google.protobuf.Message as ProtobufMessage
 
-fun KtMessage.toDynamicMessage(context: RuntimeContext): DynamicMessage =
+fun Message.toDynamicMessage(context: RuntimeContext): DynamicMessage =
     context.convertValue(this) as DynamicMessage
 
-fun KtMessage.hasField(field: FieldDescriptor): Boolean {
+fun Message.hasField(field: FieldDescriptor): Boolean {
     val value = getField(field)
 
     return if (field.hasPresence()) {
@@ -68,7 +68,7 @@ private fun defaultValue(field: FieldDescriptor) =
         else -> field.defaultValue
     }
 
-fun KtMessage.getField(field: FieldDescriptor) =
+fun Message.getField(field: FieldDescriptor) =
     ProtoktReflect.getField(this, field)
 
 class RuntimeContext internal constructor(
@@ -81,10 +81,10 @@ class RuntimeContext internal constructor(
 
     fun convertValue(value: Any) =
         when (value) {
-            is KtEnum -> value.value
+            is Enum -> value.value
             is UInt -> value.toInt()
             is ULong -> value.toLong()
-            is KtMessage -> toDynamicMessage(value, this)
+            is Message -> toDynamicMessage(value, this)
             is Bytes -> UnsafeByteOperations.unsafeWrap(value.asReadOnlyBuffer())
 
             // pray
@@ -127,7 +127,7 @@ private fun getDescriptors() =
         .enableAnnotationInfo()
         .scan()
         .use {
-            it.getClassesWithAnnotation(KtGeneratedFileDescriptor::class.java)
+            it.getClassesWithAnnotation(GeneratedFileDescriptor::class.java)
                 .map { info ->
                     @Suppress("UNCHECKED_CAST")
                     info.loadClass().kotlin as KClass<Any>
@@ -155,12 +155,12 @@ private fun FileDescriptor.toProtobufJavaDescriptor(): Descriptors.FileDescripto
     )
 
 private fun toDynamicMessage(
-    message: KtMessage,
+    message: Message,
     context: RuntimeContext,
-): Message {
+): ProtobufMessage {
     val descriptor =
         context.descriptorsByTypeName
-            .getValue(message::class.findAnnotation<KtGeneratedMessage>()!!.fullTypeName)
+            .getValue(message::class.findAnnotation<GeneratedMessage>()!!.fullTypeName)
 
     return DynamicMessage.newBuilder(descriptor)
         .apply {
@@ -173,9 +173,9 @@ private fun toDynamicMessage(
                         when {
                             field.type == Type.ENUM ->
                                 if (field.isRepeated) {
-                                    (value as List<*>).map { field.enumType.findValueByNumberCreatingIfUnknown(((it as KtEnum).value)) }
+                                    (value as List<*>).map { field.enumType.findValueByNumberCreatingIfUnknown(((it as Enum).value)) }
                                 } else {
-                                    field.enumType.findValueByNumberCreatingIfUnknown(((value as KtEnum).value))
+                                    field.enumType.findValueByNumberCreatingIfUnknown(((value as Enum).value))
                                 }
 
                             field.isMapField ->
@@ -296,7 +296,7 @@ private fun convertMap(
     }
 }
 
-private fun mapUnknownFields(message: KtMessage): UnknownFieldSet {
+private fun mapUnknownFields(message: Message): UnknownFieldSet {
     val unknownFields = UnknownFieldSet.newBuilder()
 
     getUnknownFields(message).forEach { (number, field) ->

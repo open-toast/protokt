@@ -26,7 +26,7 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.joinToCode
 import com.squareup.kotlinpoet.withIndent
-import protokt.v1.KtGeneratedFileDescriptor
+import protokt.v1.GeneratedFileDescriptor
 import protokt.v1.codegen.util.Enum
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.PROTOKT_V1_GOOGLE_PROTO
@@ -49,7 +49,7 @@ private constructor(
 
         val type =
             TypeSpec.objectBuilder(ctx.fileDescriptorObjectName)
-                .addAnnotation(KtGeneratedFileDescriptor::class)
+                .addAnnotation(GeneratedFileDescriptor::class)
                 .addProperty(
                     PropertySpec.builder("descriptor", ClassName(PROTOKT_V1_GOOGLE_PROTO, "FileDescriptor"))
                         .delegate(

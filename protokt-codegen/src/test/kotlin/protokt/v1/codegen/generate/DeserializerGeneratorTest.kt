@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast, Inc.
+ * Copyright (c) 2024 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,8 +13,14 @@
  * limitations under the License.
  */
 
-package protokt.v1
+package protokt.v1.codegen.generate
 
-expect abstract class AbstractKtMessage() : KtMessage {
-    final override fun serialize(): ByteArray
+import com.google.common.truth.Truth.assertThat
+import org.junit.jupiter.api.Test
+
+class DeserializerGeneratorTest {
+    @Test
+    fun `reader is named correctly`() {
+        assertThat(READER).isEqualTo("reader")
+    }
 }

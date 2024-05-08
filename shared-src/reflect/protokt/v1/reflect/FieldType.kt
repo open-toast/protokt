@@ -16,9 +16,7 @@
 package protokt.v1.reflect
 
 import com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Type
-import protokt.v1.KtEnum
-import protokt.v1.KtMessage
-import protokt.v1.KtMessageSerializer
+import protokt.v1.Writer
 import kotlin.reflect.KClass
 
 internal sealed class FieldType {
@@ -31,8 +29,8 @@ internal sealed class FieldType {
         override val ktRepresentation: KClass<*>? = null
     ) : FieldType()
 
-    object Enum : Nonscalar(ktRepresentation = KtEnum::class)
-    object Message : Nonscalar(ktRepresentation = KtMessage::class)
+    object Enum : Nonscalar(ktRepresentation = protokt.v1.Enum::class)
+    object Message : Nonscalar(ktRepresentation = protokt.v1.Message::class)
     object String : Nonscalar(kotlin.String::class)
     object Bytes : Nonscalar(protokt.v1.Bytes::class)
 
@@ -68,14 +66,14 @@ internal sealed class FieldType {
 
     val writeFn
         get() = when (this) {
-            Fixed32 -> KtMessageSerializer::writeFixed32.name
-            SFixed32 -> KtMessageSerializer::writeSFixed32.name
-            UInt32 -> KtMessageSerializer::writeUInt32.name
-            SInt32 -> KtMessageSerializer::writeSInt32.name
-            Fixed64 -> KtMessageSerializer::writeFixed64.name
-            SFixed64 -> KtMessageSerializer::writeSFixed64.name
-            UInt64 -> KtMessageSerializer::writeUInt64.name
-            SInt64 -> KtMessageSerializer::writeSInt64.name
+            Fixed32 -> Writer::writeFixed32.name
+            SFixed32 -> Writer::writeSFixed32.name
+            UInt32 -> Writer::writeUInt32.name
+            SInt32 -> Writer::writeSInt32.name
+            Fixed64 -> Writer::writeFixed64.name
+            SFixed64 -> Writer::writeSFixed64.name
+            UInt64 -> Writer::writeUInt64.name
+            SInt64 -> Writer::writeSInt64.name
             else -> "write"
         }
 

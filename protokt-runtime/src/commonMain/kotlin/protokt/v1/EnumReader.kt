@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Toast, Inc.
+ * Copyright (c) 2019 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,17 +15,6 @@
 
 package protokt.v1
 
-import org.khronos.webgl.Uint8Array
-
-actual interface KtDeserializer<T : KtMessage> {
-    actual fun deserialize(bytes: Bytes): T
-
-    actual fun deserialize(bytes: ByteArray): T
-
-    actual fun deserialize(bytes: BytesSlice): T
-
-    actual fun deserialize(deserializer: KtMessageDeserializer): T
-
-    fun deserialize(bytes: Uint8Array): T =
-        deserialize(deserializer(Reader.create(bytes)))
+interface EnumReader<E : Enum> {
+    fun from(value: Int): E
 }

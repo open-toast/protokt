@@ -15,20 +15,17 @@
 
 package protokt.v1
 
-actual class Bytes internal actual constructor(value: ByteArray) : AbstractBytes(value) {
-    // Annotation `@JvmStatic` is missing on actual declaration
-    @Suppress("ACTUAL_ANNOTATIONS_NOT_MATCH_EXPECT")
-    actual companion object {
-        actual fun empty() =
-            AbstractBytes.empty()
+import org.khronos.webgl.Uint8Array
 
-        actual fun from(bytes: ByteArray) =
-            AbstractBytes.from(bytes)
+actual interface Deserializer<T : Message> {
+    actual fun deserialize(bytes: Bytes): T
 
-        actual fun from(message: Message) =
-            AbstractBytes.from(message)
-    }
+    actual fun deserialize(bytes: ByteArray): T
+
+    actual fun deserialize(bytes: BytesSlice): T
+
+    actual fun deserialize(reader: Reader): T
+
+    fun deserialize(bytes: Uint8Array): T =
+        deserialize(reader(ProtobufJsReader.create(bytes)))
 }
-
-internal actual fun clone(bytes: ByteArray) =
-    bytes.copyOf()

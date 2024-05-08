@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast, Inc.
+ * Copyright (c) 2019 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,15 +15,19 @@
 
 package protokt.v1
 
-import org.khronos.webgl.Int8Array
+import com.google.protobuf.CodedOutputStream
+import java.io.OutputStream
 
-actual abstract class AbstractKtMessage actual constructor() : KtMessage {
-    actual final override fun serialize(): ByteArray {
-        val writer = Writer.create()
-        serialize(serializer(writer))
-        val buf = writer.finish()
-        val res = Int8Array(buf.buffer, buf.byteOffset, buf.length).unsafeCast<ByteArray>()
-        check(res.size == messageSize) { "Expected $messageSize, got ${res.size}" }
-        return res
-    }
+actual interface Message {
+    actual fun messageSize(): Int
+
+    actual fun serialize(writer: Writer)
+
+    actual fun serialize(): ByteArray
+
+    fun serialize(outputStream: OutputStream) =
+        CodedOutputStream.newInstance(outputStream).run {
+            serialize(writer(this))
+            flush()
+        }
 }
