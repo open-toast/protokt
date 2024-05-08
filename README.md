@@ -12,7 +12,7 @@ Supports only version 3 of the Protocol Buffers language.
 
 ### Features
 - Idiomatic and concise [Kotlin builder DSL](#generated-code)
-- Protokt-specific options: [non-null types](#non-null-fields),
+- Protokt-specific options: [non-null types (dangerous)](#non-null-fields),
 [wrapper types](#wrapper-types),
 [interface implementation](#interface-implementation),
 and more
@@ -313,7 +313,7 @@ allowing representation of unknown values.
 public sealed class PhoneType(
   override val `value`: Int,
   override val name: String
-) : KtEnum() {
+) : Enum() {
   public object MOBILE : PhoneType(0, "MOBILE")
 
   public object HOME : PhoneType(1, "HOME")
@@ -324,7 +324,7 @@ public sealed class PhoneType(
     `value`: Int
   ) : PhoneType(value, "UNRECOGNIZED")
 
-  public companion object Deserializer : KtEnumDeserializer<PhoneType> {
+  public companion object Deserializer : EnumReader<PhoneType> {
     override fun from(`value`: Int): PhoneType =
       when (value) {
         0 -> MOBILE
@@ -342,6 +342,74 @@ To keep enums ergonomic while promoting protobuf best practices, enums that have
 all values
 [prefixed with the enum type name](https://developers.google.com/protocol-buffers/docs/style#enums)
 will have that prefix stripped in their Kotlin representations.
+
+### Reflection
+
+#### Descriptors
+
+Protokt generates and embeds descriptors for protobuf files in its output by default. Generation can be disabled
+while using the lite runtime:
+
+```kotlin
+protokt {
+    generate {
+        descriptors = false
+    } 
+}
+```
+
+#### Interop with `protobuf-java`
+
+Protokt includes [utilities](protokt-reflect/src/jvmMain/kotlin/protokt/v1/google/protobuf/Messages.kt) to reflectively
+(i.e., no-copy) convert a `protokt.v1.Message` to a `com.google.protobuf.Message`. Conversion requires that you specify
+the RuntimeContext of your proto files. If you would like to scan your classpath for all known descriptors at runtime,
+you may use Protokt's `GeneratedFileDescriptor` annotation [to do so](testing/interop/src/test/kotlin/protokt/v1/testing/RuntimeContextUtil.kt):
+
+```kotlin
+import com.google.protobuf.DescriptorProtos
+import com.google.protobuf.Descriptors
+import io.github.classgraph.ClassGraph
+import protokt.v1.GeneratedFileDescriptor
+import protokt.v1.google.protobuf.FileDescriptor
+import protokt.v1.google.protobuf.RuntimeContext
+import kotlin.reflect.KClass
+import kotlin.reflect.full.declaredMemberProperties
+
+fun getContextReflectively() =
+    RuntimeContext(getDescriptors())
+
+private fun getDescriptors() =
+    ClassGraph()
+        .enableAnnotationInfo()
+        .scan()
+        .use {
+            it.getClassesWithAnnotation(GeneratedFileDescriptor::class.java)
+                .map { info ->
+                    @Suppress("UNCHECKED_CAST")
+                    info.loadClass().kotlin as KClass<Any>
+                }
+        }
+        .asSequence()
+        .map { klassWithDescriptor ->
+            klassWithDescriptor
+                .declaredMemberProperties
+                .single { it.returnType.classifier == FileDescriptor::class }
+                .get(klassWithDescriptor.objectInstance!!) as FileDescriptor
+        }
+        .flatMap { it.toProtobufJavaDescriptor().messageTypes }
+        .flatMap(::collectDescriptors)
+        .asIterable()
+
+private fun collectDescriptors(descriptor: Descriptors.Descriptor): Iterable<Descriptors.Descriptor> =
+    listOf(descriptor) + descriptor.nestedTypes.flatMap(::collectDescriptors)
+
+private fun FileDescriptor.toProtobufJavaDescriptor(): Descriptors.FileDescriptor =
+    Descriptors.FileDescriptor.buildFrom(
+        DescriptorProtos.FileDescriptorProto.parseFrom(proto.serialize()),
+        dependencies.map { it.toProtobufJavaDescriptor() }.toTypedArray(),
+        true
+    )
+```
 
 ### Other Notes
 
@@ -417,30 +485,34 @@ object InstantConverter : AbstractConverter<Timestamp, Instant>() {
 ```
 
 ```kotlin
-@V1KtGeneratedMessage("protokt.v1.testing.Wrappers")
-@RtKtGeneratedMessage("protokt.v1.testing.Wrappers")
-public class Wrappers private constructor(
-  public val instant: Instant,
+@GeneratedMessage("protokt.v1.testing.WrapperMessage")
+public class WrapperMessage private constructor(
+  @GeneratedProperty(1)
+  public val instant: Instant?,
   public val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
-) : AbstractKtMessage() {
-  override val messageSize: Int by lazy { messageSize() }
-
-  private fun messageSize(): Int {
+) : AbstractMessage() {
+  private val `$messageSize`: Int by lazy {
     var result = 0
-    result += sizeOf(50u) + sizeOf(InstantConverter.unwrap(instant))
+    if (instant != null) {
+      result += sizeOf(10u) + sizeOf(InstantConverter.unwrap(instant))
+    }
     result += unknownFields.size()
-    return result
+    result
   }
 
-  override fun serialize(serializer: KtMessageSerializer) {
-    serializer.writeTag(50u).write(InstantConverter.unwrap(instant))
-    serializer.writeUnknown(unknownFields)
+  override fun messageSize(): Int = `$messageSize`
+
+  override fun serialize(writer: Writer) {
+    if (instant != null) {
+      writer.writeTag(10u).write(InstantConverter.unwrap(instant))
+    }
+    writer.writeUnknown(unknownFields)
   }
 
   override fun equals(other: Any?): Boolean =
-    other is Wrappers &&
-            other.instant == instant &&
-            other.unknownFields == unknownFields
+    other is WrapperMessage &&
+      other.instant == instant &&
+      other.unknownFields == unknownFields
 
   override fun hashCode(): Int {
     var result = unknownFields.hashCode()
@@ -449,60 +521,54 @@ public class Wrappers private constructor(
   }
 
   override fun toString(): String =
-    "Wrappers(" +
-            "instant=$instant" +
-            if (unknownFields.isEmpty()) ")" else ", unknownFields=$unknownFields)"
+    "WrapperMessage(" +
+      "instant=$instant" +
+      if (unknownFields.isEmpty()) ")" else ", unknownFields=$unknownFields)"
 
-  public fun copy(builder: Builder.() -> Unit): Wrappers =
+  public fun copy(builder: Builder.() -> Unit): WrapperMessage =
     Builder().apply {
-      instant = this@Wrappers.instant
-      unknownFields = this@Wrappers.unknownFields
+      instant = this@WrapperMessage.instant
+      unknownFields = this@WrapperMessage.unknownFields
       builder()
     }.build()
 
-  @KtBuilderDsl
+  @BuilderDsl
   public class Builder {
     public var instant: Instant? = null
 
     public var unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 
-    public fun build(): Wrappers =
-      Wrappers(
-        requireNotNull(instant) {
-          StringBuilder("instant")
-            .append(" specified nonnull with (protokt.property).non_null but was null")
-        },
+    public fun build(): WrapperMessage =
+      WrapperMessage(
+        instant,
         unknownFields
       )
-  }
+    }
 
-  public companion object Deserializer : AbstractKtDeserializer<Wrappers>() {
+  public companion object Deserializer : AbstractDeserializer<WrapperMessage>() {
     @JvmStatic
-    override fun deserialize(deserializer: KtMessageDeserializer): Wrappers {
+    override fun deserialize(reader: Reader): WrapperMessage {
       var instant: Instant? = null
       var unknownFields: UnknownFieldSet.Builder? = null
 
       while (true) {
-        when (deserializer.readTag()) {
-          0 -> return Wrappers(
-            requireNotNull(instant) {
-              StringBuilder("instant")
-                .append(" specified nonnull with (protokt.property).non_null but was null")
-            },
+        when (reader.readTag()) {
+          0u -> return WrapperMessage(
+            instant,
             UnknownFieldSet.from(unknownFields)
           )
-          50 -> instant = InstantConverter.wrap(deserializer.readMessage(Timestamp))
+          10u -> instant = InstantConverter.wrap(reader.readMessage(Timestamp))
           else ->
             unknownFields =
               (unknownFields ?: UnknownFieldSet.Builder()).also {
-                it.add(deserializer.readUnknown())
+                it.add(reader.readUnknown())
               }
         }
       }
     }
 
     @JvmStatic
-    public operator fun invoke(dsl: Builder.() -> Unit): Wrappers = Builder().apply(dsl).build()
+    public operator fun invoke(dsl: Builder.() -> Unit): WrapperMessage = Builder().apply(dsl).build()
   }
 }
 ```
@@ -653,6 +719,8 @@ message NonNullSampleMessage {
 Note that deserialization of a message with a non-nullable field will fail if the
 message being decoded does not contain an instance of the required field.
 
+This functionality will likely be removed.
+
 ### Interface implementation
 
 #### Messages
@@ -757,7 +825,7 @@ message MyObjectWithConfig {
 }
 
 message ServerSpecified {
-  option (protokt.v1.class).implements = "Config";
+  option (protokt.v1.class).implements = "com.toasttab.example.Config";
 
   int32 version = 1;
 
@@ -766,7 +834,7 @@ message ServerSpecified {
 }
 
 message ClientResolved {
-  option (protokt.v1.class).implements = "Config by config";
+  option (protokt.v1.class).implements = "com.toasttab.example.Config by config";
 
   ServerSpecified config = 1 [
     (protokt.v1.property).non_null = true
@@ -781,46 +849,56 @@ message ClientResolved {
 Protokt will generate:
 
 ```kotlin
-@V1KtGeneratedMessage("toasttab.example.MyObjectWithConfig")
-@RtKtGeneratedMessage("toasttab.example.MyObjectWithConfig")
+@GeneratedMessage("toasttab.example.MyObjectWithConfig")
 public class MyObjectWithConfig private constructor(
-  public val id: UUID,
+  @GeneratedProperty(1)
+  public val id: UUID?,
   public val config: Config,
   public val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
-) : AbstractKtMessage() {
-  // methods omitted
+) : AbstractMessage() {
 
-  public sealed class Config : ExampleConfig {
+  // methods and builders omitted
+
+  public sealed class Config : com.toasttab.example.Config {
     public data class ServerSpecified(
+      @GeneratedProperty(2)
       public val serverSpecified: protokt.v1.toasttab.example.ServerSpecified
-    ) : Config(), ExampleConfig by serverSpecified
+    ) : Config(), com.toasttab.example.Config by serverSpecified
 
     public data class ClientResolved(
+      @GeneratedProperty(3)
       public val clientResolved: protokt.v1.toasttab.example.ClientResolved
-    ) : Config(), ExampleConfig by clientResolved
+    ) : Config(), com.toasttab.example.Config by clientResolved
   }
+}
 
-  @V1KtGeneratedMessage("toasttab.example.ServerSpecified")
-  @RtKtGeneratedMessage("toasttab.example.ServerSpecified")
-  public class ServerSpecified private constructor(
-    override val version: Int,
-    public val serverRegistry: String,
-    public val serverName: String,
-    public val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
-  ) : AbstractKtMessage(), ExampleConfig {
-    // methods omitted
-  }
+@GeneratedMessage("toasttab.example.ServerSpecified")
+public class ServerSpecified private constructor(
+  @GeneratedProperty(1)
+  override val version: Int,
+  @GeneratedProperty(2)
+  public val serverRegistry: String,
+  @GeneratedProperty(3)
+  public val serverName: String,
+  public val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
+) : AbstractMessage(), Config {
 
+  // methods and builders omitted
 
-  @V1KtGeneratedMessage("toasttab.example.ClientResolved")
-  @RtKtGeneratedMessage("toasttab.example.ClientResolved")
-  public class ClientResolved private constructor(
-    public val config: ServerSpecified,
-    public val lastKnownAddress: InetAddress,
-    public val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
-  ) : AbstractKtMessage(), Config by config {
-    // methods omitted
-  }
+}
+
+@GeneratedMessage("toasttab.example.ClientResolved")
+public class ClientResolved private constructor(
+  @GeneratedProperty(1)
+  public val config: ServerSpecified,
+  @GeneratedProperty(2)
+  public val lastKnownAddress: InetAddress?,
+  public val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
+) : AbstractMessage(), Config by config {
+
+    // methods and builders omitted
+
+}
 ```
 
 A MyObjectWithConfig.Config instance can be queried for its version without
@@ -832,11 +910,13 @@ fun printVersion(config: MyObjectWithConfig.Config) {
 }
 ```
 
-This pattern can be dangerous: since the oneof must be marked non-nullable, you
+This pattern is dangerous: since the oneof must be marked non-nullable, you
 cannot compatibly add new implementing fields to a producer before a consumer
 is updated with the new generated code. The old consumer will attempt to
 deserialize the new field as an unknown field and the non-null assertion on the
 oneof field during the constructor call will fail.
+
+This functionality will likely be removed.
 
 ### BytesSlice
 
@@ -863,10 +943,10 @@ when the gRPC generation options are enabled:
 
 ```groovy
 protokt {
-  generate {
-      grpcDescriptors = true
-      grpcKotlinStubs = true
-  } 
+    generate {
+        grpcDescriptors = true
+       grpcKotlinStubs = true
+    } 
 }
 ```
 

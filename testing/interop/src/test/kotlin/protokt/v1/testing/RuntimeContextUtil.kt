@@ -56,5 +56,5 @@ private fun FileDescriptor.toProtobufJavaDescriptor(): Descriptors.FileDescripto
     Descriptors.FileDescriptor.buildFrom(
         DescriptorProtos.FileDescriptorProto.parseFrom(proto.serialize()),
         dependencies.map { it.toProtobufJavaDescriptor() }.toTypedArray(),
-        true,
+        true
     )
