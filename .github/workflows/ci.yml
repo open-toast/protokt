@@ -37,7 +37,7 @@ jobs:
         jdk: [ 11, 17 ]
 
     runs-on: ${{ matrix.os }}
-    
+
     steps:
     - uses: actions/checkout@v4
       with:
@@ -52,6 +52,7 @@ jobs:
       with:
         name: integration-repository
         path: build/repos/integration
+    - uses: browser-actions/setup-firefox@v1
     - name: Build and test
       run: ./gradlew "-Dkotlin-integration.version=${{ matrix.kotlin }}" clean build --stacktrace --no-daemon
       working-directory: gradle-plugin-integration-test
