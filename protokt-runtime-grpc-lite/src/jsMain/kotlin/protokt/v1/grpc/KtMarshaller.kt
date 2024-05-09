@@ -15,9 +15,11 @@
 
 package protokt.v1.grpc
 
+import protokt.v1.Beta
 import protokt.v1.Deserializer
 import protokt.v1.Message
 
+@Beta
 class KtMarshaller<T : Message>(
     private val deserializer: Deserializer<T>
 ) : MethodDescriptor.Marshaller<T> {

@@ -15,10 +15,12 @@
 
 package protokt.v1.grpc
 
+import protokt.v1.Beta
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 import kotlin.js.json
 
+@Beta
 fun Server.addService(
     service: ServiceDescriptor,
     implementation: BindableService
@@ -37,6 +39,7 @@ private fun BindableService.toUntypedServiceImplementation() =
         }.toTypedArray()
     )
 
+@Beta
 suspend fun Server.start(
     address: String,
     credentials: ServerCredentials

@@ -18,8 +18,12 @@
 
 package protokt.v1.grpc
 
+import protokt.v1.Beta
+
+@Beta
 external interface Readable {
     fun on(event: String, callback: (dynamic) -> Unit)
 }
 
+@Beta
 external interface Writable

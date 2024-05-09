@@ -462,6 +462,9 @@ public abstract class protokt/v1/AbstractMessage : protokt/v1/Message {
 	public final fun serialize ()[B
 }
 
+public abstract interface annotation class protokt/v1/Beta : java/lang/annotation/Annotation {
+}
+
 public abstract interface annotation class protokt/v1/BuilderDsl : java/lang/annotation/Annotation {
 }
 
