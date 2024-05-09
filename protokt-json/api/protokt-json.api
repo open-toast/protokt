@@ -1,7 +1,6 @@
-public final class protokt/v1/json/KtMessages {
-	public static final fun toJson (Lprotokt/v1/KtMessage;)Ljava/lang/String;
-	public static final fun toJson (Lprotokt/v1/KtMessage;Lprotokt/v1/google/protobuf/RuntimeContext;)Ljava/lang/String;
-	public static final fun toJson (Lprotokt/v1/KtMessage;Lprotokt/v1/google/protobuf/RuntimeContext;Lcom/google/protobuf/util/JsonFormat$Printer;)Ljava/lang/String;
-	public static synthetic fun toJson$default (Lprotokt/v1/KtMessage;Lprotokt/v1/google/protobuf/RuntimeContext;Lcom/google/protobuf/util/JsonFormat$Printer;ILjava/lang/Object;)Ljava/lang/String;
+public final class protokt/v1/json/Messages {
+	public static final fun toJson (Lprotokt/v1/Message;Lprotokt/v1/google/protobuf/RuntimeContext;)Ljava/lang/String;
+	public static final fun toJson (Lprotokt/v1/Message;Lprotokt/v1/google/protobuf/RuntimeContext;Lcom/google/protobuf/util/JsonFormat$Printer;)Ljava/lang/String;
+	public static synthetic fun toJson$default (Lprotokt/v1/Message;Lprotokt/v1/google/protobuf/RuntimeContext;Lcom/google/protobuf/util/JsonFormat$Printer;ILjava/lang/Object;)Ljava/lang/String;
 }
 
