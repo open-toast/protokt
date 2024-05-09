@@ -15,6 +15,9 @@
 
 package protokt.v1.grpc
 
+import protokt.v1.Beta
+
+@Beta
 class ServerServiceDefinition internal constructor(
     val serviceDescriptor: ServiceDescriptor?,
     internal val methods: Map<String, ServerMethodDefinition<*, *>>

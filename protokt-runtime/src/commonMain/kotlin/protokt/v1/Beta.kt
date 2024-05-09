@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Toast, Inc.
+ * Copyright (c) 2024 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,17 +13,11 @@
  * limitations under the License.
  */
 
-@file:JsModule("stream")
-@file:JsNonModule
+package protokt.v1
 
-package protokt.v1.grpc
-
-import protokt.v1.Beta
-
-@Beta
-external interface Readable {
-    fun on(event: String, callback: (dynamic) -> Unit)
-}
-
-@Beta
-external interface Writable
+/**
+ * Signifies that a public API is subject to incompatible changes, or even removal, in a future release.
+ * An API bearing this annotation is exempt from any compatibility guarantees and additionally may not
+ * be suitable for production use.
+ */
+annotation class Beta
