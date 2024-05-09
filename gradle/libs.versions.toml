@@ -12,42 +12,43 @@
 # limitations under the License.
 
 [versions]
-autoService = "1.0.1"
-classgraph = "4.8.153"
+autoService = "1.1.1"
 grpc-java = "1.58.0"
-grpc-kotlin = "1.4.0"
+grpc-kotlin = "1.4.1"
 kotlinLogging = "5.1.0"
-kotlinPoet = "1.14.2"
+kotlinPoet = "1.16.0"
 kotlinx-coroutines = "1.6.0"
-kotlinx-serialization = "1.5.1"
-ktlint = "1.0.0"
+kotlinx-serialization = "1.6.3"
+ktlint = "1.2.1"
 protobuf-java = "3.21.7"
-protobuf-js = "6.11.3"
+protobuf-js = "7.2.6"
 protobufGradlePlugin = "0.9.4"
 slf4j = "2.0.6"
 
 # build
 androidGradlePlugin = "7.4.2"
-animalSnifferGradlePlugin = "1.5.4"
-binaryCompatibilityValidator = "0.13.2"
+animalSnifferGradlePlugin = "1.7.1"
+binaryCompatibilityValidator = "0.14.0"
 buildConfig = "3.1.0"
 gradleMavenPublishPlugin = "0.25.3"
+gummyBears = "0.8.0"
 java = "11"
-kotlin = "1.9.10"
+kotlin = "1.9.23"
 pluginPublish = "1.2.1"
 spotless = "6.21.0"
 
 # benchmarks
 datasets = "0.1.0"
-download = "5.4.0"
-jmh = "1.26"
-wire = "4.8.1"
+download = "5.6.0"
+jmh = "1.37"
+wire = "4.9.7"
 
 # test
+classgraph = "4.8.153"
 grpc-js = "1.8.14"
-jackson = "2.15.2"
-junit = "5.9.3"
-truth = "1.1.3"
+jackson = "2.17.0"
+junit = "5.10.2"
+truth = "1.4.2"
 
 # third party
 protoGoogleCommonProtos = "2.21.0"
@@ -61,7 +62,6 @@ wire = { id = "com.squareup.wire", version.ref = "wire" }
 [libraries]
 autoService = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
 autoServiceAnnotations = { module = "com.google.auto.service:auto-service-annotations", version.ref = "autoService" }
-classgraph = { module = "io.github.classgraph:classgraph", version.ref = "classgraph" }
 grpc-kotlin-gen = { module = "io.grpc:protoc-gen-grpc-kotlin", version.ref = "grpc-kotlin" }
 grpc-netty = { module = "io.grpc:grpc-netty", version.ref = "grpc-java" }
 grpc-stub = { module = "io.grpc:grpc-stub", version.ref = "grpc-java" }
@@ -93,6 +93,7 @@ wireRuntime = { module = "com.squareup.wire:wire-runtime", version.ref = "wire" 
 protoGoogleCommonProtos = { module = "com.google.api.grpc:proto-google-common-protos", version.ref = "protoGoogleCommonProtos" }
 
 # test
+classgraph = { module = "io.github.classgraph:classgraph", version.ref = "classgraph" }
 grpc-kotlin-stub = { module = "io.grpc:grpc-kotlin-stub", version.ref = "grpc-kotlin" }
 grpc-testing = { module = "io.grpc:grpc-testing", version.ref = "grpc-java" }
 jackson = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }

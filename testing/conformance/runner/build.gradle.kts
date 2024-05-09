@@ -13,17 +13,80 @@
  * limitations under the License.
  */
 
+import org.gradle.kotlin.dsl.add
+
 plugins {
     id("protokt.jvm-conventions")
+}
+
+repositories {
+    ivy {
+        setUrl("https://github.com/ogolberg/")
+        patternLayout {
+            artifact("/[organization]/releases/download/v[revision]-0/[artifact]-[classifier]-v[revision]")
+        }
+
+        metadataSources {
+            artifact()
+        }
+
+        content {
+            content {
+                includeGroup("build-protobuf-conformance-runner")
+            }
+        }
+    }
+}
+
+configurations.create("conformance")
+
+object Os {
+    const val MACOS_CLASSIFIER = "macos-latest"
+    const val LINUX_CLASSIFIER = "ubuntu-latest"
+
+    val CLASSIFIER by lazy {
+        val os = System.getProperty("os.name").lowercase()
+
+        if (os.contains("linux")) {
+            LINUX_CLASSIFIER
+        } else if (os.contains("mac")) {
+            MACOS_CLASSIFIER
+        } else {
+            error("conformance tests cannot run on $os")
+        }
+    }
 }
 
 dependencies {
     testImplementation(project(":testing:testing-util"))
     testImplementation(project(":protokt-json"))
+    add("conformance", "build-protobuf-conformance-runner:conformance_test_runner:${libs.versions.protobuf.java.get()}") {
+        artifact {
+            extension = "exe"
+            classifier = Os.CLASSIFIER
+        }
+    }
 }
 
-tasks.named<Test>("test") {
-    outputs.upToDateWhen { false }
-    dependsOn(":testing:conformance:js-ir:compileProductionExecutableKotlinJs")
-    dependsOn(":testing:conformance:jvm:installDist")
+tasks.register<Copy>("setupRunner") {
+    from(configurations.getAt("conformance"))
+    into(layout.buildDirectory.dir("bin"))
+    filePermissions {
+        user {
+            read = true
+            execute = true
+        }
+    }
+}
+
+tasks {
+    test {
+        systemProperty("conformance-runner", layout.buildDirectory.dir("bin").get().file("conformance_test_runner-${libs.versions.protobuf.java.get()}-${Os.CLASSIFIER}.exe").asFile.path)
+
+        outputs.upToDateWhen { false }
+
+        dependsOn("setupRunner")
+        dependsOn(":testing:conformance:js-ir:compileProductionExecutableKotlinJs")
+        dependsOn(":testing:conformance:jvm:installDist")
+    }
 }

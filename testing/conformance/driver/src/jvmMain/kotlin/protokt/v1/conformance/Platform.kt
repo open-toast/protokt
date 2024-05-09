@@ -18,12 +18,13 @@ package protokt.v1.conformance
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.runBlocking
 import protokt.v1.Bytes
-import protokt.v1.KtDeserializer
-import protokt.v1.KtMessage
+import protokt.v1.Deserializer
+import protokt.v1.Message
 import protokt.v1.conformance.ConformanceResponse.Result.ParseError
 import protokt.v1.conformance.ConformanceResponse.Result.RuntimeError
 import protokt.v1.conformance.ConformanceResponse.Result.SerializeError
 import protokt.v1.json.toJson
+import protokt.v1.testing.getContextReflectively
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
@@ -36,8 +37,8 @@ internal actual object Platform {
         runBlocking(block = block)
     }
 
-    actual suspend fun <T : KtMessage> readMessageFromStdIn(
-        deserializer: KtDeserializer<T>
+    actual suspend fun <T : Message> readMessageFromStdIn(
+        deserializer: Deserializer<T>
     ): ConformanceStepResult<T>? =
         try {
             val sizeBuf = ByteArray(4)
@@ -60,9 +61,9 @@ internal actual object Platform {
         System.out.flush()
     }
 
-    actual fun <T : KtMessage> deserializeProtobuf(
+    actual fun <T : Message> deserializeProtobuf(
         bytes: ByteArray,
-        deserializer: KtDeserializer<T>
+        deserializer: Deserializer<T>
     ): ConformanceStepResult<T> =
         try {
             Proceed(deserializer.deserialize(bytes))
@@ -70,22 +71,22 @@ internal actual object Platform {
             Stop(ParseError(t.stackTraceToString()))
         }
 
-    actual fun serializeProtobuf(message: KtMessage): ConformanceStepResult<Bytes> =
+    actual fun serializeProtobuf(message: Message): ConformanceStepResult<Bytes> =
         try {
             Proceed(Bytes.from(message))
         } catch (t: Throwable) {
             Stop(SerializeError(t.stackTraceToString()))
         }
 
-    actual fun <T : KtMessage> deserializeJson(
+    actual fun <T : Message> deserializeJson(
         json: String,
-        deserializer: KtDeserializer<T>
+        deserializer: Deserializer<T>
     ): ConformanceStepResult<T> =
         ConformanceStepResult.skip()
 
-    actual fun serializeJson(message: KtMessage): ConformanceStepResult<String> =
+    actual fun serializeJson(message: Message): ConformanceStepResult<String> =
         try {
-            Proceed(message.toJson())
+            Proceed(message.toJson(getContextReflectively()))
         } catch (t: Throwable) {
             Stop(SerializeError(t.stackTraceToString()))
         }

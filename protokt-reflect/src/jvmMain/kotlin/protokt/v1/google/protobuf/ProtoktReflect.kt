@@ -17,12 +17,12 @@ package protokt.v1.google.protobuf
 
 import com.google.protobuf.Descriptors.FieldDescriptor
 import com.google.protobuf.Descriptors.FieldDescriptor.Type
+import protokt.v1.Enum
 import protokt.v1.Fixed32Val
 import protokt.v1.Fixed64Val
-import protokt.v1.KtEnum
-import protokt.v1.KtMessage
-import protokt.v1.KtProperty
+import protokt.v1.GeneratedProperty
 import protokt.v1.LengthDelimitedVal
+import protokt.v1.Message
 import protokt.v1.UnknownFieldSet
 import protokt.v1.VarintVal
 import java.nio.charset.StandardCharsets
@@ -35,9 +35,9 @@ import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.isSubclassOf
 
 internal object ProtoktReflect {
-    private val reflectedGettersByClass = ConcurrentHashMap<KClass<out KtMessage>, (FieldDescriptor, KtMessage) -> Any?>()
+    private val reflectedGettersByClass = ConcurrentHashMap<KClass<out Message>, (FieldDescriptor, Message) -> Any?>()
 
-    private fun getReflectedGettersByClass(messageClass: KClass<out KtMessage>) =
+    private fun getReflectedGettersByClass(messageClass: KClass<out Message>) =
         reflectedGettersByClass.computeIfAbsent(messageClass) {
             {
                     field, message ->
@@ -47,25 +47,25 @@ internal object ProtoktReflect {
             }
         }
 
-    private fun topLevelProperty(klass: KClass<out KtMessage>): (FieldDescriptor, KtMessage) -> Any? {
-        val gettersByNumber = gettersByNumber<KtMessage>(klass)
+    private fun topLevelProperty(klass: KClass<out Message>): (FieldDescriptor, Message) -> Any? {
+        val gettersByNumber = gettersByNumber<Message>(klass)
         return { field, instance -> gettersByNumber[field.number]?.invoke(instance) }
     }
 
     private fun <T> gettersByNumber(klass: KClass<*>): Map<Int, KProperty1<T, Any?>> =
         klass.declaredMemberProperties
-            .map { it.findAnnotation<KtProperty>()?.number to it }
+            .map { it.findAnnotation<GeneratedProperty>()?.number to it }
             .filter { (number, _) -> number != null }
             .associate { (number, getter) ->
                 @Suppress("UNCHECKED_CAST")
                 number!! to getter as KProperty1<T, Any?>
             }
 
-    private fun oneofProperty(messageClass: KClass<out KtMessage>): (FieldDescriptor, KtMessage) -> Any? {
+    private fun oneofProperty(messageClass: KClass<out Message>): (FieldDescriptor, Message) -> Any? {
         val oneofPropertiesSealedClasses =
             messageClass
                 .nestedClasses
-                .filter { it.isSealed && !it.isSubclassOf(KtEnum::class) }
+                .filter { it.isSealed && !it.isSubclassOf(Enum::class) }
 
         val gettersByNumber =
             buildMap {
@@ -75,12 +75,12 @@ internal object ProtoktReflect {
                             .single { it.returnType.classifier == sealedClass }
                             .let {
                                 @Suppress("UNCHECKED_CAST")
-                                it as KProperty1<KtMessage, *>
+                                it as KProperty1<Message, *>
                             }
 
                     sealedClass.nestedClasses.forEach { sealedClassSubtype ->
                         val (number, getterFromSubtype) = gettersByNumber<Any>(sealedClassSubtype).entries.single()
-                        put(number) { msg: KtMessage ->
+                        put(number) { msg: Message ->
                             val oneofProperty = oneofPropertyGetter.get(msg)
                             if (sealedClassSubtype.isInstance(oneofProperty)) {
                                 getterFromSubtype(oneofProperty!!)
@@ -95,7 +95,7 @@ internal object ProtoktReflect {
         return { field, msg -> gettersByNumber[field.number]?.invoke(msg) }
     }
 
-    private fun getUnknownField(field: FieldDescriptor, message: KtMessage) =
+    private fun getUnknownField(field: FieldDescriptor, message: Message) =
         getUnknownFields(message)[field.number.toUInt()]?.let { value ->
             when {
                 value.varint.isNotEmpty() ->
@@ -140,17 +140,17 @@ internal object ProtoktReflect {
             }
         }
 
-    fun getField(message: KtMessage, field: FieldDescriptor): Any? =
+    fun getField(message: Message, field: FieldDescriptor): Any? =
         getReflectedGettersByClass(message::class)(field, message)
 }
 
-internal fun getUnknownFields(message: KtMessage) =
+internal fun getUnknownFields(message: Message) =
     message::class
         .declaredMemberProperties
         .firstOrNull { it.returnType.classifier == UnknownFieldSet::class }
         .let {
             @Suppress("UNCHECKED_CAST")
-            it as KProperty1<KtMessage, UnknownFieldSet>
+            it as KProperty1<Message, UnknownFieldSet>
         }
         .get(message)
         .unknownFields

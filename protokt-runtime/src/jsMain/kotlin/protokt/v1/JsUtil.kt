@@ -35,22 +35,10 @@ internal fun BytesSlice.asUint8Array() =
         length,
     )
 
-internal fun protobufjsLong(@Suppress("UNUSED_PARAMETER") long: Long): dynamic {
-    // debug:
-    // what you're given:
-    // printErr("converting long " + long)
-    // printErr("obj: " + js("JSON.stringify(long)"))
-
-    // what protobufjs thinks you've given it:
-    // js("var protobuf = require(\"protobufjs/light\")")
-    // js("var LongBits = protobuf.util.LongBits")
-    // js("var obj = LongBits.from(long)")
-    // printErr("obj: " + js("JSON.stringify(obj)"))
-
-    // conformance tests expect g4_1/h4_1 in node; normal kotlin expects low_1/high_1 in both browser and node
+internal fun protobufjsLong(long: Long): dynamic {
     val ret = js("{}")
-    ret.low = js("long.low_1 || long.g4_1")
-    ret.high = js("long.high_1 || long.h4_1")
+    ret.low = long.toInt()
+    ret.high = long.shr(32).toInt()
     return ret
 }
 

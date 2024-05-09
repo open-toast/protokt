@@ -69,6 +69,17 @@ kotlin {
                 freeCompilerArgs = listOf("-Xjvm-default=all")
             }
         }
+
+        all {
+            compilations.all {
+                kotlinOptions {
+                    languageVersion = System.getProperty("kotlin-integration.version")
+                        ?.substringBeforeLast(".")
+                        ?: libs.versions.kotlin.get().substringBeforeLast(".")
+                    apiVersion = languageVersion
+                }
+            }
+        }
     }
 }
 

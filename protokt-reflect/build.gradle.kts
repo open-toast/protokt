@@ -32,7 +32,6 @@ kotlin {
                 api(libs.protobuf.java)
 
                 implementation(kotlin("reflect"))
-                implementation(libs.classgraph)
             }
         }
     }
@@ -46,9 +45,7 @@ sourceSets {
             srcDir(rootProject.file("shared-src/reflect"))
         }
         proto {
-            srcDirs(
-                "../extensions/protokt-extensions-lite/src/extensions-proto"
-            )
+            srcDir("../extensions/protokt-extensions-lite/src/extensions-proto")
         }
     }
 }

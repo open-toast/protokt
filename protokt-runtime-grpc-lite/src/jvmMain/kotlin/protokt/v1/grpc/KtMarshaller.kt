@@ -16,16 +16,16 @@
 package protokt.v1.grpc
 
 import io.grpc.MethodDescriptor
-import protokt.v1.KtDeserializer
-import protokt.v1.KtMessage
+import protokt.v1.Deserializer
+import protokt.v1.Message
 import java.io.InputStream
 
-class KtMarshaller<T : KtMessage>(
-    private val companion: KtDeserializer<T>
+class KtMarshaller<T : Message>(
+    private val deserializer: Deserializer<T>
 ) : MethodDescriptor.Marshaller<T> {
     override fun stream(value: T) =
         value.serialize().inputStream()
 
     override fun parse(stream: InputStream) =
-        companion.deserialize(stream)
+        deserializer.deserialize(stream)
 }
