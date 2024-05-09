@@ -26,8 +26,13 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(project(":protokt-json"))
-                implementation(project(":testing:interop"))
                 implementation(libs.kotlinx.coroutines.core)
+            }
+        }
+
+        val jvmMain by getting {
+            dependencies {
+                implementation(project(":testing:interop"))
             }
         }
     }
