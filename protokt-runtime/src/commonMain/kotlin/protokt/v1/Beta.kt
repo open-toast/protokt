@@ -15,4 +15,9 @@
 
 package protokt.v1
 
+/**
+ * Signifies that a public API is subject to incompatible changes, or even removal, in a future release.
+ * An API bearing this annotation is exempt from any compatibility guarantees and additionally may not
+ * be suitable for production use.
+ */
 annotation class Beta
