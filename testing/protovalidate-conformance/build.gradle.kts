@@ -13,11 +13,14 @@
  * limitations under the License.
  */
 
+import com.android.build.gradle.internal.cxx.os.exe
 import com.android.build.gradle.internal.tasks.factory.dependsOn
 import com.google.protobuf.gradle.GenerateProtoTask
 import com.google.protobuf.gradle.proto
 import org.gradle.api.distribution.plugins.DistributionPlugin.TASK_INSTALL_NAME
 import org.gradle.language.base.plugins.LifecycleBasePlugin.CHECK_TASK_NAME
+import java.io.ByteArrayOutputStream
+import java.nio.charset.StandardCharsets
 
 plugins {
     id("protokt.jvm-conventions")
@@ -98,6 +101,20 @@ val conformance =
                 .asFile
                 .absolutePath
         )
+        setIgnoreExitValue(true)
+        val err = ByteArrayOutputStream()
+        errorOutput = err
+
+        val out = ByteArrayOutputStream()
+        standardOutput = out
+
+        doLast {
+            if (executionResult.get().exitValue != 0) {
+                logger.quiet("err: \n" + err.toString(StandardCharsets.UTF_8))
+                logger.quiet("out: \n" + out.toString(StandardCharsets.UTF_8))
+                error("broken")
+            }
+        }
     }
 
 tasks.named(CHECK_TASK_NAME).dependsOn(conformance)
