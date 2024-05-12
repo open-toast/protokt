@@ -27,6 +27,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 fun Project.javaBasedProjectConventions() {
     repositories {
         mavenCentral()
+        mavenLocal()
     }
 
     dependencies {

@@ -38,7 +38,8 @@ import kotlin.reflect.full.findAnnotation
 
 @Beta
 class ProtoktValidator(
-    config: Config = Config.newBuilder().build()
+    config: Config = Config.newBuilder().build(),
+    private val lazyConvert: Boolean = true
 ) {
     private val evaluatorBuilder =
         EvaluatorBuilder(
@@ -87,7 +88,11 @@ class ProtoktValidator(
         evaluatorsByFullTypeName.getValue(
             message::class.findAnnotation<GeneratedMessage>()!!.fullTypeName,
         ).evaluate(
-            MessageValue(message.toDynamicMessage(RuntimeContext(descriptors))),
+            if (lazyConvert) {
+                ProtoktMessageValue(message, RuntimeContext(descriptors))
+            } else {
+                MessageValue(message.toDynamicMessage(RuntimeContext(descriptors)))
+            },
             failFast
         )
 }
