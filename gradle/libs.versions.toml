@@ -25,7 +25,7 @@ protobuf-java = "3.21.7"
 protobuf-js = "7.2.6"
 protobufGradlePlugin = "0.9.4"
 protovalidate = "0.6.4"
-protovalidateJava = "0.0.0-SNAPSHOT"
+protovalidateJava = "0.2.1"
 slf4j = "2.0.6"
 
 # build

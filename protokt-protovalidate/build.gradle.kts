@@ -18,7 +18,6 @@ plugins {
 }
 
 enablePublishing()
-trackKotlinApiCompatibility()
 
 dependencies {
     implementation(project(":protokt-reflect"))
