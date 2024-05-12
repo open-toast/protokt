@@ -100,7 +100,7 @@ val conformance =
                 .asFile
                 .absolutePath
         )
-        //setIgnoreExitValue(true)
+        // setIgnoreExitValue(true)
         val err = ByteArrayOutputStream()
         errorOutput = err
 
