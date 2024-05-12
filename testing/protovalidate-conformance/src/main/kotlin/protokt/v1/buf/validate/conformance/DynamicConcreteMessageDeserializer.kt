@@ -25,7 +25,11 @@ import kotlin.reflect.full.findAnnotation
 object DynamicConcreteMessageDeserializer {
     private val deserializersByFullTypeName: Map<String, Deserializer<*>> by lazy {
         ClassGraph()
-            .enableAllInfo()
+            .enableAnnotationInfo()
+            .acceptPackages(
+                "protokt.v1.buf.validate.conformance.*",
+                "protokt.v1.google.protobuf"
+            )
             .scan()
             .getClassesWithAnnotation(GeneratedMessage::class.java)
             .asSequence()
