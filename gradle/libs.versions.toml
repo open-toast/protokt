@@ -32,7 +32,6 @@ slf4j = "2.0.6"
 androidGradlePlugin = "7.4.2"
 animalSnifferGradlePlugin = "1.7.1"
 binaryCompatibilityValidator = "0.14.0"
-bufGradlePlugin = "0.9.0"
 buildConfig = "3.1.0"
 gradleMavenPublishPlugin = "0.25.3"
 gummyBears = "0.8.0"
@@ -58,7 +57,6 @@ truth = "1.4.2"
 protoGoogleCommonProtos = "2.21.0"
 
 [plugins]
-bufGradlePlugin = { id = "build.buf", version.ref = "bufGradlePlugin" }
 buildConfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildConfig" }
 download = { id = "de.undercouch.download", version.ref = "download" }
 pluginPublish = { id = "com.gradle.plugin-publish", version.ref = "pluginPublish" }

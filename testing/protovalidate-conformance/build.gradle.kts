@@ -13,10 +13,6 @@
  * limitations under the License.
  */
 
-import build.buf.gradle.BUF_BINARY_CONFIGURATION_NAME
-import build.buf.gradle.BUF_BUILD_DIR
-import build.buf.gradle.FormatCheckTask
-import build.buf.gradle.LintTask
 import com.android.build.gradle.internal.tasks.factory.dependsOn
 import com.google.protobuf.gradle.GenerateProtoTask
 import com.google.protobuf.gradle.proto
@@ -25,7 +21,6 @@ import org.gradle.language.base.plugins.LifecycleBasePlugin.CHECK_TASK_NAME
 
 plugins {
     id("protokt.jvm-conventions")
-    alias(libs.plugins.bufGradlePlugin)
     application
 }
 
@@ -42,15 +37,32 @@ dependencies {
     testImplementation(libs.truth)
 }
 
+sourceSets.main {
+    proto {
+        srcDir(project.layout.buildDirectory.file("protovalidate/export"))
+    }
+}
+
 val protovalidateVersion = libs.versions.protovalidate.get()
+val gobin = project.layout.buildDirectory.file("gobin").get().asFile.absolutePath
+val bufExecutable = project.layout.buildDirectory.file("gobin/buf").get().asFile
+val conformanceExecutable = project.layout.buildDirectory.file("gobin/protovalidate-conformance").get().asFile
+
+val installBuf =
+    tasks.register<Exec>("installBuf") {
+        environment("GOBIN", gobin)
+        outputs.file(bufExecutable)
+        commandLine("go", "install", "github.com/bufbuild/buf/cmd/buf@latest")
+    }
 
 val downloadConformanceProtos =
     tasks.register<Exec>("downloadConformanceProtos") {
+        dependsOn(installBuf)
         commandLine(
-            configurations.getByName(BUF_BINARY_CONFIGURATION_NAME).singleFile.absolutePath,
+            bufExecutable,
             "export",
             "buf.build/bufbuild/protovalidate-testing:v$protovalidateVersion",
-            "--output=build/$BUF_BUILD_DIR/export"
+            "--output=build/protovalidate/export"
         )
     }
 
@@ -58,17 +70,9 @@ tasks.withType<GenerateProtoTask> {
     dependsOn(downloadConformanceProtos)
 }
 
-sourceSets.main {
-    proto {
-        srcDir(project.layout.buildDirectory.file("$BUF_BUILD_DIR/export"))
-    }
-}
-
-val conformanceExecutable = project.layout.buildDirectory.file("gobin/protovalidate-conformance").get().asFile
-
 val installConformance =
     tasks.register<Exec>("installProtovalidateConformance") {
-        environment("GOBIN", project.layout.buildDirectory.file("gobin").get().asFile.absolutePath)
+        environment("GOBIN", gobin)
         outputs.file(conformanceExecutable)
         commandLine(
             "go",
@@ -97,11 +101,3 @@ val conformance =
     }
 
 tasks.named(CHECK_TASK_NAME).dependsOn(conformance)
-
-tasks.withType<LintTask> {
-    enabled = false
-}
-
-tasks.withType<FormatCheckTask> {
-    enabled = false
-}
