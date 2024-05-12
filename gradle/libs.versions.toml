@@ -13,6 +13,7 @@
 
 [versions]
 autoService = "1.1.1"
+cel = "0.4.4"
 grpc-java = "1.58.0"
 grpc-kotlin = "1.4.1"
 kotlinLogging = "5.1.0"
@@ -23,12 +24,15 @@ ktlint = "1.2.1"
 protobuf-java = "3.21.7"
 protobuf-js = "7.2.6"
 protobufGradlePlugin = "0.9.4"
+protovalidate = "0.6.4"
+protovalidateJava = "0.2.1"
 slf4j = "2.0.6"
 
 # build
 androidGradlePlugin = "7.4.2"
 animalSnifferGradlePlugin = "1.7.1"
 binaryCompatibilityValidator = "0.14.0"
+bufGradlePlugin = "0.9.0"
 buildConfig = "3.1.0"
 gradleMavenPublishPlugin = "0.25.3"
 gummyBears = "0.8.0"
@@ -54,6 +58,7 @@ truth = "1.4.2"
 protoGoogleCommonProtos = "2.21.0"
 
 [plugins]
+bufGradlePlugin = { id = "build.buf", version.ref = "bufGradlePlugin" }
 buildConfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildConfig" }
 download = { id = "de.undercouch.download", version.ref = "download" }
 pluginPublish = { id = "com.gradle.plugin-publish", version.ref = "pluginPublish" }
@@ -62,6 +67,7 @@ wire = { id = "com.squareup.wire", version.ref = "wire" }
 [libraries]
 autoService = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
 autoServiceAnnotations = { module = "com.google.auto.service:auto-service-annotations", version.ref = "autoService" }
+cel = { module = "org.projectnessie.cel:cel-tools", version.ref = "cel" }
 grpc-kotlin-gen = { module = "io.grpc:protoc-gen-grpc-kotlin", version.ref = "grpc-kotlin" }
 grpc-netty = { module = "io.grpc:grpc-netty", version.ref = "grpc-java" }
 grpc-stub = { module = "io.grpc:grpc-stub", version.ref = "grpc-java" }
@@ -73,6 +79,7 @@ ktlintRuleSetStandard = { module = "com.pinterest.ktlint:ktlint-ruleset-standard
 protobuf-gradlePlugin = { module = "com.google.protobuf:protobuf-gradle-plugin", version.ref = "protobufGradlePlugin" }
 protobuf-java = { module ="com.google.protobuf:protobuf-java", version.ref = "protobuf-java" }
 protoc = { module = "com.google.protobuf:protoc", version.ref = "protobuf-java" }
+protovalidateJava = { module = "build.buf:protovalidate", version.ref = "protovalidateJava" }
 slf4jSimple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 
 # build
