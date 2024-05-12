@@ -20,12 +20,15 @@ package protokt.v1.google.protobuf
 import com.google.protobuf.Descriptors.FieldDescriptor
 import com.google.protobuf.Descriptors.FieldDescriptor.Type
 import com.google.protobuf.DynamicMessage
+import protokt.v1.Beta
 import protokt.v1.Bytes
 import protokt.v1.Message
 
+@Beta
 fun Message.toDynamicMessage(context: RuntimeContext): DynamicMessage =
     context.convertValue(this) as DynamicMessage
 
+@Beta
 fun Message.hasField(field: FieldDescriptor): Boolean {
     val value = getField(field)
 
@@ -36,6 +39,7 @@ fun Message.hasField(field: FieldDescriptor): Boolean {
     }
 }
 
+@Beta
 fun Message.getField(field: FieldDescriptor) =
     ProtoktReflect.getField(this, field)
 
