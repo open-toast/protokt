@@ -15,7 +15,6 @@
 
 package protokt.v1.buf.validate.conformance
 
-import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.google.protobuf.DescriptorProtos.FileDescriptorSet
 import com.google.protobuf.Descriptors.Descriptor
 import com.google.protobuf.Descriptors.FileDescriptor
@@ -30,16 +29,8 @@ fun parse(fileDescriptorSet: FileDescriptorSet): Map<String, Descriptor> =
         }
         .toMap()
 
-private fun parseFileDescriptors(fileDescriptorSet: FileDescriptorSet): Map<String, FileDescriptor> {
-    val fileDescriptorProtoMap = mutableMapOf<String, FileDescriptorProto>()
-    for (fileDescriptorProto in fileDescriptorSet.fileList) {
-        if (fileDescriptorProto.getName() in fileDescriptorProtoMap) {
-            error("duplicate files found.")
-        }
-        fileDescriptorProtoMap[fileDescriptorProto.getName()] = fileDescriptorProto
-    }
-
-    return fileDescriptorSet.fileList.fold(mutableMapOf()) { map, fileDescriptorProto ->
+private fun parseFileDescriptors(fileDescriptorSet: FileDescriptorSet): Map<String, FileDescriptor> =
+    fileDescriptorSet.fileList.fold(mutableMapOf()) { map, fileDescriptorProto ->
         map[fileDescriptorProto.getName()] =
             FileDescriptor.buildFrom(
                 fileDescriptorProto,
@@ -48,4 +39,3 @@ private fun parseFileDescriptors(fileDescriptorSet: FileDescriptorSet): Map<Stri
             )
         map
     }
-}
