@@ -31,8 +31,10 @@ object DynamicConcreteMessageDeserializer {
                 "protokt.v1.google.protobuf"
             )
             .scan()
-            .use { it.getClassesWithAnnotation(GeneratedMessage::class.java) }
-            .map { it.loadClass().kotlin }
+            .use { result ->
+                result.getClassesWithAnnotation(GeneratedMessage::class.java)
+                    .map { it.loadClass().kotlin }
+            }
             .associate { messageClass ->
                 messageClass.findAnnotation<GeneratedMessage>()!!.fullTypeName to
                     messageClass
