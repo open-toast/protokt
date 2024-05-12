@@ -52,7 +52,7 @@ val installBuf =
     tasks.register<Exec>("installBuf") {
         environment("GOBIN", gobin)
         outputs.file(bufExecutable)
-        commandLine("go", "install", "github.com/bufbuild/buf/cmd/buf@latest")
+        commandLine("go", "install", "github.com/bufbuild/buf/cmd/buf@v${libs.versions.buf.get()}")
     }
 
 val downloadConformanceProtos =
