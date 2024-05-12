@@ -13,7 +13,6 @@
  * limitations under the License.
  */
 
-import com.android.build.gradle.internal.cxx.os.exe
 import com.android.build.gradle.internal.tasks.factory.dependsOn
 import com.google.protobuf.gradle.GenerateProtoTask
 import com.google.protobuf.gradle.proto
