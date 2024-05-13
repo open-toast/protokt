@@ -102,10 +102,10 @@ val conformance =
         )
         // setIgnoreExitValue(true)
         val err = ByteArrayOutputStream()
-        errorOutput = err
+        // errorOutput = err
 
         val out = ByteArrayOutputStream()
-        standardOutput = out
+        // standardOutput = out
 
         doLast {
             logger.quiet("Result: " + executionResult.get().exitValue)
