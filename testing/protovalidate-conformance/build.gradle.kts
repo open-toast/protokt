@@ -98,13 +98,6 @@ val conformance =
                 .asFile
                 .absolutePath
         )
-
-        doLast {
-            logger.quiet("Result: " + executionResult.get().exitValue)
-            if (executionResult.get().exitValue != 0) {
-                error("broken")
-            }
-        }
     }
 
 tasks.named(CHECK_TASK_NAME).dependsOn(conformance)
