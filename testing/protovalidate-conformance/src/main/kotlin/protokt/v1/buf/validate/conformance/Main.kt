@@ -41,7 +41,7 @@ object Main {
 
     private fun testConformance(request: TestConformanceRequest): TestConformanceResponse {
         val descriptorMap = parse(request.fdset)
-        val validator = ProtoktValidator()
+        val validator = ProtoktValidator().apply { descriptorMap.values.forEach(::load) }
         val responseBuilder = TestConformanceResponse.newBuilder()
         responseBuilder.putAllResults(
             request.casesMap.mapValues { (_, value) ->
@@ -58,7 +58,7 @@ object Main {
     ): TestResult {
         val urlParts = testCase.typeUrl.split('/', limit = 2)
         val fullName = urlParts[urlParts.size - 1]
-        fileDescriptors[fullName] ?: return unexpectedErrorResult("Unable to find descriptor: %s", fullName)
+        fileDescriptors[fullName] ?: return unexpectedErrorResult("Unable to find descriptor $fullName")
         val testCaseValue = testCase.value
         val message = DynamicConcreteMessageDeserializer.parse(fullName, testCaseValue.newInput())
         return validate(validator, message, fileDescriptors.values)
@@ -82,12 +82,10 @@ object Main {
         } catch (e: ExecutionException) {
             return TestResult.newBuilder().setRuntimeError(e.message).build()
         } catch (e: Exception) {
-            return unexpectedErrorResult("unknown error: %s", e.toString())
+            return unexpectedErrorResult("unknown error: $e")
         }
     }
 
-    private fun unexpectedErrorResult(format: String?, vararg args: Any?): TestResult {
-        val errorMessage = String.format(format!!, *args)
-        return TestResult.newBuilder().setUnexpectedError(errorMessage).build()
-    }
+    private fun unexpectedErrorResult(message: String) =
+        TestResult.newBuilder().setUnexpectedError(message).build()
 }
