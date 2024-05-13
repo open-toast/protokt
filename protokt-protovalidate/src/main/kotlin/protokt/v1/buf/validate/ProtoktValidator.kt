@@ -64,27 +64,14 @@ class ProtoktValidator @JvmOverloads constructor(
             true
         )
 
-    fun load(
-        descriptor: Descriptor,
-        message: Message? = null
-    ) {
+    fun load(descriptor: Descriptor) {
         runtimeContext.add(descriptor)
-        try {
-            evaluatorsByFullTypeName[descriptor.fullName] = evaluatorBuilder.load(descriptor)
-        } catch (ex: Exception) {
-            // idiosyncrasy of the conformance suite runner requires this particular exception is rethrown rather than a lookup failure later
-            if (message != null && message.fullTypeName == descriptor.fullName) {
-                throw ex
-            }
-        }
-        descriptor.nestedTypes.forEach { load(it, message) }
+        evaluatorsByFullTypeName[descriptor.fullName] = evaluatorBuilder.load(descriptor)
+        descriptor.nestedTypes.forEach(::load)
     }
 
     fun validate(message: Message): ValidationResult =
         evaluatorsByFullTypeName
-            .getValue(message.fullTypeName)
+            .getValue(message::class.findAnnotation<GeneratedMessage>()!!.fullTypeName)
             .evaluate(MessageValue(message.toDynamicMessage(runtimeContext)), failFast)
-
-    private val Message.fullTypeName
-        get() = this::class.findAnnotation<GeneratedMessage>()!!.fullTypeName
 }

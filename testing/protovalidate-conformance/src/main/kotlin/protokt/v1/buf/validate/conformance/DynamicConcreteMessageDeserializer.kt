@@ -15,11 +15,11 @@
 
 package protokt.v1.buf.validate.conformance
 
+import com.google.protobuf.ByteString
 import io.github.classgraph.ClassGraph
 import protokt.v1.Deserializer
 import protokt.v1.GeneratedMessage
 import protokt.v1.google.protobuf.Empty
-import java.io.InputStream
 import kotlin.reflect.full.findAnnotation
 
 object DynamicConcreteMessageDeserializer {
@@ -44,6 +44,6 @@ object DynamicConcreteMessageDeserializer {
             }
     }
 
-    fun parse(fullTypeName: String, bytes: InputStream) =
-        deserializersByFullTypeName.getValue(fullTypeName).deserialize(bytes)
+    fun parse(fullTypeName: String, bytes: ByteString) =
+        deserializersByFullTypeName.getValue(fullTypeName).deserialize(bytes.newInput())
 }

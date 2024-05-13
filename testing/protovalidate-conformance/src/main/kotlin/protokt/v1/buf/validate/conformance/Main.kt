@@ -35,20 +35,31 @@ object Main {
         extensionRegistry.add(ValidateProto.field)
         extensionRegistry.add(ValidateProto.oneof)
         val request = TestConformanceRequest.parseFrom(System.`in`, extensionRegistry)
-        val response = testConformance(request)
-        response.writeTo(System.out)
+        testConformance(request).writeTo(System.out)
     }
 
     private fun testConformance(request: TestConformanceRequest): TestConformanceResponse {
         val descriptorMap = parse(request.fdset)
-        val validator = ProtoktValidator().apply { descriptorMap.values.forEach(::load) }
-        val responseBuilder = TestConformanceResponse.newBuilder()
-        responseBuilder.putAllResults(
-            request.casesMap.mapValues { (_, value) ->
-                testCase(validator, descriptorMap, value)
+        val validator = ProtoktValidator()
+        loadValidDescriptors(validator, descriptorMap.values)
+        return TestConformanceResponse
+            .newBuilder()
+            .putAllResults(
+                request.casesMap.mapValues { (_, value) ->
+                    testCase(validator, descriptorMap, value)
+                }
+            )
+            .build()
+    }
+
+    private fun loadValidDescriptors(validator: ProtoktValidator, descriptors: Iterable<Descriptors.Descriptor>) {
+        descriptors.forEach {
+            try {
+                validator.load(it)
+            } catch (_: CompilationException) {
+                // leave failures for later; they trigger specific conformance results
             }
-        )
-        return responseBuilder.build()
+        }
     }
 
     private fun testCase(
@@ -58,34 +69,33 @@ object Main {
     ): TestResult {
         val urlParts = testCase.typeUrl.split('/', limit = 2)
         val fullName = urlParts[urlParts.size - 1]
-        fileDescriptors[fullName] ?: return unexpectedErrorResult("Unable to find descriptor $fullName")
-        val testCaseValue = testCase.value
-        val message = DynamicConcreteMessageDeserializer.parse(fullName, testCaseValue.newInput())
-        return validate(validator, message, fileDescriptors.values)
-    }
+        val descriptor = fileDescriptors[fullName] ?: return unexpected("Unable to find descriptor $fullName")
 
-    private fun validate(
-        validator: ProtoktValidator,
-        message: Message,
-        descriptors: Iterable<Descriptors.Descriptor>
-    ): TestResult {
         try {
-            descriptors.forEach { validator.load(it, message) }
-            val result = validator.validate(message)
-            if (result.isSuccess) {
-                return TestResult.newBuilder().setSuccess(true).build()
-            }
-            val error = Violations.newBuilder().addAllViolations(result.violations).build()
-            return TestResult.newBuilder().setValidationError(error).build()
+            validator.load(descriptor)
         } catch (e: CompilationException) {
             return TestResult.newBuilder().setCompilationError(e.message).build()
-        } catch (e: ExecutionException) {
-            return TestResult.newBuilder().setRuntimeError(e.message).build()
-        } catch (e: Exception) {
-            return unexpectedErrorResult("unknown error: $e")
         }
+
+        return validate(validator, DynamicConcreteMessageDeserializer.parse(fullName, testCase.value))
     }
 
-    private fun unexpectedErrorResult(message: String) =
+    private fun validate(validator: ProtoktValidator, message: Message) =
+        try {
+            val result = validator.validate(message)
+            if (result.isSuccess) {
+                TestResult.newBuilder().setSuccess(true).build()
+            } else {
+                TestResult.newBuilder()
+                    .setValidationError(Violations.newBuilder().addAllViolations(result.violations).build())
+                    .build()
+            }
+        } catch (e: ExecutionException) {
+            TestResult.newBuilder().setRuntimeError(e.message).build()
+        } catch (e: Exception) {
+            unexpected("unknown error: $e")
+        }
+
+    private fun unexpected(message: String) =
         TestResult.newBuilder().setUnexpectedError(message).build()
 }
