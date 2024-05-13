@@ -32,7 +32,6 @@ import protokt.v1.Message
 import protokt.v1.google.protobuf.FileDescriptor
 import protokt.v1.google.protobuf.RuntimeContext
 import protokt.v1.google.protobuf.toDynamicMessage
-import java.util.Collections
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.reflect.full.findAnnotation
 
@@ -49,31 +48,13 @@ class ProtoktValidator @JvmOverloads constructor(
     private val failFast = config.isFailFast
 
     private val evaluatorsByFullTypeName = ConcurrentHashMap<String, Evaluator>()
-    private val descriptors = Collections.synchronizedList(mutableListOf<Descriptor>())
+    private val runtimeContext = RuntimeContext(emptyList())
 
     fun load(descriptor: FileDescriptor) {
         descriptor
             .toProtobufJavaDescriptor()
             .messageTypes
             .forEach(::load)
-    }
-
-    fun load(
-        descriptor: Descriptor,
-        message: Message? = null,
-    ) {
-        descriptors.add(descriptor)
-        try {
-            evaluatorsByFullTypeName[descriptor.fullName] = evaluatorBuilder.load(descriptor)
-        } catch (ex: Exception) {
-            // idiosyncrasy of the conformance suite runner requires this particular exception is rethrown rather than a lookup failure later
-            if (message != null) {
-                if (message::class.findAnnotation<GeneratedMessage>()!!.fullTypeName == descriptor.fullName) {
-                    throw ex
-                }
-            }
-        }
-        descriptor.nestedTypes.forEach { load(it, message) }
     }
 
     private fun FileDescriptor.toProtobufJavaDescriptor(): Descriptors.FileDescriptor =
@@ -83,11 +64,27 @@ class ProtoktValidator @JvmOverloads constructor(
             true
         )
 
+    fun load(
+        descriptor: Descriptor,
+        message: Message? = null
+    ) {
+        runtimeContext.add(descriptor)
+        try {
+            evaluatorsByFullTypeName[descriptor.fullName] = evaluatorBuilder.load(descriptor)
+        } catch (ex: Exception) {
+            // idiosyncrasy of the conformance suite runner requires this particular exception is rethrown rather than a lookup failure later
+            if (message != null && message.fullTypeName == descriptor.fullName) {
+                throw ex
+            }
+        }
+        descriptor.nestedTypes.forEach { load(it, message) }
+    }
+
     fun validate(message: Message): ValidationResult =
-        evaluatorsByFullTypeName.getValue(
-            message::class.findAnnotation<GeneratedMessage>()!!.fullTypeName,
-        ).evaluate(
-            MessageValue(message.toDynamicMessage(RuntimeContext(descriptors))),
-            failFast
-        )
+        evaluatorsByFullTypeName
+            .getValue(message.fullTypeName)
+            .evaluate(MessageValue(message.toDynamicMessage(runtimeContext)), failFast)
+
+    private val Message.fullTypeName
+        get() = this::class.findAnnotation<GeneratedMessage>()!!.fullTypeName
 }

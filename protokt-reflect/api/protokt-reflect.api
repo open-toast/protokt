@@ -1240,6 +1240,7 @@ public final class protokt/v1/google/protobuf/Messages {
 
 public final class protokt/v1/google/protobuf/RuntimeContext {
 	public fun <init> (Ljava/lang/Iterable;)V
+	public final fun add (Lcom/google/protobuf/Descriptors$Descriptor;)V
 	public final fun convertValue (Ljava/lang/Object;)Ljava/lang/Object;
 }
 
