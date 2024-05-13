@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package validate
+package protokt.v1.buf.validate
 
 import buf.validate.conformance.cases.Bytes
 import buf.validate.conformance.cases.Numbers
@@ -32,7 +32,6 @@ import protokt.v1.Message
 import protokt.v1.Reader
 import protokt.v1.UnknownFieldSet
 import protokt.v1.Writer
-import protokt.v1.buf.validate.ProtoktValidator
 import protokt.v1.buf.validate.conformance.cases.MessageRequiredOneof
 import protokt.v1.buf.validate.conformance.cases.Oneof
 import protokt.v1.buf.validate.conformance.cases.TestMsg
@@ -122,8 +121,7 @@ abstract class AbstractProtoktValidatorTest {
         val result =
             validate(
                 Int64.deserialize(
-                    Numbers.Int64In
-                        .newBuilder()
+                    Numbers.Int64In.newBuilder()
                         .setVal(4)
                         .build()
                         .toByteArray()
@@ -135,8 +133,7 @@ abstract class AbstractProtoktValidatorTest {
         val result2 =
             validate(
                 Int64.deserialize(
-                    Numbers.Int64In
-                        .newBuilder()
+                    Numbers.Int64In.newBuilder()
                         .setVal(3)
                         .build()
                         .toByteArray()
@@ -153,8 +150,7 @@ abstract class AbstractProtoktValidatorTest {
         val result =
             validate(
                 UInt64.deserialize(
-                    Numbers.UInt64In
-                        .newBuilder()
+                    Numbers.UInt64In.newBuilder()
                         .setVal(4)
                         .build()
                         .toByteArray()
@@ -166,8 +162,7 @@ abstract class AbstractProtoktValidatorTest {
         val result2 =
             validate(
                 UInt64.deserialize(
-                    Numbers.UInt64In
-                        .newBuilder()
+                    Numbers.UInt64In.newBuilder()
                         .setVal(3)
                         .build()
                         .toByteArray()
@@ -184,8 +179,7 @@ abstract class AbstractProtoktValidatorTest {
         val result =
             validate(
                 Fixed32.deserialize(
-                    Numbers.Fixed32In
-                        .newBuilder()
+                    Numbers.Fixed32In.newBuilder()
                         .setVal(4)
                         .build()
                         .toByteArray()
@@ -197,8 +191,7 @@ abstract class AbstractProtoktValidatorTest {
         val result2 =
             validate(
                 Fixed32.deserialize(
-                    Numbers.Fixed32In
-                        .newBuilder()
+                    Numbers.Fixed32In.newBuilder()
                         .setVal(3)
                         .build()
                         .toByteArray()
@@ -215,8 +208,7 @@ abstract class AbstractProtoktValidatorTest {
         val result =
             validate(
                 Fixed64.deserialize(
-                    Numbers.Fixed64In
-                        .newBuilder()
+                    Numbers.Fixed64In.newBuilder()
                         .setVal(4)
                         .build()
                         .toByteArray()
@@ -228,8 +220,7 @@ abstract class AbstractProtoktValidatorTest {
         val result2 =
             validate(
                 Fixed64.deserialize(
-                    Numbers.Fixed64In
-                        .newBuilder()
+                    Numbers.Fixed64In.newBuilder()
                         .setVal(3)
                         .build()
                         .toByteArray()
@@ -246,8 +237,7 @@ abstract class AbstractProtoktValidatorTest {
         val result =
             validate(
                 LengthDelimitedString.deserialize(
-                    Strings.StringIn
-                        .newBuilder()
+                    Strings.StringIn.newBuilder()
                         .setVal("foo")
                         .build()
                         .toByteArray()
@@ -259,8 +249,7 @@ abstract class AbstractProtoktValidatorTest {
         val result2 =
             validate(
                 LengthDelimitedString.deserialize(
-                    Strings.StringIn
-                        .newBuilder()
+                    Strings.StringIn.newBuilder()
                         .setVal("bar")
                         .build()
                         .toByteArray()
@@ -277,8 +266,7 @@ abstract class AbstractProtoktValidatorTest {
         val result =
             validate(
                 LengthDelimitedBytes.deserialize(
-                    Bytes.BytesIn
-                        .newBuilder()
+                    Bytes.BytesIn.newBuilder()
                         .setVal(ByteString.copyFromUtf8("foo"))
                         .build()
                         .toByteArray()
@@ -290,8 +278,7 @@ abstract class AbstractProtoktValidatorTest {
         val result2 =
             validate(
                 LengthDelimitedBytes.deserialize(
-                    Bytes.BytesIn
-                        .newBuilder()
+                    Bytes.BytesIn.newBuilder()
                         .setVal(ByteString.copyFromUtf8("bar"))
                         .build()
                         .toByteArray()
@@ -308,8 +295,7 @@ abstract class AbstractProtoktValidatorTest {
         val result =
             validate(
                 RepeatedLengthDelimited.deserialize(
-                    Repeated.RepeatedUnique
-                        .newBuilder()
+                    Repeated.RepeatedUnique.newBuilder()
                         .addAllVal(listOf("foo", "foo"))
                         .build()
                         .toByteArray()
@@ -321,8 +307,7 @@ abstract class AbstractProtoktValidatorTest {
         val result2 =
             validate(
                 RepeatedLengthDelimited.deserialize(
-                    Repeated.RepeatedUnique
-                        .newBuilder()
+                    Repeated.RepeatedUnique.newBuilder()
                         .addAllVal(listOf("foo", "bar"))
                         .build()
                         .toByteArray()

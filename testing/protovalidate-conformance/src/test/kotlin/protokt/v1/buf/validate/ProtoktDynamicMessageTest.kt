@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package validate
+package protokt.v1.buf.validate
 
 import protokt.v1.Message
 
