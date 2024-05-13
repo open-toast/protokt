@@ -15,4 +15,7 @@
 
 package protokt.v1.grpc
 
+import protokt.v1.Beta
+
+@Beta
 class StatusException(@Suppress("UNUSED_PARAMETER") status: Status) : Exception()

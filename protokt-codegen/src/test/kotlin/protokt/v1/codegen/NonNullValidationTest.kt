@@ -19,7 +19,7 @@ import com.google.common.truth.Truth
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
-import protokt.v1.codegen.util.FieldType
+import protokt.v1.reflect.FieldType
 
 class NonNullValidationTest : AbstractProtoktCodegenTest() {
     @ParameterizedTest

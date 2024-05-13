@@ -39,5 +39,9 @@ class EnumsWithSharedPrefixTest {
         AnEnumTypeLowerCase.AN_ENUM_TYPE_LOWER_CASE_UNSPECIFIED
         AnEnumTypeLowerCase.AN_ENUM_TYPE_LOWER_CASE_FIRST
         AnEnumTypeLowerCase.AN_ENUM_TYPE_lower_CASE_SECOND
+
+        // not stripped, some enum names are not valid without the prefix
+        AnEnumTypeInvalidWithoutPrefix.AN_ENUM_TYPE_INVALID_WITHOUT_PREFIX_UNSPECIFIED
+        AnEnumTypeInvalidWithoutPrefix.AN_ENUM_TYPE_INVALID_WITHOUT_PREFIX_1_FOO
     }
 }
