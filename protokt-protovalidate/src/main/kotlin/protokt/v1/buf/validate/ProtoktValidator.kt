@@ -21,15 +21,12 @@ import build.buf.protovalidate.internal.celext.ValidateLibrary
 import build.buf.protovalidate.internal.evaluator.Evaluator
 import build.buf.protovalidate.internal.evaluator.EvaluatorBuilder
 import build.buf.protovalidate.internal.evaluator.MessageValue
-import com.google.protobuf.DescriptorProtos
-import com.google.protobuf.Descriptors
 import com.google.protobuf.Descriptors.Descriptor
 import org.projectnessie.cel.Env
 import org.projectnessie.cel.Library
 import protokt.v1.Beta
 import protokt.v1.GeneratedMessage
 import protokt.v1.Message
-import protokt.v1.google.protobuf.FileDescriptor
 import protokt.v1.google.protobuf.RuntimeContext
 import protokt.v1.google.protobuf.toDynamicMessage
 import java.util.concurrent.ConcurrentHashMap
@@ -49,20 +46,6 @@ class ProtoktValidator @JvmOverloads constructor(
 
     private val evaluatorsByFullTypeName = ConcurrentHashMap<String, Evaluator>()
     private val runtimeContext = RuntimeContext(emptyList())
-
-    fun load(descriptor: FileDescriptor) {
-        descriptor
-            .toProtobufJavaDescriptor()
-            .messageTypes
-            .forEach(::load)
-    }
-
-    private fun FileDescriptor.toProtobufJavaDescriptor(): Descriptors.FileDescriptor =
-        Descriptors.FileDescriptor.buildFrom(
-            DescriptorProtos.FileDescriptorProto.parseFrom(proto.serialize()),
-            dependencies.map { it.toProtobufJavaDescriptor() }.toTypedArray(),
-            true
-        )
 
     fun load(descriptor: Descriptor) {
         runtimeContext.add(descriptor)

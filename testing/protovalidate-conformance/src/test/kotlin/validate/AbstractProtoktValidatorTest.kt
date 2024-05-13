@@ -22,6 +22,8 @@ import buf.validate.conformance.cases.Strings
 import build.buf.protovalidate.ValidationResult
 import com.google.common.truth.Truth.assertThat
 import com.google.protobuf.ByteString
+import com.google.protobuf.DescriptorProtos
+import com.google.protobuf.Descriptors
 import org.junit.jupiter.api.Test
 import protokt.v1.AbstractDeserializer
 import protokt.v1.AbstractMessage
@@ -41,15 +43,32 @@ import protokt.v1.buf.validate.conformance.cases.numbers_file_descriptor
 import protokt.v1.buf.validate.conformance.cases.oneofs_file_descriptor
 import protokt.v1.buf.validate.conformance.cases.repeated_file_descriptor
 import protokt.v1.buf.validate.conformance.cases.strings_file_descriptor
+import protokt.v1.google.protobuf.FileDescriptor
 
 abstract class AbstractProtoktValidatorTest {
     protected val validator = ProtoktValidator()
 
     abstract fun validate(message: Message): ValidationResult
 
+    private fun load(descriptor: FileDescriptor) {
+        descriptor
+            .toProtobufJavaDescriptor()
+            .messageTypes
+            .forEach {
+                runCatching { validator.load(it) }
+            }
+    }
+
+    private fun FileDescriptor.toProtobufJavaDescriptor(): Descriptors.FileDescriptor =
+        Descriptors.FileDescriptor.buildFrom(
+            DescriptorProtos.FileDescriptorProto.parseFrom(proto.serialize()),
+            dependencies.map { it.toProtobufJavaDescriptor() }.toTypedArray(),
+            true
+        )
+
     @Test
     fun `test required oneof constraint`() {
-        validator.load(messages_file_descriptor.descriptor)
+        load(messages_file_descriptor.descriptor)
 
         val result =
             validate(
@@ -58,9 +77,9 @@ abstract class AbstractProtoktValidatorTest {
                         MessageRequiredOneof.One.Val(
                             TestMsg {
                                 const = "foo"
-                            },
+                            }
                         )
-                },
+                }
             )
 
         assertThat(result.violations).isEmpty()
@@ -69,13 +88,13 @@ abstract class AbstractProtoktValidatorTest {
 
     @Test
     fun `test oneof constraint`() {
-        validator.load(oneofs_file_descriptor.descriptor)
+        load(oneofs_file_descriptor.descriptor)
 
         val result =
             validate(
                 Oneof {
                     o = Oneof.O.X("foobar")
-                },
+                }
             )
 
         assertThat(result.violations).isEmpty()
@@ -84,13 +103,13 @@ abstract class AbstractProtoktValidatorTest {
 
     @Test
     fun `test uint64 in constraint`() {
-        validator.load(numbers_file_descriptor.descriptor)
+        load(numbers_file_descriptor.descriptor)
 
         val result =
             validate(
                 UInt64In {
                     `val` = 4u
-                },
+                }
             )
 
         assertThat(result.isSuccess).isFalse()
@@ -98,7 +117,7 @@ abstract class AbstractProtoktValidatorTest {
 
     @Test
     fun `test message with varint non-uint64 encoded purely as unknown fields (dynamic message without a dedicated type)`() {
-        validator.load(numbers_file_descriptor.descriptor)
+        load(numbers_file_descriptor.descriptor)
 
         val result =
             validate(
@@ -107,8 +126,8 @@ abstract class AbstractProtoktValidatorTest {
                         .newBuilder()
                         .setVal(4)
                         .build()
-                        .toByteArray(),
-                ),
+                        .toByteArray()
+                )
             )
 
         assertThat(result.isSuccess).isFalse()
@@ -120,8 +139,8 @@ abstract class AbstractProtoktValidatorTest {
                         .newBuilder()
                         .setVal(3)
                         .build()
-                        .toByteArray(),
-                ),
+                        .toByteArray()
+                )
             )
 
         assertThat(result2.isSuccess).isTrue()
@@ -129,7 +148,7 @@ abstract class AbstractProtoktValidatorTest {
 
     @Test
     fun `test message with varint uint64 encoded purely as unknown fields (dynamic message without a dedicated type)`() {
-        validator.load(numbers_file_descriptor.descriptor)
+        load(numbers_file_descriptor.descriptor)
 
         val result =
             validate(
@@ -138,8 +157,8 @@ abstract class AbstractProtoktValidatorTest {
                         .newBuilder()
                         .setVal(4)
                         .build()
-                        .toByteArray(),
-                ),
+                        .toByteArray()
+                )
             )
 
         assertThat(result.isSuccess).isFalse()
@@ -151,8 +170,8 @@ abstract class AbstractProtoktValidatorTest {
                         .newBuilder()
                         .setVal(3)
                         .build()
-                        .toByteArray(),
-                ),
+                        .toByteArray()
+                )
             )
 
         assertThat(result2.isSuccess).isTrue()
@@ -160,7 +179,7 @@ abstract class AbstractProtoktValidatorTest {
 
     @Test
     fun `test message with fixed32 encoded purely as unknown fields (dynamic message without a dedicated type)`() {
-        validator.load(numbers_file_descriptor.descriptor)
+        load(numbers_file_descriptor.descriptor)
 
         val result =
             validate(
@@ -169,8 +188,8 @@ abstract class AbstractProtoktValidatorTest {
                         .newBuilder()
                         .setVal(4)
                         .build()
-                        .toByteArray(),
-                ),
+                        .toByteArray()
+                )
             )
 
         assertThat(result.isSuccess).isFalse()
@@ -182,8 +201,8 @@ abstract class AbstractProtoktValidatorTest {
                         .newBuilder()
                         .setVal(3)
                         .build()
-                        .toByteArray(),
-                ),
+                        .toByteArray()
+                )
             )
 
         assertThat(result2.isSuccess).isTrue()
@@ -191,7 +210,7 @@ abstract class AbstractProtoktValidatorTest {
 
     @Test
     fun `test message with fixed64 encoded purely as unknown fields (dynamic message without a dedicated type)`() {
-        validator.load(numbers_file_descriptor.descriptor)
+        load(numbers_file_descriptor.descriptor)
 
         val result =
             validate(
@@ -200,8 +219,8 @@ abstract class AbstractProtoktValidatorTest {
                         .newBuilder()
                         .setVal(4)
                         .build()
-                        .toByteArray(),
-                ),
+                        .toByteArray()
+                )
             )
 
         assertThat(result.isSuccess).isFalse()
@@ -213,8 +232,8 @@ abstract class AbstractProtoktValidatorTest {
                         .newBuilder()
                         .setVal(3)
                         .build()
-                        .toByteArray(),
-                ),
+                        .toByteArray()
+                )
             )
 
         assertThat(result2.isSuccess).isTrue()
@@ -222,7 +241,7 @@ abstract class AbstractProtoktValidatorTest {
 
     @Test
     fun `test message with length delimited string encoded purely as unknown fields (dynamic message without a dedicated type)`() {
-        validator.load(strings_file_descriptor.descriptor)
+        load(strings_file_descriptor.descriptor)
 
         val result =
             validate(
@@ -231,8 +250,8 @@ abstract class AbstractProtoktValidatorTest {
                         .newBuilder()
                         .setVal("foo")
                         .build()
-                        .toByteArray(),
-                ),
+                        .toByteArray()
+                )
             )
 
         assertThat(result.isSuccess).isFalse()
@@ -244,8 +263,8 @@ abstract class AbstractProtoktValidatorTest {
                         .newBuilder()
                         .setVal("bar")
                         .build()
-                        .toByteArray(),
-                ),
+                        .toByteArray()
+                )
             )
 
         assertThat(result2.isSuccess).isTrue()
@@ -253,7 +272,7 @@ abstract class AbstractProtoktValidatorTest {
 
     @Test
     fun `test message with length delimited bytes encoded purely as unknown fields (dynamic message without a dedicated type)`() {
-        validator.load(bytes_file_descriptor.descriptor)
+        load(bytes_file_descriptor.descriptor)
 
         val result =
             validate(
@@ -262,8 +281,8 @@ abstract class AbstractProtoktValidatorTest {
                         .newBuilder()
                         .setVal(ByteString.copyFromUtf8("foo"))
                         .build()
-                        .toByteArray(),
-                ),
+                        .toByteArray()
+                )
             )
 
         assertThat(result.isSuccess).isFalse()
@@ -275,8 +294,8 @@ abstract class AbstractProtoktValidatorTest {
                         .newBuilder()
                         .setVal(ByteString.copyFromUtf8("bar"))
                         .build()
-                        .toByteArray(),
-                ),
+                        .toByteArray()
+                )
             )
 
         assertThat(result2.isSuccess).isTrue()
@@ -284,7 +303,7 @@ abstract class AbstractProtoktValidatorTest {
 
     @Test
     fun `test message with repeated values encoded purely as unknown fields (dynamic message without a dedicated type)`() {
-        validator.load(repeated_file_descriptor.descriptor)
+        load(repeated_file_descriptor.descriptor)
 
         val result =
             validate(
@@ -293,8 +312,8 @@ abstract class AbstractProtoktValidatorTest {
                         .newBuilder()
                         .addAllVal(listOf("foo", "foo"))
                         .build()
-                        .toByteArray(),
-                ),
+                        .toByteArray()
+                )
             )
 
         assertThat(result.isSuccess).isFalse()
@@ -306,8 +325,8 @@ abstract class AbstractProtoktValidatorTest {
                         .newBuilder()
                         .addAllVal(listOf("foo", "bar"))
                         .build()
-                        .toByteArray(),
-                ),
+                        .toByteArray()
+                )
             )
 
         assertThat(result2.isSuccess).isTrue()
