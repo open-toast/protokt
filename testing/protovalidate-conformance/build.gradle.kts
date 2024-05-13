@@ -18,8 +18,6 @@ import com.google.protobuf.gradle.GenerateProtoTask
 import com.google.protobuf.gradle.proto
 import org.gradle.api.distribution.plugins.DistributionPlugin.TASK_INSTALL_NAME
 import org.gradle.language.base.plugins.LifecycleBasePlugin.CHECK_TASK_NAME
-import java.io.ByteArrayOutputStream
-import java.nio.charset.StandardCharsets
 
 plugins {
     id("protokt.jvm-conventions")
