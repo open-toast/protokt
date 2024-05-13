@@ -3,7 +3,6 @@ public final class protokt/v1/buf/validate/ProtoktValidator {
 	public fun <init> (Lbuild/buf/protovalidate/Config;)V
 	public synthetic fun <init> (Lbuild/buf/protovalidate/Config;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun load (Lcom/google/protobuf/Descriptors$Descriptor;)V
-	public final fun load (Lprotokt/v1/google/protobuf/FileDescriptor;)V
 	public final fun validate (Lprotokt/v1/Message;)Lbuild/buf/protovalidate/ValidationResult;
 }
 
