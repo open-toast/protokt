@@ -16,7 +16,7 @@
 package protokt.v1.benchmarks
 
 import protokt.v1.Bytes
-import protokt.v1.KtMessage
+import protokt.v1.Message
 import java.io.File
 import java.lang.IllegalArgumentException
 import java.security.SecureRandom
@@ -33,7 +33,7 @@ class MapFieldType(val keyType: ScalarType, val valueType: ScalarType) : FieldTy
 
 sealed class ScalarType
 class PrimitiveScalarType(val ktType: KClass<*>) : ScalarType()
-class MessageScalarType(val ktType: KClass<out KtMessage>) : ScalarType()
+class MessageScalarType(val ktType: KClass<out Message>) : ScalarType()
 
 internal object TypeInspector {
     fun type(prop: KType): FieldType {
@@ -45,8 +45,8 @@ internal object TypeInspector {
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun scalarType(cls: KClass<*>) = if (cls.isSubclassOf(KtMessage::class)) {
-        MessageScalarType(cls as KClass<out KtMessage>)
+    fun scalarType(cls: KClass<*>) = if (cls.isSubclassOf(Message::class)) {
+        MessageScalarType(cls as KClass<out Message>)
     } else {
         PrimitiveScalarType(cls)
     }
@@ -72,7 +72,7 @@ class FixtureGenerator(private val weight: Int) {
             is MessageScalarType -> randomMessageValue(scalarType.ktType)
         }
 
-    fun randomMessageValue(cls: KClass<out KtMessage>): KtMessage {
+    fun randomMessageValue(cls: KClass<out Message>): Message {
         val params = cls.primaryConstructor!!.parameters.associateWith { p ->
             if (p.name == "unknown") {
                 emptyMap<Any, Any>()
@@ -98,7 +98,7 @@ class FixtureGenerator(private val weight: Int) {
 
     fun randomSize() = random.nextInt().absoluteValue % weight + 1
 
-    fun generateDataset(name: String, msg: KClass<out KtMessage>, size: Int) =
+    fun generateDataset(name: String, msg: KClass<out Message>, size: Int) =
         BenchmarkDataset {
             this.name = name
             messageName = msg.qualifiedName!!
@@ -106,7 +106,7 @@ class FixtureGenerator(private val weight: Int) {
         }
 }
 
-fun KtMessage.writeToFile(file: String) {
+fun Message.writeToFile(file: String) {
     File(file).outputStream().buffered().use { serialize(it) }
 }
 

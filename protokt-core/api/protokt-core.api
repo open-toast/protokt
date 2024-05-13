@@ -208,15 +208,15 @@ public final class com/toasttab/protokt/compiler/PluginProtos {
 	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
 }
 
+public final class protokt/v1/google/protobuf/Anies {
+	public static final fun pack (Lprotokt/v1/google/protobuf/Any$Deserializer;Lprotokt/v1/Message;)Lprotokt/v1/google/protobuf/Any;
+	public static final fun pack (Lprotokt/v1/google/protobuf/Any$Deserializer;Lprotokt/v1/Message;Ljava/lang/String;)Lprotokt/v1/google/protobuf/Any;
+	public static synthetic fun pack$default (Lprotokt/v1/google/protobuf/Any$Deserializer;Lprotokt/v1/Message;Ljava/lang/String;ILjava/lang/Object;)Lprotokt/v1/google/protobuf/Any;
+}
+
 public final class protokt/v1/google/protobuf/AnyProto {
 	public static final field INSTANCE Lprotokt/v1/google/protobuf/AnyProto;
 	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
-}
-
-public final class protokt/v1/google/protobuf/AnyUtil {
-	public static final fun pack (Lprotokt/v1/google/protobuf/Any$Deserializer;Lprotokt/v1/KtMessage;)Lprotokt/v1/google/protobuf/Any;
-	public static final fun pack (Lprotokt/v1/google/protobuf/Any$Deserializer;Lprotokt/v1/KtMessage;Ljava/lang/String;)Lprotokt/v1/google/protobuf/Any;
-	public static synthetic fun pack$default (Lprotokt/v1/google/protobuf/Any$Deserializer;Lprotokt/v1/KtMessage;Ljava/lang/String;ILjava/lang/Object;)Lprotokt/v1/google/protobuf/Any;
 }
 
 public final class protokt/v1/google/protobuf/Any_descriptorsKt {

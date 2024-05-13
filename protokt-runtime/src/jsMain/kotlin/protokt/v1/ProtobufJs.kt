@@ -20,45 +20,47 @@ package protokt.v1
 
 import org.khronos.webgl.Uint8Array
 
-internal external class Writer {
-    fun bool(value: Boolean): Writer
+@JsName("Writer")
+internal external class ProtobufJsWriter {
+    fun bool(value: Boolean): ProtobufJsWriter
 
-    fun bytes(value: Uint8Array): Writer
+    fun bytes(value: Uint8Array): ProtobufJsWriter
 
-    fun double(value: Double): Writer
+    fun double(value: Double): ProtobufJsWriter
 
-    fun fixed32(value: Int): Writer
+    fun fixed32(value: Int): ProtobufJsWriter
 
-    fun fixed64(value: dynamic): Writer
+    fun fixed64(value: dynamic): ProtobufJsWriter
 
-    fun float(value: Float): Writer
+    fun float(value: Float): ProtobufJsWriter
 
-    fun int32(value: Int): Writer
+    fun int32(value: Int): ProtobufJsWriter
 
-    fun int64(value: dynamic): Writer
+    fun int64(value: dynamic): ProtobufJsWriter
 
-    fun sfixed32(value: Int): Writer
+    fun sfixed32(value: Int): ProtobufJsWriter
 
-    fun sfixed64(value: dynamic): Writer
+    fun sfixed64(value: dynamic): ProtobufJsWriter
 
-    fun sint32(value: Int): Writer
+    fun sint32(value: Int): ProtobufJsWriter
 
-    fun sint64(value: dynamic): Writer
+    fun sint64(value: dynamic): ProtobufJsWriter
 
-    fun string(value: String): Writer
+    fun string(value: String): ProtobufJsWriter
 
-    fun uint32(value: Int): Writer
+    fun uint32(value: Int): ProtobufJsWriter
 
-    fun uint64(value: dynamic): Writer
+    fun uint64(value: dynamic): ProtobufJsWriter
 
     fun finish(): Uint8Array
 
     companion object {
-        fun create(): Writer
+        fun create(): ProtobufJsWriter
     }
 }
 
-internal external class Reader {
+@JsName("Reader")
+internal external class ProtobufJsReader {
     val len: Int
 
     val pos: Int
@@ -88,6 +90,6 @@ internal external class Reader {
     fun uint64(): dynamic
 
     companion object {
-        fun create(buf: Uint8Array): Reader
+        fun create(buf: Uint8Array): ProtobufJsReader
     }
 }

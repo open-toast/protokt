@@ -44,6 +44,7 @@ jmh = "1.37"
 wire = "4.9.7"
 
 # test
+classgraph = "4.8.153"
 grpc-js = "1.8.14"
 jackson = "2.17.0"
 junit = "5.10.2"
@@ -91,6 +92,7 @@ wireRuntime = { module = "com.squareup.wire:wire-runtime", version.ref = "wire" 
 protoGoogleCommonProtos = { module = "com.google.api.grpc:proto-google-common-protos", version.ref = "protoGoogleCommonProtos" }
 
 # test
+classgraph = { module = "io.github.classgraph:classgraph", version.ref = "classgraph" }
 grpc-kotlin-stub = { module = "io.grpc:grpc-kotlin-stub", version.ref = "grpc-kotlin" }
 grpc-testing = { module = "io.grpc:grpc-testing", version.ref = "grpc-java" }
 jackson = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }

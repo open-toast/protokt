@@ -33,10 +33,11 @@ import protokt.v1.codegen.generate.Wrapper.wrapped
 import protokt.v1.codegen.generate.Wrapper.wrapperRequiresNullability
 import protokt.v1.codegen.util.ErrorContext.withFieldName
 import protokt.v1.codegen.util.Field
-import protokt.v1.codegen.util.FieldType
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.Oneof
 import protokt.v1.codegen.util.StandardField
+import protokt.v1.codegen.util.defaultValue
+import protokt.v1.reflect.FieldType
 
 internal fun annotateProperties(msg: Message, ctx: Context) =
     PropertyAnnotator(msg, ctx).annotate()
@@ -132,7 +133,7 @@ private class PropertyAnnotator(
         }
 }
 
-class PropertyInfo(
+internal class PropertyInfo(
     val name: String,
     val number: Int? = null,
     val propertyType: TypeName,

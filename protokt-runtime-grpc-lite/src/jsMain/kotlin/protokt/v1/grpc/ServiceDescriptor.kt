@@ -15,8 +15,10 @@
 
 package protokt.v1.grpc
 
+import protokt.v1.Beta
 import protokt.v1.Collections.copyList
 
+@Beta
 class ServiceDescriptor internal constructor(
     val name: String,
     methods: List<MethodDescriptor<*, *>>,
