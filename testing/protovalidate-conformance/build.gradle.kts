@@ -100,18 +100,10 @@ val conformance =
                 .asFile
                 .absolutePath
         )
-        // setIgnoreExitValue(true)
-        val err = ByteArrayOutputStream()
-        // errorOutput = err
-
-        val out = ByteArrayOutputStream()
-        // standardOutput = out
 
         doLast {
             logger.quiet("Result: " + executionResult.get().exitValue)
             if (executionResult.get().exitValue != 0) {
-                logger.quiet("err: \n" + err.toString(StandardCharsets.UTF_8))
-                logger.quiet("out: \n" + out.toString(StandardCharsets.UTF_8))
                 error("broken")
             }
         }
