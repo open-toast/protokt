@@ -1,3 +1,11 @@
+public final class protokt/v1/google/cloud/location/LocationsGrpc {
+	public static final field INSTANCE Lprotokt/v1/google/cloud/location/LocationsGrpc;
+	public static final field SERVICE_NAME Ljava/lang/String;
+	public static final fun getGetLocationMethod ()Lio/grpc/MethodDescriptor;
+	public static final fun getListLocationsMethod ()Lio/grpc/MethodDescriptor;
+	public static final fun getServiceDescriptor ()Lio/grpc/ServiceDescriptor;
+}
+
 public final class protokt/v1/google/longrunning/OperationsGrpc {
 	public static final field INSTANCE Lprotokt/v1/google/longrunning/OperationsGrpc;
 	public static final field SERVICE_NAME Ljava/lang/String;
