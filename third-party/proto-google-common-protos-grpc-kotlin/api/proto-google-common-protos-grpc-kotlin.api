@@ -1,3 +1,31 @@
+public final class protokt/v1/google/cloud/location/LocationsGrpcKt {
+	public static final field INSTANCE Lprotokt/v1/google/cloud/location/LocationsGrpcKt;
+	public static final field SERVICE_NAME Ljava/lang/String;
+	public static final fun getGetLocationMethod ()Lio/grpc/MethodDescriptor;
+	public static final fun getListLocationsMethod ()Lio/grpc/MethodDescriptor;
+	public static final fun getServiceDescriptor ()Lio/grpc/ServiceDescriptor;
+}
+
+public abstract class protokt/v1/google/cloud/location/LocationsGrpcKt$LocationsCoroutineImplBase : io/grpc/kotlin/AbstractCoroutineServerImpl {
+	public fun <init> ()V
+	public fun <init> (Lkotlin/coroutines/CoroutineContext;)V
+	public synthetic fun <init> (Lkotlin/coroutines/CoroutineContext;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun bindService ()Lio/grpc/ServerServiceDefinition;
+	public fun getLocation (Lprotokt/v1/google/cloud/location/GetLocationRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun listLocations (Lprotokt/v1/google/cloud/location/ListLocationsRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class protokt/v1/google/cloud/location/LocationsGrpcKt$LocationsCoroutineStub : io/grpc/kotlin/AbstractCoroutineStub {
+	public fun <init> (Lio/grpc/Channel;)V
+	public fun <init> (Lio/grpc/Channel;Lio/grpc/CallOptions;)V
+	public synthetic fun <init> (Lio/grpc/Channel;Lio/grpc/CallOptions;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun build (Lio/grpc/Channel;Lio/grpc/CallOptions;)Lio/grpc/stub/AbstractStub;
+	public final fun getLocation (Lprotokt/v1/google/cloud/location/GetLocationRequest;Lio/grpc/Metadata;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun getLocation$default (Lprotokt/v1/google/cloud/location/LocationsGrpcKt$LocationsCoroutineStub;Lprotokt/v1/google/cloud/location/GetLocationRequest;Lio/grpc/Metadata;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+	public final fun listLocations (Lprotokt/v1/google/cloud/location/ListLocationsRequest;Lio/grpc/Metadata;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun listLocations$default (Lprotokt/v1/google/cloud/location/LocationsGrpcKt$LocationsCoroutineStub;Lprotokt/v1/google/cloud/location/ListLocationsRequest;Lio/grpc/Metadata;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+}
+
 public final class protokt/v1/google/longrunning/OperationsGrpcKt {
 	public static final field INSTANCE Lprotokt/v1/google/longrunning/OperationsGrpcKt;
 	public static final field SERVICE_NAME Ljava/lang/String;
