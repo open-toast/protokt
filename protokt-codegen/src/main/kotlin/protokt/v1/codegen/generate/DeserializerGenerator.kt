@@ -25,27 +25,29 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
-import protokt.v1.AbstractKtDeserializer
-import protokt.v1.KtMessageDeserializer
+import protokt.v1.AbstractDeserializer
+import protokt.v1.Reader
 import protokt.v1.UnknownFieldSet
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Wrapper.interceptRead
 import protokt.v1.codegen.generate.Wrapper.wrapField
-import protokt.v1.codegen.util.FieldType
-import protokt.v1.codegen.util.FieldType.Enum
-import protokt.v1.codegen.util.FieldType.SFixed32
-import protokt.v1.codegen.util.FieldType.SFixed64
-import protokt.v1.codegen.util.FieldType.SInt32
-import protokt.v1.codegen.util.FieldType.SInt64
-import protokt.v1.codegen.util.FieldType.UInt32
-import protokt.v1.codegen.util.FieldType.UInt64
 import protokt.v1.codegen.util.KotlinPlugin
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.Oneof
 import protokt.v1.codegen.util.StandardField
 import protokt.v1.codegen.util.Tag
+import protokt.v1.reflect.FieldType
+import protokt.v1.reflect.FieldType.Enum
+import protokt.v1.reflect.FieldType.SFixed32
+import protokt.v1.reflect.FieldType.SFixed64
+import protokt.v1.reflect.FieldType.SInt32
+import protokt.v1.reflect.FieldType.SInt64
+import protokt.v1.reflect.FieldType.UInt32
+import protokt.v1.reflect.FieldType.UInt64
 
-fun generateDeserializer(msg: Message, ctx: Context, properties: List<PropertyInfo>) =
+internal val READER = Reader::class.simpleName!!.lowercase()
+
+internal fun generateDeserializer(msg: Message, ctx: Context, properties: List<PropertyInfo>) =
     DeserializerGenerator(msg, ctx, properties).generate()
 
 private class DeserializerGenerator(
@@ -58,7 +60,7 @@ private class DeserializerGenerator(
 
         return TypeSpec.companionObjectBuilder(msg.deserializerClassName.simpleName)
             .superclass(
-                AbstractKtDeserializer::class
+                AbstractDeserializer::class
                     .asTypeName()
                     .parameterizedBy(msg.className)
             )
@@ -68,7 +70,7 @@ private class DeserializerGenerator(
                     if (ctx.info.context.appliedKotlinPlugin != KotlinPlugin.JS) {
                         addAnnotation(JvmStatic::class) // can't put this here generally until JS code is actually common code in a multiplatform module
                     }
-                    addParameter("deserializer", KtMessageDeserializer::class)
+                    addParameter(READER, Reader::class)
                     returns(msg.className)
                     if (properties.isNotEmpty()) {
                         properties.forEach {
@@ -77,7 +79,7 @@ private class DeserializerGenerator(
                     }
                     addStatement("var·unknownFields:·%T?·=·null\n", UnknownFieldSet.Builder::class)
                     beginControlFlow("while (true)")
-                    beginControlFlow("when (deserializer.readTag())")
+                    beginControlFlow("when ($READER.readTag())")
                     val constructor =
                         buildCodeBlock {
                             add("0u·->·return·%T(\n", msg.className)
@@ -99,7 +101,7 @@ private class DeserializerGenerator(
                         buildCodeBlock {
                             add("(unknownFields ?: %T.Builder())", UnknownFieldSet::class)
                             beginControlFlow(".also")
-                            add("it.add(deserializer.readUnknown())\n")
+                            add("it.add($READER.readUnknown())\n")
                             endControlFlowWithoutNewline()
                         }
                     addStatement("else -> unknownFields =\n%L", unknownFieldBuilder)
@@ -212,8 +214,8 @@ private class DeserializerGenerator(
         CodeBlock.of("%T(%L)", f.qualify(ff), deserialize(ff, ctx))
 }
 
-fun deserialize(f: StandardField, ctx: Context, packed: Boolean = false): CodeBlock {
-    val read = CodeBlock.of("deserializer.%L", interceptRead(f, f.readFn()))
+internal fun deserialize(f: StandardField, ctx: Context, packed: Boolean = false): CodeBlock {
+    val read = CodeBlock.of("$READER.%L", interceptRead(f, f.readFn()))
     val wrappedRead = wrapField(f, ctx, read) ?: read
 
     return when {
@@ -222,7 +224,7 @@ fun deserialize(f: StandardField, ctx: Context, packed: Boolean = false): CodeBl
             buildCodeBlock {
                 add("\n(%N ?: mutableListOf())", f.fieldName)
                 beginControlFlow(".apply")
-                beginControlFlow("deserializer.readRepeated($packed)")
+                beginControlFlow("$READER.readRepeated($packed)")
                 add("add(%L)\n", wrappedRead)
                 endControlFlow()
                 endControlFlowWithoutNewline()
@@ -235,7 +237,7 @@ private fun deserializeMap(f: StandardField, read: CodeBlock): CodeBlock {
     return buildCodeBlock {
         add("\n(%N ?: mutableMapOf())", f.fieldName)
         beginControlFlow(".apply")
-        beginControlFlow("deserializer.readRepeated(false)")
+        beginControlFlow("$READER.readRepeated(false)")
         add(read)
         beginControlFlow(".let")
         add("put(%L, %L)\n", CodeBlock.of("it.key"), CodeBlock.of("it.value"))

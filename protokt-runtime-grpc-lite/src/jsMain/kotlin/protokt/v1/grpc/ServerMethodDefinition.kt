@@ -15,6 +15,9 @@
 
 package protokt.v1.grpc
 
+import protokt.v1.Beta
+
+@Beta
 class ServerMethodDefinition<ReqT, RespT>(
     internal val methodDescriptor: MethodDescriptor<ReqT, RespT>,
     internal val handler: dynamic

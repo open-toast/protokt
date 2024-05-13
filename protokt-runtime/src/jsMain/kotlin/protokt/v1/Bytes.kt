@@ -25,7 +25,7 @@ actual class Bytes internal actual constructor(value: ByteArray) : AbstractBytes
         actual fun from(bytes: ByteArray) =
             AbstractBytes.from(bytes)
 
-        actual fun from(message: KtMessage) =
+        actual fun from(message: Message) =
             AbstractBytes.from(message)
     }
 }

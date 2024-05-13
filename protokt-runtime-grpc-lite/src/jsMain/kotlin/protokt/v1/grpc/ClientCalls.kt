@@ -21,9 +21,11 @@ import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.launch
+import protokt.v1.Beta
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
+@Beta
 object ClientCalls {
     suspend fun <ReqT, RespT> unaryRpc(
         client: Client,

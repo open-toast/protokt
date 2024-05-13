@@ -15,6 +15,9 @@
 
 package protokt.v1.grpc
 
+import protokt.v1.Beta
+
+@Beta
 interface BindableService {
     fun bindService(): ServerServiceDefinition
 }

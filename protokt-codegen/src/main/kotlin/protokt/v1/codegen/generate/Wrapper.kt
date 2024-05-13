@@ -25,13 +25,13 @@ import protokt.v1.Converter
 import protokt.v1.OptimizedSizeOfConverter
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Nullability.hasNonNullOption
-import protokt.v1.codegen.generate.WellKnownTypes.wrapWithWellKnownInterception
-import protokt.v1.codegen.util.ClassLookup
-import protokt.v1.codegen.util.ConverterDetails
-import protokt.v1.codegen.util.FieldType
 import protokt.v1.codegen.util.GeneratorContext
 import protokt.v1.codegen.util.StandardField
-import protokt.v1.codegen.util.inferClassName
+import protokt.v1.reflect.ClassLookup
+import protokt.v1.reflect.ConverterDetails
+import protokt.v1.reflect.FieldType
+import protokt.v1.reflect.WellKnownTypes.wrapWithWellKnownInterception
+import protokt.v1.reflect.inferClassName
 import kotlin.reflect.KFunction2
 
 internal object Wrapper {
