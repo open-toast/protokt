@@ -19,7 +19,7 @@ jobs:
         distribution: corretto
         java-version: 17
     - name: Publish
-      run: ./gradlew publishAllPublicationsToMavenCentral publishPlugins --no-configuration-cache --no-stacktrace
+      run: ./gradlew publishAllPublicationsToMavenCentral publishPlugins --no-configuration-cache --stacktrace --no-daemon
       env:
         PGP_KEY: ${{ secrets.PGP_KEY }}
         PGP_PASSWORD: ${{ secrets.PGP_PASSWORD }}

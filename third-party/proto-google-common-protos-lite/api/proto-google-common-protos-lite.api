@@ -695,11 +695,12 @@ public final class protokt/v1/google/api/ContextRule$Deserializer : protokt/v1/A
 
 public final class protokt/v1/google/api/Control : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/Control$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Control;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/Control;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getEnvironment ()Ljava/lang/String;
+	public final fun getMethodPolicies ()Ljava/util/List;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Control;
@@ -712,8 +713,10 @@ public final class protokt/v1/google/api/Control$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Control;
 	public final fun getEnvironment ()Ljava/lang/String;
+	public final fun getMethodPolicies ()Ljava/util/List;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun setEnvironment (Ljava/lang/String;)V
+	public final fun setMethodPolicies (Ljava/util/List;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
@@ -1312,6 +1315,10 @@ public final class protokt/v1/google/api/ErrorReason$GCP_SUSPENDED : protokt/v1/
 	public static final field INSTANCE Lprotokt/v1/google/api/ErrorReason$GCP_SUSPENDED;
 }
 
+public final class protokt/v1/google/api/ErrorReason$LOCATION_POLICY_VIOLATED : protokt/v1/google/api/ErrorReason {
+	public static final field INSTANCE Lprotokt/v1/google/api/ErrorReason$LOCATION_POLICY_VIOLATED;
+}
+
 public final class protokt/v1/google/api/ErrorReason$LOCATION_TAX_POLICY_VIOLATED : protokt/v1/google/api/ErrorReason {
 	public static final field INSTANCE Lprotokt/v1/google/api/ErrorReason$LOCATION_TAX_POLICY_VIOLATED;
 }
@@ -1388,6 +1395,10 @@ public final class protokt/v1/google/api/FieldBehavior$FIELD_BEHAVIOR_UNSPECIFIE
 	public static final field INSTANCE Lprotokt/v1/google/api/FieldBehavior$FIELD_BEHAVIOR_UNSPECIFIED;
 }
 
+public final class protokt/v1/google/api/FieldBehavior$IDENTIFIER : protokt/v1/google/api/FieldBehavior {
+	public static final field INSTANCE Lprotokt/v1/google/api/FieldBehavior$IDENTIFIER;
+}
+
 public final class protokt/v1/google/api/FieldBehavior$IMMUTABLE : protokt/v1/google/api/FieldBehavior {
 	public static final field INSTANCE Lprotokt/v1/google/api/FieldBehavior$IMMUTABLE;
 }
@@ -1418,6 +1429,108 @@ public final class protokt/v1/google/api/FieldBehavior$UNORDERED_LIST : protokt/
 
 public final class protokt/v1/google/api/FieldBehavior$UNRECOGNIZED : protokt/v1/google/api/FieldBehavior {
 	public fun <init> (I)V
+}
+
+public final class protokt/v1/google/api/FieldInfo : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/api/FieldInfo$Deserializer;
+	public synthetic fun <init> (Lprotokt/v1/google/api/FieldInfo$Format;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/FieldInfo;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/FieldInfo;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFormat ()Lprotokt/v1/google/api/FieldInfo$Format;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/FieldInfo;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/api/FieldInfo$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/api/FieldInfo;
+	public final fun getFormat ()Lprotokt/v1/google/api/FieldInfo$Format;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setFormat (Lprotokt/v1/google/api/FieldInfo$Format;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/api/FieldInfo$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/FieldInfo;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/FieldInfo;
+}
+
+public abstract class protokt/v1/google/api/FieldInfo$Format : protokt/v1/Enum {
+	public static final field Deserializer Lprotokt/v1/google/api/FieldInfo$Format$Deserializer;
+	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getName ()Ljava/lang/String;
+	public fun getValue ()I
+}
+
+public final class protokt/v1/google/api/FieldInfo$Format$Deserializer : protokt/v1/EnumReader {
+	public synthetic fun from (I)Lprotokt/v1/Enum;
+	public fun from (I)Lprotokt/v1/google/api/FieldInfo$Format;
+}
+
+public final class protokt/v1/google/api/FieldInfo$Format$FORMAT_UNSPECIFIED : protokt/v1/google/api/FieldInfo$Format {
+	public static final field INSTANCE Lprotokt/v1/google/api/FieldInfo$Format$FORMAT_UNSPECIFIED;
+}
+
+public final class protokt/v1/google/api/FieldInfo$Format$IPV4 : protokt/v1/google/api/FieldInfo$Format {
+	public static final field INSTANCE Lprotokt/v1/google/api/FieldInfo$Format$IPV4;
+}
+
+public final class protokt/v1/google/api/FieldInfo$Format$IPV4_OR_IPV6 : protokt/v1/google/api/FieldInfo$Format {
+	public static final field INSTANCE Lprotokt/v1/google/api/FieldInfo$Format$IPV4_OR_IPV6;
+}
+
+public final class protokt/v1/google/api/FieldInfo$Format$IPV6 : protokt/v1/google/api/FieldInfo$Format {
+	public static final field INSTANCE Lprotokt/v1/google/api/FieldInfo$Format$IPV6;
+}
+
+public final class protokt/v1/google/api/FieldInfo$Format$UNRECOGNIZED : protokt/v1/google/api/FieldInfo$Format {
+	public fun <init> (I)V
+}
+
+public final class protokt/v1/google/api/FieldInfo$Format$UUID4 : protokt/v1/google/api/FieldInfo$Format {
+	public static final field INSTANCE Lprotokt/v1/google/api/FieldInfo$Format$UUID4;
+}
+
+public final class protokt/v1/google/api/FieldPolicy : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/api/FieldPolicy$Deserializer;
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/FieldPolicy;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/FieldPolicy;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getResourcePermission ()Ljava/lang/String;
+	public final fun getResourceType ()Ljava/lang/String;
+	public final fun getSelector ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/FieldPolicy;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/api/FieldPolicy$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/api/FieldPolicy;
+	public final fun getResourcePermission ()Ljava/lang/String;
+	public final fun getResourceType ()Ljava/lang/String;
+	public final fun getSelector ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setResourcePermission (Ljava/lang/String;)V
+	public final fun setResourceType (Ljava/lang/String;)V
+	public final fun setSelector (Ljava/lang/String;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/api/FieldPolicy$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/FieldPolicy;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/FieldPolicy;
 }
 
 public final class protokt/v1/google/api/GoSettings : protokt/v1/AbstractMessage {
@@ -1952,12 +2065,46 @@ public final class protokt/v1/google/api/Logging$LoggingDestination$Deserializer
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Logging$LoggingDestination;
 }
 
+public final class protokt/v1/google/api/MethodPolicy : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/api/MethodPolicy$Deserializer;
+	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/MethodPolicy;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/MethodPolicy;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getRequestPolicies ()Ljava/util/List;
+	public final fun getSelector ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/MethodPolicy;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/api/MethodPolicy$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/api/MethodPolicy;
+	public final fun getRequestPolicies ()Ljava/util/List;
+	public final fun getSelector ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setRequestPolicies (Ljava/util/List;)V
+	public final fun setSelector (Ljava/lang/String;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/api/MethodPolicy$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/MethodPolicy;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/MethodPolicy;
+}
+
 public final class protokt/v1/google/api/MethodSettings : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/MethodSettings$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/google/api/MethodSettings$LongRunning;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/google/api/MethodSettings$LongRunning;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/MethodSettings;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/MethodSettings;
 	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAutoPopulatedFields ()Ljava/util/List;
 	public final fun getLongRunning ()Lprotokt/v1/google/api/MethodSettings$LongRunning;
 	public final fun getSelector ()Ljava/lang/String;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
@@ -1971,9 +2118,11 @@ public final class protokt/v1/google/api/MethodSettings : protokt/v1/AbstractMes
 public final class protokt/v1/google/api/MethodSettings$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/MethodSettings;
+	public final fun getAutoPopulatedFields ()Ljava/util/List;
 	public final fun getLongRunning ()Lprotokt/v1/google/api/MethodSettings$LongRunning;
 	public final fun getSelector ()Ljava/lang/String;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setAutoPopulatedFields (Ljava/util/List;)V
 	public final fun setLongRunning (Lprotokt/v1/google/api/MethodSettings$LongRunning;)V
 	public final fun setSelector (Ljava/lang/String;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
@@ -2669,7 +2818,7 @@ public final class protokt/v1/google/api/Property$PropertyType$UNSPECIFIED : pro
 
 public final class protokt/v1/google/api/Publishing : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/Publishing$Deserializer;
-	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Lprotokt/v1/google/api/ClientLibraryOrganization;Ljava/util/List;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Lprotokt/v1/google/api/ClientLibraryOrganization;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Publishing;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/Publishing;
 	public fun equals (Ljava/lang/Object;)Z
@@ -2683,6 +2832,7 @@ public final class protokt/v1/google/api/Publishing : protokt/v1/AbstractMessage
 	public final fun getNewIssueUri ()Ljava/lang/String;
 	public final fun getOrganization ()Lprotokt/v1/google/api/ClientLibraryOrganization;
 	public final fun getProtoReferenceDocumentationUri ()Ljava/lang/String;
+	public final fun getRestReferenceDocumentationUri ()Ljava/lang/String;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Publishing;
@@ -2704,6 +2854,7 @@ public final class protokt/v1/google/api/Publishing$Builder {
 	public final fun getNewIssueUri ()Ljava/lang/String;
 	public final fun getOrganization ()Lprotokt/v1/google/api/ClientLibraryOrganization;
 	public final fun getProtoReferenceDocumentationUri ()Ljava/lang/String;
+	public final fun getRestReferenceDocumentationUri ()Ljava/lang/String;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun setApiShortName (Ljava/lang/String;)V
 	public final fun setCodeownerGithubTeams (Ljava/util/List;)V
@@ -2715,6 +2866,7 @@ public final class protokt/v1/google/api/Publishing$Builder {
 	public final fun setNewIssueUri (Ljava/lang/String;)V
 	public final fun setOrganization (Lprotokt/v1/google/api/ClientLibraryOrganization;)V
 	public final fun setProtoReferenceDocumentationUri (Ljava/lang/String;)V
+	public final fun setRestReferenceDocumentationUri (Ljava/lang/String;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
@@ -3439,6 +3591,2152 @@ public final class protokt/v1/google/api/VisibilityRule$Deserializer : protokt/v
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/VisibilityRule;
 }
 
+public final class protokt/v1/google/apps/card/v1/Action : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Action$Deserializer;
+	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Lprotokt/v1/google/apps/card/v1/Action$LoadIndicator;ZLprotokt/v1/google/apps/card/v1/Action$Interaction;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Action;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Action;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFunction ()Ljava/lang/String;
+	public final fun getInteraction ()Lprotokt/v1/google/apps/card/v1/Action$Interaction;
+	public final fun getLoadIndicator ()Lprotokt/v1/google/apps/card/v1/Action$LoadIndicator;
+	public final fun getParameters ()Ljava/util/List;
+	public final fun getPersistValues ()Z
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Action;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Action$ActionParameter : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Action$ActionParameter$Deserializer;
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Action$ActionParameter;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Action$ActionParameter;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getKey ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Action$ActionParameter;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Action$ActionParameter$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/apps/card/v1/Action$ActionParameter;
+	public final fun getKey ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun getValue ()Ljava/lang/String;
+	public final fun setKey (Ljava/lang/String;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+	public final fun setValue (Ljava/lang/String;)V
+}
+
+public final class protokt/v1/google/apps/card/v1/Action$ActionParameter$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Action$ActionParameter;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Action$ActionParameter;
+}
+
+public final class protokt/v1/google/apps/card/v1/Action$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/apps/card/v1/Action;
+	public final fun getFunction ()Ljava/lang/String;
+	public final fun getInteraction ()Lprotokt/v1/google/apps/card/v1/Action$Interaction;
+	public final fun getLoadIndicator ()Lprotokt/v1/google/apps/card/v1/Action$LoadIndicator;
+	public final fun getParameters ()Ljava/util/List;
+	public final fun getPersistValues ()Z
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setFunction (Ljava/lang/String;)V
+	public final fun setInteraction (Lprotokt/v1/google/apps/card/v1/Action$Interaction;)V
+	public final fun setLoadIndicator (Lprotokt/v1/google/apps/card/v1/Action$LoadIndicator;)V
+	public final fun setParameters (Ljava/util/List;)V
+	public final fun setPersistValues (Z)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/apps/card/v1/Action$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Action;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Action;
+}
+
+public abstract class protokt/v1/google/apps/card/v1/Action$Interaction : protokt/v1/Enum {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Action$Interaction$Deserializer;
+	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getName ()Ljava/lang/String;
+	public fun getValue ()I
+}
+
+public final class protokt/v1/google/apps/card/v1/Action$Interaction$Deserializer : protokt/v1/EnumReader {
+	public synthetic fun from (I)Lprotokt/v1/Enum;
+	public fun from (I)Lprotokt/v1/google/apps/card/v1/Action$Interaction;
+}
+
+public final class protokt/v1/google/apps/card/v1/Action$Interaction$INTERACTION_UNSPECIFIED : protokt/v1/google/apps/card/v1/Action$Interaction {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/Action$Interaction$INTERACTION_UNSPECIFIED;
+}
+
+public final class protokt/v1/google/apps/card/v1/Action$Interaction$OPEN_DIALOG : protokt/v1/google/apps/card/v1/Action$Interaction {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/Action$Interaction$OPEN_DIALOG;
+}
+
+public final class protokt/v1/google/apps/card/v1/Action$Interaction$UNRECOGNIZED : protokt/v1/google/apps/card/v1/Action$Interaction {
+	public fun <init> (I)V
+}
+
+public abstract class protokt/v1/google/apps/card/v1/Action$LoadIndicator : protokt/v1/Enum {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Action$LoadIndicator$Deserializer;
+	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getName ()Ljava/lang/String;
+	public fun getValue ()I
+}
+
+public final class protokt/v1/google/apps/card/v1/Action$LoadIndicator$Deserializer : protokt/v1/EnumReader {
+	public synthetic fun from (I)Lprotokt/v1/Enum;
+	public fun from (I)Lprotokt/v1/google/apps/card/v1/Action$LoadIndicator;
+}
+
+public final class protokt/v1/google/apps/card/v1/Action$LoadIndicator$NONE : protokt/v1/google/apps/card/v1/Action$LoadIndicator {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/Action$LoadIndicator$NONE;
+}
+
+public final class protokt/v1/google/apps/card/v1/Action$LoadIndicator$SPINNER : protokt/v1/google/apps/card/v1/Action$LoadIndicator {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/Action$LoadIndicator$SPINNER;
+}
+
+public final class protokt/v1/google/apps/card/v1/Action$LoadIndicator$UNRECOGNIZED : protokt/v1/google/apps/card/v1/Action$LoadIndicator {
+	public fun <init> (I)V
+}
+
+public final class protokt/v1/google/apps/card/v1/BorderStyle : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/BorderStyle$Deserializer;
+	public synthetic fun <init> (Lprotokt/v1/google/apps/card/v1/BorderStyle$BorderType;Lprotokt/v1/google/type/Color;ILprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/BorderStyle;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/BorderStyle;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCornerRadius ()I
+	public final fun getStrokeColor ()Lprotokt/v1/google/type/Color;
+	public final fun getType ()Lprotokt/v1/google/apps/card/v1/BorderStyle$BorderType;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/BorderStyle;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract class protokt/v1/google/apps/card/v1/BorderStyle$BorderType : protokt/v1/Enum {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/BorderStyle$BorderType$Deserializer;
+	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getName ()Ljava/lang/String;
+	public fun getValue ()I
+}
+
+public final class protokt/v1/google/apps/card/v1/BorderStyle$BorderType$BORDER_TYPE_UNSPECIFIED : protokt/v1/google/apps/card/v1/BorderStyle$BorderType {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/BorderStyle$BorderType$BORDER_TYPE_UNSPECIFIED;
+}
+
+public final class protokt/v1/google/apps/card/v1/BorderStyle$BorderType$Deserializer : protokt/v1/EnumReader {
+	public synthetic fun from (I)Lprotokt/v1/Enum;
+	public fun from (I)Lprotokt/v1/google/apps/card/v1/BorderStyle$BorderType;
+}
+
+public final class protokt/v1/google/apps/card/v1/BorderStyle$BorderType$NO_BORDER : protokt/v1/google/apps/card/v1/BorderStyle$BorderType {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/BorderStyle$BorderType$NO_BORDER;
+}
+
+public final class protokt/v1/google/apps/card/v1/BorderStyle$BorderType$STROKE : protokt/v1/google/apps/card/v1/BorderStyle$BorderType {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/BorderStyle$BorderType$STROKE;
+}
+
+public final class protokt/v1/google/apps/card/v1/BorderStyle$BorderType$UNRECOGNIZED : protokt/v1/google/apps/card/v1/BorderStyle$BorderType {
+	public fun <init> (I)V
+}
+
+public final class protokt/v1/google/apps/card/v1/BorderStyle$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/apps/card/v1/BorderStyle;
+	public final fun getCornerRadius ()I
+	public final fun getStrokeColor ()Lprotokt/v1/google/type/Color;
+	public final fun getType ()Lprotokt/v1/google/apps/card/v1/BorderStyle$BorderType;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setCornerRadius (I)V
+	public final fun setStrokeColor (Lprotokt/v1/google/type/Color;)V
+	public final fun setType (Lprotokt/v1/google/apps/card/v1/BorderStyle$BorderType;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/apps/card/v1/BorderStyle$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/BorderStyle;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/BorderStyle;
+}
+
+public final class protokt/v1/google/apps/card/v1/Button : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Button$Deserializer;
+	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/google/apps/card/v1/Icon;Lprotokt/v1/google/type/Color;Lprotokt/v1/google/apps/card/v1/OnClick;ZLjava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Button;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Button;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAltText ()Ljava/lang/String;
+	public final fun getColor ()Lprotokt/v1/google/type/Color;
+	public final fun getDisabled ()Z
+	public final fun getIcon ()Lprotokt/v1/google/apps/card/v1/Icon;
+	public final fun getOnClick ()Lprotokt/v1/google/apps/card/v1/OnClick;
+	public final fun getText ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Button;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Button$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/apps/card/v1/Button;
+	public final fun getAltText ()Ljava/lang/String;
+	public final fun getColor ()Lprotokt/v1/google/type/Color;
+	public final fun getDisabled ()Z
+	public final fun getIcon ()Lprotokt/v1/google/apps/card/v1/Icon;
+	public final fun getOnClick ()Lprotokt/v1/google/apps/card/v1/OnClick;
+	public final fun getText ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setAltText (Ljava/lang/String;)V
+	public final fun setColor (Lprotokt/v1/google/type/Color;)V
+	public final fun setDisabled (Z)V
+	public final fun setIcon (Lprotokt/v1/google/apps/card/v1/Icon;)V
+	public final fun setOnClick (Lprotokt/v1/google/apps/card/v1/OnClick;)V
+	public final fun setText (Ljava/lang/String;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/apps/card/v1/Button$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Button;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Button;
+}
+
+public final class protokt/v1/google/apps/card/v1/ButtonList : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/ButtonList$Deserializer;
+	public synthetic fun <init> (Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/ButtonList;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/ButtonList;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getButtons ()Ljava/util/List;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/ButtonList;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/ButtonList$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/apps/card/v1/ButtonList;
+	public final fun getButtons ()Ljava/util/List;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setButtons (Ljava/util/List;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/apps/card/v1/ButtonList$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/ButtonList;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/ButtonList;
+}
+
+public final class protokt/v1/google/apps/card/v1/Card : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Card$Deserializer;
+	public synthetic fun <init> (Lprotokt/v1/google/apps/card/v1/Card$CardHeader;Ljava/util/List;Ljava/util/List;Ljava/lang/String;Lprotokt/v1/google/apps/card/v1/Card$CardFixedFooter;Lprotokt/v1/google/apps/card/v1/Card$DisplayStyle;Lprotokt/v1/google/apps/card/v1/Card$CardHeader;Lprotokt/v1/google/apps/card/v1/Card$DividerStyle;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Card;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Card;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCardActions ()Ljava/util/List;
+	public final fun getDisplayStyle ()Lprotokt/v1/google/apps/card/v1/Card$DisplayStyle;
+	public final fun getFixedFooter ()Lprotokt/v1/google/apps/card/v1/Card$CardFixedFooter;
+	public final fun getHeader ()Lprotokt/v1/google/apps/card/v1/Card$CardHeader;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getPeekCardHeader ()Lprotokt/v1/google/apps/card/v1/Card$CardHeader;
+	public final fun getSectionDividerStyle ()Lprotokt/v1/google/apps/card/v1/Card$DividerStyle;
+	public final fun getSections ()Ljava/util/List;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Card;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Card$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/apps/card/v1/Card;
+	public final fun getCardActions ()Ljava/util/List;
+	public final fun getDisplayStyle ()Lprotokt/v1/google/apps/card/v1/Card$DisplayStyle;
+	public final fun getFixedFooter ()Lprotokt/v1/google/apps/card/v1/Card$CardFixedFooter;
+	public final fun getHeader ()Lprotokt/v1/google/apps/card/v1/Card$CardHeader;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getPeekCardHeader ()Lprotokt/v1/google/apps/card/v1/Card$CardHeader;
+	public final fun getSectionDividerStyle ()Lprotokt/v1/google/apps/card/v1/Card$DividerStyle;
+	public final fun getSections ()Ljava/util/List;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setCardActions (Ljava/util/List;)V
+	public final fun setDisplayStyle (Lprotokt/v1/google/apps/card/v1/Card$DisplayStyle;)V
+	public final fun setFixedFooter (Lprotokt/v1/google/apps/card/v1/Card$CardFixedFooter;)V
+	public final fun setHeader (Lprotokt/v1/google/apps/card/v1/Card$CardHeader;)V
+	public final fun setName (Ljava/lang/String;)V
+	public final fun setPeekCardHeader (Lprotokt/v1/google/apps/card/v1/Card$CardHeader;)V
+	public final fun setSectionDividerStyle (Lprotokt/v1/google/apps/card/v1/Card$DividerStyle;)V
+	public final fun setSections (Ljava/util/List;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/apps/card/v1/Card$CardAction : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Card$CardAction$Deserializer;
+	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/google/apps/card/v1/OnClick;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Card$CardAction;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Card$CardAction;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getActionLabel ()Ljava/lang/String;
+	public final fun getOnClick ()Lprotokt/v1/google/apps/card/v1/OnClick;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Card$CardAction;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Card$CardAction$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/apps/card/v1/Card$CardAction;
+	public final fun getActionLabel ()Ljava/lang/String;
+	public final fun getOnClick ()Lprotokt/v1/google/apps/card/v1/OnClick;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setActionLabel (Ljava/lang/String;)V
+	public final fun setOnClick (Lprotokt/v1/google/apps/card/v1/OnClick;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/apps/card/v1/Card$CardAction$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Card$CardAction;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Card$CardAction;
+}
+
+public final class protokt/v1/google/apps/card/v1/Card$CardFixedFooter : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Card$CardFixedFooter$Deserializer;
+	public synthetic fun <init> (Lprotokt/v1/google/apps/card/v1/Button;Lprotokt/v1/google/apps/card/v1/Button;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Card$CardFixedFooter;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Card$CardFixedFooter;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getPrimaryButton ()Lprotokt/v1/google/apps/card/v1/Button;
+	public final fun getSecondaryButton ()Lprotokt/v1/google/apps/card/v1/Button;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Card$CardFixedFooter;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Card$CardFixedFooter$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/apps/card/v1/Card$CardFixedFooter;
+	public final fun getPrimaryButton ()Lprotokt/v1/google/apps/card/v1/Button;
+	public final fun getSecondaryButton ()Lprotokt/v1/google/apps/card/v1/Button;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setPrimaryButton (Lprotokt/v1/google/apps/card/v1/Button;)V
+	public final fun setSecondaryButton (Lprotokt/v1/google/apps/card/v1/Button;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/apps/card/v1/Card$CardFixedFooter$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Card$CardFixedFooter;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Card$CardFixedFooter;
+}
+
+public final class protokt/v1/google/apps/card/v1/Card$CardHeader : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Card$CardHeader$Deserializer;
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/google/apps/card/v1/Widget$ImageType;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Card$CardHeader;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Card$CardHeader;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getImageAltText ()Ljava/lang/String;
+	public final fun getImageType ()Lprotokt/v1/google/apps/card/v1/Widget$ImageType;
+	public final fun getImageUrl ()Ljava/lang/String;
+	public final fun getSubtitle ()Ljava/lang/String;
+	public final fun getTitle ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Card$CardHeader;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Card$CardHeader$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/apps/card/v1/Card$CardHeader;
+	public final fun getImageAltText ()Ljava/lang/String;
+	public final fun getImageType ()Lprotokt/v1/google/apps/card/v1/Widget$ImageType;
+	public final fun getImageUrl ()Ljava/lang/String;
+	public final fun getSubtitle ()Ljava/lang/String;
+	public final fun getTitle ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setImageAltText (Ljava/lang/String;)V
+	public final fun setImageType (Lprotokt/v1/google/apps/card/v1/Widget$ImageType;)V
+	public final fun setImageUrl (Ljava/lang/String;)V
+	public final fun setSubtitle (Ljava/lang/String;)V
+	public final fun setTitle (Ljava/lang/String;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/apps/card/v1/Card$CardHeader$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Card$CardHeader;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Card$CardHeader;
+}
+
+public final class protokt/v1/google/apps/card/v1/Card$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Card;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Card;
+}
+
+public abstract class protokt/v1/google/apps/card/v1/Card$DisplayStyle : protokt/v1/Enum {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Card$DisplayStyle$Deserializer;
+	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getName ()Ljava/lang/String;
+	public fun getValue ()I
+}
+
+public final class protokt/v1/google/apps/card/v1/Card$DisplayStyle$DISPLAY_STYLE_UNSPECIFIED : protokt/v1/google/apps/card/v1/Card$DisplayStyle {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/Card$DisplayStyle$DISPLAY_STYLE_UNSPECIFIED;
+}
+
+public final class protokt/v1/google/apps/card/v1/Card$DisplayStyle$Deserializer : protokt/v1/EnumReader {
+	public synthetic fun from (I)Lprotokt/v1/Enum;
+	public fun from (I)Lprotokt/v1/google/apps/card/v1/Card$DisplayStyle;
+}
+
+public final class protokt/v1/google/apps/card/v1/Card$DisplayStyle$PEEK : protokt/v1/google/apps/card/v1/Card$DisplayStyle {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/Card$DisplayStyle$PEEK;
+}
+
+public final class protokt/v1/google/apps/card/v1/Card$DisplayStyle$REPLACE : protokt/v1/google/apps/card/v1/Card$DisplayStyle {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/Card$DisplayStyle$REPLACE;
+}
+
+public final class protokt/v1/google/apps/card/v1/Card$DisplayStyle$UNRECOGNIZED : protokt/v1/google/apps/card/v1/Card$DisplayStyle {
+	public fun <init> (I)V
+}
+
+public abstract class protokt/v1/google/apps/card/v1/Card$DividerStyle : protokt/v1/Enum {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Card$DividerStyle$Deserializer;
+	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getName ()Ljava/lang/String;
+	public fun getValue ()I
+}
+
+public final class protokt/v1/google/apps/card/v1/Card$DividerStyle$DIVIDER_STYLE_UNSPECIFIED : protokt/v1/google/apps/card/v1/Card$DividerStyle {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/Card$DividerStyle$DIVIDER_STYLE_UNSPECIFIED;
+}
+
+public final class protokt/v1/google/apps/card/v1/Card$DividerStyle$Deserializer : protokt/v1/EnumReader {
+	public synthetic fun from (I)Lprotokt/v1/Enum;
+	public fun from (I)Lprotokt/v1/google/apps/card/v1/Card$DividerStyle;
+}
+
+public final class protokt/v1/google/apps/card/v1/Card$DividerStyle$NO_DIVIDER : protokt/v1/google/apps/card/v1/Card$DividerStyle {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/Card$DividerStyle$NO_DIVIDER;
+}
+
+public final class protokt/v1/google/apps/card/v1/Card$DividerStyle$SOLID_DIVIDER : protokt/v1/google/apps/card/v1/Card$DividerStyle {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/Card$DividerStyle$SOLID_DIVIDER;
+}
+
+public final class protokt/v1/google/apps/card/v1/Card$DividerStyle$UNRECOGNIZED : protokt/v1/google/apps/card/v1/Card$DividerStyle {
+	public fun <init> (I)V
+}
+
+public final class protokt/v1/google/apps/card/v1/Card$Section : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Card$Section$Deserializer;
+	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;ZILprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Card$Section;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Card$Section;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCollapsible ()Z
+	public final fun getHeader ()Ljava/lang/String;
+	public final fun getUncollapsibleWidgetsCount ()I
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun getWidgets ()Ljava/util/List;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Card$Section;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Card$Section$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/apps/card/v1/Card$Section;
+	public final fun getCollapsible ()Z
+	public final fun getHeader ()Ljava/lang/String;
+	public final fun getUncollapsibleWidgetsCount ()I
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun getWidgets ()Ljava/util/List;
+	public final fun setCollapsible (Z)V
+	public final fun setHeader (Ljava/lang/String;)V
+	public final fun setUncollapsibleWidgetsCount (I)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+	public final fun setWidgets (Ljava/util/List;)V
+}
+
+public final class protokt/v1/google/apps/card/v1/Card$Section$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Card$Section;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Card$Section;
+}
+
+public final class protokt/v1/google/apps/card/v1/Columns : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Columns$Deserializer;
+	public synthetic fun <init> (Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Columns;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Columns;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getColumnItems ()Ljava/util/List;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Columns;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Columns$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/apps/card/v1/Columns;
+	public final fun getColumnItems ()Ljava/util/List;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setColumnItems (Ljava/util/List;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/apps/card/v1/Columns$Column : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Columns$Column$Deserializer;
+	public synthetic fun <init> (Lprotokt/v1/google/apps/card/v1/Columns$Column$HorizontalSizeStyle;Lprotokt/v1/google/apps/card/v1/Widget$HorizontalAlignment;Lprotokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Columns$Column;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Columns$Column;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getHorizontalAlignment ()Lprotokt/v1/google/apps/card/v1/Widget$HorizontalAlignment;
+	public final fun getHorizontalSizeStyle ()Lprotokt/v1/google/apps/card/v1/Columns$Column$HorizontalSizeStyle;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun getVerticalAlignment ()Lprotokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment;
+	public final fun getWidgets ()Ljava/util/List;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Columns$Column;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Columns$Column$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/apps/card/v1/Columns$Column;
+	public final fun getHorizontalAlignment ()Lprotokt/v1/google/apps/card/v1/Widget$HorizontalAlignment;
+	public final fun getHorizontalSizeStyle ()Lprotokt/v1/google/apps/card/v1/Columns$Column$HorizontalSizeStyle;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun getVerticalAlignment ()Lprotokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment;
+	public final fun getWidgets ()Ljava/util/List;
+	public final fun setHorizontalAlignment (Lprotokt/v1/google/apps/card/v1/Widget$HorizontalAlignment;)V
+	public final fun setHorizontalSizeStyle (Lprotokt/v1/google/apps/card/v1/Columns$Column$HorizontalSizeStyle;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+	public final fun setVerticalAlignment (Lprotokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment;)V
+	public final fun setWidgets (Ljava/util/List;)V
+}
+
+public final class protokt/v1/google/apps/card/v1/Columns$Column$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Columns$Column;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Columns$Column;
+}
+
+public abstract class protokt/v1/google/apps/card/v1/Columns$Column$HorizontalSizeStyle : protokt/v1/Enum {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Columns$Column$HorizontalSizeStyle$Deserializer;
+	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getName ()Ljava/lang/String;
+	public fun getValue ()I
+}
+
+public final class protokt/v1/google/apps/card/v1/Columns$Column$HorizontalSizeStyle$Deserializer : protokt/v1/EnumReader {
+	public synthetic fun from (I)Lprotokt/v1/Enum;
+	public fun from (I)Lprotokt/v1/google/apps/card/v1/Columns$Column$HorizontalSizeStyle;
+}
+
+public final class protokt/v1/google/apps/card/v1/Columns$Column$HorizontalSizeStyle$FILL_AVAILABLE_SPACE : protokt/v1/google/apps/card/v1/Columns$Column$HorizontalSizeStyle {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/Columns$Column$HorizontalSizeStyle$FILL_AVAILABLE_SPACE;
+}
+
+public final class protokt/v1/google/apps/card/v1/Columns$Column$HorizontalSizeStyle$FILL_MINIMUM_SPACE : protokt/v1/google/apps/card/v1/Columns$Column$HorizontalSizeStyle {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/Columns$Column$HorizontalSizeStyle$FILL_MINIMUM_SPACE;
+}
+
+public final class protokt/v1/google/apps/card/v1/Columns$Column$HorizontalSizeStyle$HORIZONTAL_SIZE_STYLE_UNSPECIFIED : protokt/v1/google/apps/card/v1/Columns$Column$HorizontalSizeStyle {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/Columns$Column$HorizontalSizeStyle$HORIZONTAL_SIZE_STYLE_UNSPECIFIED;
+}
+
+public final class protokt/v1/google/apps/card/v1/Columns$Column$HorizontalSizeStyle$UNRECOGNIZED : protokt/v1/google/apps/card/v1/Columns$Column$HorizontalSizeStyle {
+	public fun <init> (I)V
+}
+
+public abstract class protokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment : protokt/v1/Enum {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment$Deserializer;
+	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getName ()Ljava/lang/String;
+	public fun getValue ()I
+}
+
+public final class protokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment$BOTTOM : protokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment$BOTTOM;
+}
+
+public final class protokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment$CENTER : protokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment$CENTER;
+}
+
+public final class protokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment$Deserializer : protokt/v1/EnumReader {
+	public synthetic fun from (I)Lprotokt/v1/Enum;
+	public fun from (I)Lprotokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment;
+}
+
+public final class protokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment$TOP : protokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment$TOP;
+}
+
+public final class protokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment$UNRECOGNIZED : protokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment {
+	public fun <init> (I)V
+}
+
+public final class protokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment$VERTICAL_ALIGNMENT_UNSPECIFIED : protokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment$VERTICAL_ALIGNMENT_UNSPECIFIED;
+}
+
+public final class protokt/v1/google/apps/card/v1/Columns$Column$Widgets : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets$Deserializer;
+	public synthetic fun <init> (Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getData ()Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Columns$Column$Widgets$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets;
+	public final fun getData ()Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setData (Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public abstract class protokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data {
+}
+
+public final class protokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data$ButtonList : protokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data {
+	public fun <init> (Lprotokt/v1/google/apps/card/v1/ButtonList;)V
+	public final fun component1 ()Lprotokt/v1/google/apps/card/v1/ButtonList;
+	public final fun copy (Lprotokt/v1/google/apps/card/v1/ButtonList;)Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data$ButtonList;
+	public static synthetic fun copy$default (Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data$ButtonList;Lprotokt/v1/google/apps/card/v1/ButtonList;ILjava/lang/Object;)Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data$ButtonList;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getButtonList ()Lprotokt/v1/google/apps/card/v1/ButtonList;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data$DateTimePicker : protokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data {
+	public fun <init> (Lprotokt/v1/google/apps/card/v1/DateTimePicker;)V
+	public final fun component1 ()Lprotokt/v1/google/apps/card/v1/DateTimePicker;
+	public final fun copy (Lprotokt/v1/google/apps/card/v1/DateTimePicker;)Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data$DateTimePicker;
+	public static synthetic fun copy$default (Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data$DateTimePicker;Lprotokt/v1/google/apps/card/v1/DateTimePicker;ILjava/lang/Object;)Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data$DateTimePicker;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDateTimePicker ()Lprotokt/v1/google/apps/card/v1/DateTimePicker;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data$DecoratedText : protokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data {
+	public fun <init> (Lprotokt/v1/google/apps/card/v1/DecoratedText;)V
+	public final fun component1 ()Lprotokt/v1/google/apps/card/v1/DecoratedText;
+	public final fun copy (Lprotokt/v1/google/apps/card/v1/DecoratedText;)Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data$DecoratedText;
+	public static synthetic fun copy$default (Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data$DecoratedText;Lprotokt/v1/google/apps/card/v1/DecoratedText;ILjava/lang/Object;)Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data$DecoratedText;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDecoratedText ()Lprotokt/v1/google/apps/card/v1/DecoratedText;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data$Image : protokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data {
+	public fun <init> (Lprotokt/v1/google/apps/card/v1/Image;)V
+	public final fun component1 ()Lprotokt/v1/google/apps/card/v1/Image;
+	public final fun copy (Lprotokt/v1/google/apps/card/v1/Image;)Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data$Image;
+	public static synthetic fun copy$default (Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data$Image;Lprotokt/v1/google/apps/card/v1/Image;ILjava/lang/Object;)Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data$Image;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getImage ()Lprotokt/v1/google/apps/card/v1/Image;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data$SelectionInput : protokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data {
+	public fun <init> (Lprotokt/v1/google/apps/card/v1/SelectionInput;)V
+	public final fun component1 ()Lprotokt/v1/google/apps/card/v1/SelectionInput;
+	public final fun copy (Lprotokt/v1/google/apps/card/v1/SelectionInput;)Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data$SelectionInput;
+	public static synthetic fun copy$default (Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data$SelectionInput;Lprotokt/v1/google/apps/card/v1/SelectionInput;ILjava/lang/Object;)Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data$SelectionInput;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSelectionInput ()Lprotokt/v1/google/apps/card/v1/SelectionInput;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data$TextInput : protokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data {
+	public fun <init> (Lprotokt/v1/google/apps/card/v1/TextInput;)V
+	public final fun component1 ()Lprotokt/v1/google/apps/card/v1/TextInput;
+	public final fun copy (Lprotokt/v1/google/apps/card/v1/TextInput;)Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data$TextInput;
+	public static synthetic fun copy$default (Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data$TextInput;Lprotokt/v1/google/apps/card/v1/TextInput;ILjava/lang/Object;)Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data$TextInput;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getTextInput ()Lprotokt/v1/google/apps/card/v1/TextInput;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data$TextParagraph : protokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data {
+	public fun <init> (Lprotokt/v1/google/apps/card/v1/TextParagraph;)V
+	public final fun component1 ()Lprotokt/v1/google/apps/card/v1/TextParagraph;
+	public final fun copy (Lprotokt/v1/google/apps/card/v1/TextParagraph;)Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data$TextParagraph;
+	public static synthetic fun copy$default (Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data$TextParagraph;Lprotokt/v1/google/apps/card/v1/TextParagraph;ILjava/lang/Object;)Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data$TextParagraph;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getTextParagraph ()Lprotokt/v1/google/apps/card/v1/TextParagraph;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Columns$Column$Widgets$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets;
+}
+
+public final class protokt/v1/google/apps/card/v1/Columns$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Columns;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Columns;
+}
+
+public final class protokt/v1/google/apps/card/v1/DateTimePicker : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/DateTimePicker$Deserializer;
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/google/apps/card/v1/DateTimePicker$DateTimePickerType;JILprotokt/v1/google/apps/card/v1/Action;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/DateTimePicker;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/DateTimePicker;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getLabel ()Ljava/lang/String;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getOnChangeAction ()Lprotokt/v1/google/apps/card/v1/Action;
+	public final fun getTimezoneOffsetDate ()I
+	public final fun getType ()Lprotokt/v1/google/apps/card/v1/DateTimePicker$DateTimePickerType;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun getValueMsEpoch ()J
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/DateTimePicker;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/DateTimePicker$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/apps/card/v1/DateTimePicker;
+	public final fun getLabel ()Ljava/lang/String;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getOnChangeAction ()Lprotokt/v1/google/apps/card/v1/Action;
+	public final fun getTimezoneOffsetDate ()I
+	public final fun getType ()Lprotokt/v1/google/apps/card/v1/DateTimePicker$DateTimePickerType;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun getValueMsEpoch ()J
+	public final fun setLabel (Ljava/lang/String;)V
+	public final fun setName (Ljava/lang/String;)V
+	public final fun setOnChangeAction (Lprotokt/v1/google/apps/card/v1/Action;)V
+	public final fun setTimezoneOffsetDate (I)V
+	public final fun setType (Lprotokt/v1/google/apps/card/v1/DateTimePicker$DateTimePickerType;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+	public final fun setValueMsEpoch (J)V
+}
+
+public abstract class protokt/v1/google/apps/card/v1/DateTimePicker$DateTimePickerType : protokt/v1/Enum {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/DateTimePicker$DateTimePickerType$Deserializer;
+	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getName ()Ljava/lang/String;
+	public fun getValue ()I
+}
+
+public final class protokt/v1/google/apps/card/v1/DateTimePicker$DateTimePickerType$DATE_AND_TIME : protokt/v1/google/apps/card/v1/DateTimePicker$DateTimePickerType {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/DateTimePicker$DateTimePickerType$DATE_AND_TIME;
+}
+
+public final class protokt/v1/google/apps/card/v1/DateTimePicker$DateTimePickerType$DATE_ONLY : protokt/v1/google/apps/card/v1/DateTimePicker$DateTimePickerType {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/DateTimePicker$DateTimePickerType$DATE_ONLY;
+}
+
+public final class protokt/v1/google/apps/card/v1/DateTimePicker$DateTimePickerType$Deserializer : protokt/v1/EnumReader {
+	public synthetic fun from (I)Lprotokt/v1/Enum;
+	public fun from (I)Lprotokt/v1/google/apps/card/v1/DateTimePicker$DateTimePickerType;
+}
+
+public final class protokt/v1/google/apps/card/v1/DateTimePicker$DateTimePickerType$TIME_ONLY : protokt/v1/google/apps/card/v1/DateTimePicker$DateTimePickerType {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/DateTimePicker$DateTimePickerType$TIME_ONLY;
+}
+
+public final class protokt/v1/google/apps/card/v1/DateTimePicker$DateTimePickerType$UNRECOGNIZED : protokt/v1/google/apps/card/v1/DateTimePicker$DateTimePickerType {
+	public fun <init> (I)V
+}
+
+public final class protokt/v1/google/apps/card/v1/DateTimePicker$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/DateTimePicker;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/DateTimePicker;
+}
+
+public final class protokt/v1/google/apps/card/v1/DecoratedText : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/DecoratedText$Deserializer;
+	public synthetic fun <init> (Lprotokt/v1/google/apps/card/v1/Icon;Ljava/lang/String;Ljava/lang/String;ZLjava/lang/String;Lprotokt/v1/google/apps/card/v1/OnClick;Lprotokt/v1/google/apps/card/v1/DecoratedText$Control;Lprotokt/v1/google/apps/card/v1/Icon;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/DecoratedText;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/DecoratedText;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBottomLabel ()Ljava/lang/String;
+	public final fun getControl ()Lprotokt/v1/google/apps/card/v1/DecoratedText$Control;
+	public final fun getIcon ()Lprotokt/v1/google/apps/card/v1/Icon;
+	public final fun getOnClick ()Lprotokt/v1/google/apps/card/v1/OnClick;
+	public final fun getStartIcon ()Lprotokt/v1/google/apps/card/v1/Icon;
+	public final fun getText ()Ljava/lang/String;
+	public final fun getTopLabel ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun getWrapText ()Z
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/DecoratedText;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/DecoratedText$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/apps/card/v1/DecoratedText;
+	public final fun getBottomLabel ()Ljava/lang/String;
+	public final fun getControl ()Lprotokt/v1/google/apps/card/v1/DecoratedText$Control;
+	public final fun getIcon ()Lprotokt/v1/google/apps/card/v1/Icon;
+	public final fun getOnClick ()Lprotokt/v1/google/apps/card/v1/OnClick;
+	public final fun getStartIcon ()Lprotokt/v1/google/apps/card/v1/Icon;
+	public final fun getText ()Ljava/lang/String;
+	public final fun getTopLabel ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun getWrapText ()Z
+	public final fun setBottomLabel (Ljava/lang/String;)V
+	public final fun setControl (Lprotokt/v1/google/apps/card/v1/DecoratedText$Control;)V
+	public final fun setIcon (Lprotokt/v1/google/apps/card/v1/Icon;)V
+	public final fun setOnClick (Lprotokt/v1/google/apps/card/v1/OnClick;)V
+	public final fun setStartIcon (Lprotokt/v1/google/apps/card/v1/Icon;)V
+	public final fun setText (Ljava/lang/String;)V
+	public final fun setTopLabel (Ljava/lang/String;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+	public final fun setWrapText (Z)V
+}
+
+public abstract class protokt/v1/google/apps/card/v1/DecoratedText$Control {
+}
+
+public final class protokt/v1/google/apps/card/v1/DecoratedText$Control$Button : protokt/v1/google/apps/card/v1/DecoratedText$Control {
+	public fun <init> (Lprotokt/v1/google/apps/card/v1/Button;)V
+	public final fun component1 ()Lprotokt/v1/google/apps/card/v1/Button;
+	public final fun copy (Lprotokt/v1/google/apps/card/v1/Button;)Lprotokt/v1/google/apps/card/v1/DecoratedText$Control$Button;
+	public static synthetic fun copy$default (Lprotokt/v1/google/apps/card/v1/DecoratedText$Control$Button;Lprotokt/v1/google/apps/card/v1/Button;ILjava/lang/Object;)Lprotokt/v1/google/apps/card/v1/DecoratedText$Control$Button;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getButton ()Lprotokt/v1/google/apps/card/v1/Button;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/DecoratedText$Control$EndIcon : protokt/v1/google/apps/card/v1/DecoratedText$Control {
+	public fun <init> (Lprotokt/v1/google/apps/card/v1/Icon;)V
+	public final fun component1 ()Lprotokt/v1/google/apps/card/v1/Icon;
+	public final fun copy (Lprotokt/v1/google/apps/card/v1/Icon;)Lprotokt/v1/google/apps/card/v1/DecoratedText$Control$EndIcon;
+	public static synthetic fun copy$default (Lprotokt/v1/google/apps/card/v1/DecoratedText$Control$EndIcon;Lprotokt/v1/google/apps/card/v1/Icon;ILjava/lang/Object;)Lprotokt/v1/google/apps/card/v1/DecoratedText$Control$EndIcon;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getEndIcon ()Lprotokt/v1/google/apps/card/v1/Icon;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/DecoratedText$Control$SwitchControl : protokt/v1/google/apps/card/v1/DecoratedText$Control {
+	public fun <init> (Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl;)V
+	public final fun component1 ()Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl;
+	public final fun copy (Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl;)Lprotokt/v1/google/apps/card/v1/DecoratedText$Control$SwitchControl;
+	public static synthetic fun copy$default (Lprotokt/v1/google/apps/card/v1/DecoratedText$Control$SwitchControl;Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl;ILjava/lang/Object;)Lprotokt/v1/google/apps/card/v1/DecoratedText$Control$SwitchControl;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSwitchControl ()Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/DecoratedText$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/DecoratedText;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/DecoratedText;
+}
+
+public final class protokt/v1/google/apps/card/v1/DecoratedText$SwitchControl : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$Deserializer;
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ZLprotokt/v1/google/apps/card/v1/Action;Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$ControlType;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getControlType ()Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$ControlType;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getOnChangeAction ()Lprotokt/v1/google/apps/card/v1/Action;
+	public final fun getSelected ()Z
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl;
+	public final fun getControlType ()Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$ControlType;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getOnChangeAction ()Lprotokt/v1/google/apps/card/v1/Action;
+	public final fun getSelected ()Z
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun getValue ()Ljava/lang/String;
+	public final fun setControlType (Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$ControlType;)V
+	public final fun setName (Ljava/lang/String;)V
+	public final fun setOnChangeAction (Lprotokt/v1/google/apps/card/v1/Action;)V
+	public final fun setSelected (Z)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+	public final fun setValue (Ljava/lang/String;)V
+}
+
+public abstract class protokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$ControlType : protokt/v1/Enum {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$ControlType$Deserializer;
+	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getName ()Ljava/lang/String;
+	public fun getValue ()I
+}
+
+public final class protokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$ControlType$CHECKBOX : protokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$ControlType {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$ControlType$CHECKBOX;
+}
+
+public final class protokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$ControlType$CHECK_BOX : protokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$ControlType {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$ControlType$CHECK_BOX;
+}
+
+public final class protokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$ControlType$Deserializer : protokt/v1/EnumReader {
+	public synthetic fun from (I)Lprotokt/v1/Enum;
+	public fun from (I)Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$ControlType;
+}
+
+public final class protokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$ControlType$SWITCH : protokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$ControlType {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$ControlType$SWITCH;
+}
+
+public final class protokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$ControlType$UNRECOGNIZED : protokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$ControlType {
+	public fun <init> (I)V
+}
+
+public final class protokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl;
+}
+
+public final class protokt/v1/google/apps/card/v1/Divider : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Divider$Deserializer;
+	public synthetic fun <init> (Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Divider;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Divider;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Divider;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Divider$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/apps/card/v1/Divider;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/apps/card/v1/Divider$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Divider;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Divider;
+}
+
+public final class protokt/v1/google/apps/card/v1/Grid : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Grid$Deserializer;
+	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Lprotokt/v1/google/apps/card/v1/BorderStyle;ILprotokt/v1/google/apps/card/v1/OnClick;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Grid;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Grid;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBorderStyle ()Lprotokt/v1/google/apps/card/v1/BorderStyle;
+	public final fun getColumnCount ()I
+	public final fun getItems ()Ljava/util/List;
+	public final fun getOnClick ()Lprotokt/v1/google/apps/card/v1/OnClick;
+	public final fun getTitle ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Grid;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Grid$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/apps/card/v1/Grid;
+	public final fun getBorderStyle ()Lprotokt/v1/google/apps/card/v1/BorderStyle;
+	public final fun getColumnCount ()I
+	public final fun getItems ()Ljava/util/List;
+	public final fun getOnClick ()Lprotokt/v1/google/apps/card/v1/OnClick;
+	public final fun getTitle ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setBorderStyle (Lprotokt/v1/google/apps/card/v1/BorderStyle;)V
+	public final fun setColumnCount (I)V
+	public final fun setItems (Ljava/util/List;)V
+	public final fun setOnClick (Lprotokt/v1/google/apps/card/v1/OnClick;)V
+	public final fun setTitle (Ljava/lang/String;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/apps/card/v1/Grid$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Grid;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Grid;
+}
+
+public final class protokt/v1/google/apps/card/v1/Grid$GridItem : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Grid$GridItem$Deserializer;
+	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/google/apps/card/v1/ImageComponent;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/google/apps/card/v1/Grid$GridItem$GridItemLayout;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Grid$GridItem;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Grid$GridItem;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getId ()Ljava/lang/String;
+	public final fun getImage ()Lprotokt/v1/google/apps/card/v1/ImageComponent;
+	public final fun getLayout ()Lprotokt/v1/google/apps/card/v1/Grid$GridItem$GridItemLayout;
+	public final fun getSubtitle ()Ljava/lang/String;
+	public final fun getTitle ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Grid$GridItem;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Grid$GridItem$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/apps/card/v1/Grid$GridItem;
+	public final fun getId ()Ljava/lang/String;
+	public final fun getImage ()Lprotokt/v1/google/apps/card/v1/ImageComponent;
+	public final fun getLayout ()Lprotokt/v1/google/apps/card/v1/Grid$GridItem$GridItemLayout;
+	public final fun getSubtitle ()Ljava/lang/String;
+	public final fun getTitle ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setId (Ljava/lang/String;)V
+	public final fun setImage (Lprotokt/v1/google/apps/card/v1/ImageComponent;)V
+	public final fun setLayout (Lprotokt/v1/google/apps/card/v1/Grid$GridItem$GridItemLayout;)V
+	public final fun setSubtitle (Ljava/lang/String;)V
+	public final fun setTitle (Ljava/lang/String;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/apps/card/v1/Grid$GridItem$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Grid$GridItem;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Grid$GridItem;
+}
+
+public abstract class protokt/v1/google/apps/card/v1/Grid$GridItem$GridItemLayout : protokt/v1/Enum {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Grid$GridItem$GridItemLayout$Deserializer;
+	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getName ()Ljava/lang/String;
+	public fun getValue ()I
+}
+
+public final class protokt/v1/google/apps/card/v1/Grid$GridItem$GridItemLayout$Deserializer : protokt/v1/EnumReader {
+	public synthetic fun from (I)Lprotokt/v1/Enum;
+	public fun from (I)Lprotokt/v1/google/apps/card/v1/Grid$GridItem$GridItemLayout;
+}
+
+public final class protokt/v1/google/apps/card/v1/Grid$GridItem$GridItemLayout$GRID_ITEM_LAYOUT_UNSPECIFIED : protokt/v1/google/apps/card/v1/Grid$GridItem$GridItemLayout {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/Grid$GridItem$GridItemLayout$GRID_ITEM_LAYOUT_UNSPECIFIED;
+}
+
+public final class protokt/v1/google/apps/card/v1/Grid$GridItem$GridItemLayout$TEXT_ABOVE : protokt/v1/google/apps/card/v1/Grid$GridItem$GridItemLayout {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/Grid$GridItem$GridItemLayout$TEXT_ABOVE;
+}
+
+public final class protokt/v1/google/apps/card/v1/Grid$GridItem$GridItemLayout$TEXT_BELOW : protokt/v1/google/apps/card/v1/Grid$GridItem$GridItemLayout {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/Grid$GridItem$GridItemLayout$TEXT_BELOW;
+}
+
+public final class protokt/v1/google/apps/card/v1/Grid$GridItem$GridItemLayout$UNRECOGNIZED : protokt/v1/google/apps/card/v1/Grid$GridItem$GridItemLayout {
+	public fun <init> (I)V
+}
+
+public final class protokt/v1/google/apps/card/v1/Icon : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Icon$Deserializer;
+	public synthetic fun <init> (Lprotokt/v1/google/apps/card/v1/Icon$Icons;Ljava/lang/String;Lprotokt/v1/google/apps/card/v1/Widget$ImageType;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Icon;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Icon;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAltText ()Ljava/lang/String;
+	public final fun getIcons ()Lprotokt/v1/google/apps/card/v1/Icon$Icons;
+	public final fun getImageType ()Lprotokt/v1/google/apps/card/v1/Widget$ImageType;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Icon;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Icon$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/apps/card/v1/Icon;
+	public final fun getAltText ()Ljava/lang/String;
+	public final fun getIcons ()Lprotokt/v1/google/apps/card/v1/Icon$Icons;
+	public final fun getImageType ()Lprotokt/v1/google/apps/card/v1/Widget$ImageType;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setAltText (Ljava/lang/String;)V
+	public final fun setIcons (Lprotokt/v1/google/apps/card/v1/Icon$Icons;)V
+	public final fun setImageType (Lprotokt/v1/google/apps/card/v1/Widget$ImageType;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/apps/card/v1/Icon$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Icon;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Icon;
+}
+
+public abstract class protokt/v1/google/apps/card/v1/Icon$Icons {
+}
+
+public final class protokt/v1/google/apps/card/v1/Icon$Icons$IconUrl : protokt/v1/google/apps/card/v1/Icon$Icons {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lprotokt/v1/google/apps/card/v1/Icon$Icons$IconUrl;
+	public static synthetic fun copy$default (Lprotokt/v1/google/apps/card/v1/Icon$Icons$IconUrl;Ljava/lang/String;ILjava/lang/Object;)Lprotokt/v1/google/apps/card/v1/Icon$Icons$IconUrl;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getIconUrl ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Icon$Icons$KnownIcon : protokt/v1/google/apps/card/v1/Icon$Icons {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lprotokt/v1/google/apps/card/v1/Icon$Icons$KnownIcon;
+	public static synthetic fun copy$default (Lprotokt/v1/google/apps/card/v1/Icon$Icons$KnownIcon;Ljava/lang/String;ILjava/lang/Object;)Lprotokt/v1/google/apps/card/v1/Icon$Icons$KnownIcon;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getKnownIcon ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Icon$Icons$MaterialIcon : protokt/v1/google/apps/card/v1/Icon$Icons {
+	public fun <init> (Lprotokt/v1/google/apps/card/v1/MaterialIcon;)V
+	public final fun component1 ()Lprotokt/v1/google/apps/card/v1/MaterialIcon;
+	public final fun copy (Lprotokt/v1/google/apps/card/v1/MaterialIcon;)Lprotokt/v1/google/apps/card/v1/Icon$Icons$MaterialIcon;
+	public static synthetic fun copy$default (Lprotokt/v1/google/apps/card/v1/Icon$Icons$MaterialIcon;Lprotokt/v1/google/apps/card/v1/MaterialIcon;ILjava/lang/Object;)Lprotokt/v1/google/apps/card/v1/Icon$Icons$MaterialIcon;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getMaterialIcon ()Lprotokt/v1/google/apps/card/v1/MaterialIcon;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Image : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Image$Deserializer;
+	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/google/apps/card/v1/OnClick;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Image;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Image;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAltText ()Ljava/lang/String;
+	public final fun getImageUrl ()Ljava/lang/String;
+	public final fun getOnClick ()Lprotokt/v1/google/apps/card/v1/OnClick;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Image;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Image$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/apps/card/v1/Image;
+	public final fun getAltText ()Ljava/lang/String;
+	public final fun getImageUrl ()Ljava/lang/String;
+	public final fun getOnClick ()Lprotokt/v1/google/apps/card/v1/OnClick;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setAltText (Ljava/lang/String;)V
+	public final fun setImageUrl (Ljava/lang/String;)V
+	public final fun setOnClick (Lprotokt/v1/google/apps/card/v1/OnClick;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/apps/card/v1/Image$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Image;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Image;
+}
+
+public final class protokt/v1/google/apps/card/v1/ImageComponent : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/ImageComponent$Deserializer;
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/google/apps/card/v1/ImageCropStyle;Lprotokt/v1/google/apps/card/v1/BorderStyle;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/ImageComponent;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/ImageComponent;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAltText ()Ljava/lang/String;
+	public final fun getBorderStyle ()Lprotokt/v1/google/apps/card/v1/BorderStyle;
+	public final fun getCropStyle ()Lprotokt/v1/google/apps/card/v1/ImageCropStyle;
+	public final fun getImageUri ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/ImageComponent;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/ImageComponent$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/apps/card/v1/ImageComponent;
+	public final fun getAltText ()Ljava/lang/String;
+	public final fun getBorderStyle ()Lprotokt/v1/google/apps/card/v1/BorderStyle;
+	public final fun getCropStyle ()Lprotokt/v1/google/apps/card/v1/ImageCropStyle;
+	public final fun getImageUri ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setAltText (Ljava/lang/String;)V
+	public final fun setBorderStyle (Lprotokt/v1/google/apps/card/v1/BorderStyle;)V
+	public final fun setCropStyle (Lprotokt/v1/google/apps/card/v1/ImageCropStyle;)V
+	public final fun setImageUri (Ljava/lang/String;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/apps/card/v1/ImageComponent$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/ImageComponent;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/ImageComponent;
+}
+
+public final class protokt/v1/google/apps/card/v1/ImageCropStyle : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/ImageCropStyle$Deserializer;
+	public synthetic fun <init> (Lprotokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType;DLprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/ImageCropStyle;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/ImageCropStyle;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAspectRatio ()D
+	public final fun getType ()Lprotokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/ImageCropStyle;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/ImageCropStyle$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/apps/card/v1/ImageCropStyle;
+	public final fun getAspectRatio ()D
+	public final fun getType ()Lprotokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setAspectRatio (D)V
+	public final fun setType (Lprotokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/apps/card/v1/ImageCropStyle$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/ImageCropStyle;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/ImageCropStyle;
+}
+
+public abstract class protokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType : protokt/v1/Enum {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType$Deserializer;
+	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getName ()Ljava/lang/String;
+	public fun getValue ()I
+}
+
+public final class protokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType$CIRCLE : protokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType$CIRCLE;
+}
+
+public final class protokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType$Deserializer : protokt/v1/EnumReader {
+	public synthetic fun from (I)Lprotokt/v1/Enum;
+	public fun from (I)Lprotokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType;
+}
+
+public final class protokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType$IMAGE_CROP_TYPE_UNSPECIFIED : protokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType$IMAGE_CROP_TYPE_UNSPECIFIED;
+}
+
+public final class protokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType$RECTANGLE_4_3 : protokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType$RECTANGLE_4_3;
+}
+
+public final class protokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType$RECTANGLE_CUSTOM : protokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType$RECTANGLE_CUSTOM;
+}
+
+public final class protokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType$SQUARE : protokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType$SQUARE;
+}
+
+public final class protokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType$UNRECOGNIZED : protokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType {
+	public fun <init> (I)V
+}
+
+public final class protokt/v1/google/apps/card/v1/MaterialIcon : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/MaterialIcon$Deserializer;
+	public synthetic fun <init> (Ljava/lang/String;ZIILprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/MaterialIcon;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/MaterialIcon;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFill ()Z
+	public final fun getGrade ()I
+	public final fun getName ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun getWeight ()I
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/MaterialIcon;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/MaterialIcon$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/apps/card/v1/MaterialIcon;
+	public final fun getFill ()Z
+	public final fun getGrade ()I
+	public final fun getName ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun getWeight ()I
+	public final fun setFill (Z)V
+	public final fun setGrade (I)V
+	public final fun setName (Ljava/lang/String;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+	public final fun setWeight (I)V
+}
+
+public final class protokt/v1/google/apps/card/v1/MaterialIcon$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/MaterialIcon;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/MaterialIcon;
+}
+
+public final class protokt/v1/google/apps/card/v1/OnClick : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/OnClick$Deserializer;
+	public synthetic fun <init> (Lprotokt/v1/google/apps/card/v1/OnClick$Data;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/OnClick;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/OnClick;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getData ()Lprotokt/v1/google/apps/card/v1/OnClick$Data;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/OnClick;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/OnClick$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/apps/card/v1/OnClick;
+	public final fun getData ()Lprotokt/v1/google/apps/card/v1/OnClick$Data;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setData (Lprotokt/v1/google/apps/card/v1/OnClick$Data;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public abstract class protokt/v1/google/apps/card/v1/OnClick$Data {
+}
+
+public final class protokt/v1/google/apps/card/v1/OnClick$Data$Action : protokt/v1/google/apps/card/v1/OnClick$Data {
+	public fun <init> (Lprotokt/v1/google/apps/card/v1/Action;)V
+	public final fun component1 ()Lprotokt/v1/google/apps/card/v1/Action;
+	public final fun copy (Lprotokt/v1/google/apps/card/v1/Action;)Lprotokt/v1/google/apps/card/v1/OnClick$Data$Action;
+	public static synthetic fun copy$default (Lprotokt/v1/google/apps/card/v1/OnClick$Data$Action;Lprotokt/v1/google/apps/card/v1/Action;ILjava/lang/Object;)Lprotokt/v1/google/apps/card/v1/OnClick$Data$Action;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAction ()Lprotokt/v1/google/apps/card/v1/Action;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/OnClick$Data$Card : protokt/v1/google/apps/card/v1/OnClick$Data {
+	public fun <init> (Lprotokt/v1/google/apps/card/v1/Card;)V
+	public final fun component1 ()Lprotokt/v1/google/apps/card/v1/Card;
+	public final fun copy (Lprotokt/v1/google/apps/card/v1/Card;)Lprotokt/v1/google/apps/card/v1/OnClick$Data$Card;
+	public static synthetic fun copy$default (Lprotokt/v1/google/apps/card/v1/OnClick$Data$Card;Lprotokt/v1/google/apps/card/v1/Card;ILjava/lang/Object;)Lprotokt/v1/google/apps/card/v1/OnClick$Data$Card;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCard ()Lprotokt/v1/google/apps/card/v1/Card;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/OnClick$Data$OpenDynamicLinkAction : protokt/v1/google/apps/card/v1/OnClick$Data {
+	public fun <init> (Lprotokt/v1/google/apps/card/v1/Action;)V
+	public final fun component1 ()Lprotokt/v1/google/apps/card/v1/Action;
+	public final fun copy (Lprotokt/v1/google/apps/card/v1/Action;)Lprotokt/v1/google/apps/card/v1/OnClick$Data$OpenDynamicLinkAction;
+	public static synthetic fun copy$default (Lprotokt/v1/google/apps/card/v1/OnClick$Data$OpenDynamicLinkAction;Lprotokt/v1/google/apps/card/v1/Action;ILjava/lang/Object;)Lprotokt/v1/google/apps/card/v1/OnClick$Data$OpenDynamicLinkAction;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getOpenDynamicLinkAction ()Lprotokt/v1/google/apps/card/v1/Action;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/OnClick$Data$OpenLink : protokt/v1/google/apps/card/v1/OnClick$Data {
+	public fun <init> (Lprotokt/v1/google/apps/card/v1/OpenLink;)V
+	public final fun component1 ()Lprotokt/v1/google/apps/card/v1/OpenLink;
+	public final fun copy (Lprotokt/v1/google/apps/card/v1/OpenLink;)Lprotokt/v1/google/apps/card/v1/OnClick$Data$OpenLink;
+	public static synthetic fun copy$default (Lprotokt/v1/google/apps/card/v1/OnClick$Data$OpenLink;Lprotokt/v1/google/apps/card/v1/OpenLink;ILjava/lang/Object;)Lprotokt/v1/google/apps/card/v1/OnClick$Data$OpenLink;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getOpenLink ()Lprotokt/v1/google/apps/card/v1/OpenLink;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/OnClick$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/OnClick;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/OnClick;
+}
+
+public final class protokt/v1/google/apps/card/v1/OpenLink : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/OpenLink$Deserializer;
+	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/google/apps/card/v1/OpenLink$OpenAs;Lprotokt/v1/google/apps/card/v1/OpenLink$OnClose;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/OpenLink;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/OpenLink;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getOnClose ()Lprotokt/v1/google/apps/card/v1/OpenLink$OnClose;
+	public final fun getOpenAs ()Lprotokt/v1/google/apps/card/v1/OpenLink$OpenAs;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun getUrl ()Ljava/lang/String;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/OpenLink;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/OpenLink$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/apps/card/v1/OpenLink;
+	public final fun getOnClose ()Lprotokt/v1/google/apps/card/v1/OpenLink$OnClose;
+	public final fun getOpenAs ()Lprotokt/v1/google/apps/card/v1/OpenLink$OpenAs;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun getUrl ()Ljava/lang/String;
+	public final fun setOnClose (Lprotokt/v1/google/apps/card/v1/OpenLink$OnClose;)V
+	public final fun setOpenAs (Lprotokt/v1/google/apps/card/v1/OpenLink$OpenAs;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+	public final fun setUrl (Ljava/lang/String;)V
+}
+
+public final class protokt/v1/google/apps/card/v1/OpenLink$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/OpenLink;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/OpenLink;
+}
+
+public abstract class protokt/v1/google/apps/card/v1/OpenLink$OnClose : protokt/v1/Enum {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/OpenLink$OnClose$Deserializer;
+	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getName ()Ljava/lang/String;
+	public fun getValue ()I
+}
+
+public final class protokt/v1/google/apps/card/v1/OpenLink$OnClose$Deserializer : protokt/v1/EnumReader {
+	public synthetic fun from (I)Lprotokt/v1/Enum;
+	public fun from (I)Lprotokt/v1/google/apps/card/v1/OpenLink$OnClose;
+}
+
+public final class protokt/v1/google/apps/card/v1/OpenLink$OnClose$NOTHING : protokt/v1/google/apps/card/v1/OpenLink$OnClose {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/OpenLink$OnClose$NOTHING;
+}
+
+public final class protokt/v1/google/apps/card/v1/OpenLink$OnClose$RELOAD : protokt/v1/google/apps/card/v1/OpenLink$OnClose {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/OpenLink$OnClose$RELOAD;
+}
+
+public final class protokt/v1/google/apps/card/v1/OpenLink$OnClose$UNRECOGNIZED : protokt/v1/google/apps/card/v1/OpenLink$OnClose {
+	public fun <init> (I)V
+}
+
+public abstract class protokt/v1/google/apps/card/v1/OpenLink$OpenAs : protokt/v1/Enum {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/OpenLink$OpenAs$Deserializer;
+	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getName ()Ljava/lang/String;
+	public fun getValue ()I
+}
+
+public final class protokt/v1/google/apps/card/v1/OpenLink$OpenAs$Deserializer : protokt/v1/EnumReader {
+	public synthetic fun from (I)Lprotokt/v1/Enum;
+	public fun from (I)Lprotokt/v1/google/apps/card/v1/OpenLink$OpenAs;
+}
+
+public final class protokt/v1/google/apps/card/v1/OpenLink$OpenAs$FULL_SIZE : protokt/v1/google/apps/card/v1/OpenLink$OpenAs {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/OpenLink$OpenAs$FULL_SIZE;
+}
+
+public final class protokt/v1/google/apps/card/v1/OpenLink$OpenAs$OVERLAY : protokt/v1/google/apps/card/v1/OpenLink$OpenAs {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/OpenLink$OpenAs$OVERLAY;
+}
+
+public final class protokt/v1/google/apps/card/v1/OpenLink$OpenAs$UNRECOGNIZED : protokt/v1/google/apps/card/v1/OpenLink$OpenAs {
+	public fun <init> (I)V
+}
+
+public final class protokt/v1/google/apps/card/v1/SelectionInput : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/SelectionInput$Deserializer;
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/google/apps/card/v1/SelectionInput$SelectionType;Ljava/util/List;Lprotokt/v1/google/apps/card/v1/Action;IILprotokt/v1/google/apps/card/v1/SelectionInput$MultiSelectDataSource;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/SelectionInput;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/SelectionInput;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getItems ()Ljava/util/List;
+	public final fun getLabel ()Ljava/lang/String;
+	public final fun getMultiSelectDataSource ()Lprotokt/v1/google/apps/card/v1/SelectionInput$MultiSelectDataSource;
+	public final fun getMultiSelectMaxSelectedItems ()I
+	public final fun getMultiSelectMinQueryLength ()I
+	public final fun getName ()Ljava/lang/String;
+	public final fun getOnChangeAction ()Lprotokt/v1/google/apps/card/v1/Action;
+	public final fun getType ()Lprotokt/v1/google/apps/card/v1/SelectionInput$SelectionType;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/SelectionInput;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/SelectionInput$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/apps/card/v1/SelectionInput;
+	public final fun getItems ()Ljava/util/List;
+	public final fun getLabel ()Ljava/lang/String;
+	public final fun getMultiSelectDataSource ()Lprotokt/v1/google/apps/card/v1/SelectionInput$MultiSelectDataSource;
+	public final fun getMultiSelectMaxSelectedItems ()I
+	public final fun getMultiSelectMinQueryLength ()I
+	public final fun getName ()Ljava/lang/String;
+	public final fun getOnChangeAction ()Lprotokt/v1/google/apps/card/v1/Action;
+	public final fun getType ()Lprotokt/v1/google/apps/card/v1/SelectionInput$SelectionType;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setItems (Ljava/util/List;)V
+	public final fun setLabel (Ljava/lang/String;)V
+	public final fun setMultiSelectDataSource (Lprotokt/v1/google/apps/card/v1/SelectionInput$MultiSelectDataSource;)V
+	public final fun setMultiSelectMaxSelectedItems (I)V
+	public final fun setMultiSelectMinQueryLength (I)V
+	public final fun setName (Ljava/lang/String;)V
+	public final fun setOnChangeAction (Lprotokt/v1/google/apps/card/v1/Action;)V
+	public final fun setType (Lprotokt/v1/google/apps/card/v1/SelectionInput$SelectionType;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/apps/card/v1/SelectionInput$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/SelectionInput;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/SelectionInput;
+}
+
+public abstract class protokt/v1/google/apps/card/v1/SelectionInput$MultiSelectDataSource {
+}
+
+public final class protokt/v1/google/apps/card/v1/SelectionInput$MultiSelectDataSource$ExternalDataSource : protokt/v1/google/apps/card/v1/SelectionInput$MultiSelectDataSource {
+	public fun <init> (Lprotokt/v1/google/apps/card/v1/Action;)V
+	public final fun component1 ()Lprotokt/v1/google/apps/card/v1/Action;
+	public final fun copy (Lprotokt/v1/google/apps/card/v1/Action;)Lprotokt/v1/google/apps/card/v1/SelectionInput$MultiSelectDataSource$ExternalDataSource;
+	public static synthetic fun copy$default (Lprotokt/v1/google/apps/card/v1/SelectionInput$MultiSelectDataSource$ExternalDataSource;Lprotokt/v1/google/apps/card/v1/Action;ILjava/lang/Object;)Lprotokt/v1/google/apps/card/v1/SelectionInput$MultiSelectDataSource$ExternalDataSource;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getExternalDataSource ()Lprotokt/v1/google/apps/card/v1/Action;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/SelectionInput$MultiSelectDataSource$PlatformDataSource : protokt/v1/google/apps/card/v1/SelectionInput$MultiSelectDataSource {
+	public fun <init> (Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource;)V
+	public final fun component1 ()Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource;
+	public final fun copy (Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource;)Lprotokt/v1/google/apps/card/v1/SelectionInput$MultiSelectDataSource$PlatformDataSource;
+	public static synthetic fun copy$default (Lprotokt/v1/google/apps/card/v1/SelectionInput$MultiSelectDataSource$PlatformDataSource;Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource;ILjava/lang/Object;)Lprotokt/v1/google/apps/card/v1/SelectionInput$MultiSelectDataSource$PlatformDataSource;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getPlatformDataSource ()Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$Deserializer;
+	public synthetic fun <init> (Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$DataSource;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDataSource ()Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$DataSource;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource;
+	public final fun getDataSource ()Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$DataSource;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setDataSource (Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$DataSource;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public abstract class protokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$CommonDataSource : protokt/v1/Enum {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$CommonDataSource$Deserializer;
+	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getName ()Ljava/lang/String;
+	public fun getValue ()I
+}
+
+public final class protokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$CommonDataSource$Deserializer : protokt/v1/EnumReader {
+	public synthetic fun from (I)Lprotokt/v1/Enum;
+	public fun from (I)Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$CommonDataSource;
+}
+
+public final class protokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$CommonDataSource$UNKNOWN : protokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$CommonDataSource {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$CommonDataSource$UNKNOWN;
+}
+
+public final class protokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$CommonDataSource$UNRECOGNIZED : protokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$CommonDataSource {
+	public fun <init> (I)V
+}
+
+public final class protokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$CommonDataSource$USER : protokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$CommonDataSource {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$CommonDataSource$USER;
+}
+
+public abstract class protokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$DataSource {
+}
+
+public final class protokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$DataSource$CommonDataSource : protokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$DataSource {
+	public fun <init> (Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$CommonDataSource;)V
+	public final fun component1 ()Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$CommonDataSource;
+	public final fun copy (Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$CommonDataSource;)Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$DataSource$CommonDataSource;
+	public static synthetic fun copy$default (Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$DataSource$CommonDataSource;Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$CommonDataSource;ILjava/lang/Object;)Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$DataSource$CommonDataSource;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCommonDataSource ()Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$CommonDataSource;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource;
+}
+
+public final class protokt/v1/google/apps/card/v1/SelectionInput$SelectionItem : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/SelectionInput$SelectionItem$Deserializer;
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ZLjava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/SelectionInput$SelectionItem;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/SelectionInput$SelectionItem;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBottomText ()Ljava/lang/String;
+	public final fun getSelected ()Z
+	public final fun getStartIconUri ()Ljava/lang/String;
+	public final fun getText ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/SelectionInput$SelectionItem;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/SelectionInput$SelectionItem$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/apps/card/v1/SelectionInput$SelectionItem;
+	public final fun getBottomText ()Ljava/lang/String;
+	public final fun getSelected ()Z
+	public final fun getStartIconUri ()Ljava/lang/String;
+	public final fun getText ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun getValue ()Ljava/lang/String;
+	public final fun setBottomText (Ljava/lang/String;)V
+	public final fun setSelected (Z)V
+	public final fun setStartIconUri (Ljava/lang/String;)V
+	public final fun setText (Ljava/lang/String;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+	public final fun setValue (Ljava/lang/String;)V
+}
+
+public final class protokt/v1/google/apps/card/v1/SelectionInput$SelectionItem$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/SelectionInput$SelectionItem;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/SelectionInput$SelectionItem;
+}
+
+public abstract class protokt/v1/google/apps/card/v1/SelectionInput$SelectionType : protokt/v1/Enum {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/SelectionInput$SelectionType$Deserializer;
+	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getName ()Ljava/lang/String;
+	public fun getValue ()I
+}
+
+public final class protokt/v1/google/apps/card/v1/SelectionInput$SelectionType$CHECK_BOX : protokt/v1/google/apps/card/v1/SelectionInput$SelectionType {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/SelectionInput$SelectionType$CHECK_BOX;
+}
+
+public final class protokt/v1/google/apps/card/v1/SelectionInput$SelectionType$DROPDOWN : protokt/v1/google/apps/card/v1/SelectionInput$SelectionType {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/SelectionInput$SelectionType$DROPDOWN;
+}
+
+public final class protokt/v1/google/apps/card/v1/SelectionInput$SelectionType$Deserializer : protokt/v1/EnumReader {
+	public synthetic fun from (I)Lprotokt/v1/Enum;
+	public fun from (I)Lprotokt/v1/google/apps/card/v1/SelectionInput$SelectionType;
+}
+
+public final class protokt/v1/google/apps/card/v1/SelectionInput$SelectionType$MULTI_SELECT : protokt/v1/google/apps/card/v1/SelectionInput$SelectionType {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/SelectionInput$SelectionType$MULTI_SELECT;
+}
+
+public final class protokt/v1/google/apps/card/v1/SelectionInput$SelectionType$RADIO_BUTTON : protokt/v1/google/apps/card/v1/SelectionInput$SelectionType {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/SelectionInput$SelectionType$RADIO_BUTTON;
+}
+
+public final class protokt/v1/google/apps/card/v1/SelectionInput$SelectionType$SWITCH : protokt/v1/google/apps/card/v1/SelectionInput$SelectionType {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/SelectionInput$SelectionType$SWITCH;
+}
+
+public final class protokt/v1/google/apps/card/v1/SelectionInput$SelectionType$UNRECOGNIZED : protokt/v1/google/apps/card/v1/SelectionInput$SelectionType {
+	public fun <init> (I)V
+}
+
+public final class protokt/v1/google/apps/card/v1/Suggestions : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Suggestions$Deserializer;
+	public synthetic fun <init> (Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Suggestions;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Suggestions;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getItems ()Ljava/util/List;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Suggestions;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Suggestions$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/apps/card/v1/Suggestions;
+	public final fun getItems ()Ljava/util/List;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setItems (Ljava/util/List;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/apps/card/v1/Suggestions$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Suggestions;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Suggestions;
+}
+
+public final class protokt/v1/google/apps/card/v1/Suggestions$SuggestionItem : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Suggestions$SuggestionItem$Deserializer;
+	public synthetic fun <init> (Lprotokt/v1/google/apps/card/v1/Suggestions$SuggestionItem$Content;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Suggestions$SuggestionItem;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Suggestions$SuggestionItem;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getContent ()Lprotokt/v1/google/apps/card/v1/Suggestions$SuggestionItem$Content;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Suggestions$SuggestionItem;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Suggestions$SuggestionItem$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/apps/card/v1/Suggestions$SuggestionItem;
+	public final fun getContent ()Lprotokt/v1/google/apps/card/v1/Suggestions$SuggestionItem$Content;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setContent (Lprotokt/v1/google/apps/card/v1/Suggestions$SuggestionItem$Content;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public abstract class protokt/v1/google/apps/card/v1/Suggestions$SuggestionItem$Content {
+}
+
+public final class protokt/v1/google/apps/card/v1/Suggestions$SuggestionItem$Content$Text : protokt/v1/google/apps/card/v1/Suggestions$SuggestionItem$Content {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lprotokt/v1/google/apps/card/v1/Suggestions$SuggestionItem$Content$Text;
+	public static synthetic fun copy$default (Lprotokt/v1/google/apps/card/v1/Suggestions$SuggestionItem$Content$Text;Ljava/lang/String;ILjava/lang/Object;)Lprotokt/v1/google/apps/card/v1/Suggestions$SuggestionItem$Content$Text;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getText ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Suggestions$SuggestionItem$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Suggestions$SuggestionItem;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Suggestions$SuggestionItem;
+}
+
+public final class protokt/v1/google/apps/card/v1/TextInput : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/TextInput$Deserializer;
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/google/apps/card/v1/TextInput$Type;Lprotokt/v1/google/apps/card/v1/Action;Lprotokt/v1/google/apps/card/v1/Suggestions;Lprotokt/v1/google/apps/card/v1/Action;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/TextInput;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/TextInput;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAutoCompleteAction ()Lprotokt/v1/google/apps/card/v1/Action;
+	public final fun getHintText ()Ljava/lang/String;
+	public final fun getInitialSuggestions ()Lprotokt/v1/google/apps/card/v1/Suggestions;
+	public final fun getLabel ()Ljava/lang/String;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getOnChangeAction ()Lprotokt/v1/google/apps/card/v1/Action;
+	public final fun getPlaceholderText ()Ljava/lang/String;
+	public final fun getType ()Lprotokt/v1/google/apps/card/v1/TextInput$Type;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/TextInput;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/TextInput$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/apps/card/v1/TextInput;
+	public final fun getAutoCompleteAction ()Lprotokt/v1/google/apps/card/v1/Action;
+	public final fun getHintText ()Ljava/lang/String;
+	public final fun getInitialSuggestions ()Lprotokt/v1/google/apps/card/v1/Suggestions;
+	public final fun getLabel ()Ljava/lang/String;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getOnChangeAction ()Lprotokt/v1/google/apps/card/v1/Action;
+	public final fun getPlaceholderText ()Ljava/lang/String;
+	public final fun getType ()Lprotokt/v1/google/apps/card/v1/TextInput$Type;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun getValue ()Ljava/lang/String;
+	public final fun setAutoCompleteAction (Lprotokt/v1/google/apps/card/v1/Action;)V
+	public final fun setHintText (Ljava/lang/String;)V
+	public final fun setInitialSuggestions (Lprotokt/v1/google/apps/card/v1/Suggestions;)V
+	public final fun setLabel (Ljava/lang/String;)V
+	public final fun setName (Ljava/lang/String;)V
+	public final fun setOnChangeAction (Lprotokt/v1/google/apps/card/v1/Action;)V
+	public final fun setPlaceholderText (Ljava/lang/String;)V
+	public final fun setType (Lprotokt/v1/google/apps/card/v1/TextInput$Type;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+	public final fun setValue (Ljava/lang/String;)V
+}
+
+public final class protokt/v1/google/apps/card/v1/TextInput$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/TextInput;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/TextInput;
+}
+
+public abstract class protokt/v1/google/apps/card/v1/TextInput$Type : protokt/v1/Enum {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/TextInput$Type$Deserializer;
+	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getName ()Ljava/lang/String;
+	public fun getValue ()I
+}
+
+public final class protokt/v1/google/apps/card/v1/TextInput$Type$Deserializer : protokt/v1/EnumReader {
+	public synthetic fun from (I)Lprotokt/v1/Enum;
+	public fun from (I)Lprotokt/v1/google/apps/card/v1/TextInput$Type;
+}
+
+public final class protokt/v1/google/apps/card/v1/TextInput$Type$MULTIPLE_LINE : protokt/v1/google/apps/card/v1/TextInput$Type {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/TextInput$Type$MULTIPLE_LINE;
+}
+
+public final class protokt/v1/google/apps/card/v1/TextInput$Type$SINGLE_LINE : protokt/v1/google/apps/card/v1/TextInput$Type {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/TextInput$Type$SINGLE_LINE;
+}
+
+public final class protokt/v1/google/apps/card/v1/TextInput$Type$UNRECOGNIZED : protokt/v1/google/apps/card/v1/TextInput$Type {
+	public fun <init> (I)V
+}
+
+public final class protokt/v1/google/apps/card/v1/TextParagraph : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/TextParagraph$Deserializer;
+	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/TextParagraph;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/TextParagraph;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getText ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/TextParagraph;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/TextParagraph$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/apps/card/v1/TextParagraph;
+	public final fun getText ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setText (Ljava/lang/String;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/apps/card/v1/TextParagraph$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/TextParagraph;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/TextParagraph;
+}
+
+public final class protokt/v1/google/apps/card/v1/Widget : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Widget$Deserializer;
+	public synthetic fun <init> (Lprotokt/v1/google/apps/card/v1/Widget$Data;Lprotokt/v1/google/apps/card/v1/Widget$HorizontalAlignment;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Widget;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Widget;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getData ()Lprotokt/v1/google/apps/card/v1/Widget$Data;
+	public final fun getHorizontalAlignment ()Lprotokt/v1/google/apps/card/v1/Widget$HorizontalAlignment;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Widget;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Widget$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/apps/card/v1/Widget;
+	public final fun getData ()Lprotokt/v1/google/apps/card/v1/Widget$Data;
+	public final fun getHorizontalAlignment ()Lprotokt/v1/google/apps/card/v1/Widget$HorizontalAlignment;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setData (Lprotokt/v1/google/apps/card/v1/Widget$Data;)V
+	public final fun setHorizontalAlignment (Lprotokt/v1/google/apps/card/v1/Widget$HorizontalAlignment;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public abstract class protokt/v1/google/apps/card/v1/Widget$Data {
+}
+
+public final class protokt/v1/google/apps/card/v1/Widget$Data$ButtonList : protokt/v1/google/apps/card/v1/Widget$Data {
+	public fun <init> (Lprotokt/v1/google/apps/card/v1/ButtonList;)V
+	public final fun component1 ()Lprotokt/v1/google/apps/card/v1/ButtonList;
+	public final fun copy (Lprotokt/v1/google/apps/card/v1/ButtonList;)Lprotokt/v1/google/apps/card/v1/Widget$Data$ButtonList;
+	public static synthetic fun copy$default (Lprotokt/v1/google/apps/card/v1/Widget$Data$ButtonList;Lprotokt/v1/google/apps/card/v1/ButtonList;ILjava/lang/Object;)Lprotokt/v1/google/apps/card/v1/Widget$Data$ButtonList;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getButtonList ()Lprotokt/v1/google/apps/card/v1/ButtonList;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Widget$Data$Columns : protokt/v1/google/apps/card/v1/Widget$Data {
+	public fun <init> (Lprotokt/v1/google/apps/card/v1/Columns;)V
+	public final fun component1 ()Lprotokt/v1/google/apps/card/v1/Columns;
+	public final fun copy (Lprotokt/v1/google/apps/card/v1/Columns;)Lprotokt/v1/google/apps/card/v1/Widget$Data$Columns;
+	public static synthetic fun copy$default (Lprotokt/v1/google/apps/card/v1/Widget$Data$Columns;Lprotokt/v1/google/apps/card/v1/Columns;ILjava/lang/Object;)Lprotokt/v1/google/apps/card/v1/Widget$Data$Columns;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getColumns ()Lprotokt/v1/google/apps/card/v1/Columns;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Widget$Data$DateTimePicker : protokt/v1/google/apps/card/v1/Widget$Data {
+	public fun <init> (Lprotokt/v1/google/apps/card/v1/DateTimePicker;)V
+	public final fun component1 ()Lprotokt/v1/google/apps/card/v1/DateTimePicker;
+	public final fun copy (Lprotokt/v1/google/apps/card/v1/DateTimePicker;)Lprotokt/v1/google/apps/card/v1/Widget$Data$DateTimePicker;
+	public static synthetic fun copy$default (Lprotokt/v1/google/apps/card/v1/Widget$Data$DateTimePicker;Lprotokt/v1/google/apps/card/v1/DateTimePicker;ILjava/lang/Object;)Lprotokt/v1/google/apps/card/v1/Widget$Data$DateTimePicker;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDateTimePicker ()Lprotokt/v1/google/apps/card/v1/DateTimePicker;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Widget$Data$DecoratedText : protokt/v1/google/apps/card/v1/Widget$Data {
+	public fun <init> (Lprotokt/v1/google/apps/card/v1/DecoratedText;)V
+	public final fun component1 ()Lprotokt/v1/google/apps/card/v1/DecoratedText;
+	public final fun copy (Lprotokt/v1/google/apps/card/v1/DecoratedText;)Lprotokt/v1/google/apps/card/v1/Widget$Data$DecoratedText;
+	public static synthetic fun copy$default (Lprotokt/v1/google/apps/card/v1/Widget$Data$DecoratedText;Lprotokt/v1/google/apps/card/v1/DecoratedText;ILjava/lang/Object;)Lprotokt/v1/google/apps/card/v1/Widget$Data$DecoratedText;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDecoratedText ()Lprotokt/v1/google/apps/card/v1/DecoratedText;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Widget$Data$Divider : protokt/v1/google/apps/card/v1/Widget$Data {
+	public fun <init> (Lprotokt/v1/google/apps/card/v1/Divider;)V
+	public final fun component1 ()Lprotokt/v1/google/apps/card/v1/Divider;
+	public final fun copy (Lprotokt/v1/google/apps/card/v1/Divider;)Lprotokt/v1/google/apps/card/v1/Widget$Data$Divider;
+	public static synthetic fun copy$default (Lprotokt/v1/google/apps/card/v1/Widget$Data$Divider;Lprotokt/v1/google/apps/card/v1/Divider;ILjava/lang/Object;)Lprotokt/v1/google/apps/card/v1/Widget$Data$Divider;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDivider ()Lprotokt/v1/google/apps/card/v1/Divider;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Widget$Data$Grid : protokt/v1/google/apps/card/v1/Widget$Data {
+	public fun <init> (Lprotokt/v1/google/apps/card/v1/Grid;)V
+	public final fun component1 ()Lprotokt/v1/google/apps/card/v1/Grid;
+	public final fun copy (Lprotokt/v1/google/apps/card/v1/Grid;)Lprotokt/v1/google/apps/card/v1/Widget$Data$Grid;
+	public static synthetic fun copy$default (Lprotokt/v1/google/apps/card/v1/Widget$Data$Grid;Lprotokt/v1/google/apps/card/v1/Grid;ILjava/lang/Object;)Lprotokt/v1/google/apps/card/v1/Widget$Data$Grid;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getGrid ()Lprotokt/v1/google/apps/card/v1/Grid;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Widget$Data$Image : protokt/v1/google/apps/card/v1/Widget$Data {
+	public fun <init> (Lprotokt/v1/google/apps/card/v1/Image;)V
+	public final fun component1 ()Lprotokt/v1/google/apps/card/v1/Image;
+	public final fun copy (Lprotokt/v1/google/apps/card/v1/Image;)Lprotokt/v1/google/apps/card/v1/Widget$Data$Image;
+	public static synthetic fun copy$default (Lprotokt/v1/google/apps/card/v1/Widget$Data$Image;Lprotokt/v1/google/apps/card/v1/Image;ILjava/lang/Object;)Lprotokt/v1/google/apps/card/v1/Widget$Data$Image;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getImage ()Lprotokt/v1/google/apps/card/v1/Image;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Widget$Data$SelectionInput : protokt/v1/google/apps/card/v1/Widget$Data {
+	public fun <init> (Lprotokt/v1/google/apps/card/v1/SelectionInput;)V
+	public final fun component1 ()Lprotokt/v1/google/apps/card/v1/SelectionInput;
+	public final fun copy (Lprotokt/v1/google/apps/card/v1/SelectionInput;)Lprotokt/v1/google/apps/card/v1/Widget$Data$SelectionInput;
+	public static synthetic fun copy$default (Lprotokt/v1/google/apps/card/v1/Widget$Data$SelectionInput;Lprotokt/v1/google/apps/card/v1/SelectionInput;ILjava/lang/Object;)Lprotokt/v1/google/apps/card/v1/Widget$Data$SelectionInput;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSelectionInput ()Lprotokt/v1/google/apps/card/v1/SelectionInput;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Widget$Data$TextInput : protokt/v1/google/apps/card/v1/Widget$Data {
+	public fun <init> (Lprotokt/v1/google/apps/card/v1/TextInput;)V
+	public final fun component1 ()Lprotokt/v1/google/apps/card/v1/TextInput;
+	public final fun copy (Lprotokt/v1/google/apps/card/v1/TextInput;)Lprotokt/v1/google/apps/card/v1/Widget$Data$TextInput;
+	public static synthetic fun copy$default (Lprotokt/v1/google/apps/card/v1/Widget$Data$TextInput;Lprotokt/v1/google/apps/card/v1/TextInput;ILjava/lang/Object;)Lprotokt/v1/google/apps/card/v1/Widget$Data$TextInput;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getTextInput ()Lprotokt/v1/google/apps/card/v1/TextInput;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Widget$Data$TextParagraph : protokt/v1/google/apps/card/v1/Widget$Data {
+	public fun <init> (Lprotokt/v1/google/apps/card/v1/TextParagraph;)V
+	public final fun component1 ()Lprotokt/v1/google/apps/card/v1/TextParagraph;
+	public final fun copy (Lprotokt/v1/google/apps/card/v1/TextParagraph;)Lprotokt/v1/google/apps/card/v1/Widget$Data$TextParagraph;
+	public static synthetic fun copy$default (Lprotokt/v1/google/apps/card/v1/Widget$Data$TextParagraph;Lprotokt/v1/google/apps/card/v1/TextParagraph;ILjava/lang/Object;)Lprotokt/v1/google/apps/card/v1/Widget$Data$TextParagraph;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getTextParagraph ()Lprotokt/v1/google/apps/card/v1/TextParagraph;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/apps/card/v1/Widget$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Widget;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Widget;
+}
+
+public abstract class protokt/v1/google/apps/card/v1/Widget$HorizontalAlignment : protokt/v1/Enum {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Widget$HorizontalAlignment$Deserializer;
+	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getName ()Ljava/lang/String;
+	public fun getValue ()I
+}
+
+public final class protokt/v1/google/apps/card/v1/Widget$HorizontalAlignment$CENTER : protokt/v1/google/apps/card/v1/Widget$HorizontalAlignment {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/Widget$HorizontalAlignment$CENTER;
+}
+
+public final class protokt/v1/google/apps/card/v1/Widget$HorizontalAlignment$Deserializer : protokt/v1/EnumReader {
+	public synthetic fun from (I)Lprotokt/v1/Enum;
+	public fun from (I)Lprotokt/v1/google/apps/card/v1/Widget$HorizontalAlignment;
+}
+
+public final class protokt/v1/google/apps/card/v1/Widget$HorizontalAlignment$END : protokt/v1/google/apps/card/v1/Widget$HorizontalAlignment {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/Widget$HorizontalAlignment$END;
+}
+
+public final class protokt/v1/google/apps/card/v1/Widget$HorizontalAlignment$HORIZONTAL_ALIGNMENT_UNSPECIFIED : protokt/v1/google/apps/card/v1/Widget$HorizontalAlignment {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/Widget$HorizontalAlignment$HORIZONTAL_ALIGNMENT_UNSPECIFIED;
+}
+
+public final class protokt/v1/google/apps/card/v1/Widget$HorizontalAlignment$START : protokt/v1/google/apps/card/v1/Widget$HorizontalAlignment {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/Widget$HorizontalAlignment$START;
+}
+
+public final class protokt/v1/google/apps/card/v1/Widget$HorizontalAlignment$UNRECOGNIZED : protokt/v1/google/apps/card/v1/Widget$HorizontalAlignment {
+	public fun <init> (I)V
+}
+
+public abstract class protokt/v1/google/apps/card/v1/Widget$ImageType : protokt/v1/Enum {
+	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Widget$ImageType$Deserializer;
+	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getName ()Ljava/lang/String;
+	public fun getValue ()I
+}
+
+public final class protokt/v1/google/apps/card/v1/Widget$ImageType$CIRCLE : protokt/v1/google/apps/card/v1/Widget$ImageType {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/Widget$ImageType$CIRCLE;
+}
+
+public final class protokt/v1/google/apps/card/v1/Widget$ImageType$Deserializer : protokt/v1/EnumReader {
+	public synthetic fun from (I)Lprotokt/v1/Enum;
+	public fun from (I)Lprotokt/v1/google/apps/card/v1/Widget$ImageType;
+}
+
+public final class protokt/v1/google/apps/card/v1/Widget$ImageType$SQUARE : protokt/v1/google/apps/card/v1/Widget$ImageType {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/Widget$ImageType$SQUARE;
+}
+
+public final class protokt/v1/google/apps/card/v1/Widget$ImageType$UNRECOGNIZED : protokt/v1/google/apps/card/v1/Widget$ImageType {
+	public fun <init> (I)V
+}
+
 public abstract class protokt/v1/google/cloud/OperationResponseMapping : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/cloud/OperationResponseMapping$Deserializer;
 	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -3965,6 +6263,150 @@ public final class protokt/v1/google/cloud/audit/ViolationInfo$PolicyType$POLICY
 
 public final class protokt/v1/google/cloud/audit/ViolationInfo$PolicyType$UNRECOGNIZED : protokt/v1/google/cloud/audit/ViolationInfo$PolicyType {
 	public fun <init> (I)V
+}
+
+public final class protokt/v1/google/cloud/location/GetLocationRequest : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/cloud/location/GetLocationRequest$Deserializer;
+	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/location/GetLocationRequest;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/cloud/location/GetLocationRequest;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getName ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/location/GetLocationRequest;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/cloud/location/GetLocationRequest$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/cloud/location/GetLocationRequest;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setName (Ljava/lang/String;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/cloud/location/GetLocationRequest$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/cloud/location/GetLocationRequest;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/location/GetLocationRequest;
+}
+
+public final class protokt/v1/google/cloud/location/ListLocationsRequest : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/cloud/location/ListLocationsRequest$Deserializer;
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/location/ListLocationsRequest;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/cloud/location/ListLocationsRequest;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFilter ()Ljava/lang/String;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getPageSize ()I
+	public final fun getPageToken ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/location/ListLocationsRequest;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/cloud/location/ListLocationsRequest$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/cloud/location/ListLocationsRequest;
+	public final fun getFilter ()Ljava/lang/String;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getPageSize ()I
+	public final fun getPageToken ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setFilter (Ljava/lang/String;)V
+	public final fun setName (Ljava/lang/String;)V
+	public final fun setPageSize (I)V
+	public final fun setPageToken (Ljava/lang/String;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/cloud/location/ListLocationsRequest$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/cloud/location/ListLocationsRequest;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/location/ListLocationsRequest;
+}
+
+public final class protokt/v1/google/cloud/location/ListLocationsResponse : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/cloud/location/ListLocationsResponse$Deserializer;
+	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/location/ListLocationsResponse;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/cloud/location/ListLocationsResponse;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getLocations ()Ljava/util/List;
+	public final fun getNextPageToken ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/location/ListLocationsResponse;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/cloud/location/ListLocationsResponse$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/cloud/location/ListLocationsResponse;
+	public final fun getLocations ()Ljava/util/List;
+	public final fun getNextPageToken ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setLocations (Ljava/util/List;)V
+	public final fun setNextPageToken (Ljava/lang/String;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/cloud/location/ListLocationsResponse$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/cloud/location/ListLocationsResponse;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/location/ListLocationsResponse;
+}
+
+public final class protokt/v1/google/cloud/location/Location : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/cloud/location/Location$Deserializer;
+	public synthetic fun <init> (Ljava/lang/String;Ljava/util/Map;Lprotokt/v1/google/protobuf/Any;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/location/Location;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/cloud/location/Location;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDisplayName ()Ljava/lang/String;
+	public final fun getLabels ()Ljava/util/Map;
+	public final fun getLocationId ()Ljava/lang/String;
+	public final fun getMetadata ()Lprotokt/v1/google/protobuf/Any;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/location/Location;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/cloud/location/Location$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/cloud/location/Location;
+	public final fun getDisplayName ()Ljava/lang/String;
+	public final fun getLabels ()Ljava/util/Map;
+	public final fun getLocationId ()Ljava/lang/String;
+	public final fun getMetadata ()Lprotokt/v1/google/protobuf/Any;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setDisplayName (Ljava/lang/String;)V
+	public final fun setLabels (Ljava/util/Map;)V
+	public final fun setLocationId (Ljava/lang/String;)V
+	public final fun setMetadata (Lprotokt/v1/google/protobuf/Any;)V
+	public final fun setName (Ljava/lang/String;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/cloud/location/Location$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/cloud/location/Location;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/location/Location;
 }
 
 public final class protokt/v1/google/geo/type/Viewport : protokt/v1/AbstractMessage {
@@ -5377,6 +7819,365 @@ public final class protokt/v1/google/rpc/context/AuditContext$Deserializer : pro
 	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
 	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/rpc/context/AuditContext;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/context/AuditContext;
+}
+
+public final class protokt/v1/google/shopping/type/Channel : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/shopping/type/Channel$Deserializer;
+	public synthetic fun <init> (Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/shopping/type/Channel;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/shopping/type/Channel;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/shopping/type/Channel;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/shopping/type/Channel$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/shopping/type/Channel;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public abstract class protokt/v1/google/shopping/type/Channel$ChannelEnum : protokt/v1/Enum {
+	public static final field Deserializer Lprotokt/v1/google/shopping/type/Channel$ChannelEnum$Deserializer;
+	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getName ()Ljava/lang/String;
+	public fun getValue ()I
+}
+
+public final class protokt/v1/google/shopping/type/Channel$ChannelEnum$CHANNEL_ENUM_UNSPECIFIED : protokt/v1/google/shopping/type/Channel$ChannelEnum {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/Channel$ChannelEnum$CHANNEL_ENUM_UNSPECIFIED;
+}
+
+public final class protokt/v1/google/shopping/type/Channel$ChannelEnum$Deserializer : protokt/v1/EnumReader {
+	public synthetic fun from (I)Lprotokt/v1/Enum;
+	public fun from (I)Lprotokt/v1/google/shopping/type/Channel$ChannelEnum;
+}
+
+public final class protokt/v1/google/shopping/type/Channel$ChannelEnum$LOCAL : protokt/v1/google/shopping/type/Channel$ChannelEnum {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/Channel$ChannelEnum$LOCAL;
+}
+
+public final class protokt/v1/google/shopping/type/Channel$ChannelEnum$ONLINE : protokt/v1/google/shopping/type/Channel$ChannelEnum {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/Channel$ChannelEnum$ONLINE;
+}
+
+public final class protokt/v1/google/shopping/type/Channel$ChannelEnum$UNRECOGNIZED : protokt/v1/google/shopping/type/Channel$ChannelEnum {
+	public fun <init> (I)V
+}
+
+public final class protokt/v1/google/shopping/type/Channel$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/shopping/type/Channel;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/shopping/type/Channel;
+}
+
+public final class protokt/v1/google/shopping/type/CustomAttribute : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/shopping/type/CustomAttribute$Deserializer;
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/shopping/type/CustomAttribute;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/shopping/type/CustomAttribute;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getGroupValues ()Ljava/util/List;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/shopping/type/CustomAttribute;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/shopping/type/CustomAttribute$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/shopping/type/CustomAttribute;
+	public final fun getGroupValues ()Ljava/util/List;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun getValue ()Ljava/lang/String;
+	public final fun setGroupValues (Ljava/util/List;)V
+	public final fun setName (Ljava/lang/String;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+	public final fun setValue (Ljava/lang/String;)V
+}
+
+public final class protokt/v1/google/shopping/type/CustomAttribute$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/shopping/type/CustomAttribute;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/shopping/type/CustomAttribute;
+}
+
+public final class protokt/v1/google/shopping/type/Destination : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/shopping/type/Destination$Deserializer;
+	public synthetic fun <init> (Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/shopping/type/Destination;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/shopping/type/Destination;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/shopping/type/Destination;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/shopping/type/Destination$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/shopping/type/Destination;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/shopping/type/Destination$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/shopping/type/Destination;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/shopping/type/Destination;
+}
+
+public abstract class protokt/v1/google/shopping/type/Destination$DestinationEnum : protokt/v1/Enum {
+	public static final field Deserializer Lprotokt/v1/google/shopping/type/Destination$DestinationEnum$Deserializer;
+	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getName ()Ljava/lang/String;
+	public fun getValue ()I
+}
+
+public final class protokt/v1/google/shopping/type/Destination$DestinationEnum$DESTINATION_ENUM_UNSPECIFIED : protokt/v1/google/shopping/type/Destination$DestinationEnum {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/Destination$DestinationEnum$DESTINATION_ENUM_UNSPECIFIED;
+}
+
+public final class protokt/v1/google/shopping/type/Destination$DestinationEnum$DISPLAY_ADS : protokt/v1/google/shopping/type/Destination$DestinationEnum {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/Destination$DestinationEnum$DISPLAY_ADS;
+}
+
+public final class protokt/v1/google/shopping/type/Destination$DestinationEnum$Deserializer : protokt/v1/EnumReader {
+	public synthetic fun from (I)Lprotokt/v1/Enum;
+	public fun from (I)Lprotokt/v1/google/shopping/type/Destination$DestinationEnum;
+}
+
+public final class protokt/v1/google/shopping/type/Destination$DestinationEnum$FREE_LISTINGS : protokt/v1/google/shopping/type/Destination$DestinationEnum {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/Destination$DestinationEnum$FREE_LISTINGS;
+}
+
+public final class protokt/v1/google/shopping/type/Destination$DestinationEnum$FREE_LOCAL_LISTINGS : protokt/v1/google/shopping/type/Destination$DestinationEnum {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/Destination$DestinationEnum$FREE_LOCAL_LISTINGS;
+}
+
+public final class protokt/v1/google/shopping/type/Destination$DestinationEnum$LOCAL_INVENTORY_ADS : protokt/v1/google/shopping/type/Destination$DestinationEnum {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/Destination$DestinationEnum$LOCAL_INVENTORY_ADS;
+}
+
+public final class protokt/v1/google/shopping/type/Destination$DestinationEnum$SHOPPING_ADS : protokt/v1/google/shopping/type/Destination$DestinationEnum {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/Destination$DestinationEnum$SHOPPING_ADS;
+}
+
+public final class protokt/v1/google/shopping/type/Destination$DestinationEnum$UNRECOGNIZED : protokt/v1/google/shopping/type/Destination$DestinationEnum {
+	public fun <init> (I)V
+}
+
+public final class protokt/v1/google/shopping/type/Destination$DestinationEnum$YOUTUBE_SHOPPING : protokt/v1/google/shopping/type/Destination$DestinationEnum {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/Destination$DestinationEnum$YOUTUBE_SHOPPING;
+}
+
+public final class protokt/v1/google/shopping/type/Price : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/shopping/type/Price$Deserializer;
+	public synthetic fun <init> (Ljava/lang/Long;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/shopping/type/Price;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/shopping/type/Price;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAmountMicros ()Ljava/lang/Long;
+	public final fun getCurrencyCode ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/shopping/type/Price;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/shopping/type/Price$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/shopping/type/Price;
+	public final fun getAmountMicros ()Ljava/lang/Long;
+	public final fun getCurrencyCode ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setAmountMicros (Ljava/lang/Long;)V
+	public final fun setCurrencyCode (Ljava/lang/String;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/shopping/type/Price$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/shopping/type/Price;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/shopping/type/Price;
+}
+
+public final class protokt/v1/google/shopping/type/ReportingContext : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/shopping/type/ReportingContext$Deserializer;
+	public synthetic fun <init> (Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/shopping/type/ReportingContext;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/shopping/type/ReportingContext;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/shopping/type/ReportingContext;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/shopping/type/ReportingContext$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/shopping/type/ReportingContext;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/shopping/type/ReportingContext$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/shopping/type/ReportingContext;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/shopping/type/ReportingContext;
+}
+
+public abstract class protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum : protokt/v1/Enum {
+	public static final field Deserializer Lprotokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$Deserializer;
+	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getName ()Ljava/lang/String;
+	public fun getValue ()I
+}
+
+public final class protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$CLOUD_RETAIL : protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$CLOUD_RETAIL;
+}
+
+public final class protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$DEMAND_GEN_ADS : protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$DEMAND_GEN_ADS;
+}
+
+public final class protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$DEMAND_GEN_ADS_DISCOVER_SURFACE : protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$DEMAND_GEN_ADS_DISCOVER_SURFACE;
+}
+
+public final class protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$DISCOVERY_ADS : protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$DISCOVERY_ADS;
+}
+
+public final class protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$DISPLAY_ADS : protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$DISPLAY_ADS;
+}
+
+public final class protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$Deserializer : protokt/v1/EnumReader {
+	public synthetic fun from (I)Lprotokt/v1/Enum;
+	public fun from (I)Lprotokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum;
+}
+
+public final class protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$FREE_LISTINGS : protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$FREE_LISTINGS;
+}
+
+public final class protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$FREE_LOCAL_LISTINGS : protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$FREE_LOCAL_LISTINGS;
+}
+
+public final class protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$FREE_LOCAL_VEHICLE_LISTINGS : protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$FREE_LOCAL_VEHICLE_LISTINGS;
+}
+
+public final class protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$LOCAL_CLOUD_RETAIL : protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$LOCAL_CLOUD_RETAIL;
+}
+
+public final class protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$LOCAL_INVENTORY_ADS : protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$LOCAL_INVENTORY_ADS;
+}
+
+public final class protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$REPORTING_CONTEXT_ENUM_UNSPECIFIED : protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$REPORTING_CONTEXT_ENUM_UNSPECIFIED;
+}
+
+public final class protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$SHOPPING_ADS : protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$SHOPPING_ADS;
+}
+
+public final class protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$UNRECOGNIZED : protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum {
+	public fun <init> (I)V
+}
+
+public final class protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$VEHICLE_INVENTORY_ADS : protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$VEHICLE_INVENTORY_ADS;
+}
+
+public final class protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$VIDEO_ADS : protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$VIDEO_ADS;
+}
+
+public final class protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$YOUTUBE_SHOPPING : protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$YOUTUBE_SHOPPING;
+}
+
+public final class protokt/v1/google/shopping/type/Weight : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/shopping/type/Weight$Deserializer;
+	public synthetic fun <init> (Ljava/lang/Long;Lprotokt/v1/google/shopping/type/Weight$WeightUnit;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/shopping/type/Weight;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/shopping/type/Weight;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAmountMicros ()Ljava/lang/Long;
+	public final fun getUnit ()Lprotokt/v1/google/shopping/type/Weight$WeightUnit;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/shopping/type/Weight;
+	public fun messageSize ()I
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/shopping/type/Weight$Builder {
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/shopping/type/Weight;
+	public final fun getAmountMicros ()Ljava/lang/Long;
+	public final fun getUnit ()Lprotokt/v1/google/shopping/type/Weight$WeightUnit;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setAmountMicros (Ljava/lang/Long;)V
+	public final fun setUnit (Lprotokt/v1/google/shopping/type/Weight$WeightUnit;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/shopping/type/Weight$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/shopping/type/Weight;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/shopping/type/Weight;
+}
+
+public abstract class protokt/v1/google/shopping/type/Weight$WeightUnit : protokt/v1/Enum {
+	public static final field Deserializer Lprotokt/v1/google/shopping/type/Weight$WeightUnit$Deserializer;
+	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getName ()Ljava/lang/String;
+	public fun getValue ()I
+}
+
+public final class protokt/v1/google/shopping/type/Weight$WeightUnit$Deserializer : protokt/v1/EnumReader {
+	public synthetic fun from (I)Lprotokt/v1/Enum;
+	public fun from (I)Lprotokt/v1/google/shopping/type/Weight$WeightUnit;
+}
+
+public final class protokt/v1/google/shopping/type/Weight$WeightUnit$KILOGRAM : protokt/v1/google/shopping/type/Weight$WeightUnit {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/Weight$WeightUnit$KILOGRAM;
+}
+
+public final class protokt/v1/google/shopping/type/Weight$WeightUnit$POUND : protokt/v1/google/shopping/type/Weight$WeightUnit {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/Weight$WeightUnit$POUND;
+}
+
+public final class protokt/v1/google/shopping/type/Weight$WeightUnit$UNRECOGNIZED : protokt/v1/google/shopping/type/Weight$WeightUnit {
+	public fun <init> (I)V
+}
+
+public final class protokt/v1/google/shopping/type/Weight$WeightUnit$WEIGHT_UNIT_UNSPECIFIED : protokt/v1/google/shopping/type/Weight$WeightUnit {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/Weight$WeightUnit$WEIGHT_UNIT_UNSPECIFIED;
 }
 
 public abstract class protokt/v1/google/type/CalendarPeriod : protokt/v1/Enum {
