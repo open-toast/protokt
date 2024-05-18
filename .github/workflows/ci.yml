@@ -23,6 +23,12 @@ jobs:
       run: npm install protobufjs@7.2.6 long@5.2.3
     - name: Build and test
       run: ./gradlew clean check publishToIntegrationRepository --stacktrace --no-daemon
+    - uses: EnricoMi/publish-unit-test-result-action@v2
+      if: always() && matrix.os == 'ubuntu-latest'
+      with:
+        files: "**/test-results/**/*.xml"
+        comment_mode: off
+        check_name: "Test Results"
     - uses: actions/upload-artifact@v4
       with:
         name: integration-repository
