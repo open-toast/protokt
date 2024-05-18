@@ -89,5 +89,8 @@ tasks {
         systemProperty("conformance-runner", conformanceExecutable.absolutePath)
         outputs.upToDateWhen { false }
         dependsOn(installConformance, TASK_INSTALL_NAME)
+        testLogging.showStandardStreams = true
+        maxHeapSize = "512m"
+        jvmArgs = listOf("-XX:MaxPermSize=512m")
     }
 }
