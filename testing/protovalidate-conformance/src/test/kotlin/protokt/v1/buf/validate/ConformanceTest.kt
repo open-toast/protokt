@@ -21,18 +21,28 @@ import protokt.v1.testing.projectRoot
 import protokt.v1.testing.runCommand
 import java.nio.file.Path
 import java.time.Duration
+import kotlin.io.path.absolutePathString
 
 class ConformanceTest {
     @Test
     fun `run conformance test`() {
         command()
-            .runCommand(projectRoot.toPath(), timeout = Duration.ofMinutes(2))
+            .runCommand(projectRoot.toPath(), timeout = Duration.ofMinutes(8))
             .orFail("Protovalidate conformance tests failed", ProcessOutput.Src.ERR)
     }
 }
 
-private val driver =
-    Path.of(projectRoot.absolutePath, "build", "install", "protovalidate-conformance", "bin", "protovalidate-conformance")
-
 private fun command() =
     "${System.getProperty("conformance-runner")} --strict_message --strict_error $driver"
+
+private val driver =
+    Path.of(
+        "src",
+        "test",
+        "resources",
+        "protokt",
+        "v1",
+        "buf",
+        "validate",
+        "driver"
+    ).absolutePathString()

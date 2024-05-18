@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec /Users/andrew.parmet/toast/git-repos/protokt/testing/protovalidate-conformance/build/install/protovalidate-conformance/bin/protovalidate-conformance -Xmx2048m

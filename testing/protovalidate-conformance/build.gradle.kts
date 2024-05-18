@@ -15,6 +15,7 @@
 
 import com.google.protobuf.gradle.GenerateProtoTask
 import com.google.protobuf.gradle.proto
+import org.gradle.api.distribution.plugins.DistributionPlugin.TASK_INSTALL_NAME
 
 plugins {
     id("protokt.jvm-conventions")
@@ -87,6 +88,6 @@ tasks {
     test {
         systemProperty("conformance-runner", conformanceExecutable.absolutePath)
         outputs.upToDateWhen { false }
-        dependsOn(installConformance)
+        dependsOn(installConformance, TASK_INSTALL_NAME)
     }
 }
