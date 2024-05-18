@@ -13,11 +13,8 @@
  * limitations under the License.
  */
 
-import com.android.build.gradle.internal.tasks.factory.dependsOn
 import com.google.protobuf.gradle.GenerateProtoTask
 import com.google.protobuf.gradle.proto
-import org.gradle.api.distribution.plugins.DistributionPlugin.TASK_INSTALL_NAME
-import org.gradle.language.base.plugins.LifecycleBasePlugin.CHECK_TASK_NAME
 
 plugins {
     id("protokt.jvm-conventions")
@@ -34,6 +31,7 @@ dependencies {
     implementation(libs.classgraph)
     implementation(libs.protovalidateJava)
 
+    testImplementation(project(":testing:testing-util"))
     testImplementation(libs.truth)
 }
 
@@ -85,19 +83,10 @@ application {
     mainClass.set("protokt.v1.buf.validate.conformance.Main")
 }
 
-val conformance =
-    tasks.register<Exec>("conformance") {
-        dependsOn(TASK_INSTALL_NAME, installConformance)
-        commandLine(
-            conformanceExecutable.absolutePath,
-            "--strict_message",
-            "--strict_error",
-            project.layout.buildDirectory
-                .file("install/protovalidate-conformance/bin/protovalidate-conformance")
-                .get()
-                .asFile
-                .absolutePath
-        )
+tasks {
+    test {
+        systemProperty("conformance-runner", conformanceExecutable.absolutePath)
+        outputs.upToDateWhen { false }
+        dependsOn(installConformance)
     }
-
-tasks.named(CHECK_TASK_NAME).dependsOn(conformance)
+}

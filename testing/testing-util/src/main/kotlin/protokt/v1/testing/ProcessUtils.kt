@@ -20,6 +20,7 @@ import protokt.v1.testing.ProcessOutput.Src.ERR
 import protokt.v1.testing.ProcessOutput.Src.OUT
 import java.io.File
 import java.nio.file.Path
+import java.time.Duration
 import java.util.concurrent.TimeUnit
 
 val projectRoot =
@@ -27,7 +28,8 @@ val projectRoot =
 
 fun String.runCommand(
     workingDir: Path,
-    env: Map<String, String> = emptyMap()
+    env: Map<String, String> = emptyMap(),
+    timeout: Duration = Duration.ofSeconds(10)
 ): ProcessOutput {
     println("Executing $this in $workingDir with $env")
 
@@ -39,7 +41,7 @@ fun String.runCommand(
             .apply { environment().putAll(env) }
             .start()
 
-    if (!proc.waitFor(10, TimeUnit.SECONDS)) {
+    if (!proc.waitFor(timeout.toSeconds(), TimeUnit.SECONDS)) {
         proc.destroyForcibly()
         fail("Process '$this' took too long")
     }
