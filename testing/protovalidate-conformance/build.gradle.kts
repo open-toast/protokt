@@ -16,6 +16,7 @@
 import com.google.protobuf.gradle.GenerateProtoTask
 import com.google.protobuf.gradle.proto
 import org.gradle.api.distribution.plugins.DistributionPlugin.TASK_INSTALL_NAME
+import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 plugins {
     id("protokt.jvm-conventions")
@@ -90,6 +91,7 @@ tasks {
         outputs.upToDateWhen { false }
         dependsOn(installConformance, TASK_INSTALL_NAME)
         testLogging.showStandardStreams = true
+        testLogging.events(TestLogEvent.FAILED)
         maxHeapSize = "512m"
         jvmArgs = listOf("-XX:MaxPermSize=512m")
     }
