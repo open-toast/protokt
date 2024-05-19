@@ -15,8 +15,8 @@
 
 package protokt.v1.buf.validate
 
+import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
-import protokt.v1.testing.ProcessOutput
 import protokt.v1.testing.projectRoot
 import protokt.v1.testing.runCommand
 import java.nio.file.Path
@@ -27,9 +27,10 @@ class ConformanceTest {
     @Test
     fun `run conformance test`() {
         try {
-            command()
-                .runCommand(projectRoot.toPath(), timeout = Duration.ofMinutes(8))
-                .orFail("Protovalidate conformance tests failed", ProcessOutput.Src.ERR)
+            val output = command().runCommand(projectRoot.toPath(), timeout = Duration.ofMinutes(8))
+            println(output.stderr)
+            assertThat(output.stderr).startsWith("PASS")
+            assertThat(output.stderr).contains("failed: 0")
         } catch (t: Throwable) {
             t.printStackTrace()
             throw t
