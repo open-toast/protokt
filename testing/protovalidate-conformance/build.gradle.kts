@@ -92,7 +92,5 @@ tasks {
         dependsOn(installConformance, TASK_INSTALL_NAME)
         testLogging.showStandardStreams = true
         testLogging.events(TestLogEvent.FAILED)
-        maxHeapSize = "512m"
-        jvmArgs = listOf("-XX:MaxPermSize=512m")
     }
 }
