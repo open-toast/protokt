@@ -26,9 +26,14 @@ import kotlin.io.path.absolutePathString
 class ConformanceTest {
     @Test
     fun `run conformance test`() {
-        command()
-            .runCommand(projectRoot.toPath(), timeout = Duration.ofMinutes(8))
-            .orFail("Protovalidate conformance tests failed", ProcessOutput.Src.ERR)
+        try {
+            command()
+                .runCommand(projectRoot.toPath(), timeout = Duration.ofMinutes(8))
+                .orFail("Protovalidate conformance tests failed", ProcessOutput.Src.ERR)
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            throw t
+        }
     }
 }
 
