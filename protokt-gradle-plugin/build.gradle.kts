@@ -21,15 +21,15 @@ plugins {
 }
 
 gradlePlugin {
-    website.set(ProtoktProjectInfo.url)
-    vcsUrl.set(ProtoktProjectInfo.url)
+    website.set(ProtoktProjectInfo.URL)
+    vcsUrl.set(ProtoktProjectInfo.URL)
 
     plugins {
         create("protokt") {
             id = "com.toasttab.protokt"
             implementationClass = "protokt.v1.gradle.ProtoktPlugin"
-            displayName = ProtoktProjectInfo.name
-            description = ProtoktProjectInfo.description
+            displayName = ProtoktProjectInfo.NAME
+            description = ProtoktProjectInfo.DESCRIPTION
             tags.set(listOf("protobuf", "kotlin"))
         }
     }
