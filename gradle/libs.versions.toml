@@ -23,7 +23,7 @@ ktlint = "1.2.1"
 protobuf-java = "3.21.7"
 protobuf-js = "7.2.6"
 protobufGradlePlugin = "0.9.4"
-slf4j = "2.0.6"
+slf4j = "2.0.13"
 
 # build
 androidGradlePlugin = "7.4.2"
