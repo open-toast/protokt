@@ -76,7 +76,10 @@ abstract class AbstractProtoktCodegenTest {
         listOf(
             System.getenv("PROTOC_PATH") ?: "protoc",
             "--plugin=protoc-gen-custom=$binGenerator",
-            "--custom_out=.", // ignored
+
+            // ignored
+            "--custom_out=.",
+
             "-I$testDir",
             "-I$extensionsProto",
             "-I$includeProtos",

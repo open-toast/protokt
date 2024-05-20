@@ -230,7 +230,8 @@ private class MessageGenerator(
 
 fun formatDoc(lines: List<String>) =
     CodeBlock.of(
-        "%L", // escape the entire comment block
+        // escape the entire comment block
+        "%L",
         lines.joinToString(" ") {
             if (it.isBlank()) {
                 "\n\n"
