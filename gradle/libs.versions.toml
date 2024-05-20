@@ -46,7 +46,7 @@ wire = "4.9.9"
 # test
 classgraph = "4.8.153"
 grpc-js = "1.8.14"
-jackson = "2.17.0"
+jackson = "2.17.1"
 junit = "5.10.2"
 truth = "1.4.2"
 
