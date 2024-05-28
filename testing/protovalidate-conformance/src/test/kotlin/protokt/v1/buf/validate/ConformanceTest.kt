@@ -21,7 +21,6 @@ import protokt.v1.testing.projectRoot
 import protokt.v1.testing.runCommand
 import java.nio.file.Path
 import java.time.Duration
-import kotlin.io.path.absolutePathString
 
 class ConformanceTest {
     @Test
