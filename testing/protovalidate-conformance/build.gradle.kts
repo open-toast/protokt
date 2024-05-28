@@ -21,9 +21,18 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 plugins {
     id("protokt.jvm-conventions")
     application
+    // id("org.graalvm.buildtools.native") version "0.10.2"
 }
 
 localProtokt(false)
+
+/*
+graalvmNative {
+    binaries.all {
+        resources.autodetect()
+    }
+}
+ */
 
 dependencies {
     implementation(project(":protokt-protovalidate"))

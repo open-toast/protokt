@@ -26,26 +26,48 @@ import com.google.protobuf.Descriptors
 import com.google.protobuf.ExtensionRegistry
 import protokt.v1.Message
 import protokt.v1.buf.validate.ProtoktValidator
+import java.io.File
+import java.time.Instant
+
+fun stats(): Any {
+    return Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()
+}
+
+fun withStats(act: File.() -> Unit) {
+    val stats = File("/Users/andrew.parmet/Desktop/protovalidate-stats.txt")
+
+    if (false) {
+        if (!stats.exists()) {
+            stats.createNewFile()
+        }
+        stats.act()
+    }
+}
 
 object Main {
     @JvmStatic
     fun main(args: Array<String>) {
+        withStats { appendText("${Instant.now()} Starting\n") }
+        withStats { appendText("${Instant.now()} Env: ${System.getenv()}\n") }
         val extensionRegistry = ExtensionRegistry.newInstance()
         extensionRegistry.add(ValidateProto.message)
         extensionRegistry.add(ValidateProto.field)
         extensionRegistry.add(ValidateProto.oneof)
         val request = TestConformanceRequest.parseFrom(System.`in`, extensionRegistry)
         testConformance(request).writeTo(System.out)
+        withStats { appendText("${Instant.now()} Ending\n") }
     }
 
     private fun testConformance(request: TestConformanceRequest): TestConformanceResponse {
         val descriptorMap = parse(request.fdset)
         val validator = ProtoktValidator()
         loadValidDescriptors(validator, descriptorMap.values)
+        var idx = 0
         return TestConformanceResponse
             .newBuilder()
             .putAllResults(
                 request.casesMap.mapValues { (_, value) ->
+                    withStats { appendText("${Instant.now()} Finished case ${++idx}; used memory: ${stats()}\n") }
                     testCase(validator, descriptorMap, value)
                 }
             )

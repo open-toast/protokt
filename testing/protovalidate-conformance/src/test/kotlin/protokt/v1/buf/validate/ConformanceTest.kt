@@ -27,7 +27,11 @@ class ConformanceTest {
     @Test
     fun `run conformance test`() {
         try {
-            val output = command().runCommand(projectRoot.toPath(), timeout = Duration.ofMinutes(8))
+            val output = command().runCommand(
+                projectRoot.toPath(),
+                env = mapOf("JAVA_OPTS" to "-Xmx32M"),
+                timeout = Duration.ofMinutes(8)
+            )
             println(output.stderr)
             assertThat(output.stderr).startsWith("PASS")
             assertThat(output.stderr).contains("failed: 0")

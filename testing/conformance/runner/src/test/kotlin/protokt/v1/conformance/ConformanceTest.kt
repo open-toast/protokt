@@ -19,7 +19,6 @@ import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
-import protokt.v1.testing.ProcessOutput
 import protokt.v1.testing.projectRoot
 import protokt.v1.testing.runCommand
 import java.io.File
