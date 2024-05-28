@@ -17,7 +17,7 @@ package protokt.v1.codegen.util
 
 import com.google.common.base.CaseFormat
 import com.squareup.kotlinpoet.asClassName
-import protokt.v1.gradle.APPLIED_KOTLIN_PLUGIN
+import protokt.v1.gradle.KOTLIN_TARGET
 import protokt.v1.gradle.FORMAT_OUTPUT
 import protokt.v1.gradle.GENERATE_DESCRIPTORS
 import protokt.v1.gradle.GENERATE_GRPC_DESCRIPTORS
@@ -45,7 +45,7 @@ internal class PluginParams(
     val generateGrpcDescriptors = params.getOrDefault<Generate>(GENERATE_GRPC_DESCRIPTORS)
     val generateGrpcKotlinStubs = params.getOrDefault<Generate>(GENERATE_GRPC_KOTLIN_STUBS)
     val formatOutput = params.getOrDefault<ProtoktExtension>(FORMAT_OUTPUT)
-    val appliedKotlinPlugin = params[APPLIED_KOTLIN_PLUGIN]?.toKotlinPluginEnum()
+    val kotlinTarget = params[KOTLIN_TARGET]?.toKotlinPluginEnum()
 }
 
 private inline fun <reified T> Map<String, String>.getOrDefault(key: String): Boolean {
@@ -74,15 +74,15 @@ private inline fun <reified T> Map<String, String>.getOrDefault(key: String): Bo
 
 private fun String.toKotlinPluginEnum() =
     when (this) {
-        "org.jetbrains.kotlin.multiplatform" -> KotlinPlugin.MULTIPLATFORM
-        "org.jetbrains.kotlin.js" -> KotlinPlugin.JS
-        "org.jetbrains.kotlin.jvm" -> KotlinPlugin.JVM
-        "org.jetbrains.kotlin.android" -> KotlinPlugin.ANDROID
+        "common" -> KotlinTarget.COMMON
+        "js" -> KotlinTarget.JS
+        "jvm" -> KotlinTarget.JVM
+        "android" -> KotlinTarget.ANDROID
         else -> null
     }
 
-enum class KotlinPlugin {
-    MULTIPLATFORM,
+enum class KotlinTarget {
+    COMMON,
     JS,
     JVM,
     ANDROID

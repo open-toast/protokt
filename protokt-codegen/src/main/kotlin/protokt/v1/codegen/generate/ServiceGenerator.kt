@@ -45,7 +45,7 @@ import io.grpc.kotlin.ClientCalls
 import io.grpc.kotlin.ServerCalls
 import kotlinx.coroutines.flow.Flow
 import protokt.v1.codegen.generate.CodeGenerator.Context
-import protokt.v1.codegen.util.KotlinPlugin
+import protokt.v1.codegen.util.KotlinTarget
 import protokt.v1.codegen.util.Method
 import protokt.v1.codegen.util.PROTOKT_V1_GOOGLE_PROTO
 import protokt.v1.codegen.util.Service
@@ -57,13 +57,13 @@ import kotlin.reflect.KClass
 import kotlin.reflect.KFunction1
 import kotlin.reflect.KFunction3
 
-internal fun generateService(s: Service, ctx: Context, kotlinPlugin: KotlinPlugin?) =
-    ServiceGenerator(s, ctx, kotlinPlugin).generate()
+internal fun generateService(s: Service, ctx: Context, kotlinTarget: KotlinTarget?) =
+    ServiceGenerator(s, ctx, kotlinTarget).generate()
 
 private class ServiceGenerator(
     private val s: Service,
     private val ctx: Context,
-    private val kotlinPlugin: KotlinPlugin?
+    private val kotlinTarget: KotlinTarget?
 ) {
     fun generate(): List<TypeSpec> =
         (grpcImplementations() + serviceDescriptor()).filterNotNull()
@@ -106,7 +106,7 @@ private class ServiceGenerator(
                 }
 
             val grpcKtObject =
-                if (kotlinPlugin == KotlinPlugin.JS && ctx.info.context.generateGrpcKotlinStubs) {
+                if (kotlinTarget == KotlinTarget.JS && ctx.info.context.generateGrpcKotlinStubs) {
                     val grpcKtClassName = ClassName(ctx.info.kotlinPackage, s.name + "GrpcKt")
                     TypeSpec.objectBuilder(grpcKtClassName)
                         .addType(
@@ -404,9 +404,8 @@ private class ServiceGenerator(
         }
 
     private fun pivotClassName(jvmClass: KClass<*>) =
-        when (kotlinPlugin) {
-            KotlinPlugin.JS -> ClassName(KtMarshaller::class.java.`package`!!.name, jvmClass.asTypeName().simpleNames)
-            KotlinPlugin.MULTIPLATFORM -> error("unsupported plugin for service generation: $kotlinPlugin")
+        when (kotlinTarget) {
+            KotlinTarget.JS -> ClassName(KtMarshaller::class.java.`package`!!.name, jvmClass.asTypeName().simpleNames)
             else -> jvmClass.asTypeName()
         }
 
@@ -416,15 +415,14 @@ private class ServiceGenerator(
         }
 
     private fun <T> pivotPlugin(jvm: T, js: T) =
-        when (kotlinPlugin) {
-            KotlinPlugin.JS -> js
-            KotlinPlugin.MULTIPLATFORM -> error("unsupported plugin for service generation: $kotlinPlugin")
+        when (kotlinTarget) {
+            KotlinTarget.JS -> js
             else -> jvm
         }
 
     private fun FunSpec.Builder.staticIfAppropriate() =
         apply {
-            if (kotlinPlugin != KotlinPlugin.JS) {
+            if (kotlinTarget != KotlinTarget.JS) {
                 addAnnotation(JvmStatic::class)
             }
         }

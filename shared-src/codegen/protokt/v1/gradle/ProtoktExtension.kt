@@ -21,7 +21,7 @@ const val GENERATE_DESCRIPTORS = "generate_descriptors"
 const val GENERATE_GRPC_DESCRIPTORS = "generate_grpc_descriptors"
 const val GENERATE_GRPC_KOTLIN_STUBS = "generate_grpc_kotlin_stubs"
 const val FORMAT_OUTPUT = "format_output"
-const val APPLIED_KOTLIN_PLUGIN = "applied_kotlin_plugin"
+const val KOTLIN_TARGET = "kotlin_target"
 
 open class ProtoktExtension {
     /**
