@@ -78,6 +78,7 @@ external interface ServerWritableStream<ReqT, RespT> : ServerSurfaceCall, Object
 
 @Beta
 external interface ObjectWritable<T> : Writable {
+    @Suppress("ktlint:standard:function-naming")
     fun _write(chunk: T, encoding: String, callback: Any)
     fun write(chunk: T, callback: Any?): Boolean
     fun write(chunk: T, encoding: Any?, callback: Any?): Boolean

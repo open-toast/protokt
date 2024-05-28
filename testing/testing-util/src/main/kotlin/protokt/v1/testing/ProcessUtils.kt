@@ -73,6 +73,7 @@ data class ProcessOutput(
     }
 
     enum class Src {
-        OUT, ERR
+        OUT,
+        ERR
     }
 }

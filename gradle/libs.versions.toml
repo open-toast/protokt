@@ -14,7 +14,7 @@
 [versions]
 autoService = "1.1.1"
 cel = "0.4.4"
-grpc-java = "1.63.0"
+grpc-java = "1.64.0"
 grpc-kotlin = "1.4.1"
 kotlinLogging = "5.1.0"
 kotlinPoet = "1.16.0"
@@ -26,7 +26,7 @@ protobuf-js = "7.2.6"
 protobufGradlePlugin = "0.9.4"
 protovalidate = "0.6.4"
 protovalidateJava = "0.2.1"
-slf4j = "2.0.6"
+slf4j = "2.0.13"
 
 # build
 androidGradlePlugin = "7.4.2"
@@ -38,7 +38,7 @@ gummyBears = "0.8.0"
 java = "11"
 kotlin = "1.9.23"
 pluginPublish = "1.2.1"
-spotless = "6.21.0"
+spotless = "6.25.0"
 
 # benchmarks
 datasets = "0.1.0"
@@ -50,7 +50,7 @@ wire = "4.9.9"
 buf = "1.31.0"
 classgraph = "4.8.153"
 grpc-js = "1.8.14"
-jackson = "2.17.0"
+jackson = "2.17.1"
 junit = "5.10.2"
 truth = "1.4.2"
 
