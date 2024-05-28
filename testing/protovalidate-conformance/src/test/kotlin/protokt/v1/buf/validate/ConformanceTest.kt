@@ -46,13 +46,4 @@ private fun command() =
     "${System.getProperty("conformance-runner")} --strict_message --strict_error $driver"
 
 private val driver =
-    Path.of(
-        "src",
-        "test",
-        "resources",
-        "protokt",
-        "v1",
-        "buf",
-        "validate",
-        "driver"
-    ).absolutePathString()
+    Path.of(projectRoot.absolutePath, "build", "install", "protovalidate-conformance", "bin", "protovalidate-conformance")
