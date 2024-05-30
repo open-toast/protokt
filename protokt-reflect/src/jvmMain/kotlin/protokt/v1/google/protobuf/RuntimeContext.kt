@@ -37,7 +37,6 @@ import protokt.v1.reflect.WellKnownTypes
 import protokt.v1.reflect.inferClassName
 import protokt.v1.reflect.resolvePackage
 import protokt.v1.reflect.typeName
-import java.util.concurrent.ConcurrentHashMap
 import kotlin.Any
 import kotlin.reflect.full.findAnnotation
 
@@ -48,11 +47,7 @@ class RuntimeContext internal constructor(
 ) {
     constructor(descriptors: Iterable<Descriptors.Descriptor>) : this(descriptors, ClassLookup(emptyList()))
 
-    internal val descriptorsByTypeName = ConcurrentHashMap(descriptors.associateBy { it.fullName })
-
-    fun add(descriptor: Descriptors.Descriptor) {
-        descriptorsByTypeName[descriptor.fullName] = descriptor
-    }
+    internal val descriptorsByTypeName = descriptors.associateBy { it.fullName }
 
     fun convertValue(value: Any) =
         when (value) {

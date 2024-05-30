@@ -29,6 +29,7 @@ import protokt.v1.GeneratedMessage
 import protokt.v1.Message
 import protokt.v1.google.protobuf.RuntimeContext
 import protokt.v1.google.protobuf.toDynamicMessage
+import java.util.Collections
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.reflect.full.findAnnotation
 
@@ -45,12 +46,20 @@ class Validator @JvmOverloads constructor(
     private val failFast = config.isFailFast
 
     private val evaluatorsByFullTypeName = ConcurrentHashMap<String, Evaluator>()
-    private val runtimeContext = RuntimeContext(emptyList())
+    private val descriptors = Collections.newSetFromMap(ConcurrentHashMap<Descriptor, Boolean>())
+
+    @Volatile
+    private var runtimeContext = RuntimeContext(emptyList())
 
     fun load(descriptor: Descriptor) {
-        runtimeContext.add(descriptor)
+        doLoad(descriptor)
+        runtimeContext = RuntimeContext(descriptors)
+    }
+
+    private fun doLoad(descriptor: Descriptor) {
+        descriptors.add(descriptor)
         evaluatorsByFullTypeName[descriptor.fullName] = evaluatorBuilder.load(descriptor)
-        descriptor.nestedTypes.forEach(::load)
+        descriptor.nestedTypes.forEach(::doLoad)
     }
 
     fun validate(message: Message): ValidationResult =
