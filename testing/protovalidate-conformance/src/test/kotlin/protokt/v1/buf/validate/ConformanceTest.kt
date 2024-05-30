@@ -29,7 +29,7 @@ class ConformanceTest {
             val output = command().runCommand(
                 projectRoot.toPath(),
                 env = mapOf(
-                    "JAVA_OPTS" to "-Xmx32M",
+                    "JAVA_OPTS" to "-Xmx64M",
                     "GOMEMLIMIT" to "32000000"
                 ),
                 timeout = Duration.ofMinutes(8)
