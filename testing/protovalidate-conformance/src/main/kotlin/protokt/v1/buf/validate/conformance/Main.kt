@@ -26,8 +26,6 @@ import com.google.protobuf.Descriptors
 import com.google.protobuf.ExtensionRegistry
 import protokt.v1.Message
 import protokt.v1.buf.validate.ProtoktValidator
-import java.io.File
-import java.time.Instant
 
 object Main {
     @JvmStatic
