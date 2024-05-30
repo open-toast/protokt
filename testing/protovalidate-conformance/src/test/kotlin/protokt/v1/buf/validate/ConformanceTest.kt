@@ -28,12 +28,16 @@ class ConformanceTest {
         try {
             val output = command().runCommand(
                 projectRoot.toPath(),
-                env = mapOf("JAVA_OPTS" to "-Xmx32M"),
+                env = mapOf(
+                    "JAVA_OPTS" to "-Xmx32M",
+                    "GOMEMLIMIT" to "32000000"
+                ),
                 timeout = Duration.ofMinutes(8)
             )
             println(output.stderr)
             assertThat(output.stderr).startsWith("PASS")
             assertThat(output.stderr).contains("failed: 0")
+            assertThat(output.exitCode).isEqualTo(0)
         } catch (t: Throwable) {
             t.printStackTrace()
             throw t

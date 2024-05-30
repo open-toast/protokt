@@ -36,7 +36,6 @@ class ConformanceTest {
                 jvmConformanceDriver
         },
 
-        /*
         JS_IR("js-ir") {
             override fun driver() =
                 jsConformanceDriver(project)
@@ -48,8 +47,6 @@ class ConformanceTest {
                 }
             }
         }, // https://github.com/pinterest/ktlint/issues/1933
-
-         */
         ;
 
         abstract fun driver(): Path
@@ -74,6 +71,7 @@ class ConformanceTest {
             // the current implementation runs two conformance suites
             assertThat(matches).hasSize(2)
             matches.forEach { assertThat(it.groupValues[1].toInt()).isEqualTo(0) }
+            assertThat(output.exitCode).isEqualTo(0)
         } catch (t: Throwable) {
             if (failingTests.exists()) {
                 println("Failing tests:\n" + failingTests.readText())
