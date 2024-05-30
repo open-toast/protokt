@@ -33,7 +33,7 @@ import java.util.concurrent.ConcurrentHashMap
 import kotlin.reflect.full.findAnnotation
 
 @Beta
-class ProtoktValidator @JvmOverloads constructor(
+class Validator @JvmOverloads constructor(
     config: Config = Config.newBuilder().build()
 ) {
     private val evaluatorBuilder =

@@ -17,7 +17,7 @@ package protokt.v1.buf.validate
 
 import protokt.v1.Message
 
-class ProtoktDynamicMessageTest : AbstractProtoktValidatorTest() {
+class ProtoktDynamicMessageTest : AbstractValidatorTest() {
     override fun validate(message: Message) =
         validator.validate(message)
 }

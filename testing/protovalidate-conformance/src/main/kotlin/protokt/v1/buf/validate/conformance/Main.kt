@@ -25,7 +25,7 @@ import build.buf.validate.Violations
 import com.google.protobuf.Descriptors
 import com.google.protobuf.ExtensionRegistry
 import protokt.v1.Message
-import protokt.v1.buf.validate.ProtoktValidator
+import protokt.v1.buf.validate.Validator
 
 object Main {
     @JvmStatic
@@ -40,7 +40,7 @@ object Main {
 
     private fun testConformance(request: TestConformanceRequest): TestConformanceResponse {
         val descriptorMap = parse(request.fdset)
-        val validator = ProtoktValidator()
+        val validator = Validator()
         loadValidDescriptors(validator, descriptorMap.values)
         return TestConformanceResponse
             .newBuilder()
@@ -52,7 +52,7 @@ object Main {
             .build()
     }
 
-    private fun loadValidDescriptors(validator: ProtoktValidator, descriptors: Iterable<Descriptors.Descriptor>) {
+    private fun loadValidDescriptors(validator: Validator, descriptors: Iterable<Descriptors.Descriptor>) {
         descriptors.forEach {
             try {
                 validator.load(it)
@@ -63,7 +63,7 @@ object Main {
     }
 
     private fun testCase(
-        validator: ProtoktValidator,
+        validator: Validator,
         fileDescriptors: Map<String, Descriptors.Descriptor>,
         testCase: com.google.protobuf.Any
     ): TestResult {
@@ -80,7 +80,7 @@ object Main {
         return validate(validator, DynamicConcreteMessageDeserializer.parse(fullName, testCase.value))
     }
 
-    private fun validate(validator: ProtoktValidator, message: Message) =
+    private fun validate(validator: Validator, message: Message) =
         try {
             val result = validator.validate(message)
             if (result.isSuccess) {

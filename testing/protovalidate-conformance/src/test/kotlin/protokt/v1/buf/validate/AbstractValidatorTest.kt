@@ -44,8 +44,8 @@ import protokt.v1.buf.validate.conformance.cases.repeated_file_descriptor
 import protokt.v1.buf.validate.conformance.cases.strings_file_descriptor
 import protokt.v1.google.protobuf.FileDescriptor
 
-abstract class AbstractProtoktValidatorTest {
-    protected val validator = ProtoktValidator()
+abstract class AbstractValidatorTest {
+    protected val validator = Validator()
 
     abstract fun validate(message: Message): ValidationResult
 
