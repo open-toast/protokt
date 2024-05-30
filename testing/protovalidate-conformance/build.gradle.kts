@@ -16,23 +16,13 @@
 import com.google.protobuf.gradle.GenerateProtoTask
 import com.google.protobuf.gradle.proto
 import org.gradle.api.distribution.plugins.DistributionPlugin.TASK_INSTALL_NAME
-import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 plugins {
     id("protokt.jvm-conventions")
     application
-    // id("org.graalvm.buildtools.native") version "0.10.2"
 }
 
 localProtokt(false)
-
-/*
-graalvmNative {
-    binaries.all {
-        resources.autodetect()
-    }
-}
- */
 
 dependencies {
     implementation(project(":protokt-protovalidate"))
@@ -99,7 +89,5 @@ tasks {
         systemProperty("conformance-runner", conformanceExecutable.absolutePath)
         outputs.upToDateWhen { false }
         dependsOn(installConformance, TASK_INSTALL_NAME)
-        testLogging.showStandardStreams = true
-        testLogging.events(TestLogEvent.FAILED)
     }
 }
