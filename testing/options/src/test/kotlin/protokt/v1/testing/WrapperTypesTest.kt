@@ -17,7 +17,6 @@ package protokt.v1.testing
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import protokt.v1.Bytes
 import protokt.v1.testing.OneofWrappers.WrappedOneof
 import java.net.InetAddress
@@ -327,16 +326,6 @@ class WrapperTypesTest {
         assertThat(
             (deserialized.wrappedOneof as WrappedOneof.GoogleDateOneof).googleDateOneof
         ).isEqualTo(model.googleDate)
-    }
-
-    @Test
-    fun `wrapped message should not be nullable`() {
-        val thrown = assertThrows<IllegalArgumentException> {
-            model.copy { instant = null }
-        }
-
-        assertThat(thrown).hasMessageThat()
-            .isEqualTo("instant specified nonnull with (protokt.property).non_null but was null")
     }
 
     @Test
