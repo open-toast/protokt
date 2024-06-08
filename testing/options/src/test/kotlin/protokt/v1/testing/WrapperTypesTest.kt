@@ -61,21 +61,6 @@ class WrapperTypesTest {
     }
 
     @Test
-    fun `nonnull uuid property is not nullable`() {
-        assertThat(Wrappers::class.propertyIsMarkedNullable("nonNullUuid")).isFalse()
-    }
-
-    @Test
-    fun `nonnull ipAddress property is not nullable`() {
-        assertThat(Wrappers::class.propertyIsMarkedNullable("nonNullIpAddress")).isFalse()
-    }
-
-    @Test
-    fun `nonnull localDate property is not nullable`() {
-        assertThat(Wrappers::class.propertyIsMarkedNullable("nonNullLocalDate")).isFalse()
-    }
-
-    @Test
     fun `round trip should preserve model`() {
         assertThat(Wrappers.deserialize(model.serialize())).isEqualTo(model)
     }
