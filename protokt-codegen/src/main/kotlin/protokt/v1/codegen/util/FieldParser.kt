@@ -27,7 +27,6 @@ import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.google.protobuf.DescriptorProtos.OneofDescriptorProto
 import com.squareup.kotlinpoet.ClassName
 import com.toasttab.protokt.v1.ProtoktProtos
-import protokt.v1.codegen.generate.Wrapper.wrapperRequiresNonNullOptionForNonNullity
 import protokt.v1.codegen.util.ErrorContext.withFieldName
 import protokt.v1.reflect.FieldType
 import protokt.v1.reflect.typeName
