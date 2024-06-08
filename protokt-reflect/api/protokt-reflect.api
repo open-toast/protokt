@@ -240,7 +240,6 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$FieldOptions : com/goog
 	public static final field BYTES_SLICE_FIELD_NUMBER I
 	public static final field DEPRECATION_MESSAGE_FIELD_NUMBER I
 	public static final field KEY_WRAP_FIELD_NUMBER I
-	public static final field NON_NULL_FIELD_NUMBER I
 	public static final field VALUE_WRAP_FIELD_NUMBER I
 	public static final field WRAP_FIELD_NUMBER I
 	public fun equals (Ljava/lang/Object;)Z
@@ -254,7 +253,6 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$FieldOptions : com/goog
 	public static final fun getDescriptor ()Lcom/google/protobuf/Descriptors$Descriptor;
 	public fun getKeyWrap ()Ljava/lang/String;
 	public fun getKeyWrapBytes ()Lcom/google/protobuf/ByteString;
-	public fun getNonNull ()Z
 	public fun getParserForType ()Lcom/google/protobuf/Parser;
 	public fun getSerializedSize ()I
 	public final fun getUnknownFields ()Lcom/google/protobuf/UnknownFieldSet;
@@ -309,7 +307,6 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder : 
 	public synthetic fun clearField (Lcom/google/protobuf/Descriptors$FieldDescriptor;)Lcom/google/protobuf/Message$Builder;
 	public fun clearField (Lcom/google/protobuf/Descriptors$FieldDescriptor;)Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
 	public fun clearKeyWrap ()Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
-	public fun clearNonNull ()Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
 	public synthetic fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/google/protobuf/AbstractMessage$Builder;
 	public synthetic fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
 	public synthetic fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/google/protobuf/Message$Builder;
@@ -333,7 +330,6 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder : 
 	public fun getDescriptorForType ()Lcom/google/protobuf/Descriptors$Descriptor;
 	public fun getKeyWrap ()Ljava/lang/String;
 	public fun getKeyWrapBytes ()Lcom/google/protobuf/ByteString;
-	public fun getNonNull ()Z
 	public fun getValueWrap ()Ljava/lang/String;
 	public fun getValueWrapBytes ()Lcom/google/protobuf/ByteString;
 	public fun getWrap ()Ljava/lang/String;
@@ -360,7 +356,6 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder : 
 	public fun setField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
 	public fun setKeyWrap (Ljava/lang/String;)Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
 	public fun setKeyWrapBytes (Lcom/google/protobuf/ByteString;)Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
-	public fun setNonNull (Z)Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
 	public synthetic fun setRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;ILjava/lang/Object;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
 	public synthetic fun setRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;ILjava/lang/Object;)Lcom/google/protobuf/Message$Builder;
 	public fun setRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;ILjava/lang/Object;)Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
@@ -379,7 +374,6 @@ public abstract interface class com/toasttab/protokt/v1/ProtoktProtos$FieldOptio
 	public abstract fun getDeprecationMessageBytes ()Lcom/google/protobuf/ByteString;
 	public abstract fun getKeyWrap ()Ljava/lang/String;
 	public abstract fun getKeyWrapBytes ()Lcom/google/protobuf/ByteString;
-	public abstract fun getNonNull ()Z
 	public abstract fun getValueWrap ()Ljava/lang/String;
 	public abstract fun getValueWrapBytes ()Lcom/google/protobuf/ByteString;
 	public abstract fun getWrap ()Ljava/lang/String;
@@ -733,7 +727,6 @@ public abstract interface class com/toasttab/protokt/v1/ProtoktProtos$MethodOpti
 public final class com/toasttab/protokt/v1/ProtoktProtos$OneofOptions : com/google/protobuf/GeneratedMessageV3, com/toasttab/protokt/v1/ProtoktProtos$OneofOptionsOrBuilder {
 	public static final field DEPRECATION_MESSAGE_FIELD_NUMBER I
 	public static final field IMPLEMENTS_FIELD_NUMBER I
-	public static final field NON_NULL_FIELD_NUMBER I
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun getDefaultInstance ()Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions;
 	public synthetic fun getDefaultInstanceForType ()Lcom/google/protobuf/Message;
@@ -744,7 +737,6 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$OneofOptions : com/goog
 	public static final fun getDescriptor ()Lcom/google/protobuf/Descriptors$Descriptor;
 	public fun getImplements ()Ljava/lang/String;
 	public fun getImplementsBytes ()Lcom/google/protobuf/ByteString;
-	public fun getNonNull ()Z
 	public fun getParserForType ()Lcom/google/protobuf/Parser;
 	public fun getSerializedSize ()I
 	public final fun getUnknownFields ()Lcom/google/protobuf/UnknownFieldSet;
@@ -794,7 +786,6 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder : 
 	public synthetic fun clearField (Lcom/google/protobuf/Descriptors$FieldDescriptor;)Lcom/google/protobuf/Message$Builder;
 	public fun clearField (Lcom/google/protobuf/Descriptors$FieldDescriptor;)Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
 	public fun clearImplements ()Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
-	public fun clearNonNull ()Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
 	public synthetic fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/google/protobuf/AbstractMessage$Builder;
 	public synthetic fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
 	public synthetic fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/google/protobuf/Message$Builder;
@@ -815,7 +806,6 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder : 
 	public fun getDescriptorForType ()Lcom/google/protobuf/Descriptors$Descriptor;
 	public fun getImplements ()Ljava/lang/String;
 	public fun getImplementsBytes ()Lcom/google/protobuf/ByteString;
-	public fun getNonNull ()Z
 	public final fun isInitialized ()Z
 	public synthetic fun mergeFrom (Lcom/google/protobuf/CodedInputStream;Lcom/google/protobuf/ExtensionRegistryLite;)Lcom/google/protobuf/AbstractMessage$Builder;
 	public synthetic fun mergeFrom (Lcom/google/protobuf/CodedInputStream;Lcom/google/protobuf/ExtensionRegistryLite;)Lcom/google/protobuf/AbstractMessageLite$Builder;
@@ -837,7 +827,6 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder : 
 	public fun setField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
 	public fun setImplements (Ljava/lang/String;)Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
 	public fun setImplementsBytes (Lcom/google/protobuf/ByteString;)Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
-	public fun setNonNull (Z)Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
 	public synthetic fun setRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;ILjava/lang/Object;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
 	public synthetic fun setRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;ILjava/lang/Object;)Lcom/google/protobuf/Message$Builder;
 	public fun setRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;ILjava/lang/Object;)Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
@@ -851,7 +840,6 @@ public abstract interface class com/toasttab/protokt/v1/ProtoktProtos$OneofOptio
 	public abstract fun getDeprecationMessageBytes ()Lcom/google/protobuf/ByteString;
 	public abstract fun getImplements ()Ljava/lang/String;
 	public abstract fun getImplementsBytes ()Lcom/google/protobuf/ByteString;
-	public abstract fun getNonNull ()Z
 }
 
 public final class com/toasttab/protokt/v1/ProtoktProtos$ServiceOptions : com/google/protobuf/GeneratedMessageV3, com/toasttab/protokt/v1/ProtoktProtos$ServiceOptionsOrBuilder {
@@ -1014,14 +1002,13 @@ public final class protokt/v1/EnumValueOptions$Deserializer : protokt/v1/Abstrac
 
 public final class protokt/v1/FieldOptions : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/FieldOptions$Deserializer;
-	public synthetic fun <init> (ZLjava/lang/String;ZLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;ZLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/FieldOptions;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/FieldOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBytesSlice ()Z
 	public final fun getDeprecationMessage ()Ljava/lang/String;
 	public final fun getKeyWrap ()Ljava/lang/String;
-	public final fun getNonNull ()Z
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getValueWrap ()Ljava/lang/String;
 	public final fun getWrap ()Ljava/lang/String;
@@ -1038,14 +1025,12 @@ public final class protokt/v1/FieldOptions$Builder {
 	public final fun getBytesSlice ()Z
 	public final fun getDeprecationMessage ()Ljava/lang/String;
 	public final fun getKeyWrap ()Ljava/lang/String;
-	public final fun getNonNull ()Z
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getValueWrap ()Ljava/lang/String;
 	public final fun getWrap ()Ljava/lang/String;
 	public final fun setBytesSlice (Z)V
 	public final fun setDeprecationMessage (Ljava/lang/String;)V
 	public final fun setKeyWrap (Ljava/lang/String;)V
-	public final fun setNonNull (Z)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 	public final fun setValueWrap (Ljava/lang/String;)V
 	public final fun setWrap (Ljava/lang/String;)V
@@ -1155,13 +1140,12 @@ public final class protokt/v1/MethodOptions$Deserializer : protokt/v1/AbstractDe
 
 public final class protokt/v1/OneofOptions : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/OneofOptions$Deserializer;
-	public synthetic fun <init> (ZLjava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/OneofOptions;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/OneofOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDeprecationMessage ()Ljava/lang/String;
 	public final fun getImplements ()Ljava/lang/String;
-	public final fun getNonNull ()Z
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/OneofOptions;
@@ -1175,11 +1159,9 @@ public final class protokt/v1/OneofOptions$Builder {
 	public final fun build ()Lprotokt/v1/OneofOptions;
 	public final fun getDeprecationMessage ()Ljava/lang/String;
 	public final fun getImplements ()Ljava/lang/String;
-	public final fun getNonNull ()Z
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun setDeprecationMessage (Ljava/lang/String;)V
 	public final fun setImplements (Ljava/lang/String;)V
-	public final fun setNonNull (Z)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
