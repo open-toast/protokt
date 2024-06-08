@@ -17,7 +17,6 @@ package protokt.v1.codegen.generate
 
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.buildCodeBlock
-import com.squareup.kotlinpoet.withIndent
 import protokt.v1.reflect.FieldType
 
 internal fun deserializeVarInitialState(p: PropertyInfo) =
@@ -28,33 +27,15 @@ internal fun deserializeVarInitialState(p: PropertyInfo) =
     }
 
 internal fun wrapDeserializedValueForConstructor(p: PropertyInfo) =
-    if (p.nonNullOption) {
-        buildCodeBlock {
-            beginControlFlow("requireNotNull(%N)", p.name)
-            add("StringBuilder(\"%N\")\n", p.name)
-            withIndent {
-                add(
-                    (
-                        ".append(\" specified nonnull with (protokt." +
-                            "${if (p.oneof) "oneof" else "property"}).non_null " +
-                            "but was null\")"
-                        ).bindSpaces()
-                )
-                add("\n")
-            }
-            endControlFlowWithoutNewline()
-        }
+    if (p.isMap) {
+        CodeBlock.of("%M(%N)", unmodifiableMap, p.name)
+    } else if (p.repeated) {
+        CodeBlock.of("%M(%N)", unmodifiableList, p.name)
     } else {
-        if (p.isMap) {
-            CodeBlock.of("%M(%N)", unmodifiableMap, p.name)
-        } else if (p.repeated) {
-            CodeBlock.of("%M(%N)", unmodifiableList, p.name)
-        } else {
-            buildCodeBlock {
-                add("%N", p.name)
-                if (p.wrapped && !p.nullable) {
-                    add(" ?: %L", p.defaultValue)
-                }
+        buildCodeBlock {
+            add("%N", p.name)
+            if (p.wrapped && !p.nullable) {
+                add(" ?: %L", p.defaultValue)
             }
         }
     }

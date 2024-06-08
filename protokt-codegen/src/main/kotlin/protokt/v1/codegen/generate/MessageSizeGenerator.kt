@@ -20,7 +20,6 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.buildCodeBlock
 import protokt.v1.codegen.generate.CodeGenerator.Context
-import protokt.v1.codegen.generate.Nullability.hasNonNullOption
 import protokt.v1.codegen.generate.Wrapper.interceptFieldSizeof
 import protokt.v1.codegen.generate.Wrapper.interceptSizeof
 import protokt.v1.codegen.generate.Wrapper.interceptValueAccess
@@ -56,12 +55,7 @@ private class MessageSizeGenerator(
                 properties,
                 false,
                 { std, _ -> CodeBlock.of("$resultVarName·+=·%L", sizeOf(std, ctx)) },
-                { oneof, std, _ -> sizeofOneof(oneof, std) },
-                {
-                    if (it.hasNonNullOption) {
-                        add("$resultVarName·+=·")
-                    }
-                }
+                { oneof, std, _ -> sizeofOneof(oneof, std) }
             )
 
         return PropertySpec.builder(MESSAGE_SIZE, Int::class)
@@ -88,21 +82,18 @@ private class MessageSizeGenerator(
     }
 
     private fun sizeofOneof(o: Oneof, f: StandardField) =
-        sizeOf(
-            f,
-            ctx,
-            interceptSizeof(
+        CodeBlock.of(
+            "$resultVarName·+=·%L",
+            sizeOf(
                 f,
-                CodeBlock.of("%N.%N", o.fieldName, f.fieldName),
-                ctx
+                ctx,
+                interceptSizeof(
+                    f,
+                    CodeBlock.of("%N.%N", o.fieldName, f.fieldName),
+                    ctx
+                )
             )
-        ).let { s ->
-            if (o.hasNonNullOption) {
-                s
-            } else {
-                CodeBlock.of("$resultVarName·+=·%L", s)
-            }
-        }
+        )
 }
 
 internal fun sizeOf(

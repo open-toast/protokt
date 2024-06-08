@@ -44,9 +44,6 @@ class WrapperTypesTest {
             optionalUuid = UUID.randomUUID()
             optionalIpAddress = InetAddress.getByAddress(byteArrayOf(0, 0, 0, 1))
             optionalLocalDate = LocalDate.of(1950, 10, 4)
-            nonNullUuid = UUID.randomUUID()
-            nonNullIpAddress = InetAddress.getByAddress(byteArrayOf(0, 0, 0, 1))
-            nonNullLocalDate = LocalDate.of(1950, 10, 4)
         }
 
     @Test
@@ -271,7 +268,7 @@ class WrapperTypesTest {
     fun `round trip should preserve socket address oneof`() {
         val deserialized = OneofWrappers.deserialize(
             OneofWrappers {
-                wrappedOneof = WrappedOneof.SocketAddressOneof(model.socketAddress)
+                wrappedOneof = WrappedOneof.SocketAddressOneof(model.socketAddress!!)
             }.serialize()
         )
 
@@ -284,7 +281,7 @@ class WrapperTypesTest {
     fun `round trip should preserve instant oneof`() {
         val deserialized = OneofWrappers.deserialize(
             OneofWrappers {
-                wrappedOneof = WrappedOneof.InstantOneof(model.instant)
+                wrappedOneof = WrappedOneof.InstantOneof(model.instant!!)
             }.serialize()
         )
 
@@ -297,7 +294,7 @@ class WrapperTypesTest {
     fun `round trip should preserve duration oneof`() {
         val deserialized = OneofWrappers.deserialize(
             OneofWrappers {
-                wrappedOneof = WrappedOneof.DurationOneof(model.duration)
+                wrappedOneof = WrappedOneof.DurationOneof(model.duration!!)
             }.serialize()
         )
 
@@ -323,7 +320,7 @@ class WrapperTypesTest {
     fun `round trip should preserve google localdate oneof`() {
         val deserialized = OneofWrappers.deserialize(
             OneofWrappers {
-                wrappedOneof = WrappedOneof.GoogleDateOneof(model.googleDate)
+                wrappedOneof = WrappedOneof.GoogleDateOneof(model.googleDate!!)
             }.serialize()
         )
 

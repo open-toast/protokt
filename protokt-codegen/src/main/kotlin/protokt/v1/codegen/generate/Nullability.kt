@@ -23,18 +23,7 @@ import protokt.v1.codegen.util.StandardField
 import protokt.v1.reflect.FieldType
 
 internal object Nullability {
-    val Field.hasNonNullOption
-        get() =
-            when (this) {
-                is StandardField -> options.protokt.nonNull
-                is Oneof -> options.protokt.nonNull
-            }
-
     val Field.nullable
-        get() =
-            isKotlinRepresentationNullable && !hasNonNullOption
-
-    private val Field.isKotlinRepresentationNullable
         get() =
             when (this) {
                 is StandardField -> (type == FieldType.Message && !repeated) || optional
@@ -47,13 +36,6 @@ internal object Nullability {
                 !repeated &&
                 type !in setOf(FieldType.Message, FieldType.Enum)
 
-    fun propertyType(o: Oneof) =
-        if (o.hasNonNullOption) {
-            o.className
-        } else {
-            o.className.copy(nullable = true)
-        }
-
     fun propertyType(f: StandardField, type: TypeName, wrapperRequiresNullability: Boolean) =
         if (f.nullable || wrapperRequiresNullability) {
             type.copy(nullable = true)
@@ -65,7 +47,6 @@ internal object Nullability {
         if (
             f.repeated ||
             f.nullable ||
-            f.isKotlinRepresentationNullable ||
             f.isWrappedNonRepeatedPrimitive
         ) {
             type.copy(nullable = true)
@@ -74,10 +55,7 @@ internal object Nullability {
         }
 
     fun dslPropertyType(f: StandardField, type: TypeName) =
-        if (
-            f.isKotlinRepresentationNullable ||
-            f.isWrappedNonRepeatedPrimitive
-        ) {
+        if (f.nullable || f.isWrappedNonRepeatedPrimitive) {
             type.copy(nullable = true)
         } else {
             type

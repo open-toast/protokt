@@ -153,10 +153,6 @@ internal class FieldParser(
             index = idx
         )
 
-        if (protoktOptions.nonNull) {
-            validateNonNullOption(fdp, result, withinOneof, optional)
-        }
-
         return result
     }
 
@@ -220,51 +216,4 @@ internal class FieldParser(
                     // the default value for an unset boolean is false.
                     (ctx.proto3 && (!fdp.options.hasPacked() || (fdp.options.hasPacked() && fdp.options.packed)))
                 )
-
-    private fun validateNonNullOption(
-        fdp: FieldDescriptorProto,
-        field: StandardField,
-        withinOneof: Boolean,
-        optional: Boolean
-    ) {
-        fun FieldType.typeName() =
-            this::class.simpleName!!.lowercase()
-
-        fun name(field: StandardField) =
-            if (field.type == FieldType.Enum) {
-                field.protoTypeName
-            } else {
-                field.type.typeName()
-            }
-
-        val typeName =
-            when (field.type) {
-                FieldType.Enum, FieldType.Message -> fdp.typeName
-                else -> field.type.typeName()
-            }
-
-        require(!optional) {
-            "(protokt.property).non_null is not applicable to optional fields " +
-                "and is inapplicable to optional $typeName"
-        }
-        require(!withinOneof) {
-            "(protokt.property).non_null is only applicable to top level types " +
-                "and is inapplicable to oneof field $typeName"
-        }
-
-        require((field.type == FieldType.Message && !field.repeated) || field.wrapperRequiresNonNullOptionForNonNullity(ctx)) {
-            "(protokt.property).non_null is only applicable to message types " +
-                "and is inapplicable to non-message " +
-                when {
-                    field.mapEntry != null ->
-                        "map<${name(field.mapKey)}, ${name(field.mapValue)}>"
-
-                    field.repeated ->
-                        "repeated $typeName"
-
-                    else ->
-                        field.type.typeName()
-                }
-        }
-    }
 }

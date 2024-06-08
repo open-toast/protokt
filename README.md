@@ -12,10 +12,7 @@ Supports only version 3 of the Protocol Buffers language.
 
 ### Features
 - Idiomatic and concise [Kotlin builder DSL](#generated-code)
-- Protokt-specific options: [non-null types (dangerous)](#non-null-fields),
-[wrapper types](#wrapper-types),
-[interface implementation](#interface-implementation),
-and more
+- Protokt-specific options: [wrapper types](#wrapper-types), [interface implementation](#interface-implementation), and more
 - Representation of the well-known types as Kotlin nullable types: `StringValue`
 is represented as `String?`, etc.
 - Multiplatform support for Kotlin JS (beta)
@@ -635,8 +632,7 @@ dependencies {
 ```
 
 Wrapper types that wrap protobuf messages are nullable. For example,
-`java.time.Instant` wraps the well-known type `google.protobuf.Timestamp`. They
-can be made non-nullable by using the non-null option described below.
+`java.time.Instant` wraps the well-known type `google.protobuf.Timestamp`.
 
 Wrapper types that wrap protobuf primitives, for example `java.util.UUID`
 which wraps `bytes`, are nullable when they cannot wrap their wrapped type's 
@@ -657,8 +653,6 @@ google.protobuf.BytesValue nullable_uuid = 3 [
   (protokt.v1.property).wrap = "java.util.UUID"
 ];
 ```
-
-This behavior can be overridden with the [`non_null` option](#non-null-fields).
 
 Wrapper types can be repeated:
 
@@ -685,41 +679,6 @@ _N.b. Well-known type nullability is implemented with
 [predefined wrapper types](protokt-core-lite/src/commonMain/kotlin/com/toasttab/protokt/v1)
 for each message defined in
 [wrappers.proto](https://github.com/protocolbuffers/protobuf/blob/main/src/google/protobuf/wrappers.proto)._
-
-### Non-null fields
-If a message has no meaning whatsoever when a particular non-scalar field is
-missing, you can emulate proto2's `required` key word by using the
-`(protokt.v1.property).non_null` option:
-
-```protobuf
-message Sample {}
-
-message NonNullSampleMessage {
-  Sample non_null_sample = 1 [
-    (protokt.v1.property).non_null = true
-  ];
-}
-```
-
-Generated code will not have a nullable type, so the field can be referenced
-without using Kotlin's `!!`.
-
-Oneof fields can also be declared non-null:
-
-```protobuf
-message NonNullSampleMessage {
-  oneof non_null_oneof {
-    option (protokt.v1.oneof).non_null = true;
-
-    string message = 1;
-  }
-}
-```
-
-Note that deserialization of a message with a non-nullable field will fail if the
-message being decoded does not contain an instance of the required field.
-
-This functionality will likely be removed.
 
 ### Interface implementation
 
@@ -767,9 +726,7 @@ protokt requires no inspection of it:
 message ImplementsWithDelegate {
   option (protokt.v1.class).implements = "Model2 by modelTwo";
 
-  ImplementsModel2 model_two = 1 [
-    (protokt.v1.property).non_null = true
-  ];
+  ImplementsModel2 model_two = 1;
 }
 ```
 
@@ -782,7 +739,7 @@ Oneof fields can declare that they implement an interface with the
 also implement the interface. This allows access of common properties without a
 `when` statement that always ultimately extracts the same property.
 
-Suppose you have a domain object MyObjectWithConfig that has a non-null configuration
+Suppose you have a domain object MyObjectWithConfig that has configuration
 that specifies a third-party server for communication. For flexibility, this
 configuration will be modifiable by the server and versioned by a simple integer.
 To hasten subsequent loading of the configuration, a client may save a resolved
@@ -816,7 +773,6 @@ message MyObjectWithConfig {
   ];
 
   oneof Config {
-    option (protokt.v1.oneof).non_null = true;
     option (protokt.v1.oneof).implements = "com.toasttab.example.Config";
 
     ServerSpecified server_specified = 2;
@@ -836,9 +792,7 @@ message ServerSpecified {
 message ClientResolved {
   option (protokt.v1.class).implements = "com.toasttab.example.Config by config";
 
-  ServerSpecified config = 1 [
-    (protokt.v1.property).non_null = true
-  ];
+  ServerSpecified config = 1;
 
   bytes last_known_address = 2 [
     (protokt.v1.property).wrap = "java.net.InetAddress"
@@ -853,7 +807,7 @@ Protokt will generate:
 public class MyObjectWithConfig private constructor(
   @GeneratedProperty(1)
   public val id: UUID?,
-  public val config: Config,
+  public val config: Config?,
   public val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
 
@@ -906,17 +860,9 @@ accessing the property via a `when` expression:
 
 ```kotlin
 fun printVersion(config: MyObjectWithConfig.Config) {
-    println(config.version)
+    println(config?.version)
 }
 ```
-
-This pattern is dangerous: since the oneof must be marked non-nullable, you
-cannot compatibly add new implementing fields to a producer before a consumer
-is updated with the new generated code. The old consumer will attempt to
-deserialize the new field as an unknown field and the non-null assertion on the
-oneof field during the constructor call will fail.
-
-This functionality will likely be removed.
 
 ### BytesSlice
 
