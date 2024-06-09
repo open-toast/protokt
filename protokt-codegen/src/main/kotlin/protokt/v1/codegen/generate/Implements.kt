@@ -50,13 +50,10 @@ internal object Implements {
     fun TypeSpec.Builder.handleSuperInterface(msg: Message, ctx: Context) =
         apply {
             if (msg.options.protokt.implements.isNotEmpty()) {
+                // can't actually delegate because message types are nullable
                 if (msg.options.protokt.implements.delegates()) {
                     val interfaceClassName = inferClassName(msg.options.protokt.implements.substringBefore(" by "), ctx)
-                    addSuperinterface(interfaceClassName)
-
                     val fieldsByName = msg.fields.filterIsInstance<StandardField>().associateBy { it.fieldName }
-
-                    // can't actually delegate because message types are nullable
                     val interfaceFields =
                         ctx.info.context.classLookup.properties(interfaceClassName.canonicalName)
                             .associateBy { it.name }
@@ -67,9 +64,9 @@ internal object Implements {
                                 "property ${it.name} is non-nullable"
                         }
                     }
-                    val delegatedFields = interfaceFields.values.filter { it.name !in fieldsByName.keys }
 
-                    delegatedFields.forEach {
+                    addSuperinterface(interfaceClassName)
+                    interfaceFields.values.filter { it.name !in fieldsByName.keys }.forEach {
                         addProperty(
                             PropertySpec.builder(
                                 it.name,
