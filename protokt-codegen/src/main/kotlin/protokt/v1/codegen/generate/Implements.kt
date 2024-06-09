@@ -21,7 +21,6 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
-import org.checkerframework.checker.signature.qual.CanonicalName
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.StandardField
