@@ -16,6 +16,7 @@
 package protokt.v1.codegen.generate
 
 import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.TypeSpec
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.util.Message
@@ -47,7 +48,7 @@ internal object Implements {
                 if (msg.options.protokt.implements.delegates()) {
                     addSuperinterface(
                         ClassName.bestGuess(msg.options.protokt.implements.substringBefore(" by ")),
-                        msg.options.protokt.implements.substringAfter(" by ")
+                        CodeBlock.of(msg.options.protokt.implements.substringAfter(" by ") + "!!")
                     )
                 } else {
                     addSuperinterface(msg.superInterface(ctx)!!)
