@@ -63,7 +63,8 @@ internal object Implements {
 
                     interfaceFields.values.forEach {
                         require(it.returnType.isMarkedNullable) {
-                            "Delegated properties must be nullable because message types are nullable"
+                            "Delegated properties must be nullable because message types are nullable; " +
+                                "property ${it.name} is non-nullable"
                         }
                     }
                     val delegatedFields = interfaceFields.values.filter { it.name !in fieldsByName.keys }
