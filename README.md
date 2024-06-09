@@ -718,9 +718,7 @@ dependencies {
 }
 ```
 
-Messages can also implement interfaces by delegation to one of their fields;
-in this case the delegated interface need not live in a separate project, as
-protokt requires no inspection of it:
+Messages can also implement interfaces by delegation to one of their fields:
 
 ```protobuf
 message ImplementsWithDelegate {
@@ -730,7 +728,9 @@ message ImplementsWithDelegate {
 }
 ```
 
-Note that the `by` clause references the field by its lower camel case name.
+Note that the `by` clause references the field by its lower camel case name. 
+Properties on delegate interfaces must be nullable since message fields themselves
+are nullable and may not be present on the wire.
 
 #### Oneof Fields
 
