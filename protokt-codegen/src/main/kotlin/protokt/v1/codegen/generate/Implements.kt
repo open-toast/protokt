@@ -16,10 +16,15 @@
 package protokt.v1.codegen.generate
 
 import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
+import com.squareup.kotlinpoet.asTypeName
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.StandardField
+import kotlin.reflect.KClass
 
 internal object Implements {
     fun StandardField.overrides(
@@ -27,7 +32,7 @@ internal object Implements {
         msg: Message
     ) =
         msg.superInterface(ctx)
-            ?.let { fieldName in ctx.info.context.classLookup.properties(it.canonicalName) }
+            ?.let { fieldName in ctx.info.context.classLookup.properties(it.canonicalName).map { p -> p.name } }
             ?: false
 
     fun TypeSpec.Builder.handleSuperInterface(implements: ClassName?, v: OneofGeneratorInfo? = null) =
@@ -43,27 +48,66 @@ internal object Implements {
 
     fun TypeSpec.Builder.handleSuperInterface(msg: Message, ctx: Context) =
         apply {
-            if (msg.options.protokt.implements.isNotEmpty()) {
-                if (msg.options.protokt.implements.delegates()) {
-                    addSuperinterface(
-                        ClassName.bestGuess(msg.options.protokt.implements.substringBefore(" by ")),
-                        msg.options.protokt.implements.substringAfter(" by ")
-                    )
-                } else {
-                    addSuperinterface(msg.superInterface(ctx)!!)
+            val superInterface = msg.superInterface(ctx)
+            if (superInterface != null) {
+                addSuperinterface(superInterface.`interface`)
+                if (superInterface.delegate != null) {
+                    // can't actually delegate because message types are nullable
+                    delegateProperties(msg, ctx, superInterface.canonicalName, superInterface.delegate)
                 }
             }
         }
 
-    private fun String.delegates() =
-        contains(" by ")
+    private fun TypeSpec.Builder.delegateProperties(msg: Message, ctx: Context, canonicalName: String, fieldName: String) {
+        val fieldsByName = msg.fields.filterIsInstance<StandardField>().associateBy { it.fieldName }
+        val interfaceFields =
+            ctx.info.context.classLookup
+                .properties(canonicalName)
+                .associateBy { it.name }
 
-    private fun Message.superInterface(ctx: Context) =
-        options.protokt.implements.let {
-            if (it.isNotEmpty() && !it.delegates()) {
-                inferClassName(it, ctx)
-            } else {
-                null
+        val implementFields = interfaceFields.values.filter { it.name !in fieldsByName.keys }
+
+        implementFields.forEach {
+            require(it.returnType.isMarkedNullable) {
+                "Delegated properties must be nullable because message types are nullable; " +
+                    "property ${it.name} is non-nullable"
             }
         }
+
+        implementFields.forEach {
+            addProperty(
+                PropertySpec.builder(
+                    it.name,
+                    (it.returnType.classifier as KClass<*>).asTypeName().copy(nullable = true)
+                )
+                    .addModifiers(KModifier.OVERRIDE)
+                    .getter(
+                        FunSpec.getterBuilder()
+                            .addCode("return %L?.%L", fieldName, it.name)
+                            .build()
+                    )
+                    .build()
+            )
+        }
+    }
+
+    private class SuperInterface(
+        val `interface`: ClassName,
+        val delegate: String?
+    ) {
+        val canonicalName = `interface`.canonicalName
+    }
+
+    private fun Message.superInterface(ctx: Context): SuperInterface? {
+        val implements = options.protokt.implements
+        return when {
+            implements.isEmpty() -> null
+            implements.contains(" by ") ->
+                SuperInterface(
+                    inferClassName(implements.substringBefore(" by "), ctx),
+                    implements.substringAfter(" by ")
+                )
+            else -> SuperInterface(inferClassName(implements, ctx), null)
+        }
+    }
 }

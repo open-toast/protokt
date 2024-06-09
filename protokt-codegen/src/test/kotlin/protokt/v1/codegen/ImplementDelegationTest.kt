@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast, Inc.
+ * Copyright (c) 2023 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,23 +13,22 @@
  * limitations under the License.
  */
 
-package protokt.v1.testing
+package protokt.v1.codegen
 
 import com.google.common.truth.Truth.assertThat
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
-class OneofImplementsTest {
-    private val obj =
-        ContainsOneofThatImplements {
-            implementingOneof = ContainsOneofThatImplements.ImplementingOneof.ImplementsOne(
-                ImplementsOneof1 { id = Id("val") }
-            )
-        }
-
+class ImplementDelegationTest : AbstractProtoktCodegenTest() {
     @Test
-    fun `property shared between oneof types can be assigned and accessed without switching`() {
-        val assigned: OneofModel? = obj.implementingOneof
+    fun `delegate to interface with non-null property`() {
+        val result = runPlugin("implement_by_delegate_with_non_null_property.proto") as Failure
 
-        assertThat(assigned?.id).isEqualTo(Id("val"))
+        assertThat(result.err)
+            .contains("Delegated properties must be nullable because message types are nullable; property id is non-nullable")
     }
+}
+
+@Suppress("UNUSED")
+interface Model {
+    val id: String
 }

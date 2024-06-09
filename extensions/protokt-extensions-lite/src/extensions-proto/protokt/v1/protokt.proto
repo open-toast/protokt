@@ -46,18 +46,6 @@ extend google.protobuf.MessageOptions {
 }
 
 message FieldOptions {
-  // Makes a message-type field non-nullable in the generated Kotlin code.
-  // Beware that deserialization will NPE if the field is missing from the
-  // protobuf payload. Adding a non-null field to an existing message is a
-  // backwards-incompatible change.
-  //
-  // For example:
-  //
-  // message Foo {
-  //   string id = 1 [(protokt.v1.property).non_null = true];
-  // }
-  bool non_null = 1;
-
   // Expose a wrapper class instead of a raw protobuf type.
   //
   // For example:
@@ -76,14 +64,14 @@ message FieldOptions {
   // full qualification is optional.
   //
   // This option can be applied to repeated fields.
-  string wrap = 2;
+  string wrap = 1;
 
   // Maps a bytes field to BytesSlice. If deserialized from a byte array,
   // BytesSlice will point to the source array without copying the subarray.
-  bool bytes_slice = 3;
+  bool bytes_slice = 2;
 
   // Provides a message for deprecation
-  string deprecation_message = 4;
+  string deprecation_message = 3;
 
   // Expose a wrapper class instead of a raw protobuf type for the key type of
   // a map.
@@ -100,7 +88,7 @@ message FieldOptions {
   // class Foo(val map: Map<FooId, String>) ...
   //
   // Scoping rules  are the same as those for declaring regular field wrapper types.
-  string key_wrap = 5;
+  string key_wrap = 4;
 
   // Expose a wrapper class instead of a raw protobuf type for the value type of
   // a map.
@@ -117,7 +105,7 @@ message FieldOptions {
   // class Foo(val map: Map<Int, FooId>) ...
   //
   // Scoping rules  are the same as those for declaring regular field wrapper types.
-  string value_wrap = 6;
+  string value_wrap = 5;
 }
 
 extend google.protobuf.FieldOptions {
@@ -125,30 +113,13 @@ extend google.protobuf.FieldOptions {
 }
 
 message OneofOptions {
-  // Makes a oneof field non-nullable in generated Kotlin code. Beware that
-  // deserialization will NPE if the field is missing from the protobuf payload.
-  // Adding a non-null field to an existing message is a backwards-incompatible
-  // change.
-  //
-  // For example:
-  //
-  // message Message {
-  //   oneof some_field_name {
-  //     option (protokt.v1.oneof).non_null = true;
-  //
-  //     string id = 1;
-  //   }
-  // }
-  //
-  bool non_null = 1;
-
   // Make the sealed class implement an interface, enforcing the presence of a
   // property in each possible variant. Scoping rules  are the same as those
   // for declaring wrapper types.
-  string implements = 2;
+  string implements = 1;
 
   // Provides a message for deprecation
-  string deprecation_message = 3;
+  string deprecation_message = 2;
 }
 
 extend google.protobuf.OneofOptions {

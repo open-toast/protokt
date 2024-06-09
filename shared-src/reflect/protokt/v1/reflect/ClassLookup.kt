@@ -21,6 +21,7 @@ import protokt.v1.OptimizedSizeOfConverter
 import java.io.File
 import java.net.URLClassLoader
 import kotlin.reflect.KClass
+import kotlin.reflect.KProperty
 import kotlin.reflect.full.hasAnnotation
 import kotlin.reflect.full.memberProperties
 
@@ -63,11 +64,11 @@ internal class ClassLookup(classpath: List<String>) {
 
     private val classLookup = mutableMapOf<String, KClass<*>>()
 
-    fun properties(canonicalClassName: String): Collection<String> =
+    fun properties(canonicalClassName: String): Collection<KProperty<*>> =
         try {
             classLookup.getOrPut(canonicalClassName) {
                 classLoader.loadClass(canonicalClassName).kotlin
-            }.memberProperties.map { it.name }
+            }.memberProperties
         } catch (t: Throwable) {
             throw Exception("Class not found: $canonicalClassName")
         }
