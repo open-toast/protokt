@@ -17,10 +17,15 @@ package protokt.v1.codegen.generate
 
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
+import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
+import com.squareup.kotlinpoet.asTypeName
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.StandardField
+import kotlin.reflect.KClass
 
 internal object Implements {
     fun StandardField.overrides(
@@ -28,7 +33,7 @@ internal object Implements {
         msg: Message
     ) =
         msg.superInterface(ctx)
-            ?.let { fieldName in ctx.info.context.classLookup.properties(it.canonicalName) }
+            ?.let { fieldName in ctx.info.context.classLookup.properties(it.canonicalName).map { p -> p.name } }
             ?: false
 
     fun TypeSpec.Builder.handleSuperInterface(implements: ClassName?, v: OneofGeneratorInfo? = null) =
@@ -46,10 +51,44 @@ internal object Implements {
         apply {
             if (msg.options.protokt.implements.isNotEmpty()) {
                 if (msg.options.protokt.implements.delegates()) {
-                    addSuperinterface(
-                        ClassName.bestGuess(msg.options.protokt.implements.substringBefore(" by ")),
-                        CodeBlock.of(msg.options.protokt.implements.substringAfter(" by ") + "!!")
-                    )
+                    val interfaceClassName = inferClassName(msg.options.protokt.implements.substringBefore(" by "), ctx)
+                    addSuperinterface(interfaceClassName)
+
+                    val fieldsByName = msg.fields.filterIsInstance<StandardField>().associateBy { it.fieldName }
+
+                    // can't actually delegate because message types are nullable
+                    val interfaceFields =
+                        ctx.info.context.classLookup.properties(interfaceClassName.canonicalName)
+                            .associateBy { it.name }
+
+                    interfaceFields.values.forEach {
+                        require(it.returnType.isMarkedNullable) {
+                            "Delegated properties must be nullable because message types are nullable"
+                        }
+                    }
+                    val delegatedFields = interfaceFields.values.filter { it.name !in fieldsByName.keys }
+
+                    delegatedFields.forEach {
+                        addProperty(
+                            PropertySpec.builder(
+                                it.name,
+                                (it.returnType.classifier as KClass<*>).asTypeName().copy(nullable = true)
+                            )
+                                .addModifiers(KModifier.OVERRIDE)
+                                .getter(
+                                    FunSpec.getterBuilder()
+                                        .addCode(
+                                            CodeBlock.of(
+                                                "return %L?.%L",
+                                                msg.options.protokt.implements.substringAfter(" by "),
+                                                it.name
+                                            )
+                                        )
+                                        .build()
+                                )
+                                .build()
+                        )
+                    }
                 } else {
                     addSuperinterface(msg.superInterface(ctx)!!)
                 }
