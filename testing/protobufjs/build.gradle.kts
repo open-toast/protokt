@@ -16,17 +16,23 @@
 import protokt.v1.gradle.protoktExtensions
 
 plugins {
-    id("org.jetbrains.kotlin.js")
+    id("org.jetbrains.kotlin.multiplatform")
 }
 
 kotlin {
     js(IR) { configureJsTests() }
+
+    sourceSets {
+        val jsTest by getting {
+            dependencies {
+                api(kotlin("test"))
+            }
+        }
+    }
 }
 
 localProtokt()
 
 dependencies {
     protoktExtensions(project(":extensions:protokt-extensions"))
-
-    testImplementation(kotlin("test"))
 }

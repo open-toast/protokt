@@ -34,6 +34,7 @@ internal fun configureProtobufPlugin(
     project: Project,
     ext: ProtoktExtension,
     disableJava: Boolean,
+    target: String,
     binaryPath: String
 ) {
     project.apply<ProtobufPlugin>()
@@ -46,7 +47,7 @@ internal fun configureProtobufPlugin(
         }
 
         plugins {
-            id("protokt") {
+            id("protokt-$target") {
                 path = normalizePath(binaryPath)
             }
         }
@@ -60,7 +61,7 @@ internal fun configureProtobufPlugin(
                 }
 
                 task.plugins {
-                    id("protokt") {
+                    id("protokt-$target") {
                         project.afterEvaluate {
                             option("$KOTLIN_EXTRA_CLASSPATH=${extraClasspath(project, task)}")
                             option("$GENERATE_TYPES=${ext.generate.types}")
@@ -68,7 +69,7 @@ internal fun configureProtobufPlugin(
                             option("$GENERATE_GRPC_DESCRIPTORS=${ext.generate.grpcDescriptors}")
                             option("$GENERATE_GRPC_KOTLIN_STUBS=${ext.generate.grpcKotlinStubs}")
                             option("$FORMAT_OUTPUT=${ext.formatOutput}")
-                            option("$APPLIED_KOTLIN_PLUGIN=${project.appliedKotlinPlugin()}")
+                            option("$KOTLIN_TARGET=$target")
                         }
                     }
                 }

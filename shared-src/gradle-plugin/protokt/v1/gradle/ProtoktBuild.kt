@@ -37,7 +37,9 @@ import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinJsProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
+import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
+import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.targets
 import org.jetbrains.kotlin.gradle.plugin.sources.DefaultKotlinSourceSet
 import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile
 import kotlin.reflect.KClass
@@ -55,10 +57,8 @@ internal fun configureProtokt(
     resolveBinary: () -> String
 ) {
     injectKotlinPluginsIntoProtobufGradle()
-    val ext = project.extensions.create<ProtoktExtension>("protokt")
-    configureProtobufPlugin(project, ext, disableJava, resolveBinary())
 
-    project.createExtensionConfigurationsAndConfigureProtobuf()
+    project.createExtensionConfigurationsAndConfigureProtobuf(disableJava, resolveBinary)
 
     // must wait for extension to resolve
     project.afterEvaluate {
@@ -75,10 +75,14 @@ private fun injectKotlinPluginsIntoProtobufGradle() {
     @Suppress("UNCHECKED_CAST")
     val prerequisitePlugins = prerequisitePluginsField.get(null) as MutableList<String>
     prerequisitePlugins.add("org.jetbrains.kotlin.multiplatform")
-    prerequisitePlugins.add("org.jetbrains.kotlin.js")
 }
 
-private fun Project.createExtensionConfigurationsAndConfigureProtobuf() {
+private fun Project.createExtensionConfigurationsAndConfigureProtobuf(
+    disableJava: Boolean,
+    resolveBinary: () -> String
+) {
+    val ext = extensions.create<ProtoktExtension>("protokt")
+
     val extensionsConfiguration = configurations.create(EXTENSIONS)
     val testExtensionsConfiguration = configurations.create(TEST_EXTENSIONS)
 
@@ -95,17 +99,17 @@ private fun Project.createExtensionConfigurationsAndConfigureProtobuf() {
     }
 
     pluginManager.withPlugin("org.jetbrains.kotlin.multiplatform") {
-        configureProtoktConfigurations(KotlinMultiplatformExtension::class, "commonMain", "commonTest")
+        configureProtobufPlugin(project, ext, disableJava, "common", resolveBinary())
         linkGenerateProtoToSourceCompileForKotlinMpp("commonMain", "commonTest")
-    }
 
-    pluginManager.withPlugin("org.jetbrains.kotlin.js") {
-        configureProtoktConfigurations(KotlinJsProjectExtension::class, "main", "test")
-        val (mainSourceSetName, testSourceSetName) = configureJs()
-
-        // hacking into hack configurations owned by protobbuf-gradle-plugin
-        configurations.getByName("${mainSourceSetName}CompileProtoPath").extendsFrom(extensionsConfiguration)
-        configurations.getByName("${testSourceSetName}CompileProtoPath").extendsFrom(testExtensionsConfiguration)
+        kotlinExtension
+            .targets
+            .filterNot { it.targetName == "metadata" }
+            .forEach {
+                configureProtobufPlugin(project, ext, disableJava, it.targetName, resolveBinary())
+                configureProtoktConfigurations(KotlinMultiplatformExtension::class, "${it.targetName}Main", "${it.targetName}Test")
+                linkGenerateProtoToSourceCompileForKotlinMpp("${it.targetName}Main", "${it.targetName}Test")
+            }
     }
 
     val otherwise = {
@@ -114,10 +118,12 @@ private fun Project.createExtensionConfigurationsAndConfigureProtobuf() {
     }
 
     pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
+        configureProtobufPlugin(project, ext, disableJava, "jvm", resolveBinary())
         otherwise()
     }
 
     pluginManager.withPlugin("org.jetbrains.kotlin.android") {
+        configureProtobufPlugin(project, ext, disableJava, "jvm", resolveBinary())
         otherwise()
     }
 }
@@ -147,6 +153,7 @@ private fun Project.linkGenerateProtoTasksAndIncludeGeneratedSource(sourceSetNam
     }
 }
 
+// todo: this pattern isn't right. grab proto tasks for each target and add the source directory sets directly.
 private fun Project.configureSourceSets(
     sourceSetName: String,
     protoSourceSetRoot: String,
@@ -177,42 +184,6 @@ private fun GenerateProtoTask.buildSourceDirectorySet(): SourceDirectorySet {
     return srcSet
 }
 
-// The Kotlin JS plugin doesn't create main or test source sets
-private fun Project.configureJs(): Pair<String, String> {
-    // Can't call them "main" and "test" otherwise we'll get conflicting tasks 'processResources' and 'testClasses'
-    val mainSourceSet = the<SourceSetContainer>().create("jsMain")
-    val testSourceSet = the<SourceSetContainer>().create("jsTest")
-
-    val extension = project.extensions.getByType<ProtobufExtension>()
-
-    fun linkGenerateProtoTasksAndIncludeGeneratedSource(sourceSet: SourceSet, test: Boolean) {
-        val targetSourceSetName = if (test) "test" else "main"
-
-        extension.generateProtoTasks.ofSourceSet(sourceSet.name).forEach { genProtoTask ->
-            configureSourceSets(targetSourceSetName, sourceSet.name, genProtoTask)
-            the<SourceSetContainer>().getByName(sourceSet.name).proto { srcDir("src/$targetSourceSetName/proto") }
-            tasks.withType<AbstractKotlinCompile<*>> {
-                if ((test && name.contains("Test")) || (!test && !name.contains("Test"))) {
-                    dependsOn(genProtoTask)
-                }
-            }
-        }
-    }
-
-    linkGenerateProtoTasksAndIncludeGeneratedSource(mainSourceSet, false)
-    linkGenerateProtoTasksAndIncludeGeneratedSource(testSourceSet, true)
-
-    tasks.withType<Jar> {
-        from(fileTree("${layout.buildDirectory.get()}/extracted-protos/${mainSourceSet.name}"))
-        duplicatesStrategy = DuplicatesStrategy.EXCLUDE // TODO: figure out how to get rid of this
-    }
-
-    tasks.register("generateProto") { dependsOn("generateJsMainProto") }
-    tasks.register("generateTestProto") { dependsOn("generateJsTestProto") }
-
-    return mainSourceSet.name to testSourceSet.name
-}
-
 internal fun Project.resolveProtoktCoreDep(protoktVersion: Any?): Dependency? {
     if (name in setOf("protokt-core", "protokt-core-lite")) {
         return null
@@ -231,16 +202,3 @@ internal fun Project.resolveProtoktCoreDep(protoktVersion: Any?): Dependency? {
         dependencies.create("com.toasttab.protokt:$artifactId:$protoktVersion")
     }
 }
-
-internal fun Project.appliedKotlinPlugin() =
-    when {
-        plugins.hasPlugin("org.jetbrains.kotlin.multiplatform") ->
-            "org.jetbrains.kotlin.multiplatform"
-        plugins.hasPlugin("org.jetbrains.kotlin.js") ->
-            "org.jetbrains.kotlin.js"
-        plugins.hasPlugin("org.jetbrains.kotlin.jvm") ->
-            "org.jetbrains.kotlin.jvm"
-        plugins.hasPlugin("org.jetbrains.kotlin.android") ->
-            "org.jetbrains.kotlin.android"
-        else -> null
-    }
