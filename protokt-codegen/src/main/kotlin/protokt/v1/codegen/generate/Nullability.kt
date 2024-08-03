@@ -24,15 +24,10 @@ import protokt.v1.reflect.FieldType
 
 internal object Nullability {
     val Field.hasNonNullOption
-        get() =
-            when (this) {
-                is StandardField -> options.protokt.nonNull
-                is Oneof -> options.protokt.nonNull
-            }
+        get() = this is StandardField && options.protokt.nonNull
 
     val Field.nullable
-        get() =
-            isKotlinRepresentationNullable && !hasNonNullOption
+        get() = isKotlinRepresentationNullable && !hasNonNullOption
 
     private val Field.isKotlinRepresentationNullable
         get() =

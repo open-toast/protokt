@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast, Inc.
+ * Copyright (c) 2023 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,23 +13,18 @@
  * limitations under the License.
  */
 
-syntax = "proto3";
+package protokt.v1.codegen
 
-package protokt.v1.testing;
+import org.junit.jupiter.api.Test
 
-import "google/protobuf/wrappers.proto";
-import "protokt/v1/protokt.proto";
-
-message NonNullModel {
-  google.protobuf.StringValue non_null_string_value = 1 [
-    (.protokt.v1.property).non_null = true
-  ];
+class ImplementDelegationTest : AbstractProtoktCodegenTest() {
+    @Test
+    fun `delegate to interface with non-null property`() {
+        runPlugin("implement_by_delegate_with_non_null_property.proto").orFail()
+    }
 }
 
-message NonNullModelMirror {
-  google.protobuf.StringValue non_null_string_value = 1;
-
-  oneof non_null_oneof {
-    string message = 2;
-  }
+@Suppress("UNUSED")
+interface Model {
+    val id: String
 }

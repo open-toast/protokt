@@ -25,10 +25,6 @@ class NonNullableTest {
         assertThat(
             NonNullModel::class.propertyIsMarkedNullable("nonNullStringValue")
         ).isFalse()
-
-        assertThat(
-            NonNullModel::class.propertyIsMarkedNullable("nonNullOneof")
-        ).isFalse()
     }
 
     @Test
@@ -46,24 +42,6 @@ class NonNullableTest {
             contains("nonNullStringValue")
             contains("was null")
             contains("(protokt.property).non_null")
-        }
-    }
-
-    @Test
-    fun `detailed error when attempting to deserialize null oneof`() {
-        val thrown = assertThrows<IllegalArgumentException> {
-            NonNullModel.deserialize(
-                NonNullModelMirror {
-                    nonNullStringValue = "asdf"
-                    nonNullOneof = null
-                }.serialize()
-            )
-        }
-
-        assertThat(thrown).hasMessageThat().apply {
-            contains("nonNullOneof")
-            contains("was null")
-            contains("(protokt.oneof).non_null")
         }
     }
 }
