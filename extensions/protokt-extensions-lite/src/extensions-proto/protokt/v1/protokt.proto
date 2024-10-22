@@ -125,22 +125,7 @@ extend google.protobuf.FieldOptions {
 }
 
 message OneofOptions {
-  // Makes a oneof field non-nullable in generated Kotlin code. Beware that
-  // deserialization will NPE if the field is missing from the protobuf payload.
-  // Adding a non-null field to an existing message is a backwards-incompatible
-  // change.
-  //
-  // For example:
-  //
-  // message Message {
-  //   oneof some_field_name {
-  //     option (protokt.v1.oneof).non_null = true;
-  //
-  //     string id = 1;
-  //   }
-  // }
-  //
-  bool non_null = 1;
+  reserved 1;
 
   // Make the sealed class implement an interface, enforcing the presence of a
   // property in each possible variant. Scoping rules  are the same as those

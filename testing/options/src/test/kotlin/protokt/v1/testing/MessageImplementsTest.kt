@@ -42,4 +42,11 @@ class MessageImplementsTest {
 
         assertThat(byDelegate.id).isEqualTo(model2.id)
     }
+
+    @Test
+    fun `message implementing by a nullable delegate can be assigned to its interface`() {
+        val byDelegate: IModel2 = ImplementsWithNullableDelegate { modelTwo = model2 }
+
+        assertThat(byDelegate.id).isEqualTo(model2.id)
+    }
 }
