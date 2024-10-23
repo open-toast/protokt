@@ -48,7 +48,7 @@ abstract class AbstractBytes internal constructor(
         fun from(bytes: ByteArray) =
             Bytes(clone(bytes))
 
-        fun from(message: KtMessage) =
+        fun from(message: Message) =
             Bytes(message.serialize())
     }
 }

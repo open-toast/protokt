@@ -19,23 +19,23 @@ import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
-import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
-import protokt.v1.AbstractKtDeserializer
-import protokt.v1.AbstractKtMessage
-import protokt.v1.KtMessage
-import protokt.v1.KtMessageDeserializer
-import protokt.v1.KtMessageSerializer
+import protokt.v1.AbstractDeserializer
+import protokt.v1.AbstractMessage
+import protokt.v1.Reader
+import protokt.v1.Writer
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Wrapper.interceptDefaultValue
 import protokt.v1.codegen.generate.Wrapper.interceptTypeName
 import protokt.v1.codegen.generate.Wrapper.wrapField
 import protokt.v1.codegen.util.DESERIALIZER
-import protokt.v1.codegen.util.FieldType
 import protokt.v1.codegen.util.Message
+import protokt.v1.codegen.util.SizeFn
 import protokt.v1.codegen.util.StandardField
+import protokt.v1.codegen.util.sizeFn
+import protokt.v1.reflect.FieldType
 import kotlin.reflect.KProperty0
 
 internal fun generateMapEntry(msg: Message, ctx: Context) =
@@ -61,7 +61,7 @@ private class MapEntryGenerator(
     fun generate() =
         TypeSpec.classBuilder(msg.className).apply {
             addModifiers(KModifier.PRIVATE)
-            superclass(AbstractKtMessage::class)
+            superclass(AbstractMessage::class)
             addProperty(keyProp)
             addProperty(valProp)
             addConstructor()
@@ -80,23 +80,20 @@ private class MapEntryGenerator(
     }
 
     private fun TypeSpec.Builder.addMessageSize() {
-        addProperty(
-            PropertySpec.builder(KtMessage::messageSize.name, Int::class)
-                .addModifiers(KModifier.OVERRIDE)
-                .getter(
-                    FunSpec.getterBuilder()
-                        .addCode(
-                            "return·%L",
-                            sizeOfCall(
-                                key,
-                                value,
-                                CodeBlock.of("key"),
-                                CodeBlock.of("value")
-                            )
-                        )
-                        .build()
+        addFunction(
+            buildFunSpec(protokt.v1.Message::messageSize.name) {
+                returns(Int::class)
+                addModifiers(KModifier.OVERRIDE)
+                addStatement(
+                    "return·%L",
+                    sizeOfCall(
+                        key,
+                        value,
+                        CodeBlock.of("key"),
+                        CodeBlock.of("value")
+                    )
                 )
-                .build()
+            }
         )
     }
 
@@ -104,7 +101,7 @@ private class MapEntryGenerator(
         addFunction(
             buildFunSpec("serialize") {
                 addModifiers(KModifier.OVERRIDE)
-                addParameter("serializer", KtMessageSerializer::class)
+                addParameter(WRITER, Writer::class)
                 addStatement("%L", serialize(key, ctx, keyProp))
                 addStatement("%L", serialize(value, ctx, valProp))
             }
@@ -115,17 +112,17 @@ private class MapEntryGenerator(
         addType(
             TypeSpec.companionObjectBuilder(DESERIALIZER)
                 .superclass(
-                    AbstractKtDeserializer::class
+                    AbstractDeserializer::class
                         .asTypeName()
                         .parameterizedBy(msg.className)
                 )
                 .addFunction(
                     buildFunSpec("entrySize") {
                         returns(Int::class)
-                        if (key.type.sizeFn is FieldType.Method) {
+                        if (key.type.sizeFn is SizeFn.Method) {
                             addParameter("key", keyTypeName)
                         }
-                        if (value.type.sizeFn is FieldType.Method) {
+                        if (value.type.sizeFn is SizeFn.Method) {
                             addParameter("value", valueTypeName)
                         }
                         addStatement("return %L + %L", sizeOf(key, ctx), sizeOf(value, ctx))
@@ -134,13 +131,13 @@ private class MapEntryGenerator(
                 .addFunction(
                     buildFunSpec("deserialize") {
                         addModifiers(KModifier.OVERRIDE)
-                        addParameter("deserializer", KtMessageDeserializer::class)
+                        addParameter(READER, Reader::class)
                         returns(msg.className)
                         addStatement("%L", deserializeVar(keyPropInfo, ::key))
                         addStatement("%L", deserializeVar(valPropInfo, ::value))
                         addCode("\n")
                         beginControlFlow("while (true)")
-                        beginControlFlow("when (deserializer.readTag())")
+                        beginControlFlow("when ($READER.readTag())")
                         addStatement("%L", constructOnZero())
                         addStatement(
                             "${key.tag.value}u -> key = %L",
@@ -206,14 +203,14 @@ private class MapEntryGenerator(
 }
 
 internal fun sizeOfCall(key: StandardField, value: StandardField, keyStr: CodeBlock, valueStr: CodeBlock) =
-    if (key.type.sizeFn is FieldType.Method) {
-        if (value.type.sizeFn is FieldType.Method) {
+    if (key.type.sizeFn is SizeFn.Method) {
+        if (value.type.sizeFn is SizeFn.Method) {
             CodeBlock.of("entrySize(%L,·%L)", keyStr, valueStr)
         } else {
             CodeBlock.of("entrySize(%L)", keyStr)
         }
     } else {
-        if (value.type.sizeFn is FieldType.Method) {
+        if (value.type.sizeFn is SizeFn.Method) {
             CodeBlock.of("entrySize(%L)", valueStr)
         } else {
             CodeBlock.of("entrySize()")

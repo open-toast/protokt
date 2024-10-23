@@ -22,7 +22,7 @@ import "protokt/v1/protokt.proto";
 option java_package = "com.toasttab.protokt.v1.testing";
 
 message ImplementsModel {
-  option (.protokt.v1.class).implements = "Model";
+  option (.protokt.v1.class).implements = "IModel";
 
   bytes id = 1 [
     (.protokt.v1.property).wrap = "Id"
@@ -30,15 +30,21 @@ message ImplementsModel {
 }
 
 message ImplementsModel2 {
-  option (.protokt.v1.class).implements = "Model2";
+  option (.protokt.v1.class).implements = "IModel2";
 
   string id = 1;
 }
 
 message ImplementsWithDelegate {
-  option (.protokt.v1.class).implements = "Model2 by modelTwo";
+  option (.protokt.v1.class).implements = "IModel2 by modelTwo";
 
   ImplementsModel2 model_two = 1 [
     (.protokt.v1.property).non_null = true
   ];
+}
+
+message ImplementsWithNullableDelegate {
+  option (.protokt.v1.class).implements = "IModel2 by modelTwo";
+
+  ImplementsModel2 model_two = 1;
 }

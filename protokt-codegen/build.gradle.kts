@@ -83,9 +83,10 @@ sourceSets {
     main {
         java {
             srcDir("../shared-src/codegen")
+            srcDir("../shared-src/reflect")
         }
         proto {
-            srcDir("../extensions/protokt-extensions-lite/src/main/proto")
+            srcDir("../extensions/protokt-extensions-lite/src/extensions-proto")
         }
     }
 }

@@ -57,7 +57,7 @@ allprojects {
                 "(package |@file|import |fun )"
             )
             targetExclude(
-                "**/buildSrc/build/generated/source/buildConfig/main/main/**",
+                "**/buildSrc/build/generated/**",
                 "**/build/generated-sources/kotlin-dsl-*/**",
                 "**/build/generated/source/**",
                 "**/protokt/v1/animals/**",

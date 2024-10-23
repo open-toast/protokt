@@ -19,6 +19,7 @@ import com.google.protobuf.DescriptorProtos.MethodDescriptorProto
 import com.google.protobuf.DescriptorProtos.ServiceDescriptorProto
 import com.squareup.kotlinpoet.ClassName
 import com.toasttab.protokt.v1.ProtoktProtos
+import protokt.v1.reflect.requalifyProtoType
 
 class ServiceParser(
     private val idx: Int,

@@ -24,9 +24,9 @@ import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
-import protokt.v1.AbstractKtMessage
-import protokt.v1.KtGeneratedMessage
-import protokt.v1.KtProperty
+import protokt.v1.AbstractMessage
+import protokt.v1.GeneratedMessage
+import protokt.v1.GeneratedProperty
 import protokt.v1.UnknownFieldSet
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.CodeGenerator.generate
@@ -34,7 +34,7 @@ import protokt.v1.codegen.generate.Deprecation.handleDeprecation
 import protokt.v1.codegen.generate.Implements.handleSuperInterface
 import protokt.v1.codegen.util.Message
 
-fun generateMessage(msg: Message, ctx: Context) =
+internal fun generateMessage(msg: Message, ctx: Context) =
     if (ctx.info.context.generateTypes) {
         MessageGenerator(msg, ctx).generate()
     } else {
@@ -54,8 +54,7 @@ private class MessageGenerator(
             handleAnnotations()
             handleConstructor(propertySpecs)
             addTypes(annotateOneofs(msg, ctx))
-            handleMessageSize()
-            addFunction(generateMessageSize(msg, propertySpecs, ctx))
+            handleMessageSize(propertySpecs)
             addFunction(generateSerializer(msg, propertySpecs, ctx))
             handleEquals(properties)
             handleHashCode(properties)
@@ -69,7 +68,7 @@ private class MessageGenerator(
 
     private fun TypeSpec.Builder.handleAnnotations() = apply {
         addAnnotation(
-            AnnotationSpec.builder(KtGeneratedMessage::class)
+            AnnotationSpec.builder(GeneratedMessage::class)
                 .addMember(msg.fullProtobufTypeName.embed())
                 .build()
         )
@@ -82,7 +81,7 @@ private class MessageGenerator(
     private fun TypeSpec.Builder.handleConstructor(
         properties: List<PropertySpec>
     ) = apply {
-        superclass(AbstractKtMessage::class)
+        superclass(AbstractMessage::class)
         addProperties(properties)
         addProperty(
             PropertySpec.builder("unknownFields", UnknownFieldSet::class)
@@ -108,7 +107,7 @@ private class MessageGenerator(
             PropertySpec.builder(property.name, property.propertyType).apply {
                 if (property.number != null) {
                     addAnnotation(
-                        AnnotationSpec.builder(KtProperty::class)
+                        AnnotationSpec.builder(GeneratedProperty::class)
                             .addMember("${property.number}")
                             .build()
                     )
@@ -122,13 +121,16 @@ private class MessageGenerator(
             }.build()
         }
 
-    private fun TypeSpec.Builder.handleMessageSize() =
-        addProperty(
-            PropertySpec.builder("messageSize", Int::class)
-                .addModifiers(KModifier.OVERRIDE)
-                .delegate("lazy { messageSize() }")
-                .build()
+    private fun TypeSpec.Builder.handleMessageSize(propertySpecs: List<PropertySpec>) {
+        addProperty(generateMessageSize(msg, propertySpecs, ctx))
+        addFunction(
+            buildFunSpec("messageSize") {
+                returns(Int::class)
+                addModifiers(KModifier.OVERRIDE)
+                addStatement("return $MESSAGE_SIZE")
+            }
         )
+    }
 
     private fun TypeSpec.Builder.handleEquals(
         properties: List<PropertyInfo>
@@ -228,7 +230,8 @@ private class MessageGenerator(
 
 fun formatDoc(lines: List<String>) =
     CodeBlock.of(
-        "%L", // escape the entire comment block
+        // escape the entire comment block
+        "%L",
         lines.joinToString(" ") {
             if (it.isBlank()) {
                 "\n\n"

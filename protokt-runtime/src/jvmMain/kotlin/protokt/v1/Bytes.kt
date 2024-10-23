@@ -36,7 +36,7 @@ actual class Bytes internal actual constructor(value: ByteArray) : AbstractBytes
             AbstractBytes.from(bytes)
 
         @JvmStatic
-        actual fun from(message: KtMessage) =
+        actual fun from(message: Message) =
             AbstractBytes.from(message)
 
         @JvmStatic

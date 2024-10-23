@@ -24,21 +24,28 @@ class MessageImplementsTest {
 
     @Test
     fun `message with wrapped field can be assigned to its interface`() {
-        val deserialized: Model = ImplementsModel.deserialize(model.serialize())
+        val deserialized: IModel = ImplementsModel.deserialize(model.serialize())
 
         assertThat(deserialized.id).isEqualTo(model.id)
     }
 
     @Test
     fun `message with primitive field can be assigned to its interface`() {
-        val deserialized: Model2 = ImplementsModel2.deserialize(model2.serialize())
+        val deserialized: IModel2 = ImplementsModel2.deserialize(model2.serialize())
 
         assertThat(deserialized.id).isEqualTo(model2.id)
     }
 
     @Test
     fun `message implementing by a delegate can be assigned to its interface`() {
-        val byDelegate: Model2 = ImplementsWithDelegate { modelTwo = model2 }
+        val byDelegate: IModel2 = ImplementsWithDelegate { modelTwo = model2 }
+
+        assertThat(byDelegate.id).isEqualTo(model2.id)
+    }
+
+    @Test
+    fun `message implementing by a nullable delegate can be assigned to its interface`() {
+        val byDelegate: IModel2 = ImplementsWithNullableDelegate { modelTwo = model2 }
 
         assertThat(byDelegate.id).isEqualTo(model2.id)
     }

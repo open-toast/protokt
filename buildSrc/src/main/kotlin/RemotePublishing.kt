@@ -43,9 +43,9 @@ private object Pgp {
 }
 
 object ProtoktProjectInfo {
-    const val name = "Protokt"
-    const val url = "https://github.com/open-toast/protokt"
-    const val description = "Protobuf compiler and runtime for Kotlin"
+    const val NAME = "Protokt"
+    const val URL = "https://github.com/open-toast/protokt"
+    const val DESCRIPTION = "Protobuf compiler and runtime for Kotlin"
 }
 
 fun Project.isRelease() = !version.toString().endsWith("-SNAPSHOT")
@@ -64,10 +64,10 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
 
     configure<MavenPublishBaseExtension> {
         pom {
-            name.set(ProtoktProjectInfo.name)
-            description.set(ProtoktProjectInfo.description)
-            url.set(ProtoktProjectInfo.url)
-            scm { url.set(ProtoktProjectInfo.url) }
+            name.set(ProtoktProjectInfo.NAME)
+            description.set(ProtoktProjectInfo.DESCRIPTION)
+            url.set(ProtoktProjectInfo.URL)
+            scm { url.set(ProtoktProjectInfo.URL) }
             licenses {
                 license {
                     name.set("The Apache License, Version 2.0")

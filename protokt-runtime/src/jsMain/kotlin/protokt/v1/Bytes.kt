@@ -16,6 +16,8 @@
 package protokt.v1
 
 actual class Bytes internal actual constructor(value: ByteArray) : AbstractBytes(value) {
+    // Annotation `@JvmStatic` is missing on actual declaration
+    @Suppress("ACTUAL_ANNOTATIONS_NOT_MATCH_EXPECT")
     actual companion object {
         actual fun empty() =
             AbstractBytes.empty()
@@ -23,7 +25,7 @@ actual class Bytes internal actual constructor(value: ByteArray) : AbstractBytes
         actual fun from(bytes: ByteArray) =
             AbstractBytes.from(bytes)
 
-        actual fun from(message: KtMessage) =
+        actual fun from(message: Message) =
             AbstractBytes.from(message)
     }
 }
