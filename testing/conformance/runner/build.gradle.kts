@@ -59,6 +59,7 @@ object Os {
 
 dependencies {
     testImplementation(project(":testing:testing-util"))
+    testImplementation(project(":protokt-json"))
     add("conformance", "build-protobuf-conformance-runner:conformance_test_runner:${libs.versions.protobuf.java.get()}") {
         artifact {
             extension = "exe"

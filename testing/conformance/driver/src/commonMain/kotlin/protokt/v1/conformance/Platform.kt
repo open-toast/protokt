@@ -31,10 +31,17 @@ internal expect object Platform {
 
     fun writeToStdOut(bytes: ByteArray)
 
-    fun <T : Message> deserialize(
+    fun <T : Message> deserializeProtobuf(
         bytes: ByteArray,
         deserializer: Deserializer<T>
     ): ConformanceStepResult<T>
 
-    fun serialize(message: Message): ConformanceStepResult<Bytes>
+    fun serializeProtobuf(message: Message): ConformanceStepResult<Bytes>
+
+    fun <T : Message> deserializeJson(
+        json: String,
+        deserializer: Deserializer<T>
+    ): ConformanceStepResult<T>
+
+    fun serializeJson(message: Message): ConformanceStepResult<String>
 }
