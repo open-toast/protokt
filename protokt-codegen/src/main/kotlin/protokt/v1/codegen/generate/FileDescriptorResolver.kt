@@ -78,14 +78,11 @@ private constructor(
         return FileDescriptorInfo(type, properties)
     }
 
-    private fun descriptorLines() =
-        fileDescriptorParts()
-            .map { arrayParts ->
-                arrayParts
-                    .map { CodeBlock.of("\"%L\"", it) }
-                    .joinToCode(" +\n")
-            }
-            .joinToCode(",\n")
+    private fun descriptorLines(): CodeBlock {
+        val sb = StringBuilder()
+        fileDescriptorParts().forEach(sb::append)
+        return CodeBlock.of("\"%L\"", sb.toString().bindSpaces())
+    }
 
     private fun fileDescriptorParts() =
         encodeFileDescriptor(
