@@ -19,6 +19,7 @@ import com.google.protobuf.DescriptorProtos
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.TypeSpec
 import com.toasttab.protokt.v1.ProtoktProtos
+import io.grpc.kotlin.generator.protoc.ProtoMethodName
 import protokt.v1.reflect.FieldType
 
 sealed class TopLevelType
@@ -79,7 +80,7 @@ class ServiceOptions(
 )
 
 class Method(
-    val name: String,
+    val name: ProtoMethodName,
     val inputType: ClassName,
     val outputType: ClassName,
     val clientStreaming: Boolean,
