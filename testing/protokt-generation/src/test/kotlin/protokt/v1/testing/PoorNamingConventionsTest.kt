@@ -13,17 +13,16 @@
  * limitations under the License.
  */
 
-syntax = "proto3";
+package protokt.v1.testing
 
-package protokt.v1.testing;
+import com.google.common.truth.Truth.assertThat
+import org.junit.jupiter.api.Test
 
-import "google/protobuf/empty.proto";
-
-service Greeter {
-  // Lower case initial 's'
-  rpc sayHello (google.protobuf.Empty) returns (google.protobuf.Empty) {}
-}
-
-message BadFieldName {
-  string fooBar = 1;
+class PoorNamingConventionsTest {
+    @Test
+    fun `camel case proto name matches protobuf-java convention`() {
+        val foo = BadFieldName { fooBar = "foobar" }
+        assertThat(foo.fooBar).isEqualTo("foobar")
+        assertThat(BadFieldName::class.propertyNamed("fooBar")).isNotNull()
+    }
 }
