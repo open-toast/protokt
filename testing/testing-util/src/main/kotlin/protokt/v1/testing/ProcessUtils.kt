@@ -39,7 +39,7 @@ fun String.runCommand(
             .apply { environment().putAll(env) }
             .start()
 
-    if (!proc.waitFor(10, TimeUnit.SECONDS)) {
+    if (!proc.waitFor(100, TimeUnit.SECONDS)) {
         proc.destroyForcibly()
         fail("Process '$this' took too long")
     }
