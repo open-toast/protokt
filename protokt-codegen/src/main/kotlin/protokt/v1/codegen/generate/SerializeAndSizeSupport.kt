@@ -19,8 +19,7 @@ import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.buildCodeBlock
 import protokt.v1.codegen.generate.CodeGenerator.Context
-import protokt.v1.codegen.generate.Nullability.hasNonNullOption
-import protokt.v1.codegen.generate.Nullability.nullable
+import protokt.v1.codegen.generate.Nullability.treatAsNullable
 import protokt.v1.codegen.generate.Wrapper.interceptValueAccess
 import protokt.v1.codegen.generate.Wrapper.wrapperRequiresNullability
 import protokt.v1.codegen.util.Message
@@ -34,8 +33,7 @@ internal fun Message.mapFields(
     properties: List<PropertySpec>,
     skipConditionalForUnpackedRepeatedFields: Boolean,
     std: (StandardField, PropertySpec) -> CodeBlock,
-    oneof: (Oneof, StandardField, PropertySpec) -> CodeBlock,
-    oneofPreControlFlow: CodeBlock.Builder.(Oneof) -> Unit = {}
+    oneof: (Oneof, StandardField, PropertySpec) -> CodeBlock
 ): List<CodeBlock> =
     fields.zip(properties)
         .map { (field, property) ->
@@ -43,7 +41,7 @@ internal fun Message.mapFields(
                 is StandardField ->
                     standardFieldExecution(ctx, field, skipConditionalForUnpackedRepeatedFields) { std(field, property) }
                 is Oneof ->
-                    oneofFieldExecution(field, { oneof(field, it, property) }, oneofPreControlFlow)
+                    oneofFieldExecution(field) { oneof(field, it, property) }
             }
         }
 
@@ -58,18 +56,14 @@ private fun standardFieldExecution(
         add("\n")
     }
 
-    return if (field.hasNonNullOption) {
-        buildCodeBlock { addStmt() }
-    } else {
-        buildCodeBlock {
-            if (field.repeated && !field.packed && skipConditional) {
-                // skip isNotEmpty check when not packed; will short circuit correctly
-                addStmt()
-            } else {
-                beginControlFlow("if (%L)", field.nonDefault(ctx))
-                addStmt()
-                endControlFlow()
-            }
+    return buildCodeBlock {
+        if (field.repeated && !field.packed && skipConditional) {
+            // skip isNotEmpty check when not packed; will short circuit correctly
+            addStmt()
+        } else {
+            beginControlFlow("if (%L)", field.nonDefault(ctx))
+            addStmt()
+            endControlFlow()
         }
     }
 }
@@ -88,7 +82,7 @@ private fun StandardField.nonDefault(ctx: Context): CodeBlock {
             else -> error("Field doesn't have nondefault check: $this, $type")
         }
 
-    return if (!nullable && wrapperRequiresNullability(ctx)) {
+    return if (!treatAsNullable && wrapperRequiresNullability(ctx)) {
         CodeBlock.of("%L != null && %L", fieldName, defaultCheck)
     } else {
         defaultCheck
@@ -97,11 +91,9 @@ private fun StandardField.nonDefault(ctx: Context): CodeBlock {
 
 private fun oneofFieldExecution(
     field: Oneof,
-    stmt: (StandardField) -> CodeBlock,
-    preControlFlow: CodeBlock.Builder.(Oneof) -> Unit
+    stmt: (StandardField) -> CodeBlock
 ): CodeBlock =
     buildCodeBlock {
-        preControlFlow(field)
         beginControlFlow("when (%N)", field.fieldName)
         oneofInstanceConditionals(field) { stmt(it) }.forEach(::add)
         endControlFlow()
@@ -114,14 +106,7 @@ private fun oneofInstanceConditionals(f: Oneof, stmt: (StandardField) -> CodeBlo
             buildCodeBlock {
                 addStatement("is·%T·->\n%L", f.qualify(it), stmt(it))
             }
-        }
-        .let {
-            if (f.hasNonNullOption) {
-                it
-            } else {
-                it + buildCodeBlock { addStatement("null·->·Unit") }
-            }
-        }
+        } + buildCodeBlock { addStatement("null·->·Unit") }
 
 internal fun Oneof.qualify(f: StandardField) =
     className.nestedClass(fieldTypeNames.getValue(f.fieldName))

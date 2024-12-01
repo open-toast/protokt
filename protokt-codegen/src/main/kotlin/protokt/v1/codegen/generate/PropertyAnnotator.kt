@@ -24,8 +24,8 @@ import protokt.v1.codegen.generate.Deprecation.renderOptions
 import protokt.v1.codegen.generate.Implements.overrides
 import protokt.v1.codegen.generate.Nullability.deserializeType
 import protokt.v1.codegen.generate.Nullability.dslPropertyType
-import protokt.v1.codegen.generate.Nullability.hasNonNullOption
-import protokt.v1.codegen.generate.Nullability.nullable
+import protokt.v1.codegen.generate.Nullability.generateNonNullAccessor
+import protokt.v1.codegen.generate.Nullability.treatAsNullable
 import protokt.v1.codegen.generate.Nullability.propertyType
 import protokt.v1.codegen.generate.Wrapper.interceptDefaultValue
 import protokt.v1.codegen.generate.Wrapper.interceptTypeName
@@ -60,14 +60,14 @@ private class PropertyAnnotator(
                         name = field.fieldName,
                         number = field.number,
                         propertyType = propertyType(field, type, wrapperRequiresNullability),
+                        generateNullableBackingProperty = field.generateNonNullAccessor,
                         deserializeType = deserializeType(field, type),
                         builderPropertyType = dslPropertyType(field, type),
                         defaultValue = field.defaultValue(ctx, msg.mapEntry),
                         fieldType = field.type,
                         repeated = field.repeated,
                         mapEntry = field.mapEntry,
-                        nullable = field.nullable || field.optional || wrapperRequiresNullability,
-                        nonNullOption = field.hasNonNullOption,
+                        nullable = field.treatAsNullable || field.optional || wrapperRequiresNullability,
                         overrides = field.overrides(ctx, msg),
                         wrapped = field.wrapped,
                         documentation = documentation,
@@ -83,8 +83,7 @@ private class PropertyAnnotator(
                     builderPropertyType = field.className.copy(nullable = true),
                     defaultValue = field.defaultValue(ctx, false),
                     oneof = true,
-                    nullable = field.nullable,
-                    nonNullOption = field.hasNonNullOption,
+                    nullable = field.treatAsNullable,
                     documentation = documentation
                 )
         }
@@ -124,7 +123,7 @@ private class PropertyAnnotator(
                         repeated -> CodeBlock.of("emptyList()")
                         type == FieldType.Message -> CodeBlock.of("null")
                         type == FieldType.Enum -> CodeBlock.of("%T.from(0)", className)
-                        nullable && !mapEntry -> CodeBlock.of("null")
+                        treatAsNullable && !mapEntry -> CodeBlock.of("null")
                         else -> type.defaultValue
                     },
                     ctx
@@ -137,11 +136,11 @@ internal class PropertyInfo(
     val name: String,
     val number: Int? = null,
     val propertyType: TypeName,
+    val generateNullableBackingProperty: Boolean = false,
     val deserializeType: TypeName,
     val builderPropertyType: TypeName,
     val defaultValue: CodeBlock,
     val nullable: Boolean,
-    val nonNullOption: Boolean,
     val fieldType: FieldType? = null,
     val repeated: Boolean = false,
     val mapEntry: Message? = null,

@@ -47,14 +47,15 @@ private class MessageGenerator(
 ) {
     fun generate(): TypeSpec {
         val properties = annotateProperties(msg, ctx)
-        val propertySpecs = properties(properties)
+        val (constructorProps, delegateProps) = properties(properties)
 
         return TypeSpec.classBuilder(msg.className).apply {
             annotateMessageDocumentation(ctx)?.let { addKdoc(formatDoc(it)) }
             handleAnnotations()
-            handleConstructor(propertySpecs)
+            handleConstructor(constructorProps)
             addTypes(annotateOneofs(msg, ctx))
-            handleMessageSize(propertySpecs)
+            handleMessageSize(constructorProps)
+            addProperties(delegateProps)
             addFunction(generateSerializer(msg, propertySpecs, ctx))
             handleEquals(properties)
             handleHashCode(properties)
@@ -102,8 +103,32 @@ private class MessageGenerator(
         handleSuperInterface(msg, ctx)
     }
 
-    private fun properties(properties: List<PropertyInfo>) =
-        properties.map { property ->
+    private data class MessageProperties(
+        val constructorProps: List<PropertySpec>,
+        val delegateProps: List<PropertySpec>
+    ) {
+        constructor(property: PropertySpec) : this(listOf(property), emptyList())
+        constructor(constructorProp: PropertySpec, delegateProp: PropertySpec) :
+            this(listOf(constructorProp), listOf(delegateProp))
+
+        operator fun plus(props: MessageProperties) =
+            MessageProperties(
+                constructorProps + props.constructorProps,
+                delegateProps + props.delegateProps
+            )
+    }
+
+    private fun properties(properties: List<PropertyInfo>): MessageProperties =
+        properties.fold(MessageProperties(emptyList(), emptyList())) { props, property ->
+            if (property.generateNullableBackingProperty) {
+                props + generateWithBackingProperty(property)
+            } else {
+                props + generateStandardProperty(property)
+            }
+        }
+
+    private fun generateStandardProperty(property: PropertyInfo) =
+        MessageProperties(
             PropertySpec.builder(property.name, property.propertyType).apply {
                 if (property.number != null) {
                     addAnnotation(
@@ -119,7 +144,37 @@ private class MessageGenerator(
                 property.documentation?.let { addKdoc(formatDoc(it)) }
                 handleDeprecation(property.deprecation)
             }.build()
-        }
+        )
+
+    private fun generateWithBackingProperty(property: PropertyInfo) =
+        MessageProperties(
+            PropertySpec.builder(property.name, property.propertyType.copy(nullable = true)).apply {
+                if (property.number != null) {
+                    addAnnotation(
+                        AnnotationSpec.builder(GeneratedProperty::class)
+                            .addMember("${property.number}")
+                            .build()
+                    )
+                }
+                addKdoc("Nullable backing property for ${require(property.name)}")
+                initializer(property.name)
+            }.build(),
+            PropertySpec.builder(require(property.name), property.propertyType).apply {
+                getter(
+                    FunSpec.getterBuilder()
+                        .addCode(property.name + "!!")
+                        .build()
+                )
+                if (property.overrides) {
+                    addModifiers(KModifier.OVERRIDE)
+                }
+                property.documentation?.let { addKdoc(formatDoc(it)) }
+                handleDeprecation(property.deprecation)
+            }.build()
+        )
+
+    private fun require(propName: String) =
+        "require${propName.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }}"
 
     private fun TypeSpec.Builder.handleMessageSize(propertySpecs: List<PropertySpec>) {
         addProperty(generateMessageSize(msg, propertySpecs, ctx))

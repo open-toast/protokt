@@ -22,7 +22,7 @@ import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import protokt.v1.codegen.generate.CodeGenerator.Context
-import protokt.v1.codegen.generate.Nullability.nullable
+import protokt.v1.codegen.generate.Nullability.treatAsNullable
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.StandardField
 import kotlin.reflect.KClass
@@ -70,7 +70,7 @@ internal object Implements {
         val implementFields = interfaceFields.values.filter { it.name !in fieldsByName.keys }
 
         implementFields.forEach { field ->
-            val standardFieldNullable = fieldsByName.getValue(fieldName).nullable
+            val standardFieldNullable = fieldsByName.getValue(fieldName).treatAsNullable
             addProperty(
                 PropertySpec.builder(
                     field.name,
