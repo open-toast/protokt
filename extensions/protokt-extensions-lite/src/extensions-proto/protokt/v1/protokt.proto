@@ -46,13 +46,15 @@ extend google.protobuf.MessageOptions {
 }
 
 message FieldOptions {
-  // Generates a non-nullable accessor in the Kotlin code.
+  // Generates a non-nullable accessor.
   //
   // For example:
   //
   // message Foo {
-  //   string id = 1 [(protokt.v1.property).generate_non_null_accessor = true];
+  //   Bar id = 1 [(protokt.v1.property).generate_non_null_accessor = true];
   // }
+  //
+  // will generate an accessor called [requireId] that has the non-nullable type [Bar] (as opposed to [Bar?]).
   bool generate_non_null_accessor = 1;
 
   // Expose a wrapper class instead of a raw protobuf type.
