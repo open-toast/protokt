@@ -689,37 +689,20 @@ for each message defined in
 ### Non-null fields
 If a message has no meaning whatsoever when a particular non-scalar field is
 missing, you can emulate proto2's `required` key word by using the
-`(protokt.v1.property).non_null` option:
+`(protokt.v1.property).generate_non_null_accessor` option:
 
 ```protobuf
 message Sample {}
 
 message NonNullSampleMessage {
   Sample non_null_sample = 1 [
-    (protokt.v1.property).non_null = true
+    (protokt.v1.property).generate_non_null_accessor = true
   ];
 }
 ```
 
-Generated code will not have a nullable type, so the field can be referenced
+Generated code will include a non-null accessor prefixed with `require`, so the field can be referenced
 without using Kotlin's `!!`.
-
-Oneof fields can also be declared non-null:
-
-```protobuf
-message NonNullSampleMessage {
-  oneof non_null_oneof {
-    option (protokt.v1.oneof).non_null = true;
-
-    string message = 1;
-  }
-}
-```
-
-Note that deserialization of a message with a non-nullable field will fail if the
-message being decoded does not contain an instance of the required field.
-
-This functionality will likely be removed.
 
 ### Interface implementation
 
@@ -768,7 +751,7 @@ message ImplementsWithDelegate {
   option (protokt.v1.class).implements = "Model2 by modelTwo";
 
   ImplementsModel2 model_two = 1 [
-    (protokt.v1.property).non_null = true
+    (protokt.v1.property).generate_non_null_accessor = true
   ];
 }
 ```

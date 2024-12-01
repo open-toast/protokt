@@ -24,10 +24,10 @@ import protokt.v1.reflect.FieldType
 
 internal object Nullability {
     val Field.generateNonNullAccessor
-        get() = this is StandardField && options.protokt.nonNull
+        get() = this is StandardField && options.protokt.generateNonNullAccessor
 
-    val Field.treatAsNullable
-        get() = isKotlinRepresentationNullable && !generateNonNullAccessor
+    val Field.nullable
+        get() = isKotlinRepresentationNullable
 
     private val Field.isKotlinRepresentationNullable
         get() =
@@ -50,7 +50,7 @@ internal object Nullability {
         }
 
     fun propertyType(f: StandardField, type: TypeName, wrapperRequiresNullability: Boolean) =
-        if (f.treatAsNullable || wrapperRequiresNullability) {
+        if (f.nullable || wrapperRequiresNullability) {
             type.copy(nullable = true)
         } else {
             type
@@ -59,7 +59,7 @@ internal object Nullability {
     fun deserializeType(f: StandardField, type: TypeName) =
         if (
             f.repeated ||
-            f.treatAsNullable ||
+            f.nullable ||
             f.isKotlinRepresentationNullable ||
             f.isWrappedNonRepeatedPrimitive
         ) {
@@ -77,4 +77,7 @@ internal object Nullability {
         } else {
             type
         }
+
+    fun nonNullPropName(propName: String) =
+        "require${propName.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }}"
 }

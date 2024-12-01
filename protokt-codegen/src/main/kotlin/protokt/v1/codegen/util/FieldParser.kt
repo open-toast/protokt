@@ -153,7 +153,7 @@ internal class FieldParser(
             index = idx
         )
 
-        if (protoktOptions.nonNull) {
+        if (protoktOptions.generateNonNullAccessor) {
             validateNonNullOption(fdp, result, withinOneof, optional)
         }
 
@@ -244,16 +244,16 @@ internal class FieldParser(
             }
 
         require(!optional) {
-            "(protokt.property).non_null is not applicable to optional fields " +
+            "(protokt.property).generate_non_null_accessor is not applicable to optional fields " +
                 "and is inapplicable to optional $typeName"
         }
         require(!withinOneof) {
-            "(protokt.property).non_null is only applicable to top level types " +
+            "(protokt.property).generate_non_null_accessor is only applicable to top level types " +
                 "and is inapplicable to oneof field $typeName"
         }
 
         require((field.type == FieldType.Message && !field.repeated) || field.wrapperRequiresNonNullOptionForNonNullity(ctx)) {
-            "(protokt.property).non_null is only applicable to message types " +
+            "(protokt.property).generate_non_null_accessor is only applicable to message types " +
                 "and is inapplicable to non-message " +
                 when {
                     field.mapEntry != null ->

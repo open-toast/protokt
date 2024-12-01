@@ -32,6 +32,7 @@ import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.CodeGenerator.generate
 import protokt.v1.codegen.generate.Deprecation.handleDeprecation
 import protokt.v1.codegen.generate.Implements.handleSuperInterface
+import protokt.v1.codegen.generate.Nullability.nonNullPropName
 import protokt.v1.codegen.util.Message
 
 internal fun generateMessage(msg: Message, ctx: Context) =
@@ -156,14 +157,12 @@ private class MessageGenerator(
                             .build()
                     )
                 }
-                addKdoc("Nullable backing property for ${nonNullPropName(property.name)}")
                 initializer(property.name)
             }.build(),
             PropertySpec.builder(nonNullPropName(property.name), property.propertyType.copy(nullable = false)).apply {
                 getter(
                     FunSpec.getterBuilder()
-                        // todo: have an error message here
-                        .addCode("return ${property.name}!!")
+                        .addCode("return ${dereferenceNullableBackingProperty(property.name)}")
                         .build()
                 )
                 if (property.overrides) {
@@ -174,8 +173,8 @@ private class MessageGenerator(
             }.build()
         )
 
-    fun nonNullPropName(propName: String) =
-        "require${propName.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }}"
+    private fun dereferenceNullableBackingProperty(propName: String) =
+        "requireNotNull($propName) { \"$propName is assumed non-null with (protokt.property).generate_non_null_accessor but was null\" }".bindSpaces()
 
     private fun TypeSpec.Builder.handleMessageSize(propertySpecs: List<PropertySpec>) {
         addProperty(generateMessageSize(msg, propertySpecs, ctx))

@@ -25,8 +25,8 @@ import protokt.v1.codegen.generate.Implements.overrides
 import protokt.v1.codegen.generate.Nullability.deserializeType
 import protokt.v1.codegen.generate.Nullability.dslPropertyType
 import protokt.v1.codegen.generate.Nullability.generateNonNullAccessor
+import protokt.v1.codegen.generate.Nullability.nullable
 import protokt.v1.codegen.generate.Nullability.propertyType
-import protokt.v1.codegen.generate.Nullability.treatAsNullable
 import protokt.v1.codegen.generate.Wrapper.interceptDefaultValue
 import protokt.v1.codegen.generate.Wrapper.interceptTypeName
 import protokt.v1.codegen.generate.Wrapper.wrapped
@@ -67,7 +67,7 @@ private class PropertyAnnotator(
                         fieldType = field.type,
                         repeated = field.repeated,
                         mapEntry = field.mapEntry,
-                        nullable = field.treatAsNullable || field.optional || wrapperRequiresNullability,
+                        nullable = field.nullable || field.optional || wrapperRequiresNullability,
                         overrides = field.overrides(ctx, msg),
                         wrapped = field.wrapped,
                         documentation = documentation,
@@ -83,7 +83,7 @@ private class PropertyAnnotator(
                     builderPropertyType = field.className.copy(nullable = true),
                     defaultValue = field.defaultValue(ctx, false),
                     oneof = true,
-                    nullable = field.treatAsNullable,
+                    nullable = field.nullable,
                     documentation = documentation
                 )
         }
@@ -123,7 +123,7 @@ private class PropertyAnnotator(
                         repeated -> CodeBlock.of("emptyList()")
                         type == FieldType.Message -> CodeBlock.of("null")
                         type == FieldType.Enum -> CodeBlock.of("%T.from(0)", className)
-                        treatAsNullable && !mapEntry -> CodeBlock.of("null")
+                        nullable && !mapEntry -> CodeBlock.of("null")
                         else -> type.defaultValue
                     },
                     ctx

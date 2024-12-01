@@ -22,7 +22,8 @@ import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import protokt.v1.codegen.generate.CodeGenerator.Context
-import protokt.v1.codegen.generate.Nullability.treatAsNullable
+import protokt.v1.codegen.generate.Nullability.generateNonNullAccessor
+import protokt.v1.codegen.generate.Nullability.nonNullPropName
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.StandardField
 import kotlin.reflect.KClass
@@ -70,32 +71,34 @@ internal object Implements {
         val implementFields = interfaceFields.values.filter { it.name !in fieldsByName.keys }
 
         implementFields.forEach { field ->
-            val standardFieldNullable = fieldsByName.getValue(fieldName).treatAsNullable
+            val assumeNotNull = fieldsByName.getValue(fieldName).generateNonNullAccessor
             addProperty(
                 PropertySpec.builder(
                     field.name,
                     (field.returnType.classifier as KClass<*>).asTypeName()
                         .let {
-                            if (standardFieldNullable) {
-                                it.copy(nullable = true)
-                            } else {
+                            if (assumeNotNull) {
                                 it
+                            } else {
+                                it.copy(nullable = true)
                             }
                         }
                 )
                     .addModifiers(KModifier.OVERRIDE)
                     .getter(
                         FunSpec.getterBuilder()
-                            .addCode(
-                                "return %L" +
-                                    if (standardFieldNullable) {
-                                        "?"
+                            .addNamedCode(
+                                "return " +
+                                    if (assumeNotNull) {
+                                        nonNullPropName(fieldName)
                                     } else {
-                                        "!!" // todo: have an error message here
+                                        "%propName:L?"
                                     } +
-                                    ".%L",
-                                fieldName,
-                                field.name
+                                    ".%delegatePropName:L",
+                                mapOf(
+                                    "delegatePropName" to field.name,
+                                    "propName" to fieldName
+                                )
                             )
                             .build()
                     )

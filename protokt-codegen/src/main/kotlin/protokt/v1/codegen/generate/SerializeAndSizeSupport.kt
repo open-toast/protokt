@@ -19,7 +19,7 @@ import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.buildCodeBlock
 import protokt.v1.codegen.generate.CodeGenerator.Context
-import protokt.v1.codegen.generate.Nullability.treatAsNullable
+import protokt.v1.codegen.generate.Nullability.nullable
 import protokt.v1.codegen.generate.Wrapper.interceptValueAccess
 import protokt.v1.codegen.generate.Wrapper.wrapperRequiresNullability
 import protokt.v1.codegen.util.Message
@@ -82,7 +82,7 @@ private fun StandardField.nonDefault(ctx: Context): CodeBlock {
             else -> error("Field doesn't have nondefault check: $this, $type")
         }
 
-    return if (!treatAsNullable && wrapperRequiresNullability(ctx)) {
+    return if (!nullable && wrapperRequiresNullability(ctx)) {
         CodeBlock.of("%L != null && %L", fieldName, defaultCheck)
     } else {
         defaultCheck

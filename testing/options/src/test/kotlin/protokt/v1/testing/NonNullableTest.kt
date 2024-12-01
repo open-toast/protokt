@@ -41,18 +41,15 @@ class NonNullableTest {
                 }.serialize()
             )
 
-        // val thrown =
-        assertThrows<NullPointerException> {
-            model.requireNonNullStringValue
-        }
+        val thrown =
+            assertThrows<IllegalArgumentException> {
+                model.requireNonNullStringValue
+            }
 
-        // todo: replace with correct error message
-        /*
         assertThat(thrown).hasMessageThat().apply {
             contains("nonNullStringValue")
             contains("was null")
-            contains("(protokt.property).non_null")
+            contains("(protokt.property).generate_non_null_accessor")
         }
-         */
     }
 }

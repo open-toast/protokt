@@ -39,7 +39,7 @@ message ImplementsWithDelegate {
   option (.protokt.v1.class).implements = "IModel2 by modelTwo";
 
   ImplementsModel2 model_two = 1 [
-    (.protokt.v1.property).non_null = true
+    (.protokt.v1.property).generate_non_null_accessor = true
   ];
 }
 

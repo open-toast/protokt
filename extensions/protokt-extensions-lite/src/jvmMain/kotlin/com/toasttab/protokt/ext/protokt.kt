@@ -244,7 +244,7 @@ class ProtoktFieldOptions private constructor(
      *
      *  For example:
      *
-     *  message Foo {   string id = 1 [(protokt.property).non_null = true]; }
+     *  message Foo {   string id = 1 [(protokt.property).generate_non_null_accessor = true]; }
      */
     val nonNull: Boolean,
     /**

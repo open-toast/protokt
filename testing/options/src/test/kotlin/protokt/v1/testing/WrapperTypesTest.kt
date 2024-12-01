@@ -345,16 +345,14 @@ class WrapperTypesTest {
 
         assertThat(model.instant).isNull()
 
-        // val thrown =
-        assertThrows<NullPointerException> {
-            assertThat(model.requireInstant)
-        }
+        val thrown =
+            assertThrows<IllegalArgumentException> {
+                model.requireInstant
+            }
 
-                /* todo: validate error message
+        assertThat(thrown)
             .hasMessageThat()
-            .isEqualTo("instant specified nonnull with (protokt.property).non_null but was null")
-
-                 */
+            .isEqualTo("instant is assumed non-null with (protokt.property).generate_non_null_accessor but was null")
     }
 
     @Test
