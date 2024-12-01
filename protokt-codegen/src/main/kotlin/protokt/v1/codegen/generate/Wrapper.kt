@@ -24,7 +24,6 @@ import protokt.v1.BytesSlice
 import protokt.v1.Converter
 import protokt.v1.OptimizedSizeOfConverter
 import protokt.v1.codegen.generate.CodeGenerator.Context
-import protokt.v1.codegen.generate.Nullability.generateNonNullAccessor
 import protokt.v1.codegen.util.GeneratorContext
 import protokt.v1.codegen.util.StandardField
 import protokt.v1.reflect.ClassLookup
@@ -39,7 +38,7 @@ internal object Wrapper {
         get() = wrapWithWellKnownInterception(options.wrap, protoTypeName) != null
 
     fun StandardField.wrapperRequiresNullability(ctx: Context) =
-        wrapperRequiresNonNullOptionForNonNullity(ctx.info.context) && !generateNonNullAccessor
+        wrapperRequiresNonNullOptionForNonNullity(ctx.info.context)
 
     fun StandardField.wrapperRequiresNonNullOptionForNonNullity(ctx: GeneratorContext) =
         wrapped && withWrapper(ctx) { it.cannotDeserializeDefaultValue && !repeated } ?: false

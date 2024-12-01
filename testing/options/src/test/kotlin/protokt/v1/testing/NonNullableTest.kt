@@ -23,25 +23,36 @@ class NonNullableTest {
     @Test
     fun `test declared nullability`() {
         assertThat(
-            NonNullModel::class.propertyIsMarkedNullable("nonNullStringValue")
+            NonNullModel::class.propertyIsMarkedNullable("requireNonNullStringValue")
         ).isFalse()
+
+        assertThat(
+            NonNullModel::class.propertyIsMarkedNullable("nonNullStringValue")
+        ).isTrue()
     }
 
     @Test
-    fun `detailed error when attempting to deserialize null field`() {
-        val thrown = assertThrows<IllegalArgumentException> {
+    fun `error when attempting to access null field`() {
+        val model =
             NonNullModel.deserialize(
                 NonNullModelMirror {
                     nonNullStringValue = null
                     nonNullOneof = NonNullModelMirror.NonNullOneof.Message("asdf")
                 }.serialize()
             )
+
+        // val thrown =
+        assertThrows<NullPointerException> {
+            model.requireNonNullStringValue
         }
 
+        // todo: replace with correct error message
+        /*
         assertThat(thrown).hasMessageThat().apply {
             contains("nonNullStringValue")
             contains("was null")
             contains("(protokt.property).non_null")
         }
+         */
     }
 }

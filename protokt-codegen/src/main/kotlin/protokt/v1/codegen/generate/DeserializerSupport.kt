@@ -34,7 +34,7 @@ internal fun wrapDeserializedValueForConstructor(p: PropertyInfo) =
     } else {
         buildCodeBlock {
             add("%N", p.name)
-            if (p.wrapped && !p.nullable) {
+            if (p.wrapped && !(p.generateNullableBackingProperty || p.nullable)) {
                 add(" ?: %L", p.defaultValue)
             }
         }

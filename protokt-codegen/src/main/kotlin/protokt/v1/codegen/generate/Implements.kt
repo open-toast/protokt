@@ -91,7 +91,7 @@ internal object Implements {
                                     if (standardFieldNullable) {
                                         "?"
                                     } else {
-                                        ""
+                                        "!!" // todo: have an error message here
                                     } +
                                     ".%L",
                                 fieldName,

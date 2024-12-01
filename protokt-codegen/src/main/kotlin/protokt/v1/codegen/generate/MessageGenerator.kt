@@ -156,13 +156,14 @@ private class MessageGenerator(
                             .build()
                     )
                 }
-                addKdoc("Nullable backing property for ${require(property.name)}")
+                addKdoc("Nullable backing property for ${nonNullPropName(property.name)}")
                 initializer(property.name)
             }.build(),
-            PropertySpec.builder(require(property.name), property.propertyType).apply {
+            PropertySpec.builder(nonNullPropName(property.name), property.propertyType.copy(nullable = false)).apply {
                 getter(
                     FunSpec.getterBuilder()
-                        .addCode(property.name + "!!")
+                        // todo: have an error message here
+                        .addCode("return ${property.name}!!")
                         .build()
                 )
                 if (property.overrides) {
@@ -173,7 +174,7 @@ private class MessageGenerator(
             }.build()
         )
 
-    private fun require(propName: String) =
+    fun nonNullPropName(propName: String) =
         "require${propName.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }}"
 
     private fun TypeSpec.Builder.handleMessageSize(propertySpecs: List<PropertySpec>) {

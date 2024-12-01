@@ -25,8 +25,8 @@ import protokt.v1.codegen.generate.Implements.overrides
 import protokt.v1.codegen.generate.Nullability.deserializeType
 import protokt.v1.codegen.generate.Nullability.dslPropertyType
 import protokt.v1.codegen.generate.Nullability.generateNonNullAccessor
-import protokt.v1.codegen.generate.Nullability.treatAsNullable
 import protokt.v1.codegen.generate.Nullability.propertyType
+import protokt.v1.codegen.generate.Nullability.treatAsNullable
 import protokt.v1.codegen.generate.Wrapper.interceptDefaultValue
 import protokt.v1.codegen.generate.Wrapper.interceptTypeName
 import protokt.v1.codegen.generate.Wrapper.wrapped
