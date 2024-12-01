@@ -38,9 +38,7 @@ message ImplementsModel2 {
 message ImplementsWithDelegate {
   option (.protokt.v1.class).implements = "IModel2 by modelTwo";
 
-  ImplementsModel2 model_two = 1 [
-    (.protokt.v1.property).non_null = true
-  ];
+  ImplementsModel2 model_two = 1;
 }
 
 message ImplementsWithNullableDelegate {

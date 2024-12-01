@@ -22,7 +22,6 @@ import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import protokt.v1.codegen.generate.CodeGenerator.Context
-import protokt.v1.codegen.generate.Nullability.nullable
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.StandardField
 import kotlin.reflect.KClass
@@ -53,7 +52,7 @@ internal object Implements {
             if (superInterface != null) {
                 addSuperinterface(superInterface.`interface`)
                 if (superInterface.delegate != null) {
-                    // don't delegate because message types may be nullable
+                    // can't actually delegate because message types are nullable
                     delegateProperties(msg, ctx, superInterface.canonicalName, superInterface.delegate)
                 }
             }
@@ -61,7 +60,6 @@ internal object Implements {
 
     private fun TypeSpec.Builder.delegateProperties(msg: Message, ctx: Context, canonicalName: String, fieldName: String) {
         val fieldsByName = msg.fields.filterIsInstance<StandardField>().associateBy { it.fieldName }
-
         val interfaceFields =
             ctx.info.context.classLookup
                 .properties(canonicalName)
@@ -69,34 +67,23 @@ internal object Implements {
 
         val implementFields = interfaceFields.values.filter { it.name !in fieldsByName.keys }
 
-        implementFields.forEach { field ->
-            val standardFieldNullable = fieldsByName.getValue(fieldName).nullable
+        implementFields.forEach {
+            require(it.returnType.isMarkedNullable) {
+                "Delegated properties must be nullable because message types are nullable; " +
+                    "property ${it.name} is non-nullable"
+            }
+        }
+
+        implementFields.forEach {
             addProperty(
                 PropertySpec.builder(
-                    field.name,
-                    (field.returnType.classifier as KClass<*>).asTypeName()
-                        .let {
-                            if (standardFieldNullable) {
-                                it.copy(nullable = true)
-                            } else {
-                                it
-                            }
-                        }
+                    it.name,
+                    (it.returnType.classifier as KClass<*>).asTypeName().copy(nullable = true)
                 )
                     .addModifiers(KModifier.OVERRIDE)
                     .getter(
                         FunSpec.getterBuilder()
-                            .addCode(
-                                "return %L" +
-                                    if (standardFieldNullable) {
-                                        "?"
-                                    } else {
-                                        ""
-                                    } +
-                                    ".%L",
-                                fieldName,
-                                field.name
-                            )
+                            .addCode("return %L?.%L", fieldName, it.name)
                             .build()
                     )
                     .build()

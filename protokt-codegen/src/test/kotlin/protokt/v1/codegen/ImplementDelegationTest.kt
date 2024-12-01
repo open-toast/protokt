@@ -15,12 +15,16 @@
 
 package protokt.v1.codegen
 
+import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
 
 class ImplementDelegationTest : AbstractProtoktCodegenTest() {
     @Test
     fun `delegate to interface with non-null property`() {
-        runPlugin("implement_by_delegate_with_non_null_property.proto").orFail()
+        val result = runPlugin("implement_by_delegate_with_non_null_property.proto") as Failure
+
+        assertThat(result.err)
+            .contains("Delegated properties must be nullable because message types are nullable; property id is non-nullable")
     }
 }
 
