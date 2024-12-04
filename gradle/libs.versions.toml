@@ -44,7 +44,7 @@ jmh = "1.37"
 wire = "5.1.0"
 
 # test
-classgraph = "4.8.153"
+classgraph = "4.8.179"
 grpc-js = "1.8.14"
 jackson = "2.17.1"
 junit = "5.10.2"
