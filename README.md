@@ -1,4 +1,4 @@
-# protokt 
+# protokt
 
 [![Github Actions](https://github.com/open-toast/protokt/actions/workflows/ci.yml/badge.svg)](https://github.com/open-toast/protokt/actions/workflows/ci.yml)
 [![Maven Central](https://img.shields.io/maven-central/v/com.toasttab.protokt/protokt-runtime)](https://search.maven.org/artifact/com.toasttab.protokt/protokt-runtime)
@@ -23,21 +23,21 @@ is represented as `String?`, etc.
 CodedOutputStream for best performance
 - (JS) Built on protobufJS for best performance
 - gRPC [method descriptor and service descriptor generation](#grpc-code-generation)
-for use with [grpc-java](#integrating-with-grpcs-java-api), 
+for use with [grpc-java](#integrating-with-grpcs-java-api),
 [grpc-kotlin](#integrating-with-grpcs-kotlin-api), and
 [grpc-node](#integrating-with-grpcs-nodejs-api) (experimental) (see examples  in [examples](examples))
 
 ### Not yet implemented
 
 - Kotlin/Native support
-- Protobuf JSON support 
+- Protobuf JSON support
 
 ### Compatibility
 
 The Gradle plugin requires Java 8+ and Gradle 5.6+. It runs on recent versions of
 MacOS, Linux, and Windows.
 
-The runtime and generated code are compatible with Kotlin 1.8+, Java 8+, and Android 4.4+. 
+The runtime and generated code are compatible with Kotlin 1.8+, Java 8+, and Android 4.4+.
 
 ## Usage
 
@@ -354,7 +354,7 @@ while using the lite runtime:
 protokt {
     generate {
         descriptors = false
-    } 
+    }
 }
 ```
 
@@ -639,8 +639,8 @@ Wrapper types that wrap protobuf messages are nullable. For example,
 can be made non-nullable by using the non-null option described below.
 
 Wrapper types that wrap protobuf primitives, for example `java.util.UUID`
-which wraps `bytes`, are nullable when they cannot wrap their wrapped type's 
-default value. Converters must override `acceptsDefaultValue` to be `false` in 
+which wraps `bytes`, are nullable when they cannot wrap their wrapped type's
+default value. Converters must override `acceptsDefaultValue` to be `false` in
 these cases. For example, a UUID cannot wrap an empty byte array and each of
 the following declarations will produce a nullable property:
 
@@ -774,15 +774,17 @@ message ImplementsWithDelegate {
 ```
 
 Note that the `by` clause references the field by its lower camel case name.
+Properties on delegate interfaces must be nullable since fields themselves
+may not be present on the wire.
 
 #### Oneof Fields
 
-Oneof fields can declare that they implement an interface with the 
+Oneof fields can declare that they implement an interface with the
 `(protokt.v1.oneof).implements` option. Each possible field type of the oneof must
 also implement the interface. This allows access of common properties without a
 `when` statement that always ultimately extracts the same property.
 
-Suppose you have a domain object MyObjectWithConfig that has a non-null configuration
+Suppose you have a domain object MyObjectWithConfig that has a configuration
 that specifies a third-party server for communication. For flexibility, this
 configuration will be modifiable by the server and versioned by a simple integer.
 To hasten subsequent loading of the configuration, a client may save a resolved
@@ -816,7 +818,6 @@ message MyObjectWithConfig {
   ];
 
   oneof Config {
-    option (protokt.v1.oneof).non_null = true;
     option (protokt.v1.oneof).implements = "com.toasttab.example.Config";
 
     ServerSpecified server_specified = 2;
@@ -836,9 +837,7 @@ message ServerSpecified {
 message ClientResolved {
   option (protokt.v1.class).implements = "com.toasttab.example.Config by config";
 
-  ServerSpecified config = 1 [
-    (protokt.v1.property).non_null = true
-  ];
+  ServerSpecified config = 1;
 
   bytes last_known_address = 2 [
     (protokt.v1.property).wrap = "java.net.InetAddress"
@@ -853,7 +852,7 @@ Protokt will generate:
 public class MyObjectWithConfig private constructor(
   @GeneratedProperty(1)
   public val id: UUID?,
-  public val config: Config,
+  public val config: Config?,
   public val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
 
@@ -906,17 +905,9 @@ accessing the property via a `when` expression:
 
 ```kotlin
 fun printVersion(config: MyObjectWithConfig.Config) {
-    println(config.version)
+    println(config?.version)
 }
 ```
-
-This pattern is dangerous: since the oneof must be marked non-nullable, you
-cannot compatibly add new implementing fields to a producer before a consumer
-is updated with the new generated code. The old consumer will attempt to
-deserialize the new field as an unknown field and the non-null assertion on the
-oneof field during the constructor call will fail.
-
-This functionality will likely be removed.
 
 ### BytesSlice
 
@@ -946,7 +937,7 @@ protokt {
     generate {
         grpcDescriptors = true
         grpcKotlinStubs = true
-    } 
+    }
 }
 ```
 
@@ -1061,7 +1052,7 @@ Protokt generates complete server and client stub implementations for use with N
 The generated implementations are nearly the same as those generated by grpc-kotlin and
 are supported by an analogous runtime library in ServerCalls and ClientCalls objects.
 
-These implementations are alpha-quality and for demonstration only. External contributions 
+These implementations are alpha-quality and for demonstration only. External contributions
 to harden the implementation are welcome. They use the same `grpcDescriptors` and
 `grpcKotlinStubs` plugin options to control code generation.
 
@@ -1104,7 +1095,7 @@ protokt % protoc \
 
 ## Contribution
 
-Community contributions are welcome. See the 
+Community contributions are welcome. See the
 [contribution guidelines](CONTRIBUTING.md) and the project
 [code of conduct](CODE-OF-CONDUCT.md).
 
