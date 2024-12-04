@@ -108,7 +108,7 @@ private fun configureSources(project: Project) {
 }
 
 private fun normalizePath(binaryPath: String) =
-    if (OperatingSystem.current().isWindows) {
+    if (Os.current.kind == Os.Kind.WINDOWS) {
         // on windows, protoc expects a full, /-separated path to the binary
         binaryPath.replace('\\', '/') + ".bat"
     } else {
