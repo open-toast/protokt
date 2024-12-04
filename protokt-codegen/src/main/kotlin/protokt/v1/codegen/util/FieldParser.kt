@@ -138,7 +138,7 @@ internal class FieldParser(
             optional = !withinOneof && optional,
             packed = packed,
             mapEntry = mapEntry,
-            fieldName = LOWER_UNDERSCORE.to(LOWER_CAMEL, fdp.name),
+            fieldName = camelCaseFieldName(fdp.name),
             options = FieldOptions(
                 fdp.options,
                 protoktOptions,
@@ -266,5 +266,57 @@ internal class FieldParser(
                         field.type.typeName()
                 }
         }
+    }
+
+    // Adapted from https://github.com/protocolbuffers/protobuf/blob/2fe8aaa15868c8d419ea6532cecf7f0045b3779b/src/google/protobuf/compiler/java/helpers.cc#L202
+    // The grpc-kotlin compiler doesn't get this right (as of 1.4.1) with ProtoFieldName and crashes on conformance
+    // field names that begin with underscores. They never actually seem to use that utility, however.
+    private fun camelCaseFieldName(name: String): String {
+        val fieldName = underscoresToCamelCase(name)
+        return if (fieldName[0].isDigit()) {
+            "_$fieldName"
+        } else {
+            fieldName
+        }
+    }
+
+    private fun underscoresToCamelCase(input: String): String {
+        val result = StringBuilder()
+        var capNext = false
+
+        for (char in input) {
+            when {
+                char.isLowerCase() -> {
+                    if (capNext) {
+                        result.append(char.uppercaseChar())
+                    } else {
+                        result.append(char)
+                    }
+                    capNext = false
+                }
+                char.isUpperCase() -> {
+                    if (result.isEmpty() && !capNext) {
+                        result.append(char.lowercaseChar())
+                    } else {
+                        result.append(char)
+                    }
+                    capNext = false
+                }
+                char.isDigit() -> {
+                    result.append(char)
+                    capNext = true
+                }
+                else -> {
+                    capNext = true
+                }
+            }
+        }
+
+        // Add a trailing "_" if the name should be altered.
+        if (input.last() == '#') {
+            result.append('_')
+        }
+
+        return result.toString()
     }
 }
