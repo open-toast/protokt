@@ -20,7 +20,7 @@ public final class com/toasttab/protokt/v1/ProtoktProtos {
 	public static fun registerAllExtensions (Lcom/google/protobuf/ExtensionRegistryLite;)V
 }
 
-public final class com/toasttab/protokt/v1/ProtoktProtos$EnumOptions : com/google/protobuf/GeneratedMessageV3, com/toasttab/protokt/v1/ProtoktProtos$EnumOptionsOrBuilder {
+public final class com/toasttab/protokt/v1/ProtoktProtos$EnumOptions : com/google/protobuf/GeneratedMessage, com/toasttab/protokt/v1/ProtoktProtos$EnumOptionsOrBuilder {
 	public static final field DEPRECATION_MESSAGE_FIELD_NUMBER I
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun getDefaultInstance ()Lcom/toasttab/protokt/v1/ProtoktProtos$EnumOptions;
@@ -32,7 +32,6 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$EnumOptions : com/googl
 	public static final fun getDescriptor ()Lcom/google/protobuf/Descriptors$Descriptor;
 	public fun getParserForType ()Lcom/google/protobuf/Parser;
 	public fun getSerializedSize ()I
-	public final fun getUnknownFields ()Lcom/google/protobuf/UnknownFieldSet;
 	public fun hashCode ()I
 	public final fun isInitialized ()Z
 	public static fun newBuilder ()Lcom/toasttab/protokt/v1/ProtoktProtos$EnumOptions$Builder;
@@ -59,10 +58,7 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$EnumOptions : com/googl
 	public fun writeTo (Lcom/google/protobuf/CodedOutputStream;)V
 }
 
-public final class com/toasttab/protokt/v1/ProtoktProtos$EnumOptions$Builder : com/google/protobuf/GeneratedMessageV3$Builder, com/toasttab/protokt/v1/ProtoktProtos$EnumOptionsOrBuilder {
-	public synthetic fun addRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun addRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/google/protobuf/Message$Builder;
-	public fun addRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/toasttab/protokt/v1/ProtoktProtos$EnumOptions$Builder;
+public final class com/toasttab/protokt/v1/ProtoktProtos$EnumOptions$Builder : com/google/protobuf/GeneratedMessage$Builder, com/toasttab/protokt/v1/ProtoktProtos$EnumOptionsOrBuilder {
 	public synthetic fun build ()Lcom/google/protobuf/Message;
 	public synthetic fun build ()Lcom/google/protobuf/MessageLite;
 	public fun build ()Lcom/toasttab/protokt/v1/ProtoktProtos$EnumOptions;
@@ -70,25 +66,11 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$EnumOptions$Builder : c
 	public synthetic fun buildPartial ()Lcom/google/protobuf/MessageLite;
 	public fun buildPartial ()Lcom/toasttab/protokt/v1/ProtoktProtos$EnumOptions;
 	public synthetic fun clear ()Lcom/google/protobuf/AbstractMessage$Builder;
-	public synthetic fun clear ()Lcom/google/protobuf/GeneratedMessageV3$Builder;
+	public synthetic fun clear ()Lcom/google/protobuf/GeneratedMessage$Builder;
 	public synthetic fun clear ()Lcom/google/protobuf/Message$Builder;
 	public synthetic fun clear ()Lcom/google/protobuf/MessageLite$Builder;
 	public fun clear ()Lcom/toasttab/protokt/v1/ProtoktProtos$EnumOptions$Builder;
 	public fun clearDeprecationMessage ()Lcom/toasttab/protokt/v1/ProtoktProtos$EnumOptions$Builder;
-	public synthetic fun clearField (Lcom/google/protobuf/Descriptors$FieldDescriptor;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun clearField (Lcom/google/protobuf/Descriptors$FieldDescriptor;)Lcom/google/protobuf/Message$Builder;
-	public fun clearField (Lcom/google/protobuf/Descriptors$FieldDescriptor;)Lcom/toasttab/protokt/v1/ProtoktProtos$EnumOptions$Builder;
-	public synthetic fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/google/protobuf/AbstractMessage$Builder;
-	public synthetic fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/google/protobuf/Message$Builder;
-	public fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/toasttab/protokt/v1/ProtoktProtos$EnumOptions$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/AbstractMessage$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/AbstractMessageLite$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/Message$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/MessageLite$Builder;
-	public fun clone ()Lcom/toasttab/protokt/v1/ProtoktProtos$EnumOptions$Builder;
-	public synthetic fun clone ()Ljava/lang/Object;
 	public synthetic fun getDefaultInstanceForType ()Lcom/google/protobuf/Message;
 	public synthetic fun getDefaultInstanceForType ()Lcom/google/protobuf/MessageLite;
 	public fun getDefaultInstanceForType ()Lcom/toasttab/protokt/v1/ProtoktProtos$EnumOptions;
@@ -106,21 +88,8 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$EnumOptions$Builder : c
 	public synthetic fun mergeFrom (Lcom/google/protobuf/Message;)Lcom/google/protobuf/Message$Builder;
 	public fun mergeFrom (Lcom/google/protobuf/Message;)Lcom/toasttab/protokt/v1/ProtoktProtos$EnumOptions$Builder;
 	public fun mergeFrom (Lcom/toasttab/protokt/v1/ProtoktProtos$EnumOptions;)Lcom/toasttab/protokt/v1/ProtoktProtos$EnumOptions$Builder;
-	public synthetic fun mergeUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/AbstractMessage$Builder;
-	public synthetic fun mergeUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun mergeUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/Message$Builder;
-	public final fun mergeUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/toasttab/protokt/v1/ProtoktProtos$EnumOptions$Builder;
 	public fun setDeprecationMessage (Ljava/lang/String;)Lcom/toasttab/protokt/v1/ProtoktProtos$EnumOptions$Builder;
 	public fun setDeprecationMessageBytes (Lcom/google/protobuf/ByteString;)Lcom/toasttab/protokt/v1/ProtoktProtos$EnumOptions$Builder;
-	public synthetic fun setField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun setField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/google/protobuf/Message$Builder;
-	public fun setField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/toasttab/protokt/v1/ProtoktProtos$EnumOptions$Builder;
-	public synthetic fun setRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;ILjava/lang/Object;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun setRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;ILjava/lang/Object;)Lcom/google/protobuf/Message$Builder;
-	public fun setRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;ILjava/lang/Object;)Lcom/toasttab/protokt/v1/ProtoktProtos$EnumOptions$Builder;
-	public synthetic fun setUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun setUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/Message$Builder;
-	public final fun setUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/toasttab/protokt/v1/ProtoktProtos$EnumOptions$Builder;
 }
 
 public abstract interface class com/toasttab/protokt/v1/ProtoktProtos$EnumOptionsOrBuilder : com/google/protobuf/MessageOrBuilder {
@@ -128,7 +97,7 @@ public abstract interface class com/toasttab/protokt/v1/ProtoktProtos$EnumOption
 	public abstract fun getDeprecationMessageBytes ()Lcom/google/protobuf/ByteString;
 }
 
-public final class com/toasttab/protokt/v1/ProtoktProtos$EnumValueOptions : com/google/protobuf/GeneratedMessageV3, com/toasttab/protokt/v1/ProtoktProtos$EnumValueOptionsOrBuilder {
+public final class com/toasttab/protokt/v1/ProtoktProtos$EnumValueOptions : com/google/protobuf/GeneratedMessage, com/toasttab/protokt/v1/ProtoktProtos$EnumValueOptionsOrBuilder {
 	public static final field DEPRECATION_MESSAGE_FIELD_NUMBER I
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun getDefaultInstance ()Lcom/toasttab/protokt/v1/ProtoktProtos$EnumValueOptions;
@@ -140,7 +109,6 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$EnumValueOptions : com/
 	public static final fun getDescriptor ()Lcom/google/protobuf/Descriptors$Descriptor;
 	public fun getParserForType ()Lcom/google/protobuf/Parser;
 	public fun getSerializedSize ()I
-	public final fun getUnknownFields ()Lcom/google/protobuf/UnknownFieldSet;
 	public fun hashCode ()I
 	public final fun isInitialized ()Z
 	public static fun newBuilder ()Lcom/toasttab/protokt/v1/ProtoktProtos$EnumValueOptions$Builder;
@@ -167,10 +135,7 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$EnumValueOptions : com/
 	public fun writeTo (Lcom/google/protobuf/CodedOutputStream;)V
 }
 
-public final class com/toasttab/protokt/v1/ProtoktProtos$EnumValueOptions$Builder : com/google/protobuf/GeneratedMessageV3$Builder, com/toasttab/protokt/v1/ProtoktProtos$EnumValueOptionsOrBuilder {
-	public synthetic fun addRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun addRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/google/protobuf/Message$Builder;
-	public fun addRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/toasttab/protokt/v1/ProtoktProtos$EnumValueOptions$Builder;
+public final class com/toasttab/protokt/v1/ProtoktProtos$EnumValueOptions$Builder : com/google/protobuf/GeneratedMessage$Builder, com/toasttab/protokt/v1/ProtoktProtos$EnumValueOptionsOrBuilder {
 	public synthetic fun build ()Lcom/google/protobuf/Message;
 	public synthetic fun build ()Lcom/google/protobuf/MessageLite;
 	public fun build ()Lcom/toasttab/protokt/v1/ProtoktProtos$EnumValueOptions;
@@ -178,25 +143,11 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$EnumValueOptions$Builde
 	public synthetic fun buildPartial ()Lcom/google/protobuf/MessageLite;
 	public fun buildPartial ()Lcom/toasttab/protokt/v1/ProtoktProtos$EnumValueOptions;
 	public synthetic fun clear ()Lcom/google/protobuf/AbstractMessage$Builder;
-	public synthetic fun clear ()Lcom/google/protobuf/GeneratedMessageV3$Builder;
+	public synthetic fun clear ()Lcom/google/protobuf/GeneratedMessage$Builder;
 	public synthetic fun clear ()Lcom/google/protobuf/Message$Builder;
 	public synthetic fun clear ()Lcom/google/protobuf/MessageLite$Builder;
 	public fun clear ()Lcom/toasttab/protokt/v1/ProtoktProtos$EnumValueOptions$Builder;
 	public fun clearDeprecationMessage ()Lcom/toasttab/protokt/v1/ProtoktProtos$EnumValueOptions$Builder;
-	public synthetic fun clearField (Lcom/google/protobuf/Descriptors$FieldDescriptor;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun clearField (Lcom/google/protobuf/Descriptors$FieldDescriptor;)Lcom/google/protobuf/Message$Builder;
-	public fun clearField (Lcom/google/protobuf/Descriptors$FieldDescriptor;)Lcom/toasttab/protokt/v1/ProtoktProtos$EnumValueOptions$Builder;
-	public synthetic fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/google/protobuf/AbstractMessage$Builder;
-	public synthetic fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/google/protobuf/Message$Builder;
-	public fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/toasttab/protokt/v1/ProtoktProtos$EnumValueOptions$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/AbstractMessage$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/AbstractMessageLite$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/Message$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/MessageLite$Builder;
-	public fun clone ()Lcom/toasttab/protokt/v1/ProtoktProtos$EnumValueOptions$Builder;
-	public synthetic fun clone ()Ljava/lang/Object;
 	public synthetic fun getDefaultInstanceForType ()Lcom/google/protobuf/Message;
 	public synthetic fun getDefaultInstanceForType ()Lcom/google/protobuf/MessageLite;
 	public fun getDefaultInstanceForType ()Lcom/toasttab/protokt/v1/ProtoktProtos$EnumValueOptions;
@@ -214,21 +165,8 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$EnumValueOptions$Builde
 	public synthetic fun mergeFrom (Lcom/google/protobuf/Message;)Lcom/google/protobuf/Message$Builder;
 	public fun mergeFrom (Lcom/google/protobuf/Message;)Lcom/toasttab/protokt/v1/ProtoktProtos$EnumValueOptions$Builder;
 	public fun mergeFrom (Lcom/toasttab/protokt/v1/ProtoktProtos$EnumValueOptions;)Lcom/toasttab/protokt/v1/ProtoktProtos$EnumValueOptions$Builder;
-	public synthetic fun mergeUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/AbstractMessage$Builder;
-	public synthetic fun mergeUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun mergeUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/Message$Builder;
-	public final fun mergeUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/toasttab/protokt/v1/ProtoktProtos$EnumValueOptions$Builder;
 	public fun setDeprecationMessage (Ljava/lang/String;)Lcom/toasttab/protokt/v1/ProtoktProtos$EnumValueOptions$Builder;
 	public fun setDeprecationMessageBytes (Lcom/google/protobuf/ByteString;)Lcom/toasttab/protokt/v1/ProtoktProtos$EnumValueOptions$Builder;
-	public synthetic fun setField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun setField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/google/protobuf/Message$Builder;
-	public fun setField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/toasttab/protokt/v1/ProtoktProtos$EnumValueOptions$Builder;
-	public synthetic fun setRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;ILjava/lang/Object;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun setRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;ILjava/lang/Object;)Lcom/google/protobuf/Message$Builder;
-	public fun setRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;ILjava/lang/Object;)Lcom/toasttab/protokt/v1/ProtoktProtos$EnumValueOptions$Builder;
-	public synthetic fun setUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun setUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/Message$Builder;
-	public final fun setUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/toasttab/protokt/v1/ProtoktProtos$EnumValueOptions$Builder;
 }
 
 public abstract interface class com/toasttab/protokt/v1/ProtoktProtos$EnumValueOptionsOrBuilder : com/google/protobuf/MessageOrBuilder {
@@ -236,7 +174,7 @@ public abstract interface class com/toasttab/protokt/v1/ProtoktProtos$EnumValueO
 	public abstract fun getDeprecationMessageBytes ()Lcom/google/protobuf/ByteString;
 }
 
-public final class com/toasttab/protokt/v1/ProtoktProtos$FieldOptions : com/google/protobuf/GeneratedMessageV3, com/toasttab/protokt/v1/ProtoktProtos$FieldOptionsOrBuilder {
+public final class com/toasttab/protokt/v1/ProtoktProtos$FieldOptions : com/google/protobuf/GeneratedMessage, com/toasttab/protokt/v1/ProtoktProtos$FieldOptionsOrBuilder {
 	public static final field BYTES_SLICE_FIELD_NUMBER I
 	public static final field DEPRECATION_MESSAGE_FIELD_NUMBER I
 	public static final field GENERATE_NON_NULL_ACCESSOR_FIELD_NUMBER I
@@ -257,7 +195,6 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$FieldOptions : com/goog
 	public fun getKeyWrapBytes ()Lcom/google/protobuf/ByteString;
 	public fun getParserForType ()Lcom/google/protobuf/Parser;
 	public fun getSerializedSize ()I
-	public final fun getUnknownFields ()Lcom/google/protobuf/UnknownFieldSet;
 	public fun getValueWrap ()Ljava/lang/String;
 	public fun getValueWrapBytes ()Lcom/google/protobuf/ByteString;
 	public fun getWrap ()Ljava/lang/String;
@@ -288,10 +225,7 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$FieldOptions : com/goog
 	public fun writeTo (Lcom/google/protobuf/CodedOutputStream;)V
 }
 
-public final class com/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder : com/google/protobuf/GeneratedMessageV3$Builder, com/toasttab/protokt/v1/ProtoktProtos$FieldOptionsOrBuilder {
-	public synthetic fun addRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun addRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/google/protobuf/Message$Builder;
-	public fun addRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
+public final class com/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder : com/google/protobuf/GeneratedMessage$Builder, com/toasttab/protokt/v1/ProtoktProtos$FieldOptionsOrBuilder {
 	public synthetic fun build ()Lcom/google/protobuf/Message;
 	public synthetic fun build ()Lcom/google/protobuf/MessageLite;
 	public fun build ()Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions;
@@ -299,30 +233,16 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder : 
 	public synthetic fun buildPartial ()Lcom/google/protobuf/MessageLite;
 	public fun buildPartial ()Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions;
 	public synthetic fun clear ()Lcom/google/protobuf/AbstractMessage$Builder;
-	public synthetic fun clear ()Lcom/google/protobuf/GeneratedMessageV3$Builder;
+	public synthetic fun clear ()Lcom/google/protobuf/GeneratedMessage$Builder;
 	public synthetic fun clear ()Lcom/google/protobuf/Message$Builder;
 	public synthetic fun clear ()Lcom/google/protobuf/MessageLite$Builder;
 	public fun clear ()Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
 	public fun clearBytesSlice ()Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
 	public fun clearDeprecationMessage ()Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
-	public synthetic fun clearField (Lcom/google/protobuf/Descriptors$FieldDescriptor;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun clearField (Lcom/google/protobuf/Descriptors$FieldDescriptor;)Lcom/google/protobuf/Message$Builder;
-	public fun clearField (Lcom/google/protobuf/Descriptors$FieldDescriptor;)Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
 	public fun clearGenerateNonNullAccessor ()Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
 	public fun clearKeyWrap ()Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
-	public synthetic fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/google/protobuf/AbstractMessage$Builder;
-	public synthetic fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/google/protobuf/Message$Builder;
-	public fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
 	public fun clearValueWrap ()Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
 	public fun clearWrap ()Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/AbstractMessage$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/AbstractMessageLite$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/Message$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/MessageLite$Builder;
-	public fun clone ()Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
-	public synthetic fun clone ()Ljava/lang/Object;
 	public fun getBytesSlice ()Z
 	public synthetic fun getDefaultInstanceForType ()Lcom/google/protobuf/Message;
 	public synthetic fun getDefaultInstanceForType ()Lcom/google/protobuf/MessageLite;
@@ -348,25 +268,12 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder : 
 	public synthetic fun mergeFrom (Lcom/google/protobuf/Message;)Lcom/google/protobuf/Message$Builder;
 	public fun mergeFrom (Lcom/google/protobuf/Message;)Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
 	public fun mergeFrom (Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions;)Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
-	public synthetic fun mergeUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/AbstractMessage$Builder;
-	public synthetic fun mergeUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun mergeUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/Message$Builder;
-	public final fun mergeUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
 	public fun setBytesSlice (Z)Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
 	public fun setDeprecationMessage (Ljava/lang/String;)Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
 	public fun setDeprecationMessageBytes (Lcom/google/protobuf/ByteString;)Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
-	public synthetic fun setField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun setField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/google/protobuf/Message$Builder;
-	public fun setField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
 	public fun setGenerateNonNullAccessor (Z)Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
 	public fun setKeyWrap (Ljava/lang/String;)Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
 	public fun setKeyWrapBytes (Lcom/google/protobuf/ByteString;)Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
-	public synthetic fun setRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;ILjava/lang/Object;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun setRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;ILjava/lang/Object;)Lcom/google/protobuf/Message$Builder;
-	public fun setRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;ILjava/lang/Object;)Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
-	public synthetic fun setUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun setUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/Message$Builder;
-	public final fun setUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
 	public fun setValueWrap (Ljava/lang/String;)Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
 	public fun setValueWrapBytes (Lcom/google/protobuf/ByteString;)Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
 	public fun setWrap (Ljava/lang/String;)Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
@@ -386,7 +293,7 @@ public abstract interface class com/toasttab/protokt/v1/ProtoktProtos$FieldOptio
 	public abstract fun getWrapBytes ()Lcom/google/protobuf/ByteString;
 }
 
-public final class com/toasttab/protokt/v1/ProtoktProtos$FileOptions : com/google/protobuf/GeneratedMessageV3, com/toasttab/protokt/v1/ProtoktProtos$FileOptionsOrBuilder {
+public final class com/toasttab/protokt/v1/ProtoktProtos$FileOptions : com/google/protobuf/GeneratedMessage, com/toasttab/protokt/v1/ProtoktProtos$FileOptionsOrBuilder {
 	public static final field FILE_DESCRIPTOR_OBJECT_NAME_FIELD_NUMBER I
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun getDefaultInstance ()Lcom/toasttab/protokt/v1/ProtoktProtos$FileOptions;
@@ -398,7 +305,6 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$FileOptions : com/googl
 	public fun getFileDescriptorObjectNameBytes ()Lcom/google/protobuf/ByteString;
 	public fun getParserForType ()Lcom/google/protobuf/Parser;
 	public fun getSerializedSize ()I
-	public final fun getUnknownFields ()Lcom/google/protobuf/UnknownFieldSet;
 	public fun hashCode ()I
 	public final fun isInitialized ()Z
 	public static fun newBuilder ()Lcom/toasttab/protokt/v1/ProtoktProtos$FileOptions$Builder;
@@ -425,10 +331,7 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$FileOptions : com/googl
 	public fun writeTo (Lcom/google/protobuf/CodedOutputStream;)V
 }
 
-public final class com/toasttab/protokt/v1/ProtoktProtos$FileOptions$Builder : com/google/protobuf/GeneratedMessageV3$Builder, com/toasttab/protokt/v1/ProtoktProtos$FileOptionsOrBuilder {
-	public synthetic fun addRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun addRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/google/protobuf/Message$Builder;
-	public fun addRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/toasttab/protokt/v1/ProtoktProtos$FileOptions$Builder;
+public final class com/toasttab/protokt/v1/ProtoktProtos$FileOptions$Builder : com/google/protobuf/GeneratedMessage$Builder, com/toasttab/protokt/v1/ProtoktProtos$FileOptionsOrBuilder {
 	public synthetic fun build ()Lcom/google/protobuf/Message;
 	public synthetic fun build ()Lcom/google/protobuf/MessageLite;
 	public fun build ()Lcom/toasttab/protokt/v1/ProtoktProtos$FileOptions;
@@ -436,25 +339,11 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$FileOptions$Builder : c
 	public synthetic fun buildPartial ()Lcom/google/protobuf/MessageLite;
 	public fun buildPartial ()Lcom/toasttab/protokt/v1/ProtoktProtos$FileOptions;
 	public synthetic fun clear ()Lcom/google/protobuf/AbstractMessage$Builder;
-	public synthetic fun clear ()Lcom/google/protobuf/GeneratedMessageV3$Builder;
+	public synthetic fun clear ()Lcom/google/protobuf/GeneratedMessage$Builder;
 	public synthetic fun clear ()Lcom/google/protobuf/Message$Builder;
 	public synthetic fun clear ()Lcom/google/protobuf/MessageLite$Builder;
 	public fun clear ()Lcom/toasttab/protokt/v1/ProtoktProtos$FileOptions$Builder;
-	public synthetic fun clearField (Lcom/google/protobuf/Descriptors$FieldDescriptor;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun clearField (Lcom/google/protobuf/Descriptors$FieldDescriptor;)Lcom/google/protobuf/Message$Builder;
-	public fun clearField (Lcom/google/protobuf/Descriptors$FieldDescriptor;)Lcom/toasttab/protokt/v1/ProtoktProtos$FileOptions$Builder;
 	public fun clearFileDescriptorObjectName ()Lcom/toasttab/protokt/v1/ProtoktProtos$FileOptions$Builder;
-	public synthetic fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/google/protobuf/AbstractMessage$Builder;
-	public synthetic fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/google/protobuf/Message$Builder;
-	public fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/toasttab/protokt/v1/ProtoktProtos$FileOptions$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/AbstractMessage$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/AbstractMessageLite$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/Message$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/MessageLite$Builder;
-	public fun clone ()Lcom/toasttab/protokt/v1/ProtoktProtos$FileOptions$Builder;
-	public synthetic fun clone ()Ljava/lang/Object;
 	public synthetic fun getDefaultInstanceForType ()Lcom/google/protobuf/Message;
 	public synthetic fun getDefaultInstanceForType ()Lcom/google/protobuf/MessageLite;
 	public fun getDefaultInstanceForType ()Lcom/toasttab/protokt/v1/ProtoktProtos$FileOptions;
@@ -472,21 +361,8 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$FileOptions$Builder : c
 	public synthetic fun mergeFrom (Lcom/google/protobuf/Message;)Lcom/google/protobuf/Message$Builder;
 	public fun mergeFrom (Lcom/google/protobuf/Message;)Lcom/toasttab/protokt/v1/ProtoktProtos$FileOptions$Builder;
 	public fun mergeFrom (Lcom/toasttab/protokt/v1/ProtoktProtos$FileOptions;)Lcom/toasttab/protokt/v1/ProtoktProtos$FileOptions$Builder;
-	public synthetic fun mergeUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/AbstractMessage$Builder;
-	public synthetic fun mergeUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun mergeUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/Message$Builder;
-	public final fun mergeUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/toasttab/protokt/v1/ProtoktProtos$FileOptions$Builder;
-	public synthetic fun setField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun setField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/google/protobuf/Message$Builder;
-	public fun setField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/toasttab/protokt/v1/ProtoktProtos$FileOptions$Builder;
 	public fun setFileDescriptorObjectName (Ljava/lang/String;)Lcom/toasttab/protokt/v1/ProtoktProtos$FileOptions$Builder;
 	public fun setFileDescriptorObjectNameBytes (Lcom/google/protobuf/ByteString;)Lcom/toasttab/protokt/v1/ProtoktProtos$FileOptions$Builder;
-	public synthetic fun setRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;ILjava/lang/Object;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun setRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;ILjava/lang/Object;)Lcom/google/protobuf/Message$Builder;
-	public fun setRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;ILjava/lang/Object;)Lcom/toasttab/protokt/v1/ProtoktProtos$FileOptions$Builder;
-	public synthetic fun setUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun setUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/Message$Builder;
-	public final fun setUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/toasttab/protokt/v1/ProtoktProtos$FileOptions$Builder;
 }
 
 public abstract interface class com/toasttab/protokt/v1/ProtoktProtos$FileOptionsOrBuilder : com/google/protobuf/MessageOrBuilder {
@@ -494,7 +370,7 @@ public abstract interface class com/toasttab/protokt/v1/ProtoktProtos$FileOption
 	public abstract fun getFileDescriptorObjectNameBytes ()Lcom/google/protobuf/ByteString;
 }
 
-public final class com/toasttab/protokt/v1/ProtoktProtos$MessageOptions : com/google/protobuf/GeneratedMessageV3, com/toasttab/protokt/v1/ProtoktProtos$MessageOptionsOrBuilder {
+public final class com/toasttab/protokt/v1/ProtoktProtos$MessageOptions : com/google/protobuf/GeneratedMessage, com/toasttab/protokt/v1/ProtoktProtos$MessageOptionsOrBuilder {
 	public static final field DEPRECATION_MESSAGE_FIELD_NUMBER I
 	public static final field IMPLEMENTS_FIELD_NUMBER I
 	public fun equals (Ljava/lang/Object;)Z
@@ -509,7 +385,6 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$MessageOptions : com/go
 	public fun getImplementsBytes ()Lcom/google/protobuf/ByteString;
 	public fun getParserForType ()Lcom/google/protobuf/Parser;
 	public fun getSerializedSize ()I
-	public final fun getUnknownFields ()Lcom/google/protobuf/UnknownFieldSet;
 	public fun hashCode ()I
 	public final fun isInitialized ()Z
 	public static fun newBuilder ()Lcom/toasttab/protokt/v1/ProtoktProtos$MessageOptions$Builder;
@@ -536,10 +411,7 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$MessageOptions : com/go
 	public fun writeTo (Lcom/google/protobuf/CodedOutputStream;)V
 }
 
-public final class com/toasttab/protokt/v1/ProtoktProtos$MessageOptions$Builder : com/google/protobuf/GeneratedMessageV3$Builder, com/toasttab/protokt/v1/ProtoktProtos$MessageOptionsOrBuilder {
-	public synthetic fun addRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun addRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/google/protobuf/Message$Builder;
-	public fun addRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/toasttab/protokt/v1/ProtoktProtos$MessageOptions$Builder;
+public final class com/toasttab/protokt/v1/ProtoktProtos$MessageOptions$Builder : com/google/protobuf/GeneratedMessage$Builder, com/toasttab/protokt/v1/ProtoktProtos$MessageOptionsOrBuilder {
 	public synthetic fun build ()Lcom/google/protobuf/Message;
 	public synthetic fun build ()Lcom/google/protobuf/MessageLite;
 	public fun build ()Lcom/toasttab/protokt/v1/ProtoktProtos$MessageOptions;
@@ -547,26 +419,12 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$MessageOptions$Builder 
 	public synthetic fun buildPartial ()Lcom/google/protobuf/MessageLite;
 	public fun buildPartial ()Lcom/toasttab/protokt/v1/ProtoktProtos$MessageOptions;
 	public synthetic fun clear ()Lcom/google/protobuf/AbstractMessage$Builder;
-	public synthetic fun clear ()Lcom/google/protobuf/GeneratedMessageV3$Builder;
+	public synthetic fun clear ()Lcom/google/protobuf/GeneratedMessage$Builder;
 	public synthetic fun clear ()Lcom/google/protobuf/Message$Builder;
 	public synthetic fun clear ()Lcom/google/protobuf/MessageLite$Builder;
 	public fun clear ()Lcom/toasttab/protokt/v1/ProtoktProtos$MessageOptions$Builder;
 	public fun clearDeprecationMessage ()Lcom/toasttab/protokt/v1/ProtoktProtos$MessageOptions$Builder;
-	public synthetic fun clearField (Lcom/google/protobuf/Descriptors$FieldDescriptor;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun clearField (Lcom/google/protobuf/Descriptors$FieldDescriptor;)Lcom/google/protobuf/Message$Builder;
-	public fun clearField (Lcom/google/protobuf/Descriptors$FieldDescriptor;)Lcom/toasttab/protokt/v1/ProtoktProtos$MessageOptions$Builder;
 	public fun clearImplements ()Lcom/toasttab/protokt/v1/ProtoktProtos$MessageOptions$Builder;
-	public synthetic fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/google/protobuf/AbstractMessage$Builder;
-	public synthetic fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/google/protobuf/Message$Builder;
-	public fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/toasttab/protokt/v1/ProtoktProtos$MessageOptions$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/AbstractMessage$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/AbstractMessageLite$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/Message$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/MessageLite$Builder;
-	public fun clone ()Lcom/toasttab/protokt/v1/ProtoktProtos$MessageOptions$Builder;
-	public synthetic fun clone ()Ljava/lang/Object;
 	public synthetic fun getDefaultInstanceForType ()Lcom/google/protobuf/Message;
 	public synthetic fun getDefaultInstanceForType ()Lcom/google/protobuf/MessageLite;
 	public fun getDefaultInstanceForType ()Lcom/toasttab/protokt/v1/ProtoktProtos$MessageOptions;
@@ -586,23 +444,10 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$MessageOptions$Builder 
 	public synthetic fun mergeFrom (Lcom/google/protobuf/Message;)Lcom/google/protobuf/Message$Builder;
 	public fun mergeFrom (Lcom/google/protobuf/Message;)Lcom/toasttab/protokt/v1/ProtoktProtos$MessageOptions$Builder;
 	public fun mergeFrom (Lcom/toasttab/protokt/v1/ProtoktProtos$MessageOptions;)Lcom/toasttab/protokt/v1/ProtoktProtos$MessageOptions$Builder;
-	public synthetic fun mergeUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/AbstractMessage$Builder;
-	public synthetic fun mergeUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun mergeUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/Message$Builder;
-	public final fun mergeUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/toasttab/protokt/v1/ProtoktProtos$MessageOptions$Builder;
 	public fun setDeprecationMessage (Ljava/lang/String;)Lcom/toasttab/protokt/v1/ProtoktProtos$MessageOptions$Builder;
 	public fun setDeprecationMessageBytes (Lcom/google/protobuf/ByteString;)Lcom/toasttab/protokt/v1/ProtoktProtos$MessageOptions$Builder;
-	public synthetic fun setField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun setField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/google/protobuf/Message$Builder;
-	public fun setField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/toasttab/protokt/v1/ProtoktProtos$MessageOptions$Builder;
 	public fun setImplements (Ljava/lang/String;)Lcom/toasttab/protokt/v1/ProtoktProtos$MessageOptions$Builder;
 	public fun setImplementsBytes (Lcom/google/protobuf/ByteString;)Lcom/toasttab/protokt/v1/ProtoktProtos$MessageOptions$Builder;
-	public synthetic fun setRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;ILjava/lang/Object;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun setRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;ILjava/lang/Object;)Lcom/google/protobuf/Message$Builder;
-	public fun setRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;ILjava/lang/Object;)Lcom/toasttab/protokt/v1/ProtoktProtos$MessageOptions$Builder;
-	public synthetic fun setUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun setUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/Message$Builder;
-	public final fun setUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/toasttab/protokt/v1/ProtoktProtos$MessageOptions$Builder;
 }
 
 public abstract interface class com/toasttab/protokt/v1/ProtoktProtos$MessageOptionsOrBuilder : com/google/protobuf/MessageOrBuilder {
@@ -612,7 +457,7 @@ public abstract interface class com/toasttab/protokt/v1/ProtoktProtos$MessageOpt
 	public abstract fun getImplementsBytes ()Lcom/google/protobuf/ByteString;
 }
 
-public final class com/toasttab/protokt/v1/ProtoktProtos$MethodOptions : com/google/protobuf/GeneratedMessageV3, com/toasttab/protokt/v1/ProtoktProtos$MethodOptionsOrBuilder {
+public final class com/toasttab/protokt/v1/ProtoktProtos$MethodOptions : com/google/protobuf/GeneratedMessage, com/toasttab/protokt/v1/ProtoktProtos$MethodOptionsOrBuilder {
 	public static final field REQUEST_MARSHALLER_FIELD_NUMBER I
 	public static final field RESPONSE_MARSHALLER_FIELD_NUMBER I
 	public fun equals (Ljava/lang/Object;)Z
@@ -627,7 +472,6 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$MethodOptions : com/goo
 	public fun getResponseMarshaller ()Ljava/lang/String;
 	public fun getResponseMarshallerBytes ()Lcom/google/protobuf/ByteString;
 	public fun getSerializedSize ()I
-	public final fun getUnknownFields ()Lcom/google/protobuf/UnknownFieldSet;
 	public fun hashCode ()I
 	public final fun isInitialized ()Z
 	public static fun newBuilder ()Lcom/toasttab/protokt/v1/ProtoktProtos$MethodOptions$Builder;
@@ -654,10 +498,7 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$MethodOptions : com/goo
 	public fun writeTo (Lcom/google/protobuf/CodedOutputStream;)V
 }
 
-public final class com/toasttab/protokt/v1/ProtoktProtos$MethodOptions$Builder : com/google/protobuf/GeneratedMessageV3$Builder, com/toasttab/protokt/v1/ProtoktProtos$MethodOptionsOrBuilder {
-	public synthetic fun addRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun addRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/google/protobuf/Message$Builder;
-	public fun addRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/toasttab/protokt/v1/ProtoktProtos$MethodOptions$Builder;
+public final class com/toasttab/protokt/v1/ProtoktProtos$MethodOptions$Builder : com/google/protobuf/GeneratedMessage$Builder, com/toasttab/protokt/v1/ProtoktProtos$MethodOptionsOrBuilder {
 	public synthetic fun build ()Lcom/google/protobuf/Message;
 	public synthetic fun build ()Lcom/google/protobuf/MessageLite;
 	public fun build ()Lcom/toasttab/protokt/v1/ProtoktProtos$MethodOptions;
@@ -665,26 +506,12 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$MethodOptions$Builder :
 	public synthetic fun buildPartial ()Lcom/google/protobuf/MessageLite;
 	public fun buildPartial ()Lcom/toasttab/protokt/v1/ProtoktProtos$MethodOptions;
 	public synthetic fun clear ()Lcom/google/protobuf/AbstractMessage$Builder;
-	public synthetic fun clear ()Lcom/google/protobuf/GeneratedMessageV3$Builder;
+	public synthetic fun clear ()Lcom/google/protobuf/GeneratedMessage$Builder;
 	public synthetic fun clear ()Lcom/google/protobuf/Message$Builder;
 	public synthetic fun clear ()Lcom/google/protobuf/MessageLite$Builder;
 	public fun clear ()Lcom/toasttab/protokt/v1/ProtoktProtos$MethodOptions$Builder;
-	public synthetic fun clearField (Lcom/google/protobuf/Descriptors$FieldDescriptor;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun clearField (Lcom/google/protobuf/Descriptors$FieldDescriptor;)Lcom/google/protobuf/Message$Builder;
-	public fun clearField (Lcom/google/protobuf/Descriptors$FieldDescriptor;)Lcom/toasttab/protokt/v1/ProtoktProtos$MethodOptions$Builder;
-	public synthetic fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/google/protobuf/AbstractMessage$Builder;
-	public synthetic fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/google/protobuf/Message$Builder;
-	public fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/toasttab/protokt/v1/ProtoktProtos$MethodOptions$Builder;
 	public fun clearRequestMarshaller ()Lcom/toasttab/protokt/v1/ProtoktProtos$MethodOptions$Builder;
 	public fun clearResponseMarshaller ()Lcom/toasttab/protokt/v1/ProtoktProtos$MethodOptions$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/AbstractMessage$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/AbstractMessageLite$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/Message$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/MessageLite$Builder;
-	public fun clone ()Lcom/toasttab/protokt/v1/ProtoktProtos$MethodOptions$Builder;
-	public synthetic fun clone ()Ljava/lang/Object;
 	public synthetic fun getDefaultInstanceForType ()Lcom/google/protobuf/Message;
 	public synthetic fun getDefaultInstanceForType ()Lcom/google/protobuf/MessageLite;
 	public fun getDefaultInstanceForType ()Lcom/toasttab/protokt/v1/ProtoktProtos$MethodOptions;
@@ -704,23 +531,10 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$MethodOptions$Builder :
 	public synthetic fun mergeFrom (Lcom/google/protobuf/Message;)Lcom/google/protobuf/Message$Builder;
 	public fun mergeFrom (Lcom/google/protobuf/Message;)Lcom/toasttab/protokt/v1/ProtoktProtos$MethodOptions$Builder;
 	public fun mergeFrom (Lcom/toasttab/protokt/v1/ProtoktProtos$MethodOptions;)Lcom/toasttab/protokt/v1/ProtoktProtos$MethodOptions$Builder;
-	public synthetic fun mergeUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/AbstractMessage$Builder;
-	public synthetic fun mergeUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun mergeUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/Message$Builder;
-	public final fun mergeUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/toasttab/protokt/v1/ProtoktProtos$MethodOptions$Builder;
-	public synthetic fun setField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun setField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/google/protobuf/Message$Builder;
-	public fun setField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/toasttab/protokt/v1/ProtoktProtos$MethodOptions$Builder;
-	public synthetic fun setRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;ILjava/lang/Object;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun setRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;ILjava/lang/Object;)Lcom/google/protobuf/Message$Builder;
-	public fun setRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;ILjava/lang/Object;)Lcom/toasttab/protokt/v1/ProtoktProtos$MethodOptions$Builder;
 	public fun setRequestMarshaller (Ljava/lang/String;)Lcom/toasttab/protokt/v1/ProtoktProtos$MethodOptions$Builder;
 	public fun setRequestMarshallerBytes (Lcom/google/protobuf/ByteString;)Lcom/toasttab/protokt/v1/ProtoktProtos$MethodOptions$Builder;
 	public fun setResponseMarshaller (Ljava/lang/String;)Lcom/toasttab/protokt/v1/ProtoktProtos$MethodOptions$Builder;
 	public fun setResponseMarshallerBytes (Lcom/google/protobuf/ByteString;)Lcom/toasttab/protokt/v1/ProtoktProtos$MethodOptions$Builder;
-	public synthetic fun setUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun setUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/Message$Builder;
-	public final fun setUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/toasttab/protokt/v1/ProtoktProtos$MethodOptions$Builder;
 }
 
 public abstract interface class com/toasttab/protokt/v1/ProtoktProtos$MethodOptionsOrBuilder : com/google/protobuf/MessageOrBuilder {
@@ -730,7 +544,7 @@ public abstract interface class com/toasttab/protokt/v1/ProtoktProtos$MethodOpti
 	public abstract fun getResponseMarshallerBytes ()Lcom/google/protobuf/ByteString;
 }
 
-public final class com/toasttab/protokt/v1/ProtoktProtos$OneofOptions : com/google/protobuf/GeneratedMessageV3, com/toasttab/protokt/v1/ProtoktProtos$OneofOptionsOrBuilder {
+public final class com/toasttab/protokt/v1/ProtoktProtos$OneofOptions : com/google/protobuf/GeneratedMessage, com/toasttab/protokt/v1/ProtoktProtos$OneofOptionsOrBuilder {
 	public static final field DEPRECATION_MESSAGE_FIELD_NUMBER I
 	public static final field IMPLEMENTS_FIELD_NUMBER I
 	public fun equals (Ljava/lang/Object;)Z
@@ -745,7 +559,6 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$OneofOptions : com/goog
 	public fun getImplementsBytes ()Lcom/google/protobuf/ByteString;
 	public fun getParserForType ()Lcom/google/protobuf/Parser;
 	public fun getSerializedSize ()I
-	public final fun getUnknownFields ()Lcom/google/protobuf/UnknownFieldSet;
 	public fun hashCode ()I
 	public final fun isInitialized ()Z
 	public static fun newBuilder ()Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
@@ -772,10 +585,7 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$OneofOptions : com/goog
 	public fun writeTo (Lcom/google/protobuf/CodedOutputStream;)V
 }
 
-public final class com/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder : com/google/protobuf/GeneratedMessageV3$Builder, com/toasttab/protokt/v1/ProtoktProtos$OneofOptionsOrBuilder {
-	public synthetic fun addRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun addRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/google/protobuf/Message$Builder;
-	public fun addRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
+public final class com/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder : com/google/protobuf/GeneratedMessage$Builder, com/toasttab/protokt/v1/ProtoktProtos$OneofOptionsOrBuilder {
 	public synthetic fun build ()Lcom/google/protobuf/Message;
 	public synthetic fun build ()Lcom/google/protobuf/MessageLite;
 	public fun build ()Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions;
@@ -783,26 +593,12 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder : 
 	public synthetic fun buildPartial ()Lcom/google/protobuf/MessageLite;
 	public fun buildPartial ()Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions;
 	public synthetic fun clear ()Lcom/google/protobuf/AbstractMessage$Builder;
-	public synthetic fun clear ()Lcom/google/protobuf/GeneratedMessageV3$Builder;
+	public synthetic fun clear ()Lcom/google/protobuf/GeneratedMessage$Builder;
 	public synthetic fun clear ()Lcom/google/protobuf/Message$Builder;
 	public synthetic fun clear ()Lcom/google/protobuf/MessageLite$Builder;
 	public fun clear ()Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
 	public fun clearDeprecationMessage ()Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
-	public synthetic fun clearField (Lcom/google/protobuf/Descriptors$FieldDescriptor;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun clearField (Lcom/google/protobuf/Descriptors$FieldDescriptor;)Lcom/google/protobuf/Message$Builder;
-	public fun clearField (Lcom/google/protobuf/Descriptors$FieldDescriptor;)Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
 	public fun clearImplements ()Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
-	public synthetic fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/google/protobuf/AbstractMessage$Builder;
-	public synthetic fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/google/protobuf/Message$Builder;
-	public fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/AbstractMessage$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/AbstractMessageLite$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/Message$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/MessageLite$Builder;
-	public fun clone ()Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
-	public synthetic fun clone ()Ljava/lang/Object;
 	public synthetic fun getDefaultInstanceForType ()Lcom/google/protobuf/Message;
 	public synthetic fun getDefaultInstanceForType ()Lcom/google/protobuf/MessageLite;
 	public fun getDefaultInstanceForType ()Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions;
@@ -822,23 +618,10 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder : 
 	public synthetic fun mergeFrom (Lcom/google/protobuf/Message;)Lcom/google/protobuf/Message$Builder;
 	public fun mergeFrom (Lcom/google/protobuf/Message;)Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
 	public fun mergeFrom (Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions;)Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
-	public synthetic fun mergeUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/AbstractMessage$Builder;
-	public synthetic fun mergeUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun mergeUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/Message$Builder;
-	public final fun mergeUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
 	public fun setDeprecationMessage (Ljava/lang/String;)Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
 	public fun setDeprecationMessageBytes (Lcom/google/protobuf/ByteString;)Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
-	public synthetic fun setField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun setField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/google/protobuf/Message$Builder;
-	public fun setField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
 	public fun setImplements (Ljava/lang/String;)Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
 	public fun setImplementsBytes (Lcom/google/protobuf/ByteString;)Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
-	public synthetic fun setRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;ILjava/lang/Object;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun setRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;ILjava/lang/Object;)Lcom/google/protobuf/Message$Builder;
-	public fun setRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;ILjava/lang/Object;)Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
-	public synthetic fun setUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun setUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/Message$Builder;
-	public final fun setUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
 }
 
 public abstract interface class com/toasttab/protokt/v1/ProtoktProtos$OneofOptionsOrBuilder : com/google/protobuf/MessageOrBuilder {
@@ -848,7 +631,7 @@ public abstract interface class com/toasttab/protokt/v1/ProtoktProtos$OneofOptio
 	public abstract fun getImplementsBytes ()Lcom/google/protobuf/ByteString;
 }
 
-public final class com/toasttab/protokt/v1/ProtoktProtos$ServiceOptions : com/google/protobuf/GeneratedMessageV3, com/toasttab/protokt/v1/ProtoktProtos$ServiceOptionsOrBuilder {
+public final class com/toasttab/protokt/v1/ProtoktProtos$ServiceOptions : com/google/protobuf/GeneratedMessage, com/toasttab/protokt/v1/ProtoktProtos$ServiceOptionsOrBuilder {
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun getDefaultInstance ()Lcom/toasttab/protokt/v1/ProtoktProtos$ServiceOptions;
 	public synthetic fun getDefaultInstanceForType ()Lcom/google/protobuf/Message;
@@ -857,7 +640,6 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$ServiceOptions : com/go
 	public static final fun getDescriptor ()Lcom/google/protobuf/Descriptors$Descriptor;
 	public fun getParserForType ()Lcom/google/protobuf/Parser;
 	public fun getSerializedSize ()I
-	public final fun getUnknownFields ()Lcom/google/protobuf/UnknownFieldSet;
 	public fun hashCode ()I
 	public final fun isInitialized ()Z
 	public static fun newBuilder ()Lcom/toasttab/protokt/v1/ProtoktProtos$ServiceOptions$Builder;
@@ -884,10 +666,7 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$ServiceOptions : com/go
 	public fun writeTo (Lcom/google/protobuf/CodedOutputStream;)V
 }
 
-public final class com/toasttab/protokt/v1/ProtoktProtos$ServiceOptions$Builder : com/google/protobuf/GeneratedMessageV3$Builder, com/toasttab/protokt/v1/ProtoktProtos$ServiceOptionsOrBuilder {
-	public synthetic fun addRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun addRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/google/protobuf/Message$Builder;
-	public fun addRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/toasttab/protokt/v1/ProtoktProtos$ServiceOptions$Builder;
+public final class com/toasttab/protokt/v1/ProtoktProtos$ServiceOptions$Builder : com/google/protobuf/GeneratedMessage$Builder, com/toasttab/protokt/v1/ProtoktProtos$ServiceOptionsOrBuilder {
 	public synthetic fun build ()Lcom/google/protobuf/Message;
 	public synthetic fun build ()Lcom/google/protobuf/MessageLite;
 	public fun build ()Lcom/toasttab/protokt/v1/ProtoktProtos$ServiceOptions;
@@ -895,24 +674,10 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$ServiceOptions$Builder 
 	public synthetic fun buildPartial ()Lcom/google/protobuf/MessageLite;
 	public fun buildPartial ()Lcom/toasttab/protokt/v1/ProtoktProtos$ServiceOptions;
 	public synthetic fun clear ()Lcom/google/protobuf/AbstractMessage$Builder;
-	public synthetic fun clear ()Lcom/google/protobuf/GeneratedMessageV3$Builder;
+	public synthetic fun clear ()Lcom/google/protobuf/GeneratedMessage$Builder;
 	public synthetic fun clear ()Lcom/google/protobuf/Message$Builder;
 	public synthetic fun clear ()Lcom/google/protobuf/MessageLite$Builder;
 	public fun clear ()Lcom/toasttab/protokt/v1/ProtoktProtos$ServiceOptions$Builder;
-	public synthetic fun clearField (Lcom/google/protobuf/Descriptors$FieldDescriptor;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun clearField (Lcom/google/protobuf/Descriptors$FieldDescriptor;)Lcom/google/protobuf/Message$Builder;
-	public fun clearField (Lcom/google/protobuf/Descriptors$FieldDescriptor;)Lcom/toasttab/protokt/v1/ProtoktProtos$ServiceOptions$Builder;
-	public synthetic fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/google/protobuf/AbstractMessage$Builder;
-	public synthetic fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/google/protobuf/Message$Builder;
-	public fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/toasttab/protokt/v1/ProtoktProtos$ServiceOptions$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/AbstractMessage$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/AbstractMessageLite$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/Message$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/MessageLite$Builder;
-	public fun clone ()Lcom/toasttab/protokt/v1/ProtoktProtos$ServiceOptions$Builder;
-	public synthetic fun clone ()Ljava/lang/Object;
 	public synthetic fun getDefaultInstanceForType ()Lcom/google/protobuf/Message;
 	public synthetic fun getDefaultInstanceForType ()Lcom/google/protobuf/MessageLite;
 	public fun getDefaultInstanceForType ()Lcom/toasttab/protokt/v1/ProtoktProtos$ServiceOptions;
@@ -928,19 +693,6 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$ServiceOptions$Builder 
 	public synthetic fun mergeFrom (Lcom/google/protobuf/Message;)Lcom/google/protobuf/Message$Builder;
 	public fun mergeFrom (Lcom/google/protobuf/Message;)Lcom/toasttab/protokt/v1/ProtoktProtos$ServiceOptions$Builder;
 	public fun mergeFrom (Lcom/toasttab/protokt/v1/ProtoktProtos$ServiceOptions;)Lcom/toasttab/protokt/v1/ProtoktProtos$ServiceOptions$Builder;
-	public synthetic fun mergeUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/AbstractMessage$Builder;
-	public synthetic fun mergeUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun mergeUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/Message$Builder;
-	public final fun mergeUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/toasttab/protokt/v1/ProtoktProtos$ServiceOptions$Builder;
-	public synthetic fun setField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun setField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/google/protobuf/Message$Builder;
-	public fun setField (Lcom/google/protobuf/Descriptors$FieldDescriptor;Ljava/lang/Object;)Lcom/toasttab/protokt/v1/ProtoktProtos$ServiceOptions$Builder;
-	public synthetic fun setRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;ILjava/lang/Object;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun setRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;ILjava/lang/Object;)Lcom/google/protobuf/Message$Builder;
-	public fun setRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;ILjava/lang/Object;)Lcom/toasttab/protokt/v1/ProtoktProtos$ServiceOptions$Builder;
-	public synthetic fun setUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun setUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/Message$Builder;
-	public final fun setUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/toasttab/protokt/v1/ProtoktProtos$ServiceOptions$Builder;
 }
 
 public abstract interface class com/toasttab/protokt/v1/ProtoktProtos$ServiceOptionsOrBuilder : com/google/protobuf/MessageOrBuilder {
