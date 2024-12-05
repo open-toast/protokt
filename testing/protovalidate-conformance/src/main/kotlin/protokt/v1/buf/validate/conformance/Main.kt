@@ -77,7 +77,14 @@ object Main {
             return TestResult.newBuilder().setCompilationError(e.message).build()
         }
 
-        return validate(validator, DynamicConcreteMessageDeserializer.parse(fullName, testCase.value))
+        val message =
+            try {
+                DynamicConcreteMessageDeserializer.parse(fullName, testCase.value)
+            } catch (e: Exception) {
+                return unexpected("failed to parse test case $fullName")
+            }
+
+        return validate(validator, message)
     }
 
     private fun validate(validator: Validator, message: Message) =

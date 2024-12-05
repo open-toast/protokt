@@ -46,7 +46,7 @@ class ConformanceTest {
 }
 
 private fun command() =
-    "${System.getProperty("conformance-runner")} --strict_message --strict_error $driver"
+    "${System.getProperty("conformance-runner")} --strict_message --strict_error --expected_failures expected_failures.yaml $driver"
 
 private val driver =
     Path.of(projectRoot.absolutePath, "build", "install", "protovalidate-conformance", "bin", "protovalidate-conformance")

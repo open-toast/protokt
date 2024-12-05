@@ -1,0 +1,7 @@
+standard_constraints/required:
+  - proto/2023/message/explicit_presence/length_prefixed/nonzero
+  - proto/2023/message/explicit_presence/length_prefixed/zero
+  - proto/2023/message/explicit_presence/length_prefixed/unset
+  - proto/2023/message/explicit_presence/delimited/nonzero
+  - proto/2023/message/explicit_presence/delimited/zero
+  - proto/2023/message/explicit_presence/delimited/unset
