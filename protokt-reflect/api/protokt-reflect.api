@@ -599,18 +599,6 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder : 
 	public fun clear ()Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
 	public fun clearDeprecationMessage ()Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
 	public fun clearImplements ()Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
-	public fun clearNonNull ()Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
-	public synthetic fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/google/protobuf/AbstractMessage$Builder;
-	public synthetic fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/google/protobuf/Message$Builder;
-	public fun clearOneof (Lcom/google/protobuf/Descriptors$OneofDescriptor;)Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/AbstractMessage$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/AbstractMessageLite$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/Message$Builder;
-	public synthetic fun clone ()Lcom/google/protobuf/MessageLite$Builder;
-	public fun clone ()Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
-	public synthetic fun clone ()Ljava/lang/Object;
 	public synthetic fun getDefaultInstanceForType ()Lcom/google/protobuf/Message;
 	public synthetic fun getDefaultInstanceForType ()Lcom/google/protobuf/MessageLite;
 	public fun getDefaultInstanceForType ()Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions;
@@ -634,13 +622,6 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder : 
 	public fun setDeprecationMessageBytes (Lcom/google/protobuf/ByteString;)Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
 	public fun setImplements (Ljava/lang/String;)Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
 	public fun setImplementsBytes (Lcom/google/protobuf/ByteString;)Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
-	public fun setNonNull (Z)Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
-	public synthetic fun setRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;ILjava/lang/Object;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun setRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;ILjava/lang/Object;)Lcom/google/protobuf/Message$Builder;
-	public fun setRepeatedField (Lcom/google/protobuf/Descriptors$FieldDescriptor;ILjava/lang/Object;)Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
-	public synthetic fun setUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/GeneratedMessageV3$Builder;
-	public synthetic fun setUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/google/protobuf/Message$Builder;
-	public final fun setUnknownFields (Lcom/google/protobuf/UnknownFieldSet;)Lcom/toasttab/protokt/v1/ProtoktProtos$OneofOptions$Builder;
 }
 
 public abstract interface class com/toasttab/protokt/v1/ProtoktProtos$OneofOptionsOrBuilder : com/google/protobuf/MessageOrBuilder {
