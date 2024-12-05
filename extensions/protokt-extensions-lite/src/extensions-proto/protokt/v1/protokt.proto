@@ -46,17 +46,16 @@ extend google.protobuf.MessageOptions {
 }
 
 message FieldOptions {
-  // Makes a message-type field non-nullable in the generated Kotlin code.
-  // Beware that deserialization will NPE if the field is missing from the
-  // protobuf payload. Adding a non-null field to an existing message is a
-  // backwards-incompatible change.
+  // Generates a non-nullable accessor.
   //
   // For example:
   //
   // message Foo {
-  //   string id = 1 [(protokt.v1.property).non_null = true];
+  //   Bar id = 1 [(protokt.v1.property).generate_non_null_accessor = true];
   // }
-  bool non_null = 1;
+  //
+  // will generate an accessor called [requireId] that has the non-nullable type [Bar] (as opposed to [Bar?]).
+  bool generate_non_null_accessor = 1;
 
   // Expose a wrapper class instead of a raw protobuf type.
   //
