@@ -37,11 +37,7 @@ import kotlin.reflect.full.findAnnotation
 class Validator @JvmOverloads constructor(
     config: Config = Config.newBuilder().build()
 ) {
-    private val evaluatorBuilder =
-        EvaluatorBuilder(
-            Env.newEnv(Library.Lib(ValidateLibrary())),
-            config.isDisableLazy
-        )
+    private val evaluatorBuilder = EvaluatorBuilder(Env.newEnv(Library.Lib(ValidateLibrary())), config)
 
     private val failFast = config.isFailFast
 

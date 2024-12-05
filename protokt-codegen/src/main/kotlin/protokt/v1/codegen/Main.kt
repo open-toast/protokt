@@ -65,7 +65,10 @@ private fun main(`in`: InputStream, out: OutputStream) {
 
     if (files.isNotEmpty() || grpcKotlinFiles.isNotEmpty()) {
         CodeGeneratorResponse.newBuilder()
-            .setSupportedFeatures(Feature.FEATURE_PROTO3_OPTIONAL.number.toLong())
+            .setSupportedFeatures(
+                (Feature.FEATURE_PROTO3_OPTIONAL.number or
+                        Feature.FEATURE_SUPPORTS_EDITIONS.number).toLong()
+            )
             .addAllFile(files)
             .addAllFile(grpcKotlinFiles)
             .build()
