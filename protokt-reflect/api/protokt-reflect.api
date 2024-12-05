@@ -177,8 +177,8 @@ public abstract interface class com/toasttab/protokt/v1/ProtoktProtos$EnumValueO
 public final class com/toasttab/protokt/v1/ProtoktProtos$FieldOptions : com/google/protobuf/GeneratedMessage, com/toasttab/protokt/v1/ProtoktProtos$FieldOptionsOrBuilder {
 	public static final field BYTES_SLICE_FIELD_NUMBER I
 	public static final field DEPRECATION_MESSAGE_FIELD_NUMBER I
+	public static final field GENERATE_NON_NULL_ACCESSOR_FIELD_NUMBER I
 	public static final field KEY_WRAP_FIELD_NUMBER I
-	public static final field NON_NULL_FIELD_NUMBER I
 	public static final field VALUE_WRAP_FIELD_NUMBER I
 	public static final field WRAP_FIELD_NUMBER I
 	public fun equals (Ljava/lang/Object;)Z
@@ -190,9 +190,9 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$FieldOptions : com/goog
 	public fun getDeprecationMessage ()Ljava/lang/String;
 	public fun getDeprecationMessageBytes ()Lcom/google/protobuf/ByteString;
 	public static final fun getDescriptor ()Lcom/google/protobuf/Descriptors$Descriptor;
+	public fun getGenerateNonNullAccessor ()Z
 	public fun getKeyWrap ()Ljava/lang/String;
 	public fun getKeyWrapBytes ()Lcom/google/protobuf/ByteString;
-	public fun getNonNull ()Z
 	public fun getParserForType ()Lcom/google/protobuf/Parser;
 	public fun getSerializedSize ()I
 	public fun getValueWrap ()Ljava/lang/String;
@@ -239,8 +239,8 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder : 
 	public fun clear ()Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
 	public fun clearBytesSlice ()Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
 	public fun clearDeprecationMessage ()Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
+	public fun clearGenerateNonNullAccessor ()Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
 	public fun clearKeyWrap ()Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
-	public fun clearNonNull ()Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
 	public fun clearValueWrap ()Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
 	public fun clearWrap ()Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
 	public fun getBytesSlice ()Z
@@ -251,9 +251,9 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder : 
 	public fun getDeprecationMessageBytes ()Lcom/google/protobuf/ByteString;
 	public static final fun getDescriptor ()Lcom/google/protobuf/Descriptors$Descriptor;
 	public fun getDescriptorForType ()Lcom/google/protobuf/Descriptors$Descriptor;
+	public fun getGenerateNonNullAccessor ()Z
 	public fun getKeyWrap ()Ljava/lang/String;
 	public fun getKeyWrapBytes ()Lcom/google/protobuf/ByteString;
-	public fun getNonNull ()Z
 	public fun getValueWrap ()Ljava/lang/String;
 	public fun getValueWrapBytes ()Lcom/google/protobuf/ByteString;
 	public fun getWrap ()Ljava/lang/String;
@@ -271,9 +271,9 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder : 
 	public fun setBytesSlice (Z)Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
 	public fun setDeprecationMessage (Ljava/lang/String;)Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
 	public fun setDeprecationMessageBytes (Lcom/google/protobuf/ByteString;)Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
+	public fun setGenerateNonNullAccessor (Z)Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
 	public fun setKeyWrap (Ljava/lang/String;)Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
 	public fun setKeyWrapBytes (Lcom/google/protobuf/ByteString;)Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
-	public fun setNonNull (Z)Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
 	public fun setValueWrap (Ljava/lang/String;)Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
 	public fun setValueWrapBytes (Lcom/google/protobuf/ByteString;)Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
 	public fun setWrap (Ljava/lang/String;)Lcom/toasttab/protokt/v1/ProtoktProtos$FieldOptions$Builder;
@@ -284,9 +284,9 @@ public abstract interface class com/toasttab/protokt/v1/ProtoktProtos$FieldOptio
 	public abstract fun getBytesSlice ()Z
 	public abstract fun getDeprecationMessage ()Ljava/lang/String;
 	public abstract fun getDeprecationMessageBytes ()Lcom/google/protobuf/ByteString;
+	public abstract fun getGenerateNonNullAccessor ()Z
 	public abstract fun getKeyWrap ()Ljava/lang/String;
 	public abstract fun getKeyWrapBytes ()Lcom/google/protobuf/ByteString;
-	public abstract fun getNonNull ()Z
 	public abstract fun getValueWrap ()Ljava/lang/String;
 	public abstract fun getValueWrapBytes ()Lcom/google/protobuf/ByteString;
 	public abstract fun getWrap ()Ljava/lang/String;
@@ -766,8 +766,8 @@ public final class protokt/v1/FieldOptions : protokt/v1/AbstractMessage {
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBytesSlice ()Z
 	public final fun getDeprecationMessage ()Ljava/lang/String;
+	public final fun getGenerateNonNullAccessor ()Z
 	public final fun getKeyWrap ()Ljava/lang/String;
-	public final fun getNonNull ()Z
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getValueWrap ()Ljava/lang/String;
 	public final fun getWrap ()Ljava/lang/String;
@@ -783,15 +783,15 @@ public final class protokt/v1/FieldOptions$Builder {
 	public final fun build ()Lprotokt/v1/FieldOptions;
 	public final fun getBytesSlice ()Z
 	public final fun getDeprecationMessage ()Ljava/lang/String;
+	public final fun getGenerateNonNullAccessor ()Z
 	public final fun getKeyWrap ()Ljava/lang/String;
-	public final fun getNonNull ()Z
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getValueWrap ()Ljava/lang/String;
 	public final fun getWrap ()Ljava/lang/String;
 	public final fun setBytesSlice (Z)V
 	public final fun setDeprecationMessage (Ljava/lang/String;)V
+	public final fun setGenerateNonNullAccessor (Z)V
 	public final fun setKeyWrap (Ljava/lang/String;)V
-	public final fun setNonNull (Z)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 	public final fun setValueWrap (Ljava/lang/String;)V
 	public final fun setWrap (Ljava/lang/String;)V
