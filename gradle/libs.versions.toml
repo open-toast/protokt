@@ -13,11 +13,11 @@
 
 [versions]
 autoService = "1.1.1"
-grpc-java = "1.64.0"
+grpc-java = "1.68.1"
 grpc-kotlin = "1.4.1"
-kotlinLogging = "5.1.0"
+kotlinLogging = "7.0.0"
 kotlinPoet = "1.17.0"
-kotlinx-coroutines = "1.8.0"
+kotlinx-coroutines = "1.8.1"
 kotlinx-serialization = "1.6.3"
 ktlint = "1.2.1"
 protobuf-java = "4.29.1"
@@ -29,7 +29,7 @@ slf4j = "2.0.13"
 androidGradlePlugin = "7.4.2"
 animalSnifferGradlePlugin = "1.7.1"
 binaryCompatibilityValidator = "0.14.0"
-buildConfig = "5.3.5"
+buildConfig = "5.5.0"
 gradleMavenPublishPlugin = "0.25.3"
 gummyBears = "0.8.0"
 java = "11"
@@ -41,17 +41,17 @@ spotless = "6.25.0"
 datasets = "0.1.0"
 download = "5.6.0"
 jmh = "1.37"
-wire = "4.9.9"
+wire = "5.1.0"
 
 # test
-classgraph = "4.8.153"
+classgraph = "4.8.179"
 grpc-js = "1.8.14"
 jackson = "2.17.1"
 junit = "5.10.2"
-truth = "1.4.2"
+truth = "1.4.4"
 
 # third party
-protoGoogleCommonProtos = "2.39.1"
+protoGoogleCommonProtos = "2.44.0"
 
 [plugins]
 buildConfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildConfig" }

@@ -105,8 +105,6 @@ message Wrappers {
 
 message OneofWrappers {
   oneof wrapped_oneof {
-    option (.protokt.v1.oneof).non_null = true;
-
     bytes id_oneof = 1 [
       (.protokt.v1.property).wrap = "protokt.v1.testing.Id"
     ];
