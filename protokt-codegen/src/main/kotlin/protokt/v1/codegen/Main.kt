@@ -67,8 +67,10 @@ private fun main(`in`: InputStream, out: OutputStream) {
     if (files.isNotEmpty() || grpcKotlinFiles.isNotEmpty()) {
         CodeGeneratorResponse.newBuilder()
             .setSupportedFeatures(
-                (Feature.FEATURE_PROTO3_OPTIONAL_VALUE or
-                        Feature.FEATURE_SUPPORTS_EDITIONS_VALUE).toLong()
+                (
+                    Feature.FEATURE_PROTO3_OPTIONAL_VALUE or
+                        Feature.FEATURE_SUPPORTS_EDITIONS_VALUE
+                    ).toLong()
             )
             .setMinimumEdition(Edition.EDITION_PROTO2_VALUE)
             // we don't actually support 2023 yet but we have to say we support it for protovalidate examples

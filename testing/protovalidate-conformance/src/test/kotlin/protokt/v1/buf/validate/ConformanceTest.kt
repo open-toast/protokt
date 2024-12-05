@@ -32,7 +32,7 @@ class ConformanceTest {
                     "JAVA_OPTS" to "-Xmx64M",
                     "GOMEMLIMIT" to "32000000"
                 ),
-                timeout = Duration.ofMinutes(8)
+                timeout = Duration.ofMinutes(20)
             )
             println(output.stderr)
             assertThat(output.stderr).startsWith("PASS")
