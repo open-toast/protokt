@@ -21,7 +21,7 @@ import "protokt/v1/protokt.proto";
 
 message TestMessageWithBadNonNullOneof {
   oneof foo {
-    REPLACE bar = 1 [(.protokt.v1.property).non_null = true];
+    REPLACE bar = 1 [(.protokt.v1.property).generate_non_null_accessor = true];
   }
 }
 

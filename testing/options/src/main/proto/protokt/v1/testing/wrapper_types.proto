@@ -45,17 +45,17 @@ message Wrappers {
 
   .protokt.v1.InetSocketAddress socket_address = 5 [
     (.protokt.v1.property).wrap = "java.net.InetSocketAddress",
-    (.protokt.v1.property).non_null = true
+    (.protokt.v1.property).generate_non_null_accessor = true
   ];
 
   google.protobuf.Timestamp instant = 6 [
     (.protokt.v1.property).wrap = "java.time.Instant",
-    (.protokt.v1.property).non_null = true
+    (.protokt.v1.property).generate_non_null_accessor = true
   ];
 
   google.protobuf.Duration duration = 7 [
     (.protokt.v1.property).wrap = "java.time.Duration",
-    (.protokt.v1.property).non_null = true
+    (.protokt.v1.property).generate_non_null_accessor = true
   ];
 
   string local_date = 8 [
@@ -72,7 +72,7 @@ message Wrappers {
 
   google.type.Date google_date = 11 [
     (.protokt.v1.property).wrap = "java.time.LocalDate",
-    (.protokt.v1.property).non_null = true
+    (.protokt.v1.property).generate_non_null_accessor = true
   ];
 
   optional bytes optional_uuid = 12 [
@@ -89,17 +89,17 @@ message Wrappers {
 
   bytes non_null_uuid = 15 [
     (.protokt.v1.property).wrap = "java.util.UUID",
-    (.protokt.v1.property).non_null = true
+    (.protokt.v1.property).generate_non_null_accessor = true
   ];
 
   bytes non_null_ip_address = 16 [
     (.protokt.v1.property).wrap = "java.net.InetAddress",
-    (.protokt.v1.property).non_null = true
+    (.protokt.v1.property).generate_non_null_accessor = true
   ];
 
   string non_null_local_date = 17 [
     (.protokt.v1.property).wrap = "java.time.LocalDate",
-    (.protokt.v1.property).non_null = true
+    (.protokt.v1.property).generate_non_null_accessor = true
   ];
 }
 

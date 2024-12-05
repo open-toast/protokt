@@ -21,7 +21,7 @@ import "protokt/v1/protokt.proto";
 
 message TestMessageWithBadNonNullOptionalField {
   optional REPLACE value = 1 [
-    (.protokt.v1.property).non_null = true
+    (.protokt.v1.property).generate_non_null_accessor = true
   ];
 }
 
