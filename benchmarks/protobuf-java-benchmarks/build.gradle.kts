@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 /*
  * Copyright (c) 2019 Toast, Inc.
  *
@@ -35,4 +37,10 @@ dependencies {
 
 tasks.named("run") {
     dependsOn(":benchmarks:datasets")
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions {
+        allWarningsAsErrors = false
+    }
 }

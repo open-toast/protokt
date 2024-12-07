@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 /*
  * Copyright (c) 2022 Toast, Inc.
  *
@@ -15,4 +17,10 @@
 
 plugins {
     id("protokt.benchmarks-conventions")
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions {
+        allWarningsAsErrors = false
+    }
 }
