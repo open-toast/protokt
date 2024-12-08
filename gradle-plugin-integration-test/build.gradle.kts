@@ -15,6 +15,7 @@
 
 import com.diffplug.gradle.spotless.SpotlessExtension
 import org.gradle.api.tasks.compile.JavaCompile
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -99,13 +100,14 @@ subprojects {
         }
 
         withType<KotlinCompile> {
-            kotlinOptions {
+            compilerOptions {
                 allWarningsAsErrors = true
 
-                apiVersion =
+                apiVersion = KotlinVersion.fromVersion(
                     System.getProperty("kotlin-integration.version")
                         ?.substringBeforeLast(".")
                         ?: libs.versions.kotlin.get().substringBeforeLast(".")
+                )
 
                 languageVersion = apiVersion
             }
