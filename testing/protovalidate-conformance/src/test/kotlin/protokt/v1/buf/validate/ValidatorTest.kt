@@ -19,7 +19,6 @@ import buf.validate.conformance.cases.Bytes
 import buf.validate.conformance.cases.Numbers
 import buf.validate.conformance.cases.Repeated
 import buf.validate.conformance.cases.Strings
-import build.buf.protovalidate.ValidationResult
 import com.google.common.truth.Truth.assertThat
 import com.google.protobuf.ByteString
 import com.google.protobuf.DescriptorProtos
@@ -44,17 +43,22 @@ import protokt.v1.buf.validate.conformance.cases.repeated_file_descriptor
 import protokt.v1.buf.validate.conformance.cases.strings_file_descriptor
 import protokt.v1.google.protobuf.FileDescriptor
 
-abstract class AbstractValidatorTest {
-    protected val validator = Validator()
+class ValidatorTest {
+    private val validator = Validator()
 
-    abstract fun validate(message: Message): ValidationResult
+    private fun validate(message: Message) =
+        validator.validate(message)
 
     private fun load(descriptor: FileDescriptor) {
         descriptor
             .toProtobufJavaDescriptor()
             .messageTypes
             .forEach {
-                runCatching { validator.load(it) }
+                try {
+                    validator.load(it)
+                } catch (ex: Exception) {
+                    ex.printStackTrace()
+                }
             }
     }
 

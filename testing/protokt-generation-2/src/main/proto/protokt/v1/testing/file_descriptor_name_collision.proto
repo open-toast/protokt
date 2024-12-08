@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-edition = "2023";
+syntax = "proto3";
 
 package protokt.v1.testing;
 
