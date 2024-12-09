@@ -50,17 +50,17 @@ internal fun configureProtobufPlugin(
             }
         }
 
-        generateProtoTasks {
-            for (task in all()) {
-                if (disableJava) {
-                    task.builtins {
-                        findByName("java")?.run(::remove)
+        project.afterEvaluate {
+            generateProtoTasks {
+                for (task in all()) {
+                    if (disableJava) {
+                        task.builtins {
+                            findByName("java")?.run(::remove)
+                        }
                     }
-                }
 
-                task.plugins {
-                    id("protokt") {
-                        project.afterEvaluate {
+                    task.plugins {
+                        id("protokt") {
                             option("$KOTLIN_EXTRA_CLASSPATH=${extraClasspath(project, task)}")
                             option("$GENERATE_TYPES=${ext.generate.types}")
                             option("$GENERATE_DESCRIPTORS=${ext.generate.descriptors}")
