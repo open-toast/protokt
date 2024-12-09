@@ -16,6 +16,7 @@
 package protokt.v1.gradle
 
 import com.google.protobuf.gradle.GenerateProtoTask
+import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Project
 import org.gradle.api.artifacts.transform.InputArtifact
 import org.gradle.api.artifacts.transform.TransformAction
@@ -28,9 +29,7 @@ import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.PathSensitive
 import org.gradle.api.tasks.PathSensitivity
 import org.gradle.internal.file.PathTraversalChecker
-import org.gradle.kotlin.dsl.add
 import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.project
 import org.gradle.kotlin.dsl.registerTransform
 import org.gradle.kotlin.dsl.withType
 import org.gradle.work.DisableCachingByDefault
@@ -85,10 +84,7 @@ internal fun binaryFromArtifact(project: Project): String {
             attribute(UNPACKED_CODEGEN_ATTRIBUTE)
         }
 
-        // TODO: artifact type zip may or may not be registered
-        // perhaps, we should publish the codegen under a custom artifact type to avoid
-        // conflicts
-        artifactTypes.named("zip") {
+        artifactTypes.createIfNecessary("zip") {
             attributes.attribute(UNPACKED_CODEGEN_ATTRIBUTE, false)
         }
 
@@ -110,4 +106,8 @@ internal fun binaryFromArtifact(project: Project): String {
     }
 
     return configuration.singleFile.absolutePath + "/$CODEGEN_NAME-$PROTOKT_VERSION/bin/$CODEGEN_NAME"
+}
+
+private fun <T> NamedDomainObjectContainer<T>.createIfNecessary(name: String, configure: T.() -> Unit) {
+    (findByName(name) ?: create(name)).configure()
 }

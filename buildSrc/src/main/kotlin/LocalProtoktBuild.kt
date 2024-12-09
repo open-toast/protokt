@@ -23,8 +23,6 @@ import protokt.v1.gradle.configureProtokt
 import java.io.File
 
 fun Project.localProtokt(disableJava: Boolean = true) {
-    // TODO: it should be possible to use the artifact transform for the
-    // codegen binary just like in the plugin
     configureProtokt(this, null, disableJava) {
         "$rootDir/protokt-codegen/build/install/$CODEGEN_NAME/bin/$CODEGEN_NAME"
     }
