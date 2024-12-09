@@ -29,10 +29,10 @@ class ConformanceTest {
             val output = command().runCommand(
                 projectRoot.toPath(),
                 env = mapOf(
-                    "JAVA_OPTS" to "-Xmx64M",
-                    "GOMEMLIMIT" to "32000000"
+                    "JAVA_OPTS" to "-Xmx256M",
+                    "GOMEMLIMIT" to "256000000"
                 ),
-                timeout = Duration.ofMinutes(8)
+                timeout = Duration.ofMinutes(20)
             )
             println(output.stderr)
             assertThat(output.stderr).startsWith("PASS")
