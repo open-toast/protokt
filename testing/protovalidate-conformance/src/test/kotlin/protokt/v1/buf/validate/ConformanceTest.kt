@@ -30,7 +30,7 @@ class ConformanceTest {
                 projectRoot.toPath(),
                 env = mapOf(
                     "JAVA_OPTS" to "-Xmx64M",
-                    "GOMEMLIMIT" to "512000000"
+                    "GOMEMLIMIT" to "24MiB"
                 ),
                 timeout = Duration.ofMinutes(20)
             )
