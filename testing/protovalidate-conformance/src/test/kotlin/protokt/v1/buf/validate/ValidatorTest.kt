@@ -53,13 +53,7 @@ class ValidatorTest {
         descriptor
             .toProtobufJavaDescriptor()
             .messageTypes
-            .forEach {
-                try {
-                    validator.load(it)
-                } catch (ex: Exception) {
-                    ex.printStackTrace()
-                }
-            }
+            .forEach { validator.load(it) }
     }
 
     private fun FileDescriptor.toProtobufJavaDescriptor(): Descriptors.FileDescriptor =
