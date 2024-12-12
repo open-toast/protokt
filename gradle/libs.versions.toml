@@ -27,7 +27,7 @@ slf4j = "2.0.13"
 
 # build
 androidGradlePlugin = "7.4.2"
-animalSnifferGradlePlugin = "1.7.1"
+animalSnifferGradlePlugin = "1.7.2"
 binaryCompatibilityValidator = "0.14.0"
 buildConfig = "5.5.0"
 gradleMavenPublishPlugin = "0.25.3"

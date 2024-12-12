@@ -29,6 +29,7 @@ fun Project.localProtokt(disableJava: Boolean = true) {
 
     afterEvaluate {
         tasks.withType<GenerateProtoTask> {
+            inputs.dir("$rootDir/protokt-codegen/build/install/$CODEGEN_NAME")
             dependsOn(":protokt-codegen:installDist")
         }
     }
