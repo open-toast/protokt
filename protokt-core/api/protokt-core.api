@@ -208,15 +208,15 @@ public final class com/toasttab/protokt/compiler/PluginProtos {
 	public final fun getDescriptor ()Lcom/toasttab/protokt/FileDescriptor;
 }
 
+public final class protokt/v1/google/protobuf/Anies {
+	public static final fun pack (Lprotokt/v1/google/protobuf/Any$Deserializer;Lprotokt/v1/Message;)Lprotokt/v1/google/protobuf/Any;
+	public static final fun pack (Lprotokt/v1/google/protobuf/Any$Deserializer;Lprotokt/v1/Message;Ljava/lang/String;)Lprotokt/v1/google/protobuf/Any;
+	public static synthetic fun pack$default (Lprotokt/v1/google/protobuf/Any$Deserializer;Lprotokt/v1/Message;Ljava/lang/String;ILjava/lang/Object;)Lprotokt/v1/google/protobuf/Any;
+}
+
 public final class protokt/v1/google/protobuf/AnyProto {
 	public static final field INSTANCE Lprotokt/v1/google/protobuf/AnyProto;
 	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
-}
-
-public final class protokt/v1/google/protobuf/AnyUtil {
-	public static final fun pack (Lprotokt/v1/google/protobuf/Any$Deserializer;Lprotokt/v1/KtMessage;)Lprotokt/v1/google/protobuf/Any;
-	public static final fun pack (Lprotokt/v1/google/protobuf/Any$Deserializer;Lprotokt/v1/KtMessage;Ljava/lang/String;)Lprotokt/v1/google/protobuf/Any;
-	public static synthetic fun pack$default (Lprotokt/v1/google/protobuf/Any$Deserializer;Lprotokt/v1/KtMessage;Ljava/lang/String;ILjava/lang/Object;)Lprotokt/v1/google/protobuf/Any;
 }
 
 public final class protokt/v1/google/protobuf/Any_descriptorsKt {
@@ -252,23 +252,40 @@ public final class protokt/v1/google/protobuf/Descriptor_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/DescriptorProto$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/DescriptorProto$ExtensionRange$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/DescriptorProto$ReservedRange$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/Edition$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/EnumDescriptorProto$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/EnumDescriptorProto$EnumReservedRange$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/EnumOptions$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/EnumValueDescriptorProto$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/EnumValueOptions$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/ExtensionRangeOptions$Declaration$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/ExtensionRangeOptions$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/ExtensionRangeOptions$VerificationState$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/FeatureSet$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/FeatureSet$EnumType$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/FeatureSet$FieldPresence$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/FeatureSet$JsonFormat$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/FeatureSet$MessageEncoding$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/FeatureSet$RepeatedFieldEncoding$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/FeatureSet$Utf8Validation$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/FeatureSetDefaults$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/FeatureSetDefaults$FeatureSetEditionDefault$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/FieldDescriptorProto$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/FieldDescriptorProto$Label$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/FieldDescriptorProto$Type$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/FieldOptions$CType$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/FieldOptions$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/FieldOptions$EditionDefault$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/FieldOptions$FeatureSupport$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/FieldOptions$JSType$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/FieldOptions$OptionRetention$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/FieldOptions$OptionTargetType$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/FileDescriptorProto$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/FileDescriptorSet$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/FileOptions$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/FileOptions$OptimizeMode$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/GeneratedCodeInfo$Annotation$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/GeneratedCodeInfo$Annotation$Semantic$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/GeneratedCodeInfo$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/MessageOptions$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/MethodDescriptorProto$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
@@ -403,16 +420,13 @@ public final class protokt/v1/google/protobuf/Wrappers_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/UInt64Value$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 }
 
-public final class protokt/v1/google/protobuf/compiler/PluginProtos {
-	public static final field INSTANCE Lprotokt/v1/google/protobuf/compiler/PluginProtos;
+public final class protokt/v1/pb/JavaFeaturesProto {
+	public static final field INSTANCE Lprotokt/v1/pb/JavaFeaturesProto;
 	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
 }
 
-public final class protokt/v1/google/protobuf/compiler/Plugin_descriptorsKt {
-	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/compiler/CodeGeneratorRequest$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
-	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/compiler/CodeGeneratorResponse$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
-	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/compiler/CodeGeneratorResponse$Feature$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
-	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/compiler/CodeGeneratorResponse$File$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
-	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/compiler/Version$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+public final class protokt/v1/pb/Java_features_descriptorsKt {
+	public static final fun getDescriptor (Lprotokt/v1/pb/JavaFeatures$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/pb/JavaFeatures$Utf8Validation$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 }
 

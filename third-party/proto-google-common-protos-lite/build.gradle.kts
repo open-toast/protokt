@@ -52,3 +52,11 @@ sourceSets {
         }
     }
 }
+
+sourceSets {
+    test {
+        java {
+            srcDir(rootProject.file("shared-src/lite-util"))
+        }
+    }
+}

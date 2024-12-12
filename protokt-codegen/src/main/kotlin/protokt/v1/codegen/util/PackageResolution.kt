@@ -16,40 +16,11 @@
 package protokt.v1.codegen.util
 
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
-import protokt.v1.Bytes
+import protokt.v1.reflect.DOT_GOOGLE_PROTOBUF
+import protokt.v1.reflect.PROTOKT_V1
+import protokt.v1.reflect.resolvePackage
 
-val PROTOKT_V1 = Bytes::class.java.`package`.name
-const val DOT_GOOGLE_PROTOBUF = ".google.protobuf"
 val PROTOKT_V1_GOOGLE_PROTO = PROTOKT_V1 + DOT_GOOGLE_PROTOBUF
 
 fun packagesByFileName(protoFileList: List<FileDescriptorProto>) =
     protoFileList.associate { it.name to resolvePackage(it.`package`) }
-
-fun resolvePackage(pkg: String) =
-    if (pkg.startsWith(PROTOKT_V1)) {
-        pkg
-    } else {
-        "$PROTOKT_V1.$pkg"
-    }
-
-fun requalifyProtoType(typeName: String): String =
-    // type name might have a `.` prefix
-    if (typeName.startsWith(".$PROTOKT_V1")) {
-        typeName.removePrefix(".")
-    } else {
-        "$PROTOKT_V1." + typeName.removePrefix(".")
-    }
-
-internal fun typeName(protoTypeName: String, fieldType: FieldType): String {
-    val fullyProtoQualified = protoTypeName.startsWith(".")
-
-    return if (fullyProtoQualified) {
-        requalifyProtoType(protoTypeName)
-    } else {
-        protoTypeName.let {
-            it.ifEmpty {
-                fieldType.protoktFieldType.qualifiedName!!
-            }
-        }
-    }
-}

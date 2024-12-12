@@ -21,8 +21,8 @@ plugins {
 buildConfig {
     useKotlinOutput { topLevelConstants = true }
     packageName.set("protokt.v1.gradle")
-    buildConfigField("String", "DEFAULT_PROTOBUF_VERSION", "\"${libs.versions.protobuf.java.get()}\"")
-    buildConfigField("String", "PROTOKT_VERSION", "\"$version\"")
+    buildConfigField(String::class.java, "DEFAULT_PROTOBUF_VERSION", libs.versions.protobuf.java.get())
+    buildConfigField(String::class.java, "PROTOKT_VERSION", version.toString())
 }
 
 repositories {

@@ -43,6 +43,7 @@ import io.grpc.kotlin.AbstractCoroutineServerImpl
 import io.grpc.kotlin.AbstractCoroutineStub
 import io.grpc.kotlin.ClientCalls
 import io.grpc.kotlin.ServerCalls
+import io.grpc.kotlin.generator.protoc.ProtoMethodName
 import kotlinx.coroutines.flow.Flow
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.util.KotlinPlugin
@@ -57,7 +58,7 @@ import kotlin.reflect.KClass
 import kotlin.reflect.KFunction1
 import kotlin.reflect.KFunction3
 
-fun generateService(s: Service, ctx: Context, kotlinPlugin: KotlinPlugin?) =
+internal fun generateService(s: Service, ctx: Context, kotlinPlugin: KotlinPlugin?) =
     ServiceGenerator(s, ctx, kotlinPlugin).generate()
 
 private class ServiceGenerator(
@@ -68,13 +69,27 @@ private class ServiceGenerator(
     fun generate(): List<TypeSpec> =
         (grpcImplementations() + serviceDescriptor()).filterNotNull()
 
+    private fun ProtoMethodName.withMethodSuffix() =
+        toMemberSimpleName().withSuffix("Method")
+
+    private val ProtoMethodName.decapitalizedMethod
+        get() = withMethodSuffix().name.decapitalize()
+
+    private val ProtoMethodName.decapitalized
+        get() = toMemberSimpleName().name.decapitalize()
+
     private fun grpcImplementations(): List<TypeSpec> =
         if (supportedPlugin()) {
             val getMethodFunctions =
                 s.methods.map { method ->
-                    buildFunSpec("get" + method.name + "Method") {
+                    buildFunSpec(
+                        method.name
+                            .withMethodSuffix()
+                            .withPrefix("get")
+                            .name
+                    ) {
                         returns(pivotClassName(MethodDescriptor::class).parameterizedBy(method.inputType, method.outputType))
-                        addCode("return _" + method.name.decapitalize() + "Method")
+                        addCode("return _${method.name.decapitalizedMethod}")
                         staticIfAppropriate()
                     }
                 }
@@ -156,7 +171,7 @@ private class ServiceGenerator(
         addProperties(
             s.methods.map { method ->
                 PropertySpec.builder(
-                    "_" + method.name.decapitalize() + "Method",
+                    "_${method.name.decapitalizedMethod}",
                     pivotClassName(MethodDescriptor::class).parameterizedBy(method.inputType, method.outputType)
                 )
                     .addModifiers(KModifier.PRIVATE)
@@ -221,7 +236,7 @@ private class ServiceGenerator(
 
     private fun serverImplementations() =
         s.methods.map { method ->
-            buildFunSpec(method.name.replaceFirstChar { it.lowercase() }) {
+            buildFunSpec(method.name.decapitalized) {
                 addModifiers(KModifier.OPEN)
                 when (methodType(method)) {
                     MethodType.CLIENT_STREAMING, MethodType.UNARY ->
@@ -338,7 +353,7 @@ private class ServiceGenerator(
         getMethodFunctions: List<FunSpec>
     ) =
         s.methods.mapIndexed { idx, method ->
-            buildFunSpec(method.name.replaceFirstChar { it.lowercase() }) {
+            buildFunSpec(method.name.decapitalized) {
                 when (methodType(method)) {
                     MethodType.CLIENT_STREAMING, MethodType.UNARY ->
                         addModifiers(KModifier.SUSPEND)
@@ -431,7 +446,7 @@ private class ServiceGenerator(
 
     private fun serviceLines(ctx: Context) =
         s.methods.map {
-            CodeBlock.of(".addMethod(_${it.name.decapitalize()}Method)\n")
+            CodeBlock.of(".addMethod(_${it.name.decapitalizedMethod})\n")
         } +
             if (pivotPlugin(jvm = true, js = false)) {
                 CodeBlock.of(

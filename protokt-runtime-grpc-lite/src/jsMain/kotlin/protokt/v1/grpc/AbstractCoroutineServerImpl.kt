@@ -15,6 +15,7 @@
 
 package protokt.v1.grpc
 
+import protokt.v1.Beta
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
@@ -22,6 +23,7 @@ import kotlin.coroutines.EmptyCoroutineContext
  * Skeleton implementation of a coroutine-based gRPC server implementation.  Intended to be
  * subclassed by generated code.
  */
+@Beta
 abstract class AbstractCoroutineServerImpl(
     /** The context in which to run server coroutines. */
     open val context: CoroutineContext = EmptyCoroutineContext

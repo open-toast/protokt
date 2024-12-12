@@ -23,13 +23,12 @@ import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
-import protokt.v1.KtEnum
-import protokt.v1.KtEnumDeserializer
+import protokt.v1.EnumReader
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Deprecation.handleDeprecation
 import protokt.v1.codegen.util.Enum
 
-fun generateEnum(e: Enum, ctx: Context) =
+internal fun generateEnum(e: Enum, ctx: Context) =
     if (ctx.info.context.generateTypes) {
         EnumGenerator(e, ctx).generate()
     } else {
@@ -45,7 +44,7 @@ private class EnumGenerator(
     fun generate() =
         TypeSpec.classBuilder(e.className).apply {
             addModifiers(KModifier.SEALED)
-            superclass(KtEnum::class)
+            superclass(protokt.v1.Enum::class)
             addKDoc()
             handleDeprecation(e.options.default.deprecated, e.options.protokt.deprecationMessage)
             addConstructor()
@@ -107,7 +106,7 @@ private class EnumGenerator(
         addType(
             TypeSpec.companionObjectBuilder(e.deserializerClassName.simpleName)
                 .addSuperinterface(
-                    KtEnumDeserializer::class
+                    EnumReader::class
                         .asTypeName()
                         .parameterizedBy(e.className)
                 )
@@ -119,7 +118,9 @@ private class EnumGenerator(
                         addCode(
                             buildCodeBlock {
                                 beginControlFlow("return when (value)")
-                                cases().forEach(::addStatement)
+                                e.values.distinctBy { it.number }.forEach {
+                                    addStatement("%L -> %N", it.number, it.valueName)
+                                }
                                 addStatement("else -> UNRECOGNIZED(value)")
                                 endControlFlowWithoutNewline()
                             }
@@ -129,9 +130,4 @@ private class EnumGenerator(
                 .build()
         )
     }
-
-    private fun cases() =
-        e.values
-            .distinctBy { it.number }
-            .map { "${it.number} -> ${it.valueName}" }
 }

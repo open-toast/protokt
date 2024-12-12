@@ -19,7 +19,7 @@ import com.google.common.truth.Truth
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
-import protokt.v1.codegen.util.FieldType
+import protokt.v1.reflect.FieldType
 
 class NonNullValidationTest : AbstractProtoktCodegenTest() {
     @ParameterizedTest
@@ -29,7 +29,7 @@ class NonNullValidationTest : AbstractProtoktCodegenTest() {
             "non_null.proto",
             fieldType,
             "Error generating code for file test_file.proto: message TestMessageWithBadNonNullField, field value",
-            "java.lang.IllegalArgumentException: (protokt.property).non_null is only applicable to message types " +
+            "java.lang.IllegalArgumentException: (protokt.property).generate_non_null_accessor is only applicable to message types " +
                 "and is inapplicable to non-message " + (fieldTypeName ?: fieldType)
         )
     }
@@ -41,7 +41,7 @@ class NonNullValidationTest : AbstractProtoktCodegenTest() {
             "non_null_nested.proto",
             fieldType,
             "Error generating code for file test_file.proto: message Outer.TestNestedMessageWithBadNonNullField, field value",
-            "java.lang.IllegalArgumentException: (protokt.property).non_null is only applicable to message types " +
+            "java.lang.IllegalArgumentException: (protokt.property).generate_non_null_accessor is only applicable to message types " +
                 "and is inapplicable to non-message " + (fieldTypeName ?: fieldType)
         )
     }
@@ -53,7 +53,7 @@ class NonNullValidationTest : AbstractProtoktCodegenTest() {
             "non_null_oneof.proto",
             fieldType,
             "Error generating code for file test_file.proto: message TestMessageWithBadNonNullOneof, field bar",
-            "java.lang.IllegalArgumentException: (protokt.property).non_null is only applicable to top level types " +
+            "java.lang.IllegalArgumentException: (protokt.property).generate_non_null_accessor is only applicable to top level types " +
                 "and is inapplicable to oneof field " + (fieldTypeName ?: fieldType)
         )
     }
@@ -65,7 +65,7 @@ class NonNullValidationTest : AbstractProtoktCodegenTest() {
             "non_null_optional.proto",
             fieldType,
             "Error generating code for file test_file.proto: message TestMessageWithBadNonNullOptionalField, field value",
-            "java.lang.IllegalArgumentException: (protokt.property).non_null is not applicable to optional fields " +
+            "java.lang.IllegalArgumentException: (protokt.property).generate_non_null_accessor is not applicable to optional fields " +
                 "and is inapplicable to optional " + (fieldTypeName ?: fieldType)
         )
     }

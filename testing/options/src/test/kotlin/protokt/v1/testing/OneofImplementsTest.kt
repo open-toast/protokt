@@ -28,8 +28,8 @@ class OneofImplementsTest {
 
     @Test
     fun `property shared between oneof types can be assigned and accessed without switching`() {
-        val assigned: OneofModel = obj.implementingOneof
+        val assigned: OneofModel? = obj.implementingOneof
 
-        assertThat(assigned.id).isEqualTo(Id("val"))
+        assertThat(assigned?.id).isEqualTo(Id("val"))
     }
 }

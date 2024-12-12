@@ -15,6 +15,9 @@
 
 package protokt.v1.grpc
 
+import protokt.v1.Beta
+
+@Beta
 class MethodDescriptor<ReqT, RespT> internal constructor(
     val fullMethodName: String,
     val type: MethodType,

@@ -13,6 +13,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("ktlint:standard:filename")
+
 package protokt.v1.grpc
 
 internal external class Buffer {
@@ -20,6 +22,3 @@ internal external class Buffer {
         fun from(obj: dynamic): Buffer
     }
 }
-
-@Deprecated("shut up ktlint", level = DeprecationLevel.HIDDEN)
-internal fun shutUpKtLint() {}

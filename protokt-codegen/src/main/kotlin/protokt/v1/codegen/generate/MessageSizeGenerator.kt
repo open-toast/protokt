@@ -16,21 +16,22 @@
 package protokt.v1.codegen.generate
 
 import com.squareup.kotlinpoet.CodeBlock
-import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.buildCodeBlock
 import protokt.v1.codegen.generate.CodeGenerator.Context
-import protokt.v1.codegen.generate.Nullability.hasNonNullOption
 import protokt.v1.codegen.generate.Wrapper.interceptFieldSizeof
 import protokt.v1.codegen.generate.Wrapper.interceptSizeof
 import protokt.v1.codegen.generate.Wrapper.interceptValueAccess
-import protokt.v1.codegen.util.FieldType
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.Oneof
+import protokt.v1.codegen.util.SizeFn
 import protokt.v1.codegen.util.StandardField
+import protokt.v1.codegen.util.sizeFn
 
-fun generateMessageSize(msg: Message, properties: List<PropertySpec>, ctx: Context) =
+internal const val MESSAGE_SIZE = "`\$messageSize`"
+
+internal fun generateMessageSize(msg: Message, properties: List<PropertySpec>, ctx: Context) =
     MessageSizeGenerator(msg, properties, ctx).generate()
 
 private class MessageSizeGenerator(
@@ -47,58 +48,55 @@ private class MessageSizeGenerator(
             name
         }
 
-    fun generate(): FunSpec {
+    fun generate(): PropertySpec {
         val fieldSizes =
             msg.mapFields(
                 ctx,
                 properties,
                 false,
                 { std, _ -> CodeBlock.of("$resultVarName·+=·%L", sizeOf(std, ctx)) },
-                { oneof, std, _ -> sizeofOneof(oneof, std) },
-                {
-                    if (it.hasNonNullOption) {
-                        add("$resultVarName·+=·")
-                    }
-                }
+                { oneof, std, _ -> sizeofOneof(oneof, std) }
             )
 
-        return FunSpec.builder("messageSize")
+        return PropertySpec.builder(MESSAGE_SIZE, Int::class)
             .addModifiers(KModifier.PRIVATE)
-            .returns(Int::class)
-            .addCode(
-                if (fieldSizes.isEmpty()) {
-                    CodeBlock.of("return·unknownFields.size()")
-                } else {
-                    buildCodeBlock {
-                        addStatement("var·$resultVarName·=·0")
-                        fieldSizes.forEach { fs -> add(fs) }
-                        addStatement("$resultVarName·+=·unknownFields.size()")
-                        addStatement("return·$resultVarName")
-                    }
+            .delegate(
+                buildCodeBlock {
+                    beginControlFlow("lazy")
+                    add(
+                        if (fieldSizes.isEmpty()) {
+                            CodeBlock.of("unknownFields.size()")
+                        } else {
+                            buildCodeBlock {
+                                addStatement("var·$resultVarName·=·0")
+                                fieldSizes.forEach { fs -> add(fs) }
+                                addStatement("$resultVarName·+=·unknownFields.size()")
+                                addStatement(resultVarName)
+                            }
+                        }
+                    )
+                    endControlFlow()
                 }
             )
             .build()
     }
 
     private fun sizeofOneof(o: Oneof, f: StandardField) =
-        sizeOf(
-            f,
-            ctx,
-            interceptSizeof(
+        CodeBlock.of(
+            "$resultVarName·+=·%L",
+            sizeOf(
                 f,
-                CodeBlock.of("%N.%N", o.fieldName, f.fieldName),
-                ctx
+                ctx,
+                interceptSizeof(
+                    f,
+                    CodeBlock.of("%N.%N", o.fieldName, f.fieldName),
+                    ctx
+                )
             )
-        ).let { s ->
-            if (o.hasNonNullOption) {
-                s
-            } else {
-                CodeBlock.of("$resultVarName·+=·%L", s)
-            }
-        }
+        )
 }
 
-fun sizeOf(
+internal fun sizeOf(
     f: StandardField,
     ctx: Context,
     oneOfFieldAccess: CodeBlock? = null
@@ -166,7 +164,7 @@ private fun sizeOfMap(f: StandardField, name: CodeBlock): CodeBlock {
 }
 
 private fun StandardField.loopVar(name: String) =
-    if (type.sizeFn is FieldType.Method) {
+    if (type.sizeFn is SizeFn.Method) {
         name
     } else {
         "_"
@@ -174,18 +172,18 @@ private fun StandardField.loopVar(name: String) =
 
 private fun StandardField.sizeOf(value: CodeBlock): CodeBlock =
     when (val fn = type.sizeFn) {
-        is FieldType.Const -> CodeBlock.of(fn.size.toString())
-        is FieldType.Method -> CodeBlock.of("%M(%L)", fn.method, value)
+        is SizeFn.Const -> CodeBlock.of(fn.size.toString())
+        is SizeFn.Method -> CodeBlock.of("%M(%L)", fn.method, value)
     }
 
-fun StandardField.elementsSize(
+internal fun StandardField.elementsSize(
     fieldAccess: CodeBlock = CodeBlock.of("it"),
     parenthesize: Boolean = true
 ) =
     when (val sizeFn = type.sizeFn) {
-        is FieldType.Const ->
+        is SizeFn.Const ->
             CodeBlock.of("(%N.size * %L)", fieldName, sizeFn.size)
                 .let { if (parenthesize) CodeBlock.of("(%L)", it) else it }
-        is FieldType.Method ->
+        is SizeFn.Method ->
             CodeBlock.of("%N.sumOf·{·%L·}", fieldName, sizeOf(fieldAccess))
     }

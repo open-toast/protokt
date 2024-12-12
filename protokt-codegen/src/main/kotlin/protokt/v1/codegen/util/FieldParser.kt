@@ -29,8 +29,10 @@ import com.squareup.kotlinpoet.ClassName
 import com.toasttab.protokt.v1.ProtoktProtos
 import protokt.v1.codegen.generate.Wrapper.wrapperRequiresNonNullOptionForNonNullity
 import protokt.v1.codegen.util.ErrorContext.withFieldName
+import protokt.v1.reflect.FieldType
+import protokt.v1.reflect.typeName
 
-class FieldParser(
+internal class FieldParser(
     private val ctx: GeneratorContext,
     private val desc: DescriptorProto,
     private val enclosingMessages: List<String>,
@@ -136,7 +138,7 @@ class FieldParser(
             optional = !withinOneof && optional,
             packed = packed,
             mapEntry = mapEntry,
-            fieldName = LOWER_UNDERSCORE.to(LOWER_CAMEL, fdp.name),
+            fieldName = camelCaseFieldName(fdp.name),
             options = FieldOptions(
                 fdp.options,
                 protoktOptions,
@@ -151,7 +153,7 @@ class FieldParser(
             index = idx
         )
 
-        if (protoktOptions.nonNull) {
+        if (protoktOptions.generateNonNullAccessor) {
             validateNonNullOption(fdp, result, withinOneof, optional)
         }
 
@@ -242,16 +244,16 @@ class FieldParser(
             }
 
         require(!optional) {
-            "(protokt.property).non_null is not applicable to optional fields " +
+            "(protokt.property).generate_non_null_accessor is not applicable to optional fields " +
                 "and is inapplicable to optional $typeName"
         }
         require(!withinOneof) {
-            "(protokt.property).non_null is only applicable to top level types " +
+            "(protokt.property).generate_non_null_accessor is only applicable to top level types " +
                 "and is inapplicable to oneof field $typeName"
         }
 
         require((field.type == FieldType.Message && !field.repeated) || field.wrapperRequiresNonNullOptionForNonNullity(ctx)) {
-            "(protokt.property).non_null is only applicable to message types " +
+            "(protokt.property).generate_non_null_accessor is only applicable to message types " +
                 "and is inapplicable to non-message " +
                 when {
                     field.mapEntry != null ->
@@ -264,5 +266,57 @@ class FieldParser(
                         field.type.typeName()
                 }
         }
+    }
+
+    // Adapted from https://github.com/protocolbuffers/protobuf/blob/2fe8aaa15868c8d419ea6532cecf7f0045b3779b/src/google/protobuf/compiler/java/helpers.cc#L202
+    // The grpc-kotlin compiler doesn't get this right (as of 1.4.1) with ProtoFieldName and crashes on conformance
+    // field names that begin with underscores. They never actually seem to use that utility, however.
+    private fun camelCaseFieldName(name: String): String {
+        val fieldName = underscoresToCamelCase(name)
+        return if (fieldName[0].isDigit()) {
+            "_$fieldName"
+        } else {
+            fieldName
+        }
+    }
+
+    private fun underscoresToCamelCase(input: String): String {
+        val result = StringBuilder()
+        var capNext = false
+
+        for (char in input) {
+            when {
+                char.isLowerCase() -> {
+                    if (capNext) {
+                        result.append(char.uppercaseChar())
+                    } else {
+                        result.append(char)
+                    }
+                    capNext = false
+                }
+                char.isUpperCase() -> {
+                    if (result.isEmpty() && !capNext) {
+                        result.append(char.lowercaseChar())
+                    } else {
+                        result.append(char)
+                    }
+                    capNext = false
+                }
+                char.isDigit() -> {
+                    result.append(char)
+                    capNext = true
+                }
+                else -> {
+                    capNext = true
+                }
+            }
+        }
+
+        // Add a trailing "_" if the name should be altered.
+        if (input.last() == '#') {
+            result.append('_')
+        }
+
+        return result.toString()
     }
 }

@@ -13,44 +13,46 @@
 
 [versions]
 autoService = "1.1.1"
-grpc-java = "1.58.0"
+grpc-java = "1.68.1"
 grpc-kotlin = "1.4.1"
-kotlinLogging = "5.1.0"
-kotlinPoet = "1.14.2"
-kotlinx-coroutines = "1.6.0"
+kotlinLogging = "7.0.0"
+kotlinPoet = "2.0.0"
+kotlinx-coroutines = "1.8.1"
 kotlinx-serialization = "1.6.3"
-ktlint = "1.0.0"
-protobuf-java = "3.21.7"
+ktlint = "1.2.1"
+protobuf-java = "4.29.1"
 protobuf-js = "7.2.6"
 protobufGradlePlugin = "0.9.4"
-slf4j = "2.0.6"
+slf4j = "2.0.13"
 
 # build
 androidGradlePlugin = "7.4.2"
-binaryCompatibilityValidator = "0.13.2"
-buildConfig = "3.1.0"
-expediter = "0.0.19"
+animalSnifferGradlePlugin = "1.7.1"
+binaryCompatibilityValidator = "0.14.0"
+buildConfig = "5.5.0"
+expediter = "0.0.23"
 gradleMavenPublishPlugin = "0.25.3"
 gummyBears = "0.8.0"
 java = "11"
 kotlin = "1.9.23"
 pluginPublish = "1.2.1"
-spotless = "6.21.0"
+spotless = "6.25.0"
 
 # benchmarks
 datasets = "0.1.0"
 download = "5.6.0"
 jmh = "1.37"
-wire = "4.9.7"
+wire = "5.1.0"
 
 # test
+classgraph = "4.8.179"
 grpc-js = "1.8.14"
-jackson = "2.17.0"
-junit = "5.9.3"
-truth = "1.1.3"
+jackson = "2.17.1"
+junit = "5.11.3"
+truth = "1.4.4"
 
 # third party
-protoGoogleCommonProtos = "2.21.0"
+protoGoogleCommonProtos = "2.44.0"
 
 [plugins]
 buildConfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildConfig" }
@@ -91,6 +93,7 @@ wireRuntime = { module = "com.squareup.wire:wire-runtime", version.ref = "wire" 
 protoGoogleCommonProtos = { module = "com.google.api.grpc:proto-google-common-protos", version.ref = "protoGoogleCommonProtos" }
 
 # test
+classgraph = { module = "io.github.classgraph:classgraph", version.ref = "classgraph" }
 grpc-kotlin-stub = { module = "io.grpc:grpc-kotlin-stub", version.ref = "grpc-kotlin" }
 grpc-testing = { module = "io.grpc:grpc-testing", version.ref = "grpc-java" }
 jackson = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }

@@ -24,17 +24,18 @@ import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
-import protokt.v1.AbstractKtMessage
-import protokt.v1.KtGeneratedMessage
-import protokt.v1.KtProperty
+import protokt.v1.AbstractMessage
+import protokt.v1.GeneratedMessage
+import protokt.v1.GeneratedProperty
 import protokt.v1.UnknownFieldSet
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.CodeGenerator.generate
 import protokt.v1.codegen.generate.Deprecation.handleDeprecation
 import protokt.v1.codegen.generate.Implements.handleSuperInterface
+import protokt.v1.codegen.generate.Nullability.nonNullPropName
 import protokt.v1.codegen.util.Message
 
-fun generateMessage(msg: Message, ctx: Context) =
+internal fun generateMessage(msg: Message, ctx: Context) =
     if (ctx.info.context.generateTypes) {
         MessageGenerator(msg, ctx).generate()
     } else {
@@ -47,15 +48,15 @@ private class MessageGenerator(
 ) {
     fun generate(): TypeSpec {
         val properties = annotateProperties(msg, ctx)
-        val propertySpecs = properties(properties)
+        val (constructorProps, delegateProps) = properties(properties)
 
         return TypeSpec.classBuilder(msg.className).apply {
             annotateMessageDocumentation(ctx)?.let { addKdoc(formatDoc(it)) }
             handleAnnotations()
-            handleConstructor(propertySpecs)
+            handleConstructor(constructorProps)
             addTypes(annotateOneofs(msg, ctx))
-            handleMessageSize()
-            addFunction(generateMessageSize(msg, propertySpecs, ctx))
+            handleMessageSize(constructorProps)
+            addProperties(delegateProps)
             addFunction(generateSerializer(msg, propertySpecs, ctx))
             handleEquals(properties)
             handleHashCode(properties)
@@ -69,7 +70,7 @@ private class MessageGenerator(
 
     private fun TypeSpec.Builder.handleAnnotations() = apply {
         addAnnotation(
-            AnnotationSpec.builder(KtGeneratedMessage::class)
+            AnnotationSpec.builder(GeneratedMessage::class)
                 .addMember(msg.fullProtobufTypeName.embed())
                 .build()
         )
@@ -82,7 +83,7 @@ private class MessageGenerator(
     private fun TypeSpec.Builder.handleConstructor(
         properties: List<PropertySpec>
     ) = apply {
-        superclass(AbstractKtMessage::class)
+        superclass(AbstractMessage::class)
         addProperties(properties)
         addProperty(
             PropertySpec.builder("unknownFields", UnknownFieldSet::class)
@@ -103,12 +104,36 @@ private class MessageGenerator(
         handleSuperInterface(msg, ctx)
     }
 
-    private fun properties(properties: List<PropertyInfo>) =
-        properties.map { property ->
+    private data class MessageProperties(
+        val constructorProps: List<PropertySpec>,
+        val delegateProps: List<PropertySpec>
+    ) {
+        constructor(property: PropertySpec) : this(listOf(property), emptyList())
+        constructor(constructorProp: PropertySpec, delegateProp: PropertySpec) :
+            this(listOf(constructorProp), listOf(delegateProp))
+
+        operator fun plus(props: MessageProperties) =
+            MessageProperties(
+                constructorProps + props.constructorProps,
+                delegateProps + props.delegateProps
+            )
+    }
+
+    private fun properties(properties: List<PropertyInfo>): MessageProperties =
+        properties.fold(MessageProperties(emptyList(), emptyList())) { props, property ->
+            if (property.generateNullableBackingProperty) {
+                props + generateWithBackingProperty(property)
+            } else {
+                props + generateStandardProperty(property)
+            }
+        }
+
+    private fun generateStandardProperty(property: PropertyInfo) =
+        MessageProperties(
             PropertySpec.builder(property.name, property.propertyType).apply {
                 if (property.number != null) {
                     addAnnotation(
-                        AnnotationSpec.builder(KtProperty::class)
+                        AnnotationSpec.builder(GeneratedProperty::class)
                             .addMember("${property.number}")
                             .build()
                     )
@@ -120,15 +145,47 @@ private class MessageGenerator(
                 property.documentation?.let { addKdoc(formatDoc(it)) }
                 handleDeprecation(property.deprecation)
             }.build()
-        }
-
-    private fun TypeSpec.Builder.handleMessageSize() =
-        addProperty(
-            PropertySpec.builder("messageSize", Int::class)
-                .addModifiers(KModifier.OVERRIDE)
-                .delegate("lazy { messageSize() }")
-                .build()
         )
+
+    private fun generateWithBackingProperty(property: PropertyInfo) =
+        MessageProperties(
+            PropertySpec.builder(property.name, property.propertyType.copy(nullable = true)).apply {
+                if (property.number != null) {
+                    addAnnotation(
+                        AnnotationSpec.builder(GeneratedProperty::class)
+                            .addMember("${property.number}")
+                            .build()
+                    )
+                }
+                initializer(property.name)
+            }.build(),
+            PropertySpec.builder(nonNullPropName(property.name), property.propertyType.copy(nullable = false)).apply {
+                getter(
+                    FunSpec.getterBuilder()
+                        .addCode("return ${dereferenceNullableBackingProperty(property.name)}")
+                        .build()
+                )
+                if (property.overrides) {
+                    addModifiers(KModifier.OVERRIDE)
+                }
+                property.documentation?.let { addKdoc(formatDoc(it)) }
+                handleDeprecation(property.deprecation)
+            }.build()
+        )
+
+    private fun dereferenceNullableBackingProperty(propName: String) =
+        "requireNotNull($propName) { \"$propName is assumed non-null with (protokt.property).generate_non_null_accessor but was null\" }".bindSpaces()
+
+    private fun TypeSpec.Builder.handleMessageSize(propertySpecs: List<PropertySpec>) {
+        addProperty(generateMessageSize(msg, propertySpecs, ctx))
+        addFunction(
+            buildFunSpec("messageSize") {
+                returns(Int::class)
+                addModifiers(KModifier.OVERRIDE)
+                addStatement("return $MESSAGE_SIZE")
+            }
+        )
+    }
 
     private fun TypeSpec.Builder.handleEquals(
         properties: List<PropertyInfo>
@@ -228,7 +285,8 @@ private class MessageGenerator(
 
 fun formatDoc(lines: List<String>) =
     CodeBlock.of(
-        "%L", // escape the entire comment block
+        // escape the entire comment block
+        "%L",
         lines.joinToString(" ") {
             if (it.isBlank()) {
                 "\n\n"
