@@ -1,6 +1,7 @@
 *.log
 
 .gradle
+.kotlin
 build
 out
 .DS_Store
