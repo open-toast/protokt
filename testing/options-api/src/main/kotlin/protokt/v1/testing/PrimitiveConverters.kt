@@ -26,6 +26,7 @@ data class BoolBox(val wrapped: Boolean)
 object BooleanConverter : AbstractConverter<Boolean, BoolBox>() {
     override fun unwrap(wrapped: BoolBox) =
         wrapped.wrapped
+
     override fun wrap(unwrapped: Boolean) =
         BoolBox(unwrapped)
 }
@@ -36,6 +37,7 @@ data class ByteArrayBox(val wrapped: Bytes)
 object BytesConverter : AbstractConverter<Bytes, ByteArrayBox>() {
     override fun unwrap(wrapped: ByteArrayBox) =
         wrapped.wrapped
+
     override fun wrap(unwrapped: Bytes) =
         ByteArrayBox(unwrapped)
 }
@@ -46,6 +48,7 @@ data class DoubleBox(val wrapped: Double)
 object DoubleConverter : AbstractConverter<Double, DoubleBox>() {
     override fun unwrap(wrapped: DoubleBox) =
         wrapped.wrapped
+
     override fun wrap(unwrapped: Double) =
         DoubleBox(unwrapped)
 }
@@ -56,6 +59,7 @@ data class IntBox(val wrapped: Int)
 object IntConverter : AbstractConverter<Int, IntBox>() {
     override fun unwrap(wrapped: IntBox) =
         wrapped.wrapped
+
     override fun wrap(unwrapped: Int) =
         IntBox(unwrapped)
 }
@@ -66,6 +70,7 @@ data class UIntBox(val wrapped: UInt)
 object UIntConverter : AbstractConverter<UInt, UIntBox>() {
     override fun unwrap(wrapped: UIntBox) =
         wrapped.wrapped
+
     override fun wrap(unwrapped: UInt) =
         UIntBox(unwrapped)
 }
@@ -76,6 +81,7 @@ data class LongBox(val wrapped: Long)
 object LongConverter : AbstractConverter<Long, LongBox>() {
     override fun unwrap(wrapped: LongBox) =
         wrapped.wrapped
+
     override fun wrap(unwrapped: Long) =
         LongBox(unwrapped)
 }
@@ -86,6 +92,7 @@ data class ULongBox(val wrapped: ULong)
 object ULongConverter : AbstractConverter<ULong, ULongBox>() {
     override fun unwrap(wrapped: ULongBox) =
         wrapped.wrapped
+
     override fun wrap(unwrapped: ULong) =
         ULongBox(unwrapped)
 }
@@ -96,6 +103,7 @@ data class FloatBox(val wrapped: Float)
 object FloatConverter : AbstractConverter<Float, FloatBox>() {
     override fun unwrap(wrapped: FloatBox) =
         wrapped.wrapped
+
     override fun wrap(unwrapped: Float) =
         FloatBox(unwrapped)
 }
@@ -106,6 +114,7 @@ data class StringBox(val wrapped: String)
 object StringConverter : AbstractConverter<String, StringBox>() {
     override fun unwrap(wrapped: StringBox) =
         wrapped.wrapped
+    
     override fun wrap(unwrapped: String) =
         StringBox(unwrapped)
 }
