@@ -114,7 +114,7 @@ data class StringBox(val wrapped: String)
 object StringConverter : AbstractConverter<String, StringBox>() {
     override fun unwrap(wrapped: StringBox) =
         wrapped.wrapped
-    
+
     override fun wrap(unwrapped: String) =
         StringBox(unwrapped)
 }
