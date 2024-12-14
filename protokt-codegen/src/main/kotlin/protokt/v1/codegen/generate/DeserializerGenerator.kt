@@ -233,8 +233,8 @@ internal fun deserialize(f: StandardField, ctx: Context, packed: Boolean = false
     }
 }
 
-private fun deserializeMap(f: StandardField, read: CodeBlock): CodeBlock {
-    return buildCodeBlock {
+private fun deserializeMap(f: StandardField, read: CodeBlock): CodeBlock =
+    buildCodeBlock {
         add("\n(%N ?: mutableMapOf())", f.fieldName)
         beginControlFlow(".apply")
         beginControlFlow("$READER.readRepeated(false)")
@@ -245,7 +245,6 @@ private fun deserializeMap(f: StandardField, read: CodeBlock): CodeBlock {
         endControlFlow()
         endControlFlowWithoutNewline()
     }
-}
 
 private fun StandardField.readFn() =
     when (type) {

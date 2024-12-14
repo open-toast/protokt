@@ -479,12 +479,13 @@ private fun marshaller(string: String, type: ClassName) =
         ?.let { CodeBlock.of("%L", it) }
         ?: CodeBlock.of("%T(%T)", KtMarshaller::class, type)
 
-private fun methodType(m: Method) = when {
-    m.clientStreaming && m.serverStreaming -> MethodType.BIDI_STREAMING
-    m.clientStreaming -> MethodType.CLIENT_STREAMING
-    m.serverStreaming -> MethodType.SERVER_STREAMING
-    else -> MethodType.UNARY
-}
+private fun methodType(m: Method) =
+    when {
+        m.clientStreaming && m.serverStreaming -> MethodType.BIDI_STREAMING
+        m.clientStreaming -> MethodType.CLIENT_STREAMING
+        m.serverStreaming -> MethodType.SERVER_STREAMING
+        else -> MethodType.UNARY
+    }
 
 private fun String.decapitalize() =
     replaceFirstChar { it.lowercaseChar() }

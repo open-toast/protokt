@@ -46,7 +46,9 @@ external class ServerCredentials {
 external class Metadata
 
 @Beta
-external interface ServerUnaryCall<ReqT, RespT> : ServerSurfaceCall, EventEmitter {
+external interface ServerUnaryCall<ReqT, RespT> :
+    ServerSurfaceCall,
+    EventEmitter {
     val request: ReqT
 }
 
@@ -70,7 +72,9 @@ external interface EventEmitter {
 }
 
 @Beta
-external interface ServerWritableStream<ReqT, RespT> : ServerSurfaceCall, ObjectWritable<RespT> {
+external interface ServerWritableStream<ReqT, RespT> :
+    ServerSurfaceCall,
+    ObjectWritable<RespT> {
     val request: ReqT
 
     fun end(metadata: Metadata?)
@@ -89,7 +93,9 @@ external interface ObjectWritable<T> : Writable {
 }
 
 @Beta
-external interface ServerReadableStream<ReqT, RespT> : ServerSurfaceCall, ObjectReadable<ReqT>
+external interface ServerReadableStream<ReqT, RespT> :
+    ServerSurfaceCall,
+    ObjectReadable<ReqT>
 
 @Beta
 external interface ObjectReadable<T> : Readable {

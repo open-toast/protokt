@@ -26,7 +26,8 @@ import kotlin.math.sqrt
 private const val EARTH_RADIUS_IN_M = 6371000
 
 // java.lang.Math.toRadians(toDouble())
-private fun Int.toRadians() = toDouble() * 0.017453292519943295
+private fun Int.toRadians() =
+    toDouble() * 0.017453292519943295
 
 infix fun Point.distanceTo(other: Point): Int {
     val lat1 = latitude.toRadians()
@@ -50,7 +51,8 @@ operator fun Rectangle.contains(p: Point): Boolean {
     return p.longitude in lowLong..hiLong && p.latitude in lowLat..hiLat
 }
 
-private fun Int.normalizeCoordinate(): Double = this / 1.0e7
+private fun Int.normalizeCoordinate(): Double =
+    this / 1.0e7
 
 fun Point.toStr(): String {
     val lat = latitude.normalizeCoordinate()
@@ -58,4 +60,5 @@ fun Point.toStr(): String {
     return "$lat, $long"
 }
 
-fun Feature.exists(): Boolean = name.isNotEmpty()
+fun Feature.exists(): Boolean =
+    name.isNotEmpty()
