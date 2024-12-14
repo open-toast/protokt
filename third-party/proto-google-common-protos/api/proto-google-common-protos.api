@@ -55,6 +55,7 @@ public final class protokt/v1/google/api/Client_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/google/api/PythonSettings$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/api/PythonSettings$ExperimentalFeatures$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/api/RubySettings$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/api/SelectiveGapicGeneration$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 }
 
 public final class protokt/v1/google/api/ConfigChangeProto {
@@ -229,6 +230,7 @@ public final class protokt/v1/google/api/Metric_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/google/api/Metric$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/api/MetricDescriptor$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/api/MetricDescriptor$MetricDescriptorMetadata$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/api/MetricDescriptor$MetricDescriptorMetadata$TimeSeriesResourceHierarchyLevel$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/api/MetricDescriptor$MetricKind$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/api/MetricDescriptor$ValueType$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 }
