@@ -32,10 +32,8 @@ import org.gradle.api.tasks.AbstractCopyTask
 import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.jvm.tasks.Jar
-import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.getByType
-import org.gradle.kotlin.dsl.named
 import org.gradle.kotlin.dsl.project
 import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
@@ -116,7 +114,7 @@ private fun Project.configureProtobuf(
         configurations.getByName(testSourceSet.apiConfigurationName).extendsFrom(testExtensionsConfiguration)
     }
 
-    pluginManager.withPlugin("org.jetbrains.kotlin.multiplatform") {
+    pluginManager.withPlugin(KotlinPlugins.MULTIPLATFORM) {
         configureProtobufPlugin(project, ext, disableJava, KotlinTarget.MultiplatformCommon, binary)
         linkGenerateProtoToSourceCompileForKotlinMpp("commonMain", "commonTest")
 
@@ -142,13 +140,13 @@ private fun Project.configureProtobuf(
         configurations.getByName("testApi").extendsFrom(testExtensionsConfiguration)
     }
 
-    pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
+    pluginManager.withPlugin(KotlinPlugins.JVM) {
         logger.log(DEBUG_LOG_LEVEL, "Configuring protokt for Kotlin JVM")
         configureProtobufPlugin(project, ext, disableJava, KotlinTarget.Jvm, binary)
         otherwise()
     }
 
-    pluginManager.withPlugin("org.jetbrains.kotlin.android") {
+    pluginManager.withPlugin(KotlinPlugins.ANDROID) {
         logger.log(DEBUG_LOG_LEVEL, "Configuring protokt for Kotlin Android")
         configureProtobufPlugin(project, ext, disableJava, KotlinTarget.Android, binary)
         otherwise()

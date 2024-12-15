@@ -30,6 +30,7 @@ import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
 import org.gradle.plugins.signing.Sign
 import org.gradle.plugins.signing.SigningExtension
+import protokt.v1.gradle.KotlinPlugins
 
 private object Pgp {
     val key by lazy {
@@ -84,10 +85,10 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
         }
 
         if (defaultJars) {
-            pluginManager.withPlugin("org.jetbrains.kotlin.multiplatform") {
+            pluginManager.withPlugin(KotlinPlugins.MULTIPLATFORM) {
                 configure(KotlinMultiplatform(JavadocJar.Empty()))
             }
-            pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
+            pluginManager.withPlugin(KotlinPlugins.JVM) {
                 configure(KotlinJvm(JavadocJar.Empty(), true))
             }
         }
