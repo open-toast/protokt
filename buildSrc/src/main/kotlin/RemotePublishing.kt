@@ -15,7 +15,6 @@
 
 import com.google.protobuf.gradle.GenerateProtoTask
 import com.vanniktech.maven.publish.JavadocJar
-import com.vanniktech.maven.publish.KotlinJs
 import com.vanniktech.maven.publish.KotlinJvm
 import com.vanniktech.maven.publish.KotlinMultiplatform
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
@@ -89,9 +88,6 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
             }
             pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
                 configure(KotlinJvm(JavadocJar.Empty(), true))
-            }
-            pluginManager.withPlugin("org.jetbrains.kotlin.js") {
-                configure(KotlinJs(JavadocJar.Empty()))
             }
         }
 
