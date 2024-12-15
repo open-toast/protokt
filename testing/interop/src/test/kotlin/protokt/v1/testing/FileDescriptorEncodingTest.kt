@@ -18,7 +18,7 @@ package protokt.v1.testing
 import com.google.common.truth.Truth.assertThat
 import com.google.protobuf.DescriptorProtos
 import com.google.protobuf.Descriptors
-import com.google.protobuf.GeneratedMessageV3
+import com.google.protobuf.GeneratedMessage
 import com.toasttab.protokt.v1.testing.DeeplyNested
 import com.toasttab.protokt.v1.testing.HasAService
 import org.junit.jupiter.api.Test
@@ -62,7 +62,7 @@ class FileDescriptorEncodingTest {
 
     private fun assertFileDescriptorsAreEqual(
         protoktDescriptor: Descriptor,
-        google: KClass<out GeneratedMessageV3>
+        google: KClass<out GeneratedMessage>
     ) {
         assertThat(
             protoktDescriptor.file.proto
@@ -91,7 +91,7 @@ class FileDescriptorEncodingTest {
 
     fun assertEqualComponents(
         protokt: Descriptor,
-        google: KClass<out GeneratedMessageV3>
+        google: KClass<out GeneratedMessage>
     ) {
         val asProtoDesc = protokt.file.toProtobufJavaDescriptor()
 
@@ -124,7 +124,7 @@ class FileDescriptorEncodingTest {
             true
         )
 
-    fun KClass<out GeneratedMessageV3>.descriptor() =
+    fun KClass<out GeneratedMessage>.descriptor() =
         java.getMethod("getDescriptor")
             .invoke(null)
             .let { it as Descriptors.Descriptor }

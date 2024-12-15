@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast, Inc.
+ * Copyright (c) 2024 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,20 +13,16 @@
  * limitations under the License.
  */
 
-syntax = "proto3";
+package protokt.v1.testing
 
-package toasttab.protokt.v1.codegen.testing;
+import com.google.common.truth.Truth.assertThat
+import org.junit.jupiter.api.Test
 
-import "protokt/v1/protokt.proto";
-
-message TestMessageWithBadNonNullField {
-  REPLACE value = 1 [
-    (.protokt.v1.property).generate_non_null_accessor = true
-  ];
+class PoorNamingConventionsTest {
+    @Test
+    fun `camel case proto name matches protobuf-java convention`() {
+        val foo = BadFieldName { fooBar = "foobar" }
+        assertThat(foo.fooBar).isEqualTo("foobar")
+        assertThat(BadFieldName::class.propertyNamed("fooBar")).isNotNull()
+    }
 }
-
-enum Foo {
-  FOO = 0;
-}
-
-message Bar {}

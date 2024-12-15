@@ -17,6 +17,7 @@ package protokt.v1.testing
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import protokt.v1.Bytes
 import protokt.v1.testing.OneofWrappers.WrappedOneof
@@ -66,17 +67,20 @@ class WrapperTypesTest {
 
     @Test
     fun `nonnull uuid property is not nullable`() {
-        assertThat(Wrappers::class.propertyIsMarkedNullable("nonNullUuid")).isFalse()
+        assertThat(Wrappers::class.propertyIsMarkedNullable("nonNullUuid")).isTrue()
+        assertThat(Wrappers::class.propertyIsMarkedNullable("requireNonNullUuid")).isFalse()
     }
 
     @Test
-    fun `nonnull ipAddress property is not nullable`() {
-        assertThat(Wrappers::class.propertyIsMarkedNullable("nonNullIpAddress")).isFalse()
+    fun `nonnull ipAddress property is nullable with accessor`() {
+        assertThat(Wrappers::class.propertyIsMarkedNullable("nonNullIpAddress")).isTrue()
+        assertThat(Wrappers::class.propertyIsMarkedNullable("requireNonNullIpAddress")).isFalse()
     }
 
     @Test
-    fun `nonnull localDate property is not nullable`() {
-        assertThat(Wrappers::class.propertyIsMarkedNullable("nonNullLocalDate")).isFalse()
+    fun `nonnull localDate property is nullable with accessor`() {
+        assertThat(Wrappers::class.propertyIsMarkedNullable("nonNullLocalDate")).isTrue()
+        assertThat(Wrappers::class.propertyIsMarkedNullable("requireNonNullLocalDate")).isFalse()
     }
 
     @Test
@@ -271,7 +275,7 @@ class WrapperTypesTest {
     fun `round trip should preserve socket address oneof`() {
         val deserialized = OneofWrappers.deserialize(
             OneofWrappers {
-                wrappedOneof = WrappedOneof.SocketAddressOneof(model.socketAddress)
+                wrappedOneof = WrappedOneof.SocketAddressOneof(model.requireSocketAddress)
             }.serialize()
         )
 
@@ -284,7 +288,7 @@ class WrapperTypesTest {
     fun `round trip should preserve instant oneof`() {
         val deserialized = OneofWrappers.deserialize(
             OneofWrappers {
-                wrappedOneof = WrappedOneof.InstantOneof(model.instant)
+                wrappedOneof = WrappedOneof.InstantOneof(model.requireInstant)
             }.serialize()
         )
 
@@ -297,7 +301,7 @@ class WrapperTypesTest {
     fun `round trip should preserve duration oneof`() {
         val deserialized = OneofWrappers.deserialize(
             OneofWrappers {
-                wrappedOneof = WrappedOneof.DurationOneof(model.duration)
+                wrappedOneof = WrappedOneof.DurationOneof(model.requireDuration)
             }.serialize()
         )
 
@@ -323,7 +327,7 @@ class WrapperTypesTest {
     fun `round trip should preserve google localdate oneof`() {
         val deserialized = OneofWrappers.deserialize(
             OneofWrappers {
-                wrappedOneof = WrappedOneof.GoogleDateOneof(model.googleDate)
+                wrappedOneof = WrappedOneof.GoogleDateOneof(model.requireGoogleDate)
             }.serialize()
         )
 
@@ -333,13 +337,22 @@ class WrapperTypesTest {
     }
 
     @Test
-    fun `wrapped message should not be nullable`() {
-        val thrown = assertThrows<IllegalArgumentException> {
-            model.copy { instant = null }
-        }
+    fun `wrapped message should not throw when constructed with null`() {
+        val model =
+            assertDoesNotThrow {
+                model.copy { instant = null }
+            }
 
-        assertThat(thrown).hasMessageThat()
-            .isEqualTo("instant specified nonnull with (protokt.property).non_null but was null")
+        assertThat(model.instant).isNull()
+
+        val thrown =
+            assertThrows<IllegalArgumentException> {
+                model.requireInstant
+            }
+
+        assertThat(thrown)
+            .hasMessageThat()
+            .isEqualTo("instant is assumed non-null with (protokt.property).generate_non_null_accessor but was null")
     }
 
     @Test
