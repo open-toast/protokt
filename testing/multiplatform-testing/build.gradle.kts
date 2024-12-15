@@ -20,7 +20,6 @@ plugins {
 }
 
 localProtokt()
-cleanUpJsProcessResourcesTask()
 
 kotlin {
     sourceSets {

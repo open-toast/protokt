@@ -28,10 +28,14 @@ import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.api.file.SourceDirectorySet
 import org.gradle.api.logging.LogLevel
 import org.gradle.api.plugins.ExtensionAware
+import org.gradle.api.tasks.AbstractCopyTask
+import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.jvm.tasks.Jar
+import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.getByType
+import org.gradle.kotlin.dsl.named
 import org.gradle.kotlin.dsl.project
 import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
@@ -154,12 +158,20 @@ private fun Project.linkGenerateProtoToSourceCompileForKotlinMpp(mainSourceSetNa
     linkGenerateProtoTasksAndIncludeGeneratedSource(mainSourceSetName, false)
     linkGenerateProtoTasksAndIncludeGeneratedSource(testSourceSetName, true)
 
+
+
     tasks.withType<Jar> {
         from(fileTree("${layout.buildDirectory.get()}/extracted-protos/main"))
-
-        // see also multiplatform-published-proto-conventions for jsProcessResources handling of the same issue
-        duplicatesStrategy = DuplicatesStrategy.EXCLUDE // TODO: figure out how to get rid of this
+        excludeDuplicates()
     }
+
+    val jsProcessResources = tasks.findByName("jsProcessResources") as Copy?
+    jsProcessResources?.excludeDuplicates()
+}
+
+// TODO: figure out how to get rid of this?
+private fun AbstractCopyTask.excludeDuplicates() {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 private fun Project.linkGenerateProtoTasksAndIncludeGeneratedSource(sourceSetName: String, test: Boolean) {
