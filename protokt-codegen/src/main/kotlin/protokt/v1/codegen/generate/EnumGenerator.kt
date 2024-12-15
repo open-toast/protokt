@@ -27,10 +27,9 @@ import protokt.v1.EnumReader
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Deprecation.handleDeprecation
 import protokt.v1.codegen.util.Enum
-import protokt.v1.codegen.util.KotlinTarget
 
 internal fun generateEnum(e: Enum, ctx: Context) =
-    if (ctx.info.context.generateTypes && ctx.info.context.kotlinTarget == KotlinTarget.COMMON) {
+    if (ctx.info.context.generateTypes && ctx.info.context.kotlinTarget.isPrimaryTarget) {
         EnumGenerator(e, ctx).generate()
     } else {
         null

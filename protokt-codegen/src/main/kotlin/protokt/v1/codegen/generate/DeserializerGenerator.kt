@@ -31,7 +31,6 @@ import protokt.v1.UnknownFieldSet
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Wrapper.interceptRead
 import protokt.v1.codegen.generate.Wrapper.wrapField
-import protokt.v1.codegen.util.KotlinTarget
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.Oneof
 import protokt.v1.codegen.util.StandardField
@@ -67,9 +66,7 @@ private class DeserializerGenerator(
             .addFunction(
                 buildFunSpec("deserialize") {
                     addModifiers(KModifier.OVERRIDE)
-                    if (ctx.info.context.kotlinTarget != KotlinTarget.JS) {
-                        addAnnotation(JvmStatic::class) // can't put this here generally until JS code is actually common code in a multiplatform module
-                    }
+                    addAnnotation(JvmStatic::class)
                     addParameter(READER, Reader::class)
                     returns(msg.className)
                     if (properties.isNotEmpty()) {
@@ -111,9 +108,7 @@ private class DeserializerGenerator(
             )
             .addFunction(
                 buildFunSpec("invoke") {
-                    if (ctx.info.context.kotlinTarget != KotlinTarget.JS) {
-                        addAnnotation(JvmStatic::class) // todo: remove when JS code is common in multiplatform
-                    }
+                    addAnnotation(JvmStatic::class)
                     addModifiers(KModifier.OPERATOR)
                     returns(msg.className)
                     addParameter(

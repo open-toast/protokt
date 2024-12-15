@@ -51,7 +51,7 @@ private class FileGenerator(
             builder.addType(it.typeSpec)
         }
 
-        if (contents.info.context.generateDescriptors) {
+        if (contents.info.context.generateDescriptors && contents.info.context.kotlinTarget.isPrimaryTarget) {
             val fileDescriptorInfo = FileDescriptorResolver.resolveFileDescriptor(contents)
 
             if (fileDescriptorInfo != null) {

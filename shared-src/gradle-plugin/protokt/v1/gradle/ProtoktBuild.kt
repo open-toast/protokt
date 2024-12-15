@@ -26,7 +26,6 @@ import org.gradle.api.artifacts.Dependency
 import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.api.file.SourceDirectorySet
 import org.gradle.api.plugins.ExtensionAware
-import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.create
@@ -34,7 +33,6 @@ import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.project
 import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
-import org.jetbrains.kotlin.gradle.dsl.KotlinJsProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
@@ -99,14 +97,15 @@ private fun Project.createExtensionConfigurationsAndConfigureProtobuf(
     }
 
     pluginManager.withPlugin("org.jetbrains.kotlin.multiplatform") {
-        configureProtobufPlugin(project, ext, disableJava, "common", resolveBinary())
+        configureProtobufPlugin(project, ext, disableJava, KotlinTarget.MultiplatformCommon, resolveBinary())
         linkGenerateProtoToSourceCompileForKotlinMpp("commonMain", "commonTest")
 
+        @Suppress("DEPRECATION")
         kotlinExtension
             .targets
             .filterNot { it.targetName == "metadata" }
             .forEach {
-                configureProtobufPlugin(project, ext, disableJava, it.targetName, resolveBinary())
+                configureProtobufPlugin(project, ext, disableJava, KotlinTarget.fromString("${it.targetName}-mp"), resolveBinary())
                 configureProtoktConfigurations(KotlinMultiplatformExtension::class, "${it.targetName}Main", "${it.targetName}Test")
                 linkGenerateProtoToSourceCompileForKotlinMpp("${it.targetName}Main", "${it.targetName}Test")
             }
@@ -118,12 +117,12 @@ private fun Project.createExtensionConfigurationsAndConfigureProtobuf(
     }
 
     pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
-        configureProtobufPlugin(project, ext, disableJava, "jvm", resolveBinary())
+        configureProtobufPlugin(project, ext, disableJava, KotlinTarget.Jvm, resolveBinary())
         otherwise()
     }
 
     pluginManager.withPlugin("org.jetbrains.kotlin.android") {
-        configureProtobufPlugin(project, ext, disableJava, "jvm", resolveBinary())
+        configureProtobufPlugin(project, ext, disableJava, KotlinTarget.Android, resolveBinary())
         otherwise()
     }
 }

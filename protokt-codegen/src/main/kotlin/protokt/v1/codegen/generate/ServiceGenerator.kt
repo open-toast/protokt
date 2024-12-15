@@ -46,10 +46,10 @@ import io.grpc.kotlin.ServerCalls
 import io.grpc.kotlin.generator.protoc.ProtoMethodName
 import kotlinx.coroutines.flow.Flow
 import protokt.v1.codegen.generate.CodeGenerator.Context
-import protokt.v1.codegen.util.KotlinTarget
 import protokt.v1.codegen.util.Method
 import protokt.v1.codegen.util.PROTOKT_V1_GOOGLE_PROTO
 import protokt.v1.codegen.util.Service
+import protokt.v1.gradle.KotlinTarget
 import protokt.v1.grpc.KtMarshaller
 import protokt.v1.grpc.SchemaDescriptor
 import kotlin.coroutines.CoroutineContext
@@ -121,7 +121,7 @@ private class ServiceGenerator(
                 }
 
             val grpcKtObject =
-                if (kotlinTarget == KotlinTarget.JS && ctx.info.context.generateGrpcKotlinStubs) {
+                if (kotlinTarget == KotlinTarget.MultiplatformJs && ctx.info.context.generateGrpcKotlinStubs) {
                     val grpcKtClassName = ClassName(ctx.info.kotlinPackage, s.name + "GrpcKt")
                     TypeSpec.objectBuilder(grpcKtClassName)
                         .addType(
@@ -420,7 +420,7 @@ private class ServiceGenerator(
 
     private fun pivotClassName(jvmClass: KClass<*>) =
         when (kotlinTarget) {
-            KotlinTarget.JS -> ClassName(KtMarshaller::class.java.`package`!!.name, jvmClass.asTypeName().simpleNames)
+            KotlinTarget.MultiplatformJs -> ClassName(KtMarshaller::class.java.`package`!!.name, jvmClass.asTypeName().simpleNames)
             else -> jvmClass.asTypeName()
         }
 
@@ -431,13 +431,13 @@ private class ServiceGenerator(
 
     private fun <T> pivotPlugin(jvm: T, js: T) =
         when (kotlinTarget) {
-            KotlinTarget.JS -> js
+            KotlinTarget.MultiplatformJs -> js
             else -> jvm
         }
 
     private fun FunSpec.Builder.staticIfAppropriate() =
         apply {
-            if (kotlinTarget != KotlinTarget.JS) {
+            if (kotlinTarget != KotlinTarget.MultiplatformJs) {
                 addAnnotation(JvmStatic::class)
             }
         }

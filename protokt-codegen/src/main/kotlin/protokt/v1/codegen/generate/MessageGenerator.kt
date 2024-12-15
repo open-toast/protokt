@@ -33,11 +33,10 @@ import protokt.v1.codegen.generate.CodeGenerator.generate
 import protokt.v1.codegen.generate.Deprecation.handleDeprecation
 import protokt.v1.codegen.generate.Implements.handleSuperInterface
 import protokt.v1.codegen.generate.Nullability.nonNullPropName
-import protokt.v1.codegen.util.KotlinTarget
 import protokt.v1.codegen.util.Message
 
 internal fun generateMessage(msg: Message, ctx: Context) =
-    if (ctx.info.context.generateTypes && ctx.info.context.kotlinTarget == KotlinTarget.COMMON) {
+    if (ctx.info.context.generateTypes && ctx.info.context.kotlinTarget.isPrimaryTarget) {
         MessageGenerator(msg, ctx).generate()
     } else {
         null
