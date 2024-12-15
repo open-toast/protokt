@@ -17,7 +17,7 @@ import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsExec
 import protokt.v1.gradle.protokt
 
 plugins {
-    id("org.jetbrains.kotlin.multiplatform")
+    `kotlin-multiplatform`
 }
 
 kotlin {

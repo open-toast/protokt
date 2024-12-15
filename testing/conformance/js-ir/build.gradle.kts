@@ -14,7 +14,7 @@
  */
 
 plugins {
-    id("org.jetbrains.kotlin.js")
+    `kotlin-multiplatform`
 }
 
 kotlin {

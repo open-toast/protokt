@@ -16,7 +16,7 @@
 import protokt.v1.gradle.protoktExtensions
 
 plugins {
-    id("org.jetbrains.kotlin.multiplatform")
+    `kotlin-multiplatform`
 }
 
 kotlin {
