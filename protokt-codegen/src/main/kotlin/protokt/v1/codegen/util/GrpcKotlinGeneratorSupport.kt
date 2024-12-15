@@ -46,6 +46,7 @@ private fun stripPackages(request: CodeGeneratorRequest) =
                     .setOptions(
                         fdp.options.toBuilder()
                             .setJavaPackage(resolvePackage(fdp.`package`))
+                            .setJavaMultipleFiles(true)
                             .build()
                     )
                     .build()

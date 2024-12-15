@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast, Inc.
+ * Copyright (c) 2024 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,31 +13,18 @@
  * limitations under the License.
  */
 
-import protokt.v1.gradle.protokt
+syntax = "proto3";
 
-plugins {
-    id("protokt.jvm-conventions")
+package protokt.v1.testing;
+
+service TestService2 {
+  rpc SayHello (TestRequest2) returns (TestReply2) {}
 }
 
-localProtokt()
-pureKotlin()
-
-protokt {
-    generate {
-        types = true
-        descriptors = true
-        grpcDescriptors = true
-        grpcKotlinStubs = true
-    }
+message TestRequest2 {
+  string message = 1;
 }
 
-dependencies {
-    implementation(kotlin("reflect"))
-    implementation(project(":testing:protobuf-java"))
-    implementation(libs.grpc.kotlin.stub)
-    implementation(libs.grpc.stub)
-
-    testImplementation(libs.jackson)
-
-    testRuntimeOnly(libs.protobuf.java)
+message TestReply2 {
+  string message = 1;
 }

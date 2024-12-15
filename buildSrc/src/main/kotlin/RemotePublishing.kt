@@ -47,7 +47,8 @@ object ProtoktProjectInfo {
     const val DESCRIPTION = "Protobuf compiler and runtime for Kotlin"
 }
 
-fun Project.isRelease() = !version.toString().endsWith("-SNAPSHOT")
+fun Project.isRelease() =
+    !version.toString().endsWith("-SNAPSHOT")
 
 fun Project.enablePublishing(defaultJars: Boolean = true) {
     apply(plugin = "com.vanniktech.maven.publish.base")

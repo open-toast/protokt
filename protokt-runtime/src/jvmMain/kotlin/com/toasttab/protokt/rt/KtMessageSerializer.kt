@@ -57,8 +57,8 @@ interface KtMessageSerializer {
 }
 
 @Suppress("DEPRECATION")
-internal fun serializer(stream: CodedOutputStream): KtMessageSerializer {
-    return object : KtMessageSerializer {
+internal fun serializer(stream: CodedOutputStream): KtMessageSerializer =
+    object : KtMessageSerializer {
         override fun write(i: Fixed32) =
             stream.writeFixed32NoTag(i.value)
 
@@ -109,4 +109,3 @@ internal fun serializer(stream: CodedOutputStream): KtMessageSerializer {
             stream.write(b.array, b.offset, b.length)
         }
     }
-}

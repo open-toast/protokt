@@ -23,7 +23,8 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.gradle.kotlin.dsl.add
 import org.gradle.kotlin.dsl.configure
 
-fun Project.protokt(cfg: ProtoktExtension.() -> Unit) = project.configure(cfg)
+fun Project.protokt(cfg: ProtoktExtension.() -> Unit) =
+    project.configure(cfg)
 
 fun DependencyHandler.protoktExtensions(dependencyNotation: Any): Dependency? =
     add(EXTENSIONS, dependencyNotation)

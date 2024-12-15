@@ -23,11 +23,13 @@ allprojects {
         val editorConfigOverride =
             mapOf(
                 "ktlint_standard_trailing-comma-on-call-site" to "disabled",
-                "ktlint_standard_trailing-comma-on-declaration-site" to "disabled"
+                "ktlint_standard_trailing-comma-on-declaration-site" to "disabled",
+                "ktlint_function_signature_body_expression_wrapping" to "always",
+                "ij_kotlin_packages_to_use_import_on_demand" to null,
             )
 
         kotlin {
-            ktlint().editorConfigOverride(editorConfigOverride)
+            ktlint(libs.versions.ktlint.get()).editorConfigOverride(editorConfigOverride)
             target("**/*.kt")
             targetExclude(
                 "buildSrc/build/generated-sources/**",
@@ -41,7 +43,7 @@ allprojects {
         }
 
         kotlinGradle {
-            ktlint().editorConfigOverride(editorConfigOverride)
+            ktlint(libs.versions.ktlint.get()).editorConfigOverride(editorConfigOverride)
             target("**/*.kts")
             targetExclude("buildSrc/build/**")
             licenseHeaderFile(

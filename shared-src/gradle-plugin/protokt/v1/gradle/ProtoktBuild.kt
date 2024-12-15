@@ -70,6 +70,7 @@ internal fun configureProtokt(
     // must wait for extension to resolve
     project.afterEvaluate {
         project.resolveProtoktCoreDep(protoktVersion)?.let(config.extensions.dependencies::add)
+        project.resolveProtoktGrpcDep(protoktVersion)?.let(config.extensions.dependencies::add)
     }
 }
 
@@ -220,7 +221,7 @@ private fun GenerateProtoTask.buildSourceDirectorySet(): SourceDirectorySet {
     return srcSet
 }
 
-internal fun Project.resolveProtoktCoreDep(protoktVersion: Any?): Dependency? {
+private fun Project.resolveProtoktCoreDep(protoktVersion: Any?): Dependency? {
     if (name in setOf("protokt-core", "protokt-core-lite")) {
         return null
     }
@@ -230,6 +231,25 @@ internal fun Project.resolveProtoktCoreDep(protoktVersion: Any?): Dependency? {
             "protokt-core"
         } else {
             "protokt-core-lite"
+        }
+
+    return if (protoktVersion == null) {
+        dependencies.project(":$artifactId")
+    } else {
+        dependencies.create("com.toasttab.protokt:$artifactId:$protoktVersion")
+    }
+}
+
+private fun Project.resolveProtoktGrpcDep(protoktVersion: Any?): Dependency? {
+    val artifactId =
+        if (the<ProtoktExtension>().generate.grpcDescriptors) {
+            if (the<ProtoktExtension>().generate.descriptors) {
+                "protokt-runtime-grpc"
+            } else {
+                "protokt-runtime-grpc-lite"
+            }
+        } else {
+            return null
         }
 
     return if (protoktVersion == null) {
