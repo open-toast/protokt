@@ -72,6 +72,7 @@ kotlin {
         all {
             compilations.all {
                 kotlinOptions {
+                    allWarningsAsErrors = false
                     languageVersion = System.getProperty("kotlin-integration.version")
                         ?.substringBeforeLast(".")
                         ?: libs.versions.kotlin.get().substringBeforeLast(".")

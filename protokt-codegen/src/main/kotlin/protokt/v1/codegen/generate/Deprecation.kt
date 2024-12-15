@@ -16,7 +16,6 @@
 package protokt.v1.codegen.generate
 
 import com.squareup.kotlinpoet.AnnotationSpec
-import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 
@@ -57,13 +56,4 @@ object Deprecation {
                 addMember("deprecated in proto".embed())
             }
         }
-
-    fun FileSpec.Builder.addDeprecationSuppression() {
-        addAnnotation(deprecationSuppression())
-    }
-
-    private fun deprecationSuppression() =
-        AnnotationSpec.builder(Suppress::class)
-            .addMember("DEPRECATION".embed())
-            .build()
 }

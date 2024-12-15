@@ -15,9 +15,10 @@
 
 package protokt.v1.codegen.generate
 
+import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.FileSpec
-import protokt.v1.codegen.generate.Deprecation.addDeprecationSuppression
 import protokt.v1.codegen.util.ProtoFileContents
+import protokt.v1.gradle.KotlinTarget
 
 internal fun generateFile(contents: ProtoFileContents) =
     FileGenerator(contents).generate()
@@ -33,7 +34,17 @@ private class FileGenerator(
                 contents.info.kotlinPackage,
                 fileName(contents)
             ).apply {
-                addDeprecationSuppression()
+                addAnnotation(
+                    AnnotationSpec.builder(Suppress::class).apply {
+                        addMember("DEPRECATION".embed())
+                        // It seems prudent to add this for all targets but it fails on the Android target.
+                        // See https://youtrack.jetbrains.com/issue/KTIJ-22326
+                        if (contents.info.context.kotlinTarget == KotlinTarget.MultiplatformCommon) {
+                            addMember("OPTIONAL_DECLARATION_USAGE_IN_NON_COMMON_SOURCE".embed())
+                        }
+                    }.build()
+                )
+
                 // https://github.com/square/kotlinpoet/pull/533
                 addFileComment(
                     """

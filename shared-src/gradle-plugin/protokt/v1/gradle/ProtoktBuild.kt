@@ -50,7 +50,7 @@ const val EXTENSIONS = "protoktExtensions"
 
 const val TEST_EXTENSIONS = "testProtoktExtensions"
 
-internal val DEBUG_LOG_LEVEL = LogLevel.QUIET
+internal val DEBUG_LOG_LEVEL = LogLevel.INFO
 
 internal fun configureProtokt(
     project: Project,
