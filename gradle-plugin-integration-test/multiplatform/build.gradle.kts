@@ -13,12 +13,11 @@
  * limitations under the License.
  */
 
-import protokt.v1.gradle.ProtoktExtension
-import protokt.v1.gradle.ProtoktPlugin
 import protokt.v1.gradle.protoktExtensions
 
 plugins {
     kotlin("multiplatform")
+    id("com.toasttab.protokt")
 }
 
 kotlin {
@@ -45,7 +44,12 @@ kotlin {
     }
 
     sourceSets {
-        val commonMain by getting {}
+        val commonMain by getting {
+            dependencies {
+                // todo: not sure why this is needed
+                implementation("com.toasttab.protokt:protokt-core:$version")
+            }
+        }
 
         val commonTest by getting {
             dependencies {
@@ -87,13 +91,6 @@ tasks.named<Test>("jvmTest") {
     useJUnitPlatform()
 }
 
-// awkward that we have to apply the plugin after source sets are configured
-apply<ProtoktPlugin>()
-
-configure<ProtoktExtension> {
-    formatOutput = false // https://github.com/pinterest/ktlint/issues/1195
-}
-
 dependencies {
     protoktExtensions("com.toasttab.protokt:protokt-extensions:$version")
 }
@@ -114,6 +111,6 @@ java {
 
 kotlin {
     jvmToolchain {
-        (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(System.getProperty("java-integration.version", libs.versions.java.get()).toInt()))
+        languageVersion.set(JavaLanguageVersion.of(System.getProperty("java-integration.version", libs.versions.java.get()).toInt()))
     }
 }

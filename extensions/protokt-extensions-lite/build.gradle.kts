@@ -40,7 +40,12 @@ protokt {
 
 kotlin {
     sourceSets {
-        val commonMain by getting {}
+        // todo: not sure why this is needed
+        val commonMain by getting {
+            dependencies {
+                api(project(":protokt-core-lite"))
+            }
+        }
 
         val jvmMain by getting {
             dependencies {

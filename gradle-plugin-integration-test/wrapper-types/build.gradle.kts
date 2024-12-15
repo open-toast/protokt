@@ -34,4 +34,8 @@ java {
 
 kotlin {
     jvmToolchain(libs.versions.java.get().toInt())
+
+    compilerOptions {
+        freeCompilerArgs.add("-Xsuppress-version-warnings")
+    }
 }

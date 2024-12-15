@@ -25,6 +25,7 @@ import org.gradle.api.Project
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.api.file.SourceDirectorySet
+import org.gradle.api.logging.LogLevel
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.jvm.tasks.Jar
@@ -47,6 +48,8 @@ const val CODEGEN_NAME = "protoc-gen-protokt"
 const val EXTENSIONS = "protoktExtensions"
 
 const val TEST_EXTENSIONS = "testProtoktExtensions"
+
+private val level = LogLevel.QUIET
 
 internal fun configureProtokt(
     project: Project,
@@ -97,6 +100,7 @@ private fun Project.createExtensionConfigurationsAndConfigureProtobuf(
     }
 
     pluginManager.withPlugin("org.jetbrains.kotlin.multiplatform") {
+        logger.log(level, "Configuring protokt for Kotlin multiplatform")
         configureProtobufPlugin(project, ext, disableJava, KotlinTarget.MultiplatformCommon, resolveBinary())
         linkGenerateProtoToSourceCompileForKotlinMpp("commonMain", "commonTest")
 
@@ -105,6 +109,7 @@ private fun Project.createExtensionConfigurationsAndConfigureProtobuf(
             .targets
             .filterNot { it.targetName == "metadata" }
             .forEach {
+                logger.log(level, "Handling Kotlin multiplatform target {}", it.targetName)
                 configureProtobufPlugin(project, ext, disableJava, KotlinTarget.fromString("${it.targetName}-mp"), resolveBinary())
                 configureProtoktConfigurations(KotlinMultiplatformExtension::class, "${it.targetName}Main", "${it.targetName}Test")
                 linkGenerateProtoToSourceCompileForKotlinMpp("${it.targetName}Main", "${it.targetName}Test")
@@ -117,11 +122,13 @@ private fun Project.createExtensionConfigurationsAndConfigureProtobuf(
     }
 
     pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
+        logger.log(level, "Configuring protokt for Kotlin JVM")
         configureProtobufPlugin(project, ext, disableJava, KotlinTarget.Jvm, resolveBinary())
         otherwise()
     }
 
     pluginManager.withPlugin("org.jetbrains.kotlin.android") {
+        logger.log(level, "Configuring protokt for Kotlin Android")
         configureProtobufPlugin(project, ext, disableJava, KotlinTarget.Android, resolveBinary())
         otherwise()
     }
@@ -133,6 +140,8 @@ private fun Project.linkGenerateProtoToSourceCompileForKotlinMpp(mainSourceSetNa
 
     tasks.withType<Jar> {
         from(fileTree("${layout.buildDirectory.get()}/extracted-protos/main"))
+
+        // see also multiplatform-published-proto-conventions for jsProcessResources handling of the same issue
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE // TODO: figure out how to get rid of this
     }
 }
@@ -144,8 +153,11 @@ private fun Project.linkGenerateProtoTasksAndIncludeGeneratedSource(sourceSetNam
 
     extension.generateProtoTasks.ofSourceSet(protoSourceSetRoot).forEach { genProtoTask ->
         configureSourceSets(sourceSetName, protoSourceSetRoot, genProtoTask)
+
+        // todo: it would be better to avoid this by making the outputs of genProtoTask an input of the correct compile task
         tasks.withType<AbstractKotlinCompile<*>> {
             if ((test && name.contains("Test")) || (!test && !name.contains("Test"))) {
+                logger.log(level, "Making task {} a dependency of {}", genProtoTask.name, name)
                 dependsOn(genProtoTask)
             }
         }

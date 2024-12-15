@@ -24,6 +24,13 @@ localProtokt(false)
 
 kotlin {
     sourceSets {
+        // todo: not sure why this is needed
+        val commonMain by getting {
+            dependencies {
+                api(project(":protokt-core"))
+            }
+        }
+
         val jvmMain by getting {
             dependencies {
                 api(project(":protokt-core"))
