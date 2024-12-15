@@ -22,16 +22,16 @@ import "protokt/v1/protokt.proto";
 
 message ImportsWrapperModel {
   google.protobuf.Duration native_duration = 1 [
-    (.protokt.v1.property).non_null = true
+    (.protokt.v1.property).generate_non_null_accessor = true
   ];
 
   google.protobuf.Duration java_duration = 2 [
     (.protokt.v1.property).wrap = "java.time.Duration",
-    (.protokt.v1.property).non_null = true
+    (.protokt.v1.property).generate_non_null_accessor = true
   ];
 
   google.protobuf.Duration superfluous_duration = 3 [
     (.protokt.v1.property).wrap = "protokt.v1.testing.Duration",
-    (.protokt.v1.property).non_null = true
+    (.protokt.v1.property).generate_non_null_accessor = true
   ];
 }

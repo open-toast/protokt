@@ -39,7 +39,6 @@ message ImplementsOneof2 {
 
 message ContainsOneofThatImplements {
   oneof implementing_oneof {
-    option (.protokt.v1.oneof).non_null = true;
     option (.protokt.v1.oneof).implements = "OneofModel";
 
     ImplementsOneof1 implements_one = 1;

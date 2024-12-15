@@ -34,6 +34,6 @@ message TestMessage {
   }
 
   message Submessage {
-    TestMessage qux = 1 [(protokt.v1.property).non_null = true];
+    TestMessage qux = 1 [(protokt.v1.property).generate_non_null_accessor = true];
   }
 }

@@ -24,7 +24,7 @@ import protokt.v1.codegen.generate.Deprecation.renderOptions
 import protokt.v1.codegen.generate.Implements.overrides
 import protokt.v1.codegen.generate.Nullability.deserializeType
 import protokt.v1.codegen.generate.Nullability.dslPropertyType
-import protokt.v1.codegen.generate.Nullability.hasNonNullOption
+import protokt.v1.codegen.generate.Nullability.generateNonNullAccessor
 import protokt.v1.codegen.generate.Nullability.nullable
 import protokt.v1.codegen.generate.Nullability.propertyType
 import protokt.v1.codegen.generate.Wrapper.interceptDefaultValue
@@ -60,6 +60,7 @@ private class PropertyAnnotator(
                         name = field.fieldName,
                         number = field.number,
                         propertyType = propertyType(field, type, wrapperRequiresNullability),
+                        generateNullableBackingProperty = field.generateNonNullAccessor,
                         deserializeType = deserializeType(field, type),
                         builderPropertyType = dslPropertyType(field, type),
                         defaultValue = field.defaultValue(ctx, msg.mapEntry),
@@ -67,7 +68,6 @@ private class PropertyAnnotator(
                         repeated = field.repeated,
                         mapEntry = field.mapEntry,
                         nullable = field.nullable || field.optional || wrapperRequiresNullability,
-                        nonNullOption = field.hasNonNullOption,
                         overrides = field.overrides(ctx, msg),
                         wrapped = field.wrapped,
                         documentation = documentation,
@@ -84,7 +84,6 @@ private class PropertyAnnotator(
                     defaultValue = field.defaultValue(ctx, false),
                     oneof = true,
                     nullable = field.nullable,
-                    nonNullOption = field.hasNonNullOption,
                     documentation = documentation
                 )
         }
@@ -137,11 +136,11 @@ internal class PropertyInfo(
     val name: String,
     val number: Int? = null,
     val propertyType: TypeName,
+    val generateNullableBackingProperty: Boolean = false,
     val deserializeType: TypeName,
     val builderPropertyType: TypeName,
     val defaultValue: CodeBlock,
     val nullable: Boolean,
-    val nonNullOption: Boolean,
     val fieldType: FieldType? = null,
     val repeated: Boolean = false,
     val mapEntry: Message? = null,

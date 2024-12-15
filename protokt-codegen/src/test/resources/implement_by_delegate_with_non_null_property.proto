@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast, Inc.
+ * Copyright (c) 2023 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,14 +19,14 @@ package toasttab.protokt.v1.codegen.testing;
 
 import "protokt/v1/protokt.proto";
 
-message TestMessageWithBadNonNullField {
-  REPLACE value = 1 [
-    (.protokt.v1.property).generate_non_null_accessor = true
-  ];
+message ImplementsModel {
+  option (.protokt.v1.class).implements = "protokt.v1.codegen.Model";
+
+  string id = 1;
 }
 
-enum Foo {
-  FOO = 0;
-}
+message ImplementsWithDelegate {
+  option (.protokt.v1.class).implements = "protokt.v1.codegen.Model by model";
 
-message Bar {}
+  ImplementsModel model = 1;
+}

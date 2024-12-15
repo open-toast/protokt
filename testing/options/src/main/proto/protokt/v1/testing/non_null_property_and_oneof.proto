@@ -22,14 +22,8 @@ import "protokt/v1/protokt.proto";
 
 message NonNullModel {
   google.protobuf.StringValue non_null_string_value = 1 [
-    (.protokt.v1.property).non_null = true
+    (.protokt.v1.property).generate_non_null_accessor = true
   ];
-
-  oneof non_null_oneof {
-    option (.protokt.v1.oneof).non_null = true;
-
-    string message = 2;
-  }
 }
 
 message NonNullModelMirror {

@@ -23,47 +23,33 @@ class NonNullableTest {
     @Test
     fun `test declared nullability`() {
         assertThat(
-            NonNullModel::class.propertyIsMarkedNullable("nonNullStringValue")
+            NonNullModel::class.propertyIsMarkedNullable("requireNonNullStringValue")
         ).isFalse()
 
         assertThat(
-            NonNullModel::class.propertyIsMarkedNullable("nonNullOneof")
-        ).isFalse()
+            NonNullModel::class.propertyIsMarkedNullable("nonNullStringValue")
+        ).isTrue()
     }
 
     @Test
-    fun `detailed error when attempting to deserialize null field`() {
-        val thrown = assertThrows<IllegalArgumentException> {
+    fun `error when attempting to access null field`() {
+        val model =
             NonNullModel.deserialize(
                 NonNullModelMirror {
                     nonNullStringValue = null
                     nonNullOneof = NonNullModelMirror.NonNullOneof.Message("asdf")
                 }.serialize()
             )
-        }
+
+        val thrown =
+            assertThrows<IllegalArgumentException> {
+                model.requireNonNullStringValue
+            }
 
         assertThat(thrown).hasMessageThat().apply {
             contains("nonNullStringValue")
             contains("was null")
-            contains("(protokt.property).non_null")
-        }
-    }
-
-    @Test
-    fun `detailed error when attempting to deserialize null oneof`() {
-        val thrown = assertThrows<IllegalArgumentException> {
-            NonNullModel.deserialize(
-                NonNullModelMirror {
-                    nonNullStringValue = "asdf"
-                    nonNullOneof = null
-                }.serialize()
-            )
-        }
-
-        assertThat(thrown).hasMessageThat().apply {
-            contains("nonNullOneof")
-            contains("was null")
-            contains("(protokt.oneof).non_null")
+            contains("(protokt.property).generate_non_null_accessor")
         }
     }
 }

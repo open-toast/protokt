@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast, Inc.
+ * Copyright (c) 2023 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,20 +13,18 @@
  * limitations under the License.
  */
 
-syntax = "proto3";
+package protokt.v1.codegen
 
-package toasttab.protokt.v1.codegen.testing;
+import org.junit.jupiter.api.Test
 
-import "protokt/v1/protokt.proto";
-
-message TestMessageWithBadNonNullField {
-  REPLACE value = 1 [
-    (.protokt.v1.property).generate_non_null_accessor = true
-  ];
+class ImplementDelegationTest : AbstractProtoktCodegenTest() {
+    @Test
+    fun `delegate to interface with non-null property`() {
+        runPlugin("implement_by_delegate_with_non_null_property.proto").orFail()
+    }
 }
 
-enum Foo {
-  FOO = 0;
+@Suppress("UNUSED")
+interface Model {
+    val id: String
 }
-
-message Bar {}

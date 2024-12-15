@@ -22,7 +22,6 @@ import com.google.protobuf.gradle.ProtobufPlugin
 import com.google.protobuf.gradle.id
 import org.gradle.api.Project
 import org.gradle.api.file.FileCollection
-import org.gradle.internal.os.OperatingSystem
 import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
@@ -109,7 +108,7 @@ private fun configureSources(project: Project) {
 }
 
 private fun normalizePath(binaryPath: String) =
-    if (OperatingSystem.current().isWindows) {
+    if (Os.current.kind == Os.Kind.WINDOWS) {
         // on windows, protoc expects a full, /-separated path to the binary
         binaryPath.replace('\\', '/') + ".bat"
     } else {
