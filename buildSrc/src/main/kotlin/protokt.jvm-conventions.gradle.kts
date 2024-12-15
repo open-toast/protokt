@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast, Inc.
+ * Copyright (c) 2024 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,6 +13,8 @@
  * limitations under the License.
  */
 
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
+
 plugins {
     id("protokt.common-conventions")
     kotlin("jvm")
@@ -22,4 +24,6 @@ javaBasedProjectConventions()
 
 kotlin {
     jvmToolchain(libs.versions.java.get().toInt())
+    compilerOptions.apiVersion = KotlinVersion.KOTLIN_1_8
+    compilerOptions.languageVersion = KotlinVersion.KOTLIN_1_8
 }
