@@ -22,6 +22,7 @@ import com.google.protobuf.gradle.outputSourceDirectoriesHack
 import com.google.protobuf.gradle.proto
 import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Project
+import org.gradle.api.artifacts.Configuration
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.api.file.SourceDirectorySet
@@ -49,23 +50,22 @@ const val EXTENSIONS = "protoktExtensions"
 
 const val TEST_EXTENSIONS = "testProtoktExtensions"
 
-private val level = LogLevel.QUIET
+internal val DEBUG_LOG_LEVEL = LogLevel.QUIET
 
 internal fun configureProtokt(
     project: Project,
     protoktVersion: Any?,
-    disableJava: Boolean = true,
-    resolveBinary: () -> String
+    disableJava: Boolean,
+    binary: String
 ) {
     injectKotlinPluginsIntoProtobufGradle()
 
-    project.createExtensionConfigurationsAndConfigureProtobuf(disableJava, resolveBinary)
+    val config = project.createExtensionConfigurations()
+    project.configureProtobuf(disableJava, config, binary)
 
     // must wait for extension to resolve
     project.afterEvaluate {
-        project.configurations.named(EXTENSIONS) {
-            project.resolveProtoktCoreDep(protoktVersion)?.let(dependencies::add)
-        }
+        project.resolveProtoktCoreDep(protoktVersion)?.let(config.extensions.dependencies::add)
     }
 }
 
@@ -78,14 +78,26 @@ private fun injectKotlinPluginsIntoProtobufGradle() {
     prerequisitePlugins.add("org.jetbrains.kotlin.multiplatform")
 }
 
-private fun Project.createExtensionConfigurationsAndConfigureProtobuf(
-    disableJava: Boolean,
-    resolveBinary: () -> String
-) {
-    val ext = extensions.create<ProtoktExtension>("protokt")
+private data class Config(
+    val extension: ProtoktExtension,
+    val extensions: Configuration,
+    val testExtensions: Configuration
+)
 
+private fun Project.createExtensionConfigurations(): Config {
+    val ext = extensions.create<ProtoktExtension>("protokt")
     val extensionsConfiguration = configurations.create(EXTENSIONS)
     val testExtensionsConfiguration = configurations.create(TEST_EXTENSIONS)
+
+    return Config(ext, extensionsConfiguration, testExtensionsConfiguration)
+}
+
+private fun Project.configureProtobuf(
+    disableJava: Boolean,
+    config: Config,
+    binary: String
+) {
+    val (ext, extensionsConfiguration, testExtensionsConfiguration) = config
 
     fun configureProtoktConfigurations(
         extension: KClass<out KotlinProjectExtension>,
@@ -100,20 +112,24 @@ private fun Project.createExtensionConfigurationsAndConfigureProtobuf(
     }
 
     pluginManager.withPlugin("org.jetbrains.kotlin.multiplatform") {
-        logger.log(level, "Configuring protokt for Kotlin multiplatform")
-        configureProtobufPlugin(project, ext, disableJava, KotlinTarget.MultiplatformCommon, resolveBinary())
+        configureProtobufPlugin(project, ext, disableJava, KotlinTarget.MultiplatformCommon, binary)
         linkGenerateProtoToSourceCompileForKotlinMpp("commonMain", "commonTest")
 
-        @Suppress("DEPRECATION")
-        kotlinExtension
-            .targets
-            .filterNot { it.targetName == "metadata" }
-            .forEach {
-                logger.log(level, "Handling Kotlin multiplatform target {}", it.targetName)
-                configureProtobufPlugin(project, ext, disableJava, KotlinTarget.fromString("${it.targetName}-mp"), resolveBinary())
-                configureProtoktConfigurations(KotlinMultiplatformExtension::class, "${it.targetName}Main", "${it.targetName}Test")
-                linkGenerateProtoToSourceCompileForKotlinMpp("${it.targetName}Main", "${it.targetName}Test")
-            }
+        // todo: figure out how to run this after the user specifies their targets without using afterEvaluate
+        afterEvaluate {
+            val targets =
+                @Suppress("DEPRECATION")
+                kotlinExtension.targets
+            logger.log(DEBUG_LOG_LEVEL, "Configuring protokt for Kotlin multiplatform for targets: ${targets.map { it.targetName }}")
+            targets
+                .filterNot { it.targetName == "metadata" }
+                .forEach {
+                    logger.log(DEBUG_LOG_LEVEL, "Handling Kotlin multiplatform target {}", it.targetName)
+                    configureProtobufPlugin(project, ext, disableJava, KotlinTarget.fromString("${it.targetName}-mp"), binary)
+                    configureProtoktConfigurations(KotlinMultiplatformExtension::class, "${it.targetName}Main", "${it.targetName}Test")
+                    linkGenerateProtoToSourceCompileForKotlinMpp("${it.targetName}Main", "${it.targetName}Test")
+                }
+        }
     }
 
     val otherwise = {
@@ -122,14 +138,14 @@ private fun Project.createExtensionConfigurationsAndConfigureProtobuf(
     }
 
     pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
-        logger.log(level, "Configuring protokt for Kotlin JVM")
-        configureProtobufPlugin(project, ext, disableJava, KotlinTarget.Jvm, resolveBinary())
+        logger.log(DEBUG_LOG_LEVEL, "Configuring protokt for Kotlin JVM")
+        configureProtobufPlugin(project, ext, disableJava, KotlinTarget.Jvm, binary)
         otherwise()
     }
 
     pluginManager.withPlugin("org.jetbrains.kotlin.android") {
-        logger.log(level, "Configuring protokt for Kotlin Android")
-        configureProtobufPlugin(project, ext, disableJava, KotlinTarget.Android, resolveBinary())
+        logger.log(DEBUG_LOG_LEVEL, "Configuring protokt for Kotlin Android")
+        configureProtobufPlugin(project, ext, disableJava, KotlinTarget.Android, binary)
         otherwise()
     }
 }
@@ -157,7 +173,7 @@ private fun Project.linkGenerateProtoTasksAndIncludeGeneratedSource(sourceSetNam
         // todo: it would be better to avoid this by making the outputs of genProtoTask an input of the correct compile task
         tasks.withType<AbstractKotlinCompile<*>> {
             if ((test && name.contains("Test")) || (!test && !name.contains("Test"))) {
-                logger.log(level, "Making task {} a dependency of {}", genProtoTask.name, name)
+                logger.log(DEBUG_LOG_LEVEL, "Making task {} a dependency of {}", genProtoTask.name, name)
                 dependsOn(genProtoTask)
             }
         }

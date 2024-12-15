@@ -20,8 +20,6 @@ import org.gradle.api.Project
 
 class ProtoktPlugin : Plugin<Project> {
     override fun apply(project: Project) {
-        configureProtokt(project, PROTOKT_VERSION) {
-            binaryFromArtifact(project)
-        }
+        configureProtokt(project, PROTOKT_VERSION, true, binaryFromArtifact(project))
     }
 }

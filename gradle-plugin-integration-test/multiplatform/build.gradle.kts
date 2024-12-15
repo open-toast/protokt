@@ -44,12 +44,7 @@ kotlin {
     }
 
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                // todo: not sure why this is needed
-                implementation("com.toasttab.protokt:protokt-core:$version")
-            }
-        }
+        val commonMain by getting {}
 
         val commonTest by getting {
             dependencies {
