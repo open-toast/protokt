@@ -34,7 +34,6 @@ dependencies {
     protoktExtensions(project(":extensions:protokt-extensions"))
 
     implementation(libs.grpc.stub)
-    implementation(project(":protokt-runtime-grpc"))
 
     testImplementation(project(":protokt-reflect"))
     testImplementation(project(":testing:protobuf-java"))
