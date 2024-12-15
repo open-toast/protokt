@@ -28,7 +28,7 @@ slf4j = "2.0.13"
 # build
 androidGradlePlugin = "7.4.2"
 animalSnifferGradlePlugin = "1.7.2"
-binaryCompatibilityValidator = "0.14.0"
+binaryCompatibilityValidator = "0.16.3"
 buildConfig = "5.5.0"
 gradleMavenPublishPlugin = "0.25.3"
 gummyBears = "0.8.0"
@@ -46,12 +46,12 @@ wire = "5.1.0"
 # test
 classgraph = "4.8.179"
 grpc-js = "1.8.14"
-jackson = "2.17.1"
+jackson = "2.18.1"
 junit = "5.11.3"
 truth = "1.4.4"
 
 # third party
-protoGoogleCommonProtos = "2.44.0"
+protoGoogleCommonProtos = "2.50.0"
 
 [plugins]
 buildConfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildConfig" }
