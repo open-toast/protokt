@@ -152,7 +152,6 @@ private fun Project.linkGenerateProtoTasksAndIncludeGeneratedSource(sourceSetNam
     }
 }
 
-// todo: this pattern isn't right. grab proto tasks for each target and add the source directory sets directly.
 private fun Project.configureSourceSets(
     sourceSetName: String,
     protoSourceSetRoot: String,

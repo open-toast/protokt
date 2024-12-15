@@ -58,13 +58,13 @@ import kotlin.reflect.KClass
 import kotlin.reflect.KFunction1
 import kotlin.reflect.KFunction3
 
-internal fun generateService(s: Service, ctx: Context, kotlinTarget: KotlinTarget?) =
+internal fun generateService(s: Service, ctx: Context, kotlinTarget: KotlinTarget) =
     ServiceGenerator(s, ctx, kotlinTarget).generate()
 
 private class ServiceGenerator(
     private val s: Service,
     private val ctx: Context,
-    private val kotlinTarget: KotlinTarget?
+    private val kotlinTarget: KotlinTarget
 ) {
     fun generate(): List<TypeSpec> =
         (grpcImplementations() + serviceDescriptor()).filterNotNull()
@@ -392,7 +392,7 @@ private class ServiceGenerator(
         }
 
     private fun serviceDescriptor() =
-        if (ctx.info.context.generateDescriptors) {
+        if (ctx.info.context.generateDescriptors && ctx.info.context.kotlinTarget.isPrimaryTarget) {
             TypeSpec.objectBuilder(s.name)
                 .addProperty(
                     PropertySpec.builder("descriptor", ClassName(PROTOKT_V1_GOOGLE_PROTO, "ServiceDescriptor"))
