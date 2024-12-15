@@ -19,32 +19,33 @@ import protokt.v1.conformance.ConformanceRequest.Payload.ProtobufPayload
 import protokt.v1.conformance.ConformanceResponse.Result
 import protokt.v1.protobuf_test_messages.proto3.TestAllTypesProto3
 
-fun main() = Platform.runBlockingMain {
-    while (true) {
-        val result =
-            when (val request = nextRequest()) {
-                null -> break
-                is Failure -> request.failure
-                is Proceed -> {
-                    if (isSupported(request.value)) {
-                        when (val payload = payload(request)) {
-                            is Failure -> payload.failure
-                            is Proceed -> {
-                                when (val result = Platform.serialize(payload.value)) {
-                                    is Failure -> result.failure
-                                    is Proceed -> Result.ProtobufPayload(result.value)
+fun main() =
+    Platform.runBlockingMain {
+        while (true) {
+            val result =
+                when (val request = nextRequest()) {
+                    null -> break
+                    is Failure -> request.failure
+                    is Proceed -> {
+                        if (isSupported(request.value)) {
+                            when (val payload = payload(request)) {
+                                is Failure -> payload.failure
+                                is Proceed -> {
+                                    when (val result = Platform.serialize(payload.value)) {
+                                        is Failure -> result.failure
+                                        is Proceed -> Result.ProtobufPayload(result.value)
+                                    }
                                 }
                             }
+                        } else {
+                            Result.Skipped("Only proto3 supported.")
                         }
-                    } else {
-                        Result.Skipped("Only proto3 supported.")
                     }
                 }
-            }
 
-        Platform.writeToStdOut(ConformanceResponse { this.result = result }.serialize())
+            Platform.writeToStdOut(ConformanceResponse { this.result = result }.serialize())
+        }
     }
-}
 
 private suspend fun nextRequest() =
     Platform.readMessageFromStdIn(ConformanceRequest)

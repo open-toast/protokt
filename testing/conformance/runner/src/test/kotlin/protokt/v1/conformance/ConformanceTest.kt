@@ -51,7 +51,8 @@ class ConformanceTest {
 
         abstract fun driver(): Path
 
-        open fun onFailure() = Unit
+        open fun onFailure() =
+            Unit
     }
 
     @BeforeEach

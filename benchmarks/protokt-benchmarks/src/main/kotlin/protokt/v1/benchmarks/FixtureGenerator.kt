@@ -36,22 +36,23 @@ class PrimitiveScalarType(val ktType: KClass<*>) : ScalarType()
 class MessageScalarType(val ktType: KClass<out Message>) : ScalarType()
 
 internal object TypeInspector {
-    fun type(prop: KType): FieldType {
-        return when (val propType = prop.classifier as KClass<*>) {
+    fun type(prop: KType): FieldType =
+        when (val propType = prop.classifier as KClass<*>) {
             List::class -> RepeatedFieldType(scalarType(typeParam(prop, 0)))
             Map::class -> MapFieldType(scalarType(typeParam(prop, 0)), scalarType(typeParam(prop, 1)))
             else -> ScalarFieldType(scalarType(propType))
         }
-    }
 
     @Suppress("UNCHECKED_CAST")
-    fun scalarType(cls: KClass<*>) = if (cls.isSubclassOf(Message::class)) {
-        MessageScalarType(cls as KClass<out Message>)
-    } else {
-        PrimitiveScalarType(cls)
-    }
+    fun scalarType(cls: KClass<*>) =
+        if (cls.isSubclassOf(Message::class)) {
+            MessageScalarType(cls as KClass<out Message>)
+        } else {
+            PrimitiveScalarType(cls)
+        }
 
-    fun typeParam(prop: KType, idx: Int) = prop.arguments[idx].type!!.classifier as KClass<*>
+    fun typeParam(prop: KType, idx: Int) =
+        prop.arguments[idx].type!!.classifier as KClass<*>
 }
 
 /**
@@ -60,11 +61,12 @@ internal object TypeInspector {
 class FixtureGenerator(private val weight: Int) {
     private val random = SecureRandom()
 
-    fun randomValue(fieldType: FieldType) = when (fieldType) {
-        is ScalarFieldType -> randomValue(fieldType.type)
-        is RepeatedFieldType -> (0..randomSize()).map { randomValue(fieldType.type) }
-        is MapFieldType -> (0..randomSize()).associate { randomValue(fieldType.keyType) to randomValue(fieldType.valueType) }
-    }
+    fun randomValue(fieldType: FieldType) =
+        when (fieldType) {
+            is ScalarFieldType -> randomValue(fieldType.type)
+            is RepeatedFieldType -> (0..randomSize()).map { randomValue(fieldType.type) }
+            is MapFieldType -> (0..randomSize()).associate { randomValue(fieldType.keyType) to randomValue(fieldType.valueType) }
+        }
 
     fun randomValue(scalarType: ScalarType): Any =
         when (scalarType) {
@@ -96,7 +98,8 @@ class FixtureGenerator(private val weight: Int) {
             else -> throw IllegalArgumentException("unknown $cls")
         }
 
-    fun randomSize() = random.nextInt().absoluteValue % weight + 1
+    fun randomSize() =
+        random.nextInt().absoluteValue % weight + 1
 
     fun generateDataset(name: String, msg: KClass<out Message>, size: Int) =
         BenchmarkDataset {

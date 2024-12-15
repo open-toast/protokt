@@ -33,13 +33,14 @@ class HelloWorldServerTest {
     }
 
     @Test
-    fun animals() = runTest {
-        server.start()
+    fun animals() =
+        runTest {
+            server.start()
 
-        val stub = GreeterCoroutineStub("localhost:50051", ChannelCredentials.createInsecure())
-        val testName = "test name"
+            val stub = GreeterCoroutineStub("localhost:50051", ChannelCredentials.createInsecure())
+            val testName = "test name"
 
-        val reply = stub.sayHello(HelloRequest { this.name = testName })
-        assertEquals("Hello $testName", reply.message)
-    }
+            val reply = stub.sayHello(HelloRequest { this.name = testName })
+            assertEquals("Hello $testName", reply.message)
+        }
 }
