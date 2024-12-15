@@ -158,8 +158,6 @@ private fun Project.linkGenerateProtoToSourceCompileForKotlinMpp(mainSourceSetNa
     linkGenerateProtoTasksAndIncludeGeneratedSource(mainSourceSetName, false)
     linkGenerateProtoTasksAndIncludeGeneratedSource(testSourceSetName, true)
 
-
-
     tasks.withType<Jar> {
         from(fileTree("${layout.buildDirectory.get()}/extracted-protos/main"))
         excludeDuplicates()
