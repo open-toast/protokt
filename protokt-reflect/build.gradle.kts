@@ -17,12 +17,10 @@ import com.google.protobuf.gradle.proto
 import protokt.v1.gradle.testProtoktExtensions
 
 plugins {
-    id("protokt.multiplatform-conventions")
+    id("protokt.multiplatform-published-proto-conventions")
 }
 
 localProtokt(false)
-enablePublishing()
-trackKotlinApiCompatibility()
 
 kotlin {
     sourceSets {

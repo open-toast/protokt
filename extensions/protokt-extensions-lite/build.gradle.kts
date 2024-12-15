@@ -18,12 +18,10 @@ import protokt.v1.gradle.protokt
 import protokt.v1.gradle.protoktExtensions
 
 plugins {
-    id("protokt.multiplatform-conventions")
+    id("protokt.multiplatform-published-proto-conventions")
 }
 
 localProtokt()
-enablePublishing()
-trackKotlinApiCompatibility()
 
 spotless {
     kotlin {

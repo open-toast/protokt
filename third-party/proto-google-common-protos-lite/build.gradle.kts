@@ -16,13 +16,11 @@
 import protokt.v1.gradle.protokt
 
 plugins {
-    id("protokt.multiplatform-conventions")
+    id("protokt.multiplatform-published-proto-conventions")
 }
 
 localProtokt()
-enablePublishing()
 compatibleWithAndroid()
-trackKotlinApiCompatibility()
 
 protokt {
     generate {
@@ -48,14 +46,6 @@ sourceSets {
     test {
         java {
             srcDir(liteOptionTestSourceDir())
-            srcDir(rootProject.file("shared-src/lite-util"))
-        }
-    }
-}
-
-sourceSets {
-    test {
-        java {
             srcDir(rootProject.file("shared-src/lite-util"))
         }
     }

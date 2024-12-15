@@ -17,13 +17,11 @@ import com.google.protobuf.gradle.protobuf
 import protokt.v1.gradle.protokt
 
 plugins {
-    id("protokt.multiplatform-conventions")
+    id("protokt.multiplatform-published-proto-conventions")
 }
 
 localProtokt()
-enablePublishing()
 compatibleWithAndroid()
-trackKotlinApiCompatibility()
 
 spotless {
     kotlin {

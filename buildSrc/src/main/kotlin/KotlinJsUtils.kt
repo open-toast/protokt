@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast, Inc.
+ * Copyright (c) 2024 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,8 +13,13 @@
  * limitations under the License.
  */
 
-plugins {
-    id("protokt.multiplatform-published-conventions")
-}
+import org.gradle.api.Project
+import org.gradle.api.file.DuplicatesStrategy
+import org.gradle.api.tasks.Copy
+import org.gradle.kotlin.dsl.named
 
-compatibleWithAndroid()
+fun Project.cleanUpJsProcessResourcesTask() {
+    tasks.named<Copy>("jsProcessResources") {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
+}

@@ -21,6 +21,7 @@ plugins {
 }
 
 localProtokt()
+cleanUpJsProcessResourcesTask()
 
 protokt {
     generate {
