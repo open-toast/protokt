@@ -13,6 +13,7 @@
  * limitations under the License.
  */
 
+import com.android.build.gradle.internal.tasks.factory.dependsOn
 import com.google.protobuf.gradle.GenerateProtoTask
 import com.google.protobuf.gradle.proto
 import org.gradle.api.distribution.plugins.DistributionPlugin.TASK_INSTALL_NAME
@@ -81,18 +82,22 @@ val installConformance =
         )
     }
 
+val conformance =
+    tasks.register<Exec>("conformance") {
+        dependsOn("installDist", "installProtovalidateConformance")
+        description = "Runs protovalidate conformance tests."
+        commandLine(
+            conformanceExecutable.absolutePath,
+            "--strict_message",
+            "--strict_error",
+            "--expected_failures",
+            "expected_failures.yaml",
+            project.layout.buildDirectory.dir("install/${project.name}/bin/${project.name}").get().asFile.absolutePath
+        )
+    }
+
+tasks.test.dependsOn(conformance)
+
 application {
     mainClass.set("protokt.v1.buf.validate.conformance.Main")
-}
-
-tasks {
-    test {
-        systemProperty("conformance-runner", conformanceExecutable.absolutePath)
-        outputs.upToDateWhen { false }
-        dependsOn(installConformance, TASK_INSTALL_NAME)
-
-        testLogging {
-            events(TestLogEvent.STANDARD_ERROR, TestLogEvent.STANDARD_OUT, TestLogEvent.FAILED, TestLogEvent.PASSED, TestLogEvent.STARTED)
-        }
-    }
 }
