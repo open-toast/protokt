@@ -40,8 +40,6 @@ protokt {
 
 kotlin {
     sourceSets {
-        handleCoreLiteDepThatShouldNotBeNeeded()
-
         val jvmMain by getting {
             dependencies {
                 api(project(":protokt-core-lite"))

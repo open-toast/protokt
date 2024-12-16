@@ -39,23 +39,27 @@ private val kotlinTargetsByName =
 internal sealed class KotlinTarget(
     val isPrimaryTarget: Boolean,
     val treatTargetAsJvm: Boolean,
-    val pluginSuffix: String,
     val name: String
 ) {
-    object MultiplatformCommon : KotlinTarget(true, false, "-common", "common")
-    object MultiplatformJs : KotlinTarget(false, false, "-js", "js")
-    object MultiplatformJvm : KotlinTarget(false, true, "-jvm", "jvm")
-    object MultiplatformAndroid : KotlinTarget(false, true, "-android", "android")
-    class MultiplatformOther(name: String) : KotlinTarget(false, false, "-$name", name)
+    val protocPluginName = "protokt" + if (this::class.java.simpleName.startsWith("Multiplatform")) "-$name" else ""
 
-    object Jvm : KotlinTarget(true, true, "", "jvm")
-    object Android : KotlinTarget(true, true, "", "android")
+    object MultiplatformCommon : KotlinTarget(true, false, "common")
+    object MultiplatformJs : KotlinTarget(false, false, "js")
+    object MultiplatformJvm : KotlinTarget(false, true, "jvm")
+    object MultiplatformAndroid : KotlinTarget(false, true, "android")
+    class MultiplatformOther(name: String) : KotlinTarget(false, false, name)
+
+    object Jvm : KotlinTarget(true, true, "jvm")
+    object Android : KotlinTarget(true, true, "android")
 
     override fun toString() =
         namesByKotlinTarget[this] ?: name
 
     companion object {
-        fun fromString(string: String) =
-            kotlinTargetsByName[string] ?: MultiplatformOther(string.removeSuffix("-mp"))
+        fun fromPluginOptionString(target: String) =
+            kotlinTargetsByName[target] ?: MultiplatformOther(target.removeSuffix("-mp"))
+
+        fun fromMultiplatformTargetString(target: String) =
+            fromPluginOptionString("$target-mp")
     }
 }

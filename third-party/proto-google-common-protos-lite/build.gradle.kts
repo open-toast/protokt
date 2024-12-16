@@ -33,8 +33,6 @@ dependencies {
 }
 
 kotlin {
-    handleCoreLiteDepThatShouldNotBeNeeded()
-
     sourceSets {
         val commonTest by getting {
             dependencies {

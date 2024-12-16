@@ -20,14 +20,12 @@ import com.google.protobuf.gradle.ProtobufExtension
 import com.google.protobuf.gradle.ProtobufPlugin
 import com.google.protobuf.gradle.outputSourceDirectoriesHack
 import com.google.protobuf.gradle.proto
-import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.api.file.SourceDirectorySet
 import org.gradle.api.logging.LogLevel
-import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.tasks.AbstractCopyTask
 import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.SourceSetContainer
@@ -38,13 +36,10 @@ import org.gradle.kotlin.dsl.project
 import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
-import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.targets
-import org.jetbrains.kotlin.gradle.plugin.sources.DefaultKotlinSourceSet
 import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile
-import kotlin.reflect.KClass
 
 const val CODEGEN_NAME = "protoc-gen-protokt"
 
@@ -81,7 +76,7 @@ private fun injectKotlinPluginsIntoProtobufGradle() {
     prerequisitePlugins.add("org.jetbrains.kotlin.multiplatform")
 }
 
-private data class Config(
+private class Config(
     val extension: ProtoktExtension,
     val extensions: Configuration,
     val testExtensions: Configuration
@@ -100,62 +95,69 @@ private fun Project.configureProtobuf(
     config: Config,
     binary: String
 ) {
-    val (ext, extensionsConfiguration, testExtensionsConfiguration) = config
-
-    fun configureProtoktConfigurations(
-        extension: KClass<out KotlinProjectExtension>,
-        targetMainSourceSet: String,
-        targetTestSourceSet: String
-    ) {
-        val sourceSets = extensions.getByType(extension.java).sourceSets
-        val sourceSet = (sourceSets.getByName(targetMainSourceSet) as DefaultKotlinSourceSet)
-        configurations.getByName(sourceSet.apiConfigurationName).extendsFrom(extensionsConfiguration)
-        val testSourceSet = (sourceSets.getByName(targetTestSourceSet) as DefaultKotlinSourceSet)
-        configurations.getByName(testSourceSet.apiConfigurationName).extendsFrom(testExtensionsConfiguration)
-    }
-
     pluginManager.withPlugin(KotlinPlugins.MULTIPLATFORM) {
-        configureProtobufPlugin(project, ext, disableJava, KotlinTarget.MultiplatformCommon, binary)
-        linkGenerateProtoToSourceCompileForKotlinMpp("commonMain", "commonTest")
-
-        // todo: figure out how to run this after the user specifies their targets without using afterEvaluate
-        afterEvaluate {
-            val targets =
-                @Suppress("DEPRECATION")
-                kotlinExtension.targets
-            logger.log(DEBUG_LOG_LEVEL, "Configuring protokt for Kotlin multiplatform for targets: ${targets.map { it.targetName }}")
-            targets
-                .filterNot { it.targetName == "metadata" }
-                .forEach {
-                    logger.log(DEBUG_LOG_LEVEL, "Handling Kotlin multiplatform target {}", it.targetName)
-                    configureProtobufPlugin(project, ext, disableJava, KotlinTarget.fromString("${it.targetName}-mp"), binary)
-                    configureProtoktConfigurations(KotlinMultiplatformExtension::class, "${it.targetName}Main", "${it.targetName}Test")
-                    linkGenerateProtoToSourceCompileForKotlinMpp("${it.targetName}Main", "${it.targetName}Test")
-                }
-        }
-    }
-
-    val otherwise = {
-        configurations.getByName("api").extendsFrom(extensionsConfiguration)
-        configurations.getByName("testApi").extendsFrom(testExtensionsConfiguration)
+        configureForMpp(disableJava, config, binary)
     }
 
     pluginManager.withPlugin(KotlinPlugins.JVM) {
-        logger.log(DEBUG_LOG_LEVEL, "Configuring protokt for Kotlin JVM")
-        configureProtobufPlugin(project, ext, disableJava, KotlinTarget.Jvm, binary)
-        otherwise()
+        configureForJvmLike(config, disableJava, KotlinTarget.Jvm, binary)
     }
 
     pluginManager.withPlugin(KotlinPlugins.ANDROID) {
-        logger.log(DEBUG_LOG_LEVEL, "Configuring protokt for Kotlin Android")
-        configureProtobufPlugin(project, ext, disableJava, KotlinTarget.Android, binary)
-        otherwise()
+        configureForJvmLike(config, disableJava, KotlinTarget.Android, binary)
     }
 }
 
-private fun Project.linkGenerateProtoToSourceCompileForKotlinMpp(mainSourceSetName: String, testSourceSetName: String) {
-    linkGenerateProtoTasksAndIncludeGeneratedSource(mainSourceSetName, false)
-    linkGenerateProtoTasksAndIncludeGeneratedSource(testSourceSetName, true)
+private fun Project.configureForJvmLike(config: Config, disableJava: Boolean, target: KotlinTarget, binary: String) {
+    logger.log(DEBUG_LOG_LEVEL, "Configuring protokt for Kotlin ${target.name}")
+    configureProtobufPlugin(project, config.extension, disableJava, target, binary)
+    configurations.getByName("api").extendsFrom(config.extensions)
+    configurations.getByName("testApi").extendsFrom(config.testExtensions)
+}
+
+private fun Project.configureForMpp(
+    disableJava: Boolean,
+    config: Config,
+    binary: String
+) {
+    configureTarget("common", disableJava, config, binary)
+
+    // todo: figure out how to run this after the user specifies their targets without using afterEvaluate
+    afterEvaluate {
+        @Suppress("DEPRECATION")
+        val targets = kotlinExtension.targets
+        logger.log(DEBUG_LOG_LEVEL, "Configuring protokt for Kotlin multiplatform for targets: ${targets.map { it.targetName }}")
+
+        targets
+            .filterNot { it.targetName == "metadata" }
+            .forEach {
+                logger.log(DEBUG_LOG_LEVEL, "Handling Kotlin multiplatform target {}", it)
+                configureTarget(it.targetName, disableJava, config, binary)
+            }
+    }
+}
+
+private fun Project.configureTarget(
+    targetName: String,
+    disableJava: Boolean,
+    config: Config,
+    binary: String
+) {
+    configureProtobufPlugin(project, config.extension, disableJava, KotlinTarget.fromMultiplatformTargetString(targetName), binary)
+
+    val sourceSets = extensions.getByType(KotlinMultiplatformExtension::class.java).sourceSets
+    val mainSourceSet = sourceSets.getByName("${targetName}Main")
+    val testSourceSet = sourceSets.getByName("${targetName}Test")
+
+    configurations.getByName(mainSourceSet.apiConfigurationName).extendsFrom(config.extensions)
+    configurations.getByName(testSourceSet.apiConfigurationName).extendsFrom(config.testExtensions)
+
+    linkGenerateProtoToSourceCompileForKotlinMpp(mainSourceSet, testSourceSet)
+}
+
+private fun Project.linkGenerateProtoToSourceCompileForKotlinMpp(mainSourceSet: KotlinSourceSet, testSourceSet: KotlinSourceSet) {
+    linkGenerateProtoTasksAndIncludeGeneratedSource(mainSourceSet, false)
+    linkGenerateProtoTasksAndIncludeGeneratedSource(testSourceSet, true)
 
     tasks.withType<Jar> {
         from(fileTree("${layout.buildDirectory.get()}/extracted-protos/main"))
@@ -171,13 +173,16 @@ private fun AbstractCopyTask.excludeDuplicates() {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
-private fun Project.linkGenerateProtoTasksAndIncludeGeneratedSource(sourceSetName: String, test: Boolean) {
+private fun Project.linkGenerateProtoTasksAndIncludeGeneratedSource(sourceSet: KotlinSourceSet, test: Boolean) {
     val protoSourceSetRoot = if (test) "test" else "main"
 
     val extension = project.extensions.getByType<ProtobufExtension>()
 
     extension.generateProtoTasks.ofSourceSet(protoSourceSetRoot).forEach { genProtoTask ->
-        configureSourceSets(sourceSetName, protoSourceSetRoot, genProtoTask)
+        sourceSet.kotlin.srcDir(genProtoTask.buildSourceDirectorySet())
+        the<SourceSetContainer>()
+            .getByName(protoSourceSetRoot)
+            .proto { sourceSet.resources.source(this) }
 
         // todo: it would be better to avoid this by making the outputs of genProtoTask an input of the correct compile task
         tasks.withType<AbstractKotlinCompile<*>> {
@@ -186,24 +191,6 @@ private fun Project.linkGenerateProtoTasksAndIncludeGeneratedSource(sourceSetNam
                 dependsOn(genProtoTask)
             }
         }
-    }
-}
-
-private fun Project.configureSourceSets(
-    sourceSetName: String,
-    protoSourceSetRoot: String,
-    genProtoTask: GenerateProtoTask
-) {
-    val kotlinExtension = extensions.getByName("kotlin") as ExtensionAware
-
-    @Suppress("UNCHECKED_CAST")
-    val sourceSets = kotlinExtension.extensions.getByName("sourceSets") as NamedDomainObjectContainer<KotlinSourceSet>
-
-    sourceSets.named(sourceSetName).configure {
-        kotlin.srcDir(genProtoTask.buildSourceDirectorySet())
-        the<SourceSetContainer>()
-            .getByName(protoSourceSetRoot)
-            .proto { resources.source(this) }
     }
 }
 

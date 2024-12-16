@@ -23,8 +23,6 @@ plugins {
 localProtokt(false)
 
 kotlin {
-    handleCoreDepThatShouldNotBeNeeded()
-
     sourceSets {
         val jvmMain by getting {
             dependencies {

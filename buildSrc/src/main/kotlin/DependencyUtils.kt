@@ -16,7 +16,6 @@
 import com.google.protobuf.gradle.ProtobufExtension
 import com.google.protobuf.gradle.protobuf
 import org.gradle.accessors.dm.LibrariesForLibs
-import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Project
 import org.gradle.api.artifacts.MinimalExternalModuleDependency
 import org.gradle.api.provider.Provider
@@ -24,8 +23,6 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.exclude
 import org.gradle.kotlin.dsl.the
-import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
-import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 
 val Project.libs
     get() = the<LibrariesForLibs>()
@@ -42,22 +39,6 @@ fun Project.defaultProtoc() {
     configure<ProtobufExtension> {
         protoc {
             artifact = libs.protoc.get().toString()
-        }
-    }
-}
-
-fun KotlinMultiplatformExtension.handleCoreDepThatShouldNotBeNeeded() {
-    the<NamedDomainObjectContainer<KotlinSourceSet>>().commonMain {
-        dependencies {
-            api(project(":protokt-core"))
-        }
-    }
-}
-
-fun KotlinMultiplatformExtension.handleCoreLiteDepThatShouldNotBeNeeded() {
-    the<NamedDomainObjectContainer<KotlinSourceSet>>().commonMain {
-        dependencies {
-            api(project(":protokt-core-lite"))
         }
     }
 }

@@ -29,8 +29,6 @@ protokt {
 }
 
 kotlin {
-    handleCoreDepThatShouldNotBeNeeded()
-
     sourceSets {
         val commonMain by getting {
             dependencies {
