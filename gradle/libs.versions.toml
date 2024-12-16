@@ -13,23 +13,23 @@
 
 [versions]
 autoService = "1.1.1"
-grpc-java = "1.68.1"
+grpc-java = "1.69.0"
 grpc-kotlin = "1.4.1"
 kotlinLogging = "7.0.0"
 kotlinPoet = "2.0.0"
 kotlinx-coroutines = "1.9.0"
-kotlinx-serialization = "1.6.3"
+kotlinx-serialization = "1.7.3"
 ktlint = "1.5.0"
 protobuf-java = "4.29.1"
 protobuf-js = "7.2.6"
 protobufGradlePlugin = "0.9.4"
-slf4j = "2.0.13"
+slf4j = "2.0.16"
 
 # build
 androidGradlePlugin = "7.4.2"
 animalSnifferGradlePlugin = "1.7.2"
 binaryCompatibilityValidator = "0.16.3"
-buildConfig = "5.5.0"
+buildConfig = "5.5.1"
 gradleMavenPublishPlugin = "0.25.3"
 gummyBears = "0.8.0"
 java = "11"
