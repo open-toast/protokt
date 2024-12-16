@@ -29,7 +29,7 @@ import protokt.v1.codegen.generate.Deprecation.handleDeprecation
 import protokt.v1.codegen.util.Enum
 
 internal fun generateEnum(e: Enum, ctx: Context) =
-    if (ctx.info.context.generateTypes) {
+    if (ctx.info.context.generateTypes && ctx.info.context.kotlinTarget.isPrimaryTarget) {
         EnumGenerator(e, ctx).generate()
     } else {
         null

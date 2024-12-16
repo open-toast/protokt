@@ -36,7 +36,7 @@ import protokt.v1.codegen.generate.Nullability.nonNullPropName
 import protokt.v1.codegen.util.Message
 
 internal fun generateMessage(msg: Message, ctx: Context) =
-    if (ctx.info.context.generateTypes) {
+    if (ctx.info.context.generateTypes && ctx.info.context.kotlinTarget.isPrimaryTarget) {
         MessageGenerator(msg, ctx).generate()
     } else {
         null

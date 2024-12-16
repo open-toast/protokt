@@ -20,6 +20,8 @@ import com.google.common.io.Resources
 import com.google.protobuf.compiler.PluginProtos
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.io.TempDir
+import protokt.v1.gradle.KOTLIN_TARGET
+import protokt.v1.gradle.KotlinTarget
 import protokt.v1.gradle.ProtoktExtension
 import protokt.v1.testing.ProcessOutput
 import protokt.v1.testing.projectRoot
@@ -105,9 +107,11 @@ private fun buildPluginOptions(extension: ProtoktExtension) =
     "--custom_opt=" +
         extension::class.declaredMemberProperties
             .filter { it.returnType.classifier as KClass<*> == Boolean::class }
-            .joinToString(",") {
-                CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, it.name) + "=${it.call(extension)}"
-            }
+            .joinToString(",") { format(it.name) + "=${it.call(extension)}" } +
+        ",${format(KOTLIN_TARGET)}=${KotlinTarget.Jvm}"
+
+private fun format(optionConst: String) =
+    CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, optionConst)
 
 private val codegenTestingResources =
     Path.of(

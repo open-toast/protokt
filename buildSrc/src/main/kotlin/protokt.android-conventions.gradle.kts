@@ -16,7 +16,7 @@
 plugins {
     id("protokt.common-conventions")
     id("com.android.library")
-    kotlin("android")
+    `kotlin-android`
 }
 
 javaBasedProjectConventions()
