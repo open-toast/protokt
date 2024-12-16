@@ -23,7 +23,7 @@ import protokt.v1.google.protobuf.Empty
 import kotlin.reflect.full.findAnnotation
 
 object DynamicConcreteMessageDeserializer {
-    private val deserializersByFullTypeName: Map<String, Deserializer<*>> by lazy {
+    private val deserializersByFullTypeName: Map<String, () -> Deserializer<*>> by lazy {
         ClassGraph()
             .enableAnnotationInfo()
             .acceptPackages(
@@ -36,14 +36,15 @@ object DynamicConcreteMessageDeserializer {
                     .map { it.loadClass().kotlin }
             }
             .associate { messageClass ->
-                messageClass.findAnnotation<GeneratedMessage>()!!.fullTypeName to
+                messageClass.findAnnotation<GeneratedMessage>()!!.fullTypeName to {
                     messageClass
                         .nestedClasses
                         .single { it.simpleName == Empty.Deserializer::class.simpleName }
                         .objectInstance as Deserializer<*>
+                }
             }
     }
 
     fun parse(fullTypeName: String, bytes: ByteString) =
-        deserializersByFullTypeName.getValue(fullTypeName).deserialize(bytes.newInput())
+        deserializersByFullTypeName.getValue(fullTypeName)().deserialize(bytes.newInput())
 }
