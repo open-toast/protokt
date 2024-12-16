@@ -13,11 +13,8 @@
  * limitations under the License.
  */
 
-import com.android.build.gradle.internal.tasks.factory.dependsOn
 import com.google.protobuf.gradle.GenerateProtoTask
 import com.google.protobuf.gradle.proto
-import org.gradle.api.distribution.plugins.DistributionPlugin.TASK_INSTALL_NAME
-import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 plugins {
     id("protokt.jvm-conventions")
@@ -96,7 +93,7 @@ val conformance =
         )
     }
 
-tasks.test.dependsOn(conformance)
+tasks.test { dependsOn(conformance) }
 
 application {
     mainClass.set("protokt.v1.buf.validate.conformance.Main")
