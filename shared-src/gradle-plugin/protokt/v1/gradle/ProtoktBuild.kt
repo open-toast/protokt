@@ -62,8 +62,10 @@ internal fun configureProtokt(
 
     // must wait for extension to resolve
     project.afterEvaluate {
-        project.resolveProtoktCoreDep(protoktVersion)?.let(config.extensions.dependencies::add)
-        project.resolveProtoktGrpcDep(protoktVersion)?.let(config.extensions.dependencies::add)
+        listOfNotNull(
+            project.resolveProtoktCoreDep(protoktVersion),
+            project.resolveProtoktGrpcDep(protoktVersion)
+        ).forEach(config.extensions.dependencies::add)
     }
 }
 
@@ -211,30 +213,23 @@ private fun Project.resolveProtoktCoreDep(protoktVersion: Any?): Dependency? {
         return null
     }
 
-    val artifactId =
-        if (the<ProtoktExtension>().generate.descriptors) {
-            "protokt-core"
-        } else {
-            "protokt-core-lite"
-        }
-
-    return if (protoktVersion == null) {
-        dependencies.project(":$artifactId")
-    } else {
-        dependencies.create("com.toasttab.protokt:$artifactId:$protoktVersion")
-    }
+    return resolveDependency("protokt-core", protoktVersion)
 }
 
 private fun Project.resolveProtoktGrpcDep(protoktVersion: Any?): Dependency? {
+    if (!the<ProtoktExtension>().generate.grpcDescriptors) {
+        return null
+    }
+
+    return resolveDependency("protokt-runtime-grpc", protoktVersion)
+}
+
+private fun Project.resolveDependency(rootArtifactId: String, protoktVersion: Any?): Dependency? {
     val artifactId =
-        if (the<ProtoktExtension>().generate.grpcDescriptors) {
-            if (the<ProtoktExtension>().generate.descriptors) {
-                "protokt-runtime-grpc"
-            } else {
-                "protokt-runtime-grpc-lite"
-            }
+        if (the<ProtoktExtension>().generate.descriptors) {
+            rootArtifactId
         } else {
-            return null
+            "$rootArtifactId-lite"
         }
 
     return if (protoktVersion == null) {
