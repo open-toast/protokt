@@ -67,9 +67,9 @@ private fun main(`in`: InputStream, out: OutputStream) {
     CodeGeneratorResponse.newBuilder()
         .setSupportedFeatures(
             (
-                    Feature.FEATURE_PROTO3_OPTIONAL_VALUE or
-                            Feature.FEATURE_SUPPORTS_EDITIONS_VALUE
-                    ).toLong()
+                Feature.FEATURE_PROTO3_OPTIONAL_VALUE or
+                    Feature.FEATURE_SUPPORTS_EDITIONS_VALUE
+                ).toLong()
         )
         // we don't support all of proto2 but we have to say we support it for protovalidate examples
         .setMinimumEdition(Edition.EDITION_PROTO2_VALUE)
