@@ -91,7 +91,7 @@ allprojects {
             )
             licenseHeaderFile(
                 rootProject.file("gradle/license-header-c-style"),
-                "(syntax )"
+                "(syntax |edition )"
             )
         }
     }
