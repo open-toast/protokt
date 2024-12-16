@@ -84,6 +84,10 @@ val conformance =
     tasks.register<Exec>("conformance") {
         dependsOn(TASK_INSTALL_NAME, installConformance)
         description = "Runs protovalidate conformance tests."
+        environment(
+            "JAVA_OPTS" to "-Xmx32M",
+            "GOMEMLIMIT" to "32MiB"
+        )
         commandLine(
             conformanceExecutable.absolutePath,
             "--strict_message",
