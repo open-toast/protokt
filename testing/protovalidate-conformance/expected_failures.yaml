@@ -63,6 +63,24 @@ predefined_constraints:
   - proto/2023/predefined_and_custom/valid
   - proto/2023/repeated/invalid
   - proto/2023/repeated/valid
+  - proto/2023/repeated/wrapped/bool/invalid
+  - proto/2023/repeated/wrapped/bool/valid
+  - proto/2023/repeated/wrapped/bytes/invalid
+  - proto/2023/repeated/wrapped/bytes/valid
+  - proto/2023/repeated/wrapped/double/invalid
+  - proto/2023/repeated/wrapped/double/valid
+  - proto/2023/repeated/wrapped/float/invalid
+  - proto/2023/repeated/wrapped/float/valid
+  - proto/2023/repeated/wrapped/int32/invalid
+  - proto/2023/repeated/wrapped/int32/valid
+  - proto/2023/repeated/wrapped/int64/invalid
+  - proto/2023/repeated/wrapped/int64/valid
+  - proto/2023/repeated/wrapped/string/invalid
+  - proto/2023/repeated/wrapped/string/valid
+  - proto/2023/repeated/wrapped/uint32/invalid
+  - proto/2023/repeated/wrapped/uint32/valid
+  - proto/2023/repeated/wrapped/uint64/invalid
+  - proto/2023/repeated/wrapped/uint64/valid
   - proto/2023/sfixed32/invalid
   - proto/2023/sfixed32/valid
   - proto/2023/sfixed64/invalid
@@ -83,6 +101,24 @@ predefined_constraints:
   - proto/2023/uint32/valid
   - proto/2023/uint64/invalid
   - proto/2023/uint64/valid
+  - proto/2023/wrapped/bool/invalid
+  - proto/2023/wrapped/bool/valid
+  - proto/2023/wrapped/bytes/invalid
+  - proto/2023/wrapped/bytes/valid
+  - proto/2023/wrapped/double/invalid
+  - proto/2023/wrapped/double/valid
+  - proto/2023/wrapped/float/invalid
+  - proto/2023/wrapped/float/valid
+  - proto/2023/wrapped/int32/invalid
+  - proto/2023/wrapped/int32/valid
+  - proto/2023/wrapped/int64/invalid
+  - proto/2023/wrapped/int64/valid
+  - proto/2023/wrapped/string/invalid
+  - proto/2023/wrapped/string/valid
+  - proto/2023/wrapped/uint32/invalid
+  - proto/2023/wrapped/uint32/valid
+  - proto/2023/wrapped/uint64/invalid
+  - proto/2023/wrapped/uint64/valid
   - proto2/bool/invalid
   - proto2/bool/valid
   - proto2/bytes/invalid
@@ -107,6 +143,24 @@ predefined_constraints:
   - proto2/predefined_and_custom/valid
   - proto2/repeated/invalid
   - proto2/repeated/valid
+  - proto2/repeated/wrapped/bool/invalid
+  - proto2/repeated/wrapped/bool/valid
+  - proto2/repeated/wrapped/bytes/invalid
+  - proto2/repeated/wrapped/bytes/valid
+  - proto2/repeated/wrapped/double/invalid
+  - proto2/repeated/wrapped/double/valid
+  - proto2/repeated/wrapped/float/invalid
+  - proto2/repeated/wrapped/float/valid
+  - proto2/repeated/wrapped/int32/invalid
+  - proto2/repeated/wrapped/int32/valid
+  - proto2/repeated/wrapped/int64/invalid
+  - proto2/repeated/wrapped/int64/valid
+  - proto2/repeated/wrapped/string/invalid
+  - proto2/repeated/wrapped/string/valid
+  - proto2/repeated/wrapped/uint32/invalid
+  - proto2/repeated/wrapped/uint32/valid
+  - proto2/repeated/wrapped/uint64/invalid
+  - proto2/repeated/wrapped/uint64/valid
   - proto2/sfixed32/invalid
   - proto2/sfixed32/valid
   - proto2/sfixed64/invalid
@@ -127,6 +181,24 @@ predefined_constraints:
   - proto2/uint32/valid
   - proto2/uint64/invalid
   - proto2/uint64/valid
+  - proto2/wrapped/bool/invalid
+  - proto2/wrapped/bool/valid
+  - proto2/wrapped/bytes/invalid
+  - proto2/wrapped/bytes/valid
+  - proto2/wrapped/double/invalid
+  - proto2/wrapped/double/valid
+  - proto2/wrapped/float/invalid
+  - proto2/wrapped/float/valid
+  - proto2/wrapped/int32/invalid
+  - proto2/wrapped/int32/valid
+  - proto2/wrapped/int64/invalid
+  - proto2/wrapped/int64/valid
+  - proto2/wrapped/string/invalid
+  - proto2/wrapped/string/valid
+  - proto2/wrapped/uint32/invalid
+  - proto2/wrapped/uint32/valid
+  - proto2/wrapped/uint64/invalid
+  - proto2/wrapped/uint64/valid
   - proto3/bool/invalid
   - proto3/bool/valid
   - proto3/bytes/invalid
@@ -153,6 +225,24 @@ predefined_constraints:
   - proto3/predefined_and_custom/valid
   - proto3/repeated/invalid
   - proto3/repeated/valid
+  - proto3/repeated/wrapped/bool/invalid
+  - proto3/repeated/wrapped/bool/valid
+  - proto3/repeated/wrapped/bytes/invalid
+  - proto3/repeated/wrapped/bytes/valid
+  - proto3/repeated/wrapped/double/invalid
+  - proto3/repeated/wrapped/double/valid
+  - proto3/repeated/wrapped/float/invalid
+  - proto3/repeated/wrapped/float/valid
+  - proto3/repeated/wrapped/int32/invalid
+  - proto3/repeated/wrapped/int32/valid
+  - proto3/repeated/wrapped/int64/invalid
+  - proto3/repeated/wrapped/int64/valid
+  - proto3/repeated/wrapped/string/invalid
+  - proto3/repeated/wrapped/string/valid
+  - proto3/repeated/wrapped/uint32/invalid
+  - proto3/repeated/wrapped/uint32/valid
+  - proto3/repeated/wrapped/uint64/invalid
+  - proto3/repeated/wrapped/uint64/valid
   - proto3/sfixed32/invalid
   - proto3/sfixed32/valid
   - proto3/sfixed64/invalid
@@ -173,3 +263,21 @@ predefined_constraints:
   - proto3/uint32/valid
   - proto3/uint64/invalid
   - proto3/uint64/valid
+  - proto3/wrapped/bool/invalid
+  - proto3/wrapped/bool/valid
+  - proto3/wrapped/bytes/invalid
+  - proto3/wrapped/bytes/valid
+  - proto3/wrapped/double/invalid
+  - proto3/wrapped/double/valid
+  - proto3/wrapped/float/invalid
+  - proto3/wrapped/float/valid
+  - proto3/wrapped/int32/invalid
+  - proto3/wrapped/int32/valid
+  - proto3/wrapped/int64/invalid
+  - proto3/wrapped/int64/valid
+  - proto3/wrapped/string/invalid
+  - proto3/wrapped/string/valid
+  - proto3/wrapped/uint32/invalid
+  - proto3/wrapped/uint32/valid
+  - proto3/wrapped/uint64/invalid
+  - proto3/wrapped/uint64/valid

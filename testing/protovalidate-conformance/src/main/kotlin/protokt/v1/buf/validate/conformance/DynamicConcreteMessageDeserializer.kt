@@ -33,9 +33,7 @@ object DynamicConcreteMessageDeserializer {
             .scan()
             .use { result ->
                 val messageClassList = result.allClasses.filter { it.implementsInterface(Message::class.java) }
-                val classes = messageClassList.mapTo(ArrayList(messageClassList.size)) { it.loadClass() }
-                System.err.println("class count: ${classes.size}")
-                classes
+                messageClassList.mapTo(ArrayList(messageClassList.size)) { it.loadClass() }
             }
             .let {
                 it.associateTo(HashMap(it.size)) { messageClass ->
