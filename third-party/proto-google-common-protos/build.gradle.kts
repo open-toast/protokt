@@ -29,13 +29,12 @@ protokt {
 }
 
 kotlin {
+    handleCoreDepThatShouldNotBeNeeded()
+
     sourceSets {
         val commonMain by getting {
             dependencies {
                 api(project(":third-party:proto-google-common-protos-lite"))
-
-                // todo: not sure why this is needed
-                api(project(":protokt-core"))
             }
         }
 

@@ -23,14 +23,9 @@ plugins {
 localProtokt(false)
 
 kotlin {
-    sourceSets {
-        // todo: not sure why this is needed
-        val commonMain by getting {
-            dependencies {
-                api(project(":protokt-core"))
-            }
-        }
+    handleCoreDepThatShouldNotBeNeeded()
 
+    sourceSets {
         val jvmMain by getting {
             dependencies {
                 api(project(":protokt-core"))

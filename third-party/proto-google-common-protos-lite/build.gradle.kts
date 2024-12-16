@@ -33,14 +33,9 @@ dependencies {
 }
 
 kotlin {
-    sourceSets {
-        // todo: not sure why this is needed
-        val commonMain by getting {
-            dependencies {
-                api(project(":protokt-core-lite"))
-            }
-        }
+    handleCoreLiteDepThatShouldNotBeNeeded()
 
+    sourceSets {
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
