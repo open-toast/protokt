@@ -17,7 +17,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
     id("protokt.common-conventions")
-    kotlin("jvm")
+    kotlin
 }
 
 javaBasedProjectConventions()

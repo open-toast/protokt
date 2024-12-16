@@ -35,19 +35,20 @@ class AnimalsServerTest {
     }
 
     @Test
-    fun animals() = runTest {
-        server.start()
+    fun animals() =
+        runTest {
+            server.start()
 
-        val dogStub = DogCoroutineStub("localhost:50051", ChannelCredentials.createInsecure())
-        val dogBark = dogStub.bark(BarkRequest { })
-        assertEquals("Bark!", dogBark.message)
+            val dogStub = DogCoroutineStub("localhost:50051", ChannelCredentials.createInsecure())
+            val dogBark = dogStub.bark(BarkRequest { })
+            assertEquals("Bark!", dogBark.message)
 
-        val pigStub = PigCoroutineStub("localhost:50051", ChannelCredentials.createInsecure())
-        val pigOink = pigStub.oink(OinkRequest { })
-        assertEquals("Oink!", pigOink.message)
+            val pigStub = PigCoroutineStub("localhost:50051", ChannelCredentials.createInsecure())
+            val pigOink = pigStub.oink(OinkRequest { })
+            assertEquals("Oink!", pigOink.message)
 
-        val sheepStub = SheepCoroutineStub("localhost:50051", ChannelCredentials.createInsecure())
-        val sheepBaa = sheepStub.baa(BaaRequest { })
-        assertEquals("Baa!", sheepBaa.message)
-    }
+            val sheepStub = SheepCoroutineStub("localhost:50051", ChannelCredentials.createInsecure())
+            val sheepBaa = sheepStub.baa(BaaRequest { })
+            assertEquals("Baa!", sheepBaa.message)
+        }
 }

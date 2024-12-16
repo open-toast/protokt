@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast, Inc.
+ * Copyright (c) 2024 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,20 @@
  * limitations under the License.
  */
 
-package protokt.v1.gradle
+syntax = "proto3";
 
-import org.gradle.api.Plugin
-import org.gradle.api.Project
+option java_multiple_files = true;
 
-class ProtoktPlugin : Plugin<Project> {
-    override fun apply(project: Project) {
-        configureProtokt(project, PROTOKT_VERSION, true, binaryFromArtifact(project))
-    }
+package protokt.v1.testing;
+
+service TestService3 {
+  rpc SayHello (TestRequest3) returns (TestReply3) {}
+}
+
+message TestRequest3 {
+  string message = 1;
+}
+
+message TestReply3 {
+  string message = 1;
 }

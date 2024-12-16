@@ -39,8 +39,7 @@ internal object ProtoktReflect {
 
     private fun getReflectedGettersByClass(messageClass: KClass<out Message>) =
         reflectedGettersByClass.computeIfAbsent(messageClass) {
-            {
-                    field, message ->
+            { field, message ->
                 topLevelProperty(messageClass)(field, message)
                     ?: oneofProperty(messageClass)(field, message)
                     ?: getUnknownField(field, message)

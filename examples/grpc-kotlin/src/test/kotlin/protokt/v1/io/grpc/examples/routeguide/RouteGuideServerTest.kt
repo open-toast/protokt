@@ -29,24 +29,25 @@ class RouteGuideServerTest {
     val grpcServerRule: GrpcServerRule = GrpcServerRule().directExecutor()
 
     @Test
-    fun listFeatures() = runBlocking {
-        val service = RouteGuideServer.RouteGuideService(Database.features())
-        grpcServerRule.serviceRegistry.addService(service)
+    fun listFeatures() =
+        runBlocking {
+            val service = RouteGuideServer.RouteGuideService(Database.features())
+            grpcServerRule.serviceRegistry.addService(service)
 
-        val stub = RouteGuideGrpcKt.RouteGuideCoroutineStub(grpcServerRule.channel)
+            val stub = RouteGuideGrpcKt.RouteGuideCoroutineStub(grpcServerRule.channel)
 
-        val rectangle = Rectangle {
-            lo = Point {
-                latitude = 407838351
-                longitude = -746143763
+            val rectangle = Rectangle {
+                lo = Point {
+                    latitude = 407838351
+                    longitude = -746143763
+                }
+                hi = Point {
+                    latitude = 407838351
+                    longitude = -746143763
+                }
             }
-            hi = Point {
-                latitude = 407838351
-                longitude = -746143763
-            }
+
+            val features = stub.listFeatures(rectangle).toList()
+            assertEquals("Patriots Path, Mendham, NJ 07945, USA", features.first().name)
         }
-
-        val features = stub.listFeatures(rectangle).toList()
-        assertEquals("Patriots Path, Mendham, NJ 07945, USA", features.first().name)
-    }
 }

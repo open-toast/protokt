@@ -36,7 +36,7 @@ import protokt.v1.codegen.generate.Nullability.nonNullPropName
 import protokt.v1.codegen.util.Message
 
 internal fun generateMessage(msg: Message, ctx: Context) =
-    if (ctx.info.context.generateTypes) {
+    if (ctx.info.context.generateTypes && ctx.info.context.kotlinTarget.isPrimaryTarget) {
         MessageGenerator(msg, ctx).generate()
     } else {
         null
@@ -68,41 +68,43 @@ private class MessageGenerator(
         }.build()
     }
 
-    private fun TypeSpec.Builder.handleAnnotations() = apply {
-        addAnnotation(
-            AnnotationSpec.builder(GeneratedMessage::class)
-                .addMember(msg.fullProtobufTypeName.embed())
-                .build()
-        )
-        handleDeprecation(
-            msg.options.default.deprecated,
-            msg.options.protokt.deprecationMessage
-        )
-    }
+    private fun TypeSpec.Builder.handleAnnotations() =
+        apply {
+            addAnnotation(
+                AnnotationSpec.builder(GeneratedMessage::class)
+                    .addMember(msg.fullProtobufTypeName.embed())
+                    .build()
+            )
+            handleDeprecation(
+                msg.options.default.deprecated,
+                msg.options.protokt.deprecationMessage
+            )
+        }
 
     private fun TypeSpec.Builder.handleConstructor(
         properties: List<PropertySpec>
-    ) = apply {
-        superclass(AbstractMessage::class)
-        addProperties(properties)
-        addProperty(
-            PropertySpec.builder("unknownFields", UnknownFieldSet::class)
-                .initializer("unknownFields")
-                .build()
-        )
-        primaryConstructor(
-            FunSpec.constructorBuilder()
-                .addModifiers(KModifier.PRIVATE)
-                .addParameters(properties.map { ParameterSpec(it.name, it.type) })
-                .addParameter(
-                    ParameterSpec.builder("unknownFields", UnknownFieldSet::class)
-                        .defaultValue("%T.empty()", UnknownFieldSet::class)
-                        .build()
-                )
-                .build()
-        )
-        handleSuperInterface(msg, ctx)
-    }
+    ) =
+        apply {
+            superclass(AbstractMessage::class)
+            addProperties(properties)
+            addProperty(
+                PropertySpec.builder("unknownFields", UnknownFieldSet::class)
+                    .initializer("unknownFields")
+                    .build()
+            )
+            primaryConstructor(
+                FunSpec.constructorBuilder()
+                    .addModifiers(KModifier.PRIVATE)
+                    .addParameters(properties.map { ParameterSpec(it.name, it.type) })
+                    .addParameter(
+                        ParameterSpec.builder("unknownFields", UnknownFieldSet::class)
+                            .defaultValue("%T.empty()", UnknownFieldSet::class)
+                            .build()
+                    )
+                    .build()
+            )
+            handleSuperInterface(msg, ctx)
+        }
 
     private data class MessageProperties(
         val constructorProps: List<PropertySpec>,

@@ -18,12 +18,10 @@ import protokt.v1.gradle.protokt
 import protokt.v1.gradle.protoktExtensions
 
 plugins {
-    id("protokt.multiplatform-conventions")
+    id("protokt.multiplatform-published-conventions")
 }
 
 localProtokt()
-enablePublishing()
-trackKotlinApiCompatibility()
 
 spotless {
     kotlin {
@@ -42,8 +40,6 @@ protokt {
 
 kotlin {
     sourceSets {
-        val commonMain by getting {}
-
         val jvmMain by getting {
             dependencies {
                 api(project(":protokt-core-lite"))

@@ -34,4 +34,9 @@ java {
 
 kotlin {
     jvmToolchain(libs.versions.java.get().toInt())
+
+    compilerOptions {
+        // suppress a kapt warning for K2 and Kotlin 2.x
+        freeCompilerArgs.add("-Xsuppress-version-warnings")
+    }
 }

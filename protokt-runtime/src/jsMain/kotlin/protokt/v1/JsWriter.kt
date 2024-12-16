@@ -15,8 +15,8 @@
 
 package protokt.v1
 
-internal fun writer(writer: ProtobufJsWriter): Writer {
-    return object : Writer {
+internal fun writer(writer: ProtobufJsWriter): Writer =
+    object : Writer {
         override fun writeFixed32(i: UInt) {
             writer.fixed32(i.toInt())
         }
@@ -81,4 +81,3 @@ internal fun writer(writer: ProtobufJsWriter): Writer {
             writer.bytes(b.asUint8Array())
         }
     }
-}

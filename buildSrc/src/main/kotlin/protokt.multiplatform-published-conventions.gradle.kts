@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast, Inc.
+ * Copyright (c) 2024 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,9 @@
  * limitations under the License.
  */
 
-package protokt.v1.gradle
-
-import org.gradle.api.Plugin
-import org.gradle.api.Project
-
-class ProtoktPlugin : Plugin<Project> {
-    override fun apply(project: Project) {
-        configureProtokt(project, PROTOKT_VERSION, true, binaryFromArtifact(project))
-    }
+plugins {
+    id("protokt.multiplatform-conventions")
 }
+
+enablePublishing()
+trackKotlinApiCompatibility()

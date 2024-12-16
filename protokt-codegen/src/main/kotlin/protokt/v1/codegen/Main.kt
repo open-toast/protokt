@@ -64,22 +64,21 @@ private fun main(`in`: InputStream, out: OutputStream) {
 
     val grpcKotlinFiles = generateGrpcKotlinStubs(params, req)
 
-    if (files.isNotEmpty() || grpcKotlinFiles.isNotEmpty()) {
-        CodeGeneratorResponse.newBuilder()
-            .setSupportedFeatures(
-                (
+    CodeGeneratorResponse.newBuilder()
+        .setSupportedFeatures(
+            (
                     Feature.FEATURE_PROTO3_OPTIONAL_VALUE or
-                        Feature.FEATURE_SUPPORTS_EDITIONS_VALUE
+                            Feature.FEATURE_SUPPORTS_EDITIONS_VALUE
                     ).toLong()
-            )
-            .setMinimumEdition(Edition.EDITION_PROTO2_VALUE)
-            // we don't actually support 2023 yet but we have to say we support it for protovalidate examples
-            .setMaximumEdition(Edition.EDITION_2023_VALUE)
-            .addAllFile(files)
-            .addAllFile(grpcKotlinFiles)
-            .build()
-            .writeTo(out)
-    }
+        )
+        // we don't support all of proto2 but we have to say we support it for protovalidate examples
+        .setMinimumEdition(Edition.EDITION_PROTO2_VALUE)
+        // we don't actually support 2023 yet but we have to say we support it for protovalidate examples
+        .setMaximumEdition(Edition.EDITION_2023_VALUE)
+        .addAllFile(files)
+        .addAllFile(grpcKotlinFiles)
+        .build()
+        .writeTo(out)
 }
 
 private fun response(fileSpec: FileSpec, context: GeneratorContext) =

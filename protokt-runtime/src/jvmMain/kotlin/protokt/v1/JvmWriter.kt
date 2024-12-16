@@ -17,8 +17,8 @@ package protokt.v1
 
 import com.google.protobuf.CodedOutputStream
 
-internal fun writer(stream: CodedOutputStream): Writer {
-    return object : Writer {
+internal fun writer(stream: CodedOutputStream): Writer =
+    object : Writer {
         override fun writeFixed32(i: UInt) =
             stream.writeFixed32NoTag(i.toInt())
 
@@ -69,4 +69,3 @@ internal fun writer(stream: CodedOutputStream): Writer {
             stream.write(b.array, b.offset, b.length)
         }
     }
-}
