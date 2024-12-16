@@ -15,6 +15,7 @@
 
 import com.google.protobuf.gradle.GenerateProtoTask
 import com.google.protobuf.gradle.proto
+import org.gradle.api.distribution.plugins.DistributionPlugin.TASK_INSTALL_NAME
 
 plugins {
     id("protokt.jvm-conventions")
@@ -81,7 +82,7 @@ val installConformance =
 
 val conformance =
     tasks.register<Exec>("conformance") {
-        dependsOn("installDist", "installProtovalidateConformance")
+        dependsOn(TASK_INSTALL_NAME, installConformance)
         description = "Runs protovalidate conformance tests."
         commandLine(
             conformanceExecutable.absolutePath,
