@@ -15,7 +15,7 @@
 
 plugins {
     id("protokt.jvm-conventions")
-    kotlin("kapt")
+    `kotlin-kapt`
 }
 
 dependencies {

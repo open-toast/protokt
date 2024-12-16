@@ -22,7 +22,6 @@ import com.google.protobuf.gradle.ProtobufPlugin
 import com.google.protobuf.gradle.id
 import org.gradle.api.Project
 import org.gradle.api.file.FileCollection
-import org.gradle.internal.os.OperatingSystem
 import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
@@ -34,6 +33,7 @@ internal fun configureProtobufPlugin(
     project: Project,
     ext: ProtoktExtension,
     disableJava: Boolean,
+    target: KotlinTarget,
     binaryPath: String
 ) {
     project.apply<ProtobufPlugin>()
@@ -46,7 +46,7 @@ internal fun configureProtobufPlugin(
         }
 
         plugins {
-            id("protokt") {
+            id(target.protocPluginName) {
                 path = normalizePath(binaryPath)
             }
         }
@@ -60,7 +60,7 @@ internal fun configureProtobufPlugin(
                 }
 
                 task.plugins {
-                    id("protokt") {
+                    id(target.protocPluginName) {
                         project.afterEvaluate {
                             option("$KOTLIN_EXTRA_CLASSPATH=${extraClasspath(project, task)}")
                             option("$GENERATE_TYPES=${ext.generate.types}")
@@ -68,7 +68,7 @@ internal fun configureProtobufPlugin(
                             option("$GENERATE_GRPC_DESCRIPTORS=${ext.generate.grpcDescriptors}")
                             option("$GENERATE_GRPC_KOTLIN_STUBS=${ext.generate.grpcKotlinStubs}")
                             option("$FORMAT_OUTPUT=${ext.formatOutput}")
-                            option("$APPLIED_KOTLIN_PLUGIN=${project.appliedKotlinPlugin()}")
+                            option("$KOTLIN_TARGET=$target")
                         }
                     }
                 }
@@ -108,7 +108,7 @@ private fun configureSources(project: Project) {
 }
 
 private fun normalizePath(binaryPath: String) =
-    if (OperatingSystem.current().isWindows) {
+    if (Os.current.kind == Os.Kind.WINDOWS) {
         // on windows, protoc expects a full, /-separated path to the binary
         binaryPath.replace('\\', '/') + ".bat"
     } else {

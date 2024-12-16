@@ -30,11 +30,12 @@ class BytesSlice(
     fun isNotEmpty() =
         length > 0
 
-    private fun asSequence() = sequence {
-        for (i in offset until length + offset) {
-            yield(array[i])
+    private fun asSequence() =
+        sequence {
+            for (i in offset until length + offset) {
+                yield(array[i])
+            }
         }
-    }
 
     override fun equals(other: Any?) =
         equalsUsingSequence(other, BytesSlice::length, BytesSlice::asSequence)

@@ -17,39 +17,48 @@ package com.toasttab.protokt.rt
 
 @Deprecated("for backwards compatibility only")
 @Suppress("DEPRECATION")
-fun sizeof(t: Tag): Int = sizeof(UInt32(t.value shl 3 or 0))
+fun sizeof(t: Tag): Int =
+    sizeof(UInt32(t.value shl 3 or 0))
 
 @Deprecated("for backwards compatibility only")
 @Suppress("DEPRECATION")
-fun sizeof(enum: KtEnum) = sizeof(Int32(enum.value))
+fun sizeof(enum: KtEnum) =
+    sizeof(Int32(enum.value))
 
 @Deprecated("for backwards compatibility only")
 @Suppress("DEPRECATION")
-fun sizeof(msg: KtMessage) = sizeof(UInt32(msg.messageSize)) + msg.messageSize
+fun sizeof(msg: KtMessage) =
+    sizeof(UInt32(msg.messageSize)) + msg.messageSize
 
 @Deprecated("for backwards compatibility only")
 @Suppress("DEPRECATION")
-fun sizeof(b: Bytes) = sizeof(b.value)
+fun sizeof(b: Bytes) =
+    sizeof(b.value)
 
 @Deprecated("for backwards compatibility only")
 @Suppress("DEPRECATION")
-fun sizeof(b: BytesSlice) = sizeof(UInt32(b.length)) + b.length
+fun sizeof(b: BytesSlice) =
+    sizeof(UInt32(b.length)) + b.length
 
 @Deprecated("for backwards compatibility only")
 @Suppress("DEPRECATION")
-fun sizeof(b: ByteArray) = sizeof(UInt32(b.size)) + b.size
+fun sizeof(b: ByteArray) =
+    sizeof(UInt32(b.size)) + b.size
 
 @Deprecated("for backwards compatibility only")
 @Suppress("DEPRECATION")
-fun sizeof(l: Int64) = sizeof(UInt64(l.value))
+fun sizeof(l: Int64) =
+    sizeof(UInt64(l.value))
 
 @Deprecated("for backwards compatibility only")
 @Suppress("DEPRECATION")
-fun sizeof(i: SInt32) = sizeof(UInt32(i.value.zigZagEncoded))
+fun sizeof(i: SInt32) =
+    sizeof(UInt32(i.value.zigZagEncoded))
 
 @Deprecated("for backwards compatibility only")
 @Suppress("DEPRECATION")
-fun sizeof(l: SInt64) = sizeof(UInt64(l.value.zigZagEncoded))
+fun sizeof(l: SInt64) =
+    sizeof(UInt64(l.value.zigZagEncoded))
 
 private val Int.zigZagEncoded
     get() = (this shl 1) xor (this shr 31)
@@ -104,31 +113,38 @@ fun sizeof(l: UInt64): Int {
 
 @Deprecated("for backwards compatibility only")
 @Suppress("UNUSED_PARAMETER")
-fun sizeof(d: Double) = 8
+fun sizeof(d: Double) =
+    8
 
 @Deprecated("for backwards compatibility only")
 @Suppress("UNUSED_PARAMETER")
-fun sizeof(b: Boolean) = 1
+fun sizeof(b: Boolean) =
+    1
 
 @Deprecated("for backwards compatibility only")
 @Suppress("UNUSED_PARAMETER")
-fun sizeof(f: Float) = 4
+fun sizeof(f: Float) =
+    4
 
 @Deprecated("for backwards compatibility only")
 @Suppress("DEPRECATION", "UNUSED_PARAMETER")
-fun sizeof(i: Fixed32) = 4
+fun sizeof(i: Fixed32) =
+    4
 
 @Deprecated("for backwards compatibility only")
 @Suppress("DEPRECATION", "UNUSED_PARAMETER")
-fun sizeof(l: Fixed64) = 8
+fun sizeof(l: Fixed64) =
+    8
 
 @Deprecated("for backwards compatibility only")
 @Suppress("DEPRECATION", "UNUSED_PARAMETER")
-fun sizeof(i: SFixed32) = 4
+fun sizeof(i: SFixed32) =
+    4
 
 @Deprecated("for backwards compatibility only")
 @Suppress("DEPRECATION", "UNUSED_PARAMETER")
-fun sizeof(l: SFixed64) = 8
+fun sizeof(l: SFixed64) =
+    8
 
 @Deprecated("for backwards compatibility only")
 @Suppress("DEPRECATION")

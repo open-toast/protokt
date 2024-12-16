@@ -54,29 +54,33 @@ fun constructorProperty(name: String, type: TypeName, override: Boolean) =
         }
     }.build()
 
-fun buildFunSpec(name: String, funSpecBuilder: FunSpec.Builder.() -> Unit): FunSpec {
-    return FunSpec.builder(name).apply(funSpecBuilder).build()
-}
+fun buildFunSpec(name: String, funSpecBuilder: FunSpec.Builder.() -> Unit): FunSpec =
+    FunSpec.builder(name).apply(funSpecBuilder).build()
 
 fun namedCodeBlock(format: String, arguments: Map<String, *>) =
     CodeBlock.builder().addNamed(format, arguments).build()
 
+@Suppress("ktlint:standard:backing-property-naming")
 private val _sizeOf: KFunction1<Int, Int> = SizeCodecs::sizeOf
 
 val sizeOf = SizeCodecs::class.asTypeName().member(_sizeOf.name)
 
+@Suppress("ktlint:standard:backing-property-naming")
 private val _copyMap: KFunction1<Map<Any, Any>, Map<Any, Any>> = Collections::copyMap
 
 val copyMap = Collections::class.asTypeName().member(_copyMap.name)
 
+@Suppress("ktlint:standard:backing-property-naming")
 private val _copyList: KFunction1<List<Any>, List<Any>> = Collections::copyList
 
 val copyList = Collections::class.asTypeName().member(_copyList.name)
 
+@Suppress("ktlint:standard:backing-property-naming")
 private val _unmodifiableMap: KFunction1<Map<Any, Any>, Map<Any, Any>> = Collections::unmodifiableMap
 
 val unmodifiableMap = Collections::class.asTypeName().member(_unmodifiableMap.name)
 
+@Suppress("ktlint:standard:backing-property-naming")
 private val _unmodifiableList: KFunction1<List<Any>, List<Any>> = Collections::unmodifiableList
 
 val unmodifiableList = Collections::class.asTypeName().member(_unmodifiableList.name)

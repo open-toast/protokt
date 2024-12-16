@@ -32,10 +32,11 @@ import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.CodeGenerator.generate
 import protokt.v1.codegen.generate.Deprecation.handleDeprecation
 import protokt.v1.codegen.generate.Implements.handleSuperInterface
+import protokt.v1.codegen.generate.Nullability.nonNullPropName
 import protokt.v1.codegen.util.Message
 
 internal fun generateMessage(msg: Message, ctx: Context) =
-    if (ctx.info.context.generateTypes) {
+    if (ctx.info.context.generateTypes && ctx.info.context.kotlinTarget.isPrimaryTarget) {
         MessageGenerator(msg, ctx).generate()
     } else {
         null
@@ -47,14 +48,15 @@ private class MessageGenerator(
 ) {
     fun generate(): TypeSpec {
         val properties = annotateProperties(msg, ctx)
-        val propertySpecs = properties(properties)
+        val (constructorProps, delegateProps) = properties(properties)
 
         return TypeSpec.classBuilder(msg.className).apply {
             annotateMessageDocumentation(ctx)?.let { addKdoc(formatDoc(it)) }
             handleAnnotations()
-            handleConstructor(propertySpecs)
+            handleConstructor(constructorProps)
             addTypes(annotateOneofs(msg, ctx))
-            handleMessageSize(propertySpecs)
+            handleMessageSize(constructorProps)
+            addProperties(delegateProps)
             addFunction(generateSerializer(msg, propertySpecs, ctx))
             handleEquals(properties)
             handleHashCode(properties)
@@ -66,44 +68,70 @@ private class MessageGenerator(
         }.build()
     }
 
-    private fun TypeSpec.Builder.handleAnnotations() = apply {
-        addAnnotation(
-            AnnotationSpec.builder(GeneratedMessage::class)
-                .addMember(msg.fullProtobufTypeName.embed())
-                .build()
-        )
-        handleDeprecation(
-            msg.options.default.deprecated,
-            msg.options.protokt.deprecationMessage
-        )
-    }
+    private fun TypeSpec.Builder.handleAnnotations() =
+        apply {
+            addAnnotation(
+                AnnotationSpec.builder(GeneratedMessage::class)
+                    .addMember(msg.fullProtobufTypeName.embed())
+                    .build()
+            )
+            handleDeprecation(
+                msg.options.default.deprecated,
+                msg.options.protokt.deprecationMessage
+            )
+        }
 
     private fun TypeSpec.Builder.handleConstructor(
         properties: List<PropertySpec>
-    ) = apply {
-        superclass(AbstractMessage::class)
-        addProperties(properties)
-        addProperty(
-            PropertySpec.builder("unknownFields", UnknownFieldSet::class)
-                .initializer("unknownFields")
-                .build()
-        )
-        primaryConstructor(
-            FunSpec.constructorBuilder()
-                .addModifiers(KModifier.PRIVATE)
-                .addParameters(properties.map { ParameterSpec(it.name, it.type) })
-                .addParameter(
-                    ParameterSpec.builder("unknownFields", UnknownFieldSet::class)
-                        .defaultValue("%T.empty()", UnknownFieldSet::class)
-                        .build()
-                )
-                .build()
-        )
-        handleSuperInterface(msg, ctx)
+    ) =
+        apply {
+            superclass(AbstractMessage::class)
+            addProperties(properties)
+            addProperty(
+                PropertySpec.builder("unknownFields", UnknownFieldSet::class)
+                    .initializer("unknownFields")
+                    .build()
+            )
+            primaryConstructor(
+                FunSpec.constructorBuilder()
+                    .addModifiers(KModifier.PRIVATE)
+                    .addParameters(properties.map { ParameterSpec(it.name, it.type) })
+                    .addParameter(
+                        ParameterSpec.builder("unknownFields", UnknownFieldSet::class)
+                            .defaultValue("%T.empty()", UnknownFieldSet::class)
+                            .build()
+                    )
+                    .build()
+            )
+            handleSuperInterface(msg, ctx)
+        }
+
+    private data class MessageProperties(
+        val constructorProps: List<PropertySpec>,
+        val delegateProps: List<PropertySpec>
+    ) {
+        constructor(property: PropertySpec) : this(listOf(property), emptyList())
+        constructor(constructorProp: PropertySpec, delegateProp: PropertySpec) :
+            this(listOf(constructorProp), listOf(delegateProp))
+
+        operator fun plus(props: MessageProperties) =
+            MessageProperties(
+                constructorProps + props.constructorProps,
+                delegateProps + props.delegateProps
+            )
     }
 
-    private fun properties(properties: List<PropertyInfo>) =
-        properties.map { property ->
+    private fun properties(properties: List<PropertyInfo>): MessageProperties =
+        properties.fold(MessageProperties(emptyList(), emptyList())) { props, property ->
+            if (property.generateNullableBackingProperty) {
+                props + generateWithBackingProperty(property)
+            } else {
+                props + generateStandardProperty(property)
+            }
+        }
+
+    private fun generateStandardProperty(property: PropertyInfo) =
+        MessageProperties(
             PropertySpec.builder(property.name, property.propertyType).apply {
                 if (property.number != null) {
                     addAnnotation(
@@ -119,7 +147,36 @@ private class MessageGenerator(
                 property.documentation?.let { addKdoc(formatDoc(it)) }
                 handleDeprecation(property.deprecation)
             }.build()
-        }
+        )
+
+    private fun generateWithBackingProperty(property: PropertyInfo) =
+        MessageProperties(
+            PropertySpec.builder(property.name, property.propertyType.copy(nullable = true)).apply {
+                if (property.number != null) {
+                    addAnnotation(
+                        AnnotationSpec.builder(GeneratedProperty::class)
+                            .addMember("${property.number}")
+                            .build()
+                    )
+                }
+                initializer(property.name)
+            }.build(),
+            PropertySpec.builder(nonNullPropName(property.name), property.propertyType.copy(nullable = false)).apply {
+                getter(
+                    FunSpec.getterBuilder()
+                        .addCode("return ${dereferenceNullableBackingProperty(property.name)}")
+                        .build()
+                )
+                if (property.overrides) {
+                    addModifiers(KModifier.OVERRIDE)
+                }
+                property.documentation?.let { addKdoc(formatDoc(it)) }
+                handleDeprecation(property.deprecation)
+            }.build()
+        )
+
+    private fun dereferenceNullableBackingProperty(propName: String) =
+        "requireNotNull($propName) { \"$propName is assumed non-null with (protokt.property).generate_non_null_accessor but was null\" }".bindSpaces()
 
     private fun TypeSpec.Builder.handleMessageSize(propertySpecs: List<PropertySpec>) {
         addProperty(generateMessageSize(msg, propertySpecs, ctx))

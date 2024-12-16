@@ -53,7 +53,9 @@ public final class protokt/v1/google/api/Client_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/google/api/PhpSettings$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/api/Publishing$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/api/PythonSettings$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/api/PythonSettings$ExperimentalFeatures$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/api/RubySettings$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/api/SelectiveGapicGeneration$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 }
 
 public final class protokt/v1/google/api/ConfigChangeProto {
@@ -158,6 +160,7 @@ public final class protokt/v1/google/api/Field_behavior_descriptorsKt {
 public final class protokt/v1/google/api/Field_info_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/google/api/FieldInfo$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/api/FieldInfo$Format$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/api/TypeReference$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 }
 
 public final class protokt/v1/google/api/HttpBodyProto {
@@ -227,6 +230,7 @@ public final class protokt/v1/google/api/Metric_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/google/api/Metric$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/api/MetricDescriptor$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/api/MetricDescriptor$MetricDescriptorMetadata$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/api/MetricDescriptor$MetricDescriptorMetadata$TimeSeriesResourceHierarchyLevel$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/api/MetricDescriptor$MetricKind$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/api/MetricDescriptor$ValueType$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 }

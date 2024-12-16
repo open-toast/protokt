@@ -37,20 +37,23 @@ class AnimalsServer {
     }
 
     internal class DogService : DogCoroutineImplBase() {
-        override suspend fun bark(request: BarkRequest) = BarkReply {
-            message = "Bark!"
-        }
+        override suspend fun bark(request: BarkRequest) =
+            BarkReply {
+                message = "Bark!"
+            }
     }
 
     internal class PigService : PigCoroutineImplBase() {
-        override suspend fun oink(request: OinkRequest) = OinkReply {
-            message = "Oink!"
-        }
+        override suspend fun oink(request: OinkRequest) =
+            OinkReply {
+                message = "Oink!"
+            }
     }
 
     internal class SheepService : SheepCoroutineImplBase() {
-        override suspend fun baa(request: BaaRequest) = BaaReply {
-            message = "Baa!"
-        }
+        override suspend fun baa(request: BaaRequest) =
+            BaaReply {
+                message = "Baa!"
+            }
     }
 }

@@ -23,3 +23,7 @@ service Greeter {
   // Lower case initial 's'
   rpc sayHello (google.protobuf.Empty) returns (google.protobuf.Empty) {}
 }
+
+message BadFieldName {
+  string fooBar = 1;
+}

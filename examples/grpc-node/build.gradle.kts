@@ -13,12 +13,11 @@
  * limitations under the License.
  */
 
-import com.google.protobuf.gradle.proto
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsExec
 import protokt.v1.gradle.protokt
 
 plugins {
-    id("org.jetbrains.kotlin.js")
+    `kotlin-multiplatform`
 }
 
 kotlin {
@@ -31,6 +30,23 @@ kotlin {
         binaries.executable()
         useCommonJs()
     }
+
+    sourceSets {
+        val jsMain by getting {
+            dependencies {
+                api(project(":protokt-runtime-grpc-lite"))
+                api(project(":examples:protos"))
+                api(libs.kotlinx.coroutines.core)
+            }
+        }
+
+        val jsTest by getting {
+            dependencies {
+                api(kotlin("test"))
+                api(libs.kotlinx.coroutines.test)
+            }
+        }
+    }
 }
 
 localProtokt()
@@ -41,23 +57,6 @@ protokt {
         descriptors = false
         grpcDescriptors = true
         grpcKotlinStubs = true
-    }
-}
-
-dependencies {
-    implementation(project(":protokt-runtime-grpc-lite"))
-    implementation(project(":examples:protos"))
-    implementation(libs.kotlinx.coroutines.core)
-
-    testImplementation(kotlin("test"))
-    testImplementation(libs.kotlinx.coroutines.test)
-}
-
-sourceSets {
-    named("jsMain") {
-        proto {
-            srcDir("../protos/src/main/proto")
-        }
     }
 }
 

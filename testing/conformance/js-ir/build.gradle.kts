@@ -14,7 +14,7 @@
  */
 
 plugins {
-    id("org.jetbrains.kotlin.js")
+    `kotlin-multiplatform`
 }
 
 kotlin {
@@ -22,8 +22,12 @@ kotlin {
         binaries.executable()
         nodejs {}
     }
-}
 
-dependencies {
-    implementation(project(":testing:conformance:driver"))
+    sourceSets {
+        val jsMain by getting {
+            dependencies {
+                implementation(project(":testing:conformance:driver"))
+            }
+        }
+    }
 }

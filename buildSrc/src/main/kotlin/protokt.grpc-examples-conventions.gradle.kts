@@ -19,7 +19,6 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":protokt-runtime-grpc-lite"))
     implementation(libs.grpc.stub)
 
     runtimeOnly(libs.grpc.netty)

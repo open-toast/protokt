@@ -30,11 +30,11 @@ class SharedSimpleNamesAlternativePackageTest {
 
 fun checkDurationTypes(klass: KClass<*>) {
     assertThat(klass.propertyType("nativeDuration"))
-        .isEqualTo(protokt.v1.google.protobuf.Duration::class.createType())
+        .isEqualTo(protokt.v1.google.protobuf.Duration::class.createType(nullable = true))
 
     assertThat(klass.propertyType("javaDuration"))
-        .isEqualTo(java.time.Duration::class.createType())
+        .isEqualTo(java.time.Duration::class.createType(nullable = true))
 
     assertThat(klass.propertyType("superfluousDuration"))
-        .isEqualTo(protokt.v1.testing.Duration::class.createType())
+        .isEqualTo(protokt.v1.testing.Duration::class.createType(nullable = true))
 }

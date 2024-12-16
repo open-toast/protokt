@@ -23,12 +23,11 @@ import protokt.v1.gradle.configureProtokt
 import java.io.File
 
 fun Project.localProtokt(disableJava: Boolean = true) {
-    configureProtokt(this, null, disableJava) {
-        "$rootDir/protokt-codegen/build/install/$CODEGEN_NAME/bin/$CODEGEN_NAME"
-    }
+    configureProtokt(this, null, disableJava, "$rootDir/protokt-codegen/build/install/$CODEGEN_NAME/bin/$CODEGEN_NAME")
 
     afterEvaluate {
         tasks.withType<GenerateProtoTask> {
+            inputs.dir("$rootDir/protokt-codegen/build/install/$CODEGEN_NAME")
             dependsOn(":protokt-codegen:installDist")
         }
     }

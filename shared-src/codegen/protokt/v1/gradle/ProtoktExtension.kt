@@ -15,14 +15,6 @@
 
 package protokt.v1.gradle
 
-const val KOTLIN_EXTRA_CLASSPATH = "kotlin_extra_classpath"
-const val GENERATE_TYPES = "generate_types"
-const val GENERATE_DESCRIPTORS = "generate_descriptors"
-const val GENERATE_GRPC_DESCRIPTORS = "generate_grpc_descriptors"
-const val GENERATE_GRPC_KOTLIN_STUBS = "generate_grpc_kotlin_stubs"
-const val FORMAT_OUTPUT = "format_output"
-const val APPLIED_KOTLIN_PLUGIN = "applied_kotlin_plugin"
-
 open class ProtoktExtension {
     /**
      * The version of protobuf to use for compilation
