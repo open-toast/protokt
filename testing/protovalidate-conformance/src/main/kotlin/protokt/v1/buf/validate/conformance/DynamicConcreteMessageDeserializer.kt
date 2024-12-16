@@ -19,28 +19,31 @@ import com.google.protobuf.ByteString
 import io.github.classgraph.ClassGraph
 import protokt.v1.Deserializer
 import protokt.v1.GeneratedMessage
+import protokt.v1.Message
 import protokt.v1.google.protobuf.Empty
-import kotlin.reflect.full.findAnnotation
 
 object DynamicConcreteMessageDeserializer {
     private val deserializersByFullTypeName: Map<String, () -> Deserializer<*>> by lazy {
         ClassGraph()
-            .enableAnnotationInfo()
+            .enableClassInfo()
             .acceptPackages(
                 "protokt.v1.buf.validate.conformance.*",
                 "protokt.v1.google.protobuf"
             )
             .scan()
             .use { result ->
-                result.getClassesWithAnnotation(GeneratedMessage::class.java)
-                    .map { it.loadClass().kotlin }
+                val messageClassList = result.allClasses.filter { it.implementsInterface(Message::class.java) }
+                val classes = messageClassList.mapTo(ArrayList(messageClassList.size)) { it.loadClass() }
+                System.err.println("class count: ${classes.size}")
+                classes
             }
-            .associate { messageClass ->
-                messageClass.findAnnotation<GeneratedMessage>()!!.fullTypeName to {
-                    messageClass
-                        .nestedClasses
-                        .single { it.simpleName == Empty.Deserializer::class.simpleName }
-                        .objectInstance as Deserializer<*>
+            .let {
+                it.associateTo(HashMap(it.size)) { messageClass ->
+                    messageClass.annotations.filterIsInstance<GeneratedMessage>().single().fullTypeName to {
+                        messageClass.kotlin.nestedClasses
+                            .single { it.simpleName == Empty.Deserializer::class.simpleName }
+                            .objectInstance as Deserializer<*>
+                    }
                 }
             }
     }
