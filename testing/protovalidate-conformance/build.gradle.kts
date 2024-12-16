@@ -86,7 +86,7 @@ val conformance =
         description = "Runs protovalidate conformance tests."
         environment(
             "JAVA_OPTS" to "-Xmx45M",
-            "GOMEMLIMIT" to "16MiB"
+            "GOMEMLIMIT" to "20MiB"
         )
         commandLine(
             conformanceExecutable.absolutePath,
