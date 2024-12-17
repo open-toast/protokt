@@ -11,7 +11,7 @@ public final class com/toasttab/protokt/grpc/SchemaDescriptor {
 	public final fun getFileDescriptorUntyped ()Ljava/lang/Object;
 }
 
-public final class protokt/v1/grpc/KtMarshaller : io/grpc/MethodDescriptor$Marshaller {
+public final class protokt/v1/grpc/Marshaller : io/grpc/MethodDescriptor$Marshaller {
 	public fun <init> (Lprotokt/v1/Deserializer;)V
 	public synthetic fun parse (Ljava/io/InputStream;)Ljava/lang/Object;
 	public fun parse (Ljava/io/InputStream;)Lprotokt/v1/Message;

@@ -50,7 +50,7 @@ import protokt.v1.codegen.util.Method
 import protokt.v1.codegen.util.PROTOKT_V1_GOOGLE_PROTO
 import protokt.v1.codegen.util.Service
 import protokt.v1.gradle.KotlinTarget
-import protokt.v1.grpc.KtMarshaller
+import protokt.v1.grpc.Marshaller
 import protokt.v1.grpc.SchemaDescriptor
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
@@ -420,7 +420,7 @@ private class ServiceGenerator(
 
     private fun pivotClassName(jvmClass: KClass<*>) =
         when (kotlinTarget) {
-            KotlinTarget.MultiplatformJs -> ClassName(KtMarshaller::class.java.`package`!!.name, jvmClass.asTypeName().simpleNames)
+            KotlinTarget.MultiplatformJs -> ClassName(Marshaller::class.java.`package`!!.name, jvmClass.asTypeName().simpleNames)
             else -> jvmClass.asTypeName()
         }
 
@@ -475,7 +475,7 @@ private fun Method.responseMarshaller(): CodeBlock =
 private fun marshaller(string: String, type: ClassName) =
     string.takeIf { it.isNotEmpty() }
         ?.let { CodeBlock.of("%L", it) }
-        ?: CodeBlock.of("%T(%T)", KtMarshaller::class, type)
+        ?: CodeBlock.of("%T(%T)", Marshaller::class, type)
 
 private fun methodType(m: Method) =
     when {
