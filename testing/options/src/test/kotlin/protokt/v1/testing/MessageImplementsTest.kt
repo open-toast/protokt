@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test
 class MessageImplementsTest {
     private val model = ImplementsModel { id = Id("asdf") }
     private val model2 = ImplementsModel2 { id = "asdf" }
+    private val model3 = ImplementsModel3 { id = "asdf" }
 
     @Test
     fun `message with wrapped field can be assigned to its interface`() {
@@ -65,6 +66,38 @@ class MessageImplementsTest {
         val serialized = byDelegate.serialize()
 
         assertThat(serialized.size).isGreaterThan(model2.messageSize())
-        assertThat(ImplementsWithDelegate.deserialize(serialized)).isEqualTo(byDelegate)
+        assertThat(ImplementsWithNullableDelegate.deserialize(serialized)).isEqualTo(byDelegate)
+    }
+
+    @Test
+    fun `message implementing message extender by a delegate can be assigned to its interface`() {
+        val byDelegate: IModel3 = ImplementsWithDelegate2 { modelThree = model3 }
+
+        assertThat(byDelegate.id).isEqualTo(model3.id)
+    }
+
+    @Test
+    fun `message implementing message extender by a delegate can serialized and deserialized`() {
+        val byDelegate = ImplementsWithDelegate2 { modelThree = model3 }
+        val serialized = byDelegate.serialize()
+
+        assertThat(serialized.size).isGreaterThan(model3.messageSize())
+        assertThat(ImplementsWithDelegate2.deserialize(serialized)).isEqualTo(byDelegate)
+    }
+
+    @Test
+    fun `message implementing message extender by a nullable delegate can be assigned to its interface`() {
+        val byDelegate: IModel3 = ImplementsWithNullableDelegate2 { modelThree = model3 }
+
+        assertThat(byDelegate.id).isEqualTo(model3.id)
+    }
+
+    @Test
+    fun `message implementing message extender by a nullable delegate can serialized and deserialized`() {
+        val byDelegate = ImplementsWithNullableDelegate2 { modelThree = model3 }
+        val serialized = byDelegate.serialize()
+
+        assertThat(serialized.size).isGreaterThan(model3.messageSize())
+        assertThat(ImplementsWithNullableDelegate2.deserialize(serialized)).isEqualTo(byDelegate)
     }
 }
