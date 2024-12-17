@@ -44,9 +44,27 @@ class MessageImplementsTest {
     }
 
     @Test
+    fun `message implementing by a delegate can serialized and deserialized`() {
+        val byDelegate = ImplementsWithDelegate { modelTwo = model2 }
+        val serialized = byDelegate.serialize()
+
+        assertThat(serialized.size).isGreaterThan(model2.messageSize())
+        assertThat(ImplementsWithDelegate.deserialize(serialized)).isEqualTo(byDelegate)
+    }
+
+    @Test
     fun `message implementing by a nullable delegate can be assigned to its interface`() {
         val byDelegate: IModel2 = ImplementsWithNullableDelegate { modelTwo = model2 }
 
         assertThat(byDelegate.id).isEqualTo(model2.id)
+    }
+
+    @Test
+    fun `message implementing by a nullable delegate can serialized and deserialized`() {
+        val byDelegate = ImplementsWithNullableDelegate { modelTwo = model2 }
+        val serialized = byDelegate.serialize()
+
+        assertThat(serialized.size).isGreaterThan(model2.messageSize())
+        assertThat(ImplementsWithDelegate.deserialize(serialized)).isEqualTo(byDelegate)
     }
 }
