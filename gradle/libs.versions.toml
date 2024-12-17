@@ -21,7 +21,7 @@ kotlinx-coroutines = "1.9.0"
 kotlinx-serialization = "1.7.3"
 ktlint = "1.5.0"
 protobuf-java = "4.29.1"
-protobuf-js = "7.2.6"
+protobuf-js = "7.4.0"
 protobufGradlePlugin = "0.9.4"
 slf4j = "2.0.16"
 
@@ -45,7 +45,7 @@ wire = "5.1.0"
 
 # test
 classgraph = "4.8.179"
-grpc-js = "1.8.14"
+grpc-js = "1.12.4"
 jackson = "2.18.1"
 junit = "5.11.3"
 truth = "1.4.4"
