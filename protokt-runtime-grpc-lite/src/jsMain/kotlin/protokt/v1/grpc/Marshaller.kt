@@ -20,7 +20,7 @@ import protokt.v1.Deserializer
 import protokt.v1.Message
 
 @Beta
-class KtMarshaller<T : Message>(
+class Marshaller<T : Message>(
     private val deserializer: Deserializer<T>
 ) : MethodDescriptor.Marshaller<T> {
     override fun parse(bytes: ByteArray) =
