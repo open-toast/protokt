@@ -34,7 +34,6 @@ dependencies {
     protoktExtensions(project(":extensions:protokt-extensions"))
 
     implementation(project(":protokt-reflect"))
-    implementation(project(":protokt-runtime-grpc"))
     implementation(kotlin("reflect"))
     implementation(libs.grpc.stub)
     implementation(libs.classgraph)

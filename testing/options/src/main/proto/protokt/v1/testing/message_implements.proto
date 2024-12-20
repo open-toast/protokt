@@ -39,6 +39,32 @@ message ImplementsWithDelegate {
   option (.protokt.v1.class).implements = "IModel2 by modelTwo";
 
   ImplementsModel2 model_two = 1 [
-    (.protokt.v1.property).non_null = true
+    (.protokt.v1.property).generate_non_null_accessor = true
   ];
+}
+
+message ImplementsWithNullableDelegate {
+  option (.protokt.v1.class).implements = "IModel2 by modelTwo";
+
+  ImplementsModel2 model_two = 1;
+}
+
+message ImplementsWithDelegate2 {
+  option (.protokt.v1.class).implements = "IModel3 by modelThree";
+
+  ImplementsModel3 model_three = 1 [
+    (.protokt.v1.property).generate_non_null_accessor = true
+  ];
+}
+
+message ImplementsWithNullableDelegate2 {
+  option (.protokt.v1.class).implements = "IModel3 by modelThree";
+
+  ImplementsModel3 model_three = 1;
+}
+
+message ImplementsModel3 {
+  option (.protokt.v1.class).implements = "IModel3";
+
+  string id = 1;
 }

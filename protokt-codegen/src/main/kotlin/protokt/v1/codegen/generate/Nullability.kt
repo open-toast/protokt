@@ -23,16 +23,11 @@ import protokt.v1.codegen.util.StandardField
 import protokt.v1.reflect.FieldType
 
 internal object Nullability {
-    val Field.hasNonNullOption
-        get() =
-            when (this) {
-                is StandardField -> options.protokt.nonNull
-                is Oneof -> options.protokt.nonNull
-            }
+    val Field.generateNonNullAccessor
+        get() = this is StandardField && options.protokt.generateNonNullAccessor
 
     val Field.nullable
-        get() =
-            isKotlinRepresentationNullable && !hasNonNullOption
+        get() = isKotlinRepresentationNullable
 
     private val Field.isKotlinRepresentationNullable
         get() =
@@ -48,7 +43,7 @@ internal object Nullability {
                 type !in setOf(FieldType.Message, FieldType.Enum)
 
     fun propertyType(o: Oneof) =
-        if (o.hasNonNullOption) {
+        if (o.generateNonNullAccessor) {
             o.className
         } else {
             o.className.copy(nullable = true)
@@ -82,4 +77,7 @@ internal object Nullability {
         } else {
             type
         }
+
+    fun nonNullPropName(propName: String) =
+        "require${propName.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }}"
 }

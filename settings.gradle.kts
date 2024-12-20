@@ -31,12 +31,13 @@ include(
     "protokt-codegen",
     "protokt-core",
     "protokt-core-lite",
+    "protokt-gradle-plugin",
     "protokt-json",
+    "protokt-protovalidate",
     "protokt-reflect",
     "protokt-runtime",
     "protokt-runtime-grpc",
     "protokt-runtime-grpc-lite",
-    "protokt-gradle-plugin",
 
     "grpc-kotlin-shim",
 
@@ -71,6 +72,7 @@ include(
     "testing:protokt-generation",
     "testing:protokt-generation-2",
     "testing:protobuf-java",
+    "testing:protovalidate-conformance",
     "testing:protobufjs",
     "testing:testing-util",
 

@@ -18,6 +18,9 @@
 
 package protokt.v1.grpc
 
+import protokt.v1.Beta
+
+@Beta
 external class Server {
     internal fun addService(service: dynamic, implementation: dynamic)
 
@@ -32,18 +35,24 @@ external class Server {
     fun forceShutdown()
 }
 
+@Beta
 external class ServerCredentials {
     companion object {
         fun createInsecure(): ServerCredentials
     }
 }
 
+@Beta
 external class Metadata
 
-external interface ServerUnaryCall<ReqT, RespT> : ServerSurfaceCall, EventEmitter {
+@Beta
+external interface ServerUnaryCall<ReqT, RespT> :
+    ServerSurfaceCall,
+    EventEmitter {
     val request: ReqT
 }
 
+@Beta
 external interface ServerSurfaceCall : EventEmitter {
     val cancelled: Boolean
     val metadata: Metadata
@@ -54,19 +63,26 @@ external interface ServerSurfaceCall : EventEmitter {
     fun getPath(): String
 }
 
+@Beta
 external interface Deadline
 
+@Beta
 external interface EventEmitter {
     fun emit(event: String, arg: dynamic): Boolean
 }
 
-external interface ServerWritableStream<ReqT, RespT> : ServerSurfaceCall, ObjectWritable<RespT> {
+@Beta
+external interface ServerWritableStream<ReqT, RespT> :
+    ServerSurfaceCall,
+    ObjectWritable<RespT> {
     val request: ReqT
 
     fun end(metadata: Metadata?)
 }
 
+@Beta
 external interface ObjectWritable<T> : Writable {
+    @Suppress("ktlint:standard:function-naming")
     fun _write(chunk: T, encoding: String, callback: Any)
     fun write(chunk: T, callback: Any?): Boolean
     fun write(chunk: T, encoding: Any?, callback: Any?): Boolean
@@ -76,12 +92,17 @@ external interface ObjectWritable<T> : Writable {
     fun end(chunk: T, encoding: Any?, callback: Any?)
 }
 
-external interface ServerReadableStream<ReqT, RespT> : ServerSurfaceCall, ObjectReadable<ReqT>
+@Beta
+external interface ServerReadableStream<ReqT, RespT> :
+    ServerSurfaceCall,
+    ObjectReadable<ReqT>
 
+@Beta
 external interface ObjectReadable<T> : Readable {
     fun read(size: Int?): T
 }
 
+@Beta
 external interface ServerDuplexStream<ReqT, RespT> :
     ServerSurfaceCall,
     ObjectReadable<ReqT>,
@@ -90,6 +111,7 @@ external interface ServerDuplexStream<ReqT, RespT> :
     fun end(metadata: Metadata?)
 }
 
+@Beta
 external interface SurfaceCall : EventEmitter {
     val call: dynamic
 
@@ -97,14 +119,17 @@ external interface SurfaceCall : EventEmitter {
     fun getPeer(): String
 }
 
+@Beta
 external interface ClientReadableStream<RespT> :
     SurfaceCall,
     ObjectReadable<RespT>
 
+@Beta
 external interface ClientWritableStream<ReqT> :
     SurfaceCall,
     ObjectWritable<ReqT>
 
+@Beta
 external interface ClientDuplexStream<ReqT, RespT> :
     SurfaceCall,
     ObjectReadable<RespT>,
@@ -113,10 +138,13 @@ external interface ClientDuplexStream<ReqT, RespT> :
     fun end(metadata: Metadata?)
 }
 
+@Beta
 external class Client
 
+@Beta
 external fun makeClientConstructor(serviceDefinition: dynamic): (address: String, credentials: ChannelCredentials) -> dynamic
 
+@Beta
 external class ChannelCredentials {
     companion object {
         fun createInsecure(): ChannelCredentials

@@ -1,5 +1,6 @@
 *.log
 
+.kotlin
 .gradle
 build
 out

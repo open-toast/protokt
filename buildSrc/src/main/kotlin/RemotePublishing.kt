@@ -15,7 +15,6 @@
 
 import com.google.protobuf.gradle.GenerateProtoTask
 import com.vanniktech.maven.publish.JavadocJar
-import com.vanniktech.maven.publish.KotlinJs
 import com.vanniktech.maven.publish.KotlinJvm
 import com.vanniktech.maven.publish.KotlinMultiplatform
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
@@ -31,6 +30,7 @@ import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
 import org.gradle.plugins.signing.Sign
 import org.gradle.plugins.signing.SigningExtension
+import protokt.v1.gradle.KotlinPlugins
 
 private object Pgp {
     val key by lazy {
@@ -43,12 +43,13 @@ private object Pgp {
 }
 
 object ProtoktProjectInfo {
-    const val name = "Protokt"
-    const val url = "https://github.com/open-toast/protokt"
-    const val description = "Protobuf compiler and runtime for Kotlin"
+    const val NAME = "Protokt"
+    const val URL = "https://github.com/open-toast/protokt"
+    const val DESCRIPTION = "Protobuf compiler and runtime for Kotlin"
 }
 
-fun Project.isRelease() = !version.toString().endsWith("-SNAPSHOT")
+fun Project.isRelease() =
+    !version.toString().endsWith("-SNAPSHOT")
 
 fun Project.enablePublishing(defaultJars: Boolean = true) {
     apply(plugin = "com.vanniktech.maven.publish.base")
@@ -64,10 +65,10 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
 
     configure<MavenPublishBaseExtension> {
         pom {
-            name.set(ProtoktProjectInfo.name)
-            description.set(ProtoktProjectInfo.description)
-            url.set(ProtoktProjectInfo.url)
-            scm { url.set(ProtoktProjectInfo.url) }
+            name.set(ProtoktProjectInfo.NAME)
+            description.set(ProtoktProjectInfo.DESCRIPTION)
+            url.set(ProtoktProjectInfo.URL)
+            scm { url.set(ProtoktProjectInfo.URL) }
             licenses {
                 license {
                     name.set("The Apache License, Version 2.0")
@@ -84,14 +85,11 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
         }
 
         if (defaultJars) {
-            pluginManager.withPlugin("org.jetbrains.kotlin.multiplatform") {
+            pluginManager.withPlugin(KotlinPlugins.MULTIPLATFORM) {
                 configure(KotlinMultiplatform(JavadocJar.Empty()))
             }
-            pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
+            pluginManager.withPlugin(KotlinPlugins.JVM) {
                 configure(KotlinJvm(JavadocJar.Empty(), true))
-            }
-            pluginManager.withPlugin("org.jetbrains.kotlin.js") {
-                configure(KotlinJs(JavadocJar.Empty()))
             }
         }
 

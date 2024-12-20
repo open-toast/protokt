@@ -14,6 +14,7 @@
  */
 
 import org.gradle.kotlin.dsl.add
+import protokt.v1.gradle.Os
 
 plugins {
     id("protokt.jvm-conventions")
@@ -23,7 +24,7 @@ repositories {
     ivy {
         setUrl("https://github.com/ogolberg/")
         patternLayout {
-            artifact("/[organization]/releases/download/v[revision]-0/[artifact]-[classifier]-v[revision]")
+            artifact("/[organization]/releases/download/[revision]/[artifact]-[classifier]-[revision]")
         }
 
         metadataSources {
@@ -40,30 +41,17 @@ repositories {
 
 configurations.create("conformance")
 
-object Os {
-    const val MACOS_CLASSIFIER = "macos-latest"
-    const val LINUX_CLASSIFIER = "ubuntu-latest"
-
-    val CLASSIFIER by lazy {
-        val os = System.getProperty("os.name").lowercase()
-
-        if (os.contains("linux")) {
-            LINUX_CLASSIFIER
-        } else if (os.contains("mac")) {
-            MACOS_CLASSIFIER
-        } else {
-            error("conformance tests cannot run on $os")
-        }
-    }
-}
+// protobuf-java version is [java-specific major version].[protobuf version], e.g. 4.26.1
+// the conformance runner version is just [protobuf version], e.g. 26.1
+val conformanceVersion = libs.versions.protobuf.java.get().replace(Regex("^\\d+\\."), "")
 
 dependencies {
     testImplementation(project(":testing:testing-util"))
     testImplementation(project(":protokt-json"))
-    add("conformance", "build-protobuf-conformance-runner:conformance_test_runner:${libs.versions.protobuf.java.get()}") {
+    add("conformance", "build-protobuf-conformance-runner:conformance_test_runner:$conformanceVersion") {
         artifact {
             extension = "exe"
-            classifier = Os.CLASSIFIER
+            classifier = Os.current.conformanceClassifier
         }
     }
 }
@@ -81,7 +69,7 @@ tasks.register<Copy>("setupRunner") {
 
 tasks {
     test {
-        systemProperty("conformance-runner", layout.buildDirectory.dir("bin").get().file("conformance_test_runner-${libs.versions.protobuf.java.get()}-${Os.CLASSIFIER}.exe").asFile.path)
+        systemProperty("conformance-runner", layout.buildDirectory.dir("bin").get().file("conformance_test_runner-$conformanceVersion-${Os.current.conformanceClassifier}.exe").asFile.path)
 
         outputs.upToDateWhen { false }
 

@@ -33,8 +33,9 @@ class HelloWorldServer {
     }
 
     internal class HelloWorldService : GreeterCoroutineImplBase() {
-        override suspend fun sayHello(request: HelloRequest) = HelloReply {
-            message = "Hello ${request.name}"
-        }
+        override suspend fun sayHello(request: HelloRequest) =
+            HelloReply {
+                message = "Hello ${request.name}"
+            }
     }
 }

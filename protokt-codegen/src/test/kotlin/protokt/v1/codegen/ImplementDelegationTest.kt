@@ -13,17 +13,18 @@
  * limitations under the License.
  */
 
-package protokt.v1.grpc
+package protokt.v1.codegen
 
-import protokt.v1.Deserializer
-import protokt.v1.Message
+import org.junit.jupiter.api.Test
 
-class KtMarshaller<T : Message>(
-    private val deserializer: Deserializer<T>
-) : MethodDescriptor.Marshaller<T> {
-    override fun parse(bytes: ByteArray) =
-        deserializer.deserialize(bytes)
+class ImplementDelegationTest : AbstractProtoktCodegenTest() {
+    @Test
+    fun `delegate to interface with non-null property`() {
+        runPlugin("implement_by_delegate_with_non_null_property.proto").orFail()
+    }
+}
 
-    override fun serialize(value: T): dynamic =
-        value.serialize()
+@Suppress("UNUSED")
+interface Model {
+    val id: String
 }

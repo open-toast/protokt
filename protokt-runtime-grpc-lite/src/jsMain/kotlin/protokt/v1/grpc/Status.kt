@@ -15,8 +15,10 @@
 
 package protokt.v1.grpc
 
+import protokt.v1.Beta
 import protokt.v1.Collections.unmodifiableList
 
+@Beta
 class Status private constructor(
     val code: Code,
     val description: String? = null,

@@ -15,28 +15,30 @@
 
 package protokt.v1.conformance
 
+import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
-import protokt.v1.testing.ProcessOutput
 import protokt.v1.testing.projectRoot
 import protokt.v1.testing.runCommand
 import java.io.File
 import java.nio.file.Path
+import java.time.Duration
 import kotlin.io.path.deleteIfExists
 import kotlin.io.path.exists
 import kotlin.io.path.readText
 
 class ConformanceTest {
     enum class ConformanceRunner(
-        val project: String
+        val project: String,
+        val timeout: Duration
     ) {
-        JVM("jvm") {
+        JVM("jvm", Duration.ofSeconds(10)) {
             override fun driver() =
                 jvmConformanceDriver
         },
 
-        JS_IR("js-ir") {
+        JS_IR("js-ir", Duration.ofSeconds(100)) {
             override fun driver() =
                 jsConformanceDriver(project)
 
@@ -51,7 +53,8 @@ class ConformanceTest {
 
         abstract fun driver(): Path
 
-        open fun onFailure() = Unit
+        open fun onFailure() =
+            Unit
     }
 
     @BeforeEach
@@ -63,9 +66,15 @@ class ConformanceTest {
     @EnumSource
     fun `run conformance tests`(runner: ConformanceRunner) {
         try {
-            command(runner)
-                .runCommand(projectRoot.toPath())
-                .orFail("Conformance tests failed", ProcessOutput.Src.ERR)
+            val output = command(runner).runCommand(projectRoot.toPath(), timeout = runner.timeout)
+            println(output.stderr)
+
+            assertThat(output.stderr).contains("CONFORMANCE SUITE PASSED")
+            val matches = " (\\d+) unexpected failures".toRegex().findAll(output.stderr).toList()
+            // the current implementation runs two conformance suites
+            assertThat(matches).hasSize(2)
+            matches.forEach { assertThat(it.groupValues[1].toInt()).isEqualTo(0) }
+            assertThat(output.exitCode).isEqualTo(0)
         } catch (t: Throwable) {
             if (failingTests.exists()) {
                 println("Failing tests:\n" + failingTests.readText())

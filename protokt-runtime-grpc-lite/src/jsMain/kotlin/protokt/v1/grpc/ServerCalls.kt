@@ -20,12 +20,14 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.launch
+import protokt.v1.Beta
 import protokt.v1.grpc.MethodDescriptor.MethodType.BIDI_STREAMING
 import protokt.v1.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING
 import protokt.v1.grpc.MethodDescriptor.MethodType.SERVER_STREAMING
 import protokt.v1.grpc.MethodDescriptor.MethodType.UNARY
 import kotlin.coroutines.CoroutineContext
 
+@Beta
 object ServerCalls {
     fun <ReqT, RespT> unaryServerMethodDefinition(
         context: CoroutineContext,

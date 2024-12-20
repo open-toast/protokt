@@ -95,17 +95,18 @@ class RouteGuideServer(
             }
         }
 
-        override fun routeChat(requests: Flow<RouteNote>): Flow<RouteNote> = flow {
-            requests.collect { note ->
-                val notes: MutableList<RouteNote> = routeNotes.computeIfAbsent(note.location!!) {
-                    Collections.synchronizedList(mutableListOf<RouteNote>())
+        override fun routeChat(requests: Flow<RouteNote>): Flow<RouteNote> =
+            flow {
+                requests.collect { note ->
+                    val notes: MutableList<RouteNote> = routeNotes.computeIfAbsent(note.location!!) {
+                        Collections.synchronizedList(mutableListOf<RouteNote>())
+                    }
+                    for (prevNote in notes.toTypedArray()) { // thread-safe snapshot
+                        emit(prevNote)
+                    }
+                    notes += note
                 }
-                for (prevNote in notes.toTypedArray()) { // thread-safe snapshot
-                    emit(prevNote)
-                }
-                notes += note
             }
-        }
     }
 }
 

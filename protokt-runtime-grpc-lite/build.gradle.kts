@@ -14,12 +14,10 @@
  */
 
 plugins {
-    id("protokt.multiplatform-conventions")
+    id("protokt.multiplatform-published-conventions")
 }
 
-enablePublishing()
 compatibleWithAndroid()
-trackKotlinApiCompatibility()
 
 kotlin {
     sourceSets {

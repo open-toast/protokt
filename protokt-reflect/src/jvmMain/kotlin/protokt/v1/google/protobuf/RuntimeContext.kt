@@ -25,6 +25,7 @@ import com.google.protobuf.UnknownFieldSet.Field
 import com.google.protobuf.UnsafeByteOperations
 import com.google.protobuf.WireFormat
 import com.toasttab.protokt.v1.ProtoktProtos
+import protokt.v1.Beta
 import protokt.v1.Bytes
 import protokt.v1.Converter
 import protokt.v1.Enum
@@ -39,6 +40,7 @@ import protokt.v1.reflect.typeName
 import kotlin.Any
 import kotlin.reflect.full.findAnnotation
 
+@Beta
 class RuntimeContext internal constructor(
     descriptors: Iterable<Descriptors.Descriptor>,
     private val classLookup: ClassLookup

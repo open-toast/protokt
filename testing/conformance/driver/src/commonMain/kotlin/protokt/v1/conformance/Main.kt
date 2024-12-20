@@ -20,21 +20,22 @@ import protokt.v1.conformance.ConformanceRequest.Payload.ProtobufPayload
 import protokt.v1.conformance.ConformanceResponse.Result
 import protokt.v1.protobuf_test_messages.proto3.TestAllTypesProto3
 
-fun main() = Platform.runBlockingMain {
-    while (true) {
-        val request = Platform.readMessageFromStdIn(ConformanceRequest) ?: break
+fun main() =
+    Platform.runBlockingMain {
+        while (true) {
+            val request = Platform.readMessageFromStdIn(ConformanceRequest) ?: break
 
-        Platform.writeToStdOut(
-            ConformanceResponse {
-                result =
-                    when (val result = request.flatMap(::processRequest)) {
-                        is Stop -> result.result
-                        is Proceed -> result.value
-                    }
-            }.serialize()
-        )
+            Platform.writeToStdOut(
+                ConformanceResponse {
+                    result =
+                        when (val result = request.flatMap(::processRequest)) {
+                            is Stop -> result.result
+                            is Proceed -> result.value
+                        }
+                }.serialize()
+            )
+        }
     }
-}
 
 private fun processRequest(request: ConformanceRequest): ConformanceStepResult<Result> {
     if (!isSupported(request)) {
@@ -56,11 +57,6 @@ private fun processRequest(request: ConformanceRequest): ConformanceStepResult<R
 
 private fun isSupported(request: ConformanceRequest) =
     request.messageType == "protobuf_test_messages.proto3.TestAllTypesProto3" &&
-        // unclear why we have to filter this, but if we don't then JS and JVM impls throw on:
-        //   Recommended.Proto3.ProtobufInput.GroupUnknownFields_Drop.TextFormatOutput
-        //   Recommended.Proto3.ProtobufInput.GroupUnknownFields_Print.TextFormatOutput
-        //   Recommended.Proto3.ProtobufInput.RepeatedUnknownFields_Drop.TextFormatOutput
-        //   Recommended.Proto3.ProtobufInput.RepeatedUnknownFields_Print.TextFormatOutput
         request.requestedOutputFormat != WireFormat.TEXT_FORMAT
 
 internal sealed class ConformanceStepResult<T> {

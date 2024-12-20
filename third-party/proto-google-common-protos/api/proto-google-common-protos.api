@@ -53,7 +53,9 @@ public final class protokt/v1/google/api/Client_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/google/api/PhpSettings$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/api/Publishing$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/api/PythonSettings$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/api/PythonSettings$ExperimentalFeatures$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/api/RubySettings$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/api/SelectiveGapicGeneration$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 }
 
 public final class protokt/v1/google/api/ConfigChangeProto {
@@ -146,8 +148,19 @@ public final class protokt/v1/google/api/FieldBehaviorProto {
 	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
 }
 
+public final class protokt/v1/google/api/FieldInfoProto {
+	public static final field INSTANCE Lprotokt/v1/google/api/FieldInfoProto;
+	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
+}
+
 public final class protokt/v1/google/api/Field_behavior_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/google/api/FieldBehavior$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+}
+
+public final class protokt/v1/google/api/Field_info_descriptorsKt {
+	public static final fun getDescriptor (Lprotokt/v1/google/api/FieldInfo$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/api/FieldInfo$Format$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/api/TypeReference$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 }
 
 public final class protokt/v1/google/api/HttpBodyProto {
@@ -217,6 +230,7 @@ public final class protokt/v1/google/api/Metric_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/google/api/Metric$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/api/MetricDescriptor$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/api/MetricDescriptor$MetricDescriptorMetadata$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/api/MetricDescriptor$MetricDescriptorMetadata$TimeSeriesResourceHierarchyLevel$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/api/MetricDescriptor$MetricKind$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/api/MetricDescriptor$ValueType$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 }
@@ -240,6 +254,16 @@ public final class protokt/v1/google/api/MonitoringProto {
 public final class protokt/v1/google/api/Monitoring_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/google/api/Monitoring$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/api/Monitoring$MonitoringDestination$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+}
+
+public final class protokt/v1/google/api/PolicyProto {
+	public static final field INSTANCE Lprotokt/v1/google/api/PolicyProto;
+	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
+}
+
+public final class protokt/v1/google/api/Policy_descriptorsKt {
+	public static final fun getDescriptor (Lprotokt/v1/google/api/FieldPolicy$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/api/MethodPolicy$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 }
 
 public final class protokt/v1/google/api/QuotaProto {
@@ -324,6 +348,66 @@ public final class protokt/v1/google/api/Visibility_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/google/api/VisibilityRule$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 }
 
+public final class protokt/v1/google/apps/card/v1/CardProto {
+	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/CardProto;
+	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
+}
+
+public final class protokt/v1/google/apps/card/v1/Card_descriptorsKt {
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Action$ActionParameter$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Action$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Action$Interaction$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Action$LoadIndicator$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/BorderStyle$BorderType$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/BorderStyle$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Button$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/ButtonList$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Card$CardAction$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Card$CardFixedFooter$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Card$CardHeader$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Card$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Card$DisplayStyle$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Card$DividerStyle$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Card$Section$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Columns$Column$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Columns$Column$HorizontalSizeStyle$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Columns$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/DateTimePicker$DateTimePickerType$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/DateTimePicker$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/DecoratedText$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$ControlType$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Divider$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Grid$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Grid$GridItem$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Grid$GridItem$GridItemLayout$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Icon$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Image$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/ImageComponent$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/ImageCropStyle$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/MaterialIcon$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/OnClick$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/OpenLink$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/OpenLink$OnClose$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/OpenLink$OpenAs$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/SelectionInput$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$CommonDataSource$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/SelectionInput$SelectionItem$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/SelectionInput$SelectionType$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Suggestions$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Suggestions$SuggestionItem$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/TextInput$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/TextInput$Type$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/TextParagraph$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Widget$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Widget$HorizontalAlignment$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Widget$ImageType$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+}
+
 public final class protokt/v1/google/cloud/ExtendedOperationsProto {
 	public static final field INSTANCE Lprotokt/v1/google/cloud/ExtendedOperationsProto;
 	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
@@ -351,6 +435,23 @@ public final class protokt/v1/google/cloud/audit/Audit_log_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$ThirdPartyPrincipal$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/cloud/audit/ViolationInfo$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/cloud/audit/ViolationInfo$PolicyType$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+}
+
+public final class protokt/v1/google/cloud/location/Locations {
+	public static final field INSTANCE Lprotokt/v1/google/cloud/location/Locations;
+	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/ServiceDescriptor;
+}
+
+public final class protokt/v1/google/cloud/location/LocationsProto {
+	public static final field INSTANCE Lprotokt/v1/google/cloud/location/LocationsProto;
+	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
+}
+
+public final class protokt/v1/google/cloud/location/Locations_descriptorsKt {
+	public static final fun getDescriptor (Lprotokt/v1/google/cloud/location/GetLocationRequest$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/cloud/location/ListLocationsRequest$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/cloud/location/ListLocationsResponse$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/cloud/location/Location$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 }
 
 public final class protokt/v1/google/geo/type/ViewportProto {
@@ -463,6 +564,24 @@ public final class protokt/v1/google/rpc/context/AuditContextProto {
 
 public final class protokt/v1/google/rpc/context/Audit_context_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/google/rpc/context/AuditContext$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+}
+
+public final class protokt/v1/google/shopping/type/TypesProto {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/TypesProto;
+	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
+}
+
+public final class protokt/v1/google/shopping/type/Types_descriptorsKt {
+	public static final fun getDescriptor (Lprotokt/v1/google/shopping/type/Channel$ChannelEnum$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/shopping/type/Channel$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/shopping/type/CustomAttribute$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/shopping/type/Destination$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/shopping/type/Destination$DestinationEnum$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/shopping/type/Price$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/shopping/type/ReportingContext$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/shopping/type/Weight$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/shopping/type/Weight$WeightUnit$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 }
 
 public final class protokt/v1/google/type/CalendarPeriodProto {
