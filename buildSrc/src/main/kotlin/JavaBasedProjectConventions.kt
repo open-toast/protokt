@@ -14,13 +14,10 @@
  */
 
 import org.gradle.api.Project
-import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.tasks.testing.Test
-import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.kotlin
 import org.gradle.kotlin.dsl.repositories
-import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -37,12 +34,8 @@ fun Project.javaBasedProjectConventions() {
     }
 
     tasks.withType<KotlinCompile> {
-        kotlinOptions {
-            allWarningsAsErrors = true
-
-            // do not generate DefaultImpls objects since we do not target < JVM 1.8
-            // https://blog.jetbrains.com/kotlin/2020/07/kotlin-1-4-m3-generating-default-methods-in-interfaces
-            freeCompilerArgs = listOf("-Xjvm-default=all")
+        compilerOptions {
+            configureKotlin()
         }
     }
 
@@ -50,7 +43,5 @@ fun Project.javaBasedProjectConventions() {
         useJUnitPlatform()
     }
 
-    the<JavaPluginExtension>().toolchain {
-        languageVersion.set(JavaLanguageVersion.of(libs.versions.java.get().toInt()))
-    }
+    configureJvmToolchain()
 }

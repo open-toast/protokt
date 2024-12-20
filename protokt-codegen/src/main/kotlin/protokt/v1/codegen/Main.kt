@@ -84,7 +84,7 @@ private fun main(`in`: InputStream, out: OutputStream) {
 private fun response(fileSpec: FileSpec, context: GeneratorContext) =
     CodeGeneratorResponse.File
         .newBuilder()
-        .setContent(tidy(fileSpec.toString(), context))
+        .setContent(tidy(fileSpec.toString(), context.formatOutput))
         .setName(fileSpec.name)
         .build()
 
