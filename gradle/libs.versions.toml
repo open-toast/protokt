@@ -13,6 +13,7 @@
 
 [versions]
 autoService = "1.1.1"
+cel = "0.5.1"
 grpc-java = "1.69.0"
 grpc-kotlin = "1.4.1"
 kotlinLogging = "7.0.0"
@@ -23,6 +24,8 @@ ktlint = "1.5.0"
 protobuf-java = "4.29.1"
 protobuf-js = "7.4.0"
 protobufGradlePlugin = "0.9.4"
+protovalidate = "0.9.0"
+protovalidateJava = "0.4.2"
 slf4j = "2.0.16"
 
 # build
@@ -44,6 +47,7 @@ jmh = "1.37"
 wire = "5.1.0"
 
 # test
+buf = "1.47.2"
 classgraph = "4.8.179"
 grpc-js = "1.12.4"
 jackson = "2.18.1"
@@ -62,6 +66,7 @@ wire = { id = "com.squareup.wire", version.ref = "wire" }
 [libraries]
 autoService = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
 autoServiceAnnotations = { module = "com.google.auto.service:auto-service-annotations", version.ref = "autoService" }
+cel = { module = "org.projectnessie.cel:cel-tools", version.ref = "cel" }
 grpc-kotlin-gen = { module = "io.grpc:protoc-gen-grpc-kotlin", version.ref = "grpc-kotlin" }
 grpc-netty = { module = "io.grpc:grpc-netty", version.ref = "grpc-java" }
 grpc-stub = { module = "io.grpc:grpc-stub", version.ref = "grpc-java" }
@@ -73,6 +78,7 @@ ktlintRuleSetStandard = { module = "com.pinterest.ktlint:ktlint-ruleset-standard
 protobuf-gradlePlugin = { module = "com.google.protobuf:protobuf-gradle-plugin", version.ref = "protobufGradlePlugin" }
 protobuf-java = { module ="com.google.protobuf:protobuf-java", version.ref = "protobuf-java" }
 protoc = { module = "com.google.protobuf:protoc", version.ref = "protobuf-java" }
+protovalidateJava = { module = "build.buf:protovalidate", version.ref = "protovalidateJava" }
 slf4jSimple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 
 # build

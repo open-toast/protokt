@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Toast, Inc.
+ * Copyright (c) 2024 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,12 +13,16 @@
  * limitations under the License.
  */
 
-edition = "2023";
+plugins {
+    id("protokt.jvm-conventions")
+}
 
-package protokt.v1.testing;
+enablePublishing()
+trackKotlinApiCompatibility()
 
-import "protokt/v1/testing/other/file_descriptor_name_collision1.proto";
-
-message CollisionBar {
-  other.CollisionFoo foo = 1;
+dependencies {
+    implementation(project(":protokt-reflect"))
+    implementation(kotlin("reflect"))
+    implementation(libs.cel)
+    implementation(libs.protovalidateJava)
 }
