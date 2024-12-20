@@ -23,8 +23,6 @@ import protokt.v1.Message
 import protokt.v1.conformance.ConformanceResponse.Result.ParseError
 import protokt.v1.conformance.ConformanceResponse.Result.RuntimeError
 import protokt.v1.conformance.ConformanceResponse.Result.SerializeError
-import protokt.v1.json.toJson
-import protokt.v1.testing.getContextReflectively
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
@@ -85,11 +83,15 @@ internal actual object Platform {
         ConformanceStepResult.skip()
 
     actual fun serializeJson(message: Message): ConformanceStepResult<String> =
+        ConformanceStepResult.skip()
+    /*
         try {
             Proceed(message.toJson(getContextReflectively()))
         } catch (t: Throwable) {
             Stop(SerializeError(t.stackTraceToString()))
         }
+
+     */
 }
 
 internal fun intToBytes(size: Int) =

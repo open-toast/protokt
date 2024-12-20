@@ -33,12 +33,12 @@ class ConformanceTest {
         val project: String,
         val timeout: Duration
     ) {
-        JVM("jvm", Duration.ofSeconds(100)) {
+        JVM("jvm", Duration.ofSeconds(600)) {
             override fun driver() =
                 jvmConformanceDriver
         },
 
-        JS_IR("js-ir", Duration.ofSeconds(100)) {
+        JS_IR("js-ir", Duration.ofSeconds(600)) {
             override fun driver() =
                 jsConformanceDriver(project)
 

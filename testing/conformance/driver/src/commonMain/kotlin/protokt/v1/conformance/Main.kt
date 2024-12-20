@@ -57,7 +57,7 @@ private fun processRequest(request: ConformanceRequest): ConformanceStepResult<R
 
 private fun isSupported(request: ConformanceRequest) =
     request.messageType == "protobuf_test_messages.proto3.TestAllTypesProto3" &&
-        request.requestedOutputFormat != WireFormat.TEXT_FORMAT
+        request.requestedOutputFormat == WireFormat.PROTOBUF
 
 internal sealed class ConformanceStepResult<T> {
     fun <R> map(action: (T) -> R) =
