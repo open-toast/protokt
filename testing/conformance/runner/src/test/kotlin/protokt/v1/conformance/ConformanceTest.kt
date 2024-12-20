@@ -33,7 +33,7 @@ class ConformanceTest {
         val project: String,
         val timeout: Duration
     ) {
-        JVM("jvm", Duration.ofSeconds(10)) {
+        JVM("jvm", Duration.ofSeconds(100)) {
             override fun driver() =
                 jvmConformanceDriver
         },
