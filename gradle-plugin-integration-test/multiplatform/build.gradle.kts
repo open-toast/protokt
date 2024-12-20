@@ -13,6 +13,7 @@
  * limitations under the License.
  */
 
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import protokt.v1.gradle.protoktExtensions
 
 plugins {
@@ -62,24 +63,27 @@ kotlin {
         val jsTest by getting {}
     }
 
+    // in theory this should be able to go into compilerOptions but it doesn't seem to work
     targets {
-        jvm().compilations.all {
-            kotlinOptions {
-                freeCompilerArgs = listOf("-Xjvm-default=all")
-            }
-        }
-
         all {
             compilations.all {
                 kotlinOptions {
                     allWarningsAsErrors = false
-                    languageVersion = System.getProperty("kotlin-integration.version")
-                        ?.substringBeforeLast(".")
-                        ?: libs.versions.kotlin.get().substringBeforeLast(".")
-                    apiVersion = languageVersion
                 }
             }
         }
+    }
+
+    compilerOptions {
+        freeCompilerArgs.add("-Xjvm-default=all")
+
+        apiVersion = KotlinVersion.fromVersion(
+            System.getProperty("kotlin-integration.version")
+                ?.substringBeforeLast(".")
+                ?: libs.versions.kotlin.get().substringBeforeLast(".")
+        )
+
+        languageVersion = apiVersion
     }
 }
 
