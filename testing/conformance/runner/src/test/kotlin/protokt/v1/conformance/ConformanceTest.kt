@@ -23,20 +23,22 @@ import protokt.v1.testing.projectRoot
 import protokt.v1.testing.runCommand
 import java.io.File
 import java.nio.file.Path
+import java.time.Duration
 import kotlin.io.path.deleteIfExists
 import kotlin.io.path.exists
 import kotlin.io.path.readText
 
 class ConformanceTest {
     enum class ConformanceRunner(
-        val project: String
+        val project: String,
+        val timeout: Duration
     ) {
-        JVM("jvm") {
+        JVM("jvm", Duration.ofSeconds(600)) {
             override fun driver() =
                 jvmConformanceDriver
         },
 
-        JS_IR("js-ir") {
+        JS_IR("js-ir", Duration.ofSeconds(600)) {
             override fun driver() =
                 jsConformanceDriver(project)
 
@@ -64,7 +66,7 @@ class ConformanceTest {
     @EnumSource
     fun `run conformance tests`(runner: ConformanceRunner) {
         try {
-            val output = command(runner).runCommand(projectRoot.toPath())
+            val output = command(runner).runCommand(projectRoot.toPath(), timeout = runner.timeout)
             println(output.stderr)
 
             assertThat(output.stderr).contains("CONFORMANCE SUITE PASSED")

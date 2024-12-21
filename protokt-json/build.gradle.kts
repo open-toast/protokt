@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast, Inc.
+ * Copyright (c) 2024 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,33 +13,21 @@
  * limitations under the License.
  */
 
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     id("protokt.multiplatform-conventions")
 }
 
-localProtokt()
+enablePublishing()
+trackKotlinApiCompatibility()
 
 kotlin {
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(project(":protokt-json"))
-                implementation(libs.kotlinx.coroutines.core)
-            }
-        }
-
         val jvmMain by getting {
             dependencies {
-                implementation(project(":testing:interop"))
+                api(project(":protokt-reflect"))
+                api(libs.protobuf.java)
+                api(libs.protobuf.javaUtil)
             }
         }
-    }
-}
-
-tasks.withType<KotlinCompile> {
-    compilerOptions {
-        freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
     }
 }

@@ -32,6 +32,7 @@ include(
     "protokt-core",
     "protokt-core-lite",
     "protokt-gradle-plugin",
+    "protokt-json",
     "protokt-protovalidate",
     "protokt-reflect",
     "protokt-runtime",

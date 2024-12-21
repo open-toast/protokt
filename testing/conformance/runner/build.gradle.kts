@@ -47,6 +47,7 @@ val conformanceVersion = libs.versions.protobuf.java.get().replace(Regex("^\\d+\
 
 dependencies {
     testImplementation(project(":testing:testing-util"))
+    testImplementation(project(":protokt-json"))
     add("conformance", "build-protobuf-conformance-runner:conformance_test_runner:$conformanceVersion") {
         artifact {
             extension = "exe"

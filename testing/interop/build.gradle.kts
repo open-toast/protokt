@@ -33,12 +33,12 @@ protokt {
 dependencies {
     protoktExtensions(project(":extensions:protokt-extensions"))
 
+    implementation(project(":protokt-reflect"))
+    implementation(kotlin("reflect"))
     implementation(libs.grpc.stub)
+    implementation(libs.classgraph)
 
-    testImplementation(project(":protokt-reflect"))
     testImplementation(project(":testing:protobuf-java"))
-    testImplementation(kotlin("reflect"))
-    testImplementation(libs.classgraph)
     testImplementation(libs.jackson)
     testImplementation(libs.protobuf.java)
 }
