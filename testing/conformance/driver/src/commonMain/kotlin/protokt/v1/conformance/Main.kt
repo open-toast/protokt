@@ -52,8 +52,14 @@ private fun processRequest(request: ConformanceRequest): ConformanceStepResult<R
     }
 }
 
+private val supportedMessageTypes =
+    setOf(
+        "protobuf_test_messages.proto3.TestAllTypesProto3",
+        "protobuf_test_messages.editions.proto3.TestAllTypesProto3",
+    )
+
 private fun isSupported(request: ConformanceRequest) =
-    request.messageType == "protobuf_test_messages.proto3.TestAllTypesProto3" &&
+    request.messageType in supportedMessageTypes &&
         request.requestedOutputFormat == WireFormat.PROTOBUF
 
 internal sealed class ConformanceStepResult<T> {
