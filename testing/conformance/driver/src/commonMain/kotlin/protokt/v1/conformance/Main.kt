@@ -16,6 +16,7 @@
 package protokt.v1.conformance
 
 import protokt.v1.conformance.ConformanceRequest.Payload.ProtobufPayload
+import protokt.v1.conformance.ConformanceResponse.Result
 import protokt.v1.protobuf_test_messages.proto3.TestAllTypesProto3
 
 fun main() =
