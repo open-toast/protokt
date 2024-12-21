@@ -17,10 +17,12 @@ package protokt.v1.conformance
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.runBlocking
+import protokt.v1.Bytes
 import protokt.v1.Deserializer
 import protokt.v1.Message
 import protokt.v1.conformance.ConformanceResponse.Result.ParseError
 import protokt.v1.conformance.ConformanceResponse.Result.RuntimeError
+import protokt.v1.conformance.ConformanceResponse.Result.SerializeError
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
@@ -65,6 +67,13 @@ internal actual object Platform {
             Proceed(deserializer.deserialize(bytes))
         } catch (t: Throwable) {
             Stop(ParseError(t.stackTraceToString()))
+        }
+
+    actual fun serializeProtobuf(message: Message): ConformanceStepResult<Bytes> =
+        try {
+            Proceed(Bytes.from(message))
+        } catch (t: Throwable) {
+            Stop(SerializeError(t.stackTraceToString()))
         }
 }
 
