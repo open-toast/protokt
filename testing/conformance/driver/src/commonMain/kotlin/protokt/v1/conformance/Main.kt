@@ -16,7 +16,6 @@
 package protokt.v1.conformance
 
 import protokt.v1.conformance.ConformanceRequest.Payload.ProtobufPayload
-import protokt.v1.conformance.ConformanceResponse.Result
 import protokt.v1.protobuf_test_messages.proto3.TestAllTypesProto3
 
 fun main() =
@@ -37,9 +36,9 @@ fun main() =
     }
 
 private fun processRequest(request: ConformanceRequest): ConformanceStepResult<Result> {
-    val skipReason = isSupported(request)
+    val skipReason = skipReason(request)
     if (skipReason != null) {
-        Platform.printErr("Received unsupported request for message type ${request.messageType}: $skipReason")
+        // Platform.printErr("Received unsupported request for message type ${request.messageType}: $skipReason")
         return ConformanceStepResult.skip()
     }
 
@@ -57,7 +56,7 @@ private fun processRequest(request: ConformanceRequest): ConformanceStepResult<R
 private val supportedMessageTypes =
     setOf("protobuf_test_messages.proto3.TestAllTypesProto3")
 
-private fun isSupported(request: ConformanceRequest): SkipReason? =
+private fun skipReason(request: ConformanceRequest): SkipReason? =
     when {
         request.messageType !in supportedMessageTypes ->
             SkipReason.UNSUPPORTED_MESSAGE_TYPE
