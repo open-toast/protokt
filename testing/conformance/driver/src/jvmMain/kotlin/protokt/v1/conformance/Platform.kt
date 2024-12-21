@@ -29,6 +29,7 @@ import java.nio.ByteOrder
 internal actual object Platform {
     actual fun printErr(message: String) {
         System.err.println(message)
+        System.err.flush()
     }
 
     actual fun runBlockingMain(block: suspend CoroutineScope.() -> Unit) {
