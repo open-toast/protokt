@@ -19,10 +19,12 @@ package protokt.v1.json
 
 import com.google.protobuf.util.JsonFormat
 import com.google.protobuf.util.JsonFormat.Printer
+import protokt.v1.Beta
 import protokt.v1.Message
 import protokt.v1.google.protobuf.RuntimeContext
 import protokt.v1.google.protobuf.toDynamicMessage
 
+@Beta
 @JvmOverloads
 fun Message.toJson(
     runtimeContext: RuntimeContext,
