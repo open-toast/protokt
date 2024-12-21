@@ -44,7 +44,7 @@ internal actual object Platform {
         deserializer: Deserializer<T>
     ): ConformanceStepResult<T>? {
         val size = readSize() ?: return null
-        return deserialize(readBytes(size), deserializer)
+        return deserializeProtobuf(readBytes(size), deserializer)
     }
 
     private suspend fun readBytes(size: Int) =
@@ -91,25 +91,25 @@ internal actual object Platform {
         }
     }
 
-    actual fun <T : Message> deserialize(
+    actual fun <T : Message> deserializeProtobuf(
         bytes: ByteArray,
         deserializer: Deserializer<T>
     ): ConformanceStepResult<T> =
         try {
             Proceed(deserializer.deserialize(bytes))
         } catch (t: Throwable) {
-            Failure(ParseError(t.stackTraceToString()))
+            Stop(ParseError(t.stackTraceToString()))
         } catch (d: dynamic) {
-            Failure(ParseError(d.toString()))
+            Stop(ParseError(d.toString()))
         }
 
-    actual fun serialize(message: Message): ConformanceStepResult<Bytes> =
+    actual fun serializeProtobuf(message: Message): ConformanceStepResult<Bytes> =
         try {
             Proceed(Bytes.from(message))
         } catch (t: Throwable) {
-            Failure(SerializeError(t.stackTraceToString()))
+            Stop(SerializeError(t.stackTraceToString()))
         } catch (d: dynamic) {
-            Failure(SerializeError(d.toString()))
+            Stop(SerializeError(d.toString()))
         }
 }
 

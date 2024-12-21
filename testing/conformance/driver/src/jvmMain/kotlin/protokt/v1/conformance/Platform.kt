@@ -45,12 +45,12 @@ internal actual object Platform {
                 val requestBuf = ByteArray(size)
                 val read = System.`in`.read(requestBuf)
                 require(read == size) { "Expected to read $size bytes but read $read" }
-                deserialize(requestBuf, deserializer)
+                deserializeProtobuf(requestBuf, deserializer)
             } else {
                 null
             }
         } catch (t: Throwable) {
-            Failure(RuntimeError(t.stackTraceToString()))
+            Stop(RuntimeError(t.stackTraceToString()))
         }
 
     actual fun writeToStdOut(bytes: ByteArray) {
@@ -59,21 +59,21 @@ internal actual object Platform {
         System.out.flush()
     }
 
-    actual fun <T : Message> deserialize(
+    actual fun <T : Message> deserializeProtobuf(
         bytes: ByteArray,
         deserializer: Deserializer<T>
     ): ConformanceStepResult<T> =
         try {
             Proceed(deserializer.deserialize(bytes))
         } catch (t: Throwable) {
-            Failure(ParseError(t.stackTraceToString()))
+            Stop(ParseError(t.stackTraceToString()))
         }
 
-    actual fun serialize(message: Message): ConformanceStepResult<Bytes> =
+    actual fun serializeProtobuf(message: Message): ConformanceStepResult<Bytes> =
         try {
             Proceed(Bytes.from(message))
         } catch (t: Throwable) {
-            Failure(SerializeError(t.stackTraceToString()))
+            Stop(SerializeError(t.stackTraceToString()))
         }
 }
 
