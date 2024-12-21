@@ -39,7 +39,7 @@ fun main() =
 private fun processRequest(request: ConformanceRequest): ConformanceStepResult<Result> {
     val skipReason = skipReason(request)
     if (skipReason != null) {
-        // Platform.printErr("Received unsupported request for message type ${request.messageType}: $skipReason")
+        Platform.printErr("Received unsupported request for message type ${request.messageType}: $skipReason")
         return ConformanceStepResult.skip()
     }
 
@@ -55,7 +55,10 @@ private fun processRequest(request: ConformanceRequest): ConformanceStepResult<R
 }
 
 private val supportedMessageTypes =
-    setOf("protobuf_test_messages.proto3.TestAllTypesProto3")
+    setOf(
+        "protobuf_test_messages.proto3.TestAllTypesProto3",
+        "protobuf_test_messages.proto2.TestAllTypesProto2",
+    )
 
 private fun skipReason(request: ConformanceRequest): SkipReason? =
     when {
