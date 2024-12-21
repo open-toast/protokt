@@ -16,7 +16,6 @@
 package protokt.v1.conformance
 
 import kotlinx.coroutines.CoroutineScope
-import protokt.v1.Bytes
 import protokt.v1.Deserializer
 import protokt.v1.Message
 
@@ -31,10 +30,8 @@ internal expect object Platform {
 
     fun writeToStdOut(bytes: ByteArray)
 
-    fun <T : Message> deserialize(
+    fun <T : Message> deserializeProtobuf(
         bytes: ByteArray,
         deserializer: Deserializer<T>
     ): ConformanceStepResult<T>
-
-    fun serialize(message: Message): ConformanceStepResult<Bytes>
 }
