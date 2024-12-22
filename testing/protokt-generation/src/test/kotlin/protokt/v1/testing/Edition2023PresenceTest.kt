@@ -38,8 +38,9 @@ class Edition2023PresenceTest {
     }
 
     @Test
-    fun `file with implicit presence and field with legacy required has correct behavior on message`() {
-        assertThat(TestFileImplicit::class.propertyIsMarkedNullable("thud")).isFalse()
+    fun `file with implicit presence and field with legacy required for message type`() {
+        // protokt doesn't support non-null message types
+        assertThat(TestFileImplicit::class.propertyIsMarkedNullable("thud")).isTrue()
         assertThat(TestFileImplicit {}.thud).isNull()
     }
 
@@ -80,8 +81,9 @@ class Edition2023PresenceTest {
     }
 
     @Test
-    fun `file with explicit presence and field with legacy required has correct behavior on message`() {
-        assertThat(TestFileImplicit::class.propertyIsMarkedNullable("thud")).isFalse()
+    fun `file with explicit presence and field with legacy required for message type`() {
+        // protokt doesn't support non-null message types
+        assertThat(TestFileImplicit::class.propertyIsMarkedNullable("thud")).isTrue()
         assertThat(TestFileImplicit {}.thud).isNull()
     }
 }
