@@ -37,7 +37,9 @@ fun main() =
     }
 
 private fun processRequest(request: ConformanceRequest): ConformanceStepResult<Result> {
-    if (!isSupported(request)) {
+    val skipReason = skipReason(request)
+    if (skipReason != null) {
+        // Platform.printErr("Received unsupported request for message type ${request.messageType}: $skipReason")
         return ConformanceStepResult.skip()
     }
 
@@ -58,9 +60,20 @@ private val supportedMessageTypes =
         "protobuf_test_messages.editions.proto3.TestAllTypesProto3",
     )
 
-private fun isSupported(request: ConformanceRequest) =
-    request.messageType in supportedMessageTypes &&
-        request.requestedOutputFormat == WireFormat.PROTOBUF
+private fun skipReason(request: ConformanceRequest): SkipReason? =
+    when {
+        request.messageType !in supportedMessageTypes ->
+            SkipReason.UNSUPPORTED_MESSAGE_TYPE
+        request.requestedOutputFormat != WireFormat.PROTOBUF ->
+            SkipReason.UNSUPPORTED_OUTPUT_FORMAT
+        else ->
+            null
+    }
+
+private enum class SkipReason {
+    UNSUPPORTED_MESSAGE_TYPE,
+    UNSUPPORTED_OUTPUT_FORMAT
+}
 
 internal sealed class ConformanceStepResult<T> {
     fun <R> map(action: (T) -> R) =

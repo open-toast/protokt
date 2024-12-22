@@ -79,7 +79,7 @@ allprojects {
                     "examples/protos/src/main/proto/helloworld/hello_world.proto",
                     "examples/protos/src/main/proto/io/grpc/examples/route_guide.proto",
                     "testing/conformance/driver/src/main/proto/conformance/conformance.proto",
-                    "testing/conformance/driver/src/main/proto/protobuf_test_messages/editions/proto3/test_messages_proto3.proto",
+                    "testing/conformance/driver/src/main/proto/protobuf_test_messages/editions/proto3/test_messages_proto3_editions.proto",
                     "testing/conformance/driver/src/main/proto/protobuf_test_messages/proto3/test_messages_proto3.proto",
                     "testing/interop/src/main/proto/tutorial/addressbook.proto",
                     "testing/interop/src/main/proto/google/protobuf/unittest_import.proto",

@@ -29,7 +29,7 @@ val projectRoot =
 fun String.runCommand(
     workingDir: Path,
     env: Map<String, String> = emptyMap(),
-    timeout: Duration = Duration.ofSeconds(10)
+    timeout: Duration = Duration.ofSeconds(60)
 ): ProcessOutput {
     println("Executing $this in $workingDir with $env")
 

@@ -1,5 +1,11 @@
-# protokt does not support
+# proto3: protokt does not support
 Recommended.Proto3.ProtobufInput.ValidDataOneofBinary.MESSAGE.Merge.ProtobufOutput
 Required.Proto3.ProtobufInput.RepeatedScalarMessageMerge.ProtobufOutput
-Required.Proto3.ProtobufInput.ValidDataOneof.MESSAGE.Merge.ProtobufOutput
 Required.Proto3.ProtobufInput.UnknownOrdering.ProtobufOutput
+Required.Proto3.ProtobufInput.ValidDataOneof.MESSAGE.Merge.ProtobufOutput
+
+# editions: protokt does not support
+Recommended.Editions_Proto3.ProtobufInput.ValidDataOneofBinary.MESSAGE.Merge.ProtobufOutput
+Required.Editions_Proto3.ProtobufInput.RepeatedScalarMessageMerge.ProtobufOutput
+Required.Editions_Proto3.ProtobufInput.UnknownOrdering.ProtobufOutput
+Required.Editions_Proto3.ProtobufInput.ValidDataOneof.MESSAGE.Merge.ProtobufOutput

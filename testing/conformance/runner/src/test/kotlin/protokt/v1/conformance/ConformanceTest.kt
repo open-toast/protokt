@@ -101,4 +101,4 @@ private fun failureList(project: String) =
     "--failure_list ../$project/failure_list_kt.txt"
 
 private fun command(runner: ConformanceTest.ConformanceRunner) =
-    "${System.getProperty("conformance-runner")} --enforce_recommended ${failureList(runner.project)} ${runner.driver()}"
+    "${System.getProperty("conformance-runner")} --maximum_edition 2023 --enforce_recommended ${failureList(runner.project)} ${runner.driver()}"
