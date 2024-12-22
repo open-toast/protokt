@@ -137,7 +137,7 @@ internal class FieldParser(
             tag = tag,
             type = fieldType,
             repeated = repeated,
-            optional = !repeated && !withinOneof && optional,
+            optional = !withinOneof && optional,
             packed = packed,
             mapEntry = mapEntry,
             fieldName = camelCaseFieldName(fdp.name),
