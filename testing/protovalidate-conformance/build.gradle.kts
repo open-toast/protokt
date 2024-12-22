@@ -31,7 +31,6 @@ dependencies {
     implementation(libs.cel)
     implementation(libs.classgraph)
     implementation(libs.protovalidateJava)
-    implementation("com.google.guava:guava:33.3.1-jre")
 
     testImplementation(project(":testing:testing-util"))
     testImplementation(libs.truth)
