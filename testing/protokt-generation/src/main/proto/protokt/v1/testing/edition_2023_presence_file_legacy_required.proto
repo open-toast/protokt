@@ -1,0 +1,5 @@
+edition = "2023";
+
+package protokt.v1.testing;
+
+// not allowed: option features.field_presence = LEGACY_REQUIRED;

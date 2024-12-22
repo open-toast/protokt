@@ -1,0 +1,21 @@
+edition = "2023";
+
+package protokt.v1.testing;
+
+option features.field_presence = EXPLICIT;
+
+import "google/protobuf/empty.proto";
+
+message TestFileExplicit {
+  int32 foo = 1;
+  google.protobuf.Empty bar = 2;
+
+  int32 baz = 3 [features.field_presence = EXPLICIT];
+  google.protobuf.Empty qux = 4 [features.field_presence = EXPLICIT];
+
+  int32 corge = 5 [features.field_presence = IMPLICIT];
+  // not allowed: google.protobuf.Empty grault = 6 [features.field_presence = IMPLICIT];
+
+  int32 garply = 7 [features.field_presence = LEGACY_REQUIRED];
+  google.protobuf.Empty thud = 8 [features.field_presence = LEGACY_REQUIRED];
+}
