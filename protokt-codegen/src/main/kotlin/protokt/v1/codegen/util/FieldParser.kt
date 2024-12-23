@@ -19,6 +19,8 @@ import com.google.common.base.CaseFormat.LOWER_CAMEL
 import com.google.common.base.CaseFormat.LOWER_UNDERSCORE
 import com.google.common.base.CaseFormat.UPPER_CAMEL
 import com.google.protobuf.DescriptorProtos.DescriptorProto
+import com.google.protobuf.DescriptorProtos.FeatureSet
+import com.google.protobuf.DescriptorProtos.FeatureSet.FieldPresence
 import com.google.protobuf.DescriptorProtos.FieldDescriptorProto
 import com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Label.LABEL_OPTIONAL
 import com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Label.LABEL_REPEATED
@@ -207,7 +209,19 @@ internal class FieldParser(
     }
 
     private fun optional(fdp: FieldDescriptorProto) =
-        (fdp.label == LABEL_OPTIONAL && ctx.proto2) || fdp.proto3Optional
+        when {
+            ctx.proto2 -> fdp.label == LABEL_OPTIONAL
+            ctx.proto3 -> fdp.proto3Optional
+            ctx.edition2023 -> optional(ctx.fileOptions.default.features, fdp.options.features)
+            else -> error("unexpected edition/syntax")
+        }
+
+    private fun optional(fileFeatures: FeatureSet, fieldFeatures: FeatureSet) =
+        if (fileFeatures.fieldPresence == FieldPresence.EXPLICIT) {
+            fieldFeatures.fieldPresence !in setOf(FieldPresence.IMPLICIT, FieldPresence.LEGACY_REQUIRED)
+        } else {
+            fieldFeatures.fieldPresence == FieldPresence.EXPLICIT
+        }
 
     private fun packed(type: FieldType, fdp: FieldDescriptorProto) =
         type.packable &&
