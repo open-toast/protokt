@@ -23,7 +23,7 @@ import protokt.v1.Message
 import protokt.v1.google.protobuf.Empty
 
 object DynamicConcreteMessageDeserializer {
-    private val deserializersByFullTypeName: Map<String, () -> Deserializer<*>> by lazy {
+    private val messageClasses by lazy {
         ClassGraph()
             .enableClassInfo()
             .acceptPackages(
@@ -32,20 +32,20 @@ object DynamicConcreteMessageDeserializer {
             )
             .scan()
             .use { result ->
-                val messageClassList = result.allClasses.filter { it.implementsInterface(Message::class.java) }
-                messageClassList.mapTo(ArrayList(messageClassList.size)) { it.loadClass() }
-            }
-            .let {
-                it.associateTo(HashMap(it.size)) { messageClass ->
-                    messageClass.annotations.filterIsInstance<GeneratedMessage>().single().fullTypeName to {
-                        messageClass.kotlin.nestedClasses
-                            .single { it.simpleName == Empty.Deserializer::class.simpleName }
-                            .objectInstance as Deserializer<*>
-                    }
-                }
+                val messageClasses = result.allClasses.filter { it.implementsInterface(Message::class.java) }
+                messageClasses.mapTo(ArrayList(messageClasses.size)) { it.loadClass() }
             }
     }
 
     fun parse(fullTypeName: String, bytes: ByteString) =
-        deserializersByFullTypeName.getValue(fullTypeName)().deserialize(bytes.newInput())
+        messageClasses.first {
+            it.annotations
+                .filterIsInstance<GeneratedMessage>()
+                .single()
+                .fullTypeName == fullTypeName
+        }.kotlin
+            .nestedClasses
+            .single { it.simpleName == Empty.Deserializer::class.simpleName }
+            .objectInstance.let { it as Deserializer<*> }
+            .deserialize(bytes.newInput())
 }
