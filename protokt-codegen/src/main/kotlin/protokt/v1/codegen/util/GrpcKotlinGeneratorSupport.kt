@@ -33,6 +33,11 @@ internal fun generateGrpcKotlinStubs(
         val out = ReadableByteArrayOutputStream()
         GeneratorRunner.mainAsProtocPlugin(stripPackages(request).toByteArray().inputStream(), out)
         CodeGeneratorResponse.parseFrom(out.inputStream()).fileList
+            .map {
+                it.toBuilder()
+                    .setContent(tidy(it.content, params.formatOutput))
+                    .build()
+            }
     } else {
         emptyList()
     }
