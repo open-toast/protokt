@@ -55,7 +55,11 @@ private fun processRequest(request: ConformanceRequest): ConformanceStepResult<R
 }
 
 private val supportedMessageTypes =
-    setOf("protobuf_test_messages.proto3.TestAllTypesProto3")
+    setOf(
+        "protobuf_test_messages.proto3.TestAllTypesProto3",
+        "protobuf_test_messages.editions.proto3.TestAllTypesProto3",
+        "protobuf_test_messages.editions.TestAllTypesEdition2023"
+    )
 
 private fun skipReason(request: ConformanceRequest): SkipReason? =
     when {
