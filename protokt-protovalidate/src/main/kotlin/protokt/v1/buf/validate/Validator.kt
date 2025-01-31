@@ -58,8 +58,15 @@ class Validator @JvmOverloads constructor(
         descriptor.nestedTypes.forEach(::doLoad)
     }
 
-    fun validate(message: Message): ValidationResult =
-        evaluatorsByFullTypeName
+    fun validate(message: Message): ValidationResult {
+        val result = evaluatorsByFullTypeName
             .getValue(message::class.findAnnotation<GeneratedMessage>()!!.fullTypeName)
             .evaluate(MessageValue(message.toDynamicMessage(runtimeContext)), failFast)
+
+        return if (result.isEmpty()) {
+            ValidationResult.EMPTY
+        } else {
+            ValidationResult(result.map { it.build() })
+        }
+    }
 }

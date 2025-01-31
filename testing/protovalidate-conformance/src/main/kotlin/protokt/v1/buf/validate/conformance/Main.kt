@@ -94,7 +94,11 @@ object Main {
                 TestResult.newBuilder().setSuccess(true).build()
             } else {
                 TestResult.newBuilder()
-                    .setValidationError(Violations.newBuilder().addAllViolations(result.violations).build())
+                    .setValidationError(
+                        Violations.newBuilder()
+                            .addAllViolations(result.toProto().violationsList)
+                            .build()
+                    )
                     .build()
             }
         } catch (e: ExecutionException) {

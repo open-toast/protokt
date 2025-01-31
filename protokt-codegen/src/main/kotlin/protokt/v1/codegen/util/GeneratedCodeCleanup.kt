@@ -30,8 +30,8 @@ import protokt.v1.codegen.generate.INDENT
 
 private val logger = KotlinLogging.logger { }
 
-internal fun tidy(code: String, context: GeneratorContext) =
-    if (context.formatOutput) {
+internal fun tidy(code: String, formatOutput: Boolean) =
+    if (formatOutput) {
         try {
             format(code)
         } catch (t: Throwable) {
