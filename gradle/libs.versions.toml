@@ -38,7 +38,7 @@ gummyBears = "0.8.0"
 java = "11"
 kotlin = "2.1.10"
 pluginPublish = "1.2.1"
-spotless = "6.25.0"
+spotless = "7.0.2"
 
 # benchmarks
 datasets = "0.1.0"
