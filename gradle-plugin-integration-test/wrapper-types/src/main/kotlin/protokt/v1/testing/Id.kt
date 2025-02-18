@@ -21,6 +21,7 @@ import protokt.v1.Converter
 
 data class Id(val value: String)
 
+@SuppressWarnings("rawtypes")
 @AutoService(Converter::class)
 object IdConverter : Converter<Bytes, Id> {
     override val wrapper = Id::class

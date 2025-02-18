@@ -580,6 +580,7 @@ example, Google's [AutoService](https://github.com/google/auto/tree/master/servi
 can register converters with an annotation:
 
 ```kotlin
+@SuppressWarnings("rawtypes")
 @AutoService(Converter::class)
 object InstantConverter : Converter<Instant, Timestamp> { ... }
 ```

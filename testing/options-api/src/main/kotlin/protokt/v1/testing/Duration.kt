@@ -21,6 +21,7 @@ import protokt.v1.Converter
 
 data class Duration(val value: protokt.v1.google.protobuf.Duration)
 
+@SuppressWarnings("rawtypes")
 @AutoService(Converter::class)
 object DurationConverter : AbstractConverter<protokt.v1.google.protobuf.Duration, Duration>() {
     override fun wrap(unwrapped: protokt.v1.google.protobuf.Duration) =
