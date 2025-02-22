@@ -99,7 +99,7 @@ val conformance =
     }
 
 // Super unstable in CI, I guess.
-// tasks.test { dependsOn(conformance) }
+tasks.test { dependsOn(conformance) }
 
 application {
     mainClass.set("protokt.v1.buf.validate.conformance.Main")
