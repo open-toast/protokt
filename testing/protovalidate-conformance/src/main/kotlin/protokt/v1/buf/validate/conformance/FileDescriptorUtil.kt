@@ -17,10 +17,14 @@ package protokt.v1.buf.validate.conformance
 
 import com.google.protobuf.DescriptorProtos.FileDescriptorSet
 import com.google.protobuf.Descriptors.Descriptor
+import com.google.protobuf.Descriptors.FieldDescriptor
 import com.google.protobuf.Descriptors.FileDescriptor
+import com.google.protobuf.DynamicMessage
+import com.google.protobuf.ExtensionRegistry
+import com.google.protobuf.TypeRegistry
 
-fun parse(fileDescriptorSet: FileDescriptorSet): Map<String, Descriptor> =
-    parseFileDescriptors(fileDescriptorSet)
+fun parse(fileDescriptors: Map<String, FileDescriptor>): Map<String, Descriptor> =
+    fileDescriptors
         .values
         .flatMap { fileDescriptor ->
             fileDescriptor.messageTypes.map { messageType ->
@@ -29,7 +33,39 @@ fun parse(fileDescriptorSet: FileDescriptorSet): Map<String, Descriptor> =
         }
         .toMap()
 
-private fun parseFileDescriptors(fileDescriptorSet: FileDescriptorSet): Map<String, FileDescriptor> =
+fun createTypeRegistry(descriptorMap: Map<String, FileDescriptor>) =
+    TypeRegistry.newBuilder().apply {
+        descriptorMap.values.forEach {
+            add(it.messageTypes)
+        }
+    }.build()
+
+fun createExtensionRegistry(descriptorMap: Map<String, FileDescriptor>): ExtensionRegistry =
+    ExtensionRegistry.newInstance().apply {
+        descriptorMap.values.forEach(::registerExtensions)
+    }
+
+private fun ExtensionRegistry.registerExtensions(fileDescriptor: FileDescriptor) {
+    registerExtensions(fileDescriptor.extensions)
+    fileDescriptor.messageTypes.forEach(::registerExtensions)
+}
+
+private fun ExtensionRegistry.registerExtensions(descriptor: Descriptor) {
+    registerExtensions(descriptor.extensions)
+    descriptor.nestedTypes.forEach(::registerExtensions)
+}
+
+private fun ExtensionRegistry.registerExtensions(extensions: Iterable<FieldDescriptor>) {
+    extensions.forEach {
+        if (it.javaType == FieldDescriptor.JavaType.MESSAGE) {
+            add(it, DynamicMessage.getDefaultInstance(it.messageType))
+        } else {
+            add(it)
+        }
+    }
+}
+
+fun parseFileDescriptors(fileDescriptorSet: FileDescriptorSet): Map<String, FileDescriptor> =
     fileDescriptorSet.fileList.fold(mutableMapOf()) { map, fileDescriptorProto ->
         map[fileDescriptorProto.getName()] =
             FileDescriptor.buildFrom(
