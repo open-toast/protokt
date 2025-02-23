@@ -23,7 +23,7 @@ import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 // https://github.com/protocolbuffers/protobuf/blob/5e84a6169cf0f9716c9285c95c860bcb355dbdc1/src/google/protobuf/stubs/strutil.cc#L595
 
 // Limit the number of bytes per line.
-private const val BYTES_PER_LINE = 40
+private const val BYTES_PER_LINE = 200
 
 // Limit the number of lines per string part.
 private const val LINES_PER_PART = 400
