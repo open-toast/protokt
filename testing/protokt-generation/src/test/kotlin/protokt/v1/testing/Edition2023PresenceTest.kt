@@ -61,44 +61,87 @@ class Edition2023PresenceTest {
 
     @Test
     fun `file with explicit presence and no field features has correct behavior on primitive`() {
-        assertThat(TestFileImplicit::class.propertyIsMarkedNullable("foo")).isFalse()
-        assertThat(TestFileImplicit {}.foo).isEqualTo(0)
+        assertThat(TestFileExplicit::class.propertyIsMarkedNullable("foo")).isTrue()
+        assertThat(TestFileExplicit {}.foo).isNull()
     }
 
     @Test
     fun `file with explicit presence and no field features has correct behavior on message`() {
-        assertThat(TestFileImplicit::class.propertyIsMarkedNullable("bar")).isTrue()
-        assertThat(TestFileImplicit {}.bar).isNull()
+        assertThat(TestFileExplicit::class.propertyIsMarkedNullable("bar")).isTrue()
+        assertThat(TestFileExplicit {}.bar).isNull()
     }
 
     @Test
     fun `file with explicit presence and field with explicit presence has correct behavior on primitive`() {
-        assertThat(TestFileImplicit::class.propertyIsMarkedNullable("baz")).isTrue()
-        assertThat(TestFileImplicit {}.baz).isNull()
+        assertThat(TestFileExplicit::class.propertyIsMarkedNullable("baz")).isTrue()
+        assertThat(TestFileExplicit {}.baz).isNull()
     }
 
     @Test
     fun `file with explicit presence and field with explicit presence has correct behavior on message`() {
-        assertThat(TestFileImplicit::class.propertyIsMarkedNullable("qux")).isTrue()
-        assertThat(TestFileImplicit {}.qux).isNull()
+        assertThat(TestFileExplicit::class.propertyIsMarkedNullable("qux")).isTrue()
+        assertThat(TestFileExplicit {}.qux).isNull()
     }
 
     @Test
     fun `file with explicit presence and field with implicit presence has correct behavior on primitive`() {
-        assertThat(TestFileImplicit::class.propertyIsMarkedNullable("corge")).isFalse()
-        assertThat(TestFileImplicit {}.corge).isEqualTo(0)
+        assertThat(TestFileExplicit::class.propertyIsMarkedNullable("corge")).isFalse()
+        assertThat(TestFileExplicit {}.corge).isEqualTo(0)
     }
 
     @Test
     fun `file with explicit presence and field with legacy required presence has correct behavior on primitive`() {
-        assertThat(TestFileImplicit::class.propertyIsMarkedNullable("garply")).isFalse()
-        assertThat(TestFileImplicit {}.garply).isEqualTo(0)
+        assertThat(TestFileExplicit::class.propertyIsMarkedNullable("garply")).isFalse()
+        assertThat(TestFileExplicit {}.garply).isEqualTo(0)
     }
 
     @Test
     fun `file with explicit presence and field with legacy required for message type`() {
         // protokt doesn't support non-null message types
-        assertThat(TestFileImplicit::class.propertyIsMarkedNullable("thud")).isTrue()
-        assertThat(TestFileImplicit {}.thud).isNull()
+        assertThat(TestFileExplicit::class.propertyIsMarkedNullable("thud")).isTrue()
+        assertThat(TestFileExplicit {}.thud).isNull()
+    }
+
+    @Test
+    fun `file without presence specified and no field features has correct behavior on primitive`() {
+        assertThat(TestFileDefault::class.propertyIsMarkedNullable("foo")).isTrue()
+        assertThat(TestFileDefault {}.foo).isNull()
+    }
+
+    @Test
+    fun `file without presence specified and no field features has correct behavior on message`() {
+        assertThat(TestFileDefault::class.propertyIsMarkedNullable("bar")).isTrue()
+        assertThat(TestFileDefault {}.bar).isNull()
+    }
+
+    @Test
+    fun `file without presence specified and field with explicit presence has correct behavior on primitive`() {
+        assertThat(TestFileDefault::class.propertyIsMarkedNullable("baz")).isTrue()
+        assertThat(TestFileDefault {}.baz).isNull()
+    }
+
+    @Test
+    fun `file without presence specified and field with explicit presence has correct behavior on message`() {
+        assertThat(TestFileDefault::class.propertyIsMarkedNullable("qux")).isTrue()
+        assertThat(TestFileDefault {}.qux).isNull()
+    }
+
+    @Test
+    fun `file without presence specified and field with implicit presence has correct behavior on primitive`() {
+        assertThat(TestFileDefault::class.propertyIsMarkedNullable("corge")).isFalse()
+        assertThat(TestFileDefault {}.corge).isEqualTo(0)
+    }
+
+    @Test
+    fun `file without presence specified and field with legacy required presence has correct behavior on primitive`() {
+        assertThat(TestFileDefault::class.propertyIsMarkedNullable("garply")).isFalse()
+        assertThat(TestFileDefault {}.garply).isEqualTo(0)
+    }
+
+    @Test
+    fun `file without presence specified and field with legacy required for message type`() {
+        // protokt doesn't support non-null message types
+        assertThat(TestFileDefault::class.propertyIsMarkedNullable("thud")).isTrue()
+        assertThat(TestFileDefault {}.thud).isNull()
     }
 }

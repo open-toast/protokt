@@ -18,6 +18,7 @@ package protokt.v1.buf.validate.conformance
 import buf.validate.conformance.harness.Harness.TestConformanceRequest
 import buf.validate.conformance.harness.Harness.TestConformanceResponse
 import buf.validate.conformance.harness.Harness.TestResult
+import build.buf.protovalidate.Config
 import build.buf.protovalidate.exceptions.CompilationException
 import build.buf.protovalidate.exceptions.ExecutionException
 import build.buf.validate.ValidateProto
@@ -39,8 +40,15 @@ object Main {
     }
 
     private fun testConformance(request: TestConformanceRequest): TestConformanceResponse {
-        val descriptorMap = parse(request.fdset)
-        val validator = Validator()
+        val fileDescriptors = parseFileDescriptors(request.fdset)
+        val descriptorMap = parse(fileDescriptors)
+        val validator =
+            Validator(
+                Config.newBuilder()
+                    .setTypeRegistry(createTypeRegistry(fileDescriptors))
+                    .setExtensionRegistry(createExtensionRegistry(fileDescriptors))
+                    .build()
+            )
         loadValidDescriptors(validator, descriptorMap.values)
         return TestConformanceResponse
             .newBuilder()
