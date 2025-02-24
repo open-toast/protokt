@@ -35,23 +35,24 @@ class RouteGuideServerTest {
     }
 
     @Test
-    fun listFeatures() = runTest {
-        server.start()
+    fun listFeatures() =
+        runTest {
+            server.start()
 
-        val stub = RouteGuideCoroutineStub("localhost:8980", ChannelCredentials.createInsecure())
+            val stub = RouteGuideCoroutineStub("localhost:8980", ChannelCredentials.createInsecure())
 
-        val rectangle = Rectangle {
-            lo = Point {
-                latitude = 407838351
-                longitude = -746143763
+            val rectangle = Rectangle {
+                lo = Point {
+                    latitude = 407838351
+                    longitude = -746143763
+                }
+                hi = Point {
+                    latitude = 407838351
+                    longitude = -746143763
+                }
             }
-            hi = Point {
-                latitude = 407838351
-                longitude = -746143763
-            }
+
+            val features = stub.listFeatures(rectangle).toList()
+            assertEquals("Patriots Path, Mendham, NJ 07945, USA", features.first().name)
         }
-
-        val features = stub.listFeatures(rectangle).toList()
-        assertEquals("Patriots Path, Mendham, NJ 07945, USA", features.first().name)
-    }
 }

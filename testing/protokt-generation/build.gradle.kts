@@ -33,7 +33,6 @@ protokt {
 
 dependencies {
     implementation(kotlin("reflect"))
-    implementation(project(":protokt-runtime-grpc"))
     implementation(project(":testing:protobuf-java"))
     implementation(libs.grpc.kotlin.stub)
     implementation(libs.grpc.stub)

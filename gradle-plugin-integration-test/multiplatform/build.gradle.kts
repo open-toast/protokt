@@ -13,12 +13,12 @@
  * limitations under the License.
  */
 
-import protokt.v1.gradle.ProtoktExtension
-import protokt.v1.gradle.ProtoktPlugin
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import protokt.v1.gradle.protoktExtensions
 
 plugins {
     kotlin("multiplatform")
+    id("com.toasttab.protokt")
 }
 
 kotlin {
@@ -63,35 +63,32 @@ kotlin {
         val jsTest by getting {}
     }
 
+    // in theory this should be able to go into compilerOptions but it doesn't seem to work
     targets {
-        jvm().compilations.all {
-            kotlinOptions {
-                freeCompilerArgs = listOf("-Xjvm-default=all")
-            }
-        }
-
         all {
             compilations.all {
                 kotlinOptions {
-                    languageVersion = System.getProperty("kotlin-integration.version")
-                        ?.substringBeforeLast(".")
-                        ?: libs.versions.kotlin.get().substringBeforeLast(".")
-                    apiVersion = languageVersion
+                    allWarningsAsErrors = false
                 }
             }
         }
+    }
+
+    compilerOptions {
+        freeCompilerArgs.add("-Xjvm-default=all")
+
+        apiVersion = KotlinVersion.fromVersion(
+            System.getProperty("kotlin-integration.version")
+                ?.substringBeforeLast(".")
+                ?: libs.versions.kotlin.get().substringBeforeLast(".")
+        )
+
+        languageVersion = apiVersion
     }
 }
 
 tasks.named<Test>("jvmTest") {
     useJUnitPlatform()
-}
-
-// awkward that we have to apply the plugin after source sets are configured
-apply<ProtoktPlugin>()
-
-configure<ProtoktExtension> {
-    formatOutput = false // https://github.com/pinterest/ktlint/issues/1195
 }
 
 dependencies {
@@ -114,6 +111,6 @@ java {
 
 kotlin {
     jvmToolchain {
-        (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(System.getProperty("java-integration.version", libs.versions.java.get()).toInt()))
+        languageVersion.set(JavaLanguageVersion.of(System.getProperty("java-integration.version", libs.versions.java.get()).toInt()))
     }
 }

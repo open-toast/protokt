@@ -19,53 +19,86 @@ import protokt.v1.conformance.ConformanceRequest.Payload.ProtobufPayload
 import protokt.v1.conformance.ConformanceResponse.Result
 import protokt.v1.protobuf_test_messages.proto3.TestAllTypesProto3
 
-fun main() = Platform.runBlockingMain {
-    while (true) {
-        val result =
-            when (val request = nextRequest()) {
-                null -> break
-                is Failure -> request.failure
-                is Proceed -> {
-                    if (isSupported(request.value)) {
-                        when (val payload = payload(request)) {
-                            is Failure -> payload.failure
-                            is Proceed -> {
-                                when (val result = Platform.serialize(payload.value)) {
-                                    is Failure -> result.failure
-                                    is Proceed -> Result.ProtobufPayload(result.value)
-                                }
-                            }
-                        }
-                    } else {
-                        Result.Skipped("Only proto3 supported.")
-                    }
-                }
-            }
+fun main() =
+    Platform.runBlockingMain {
+        while (true) {
+            val request = Platform.readMessageFromStdIn(ConformanceRequest) ?: break
 
-        Platform.writeToStdOut(ConformanceResponse { this.result = result }.serialize())
+            Platform.writeToStdOut(
+                ConformanceResponse {
+                    result =
+                        when (val result = request.flatMap(::processRequest)) {
+                            is Stop -> result.result
+                            is Proceed -> result.value
+                        }
+                }.serialize()
+            )
+        }
+    }
+
+private fun processRequest(request: ConformanceRequest): ConformanceStepResult<Result> {
+    val skipReason = skipReason(request)
+    if (skipReason != null) {
+        // Platform.printErr("Received unsupported request for message type ${request.messageType}: $skipReason")
+        return ConformanceStepResult.skip()
+    }
+
+    return when (val payload = request.payload) {
+        is ProtobufPayload -> Platform.deserializeProtobuf(payload.protobufPayload.bytes, TestAllTypesProto3)
+        else -> ConformanceStepResult.skip<TestAllTypesProto3>()
+    }.flatMap {
+        when (request.requestedOutputFormat) {
+            WireFormat.PROTOBUF -> Platform.serializeProtobuf(it).map(Result::ProtobufPayload)
+            else -> ConformanceStepResult.skip()
+        }
     }
 }
 
-private suspend fun nextRequest() =
-    Platform.readMessageFromStdIn(ConformanceRequest)
-
-private fun payload(request: Proceed<ConformanceRequest>) =
-    Platform.deserialize(
-        (request.value.payload as ProtobufPayload).protobufPayload.bytes,
-        TestAllTypesProto3
+private val supportedMessageTypes =
+    setOf(
+        "protobuf_test_messages.proto3.TestAllTypesProto3",
+        "protobuf_test_messages.editions.proto3.TestAllTypesProto3",
+        "protobuf_test_messages.editions.TestAllTypesEdition2023"
     )
 
-private fun isSupported(request: ConformanceRequest) =
-    request.messageType == "protobuf_test_messages.proto3.TestAllTypesProto3" &&
-        request.requestedOutputFormat == WireFormat.PROTOBUF &&
-        request.payload is ProtobufPayload
+private fun skipReason(request: ConformanceRequest): SkipReason? =
+    when {
+        request.messageType !in supportedMessageTypes ->
+            SkipReason.UNSUPPORTED_MESSAGE_TYPE
+        request.requestedOutputFormat != WireFormat.PROTOBUF ->
+            SkipReason.UNSUPPORTED_OUTPUT_FORMAT
+        else ->
+            null
+    }
 
-internal sealed class ConformanceStepResult<T>
+private enum class SkipReason {
+    UNSUPPORTED_MESSAGE_TYPE,
+    UNSUPPORTED_OUTPUT_FORMAT
+}
+
+internal sealed class ConformanceStepResult<T> {
+    fun <R> map(action: (T) -> R) =
+        when (this) {
+            is Proceed<T> -> Proceed(action(value))
+            is Stop<T> -> Stop(result)
+        }
+
+    fun <R> flatMap(action: (T) -> ConformanceStepResult<R>) =
+        when (this) {
+            is Proceed<T> -> action(value)
+            is Stop<T> -> Stop(result)
+        }
+
+    companion object {
+        fun <T> skip() =
+            Stop<T>(Result.Skipped("unsupported request"))
+    }
+}
 
 internal class Proceed<T>(
     val value: T
 ) : ConformanceStepResult<T>()
 
-internal class Failure<T>(
-    val failure: Result
+internal class Stop<T>(
+    val result: Result
 ) : ConformanceStepResult<T>()

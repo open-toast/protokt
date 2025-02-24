@@ -64,14 +64,15 @@ class RouteGuideClient {
         println("It took $duration seconds.")
     }
 
-    fun generateRoutePoints(features: List<Feature>, numPoints: Int): Flow<Point> = flow {
-        for (i in 1..numPoints) {
-            val feature = features.random(random)
-            println("Visiting point ${feature.location?.toStr()}")
-            emit(feature.location!!)
-            delay(timeMillis = random.nextLong(500L..1500L))
+    fun generateRoutePoints(features: List<Feature>, numPoints: Int): Flow<Point> =
+        flow {
+            for (i in 1..numPoints) {
+                val feature = features.random(random)
+                println("Visiting point ${feature.location?.toStr()}")
+                emit(feature.location!!)
+                delay(timeMillis = random.nextLong(500L..1500L))
+            }
         }
-    }
 
     suspend fun routeChat() {
         println("*** RouteChat")
@@ -82,35 +83,36 @@ class RouteGuideClient {
         println("Finished RouteChat")
     }
 
-    private fun generateOutgoingNotes(): Flow<RouteNote> = flow {
-        val notes = listOf(
-            RouteNote {
-                message = "First message"
-                location = point(0, 0)
-            },
-            RouteNote {
-                message = "Second message"
-                location = point(0, 0)
-            },
-            RouteNote {
-                message = "Third message"
-                location = point(10000000, 0)
-            },
-            RouteNote {
-                message = "Fourth message"
-                location = point(10000000, 10000000)
-            },
-            RouteNote {
-                message = "Last message"
-                location = point(0, 0)
+    private fun generateOutgoingNotes(): Flow<RouteNote> =
+        flow {
+            val notes = listOf(
+                RouteNote {
+                    message = "First message"
+                    location = point(0, 0)
+                },
+                RouteNote {
+                    message = "Second message"
+                    location = point(0, 0)
+                },
+                RouteNote {
+                    message = "Third message"
+                    location = point(10000000, 0)
+                },
+                RouteNote {
+                    message = "Fourth message"
+                    location = point(10000000, 10000000)
+                },
+                RouteNote {
+                    message = "Last message"
+                    location = point(0, 0)
+                }
+            )
+            for (note in notes) {
+                println("Sending message \"${note.message}\" at ${note.location?.toStr()}")
+                emit(note)
+                delay(500)
             }
-        )
-        for (note in notes) {
-            println("Sending message \"${note.message}\" at ${note.location?.toStr()}")
-            emit(note)
-            delay(500)
         }
-    }
 }
 
 suspend fun clientMain() {
@@ -125,7 +127,8 @@ suspend fun clientMain() {
     }
 }
 
-private fun point(lat: Int, lon: Int): Point = Point {
-    latitude = lat
-    longitude = lon
-}
+private fun point(lat: Int, lon: Int): Point =
+    Point {
+        latitude = lat
+        longitude = lon
+    }

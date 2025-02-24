@@ -15,6 +15,7 @@
 
 package protokt.v1.codegen.util
 
+import com.google.protobuf.DescriptorProtos
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.toasttab.protokt.v1.ProtoktProtos
 import protokt.v1.gradle.PROTOKT_VERSION
@@ -30,7 +31,7 @@ internal class GeneratorContext(
     val generateGrpcDescriptors = params.generateGrpcDescriptors
     val generateGrpcKotlinStubs = params.generateGrpcKotlinStubs
     val formatOutput = params.formatOutput
-    val appliedKotlinPlugin = params.appliedKotlinPlugin
+    val kotlinTarget = params.kotlinTarget
 
     val protoktVersion = PROTOKT_VERSION
 
@@ -44,6 +45,7 @@ internal class GeneratorContext(
 
     val proto2 = !fdp.hasSyntax() || fdp.syntax == "proto2"
     val proto3 = fdp.syntax == "proto3"
+    val edition2023 = fdp.edition == DescriptorProtos.Edition.EDITION_2023
 }
 
 val FileDescriptorProto.fileOptions

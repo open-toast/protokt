@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Toast, Inc.
+ * Copyright (c) 2024 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,19 +13,20 @@
  * limitations under the License.
  */
 
-package protokt.v1.grpc
+syntax = "proto3";
 
-import protokt.v1.Beta
-import protokt.v1.Deserializer
-import protokt.v1.Message
+option java_multiple_files = true;
 
-@Beta
-class KtMarshaller<T : Message>(
-    private val deserializer: Deserializer<T>
-) : MethodDescriptor.Marshaller<T> {
-    override fun parse(bytes: ByteArray) =
-        deserializer.deserialize(bytes)
+package protokt.v1.testing;
 
-    override fun serialize(value: T): dynamic =
-        value.serialize()
+service TestService3 {
+  rpc SayHello (TestRequest3) returns (TestReply3) {}
+}
+
+message TestRequest3 {
+  string message = 1;
+}
+
+message TestReply3 {
+  string message = 1;
 }

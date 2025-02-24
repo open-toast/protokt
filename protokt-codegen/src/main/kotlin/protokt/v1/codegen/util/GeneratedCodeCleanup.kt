@@ -20,6 +20,8 @@ import com.pinterest.ktlint.rule.engine.api.EditorConfigOverride
 import com.pinterest.ktlint.rule.engine.api.KtLintRuleEngine
 import com.pinterest.ktlint.rule.engine.core.api.editorconfig.INDENT_SIZE_PROPERTY
 import com.pinterest.ktlint.ruleset.standard.StandardRuleSetProvider
+import com.pinterest.ktlint.ruleset.standard.rules.FunctionSignatureRule.Companion.FUNCTION_BODY_EXPRESSION_WRAPPING_PROPERTY
+import com.pinterest.ktlint.ruleset.standard.rules.FunctionSignatureRule.FunctionBodyExpressionWrapping
 import com.pinterest.ktlint.ruleset.standard.rules.NO_UNIT_RETURN_RULE_ID
 import com.pinterest.ktlint.ruleset.standard.rules.TrailingCommaOnCallSiteRule.Companion.TRAILING_COMMA_ON_CALL_SITE_PROPERTY
 import com.pinterest.ktlint.ruleset.standard.rules.TrailingCommaOnDeclarationSiteRule.Companion.TRAILING_COMMA_ON_DECLARATION_SITE_PROPERTY
@@ -28,8 +30,8 @@ import protokt.v1.codegen.generate.INDENT
 
 private val logger = KotlinLogging.logger { }
 
-internal fun tidy(code: String, context: GeneratorContext) =
-    if (context.formatOutput) {
+internal fun tidy(code: String, formatOutput: Boolean) =
+    if (formatOutput) {
         try {
             format(code)
         } catch (t: Throwable) {
@@ -41,12 +43,14 @@ internal fun tidy(code: String, context: GeneratorContext) =
     }
 
 private fun format(code: String) =
+    @Suppress("DEPRECATION")
     KtLintRuleEngine(
         ruleProviders(),
         editorConfigOverride = EditorConfigOverride.from(
             INDENT_SIZE_PROPERTY to INDENT.length,
             TRAILING_COMMA_ON_CALL_SITE_PROPERTY to false,
-            TRAILING_COMMA_ON_DECLARATION_SITE_PROPERTY to false
+            TRAILING_COMMA_ON_DECLARATION_SITE_PROPERTY to false,
+            FUNCTION_BODY_EXPRESSION_WRAPPING_PROPERTY to FunctionBodyExpressionWrapping.always,
         )
     ).format(Code.fromSnippet(code))
 

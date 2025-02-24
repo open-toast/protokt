@@ -46,11 +46,11 @@ import io.grpc.kotlin.ServerCalls
 import io.grpc.kotlin.generator.protoc.ProtoMethodName
 import kotlinx.coroutines.flow.Flow
 import protokt.v1.codegen.generate.CodeGenerator.Context
-import protokt.v1.codegen.util.KotlinPlugin
 import protokt.v1.codegen.util.Method
 import protokt.v1.codegen.util.PROTOKT_V1_GOOGLE_PROTO
 import protokt.v1.codegen.util.Service
-import protokt.v1.grpc.KtMarshaller
+import protokt.v1.gradle.KotlinTarget
+import protokt.v1.grpc.Marshaller
 import protokt.v1.grpc.SchemaDescriptor
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
@@ -58,13 +58,13 @@ import kotlin.reflect.KClass
 import kotlin.reflect.KFunction1
 import kotlin.reflect.KFunction3
 
-internal fun generateService(s: Service, ctx: Context, kotlinPlugin: KotlinPlugin?) =
-    ServiceGenerator(s, ctx, kotlinPlugin).generate()
+internal fun generateService(s: Service, ctx: Context, kotlinTarget: KotlinTarget) =
+    ServiceGenerator(s, ctx, kotlinTarget).generate()
 
 private class ServiceGenerator(
     private val s: Service,
     private val ctx: Context,
-    private val kotlinPlugin: KotlinPlugin?
+    private val kotlinTarget: KotlinTarget
 ) {
     fun generate(): List<TypeSpec> =
         (grpcImplementations() + serviceDescriptor()).filterNotNull()
@@ -121,7 +121,7 @@ private class ServiceGenerator(
                 }
 
             val grpcKtObject =
-                if (kotlinPlugin == KotlinPlugin.JS && ctx.info.context.generateGrpcKotlinStubs) {
+                if (kotlinTarget == KotlinTarget.MultiplatformJs && ctx.info.context.generateGrpcKotlinStubs) {
                     val grpcKtClassName = ClassName(ctx.info.kotlinPackage, s.name + "GrpcKt")
                     TypeSpec.objectBuilder(grpcKtClassName)
                         .addType(
@@ -392,7 +392,7 @@ private class ServiceGenerator(
         }
 
     private fun serviceDescriptor() =
-        if (ctx.info.context.generateDescriptors) {
+        if (ctx.info.context.generateDescriptors && ctx.info.context.kotlinTarget.isPrimaryTarget) {
             TypeSpec.objectBuilder(s.name)
                 .addProperty(
                     PropertySpec.builder("descriptor", ClassName(PROTOKT_V1_GOOGLE_PROTO, "ServiceDescriptor"))
@@ -419,9 +419,8 @@ private class ServiceGenerator(
         }
 
     private fun pivotClassName(jvmClass: KClass<*>) =
-        when (kotlinPlugin) {
-            KotlinPlugin.JS -> ClassName(KtMarshaller::class.java.`package`!!.name, jvmClass.asTypeName().simpleNames)
-            KotlinPlugin.MULTIPLATFORM -> error("unsupported plugin for service generation: $kotlinPlugin")
+        when (kotlinTarget) {
+            KotlinTarget.MultiplatformJs -> ClassName(Marshaller::class.java.`package`!!.name, jvmClass.asTypeName().simpleNames)
             else -> jvmClass.asTypeName()
         }
 
@@ -431,15 +430,14 @@ private class ServiceGenerator(
         }
 
     private fun <T> pivotPlugin(jvm: T, js: T) =
-        when (kotlinPlugin) {
-            KotlinPlugin.JS -> js
-            KotlinPlugin.MULTIPLATFORM -> error("unsupported plugin for service generation: $kotlinPlugin")
+        when (kotlinTarget) {
+            KotlinTarget.MultiplatformJs -> js
             else -> jvm
         }
 
     private fun FunSpec.Builder.staticIfAppropriate() =
         apply {
-            if (kotlinPlugin != KotlinPlugin.JS) {
+            if (kotlinTarget != KotlinTarget.MultiplatformJs) {
                 addAnnotation(JvmStatic::class)
             }
         }
@@ -477,14 +475,15 @@ private fun Method.responseMarshaller(): CodeBlock =
 private fun marshaller(string: String, type: ClassName) =
     string.takeIf { it.isNotEmpty() }
         ?.let { CodeBlock.of("%L", it) }
-        ?: CodeBlock.of("%T(%T)", KtMarshaller::class, type)
+        ?: CodeBlock.of("%T(%T)", Marshaller::class, type)
 
-private fun methodType(m: Method) = when {
-    m.clientStreaming && m.serverStreaming -> MethodType.BIDI_STREAMING
-    m.clientStreaming -> MethodType.CLIENT_STREAMING
-    m.serverStreaming -> MethodType.SERVER_STREAMING
-    else -> MethodType.UNARY
-}
+private fun methodType(m: Method) =
+    when {
+        m.clientStreaming && m.serverStreaming -> MethodType.BIDI_STREAMING
+        m.clientStreaming -> MethodType.CLIENT_STREAMING
+        m.serverStreaming -> MethodType.SERVER_STREAMING
+        else -> MethodType.UNARY
+    }
 
 private fun String.decapitalize() =
     replaceFirstChar { it.lowercaseChar() }

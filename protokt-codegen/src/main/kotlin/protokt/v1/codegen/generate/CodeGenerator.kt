@@ -58,7 +58,7 @@ internal object CodeGenerator {
                     generateService(
                         type,
                         ctx,
-                        ctx.info.context.appliedKotlinPlugin
+                        ctx.info.context.kotlinTarget
                     )
                 }
         }

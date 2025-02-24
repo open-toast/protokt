@@ -24,12 +24,13 @@ import kotlin.js.json
 fun Server.addService(
     service: ServiceDescriptor,
     implementation: BindableService
-) = apply {
-    addService(
-        service.toServiceDefinition(),
-        implementation.toUntypedServiceImplementation()
-    )
-}
+) =
+    apply {
+        addService(
+            service.toServiceDefinition(),
+            implementation.toUntypedServiceImplementation()
+        )
+    }
 
 private fun BindableService.toUntypedServiceImplementation() =
     json(
@@ -43,11 +44,12 @@ private fun BindableService.toUntypedServiceImplementation() =
 suspend fun Server.start(
     address: String,
     credentials: ServerCredentials
-) = apply {
-    suspendCoroutine { continuation ->
-        bindAsync(address, credentials) { _, _ ->
-            start()
-            continuation.resume(Unit)
+) =
+    apply {
+        suspendCoroutine { continuation ->
+            bindAsync(address, credentials) { _, _ ->
+                start()
+                continuation.resume(Unit)
+            }
         }
     }
-}

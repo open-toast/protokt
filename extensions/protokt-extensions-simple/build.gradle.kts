@@ -14,11 +14,8 @@
  */
 
 plugins {
-    id("protokt.multiplatform-conventions")
+    id("protokt.multiplatform-published-conventions")
 }
-
-enablePublishing()
-trackKotlinApiCompatibility()
 
 kotlin {
     sourceSets {

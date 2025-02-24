@@ -27,12 +27,17 @@ internal fun generateGrpcKotlinStubs(
     request: CodeGeneratorRequest
 ): List<CodeGeneratorResponse.File> =
     if (
-        params.appliedKotlinPlugin in setOf(KotlinPlugin.JVM, KotlinPlugin.ANDROID) &&
+        params.kotlinTarget.treatTargetAsJvm &&
         params.generateGrpcKotlinStubs
     ) {
         val out = ReadableByteArrayOutputStream()
         GeneratorRunner.mainAsProtocPlugin(stripPackages(request).toByteArray().inputStream(), out)
         CodeGeneratorResponse.parseFrom(out.inputStream()).fileList
+            .map {
+                it.toBuilder()
+                    .setContent(tidy(it.content, params.formatOutput))
+                    .build()
+            }
     } else {
         emptyList()
     }
@@ -46,6 +51,7 @@ private fun stripPackages(request: CodeGeneratorRequest) =
                     .setOptions(
                         fdp.options.toBuilder()
                             .setJavaPackage(resolvePackage(fdp.`package`))
+                            .setJavaMultipleFiles(true)
                             .build()
                     )
                     .build()

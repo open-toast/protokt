@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Toast, Inc.
+ * Copyright (c) 2024 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,19 +13,10 @@
  * limitations under the License.
  */
 
-package protokt.v1.grpc
+package protokt.v1.testing
 
-import io.grpc.MethodDescriptor
-import protokt.v1.Deserializer
 import protokt.v1.Message
-import java.io.InputStream
 
-class KtMarshaller<T : Message>(
-    private val deserializer: Deserializer<T>
-) : MethodDescriptor.Marshaller<T> {
-    override fun stream(value: T) =
-        value.serialize().inputStream()
-
-    override fun parse(stream: InputStream) =
-        deserializer.deserialize(stream)
+interface IModel3 : Message {
+    val id: String?
 }

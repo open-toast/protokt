@@ -23,11 +23,13 @@ allprojects {
         val editorConfigOverride =
             mapOf(
                 "ktlint_standard_trailing-comma-on-call-site" to "disabled",
-                "ktlint_standard_trailing-comma-on-declaration-site" to "disabled"
+                "ktlint_standard_trailing-comma-on-declaration-site" to "disabled",
+                "ktlint_function_signature_body_expression_wrapping" to "always",
+                "ij_kotlin_packages_to_use_import_on_demand" to null,
             )
 
         kotlin {
-            ktlint().editorConfigOverride(editorConfigOverride)
+            ktlint(libs.versions.ktlint.get()).editorConfigOverride(editorConfigOverride)
             target("**/*.kt")
             targetExclude(
                 "buildSrc/build/generated-sources/**",
@@ -41,7 +43,7 @@ allprojects {
         }
 
         kotlinGradle {
-            ktlint().editorConfigOverride(editorConfigOverride)
+            ktlint(libs.versions.ktlint.get()).editorConfigOverride(editorConfigOverride)
             target("**/*.kts")
             targetExclude("buildSrc/build/**")
             licenseHeaderFile(
@@ -77,7 +79,9 @@ allprojects {
                     "examples/protos/src/main/proto/helloworld/hello_world.proto",
                     "examples/protos/src/main/proto/io/grpc/examples/route_guide.proto",
                     "testing/conformance/driver/src/main/proto/conformance/conformance.proto",
-                    "testing/conformance/driver/src/main/proto/proto3/test_messages_proto3.proto",
+                    "testing/conformance/driver/src/main/proto/protobuf_test_messages/editions/proto3/test_messages_proto3_editions.proto",
+                    "testing/conformance/driver/src/main/proto/protobuf_test_messages/editions/test_messages_edition2023.proto",
+                    "testing/conformance/driver/src/main/proto/protobuf_test_messages/proto3/test_messages_proto3.proto",
                     "testing/interop/src/main/proto/tutorial/addressbook.proto",
                     "testing/interop/src/main/proto/google/protobuf/unittest_import.proto",
                     "testing/interop/src/main/proto/google/protobuf/unittest_import_public.proto",
@@ -89,7 +93,7 @@ allprojects {
             )
             licenseHeaderFile(
                 rootProject.file("gradle/license-header-c-style"),
-                "(syntax )"
+                "(syntax |edition )"
             )
         }
     }

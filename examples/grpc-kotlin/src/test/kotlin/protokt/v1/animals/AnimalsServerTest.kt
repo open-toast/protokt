@@ -28,24 +28,25 @@ class AnimalsServerTest {
     val grpcServerRule: GrpcServerRule = GrpcServerRule().directExecutor()
 
     @Test
-    fun animals() = runBlocking {
-        val dogService = AnimalsServer.DogService()
-        val pigService = AnimalsServer.PigService()
-        val sheepService = AnimalsServer.SheepService()
-        grpcServerRule.serviceRegistry.addService(dogService)
-        grpcServerRule.serviceRegistry.addService(pigService)
-        grpcServerRule.serviceRegistry.addService(sheepService)
+    fun animals() =
+        runBlocking {
+            val dogService = AnimalsServer.DogService()
+            val pigService = AnimalsServer.PigService()
+            val sheepService = AnimalsServer.SheepService()
+            grpcServerRule.serviceRegistry.addService(dogService)
+            grpcServerRule.serviceRegistry.addService(pigService)
+            grpcServerRule.serviceRegistry.addService(sheepService)
 
-        val dogStub = DogGrpcKt.DogCoroutineStub(grpcServerRule.channel)
-        val dogBark = dogStub.bark(BarkRequest { })
-        assertEquals("Bark!", dogBark.message)
+            val dogStub = DogGrpcKt.DogCoroutineStub(grpcServerRule.channel)
+            val dogBark = dogStub.bark(BarkRequest { })
+            assertEquals("Bark!", dogBark.message)
 
-        val pigStub = PigGrpcKt.PigCoroutineStub(grpcServerRule.channel)
-        val pigOink = pigStub.oink(OinkRequest { })
-        assertEquals("Oink!", pigOink.message)
+            val pigStub = PigGrpcKt.PigCoroutineStub(grpcServerRule.channel)
+            val pigOink = pigStub.oink(OinkRequest { })
+            assertEquals("Oink!", pigOink.message)
 
-        val sheepStub = SheepGrpcKt.SheepCoroutineStub(grpcServerRule.channel)
-        val sheepBaa = sheepStub.baa(BaaRequest { })
-        assertEquals("Baa!", sheepBaa.message)
-    }
+            val sheepStub = SheepGrpcKt.SheepCoroutineStub(grpcServerRule.channel)
+            val sheepBaa = sheepStub.baa(BaaRequest { })
+            assertEquals("Baa!", sheepBaa.message)
+        }
 }
