@@ -39,8 +39,6 @@ fun Project.compatibleWithAndroid(api: Int = 19) {
         ignore {
             // JVM-specific implementations
             callerStartsWith("com/google/protobuf/UnsafeUtil\$JvmMemoryAccessor")
-//            callerStartsWith("kotlin/random/jdk8/PlatformThreadLocalRandom")
-//            callerStartsWith("kotlin/internal/jdk8/JDK8PlatformImplementations")
             // assume the parts of Guava that we are using are ok
             callerStartsWith("com/google/common")
 
