@@ -1,0 +1,69 @@
+{
+  "name": "protokt-extensions-api",
+  "issues": [
+    {
+      "type": "member-missing",
+      "caller": "kotlin/internal/jdk8/JDK8PlatformImplementations",
+      "member": {
+        "type": "method",
+        "targetType": "java/util/regex/Matcher",
+        "ref": {
+          "name": "end",
+          "signature": "(Ljava/lang/String;)I"
+        },
+        "accessType": "VIRTUAL"
+      }
+    },
+    {
+      "type": "member-missing",
+      "caller": "kotlin/internal/jdk8/JDK8PlatformImplementations",
+      "member": {
+        "type": "method",
+        "targetType": "java/util/regex/Matcher",
+        "ref": {
+          "name": "start",
+          "signature": "(Ljava/lang/String;)I"
+        },
+        "accessType": "VIRTUAL"
+      }
+    },
+    {
+      "type": "member-missing",
+      "caller": "kotlin/internal/jdk8/JDK8PlatformImplementations",
+      "member": {
+        "type": "method",
+        "targetType": "java/util/regex/Matcher",
+        "ref": {
+          "name": "group",
+          "signature": "(Ljava/lang/String;)Ljava/lang/String;"
+        },
+        "accessType": "VIRTUAL"
+      }
+    },
+    {
+      "type": "type-missing",
+      "caller": "kotlin/random/jdk8/PlatformThreadLocalRandom",
+      "target": "java/util/concurrent/ThreadLocalRandom"
+    },
+    {
+      "type": "type-missing",
+      "caller": "io/grpc/CallOptions",
+      "target": "java/time/Duration"
+    },
+    {
+      "type": "type-missing",
+      "caller": "io/grpc/InternalTimeUtils",
+      "target": "java/time/Duration"
+    },
+    {
+      "type": "type-missing",
+      "caller": "io/grpc/TimeUtils",
+      "target": "java/time/Duration"
+    },
+    {
+      "type": "type-missing",
+      "caller": "io/grpc/stub/AbstractStub",
+      "target": "java/time/Duration"
+    }
+  ]
+}
