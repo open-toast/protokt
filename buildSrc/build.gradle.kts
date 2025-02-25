@@ -33,7 +33,7 @@ repositories {
 
 dependencies {
     implementation(libs.androidGradlePlugin)
-    implementation(libs.animalSnifferGradlePlugin)
+    implementation(libs.expediter)
     implementation(libs.binaryCompatibilityValidator)
     implementation(libs.gradleMavenPublishPlugin)
     implementation(libs.kotlinGradlePlugin)
