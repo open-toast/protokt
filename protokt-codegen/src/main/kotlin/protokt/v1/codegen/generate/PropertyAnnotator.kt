@@ -21,6 +21,7 @@ import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.asTypeName
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Deprecation.renderOptions
+import protokt.v1.codegen.generate.Implements.OverriddenProperty
 import protokt.v1.codegen.generate.Implements.overrides
 import protokt.v1.codegen.generate.Nullability.deserializeType
 import protokt.v1.codegen.generate.Nullability.dslPropertyType
@@ -146,7 +147,7 @@ internal class PropertyInfo(
     val mapEntry: Message? = null,
     val oneof: Boolean = false,
     val wrapped: Boolean = false,
-    val overrides: Boolean = false,
+    val overrides: OverriddenProperty? = null,
     val documentation: List<String>?,
     val deprecation: Deprecation.RenderOptions? = null
 ) {

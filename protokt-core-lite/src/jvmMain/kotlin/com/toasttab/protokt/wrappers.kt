@@ -46,6 +46,7 @@ import kotlin.Unit
  *
  *  The JSON representation for `DoubleValue` is JSON number.
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.DoubleValue")
 class DoubleValue private constructor(
     /**
@@ -127,6 +128,7 @@ class DoubleValue private constructor(
  *
  *  The JSON representation for `FloatValue` is JSON number.
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.FloatValue")
 class FloatValue private constructor(
     /**
@@ -208,6 +210,7 @@ class FloatValue private constructor(
  *
  *  The JSON representation for `Int64Value` is JSON string.
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.Int64Value")
 class Int64Value private constructor(
     /**
@@ -289,6 +292,7 @@ class Int64Value private constructor(
  *
  *  The JSON representation for `UInt64Value` is JSON string.
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.UInt64Value")
 class UInt64Value private constructor(
     /**
@@ -370,6 +374,7 @@ class UInt64Value private constructor(
  *
  *  The JSON representation for `Int32Value` is JSON number.
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.Int32Value")
 class Int32Value private constructor(
     /**
@@ -451,6 +456,7 @@ class Int32Value private constructor(
  *
  *  The JSON representation for `UInt32Value` is JSON number.
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.UInt32Value")
 class UInt32Value private constructor(
     /**
@@ -532,6 +538,7 @@ class UInt32Value private constructor(
  *
  *  The JSON representation for `BoolValue` is JSON `true` and `false`.
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.BoolValue")
 class BoolValue private constructor(
     /**
@@ -613,6 +620,7 @@ class BoolValue private constructor(
  *
  *  The JSON representation for `StringValue` is JSON string.
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.StringValue")
 class StringValue private constructor(
     /**
@@ -694,6 +702,7 @@ class StringValue private constructor(
  *
  *  The JSON representation for `BytesValue` is JSON string.
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.BytesValue")
 class BytesValue private constructor(
     /**

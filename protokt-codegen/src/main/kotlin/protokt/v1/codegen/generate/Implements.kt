@@ -27,15 +27,24 @@ import protokt.v1.codegen.generate.Nullability.nonNullPropName
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.StandardField
 import kotlin.reflect.KClass
+import kotlin.reflect.KProperty
 
 internal object Implements {
+    class OverriddenProperty(
+        val property: KProperty<*>
+    )
+
     fun StandardField.overrides(
         ctx: Context,
         msg: Message
     ) =
         msg.superInterface(ctx)
-            ?.let { fieldName in ctx.info.context.classLookup.properties(it.canonicalName).map { p -> p.name } }
-            ?: false
+            ?.let {
+                ctx.info.context.classLookup
+                    .properties(it.canonicalName)
+                    .find { p -> p.name == fieldName }
+                    ?.let(::OverriddenProperty)
+            }
 
     fun TypeSpec.Builder.handleSuperInterface(implements: ClassName?, v: OneofGeneratorInfo? = null) =
         apply {
@@ -61,7 +70,7 @@ internal object Implements {
         }
 
     private fun TypeSpec.Builder.delegateProperties(msg: Message, ctx: Context, canonicalName: String, fieldName: String) {
-        val fieldsByName = msg.fields.filterIsInstance<StandardField>().associateBy { it.fieldName }
+        val fieldsByName = msg.fields.associateBy { it.fieldName }
 
         val interfaceFields =
             ctx.info.context.classLookup
@@ -77,7 +86,7 @@ internal object Implements {
                     field.name,
                     (field.returnType.classifier as KClass<*>).asTypeName()
                         .let {
-                            if (assumeNotNull) {
+                            if (assumeNotNull && !field.returnType.isMarkedNullable) {
                                 it
                             } else {
                                 it.copy(nullable = true)

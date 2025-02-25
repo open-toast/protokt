@@ -120,6 +120,7 @@ import kotlin.Unit
  *
  *
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.Timestamp")
 class Timestamp private constructor(
     /**

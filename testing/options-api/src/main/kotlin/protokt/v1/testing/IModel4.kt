@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Toast, Inc.
+ * Copyright (c) 2025 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,8 @@
  * limitations under the License.
  */
 
-package com.toasttab.protokt.rt
+package protokt.v1.testing
 
-@Deprecated("for backwards compatibility only")
-annotation class KtGeneratedFileDescriptor
+interface IModel4 {
+    val bar: IModel?
+}

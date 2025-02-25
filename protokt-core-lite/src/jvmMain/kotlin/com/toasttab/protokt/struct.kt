@@ -53,6 +53,7 @@ import kotlin.collections.MutableMap
  *
  *  The JSON representation for `Struct` is JSON object.
  */
+@Deprecated("for backwards compatibility only")
 sealed class NullValue(
     override val `value`: Int,
     override val name: String,
@@ -82,6 +83,7 @@ sealed class NullValue(
  *
  *  The JSON representation for `Struct` is JSON object.
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.Struct")
 class Struct private constructor(
     /**
@@ -210,6 +212,7 @@ class Struct private constructor(
  *
  *  The JSON representation for `Value` is JSON value.
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.Value")
 class Value private constructor(
     /**
@@ -371,6 +374,7 @@ class Value private constructor(
  *
  *  The JSON representation for `ListValue` is JSON array.
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.ListValue")
 class ListValue private constructor(
     /**

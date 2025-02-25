@@ -85,6 +85,7 @@ import kotlin.Unit
  *      {       "@type": "type.googleapis.com/google.protobuf.Duration",       "value": "1.212s"
  * }
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.Any")
 class Any private constructor(
     /**

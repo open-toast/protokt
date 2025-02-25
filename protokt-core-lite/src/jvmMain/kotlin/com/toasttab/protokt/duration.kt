@@ -82,6 +82,7 @@ import kotlin.Unit
  *
  *
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.Duration")
 class Duration private constructor(
     /**

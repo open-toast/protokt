@@ -141,7 +141,7 @@ private class MessageGenerator(
                     )
                 }
                 initializer(property.name)
-                if (property.overrides) {
+                if (property.overrides != null) {
                     addModifiers(KModifier.OVERRIDE)
                 }
                 property.documentation?.let { addKdoc(formatDoc(it)) }
@@ -159,6 +159,9 @@ private class MessageGenerator(
                             .build()
                     )
                 }
+                if (property.overrides != null) {
+                    addModifiers(KModifier.OVERRIDE)
+                }
                 initializer(property.name)
             }.build(),
             PropertySpec.builder(nonNullPropName(property.name), property.propertyType.copy(nullable = false)).apply {
@@ -167,16 +170,13 @@ private class MessageGenerator(
                         .addCode("return ${dereferenceNullableBackingProperty(property.name)}")
                         .build()
                 )
-                if (property.overrides) {
-                    addModifiers(KModifier.OVERRIDE)
-                }
                 property.documentation?.let { addKdoc(formatDoc(it)) }
                 handleDeprecation(property.deprecation)
             }.build()
         )
 
     private fun dereferenceNullableBackingProperty(propName: String) =
-        "requireNotNull($propName) { \"$propName is assumed non-null with (protokt.property).generate_non_null_accessor but was null\" }".bindSpaces()
+        "requireNotNull($propName) { \"$propName is assumed non-null with (protokt.v1.property).generate_non_null_accessor but was null\" }".bindSpaces()
 
     private fun TypeSpec.Builder.handleMessageSize(propertySpecs: List<PropertySpec>) {
         addProperty(generateMessageSize(msg, propertySpecs, ctx))

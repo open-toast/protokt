@@ -54,6 +54,11 @@ class MessageImplementsTest {
     }
 
     @Test
+    fun `message implementing by a nullable delegate has its delegated property nullable when the delegate has a non-null accessor`() {
+        assertThat(ImplementsModelAgainAgain::class.propertyIsMarkedNullable("bar")).isTrue()
+    }
+
+    @Test
     fun `message implementing by a nullable delegate can be assigned to its interface`() {
         val byDelegate: IModel2 = ImplementsWithNullableDelegate { modelTwo = model2 }
 

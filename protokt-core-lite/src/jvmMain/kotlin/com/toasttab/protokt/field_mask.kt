@@ -168,6 +168,7 @@ import kotlin.collections.MutableList
  *  The implementation of any API method which has a FieldMask type field in the request should
  * verify the included field paths, and return an `INVALID_ARGUMENT` error if any path is unmappable.
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.FieldMask")
 class FieldMask private constructor(
     /**
