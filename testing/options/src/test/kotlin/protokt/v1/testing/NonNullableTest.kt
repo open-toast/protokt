@@ -49,7 +49,7 @@ class NonNullableTest {
         assertThat(thrown).hasMessageThat().apply {
             contains("nonNullStringValue")
             contains("was null")
-            contains("(protokt.property).generate_non_null_accessor")
+            contains("(protokt.v1.property).generate_non_null_accessor")
         }
     }
 }
