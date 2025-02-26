@@ -141,7 +141,7 @@ private class MessageGenerator(
                     )
                 }
                 initializer(property.name)
-                if (property.overrides != null) {
+                if (property.overrides) {
                     addModifiers(KModifier.OVERRIDE)
                 }
                 property.documentation?.let { addKdoc(formatDoc(it)) }
@@ -159,7 +159,7 @@ private class MessageGenerator(
                             .build()
                     )
                 }
-                if (property.overrides != null) {
+                if (property.overrides) {
                     addModifiers(KModifier.OVERRIDE)
                 }
                 initializer(property.name)

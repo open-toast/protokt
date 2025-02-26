@@ -147,7 +147,7 @@ internal class PropertyInfo(
     val mapEntry: Message? = null,
     val oneof: Boolean = false,
     val wrapped: Boolean = false,
-    val overrides: OverriddenProperty? = null,
+    val overrides: Boolean = false,
     val documentation: List<String>?,
     val deprecation: Deprecation.RenderOptions? = null
 ) {

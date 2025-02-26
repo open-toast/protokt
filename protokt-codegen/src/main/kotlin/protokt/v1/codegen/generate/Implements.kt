@@ -27,24 +27,15 @@ import protokt.v1.codegen.generate.Nullability.nonNullPropName
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.StandardField
 import kotlin.reflect.KClass
-import kotlin.reflect.KProperty
 
 internal object Implements {
-    class OverriddenProperty(
-        val property: KProperty<*>
-    )
-
     fun StandardField.overrides(
         ctx: Context,
         msg: Message
     ) =
         msg.superInterface(ctx)
-            ?.let {
-                ctx.info.context.classLookup
-                    .properties(it.canonicalName)
-                    .find { p -> p.name == fieldName }
-                    ?.let(::OverriddenProperty)
-            }
+            ?.let { fieldName in ctx.info.context.classLookup.properties(it.canonicalName).map { p -> p.name } }
+            ?: false
 
     fun TypeSpec.Builder.handleSuperInterface(implements: ClassName?, v: OneofGeneratorInfo? = null) =
         apply {
