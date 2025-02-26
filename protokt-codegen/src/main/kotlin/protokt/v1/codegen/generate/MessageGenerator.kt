@@ -167,7 +167,7 @@ private class MessageGenerator(
             PropertySpec.builder(nonNullPropName(property.name), property.propertyType.copy(nullable = false)).apply {
                 getter(
                     FunSpec.getterBuilder()
-                        .addCode("return ${dereferenceNullableBackingProperty(property.name)}")
+                        .addCode("return ${dereferenceNullableBackingProperty(property.name, property.oneof)}")
                         .build()
                 )
                 property.documentation?.let { addKdoc(formatDoc(it)) }
@@ -175,8 +175,8 @@ private class MessageGenerator(
             }.build()
         )
 
-    private fun dereferenceNullableBackingProperty(propName: String) =
-        "requireNotNull($propName) { \"$propName is assumed non-null with (protokt.v1.property).generate_non_null_accessor but was null\" }".bindSpaces()
+    private fun dereferenceNullableBackingProperty(propName: String, oneof: Boolean) =
+        "requireNotNull($propName) { \"$propName is assumed non-null with (protokt.v1.${if (oneof) "oneof" else "property"}).generate_non_null_accessor but was null\" }".bindSpaces()
 
     private fun TypeSpec.Builder.handleMessageSize(propertySpecs: List<PropertySpec>) {
         addProperty(generateMessageSize(msg, propertySpecs, ctx))

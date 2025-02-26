@@ -40,6 +40,7 @@ message ImplementsOneof2 {
 message ContainsOneofThatImplements {
   oneof implementing_oneof {
     option (.protokt.v1.oneof).implements = "OneofModel";
+    option (.protokt.v1.oneof).generate_non_null_accessor = true;
 
     ImplementsOneof1 implements_one = 1;
     ImplementsOneof2 implements_two = 2;
