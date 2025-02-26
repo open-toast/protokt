@@ -17,6 +17,7 @@ package protokt.v1.testing
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
+import protokt.v1.testing.ImplementsModel4DelegatingToOneof.Baz.Qux
 
 class MessageImplementsTest {
     private val model = ImplementsModel { id = Id("asdf") }
@@ -55,7 +56,18 @@ class MessageImplementsTest {
 
     @Test
     fun `message implementing by a nullable delegate has its delegated property nullable when the delegate has a non-null accessor`() {
-        assertThat(ImplementsModelAgainAgain::class.propertyIsMarkedNullable("bar")).isTrue()
+        assertThat(ImplementsModel4Again::class.propertyIsMarkedNullable("bar")).isTrue()
+    }
+
+    @Test
+    fun `message implementing by a nullable delegate oneof`() {
+        val byDelegate: IModel4 = ImplementsModel4DelegatingToOneof { baz = Qux(ImplementsModel4 {}) }
+        val fromDelegate: IModel4? = ImplementsModel4DelegatingToOneof { baz = Qux(ImplementsModel4 {}) }.baz
+
+        assertThat(byDelegate).isNotNull()
+        assertThat(fromDelegate).isNotNull()
+
+        assertThat(ImplementsModel4DelegatingToOneof::class.propertyIsMarkedNullable("bar")).isTrue()
     }
 
     @Test

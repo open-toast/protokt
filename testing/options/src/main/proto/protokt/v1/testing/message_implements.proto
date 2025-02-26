@@ -70,15 +70,25 @@ message ImplementsModel3 {
 }
 
 // name conflict between `bar` and `requireBar` during code generation
-message ImplementsModelAgain {
+message ImplementsModel4 {
   option (.protokt.v1.class).implements = "IModel4";
 
   ImplementsModel bar = 1 [(protokt.v1.property).generate_non_null_accessor = true];
 }
 
 // type conflict: delegated property `bar` must be nullable
-message ImplementsModelAgainAgain {
+message ImplementsModel4Again {
   option (.protokt.v1.class).implements = "IModel4 by baz";
 
-  ImplementsModelAgain baz = 1 [(protokt.v1.property).generate_non_null_accessor = true];
+  ImplementsModel4 baz = 1 [(protokt.v1.property).generate_non_null_accessor = true];
+}
+
+message ImplementsModel4DelegatingToOneof {
+  option (.protokt.v1.class).implements = "IModel4 by baz";
+
+  oneof baz {
+    option (.protokt.v1.oneof).implements = "IModel4";
+
+    ImplementsModel4 qux = 1;
+  }
 }
