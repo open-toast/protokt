@@ -943,11 +943,6 @@ public final class protokt/v1/ProtoktKt {
 	public static final fun getDescriptor (Lprotokt/v1/ServiceOptions$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 }
 
-public final class protokt/v1/ProtoktProtos {
-	public static final field INSTANCE Lprotokt/v1/ProtoktProtos;
-	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
-}
-
 public final class protokt/v1/ServiceOptions : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/ServiceOptions$Deserializer;
 	public synthetic fun <init> (Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -984,5 +979,10 @@ public final class protokt/v1/google/protobuf/Messages {
 public final class protokt/v1/google/protobuf/RuntimeContext {
 	public fun <init> (Ljava/lang/Iterable;)V
 	public final fun convertValue (Ljava/lang/Object;)Ljava/lang/Object;
+}
+
+public final class protokt/v1/protokt_file_descriptor {
+	public static final field INSTANCE Lprotokt/v1/protokt_file_descriptor;
+	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
 }
 

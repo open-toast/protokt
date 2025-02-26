@@ -214,18 +214,8 @@ public final class protokt/v1/google/protobuf/Anies {
 	public static synthetic fun pack$default (Lprotokt/v1/google/protobuf/Any$Deserializer;Lprotokt/v1/Message;Ljava/lang/String;ILjava/lang/Object;)Lprotokt/v1/google/protobuf/Any;
 }
 
-public final class protokt/v1/google/protobuf/AnyProto {
-	public static final field INSTANCE Lprotokt/v1/google/protobuf/AnyProto;
-	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
-}
-
 public final class protokt/v1/google/protobuf/Any_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/Any$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
-}
-
-public final class protokt/v1/google/protobuf/ApiProto {
-	public static final field INSTANCE Lprotokt/v1/google/protobuf/ApiProto;
-	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
 }
 
 public final class protokt/v1/google/protobuf/Api_descriptorsKt {
@@ -241,11 +231,6 @@ public final class protokt/v1/google/protobuf/Descriptor {
 	public final fun getIndex ()I
 	public final fun getNestedTypes ()Ljava/util/List;
 	public final fun getProto ()Lprotokt/v1/google/protobuf/DescriptorProto;
-}
-
-public final class protokt/v1/google/protobuf/DescriptorProtos {
-	public static final field INSTANCE Lprotokt/v1/google/protobuf/DescriptorProtos;
-	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
 }
 
 public final class protokt/v1/google/protobuf/Descriptor_descriptorsKt {
@@ -301,18 +286,8 @@ public final class protokt/v1/google/protobuf/Descriptor_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/UninterpretedOption$NamePart$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 }
 
-public final class protokt/v1/google/protobuf/DurationProto {
-	public static final field INSTANCE Lprotokt/v1/google/protobuf/DurationProto;
-	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
-}
-
 public final class protokt/v1/google/protobuf/Duration_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/Duration$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
-}
-
-public final class protokt/v1/google/protobuf/EmptyProto {
-	public static final field INSTANCE Lprotokt/v1/google/protobuf/EmptyProto;
-	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
 }
 
 public final class protokt/v1/google/protobuf/Empty_descriptorsKt {
@@ -324,11 +299,6 @@ public final class protokt/v1/google/protobuf/EnumDescriptor {
 	public final fun getFullName ()Ljava/lang/String;
 	public final fun getIndex ()I
 	public final fun getProto ()Lprotokt/v1/google/protobuf/EnumDescriptorProto;
-}
-
-public final class protokt/v1/google/protobuf/FieldMaskProto {
-	public static final field INSTANCE Lprotokt/v1/google/protobuf/FieldMaskProto;
-	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
 }
 
 public final class protokt/v1/google/protobuf/Field_mask_descriptorsKt {
@@ -357,18 +327,8 @@ public final class protokt/v1/google/protobuf/ServiceDescriptor {
 	public final fun getProto ()Lprotokt/v1/google/protobuf/ServiceDescriptorProto;
 }
 
-public final class protokt/v1/google/protobuf/SourceContextProto {
-	public static final field INSTANCE Lprotokt/v1/google/protobuf/SourceContextProto;
-	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
-}
-
 public final class protokt/v1/google/protobuf/Source_context_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/SourceContext$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
-}
-
-public final class protokt/v1/google/protobuf/StructProto {
-	public static final field INSTANCE Lprotokt/v1/google/protobuf/StructProto;
-	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
 }
 
 public final class protokt/v1/google/protobuf/Struct_descriptorsKt {
@@ -378,18 +338,8 @@ public final class protokt/v1/google/protobuf/Struct_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/Value$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 }
 
-public final class protokt/v1/google/protobuf/TimestampProto {
-	public static final field INSTANCE Lprotokt/v1/google/protobuf/TimestampProto;
-	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
-}
-
 public final class protokt/v1/google/protobuf/Timestamp_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/Timestamp$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
-}
-
-public final class protokt/v1/google/protobuf/TypeProto {
-	public static final field INSTANCE Lprotokt/v1/google/protobuf/TypeProto;
-	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
 }
 
 public final class protokt/v1/google/protobuf/Type_descriptorsKt {
@@ -401,11 +351,6 @@ public final class protokt/v1/google/protobuf/Type_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/Option$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/Syntax$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/Type$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
-}
-
-public final class protokt/v1/google/protobuf/WrappersProto {
-	public static final field INSTANCE Lprotokt/v1/google/protobuf/WrappersProto;
-	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
 }
 
 public final class protokt/v1/google/protobuf/Wrappers_descriptorsKt {
@@ -420,13 +365,68 @@ public final class protokt/v1/google/protobuf/Wrappers_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/UInt64Value$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 }
 
-public final class protokt/v1/pb/JavaFeaturesProto {
-	public static final field INSTANCE Lprotokt/v1/pb/JavaFeaturesProto;
+public final class protokt/v1/google/protobuf/any_file_descriptor {
+	public static final field INSTANCE Lprotokt/v1/google/protobuf/any_file_descriptor;
+	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
+}
+
+public final class protokt/v1/google/protobuf/api_file_descriptor {
+	public static final field INSTANCE Lprotokt/v1/google/protobuf/api_file_descriptor;
+	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
+}
+
+public final class protokt/v1/google/protobuf/descriptor_file_descriptor {
+	public static final field INSTANCE Lprotokt/v1/google/protobuf/descriptor_file_descriptor;
+	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
+}
+
+public final class protokt/v1/google/protobuf/duration_file_descriptor {
+	public static final field INSTANCE Lprotokt/v1/google/protobuf/duration_file_descriptor;
+	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
+}
+
+public final class protokt/v1/google/protobuf/empty_file_descriptor {
+	public static final field INSTANCE Lprotokt/v1/google/protobuf/empty_file_descriptor;
+	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
+}
+
+public final class protokt/v1/google/protobuf/field_mask_file_descriptor {
+	public static final field INSTANCE Lprotokt/v1/google/protobuf/field_mask_file_descriptor;
+	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
+}
+
+public final class protokt/v1/google/protobuf/source_context_file_descriptor {
+	public static final field INSTANCE Lprotokt/v1/google/protobuf/source_context_file_descriptor;
+	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
+}
+
+public final class protokt/v1/google/protobuf/struct_file_descriptor {
+	public static final field INSTANCE Lprotokt/v1/google/protobuf/struct_file_descriptor;
+	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
+}
+
+public final class protokt/v1/google/protobuf/timestamp_file_descriptor {
+	public static final field INSTANCE Lprotokt/v1/google/protobuf/timestamp_file_descriptor;
+	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
+}
+
+public final class protokt/v1/google/protobuf/type_file_descriptor {
+	public static final field INSTANCE Lprotokt/v1/google/protobuf/type_file_descriptor;
+	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
+}
+
+public final class protokt/v1/google/protobuf/wrappers_file_descriptor {
+	public static final field INSTANCE Lprotokt/v1/google/protobuf/wrappers_file_descriptor;
 	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
 }
 
 public final class protokt/v1/pb/Java_features_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/pb/JavaFeatures$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/pb/JavaFeatures$Utf8Validation$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+}
+
+public final class protokt/v1/pb/java_features_file_descriptor {
+	public static final field INSTANCE Lprotokt/v1/pb/java_features_file_descriptor;
+	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
 }
 
