@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast, Inc.
+ * Copyright (c) 2019 Toast Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,54 +15,68 @@
 
 syntax = "proto3";
 
-package protokt.v1;
+package protokt;
 
 import "google/protobuf/descriptor.proto";
 
-option java_package = "com.toasttab.protokt.v1";
-option java_outer_classname = "ProtoktProtos";
+option java_package = "com.toasttab.protokt.ext";
+option java_outer_classname = "ProtoktProto";
 
-message FileOptions {
+option deprecated = true;
+
+message ProtoktFileOptions {
+  option deprecated = true;
+
+  // Specify the Kotlin package for the generated file. Precedence is given
+  // first to this Kotlin package, then to the Java package if enabled in
+  // the plugin options, and finally to the protobuf package.
+  string kotlin_package = 1 [deprecated = true];
+
   // Specify the name of the Kotlin object that contains the reference to this
   // file's FileDescriptor object.
-  string file_descriptor_object_name = 1;
+  string file_descriptor_object_name = 2 [deprecated = true];
 }
 
 extend google.protobuf.FileOptions {
-  FileOptions file = 1253;
+  ProtoktFileOptions file = 1072 [deprecated = true];
 }
 
-message MessageOptions {
+message ProtoktMessageOptions {
+  option deprecated = true;
+
   // Declares that the message class implements an interface. Scoping rules
   // are the same as those for declaring wrapper types.
-  string implements = 1;
+  string implements = 1 [deprecated = true];
 
   // Provides a message for deprecation
-  string deprecation_message = 2;
+  string deprecation_message = 2 [deprecated = true];
 }
 
 extend google.protobuf.MessageOptions {
-  MessageOptions class = 1253;
+  ProtoktMessageOptions class = 1072 [deprecated = true];
 }
 
-message FieldOptions {
-  // Generates a non-nullable accessor.
+message ProtoktFieldOptions {
+  option deprecated = true;
+
+  // Makes a message-type field non-nullable in the generated Kotlin code.
+  // Beware that deserialization will NPE if the field is missing from the
+  // protobuf payload. Adding a non-null field to an existing message is a
+  // backwards-incompatible change.
   //
   // For example:
   //
   // message Foo {
-  //   Bar id = 1 [(protokt.v1.property).generate_non_null_accessor = true];
+  //   string id = 1 [(protokt.property).non_null = true];
   // }
-  //
-  // will generate an accessor called [requireId] that has the non-nullable type [Bar] (as opposed to [Bar?]).
-  bool generate_non_null_accessor = 1;
+  bool non_null = 1 [deprecated = true];
 
   // Expose a wrapper class instead of a raw protobuf type.
   //
   // For example:
   //
   // message Foo {
-  //   string id = 1 [(protokt.v1.property).wrap = "com.foo.FooId"];
+  //   string id = 1 [(protokt.property).wrap = "com.foo.FooId"];
   // }
   //
   // data class FooId(val value: String)
@@ -75,14 +89,14 @@ message FieldOptions {
   // full qualification is optional.
   //
   // This option can be applied to repeated fields.
-  string wrap = 2;
+  string wrap = 2 [deprecated = true];
 
   // Maps a bytes field to BytesSlice. If deserialized from a byte array,
   // BytesSlice will point to the source array without copying the subarray.
-  bool bytes_slice = 3;
+  bool bytes_slice = 3 [deprecated = true];
 
   // Provides a message for deprecation
-  string deprecation_message = 4;
+  string deprecation_message = 4 [deprecated = true];
 
   // Expose a wrapper class instead of a raw protobuf type for the key type of
   // a map.
@@ -90,7 +104,7 @@ message FieldOptions {
   // For example:
   //
   // message Foo {
-  //   map<string, int32> map = 1 [(protokt.v1.property).key_wrap = "com.foo.FooId"];
+  //   map<string, int32> map = 1 [(protokt.property).key_wrap = "com.foo.FooId"];
   // }
   //
   // data class FooId(val value: String)
@@ -99,7 +113,7 @@ message FieldOptions {
   // class Foo(val map: Map<FooId, String>) ...
   //
   // Scoping rules  are the same as those for declaring regular field wrapper types.
-  string key_wrap = 5;
+  string key_wrap = 5 [deprecated = true];
 
   // Expose a wrapper class instead of a raw protobuf type for the value type of
   // a map.
@@ -107,7 +121,7 @@ message FieldOptions {
   // For example:
   //
   // message Foo {
-  //   map<int32, string> map = 1 [(protokt.v1.property).value_wrap = "com.foo.FooId"];
+  //   map<int32, strig> map = 1 [(protokt.property).value_wrap = "com.foo.FooId"];
   // }
   //
   // data class FooId(val value: String)
@@ -116,77 +130,90 @@ message FieldOptions {
   // class Foo(val map: Map<Int, FooId>) ...
   //
   // Scoping rules  are the same as those for declaring regular field wrapper types.
-  string value_wrap = 6;
+  string value_wrap = 6 [deprecated = true];
 }
 
 extend google.protobuf.FieldOptions {
-  FieldOptions property = 1253;
+  ProtoktFieldOptions property = 1072 [deprecated = true];
 }
 
-message OneofOptions {
-  // Generates a non-nullable accessor for a oneof field.
+message ProtoktOneofOptions {
+  option deprecated = true;
+
+  // Makes a oneof field non-nullable in generated Kotlin code. Beware that
+  // deserialization will NPE if the field is missing from the protobuf payload.
+  // Adding a non-null field to an existing message is a backwards-incompatible
+  // change.
   //
   // For example:
   //
   // message Message {
   //   oneof some_field_name {
-  //     option (protokt.v1.oneof).generate_non_null_accessor = true;
+  //     option (protokt.oneof).non_null = true;
   //
   //     string id = 1;
   //   }
   // }
   //
-  bool generate_non_null_accessor = 1;
+  bool non_null = 1 [deprecated = true];
 
   // Make the sealed class implement an interface, enforcing the presence of a
   // property in each possible variant. Scoping rules  are the same as those
   // for declaring wrapper types.
-  string implements = 2;
+  string implements = 2 [deprecated = true];
 
   // Provides a message for deprecation
-  string deprecation_message = 3;
+  string deprecation_message = 3 [deprecated = true];
 }
 
 extend google.protobuf.OneofOptions {
-  OneofOptions oneof = 1253;
+  ProtoktOneofOptions oneof = 1072 [deprecated = true];
 }
 
-message EnumOptions {
+message ProtoktEnumOptions {
+  option deprecated = true;
+
   // Provides a message for deprecation
-  string deprecation_message = 1;
+  string deprecation_message = 1 [deprecated = true];
 }
 
 extend google.protobuf.EnumOptions {
-  EnumOptions enum = 1253;
+  ProtoktEnumOptions enum = 1072 [deprecated = true];
 }
 
-message EnumValueOptions {
+message ProtoktEnumValueOptions {
+  option deprecated = true;
+
   // Provides a message for deprecation
-  string deprecation_message = 1;
+  string deprecation_message = 1 [deprecated = true];
 }
 
 extend google.protobuf.EnumValueOptions {
-  EnumValueOptions enum_value = 1253;
+  ProtoktEnumValueOptions enum_value = 1072 [deprecated = true];
 }
 
-message ServiceOptions {}
+message ProtoktServiceOptions {
+  option deprecated = true;
+}
 
 extend google.protobuf.ServiceOptions {
-  ServiceOptions service = 1253;
+  ProtoktServiceOptions service = 1072 [deprecated = true];
 }
 
-message MethodOptions {
+message ProtoktMethodOptions {
+  option deprecated = true;
+
   // Provides a custom request marshaller for the generated method descriptor.
   // Substitutes the provided expression directly for
   // `com.toasttab.protokt.grpc.KtMarshaller(<request_type>)`
-  string request_marshaller = 1;
+  string request_marshaller = 1 [deprecated = true];
 
   // Provides a custom response marshaller for the generated method descriptor.
   // Substitutes the provided expression directly for
   // `com.toasttab.protokt.grpc.KtMarshaller(<response_type>)`
-  string response_marshaller = 2;
+  string response_marshaller = 2 [deprecated = true];
 }
 
 extend google.protobuf.MethodOptions {
-  MethodOptions method = 1253;
+  ProtoktMethodOptions method = 1072 [deprecated = true];
 }

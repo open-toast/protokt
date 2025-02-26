@@ -43,6 +43,31 @@ public final class protokt/v1/Protokt_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/ServiceOptions$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 }
 
+public final class protokt/v1/protokt/Protokt_descriptorsKt {
+	public static final fun getDescriptor (Lprotokt/v1/protokt/ProtoktEnumOptions$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/protokt/ProtoktEnumValueOptions$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/protokt/ProtoktFieldOptions$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/protokt/ProtoktFileOptions$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/protokt/ProtoktMessageOptions$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/protokt/ProtoktMethodOptions$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/protokt/ProtoktOneofOptions$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/protokt/ProtoktServiceOptions$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+}
+
+public final class protokt/v1/protokt/ext/Inet_socket_address_descriptorsKt {
+	public static final fun getDescriptor (Lprotokt/v1/protokt/ext/InetSocketAddress$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+}
+
+public final class protokt/v1/protokt/ext/inet_socket_address_file_descriptor {
+	public static final field INSTANCE Lprotokt/v1/protokt/ext/inet_socket_address_file_descriptor;
+	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
+}
+
+public final class protokt/v1/protokt/protokt_file_descriptor {
+	public static final field INSTANCE Lprotokt/v1/protokt/protokt_file_descriptor;
+	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
+}
+
 public final class protokt/v1/protokt_file_descriptor {
 	public static final field INSTANCE Lprotokt/v1/protokt_file_descriptor;
 	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
