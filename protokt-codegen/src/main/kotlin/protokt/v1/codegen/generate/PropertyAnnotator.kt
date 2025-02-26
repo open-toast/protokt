@@ -21,7 +21,6 @@ import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.asTypeName
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Deprecation.renderOptions
-import protokt.v1.codegen.generate.Implements.OverriddenProperty
 import protokt.v1.codegen.generate.Implements.overrides
 import protokt.v1.codegen.generate.Nullability.deserializeType
 import protokt.v1.codegen.generate.Nullability.dslPropertyType
