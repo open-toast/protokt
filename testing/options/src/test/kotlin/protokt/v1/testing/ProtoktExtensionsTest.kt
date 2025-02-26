@@ -17,12 +17,12 @@ package protokt.v1.testing
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
-import protokt.v1.ProtoktProtos
+import protokt.v1.protokt_file_descriptor
 import protokt.v1.util.PROTOKT_EXTENSIONS_CLASS_NAME
 
 class ProtoktExtensionsTest {
     @Test
     fun `protokt extensions class name is correct`() {
-        assertThat(PROTOKT_EXTENSIONS_CLASS_NAME).isEqualTo(ProtoktProtos::class.qualifiedName)
+        assertThat(PROTOKT_EXTENSIONS_CLASS_NAME).isEqualTo(protokt_file_descriptor::class.qualifiedName)
     }
 }
