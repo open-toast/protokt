@@ -593,11 +593,12 @@ public final class protokt/v1/MethodOptions$Deserializer : protokt/v1/AbstractDe
 
 public final class protokt/v1/OneofOptions : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/OneofOptions$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ZLjava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/OneofOptions;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/OneofOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDeprecationMessage ()Ljava/lang/String;
+	public final fun getGenerateNonNullAccessor ()Z
 	public final fun getImplements ()Ljava/lang/String;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
@@ -611,9 +612,11 @@ public final class protokt/v1/OneofOptions$Builder {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/OneofOptions;
 	public final fun getDeprecationMessage ()Ljava/lang/String;
+	public final fun getGenerateNonNullAccessor ()Z
 	public final fun getImplements ()Ljava/lang/String;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun setDeprecationMessage (Ljava/lang/String;)V
+	public final fun setGenerateNonNullAccessor (Z)V
 	public final fun setImplements (Ljava/lang/String;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
