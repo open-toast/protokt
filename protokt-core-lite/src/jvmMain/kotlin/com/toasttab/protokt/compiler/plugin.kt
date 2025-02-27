@@ -47,6 +47,7 @@ import kotlin.collections.MutableList
 /**
  * The version number of protocol compiler.
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.compiler.Version")
 class Version private constructor(
     val major: Int?,
@@ -345,6 +346,7 @@ class CodeGeneratorRequest private constructor(
 /**
  * The plugin writes an encoded CodeGeneratorResponse to stdout.
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.compiler.CodeGeneratorResponse")
 class CodeGeneratorResponse private constructor(
     /**

@@ -37,6 +37,7 @@ import kotlin.Unit
  * `SourceContext` represents information about the source of a protobuf element, like the file in
  * which it is defined.
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.SourceContext")
 class SourceContext private constructor(
     /**

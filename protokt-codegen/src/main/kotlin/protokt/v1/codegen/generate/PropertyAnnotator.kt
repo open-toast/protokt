@@ -79,6 +79,7 @@ private class PropertyAnnotator(
                 PropertyInfo(
                     name = field.fieldName,
                     propertyType = propertyType(field),
+                    generateNullableBackingProperty = field.generateNonNullAccessor,
                     deserializeType = field.className.copy(nullable = true),
                     builderPropertyType = field.className.copy(nullable = true),
                     defaultValue = field.defaultValue(ctx, false),

@@ -15,27 +15,25 @@
 
 syntax = "proto3";
 
-package protokt.v1.testing;
+package protokt.ext;
 
-import "google/protobuf/wrappers.proto";
-import "protokt/v1/protokt.proto";
+import "protokt/protokt.proto";
 
-message NonNullModel {
-  google.protobuf.StringValue non_null_string_value = 1 [
-    (.protokt.v1.property).generate_non_null_accessor = true
+option java_package = "com.toasttab.protokt.ext";
+option java_outer_classname = "InetSocketAddressProto";
+
+option (protokt.file).kotlin_package = "com.toasttab.protokt.ext";
+option (protokt.file).file_descriptor_object_name = "InetSocketAddressProto";
+
+option deprecated = true;
+
+message InetSocketAddress {
+  option deprecated = true;
+
+  bytes address = 1 [
+    deprecated = true,
+    (protokt.property).wrap = "java.net.InetAddress"
   ];
 
-  oneof non_null_oneof {
-    option (.protokt.v1.oneof).generate_non_null_accessor = true;
-
-    string message = 2;
-  }
-}
-
-message NonNullModelMirror {
-  google.protobuf.StringValue non_null_string_value = 1;
-
-  oneof non_null_oneof {
-    string message = 2;
-  }
+  int32 port = 2 [deprecated = true];
 }

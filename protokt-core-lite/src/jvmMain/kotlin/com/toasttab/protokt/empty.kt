@@ -38,6 +38,7 @@ import kotlin.Unit
  *
  *      service Foo {       rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty);     }
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.Empty")
 class Empty private constructor(
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),

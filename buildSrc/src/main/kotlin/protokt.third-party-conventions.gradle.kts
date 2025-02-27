@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Toast, Inc.
+ * Copyright (c) 2022 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,16 +13,4 @@
  * limitations under the License.
  */
 
-package protokt.v1.testing
-
-import com.google.common.truth.Truth.assertThat
-import org.junit.jupiter.api.Test
-import protokt.v1.protokt_file_descriptor
-import protokt.v1.util.PROTOKT_EXTENSIONS_CLASS_NAME
-
-class ProtoktExtensionsTest {
-    @Test
-    fun `protokt extensions class name is correct`() {
-        assertThat(PROTOKT_EXTENSIONS_CLASS_NAME).isEqualTo(protokt_file_descriptor::class.qualifiedName)
-    }
-}
+group = "com.toasttab.protokt.thirdparty"

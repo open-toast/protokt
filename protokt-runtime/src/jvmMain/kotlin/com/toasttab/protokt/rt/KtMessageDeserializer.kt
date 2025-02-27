@@ -61,10 +61,12 @@ interface KtMessageDeserializer {
         e.from(readInt32())
 }
 
+@Deprecated("for backwards compatibility only")
 @Suppress("DEPRECATION")
 fun deserializer(bytes: Bytes) =
     deserializer(bytes.value)
 
+@Deprecated("for backwards compatibility only")
 fun deserializer(bytes: ByteArray) =
     deserializer(CodedInputStream.newInstance(bytes), bytes)
 

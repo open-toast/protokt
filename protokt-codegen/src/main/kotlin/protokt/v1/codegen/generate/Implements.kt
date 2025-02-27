@@ -61,7 +61,7 @@ internal object Implements {
         }
 
     private fun TypeSpec.Builder.delegateProperties(msg: Message, ctx: Context, canonicalName: String, fieldName: String) {
-        val fieldsByName = msg.fields.filterIsInstance<StandardField>().associateBy { it.fieldName }
+        val fieldsByName = msg.fields.associateBy { it.fieldName }
 
         val interfaceFields =
             ctx.info.context.classLookup
@@ -77,7 +77,7 @@ internal object Implements {
                     field.name,
                     (field.returnType.classifier as KClass<*>).asTypeName()
                         .let {
-                            if (assumeNotNull) {
+                            if (assumeNotNull && !field.returnType.isMarkedNullable) {
                                 it
                             } else {
                                 it.copy(nullable = true)

@@ -89,7 +89,7 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
                 configure(KotlinMultiplatform(JavadocJar.Empty()))
             }
             pluginManager.withPlugin(KotlinPlugins.JVM) {
-                configure(KotlinJvm(JavadocJar.Empty(), true))
+                configure(KotlinJvm(JavadocJar.Empty()))
             }
         }
 

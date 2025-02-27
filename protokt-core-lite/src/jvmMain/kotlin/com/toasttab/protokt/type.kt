@@ -42,6 +42,7 @@ import kotlin.collections.MutableList
 /**
  * A protocol buffer message type.
  */
+@Deprecated("for backwards compatibility only")
 sealed class Syntax(
     override val `value`: Int,
     override val name: String,
@@ -72,6 +73,7 @@ sealed class Syntax(
 /**
  * A protocol buffer message type.
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.Type")
 class Type private constructor(
     /**
@@ -271,6 +273,7 @@ class Type private constructor(
 /**
  * A single field of a message type.
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.Field")
 class Field private constructor(
     /**
@@ -712,6 +715,7 @@ class Field private constructor(
 /**
  * Enum type definition.
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.Enum")
 class Enum_ private constructor(
     /**
@@ -884,6 +888,7 @@ class Enum_ private constructor(
 /**
  * Enum value definition.
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.EnumValue")
 class EnumValue private constructor(
     /**
@@ -1010,6 +1015,7 @@ class EnumValue private constructor(
 /**
  * A protocol buffer option, which can be attached to a message, field, enumeration, etc.
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.Option")
 class Option private constructor(
     /**

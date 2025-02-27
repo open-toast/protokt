@@ -46,6 +46,7 @@ import kotlin.collections.MutableList
  * They are also sometimes simply referred to as "APIs" in other contexts, such as the name of this
  * message itself. See https://cloud.google.com/apis/design/glossary for detailed terminology.
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.Api")
 class Api private constructor(
     /**
@@ -281,6 +282,7 @@ class Api private constructor(
 /**
  * Method represents a method of an API interface.
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.Method")
 class Method private constructor(
     /**
@@ -538,6 +540,7 @@ class Method private constructor(
  * returns (Acl) {         option (google.api.http).get = "/v2/acls/{resource=**}:getAcl";       }
  *  ...     }
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.Mixin")
 class Mixin private constructor(
     /**

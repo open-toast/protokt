@@ -51,6 +51,7 @@ import kotlin.collections.MutableList
 /**
  * The protocol compiler can output a FileDescriptorSet containing the .proto files it parses.
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.FileDescriptorSet")
 class FileDescriptorSet private constructor(
     val `file`: List<FileDescriptorProto>,
@@ -136,6 +137,7 @@ class FileDescriptorSet private constructor(
 /**
  * Describes a complete .proto file.
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.FileDescriptorProto")
 class FileDescriptorProto private constructor(
     val name: String?,
@@ -487,6 +489,7 @@ class FileDescriptorProto private constructor(
 /**
  * Describes a message type.
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.DescriptorProto")
 class DescriptorProto private constructor(
     val name: String?,
@@ -987,6 +990,7 @@ class DescriptorProto private constructor(
     }
 }
 
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.ExtensionRangeOptions")
 class ExtensionRangeOptions private constructor(
     /**
@@ -1078,6 +1082,7 @@ class ExtensionRangeOptions private constructor(
 /**
  * Describes a field within a message.
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.FieldDescriptorProto")
 class FieldDescriptorProto private constructor(
     val name: String?,
@@ -1490,6 +1495,7 @@ class FieldDescriptorProto private constructor(
 /**
  * Describes a oneof.
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.OneofDescriptorProto")
 class OneofDescriptorProto private constructor(
     val name: String?,
@@ -1584,6 +1590,7 @@ class OneofDescriptorProto private constructor(
 /**
  * Describes an enum type.
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.EnumDescriptorProto")
 class EnumDescriptorProto private constructor(
     val name: String?,
@@ -1859,6 +1866,7 @@ class EnumDescriptorProto private constructor(
 /**
  * Describes a value within an enum.
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.EnumValueDescriptorProto")
 class EnumValueDescriptorProto private constructor(
     val name: String?,
@@ -1971,6 +1979,7 @@ class EnumValueDescriptorProto private constructor(
 /**
  * Describes a service.
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.ServiceDescriptorProto")
 class ServiceDescriptorProto private constructor(
     val name: String?,
@@ -2091,6 +2100,7 @@ class ServiceDescriptorProto private constructor(
 /**
  * Describes a method of a service.
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.MethodDescriptorProto")
 class MethodDescriptorProto private constructor(
     val name: String?,
@@ -2801,6 +2811,7 @@ class FileOptions private constructor(
     }
 }
 
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.MessageOptions")
 class MessageOptions private constructor(
     /**
@@ -2994,6 +3005,7 @@ class MessageOptions private constructor(
     }
 }
 
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.FieldOptions")
 class FieldOptions private constructor(
     /**
@@ -3323,6 +3335,7 @@ class FieldOptions private constructor(
     }
 }
 
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.OneofOptions")
 class OneofOptions private constructor(
     /**
@@ -3408,6 +3421,7 @@ class OneofOptions private constructor(
     }
 }
 
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.EnumOptions")
 class EnumOptions private constructor(
     /**
@@ -3535,6 +3549,7 @@ class EnumOptions private constructor(
     }
 }
 
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.EnumValueOptions")
 class EnumValueOptions private constructor(
     /**
@@ -3643,6 +3658,7 @@ class EnumValueOptions private constructor(
     }
 }
 
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.ServiceOptions")
 class ServiceOptions private constructor(
     /**
@@ -3751,6 +3767,7 @@ class ServiceOptions private constructor(
     }
 }
 
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.MethodOptions")
 class MethodOptions private constructor(
     /**
@@ -3911,6 +3928,7 @@ class MethodOptions private constructor(
  * objects. Therefore, options protos in descriptor objects (e.g. returned by Descriptor::options(), or
  * produced by Descriptor::CopyTo()) will never have UninterpretedOptions in them.
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.UninterpretedOption")
 class UninterpretedOption private constructor(
     val name: List<NamePart>,
@@ -4200,6 +4218,7 @@ class UninterpretedOption private constructor(
  * Encapsulates information about the original source file from which a FileDescriptorProto was
  * generated.
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.SourceCodeInfo")
 class SourceCodeInfo private constructor(
     /**
@@ -4552,6 +4571,7 @@ class SourceCodeInfo private constructor(
  * GeneratedCodeInfo message is associated with only one generated source file, but may contain
  * references to different source .proto files.
  */
+@Deprecated("for backwards compatibility only")
 @KtGeneratedMessage("google.protobuf.GeneratedCodeInfo")
 class GeneratedCodeInfo private constructor(
     /**

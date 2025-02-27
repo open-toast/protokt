@@ -15,4 +15,5 @@
 
 package com.toasttab.protokt.rt
 
+@Deprecated("for backwards compatibility only")
 annotation class KtGeneratedFileDescriptor

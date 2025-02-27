@@ -12,7 +12,7 @@ Supports only version 3 of the Protocol Buffers language.
 
 ### Features
 - Idiomatic and concise [Kotlin builder DSL](#generated-code)
-- Protokt-specific options: [non-null types (dangerous)](#non-null-fields),
+- Protokt-specific options: [non-null accessors](#non-null-accessors),
 [wrapper types](#wrapper-types),
 [interface implementation](#interface-implementation),
 and more
@@ -636,8 +636,9 @@ dependencies {
 ```
 
 Wrapper types that wrap protobuf messages are nullable. For example,
-`java.time.Instant` wraps the well-known type `google.protobuf.Timestamp`. They
-can be made non-nullable by using the non-null option described below.
+`java.time.Instant` wraps the well-known type `google.protobuf.Timestamp`. You 
+can generate non-null accessors with the `generate_non_null_accessor` option
+described below.
 
 Wrapper types that wrap protobuf primitives, for example `java.util.UUID`
 which wraps `bytes`, are nullable when they cannot wrap their wrapped type's
@@ -659,7 +660,8 @@ google.protobuf.BytesValue nullable_uuid = 3 [
 ];
 ```
 
-This behavior can be overridden with the [`non_null` option](#non-null-fields).
+As for message types, you can generate non-null accessors with the 
+`generate_non_null_accessor` option.
 
 Wrapper types can be repeated:
 
@@ -687,7 +689,7 @@ _N.b. Well-known type nullability is implemented with
 for each message defined in
 [wrappers.proto](https://github.com/protocolbuffers/protobuf/blob/main/src/google/protobuf/wrappers.proto)._
 
-### Non-null fields
+### Non-null accessors
 If a message has no meaning whatsoever when a particular non-scalar field is
 missing, you can emulate proto2's `required` key word by using the
 `(protokt.v1.property).generate_non_null_accessor` option:
@@ -704,6 +706,20 @@ message NonNullSampleMessage {
 
 Generated code will include a non-null accessor prefixed with `require`, so the field can be referenced
 without using Kotlin's `!!`.
+
+This option also works on oneof fields:
+
+```protobuf
+message Sample {}
+
+message NonNullSampleMessage {
+  oneof non_null_sample {
+    option (protokt.v1.oneof).generate_non_null_accessor = true;
+    
+    Sample sample = 1;
+  }
+}
+```
 
 ### Interface implementation
 
