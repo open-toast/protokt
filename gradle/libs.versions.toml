@@ -50,7 +50,7 @@ wire = "5.3.0"
 buf = "1.47.2"
 classgraph = "4.8.179"
 grpc-js = "1.12.4"
-jackson = "2.18.2"
+jackson = "2.18.3"
 junit = "5.11.4"
 truth = "1.4.4"
 
