@@ -106,6 +106,16 @@ public final class com/toasttab/protokt/BoolValue$Deserializer : com/toasttab/pr
 	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/BoolValue;
 }
 
+public final class com/toasttab/protokt/BoolValueConverter : com/toasttab/protokt/ext/Converter {
+	public static final field INSTANCE Lcom/toasttab/protokt/BoolValueConverter;
+	public fun getWrapped ()Lkotlin/reflect/KClass;
+	public fun getWrapper ()Lkotlin/reflect/KClass;
+	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun unwrap (Z)Lcom/toasttab/protokt/BoolValue;
+	public fun wrap (Lcom/toasttab/protokt/BoolValue;)Ljava/lang/Boolean;
+	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
+}
+
 public final class com/toasttab/protokt/BytesValue : com/toasttab/protokt/rt/KtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/BytesValue$Deserializer;
 	public synthetic fun <init> (Lcom/toasttab/protokt/rt/Bytes;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -133,6 +143,16 @@ public final class com/toasttab/protokt/BytesValue$Deserializer : com/toasttab/p
 	public synthetic fun deserialize (Lcom/toasttab/protokt/rt/KtMessageDeserializer;)Lcom/toasttab/protokt/rt/KtMessage;
 	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
 	public fun invoke (Lkotlin/jvm/functions/Function1;)Lcom/toasttab/protokt/BytesValue;
+}
+
+public final class com/toasttab/protokt/BytesValueConverter : com/toasttab/protokt/ext/Converter {
+	public static final field INSTANCE Lcom/toasttab/protokt/BytesValueConverter;
+	public fun getWrapped ()Lkotlin/reflect/KClass;
+	public fun getWrapper ()Lkotlin/reflect/KClass;
+	public fun unwrap (Lcom/toasttab/protokt/rt/Bytes;)Lcom/toasttab/protokt/BytesValue;
+	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun wrap (Lcom/toasttab/protokt/BytesValue;)Lcom/toasttab/protokt/rt/Bytes;
+	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
 }
 
 public final class com/toasttab/protokt/DescriptorProto : com/toasttab/protokt/rt/KtMessage {
@@ -285,6 +305,16 @@ public final class com/toasttab/protokt/DoubleValue$DoubleValueDsl {
 	public final fun getValue ()D
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 	public final fun setValue (D)V
+}
+
+public final class com/toasttab/protokt/DoubleValueConverter : com/toasttab/protokt/ext/Converter {
+	public static final field INSTANCE Lcom/toasttab/protokt/DoubleValueConverter;
+	public fun getWrapped ()Lkotlin/reflect/KClass;
+	public fun getWrapper ()Lkotlin/reflect/KClass;
+	public fun unwrap (D)Lcom/toasttab/protokt/DoubleValue;
+	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun wrap (Lcom/toasttab/protokt/DoubleValue;)Ljava/lang/Double;
+	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
 }
 
 public final class com/toasttab/protokt/Duration : com/toasttab/protokt/rt/KtMessage {
@@ -1352,6 +1382,16 @@ public final class com/toasttab/protokt/FloatValue$FloatValueDsl {
 	public final fun setValue (F)V
 }
 
+public final class com/toasttab/protokt/FloatValueConverter : com/toasttab/protokt/ext/Converter {
+	public static final field INSTANCE Lcom/toasttab/protokt/FloatValueConverter;
+	public fun getWrapped ()Lkotlin/reflect/KClass;
+	public fun getWrapper ()Lkotlin/reflect/KClass;
+	public fun unwrap (F)Lcom/toasttab/protokt/FloatValue;
+	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun wrap (Lcom/toasttab/protokt/FloatValue;)Ljava/lang/Float;
+	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
+}
+
 public final class com/toasttab/protokt/GeneratedCodeInfo : com/toasttab/protokt/rt/KtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/GeneratedCodeInfo$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -1448,6 +1488,16 @@ public final class com/toasttab/protokt/Int32Value$Int32ValueDsl {
 	public final fun setValue (I)V
 }
 
+public final class com/toasttab/protokt/Int32ValueConverter : com/toasttab/protokt/ext/Converter {
+	public static final field INSTANCE Lcom/toasttab/protokt/Int32ValueConverter;
+	public fun getWrapped ()Lkotlin/reflect/KClass;
+	public fun getWrapper ()Lkotlin/reflect/KClass;
+	public fun unwrap (I)Lcom/toasttab/protokt/Int32Value;
+	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun wrap (Lcom/toasttab/protokt/Int32Value;)Ljava/lang/Integer;
+	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
+}
+
 public final class com/toasttab/protokt/Int64Value : com/toasttab/protokt/rt/KtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/Int64Value$Deserializer;
 	public synthetic fun <init> (JLcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -1475,6 +1525,16 @@ public final class com/toasttab/protokt/Int64Value$Int64ValueDsl {
 	public final fun getValue ()J
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 	public final fun setValue (J)V
+}
+
+public final class com/toasttab/protokt/Int64ValueConverter : com/toasttab/protokt/ext/Converter {
+	public static final field INSTANCE Lcom/toasttab/protokt/Int64ValueConverter;
+	public fun getWrapped ()Lkotlin/reflect/KClass;
+	public fun getWrapper ()Lkotlin/reflect/KClass;
+	public fun unwrap (J)Lcom/toasttab/protokt/Int64Value;
+	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun wrap (Lcom/toasttab/protokt/Int64Value;)Ljava/lang/Long;
+	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
 }
 
 public final class com/toasttab/protokt/ListValue : com/toasttab/protokt/rt/KtMessage {
@@ -2041,6 +2101,16 @@ public final class com/toasttab/protokt/StringValue$StringValueDsl {
 	public final fun setValue (Ljava/lang/String;)V
 }
 
+public final class com/toasttab/protokt/StringValueConverter : com/toasttab/protokt/ext/Converter {
+	public static final field INSTANCE Lcom/toasttab/protokt/StringValueConverter;
+	public fun getWrapped ()Lkotlin/reflect/KClass;
+	public fun getWrapper ()Lkotlin/reflect/KClass;
+	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun unwrap (Ljava/lang/String;)Lcom/toasttab/protokt/StringValue;
+	public fun wrap (Lcom/toasttab/protokt/StringValue;)Ljava/lang/String;
+	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
+}
+
 public final class com/toasttab/protokt/Struct : com/toasttab/protokt/rt/KtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/Struct$Deserializer;
 	public synthetic fun <init> (Ljava/util/Map;Lcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -2199,6 +2269,16 @@ public final class com/toasttab/protokt/UInt32Value$UInt32ValueDsl {
 	public final fun setValue (I)V
 }
 
+public final class com/toasttab/protokt/UInt32ValueConverter : com/toasttab/protokt/ext/Converter {
+	public static final field INSTANCE Lcom/toasttab/protokt/UInt32ValueConverter;
+	public fun getWrapped ()Lkotlin/reflect/KClass;
+	public fun getWrapper ()Lkotlin/reflect/KClass;
+	public fun unwrap (I)Lcom/toasttab/protokt/UInt32Value;
+	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun wrap (Lcom/toasttab/protokt/UInt32Value;)Ljava/lang/Integer;
+	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
+}
+
 public final class com/toasttab/protokt/UInt64Value : com/toasttab/protokt/rt/KtMessage {
 	public static final field Deserializer Lcom/toasttab/protokt/UInt64Value$Deserializer;
 	public synthetic fun <init> (JLcom/toasttab/protokt/rt/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -2226,6 +2306,16 @@ public final class com/toasttab/protokt/UInt64Value$UInt64ValueDsl {
 	public final fun getValue ()J
 	public final fun setUnknownFields (Lcom/toasttab/protokt/rt/UnknownFieldSet;)V
 	public final fun setValue (J)V
+}
+
+public final class com/toasttab/protokt/UInt64ValueConverter : com/toasttab/protokt/ext/Converter {
+	public static final field INSTANCE Lcom/toasttab/protokt/UInt64ValueConverter;
+	public fun getWrapped ()Lkotlin/reflect/KClass;
+	public fun getWrapper ()Lkotlin/reflect/KClass;
+	public fun unwrap (J)Lcom/toasttab/protokt/UInt64Value;
+	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun wrap (Lcom/toasttab/protokt/UInt64Value;)Ljava/lang/Long;
+	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
 }
 
 public final class com/toasttab/protokt/UninterpretedOption : com/toasttab/protokt/rt/KtMessage {
