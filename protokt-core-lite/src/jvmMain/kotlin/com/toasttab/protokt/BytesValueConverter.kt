@@ -15,6 +15,7 @@
 
 package com.toasttab.protokt
 
+@Deprecated("for backwards compatibility only")
 @Suppress("DEPRECATION")
 object BytesValueConverter : com.toasttab.protokt.ext.Converter<com.toasttab.protokt.rt.Bytes, com.toasttab.protokt.rt.BytesValue> {
     override val wrapper = com.toasttab.protokt.rt.Bytes::class

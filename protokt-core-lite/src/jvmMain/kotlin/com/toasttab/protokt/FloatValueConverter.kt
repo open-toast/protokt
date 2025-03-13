@@ -15,6 +15,7 @@
 
 package com.toasttab.protokt
 
+@Deprecated("for backwards compatibility only")
 @Suppress("DEPRECATION")
 object FloatValueConverter : com.toasttab.protokt.ext.Converter<Float, FloatValue> {
     override val wrapper = Float::class

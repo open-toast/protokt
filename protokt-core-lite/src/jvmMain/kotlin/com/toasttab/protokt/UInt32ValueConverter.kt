@@ -15,6 +15,7 @@
 
 package com.toasttab.protokt
 
+@Deprecated("for backwards compatibility only")
 @Suppress("DEPRECATION")
 object UInt32ValueConverter : com.toasttab.protokt.ext.Converter<Int, UInt32Value> {
     override val wrapper = Int::class

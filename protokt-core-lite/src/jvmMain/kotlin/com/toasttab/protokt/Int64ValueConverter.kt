@@ -15,6 +15,7 @@
 
 package com.toasttab.protokt
 
+@Deprecated("for backwards compatibility only")
 @Suppress("DEPRECATION")
 object Int64ValueConverter : com.toasttab.protokt.ext.Converter<Long, Int64Value> {
     override val wrapper = Long::class

@@ -15,6 +15,7 @@
 
 package com.toasttab.protokt
 
+@Deprecated("for backwards compatibility only")
 @Suppress("DEPRECATION")
 object DoubleValueConverter : com.toasttab.protokt.ext.Converter<Double, DoubleValue> {
     override val wrapper = Double::class

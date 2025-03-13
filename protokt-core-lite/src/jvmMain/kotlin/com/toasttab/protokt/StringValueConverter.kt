@@ -15,6 +15,7 @@
 
 package com.toasttab.protokt
 
+@Deprecated("for backwards compatibility only")
 @Suppress("DEPRECATION")
 object StringValueConverter : com.toasttab.protokt.ext.Converter<String, StringValue> {
     override val wrapper = String::class

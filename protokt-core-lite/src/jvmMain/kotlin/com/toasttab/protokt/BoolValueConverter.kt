@@ -15,6 +15,7 @@
 
 package com.toasttab.protokt
 
+@Deprecated("for backwards compatibility only")
 @Suppress("DEPRECATION")
 object BoolValueConverter : com.toasttab.protokt.ext.Converter<Boolean, BoolValue> {
     override val wrapper = Boolean::class
