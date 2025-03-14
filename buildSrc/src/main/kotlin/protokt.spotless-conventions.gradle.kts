@@ -38,7 +38,8 @@ allprojects {
                 "extensions/protokt-jvm-extensions-lite/src/main/kotlin/com/toasttab/protokt/ext/**.kt",
                 "extensions/protokt-extensions-lite/src/jvmMain/kotlin/com/toasttab/protokt/ext/**.kt",
                 "extensions/protokt-extensions/src/jvmMain/kotlin/com/toasttab/protokt/ext/**.kt",
-                "protokt-core/src/jvmMain/kotlin/com/toasttab/protokt/**/*.kt"
+                "protokt-core/src/jvmMain/kotlin/com/toasttab/protokt/**/*.kt",
+                "third-party/proto-google-common-protos/src/jvmMain/kotlin/com/google/**/*.kt"
             )
         }
 
@@ -64,7 +65,13 @@ allprojects {
                 "**/build/generated/source/**",
                 "**/protokt/v1/animals/**",
                 "**/protokt/v1/helloworld/**",
-                "**/protokt/v1/io/grpc/examples/**"
+                "**/protokt/v1/io/grpc/examples/**",
+                "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/**/*.kt",
+                "extensions/protokt-jvm-extensions-lite/src/main/kotlin/com/toasttab/protokt/ext/**.kt",
+                "extensions/protokt-extensions-lite/src/jvmMain/kotlin/com/toasttab/protokt/ext/**.kt",
+                "extensions/protokt-extensions/src/jvmMain/kotlin/com/toasttab/protokt/ext/**.kt",
+                "protokt-core/src/jvmMain/kotlin/com/toasttab/protokt/**/*.kt",
+                "third-party/proto-google-common-protos/src/jvmMain/kotlin/com/google/**/*.kt"
             )
         }
 

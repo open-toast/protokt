@@ -1,3 +1,14 @@
+public final class com/google/longrunning/OperationsGrpc {
+	public static final field INSTANCE Lcom/google/longrunning/OperationsGrpc;
+	public static final field SERVICE_NAME Ljava/lang/String;
+	public static final fun getCancelOperationMethod ()Lio/grpc/MethodDescriptor;
+	public static final fun getDeleteOperationMethod ()Lio/grpc/MethodDescriptor;
+	public static final fun getGetOperationMethod ()Lio/grpc/MethodDescriptor;
+	public static final fun getListOperationsMethod ()Lio/grpc/MethodDescriptor;
+	public static final fun getServiceDescriptor ()Lio/grpc/ServiceDescriptor;
+	public static final fun getWaitOperationMethod ()Lio/grpc/MethodDescriptor;
+}
+
 public final class protokt/v1/google/cloud/location/LocationsGrpc {
 	public static final field INSTANCE Lprotokt/v1/google/cloud/location/LocationsGrpc;
 	public static final field SERVICE_NAME Ljava/lang/String;
