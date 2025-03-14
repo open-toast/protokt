@@ -54,13 +54,9 @@ sourceSets {
 
 spotless {
     kotlin {
-        targetExclude(
-            "src/jvmMain/kotlin/com/google/**/*.kt"
-        )
+        targetExclude("src/jvmMain/kotlin/com/google/**/*.kt")
     }
     format("kotlinLicense") {
-        targetExclude(
-            "src/jvmMain/kotlin/com/google/**/*.kt"
-        )
+        targetExclude("src/jvmMain/kotlin/com/google/**/*.kt")
     }
 }

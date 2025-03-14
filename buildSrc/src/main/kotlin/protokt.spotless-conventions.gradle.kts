@@ -31,11 +31,6 @@ spotless {
     kotlin {
         ktlint(libs.versions.ktlint.get()).editorConfigOverride(editorConfigOverride)
         target("src/**/*.kt", "buildSrc/src/**/*.kt")
-        targetExclude(
-            "third-party/proto-google-common-protos-grpc/src/main/kotlin/com/google/**/*.kt",
-            "third-party/proto-google-common-protos-lite/src/jvmMain/kotlin/com/google/**/*.kt",
-            "third-party/proto-google-common-protos/src/jvmMain/kotlin/com/google/**/*.kt",
-        )
     }
 
     kotlinGradle {
@@ -57,8 +52,6 @@ spotless {
             "**/protokt/v1/animals/**",
             "**/protokt/v1/helloworld/**",
             "**/protokt/v1/io/grpc/examples/**",
-            "third-party/proto-google-common-protos-grpc/src/main/kotlin/com/google/**/*.kt",
-            "third-party/proto-google-common-protos-lite/src/jvmMain/kotlin/com/google/**/*.kt",
             "third-party/proto-google-common-protos/src/jvmMain/kotlin/com/google/**/*.kt",
         )
     }
