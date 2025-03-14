@@ -18,5 +18,9 @@ plugins {
     id("protokt.spotless-conventions")
 }
 
+repositories {
+    mavenCentral()
+}
+
 version = rootProject.version
 group = "com.toasttab.protokt"
