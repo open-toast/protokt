@@ -12,6 +12,7 @@ import com.toasttab.protokt.StructProto
 import com.toasttab.protokt.TimestampProto
 import com.toasttab.protokt.rt.KtGeneratedFileDescriptor
 
+@Deprecated("use v1")
 @KtGeneratedFileDescriptor
 object AttributeContextProto {
     val descriptor: FileDescriptor by lazy {
@@ -90,23 +91,30 @@ object AttributeContextProto {
             }
 }
 
+@Deprecated("use v1")
 val AttributeContext.Deserializer.descriptor: Descriptor
     get() = AttributeContextProto.descriptor.messageTypes[0]
 
+@Deprecated("use v1")
 val AttributeContext.Peer.Deserializer.descriptor: Descriptor
     get() = AttributeContext.descriptor.nestedTypes[0]
 
+@Deprecated("use v1")
 val AttributeContext.Api.Deserializer.descriptor: Descriptor
     get() = AttributeContext.descriptor.nestedTypes[1]
 
+@Deprecated("use v1")
 val AttributeContext.Auth.Deserializer.descriptor: Descriptor
     get() = AttributeContext.descriptor.nestedTypes[2]
 
+@Deprecated("use v1")
 val AttributeContext.Request.Deserializer.descriptor: Descriptor
     get() = AttributeContext.descriptor.nestedTypes[3]
 
+@Deprecated("use v1")
 val AttributeContext.Response.Deserializer.descriptor: Descriptor
     get() = AttributeContext.descriptor.nestedTypes[4]
 
+@Deprecated("use v1")
 val AttributeContext.Resource.Deserializer.descriptor: Descriptor
     get() = AttributeContext.descriptor.nestedTypes[5]

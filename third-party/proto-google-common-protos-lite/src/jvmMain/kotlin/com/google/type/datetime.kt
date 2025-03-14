@@ -43,6 +43,7 @@ import kotlin.Unit
  *  This type is more flexible than some applications may want. Make sure to document and validate
  * your application's limitations.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.type.DateTime")
 class DateTime private constructor(
     /**
@@ -297,6 +298,7 @@ class DateTime private constructor(
 /**
  * Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones).
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.type.TimeZone")
 class TimeZone private constructor(
     /**

@@ -9,6 +9,7 @@ import com.toasttab.protokt.DescriptorProtos
 import com.toasttab.protokt.FileDescriptor
 import com.toasttab.protokt.rt.KtGeneratedFileDescriptor
 
+@Deprecated("use v1")
 @KtGeneratedFileDescriptor
 object VisibilityProto {
     val descriptor: FileDescriptor by lazy {
@@ -48,8 +49,10 @@ object VisibilityProto {
             }
 }
 
+@Deprecated("use v1")
 val Visibility.Deserializer.descriptor: Descriptor
     get() = VisibilityProto.descriptor.messageTypes[0]
 
+@Deprecated("use v1")
 val VisibilityRule.Deserializer.descriptor: Descriptor
     get() = VisibilityProto.descriptor.messageTypes[1]

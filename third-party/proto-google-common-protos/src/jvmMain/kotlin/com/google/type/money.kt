@@ -8,6 +8,7 @@ import com.toasttab.protokt.Descriptor
 import com.toasttab.protokt.FileDescriptor
 import com.toasttab.protokt.rt.KtGeneratedFileDescriptor
 
+@Deprecated("use v1")
 @KtGeneratedFileDescriptor
 object MoneyProto {
     val descriptor: FileDescriptor by lazy {
@@ -29,5 +30,6 @@ object MoneyProto {
             }
 }
 
+@Deprecated("use v1")
 val Money.Deserializer.descriptor: Descriptor
     get() = MoneyProto.descriptor.messageTypes[0]

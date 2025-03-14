@@ -9,6 +9,7 @@ import com.toasttab.protokt.DurationProto
 import com.toasttab.protokt.FileDescriptor
 import com.toasttab.protokt.rt.KtGeneratedFileDescriptor
 
+@Deprecated("use v1")
 @KtGeneratedFileDescriptor
 object HttpRequestProto {
     val descriptor: FileDescriptor by lazy {
@@ -41,5 +42,6 @@ object HttpRequestProto {
             }
 }
 
+@Deprecated("use v1")
 val HttpRequest.Deserializer.descriptor: Descriptor
     get() = HttpRequestProto.descriptor.messageTypes[0]

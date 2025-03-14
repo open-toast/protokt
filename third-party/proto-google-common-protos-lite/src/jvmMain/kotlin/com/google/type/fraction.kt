@@ -23,6 +23,7 @@ import kotlin.Unit
 /**
  * Represents a fraction in terms of a numerator divided by a denominator.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.type.Fraction")
 class Fraction private constructor(
     /**

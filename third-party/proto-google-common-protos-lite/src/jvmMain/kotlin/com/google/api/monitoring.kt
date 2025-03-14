@@ -47,6 +47,7 @@ import kotlin.collections.MutableList
  * library.googleapis.com/Branch         metrics:         -
  * library.googleapis.com/book/returned_count         - library.googleapis.com/book/num_overdue
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.Monitoring")
 class Monitoring private constructor(
     /**

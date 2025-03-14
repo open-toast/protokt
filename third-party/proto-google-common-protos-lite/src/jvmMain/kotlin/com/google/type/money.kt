@@ -24,6 +24,7 @@ import kotlin.Unit
 /**
  * Represents an amount of money with its currency type.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.type.Money")
 class Money private constructor(
     /**

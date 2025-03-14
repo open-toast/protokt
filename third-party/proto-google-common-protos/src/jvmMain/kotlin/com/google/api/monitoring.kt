@@ -8,6 +8,7 @@ import com.toasttab.protokt.Descriptor
 import com.toasttab.protokt.FileDescriptor
 import com.toasttab.protokt.rt.KtGeneratedFileDescriptor
 
+@Deprecated("use v1")
 @KtGeneratedFileDescriptor
 object MonitoringProto {
     val descriptor: FileDescriptor by lazy {
@@ -34,8 +35,10 @@ object MonitoringProto {
             }
 }
 
+@Deprecated("use v1")
 val Monitoring.Deserializer.descriptor: Descriptor
     get() = MonitoringProto.descriptor.messageTypes[0]
 
+@Deprecated("use v1")
 val Monitoring.MonitoringDestination.Deserializer.descriptor: Descriptor
     get() = Monitoring.descriptor.nestedTypes[0]

@@ -37,6 +37,7 @@ import kotlin.collections.MutableMap
  *  Different APIs can support different monitored resource types. APIs generally provide a `list`
  * method that returns the monitored resource descriptors used by the API.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.MonitoredResourceDescriptor")
 class MonitoredResourceDescriptor private constructor(
     /**
@@ -245,6 +246,7 @@ class MonitoredResourceDescriptor private constructor(
  *      { "type": "gce_instance",       "labels": { "instance_id": "12345678901234",
  *   "zone": "us-central1-a" }}
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.MonitoredResource")
 class MonitoredResource private constructor(
     /**
@@ -398,6 +400,7 @@ class MonitoredResource private constructor(
  * Monitoring and Logging use an ingestion pipeline to extract metadata for cloud resources of all
  * types, and store the metadata in this message.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.MonitoredResourceMetadata")
 class MonitoredResourceMetadata private constructor(
     /**

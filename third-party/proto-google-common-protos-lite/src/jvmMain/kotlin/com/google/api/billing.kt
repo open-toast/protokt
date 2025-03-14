@@ -43,6 +43,7 @@ import kotlin.collections.MutableList
  * library.googleapis.com/billing_branch         metrics:         -
  * library.googleapis.com/book/borrowed_count
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.Billing")
 class Billing private constructor(
     /**

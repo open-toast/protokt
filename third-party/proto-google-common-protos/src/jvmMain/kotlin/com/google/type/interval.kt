@@ -9,6 +9,7 @@ import com.toasttab.protokt.FileDescriptor
 import com.toasttab.protokt.TimestampProto
 import com.toasttab.protokt.rt.KtGeneratedFileDescriptor
 
+@Deprecated("use v1")
 @KtGeneratedFileDescriptor
 object IntervalProto {
     val descriptor: FileDescriptor by lazy {
@@ -32,5 +33,6 @@ object IntervalProto {
             }
 }
 
+@Deprecated("use v1")
 val Interval.Deserializer.descriptor: Descriptor
     get() = IntervalProto.descriptor.messageTypes[0]

@@ -25,6 +25,7 @@ import kotlin.collections.MutableList
 /**
  * Source information used to create a Service Config
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.SourceInfo")
 class SourceInfo private constructor(
     /**

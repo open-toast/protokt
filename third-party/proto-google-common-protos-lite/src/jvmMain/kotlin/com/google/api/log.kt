@@ -29,6 +29,7 @@ import kotlin.collections.MutableList
  * and returning library items.       display_name: Activity       labels:       - key: /customer_id
  *      description: Identifier of a library customer
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.LogDescriptor")
 class LogDescriptor private constructor(
     /**

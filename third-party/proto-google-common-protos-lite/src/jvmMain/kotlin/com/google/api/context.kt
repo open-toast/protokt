@@ -49,6 +49,7 @@ import kotlin.collections.MutableList
  *
  *  You can also specify extension ID instead of fully qualified extension name here.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.Context")
 class Context private constructor(
     /**
@@ -137,6 +138,7 @@ class Context private constructor(
 /**
  * A context rule provides information about the context for an individual API element.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.ContextRule")
 class ContextRule private constructor(
     /**

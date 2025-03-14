@@ -280,6 +280,7 @@ import kotlin.collections.MutableList
  *
  *      x-goog-request-params:     table_location=instances/instance_bar&routing_id=prof_qux
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.RoutingRule")
 class RoutingRule private constructor(
     /**
@@ -371,6 +372,7 @@ class RoutingRule private constructor(
 /**
  * A projection from an input message to the GRPC or REST header.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.RoutingParameter")
 class RoutingParameter private constructor(
     /**

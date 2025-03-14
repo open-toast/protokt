@@ -31,6 +31,7 @@ import kotlin.collections.MutableList
  *  You can find out more about this error model and how to work with it in the [API Design
  * Guide](https://cloud.google.com/apis/design/errors).
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.rpc.Status")
 class Status private constructor(
     /**

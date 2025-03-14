@@ -29,6 +29,7 @@ import kotlin.collections.MutableList
  * individual API. It is typically mapped to an HTTP header and/or a URL query parameter. This
  * configuration specifies which methods change the names of the system parameters.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.SystemParameters")
 class SystemParameters private constructor(
     /**
@@ -136,6 +137,7 @@ class SystemParameters private constructor(
 /**
  * Define a system parameter rule mapping system parameter definitions to methods.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.SystemParameterRule")
 class SystemParameterRule private constructor(
     /**
@@ -249,6 +251,7 @@ class SystemParameterRule private constructor(
  * Define a parameter's name and location. The parameter may be passed as either an HTTP header or a
  * URL query parameter, and if both are passed the behavior is implementation-dependent.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.SystemParameter")
 class SystemParameter private constructor(
     /**

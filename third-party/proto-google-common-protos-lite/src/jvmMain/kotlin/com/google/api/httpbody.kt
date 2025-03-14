@@ -61,6 +61,7 @@ import kotlin.collections.MutableList
  *  Use of this type only changes how the request and response bodies are handled, all other
  * features will continue to work unchanged.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.HttpBody")
 class HttpBody private constructor(
     /**

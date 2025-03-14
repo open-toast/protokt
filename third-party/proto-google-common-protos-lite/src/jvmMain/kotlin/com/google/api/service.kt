@@ -41,6 +41,7 @@ import kotlin.collections.MutableList
  * https://securetoken.google.com       rules:       - selector: "*"         requirements:
  * provider_id: google_calendar_auth
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.Service")
 @Suppress("DEPRECATION")
 class Service private constructor(

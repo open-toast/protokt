@@ -26,6 +26,7 @@ import kotlin.Unit
  *  The start must be less than or equal to the end. When the start equals the end, the interval is
  * empty (matches no time). When both start and end are unspecified, the interval matches any time.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.type.Interval")
 class Interval private constructor(
     /**

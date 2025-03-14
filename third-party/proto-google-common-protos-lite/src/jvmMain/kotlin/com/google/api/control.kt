@@ -22,6 +22,7 @@ import kotlin.Unit
  * Selects and configures the service controller used by the service.  The service controller
  * handles features like abuse, quota, billing, logging, monitoring, etc.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.Control")
 class Control private constructor(
     /**

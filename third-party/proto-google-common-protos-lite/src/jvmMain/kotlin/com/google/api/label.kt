@@ -23,6 +23,7 @@ import kotlin.Unit
 /**
  * A description of a label.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.LabelDescriptor")
 class LabelDescriptor private constructor(
     /**

@@ -43,6 +43,7 @@ import kotlin.Unit
  *
  *   Reference(s):   - https://github.com/google/libphonenumber
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.type.PhoneNumber")
 class PhoneNumber private constructor(
     /**

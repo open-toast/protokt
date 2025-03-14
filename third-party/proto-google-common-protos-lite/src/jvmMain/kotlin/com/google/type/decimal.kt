@@ -26,6 +26,7 @@ import kotlin.Unit
  * https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/math/BigDecimal.html
  * [decimal.Decimal]: https://docs.python.org/3/library/decimal.html
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.type.Decimal")
 class Decimal private constructor(
     /**

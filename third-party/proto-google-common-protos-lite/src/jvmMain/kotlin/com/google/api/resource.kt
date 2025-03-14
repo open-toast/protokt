@@ -61,6 +61,7 @@ import kotlin.collections.MutableList
  * "organizations/{organization}/logs/{log}"       pattern:
  * "billingAccounts/{billing_account}/logs/{log}"
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.ResourceDescriptor")
 class ResourceDescriptor private constructor(
     /**
@@ -400,6 +401,7 @@ class ResourceDescriptor private constructor(
 /**
  * Defines a proto annotation that describes a string field that refers to an API resource.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.ResourceReference")
 class ResourceReference private constructor(
     /**

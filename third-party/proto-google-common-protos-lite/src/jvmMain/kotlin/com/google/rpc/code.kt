@@ -9,6 +9,7 @@ import com.toasttab.protokt.rt.KtEnumDeserializer
 import kotlin.Int
 import kotlin.String
 
+@Deprecated("use v1")
 sealed class Code(
     override val `value`: Int,
     override val name: String,

@@ -28,6 +28,7 @@ import kotlin.collections.MutableList
 /**
  * This resource represents a long-running operation that is the result of a network API call.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.longrunning.Operation")
 class Operation private constructor(
     /**
@@ -208,6 +209,7 @@ class Operation private constructor(
 /**
  * The request message for [Operations.GetOperation][google.longrunning.Operations.GetOperation].
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.longrunning.GetOperationRequest")
 class GetOperationRequest private constructor(
     /**
@@ -289,6 +291,7 @@ class GetOperationRequest private constructor(
  * The request message for
  * [Operations.ListOperations][google.longrunning.Operations.ListOperations].
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.longrunning.ListOperationsRequest")
 class ListOperationsRequest private constructor(
     /**
@@ -431,6 +434,7 @@ class ListOperationsRequest private constructor(
  * The response message for
  * [Operations.ListOperations][google.longrunning.Operations.ListOperations].
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.longrunning.ListOperationsResponse")
 class ListOperationsResponse private constructor(
     /**
@@ -541,6 +545,7 @@ class ListOperationsResponse private constructor(
  * The request message for
  * [Operations.CancelOperation][google.longrunning.Operations.CancelOperation].
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.longrunning.CancelOperationRequest")
 class CancelOperationRequest private constructor(
     /**
@@ -623,6 +628,7 @@ class CancelOperationRequest private constructor(
  * The request message for
  * [Operations.DeleteOperation][google.longrunning.Operations.DeleteOperation].
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.longrunning.DeleteOperationRequest")
 class DeleteOperationRequest private constructor(
     /**
@@ -704,6 +710,7 @@ class DeleteOperationRequest private constructor(
 /**
  * The request message for [Operations.WaitOperation][google.longrunning.Operations.WaitOperation].
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.longrunning.WaitOperationRequest")
 class WaitOperationRequest private constructor(
     /**
@@ -813,6 +820,7 @@ class WaitOperationRequest private constructor(
  * response_type: "LongRunningRecognizeResponse"       metadata_type: "LongRunningRecognizeMetadata"
  *  };   }
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.longrunning.OperationInfo")
 class OperationInfo private constructor(
     /**

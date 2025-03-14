@@ -37,6 +37,7 @@ import kotlin.collections.MutableList
  * description: Allows usage of the API without watermarks.      - name: EXTENDED_TILE_CACHE_PERIOD
  *    type: INT64
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.ProjectProperties")
 class ProjectProperties private constructor(
     /**
@@ -132,6 +133,7 @@ class ProjectProperties private constructor(
  *  These values can be set via API producer console. Only API providers can define and set these
  * properties.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.Property")
 class Property private constructor(
     /**

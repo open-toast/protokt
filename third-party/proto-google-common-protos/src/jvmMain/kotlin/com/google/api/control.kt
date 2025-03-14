@@ -8,6 +8,7 @@ import com.toasttab.protokt.Descriptor
 import com.toasttab.protokt.FileDescriptor
 import com.toasttab.protokt.rt.KtGeneratedFileDescriptor
 
+@Deprecated("use v1")
 @KtGeneratedFileDescriptor
 object ControlProto {
     val descriptor: FileDescriptor by lazy {
@@ -28,5 +29,6 @@ object ControlProto {
             }
 }
 
+@Deprecated("use v1")
 val Control.Deserializer.descriptor: Descriptor
     get() = ControlProto.descriptor.messageTypes[0]

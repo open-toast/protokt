@@ -21,6 +21,7 @@ import kotlin.Unit
 /**
  * Localized variant of a text in a particular language.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.type.LocalizedText")
 class LocalizedText private constructor(
     /**

@@ -65,6 +65,7 @@ import kotlin.Unit
  * representation. It is thus recommended that `w` be kept positive, which can be achieved by changing
  * all the signs when `w` is negative.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.type.Quaternion")
 class Quaternion private constructor(
     /**

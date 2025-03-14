@@ -48,6 +48,7 @@ import kotlin.collections.MutableMap
  *  NOTE: Different system may generate different subset of attributes. Please verify the system
  * specification before relying on an attribute generated a system.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.rpc.context.AttributeContext")
 class AttributeContext private constructor(
     /**

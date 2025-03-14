@@ -55,6 +55,7 @@ import kotlin.collections.MutableList
  * v1.shelves.books ==&#41;</code></pre> The directive `suppress_warning` does not directly affect
  * documentation and is documented together with service config validation.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.Documentation")
 class Documentation private constructor(
     /**
@@ -257,6 +258,7 @@ class Documentation private constructor(
 /**
  * A documentation rule provides information about individual API elements.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.DocumentationRule")
 class DocumentationRule private constructor(
     /**
@@ -383,6 +385,7 @@ class DocumentationRule private constructor(
  * Represents a documentation page. A page can contain subpages to represent nested documentation
  * set structure.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.Page")
 class Page private constructor(
     /**

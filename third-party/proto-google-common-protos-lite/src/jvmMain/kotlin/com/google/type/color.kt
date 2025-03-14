@@ -90,6 +90,7 @@ import kotlin.Unit
  *
  *      // ...
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.type.Color")
 class Color private constructor(
     /**

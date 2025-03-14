@@ -8,6 +8,7 @@ import com.toasttab.protokt.Descriptor
 import com.toasttab.protokt.FileDescriptor
 import com.toasttab.protokt.rt.KtGeneratedFileDescriptor
 
+@Deprecated("use v1")
 @KtGeneratedFileDescriptor
 object FractionProto {
     val descriptor: FileDescriptor by lazy {
@@ -29,5 +30,6 @@ object FractionProto {
             }
 }
 
+@Deprecated("use v1")
 val Fraction.Deserializer.descriptor: Descriptor
     get() = FractionProto.descriptor.messageTypes[0]

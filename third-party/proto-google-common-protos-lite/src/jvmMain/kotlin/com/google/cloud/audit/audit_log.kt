@@ -32,6 +32,7 @@ import kotlin.collections.MutableList
 /**
  * Common audit log format for Google Cloud Platform API operations.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.cloud.audit.AuditLog")
 @Suppress("DEPRECATION")
 class AuditLog private constructor(
@@ -409,6 +410,7 @@ class AuditLog private constructor(
 /**
  * Authentication information for the operation.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.cloud.audit.AuthenticationInfo")
 class AuthenticationInfo private constructor(
     /**
@@ -615,6 +617,7 @@ class AuthenticationInfo private constructor(
 /**
  * Authorization information for the operation.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.cloud.audit.AuthorizationInfo")
 class AuthorizationInfo private constructor(
     /**
@@ -763,6 +766,7 @@ class AuthorizationInfo private constructor(
 /**
  * Metadata about the request.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.cloud.audit.RequestMetadata")
 class RequestMetadata private constructor(
     /**
@@ -951,6 +955,7 @@ class RequestMetadata private constructor(
 /**
  * Location information about a resource.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.cloud.audit.ResourceLocation")
 class ResourceLocation private constructor(
     /**
@@ -1075,6 +1080,7 @@ class ResourceLocation private constructor(
 /**
  * Identity delegation history of an authenticated service account.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.cloud.audit.ServiceAccountDelegationInfo")
 class ServiceAccountDelegationInfo private constructor(
     /**

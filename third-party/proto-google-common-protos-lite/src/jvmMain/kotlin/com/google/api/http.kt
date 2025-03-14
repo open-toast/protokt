@@ -27,6 +27,7 @@ import kotlin.collections.MutableList
  * [HttpRule][google.api.HttpRule], each specifying the mapping of an RPC method to one or more HTTP
  * REST API methods.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.Http")
 class Http private constructor(
     /**
@@ -316,6 +317,7 @@ class Http private constructor(
  * response body to a repeated field. However, some gRPC Transcoding implementations may not support
  * this feature.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.HttpRule")
 class HttpRule private constructor(
     /**
@@ -576,6 +578,7 @@ class HttpRule private constructor(
 /**
  * A custom pattern is used for defining custom HTTP verb.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.CustomHttpPattern")
 class CustomHttpPattern private constructor(
     /**

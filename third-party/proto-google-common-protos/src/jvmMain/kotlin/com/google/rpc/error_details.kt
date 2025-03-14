@@ -9,6 +9,7 @@ import com.toasttab.protokt.DurationProto
 import com.toasttab.protokt.FileDescriptor
 import com.toasttab.protokt.rt.KtGeneratedFileDescriptor
 
+@Deprecated("use v1")
 @KtGeneratedFileDescriptor
 object ErrorDetailsProto {
     val descriptor: FileDescriptor by lazy {
@@ -54,44 +55,58 @@ object ErrorDetailsProto {
             }
 }
 
+@Deprecated("use v1")
 val RetryInfo.Deserializer.descriptor: Descriptor
     get() = ErrorDetailsProto.descriptor.messageTypes[0]
 
+@Deprecated("use v1")
 val DebugInfo.Deserializer.descriptor: Descriptor
     get() = ErrorDetailsProto.descriptor.messageTypes[1]
 
+@Deprecated("use v1")
 val QuotaFailure.Deserializer.descriptor: Descriptor
     get() = ErrorDetailsProto.descriptor.messageTypes[2]
 
+@Deprecated("use v1")
 val QuotaFailure.Violation.Deserializer.descriptor: Descriptor
     get() = QuotaFailure.descriptor.nestedTypes[0]
 
+@Deprecated("use v1")
 val ErrorInfo.Deserializer.descriptor: Descriptor
     get() = ErrorDetailsProto.descriptor.messageTypes[3]
 
+@Deprecated("use v1")
 val PreconditionFailure.Deserializer.descriptor: Descriptor
     get() = ErrorDetailsProto.descriptor.messageTypes[4]
 
+@Deprecated("use v1")
 val PreconditionFailure.Violation.Deserializer.descriptor: Descriptor
     get() = PreconditionFailure.descriptor.nestedTypes[0]
 
+@Deprecated("use v1")
 val BadRequest.Deserializer.descriptor: Descriptor
     get() = ErrorDetailsProto.descriptor.messageTypes[5]
 
+@Deprecated("use v1")
 val BadRequest.FieldViolation.Deserializer.descriptor: Descriptor
     get() = BadRequest.descriptor.nestedTypes[0]
 
+@Deprecated("use v1")
 val RequestInfo.Deserializer.descriptor: Descriptor
     get() = ErrorDetailsProto.descriptor.messageTypes[6]
 
+@Deprecated("use v1")
 val ResourceInfo.Deserializer.descriptor: Descriptor
     get() = ErrorDetailsProto.descriptor.messageTypes[7]
 
+@Deprecated("use v1")
 val Help.Deserializer.descriptor: Descriptor
     get() = ErrorDetailsProto.descriptor.messageTypes[8]
 
+@Deprecated("use v1")
 val Help.Link.Deserializer.descriptor: Descriptor
     get() = Help.descriptor.nestedTypes[0]
 
+@Deprecated("use v1")
 val LocalizedMessage.Deserializer.descriptor: Descriptor
     get() = ErrorDetailsProto.descriptor.messageTypes[9]

@@ -46,6 +46,7 @@ import kotlin.Unit
  *  {     "low": {         "latitude": 40.477398,         "longitude": -74.259087     },     "high":
  * {         "latitude": 40.91618,         "longitude": -73.70018     } }
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.geo.type.Viewport")
 class Viewport private constructor(
     /**

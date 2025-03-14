@@ -30,6 +30,7 @@ import kotlin.collections.MutableList
  *  Includes detailed information about a field that have changed with applicable advice about
  * potential consequences for the change, such as backwards-incompatibility.
  */
+@Deprecated("use v1")
 sealed class ChangeType(
     override val `value`: Int,
     override val name: String,
@@ -82,6 +83,7 @@ sealed class ChangeType(
  *  Includes detailed information about a field that have changed with applicable advice about
  * potential consequences for the change, such as backwards-incompatibility.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.ConfigChange")
 class ConfigChange private constructor(
     /**
@@ -257,6 +259,7 @@ class ConfigChange private constructor(
  * Generated advice about this change, used for providing more information about how a change will
  * affect the existing service.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.Advice")
 class Advice private constructor(
     /**

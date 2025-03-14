@@ -38,6 +38,7 @@ import kotlin.collections.MutableList
  *  For more guidance on how to use this schema, please see:
  * https://support.google.com/business/answer/6397478
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.type.PostalAddress")
 class PostalAddress private constructor(
     /**

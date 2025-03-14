@@ -8,6 +8,7 @@ import com.toasttab.protokt.Descriptor
 import com.toasttab.protokt.FileDescriptor
 import com.toasttab.protokt.rt.KtGeneratedFileDescriptor
 
+@Deprecated("use v1")
 @KtGeneratedFileDescriptor
 object SystemParameterProto {
     val descriptor: FileDescriptor by lazy {
@@ -34,11 +35,14 @@ object SystemParameterProto {
             }
 }
 
+@Deprecated("use v1")
 val SystemParameters.Deserializer.descriptor: Descriptor
     get() = SystemParameterProto.descriptor.messageTypes[0]
 
+@Deprecated("use v1")
 val SystemParameterRule.Deserializer.descriptor: Descriptor
     get() = SystemParameterProto.descriptor.messageTypes[1]
 
+@Deprecated("use v1")
 val SystemParameter.Deserializer.descriptor: Descriptor
     get() = SystemParameterProto.descriptor.messageTypes[2]

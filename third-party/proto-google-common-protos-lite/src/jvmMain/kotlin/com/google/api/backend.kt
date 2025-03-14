@@ -28,6 +28,7 @@ import kotlin.collections.MutableList
 /**
  * `Backend` defines the backend configuration for a service.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.Backend")
 class Backend private constructor(
     /**
@@ -116,6 +117,7 @@ class Backend private constructor(
 /**
  * A backend rule provides configuration for an individual API element.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.BackendRule")
 class BackendRule private constructor(
     /**

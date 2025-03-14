@@ -41,6 +41,7 @@ import kotlin.collections.MutableList
  * (infinities or NaNs) in the population of values, as this will render the `mean` and
  * `sum_of_squared_deviation` fields meaningless.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.Distribution")
 class Distribution private constructor(
     /**

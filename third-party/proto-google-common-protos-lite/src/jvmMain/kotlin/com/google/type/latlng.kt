@@ -25,6 +25,7 @@ import kotlin.Unit
  * the <a href="http://www.unoosa.org/pdf/icg/2012/template/WGS_84.pdf">WGS84 standard</a>. Values must
  * be within normalized ranges.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.type.LatLng")
 class LatLng private constructor(
     /**

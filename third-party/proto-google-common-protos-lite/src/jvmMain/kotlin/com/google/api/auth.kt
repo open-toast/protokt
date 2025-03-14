@@ -34,6 +34,7 @@ import kotlin.collections.MutableList
  * provider_id: google_calendar_auth       - selector: google.calendar.Delegate         oauth:
  *  canonical_scopes: https://www.googleapis.com/auth/calendar.read
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.Authentication")
 class Authentication private constructor(
     /**
@@ -157,6 +158,7 @@ class Authentication private constructor(
  *
  *  If a method doesn't have any auth requirements, request credentials will be ignored.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.AuthenticationRule")
 class AuthenticationRule private constructor(
     /**
@@ -307,6 +309,7 @@ class AuthenticationRule private constructor(
 /**
  * Specifies a location to extract JWT from an API request.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.JwtLocation")
 class JwtLocation private constructor(
     val `in`: In?,
@@ -437,6 +440,7 @@ class JwtLocation private constructor(
  * Configuration for an authentication provider, including support for [JSON Web Token
  * (JWT)](https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32).
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.AuthProvider")
 class AuthProvider private constructor(
     /**
@@ -676,6 +680,7 @@ class AuthProvider private constructor(
  * and passed to the backend, a request can still fail due to the backend requiring additional scopes
  * or permissions.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.OAuthRequirements")
 class OAuthRequirements private constructor(
     /**
@@ -763,6 +768,7 @@ class OAuthRequirements private constructor(
  * User-defined authentication requirements, including support for [JSON Web Token
  * (JWT)](https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32).
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.AuthRequirement")
 class AuthRequirement private constructor(
     /**

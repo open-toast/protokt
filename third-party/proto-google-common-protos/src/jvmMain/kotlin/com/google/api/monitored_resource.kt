@@ -9,6 +9,7 @@ import com.toasttab.protokt.FileDescriptor
 import com.toasttab.protokt.StructProto
 import com.toasttab.protokt.rt.KtGeneratedFileDescriptor
 
+@Deprecated("use v1")
 @KtGeneratedFileDescriptor
 object MonitoredResourceProto {
     val descriptor: FileDescriptor by lazy {
@@ -47,11 +48,14 @@ object MonitoredResourceProto {
             }
 }
 
+@Deprecated("use v1")
 val MonitoredResourceDescriptor.Deserializer.descriptor: Descriptor
     get() = MonitoredResourceProto.descriptor.messageTypes[0]
 
+@Deprecated("use v1")
 val MonitoredResource.Deserializer.descriptor: Descriptor
     get() = MonitoredResourceProto.descriptor.messageTypes[1]
 
+@Deprecated("use v1")
 val MonitoredResourceMetadata.Deserializer.descriptor: Descriptor
     get() = MonitoredResourceProto.descriptor.messageTypes[2]

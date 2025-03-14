@@ -31,6 +31,7 @@ import kotlin.Unit
  *  Related types are [google.type.TimeOfDay][google.type.TimeOfDay] and
  * `google.protobuf.Timestamp`.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.type.Date")
 class Date private constructor(
     /**

@@ -37,6 +37,7 @@ import kotlin.collections.MutableList
  * purchase_history       consumer_destinations:       - monitored_resource:
  * library.googleapis.com/branch         logs:         - activity_history
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.Logging")
 class Logging private constructor(
     /**

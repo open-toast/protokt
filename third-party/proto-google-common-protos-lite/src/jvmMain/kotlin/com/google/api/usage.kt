@@ -25,6 +25,7 @@ import kotlin.collections.MutableList
 /**
  * Configuration controlling usage of a service.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.Usage")
 class Usage private constructor(
     /**
@@ -188,6 +189,7 @@ class Usage private constructor(
  *      usage:       rules:       - selector: "google.example.library.v1.LibraryService.CreateBook"
  *        allow_unregistered_calls: true
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.UsageRule")
 class UsageRule private constructor(
     /**

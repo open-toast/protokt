@@ -9,6 +9,7 @@ import com.toasttab.protokt.DescriptorProtos
 import com.toasttab.protokt.FileDescriptor
 import com.toasttab.protokt.rt.KtGeneratedFileDescriptor
 
+@Deprecated("use v1")
 @KtGeneratedFileDescriptor
 object RoutingProto {
     val descriptor: FileDescriptor by lazy {
@@ -35,8 +36,10 @@ object RoutingProto {
             }
 }
 
+@Deprecated("use v1")
 val RoutingRule.Deserializer.descriptor: Descriptor
     get() = RoutingProto.descriptor.messageTypes[0]
 
+@Deprecated("use v1")
 val RoutingParameter.Deserializer.descriptor: Descriptor
     get() = RoutingProto.descriptor.messageTypes[1]

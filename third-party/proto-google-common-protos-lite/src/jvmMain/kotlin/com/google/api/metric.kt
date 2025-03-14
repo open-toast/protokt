@@ -36,6 +36,7 @@ import kotlin.collections.MutableMap
  * Defines a metric type and its schema. Once a metric descriptor is created, deleting or altering
  * it stops data collection and makes the metric type's existing data unusable.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.MetricDescriptor")
 @Suppress("DEPRECATION")
 class MetricDescriptor private constructor(
@@ -659,6 +660,7 @@ class MetricDescriptor private constructor(
  * A specific metric, identified by specifying values for all of the labels of a
  * [`MetricDescriptor`][google.api.MetricDescriptor].
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.Metric")
 class Metric private constructor(
     /**

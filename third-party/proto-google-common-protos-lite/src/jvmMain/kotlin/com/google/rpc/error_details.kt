@@ -39,6 +39,7 @@ import kotlin.collections.MutableMap
  * scheme to gradually increase the delay between retries based on `retry_delay`, until either a
  * maximum number of retries have been reached or a maximum retry delay cap has been reached.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.rpc.RetryInfo")
 class RetryInfo private constructor(
     /**
@@ -118,6 +119,7 @@ class RetryInfo private constructor(
 /**
  * Describes additional debugging info.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.rpc.DebugInfo")
 class DebugInfo private constructor(
     /**
@@ -231,6 +233,7 @@ class DebugInfo private constructor(
  *
  *  Also see RetryInfo and Help types for other details about handling a quota failure.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.rpc.QuotaFailure")
 class QuotaFailure private constructor(
     /**
@@ -437,6 +440,7 @@ class QuotaFailure private constructor(
  *      { "reason": "STOCKOUT"       "domain": "spanner.googleapis.com",       "metadata": {
  * "availableRegions": "us-central1,us-east2"       }     }
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.rpc.ErrorInfo")
 class ErrorInfo private constructor(
     /**
@@ -616,6 +620,7 @@ class ErrorInfo private constructor(
  *  For example, if an RPC failed because it required the Terms of Service to be acknowledged, it
  * could list the terms of service violation in the PreconditionFailure message.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.rpc.PreconditionFailure")
 class PreconditionFailure private constructor(
     /**
@@ -831,6 +836,7 @@ class PreconditionFailure private constructor(
  * Describes violations in a client request. This error type focuses on the syntactic aspects of the
  * request.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.rpc.BadRequest")
 class BadRequest private constructor(
     /**
@@ -1023,6 +1029,7 @@ class BadRequest private constructor(
  * Contains metadata about the request that clients can attach when filing a bug or providing other
  * forms of feedback.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.rpc.RequestInfo")
 class RequestInfo private constructor(
     /**
@@ -1124,6 +1131,7 @@ class RequestInfo private constructor(
 /**
  * Describes the resource that is being accessed.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.rpc.ResourceInfo")
 class ResourceInfo private constructor(
     /**
@@ -1273,6 +1281,7 @@ class ResourceInfo private constructor(
  * the accessed service, this can contain a URL pointing directly to the right place in the developer
  * console to flip the bit.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.rpc.Help")
 class Help private constructor(
     /**
@@ -1456,6 +1465,7 @@ class Help private constructor(
  * Provides a localized error message that is safe to return to the user which can be attached to an
  * RPC error.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.rpc.LocalizedMessage")
 class LocalizedMessage private constructor(
     /**

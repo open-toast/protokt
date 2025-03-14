@@ -37,6 +37,7 @@ import kotlin.collections.MutableList
  * backend, for       # it to decide whether the subsequent cross-origin request is       # allowed to
  * proceed.     - name: library-example.googleapis.com       allow_cors: true
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.Endpoint")
 @Suppress("DEPRECATION")
 class Endpoint private constructor(

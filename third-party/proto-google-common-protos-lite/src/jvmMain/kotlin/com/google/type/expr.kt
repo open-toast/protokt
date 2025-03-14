@@ -46,6 +46,7 @@ import kotlin.Unit
  *  The exact variables and functions that may be referenced within an expression are determined by
  * the service that evaluates it. See the service documentation for additional information.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.type.Expr")
 class Expr private constructor(
     /**

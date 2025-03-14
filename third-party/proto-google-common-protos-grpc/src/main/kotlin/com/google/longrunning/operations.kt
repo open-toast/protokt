@@ -10,6 +10,7 @@ import io.grpc.ServiceDescriptor
 import kotlin.String
 import kotlin.jvm.JvmStatic
 
+@Deprecated("use v1")
 object OperationsGrpc {
     public const val SERVICE_NAME: String = "google.longrunning.Operations"
 

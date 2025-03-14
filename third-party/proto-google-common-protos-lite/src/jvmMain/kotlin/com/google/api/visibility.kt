@@ -40,6 +40,7 @@ import kotlin.collections.MutableList
  *  Here, all methods are publicly visible except for the restricted methods EnhancedSearch and
  * Delegate.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.Visibility")
 class Visibility private constructor(
     /**
@@ -128,6 +129,7 @@ class Visibility private constructor(
 /**
  * A visibility rule provides visibility configuration for an individual API element.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.VisibilityRule")
 class VisibilityRule private constructor(
     /**

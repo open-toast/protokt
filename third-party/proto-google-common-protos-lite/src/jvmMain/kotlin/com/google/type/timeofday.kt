@@ -24,6 +24,7 @@ import kotlin.Unit
  * elsewhere. An API may choose to allow leap seconds. Related types are
  * [google.type.Date][google.type.Date] and `google.protobuf.Timestamp`.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.type.TimeOfDay")
 class TimeOfDay private constructor(
     /**

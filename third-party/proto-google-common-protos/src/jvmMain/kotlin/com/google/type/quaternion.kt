@@ -8,6 +8,7 @@ import com.toasttab.protokt.Descriptor
 import com.toasttab.protokt.FileDescriptor
 import com.toasttab.protokt.rt.KtGeneratedFileDescriptor
 
+@Deprecated("use v1")
 @KtGeneratedFileDescriptor
 object QuaternionProto {
     val descriptor: FileDescriptor by lazy {
@@ -29,5 +30,6 @@ object QuaternionProto {
             }
 }
 
+@Deprecated("use v1")
 val Quaternion.Deserializer.descriptor: Descriptor
     get() = QuaternionProto.descriptor.messageTypes[0]

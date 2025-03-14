@@ -65,6 +65,7 @@ import kotlin.collections.MutableMap
  *
  *
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.Quota")
 class Quota private constructor(
     /**
@@ -177,6 +178,7 @@ class Quota private constructor(
  * Bind API methods to metrics. Binding a method to a metric causes that metric's configured quota
  * behaviors to apply to the method call.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.MetricRule")
 class MetricRule private constructor(
     /**
@@ -329,6 +331,7 @@ class MetricRule private constructor(
  * There can be at most one limit for a duration and limit type combination defined within a
  * `QuotaGroup`.
  */
+@Deprecated("use v1")
 @KtGeneratedMessage("google.api.QuotaLimit")
 class QuotaLimit private constructor(
     /**

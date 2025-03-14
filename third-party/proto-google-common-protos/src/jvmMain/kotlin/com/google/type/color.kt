@@ -9,6 +9,7 @@ import com.toasttab.protokt.FileDescriptor
 import com.toasttab.protokt.WrappersProto
 import com.toasttab.protokt.rt.KtGeneratedFileDescriptor
 
+@Deprecated("use v1")
 @KtGeneratedFileDescriptor
 object ColorProto {
     val descriptor: FileDescriptor by lazy {
@@ -31,5 +32,6 @@ object ColorProto {
             }
 }
 
+@Deprecated("use v1")
 val Color.Deserializer.descriptor: Descriptor
     get() = ColorProto.descriptor.messageTypes[0]
