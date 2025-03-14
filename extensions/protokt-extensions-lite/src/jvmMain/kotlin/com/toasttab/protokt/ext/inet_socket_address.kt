@@ -22,7 +22,7 @@ import kotlin.Unit
 
 @KtGeneratedMessage("protokt.ext.InetSocketAddress")
 @Deprecated("use v1")
-class InetSocketAddress  private constructor(
+class InetSocketAddress private constructor(
     val address: InetAddress,
     val port: Int,
     val unknownFields: UnknownFieldSet = UnknownFieldSet.empty(),
