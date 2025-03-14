@@ -25,6 +25,7 @@ pureKotlin()
 enablePublishing()
 compatibleWithAndroid()
 trackKotlinApiCompatibility()
+excludeLegacyProtoktFromSpotless("src/main/kotlin/com/google/**/*.kt")
 
 protokt {
     generate {
