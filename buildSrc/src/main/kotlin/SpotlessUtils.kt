@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Toast, Inc.
+ * Copyright (c) 2025 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,32 +13,17 @@
  * limitations under the License.
  */
 
-import com.google.protobuf.gradle.protobuf
-import protokt.v1.gradle.protokt
+import com.diffplug.gradle.spotless.SpotlessExtension
+import org.gradle.api.Project
+import org.gradle.kotlin.dsl.configure
 
-plugins {
-    id("protokt.grpc-examples-conventions")
-}
-
-localProtokt()
-pureKotlin()
-
-spotless {
-    format("kotlinLicense") {
-        targetExclude("src/main/kotlin/protokt/v1/io/grpc/examples/routeguide/**.kt")
+fun Project.excludeLegacyProtoktFromSpotless(targetPattern: String) {
+    configure<SpotlessExtension> {
+        kotlin {
+            targetExclude(targetPattern)
+        }
+        format("kotlinLicense") {
+            targetExclude(targetPattern)
+        }
     }
-}
-
-protokt {
-    generate {
-        grpcDescriptors = true
-    }
-}
-
-dependencies {
-    protobuf(project(":examples:protos"))
-
-    implementation(project(":examples:protos"))
-
-    runtimeOnly(libs.protobuf.java)
 }

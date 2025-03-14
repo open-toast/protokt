@@ -22,19 +22,11 @@ plugins {
 
 localProtokt()
 compatibleWithAndroid()
+excludeLegacyProtoktFromSpotless("src/jvmMain/kotlin/com/google/**/*.kt")
 
 protokt {
     generate {
         types = false
-    }
-}
-
-spotless {
-    kotlin {
-        targetExclude("src/jvmMain/kotlin/com/google/**/*.kt")
-    }
-    format("kotlinLicense") {
-        targetExclude("src/jvmMain/kotlin/com/google/**/*.kt")
     }
 }
 

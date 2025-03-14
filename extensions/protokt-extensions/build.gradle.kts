@@ -23,21 +23,13 @@ plugins {
 
 localProtokt()
 compatibleWithAndroid()
+excludeLegacyProtoktFromSpotless("src/jvmMain/kotlin/com/toasttab/protokt/ext/**/*.kt")
 
 configure<ExpediterExtension> {
     ignore {
         // java.time converters are incompatible with Android SDK < 26
         // TODO: determine if they should be moved into a separate subproject
         targetStartsWith("java/time/")
-    }
-}
-
-spotless {
-    kotlin {
-        targetExclude("src/jvmMain/kotlin/com/toasttab/protokt/ext/**/*.kt")
-    }
-    format("kotlinLicense") {
-        targetExclude("src/jvmMain/kotlin/com/toasttab/protokt/ext/**.kt")
     }
 }
 

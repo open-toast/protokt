@@ -22,6 +22,7 @@ plugins {
 
 localProtokt()
 compatibleWithAndroid()
+excludeLegacyProtoktFromSpotless("src/jvmMain/kotlin/com/google/**/*.kt")
 
 protokt {
     generate {
@@ -49,14 +50,5 @@ sourceSets {
             srcDir(liteOptionTestSourceDir())
             srcDir(rootProject.file("shared-src/lite-util"))
         }
-    }
-}
-
-spotless {
-    kotlin {
-        targetExclude("src/jvmMain/kotlin/com/google/**/*.kt")
-    }
-    format("kotlinLicense") {
-        targetExclude("src/jvmMain/kotlin/com/google/**/*.kt")
     }
 }

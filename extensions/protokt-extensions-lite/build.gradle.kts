@@ -22,16 +22,7 @@ plugins {
 }
 
 localProtokt()
-
-spotless {
-    kotlin {
-        targetExclude("src/jvmMain/kotlin/com/toasttab/protokt/ext/**.kt")
-    }
-
-    format("kotlinLicense") {
-        targetExclude("src/jvmMain/kotlin/com/toasttab/protokt/ext/**.kt")
-    }
-}
+excludeLegacyProtoktFromSpotless("src/jvmMain/kotlin/com/toasttab/protokt/ext/**.kt")
 
 protokt {
     generate {

@@ -20,6 +20,15 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization") version libs.versions.kotlin
 }
 
+spotless {
+    format("kotlinLicense") {
+        targetExclude("src/commonMain/kotlin/protokt/v1/io/grpc/examples/routeguide/Points.kt")
+    }
+    format("protobufLicense") {
+        targetExclude("src/main/proto/**/*.proto")
+    }
+}
+
 localProtokt()
 
 protokt {

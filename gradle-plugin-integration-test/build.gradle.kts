@@ -61,15 +61,10 @@ allprojects {
             target("**/*.kt")
             targetExclude("**/build/generated/**")
             ktlint(libs.versions.ktlint.get()).editorConfigOverride(editorConfigOverride)
-        }
-
-        format("kotlinLicense") {
-            target("**/*.kt")
             licenseHeaderFile(
                 rootProject.file("gradle/license-header-c-style"),
                 "(package |@file|import |fun )"
             )
-            targetExclude("**/generated-sources/**")
         }
 
         format("protobufLicense") {

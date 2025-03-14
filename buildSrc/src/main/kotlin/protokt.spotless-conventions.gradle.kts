@@ -13,6 +13,9 @@
  * limitations under the License.
  */
 
+import com.diffplug.gradle.spotless.BaseKotlinExtension
+import com.diffplug.gradle.spotless.FormatExtension
+
 plugins {
     id("com.diffplug.spotless")
 }
@@ -28,53 +31,38 @@ spotless {
             "ij_kotlin_packages_to_use_import_on_demand" to null,
         )
 
-    kotlin {
+    fun BaseKotlinExtension.ktlintConfig() =
         ktlint(libs.versions.ktlint.get()).editorConfigOverride(editorConfigOverride)
+
+    fun FormatExtension.kotlinTargets() =
         target("src/**/*.kt", "buildSrc/src/**/*.kt")
+
+    kotlin {
+        ktlintConfig()
+        kotlinTargets()
     }
 
     kotlinGradle {
-        ktlint(libs.versions.ktlint.get()).editorConfigOverride(editorConfigOverride)
-        target("buildSrc/src/**/*.kts")
+        ktlintConfig()
+        target("*.kts", "buildSrc/**/*.kts")
+        targetExclude("**/kotlin-dsl/plugins-blocks/extracted/**")
         licenseHeaderFile(
             rootProject.file("gradle/license-header-c-style"),
-            "(package |@file|import |fun )|buildscript |plugins |subprojects |spotless |group ="
+            "(package |@file|import |fun )|buildscript |plugins |group ="
         )
     }
 
+    // Separate from ktlint to allow license formatting for files with shared copyrights to be specified independently
     format("kotlinLicense") {
-        target("src/**/*.kt")
+        kotlinTargets()
         licenseHeaderFile(
             rootProject.file("gradle/license-header-c-style"),
             "(package |@file|import |fun )"
-        )
-        targetExclude(
-            "**/protokt/v1/animals/**",
-            "**/protokt/v1/helloworld/**",
-            "**/protokt/v1/io/grpc/examples/**",
-            "third-party/proto-google-common-protos/src/jvmMain/kotlin/com/google/**/*.kt",
         )
     }
 
     format("protobufLicense") {
         target("src/**/*.proto")
-        targetExclude(
-            listOf(
-                "examples/protos/src/main/proto/animals/dog.proto",
-                "examples/protos/src/main/proto/animals/pig.proto",
-                "examples/protos/src/main/proto/animals/sheep.proto",
-                "examples/protos/src/main/proto/helloworld/hello_world.proto",
-                "examples/protos/src/main/proto/io/grpc/examples/route_guide.proto",
-                "testing/conformance/driver/src/main/proto/conformance/conformance.proto",
-                "testing/conformance/driver/src/main/proto/protobuf_test_messages/editions/proto3/test_messages_proto3_editions.proto",
-                "testing/conformance/driver/src/main/proto/protobuf_test_messages/editions/test_messages_edition2023.proto",
-                "testing/conformance/driver/src/main/proto/protobuf_test_messages/proto3/test_messages_proto3.proto",
-                "testing/interop/src/main/proto/google/protobuf/unittest_import.proto",
-                "testing/interop/src/main/proto/google/protobuf/unittest_import_public.proto",
-                "testing/interop/src/main/proto/google/protobuf/unittest_proto3.proto",
-                "testing/interop/src/main/proto/tutorial/addressbook.proto",
-            ).map(rootProject::file)
-        )
         licenseHeaderFile(
             rootProject.file("gradle/license-header-c-style"),
             "(syntax |edition )"
