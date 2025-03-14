@@ -29,6 +29,19 @@ protokt {
     }
 }
 
+spotless {
+    kotlin {
+        targetExclude(
+            "src/jvmMain/kotlin/com/google/**/*.kt"
+        )
+    }
+    format("kotlinLicense") {
+        targetExclude(
+            "src/jvmMain/kotlin/com/google/**/*.kt"
+        )
+    }
+}
+
 kotlin {
     sourceSets {
         val commonMain by getting {

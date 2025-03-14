@@ -40,3 +40,16 @@ dependencies {
     api(project(":third-party:proto-google-common-protos"))
     api(libs.grpc.stub)
 }
+
+spotless {
+    kotlin {
+        targetExclude(
+            "src/main/kotlin/com/google/**/*.kt"
+        )
+    }
+    format("kotlinLicense") {
+        targetExclude(
+            "src/main/kotlin/com/google/**/*.kt"
+        )
+    }
+}

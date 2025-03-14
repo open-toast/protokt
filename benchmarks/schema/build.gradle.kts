@@ -16,3 +16,9 @@
 plugins {
     id("protokt.benchmarks-conventions")
 }
+
+spotless {
+    format("protobufLicense") {
+        targetExclude("src/main/resources/schema/benchmarks.proto")
+    }
+}

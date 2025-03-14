@@ -13,7 +13,10 @@
  * limitations under the License.
  */
 
-plugins { idea }
+plugins {
+    idea
+    id("protokt.spotless-conventions")
+}
 
 version = rootProject.version
 group = "com.toasttab.protokt"

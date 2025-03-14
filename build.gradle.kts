@@ -15,5 +15,4 @@
 
 plugins {
     id("protokt.common-conventions")
-    id("protokt.spotless-conventions")
 }

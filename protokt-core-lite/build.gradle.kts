@@ -26,9 +26,10 @@ compatibleWithAndroid()
 
 spotless {
     kotlin {
-        targetExclude(
-            "src/jvmMain/kotlin/com/toasttab/protokt/**/*.kt"
-        )
+        targetExclude("src/jvmMain/kotlin/com/toasttab/protokt/**/*.kt")
+    }
+    format("kotlinLicense") {
+        targetExclude("src/jvmMain/kotlin/com/toasttab/protokt/**/*.kt")
     }
 }
 
