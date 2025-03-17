@@ -14,7 +14,7 @@
 [versions]
 autoService = "1.1.1"
 cel = "0.5.1"
-grpc-java = "1.70.0"
+grpc-java = "1.71.0"
 grpc-kotlin = "1.4.1"
 kotlinLogging = "7.0.4"
 kotlinPoet = "2.1.0"
