@@ -55,7 +55,7 @@ junit = "5.11.4"
 truth = "1.4.4"
 
 # third party
-protoGoogleCommonProtos = "2.53.0"
+protoGoogleCommonProtos = "2.54.1"
 
 [plugins]
 buildConfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildConfig" }
