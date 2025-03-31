@@ -23,6 +23,16 @@ plugins {
 localProtokt()
 pureKotlin()
 
+spotless {
+    format("kotlinLicense") {
+        targetExclude(
+            "src/**/kotlin/protokt/v1/animals/**.kt",
+            "src/**/kotlin/protokt/v1/helloworld/**.kt",
+            "src/**/kotlin/protokt/v1/io/grpc/examples/routeguide/**.kt"
+        )
+    }
+}
+
 protokt {
     generate {
         types = false

@@ -18,6 +18,15 @@ import protokt.v1.gradle.protokt
 
 plugins {
     `kotlin-multiplatform`
+    id("protokt.common-conventions")
+}
+
+spotless {
+    format("kotlinLicense") {
+        targetExclude(
+            "src/**/kotlin/protokt/v1/io/grpc/examples/routeguide/**.kt"
+        )
+    }
 }
 
 kotlin {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Toast, Inc.
+ * Copyright (c) 2020 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,18 @@
  * limitations under the License.
  */
 
-spotless {
-    kotlin {
-        targetExclude(
-            "protokt-extensions/src/jvmMain/kotlin/com/toasttab/protokt/ext/inet_socket_address.kt",
-            "protokt-extensions/src/jvmMain/kotlin/com/toasttab/protokt/ext/protokt.kt",
-            "protokt-extensions-lite/src/jvmMain/kotlin/com/toasttab/protokt/ext/inet_socket_address.kt",
-            "protokt-extensions-lite/src/jvmMain/kotlin/com/toasttab/protokt/ext/protokt.kt"
-        )
-    }
+package com.toasttab.protokt
+
+@Deprecated("for backwards compatibility only")
+@Suppress("DEPRECATION")
+object DoubleValueConverter : com.toasttab.protokt.ext.Converter<Double, DoubleValue> {
+    override val wrapper = Double::class
+
+    override val wrapped = DoubleValue::class
+
+    override fun wrap(unwrapped: DoubleValue) =
+        unwrapped.value
+
+    override fun unwrap(wrapped: Double) =
+        DoubleValue { value = wrapped }
 }

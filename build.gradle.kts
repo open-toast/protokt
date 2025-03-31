@@ -15,5 +15,10 @@
 
 plugins {
     id("protokt.common-conventions")
-    id("protokt.spotless-conventions")
+}
+
+spotless {
+    kotlin {
+        target("shared-src/**/*.kt")
+    }
 }
