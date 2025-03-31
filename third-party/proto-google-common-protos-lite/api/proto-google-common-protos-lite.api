@@ -6046,12 +6046,13 @@ public final class protokt/v1/google/cloud/audit/AuthenticationInfo$Deserializer
 
 public final class protokt/v1/google/cloud/audit/AuthorizationInfo : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/cloud/audit/AuthorizationInfo$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ZLprotokt/v1/google/rpc/context/AttributeContext$Resource;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ZLprotokt/v1/google/rpc/context/AttributeContext$Resource;Lprotokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/AuthorizationInfo;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/cloud/audit/AuthorizationInfo;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getGranted ()Z
 	public final fun getPermission ()Ljava/lang/String;
+	public final fun getPermissionType ()Lprotokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType;
 	public final fun getResource ()Ljava/lang/String;
 	public final fun getResourceAttributes ()Lprotokt/v1/google/rpc/context/AttributeContext$Resource;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
@@ -6067,11 +6068,13 @@ public final class protokt/v1/google/cloud/audit/AuthorizationInfo$Builder {
 	public final fun build ()Lprotokt/v1/google/cloud/audit/AuthorizationInfo;
 	public final fun getGranted ()Z
 	public final fun getPermission ()Ljava/lang/String;
+	public final fun getPermissionType ()Lprotokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType;
 	public final fun getResource ()Ljava/lang/String;
 	public final fun getResourceAttributes ()Lprotokt/v1/google/rpc/context/AttributeContext$Resource;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun setGranted (Z)V
 	public final fun setPermission (Ljava/lang/String;)V
+	public final fun setPermissionType (Lprotokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType;)V
 	public final fun setResource (Ljava/lang/String;)V
 	public final fun setResourceAttributes (Lprotokt/v1/google/rpc/context/AttributeContext$Resource;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
@@ -6081,6 +6084,42 @@ public final class protokt/v1/google/cloud/audit/AuthorizationInfo$Deserializer 
 	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
 	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/cloud/audit/AuthorizationInfo;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/AuthorizationInfo;
+}
+
+public abstract class protokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType : protokt/v1/Enum {
+	public static final field Deserializer Lprotokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType$Deserializer;
+	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getName ()Ljava/lang/String;
+	public fun getValue ()I
+}
+
+public final class protokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType$ADMIN_READ : protokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType {
+	public static final field INSTANCE Lprotokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType$ADMIN_READ;
+}
+
+public final class protokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType$ADMIN_WRITE : protokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType {
+	public static final field INSTANCE Lprotokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType$ADMIN_WRITE;
+}
+
+public final class protokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType$DATA_READ : protokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType {
+	public static final field INSTANCE Lprotokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType$DATA_READ;
+}
+
+public final class protokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType$DATA_WRITE : protokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType {
+	public static final field INSTANCE Lprotokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType$DATA_WRITE;
+}
+
+public final class protokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType$Deserializer : protokt/v1/EnumReader {
+	public synthetic fun from (I)Lprotokt/v1/Enum;
+	public fun from (I)Lprotokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType;
+}
+
+public final class protokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType$PERMISSION_TYPE_UNSPECIFIED : protokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType {
+	public static final field INSTANCE Lprotokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType$PERMISSION_TYPE_UNSPECIFIED;
+}
+
+public final class protokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType$UNRECOGNIZED : protokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType {
+	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/cloud/audit/OrgPolicyViolationInfo : protokt/v1/AbstractMessage {
