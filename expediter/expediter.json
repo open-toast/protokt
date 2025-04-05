@@ -64,6 +64,16 @@
       "type": "type-missing",
       "caller": "io/grpc/stub/AbstractStub",
       "target": "java/time/Duration"
+    },
+    {
+      "type": "type-missing",
+      "caller": "kotlin/internal/jdk8/JDK8PlatformImplementations$getSystemClock$1",
+      "target": "java/time/Instant"
+    },
+    {
+      "type": "type-missing",
+      "caller": "kotlin/time/jdk8/InstantConversionsJDK8Kt",
+      "target": "java/time/Instant"
     }
   ]
 }
