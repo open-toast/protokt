@@ -43,8 +43,8 @@ The runtime and generated code are compatible with Kotlin 1.8+, Java 8+, and And
 ## Usage
 
 See examples in [testing](testing). The Gradle plugin is implemented as a custom 
-protoc plugin provided to the [`protobuf-gradle-plugin`](https://github.com/google/protobuf-gradle-plugin); see its readme for proto 
-source and other configuration option.
+protoc plugin provided to the [`protobuf-gradle-plugin`](https://github.com/google/protobuf-gradle-plugin);
+see its readme for proto source and other configuration options.
 
 ### Gradle
 
