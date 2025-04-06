@@ -44,7 +44,8 @@ The runtime and generated code are compatible with Kotlin 1.8+, Java 8+, and And
 
 See examples in [testing](testing). The Gradle plugin is implemented as a custom 
 protoc plugin provided to the [`protobuf-gradle-plugin`](https://github.com/google/protobuf-gradle-plugin);
-see its readme for proto source and other configuration options.
+see its readme for proto source and other configuration options. The default proto
+source directory is `src/main/proto`.
 
 ### Gradle
 
@@ -102,7 +103,7 @@ tasks.withType<JavaCompile> {
 
 ### Generated Code
 
-Generated code is placed in `<buildDir>/generated/<sourceSet.name>/protokt`.
+Generated code is placed in `<buildDir>/generated/source/proto/main`.
 
 A simple example:
 
