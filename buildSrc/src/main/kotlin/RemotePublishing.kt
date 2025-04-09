@@ -32,6 +32,8 @@ import org.gradle.plugins.signing.Sign
 import org.gradle.plugins.signing.SigningExtension
 import protokt.v1.gradle.KotlinPlugins
 
+const val BASE_GROUP_NAME = "com.toasttab.protokt.v1"
+
 private object Pgp {
     val key by lazy {
         System.getenv("PGP_KEY")?.replace('$', '\n')

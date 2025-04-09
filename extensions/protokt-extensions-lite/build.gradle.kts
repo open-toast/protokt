@@ -61,7 +61,3 @@ sourceSets {
         }
     }
 }
-
-dependencies {
-    protoktExtensions(project(":extensions:protokt-extensions-simple"))
-}

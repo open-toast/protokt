@@ -13,4 +13,4 @@
  * limitations under the License.
  */
 
-group = "com.toasttab.protokt.thirdparty"
+group = "$BASE_GROUP_NAME.thirdparty"
