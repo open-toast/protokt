@@ -13,4 +13,6 @@
  * limitations under the License.
  */
 
+import protokt.v1.gradle.BASE_GROUP_NAME
+
 group = "$BASE_GROUP_NAME.thirdparty"
