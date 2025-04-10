@@ -19,6 +19,17 @@ plugins {
     id("protokt.multiplatform-conventions")
 }
 
+spotless {
+    format("protobufLicense") {
+        targetExclude(
+            "src/main/proto/conformance/conformance.proto",
+            "src/main/proto/protobuf_test_messages/editions/proto3/test_messages_proto3_editions.proto",
+            "src/main/proto/protobuf_test_messages/editions/test_messages_edition2023.proto",
+            "src/main/proto/protobuf_test_messages/proto3/test_messages_proto3.proto"
+        )
+    }
+}
+
 localProtokt()
 
 kotlin {

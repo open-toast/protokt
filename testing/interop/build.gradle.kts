@@ -20,6 +20,17 @@ plugins {
     id("protokt.jvm-conventions")
 }
 
+spotless {
+    format("protobufLicense") {
+        targetExclude(
+            "src/main/proto/google/protobuf/unittest_import.proto",
+            "src/main/proto/google/protobuf/unittest_import_public.proto",
+            "src/main/proto/google/protobuf/unittest_proto3.proto",
+            "src/main/proto/tutorial/addressbook.proto"
+        )
+    }
+}
+
 localProtokt()
 pureKotlin()
 

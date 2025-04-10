@@ -23,6 +23,12 @@ plugins {
 localProtokt()
 pureKotlin()
 
+spotless {
+    format("kotlinLicense") {
+        targetExclude("src/main/kotlin/protokt/v1/io/grpc/examples/routeguide/**.kt")
+    }
+}
+
 protokt {
     generate {
         grpcDescriptors = true

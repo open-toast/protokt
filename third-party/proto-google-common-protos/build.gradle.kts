@@ -22,6 +22,7 @@ plugins {
 
 localProtokt()
 compatibleWithAndroid()
+excludeLegacyProtoktFromSpotless("src/jvmMain/kotlin/com/google/**/*.kt")
 
 protokt {
     generate {
