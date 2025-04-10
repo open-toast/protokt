@@ -95,7 +95,7 @@ internal fun binaryFromArtifact(project: Project): String {
 
         add(
             CODEGEN_CONFIGURATION,
-            "com.toasttab.protokt:protokt-codegen:$PROTOKT_VERSION:dist@zip"
+            "$BASE_GROUP_NAME:protokt-codegen:$PROTOKT_VERSION:dist@zip"
         )
 
         project.afterEvaluate {

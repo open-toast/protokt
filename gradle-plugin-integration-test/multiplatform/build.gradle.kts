@@ -92,7 +92,7 @@ tasks.named<Test>("jvmTest") {
 }
 
 dependencies {
-    protoktExtensions("com.toasttab.protokt:protokt-extensions:$version")
+    protoktExtensions("com.toasttab.protokt.v1:protokt-extensions:$version")
 }
 
 tasks.named("jsNodeTest") {
