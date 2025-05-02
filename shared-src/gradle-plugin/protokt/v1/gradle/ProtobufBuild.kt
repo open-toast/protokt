@@ -59,10 +59,12 @@ internal fun configureProtobufPlugin(
                     }
                 }
 
+                lateinit var pluginOptions: GenerateProtoTask.PluginOptions
+
                 task.plugins {
                     id(target.protocPluginName) {
+                        pluginOptions = this
                         project.afterEvaluate {
-                            option("$KOTLIN_EXTRA_CLASSPATH=${extraClasspath(project, task)}")
                             option("$GENERATE_TYPES=${ext.generate.types}")
                             option("$GENERATE_DESCRIPTORS=${ext.generate.descriptors}")
                             option("$GENERATE_GRPC_DESCRIPTORS=${ext.generate.grpcDescriptors}")
@@ -72,6 +74,15 @@ internal fun configureProtobufPlugin(
                         }
                     }
                 }
+
+                val extractExtraClasspath =
+                    project.tasks.register("extractExtraClasspathFor${task.name.replaceFirstChar { it.uppercase() }}") {
+                        doFirst {
+                            pluginOptions.option("$KOTLIN_EXTRA_CLASSPATH=${extraClasspath(project, task)}")
+                        }
+                    }
+
+                task.dependsOn(extractExtraClasspath)
             }
         }
     }
