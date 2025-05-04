@@ -67,11 +67,17 @@ internal fun configureProtobufPlugin(
                     }
                 }
 
-                lateinit var pluginOptions: GenerateProtoTask.PluginOptions
+                val extractExtraClasspath =
+                    project.tasks.register<ExtractExtraClasspathTask>("extractExtraClasspathFor${task.name.replaceFirstChar { it.uppercase() }}") {
+                        extensionsConfigurations.from(resolveExtensions(project, task))
+                    }
+                task.dependsOn(extractExtraClasspath)
+                addExtensionsTaskDependencies(project, task)
 
                 task.plugins {
                     id(target.protocPluginName) {
-                        pluginOptions = this
+                        val options: GenerateProtoTask.PluginOptions = this
+                        extractExtraClasspath.configure { pluginOptions.set(options) }
                         project.afterEvaluate {
                             option("$GENERATE_TYPES=${ext.generate.types}")
                             option("$GENERATE_DESCRIPTORS=${ext.generate.descriptors}")
@@ -82,16 +88,6 @@ internal fun configureProtobufPlugin(
                         }
                     }
                 }
-
-                addExtensionsTaskDependencies(project, task)
-
-                val extractExtraClasspath =
-                    project.tasks.register<ExtractExtraClasspathTask>("extractExtraClasspathFor${task.name.replaceFirstChar { it.uppercase() }}") {
-                        extensionsConfigurations.from(resolveExtensions(project, task))
-                        this@register.pluginOptions.set(pluginOptions)
-                    }
-
-                task.dependsOn(extractExtraClasspath)
             }
         }
     }
