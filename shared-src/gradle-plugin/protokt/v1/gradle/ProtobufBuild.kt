@@ -122,9 +122,7 @@ private fun addExtensionsTaskDependencies(project: Project, task: GenerateProtoT
 }
 
 private fun extraClasspath(extensions: ConfigurableFileCollection) =
-    extensions
-        .files
-        .joinToString(";") { URLEncoder.encode(it.path, "UTF-8") }
+    extensions.files.joinToString(";") { URLEncoder.encode(it.path, "UTF-8") }
 
 private fun resolveExtensions(project: Project, task: GenerateProtoTask): List<Provider<Configuration>> {
     val extensions = mutableListOf(project.configurations.named(EXTENSIONS))
