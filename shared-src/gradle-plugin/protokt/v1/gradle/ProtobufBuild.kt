@@ -20,13 +20,20 @@ import com.google.protobuf.gradle.ProtobufExtension
 import com.google.protobuf.gradle.ProtobufExtract
 import com.google.protobuf.gradle.ProtobufPlugin
 import com.google.protobuf.gradle.id
+import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
+import org.gradle.api.file.ConfigurableFileCollection
+import org.gradle.api.provider.Property
 import org.gradle.api.provider.Provider
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputFiles
+import org.gradle.api.tasks.TaskAction
 import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.named
+import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.withType
 import java.net.URLEncoder
 
@@ -79,15 +86,27 @@ internal fun configureProtobufPlugin(
                 addExtensionsTaskDependencies(project, task)
 
                 val extractExtraClasspath =
-                    project.tasks.register("extractExtraClasspathFor${task.name.replaceFirstChar { it.uppercase() }}") {
-                        doFirst {
-                            pluginOptions.option("$KOTLIN_EXTRA_CLASSPATH=${extraClasspath(project, task)}")
-                        }
+                    project.tasks.register<ExtractExtraClasspathTask>("extractExtraClasspathFor${task.name.replaceFirstChar { it.uppercase() }}") {
+                        extensionsConfigurations.from(resolveExtensions(project, task))
+                        this@register.pluginOptions.set(pluginOptions)
                     }
 
                 task.dependsOn(extractExtraClasspath)
             }
         }
+    }
+}
+
+abstract class ExtractExtraClasspathTask : DefaultTask() {
+    @get:InputFiles
+    internal abstract val extensionsConfigurations: ConfigurableFileCollection
+
+    @get:Input
+    internal abstract val pluginOptions: Property<GenerateProtoTask.PluginOptions>
+
+    @TaskAction
+    internal fun extractExtraClasspath() {
+        pluginOptions.get().option("$KOTLIN_EXTRA_CLASSPATH=${extraClasspath(extensionsConfigurations)}")
     }
 }
 
@@ -106,9 +125,9 @@ private fun addExtensionsTaskDependencies(project: Project, task: GenerateProtoT
     }
 }
 
-private fun extraClasspath(project: Project, task: GenerateProtoTask) =
-    resolveExtensions(project, task)
-        .flatMap { it.get().files }
+private fun extraClasspath(extensions: ConfigurableFileCollection) =
+    extensions
+        .files
         .joinToString(";") { URLEncoder.encode(it.path, "UTF-8") }
 
 private fun resolveExtensions(project: Project, task: GenerateProtoTask): List<Provider<Configuration>> {
