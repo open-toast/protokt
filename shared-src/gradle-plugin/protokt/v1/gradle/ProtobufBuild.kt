@@ -20,9 +20,9 @@ import com.google.protobuf.gradle.ProtobufExtension
 import com.google.protobuf.gradle.ProtobufExtract
 import com.google.protobuf.gradle.ProtobufPlugin
 import com.google.protobuf.gradle.id
-import org.gradle.api.NamedDomainObjectProvider
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
+import org.gradle.api.provider.Provider
 import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
@@ -111,7 +111,7 @@ private fun extraClasspath(project: Project, task: GenerateProtoTask) =
         .flatMap { it.get().files }
         .joinToString(";") { URLEncoder.encode(it.path, "UTF-8") }
 
-private fun resolveExtensions(project: Project, task: GenerateProtoTask): MutableList<NamedDomainObjectProvider<Configuration>> {
+private fun resolveExtensions(project: Project, task: GenerateProtoTask): List<Provider<Configuration>> {
     val extensions = mutableListOf(project.configurations.named(EXTENSIONS))
 
     if (task.isTest) {
