@@ -52,7 +52,6 @@ include(
     "extensions:protokt-extensions",
     "extensions:protokt-extensions-api",
     "extensions:protokt-extensions-lite",
-    "extensions:protokt-extensions-simple",
 
     "testing:android",
     "testing:android-test-configurations",

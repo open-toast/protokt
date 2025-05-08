@@ -18,10 +18,6 @@ plugins {
     id("com.toasttab.protokt")
 }
 
-protokt {
-    formatOutput = false // https://github.com/pinterest/ktlint/issues/1195
-}
-
 tasks {
     withType<Test> {
         useJUnitPlatform()
@@ -29,7 +25,7 @@ tasks {
 }
 
 dependencies {
-    protoktExtensions("com.toasttab.protokt:protokt-extensions:$version")
+    protoktExtensions("com.toasttab.protokt.v1:protokt-extensions:$version")
 
     testImplementation(kotlin("test-junit5"))
     testImplementation(libs.junit.jupiter)
