@@ -15,11 +15,10 @@
 
 plugins {
     kotlin("jvm")
-    id("com.toasttab.protokt")
+    id("com.toasttab.protokt.v1")
 }
 
 protokt {
-    formatOutput = false // https://github.com/pinterest/ktlint/issues/1195
     generate { lite() }
 }
 
@@ -30,7 +29,7 @@ tasks {
 }
 
 dependencies {
-    protoktExtensions("com.toasttab.protokt:protokt-extensions-lite:$version")
+    protoktExtensions("com.toasttab.protokt.v1:protokt-extensions-lite:$version")
     protoktExtensions(project(":wrapper-types"))
 
     testImplementation(kotlin("test-junit5"))

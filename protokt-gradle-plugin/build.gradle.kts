@@ -26,7 +26,7 @@ gradlePlugin {
 
     plugins {
         create("protokt") {
-            id = "com.toasttab.protokt"
+            id = "com.toasttab.protokt.v1"
             implementationClass = "protokt.v1.gradle.ProtoktPlugin"
             displayName = ProtoktProjectInfo.NAME
             description = ProtoktProjectInfo.DESCRIPTION

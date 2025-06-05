@@ -416,6 +416,7 @@ public final class protokt/v1/google/cloud/audit/Audit_log_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/google/cloud/audit/AuditLog$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/cloud/audit/AuthenticationInfo$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/cloud/audit/AuthorizationInfo$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/cloud/audit/OrgPolicyViolationInfo$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/cloud/audit/PolicyViolationInfo$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/cloud/audit/RequestMetadata$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
