@@ -13,7 +13,9 @@
  * limitations under the License.
  */
 
+import protokt.v1.gradle.BASE_GROUP_NAME
+
 plugins { idea }
 
 version = rootProject.version
-group = "com.toasttab.protokt"
+group = BASE_GROUP_NAME

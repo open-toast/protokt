@@ -31,6 +31,8 @@ fun Project.javaBasedProjectConventions() {
 
         "testImplementation"(libs.junit.jupiter)
         "testImplementation"(libs.truth)
+
+        "testRuntimeOnly"(libs.junit.platformLauncher)
     }
 
     tasks.withType<KotlinCompile> {

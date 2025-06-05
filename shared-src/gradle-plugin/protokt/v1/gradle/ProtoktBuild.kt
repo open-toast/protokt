@@ -41,6 +41,8 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.targets
 import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile
 
+internal const val BASE_GROUP_NAME = "com.toasttab.protokt.v1"
+
 const val CODEGEN_NAME = "protoc-gen-protokt"
 
 const val EXTENSIONS = "protoktExtensions"
@@ -235,6 +237,6 @@ private fun Project.resolveDependency(rootArtifactId: String, protoktVersion: An
     return if (protoktVersion == null) {
         dependencies.project(":$artifactId")
     } else {
-        dependencies.create("com.toasttab.protokt:$artifactId:$protoktVersion")
+        dependencies.create("$BASE_GROUP_NAME:$artifactId:$protoktVersion")
     }
 }
