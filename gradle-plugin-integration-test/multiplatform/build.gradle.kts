@@ -18,7 +18,7 @@ import protokt.v1.gradle.protoktExtensions
 
 plugins {
     kotlin("multiplatform")
-    id("com.toasttab.protokt")
+    id("com.toasttab.protokt.v1")
 }
 
 kotlin {
@@ -92,7 +92,7 @@ tasks.named<Test>("jvmTest") {
 }
 
 dependencies {
-    protoktExtensions("com.toasttab.protokt:protokt-extensions:$version")
+    protoktExtensions("com.toasttab.protokt.v1:protokt-extensions:$version")
 }
 
 tasks.named("jsNodeTest") {
