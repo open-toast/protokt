@@ -24,10 +24,9 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.file.ConfigurableFileCollection
-import org.gradle.api.provider.Property
 import org.gradle.api.provider.Provider
-import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFiles
+import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.apply
@@ -77,7 +76,7 @@ internal fun configureProtobufPlugin(
                 task.plugins {
                     id(target.protocPluginName) {
                         val options: GenerateProtoTask.PluginOptions = this
-                        extractExtraClasspath.configure { pluginOptions.set(options) }
+                        extractExtraClasspath.configure { pluginOptions = options }
                         project.afterEvaluate {
                             option("$GENERATE_TYPES=${ext.generate.types}")
                             option("$GENERATE_DESCRIPTORS=${ext.generate.descriptors}")
@@ -97,12 +96,12 @@ abstract class ExtractExtraClasspathTask : DefaultTask() {
     @get:InputFiles
     internal abstract val extensionsConfigurations: ConfigurableFileCollection
 
-    @get:Input
-    internal abstract val pluginOptions: Property<GenerateProtoTask.PluginOptions>
+    @get:Internal
+    internal lateinit var pluginOptions: GenerateProtoTask.PluginOptions
 
     @TaskAction
     internal fun extractExtraClasspath() {
-        pluginOptions.get().option("$KOTLIN_EXTRA_CLASSPATH=${extraClasspath(extensionsConfigurations)}")
+        pluginOptions.option("$KOTLIN_EXTRA_CLASSPATH=${extraClasspath(extensionsConfigurations)}")
     }
 }
 
