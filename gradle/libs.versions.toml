@@ -13,19 +13,19 @@
 
 [versions]
 autoService = "1.1.1"
-cel = "0.5.1"
+cel = "0.5.3"
 grpc-java = "1.71.0"
 grpc-kotlin = "1.4.1"
-kotlinLogging = "7.0.6"
+kotlinLogging = "7.0.7"
 kotlinPoet = "2.1.0"
 kotlinx-coroutines = "1.10.2"
 kotlinx-serialization = "1.8.0"
 ktlint = "1.5.0"
-protobuf-java = "4.29.1"
+protobuf-java = "4.30.1"
 protobuf-js = "7.4.0"
 protobufGradlePlugin = "0.9.5"
-protovalidate = "0.9.0"
-protovalidateJava = "0.5.0"
+protovalidate = "0.12.0"
+protovalidateJava = "0.9.1"
 slf4j = "2.0.17"
 
 # build
@@ -51,11 +51,11 @@ buf = "1.47.2"
 classgraph = "4.8.179"
 grpc-js = "1.12.4"
 jackson = "2.18.3"
-junit = "5.11.4"
+junit = "5.13.0"
 truth = "1.4.4"
 
 # third party
-protoGoogleCommonProtos = "2.54.1"
+protoGoogleCommonProtos = "2.57.0"
 
 [plugins]
 buildConfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildConfig" }
@@ -103,6 +103,7 @@ grpc-kotlin-stub = { module = "io.grpc:grpc-kotlin-stub", version.ref = "grpc-ko
 grpc-testing = { module = "io.grpc:grpc-testing", version.ref = "grpc-java" }
 jackson = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
+junit-platformLauncher = { module = "org.junit.platform:junit-platform-launcher" }
 junit-vintage = { module = "org.junit.vintage:junit-vintage-engine" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }

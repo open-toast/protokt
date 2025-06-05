@@ -2,7 +2,8 @@
 
 .kotlin
 .gradle
-build
+/**/build/*
+!/**/src/**/build/*
 out
 .DS_Store
 

@@ -16,19 +16,14 @@
 package protokt.v1.buf.validate
 
 import build.buf.protovalidate.Config
+import build.buf.protovalidate.ProtoktEvaluator
+import build.buf.protovalidate.ProtoktEvaluatorBuilder
 import build.buf.protovalidate.ValidationResult
-import build.buf.protovalidate.internal.celext.ValidateLibrary
-import build.buf.protovalidate.internal.evaluator.Evaluator
-import build.buf.protovalidate.internal.evaluator.EvaluatorBuilder
-import build.buf.protovalidate.internal.evaluator.MessageValue
 import com.google.protobuf.Descriptors.Descriptor
-import org.projectnessie.cel.Env
-import org.projectnessie.cel.Library
 import protokt.v1.Beta
 import protokt.v1.GeneratedMessage
 import protokt.v1.Message
 import protokt.v1.google.protobuf.RuntimeContext
-import protokt.v1.google.protobuf.toDynamicMessage
 import java.util.Collections
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.reflect.full.findAnnotation
@@ -37,11 +32,11 @@ import kotlin.reflect.full.findAnnotation
 class Validator @JvmOverloads constructor(
     config: Config = Config.newBuilder().build()
 ) {
-    private val evaluatorBuilder = EvaluatorBuilder(Env.newEnv(Library.Lib(ValidateLibrary())), config)
+    private val evaluatorBuilder = ProtoktEvaluatorBuilder(config)
 
     private val failFast = config.isFailFast
 
-    private val evaluatorsByFullTypeName = ConcurrentHashMap<String, Evaluator>()
+    private val evaluatorsByFullTypeName = ConcurrentHashMap<String, ProtoktEvaluator>()
     private val descriptors = Collections.newSetFromMap(ConcurrentHashMap<Descriptor, Boolean>())
 
     @Volatile
@@ -59,14 +54,15 @@ class Validator @JvmOverloads constructor(
     }
 
     fun validate(message: Message): ValidationResult {
-        val result = evaluatorsByFullTypeName
-            .getValue(message::class.findAnnotation<GeneratedMessage>()!!.fullTypeName)
-            .evaluate(MessageValue(message.toDynamicMessage(runtimeContext)), failFast)
+        val result =
+            evaluatorsByFullTypeName
+                .getValue(message::class.findAnnotation<GeneratedMessage>()!!.fullTypeName)
+                .evaluate(message, runtimeContext, failFast)
 
         return if (result.isEmpty()) {
             ValidationResult.EMPTY
         } else {
-            ValidationResult(result.map { it.build() })
+            result.build()
         }
     }
 }

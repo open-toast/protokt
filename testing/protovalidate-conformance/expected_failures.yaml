@@ -1,7 +1,10 @@
-standard_constraints/ignore_empty:
+standard_rules/ignore_empty:
   - proto/2023/message/explicit_presence/delimited/nonzero
   - proto/2023/message/explicit_presence/delimited/zero
-standard_constraints/ignore:
+standard_rules/ignore:
+  - proto/2023/message/explicit_presence/delimited/ignore_always/valid/default_invalid_value
+  - proto/2023/message/explicit_presence/delimited/ignore_always/valid/populated_invalid_value
+  - proto/2023/message/explicit_presence/delimited/ignore_always/valid/populated_valid_value
   - proto/2023/message/explicit_presence/delimited/ignore_default/invalid/populated
   - proto/2023/message/explicit_presence/delimited/ignore_default/valid/default
   - proto/2023/message/explicit_presence/delimited/ignore_default/valid/populated
@@ -11,6 +14,9 @@ standard_constraints/ignore:
   - proto/2023/message/explicit_presence/delimited/ignore_unspecified/invalid/default
   - proto/2023/message/explicit_presence/delimited/ignore_unspecified/invalid/populated
   - proto/2023/message/explicit_presence/delimited/ignore_unspecified/valid/populated
+  - proto/2023/message/legacy_required/delimited/ignore_always/valid/default_invalid_value
+  - proto/2023/message/legacy_required/delimited/ignore_always/valid/populated_invalid_value
+  - proto/2023/message/legacy_required/delimited/ignore_always/valid/populated_valid_value
   - proto/2023/message/legacy_required/delimited/ignore_default/invalid/populated
   - proto/2023/message/legacy_required/delimited/ignore_default/valid/default
   - proto/2023/message/legacy_required/delimited/ignore_default/valid/populated
@@ -20,7 +26,7 @@ standard_constraints/ignore:
   - proto/2023/message/legacy_required/delimited/ignore_unspecified/invalid/default
   - proto/2023/message/legacy_required/delimited/ignore_unspecified/invalid/populated
   - proto/2023/message/legacy_required/delimited/ignore_unspecified/valid/populated
-standard_constraints/required:
+standard_rules/required:
   - proto/2023/message/explicit_presence/delimited/nonzero
   - proto/2023/message/legacy_required/delimited/zero
   - proto/2023/message/legacy_required/delimited/nonzero
