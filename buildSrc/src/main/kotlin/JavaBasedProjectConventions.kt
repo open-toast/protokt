@@ -30,6 +30,7 @@ fun Project.javaBasedProjectConventions() {
         "api"(kotlin("stdlib"))
 
         "testImplementation"(libs.junit.jupiter)
+        "testImplementation"(libs.junit.platformLauncher)
         "testImplementation"(libs.truth)
     }
 
