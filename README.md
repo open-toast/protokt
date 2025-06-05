@@ -51,7 +51,7 @@ source directory is `src/main/proto`.
 
 ```kotlin
 plugins {
-    id("com.toasttab.protokt") version "<version>"
+    id("com.toasttab.protokt.v1") version "<version>"
 }
 ```
 
@@ -60,11 +60,11 @@ or
 ```kotlin
 buildscript {
     dependencies {
-        classpath("com.toasttab.protokt:protokt-gradle-plugin:<version>")
+        classpath("com.toasttab.protokt.v1:protokt-gradle-plugin:<version>")
     }
 }
 
-apply(plugin = "com.toasttab.protokt")
+apply(plugin = "com.toasttab.protokt.v1")
 ```
 
 This will automatically download and install protokt, apply the Google protobuf
@@ -755,9 +755,9 @@ Like wrapper types, if the implemented interface is in the same package as the
 generated protobuf message that uses it, then it does not need to be referenced
 by its fully-qualified name. Implemented interfaces cannot be used by protobuf
 messages in the same project that defines them; the dependency must be declared
-with `protoktExtensions` in `build.gradle`:
+with `protoktExtensions` in `build.gradle.kts`:
 
-```groovy
+```kotlin
 dependencies {
     protoktExtensions(project(":api-project"))
 }
@@ -936,7 +936,7 @@ message SliceModel {
 Protokt will generate variations of code for gRPC method and service descriptors
 when the gRPC generation options are enabled:
 
-```groovy
+```kotlin
 protokt {
     generate {
         grpcDescriptors = true
@@ -1086,9 +1086,9 @@ If IntelliJ doesn't automatically detect the generated files as source files,
 you may be missing the `idea` plugin. Apply the `idea` plugin to your Gradle
 project:
 
-```groovy
+```kotlin
 plugins {
-  id 'idea'
+    idea
 }
 ```
 
