@@ -26,6 +26,7 @@ CodedOutputStream for best performance
 for use with [grpc-java](#integrating-with-grpcs-java-api),
 [grpc-kotlin](#integrating-with-grpcs-kotlin-api), and
 [grpc-node](#integrating-with-grpcs-nodejs-api) (experimental) (see examples  in [examples](examples))
+- (JVM) Integration with [Protovalidate](#protovalidate-integration) 
 
 ### Not yet implemented
 
@@ -41,7 +42,10 @@ The runtime and generated code are compatible with Kotlin 1.8+, Java 8+, and And
 
 ## Usage
 
-See examples in [testing](testing).
+See examples in [testing](testing). The Gradle plugin is implemented as a custom 
+protoc plugin provided to the [`protobuf-gradle-plugin`](https://github.com/google/protobuf-gradle-plugin);
+see its readme for proto source and other configuration options. The default proto
+source directory is `src/main/proto`.
 
 ### Gradle
 
@@ -99,7 +103,7 @@ tasks.withType<JavaCompile> {
 
 ### Generated Code
 
-Generated code is placed in `<buildDir>/generated/<sourceSet.name>/protokt`.
+Generated code is placed in `<buildDir>/generated/source/proto/main`.
 
 A simple example:
 
@@ -1055,6 +1059,26 @@ are supported by an analogous runtime library in ServerCalls and ClientCalls obj
 These implementations are alpha-quality and for demonstration only. External contributions
 to harden the implementation are welcome. They use the same `grpcDescriptors` and
 `grpcKotlinStubs` plugin options to control code generation.
+
+## Protovalidate integration
+
+Add the `protokt-protovalidate` dependency, build a Validator, load descriptors, and
+validate messages.
+
+```kotlin
+import protokt.v1.buf.validate.Validator
+
+val validator = Validator()
+
+foo_file_descriptor
+    .toProtobufJavaDescriptor()
+    .messageTypes
+    .forEach(validator::load)
+
+val result = validator.validate(instanceOfFoo)
+```
+
+Build a gRPC interceptor following the [example of `protovalidate-java`](https://github.com/bufbuild/buf-examples/blob/fccc323b8141e649f0fbab7ab399236a811aca8e/protovalidate/grpc-java/finish/src/main/java/buf/build/example/protovalidate/ValidationInterceptor.java).
 
 ## IntelliJ integration
 
