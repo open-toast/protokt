@@ -37,6 +37,7 @@ public final class protokt/v1/google/protobuf/Descriptor_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/ExtensionRangeOptions$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/ExtensionRangeOptions$VerificationState$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/FeatureSet$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/FeatureSet$EnforceNamingStyle$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/FeatureSet$EnumType$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/FeatureSet$FieldPresence$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/FeatureSet$JsonFormat$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
