@@ -20,12 +20,19 @@ import com.google.protobuf.gradle.ProtobufExtension
 import com.google.protobuf.gradle.ProtobufExtract
 import com.google.protobuf.gradle.ProtobufPlugin
 import com.google.protobuf.gradle.id
+import org.gradle.api.DefaultTask
 import org.gradle.api.Project
-import org.gradle.api.file.FileCollection
+import org.gradle.api.artifacts.Configuration
+import org.gradle.api.file.ConfigurableFileCollection
+import org.gradle.api.provider.Provider
+import org.gradle.api.tasks.InputFiles
+import org.gradle.api.tasks.Internal
+import org.gradle.api.tasks.TaskAction
 import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.named
+import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.withType
 import java.net.URLEncoder
 
@@ -59,10 +66,18 @@ internal fun configureProtobufPlugin(
                     }
                 }
 
+                val extractExtraClasspath =
+                    project.tasks.register<ExtractExtraClasspathTask>("extractExtraClasspathFor${task.name.replaceFirstChar { it.uppercase() }}") {
+                        extensionsConfigurations.from(resolveExtensions(project, task))
+                    }
+                task.dependsOn(extractExtraClasspath)
+                addExtensionsTaskDependencies(project, task)
+
                 task.plugins {
                     id(target.protocPluginName) {
+                        val options: GenerateProtoTask.PluginOptions = this
+                        extractExtraClasspath.configure { pluginOptions = options }
                         project.afterEvaluate {
-                            option("$KOTLIN_EXTRA_CLASSPATH=${extraClasspath(project, task)}")
                             option("$GENERATE_TYPES=${ext.generate.types}")
                             option("$GENERATE_DESCRIPTORS=${ext.generate.descriptors}")
                             option("$GENERATE_GRPC_DESCRIPTORS=${ext.generate.grpcDescriptors}")
@@ -77,24 +92,45 @@ internal fun configureProtobufPlugin(
     }
 }
 
-private fun extraClasspath(project: Project, task: GenerateProtoTask): String {
-    var extensions: FileCollection = project.configurations.getByName(EXTENSIONS)
+abstract class ExtractExtraClasspathTask : DefaultTask() {
+    @get:InputFiles
+    internal abstract val extensionsConfigurations: ConfigurableFileCollection
 
-    if (task.isTest) {
-        extensions += project.configurations.getByName(TEST_EXTENSIONS)
+    @get:Internal
+    internal lateinit var pluginOptions: GenerateProtoTask.PluginOptions
+
+    @TaskAction
+    internal fun extractExtraClasspath() {
+        pluginOptions.option("$KOTLIN_EXTRA_CLASSPATH=${extraClasspath(extensionsConfigurations)}")
     }
+}
 
+private fun addExtensionsTaskDependencies(project: Project, task: GenerateProtoTask) {
     // Must explicitly register input files here; if any extensions dependencies are project dependencies then Gradle
     // won't pick them up as dependencies unless we do this. There may be a better way to do this but for now just
     // manually do what protobuf-gradle-plugin used to do.
     // https://github.com/google/protobuf-gradle-plugin/commit/0521fe707ccedee7a0b4ce0fb88409eefb04e59d
-    project.tasks.withType<ProtobufExtract> {
-        if (name.startsWith("extractInclude")) {
-            inputFiles.from(extensions)
+    project.afterEvaluate {
+        val extensions = resolveExtensions(project, task)
+        project.tasks.withType<ProtobufExtract> {
+            if (name.startsWith("extractInclude")) {
+                inputFiles.from(extensions)
+            }
         }
     }
+}
 
-    return extensions.joinToString(";") { URLEncoder.encode(it.path, "UTF-8") }
+private fun extraClasspath(extensions: ConfigurableFileCollection) =
+    extensions.files.joinToString(";") { URLEncoder.encode(it.path, "UTF-8") }
+
+private fun resolveExtensions(project: Project, task: GenerateProtoTask): List<Provider<Configuration>> {
+    val extensions = mutableListOf(project.configurations.named(EXTENSIONS))
+
+    if (task.isTest) {
+        extensions.add(project.configurations.named(TEST_EXTENSIONS))
+    }
+
+    return extensions
 }
 
 private fun configureSources(project: Project) {
