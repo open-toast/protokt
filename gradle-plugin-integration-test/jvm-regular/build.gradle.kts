@@ -34,6 +34,8 @@ dependencies {
     testImplementation(kotlin("test-junit5"))
     testImplementation(libs.junit.jupiter)
     testImplementation(libs.protobuf.java)
+
+    testRuntimeOnly(libs.junit.platformLauncher)
 }
 
 sourceSets {

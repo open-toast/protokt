@@ -30,8 +30,9 @@ fun Project.javaBasedProjectConventions() {
         "api"(kotlin("stdlib"))
 
         "testImplementation"(libs.junit.jupiter)
-        "testImplementation"(libs.junit.platformLauncher)
         "testImplementation"(libs.truth)
+
+        "testRuntimeOnly"(libs.junit.platformLauncher)
     }
 
     tasks.withType<KotlinCompile> {
