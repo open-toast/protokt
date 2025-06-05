@@ -15,7 +15,7 @@
 
 plugins {
     kotlin("jvm")
-    id("com.toasttab.protokt")
+    id("com.toasttab.protokt.v1")
 }
 
 tasks {

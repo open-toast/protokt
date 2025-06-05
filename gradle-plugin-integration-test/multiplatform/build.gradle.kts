@@ -18,7 +18,7 @@ import protokt.v1.gradle.protoktExtensions
 
 plugins {
     kotlin("multiplatform")
-    id("com.toasttab.protokt")
+    id("com.toasttab.protokt.v1")
 }
 
 kotlin {
