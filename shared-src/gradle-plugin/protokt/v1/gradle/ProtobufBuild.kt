@@ -20,19 +20,13 @@ import com.google.protobuf.gradle.ProtobufExtension
 import com.google.protobuf.gradle.ProtobufExtract
 import com.google.protobuf.gradle.ProtobufPlugin
 import com.google.protobuf.gradle.id
-import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
-import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.provider.Provider
-import org.gradle.api.tasks.InputFiles
-import org.gradle.api.tasks.Internal
-import org.gradle.api.tasks.TaskAction
 import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.named
-import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.withType
 import java.net.URLEncoder
 
@@ -59,6 +53,9 @@ internal fun configureProtobufPlugin(
         }
 
         generateProtoTasks {
+            val mainExtractProtoAdditions = mutableListOf<TaskInputFiles>()
+            val testExtractProtoAdditions = mutableListOf<TaskInputFiles?>()
+
             for (task in all()) {
                 if (disableJava) {
                     task.builtins {
@@ -66,72 +63,79 @@ internal fun configureProtobufPlugin(
                     }
                 }
 
-                val extractExtraClasspath =
-                    project.tasks.register<ExtractExtraClasspathTask>("extractExtraClasspathFor${task.name.replaceFirstChar { it.uppercase() }}") {
-                        extensionsConfigurations.from(resolveExtensions(project, task))
-                    }
-                task.dependsOn(extractExtraClasspath)
-                addExtensionsTaskDependencies(project, task)
+                val extensions = resolveExtensions(project, task)
+
+                if (task.isTestTask()) {
+                    testExtractProtoAdditions.add(extensions.test?.let { TaskInputFiles(extensions.taskName, it) })
+                } else {
+                    mainExtractProtoAdditions.add(TaskInputFiles(extensions.taskName, extensions.main))
+                }
 
                 task.plugins {
                     id(target.protocPluginName) {
-                        val options: GenerateProtoTask.PluginOptions = this
-                        extractExtraClasspath.configure { pluginOptions = options }
-                        project.afterEvaluate {
-                            option("$GENERATE_TYPES=${ext.generate.types}")
-                            option("$GENERATE_DESCRIPTORS=${ext.generate.descriptors}")
-                            option("$GENERATE_GRPC_DESCRIPTORS=${ext.generate.grpcDescriptors}")
-                            option("$GENERATE_GRPC_KOTLIN_STUBS=${ext.generate.grpcKotlinStubs}")
-                            option("$FORMAT_OUTPUT=${ext.formatOutput}")
-                            option("$KOTLIN_TARGET=$target")
-                        }
+                        option("$KOTLIN_EXTRA_CLASSPATH=${extraClasspath(project, extensions)}")
+                        option("$GENERATE_TYPES=${ext.generate.types}")
+                        option("$GENERATE_DESCRIPTORS=${ext.generate.descriptors}")
+                        option("$GENERATE_GRPC_DESCRIPTORS=${ext.generate.grpcDescriptors}")
+                        option("$GENERATE_GRPC_KOTLIN_STUBS=${ext.generate.grpcKotlinStubs}")
+                        option("$FORMAT_OUTPUT=${ext.formatOutput}")
+                        option("$KOTLIN_TARGET=$target")
                     }
                 }
             }
+
+            project.handleExtraInputFiles(mainExtractProtoAdditions, testExtractProtoAdditions)
         }
     }
 }
 
-abstract class ExtractExtraClasspathTask : DefaultTask() {
-    @get:InputFiles
-    internal abstract val extensionsConfigurations: ConfigurableFileCollection
-
-    @get:Internal
-    internal lateinit var pluginOptions: GenerateProtoTask.PluginOptions
-
-    @TaskAction
-    internal fun extractExtraClasspath() {
-        pluginOptions.option("$KOTLIN_EXTRA_CLASSPATH=${extraClasspath(extensionsConfigurations)}")
+private fun Project.handleExtraInputFiles(mainExtractAdditions: List<TaskInputFiles>, testExtractAdditions: List<TaskInputFiles?>) {
+    afterEvaluate {
+        handleExtractProtoAdditions(mainExtractAdditions, false)
+        handleExtractProtoAdditions(testExtractAdditions, true)
     }
 }
 
-private fun addExtensionsTaskDependencies(project: Project, task: GenerateProtoTask) {
-    // Must explicitly register input files here; if any extensions dependencies are project dependencies then Gradle
-    // won't pick them up as dependencies unless we do this. There may be a better way to do this but for now just
-    // manually do what protobuf-gradle-plugin used to do.
-    // https://github.com/google/protobuf-gradle-plugin/commit/0521fe707ccedee7a0b4ce0fb88409eefb04e59d
-    project.afterEvaluate {
-        val extensions = resolveExtensions(project, task)
-        project.tasks.withType<ProtobufExtract> {
-            if (name.startsWith("extractInclude")) {
-                inputFiles.from(extensions)
+private fun Project.handleExtractProtoAdditions(additions: List<TaskInputFiles?>, test: Boolean) {
+    additions.filterNotNull().forEach {
+        // there is more than one task in multiplatform projects: e.g. extractIncludeProto and extractIncludeJvmMainProto
+        extractIncludeProtoTasks().forEach { task ->
+            val isTest = task.isTestTask()
+            if ((!test && !isTest) || (test && isTest)) {
+                logger.log(DEBUG_LOG_LEVEL, "Adding input files to task $name from ${it.taskName}")
+                task.inputFiles.from(it.inputFiles)
             }
         }
     }
 }
 
-private fun extraClasspath(extensions: ConfigurableFileCollection) =
-    extensions.files.joinToString(";") { URLEncoder.encode(it.path, "UTF-8") }
+private class TaskInputFiles(
+    val taskName: String,
+    val inputFiles: Any
+)
 
-private fun resolveExtensions(project: Project, task: GenerateProtoTask): List<Provider<Configuration>> {
-    val extensions = mutableListOf(project.configurations.named(EXTENSIONS))
+private fun extraClasspath(project: Project, extensions: ExtensionsConfigurations) =
+    project.objects.fileCollection().from(extensions.asList()).files.joinToString(";") { URLEncoder.encode(it.path, "UTF-8") }
 
-    if (task.isTest) {
-        extensions.add(project.configurations.named(TEST_EXTENSIONS))
-    }
-
-    return extensions
+private class ExtensionsConfigurations(
+    val taskName: String,
+    val main: Provider<Configuration>,
+    val test: Provider<Configuration>?
+) {
+    fun asList() =
+        listOfNotNull(main, test)
 }
+
+private fun resolveExtensions(project: Project, task: GenerateProtoTask) =
+    ExtensionsConfigurations(
+        task.name,
+        project.configurations.named(EXTENSIONS),
+        if (task.isTestTask()) {
+            project.configurations.named(TEST_EXTENSIONS)
+        } else {
+            null
+        }
+    )
 
 private fun configureSources(project: Project) {
     project.afterEvaluate {
@@ -150,3 +154,15 @@ private fun normalizePath(binaryPath: String) =
     } else {
         binaryPath
     }
+
+private fun GenerateProtoTask.isTestTask() =
+    name.isTestTask()
+
+private fun ProtobufExtract.isTestTask() =
+    name.isTestTask()
+
+private fun String.isTestTask() =
+    endsWith("TestProto")
+
+private fun Project.extractIncludeProtoTasks() =
+    project.tasks.withType<ProtobufExtract>().filter { it.name.startsWith("extractInclude") }
