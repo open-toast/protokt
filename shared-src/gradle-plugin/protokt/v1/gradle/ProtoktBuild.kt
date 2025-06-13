@@ -60,7 +60,6 @@ internal fun configureProtokt(
     injectKotlinPluginsIntoProtobufGradle()
 
     val config = project.createExtensionConfigurations()
-    project.configureProtobuf(disableJava, config, binary)
 
     // must wait for extension to resolve
     project.afterEvaluate {
@@ -69,6 +68,8 @@ internal fun configureProtokt(
             project.resolveProtoktGrpcDep(protoktVersion)
         ).forEach(config.extensions.dependencies::add)
     }
+
+    project.configureProtobuf(disableJava, config, binary)
 }
 
 private fun injectKotlinPluginsIntoProtobufGradle() {
