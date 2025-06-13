@@ -89,10 +89,10 @@ internal fun configureProtobufPlugin(
     }
 }
 
-private fun Project.handleExtraInputFiles(mainExtractAdditions: List<TaskInputFiles>, testExtractAdditions: List<TaskInputFiles?>) {
+private fun Project.handleExtraInputFiles(main: List<TaskInputFiles>, test: List<TaskInputFiles?>) {
     afterEvaluate {
-        handleExtractProtoAdditions(mainExtractAdditions, false)
-        handleExtractProtoAdditions(testExtractAdditions, true)
+        handleExtractProtoAdditions(main, false)
+        handleExtractProtoAdditions(test, true)
     }
 }
 
