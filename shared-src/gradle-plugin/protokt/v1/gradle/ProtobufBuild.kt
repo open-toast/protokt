@@ -102,7 +102,7 @@ private fun Project.handleExtractProtoAdditions(additions: List<TaskInputFiles?>
         extractIncludeProtoTasks().forEach { task ->
             val isTest = task.isTestTask()
             if ((!test && !isTest) || (test && isTest)) {
-                logger.log(DEBUG_LOG_LEVEL, "Adding input files to task $name from ${it.taskName}")
+                logger.log(DEBUG_LOG_LEVEL, "Adding input files to task ${task.name} from ${it.taskName}")
                 task.inputFiles.from(it.inputFiles)
             }
         }
