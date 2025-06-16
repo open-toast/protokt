@@ -1,8 +1,8 @@
 # protokt
 
 [![Github Actions](https://github.com/open-toast/protokt/actions/workflows/ci.yml/badge.svg)](https://github.com/open-toast/protokt/actions/workflows/ci.yml)
-[![Maven Central](https://img.shields.io/maven-central/v/com.toasttab.protokt.v1/protokt-runtime)](https://search.maven.org/artifact/com.toasttab.protokt/protokt-runtime)
-[![Gradle Portal](https://img.shields.io/maven-metadata/v/https/plugins.gradle.org/m2/com/toasttab/protokt/v1/protokt-gradle-plugin/maven-metadata.xml.svg?label=gradle-portal&color=yellowgreen)](https://plugins.gradle.org/plugin/com.toasttab.protokt)
+[![Maven Central](https://img.shields.io/maven-central/v/com.toasttab.protokt.v1/protokt-runtime)](https://search.maven.org/artifact/com.toasttab.protokt.v1/protokt-runtime)
+[![Gradle Portal](https://img.shields.io/maven-metadata/v/https/plugins.gradle.org/m2/com/toasttab/protokt/v1/protokt-gradle-plugin/maven-metadata.xml.svg?label=gradle-portal&color=yellowgreen)](https://plugins.gradle.org/plugin/com.toasttab.protokt.v1)
 
 Protocol Buffer compiler and runtime for Kotlin.
 
