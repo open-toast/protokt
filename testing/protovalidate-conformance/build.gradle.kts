@@ -85,8 +85,8 @@ val conformance =
         dependsOn(TASK_INSTALL_NAME, installConformance)
         description = "Runs protovalidate conformance tests."
         environment(
-            "JAVA_OPTS" to "-Xmx40M",
-            "GOMEMLIMIT" to "20MiB"
+            "JAVA_OPTS" to "-Xmx64M",
+            "GOMEMLIMIT" to "40MiB"
         )
         commandLine(
             conformanceExecutable.absolutePath,
@@ -98,7 +98,8 @@ val conformance =
         )
     }
 
-// Super unstable in CI, I guess.
+// Unstable in CI.
+// Run locally with `./gradlew :testing:protovalidate-conformance:conformance`
 // tasks.test { dependsOn(conformance) }
 
 application {

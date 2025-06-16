@@ -16,8 +16,7 @@
 package build.buf.protovalidate
 
 import com.google.protobuf.Descriptors.Descriptor
-import org.projectnessie.cel.Env
-import org.projectnessie.cel.Library
+import dev.cel.bundle.CelFactory
 import protokt.v1.Message
 import protokt.v1.google.protobuf.RuntimeContext
 import protokt.v1.google.protobuf.toDynamicMessage
@@ -25,7 +24,17 @@ import protokt.v1.google.protobuf.toDynamicMessage
 internal class ProtoktEvaluatorBuilder(
     private val evaluatorBuilder: EvaluatorBuilder
 ) {
-    constructor(config: Config) : this(EvaluatorBuilder(Env.newEnv(Library.Lib(ValidateLibrary())), config))
+    constructor(config: Config) : this(
+        EvaluatorBuilder(
+            ValidateLibrary().let {
+                CelFactory.standardCelBuilder()
+                    .addCompilerLibraries(it)
+                    .addRuntimeLibraries(it)
+                    .build()
+            },
+            config
+        )
+    )
 
     fun load(descriptor: Descriptor) =
         ProtoktEvaluator(evaluatorBuilder.load(descriptor))
