@@ -54,7 +54,7 @@ internal fun configureProtobufPlugin(
 
         generateProtoTasks {
             val mainExtractProtoAdditions = mutableListOf<TaskInputFiles>()
-            val testExtractProtoAdditions = mutableListOf<TaskInputFiles?>()
+            val testExtractProtoAdditions = mutableListOf<TaskInputFiles>()
 
             for (task in all()) {
                 if (disableJava) {
@@ -65,8 +65,8 @@ internal fun configureProtobufPlugin(
 
                 val extensions = resolveExtensions(project, task)
 
-                if (task.isTestTask()) {
-                    testExtractProtoAdditions.add(extensions.test?.let { TaskInputFiles(extensions.taskName, it) })
+                if (task.isTestTask() && extensions.test != null) {
+                    testExtractProtoAdditions.add(TaskInputFiles(extensions.taskName, extensions.test))
                 } else {
                     mainExtractProtoAdditions.add(TaskInputFiles(extensions.taskName, extensions.main))
                 }
@@ -89,19 +89,18 @@ internal fun configureProtobufPlugin(
     }
 }
 
-private fun Project.handleExtraInputFiles(main: List<TaskInputFiles>, test: List<TaskInputFiles?>) {
+private fun Project.handleExtraInputFiles(main: List<TaskInputFiles>, test: List<TaskInputFiles>) {
     afterEvaluate {
         handleExtractProtoAdditions(main, false)
         handleExtractProtoAdditions(test, true)
     }
 }
 
-private fun Project.handleExtractProtoAdditions(additions: List<TaskInputFiles?>, test: Boolean) {
-    additions.filterNotNull().forEach {
+private fun Project.handleExtractProtoAdditions(additions: List<TaskInputFiles>, test: Boolean) {
+    additions.forEach {
         // there is more than one task in multiplatform projects: e.g. extractIncludeProto and extractIncludeJvmMainProto
         extractIncludeProtoTasks().forEach { task ->
-            val isTest = task.isTestTask()
-            if ((!test && !isTest) || (test && isTest)) {
+            if (task.isTestTask() == test) {
                 logger.log(DEBUG_LOG_LEVEL, "Adding input files to task ${task.name} from ${it.taskName}")
                 task.inputFiles.from(it.inputFiles)
             }
