@@ -30,7 +30,6 @@ class OneofTest {
 
         val oneof = OneofExerciseModel {}.oneof
 
-
         when (oneof) {
             // empty is permitted
         }
