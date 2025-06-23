@@ -17,10 +17,7 @@ package protokt.v1.codegen.generate
 
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
-import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FileSpec
-import com.squareup.kotlinpoet.asClassName
-import protokt.v1.OnlyForUseByGeneratedProtoCode
 import protokt.v1.codegen.util.ProtoFileContents
 import protokt.v1.gradle.KotlinTarget
 import protokt.v1.reflect.PROTOKT_V1

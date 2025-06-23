@@ -17,7 +17,6 @@ package protokt.v1.grpc
 
 import protokt.v1.Beta
 import protokt.v1.Collections.copyList
-import protokt.v1.OnlyForUseByGeneratedProtoCode
 
 @Beta
 class ServiceDescriptor internal constructor(
@@ -25,7 +24,6 @@ class ServiceDescriptor internal constructor(
     methods: List<MethodDescriptor<*, *>>,
     val schemaDescriptor: Any? = null
 ) {
-    @OptIn(OnlyForUseByGeneratedProtoCode::class)
     val methods = copyList(methods)
 
     override fun toString() =

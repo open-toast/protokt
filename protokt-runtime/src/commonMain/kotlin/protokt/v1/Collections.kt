@@ -56,19 +56,23 @@ private class UnmodifiableIterator<E>(delegate: Iterator<E>) : Iterator<E> by de
 
 private class UnmodifiableListIterator<E>(delegate: ListIterator<E>) : ListIterator<E> by delegate
 
-private open class UnmodifiableCollection<E>(private val delegate: Collection<E>) :
-    Collection<E> by delegate {
+private open class UnmodifiableCollection<E>(
+    private val delegate: Collection<E>
+) : Collection<E> by delegate {
     override fun iterator(): Iterator<E> =
         UnmodifiableIterator(delegate.iterator())
 }
 
 private class UnmodifiableSet<E>(delegate: Collection<E>) :
-    UnmodifiableCollection<E>(delegate), Set<E>
+    UnmodifiableCollection<E>(delegate),
+    Set<E>
 
 private class UnmodifiableMapEntry<K, V>(delegate: Map.Entry<K, V>) : Map.Entry<K, V> by delegate
 
-private class UnmodifiableMapEntries<K, V>(private val delegate: Set<Map.Entry<K, V>>) :
-    UnmodifiableCollection<Map.Entry<K, V>>(delegate), Set<Map.Entry<K, V>> {
+private class UnmodifiableMapEntries<K, V>(
+    private val delegate: Set<Map.Entry<K, V>>
+) : UnmodifiableCollection<Map.Entry<K, V>>(delegate),
+    Set<Map.Entry<K, V>> {
 
     override fun iterator(): Iterator<Map.Entry<K, V>> {
         val itr = delegate.iterator()

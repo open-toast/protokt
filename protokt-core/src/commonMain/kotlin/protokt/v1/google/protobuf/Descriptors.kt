@@ -16,10 +16,8 @@
 package protokt.v1.google.protobuf
 
 import protokt.v1.Collections.unmodifiableList
-import protokt.v1.OnlyForUseByGeneratedProtoCode
 import kotlin.jvm.JvmStatic
 
-@OptIn(OnlyForUseByGeneratedProtoCode::class)
 class FileDescriptor private constructor(
     val proto: FileDescriptorProto,
     val dependencies: List<FileDescriptor>
@@ -62,7 +60,6 @@ class FileDescriptor private constructor(
     }
 }
 
-@OptIn(OnlyForUseByGeneratedProtoCode::class)
 class Descriptor private constructor(
     val proto: DescriptorProto,
     val file: FileDescriptor,
