@@ -19,6 +19,7 @@ import com.google.protobuf.CodedInputStream
 import com.google.protobuf.InvalidProtocolBufferException
 import com.google.protobuf.WireFormat
 
+@OptIn(OnlyForUseByGeneratedProtoCode::class)
 internal fun reader(
     stream: CodedInputStream,
     bytes: ByteArray? = null

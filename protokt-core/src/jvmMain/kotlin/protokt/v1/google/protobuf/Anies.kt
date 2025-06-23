@@ -21,6 +21,7 @@ import protokt.v1.Bytes
 import protokt.v1.Deserializer
 import protokt.v1.GeneratedMessage
 import protokt.v1.Message
+import protokt.v1.OnlyForUseByGeneratedProtoCode
 import kotlin.reflect.KClass
 
 @JvmOverloads
@@ -49,6 +50,7 @@ inline fun <reified T : Message> Any.unpack(deserializer: Deserializer<T>): T {
     return deserializer.deserialize(value)
 }
 
+@OptIn(OnlyForUseByGeneratedProtoCode::class)
 inline fun <reified T : Message> Any.isA() =
     typeUrl.substringAfterLast('/') ==
         (
@@ -56,6 +58,7 @@ inline fun <reified T : Message> Any.isA() =
                 ?: error("class ${T::class} has no protokt generated message annotation")
             )
 
+@OptIn(OnlyForUseByGeneratedProtoCode::class)
 private fun fullTypeName(klass: KClass<*>) =
     klass.java.getAnnotation(GeneratedMessage::class.java)?.fullTypeName
         ?: error("class $klass has no protokt generated message annotation")

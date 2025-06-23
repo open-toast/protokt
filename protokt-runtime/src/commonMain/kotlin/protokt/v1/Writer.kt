@@ -15,6 +15,7 @@
 
 package protokt.v1
 
+@OnlyForUseByGeneratedProtoCode
 interface Writer {
     fun writeFixed32(i: UInt)
     fun writeSFixed32(i: Int)

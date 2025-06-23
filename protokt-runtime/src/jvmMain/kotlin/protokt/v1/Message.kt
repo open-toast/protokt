@@ -18,6 +18,7 @@ package protokt.v1
 import com.google.protobuf.CodedOutputStream
 import java.io.OutputStream
 
+@OptIn(OnlyForUseByGeneratedProtoCode::class)
 actual interface Message {
     actual fun messageSize(): Int
 

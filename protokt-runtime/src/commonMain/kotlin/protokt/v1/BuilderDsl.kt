@@ -16,4 +16,7 @@
 package protokt.v1
 
 @DslMarker
+@Target(AnnotationTarget.CLASS)
+@Retention(AnnotationRetention.BINARY)
+@OnlyForUseByGeneratedProtoCode
 annotation class BuilderDsl

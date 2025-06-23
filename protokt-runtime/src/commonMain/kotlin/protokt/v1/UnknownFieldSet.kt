@@ -19,6 +19,7 @@ import protokt.v1.Collections.unmodifiableList
 import protokt.v1.Collections.unmodifiableMap
 import protokt.v1.SizeCodecs.sizeOf
 
+@OptIn(OnlyForUseByGeneratedProtoCode::class)
 class UnknownFieldSet private constructor(
     val unknownFields: Map<UInt, Field>
 ) {
@@ -44,6 +45,7 @@ class UnknownFieldSet private constructor(
         fun empty() =
             EMPTY
 
+        @OnlyForUseByGeneratedProtoCode
         fun from(builder: Builder?) =
             builder?.build() ?: EMPTY
     }
@@ -56,6 +58,7 @@ class UnknownFieldSet private constructor(
                 .add(unknown.value)
         }
 
+        @OptIn(OnlyForUseByGeneratedProtoCode::class)
         fun build() =
             UnknownFieldSet(unmodifiableMap(map.mapValues { (_, v) -> v.build() }))
     }
@@ -73,12 +76,14 @@ class UnknownFieldSet private constructor(
         private val size
             get() = varint.size + fixed32.size + fixed64.size + lengthDelimited.size
 
+        @OnlyForUseByGeneratedProtoCode
         fun size(fieldNumber: UInt) =
             (sizeOf(fieldNumber shl 3 or 0u) * size) + asSequence().sumOf { it.size() }
 
         private fun asSequence(): Sequence<UnknownValue> =
             (varint.asSequence() + fixed32 + fixed64 + lengthDelimited)
 
+        @OnlyForUseByGeneratedProtoCode
         fun write(fieldNumber: UInt, serializer: Writer) {
             asSequence().forEach { serializer.write(it, fieldNumber) }
         }
@@ -151,6 +156,7 @@ class UnknownFieldSet private constructor(
                 }
             }
 
+            @OptIn(OnlyForUseByGeneratedProtoCode::class)
             fun build() =
                 Field(
                     unmodifiableList(varint),

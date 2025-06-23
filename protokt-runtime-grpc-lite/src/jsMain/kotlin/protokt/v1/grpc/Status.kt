@@ -17,6 +17,7 @@ package protokt.v1.grpc
 
 import protokt.v1.Beta
 import protokt.v1.Collections.unmodifiableList
+import protokt.v1.OnlyForUseByGeneratedProtoCode
 
 @Beta
 class Status private constructor(
@@ -177,6 +178,7 @@ class Status private constructor(
             STATUS_LIST[value]
 
         private companion object {
+            @OptIn(OnlyForUseByGeneratedProtoCode::class)
             val STATUS_LIST = unmodifiableList(values().map(::Status))
         }
     }
