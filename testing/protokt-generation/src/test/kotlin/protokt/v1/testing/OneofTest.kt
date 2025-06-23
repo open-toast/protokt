@@ -30,11 +30,14 @@ class OneofTest {
 
         val oneof = OneofExerciseModel {}.oneof
 
+        @Suppress("UNUSED_EXPRESSION")
         when (oneof) {
             // empty is permitted
         }
 
+        @Suppress("UNUSED_VARIABLE")
         val foo =
+            @Suppress("UNUSED_EXPRESSION")
             when (oneof) {
                 // this is forced
                 else -> Unit
