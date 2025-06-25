@@ -46,7 +46,8 @@ internal class ProtoktEvaluator(
     fun evaluate(message: Message, runtimeContext: RuntimeContext, failFast: Boolean, lazyConvert: Boolean) =
         evaluator.evaluate(
             if (lazyConvert) {
-                ProtoktMessageValue(message, runtimeContext)
+                MessageValue(message.toDynamicMessage(runtimeContext))
+                //ProtoktMessageValue(message, runtimeContext)
             } else {
                 MessageValue(message.toDynamicMessage(runtimeContext))
             },

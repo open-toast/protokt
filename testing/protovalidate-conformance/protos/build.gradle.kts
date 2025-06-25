@@ -15,6 +15,7 @@
 
 import com.google.protobuf.gradle.GenerateProtoTask
 import com.google.protobuf.gradle.proto
+import protokt.v1.gradle.ProtoktExtension
 
 plugins {
     id("protokt.jvm-conventions")
@@ -26,6 +27,17 @@ sourceSets.main {
     proto {
         srcDir(project.layout.buildDirectory.file("protovalidate/export"))
     }
+}
+
+configure<ProtoktExtension> {
+    generate {
+        // lots of protos; this would take a long time
+        formatOutput = false
+    }
+}
+
+dependencies {
+    implementation(libs.protobuf.java)
 }
 
 val protovalidateVersion = libs.versions.protovalidate.get()
