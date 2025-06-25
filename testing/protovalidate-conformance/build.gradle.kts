@@ -20,8 +20,6 @@ plugins {
     application
 }
 
-localProtokt(false)
-
 dependencies {
     implementation(project(":protokt-protovalidate"))
     implementation(project(":protokt-reflect"))

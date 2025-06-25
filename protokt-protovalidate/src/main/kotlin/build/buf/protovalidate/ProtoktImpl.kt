@@ -1,5 +1,5 @@
 package build.buf.protovalidate
-/*
+
 import com.google.common.primitives.UnsignedLong
 import com.google.protobuf.Descriptors.FieldDescriptor
 import protokt.v1.Bytes
@@ -89,6 +89,3 @@ internal class ProtoktObjectValue(
     override fun <T : Any> jvmValue(clazz: Class<T>): T? =
         context.convertValue(value)?.let(clazz::cast)
 }
-
-
- */

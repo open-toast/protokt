@@ -47,7 +47,8 @@ object Main {
                 Config.newBuilder()
                     .setTypeRegistry(createTypeRegistry(fileDescriptors))
                     .setExtensionRegistry(createExtensionRegistry(fileDescriptors))
-                    .build()
+                    .build(),
+                true
             )
         loadValidDescriptors(validator, descriptorMap.values)
         return TestConformanceResponse
