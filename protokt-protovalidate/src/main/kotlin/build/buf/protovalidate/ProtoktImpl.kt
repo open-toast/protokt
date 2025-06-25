@@ -92,7 +92,7 @@ internal class ProtoktObjectValue(
 
     override fun celValue() =
         when (value) {
-            is Enum -> value.value
+            is Enum -> value.value.toLong()
             is Float -> value.toDouble()
             is Int -> value.toLong()
             is UInt -> UnsignedLong.valueOf(value.toLong())
@@ -104,5 +104,13 @@ internal class ProtoktObjectValue(
         }
 
     override fun <T : Any> jvmValue(clazz: Class<T>): T? =
-        context.convertValue(value)?.let(clazz::cast)
+        context.convertValue(value)
+            ?.let {
+                when (it) {
+                    is Int -> it.toLong()
+                    is Float -> it.toDouble()
+                    else -> it
+                }
+            }
+            ?.let(clazz::cast)
 }
