@@ -43,9 +43,15 @@ internal class ProtoktEvaluatorBuilder(
 internal class ProtoktEvaluator(
     private val evaluator: Evaluator
 ) {
-    fun evaluate(message: Message, runtimeContext: RuntimeContext, failFast: Boolean) =
-        evaluator.evaluate(MessageValue(message.toDynamicMessage(runtimeContext)), failFast)
-            .let(::ProtoktRuleViolationBuilders)
+    fun evaluate(message: Message, runtimeContext: RuntimeContext, failFast: Boolean, lazyConvert: Boolean) =
+        evaluator.evaluate(
+            if (lazyConvert) {
+                ProtoktMessageValue(message, runtimeContext)
+            } else {
+                MessageValue(message.toDynamicMessage(runtimeContext))
+            },
+            failFast
+        ).let(::ProtoktRuleViolationBuilders)
 }
 
 internal class ProtoktRuleViolationBuilders(

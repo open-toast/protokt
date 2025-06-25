@@ -13,8 +13,6 @@
  * limitations under the License.
  */
 
-import com.google.protobuf.gradle.GenerateProtoTask
-import com.google.protobuf.gradle.proto
 import org.gradle.api.distribution.plugins.DistributionPlugin.TASK_INSTALL_NAME
 
 plugins {
@@ -27,6 +25,7 @@ localProtokt(false)
 dependencies {
     implementation(project(":protokt-protovalidate"))
     implementation(project(":protokt-reflect"))
+    implementation(project(":testing:protovalidate-conformance:protos"))
     implementation(kotlin("reflect"))
     implementation(libs.cel)
     implementation(libs.classgraph)
@@ -36,38 +35,9 @@ dependencies {
     testImplementation(libs.truth)
 }
 
-sourceSets.main {
-    proto {
-        srcDir(project.layout.buildDirectory.file("protovalidate/export"))
-    }
-}
-
 val protovalidateVersion = libs.versions.protovalidate.get()
 val gobin = project.layout.buildDirectory.file("gobin").get().asFile.absolutePath
-val bufExecutable = project.layout.buildDirectory.file("gobin/buf").get().asFile
 val conformanceExecutable = project.layout.buildDirectory.file("gobin/protovalidate-conformance").get().asFile
-
-val installBuf =
-    tasks.register<Exec>("installBuf") {
-        environment("GOBIN", gobin)
-        outputs.file(bufExecutable)
-        commandLine("go", "install", "github.com/bufbuild/buf/cmd/buf@v${libs.versions.buf.get()}")
-    }
-
-val downloadConformanceProtos =
-    tasks.register<Exec>("downloadConformanceProtos") {
-        dependsOn(installBuf)
-        commandLine(
-            bufExecutable,
-            "export",
-            "buf.build/bufbuild/protovalidate-testing:v$protovalidateVersion",
-            "--output=build/protovalidate/export"
-        )
-    }
-
-tasks.withType<GenerateProtoTask> {
-    dependsOn(downloadConformanceProtos)
-}
 
 val installConformance =
     tasks.register<Exec>("installProtovalidateConformance") {
