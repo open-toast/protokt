@@ -93,6 +93,8 @@ internal class ProtoktObjectValue(
     override fun celValue() =
         when (value) {
             is Enum -> value.value
+            is Float -> value.toDouble()
+            is Int -> value.toLong()
             is UInt -> UnsignedLong.valueOf(value.toLong())
             is ULong -> UnsignedLong.valueOf(value.toLong())
             is Message, is Bytes -> context.convertValue(value)
