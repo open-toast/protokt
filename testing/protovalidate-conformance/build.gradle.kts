@@ -48,13 +48,16 @@ val installConformance =
         )
     }
 
+val lazyBufImpl: String by project
+
 val conformance =
     tasks.register<Exec>("conformance") {
         dependsOn(TASK_INSTALL_NAME, installConformance)
         description = "Runs protovalidate conformance tests."
         environment(
             "JAVA_OPTS" to "-Xmx64M",
-            "GOMEMLIMIT" to "40MiB"
+            "GOMEMLIMIT" to "40MiB",
+            "LAZY_BUF_IMPL" to lazyBufImpl
         )
         commandLine(
             conformanceExecutable.absolutePath,
