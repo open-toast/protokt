@@ -19,6 +19,7 @@ import com.google.protobuf.CodedInputStream
 import java.io.InputStream
 import java.nio.ByteBuffer
 
+@OptIn(OnlyForUseByGeneratedProtoCode::class)
 actual interface Deserializer<T : Message> {
     actual fun deserialize(bytes: Bytes): T
 

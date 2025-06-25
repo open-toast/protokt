@@ -15,6 +15,7 @@
 
 package protokt.v1
 
+@OnlyForUseByGeneratedProtoCode
 interface Reader {
     fun readBytes(): Bytes
     fun readBytesSlice(): BytesSlice

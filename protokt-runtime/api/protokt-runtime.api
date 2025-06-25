@@ -159,6 +159,9 @@ public abstract interface class protokt/v1/Message {
 	public abstract fun serialize (Lprotokt/v1/Writer;)V
 }
 
+public abstract interface annotation class protokt/v1/OnlyForUseByGeneratedProtoCode : java/lang/annotation/Annotation {
+}
+
 public abstract interface class protokt/v1/Reader {
 	public fun readBool ()Z
 	public abstract fun readBytes ()Lprotokt/v1/Bytes;

@@ -32,6 +32,12 @@ application {
     mainClass.set("protokt.v1.codegen.MainKt")
 }
 
+kotlin {
+    compilerOptions {
+        freeCompilerArgs.add("-opt-in=protokt.v1.OnlyForUseByGeneratedProtoCode")
+    }
+}
+
 dependencies {
     implementation(project(":extensions:protokt-extensions-api"))
     implementation(project(":protokt-runtime"))

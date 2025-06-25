@@ -17,6 +17,7 @@ package protokt.v1
 
 import kotlin.jvm.JvmStatic
 
+@OptIn(OnlyForUseByGeneratedProtoCode::class)
 expect class Bytes internal constructor(
     value: ByteArray
 ) : AbstractBytes {

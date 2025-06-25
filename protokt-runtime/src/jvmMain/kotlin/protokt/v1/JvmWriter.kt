@@ -17,6 +17,7 @@ package protokt.v1
 
 import com.google.protobuf.CodedOutputStream
 
+@OptIn(OnlyForUseByGeneratedProtoCode::class)
 internal fun writer(stream: CodedOutputStream): Writer =
     object : Writer {
         override fun writeFixed32(i: UInt) =

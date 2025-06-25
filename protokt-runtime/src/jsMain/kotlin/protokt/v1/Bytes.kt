@@ -15,6 +15,7 @@
 
 package protokt.v1
 
+@OptIn(OnlyForUseByGeneratedProtoCode::class)
 actual class Bytes internal actual constructor(value: ByteArray) : AbstractBytes(value) {
     // Annotation `@JvmStatic` is missing on actual declaration
     @Suppress("ACTUAL_ANNOTATIONS_NOT_MATCH_EXPECT")

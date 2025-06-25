@@ -15,6 +15,7 @@
 
 package protokt.v1
 
+@OptIn(OnlyForUseByGeneratedProtoCode::class)
 internal fun writer(writer: ProtobufJsWriter): Writer =
     object : Writer {
         override fun writeFixed32(i: UInt) {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Toast, Inc.
+ * Copyright (c) 2025 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,13 @@
 
 package protokt.v1
 
-@OptIn(OnlyForUseByGeneratedProtoCode::class)
-expect interface Message {
-    fun messageSize(): Int
-
-    fun serialize(writer: Writer)
-
-    fun serialize(): ByteArray
-}
+@RequiresOptIn(
+    message =
+"""
+This API is only intended for use by generated protobuf code, the code generator, and their own
+tests. If this does not describe your code, you should not be using this API.
+""",
+    level = RequiresOptIn.Level.ERROR,
+)
+@Retention(AnnotationRetention.BINARY)
+annotation class OnlyForUseByGeneratedProtoCode

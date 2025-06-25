@@ -16,9 +16,11 @@
 package protokt.v1.codegen.generate
 
 import com.squareup.kotlinpoet.AnnotationSpec
+import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import protokt.v1.codegen.util.ProtoFileContents
 import protokt.v1.gradle.KotlinTarget
+import protokt.v1.reflect.PROTOKT_V1
 
 internal fun generateFile(contents: ProtoFileContents) =
     FileGenerator(contents).generate()
@@ -45,6 +47,12 @@ private class FileGenerator(
                             addMember("OPTIONAL_DECLARATION_USAGE_IN_NON_COMMON_SOURCE".embed())
                         }
                     }.build()
+                )
+
+                addAnnotation(
+                    AnnotationSpec.builder(ClassName.bestGuess("kotlin.OptIn"))
+                        .addMember("$PROTOKT_V1.OnlyForUseByGeneratedProtoCode::class")
+                        .build()
                 )
 
                 addFileComment(

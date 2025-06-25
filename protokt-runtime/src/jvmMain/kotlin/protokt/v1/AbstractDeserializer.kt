@@ -17,6 +17,7 @@ package protokt.v1
 
 import com.google.protobuf.CodedInputStream
 
+@OptIn(OnlyForUseByGeneratedProtoCode::class)
 actual abstract class AbstractDeserializer<T : Message> actual constructor() : Deserializer<T> {
     actual abstract override fun deserialize(reader: Reader): T
 
