@@ -46,12 +46,7 @@ private class OneofGenerator(
                     ?.let { inferClassName(it, ctx) }
 
             TypeSpec.classBuilder(oneof.name)
-                .addModifiers(KModifier.ABSTRACT)
-                .primaryConstructor(
-                    FunSpec.constructorBuilder()
-                        .addModifiers(KModifier.INTERNAL)
-                        .build()
-                )
+                .addModifiers(KModifier.SEALED)
                 .handleSuperInterface(implements)
                 .addTypes(
                     types.map { (k, v) ->
