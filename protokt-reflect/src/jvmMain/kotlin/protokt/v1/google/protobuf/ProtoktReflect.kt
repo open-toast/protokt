@@ -64,7 +64,7 @@ internal object ProtoktReflect {
         val oneofPropertiesSealedClasses =
             messageClass
                 .nestedClasses
-                .filter { it.isAbstract && !it.isSubclassOf(Enum::class) }
+                .filter { it.isSealed && !it.isSubclassOf(Enum::class) }
 
         val gettersByNumber =
             buildMap {
