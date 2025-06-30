@@ -51,7 +51,7 @@ buf = "1.47.2"
 classgraph = "4.8.179"
 grpc-js = "1.12.4"
 jackson = "2.18.3"
-junit = "5.13.1"
+junit = "5.13.2"
 truth = "1.4.4"
 
 # third party
