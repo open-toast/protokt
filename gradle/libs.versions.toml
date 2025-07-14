@@ -13,7 +13,7 @@
 
 [versions]
 autoService = "1.1.1"
-cel = "0.9.1"
+cel = "0.10.1"
 grpc-java = "1.73.0"
 grpc-kotlin = "1.4.3"
 kotlinLogging = "7.0.7"
