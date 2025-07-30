@@ -65,17 +65,22 @@ kotlin {
     }
 
     // in theory this should be able to go into compilerOptions but it doesn't seem to work
+    /*
     targets {
         all {
             compilations.all {
                 kotlinOptions {
-                    allWarningsAsErrors = false
+
                 }
             }
         }
     }
 
+     */
+
     compilerOptions {
+        allWarningsAsErrors = false
+
         freeCompilerArgs.add("-Xjvm-default=all")
 
         apiVersion = KotlinVersion.fromVersion(

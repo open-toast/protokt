@@ -22,6 +22,7 @@ dependencies {
     implementation("com.toasttab.protokt.v1:protokt-core:$version")
     implementation(libs.autoServiceAnnotations)
 
+    testRuntimeOnly(libs.junit.jupiter)
     testRuntimeOnly(libs.junit.platformLauncher)
 
     kapt(libs.autoService)

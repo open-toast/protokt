@@ -196,15 +196,6 @@ private fun Project.linkGenerateProtoTasksAndIncludeGeneratedSource(sourceSet: K
             extension.generateProtoTasks.all().singleOrNull { it.name == "generate${sourceSet.name.capitalized()}Proto" }
         }
 
-    /*
-    extension.generateProtoTasks.all().filter {
-        val seekedTaskNameSubstring = sourceSet.name
-        println("this: ${sourceSet.name}; seeked: ${seekedTaskNameSubstring}; all generate proto tasks: ${it.name}")
-        true
-    }
-
-     */
-
     generateProtoTask?.let { genProtoTask ->
         val set = genProtoTask.buildSourceDirectorySet()
 
@@ -212,17 +203,9 @@ private fun Project.linkGenerateProtoTasksAndIncludeGeneratedSource(sourceSet: K
         // and proto/test/protokt-common
 
         // todo: investigate how non-jvmMain and non-jvmTest sources got added to the set in the first place?
-
         if ("common" !in sourceSet.name) {
             sourceSet.kotlin.setSrcDirs(
                 sourceSet.kotlin.srcDirs.filterNot {
-                    val hasCommonCode = "proto/main/protokt-common" in it.path
-                    if (hasCommonCode) {
-                        println("filtering out ${it.path}")
-                    } else {
-                        println("not filtering out ${it.path}")
-                    }
-
                     "proto/main/protokt-common" in it.path ||
                         "proto/test/protokt-common" in it.path
                 }
