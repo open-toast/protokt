@@ -171,7 +171,7 @@ private fun Project.linkGenerateProtoToSourceCompileForKotlinMpp(mainSourceSet: 
         from(fileTree("${layout.buildDirectory.get()}/extracted-protos/main"))
         excludeDuplicates()
 
-        if (name == "jsJar") {
+        if (name == "jsJar" || name == "allMetadataJar") {
             dependsOn(tasks.withType<ProtobufExtract>())
         }
     }
