@@ -44,7 +44,7 @@ private class FileGenerator(
                         //
                         // See https://youtrack.jetbrains.com/issue/KTIJ-22326
                         if (contents.info.context.kotlinTarget == KotlinTarget.MultiplatformCommon) {
-                            addMember("OPTIONAL_DECLARATION_USAGE_IN_NON_COMMON_SOURCE".embed())
+                            // addMember("OPTIONAL_DECLARATION_USAGE_IN_NON_COMMON_SOURCE".embed())
                         }
                     }.build()
                 )

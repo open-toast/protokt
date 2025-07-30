@@ -29,6 +29,7 @@ import org.gradle.api.logging.LogLevel
 import org.gradle.api.tasks.AbstractCopyTask
 import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.SourceSetContainer
+import org.gradle.internal.extensions.stdlib.capitalized
 import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.getByType
@@ -184,8 +185,52 @@ private fun Project.linkGenerateProtoTasksAndIncludeGeneratedSource(sourceSet: K
 
     val extension = project.extensions.getByType<ProtobufExtension>()
 
-    extension.generateProtoTasks.ofSourceSet(protoSourceSetRoot).forEach { genProtoTask ->
-        sourceSet.kotlin.srcDir(genProtoTask.buildSourceDirectorySet())
+    val generateProtoTask =
+        if (sourceSet.name.startsWith("common")) {
+            if (test) {
+                extension.generateProtoTasks.all().singleOrNull { it.name == "generateTestProto" }
+            } else {
+                extension.generateProtoTasks.all().singleOrNull { it.name == "generateProto" }
+            }
+        } else {
+            extension.generateProtoTasks.all().singleOrNull { it.name == "generate${sourceSet.name.capitalized()}Proto" }
+        }
+
+    /*
+    extension.generateProtoTasks.all().filter {
+        val seekedTaskNameSubstring = sourceSet.name
+        println("this: ${sourceSet.name}; seeked: ${seekedTaskNameSubstring}; all generate proto tasks: ${it.name}")
+        true
+    }
+
+     */
+
+    generateProtoTask?.let { genProtoTask ->
+        val set = genProtoTask.buildSourceDirectorySet()
+
+        // todo: if target is not common, remove generated source targets that contain proto/main/protokt-common
+        // and proto/test/protokt-common
+
+        // todo: investigate how non-jvmMain and non-jvmTest sources got added to the set in the first place?
+
+        if ("common" !in sourceSet.name) {
+            sourceSet.kotlin.setSrcDirs(
+                sourceSet.kotlin.srcDirs.filterNot {
+                    val hasCommonCode = "proto/main/protokt-common" in it.path
+                    if (hasCommonCode) {
+                        println("filtering out ${it.path}")
+                    } else {
+                        println("not filtering out ${it.path}")
+                    }
+
+                    "proto/main/protokt-common" in it.path ||
+                        "proto/test/protokt-common" in it.path
+                }
+            )
+        }
+
+        println("linking src dir for sourceSet ${sourceSet.name}: ${set.name}; ${set.srcDirs}; previously: ${sourceSet.kotlin.srcDirs}")
+        sourceSet.kotlin.srcDir(set)
         the<SourceSetContainer>()
             .getByName(protoSourceSetRoot)
             .proto { sourceSet.resources.source(this) }
