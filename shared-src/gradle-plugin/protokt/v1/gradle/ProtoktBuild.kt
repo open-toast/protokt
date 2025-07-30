@@ -40,7 +40,6 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinSingleTargetExtension
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
-import org.jetbrains.kotlin.gradle.plugin.KotlinTarget
 import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile
 
 internal const val BASE_GROUP_NAME = "com.toasttab.protokt.v1"
@@ -245,7 +244,7 @@ private fun Project.resolveDependency(rootArtifactId: String, protoktVersion: An
 }
 
 // see https://github.com/JetBrains/kotlin/blob/b04c107fddd70340864d3561740952b4a4a3c083/libraries/tools/kotlin-gradle-plugin/src/common/kotlin/org/jetbrains/kotlin/gradle/utils/kotlinExtensionUtils.kt#L15
-internal val KotlinProjectExtension.targets: Iterable<KotlinTarget>
+internal val KotlinProjectExtension.targets
     get() = when (this) {
         is KotlinSingleTargetExtension<*> -> listOf(this.target)
         is KotlinMultiplatformExtension -> targets
