@@ -17,7 +17,6 @@ package protokt.v1.gradle
 
 import com.google.protobuf.gradle.GenerateProtoTask
 import com.google.protobuf.gradle.ProtobufExtension
-import com.google.protobuf.gradle.ProtobufExtract
 import com.google.protobuf.gradle.ProtobufPlugin
 import com.google.protobuf.gradle.outputSourceDirectoriesHack
 import com.google.protobuf.gradle.proto
@@ -160,7 +159,9 @@ private fun Project.configureTarget(
     configurations.getByName(mainSourceSet.apiConfigurationName).extendsFrom(config.extensions)
     configurations.getByName(testSourceSet.apiConfigurationName).extendsFrom(config.testExtensions)
 
-    linkGenerateProtoToSourceCompileForKotlinMpp(mainSourceSet, testSourceSet)
+    afterEvaluate {
+        linkGenerateProtoToSourceCompileForKotlinMpp(mainSourceSet, testSourceSet)
+    }
 }
 
 private fun Project.linkGenerateProtoToSourceCompileForKotlinMpp(mainSourceSet: KotlinSourceSet, testSourceSet: KotlinSourceSet) {
@@ -170,10 +171,6 @@ private fun Project.linkGenerateProtoToSourceCompileForKotlinMpp(mainSourceSet: 
     tasks.withType<Jar> {
         from(fileTree("${layout.buildDirectory.get()}/extracted-protos/main"))
         excludeDuplicates()
-
-        if (name == "jsJar" || name == "allMetadataJar") {
-            dependsOn(tasks.withType<ProtobufExtract>())
-        }
     }
 
     val jsProcessResources = tasks.findByName("jsProcessResources") as Copy?
@@ -222,7 +219,10 @@ private fun Project.linkGenerateProtoTasksAndIncludeGeneratedSource(sourceSet: K
 
         // todo: it would be better to avoid this by making the outputs of genProtoTask an input of the correct compile task
         tasks.withType<AbstractKotlinCompile<*>> {
-            if ((test && name.contains("Test")) || (!test && !name.contains("Test"))) {
+            if (
+                ((test && "Test" in name) || (!test && "Test" !in name)) &&
+                "Metadata" !in name
+            ) {
                 logger.log(DEBUG_LOG_LEVEL, "Making task {} a dependency of {}", genProtoTask.name, name)
                 dependsOn(genProtoTask)
             }

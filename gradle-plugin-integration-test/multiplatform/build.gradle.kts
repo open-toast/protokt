@@ -64,20 +64,6 @@ kotlin {
         val jsTest by getting {}
     }
 
-    // in theory this should be able to go into compilerOptions but it doesn't seem to work
-    /*
-    targets {
-        all {
-            compilations.all {
-                kotlinOptions {
-
-                }
-            }
-        }
-    }
-
-     */
-
     compilerOptions {
         allWarningsAsErrors = false
 
