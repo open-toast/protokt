@@ -199,10 +199,7 @@ private fun Project.linkGenerateProtoTasksAndIncludeGeneratedSource(sourceSet: K
         }
 
     generateProtoTask?.let { genProtoTask ->
-        // todo: if target is not common, remove generated source targets that contain proto/main/protokt-common
-        // and proto/test/protokt-common
-
-        // todo: investigate how non-jvmMain and non-jvmTest sources got added to the set in the first place?
+        // todo: investigate how non-jvmMain and non-jvmTest sources got added to the set in the first place
         if ("common" !in sourceSet.name) {
             sourceSet.kotlin.setSrcDirs(
                 sourceSet.kotlin.srcDirs.filterNot {
