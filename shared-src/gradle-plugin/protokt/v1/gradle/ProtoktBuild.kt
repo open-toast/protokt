@@ -17,6 +17,7 @@ package protokt.v1.gradle
 
 import com.google.protobuf.gradle.GenerateProtoTask
 import com.google.protobuf.gradle.ProtobufExtension
+import com.google.protobuf.gradle.ProtobufExtract
 import com.google.protobuf.gradle.ProtobufPlugin
 import com.google.protobuf.gradle.outputSourceDirectoriesHack
 import com.google.protobuf.gradle.proto
@@ -169,6 +170,10 @@ private fun Project.linkGenerateProtoToSourceCompileForKotlinMpp(mainSourceSet: 
     tasks.withType<Jar> {
         from(fileTree("${layout.buildDirectory.get()}/extracted-protos/main"))
         excludeDuplicates()
+
+        if (name == "jsJar") {
+            dependsOn(tasks.withType<ProtobufExtract>())
+        }
     }
 
     val jsProcessResources = tasks.findByName("jsProcessResources") as Copy?
@@ -197,8 +202,6 @@ private fun Project.linkGenerateProtoTasksAndIncludeGeneratedSource(sourceSet: K
         }
 
     generateProtoTask?.let { genProtoTask ->
-        val set = genProtoTask.buildSourceDirectorySet()
-
         // todo: if target is not common, remove generated source targets that contain proto/main/protokt-common
         // and proto/test/protokt-common
 
@@ -212,8 +215,7 @@ private fun Project.linkGenerateProtoTasksAndIncludeGeneratedSource(sourceSet: K
             )
         }
 
-        println("linking src dir for sourceSet ${sourceSet.name}: ${set.name}; ${set.srcDirs}; previously: ${sourceSet.kotlin.srcDirs}")
-        sourceSet.kotlin.srcDir(set)
+        sourceSet.kotlin.srcDir(genProtoTask.buildSourceDirectorySet())
         the<SourceSetContainer>()
             .getByName(protoSourceSetRoot)
             .proto { sourceSet.resources.source(this) }
