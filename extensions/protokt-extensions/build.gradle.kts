@@ -14,6 +14,7 @@
  */
 
 import com.google.protobuf.gradle.proto
+import com.toasttab.expediter.gradle.config.ExpediterExtension
 import protokt.v1.gradle.protokt
 
 plugins {
@@ -22,6 +23,14 @@ plugins {
 
 localProtokt()
 compatibleWithAndroid()
+
+configure<ExpediterExtension> {
+    ignore {
+        // java.time converters are incompatible with Android SDK < 26
+        // TODO: determine if they should be moved into a separate subproject
+        targetStartsWith("java/time/")
+    }
+}
 
 spotless {
     kotlin {

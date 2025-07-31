@@ -13,10 +13,12 @@
  * limitations under the License.
  */
 
+import com.toasttab.expediter.gradle.config.ExpediterExtension
 import protokt.v1.gradle.protokt
 
 plugins {
     id("protokt.jvm-conventions")
+    id("protokt.third-party-conventions")
 }
 
 localProtokt()
@@ -24,6 +26,13 @@ pureKotlin()
 enablePublishing()
 compatibleWithAndroid()
 trackKotlinApiCompatibility()
+
+configure<ExpediterExtension> {
+    ignore {
+        // ClassValueCtorCache conditionally uses java.lang.ClassValue when not on Android
+        callerStartsWith("kotlinx/coroutines/internal/ClassValueCtorCache")
+    }
+}
 
 protokt {
     generate {

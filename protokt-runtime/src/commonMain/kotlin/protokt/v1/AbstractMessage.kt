@@ -15,6 +15,7 @@
 
 package protokt.v1
 
+@OnlyForUseByGeneratedProtoCode
 expect abstract class AbstractMessage() : Message {
     final override fun serialize(): ByteArray
 }

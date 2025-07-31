@@ -71,7 +71,11 @@ internal object ProtoktReflect {
                 oneofPropertiesSealedClasses.forEach { sealedClass ->
                     val oneofPropertyGetter =
                         messageClass.declaredMemberProperties
-                            .single { it.returnType.classifier == sealedClass }
+                            .single {
+                                it.returnType.classifier == sealedClass &&
+                                    // prevent selection of non-null accessor
+                                    it.returnType.isMarkedNullable
+                            }
                             .let {
                                 @Suppress("UNCHECKED_CAST")
                                 it as KProperty1<Message, *>

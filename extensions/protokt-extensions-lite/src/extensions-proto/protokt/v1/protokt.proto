@@ -29,7 +29,7 @@ message FileOptions {
 }
 
 extend google.protobuf.FileOptions {
-  FileOptions file = 1072;
+  FileOptions file = 1253;
 }
 
 message MessageOptions {
@@ -42,7 +42,7 @@ message MessageOptions {
 }
 
 extend google.protobuf.MessageOptions {
-  MessageOptions class = 1072;
+  MessageOptions class = 1253;
 }
 
 message FieldOptions {
@@ -120,11 +120,23 @@ message FieldOptions {
 }
 
 extend google.protobuf.FieldOptions {
-  FieldOptions property = 1072;
+  FieldOptions property = 1253;
 }
 
 message OneofOptions {
-  reserved 1;
+  // Generates a non-nullable accessor for a oneof field.
+  //
+  // For example:
+  //
+  // message Message {
+  //   oneof some_field_name {
+  //     option (protokt.v1.oneof).generate_non_null_accessor = true;
+  //
+  //     string id = 1;
+  //   }
+  // }
+  //
+  bool generate_non_null_accessor = 1;
 
   // Make the sealed class implement an interface, enforcing the presence of a
   // property in each possible variant. Scoping rules  are the same as those
@@ -136,7 +148,7 @@ message OneofOptions {
 }
 
 extend google.protobuf.OneofOptions {
-  OneofOptions oneof = 1072;
+  OneofOptions oneof = 1253;
 }
 
 message EnumOptions {
@@ -145,7 +157,7 @@ message EnumOptions {
 }
 
 extend google.protobuf.EnumOptions {
-  EnumOptions enum = 1072;
+  EnumOptions enum = 1253;
 }
 
 message EnumValueOptions {
@@ -154,13 +166,13 @@ message EnumValueOptions {
 }
 
 extend google.protobuf.EnumValueOptions {
-  EnumValueOptions enum_value = 1072;
+  EnumValueOptions enum_value = 1253;
 }
 
 message ServiceOptions {}
 
 extend google.protobuf.ServiceOptions {
-  ServiceOptions service = 1072;
+  ServiceOptions service = 1253;
 }
 
 message MethodOptions {
@@ -176,5 +188,5 @@ message MethodOptions {
 }
 
 extend google.protobuf.MethodOptions {
-  MethodOptions method = 1072;
+  MethodOptions method = 1253;
 }

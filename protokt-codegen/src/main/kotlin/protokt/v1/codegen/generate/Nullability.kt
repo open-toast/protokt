@@ -24,7 +24,9 @@ import protokt.v1.reflect.FieldType
 
 internal object Nullability {
     val Field.generateNonNullAccessor
-        get() = this is StandardField && options.protokt.generateNonNullAccessor
+        get() =
+            (this is StandardField && options.protokt.generateNonNullAccessor) ||
+                (this is Oneof && options.protokt.generateNonNullAccessor)
 
     val Field.nullable
         get() = isKotlinRepresentationNullable
@@ -43,11 +45,7 @@ internal object Nullability {
                 type !in setOf(FieldType.Message, FieldType.Enum)
 
     fun propertyType(o: Oneof) =
-        if (o.generateNonNullAccessor) {
-            o.className
-        } else {
-            o.className.copy(nullable = true)
-        }
+        o.className.copy(nullable = true)
 
     fun propertyType(f: StandardField, type: TypeName, wrapperRequiresNullability: Boolean) =
         if (f.nullable || wrapperRequiresNullability) {

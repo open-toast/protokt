@@ -15,6 +15,7 @@
 
 package protokt.v1
 
+@OptIn(OnlyForUseByGeneratedProtoCode::class)
 internal fun reader(reader: ProtobufJsReader): Reader {
     return object : Reader {
         var lastTag = 0u

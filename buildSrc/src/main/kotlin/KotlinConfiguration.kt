@@ -25,8 +25,8 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 fun KotlinCommonCompilerOptions.configureKotlin() {
     allWarningsAsErrors = true
-    languageVersion.set(KotlinVersion.KOTLIN_1_8)
-    apiVersion.set(KotlinVersion.KOTLIN_1_8)
+    languageVersion.set(KotlinVersion.KOTLIN_2_0)
+    apiVersion.set(KotlinVersion.KOTLIN_2_0)
 
     // do not generate DefaultImpls objects since we do not target < JVM 1.8
     // https://blog.jetbrains.com/kotlin/2020/07/kotlin-1-4-m3-generating-default-methods-in-interfaces

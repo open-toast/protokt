@@ -15,4 +15,4 @@
 
 package protokt.v1.util
 
-const val PROTOKT_EXTENSIONS_CLASS_NAME = "protokt.v1.ProtoktProtos"
+const val PROTOKT_EXTENSIONS_CLASS_NAME = "protokt.v1.protokt_file_descriptor"

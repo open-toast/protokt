@@ -18,7 +18,7 @@ import protokt.v1.gradle.protoktExtensions
 
 plugins {
     kotlin("multiplatform")
-    id("com.toasttab.protokt")
+    id("com.toasttab.protokt.v1")
 }
 
 kotlin {
@@ -56,6 +56,7 @@ kotlin {
         val jvmTest by getting {
             dependencies {
                 runtimeOnly(libs.protobuf.java)
+                runtimeOnly(libs.junit.platformLauncher)
             }
         }
 
@@ -63,18 +64,9 @@ kotlin {
         val jsTest by getting {}
     }
 
-    // in theory this should be able to go into compilerOptions but it doesn't seem to work
-    targets {
-        all {
-            compilations.all {
-                kotlinOptions {
-                    allWarningsAsErrors = false
-                }
-            }
-        }
-    }
-
     compilerOptions {
+        allWarningsAsErrors = false
+
         freeCompilerArgs.add("-Xjvm-default=all")
 
         apiVersion = KotlinVersion.fromVersion(
@@ -92,7 +84,7 @@ tasks.named<Test>("jvmTest") {
 }
 
 dependencies {
-    protoktExtensions("com.toasttab.protokt:protokt-extensions:$version")
+    protoktExtensions("com.toasttab.protokt.v1:protokt-extensions:$version")
 }
 
 tasks.named("jsNodeTest") {

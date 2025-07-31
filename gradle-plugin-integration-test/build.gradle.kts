@@ -30,7 +30,7 @@ buildscript {
     }
 
     dependencies {
-        classpath("com.toasttab.protokt:protokt-gradle-plugin:$version")
+        classpath("com.toasttab.protokt.v1:protokt-gradle-plugin:$version")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${System.getProperty("kotlin-integration.version", libs.versions.kotlin.get())}")
         classpath("com.diffplug.spotless:spotless-plugin-gradle:${libs.versions.spotless.get()}")
     }

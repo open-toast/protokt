@@ -17,6 +17,7 @@ package protokt.v1
 
 import org.khronos.webgl.Uint8Array
 
+@OptIn(OnlyForUseByGeneratedProtoCode::class)
 actual interface Deserializer<T : Message> {
     actual fun deserialize(bytes: Bytes): T
 

@@ -15,7 +15,6 @@
 
 import com.google.protobuf.gradle.proto
 import protokt.v1.gradle.protokt
-import protokt.v1.gradle.protoktExtensions
 
 plugins {
     id("protokt.multiplatform-published-conventions")
@@ -52,6 +51,10 @@ kotlin {
             }
         }
     }
+
+    compilerOptions {
+        freeCompilerArgs.add("-opt-in=protokt.v1.OnlyForUseByGeneratedProtoCode")
+    }
 }
 
 sourceSets {
@@ -60,8 +63,4 @@ sourceSets {
             srcDir("src/extensions-proto")
         }
     }
-}
-
-dependencies {
-    protoktExtensions(project(":extensions:protokt-extensions-simple"))
 }

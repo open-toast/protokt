@@ -13,15 +13,44 @@
  * limitations under the License.
  */
 
+import com.toasttab.expediter.gradle.ExpediterPlugin
+import com.toasttab.expediter.gradle.config.ExpediterExtension
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
+import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
-import ru.vyarus.gradle.plugin.animalsniffer.AnimalSnifferPlugin
 
 fun Project.compatibleWithAndroid(api: Int = 19) {
-    apply<AnimalSnifferPlugin>()
+    apply<ExpediterPlugin>()
+
+    configure<ExpediterExtension> {
+        platform {
+            android {
+                sdk = api
+            }
+        }
+
+        application {
+            sourceSet("main")
+            configuration("runtimeClasspath")
+            configuration("_provided_")
+        }
+
+        ignore {
+            // JVM-specific implementations
+            callerStartsWith("com/google/protobuf/UnsafeUtil\$JvmMemoryAccessor")
+            // assume the parts of Guava that we are using are ok
+            callerStartsWith("com/google/common")
+
+            file(rootProject.layout.projectDirectory.file("expediter/expediter.json"))
+        }
+
+        failOnIssues = true
+    }
+
+    configurations.create("_provided_")
 
     dependencies {
-        add("signature", "com.toasttab.android:gummy-bears-api-$api:${libs.versions.gummyBears.get()}@signature")
+        add("_provided_", libs.protobuf.lite)
     }
 }

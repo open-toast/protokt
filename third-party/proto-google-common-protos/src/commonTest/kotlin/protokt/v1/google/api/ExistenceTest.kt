@@ -21,6 +21,6 @@ import kotlin.test.assertNotNull
 class ExistenceTest {
     @Test
     fun descriptors_exist() {
-        assertNotNull(AuthProto::class)
+        assertNotNull(auth_file_descriptor::class)
     }
 }

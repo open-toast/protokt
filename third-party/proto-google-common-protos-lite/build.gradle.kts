@@ -17,6 +17,7 @@ import protokt.v1.gradle.protokt
 
 plugins {
     id("protokt.multiplatform-published-conventions")
+    id("protokt.third-party-conventions")
 }
 
 localProtokt()

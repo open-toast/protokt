@@ -15,6 +15,7 @@
 
 package protokt.v1
 
+@OptIn(OnlyForUseByGeneratedProtoCode::class)
 expect interface Message {
     fun messageSize(): Int
 

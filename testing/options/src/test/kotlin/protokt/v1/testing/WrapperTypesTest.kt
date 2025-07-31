@@ -352,7 +352,7 @@ class WrapperTypesTest {
 
         assertThat(thrown)
             .hasMessageThat()
-            .isEqualTo("instant is assumed non-null with (protokt.property).generate_non_null_accessor but was null")
+            .isEqualTo("instant is assumed non-null with (protokt.v1.property).generate_non_null_accessor but was null")
     }
 
     @Test

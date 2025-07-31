@@ -28,14 +28,17 @@ import protokt.v1.AbstractDeserializer
 import protokt.v1.AbstractMessage
 import protokt.v1.GeneratedMessage
 import protokt.v1.Message
+import protokt.v1.OnlyForUseByGeneratedProtoCode
 import protokt.v1.Reader
 import protokt.v1.UnknownFieldSet
 import protokt.v1.Writer
+import protokt.v1.buf.validate.conformance.cases.IgnoreEmptyEditionsScalarExplicitPresence
 import protokt.v1.buf.validate.conformance.cases.MessageRequiredOneof
 import protokt.v1.buf.validate.conformance.cases.Oneof
 import protokt.v1.buf.validate.conformance.cases.TestMsg
 import protokt.v1.buf.validate.conformance.cases.UInt64In
 import protokt.v1.buf.validate.conformance.cases.bytes_file_descriptor
+import protokt.v1.buf.validate.conformance.cases.ignore_empty_proto_editions_file_descriptor
 import protokt.v1.buf.validate.conformance.cases.messages_file_descriptor
 import protokt.v1.buf.validate.conformance.cases.numbers_file_descriptor
 import protokt.v1.buf.validate.conformance.cases.oneofs_file_descriptor
@@ -54,7 +57,11 @@ class ValidatorTest {
             .toProtobufJavaDescriptor()
             .messageTypes
             .forEach {
-                runCatching { validator.load(it) }
+                try {
+                    validator.load(it)
+                } catch (ex: Exception) {
+                    ex.printStackTrace()
+                }
             }
     }
 
@@ -317,6 +324,16 @@ class ValidatorTest {
         assertThat(result2.isSuccess).isTrue()
     }
 
+    @Test
+    fun `proto3 wrapped bool valid`() {
+        load(ignore_empty_proto_editions_file_descriptor.descriptor)
+
+        val result = validate(IgnoreEmptyEditionsScalarExplicitPresence { })
+
+        assertThat(result.isSuccess).isTrue()
+    }
+
+    @OptIn(OnlyForUseByGeneratedProtoCode::class)
     abstract class AbstractDynamicMessage : AbstractMessage() {
         abstract val unknownFields: UnknownFieldSet
 
@@ -328,6 +345,7 @@ class ValidatorTest {
         }
     }
 
+    @OptIn(OnlyForUseByGeneratedProtoCode::class)
     @GeneratedMessage("buf.validate.conformance.cases.Int64In")
     class Int64(
         override val unknownFields: UnknownFieldSet,
@@ -347,6 +365,7 @@ class ValidatorTest {
         }
     }
 
+    @OptIn(OnlyForUseByGeneratedProtoCode::class)
     @GeneratedMessage("buf.validate.conformance.cases.UInt64In")
     class UInt64(
         override val unknownFields: UnknownFieldSet,
@@ -366,6 +385,7 @@ class ValidatorTest {
         }
     }
 
+    @OptIn(OnlyForUseByGeneratedProtoCode::class)
     @GeneratedMessage("buf.validate.conformance.cases.Fixed32In")
     class Fixed32(
         override val unknownFields: UnknownFieldSet,
@@ -385,6 +405,7 @@ class ValidatorTest {
         }
     }
 
+    @OptIn(OnlyForUseByGeneratedProtoCode::class)
     @GeneratedMessage("buf.validate.conformance.cases.Fixed64In")
     class Fixed64(
         override val unknownFields: UnknownFieldSet,
@@ -404,6 +425,7 @@ class ValidatorTest {
         }
     }
 
+    @OptIn(OnlyForUseByGeneratedProtoCode::class)
     @GeneratedMessage("buf.validate.conformance.cases.StringIn")
     class LengthDelimitedString(
         override val unknownFields: UnknownFieldSet,
@@ -423,6 +445,7 @@ class ValidatorTest {
         }
     }
 
+    @OptIn(OnlyForUseByGeneratedProtoCode::class)
     @GeneratedMessage("buf.validate.conformance.cases.BytesIn")
     class LengthDelimitedBytes(
         override val unknownFields: UnknownFieldSet,
@@ -442,6 +465,7 @@ class ValidatorTest {
         }
     }
 
+    @OptIn(OnlyForUseByGeneratedProtoCode::class)
     @GeneratedMessage("buf.validate.conformance.cases.RepeatedUnique")
     class RepeatedLengthDelimited(
         override val unknownFields: UnknownFieldSet,
