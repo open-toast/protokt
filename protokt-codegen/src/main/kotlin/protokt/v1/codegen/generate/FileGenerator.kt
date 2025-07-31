@@ -19,7 +19,6 @@ import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import protokt.v1.codegen.util.ProtoFileContents
-import protokt.v1.gradle.KotlinTarget
 import protokt.v1.reflect.PROTOKT_V1
 
 internal fun generateFile(contents: ProtoFileContents) =
@@ -39,13 +38,6 @@ private class FileGenerator(
                 addAnnotation(
                     AnnotationSpec.builder(Suppress::class).apply {
                         addMember("DEPRECATION".embed())
-                        // Suppresses a failure due to usage of @JvmStatic in common code. It seems prudent to add this
-                        // for all targets but it fails on the Android target.
-                        //
-                        // See https://youtrack.jetbrains.com/issue/KTIJ-22326
-                        if (contents.info.context.kotlinTarget == KotlinTarget.MultiplatformCommon) {
-                            addMember("OPTIONAL_DECLARATION_USAGE_IN_NON_COMMON_SOURCE".embed())
-                        }
                     }.build()
                 )
 

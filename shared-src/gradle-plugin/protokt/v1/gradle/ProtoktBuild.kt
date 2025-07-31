@@ -29,6 +29,7 @@ import org.gradle.api.logging.LogLevel
 import org.gradle.api.tasks.AbstractCopyTask
 import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.SourceSetContainer
+import org.gradle.internal.extensions.stdlib.capitalized
 import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.getByType
@@ -36,9 +37,10 @@ import org.gradle.kotlin.dsl.project
 import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinSingleTargetExtension
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
-import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.targets
 import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile
 
 internal const val BASE_GROUP_NAME = "com.toasttab.protokt.v1"
@@ -157,7 +159,9 @@ private fun Project.configureTarget(
     configurations.getByName(mainSourceSet.apiConfigurationName).extendsFrom(config.extensions)
     configurations.getByName(testSourceSet.apiConfigurationName).extendsFrom(config.testExtensions)
 
-    linkGenerateProtoToSourceCompileForKotlinMpp(mainSourceSet, testSourceSet)
+    afterEvaluate {
+        linkGenerateProtoToSourceCompileForKotlinMpp(mainSourceSet, testSourceSet)
+    }
 }
 
 private fun Project.linkGenerateProtoToSourceCompileForKotlinMpp(mainSourceSet: KotlinSourceSet, testSourceSet: KotlinSourceSet) {
@@ -183,7 +187,28 @@ private fun Project.linkGenerateProtoTasksAndIncludeGeneratedSource(sourceSet: K
 
     val extension = project.extensions.getByType<ProtobufExtension>()
 
-    extension.generateProtoTasks.ofSourceSet(protoSourceSetRoot).forEach { genProtoTask ->
+    val generateProtoTask =
+        if (sourceSet.name.startsWith("common")) {
+            if (test) {
+                extension.generateProtoTasks.all().singleOrNull { it.name == "generateTestProto" }
+            } else {
+                extension.generateProtoTasks.all().singleOrNull { it.name == "generateProto" }
+            }
+        } else {
+            extension.generateProtoTasks.all().singleOrNull { it.name == "generate${sourceSet.name.capitalized()}Proto" }
+        }
+
+    generateProtoTask?.let { genProtoTask ->
+        // todo: investigate how non-jvmMain and non-jvmTest sources got added to the set in the first place
+        if ("common" !in sourceSet.name) {
+            sourceSet.kotlin.setSrcDirs(
+                sourceSet.kotlin.srcDirs.filterNot {
+                    "proto/main/protokt-common" in it.path ||
+                        "proto/test/protokt-common" in it.path
+                }
+            )
+        }
+
         sourceSet.kotlin.srcDir(genProtoTask.buildSourceDirectorySet())
         the<SourceSetContainer>()
             .getByName(protoSourceSetRoot)
@@ -191,7 +216,10 @@ private fun Project.linkGenerateProtoTasksAndIncludeGeneratedSource(sourceSet: K
 
         // todo: it would be better to avoid this by making the outputs of genProtoTask an input of the correct compile task
         tasks.withType<AbstractKotlinCompile<*>> {
-            if ((test && name.contains("Test")) || (!test && !name.contains("Test"))) {
+            if (
+                ((test && "Test" in name) || (!test && "Test" !in name)) &&
+                "Metadata" !in name
+            ) {
                 logger.log(DEBUG_LOG_LEVEL, "Making task {} a dependency of {}", genProtoTask.name, name)
                 dependsOn(genProtoTask)
             }
@@ -241,3 +269,11 @@ private fun Project.resolveDependency(rootArtifactId: String, protoktVersion: An
         dependencies.create("$BASE_GROUP_NAME:$artifactId:$protoktVersion")
     }
 }
+
+// see https://github.com/JetBrains/kotlin/blob/b04c107fddd70340864d3561740952b4a4a3c083/libraries/tools/kotlin-gradle-plugin/src/common/kotlin/org/jetbrains/kotlin/gradle/utils/kotlinExtensionUtils.kt#L15
+internal val KotlinProjectExtension.targets
+    get() = when (this) {
+        is KotlinSingleTargetExtension<*> -> listOf(this.target)
+        is KotlinMultiplatformExtension -> targets
+        else -> error("Unexpected 'kotlin' extension $this")
+    }
