@@ -13,9 +13,15 @@
  * limitations under the License.
  */
 
+import org.gradle.api.JavaVersion
+import org.gradle.api.plugins.JavaPluginExtension
+
 import com.diffplug.gradle.spotless.SpotlessExtension
 import org.gradle.api.tasks.compile.JavaCompile
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
     idea
@@ -30,7 +36,7 @@ buildscript {
 
     dependencies {
         classpath("com.toasttab.protokt:protokt-gradle-plugin:$version")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${System.getProperty("kotlin.version", "1.6.32")}")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${System.getProperty("kotlin.version", "2.2.0")}")
         classpath("com.diffplug.spotless:spotless-plugin-gradle:5.15.0")
     }
 }
@@ -54,16 +60,25 @@ subprojects {
         mavenCentral()
     }
 
+    pluginManager.withPlugin("java-base") {
+        configure<JavaPluginExtension> {
+            sourceCompatibility = JavaVersion.VERSION_1_8
+            targetCompatibility = JavaVersion.VERSION_1_8
+        }
+    }
+
     tasks {
         withType<KotlinCompile> {
-            kotlinOptions {
-                allWarningsAsErrors = true
-                jvmTarget = "1.8"
+            compilerOptions {
 
-                apiVersion =
+
+//                allWarningsAsErrors = true
+                jvmTarget = JvmTarget.JVM_1_8
+
+                apiVersion = KotlinVersion.fromVersion(
                     System.getProperty("kotlin.version")
                         ?.substringBeforeLast(".")
-                        ?: "1.6"
+                        ?: "1.6")
 
                 languageVersion = apiVersion
             }
