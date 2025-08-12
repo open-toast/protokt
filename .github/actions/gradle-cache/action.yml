@@ -8,4 +8,4 @@ runs:
         path: |
           ~/.gradle/caches
           ~/.gradle/wrapper
-        key: gradle-${{ hashFiles('gradle/libs.versions.toml', 'gradle/wrapper/gradle-wrapper.properties') }}
+        key: gradle-${{ hashFiles('buildSrc/src/main/kotlin/Dependencies.kt', 'gradle/wrapper/gradle-wrapper.properties') }}
