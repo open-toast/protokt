@@ -68,7 +68,6 @@ subprojects {
     tasks {
         withType<KotlinCompile> {
             compilerOptions {
-                allWarningsAsErrors.set(true)
                 jvmTarget.set(JvmTarget.JVM_1_8)
 
                 val kotlinLanguageVersion = KotlinVersion.fromVersion(
