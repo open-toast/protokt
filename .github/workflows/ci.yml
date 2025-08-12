@@ -34,6 +34,13 @@ jobs:
         kotlin: [ 1.8.22, 2.0.21, 2.1.21, 2.2.0 ]
         jdk: [ 11, 17, 21 ]
         gradle: [ 8.13, 9.0.0 ]
+        exclude:
+          - kotlin: 1.8.22
+            jdk: 21
+          - kotlin: 1.8.22
+            jdk: 17
+          - jdk: 11
+            gradle: 9.0.0
 
     runs-on: ${{ matrix.os }}
 
