@@ -13,15 +13,13 @@
  * limitations under the License.
  */
 
+import com.diffplug.gradle.spotless.SpotlessExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.plugins.JavaPluginExtension
-
-import com.diffplug.gradle.spotless.SpotlessExtension
 import org.gradle.api.tasks.compile.JavaCompile
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     idea
@@ -76,7 +74,8 @@ subprojects {
                 val kotlinLanguageVersion = KotlinVersion.fromVersion(
                     System.getProperty("kotlin.version")
                         ?.substringBeforeLast(".")
-                        ?: "2.2")
+                        ?: "2.2"
+                )
 
                 apiVersion.set(kotlinLanguageVersion)
                 languageVersion.set(kotlinLanguageVersion)
