@@ -35,8 +35,6 @@ internal fun binaryFromArtifact(project: Project): String {
 private fun installBinary(project: Project) {
     val targetDir = getTargetDirectory(project)
 
-    //println(artifact)
-
     if (protoktVersion.endsWith("-SNAPSHOT") || !targetDir.exists()) {
         targetDir.mkdirs()
 
