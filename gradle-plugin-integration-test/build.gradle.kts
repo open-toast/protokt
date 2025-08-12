@@ -70,17 +70,16 @@ subprojects {
     tasks {
         withType<KotlinCompile> {
             compilerOptions {
+                allWarningsAsErrors.set(true)
+                jvmTarget.set(JvmTarget.JVM_1_8)
 
-
-//                allWarningsAsErrors = true
-                jvmTarget = JvmTarget.JVM_1_8
-
-                apiVersion = KotlinVersion.fromVersion(
+                val kotlinLanguageVersion = KotlinVersion.fromVersion(
                     System.getProperty("kotlin.version")
                         ?.substringBeforeLast(".")
-                        ?: "1.6")
+                        ?: "2.2")
 
-                languageVersion = apiVersion
+                apiVersion.set(kotlinLanguageVersion)
+                languageVersion.set(kotlinLanguageVersion)
             }
         }
 
