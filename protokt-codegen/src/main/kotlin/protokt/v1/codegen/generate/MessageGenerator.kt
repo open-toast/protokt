@@ -219,7 +219,7 @@ private class MessageGenerator(
 
     private fun equalsLines(properties: List<PropertyInfo>) =
         properties.map {
-            CodeBlock.of("other.%N == %N &&\n".bindSpaces(), it.name, it.name)
+            CodeBlock.of("other.%N == this.%N &&\n".bindSpaces(), it.name, it.name)
         }
 
     private fun TypeSpec.Builder.handleHashCode(
