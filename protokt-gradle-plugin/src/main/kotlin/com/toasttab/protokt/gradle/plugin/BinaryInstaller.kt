@@ -18,18 +18,21 @@ package com.toasttab.protokt.gradle.plugin
 import com.toasttab.protokt.gradle.CODEGEN_NAME
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Dependency
+import org.gradle.api.attributes.Attribute
 
+private val ARTIFACT_TYPE_ATTR = Attribute.of("artifactType", String::class.java)
 private const val CODEGEN_CONFIGURATION = "protoktCodegen"
 
 internal fun binaryFromArtifact(project: Project): String {
     project.afterEvaluate {
-        installBinary(project, configureArtifact(project))
+        configureArtifact(project)
+        installBinary(project)
     }
 
     return "${getTargetDirectory(project)}/bin/$CODEGEN_NAME"
 }
 
-private fun installBinary(project: Project, artifact: Dependency) {
+private fun installBinary(project: Project) {
     val targetDir = getTargetDirectory(project)
 
     if (protoktVersion.endsWith("-SNAPSHOT") || !targetDir.exists()) {
@@ -38,8 +41,11 @@ private fun installBinary(project: Project, artifact: Dependency) {
         val toolsArchive = project.zipTree(
             project.configurations
                 .getByName(CODEGEN_CONFIGURATION)
-                .fileCollection(artifact)
-                .singleFile
+                .incoming
+                .artifactView {
+                    lenient(true)
+                    attributes.attribute(ARTIFACT_TYPE_ATTR, "zip")
+                }.artifacts.artifactFiles.singleFile
         )
 
         project.copy {

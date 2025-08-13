@@ -1,0 +1,65 @@
+name: Build
+
+on:
+  push:
+    branches: [ main, 0.x ]
+  pull_request:
+    branches: [ main, 0.x ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - uses: ./.github/actions/gradle-cache
+    - name: Set up java
+      uses: actions/setup-java@v4
+      with:
+        distribution: corretto
+        java-version: 11
+    - name: Build and test
+      run: ./gradlew clean check publishToIntegrationRepository --stacktrace --no-daemon
+    - uses: actions/upload-artifact@v4
+      with:
+        name: integration-repository
+        path: build/repos/integration
+
+  integration:
+    needs: build
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
+        kotlin: [ 1.8.22, 2.0.21, 2.1.21, 2.2.0 ]
+        jdk: [ 11, 17, 21 ]
+        gradle: [ 8.13, 9.0.0 ]
+        exclude:
+          - kotlin: 1.8.22
+            jdk: 21
+          - kotlin: 1.8.22
+            jdk: 17
+          - jdk: 11
+            gradle: 9.0.0
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - uses: ./.github/actions/gradle-cache
+    - name: Set up java
+      uses: actions/setup-java@v4
+      with:
+        distribution: corretto
+        java-version: ${{ matrix.jdk }}
+    - uses: actions/download-artifact@v4
+      with:
+        name: integration-repository
+        path: build/repos/integration
+    - name: Set up Gradle
+      run: ./gradlew wrapper --gradle-version ${{ matrix.gradle }} "-Dkotlin.version=${{ matrix.kotlin }}" --no-daemon
+    - name: Build and test
+      run: ./gradlew "-Dkotlin.version=${{ matrix.kotlin }}" clean build --stacktrace --no-daemon
+      working-directory: gradle-plugin-integration-test

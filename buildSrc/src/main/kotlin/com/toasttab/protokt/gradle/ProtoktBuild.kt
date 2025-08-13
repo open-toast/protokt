@@ -18,8 +18,8 @@ package com.toasttab.protokt.gradle
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Dependency
 import org.gradle.kotlin.dsl.create
+import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.project
-import org.gradle.kotlin.dsl.the
 
 const val CODEGEN_NAME = "protoc-gen-protokt"
 
@@ -56,7 +56,7 @@ internal fun Project.resolveProtoktCoreDep(protoktVersion: String?): Dependency?
     }
 
     val artifactId =
-        if (the<ProtoktExtension>().lite) {
+        if (extensions.getByType<ProtoktExtension>().lite) {
             "protokt-core-lite"
         } else {
             "protokt-core"

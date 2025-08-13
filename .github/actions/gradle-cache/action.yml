@@ -1,0 +1,11 @@
+name: Gradle cache
+description: Gradle caching logic shared across builds
+runs:
+  using: composite
+  steps:
+    - uses: actions/cache@v4
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: gradle-${{ hashFiles('buildSrc/src/main/kotlin/Dependencies.kt', 'gradle/wrapper/gradle-wrapper.properties') }}
