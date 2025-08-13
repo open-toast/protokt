@@ -47,7 +47,8 @@ object Main {
                 Config.newBuilder()
                     .setTypeRegistry(createTypeRegistry(fileDescriptors))
                     .setExtensionRegistry(createExtensionRegistry(fileDescriptors))
-                    .build()
+                    .build(),
+                System.getenv("LAZY_BUF_IMPL").toBoolean()
             )
         loadValidDescriptors(validator, descriptorMap.values)
         return TestConformanceResponse
