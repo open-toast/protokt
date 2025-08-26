@@ -19,7 +19,7 @@ jobs:
         distribution: corretto
         java-version: 11
     - name: Publish
-      run: ./gradlew build -x test publishToRemote closeAndReleaseRepository publishPlugins --stacktrace --no-daemon
+      run: ./gradlew build -x test publishToSonatype closeAndReleaseSonatypeStagingRepository publishPlugins --stacktrace --no-daemon
       env:
         PGP_KEY: ${{ secrets.PGP_KEY }}
         PGP_PASSWORD: ${{ secrets.PGP_PASSWORD }}

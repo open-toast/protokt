@@ -13,7 +13,6 @@
  * limitations under the License.
  */
 
-import io.codearte.gradle.nexus.NexusStagingExtension
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.publish.PublishingExtension
@@ -38,7 +37,7 @@ private object Pgp {
     }
 }
 
-private object Remote {
+object Remote {
     val username by lazy {
         System.getenv("OSSRH_USERNAME")
     }
@@ -90,17 +89,6 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
             maven {
                 name = "integration"
                 setUrl("${project.rootProject.buildDir}/repos/integration")
-            }
-
-            if (isRelease()) {
-                maven {
-                    name = "remote"
-                    setUrl(Remote.url)
-                    credentials {
-                        username = Remote.username
-                        password = Remote.password
-                    }
-                }
             }
         }
     }
@@ -159,35 +147,5 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
                 it.repository == publishingExtension.repositories.getByName("integration")
             }
         )
-    }
-
-    tasks.register("publishToRemote") {
-        enabled = isRelease()
-        group = "publishing"
-
-        if (enabled) {
-            val publishingExtension = project.the<PublishingExtension>()
-
-            dependsOn(
-                tasks.withType<PublishToMavenRepository>().matching {
-                    it.repository == publishingExtension.repositories.getByName("remote")
-                }
-            )
-        }
-    }
-}
-
-fun Project.promoteStagingRepo() {
-    if (isRelease()) {
-        apply(plugin = "io.codearte.nexus-staging")
-
-        configure<NexusStagingExtension> {
-            username = Remote.username
-            password = Remote.password
-            packageGroup = "com.toasttab"
-            numberOfRetries = 50
-        }
-    } else {
-        tasks.register("closeAndReleaseRepository")
     }
 }
