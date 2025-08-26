@@ -13,7 +13,6 @@
  * limitations under the License.
  */
 
-import io.codearte.gradle.nexus.NexusStagingExtension
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.publish.PublishingExtension
