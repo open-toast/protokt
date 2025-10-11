@@ -13,7 +13,7 @@
 
 [versions]
 autoService = "1.1.1"
-cel = "0.9.1"
+cel = "0.11.0"
 grpc-java = "1.73.0"
 grpc-kotlin = "1.4.3"
 kotlinLogging = "7.0.12"
@@ -24,7 +24,7 @@ ktlint = "1.6.0"
 protobuf-java = "4.30.1"
 protobuf-js = "7.4.0"
 protobufGradlePlugin = "0.9.5"
-protovalidate = "0.13.0"
+protovalidate = "1.0.0"
 protovalidateJava = "1.0.0"
 slf4j = "2.0.17"
 
