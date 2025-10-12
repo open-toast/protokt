@@ -30,7 +30,8 @@ import kotlin.reflect.full.findAnnotation
 
 @Beta
 class Validator @JvmOverloads constructor(
-    config: Config = Config.newBuilder().build()
+    config: Config = Config.newBuilder().build(),
+    private val lazyConvert: Boolean = true
 ) {
     private val evaluatorBuilder = ProtoktEvaluatorBuilder(config)
 
@@ -57,7 +58,7 @@ class Validator @JvmOverloads constructor(
         val result =
             evaluatorsByFullTypeName
                 .getValue(message::class.findAnnotation<GeneratedMessage>()!!.fullTypeName)
-                .evaluate(message, runtimeContext, failFast)
+                .evaluate(message, runtimeContext, failFast, lazyConvert)
 
         return if (result.isEmpty()) {
             ValidationResult.EMPTY
