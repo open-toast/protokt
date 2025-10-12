@@ -16,55 +16,42 @@
 package protokt.v1.gradle
 
 import com.google.protobuf.gradle.GenerateProtoTask
-import org.gradle.api.NamedDomainObjectContainer
+import org.gradle.api.DefaultTask
 import org.gradle.api.Project
-import org.gradle.api.artifacts.transform.InputArtifact
-import org.gradle.api.artifacts.transform.TransformAction
-import org.gradle.api.artifacts.transform.TransformOutputs
-import org.gradle.api.artifacts.transform.TransformParameters
-import org.gradle.api.artifacts.type.ArtifactTypeDefinition
-import org.gradle.api.attributes.Attribute
-import org.gradle.api.file.FileSystemLocation
-import org.gradle.api.provider.Provider
-import org.gradle.api.tasks.PathSensitive
-import org.gradle.api.tasks.PathSensitivity
+import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.file.RegularFileProperty
+import org.gradle.api.tasks.InputFile
+import org.gradle.api.tasks.OutputDirectory
+import org.gradle.api.tasks.TaskAction
 import org.gradle.internal.file.PathTraversalChecker
-import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.registerTransform
+import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.withType
-import org.gradle.work.DisableCachingByDefault
 import java.io.BufferedInputStream
 import java.io.File
 import java.io.FileInputStream
 import java.util.zip.ZipInputStream
 
-private const val CODEGEN_CONFIGURATION = "_protokt_codegen_"
-private val ARTIFACT_TYPE_ATTRIBUTE = Attribute.of("artifactType", String::class.java)
-private val UNPACKED_CODEGEN_ATTRIBUTE = Attribute.of("unpackedCodegen", Boolean::class.javaObjectType)
+abstract class ExtractCodegenTask : DefaultTask() {
+    @get:InputFile
+    abstract val zipFile: RegularFileProperty
 
-/**
- * Unzip an application distribution and chmox +x the launchers.
- */
-@DisableCachingByDefault(because = "Not worth caching")
-abstract class UnzipDistTransform : TransformAction<TransformParameters.None> {
-    @get:InputArtifact
-    @get:PathSensitive(PathSensitivity.NAME_ONLY)
-    abstract val zippedFile: Provider<FileSystemLocation>
+    @get:OutputDirectory
+    abstract val outputDirectory: DirectoryProperty
 
-    override fun transform(outputs: TransformOutputs) {
-        val zippedFile = zippedFile.get().asFile
-        val unzippedDirName = zippedFile.name.substringAfter('.')
-        val unzipDir = outputs.dir(unzippedDirName)
+    @TaskAction
+    fun extract() {
+        val zip = zipFile.get().asFile
+        val outputDir = outputDirectory.get().asFile
 
-        ZipInputStream(BufferedInputStream(FileInputStream(zippedFile))).use { inputStream ->
+        outputDir.deleteRecursively()
+        outputDir.mkdirs()
+
+        ZipInputStream(BufferedInputStream(FileInputStream(zip))).use { inputStream ->
             generateSequence { inputStream.nextEntry }.filter { !it.isDirectory }.forEach {
-                val file = File(unzipDir, PathTraversalChecker.safePathName(it.name))
+                val file = File(outputDir, PathTraversalChecker.safePathName(it.name))
 
                 file.parentFile.mkdirs()
-
-                file.outputStream().buffered().use {
-                    inputStream.copyTo(it)
-                }
+                file.outputStream().buffered().use(inputStream::copyTo)
 
                 if (it.name.contains("/bin/")) {
                     file.setExecutable(true)
@@ -75,39 +62,22 @@ abstract class UnzipDistTransform : TransformAction<TransformParameters.None> {
 }
 
 internal fun binaryFromArtifact(project: Project): String {
-    val configuration = project.configurations.create(CODEGEN_CONFIGURATION) {
-        attributes.attribute(UNPACKED_CODEGEN_ATTRIBUTE, true)
-    }
+    val dependency = project.dependencies.create("$BASE_GROUP_NAME:protokt-codegen:$PROTOKT_VERSION:dist@zip")
+    val configuration = project.configurations.detachedConfiguration(dependency)
+    val targetDir = project.layout.buildDirectory.dir("protokt-codegen/$CODEGEN_NAME-$PROTOKT_VERSION")
 
-    project.dependencies {
-        attributesSchema {
-            attribute(UNPACKED_CODEGEN_ATTRIBUTE)
+    val extractTask =
+        project.tasks.register<ExtractCodegenTask>("extractProtoktCodegen") {
+            zipFile.fileProvider(project.provider { configuration.singleFile })
+            outputDirectory.set(targetDir)
         }
 
-        artifactTypes.createIfNecessary("zip") {
-            attributes.attribute(UNPACKED_CODEGEN_ATTRIBUTE, false)
-        }
-
-        registerTransform(UnzipDistTransform::class) {
-            from.attribute(UNPACKED_CODEGEN_ATTRIBUTE, false).attribute(ARTIFACT_TYPE_ATTRIBUTE, "zip")
-            to.attribute(UNPACKED_CODEGEN_ATTRIBUTE, true).attribute(ARTIFACT_TYPE_ATTRIBUTE, ArtifactTypeDefinition.DIRECTORY_TYPE)
-        }
-
-        add(
-            CODEGEN_CONFIGURATION,
-            "$BASE_GROUP_NAME:protokt-codegen:$PROTOKT_VERSION:dist@zip"
-        )
-
-        project.afterEvaluate {
-            tasks.withType<GenerateProtoTask> {
-                inputs.files(project.configurations.getByName(CODEGEN_CONFIGURATION))
-            }
+    project.afterEvaluate {
+        tasks.withType<GenerateProtoTask> {
+            dependsOn(extractTask)
+            inputs.files(configuration)
         }
     }
 
-    return configuration.singleFile.absolutePath + "/$CODEGEN_NAME-$PROTOKT_VERSION/bin/$CODEGEN_NAME"
-}
-
-private fun <T> NamedDomainObjectContainer<T>.createIfNecessary(name: String, configure: T.() -> Unit) {
-    (findByName(name) ?: create(name)).configure()
+    return targetDir.get().asFile.resolve("$CODEGEN_NAME-$PROTOKT_VERSION/bin/$CODEGEN_NAME").absolutePath
 }
