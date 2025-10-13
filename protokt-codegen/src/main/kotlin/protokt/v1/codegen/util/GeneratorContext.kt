@@ -56,7 +56,6 @@ private fun generateFdpObjectNames(files: List<FileDescriptorProto>): Map<String
         Pair(
             fdp.name,
             fdp.fileOptions.protokt.fileDescriptorObjectName.takeIf { it.isNotEmpty() }
-                ?: fdp.fileOptions.default.javaOuterClassname.takeIf { it.isNotEmpty() }
                 ?: (fdp.name.substringBefore(".proto").substringAfterLast('/') + "_file_descriptor")
         )
     }

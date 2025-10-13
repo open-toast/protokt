@@ -19,6 +19,7 @@ import java.io.InputStream
 import java.nio.ByteBuffer
 import kotlin.jvm.JvmStatic
 
+@OptIn(OnlyForUseByGeneratedProtoCode::class)
 actual class Bytes internal actual constructor(value: ByteArray) : AbstractBytes(value) {
     fun asReadOnlyBuffer(): ByteBuffer =
         ByteBuffer.wrap(value).asReadOnlyBuffer()

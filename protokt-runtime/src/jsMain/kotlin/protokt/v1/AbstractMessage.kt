@@ -17,6 +17,7 @@ package protokt.v1
 
 import org.khronos.webgl.Int8Array
 
+@OptIn(OnlyForUseByGeneratedProtoCode::class)
 actual abstract class AbstractMessage actual constructor() : Message {
     actual final override fun serialize(): ByteArray {
         val writer = ProtobufJsWriter.create()

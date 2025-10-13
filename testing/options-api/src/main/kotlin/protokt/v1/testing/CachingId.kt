@@ -26,6 +26,7 @@ data class CachingId(
     internal val value: Bytes
 )
 
+@SuppressWarnings("rawtypes")
 @AutoService(Converter::class)
 object CachingIdConverter : AbstractConverter<Bytes, CachingId>(), OptimizedSizeOfConverter<Bytes, CachingId> {
     override fun sizeOf(wrapped: CachingId) =

@@ -209,15 +209,16 @@ internal class FieldParser(
     }
 
     private fun optional(fdp: FieldDescriptorProto) =
-        when {
-            ctx.proto2 -> fdp.label == LABEL_OPTIONAL
-            ctx.proto3 -> fdp.proto3Optional
-            ctx.edition2023 -> optional(ctx.fileOptions.default.features, fdp.options.features)
-            else -> error("unexpected edition/syntax")
-        }
+        fdp.label != LABEL_REPEATED &&
+            when {
+                ctx.proto2 -> fdp.label == LABEL_OPTIONAL
+                ctx.proto3 -> fdp.proto3Optional
+                ctx.edition2023 -> optional(ctx.fileOptions.default.features, fdp.options.features)
+                else -> error("unexpected edition/syntax")
+            }
 
     private fun optional(fileFeatures: FeatureSet, fieldFeatures: FeatureSet) =
-        if (fileFeatures.fieldPresence == FieldPresence.EXPLICIT) {
+        if (fileFeatures.fieldPresence == FieldPresence.EXPLICIT || !fileFeatures.hasFieldPresence()) {
             fieldFeatures.fieldPresence !in setOf(FieldPresence.IMPLICIT, FieldPresence.LEGACY_REQUIRED)
         } else {
             fieldFeatures.fieldPresence == FieldPresence.EXPLICIT

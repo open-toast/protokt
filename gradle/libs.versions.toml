@@ -13,49 +13,49 @@
 
 [versions]
 autoService = "1.1.1"
-cel = "0.5.1"
-grpc-java = "1.70.0"
-grpc-kotlin = "1.4.1"
-kotlinLogging = "7.0.3"
-kotlinPoet = "2.0.0"
-kotlinx-coroutines = "1.10.1"
-kotlinx-serialization = "1.8.0"
-ktlint = "1.5.0"
-protobuf-java = "4.29.1"
+cel = "0.11.0"
+grpc-java = "1.74.0"
+grpc-kotlin = "1.4.3"
+kotlinLogging = "7.0.12"
+kotlinPoet = "2.2.0"
+kotlinx-coroutines = "1.10.2"
+kotlinx-serialization = "1.9.0"
+ktlint = "1.6.0"
+protobuf-java = "4.30.1"
 protobuf-js = "7.4.0"
-protobufGradlePlugin = "0.9.4"
-protovalidate = "0.9.0"
-protovalidateJava = "0.5.0"
-slf4j = "2.0.16"
+protobufGradlePlugin = "0.9.5"
+protovalidate = "1.0.0"
+protovalidateJava = "1.0.0"
+slf4j = "2.0.17"
 
 # build
 androidGradlePlugin = "7.4.2"
+expediter = "0.0.24"
 animalSnifferGradlePlugin = "2.0.0"
-binaryCompatibilityValidator = "0.17.0"
-buildConfig = "5.5.1"
-gradleMavenPublishPlugin = "0.30.0"
-gummyBears = "0.8.0"
+binaryCompatibilityValidator = "0.18.1"
+buildConfig = "5.6.7"
+gradleMavenPublishPlugin = "0.33.0"
 java = "11"
-kotlin = "2.1.0"
-pluginPublish = "1.2.1"
-spotless = "6.25.0"
+kotlin = "2.2.0"
+pluginPublish = "1.3.1"
+spotless = "7.0.4"
 
 # benchmarks
 datasets = "0.1.0"
 download = "5.6.0"
 jmh = "1.37"
-wire = "5.2.1"
+wire = "5.3.3"
 
 # test
 buf = "1.47.2"
-classgraph = "4.8.179"
+classgraph = "4.8.181"
 grpc-js = "1.12.4"
-jackson = "2.18.2"
-junit = "5.11.4"
+jackson = "2.19.1"
+junit = "5.13.4"
 truth = "1.4.4"
 
 # third party
-protoGoogleCommonProtos = "2.50.0"
+protoGoogleCommonProtos = "2.57.0"
 
 [plugins]
 buildConfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildConfig" }
@@ -66,7 +66,7 @@ wire = { id = "com.squareup.wire", version.ref = "wire" }
 [libraries]
 autoService = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
 autoServiceAnnotations = { module = "com.google.auto.service:auto-service-annotations", version.ref = "autoService" }
-cel = { module = "org.projectnessie.cel:cel-tools", version.ref = "cel" }
+cel = { module = "dev.cel:cel", version.ref = "cel" }
 grpc-kotlin-gen = { module = "io.grpc:protoc-gen-grpc-kotlin", version.ref = "grpc-kotlin" }
 grpc-netty = { module = "io.grpc:grpc-netty", version.ref = "grpc-java" }
 grpc-stub = { module = "io.grpc:grpc-stub", version.ref = "grpc-java" }
@@ -83,8 +83,8 @@ slf4jSimple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 
 # build
 androidGradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
-animalSnifferGradlePlugin = { module = "ru.vyarus:gradle-animalsniffer-plugin", version.ref = "animalSnifferGradlePlugin" }
 binaryCompatibilityValidator = { module = "org.jetbrains.kotlinx:binary-compatibility-validator", version.ref = "binaryCompatibilityValidator" }
+expediter = { module = "com.toasttab.expediter:plugin", version.ref = "expediter" }
 gradleMavenPublishPlugin = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "gradleMavenPublishPlugin" }
 kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 spotlessGradlePlugin = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless" }
@@ -103,6 +103,7 @@ grpc-kotlin-stub = { module = "io.grpc:grpc-kotlin-stub", version.ref = "grpc-ko
 grpc-testing = { module = "io.grpc:grpc-testing", version.ref = "grpc-java" }
 jackson = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
+junit-platformLauncher = { module = "org.junit.platform:junit-platform-launcher" }
 junit-vintage = { module = "org.junit.vintage:junit-vintage-engine" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }

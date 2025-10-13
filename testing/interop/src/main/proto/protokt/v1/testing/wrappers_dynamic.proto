@@ -75,6 +75,8 @@ message Wrappers {
 
 message OneofWrappers {
   oneof wrapped_oneof {
+    option (.protokt.v1.oneof).generate_non_null_accessor = true;
+
     bytes uuid_oneof = 2 [
       (.protokt.v1.property).wrap = "java.util.UUID"
     ];

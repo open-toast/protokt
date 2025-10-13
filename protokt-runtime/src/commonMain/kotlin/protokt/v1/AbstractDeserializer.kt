@@ -15,6 +15,7 @@
 
 package protokt.v1
 
+@OnlyForUseByGeneratedProtoCode
 expect abstract class AbstractDeserializer<T : Message>() : Deserializer<T> {
     abstract override fun deserialize(reader: Reader): T
 

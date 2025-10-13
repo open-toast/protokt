@@ -15,6 +15,7 @@
 
 plugins {
     id("protokt.jvm-conventions")
+    id("protokt.third-party-conventions")
 }
 
 enablePublishing()

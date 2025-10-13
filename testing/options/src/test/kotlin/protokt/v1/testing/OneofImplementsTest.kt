@@ -32,4 +32,11 @@ class OneofImplementsTest {
 
         assertThat(assigned?.id).isEqualTo(Id("val"))
     }
+
+    @Test
+    fun `property shared between oneof types can be assigned and accessed without switching using non-null accessor`() {
+        val assigned: OneofModel = obj.requireImplementingOneof
+
+        assertThat(assigned.id).isEqualTo(Id("val"))
+    }
 }

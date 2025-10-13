@@ -22,6 +22,7 @@ import protokt.v1.Converter
 
 data class BoolBox(val wrapped: Boolean)
 
+@SuppressWarnings("rawtypes")
 @AutoService(Converter::class)
 object BooleanConverter : AbstractConverter<Boolean, BoolBox>() {
     override fun unwrap(wrapped: BoolBox) =
@@ -33,6 +34,7 @@ object BooleanConverter : AbstractConverter<Boolean, BoolBox>() {
 
 data class ByteArrayBox(val wrapped: Bytes)
 
+@SuppressWarnings("rawtypes")
 @AutoService(Converter::class)
 object BytesConverter : AbstractConverter<Bytes, ByteArrayBox>() {
     override fun unwrap(wrapped: ByteArrayBox) =
@@ -44,6 +46,7 @@ object BytesConverter : AbstractConverter<Bytes, ByteArrayBox>() {
 
 data class DoubleBox(val wrapped: Double)
 
+@SuppressWarnings("rawtypes")
 @AutoService(Converter::class)
 object DoubleConverter : AbstractConverter<Double, DoubleBox>() {
     override fun unwrap(wrapped: DoubleBox) =
@@ -55,6 +58,7 @@ object DoubleConverter : AbstractConverter<Double, DoubleBox>() {
 
 data class IntBox(val wrapped: Int)
 
+@SuppressWarnings("rawtypes")
 @AutoService(Converter::class)
 object IntConverter : AbstractConverter<Int, IntBox>() {
     override fun unwrap(wrapped: IntBox) =
@@ -66,6 +70,7 @@ object IntConverter : AbstractConverter<Int, IntBox>() {
 
 data class UIntBox(val wrapped: UInt)
 
+@SuppressWarnings("rawtypes")
 @AutoService(Converter::class)
 object UIntConverter : AbstractConverter<UInt, UIntBox>() {
     override fun unwrap(wrapped: UIntBox) =
@@ -77,6 +82,7 @@ object UIntConverter : AbstractConverter<UInt, UIntBox>() {
 
 data class LongBox(val wrapped: Long)
 
+@SuppressWarnings("rawtypes")
 @AutoService(Converter::class)
 object LongConverter : AbstractConverter<Long, LongBox>() {
     override fun unwrap(wrapped: LongBox) =
@@ -88,6 +94,7 @@ object LongConverter : AbstractConverter<Long, LongBox>() {
 
 data class ULongBox(val wrapped: ULong)
 
+@SuppressWarnings("rawtypes")
 @AutoService(Converter::class)
 object ULongConverter : AbstractConverter<ULong, ULongBox>() {
     override fun unwrap(wrapped: ULongBox) =
@@ -99,6 +106,7 @@ object ULongConverter : AbstractConverter<ULong, ULongBox>() {
 
 data class FloatBox(val wrapped: Float)
 
+@SuppressWarnings("rawtypes")
 @AutoService(Converter::class)
 object FloatConverter : AbstractConverter<Float, FloatBox>() {
     override fun unwrap(wrapped: FloatBox) =
@@ -110,6 +118,7 @@ object FloatConverter : AbstractConverter<Float, FloatBox>() {
 
 data class StringBox(val wrapped: String)
 
+@SuppressWarnings("rawtypes")
 @AutoService(Converter::class)
 object StringConverter : AbstractConverter<String, StringBox>() {
     override fun unwrap(wrapped: StringBox) =

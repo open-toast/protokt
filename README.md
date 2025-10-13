@@ -1,8 +1,8 @@
 # protokt
 
 [![Github Actions](https://github.com/open-toast/protokt/actions/workflows/ci.yml/badge.svg)](https://github.com/open-toast/protokt/actions/workflows/ci.yml)
-[![Maven Central](https://img.shields.io/maven-central/v/com.toasttab.protokt/protokt-runtime)](https://search.maven.org/artifact/com.toasttab.protokt/protokt-runtime)
-[![Gradle Portal](https://img.shields.io/maven-metadata/v/https/plugins.gradle.org/m2/com/toasttab/protokt/protokt-gradle-plugin/maven-metadata.xml.svg?label=gradle-portal&color=yellowgreen)](https://plugins.gradle.org/plugin/com.toasttab.protokt)
+[![Maven Central](https://img.shields.io/maven-central/v/com.toasttab.protokt.v1/protokt-runtime)](https://search.maven.org/artifact/com.toasttab.protokt.v1/protokt-runtime)
+[![Gradle Portal](https://img.shields.io/maven-metadata/v/https/plugins.gradle.org/m2/com/toasttab/protokt/v1/protokt-gradle-plugin/maven-metadata.xml.svg?label=gradle-portal&color=yellowgreen)](https://plugins.gradle.org/plugin/com.toasttab.protokt.v1)
 
 Protocol Buffer compiler and runtime for Kotlin.
 
@@ -12,7 +12,7 @@ Supports only version 3 of the Protocol Buffers language.
 
 ### Features
 - Idiomatic and concise [Kotlin builder DSL](#generated-code)
-- Protokt-specific options: [non-null types (dangerous)](#non-null-fields),
+- Protokt-specific options: [non-null accessors](#non-null-accessors),
 [wrapper types](#wrapper-types),
 [interface implementation](#interface-implementation),
 and more
@@ -26,6 +26,7 @@ CodedOutputStream for best performance
 for use with [grpc-java](#integrating-with-grpcs-java-api),
 [grpc-kotlin](#integrating-with-grpcs-kotlin-api), and
 [grpc-node](#integrating-with-grpcs-nodejs-api) (experimental) (see examples  in [examples](examples))
+- (JVM) Integration with [Protovalidate](#protovalidate-integration) 
 
 ### Not yet implemented
 
@@ -37,17 +38,20 @@ for use with [grpc-java](#integrating-with-grpcs-java-api),
 The Gradle plugin requires Java 8+ and Gradle 5.6+. It runs on recent versions of
 MacOS, Linux, and Windows.
 
-The runtime and generated code are compatible with Kotlin 1.8+, Java 8+, and Android 4.4+.
+The runtime and generated code are compatible with Kotlin 2.0+, Java 8+, and Android 4.4+.
 
 ## Usage
 
-See examples in [testing](testing).
+See examples in [testing](testing). The Gradle plugin is implemented as a custom 
+protoc plugin provided to the [`protobuf-gradle-plugin`](https://github.com/google/protobuf-gradle-plugin);
+see its readme for proto source and other configuration options. The default proto
+source directory is `src/main/proto`.
 
 ### Gradle
 
 ```kotlin
 plugins {
-    id("com.toasttab.protokt") version "<version>"
+    id("com.toasttab.protokt.v1") version "<version>"
 }
 ```
 
@@ -56,11 +60,11 @@ or
 ```kotlin
 buildscript {
     dependencies {
-        classpath("com.toasttab.protokt:protokt-gradle-plugin:<version>")
+        classpath("com.toasttab.protokt.v1:protokt-gradle-plugin:<version>")
     }
 }
 
-apply(plugin = "com.toasttab.protokt")
+apply(plugin = "com.toasttab.protokt.v1")
 ```
 
 This will automatically download and install protokt, apply the Google protobuf
@@ -99,7 +103,7 @@ tasks.withType<JavaCompile> {
 
 ### Generated Code
 
-Generated code is placed in `<buildDir>/generated/<sourceSet.name>/protokt`.
+Generated code is placed in `<buildDir>/generated/source/proto/main`.
 
 A simple example:
 
@@ -425,7 +429,7 @@ akin to `protobuf-java`'s `ByteString`.
 ## Extensions
 
 See extension options defined in
-[protokt.proto](extensions/protokt-extensions-lite/src/main/proto/protokt/v1/protokt.proto).
+[protokt.proto](extensions/protokt-extensions-lite/src/extensions-proto/protokt/v1/protokt.proto).
 
 See examples of each option in the [options](testing/options/src/main/proto)
 project. All protokt-specific options require importing `protokt/v1/protokt.proto`
@@ -580,6 +584,7 @@ example, Google's [AutoService](https://github.com/google/auto/tree/master/servi
 can register converters with an annotation:
 
 ```kotlin
+@SuppressWarnings("rawtypes")
 @AutoService(Converter::class)
 object InstantConverter : Converter<Instant, Timestamp> { ... }
 ```
@@ -635,8 +640,9 @@ dependencies {
 ```
 
 Wrapper types that wrap protobuf messages are nullable. For example,
-`java.time.Instant` wraps the well-known type `google.protobuf.Timestamp`. They
-can be made non-nullable by using the non-null option described below.
+`java.time.Instant` wraps the well-known type `google.protobuf.Timestamp`. You 
+can generate non-null accessors with the `generate_non_null_accessor` option
+described below.
 
 Wrapper types that wrap protobuf primitives, for example `java.util.UUID`
 which wraps `bytes`, are nullable when they cannot wrap their wrapped type's
@@ -658,7 +664,8 @@ google.protobuf.BytesValue nullable_uuid = 3 [
 ];
 ```
 
-This behavior can be overridden with the [`non_null` option](#non-null-fields).
+As for message types, you can generate non-null accessors with the 
+`generate_non_null_accessor` option.
 
 Wrapper types can be repeated:
 
@@ -686,7 +693,7 @@ _N.b. Well-known type nullability is implemented with
 for each message defined in
 [wrappers.proto](https://github.com/protocolbuffers/protobuf/blob/main/src/google/protobuf/wrappers.proto)._
 
-### Non-null fields
+### Non-null accessors
 If a message has no meaning whatsoever when a particular non-scalar field is
 missing, you can emulate proto2's `required` key word by using the
 `(protokt.v1.property).generate_non_null_accessor` option:
@@ -703,6 +710,20 @@ message NonNullSampleMessage {
 
 Generated code will include a non-null accessor prefixed with `require`, so the field can be referenced
 without using Kotlin's `!!`.
+
+This option also works on oneof fields:
+
+```protobuf
+message Sample {}
+
+message NonNullSampleMessage {
+  oneof non_null_sample {
+    option (protokt.v1.oneof).generate_non_null_accessor = true;
+    
+    Sample sample = 1;
+  }
+}
+```
 
 ### Interface implementation
 
@@ -734,9 +755,9 @@ Like wrapper types, if the implemented interface is in the same package as the
 generated protobuf message that uses it, then it does not need to be referenced
 by its fully-qualified name. Implemented interfaces cannot be used by protobuf
 messages in the same project that defines them; the dependency must be declared
-with `protoktExtensions` in `build.gradle`:
+with `protoktExtensions` in `build.gradle.kts`:
 
-```groovy
+```kotlin
 dependencies {
     protoktExtensions(project(":api-project"))
 }
@@ -915,7 +936,7 @@ message SliceModel {
 Protokt will generate variations of code for gRPC method and service descriptors
 when the gRPC generation options are enabled:
 
-```groovy
+```kotlin
 protokt {
     generate {
         grpcDescriptors = true
@@ -1039,15 +1060,35 @@ These implementations are alpha-quality and for demonstration only. External con
 to harden the implementation are welcome. They use the same `grpcDescriptors` and
 `grpcKotlinStubs` plugin options to control code generation.
 
+## Protovalidate integration
+
+Add the `protokt-protovalidate` dependency, build a Validator, load descriptors, and
+validate messages.
+
+```kotlin
+import protokt.v1.buf.validate.Validator
+
+val validator = Validator()
+
+foo_file_descriptor
+    .toProtobufJavaDescriptor()
+    .messageTypes
+    .forEach(validator::load)
+
+val result = validator.validate(instanceOfFoo)
+```
+
+Build a gRPC interceptor following the [example of `protovalidate-java`](https://github.com/bufbuild/buf-examples/blob/fccc323b8141e649f0fbab7ab399236a811aca8e/protovalidate/grpc-java/finish/src/main/java/buf/build/example/protovalidate/ValidationInterceptor.java).
+
 ## IntelliJ integration
 
 If IntelliJ doesn't automatically detect the generated files as source files,
 you may be missing the `idea` plugin. Apply the `idea` plugin to your Gradle
 project:
 
-```groovy
+```kotlin
 plugins {
-  id 'idea'
+    idea
 }
 ```
 

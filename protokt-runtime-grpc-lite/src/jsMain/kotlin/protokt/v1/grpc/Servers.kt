@@ -21,6 +21,7 @@ import kotlin.coroutines.suspendCoroutine
 import kotlin.js.json
 
 @Beta
+@Suppress("EXTENSION_SHADOWED_BY_MEMBER") // member is internal and not callable externally
 fun Server.addService(
     service: ServiceDescriptor,
     implementation: BindableService

@@ -29,6 +29,10 @@ class NonNullableTest {
         assertThat(
             NonNullModel::class.propertyIsMarkedNullable("nonNullStringValue")
         ).isTrue()
+
+        assertThat(
+            NonNullModel::class.propertyIsMarkedNullable("requireNonNullOneof")
+        ).isFalse()
     }
 
     @Test
@@ -49,7 +53,29 @@ class NonNullableTest {
         assertThat(thrown).hasMessageThat().apply {
             contains("nonNullStringValue")
             contains("was null")
-            contains("(protokt.property).generate_non_null_accessor")
+            contains("(protokt.v1.property).generate_non_null_accessor")
+        }
+    }
+
+    @Test
+    fun `detailed error when attempting to access null oneof`() {
+        val model =
+            NonNullModel.deserialize(
+                NonNullModelMirror {
+                    nonNullStringValue = "asdf"
+                    nonNullOneof = null
+                }.serialize()
+            )
+
+        val thrown =
+            assertThrows<IllegalArgumentException> {
+                model.requireNonNullOneof
+            }
+
+        assertThat(thrown).hasMessageThat().apply {
+            contains("nonNullOneof")
+            contains("was null")
+            contains("(protokt.v1.oneof).generate_non_null_accessor")
         }
     }
 }

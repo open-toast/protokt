@@ -15,6 +15,7 @@
 
 package protokt.v1
 
+@OptIn(OnlyForUseByGeneratedProtoCode::class)
 actual interface Message {
     actual fun messageSize(): Int
 

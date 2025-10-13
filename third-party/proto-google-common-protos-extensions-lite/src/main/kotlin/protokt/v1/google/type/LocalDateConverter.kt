@@ -20,6 +20,7 @@ import protokt.v1.AbstractConverter
 import protokt.v1.Converter
 import java.time.LocalDate
 
+@SuppressWarnings("rawtypes")
 @AutoService(Converter::class)
 object LocalDateConverter : AbstractConverter<Date, LocalDate>() {
     override fun wrap(unwrapped: Date): LocalDate =
