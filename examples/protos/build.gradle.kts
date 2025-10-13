@@ -51,6 +51,7 @@ kotlin {
         }
 
         jvm {
+            @Suppress("DEPRECATION")
             withJava()
         }
 

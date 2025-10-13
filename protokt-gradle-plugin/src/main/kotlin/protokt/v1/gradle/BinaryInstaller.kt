@@ -108,6 +108,6 @@ internal fun binaryFromArtifact(project: Project): String {
     return configuration.singleFile.absolutePath + "/$CODEGEN_NAME-$PROTOKT_VERSION/bin/$CODEGEN_NAME"
 }
 
-private fun <T> NamedDomainObjectContainer<T>.createIfNecessary(name: String, configure: T.() -> Unit) {
+private fun <T : Any> NamedDomainObjectContainer<T>.createIfNecessary(name: String, configure: T.() -> Unit) {
     (findByName(name) ?: create(name)).configure()
 }
