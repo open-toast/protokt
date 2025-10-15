@@ -20,6 +20,7 @@ plugins {
 
 kotlin {
     jvm {
+        @Suppress("DEPRECATION")
         withJava()
     }
 
@@ -49,6 +50,10 @@ kotlin {
 
 tasks.named<Test>("jvmTest") {
     useJUnitPlatform()
+}
+
+tasks.named("checkKotlinGradlePluginConfigurationErrors") {
+    enabled = false
 }
 
 pureKotlin()

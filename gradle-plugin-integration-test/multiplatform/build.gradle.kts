@@ -23,6 +23,7 @@ plugins {
 
 kotlin {
     jvm {
+        @Suppress("DEPRECATION")
         withJava()
     }
 
