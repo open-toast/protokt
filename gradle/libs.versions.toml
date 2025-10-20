@@ -35,7 +35,7 @@ binaryCompatibilityValidator = "0.18.1"
 buildConfig = "5.7.0"
 gradleMavenPublishPlugin = "0.34.0"
 java = "11"
-kotlin = "2.2.0"
+kotlin = "2.2.20"
 pluginPublish = "2.0.0"
 spotless = "8.0.0"
 
