@@ -23,7 +23,7 @@ jobs:
       run: npm install protobufjs@7.2.6 long@5.2.3
     - name: Build and test
       run: ./gradlew clean check publishToIntegrationRepository --stacktrace --no-daemon
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v5
       with:
         name: integration-repository
         path: build/repos/integration
