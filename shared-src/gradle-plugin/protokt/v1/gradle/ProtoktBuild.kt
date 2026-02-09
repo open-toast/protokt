@@ -26,6 +26,7 @@ import org.gradle.api.artifacts.Dependency
 import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.api.file.SourceDirectorySet
 import org.gradle.api.logging.LogLevel
+import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.AbstractCopyTask
 import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.SourceSetContainer
@@ -57,7 +58,7 @@ internal fun configureProtokt(
     project: Project,
     protoktVersion: Any?,
     disableJava: Boolean,
-    binary: String
+    binary: Provider<String>
 ) {
     injectKotlinPluginsIntoProtobufGradle()
 
@@ -100,7 +101,7 @@ private fun Project.createExtensionConfigurations(): Config {
 private fun Project.configureProtobuf(
     disableJava: Boolean,
     config: Config,
-    binary: String
+    binary: Provider<String>
 ) {
     pluginManager.withPlugin(KotlinPlugins.MULTIPLATFORM) {
         configureForMpp(disableJava, config, binary)
@@ -115,7 +116,7 @@ private fun Project.configureProtobuf(
     }
 }
 
-private fun Project.configureForJvmLike(config: Config, disableJava: Boolean, target: KotlinTarget, binary: String) {
+private fun Project.configureForJvmLike(config: Config, disableJava: Boolean, target: KotlinTarget, binary: Provider<String>) {
     logger.log(DEBUG_LOG_LEVEL, "Configuring protokt for Kotlin ${target.name}")
     configureProtobufPlugin(project, config.extension, disableJava, target, binary)
     configurations.getByName("api").extendsFrom(config.extensions)
@@ -125,7 +126,7 @@ private fun Project.configureForJvmLike(config: Config, disableJava: Boolean, ta
 private fun Project.configureForMpp(
     disableJava: Boolean,
     config: Config,
-    binary: String
+    binary: Provider<String>
 ) {
     configureTarget("common", disableJava, config, binary)
 
@@ -148,7 +149,7 @@ private fun Project.configureTarget(
     targetName: String,
     disableJava: Boolean,
     config: Config,
-    binary: String
+    binary: Provider<String>
 ) {
     configureProtobufPlugin(project, config.extension, disableJava, KotlinTarget.fromMultiplatformTargetString(targetName), binary)
 

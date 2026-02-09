@@ -17,6 +17,8 @@ syntax = "proto3";
 
 package protokt.v1.testing.android;
 
+option java_package = "com.toasttab.protokt.v1.testing.android";
+
 message TestMessage {
   string foo = 1;
 }
