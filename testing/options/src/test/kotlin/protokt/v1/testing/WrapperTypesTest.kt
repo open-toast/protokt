@@ -16,6 +16,7 @@
 package protokt.v1.testing
 
 import com.google.common.truth.Truth.assertThat
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
@@ -106,7 +107,7 @@ class WrapperTypesTest {
     fun `round trip should preserve uuid`() {
         val deserialized = Wrappers.deserialize(model.serialize())
 
-        assertThat(deserialized.uuid).isEqualTo(model.uuid)
+        assertThat(deserialized.uuid!!).isEqualTo(model.uuid)
     }
 
     @Test
@@ -120,28 +121,28 @@ class WrapperTypesTest {
     fun `round trip should preserve instant`() {
         val deserialized = Wrappers.deserialize(model.serialize())
 
-        assertThat(deserialized.instant).isEqualTo(model.instant)
+        assertThat(deserialized.instant!!).isEqualTo(model.instant)
     }
 
     @Test
     fun `round trip should preserve duration`() {
         val deserialized = Wrappers.deserialize(model.serialize())
 
-        assertThat(deserialized.duration).isEqualTo(model.duration)
+        assertThat(deserialized.duration!!).isEqualTo(model.duration)
     }
 
     @Test
     fun `round trip should preserve localdate`() {
         val deserialized = Wrappers.deserialize(model.serialize())
 
-        assertThat(deserialized.localDate).isEqualTo(model.localDate)
+        assertThat(deserialized.localDate!!).isEqualTo(model.localDate)
     }
 
     @Test
     fun `round trip should preserve nullable uuid`() {
         val deserialized = Wrappers.deserialize(model.serialize())
 
-        assertThat(deserialized.nullableUuid).isEqualTo(model.nullableUuid)
+        assertThat(deserialized.nullableUuid!!).isEqualTo(model.nullableUuid)
     }
 
     @Test
@@ -149,14 +150,14 @@ class WrapperTypesTest {
         val deserialized =
             Wrappers.deserialize(model.copy { nullableUuid = null }.serialize())
 
-        assertThat(deserialized.nullableUuid).isNull()
+        assertNull(deserialized.nullableUuid)
     }
 
     @Test
     fun `round trip should preserve nullable localdate`() {
         val deserialized = Wrappers.deserialize(model.serialize())
 
-        assertThat(deserialized.nullableLocalDate).isEqualTo(model.nullableLocalDate)
+        assertThat(deserialized.nullableLocalDate!!).isEqualTo(model.nullableLocalDate)
     }
 
     @Test
@@ -164,21 +165,21 @@ class WrapperTypesTest {
         val deserialized =
             Wrappers.deserialize(model.copy { nullableLocalDate = null }.serialize())
 
-        assertThat(deserialized.nullableLocalDate).isNull()
+        assertNull(deserialized.nullableLocalDate)
     }
 
     @Test
     fun `round trip should preserve google localdate`() {
         val deserialized = Wrappers.deserialize(model.serialize())
 
-        assertThat(deserialized.googleDate).isEqualTo(model.googleDate)
+        assertThat(deserialized.googleDate!!).isEqualTo(model.googleDate)
     }
 
     @Test
     fun `round trip should preserve optional uuid`() {
         val deserialized = Wrappers.deserialize(model.serialize())
 
-        assertThat(deserialized.optionalUuid).isEqualTo(model.optionalUuid)
+        assertThat(deserialized.optionalUuid!!).isEqualTo(model.optionalUuid)
     }
 
     @Test
@@ -186,14 +187,14 @@ class WrapperTypesTest {
         val deserialized =
             Wrappers.deserialize(model.copy { optionalUuid = null }.serialize())
 
-        assertThat(deserialized.optionalUuid).isNull()
+        assertNull(deserialized.optionalUuid)
     }
 
     @Test
     fun `round trip should preserve optional localdate`() {
         val deserialized = Wrappers.deserialize(model.serialize())
 
-        assertThat(deserialized.optionalLocalDate).isEqualTo(model.optionalLocalDate)
+        assertThat(deserialized.optionalLocalDate!!).isEqualTo(model.optionalLocalDate)
     }
 
     @Test
@@ -201,7 +202,7 @@ class WrapperTypesTest {
         val deserialized =
             Wrappers.deserialize(model.copy { optionalLocalDate = null }.serialize())
 
-        assertThat(deserialized.optionalLocalDate).isNull()
+        assertNull(deserialized.optionalLocalDate)
     }
 
     @Test
@@ -343,7 +344,7 @@ class WrapperTypesTest {
                 model.copy { instant = null }
             }
 
-        assertThat(model.instant).isNull()
+        assertNull(model.instant)
 
         val thrown =
             assertThrows<IllegalArgumentException> {
