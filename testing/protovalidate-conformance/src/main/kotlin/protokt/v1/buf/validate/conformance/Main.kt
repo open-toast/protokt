@@ -109,6 +109,8 @@ object Main {
                     )
                     .build()
             }
+        } catch (e: CompilationException) {
+            TestResult.newBuilder().setCompilationError(e.message).build()
         } catch (e: ExecutionException) {
             TestResult.newBuilder().setRuntimeError(e.message).build()
         } catch (e: Exception) {

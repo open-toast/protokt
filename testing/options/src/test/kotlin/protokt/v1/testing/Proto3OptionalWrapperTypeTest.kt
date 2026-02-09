@@ -16,6 +16,7 @@
 package protokt.v1.testing
 
 import com.google.common.truth.Truth.assertThat
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import java.time.LocalDate
 import kotlin.reflect.full.createType
@@ -40,7 +41,7 @@ class Proto3OptionalWrapperTypeTest {
 
         val deserialized = TestProto3OptionalWrapperType.deserialize(serialized)
 
-        assertThat(deserialized.optionalLocalDate).isEqualTo(date)
+        assertThat(deserialized.optionalLocalDate!!).isEqualTo(date)
     }
 
     @Test
@@ -49,6 +50,6 @@ class Proto3OptionalWrapperTypeTest {
 
         val deserialized = TestProto3OptionalWrapperType.deserialize(serialized)
 
-        assertThat(deserialized.optionalLocalDate).isNull()
+        assertNull(deserialized.optionalLocalDate)
     }
 }
