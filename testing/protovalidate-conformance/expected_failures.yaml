@@ -1,8 +1,3 @@
-custom_rules:
-  - compilation/incorrect_type
-  - compilation/missing_field
-  - field_expression_only/invalid
-  - message_expression_only/invalid
 groups:
   - custom/invalid
   - custom/valid
@@ -12,14 +7,6 @@ groups:
   - optional/valid/populated
   - required/invalid
   - required/valid
-standard_rules/double:
-  - compilation/wrong_type
-standard_rules/fixed32:
-  - compilation/wrong_type
-standard_rules/fixed64:
-  - compilation/wrong_type
-standard_rules/float:
-  - compilation/wrong_type
 standard_rules/ignore:
   - proto/2023/message/explicit_presence/delimited/ignore_always/valid/default_invalid_value
   - proto/2023/message/explicit_presence/delimited/ignore_always/valid/populated_invalid_value
@@ -48,52 +35,8 @@ standard_rules/ignore:
 standard_rules/ignore_empty:
   - proto/2023/message/explicit_presence/delimited/nonzero
   - proto/2023/message/explicit_presence/delimited/zero
-standard_rules/int32:
-  - compilation/wrong_type
-standard_rules/int64:
-  - compilation/wrong_type
-standard_rules/message:
-  - oneof/duplicate-field/invalid
-  - oneof/unknown-field/invalid
-  - oneof/zero-fields/invalid
 standard_rules/required:
   - proto/2023/message/explicit_presence/delimited/nonzero
-  - proto/2023/message/legacy_required/delimited/zero
-  - proto/2023/message/legacy_required/delimited/nonzero
   - proto/2023/message/explicit_presence/delimited/zero
-standard_rules/sint32:
-  - compilation/wrong_type
-standard_rules/sint64:
-  - compilation/wrong_type
-standard_rules/uint32:
-  - compilation/wrong_type
-standard_rules/uint64:
-  - compilation/wrong_type
-standard_rules/well_known_types/any:
-  - compilation/wrong_type/message
-  - compilation/wrong_type/scalar
-  - compilation/wrong_type/wkt
-  - compilation/wrong_type/wrapper
-standard_rules/well_known_types/duration:
-  - compilation/wrong_type/message
-  - compilation/wrong_type/scalar
-  - compilation/wrong_type/wkt
-  - compilation/wrong_type/wrapper
-standard_rules/well_known_types/field_mask:
-  - const/invalid
-  - const/valid
-  - const/valid/empty
-  - example/valid
-  - in/invalid
-  - in/invalid/sub
-  - in/valid
-  - in/valid/sub
-  - not_in/invalid
-  - not_in/invalid/sub
-  - not_in/valid
-  - not_in/valid/sub
-standard_rules/well_known_types/timestamp:
-  - compilation/wrong_type/message
-  - compilation/wrong_type/scalar
-  - compilation/wrong_type/wkt
-  - compilation/wrong_type/wrapper
+  - proto/2023/message/legacy_required/delimited/nonzero
+  - proto/2023/message/legacy_required/delimited/zero
