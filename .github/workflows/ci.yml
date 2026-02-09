@@ -33,7 +33,7 @@ jobs:
     strategy:
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
-        kotlin: [ 2.0.21, 2.1.21, 2.2.0 ]
+        kotlin: [ 2.1.21, 2.2.0 ]
         jdk: [ 17, 21 ]
 
     runs-on: ${{ matrix.os }}
