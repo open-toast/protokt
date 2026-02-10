@@ -98,9 +98,7 @@ val conformance =
         )
     }
 
-// Unstable in CI.
-// Run locally with `./gradlew :testing:protovalidate-conformance:conformance`
-// tasks.test { dependsOn(conformance) }
+tasks.test { dependsOn(conformance) }
 
 application {
     mainClass.set("protokt.v1.buf.validate.conformance.Main")
