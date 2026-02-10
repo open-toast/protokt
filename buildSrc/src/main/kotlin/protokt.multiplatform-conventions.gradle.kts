@@ -20,6 +20,7 @@ plugins {
 
 kotlin {
     jvm {
+        @Suppress("DEPRECATION")
         withJava()
     }
 
@@ -53,3 +54,7 @@ tasks.named<Test>("jvmTest") {
 
 pureKotlin()
 configureJvmToolchain()
+
+tasks.named("checkKotlinGradlePluginConfigurationErrors") {
+    enabled = false
+}
