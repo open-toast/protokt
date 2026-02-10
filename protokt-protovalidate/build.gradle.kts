@@ -20,14 +20,6 @@ plugins {
 enablePublishing()
 trackKotlinApiCompatibility()
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    compilerOptions {
-        // PackageHacks.kt intentionally accesses package-private Java types;
-        // these produce warnings that will become errors in Kotlin 2.4 (KTLC-271)
-        allWarningsAsErrors = false
-    }
-}
-
 dependencies {
     implementation(project(":protokt-reflect"))
     implementation(kotlin("reflect"))

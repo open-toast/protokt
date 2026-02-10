@@ -15,7 +15,7 @@
 autoService = "1.1.1"
 cel = "0.11.0"
 grpc-java = "1.76.0"
-grpc-kotlin = "1.4.3"
+grpc-kotlin = "1.5.0"
 kotlinLogging = "7.0.13"
 kotlinPoet = "2.2.0"
 kotlinx-coroutines = "1.10.2"
@@ -24,8 +24,8 @@ ktlint = "1.7.1"
 protobuf-java = "4.30.1"
 protobuf-js = "7.4.0"
 protobufGradlePlugin = "0.9.6"
-protovalidate = "1.0.0"
-protovalidateJava = "1.0.0"
+protovalidate = "1.1.0"
+protovalidateJava = "1.1.0"
 slf4j = "2.0.17"
 
 # build
@@ -34,8 +34,8 @@ expediter = "0.1.0"
 binaryCompatibilityValidator = "0.18.1"
 buildConfig = "5.7.0"
 gradleMavenPublishPlugin = "0.34.0"
-java = "11"
-kotlin = "2.2.0"
+java = "17"
+kotlin = "2.2.21"
 pluginPublish = "2.0.0"
 spotless = "8.0.0"
 
@@ -50,11 +50,11 @@ buf = "1.47.2"
 classgraph = "4.8.184"
 grpc-js = "1.12.4"
 jackson = "2.20.0"
-junit = "5.13.4"
+junit = "6.0.2"
 truth = "1.4.5"
 
 # third party
-protoGoogleCommonProtos = "2.61.3"
+protoGoogleCommonProtos = "2.65.1"
 
 [plugins]
 buildConfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildConfig" }
