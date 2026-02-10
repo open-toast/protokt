@@ -35,7 +35,7 @@ internal fun configureProtobufPlugin(
     ext: ProtoktExtension,
     disableJava: Boolean,
     target: KotlinTarget,
-    binaryPath: String
+    binaryPath: Provider<String>
 ) {
     project.apply<ProtobufPlugin>()
 
@@ -47,9 +47,7 @@ internal fun configureProtobufPlugin(
         }
 
         plugins {
-            id(target.protocPluginName) {
-                path = normalizePath(binaryPath)
-            }
+            id(target.protocPluginName)
         }
 
         generateProtoTasks {
@@ -85,6 +83,14 @@ internal fun configureProtobufPlugin(
             }
 
             project.handleExtraInputFiles(mainExtractProtoAdditions, testExtractProtoAdditions)
+        }
+    }
+
+    project.afterEvaluate {
+        configure<ProtobufExtension> {
+            plugins {
+                getByName(target.protocPluginName).path = normalizePath(binaryPath.get())
+            }
         }
     }
 }

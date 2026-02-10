@@ -25,6 +25,7 @@ plugins {
 buildscript {
     repositories {
         mavenCentral()
+        google()
         maven(url = "$projectDir/../build/repos/integration")
         gradlePluginPortal()
     }
@@ -33,6 +34,7 @@ buildscript {
         classpath("com.toasttab.protokt.v1:protokt-gradle-plugin:$version")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${System.getProperty("kotlin-integration.version", libs.versions.kotlin.get())}")
         classpath("com.diffplug.spotless:spotless-plugin-gradle:${libs.versions.spotless.get()}")
+        classpath("com.android.tools.build:gradle:${libs.versions.androidGradlePlugin.get()}")
     }
 }
 
@@ -90,6 +92,7 @@ subprojects {
     repositories {
         maven(url = "${rootProject.projectDir}/../build/repos/integration")
         mavenCentral()
+        google()
     }
 
     tasks {
