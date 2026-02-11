@@ -62,7 +62,8 @@ allprojects {
                 "ktlint_standard_trailing-comma-on-call-site" to "disabled",
                 "ktlint_standard_trailing-comma-on-declaration-site" to "disabled",
                 "ktlint_function_signature_body_expression_wrapping" to "always",
-                "ij_kotlin_packages_to_use_import_on_demand" to null,
+                "ij_kotlin_packages_to_use_import_on_demand" to "",
+                "ktlint_standard_no-unused-imports" to "enabled",
             )
 
         kotlinGradle {

@@ -62,6 +62,5 @@ jobs:
     - name: Verify configuration cache compatibility
       env:
         FIREFOX_BIN: ${{steps.firefox-install.outputs.firefox-path}}
-      # spotless excluded: ktlint step is not yet roundtrip serializable (https://github.com/diffplug/spotless/pull/1945)
-      run: ./gradlew "-Dkotlin-integration.version=${{ matrix.kotlin }}" --configuration-cache build -x spotlessCheck --stacktrace --no-daemon
+      run: ./gradlew "-Dkotlin-integration.version=${{ matrix.kotlin }}" --configuration-cache build --stacktrace --no-daemon
       working-directory: gradle-plugin-integration-test
