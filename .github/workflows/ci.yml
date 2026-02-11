@@ -62,8 +62,6 @@ jobs:
     - name: Verify configuration cache compatibility
       env:
         FIREFOX_BIN: ${{steps.firefox-install.outputs.firefox-path}}
-      # max-problems=2: tolerates 2 known CC problems from net.vivin.gradle-semantic-build-versioning
-      # running external git processes at configuration time.
-      # spotless excluded: https://github.com/diffplug/spotless/issues/2347
-      run: ./gradlew "-Dkotlin-integration.version=${{ matrix.kotlin }}" --configuration-cache --configuration-cache-problems=warn "-Dorg.gradle.configuration-cache.max-problems=2" build -x spotlessCheck --stacktrace --no-daemon
+      # spotless excluded: ktlint step is not yet roundtrip serializable (https://github.com/diffplug/spotless/pull/1945)
+      run: ./gradlew "-Dkotlin-integration.version=${{ matrix.kotlin }}" --configuration-cache build -x spotlessCheck --stacktrace --no-daemon
       working-directory: gradle-plugin-integration-test

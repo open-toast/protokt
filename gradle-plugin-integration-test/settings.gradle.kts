@@ -13,20 +13,9 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        gradlePluginPortal()
-    }
-    dependencies {
-        classpath("gradle.plugin.net.vivin:gradle-semantic-build-versioning:4.0.0")
-    }
-}
-
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.4.0"
 }
-
-apply(plugin = "net.vivin.gradle-semantic-build-versioning")
 
 rootProject.name = "gradle-plugin-integration-test"
 
