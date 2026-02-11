@@ -27,8 +27,8 @@ import protokt.v1.gradle.KOTLIN_TARGET
 import protokt.v1.gradle.KotlinTarget
 import protokt.v1.gradle.ProtoktExtension
 import protokt.v1.gradle.ProtoktExtension.Generate
+import protokt.v1.gradle.decompressClasspath
 import protokt.v1.reflect.ClassLookup
-import java.net.URLDecoder
 import kotlin.reflect.full.declaredMemberProperties
 
 internal class PluginParams(
@@ -36,9 +36,9 @@ internal class PluginParams(
 ) {
     val classLookup =
         ClassLookup(
-            params.getOrDefault(KOTLIN_EXTRA_CLASSPATH, "")
+            decompressClasspath(params.getOrDefault(KOTLIN_EXTRA_CLASSPATH, ""))
                 .split(";")
-                .map { URLDecoder.decode(it, "UTF-8") }
+                .filter { it.isNotEmpty() }
         )
 
     val generateTypes = params.getOrDefault<Generate>(GENERATE_TYPES)

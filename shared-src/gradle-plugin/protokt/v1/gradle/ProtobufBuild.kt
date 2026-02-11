@@ -28,7 +28,6 @@ import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.named
 import org.gradle.kotlin.dsl.withType
-import java.net.URLEncoder
 
 internal fun configureProtobufPlugin(
     project: Project,
@@ -114,7 +113,7 @@ private class TaskInputFiles(
 )
 
 private fun extraClasspath(project: Project, extensions: ExtensionsConfigurations) =
-    project.objects.fileCollection().from(extensions.asList()).files.joinToString(";") { URLEncoder.encode(it.path, "UTF-8") }
+    compressClasspath(project.objects.fileCollection().from(extensions.asList()).files.joinToString(";") { it.path })
 
 private class ExtensionsConfigurations(
     val taskName: String,
