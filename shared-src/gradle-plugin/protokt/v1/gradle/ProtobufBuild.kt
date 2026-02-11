@@ -99,7 +99,12 @@ internal fun configureProtobufPlugin(
     project.afterEvaluate {
         configure<ProtobufExtension> {
             plugins {
-                getByName(target.protocPluginName).path = normalizePath(binaryPath.get())
+                val pluginLocator = getByName(target.protocPluginName)
+                project.tasks.withType<GenerateProtoTask>().configureEach {
+                    doFirst {
+                        pluginLocator.path = normalizePath(binaryPath.get())
+                    }
+                }
             }
         }
     }
