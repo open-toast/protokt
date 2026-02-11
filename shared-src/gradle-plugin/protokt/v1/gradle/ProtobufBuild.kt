@@ -81,8 +81,6 @@ internal fun configureProtobufPlugin(
                         option("$FORMAT_OUTPUT=${ext.formatOutput}")
                         option("$KOTLIN_TARGET=$target")
 
-                        // Defer configuration resolution to execution time to avoid
-                        // resolving protoktExtensions during configuration.
                         val pluginOptions = this
                         task.doFirst {
                             val classpath = extensionFiles.files.joinToString(";") { URLEncoder.encode(it.path, "UTF-8") }
