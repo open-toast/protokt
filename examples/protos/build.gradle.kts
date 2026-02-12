@@ -50,10 +50,6 @@ kotlin {
             }
         }
 
-        jvm {
-            withJava()
-        }
-
         js(IR) {
             nodejs {}
             useCommonJs()

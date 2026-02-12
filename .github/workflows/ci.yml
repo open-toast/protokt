@@ -52,15 +52,9 @@ jobs:
       with:
         name: integration-repository
         path: build/repos/integration
-    - uses: browser-actions/setup-firefox@v1
-      id: firefox-install
     - name: Build and test
-      env:
-        FIREFOX_BIN: ${{steps.firefox-install.outputs.firefox-path}}
       run: ./gradlew "-Dkotlin-integration.version=${{ matrix.kotlin }}" clean build --stacktrace --no-daemon
       working-directory: gradle-plugin-integration-test
     - name: Verify configuration cache compatibility
-      env:
-        FIREFOX_BIN: ${{steps.firefox-install.outputs.firefox-path}}
       run: ./gradlew "-Dkotlin-integration.version=${{ matrix.kotlin }}" --configuration-cache build --stacktrace --no-daemon
       working-directory: gradle-plugin-integration-test

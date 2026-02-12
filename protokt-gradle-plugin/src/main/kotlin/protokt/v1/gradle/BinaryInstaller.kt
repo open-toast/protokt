@@ -110,6 +110,6 @@ internal fun binaryFromArtifact(project: Project): Provider<String> {
     }
 }
 
-private fun <T> NamedDomainObjectContainer<T>.createIfNecessary(name: String, configure: T.() -> Unit) {
+private fun <T : Any> NamedDomainObjectContainer<T>.createIfNecessary(name: String, configure: T.() -> Unit) {
     (findByName(name) ?: create(name)).configure()
 }

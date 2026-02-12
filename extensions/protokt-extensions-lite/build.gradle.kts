@@ -58,7 +58,7 @@ kotlin {
 }
 
 sourceSets {
-    main {
+    named("main") {
         proto {
             srcDir("src/extensions-proto")
         }

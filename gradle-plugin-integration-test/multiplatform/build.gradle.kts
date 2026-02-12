@@ -22,15 +22,13 @@ plugins {
 }
 
 kotlin {
-    jvm {
-        withJava()
-    }
+    jvm {}
 
     js(IR) {
         browser {
             testTask {
                 useKarma {
-                    useFirefoxHeadless()
+                    useChromeHeadless()
                 }
             }
         }
