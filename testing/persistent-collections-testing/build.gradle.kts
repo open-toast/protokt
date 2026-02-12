@@ -13,7 +13,17 @@
  * limitations under the License.
  */
 
-package protokt.v1
+plugins {
+    id("protokt.jvm-conventions")
+}
 
-internal actual val usePersistentCollections: Boolean =
-    js("(typeof process !== 'undefined' && process.env && process.env.PROTOKT_COLLECTIONS_PERSISTENT === 'true')").unsafeCast<Boolean>()
+tasks.test {
+    systemProperty("protokt.collections.persistent", "true")
+}
+
+dependencies {
+    testImplementation(project(":testing:interop"))
+    testImplementation(project(":testing:protobuf-java"))
+    testImplementation(libs.kotlinx.collectionsImmutable)
+    testImplementation(libs.protobuf.java)
+}

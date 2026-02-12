@@ -29,14 +29,15 @@ import kotlin.io.path.readText
 
 class ConformanceTest {
     enum class ConformanceRunner(
-        val project: String
+        val project: String,
+        val expectPersistentCollections: Boolean = false
     ) {
         JVM("jvm") {
             override fun driver() =
                 jvmConformanceDriver
         },
 
-        JVM_PERSISTENT("jvm") {
+        JVM_PERSISTENT("jvm", true) {
             override fun driver() =
                 jvmConformanceDriver
 
@@ -47,13 +48,14 @@ class ConformanceTest {
         JS_IR("js-ir") {
             override fun driver() =
                 jsConformanceDriver(project)
+        },
 
-            override fun onFailure() {
-                val stderr = jsStderrLog(project).toFile()
-                if (stderr.exists() && stderr.readText().isNotEmpty()) {
-                    println("stderr:\n" + stderr.readText())
-                }
-            }
+        JS_IR_PERSISTENT("js-ir", true) {
+            override fun driver() =
+                jsConformanceDriver(project)
+
+            override fun env() =
+                mapOf("PROTOKT_COLLECTIONS_PERSISTENT" to "true")
         }, // https://github.com/pinterest/ktlint/issues/1933
         ;
 
@@ -61,9 +63,6 @@ class ConformanceTest {
 
         open fun env(): Map<String, String> =
             emptyMap()
-
-        open fun onFailure() =
-            Unit
     }
 
     @BeforeEach
@@ -78,6 +77,8 @@ class ConformanceTest {
             val output = command(runner).runCommand(projectRoot.toPath(), runner.env())
             println(output.stderr)
 
+            verifyCollectionType(output.stderr + jsStderrLog(runner.project), runner)
+
             assertThat(output.stderr).contains("CONFORMANCE SUITE PASSED")
             val matches = " (\\d+) unexpected failures".toRegex().findAll(output.stderr).toList()
             // the current implementation runs two conformance suites
@@ -88,7 +89,10 @@ class ConformanceTest {
             if (failingTests.exists()) {
                 println("Failing tests:\n" + failingTests.readText())
             }
-            runner.onFailure()
+            val jsStderr = jsStderrLog(runner.project)
+            if (jsStderr.isNotEmpty()) {
+                println("JS driver stderr:\n$jsStderr")
+            }
             throw t
         }
 
@@ -102,8 +106,10 @@ private val jvmConformanceDriver =
 private fun jsConformanceDriver(project: String) =
     Path.of(File(projectRoot.parentFile, project).absolutePath, "run.sh")
 
-private fun jsStderrLog(project: String) =
-    Path.of(File(projectRoot.parentFile, project).absolutePath, "build", "conformance-run")
+private fun jsStderrLog(project: String): String {
+    val log = Path.of(File(projectRoot.parentFile, project).absolutePath, "build", "conformance-run")
+    return if (log.exists()) log.readText() else ""
+}
 
 private val failingTests =
     Path.of(projectRoot.absolutePath, "failing_tests.txt")
@@ -113,3 +119,14 @@ private fun failureList(project: String) =
 
 private fun command(runner: ConformanceTest.ConformanceRunner) =
     "${System.getProperty("conformance-runner")} --maximum_edition 2023 --enforce_recommended ${failureList(runner.project)} ${runner.driver()}"
+
+private const val UNMODIFIABLE_COLLECTION_TYPE = "protokt.v1.UnmodifiableList"
+private const val PERSISTENT_COLLECTION_TYPE =
+    "kotlinx.collections.immutable.implementations.immutableList.SmallPersistentVector"
+
+private fun verifyCollectionType(stderr: String, runner: ConformanceTest.ConformanceRunner) {
+    val collectionType = "protoktPersistentCollectionType=(.+)".toRegex().find(stderr)?.groupValues?.get(1)?.trim()
+    val expected = if (runner.expectPersistentCollections) PERSISTENT_COLLECTION_TYPE else UNMODIFIABLE_COLLECTION_TYPE
+    val platformExpected = if (runner.project == "jvm") expected else expected.substringAfterLast(".")
+    assertThat(collectionType).isEqualTo(platformExpected)
+}

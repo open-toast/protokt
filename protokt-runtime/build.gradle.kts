@@ -36,6 +36,11 @@ kotlin {
         val jsMain by getting {
             dependencies {
                 api(npm("protobufjs", libs.versions.protobuf.js.get()))
+
+                // JS module imports fail at load time if referenced classes are missing,
+                // regardless of whether the code path is reached. Since Collections.kt and
+                // BuilderScope.kt reference PersistentList/PersistentMap, the library must
+                // always be bundled for JS even when persistent collections are not enabled.
                 implementation(libs.kotlinx.collectionsImmutable)
             }
         }
