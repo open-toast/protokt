@@ -36,7 +36,7 @@ fun String.embed() =
     "\"" + this + "\""
 
 fun String.bindSpaces() =
-    replace(" ", "·")
+    replace(" ", "\u00b7")
 
 fun constructorProperty(name: String, type: KClass<*>, override: Boolean) =
     PropertySpec.builder(name, type).apply {
@@ -66,24 +66,22 @@ private val _sizeOf: KFunction1<Int, Int> = SizeCodecs::sizeOf
 val sizeOf = SizeCodecs::class.asTypeName().member(_sizeOf.name)
 
 @Suppress("ktlint:standard:backing-property-naming")
-private val _copyMap: KFunction1<Map<Any, Any>, Map<Any, Any>> = Collections::copyMap
+private val _freezeMap: KFunction1<Map<Any, Any>, Map<Any, Any>> = Collections::freezeMap
 
-val copyMap = Collections::class.asTypeName().member(_copyMap.name)
-
-@Suppress("ktlint:standard:backing-property-naming")
-private val _copyList: KFunction1<List<Any>, List<Any>> = Collections::copyList
-
-val copyList = Collections::class.asTypeName().member(_copyList.name)
+val freezeMap = Collections::class.asTypeName().member(_freezeMap.name)
 
 @Suppress("ktlint:standard:backing-property-naming")
-private val _unmodifiableMap: KFunction1<Map<Any, Any>, Map<Any, Any>> = Collections::unmodifiableMap
+private val _freezeList: KFunction1<List<Any>, List<Any>> = Collections::freezeList
 
-val unmodifiableMap = Collections::class.asTypeName().member(_unmodifiableMap.name)
+val freezeList = Collections::class.asTypeName().member(_freezeList.name)
 
-@Suppress("ktlint:standard:backing-property-naming")
-private val _unmodifiableList: KFunction1<List<Any>, List<Any>> = Collections::unmodifiableList
+val listBuilderFactory = Collections::class.asTypeName().member("listBuilder")
 
-val unmodifiableList = Collections::class.asTypeName().member(_unmodifiableList.name)
+val mapBuilderFactory = Collections::class.asTypeName().member("mapBuilder")
+
+val listBuilderClassName = ClassName("protokt.v1", "ListBuilder")
+
+val mapBuilderClassName = ClassName("protokt.v1", "MapBuilder")
 
 fun CodeBlock.Builder.endControlFlowWithoutNewline() {
     unindent()

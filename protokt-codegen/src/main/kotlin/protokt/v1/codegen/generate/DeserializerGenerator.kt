@@ -15,7 +15,6 @@
 
 package protokt.v1.codegen.generate
 
-import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.LambdaTypeName
@@ -74,12 +73,12 @@ private class DeserializerGenerator(
                             addStatement("var %L", declareDeserializeVar(it))
                         }
                     }
-                    addStatement("var·unknownFields:·%T?·=·null\n", UnknownFieldSet.Builder::class)
+                    addStatement("var\u00b7unknownFields:\u00b7%T?\u00b7=\u00b7null\n", UnknownFieldSet.Builder::class)
                     beginControlFlow("while (true)")
                     beginControlFlow("when ($READER.readTag())")
                     val constructor =
                         buildCodeBlock {
-                            add("0u·->·return·%T(\n", msg.className)
+                            add("0u\u00b7->\u00b7return\u00b7%T(\n", msg.className)
                             withIndent {
                                 constructorLines(properties).forEach(::add)
                             }
@@ -137,16 +136,22 @@ private class DeserializerGenerator(
 
     private fun deserializeType(p: PropertyInfo) =
         if (p.repeated || p.isMap) {
-            p.deserializeType as ParameterizedTypeName
-            ClassName(p.deserializeType.rawType.packageName, "Mutable" + p.deserializeType.rawType.simpleName)
-                .parameterizedBy(p.deserializeType.typeArguments)
-                .copy(nullable = true)
+            val baseType = p.deserializeType as ParameterizedTypeName
+            if (p.isMap) {
+                mapBuilderClassName
+                    .parameterizedBy(baseType.typeArguments)
+                    .copy(nullable = true)
+            } else {
+                listBuilderClassName
+                    .parameterizedBy(baseType.typeArguments)
+                    .copy(nullable = true)
+            }
         } else {
             p.deserializeType
         }
 
     private fun constructorLines(properties: List<PropertyInfo>) =
-        properties.map { CodeBlock.of("%L,\n", wrapDeserializedValueForConstructor(it)) } +
+        properties.map { CodeBlock.of("%L,\n", wrapDeserializedBuilderValueForConstructor(it)) } +
             CodeBlock.of("%T.from(unknownFields)", UnknownFieldSet::class)
 
     private class DeserializerInfo(
@@ -217,7 +222,7 @@ internal fun deserialize(f: StandardField, ctx: Context, packed: Boolean = false
         f.isMap -> deserializeMap(f, read)
         f.repeated ->
             buildCodeBlock {
-                add("\n(%N ?: mutableListOf())", f.fieldName)
+                add("\n(%N ?: %M())", f.fieldName, listBuilderFactory)
                 beginControlFlow(".apply")
                 beginControlFlow("$READER.readRepeated($packed)")
                 add("add(%L)\n", wrappedRead)
@@ -230,7 +235,7 @@ internal fun deserialize(f: StandardField, ctx: Context, packed: Boolean = false
 
 private fun deserializeMap(f: StandardField, read: CodeBlock): CodeBlock =
     buildCodeBlock {
-        add("\n(%N ?: mutableMapOf())", f.fieldName)
+        add("\n(%N ?: %M())", f.fieldName, mapBuilderFactory)
         beginControlFlow(".apply")
         beginControlFlow("$READER.readRepeated(false)")
         add(read)

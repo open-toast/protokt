@@ -15,8 +15,8 @@
 
 package protokt.v1
 
-import protokt.v1.Collections.unmodifiableList
-import protokt.v1.Collections.unmodifiableMap
+import protokt.v1.Collections.freezeList
+import protokt.v1.Collections.freezeMap
 import protokt.v1.SizeCodecs.sizeOf
 
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
@@ -60,7 +60,7 @@ class UnknownFieldSet private constructor(
 
         @OptIn(OnlyForUseByGeneratedProtoCode::class)
         fun build() =
-            UnknownFieldSet(unmodifiableMap(map.mapValues { (_, v) -> v.build() }))
+            UnknownFieldSet(freezeMap(map.mapValues { (_, v) -> v.build() }))
     }
 
     // If unknown fields are keyed by tag instead of field number then the bit
@@ -159,10 +159,10 @@ class UnknownFieldSet private constructor(
             @OptIn(OnlyForUseByGeneratedProtoCode::class)
             fun build() =
                 Field(
-                    unmodifiableList(varint),
-                    unmodifiableList(fixed32),
-                    unmodifiableList(fixed64),
-                    unmodifiableList(lengthDelimited)
+                    varint?.let { freezeList(it) } ?: emptyList(),
+                    fixed32?.let { freezeList(it) } ?: emptyList(),
+                    fixed64?.let { freezeList(it) } ?: emptyList(),
+                    lengthDelimited?.let { freezeList(it) } ?: emptyList()
                 )
         }
     }

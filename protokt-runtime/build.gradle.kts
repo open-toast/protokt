@@ -21,6 +21,12 @@ compatibleWithAndroid()
 
 kotlin {
     sourceSets {
+        val commonMain by getting {
+            dependencies {
+                compileOnly(libs.kotlinx.collectionsImmutable)
+            }
+        }
+
         val jvmMain by getting {
             dependencies {
                 compileOnly(libs.protobuf.java)
@@ -30,6 +36,7 @@ kotlin {
         val jsMain by getting {
             dependencies {
                 api(npm("protobufjs", libs.versions.protobuf.js.get()))
+                implementation(libs.kotlinx.collectionsImmutable)
             }
         }
     }

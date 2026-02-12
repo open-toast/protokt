@@ -30,6 +30,10 @@ protokt {
     }
 }
 
+tasks.test {
+    systemProperty("protokt.collections.persistent", "true")
+}
+
 dependencies {
     protoktExtensions(project(":extensions:protokt-extensions"))
 
@@ -40,5 +44,6 @@ dependencies {
     testImplementation(kotlin("reflect"))
     testImplementation(libs.classgraph)
     testImplementation(libs.jackson)
+    testImplementation(libs.kotlinx.collectionsImmutable)
     testImplementation(libs.protobuf.java)
 }

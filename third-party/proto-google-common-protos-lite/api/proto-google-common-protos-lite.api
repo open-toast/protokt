@@ -13,7 +13,7 @@ public final class protokt/v1/google/api/Advice : protokt/v1/AbstractMessage {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/Advice$Builder {
+public final class protokt/v1/google/api/Advice$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Advice;
 	public final fun getDescription ()Ljava/lang/String;
@@ -48,7 +48,7 @@ public final class protokt/v1/google/api/AuthProvider : protokt/v1/AbstractMessa
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/AuthProvider$Builder {
+public final class protokt/v1/google/api/AuthProvider$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/AuthProvider;
 	public final fun getAudiences ()Ljava/lang/String;
@@ -89,7 +89,7 @@ public final class protokt/v1/google/api/AuthRequirement : protokt/v1/AbstractMe
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/AuthRequirement$Builder {
+public final class protokt/v1/google/api/AuthRequirement$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/AuthRequirement;
 	public final fun getAudiences ()Ljava/lang/String;
@@ -122,7 +122,7 @@ public final class protokt/v1/google/api/Authentication : protokt/v1/AbstractMes
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/Authentication$Builder {
+public final class protokt/v1/google/api/Authentication$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Authentication;
 	public final fun getProviders ()Ljava/util/List;
@@ -157,7 +157,7 @@ public final class protokt/v1/google/api/AuthenticationRule : protokt/v1/Abstrac
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/AuthenticationRule$Builder {
+public final class protokt/v1/google/api/AuthenticationRule$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/AuthenticationRule;
 	public final fun getAllowWithoutCredential ()Z
@@ -193,7 +193,7 @@ public final class protokt/v1/google/api/Backend : protokt/v1/AbstractMessage {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/Backend$Builder {
+public final class protokt/v1/google/api/Backend$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Backend;
 	public final fun getRules ()Ljava/util/List;
@@ -256,7 +256,7 @@ public final class protokt/v1/google/api/BackendRule$Authentication$JwtAudience 
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/BackendRule$Builder {
+public final class protokt/v1/google/api/BackendRule$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/BackendRule;
 	public final fun getAddress ()Ljava/lang/String;
@@ -346,7 +346,7 @@ public final class protokt/v1/google/api/Billing$BillingDestination : protokt/v1
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/Billing$BillingDestination$Builder {
+public final class protokt/v1/google/api/Billing$BillingDestination$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Billing$BillingDestination;
 	public final fun getMetrics ()Ljava/util/List;
@@ -363,7 +363,7 @@ public final class protokt/v1/google/api/Billing$BillingDestination$Deserializer
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Billing$BillingDestination;
 }
 
-public final class protokt/v1/google/api/Billing$Builder {
+public final class protokt/v1/google/api/Billing$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Billing;
 	public final fun getConsumerDestinations ()Ljava/util/List;
@@ -511,7 +511,7 @@ public final class protokt/v1/google/api/ClientLibrarySettings : protokt/v1/Abst
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/ClientLibrarySettings$Builder {
+public final class protokt/v1/google/api/ClientLibrarySettings$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/ClientLibrarySettings;
 	public final fun getCppSettings ()Lprotokt/v1/google/api/CppSettings;
@@ -563,7 +563,7 @@ public final class protokt/v1/google/api/CommonLanguageSettings : protokt/v1/Abs
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/CommonLanguageSettings$Builder {
+public final class protokt/v1/google/api/CommonLanguageSettings$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/CommonLanguageSettings;
 	public final fun getDestinations ()Ljava/util/List;
@@ -601,7 +601,7 @@ public final class protokt/v1/google/api/ConfigChange : protokt/v1/AbstractMessa
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/ConfigChange$Builder {
+public final class protokt/v1/google/api/ConfigChange$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/ConfigChange;
 	public final fun getAdvices ()Ljava/util/List;
@@ -639,7 +639,7 @@ public final class protokt/v1/google/api/Context : protokt/v1/AbstractMessage {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/Context$Builder {
+public final class protokt/v1/google/api/Context$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Context;
 	public final fun getRules ()Ljava/util/List;
@@ -673,7 +673,7 @@ public final class protokt/v1/google/api/ContextRule : protokt/v1/AbstractMessag
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/ContextRule$Builder {
+public final class protokt/v1/google/api/ContextRule$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/ContextRule;
 	public final fun getAllowedRequestExtensions ()Ljava/util/List;
@@ -712,7 +712,7 @@ public final class protokt/v1/google/api/Control : protokt/v1/AbstractMessage {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/Control$Builder {
+public final class protokt/v1/google/api/Control$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Control;
 	public final fun getEnvironment ()Ljava/lang/String;
@@ -744,7 +744,7 @@ public final class protokt/v1/google/api/CppSettings : protokt/v1/AbstractMessag
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/CppSettings$Builder {
+public final class protokt/v1/google/api/CppSettings$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/CppSettings;
 	public final fun getCommon ()Lprotokt/v1/google/api/CommonLanguageSettings;
@@ -775,7 +775,7 @@ public final class protokt/v1/google/api/CustomHttpPattern : protokt/v1/Abstract
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/CustomHttpPattern$Builder {
+public final class protokt/v1/google/api/CustomHttpPattern$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/CustomHttpPattern;
 	public final fun getKind ()Ljava/lang/String;
@@ -828,7 +828,7 @@ public final class protokt/v1/google/api/Distribution$BucketOptions : protokt/v1
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/Distribution$BucketOptions$Builder {
+public final class protokt/v1/google/api/Distribution$BucketOptions$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Distribution$BucketOptions;
 	public final fun getOptions ()Lprotokt/v1/google/api/Distribution$BucketOptions$Options;
@@ -858,7 +858,7 @@ public final class protokt/v1/google/api/Distribution$BucketOptions$Explicit : p
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/Distribution$BucketOptions$Explicit$Builder {
+public final class protokt/v1/google/api/Distribution$BucketOptions$Explicit$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Distribution$BucketOptions$Explicit;
 	public final fun getBounds ()Ljava/util/List;
@@ -890,7 +890,7 @@ public final class protokt/v1/google/api/Distribution$BucketOptions$Exponential 
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/Distribution$BucketOptions$Exponential$Builder {
+public final class protokt/v1/google/api/Distribution$BucketOptions$Exponential$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Distribution$BucketOptions$Exponential;
 	public final fun getGrowthFactor ()D
@@ -926,7 +926,7 @@ public final class protokt/v1/google/api/Distribution$BucketOptions$Linear : pro
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/Distribution$BucketOptions$Linear$Builder {
+public final class protokt/v1/google/api/Distribution$BucketOptions$Linear$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Distribution$BucketOptions$Linear;
 	public final fun getNumFiniteBuckets ()I
@@ -981,7 +981,7 @@ public final class protokt/v1/google/api/Distribution$BucketOptions$Options$Line
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/Distribution$Builder {
+public final class protokt/v1/google/api/Distribution$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Distribution;
 	public final fun getBucketCounts ()Ljava/util/List;
@@ -1025,7 +1025,7 @@ public final class protokt/v1/google/api/Distribution$Exemplar : protokt/v1/Abst
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/Distribution$Exemplar$Builder {
+public final class protokt/v1/google/api/Distribution$Exemplar$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Distribution$Exemplar;
 	public final fun getAttachments ()Ljava/util/List;
@@ -1060,7 +1060,7 @@ public final class protokt/v1/google/api/Distribution$Range : protokt/v1/Abstrac
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/Distribution$Range$Builder {
+public final class protokt/v1/google/api/Distribution$Range$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Distribution$Range;
 	public final fun getMax ()D
@@ -1097,7 +1097,7 @@ public final class protokt/v1/google/api/Documentation : protokt/v1/AbstractMess
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/Documentation$Builder {
+public final class protokt/v1/google/api/Documentation$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Documentation;
 	public final fun getDocumentationRootUrl ()Ljava/lang/String;
@@ -1139,7 +1139,7 @@ public final class protokt/v1/google/api/DocumentationRule : protokt/v1/Abstract
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/DocumentationRule$Builder {
+public final class protokt/v1/google/api/DocumentationRule$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/DocumentationRule;
 	public final fun getDeprecationDescription ()Ljava/lang/String;
@@ -1178,7 +1178,7 @@ public final class protokt/v1/google/api/DotnetSettings : protokt/v1/AbstractMes
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/DotnetSettings$Builder {
+public final class protokt/v1/google/api/DotnetSettings$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/DotnetSettings;
 	public final fun getCommon ()Lprotokt/v1/google/api/CommonLanguageSettings;
@@ -1221,7 +1221,7 @@ public final class protokt/v1/google/api/Endpoint : protokt/v1/AbstractMessage {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/Endpoint$Builder {
+public final class protokt/v1/google/api/Endpoint$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Endpoint;
 	public final fun getAliases ()Ljava/util/List;
@@ -1458,7 +1458,7 @@ public final class protokt/v1/google/api/FieldInfo : protokt/v1/AbstractMessage 
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/FieldInfo$Builder {
+public final class protokt/v1/google/api/FieldInfo$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/FieldInfo;
 	public final fun getFormat ()Lprotokt/v1/google/api/FieldInfo$Format;
@@ -1528,7 +1528,7 @@ public final class protokt/v1/google/api/FieldPolicy : protokt/v1/AbstractMessag
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/FieldPolicy$Builder {
+public final class protokt/v1/google/api/FieldPolicy$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/FieldPolicy;
 	public final fun getResourcePermission ()Ljava/lang/String;
@@ -1563,7 +1563,7 @@ public final class protokt/v1/google/api/GoSettings : protokt/v1/AbstractMessage
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/GoSettings$Builder {
+public final class protokt/v1/google/api/GoSettings$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/GoSettings;
 	public final fun getCommon ()Lprotokt/v1/google/api/CommonLanguageSettings;
@@ -1596,7 +1596,7 @@ public final class protokt/v1/google/api/Http : protokt/v1/AbstractMessage {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/Http$Builder {
+public final class protokt/v1/google/api/Http$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Http;
 	public final fun getFullyDecodeReservedExpansion ()Z
@@ -1630,7 +1630,7 @@ public final class protokt/v1/google/api/HttpBody : protokt/v1/AbstractMessage {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/HttpBody$Builder {
+public final class protokt/v1/google/api/HttpBody$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/HttpBody;
 	public final fun getContentType ()Ljava/lang/String;
@@ -1668,7 +1668,7 @@ public final class protokt/v1/google/api/HttpRule : protokt/v1/AbstractMessage {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/HttpRule$Builder {
+public final class protokt/v1/google/api/HttpRule$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/HttpRule;
 	public final fun getAdditionalBindings ()Ljava/util/List;
@@ -1777,7 +1777,7 @@ public final class protokt/v1/google/api/JavaSettings : protokt/v1/AbstractMessa
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/JavaSettings$Builder {
+public final class protokt/v1/google/api/JavaSettings$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/JavaSettings;
 	public final fun getCommon ()Lprotokt/v1/google/api/CommonLanguageSettings;
@@ -1812,7 +1812,7 @@ public final class protokt/v1/google/api/JwtLocation : protokt/v1/AbstractMessag
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/JwtLocation$Builder {
+public final class protokt/v1/google/api/JwtLocation$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/JwtLocation;
 	public final fun getIn ()Lprotokt/v1/google/api/JwtLocation$In;
@@ -1882,7 +1882,7 @@ public final class protokt/v1/google/api/LabelDescriptor : protokt/v1/AbstractMe
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/LabelDescriptor$Builder {
+public final class protokt/v1/google/api/LabelDescriptor$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/LabelDescriptor;
 	public final fun getDescription ()Ljava/lang/String;
@@ -1995,7 +1995,7 @@ public final class protokt/v1/google/api/LogDescriptor : protokt/v1/AbstractMess
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/LogDescriptor$Builder {
+public final class protokt/v1/google/api/LogDescriptor$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/LogDescriptor;
 	public final fun getDescription ()Ljava/lang/String;
@@ -2032,7 +2032,7 @@ public final class protokt/v1/google/api/Logging : protokt/v1/AbstractMessage {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/Logging$Builder {
+public final class protokt/v1/google/api/Logging$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Logging;
 	public final fun getConsumerDestinations ()Ljava/util/List;
@@ -2065,7 +2065,7 @@ public final class protokt/v1/google/api/Logging$LoggingDestination : protokt/v1
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/Logging$LoggingDestination$Builder {
+public final class protokt/v1/google/api/Logging$LoggingDestination$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Logging$LoggingDestination;
 	public final fun getLogs ()Ljava/util/List;
@@ -2098,7 +2098,7 @@ public final class protokt/v1/google/api/MethodPolicy : protokt/v1/AbstractMessa
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/MethodPolicy$Builder {
+public final class protokt/v1/google/api/MethodPolicy$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/MethodPolicy;
 	public final fun getRequestPolicies ()Ljava/util/List;
@@ -2132,7 +2132,7 @@ public final class protokt/v1/google/api/MethodSettings : protokt/v1/AbstractMes
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/MethodSettings$Builder {
+public final class protokt/v1/google/api/MethodSettings$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/MethodSettings;
 	public final fun getAutoPopulatedFields ()Ljava/util/List;
@@ -2169,7 +2169,7 @@ public final class protokt/v1/google/api/MethodSettings$LongRunning : protokt/v1
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/MethodSettings$LongRunning$Builder {
+public final class protokt/v1/google/api/MethodSettings$LongRunning$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/MethodSettings$LongRunning;
 	public final fun getInitialPollDelay ()Lprotokt/v1/google/protobuf/Duration;
@@ -2206,7 +2206,7 @@ public final class protokt/v1/google/api/Metric : protokt/v1/AbstractMessage {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/Metric$Builder {
+public final class protokt/v1/google/api/Metric$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Metric;
 	public final fun getLabels ()Ljava/util/Map;
@@ -2248,7 +2248,7 @@ public final class protokt/v1/google/api/MetricDescriptor : protokt/v1/AbstractM
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/MetricDescriptor$Builder {
+public final class protokt/v1/google/api/MetricDescriptor$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/MetricDescriptor;
 	public final fun getDescription ()Ljava/lang/String;
@@ -2301,7 +2301,7 @@ public final class protokt/v1/google/api/MetricDescriptor$MetricDescriptorMetada
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/MetricDescriptor$MetricDescriptorMetadata$Builder {
+public final class protokt/v1/google/api/MetricDescriptor$MetricDescriptorMetadata$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/MetricDescriptor$MetricDescriptorMetadata;
 	public final fun getIngestDelay ()Lprotokt/v1/google/protobuf/Duration;
@@ -2446,7 +2446,7 @@ public final class protokt/v1/google/api/MetricRule : protokt/v1/AbstractMessage
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/MetricRule$Builder {
+public final class protokt/v1/google/api/MetricRule$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/MetricRule;
 	public final fun getMetricCosts ()Ljava/util/Map;
@@ -2479,7 +2479,7 @@ public final class protokt/v1/google/api/MonitoredResource : protokt/v1/Abstract
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/MonitoredResource$Builder {
+public final class protokt/v1/google/api/MonitoredResource$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/MonitoredResource;
 	public final fun getLabels ()Ljava/util/Map;
@@ -2516,7 +2516,7 @@ public final class protokt/v1/google/api/MonitoredResourceDescriptor : protokt/v
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/MonitoredResourceDescriptor$Builder {
+public final class protokt/v1/google/api/MonitoredResourceDescriptor$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/MonitoredResourceDescriptor;
 	public final fun getDescription ()Ljava/lang/String;
@@ -2557,7 +2557,7 @@ public final class protokt/v1/google/api/MonitoredResourceMetadata : protokt/v1/
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/MonitoredResourceMetadata$Builder {
+public final class protokt/v1/google/api/MonitoredResourceMetadata$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/MonitoredResourceMetadata;
 	public final fun getSystemLabels ()Lprotokt/v1/google/protobuf/Struct;
@@ -2590,7 +2590,7 @@ public final class protokt/v1/google/api/Monitoring : protokt/v1/AbstractMessage
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/Monitoring$Builder {
+public final class protokt/v1/google/api/Monitoring$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Monitoring;
 	public final fun getConsumerDestinations ()Ljava/util/List;
@@ -2623,7 +2623,7 @@ public final class protokt/v1/google/api/Monitoring$MonitoringDestination : prot
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/Monitoring$MonitoringDestination$Builder {
+public final class protokt/v1/google/api/Monitoring$MonitoringDestination$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Monitoring$MonitoringDestination;
 	public final fun getMetrics ()Ljava/util/List;
@@ -2655,7 +2655,7 @@ public final class protokt/v1/google/api/NodeSettings : protokt/v1/AbstractMessa
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/NodeSettings$Builder {
+public final class protokt/v1/google/api/NodeSettings$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/NodeSettings;
 	public final fun getCommon ()Lprotokt/v1/google/api/CommonLanguageSettings;
@@ -2685,7 +2685,7 @@ public final class protokt/v1/google/api/OAuthRequirements : protokt/v1/Abstract
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/OAuthRequirements$Builder {
+public final class protokt/v1/google/api/OAuthRequirements$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/OAuthRequirements;
 	public final fun getCanonicalScopes ()Ljava/lang/String;
@@ -2717,7 +2717,7 @@ public final class protokt/v1/google/api/Page : protokt/v1/AbstractMessage {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/Page$Builder {
+public final class protokt/v1/google/api/Page$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Page;
 	public final fun getContent ()Ljava/lang/String;
@@ -2751,7 +2751,7 @@ public final class protokt/v1/google/api/PhpSettings : protokt/v1/AbstractMessag
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/PhpSettings$Builder {
+public final class protokt/v1/google/api/PhpSettings$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/PhpSettings;
 	public final fun getCommon ()Lprotokt/v1/google/api/CommonLanguageSettings;
@@ -2781,7 +2781,7 @@ public final class protokt/v1/google/api/ProjectProperties : protokt/v1/Abstract
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/ProjectProperties$Builder {
+public final class protokt/v1/google/api/ProjectProperties$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/ProjectProperties;
 	public final fun getProperties ()Ljava/util/List;
@@ -2813,7 +2813,7 @@ public final class protokt/v1/google/api/Property : protokt/v1/AbstractMessage {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/Property$Builder {
+public final class protokt/v1/google/api/Property$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Property;
 	public final fun getDescription ()Ljava/lang/String;
@@ -2893,7 +2893,7 @@ public final class protokt/v1/google/api/Publishing : protokt/v1/AbstractMessage
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/Publishing$Builder {
+public final class protokt/v1/google/api/Publishing$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Publishing;
 	public final fun getApiShortName ()Ljava/lang/String;
@@ -2944,7 +2944,7 @@ public final class protokt/v1/google/api/PythonSettings : protokt/v1/AbstractMes
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/PythonSettings$Builder {
+public final class protokt/v1/google/api/PythonSettings$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/PythonSettings;
 	public final fun getCommon ()Lprotokt/v1/google/api/CommonLanguageSettings;
@@ -2978,7 +2978,7 @@ public final class protokt/v1/google/api/PythonSettings$ExperimentalFeatures : p
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/PythonSettings$ExperimentalFeatures$Builder {
+public final class protokt/v1/google/api/PythonSettings$ExperimentalFeatures$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/PythonSettings$ExperimentalFeatures;
 	public final fun getProtobufPythonicTypesEnabled ()Z
@@ -3013,7 +3013,7 @@ public final class protokt/v1/google/api/Quota : protokt/v1/AbstractMessage {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/Quota$Builder {
+public final class protokt/v1/google/api/Quota$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Quota;
 	public final fun getLimits ()Ljava/util/List;
@@ -3054,7 +3054,7 @@ public final class protokt/v1/google/api/QuotaLimit : protokt/v1/AbstractMessage
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/QuotaLimit$Builder {
+public final class protokt/v1/google/api/QuotaLimit$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/QuotaLimit;
 	public final fun getDefaultLimit ()J
@@ -3108,7 +3108,7 @@ public final class protokt/v1/google/api/ResourceDescriptor : protokt/v1/Abstrac
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/ResourceDescriptor$Builder {
+public final class protokt/v1/google/api/ResourceDescriptor$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/ResourceDescriptor;
 	public final fun getHistory ()Lprotokt/v1/google/api/ResourceDescriptor$History;
@@ -3203,7 +3203,7 @@ public final class protokt/v1/google/api/ResourceReference : protokt/v1/Abstract
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/ResourceReference$Builder {
+public final class protokt/v1/google/api/ResourceReference$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/ResourceReference;
 	public final fun getChildType ()Ljava/lang/String;
@@ -3236,7 +3236,7 @@ public final class protokt/v1/google/api/RoutingParameter : protokt/v1/AbstractM
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/RoutingParameter$Builder {
+public final class protokt/v1/google/api/RoutingParameter$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/RoutingParameter;
 	public final fun getField ()Ljava/lang/String;
@@ -3268,7 +3268,7 @@ public final class protokt/v1/google/api/RoutingRule : protokt/v1/AbstractMessag
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/RoutingRule$Builder {
+public final class protokt/v1/google/api/RoutingRule$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/RoutingRule;
 	public final fun getRoutingParameters ()Ljava/util/List;
@@ -3298,7 +3298,7 @@ public final class protokt/v1/google/api/RubySettings : protokt/v1/AbstractMessa
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/RubySettings$Builder {
+public final class protokt/v1/google/api/RubySettings$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/RubySettings;
 	public final fun getCommon ()Lprotokt/v1/google/api/CommonLanguageSettings;
@@ -3329,7 +3329,7 @@ public final class protokt/v1/google/api/SelectiveGapicGeneration : protokt/v1/A
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/SelectiveGapicGeneration$Builder {
+public final class protokt/v1/google/api/SelectiveGapicGeneration$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/SelectiveGapicGeneration;
 	public final fun getGenerateOmittedAsInternal ()Z
@@ -3386,7 +3386,7 @@ public final class protokt/v1/google/api/Service : protokt/v1/AbstractMessage {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/Service$Builder {
+public final class protokt/v1/google/api/Service$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Service;
 	public final fun getApis ()Ljava/util/List;
@@ -3466,7 +3466,7 @@ public final class protokt/v1/google/api/SourceInfo : protokt/v1/AbstractMessage
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/SourceInfo$Builder {
+public final class protokt/v1/google/api/SourceInfo$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/SourceInfo;
 	public final fun getSourceFiles ()Ljava/util/List;
@@ -3498,7 +3498,7 @@ public final class protokt/v1/google/api/SystemParameter : protokt/v1/AbstractMe
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/SystemParameter$Builder {
+public final class protokt/v1/google/api/SystemParameter$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/SystemParameter;
 	public final fun getHttpHeader ()Ljava/lang/String;
@@ -3533,7 +3533,7 @@ public final class protokt/v1/google/api/SystemParameterRule : protokt/v1/Abstra
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/SystemParameterRule$Builder {
+public final class protokt/v1/google/api/SystemParameterRule$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/SystemParameterRule;
 	public final fun getParameters ()Ljava/util/List;
@@ -3565,7 +3565,7 @@ public final class protokt/v1/google/api/SystemParameters : protokt/v1/AbstractM
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/SystemParameters$Builder {
+public final class protokt/v1/google/api/SystemParameters$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/SystemParameters;
 	public final fun getRules ()Ljava/util/List;
@@ -3595,7 +3595,7 @@ public final class protokt/v1/google/api/TypeReference : protokt/v1/AbstractMess
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/TypeReference$Builder {
+public final class protokt/v1/google/api/TypeReference$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/TypeReference;
 	public final fun getTypeName ()Ljava/lang/String;
@@ -3627,7 +3627,7 @@ public final class protokt/v1/google/api/Usage : protokt/v1/AbstractMessage {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/Usage$Builder {
+public final class protokt/v1/google/api/Usage$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Usage;
 	public final fun getProducerNotificationChannel ()Ljava/lang/String;
@@ -3663,7 +3663,7 @@ public final class protokt/v1/google/api/UsageRule : protokt/v1/AbstractMessage 
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/UsageRule$Builder {
+public final class protokt/v1/google/api/UsageRule$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/UsageRule;
 	public final fun getAllowUnregisteredCalls ()Z
@@ -3697,7 +3697,7 @@ public final class protokt/v1/google/api/Visibility : protokt/v1/AbstractMessage
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/Visibility$Builder {
+public final class protokt/v1/google/api/Visibility$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Visibility;
 	public final fun getRules ()Ljava/util/List;
@@ -3728,7 +3728,7 @@ public final class protokt/v1/google/api/VisibilityRule : protokt/v1/AbstractMes
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/api/VisibilityRule$Builder {
+public final class protokt/v1/google/api/VisibilityRule$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/VisibilityRule;
 	public final fun getRestriction ()Ljava/lang/String;
@@ -3782,7 +3782,7 @@ public final class protokt/v1/google/apps/card/v1/Action$ActionParameter : proto
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/Action$ActionParameter$Builder {
+public final class protokt/v1/google/apps/card/v1/Action$ActionParameter$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Action$ActionParameter;
 	public final fun getKey ()Ljava/lang/String;
@@ -3799,7 +3799,7 @@ public final class protokt/v1/google/apps/card/v1/Action$ActionParameter$Deseria
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Action$ActionParameter;
 }
 
-public final class protokt/v1/google/apps/card/v1/Action$Builder {
+public final class protokt/v1/google/apps/card/v1/Action$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Action;
 	public final fun getAllWidgetsAreRequired ()Z
@@ -3919,7 +3919,7 @@ public final class protokt/v1/google/apps/card/v1/BorderStyle$BorderType$UNRECOG
 	public fun <init> (I)V
 }
 
-public final class protokt/v1/google/apps/card/v1/BorderStyle$Builder {
+public final class protokt/v1/google/apps/card/v1/BorderStyle$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/BorderStyle;
 	public final fun getCornerRadius ()I
@@ -3959,7 +3959,7 @@ public final class protokt/v1/google/apps/card/v1/Button : protokt/v1/AbstractMe
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/Button$Builder {
+public final class protokt/v1/google/apps/card/v1/Button$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Button;
 	public final fun getAltText ()Ljava/lang/String;
@@ -4037,7 +4037,7 @@ public final class protokt/v1/google/apps/card/v1/ButtonList : protokt/v1/Abstra
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/ButtonList$Builder {
+public final class protokt/v1/google/apps/card/v1/ButtonList$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/ButtonList;
 	public final fun getButtons ()Ljava/util/List;
@@ -4074,7 +4074,7 @@ public final class protokt/v1/google/apps/card/v1/Card : protokt/v1/AbstractMess
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/Card$Builder {
+public final class protokt/v1/google/apps/card/v1/Card$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Card;
 	public final fun getCardActions ()Ljava/util/List;
@@ -4113,7 +4113,7 @@ public final class protokt/v1/google/apps/card/v1/Card$CardAction : protokt/v1/A
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/Card$CardAction$Builder {
+public final class protokt/v1/google/apps/card/v1/Card$CardAction$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Card$CardAction;
 	public final fun getActionLabel ()Ljava/lang/String;
@@ -4146,7 +4146,7 @@ public final class protokt/v1/google/apps/card/v1/Card$CardFixedFooter : protokt
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/Card$CardFixedFooter$Builder {
+public final class protokt/v1/google/apps/card/v1/Card$CardFixedFooter$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Card$CardFixedFooter;
 	public final fun getPrimaryButton ()Lprotokt/v1/google/apps/card/v1/Button;
@@ -4182,7 +4182,7 @@ public final class protokt/v1/google/apps/card/v1/Card$CardHeader : protokt/v1/A
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/Card$CardHeader$Builder {
+public final class protokt/v1/google/apps/card/v1/Card$CardHeader$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Card$CardHeader;
 	public final fun getImageAltText ()Ljava/lang/String;
@@ -4282,7 +4282,7 @@ public final class protokt/v1/google/apps/card/v1/Card$NestedWidget : protokt/v1
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/Card$NestedWidget$Builder {
+public final class protokt/v1/google/apps/card/v1/Card$NestedWidget$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Card$NestedWidget;
 	public final fun getData ()Lprotokt/v1/google/apps/card/v1/Card$NestedWidget$Data;
@@ -4352,7 +4352,7 @@ public final class protokt/v1/google/apps/card/v1/Card$Section : protokt/v1/Abst
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/Card$Section$Builder {
+public final class protokt/v1/google/apps/card/v1/Card$Section$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Card$Section;
 	public final fun getCollapseControl ()Lprotokt/v1/google/apps/card/v1/CollapseControl;
@@ -4390,7 +4390,7 @@ public final class protokt/v1/google/apps/card/v1/Carousel : protokt/v1/Abstract
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/Carousel$Builder {
+public final class protokt/v1/google/apps/card/v1/Carousel$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Carousel;
 	public final fun getCarouselCards ()Ljava/util/List;
@@ -4415,7 +4415,7 @@ public final class protokt/v1/google/apps/card/v1/Carousel$CarouselCard : protok
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/Carousel$CarouselCard$Builder {
+public final class protokt/v1/google/apps/card/v1/Carousel$CarouselCard$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Carousel$CarouselCard;
 	public final fun getFooterWidgets ()Ljava/util/List;
@@ -4458,7 +4458,7 @@ public final class protokt/v1/google/apps/card/v1/Chip : protokt/v1/AbstractMess
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/Chip$Builder {
+public final class protokt/v1/google/apps/card/v1/Chip$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Chip;
 	public final fun getAltText ()Ljava/lang/String;
@@ -4499,7 +4499,7 @@ public final class protokt/v1/google/apps/card/v1/ChipList : protokt/v1/Abstract
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/ChipList$Builder {
+public final class protokt/v1/google/apps/card/v1/ChipList$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/ChipList;
 	public final fun getChips ()Ljava/util/List;
@@ -4561,7 +4561,7 @@ public final class protokt/v1/google/apps/card/v1/CollapseControl : protokt/v1/A
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/CollapseControl$Builder {
+public final class protokt/v1/google/apps/card/v1/CollapseControl$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/CollapseControl;
 	public final fun getCollapseButton ()Lprotokt/v1/google/apps/card/v1/Button;
@@ -4595,7 +4595,7 @@ public final class protokt/v1/google/apps/card/v1/Columns : protokt/v1/AbstractM
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/Columns$Builder {
+public final class protokt/v1/google/apps/card/v1/Columns$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Columns;
 	public final fun getColumnItems ()Ljava/util/List;
@@ -4622,7 +4622,7 @@ public final class protokt/v1/google/apps/card/v1/Columns$Column : protokt/v1/Ab
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/Columns$Column$Builder {
+public final class protokt/v1/google/apps/card/v1/Columns$Column$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Columns$Column;
 	public final fun getHorizontalAlignment ()Lprotokt/v1/google/apps/card/v1/Widget$HorizontalAlignment;
@@ -4718,7 +4718,7 @@ public final class protokt/v1/google/apps/card/v1/Columns$Column$Widgets : proto
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/Columns$Column$Widgets$Builder {
+public final class protokt/v1/google/apps/card/v1/Columns$Column$Widgets$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets;
 	public final fun getData ()Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data;
@@ -4850,7 +4850,7 @@ public final class protokt/v1/google/apps/card/v1/DateTimePicker : protokt/v1/Ab
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/DateTimePicker$Builder {
+public final class protokt/v1/google/apps/card/v1/DateTimePicker$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/DateTimePicker;
 	public final fun getLabel ()Ljava/lang/String;
@@ -4929,7 +4929,7 @@ public final class protokt/v1/google/apps/card/v1/DecoratedText : protokt/v1/Abs
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/DecoratedText$Builder {
+public final class protokt/v1/google/apps/card/v1/DecoratedText$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/DecoratedText;
 	public final fun getBottomLabel ()Ljava/lang/String;
@@ -5021,7 +5021,7 @@ public final class protokt/v1/google/apps/card/v1/DecoratedText$SwitchControl : 
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$Builder {
+public final class protokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl;
 	public final fun getControlType ()Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$ControlType;
@@ -5086,7 +5086,7 @@ public final class protokt/v1/google/apps/card/v1/Divider : protokt/v1/AbstractM
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/Divider$Builder {
+public final class protokt/v1/google/apps/card/v1/Divider$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Divider;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
@@ -5118,7 +5118,7 @@ public final class protokt/v1/google/apps/card/v1/Grid : protokt/v1/AbstractMess
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/Grid$Builder {
+public final class protokt/v1/google/apps/card/v1/Grid$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Grid;
 	public final fun getBorderStyle ()Lprotokt/v1/google/apps/card/v1/BorderStyle;
@@ -5160,7 +5160,7 @@ public final class protokt/v1/google/apps/card/v1/Grid$GridItem : protokt/v1/Abs
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/Grid$GridItem$Builder {
+public final class protokt/v1/google/apps/card/v1/Grid$GridItem$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Grid$GridItem;
 	public final fun getId ()Ljava/lang/String;
@@ -5228,7 +5228,7 @@ public final class protokt/v1/google/apps/card/v1/Icon : protokt/v1/AbstractMess
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/Icon$Builder {
+public final class protokt/v1/google/apps/card/v1/Icon$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Icon;
 	public final fun getAltText ()Ljava/lang/String;
@@ -5300,7 +5300,7 @@ public final class protokt/v1/google/apps/card/v1/Image : protokt/v1/AbstractMes
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/Image$Builder {
+public final class protokt/v1/google/apps/card/v1/Image$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Image;
 	public final fun getAltText ()Ljava/lang/String;
@@ -5337,7 +5337,7 @@ public final class protokt/v1/google/apps/card/v1/ImageComponent : protokt/v1/Ab
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/ImageComponent$Builder {
+public final class protokt/v1/google/apps/card/v1/ImageComponent$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/ImageComponent;
 	public final fun getAltText ()Ljava/lang/String;
@@ -5374,7 +5374,7 @@ public final class protokt/v1/google/apps/card/v1/ImageCropStyle : protokt/v1/Ab
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/ImageCropStyle$Builder {
+public final class protokt/v1/google/apps/card/v1/ImageCropStyle$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/ImageCropStyle;
 	public final fun getAspectRatio ()D
@@ -5445,7 +5445,7 @@ public final class protokt/v1/google/apps/card/v1/MaterialIcon : protokt/v1/Abst
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/MaterialIcon$Builder {
+public final class protokt/v1/google/apps/card/v1/MaterialIcon$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/MaterialIcon;
 	public final fun getFill ()Z
@@ -5481,7 +5481,7 @@ public final class protokt/v1/google/apps/card/v1/OnClick : protokt/v1/AbstractM
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/OnClick$Builder {
+public final class protokt/v1/google/apps/card/v1/OnClick$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/OnClick;
 	public final fun getData ()Lprotokt/v1/google/apps/card/v1/OnClick$Data;
@@ -5571,7 +5571,7 @@ public final class protokt/v1/google/apps/card/v1/OpenLink : protokt/v1/Abstract
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/OpenLink$Builder {
+public final class protokt/v1/google/apps/card/v1/OpenLink$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/OpenLink;
 	public final fun getOnClose ()Lprotokt/v1/google/apps/card/v1/OpenLink$OnClose;
@@ -5653,7 +5653,7 @@ public final class protokt/v1/google/apps/card/v1/OverflowMenu : protokt/v1/Abst
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/OverflowMenu$Builder {
+public final class protokt/v1/google/apps/card/v1/OverflowMenu$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/OverflowMenu;
 	public final fun getItems ()Ljava/util/List;
@@ -5686,7 +5686,7 @@ public final class protokt/v1/google/apps/card/v1/OverflowMenu$OverflowMenuItem 
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/OverflowMenu$OverflowMenuItem$Builder {
+public final class protokt/v1/google/apps/card/v1/OverflowMenu$OverflowMenuItem$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/OverflowMenu$OverflowMenuItem;
 	public final fun getDisabled ()Z
@@ -5729,7 +5729,7 @@ public final class protokt/v1/google/apps/card/v1/SelectionInput : protokt/v1/Ab
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/SelectionInput$Builder {
+public final class protokt/v1/google/apps/card/v1/SelectionInput$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/SelectionInput;
 	public final fun getItems ()Ljava/util/List;
@@ -5798,7 +5798,7 @@ public final class protokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSou
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$Builder {
+public final class protokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource;
 	public final fun getDataSource ()Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$DataSource;
@@ -5870,7 +5870,7 @@ public final class protokt/v1/google/apps/card/v1/SelectionInput$SelectionItem :
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/SelectionInput$SelectionItem$Builder {
+public final class protokt/v1/google/apps/card/v1/SelectionInput$SelectionItem$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/SelectionInput$SelectionItem;
 	public final fun getBottomText ()Ljava/lang/String;
@@ -5958,7 +5958,7 @@ public final class protokt/v1/google/apps/card/v1/Suggestions : protokt/v1/Abstr
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/Suggestions$Builder {
+public final class protokt/v1/google/apps/card/v1/Suggestions$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Suggestions;
 	public final fun getItems ()Ljava/util/List;
@@ -5988,7 +5988,7 @@ public final class protokt/v1/google/apps/card/v1/Suggestions$SuggestionItem : p
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/Suggestions$SuggestionItem$Builder {
+public final class protokt/v1/google/apps/card/v1/Suggestions$SuggestionItem$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Suggestions$SuggestionItem;
 	public final fun getContent ()Lprotokt/v1/google/apps/card/v1/Suggestions$SuggestionItem$Content;
@@ -6041,7 +6041,7 @@ public final class protokt/v1/google/apps/card/v1/TextInput : protokt/v1/Abstrac
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/TextInput$Builder {
+public final class protokt/v1/google/apps/card/v1/TextInput$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/TextInput;
 	public final fun getAutoCompleteAction ()Lprotokt/v1/google/apps/card/v1/Action;
@@ -6115,7 +6115,7 @@ public final class protokt/v1/google/apps/card/v1/TextParagraph : protokt/v1/Abs
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/TextParagraph$Builder {
+public final class protokt/v1/google/apps/card/v1/TextParagraph$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/TextParagraph;
 	public final fun getMaxLines ()I
@@ -6178,7 +6178,7 @@ public final class protokt/v1/google/apps/card/v1/Validation : protokt/v1/Abstra
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/Validation$Builder {
+public final class protokt/v1/google/apps/card/v1/Validation$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Validation;
 	public final fun getCharacterLimit ()I
@@ -6251,7 +6251,7 @@ public final class protokt/v1/google/apps/card/v1/Widget : protokt/v1/AbstractMe
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/apps/card/v1/Widget$Builder {
+public final class protokt/v1/google/apps/card/v1/Widget$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Widget;
 	public final fun getData ()Lprotokt/v1/google/apps/card/v1/Widget$Data;
@@ -6556,7 +6556,7 @@ public final class protokt/v1/google/cloud/audit/AuditLog : protokt/v1/AbstractM
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/cloud/audit/AuditLog$Builder {
+public final class protokt/v1/google/cloud/audit/AuditLog$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/cloud/audit/AuditLog;
 	public final fun getAuthenticationInfo ()Lprotokt/v1/google/cloud/audit/AuthenticationInfo;
@@ -6619,7 +6619,7 @@ public final class protokt/v1/google/cloud/audit/AuthenticationInfo : protokt/v1
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/cloud/audit/AuthenticationInfo$Builder {
+public final class protokt/v1/google/cloud/audit/AuthenticationInfo$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/cloud/audit/AuthenticationInfo;
 	public final fun getAuthoritySelector ()Ljava/lang/String;
@@ -6663,7 +6663,7 @@ public final class protokt/v1/google/cloud/audit/AuthorizationInfo : protokt/v1/
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/cloud/audit/AuthorizationInfo$Builder {
+public final class protokt/v1/google/cloud/audit/AuthorizationInfo$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/cloud/audit/AuthorizationInfo;
 	public final fun getGranted ()Z
@@ -6740,7 +6740,7 @@ public final class protokt/v1/google/cloud/audit/OrgPolicyViolationInfo : protok
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/cloud/audit/OrgPolicyViolationInfo$Builder {
+public final class protokt/v1/google/cloud/audit/OrgPolicyViolationInfo$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/cloud/audit/OrgPolicyViolationInfo;
 	public final fun getPayload ()Lprotokt/v1/google/protobuf/Struct;
@@ -6776,7 +6776,7 @@ public final class protokt/v1/google/cloud/audit/PolicyViolationInfo : protokt/v
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/cloud/audit/PolicyViolationInfo$Builder {
+public final class protokt/v1/google/cloud/audit/PolicyViolationInfo$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/cloud/audit/PolicyViolationInfo;
 	public final fun getOrgPolicyViolationInfo ()Lprotokt/v1/google/cloud/audit/OrgPolicyViolationInfo;
@@ -6810,7 +6810,7 @@ public final class protokt/v1/google/cloud/audit/RequestMetadata : protokt/v1/Ab
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/cloud/audit/RequestMetadata$Builder {
+public final class protokt/v1/google/cloud/audit/RequestMetadata$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/cloud/audit/RequestMetadata;
 	public final fun getCallerIp ()Ljava/lang/String;
@@ -6849,7 +6849,7 @@ public final class protokt/v1/google/cloud/audit/ResourceLocation : protokt/v1/A
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/cloud/audit/ResourceLocation$Builder {
+public final class protokt/v1/google/cloud/audit/ResourceLocation$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/cloud/audit/ResourceLocation;
 	public final fun getCurrentLocations ()Ljava/util/List;
@@ -6907,7 +6907,7 @@ public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$Au
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$Builder {
+public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo;
 	public final fun getAuthority ()Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$Authority;
@@ -6940,7 +6940,7 @@ public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$Fi
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$FirstPartyPrincipal$Builder {
+public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$FirstPartyPrincipal$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$FirstPartyPrincipal;
 	public final fun getPrincipalEmail ()Ljava/lang/String;
@@ -6972,7 +6972,7 @@ public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$Th
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$ThirdPartyPrincipal$Builder {
+public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$ThirdPartyPrincipal$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$ThirdPartyPrincipal;
 	public final fun getThirdPartyClaims ()Lprotokt/v1/google/protobuf/Struct;
@@ -7005,7 +7005,7 @@ public final class protokt/v1/google/cloud/audit/ViolationInfo : protokt/v1/Abst
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/cloud/audit/ViolationInfo$Builder {
+public final class protokt/v1/google/cloud/audit/ViolationInfo$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/cloud/audit/ViolationInfo;
 	public final fun getCheckedValue ()Ljava/lang/String;
@@ -7073,7 +7073,7 @@ public final class protokt/v1/google/cloud/location/GetLocationRequest : protokt
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/cloud/location/GetLocationRequest$Builder {
+public final class protokt/v1/google/cloud/location/GetLocationRequest$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/cloud/location/GetLocationRequest;
 	public final fun getName ()Ljava/lang/String;
@@ -7106,7 +7106,7 @@ public final class protokt/v1/google/cloud/location/ListLocationsRequest : proto
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/cloud/location/ListLocationsRequest$Builder {
+public final class protokt/v1/google/cloud/location/ListLocationsRequest$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/cloud/location/ListLocationsRequest;
 	public final fun getFilter ()Ljava/lang/String;
@@ -7143,7 +7143,7 @@ public final class protokt/v1/google/cloud/location/ListLocationsResponse : prot
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/cloud/location/ListLocationsResponse$Builder {
+public final class protokt/v1/google/cloud/location/ListLocationsResponse$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/cloud/location/ListLocationsResponse;
 	public final fun getLocations ()Ljava/util/List;
@@ -7179,7 +7179,7 @@ public final class protokt/v1/google/cloud/location/Location : protokt/v1/Abstra
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/cloud/location/Location$Builder {
+public final class protokt/v1/google/cloud/location/Location$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/cloud/location/Location;
 	public final fun getDisplayName ()Ljava/lang/String;
@@ -7218,7 +7218,7 @@ public final class protokt/v1/google/geo/type/Viewport : protokt/v1/AbstractMess
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/geo/type/Viewport$Builder {
+public final class protokt/v1/google/geo/type/Viewport$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/geo/type/Viewport;
 	public final fun getHigh ()Lprotokt/v1/google/type/LatLng;
@@ -7264,7 +7264,7 @@ public final class protokt/v1/google/logging/type/HttpRequest : protokt/v1/Abstr
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/logging/type/HttpRequest$Builder {
+public final class protokt/v1/google/logging/type/HttpRequest$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/logging/type/HttpRequest;
 	public final fun getCacheFillBytes ()J
@@ -7374,7 +7374,7 @@ public final class protokt/v1/google/longrunning/CancelOperationRequest : protok
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/longrunning/CancelOperationRequest$Builder {
+public final class protokt/v1/google/longrunning/CancelOperationRequest$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/longrunning/CancelOperationRequest;
 	public final fun getName ()Ljava/lang/String;
@@ -7404,7 +7404,7 @@ public final class protokt/v1/google/longrunning/DeleteOperationRequest : protok
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/longrunning/DeleteOperationRequest$Builder {
+public final class protokt/v1/google/longrunning/DeleteOperationRequest$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/longrunning/DeleteOperationRequest;
 	public final fun getName ()Ljava/lang/String;
@@ -7434,7 +7434,7 @@ public final class protokt/v1/google/longrunning/GetOperationRequest : protokt/v
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/longrunning/GetOperationRequest$Builder {
+public final class protokt/v1/google/longrunning/GetOperationRequest$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/longrunning/GetOperationRequest;
 	public final fun getName ()Ljava/lang/String;
@@ -7468,7 +7468,7 @@ public final class protokt/v1/google/longrunning/ListOperationsRequest : protokt
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/longrunning/ListOperationsRequest$Builder {
+public final class protokt/v1/google/longrunning/ListOperationsRequest$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/longrunning/ListOperationsRequest;
 	public final fun getFilter ()Ljava/lang/String;
@@ -7508,7 +7508,7 @@ public final class protokt/v1/google/longrunning/ListOperationsResponse : protok
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/longrunning/ListOperationsResponse$Builder {
+public final class protokt/v1/google/longrunning/ListOperationsResponse$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/longrunning/ListOperationsResponse;
 	public final fun getNextPageToken ()Ljava/lang/String;
@@ -7545,7 +7545,7 @@ public final class protokt/v1/google/longrunning/Operation : protokt/v1/Abstract
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/longrunning/Operation$Builder {
+public final class protokt/v1/google/longrunning/Operation$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/longrunning/Operation;
 	public final fun getDone ()Z
@@ -7607,7 +7607,7 @@ public final class protokt/v1/google/longrunning/OperationInfo : protokt/v1/Abst
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/longrunning/OperationInfo$Builder {
+public final class protokt/v1/google/longrunning/OperationInfo$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/longrunning/OperationInfo;
 	public final fun getMetadataType ()Ljava/lang/String;
@@ -7640,7 +7640,7 @@ public final class protokt/v1/google/longrunning/WaitOperationRequest : protokt/
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/longrunning/WaitOperationRequest$Builder {
+public final class protokt/v1/google/longrunning/WaitOperationRequest$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/longrunning/WaitOperationRequest;
 	public final fun getName ()Ljava/lang/String;
@@ -7672,7 +7672,7 @@ public final class protokt/v1/google/rpc/BadRequest : protokt/v1/AbstractMessage
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/rpc/BadRequest$Builder {
+public final class protokt/v1/google/rpc/BadRequest$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/BadRequest;
 	public final fun getFieldViolations ()Ljava/util/List;
@@ -7705,7 +7705,7 @@ public final class protokt/v1/google/rpc/BadRequest$FieldViolation : protokt/v1/
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/rpc/BadRequest$FieldViolation$Builder {
+public final class protokt/v1/google/rpc/BadRequest$FieldViolation$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/BadRequest$FieldViolation;
 	public final fun getDescription ()Ljava/lang/String;
@@ -7826,7 +7826,7 @@ public final class protokt/v1/google/rpc/DebugInfo : protokt/v1/AbstractMessage 
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/rpc/DebugInfo$Builder {
+public final class protokt/v1/google/rpc/DebugInfo$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/DebugInfo;
 	public final fun getDetail ()Ljava/lang/String;
@@ -7860,7 +7860,7 @@ public final class protokt/v1/google/rpc/ErrorInfo : protokt/v1/AbstractMessage 
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/rpc/ErrorInfo$Builder {
+public final class protokt/v1/google/rpc/ErrorInfo$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/ErrorInfo;
 	public final fun getDomain ()Ljava/lang/String;
@@ -7894,7 +7894,7 @@ public final class protokt/v1/google/rpc/Help : protokt/v1/AbstractMessage {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/rpc/Help$Builder {
+public final class protokt/v1/google/rpc/Help$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/Help;
 	public final fun getLinks ()Ljava/util/List;
@@ -7925,7 +7925,7 @@ public final class protokt/v1/google/rpc/Help$Link : protokt/v1/AbstractMessage 
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/rpc/Help$Link$Builder {
+public final class protokt/v1/google/rpc/Help$Link$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/Help$Link;
 	public final fun getDescription ()Ljava/lang/String;
@@ -7958,7 +7958,7 @@ public final class protokt/v1/google/rpc/LocalizedMessage : protokt/v1/AbstractM
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/rpc/LocalizedMessage$Builder {
+public final class protokt/v1/google/rpc/LocalizedMessage$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/LocalizedMessage;
 	public final fun getLocale ()Ljava/lang/String;
@@ -7990,7 +7990,7 @@ public final class protokt/v1/google/rpc/PreconditionFailure : protokt/v1/Abstra
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/rpc/PreconditionFailure$Builder {
+public final class protokt/v1/google/rpc/PreconditionFailure$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/PreconditionFailure;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
@@ -8022,7 +8022,7 @@ public final class protokt/v1/google/rpc/PreconditionFailure$Violation : protokt
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/rpc/PreconditionFailure$Violation$Builder {
+public final class protokt/v1/google/rpc/PreconditionFailure$Violation$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/PreconditionFailure$Violation;
 	public final fun getDescription ()Ljava/lang/String;
@@ -8056,7 +8056,7 @@ public final class protokt/v1/google/rpc/QuotaFailure : protokt/v1/AbstractMessa
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/rpc/QuotaFailure$Builder {
+public final class protokt/v1/google/rpc/QuotaFailure$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/QuotaFailure;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
@@ -8093,7 +8093,7 @@ public final class protokt/v1/google/rpc/QuotaFailure$Violation : protokt/v1/Abs
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/rpc/QuotaFailure$Violation$Builder {
+public final class protokt/v1/google/rpc/QuotaFailure$Violation$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/QuotaFailure$Violation;
 	public final fun getApiService ()Ljava/lang/String;
@@ -8138,7 +8138,7 @@ public final class protokt/v1/google/rpc/RequestInfo : protokt/v1/AbstractMessag
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/rpc/RequestInfo$Builder {
+public final class protokt/v1/google/rpc/RequestInfo$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/RequestInfo;
 	public final fun getRequestId ()Ljava/lang/String;
@@ -8173,7 +8173,7 @@ public final class protokt/v1/google/rpc/ResourceInfo : protokt/v1/AbstractMessa
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/rpc/ResourceInfo$Builder {
+public final class protokt/v1/google/rpc/ResourceInfo$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/ResourceInfo;
 	public final fun getDescription ()Ljava/lang/String;
@@ -8209,7 +8209,7 @@ public final class protokt/v1/google/rpc/RetryInfo : protokt/v1/AbstractMessage 
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/rpc/RetryInfo$Builder {
+public final class protokt/v1/google/rpc/RetryInfo$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/RetryInfo;
 	public final fun getRetryDelay ()Lprotokt/v1/google/protobuf/Duration;
@@ -8241,7 +8241,7 @@ public final class protokt/v1/google/rpc/Status : protokt/v1/AbstractMessage {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/rpc/Status$Builder {
+public final class protokt/v1/google/rpc/Status$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/Status;
 	public final fun getCode ()I
@@ -8300,7 +8300,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Api : protokt/
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/rpc/context/AttributeContext$Api$Builder {
+public final class protokt/v1/google/rpc/context/AttributeContext$Api$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/context/AttributeContext$Api;
 	public final fun getOperation ()Ljava/lang/String;
@@ -8340,7 +8340,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Auth : protokt
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/rpc/context/AttributeContext$Auth$Builder {
+public final class protokt/v1/google/rpc/context/AttributeContext$Auth$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/context/AttributeContext$Auth;
 	public final fun getAccessLevels ()Ljava/util/List;
@@ -8363,7 +8363,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Auth$Deseriali
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/context/AttributeContext$Auth;
 }
 
-public final class protokt/v1/google/rpc/context/AttributeContext$Builder {
+public final class protokt/v1/google/rpc/context/AttributeContext$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/context/AttributeContext;
 	public final fun getApi ()Lprotokt/v1/google/rpc/context/AttributeContext$Api;
@@ -8411,7 +8411,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Peer : protokt
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/rpc/context/AttributeContext$Peer$Builder {
+public final class protokt/v1/google/rpc/context/AttributeContext$Peer$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/context/AttributeContext$Peer;
 	public final fun getIp ()Ljava/lang/String;
@@ -8460,7 +8460,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Request : prot
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/rpc/context/AttributeContext$Request$Builder {
+public final class protokt/v1/google/rpc/context/AttributeContext$Request$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/context/AttributeContext$Request;
 	public final fun getAuth ()Lprotokt/v1/google/rpc/context/AttributeContext$Auth;
@@ -8523,7 +8523,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Resource : pro
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/rpc/context/AttributeContext$Resource$Builder {
+public final class protokt/v1/google/rpc/context/AttributeContext$Resource$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/context/AttributeContext$Resource;
 	public final fun getAnnotations ()Ljava/util/Map;
@@ -8579,7 +8579,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Response : pro
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/rpc/context/AttributeContext$Response$Builder {
+public final class protokt/v1/google/rpc/context/AttributeContext$Response$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/context/AttributeContext$Response;
 	public final fun getBackendLatency ()Lprotokt/v1/google/protobuf/Duration;
@@ -8621,7 +8621,7 @@ public final class protokt/v1/google/rpc/context/AuditContext : protokt/v1/Abstr
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/rpc/context/AuditContext$Builder {
+public final class protokt/v1/google/rpc/context/AuditContext$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/context/AuditContext;
 	public final fun getAuditLog ()Lprotokt/v1/Bytes;
@@ -8658,7 +8658,7 @@ public final class protokt/v1/google/shopping/type/Channel : protokt/v1/Abstract
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/shopping/type/Channel$Builder {
+public final class protokt/v1/google/shopping/type/Channel$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/shopping/type/Channel;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
@@ -8716,7 +8716,7 @@ public final class protokt/v1/google/shopping/type/CustomAttribute : protokt/v1/
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/shopping/type/CustomAttribute$Builder {
+public final class protokt/v1/google/shopping/type/CustomAttribute$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/shopping/type/CustomAttribute;
 	public final fun getGroupValues ()Ljava/util/List;
@@ -8749,7 +8749,7 @@ public final class protokt/v1/google/shopping/type/Destination : protokt/v1/Abst
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/shopping/type/Destination$Builder {
+public final class protokt/v1/google/shopping/type/Destination$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/shopping/type/Destination;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
@@ -8822,7 +8822,7 @@ public final class protokt/v1/google/shopping/type/Price : protokt/v1/AbstractMe
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/shopping/type/Price$Builder {
+public final class protokt/v1/google/shopping/type/Price$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/shopping/type/Price;
 	public final fun getAmountMicros ()Ljava/lang/Long;
@@ -8853,7 +8853,7 @@ public final class protokt/v1/google/shopping/type/ReportingContext : protokt/v1
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/shopping/type/ReportingContext$Builder {
+public final class protokt/v1/google/shopping/type/ReportingContext$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/shopping/type/ReportingContext;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
@@ -8958,7 +8958,7 @@ public final class protokt/v1/google/shopping/type/Weight : protokt/v1/AbstractM
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/shopping/type/Weight$Builder {
+public final class protokt/v1/google/shopping/type/Weight$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/shopping/type/Weight;
 	public final fun getAmountMicros ()Ljava/lang/Long;
@@ -9069,7 +9069,7 @@ public final class protokt/v1/google/type/Color : protokt/v1/AbstractMessage {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/type/Color$Builder {
+public final class protokt/v1/google/type/Color$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/type/Color;
 	public final fun getAlpha ()Ljava/lang/Float;
@@ -9107,7 +9107,7 @@ public final class protokt/v1/google/type/Date : protokt/v1/AbstractMessage {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/type/Date$Builder {
+public final class protokt/v1/google/type/Date$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/type/Date;
 	public final fun getDay ()I
@@ -9148,7 +9148,7 @@ public final class protokt/v1/google/type/DateTime : protokt/v1/AbstractMessage 
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/type/DateTime$Builder {
+public final class protokt/v1/google/type/DateTime$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/type/DateTime;
 	public final fun getDay ()I
@@ -9265,7 +9265,7 @@ public final class protokt/v1/google/type/Decimal : protokt/v1/AbstractMessage {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/type/Decimal$Builder {
+public final class protokt/v1/google/type/Decimal$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/type/Decimal;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
@@ -9298,7 +9298,7 @@ public final class protokt/v1/google/type/Expr : protokt/v1/AbstractMessage {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/type/Expr$Builder {
+public final class protokt/v1/google/type/Expr$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/type/Expr;
 	public final fun getDescription ()Ljava/lang/String;
@@ -9335,7 +9335,7 @@ public final class protokt/v1/google/type/Fraction : protokt/v1/AbstractMessage 
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/type/Fraction$Builder {
+public final class protokt/v1/google/type/Fraction$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/type/Fraction;
 	public final fun getDenominator ()J
@@ -9368,7 +9368,7 @@ public final class protokt/v1/google/type/Interval : protokt/v1/AbstractMessage 
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/type/Interval$Builder {
+public final class protokt/v1/google/type/Interval$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/type/Interval;
 	public final fun getEndTime ()Lprotokt/v1/google/protobuf/Timestamp;
@@ -9401,7 +9401,7 @@ public final class protokt/v1/google/type/LatLng : protokt/v1/AbstractMessage {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/type/LatLng$Builder {
+public final class protokt/v1/google/type/LatLng$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/type/LatLng;
 	public final fun getLatitude ()D
@@ -9434,7 +9434,7 @@ public final class protokt/v1/google/type/LocalizedText : protokt/v1/AbstractMes
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/type/LocalizedText$Builder {
+public final class protokt/v1/google/type/LocalizedText$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/type/LocalizedText;
 	public final fun getLanguageCode ()Ljava/lang/String;
@@ -9468,7 +9468,7 @@ public final class protokt/v1/google/type/Money : protokt/v1/AbstractMessage {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/type/Money$Builder {
+public final class protokt/v1/google/type/Money$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/type/Money;
 	public final fun getCurrencyCode ()Ljava/lang/String;
@@ -9571,7 +9571,7 @@ public final class protokt/v1/google/type/PhoneNumber : protokt/v1/AbstractMessa
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/type/PhoneNumber$Builder {
+public final class protokt/v1/google/type/PhoneNumber$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/type/PhoneNumber;
 	public final fun getExtension ()Ljava/lang/String;
@@ -9629,7 +9629,7 @@ public final class protokt/v1/google/type/PhoneNumber$ShortCode : protokt/v1/Abs
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/type/PhoneNumber$ShortCode$Builder {
+public final class protokt/v1/google/type/PhoneNumber$ShortCode$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/type/PhoneNumber$ShortCode;
 	public final fun getNumber ()Ljava/lang/String;
@@ -9671,7 +9671,7 @@ public final class protokt/v1/google/type/PostalAddress : protokt/v1/AbstractMes
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/type/PostalAddress$Builder {
+public final class protokt/v1/google/type/PostalAddress$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/type/PostalAddress;
 	public final fun getAddressLines ()Ljava/util/List;
@@ -9724,7 +9724,7 @@ public final class protokt/v1/google/type/Quaternion : protokt/v1/AbstractMessag
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/type/Quaternion$Builder {
+public final class protokt/v1/google/type/Quaternion$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/type/Quaternion;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
@@ -9763,7 +9763,7 @@ public final class protokt/v1/google/type/TimeOfDay : protokt/v1/AbstractMessage
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/type/TimeOfDay$Builder {
+public final class protokt/v1/google/type/TimeOfDay$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/type/TimeOfDay;
 	public final fun getHours ()I
@@ -9800,7 +9800,7 @@ public final class protokt/v1/google/type/TimeZone : protokt/v1/AbstractMessage 
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/google/type/TimeZone$Builder {
+public final class protokt/v1/google/type/TimeZone$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/type/TimeZone;
 	public final fun getId ()Ljava/lang/String;

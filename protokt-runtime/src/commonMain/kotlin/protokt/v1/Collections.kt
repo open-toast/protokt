@@ -13,43 +13,87 @@
  * limitations under the License.
  */
 
+@file:OptIn(OnlyForUseByGeneratedProtoCode::class)
+
 package protokt.v1
 
 import kotlin.jvm.JvmStatic
 
 @OnlyForUseByGeneratedProtoCode
+interface ListBuilder<T> {
+    fun add(element: T)
+    fun addAll(elements: Iterable<T>)
+    fun build(): List<T>
+}
+
+@OnlyForUseByGeneratedProtoCode
+interface MapBuilder<K, V> {
+    fun put(key: K, value: V)
+    fun putAll(from: Map<K, V>)
+    fun build(): Map<K, V>
+}
+
+@OnlyForUseByGeneratedProtoCode
 object Collections {
     @JvmStatic
-    fun <K, V> unmodifiableMap(map: Map<K, V>?): Map<K, V> =
+    fun <T> freezeList(list: List<T>): List<T> =
         when {
-            map.isNullOrEmpty() -> emptyMap()
-            map is UnmodifiableMap -> map
-            else -> UnmodifiableMap(map)
+            list.isEmpty() -> list
+            list is UnmodifiableList -> list
+            usePersistentCollections && PersistentCollections.isFrozenList(list) -> list
+            else -> UnmodifiableList(ArrayList(list))
         }
 
     @JvmStatic
-    fun <K, V> copyMap(map: Map<K, V>): Map<K, V> =
+    fun <K, V> freezeMap(map: Map<K, V>): Map<K, V> =
         when {
             map.isEmpty() -> emptyMap()
             map is UnmodifiableMap -> map
+            usePersistentCollections && PersistentCollections.isFrozenMap(map) -> map
             else -> UnmodifiableMap(LinkedHashMap(map))
         }
 
     @JvmStatic
-    fun <T> unmodifiableList(list: List<T>?): List<T> =
-        when {
-            list.isNullOrEmpty() -> emptyList()
-            list is UnmodifiableList -> list
-            else -> UnmodifiableList(list)
+    fun <T> listBuilder(): ListBuilder<T> =
+        if (usePersistentCollections) {
+            PersistentCollections.listBuilder()
+        } else {
+            MutableListBuilderImpl()
         }
 
     @JvmStatic
-    fun <T> copyList(list: List<T>): List<T> =
-        when {
-            list.isEmpty() -> list
-            list is UnmodifiableList -> list
-            else -> UnmodifiableList(ArrayList(list))
+    fun <K, V> mapBuilder(): MapBuilder<K, V> =
+        if (usePersistentCollections) {
+            PersistentCollections.mapBuilder()
+        } else {
+            MutableMapBuilderImpl()
         }
+}
+
+internal expect val usePersistentCollections: Boolean
+
+private class MutableListBuilderImpl<T> : ListBuilder<T> {
+    private val list = mutableListOf<T>()
+    override fun add(element: T) {
+        list.add(element)
+    }
+    override fun addAll(elements: Iterable<T>) {
+        list.addAll(elements)
+    }
+    override fun build(): List<T> =
+        UnmodifiableList(list)
+}
+
+private class MutableMapBuilderImpl<K, V> : MapBuilder<K, V> {
+    private val map = mutableMapOf<K, V>()
+    override fun put(key: K, value: V) {
+        map[key] = value
+    }
+    override fun putAll(from: Map<K, V>) {
+        map.putAll(from)
+    }
+    override fun build(): Map<K, V> =
+        UnmodifiableMap(map)
 }
 
 private class UnmodifiableIterator<E>(delegate: Iterator<E>) : Iterator<E> by delegate

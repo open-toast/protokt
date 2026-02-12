@@ -36,6 +36,14 @@ class ConformanceTest {
                 jvmConformanceDriver
         },
 
+        JVM_PERSISTENT("jvm") {
+            override fun driver() =
+                jvmConformanceDriver
+
+            override fun env() =
+                mapOf("JAVA_OPTS" to "-Dprotokt.collections.persistent=true")
+        },
+
         JS_IR("js-ir") {
             override fun driver() =
                 jsConformanceDriver(project)
@@ -51,6 +59,9 @@ class ConformanceTest {
 
         abstract fun driver(): Path
 
+        open fun env(): Map<String, String> =
+            emptyMap()
+
         open fun onFailure() =
             Unit
     }
@@ -64,7 +75,7 @@ class ConformanceTest {
     @EnumSource
     fun `run conformance tests`(runner: ConformanceRunner) {
         try {
-            val output = command(runner).runCommand(projectRoot.toPath())
+            val output = command(runner).runCommand(projectRoot.toPath(), runner.env())
             println(output.stderr)
 
             assertThat(output.stderr).contains("CONFORMANCE SUITE PASSED")
