@@ -41,13 +41,6 @@ kotlin {
     }
 }
 
-val javaMainSources = the<SourceSetContainer>().getByName("main").allJava
-tasks.named<JavaCompile>("compileJvmMainJava") {
-    enabled = true
-    setOnlyIf("Java compilation enabled for protokt-reflect") { true }
-    source(javaMainSources)
-}
-
 sourceSets {
     named("main") {
         proto {

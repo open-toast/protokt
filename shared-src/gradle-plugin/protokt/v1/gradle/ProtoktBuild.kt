@@ -30,10 +30,12 @@ import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.AbstractCopyTask
 import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.SourceSetContainer
+import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.internal.extensions.stdlib.capitalized
 import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.getByType
+import org.gradle.kotlin.dsl.named
 import org.gradle.kotlin.dsl.project
 import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
@@ -155,7 +157,8 @@ private fun Project.configureTarget(
     config: Config,
     binary: Provider<String>
 ) {
-    configureProtobufPlugin(project, config.extension, disableJava, KotlinTarget.fromMultiplatformTargetString(targetName), binary)
+    val target = KotlinTarget.fromMultiplatformTargetString(targetName)
+    configureProtobufPlugin(project, config.extension, disableJava, target, binary)
 
     val sourceSets = extensions.getByType(KotlinMultiplatformExtension::class.java).sourceSets
     val mainSourceSet = sourceSets.getByName("${targetName}Main")
@@ -163,6 +166,17 @@ private fun Project.configureTarget(
 
     configurations.getByName(mainSourceSet.apiConfigurationName).extendsFrom(config.extensions)
     configurations.getByName(testSourceSet.apiConfigurationName).extendsFrom(config.testExtensions)
+
+    // KMP disables Java compilation via onlyIf and doesn't wire Java source sets to compile tasks. Re-enable and connect them here.
+    if (!disableJava && target.treatTargetAsJvm) {
+        for (taskSuffix in listOf("Main", "Test")) {
+            val javaSources = the<SourceSetContainer>().getByName(taskSuffix.lowercase()).allJava
+            tasks.named<JavaCompile>("compile${targetName.capitalized()}${taskSuffix}Java") {
+                setOnlyIf("Java compilation enabled") { true }
+                source(javaSources)
+            }
+        }
+    }
 
     afterEvaluate {
         linkGenerateProtoToSourceCompileForKotlinMpp(mainSourceSet, testSourceSet)
