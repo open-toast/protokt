@@ -23,6 +23,12 @@ plugins {
 }
 
 buildscript {
+    val protoktVersion =
+        file("$projectDir/../build/repos/integration/com/toasttab/protokt/v1/protokt-gradle-plugin")
+            .listFiles { f -> f.isDirectory }!!
+            .single()
+            .name
+
     repositories {
         mavenCentral()
         google()
@@ -31,16 +37,22 @@ buildscript {
     }
 
     dependencies {
-        classpath("com.toasttab.protokt.v1:protokt-gradle-plugin:$version")
+        classpath("com.toasttab.protokt.v1:protokt-gradle-plugin:$protoktVersion")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${System.getProperty("kotlin-integration.version", libs.versions.kotlin.get())}")
         classpath("com.diffplug.spotless:spotless-plugin-gradle:${libs.versions.spotless.get()}")
         classpath("com.android.tools.build:gradle:${libs.versions.androidGradlePlugin.get()}")
     }
 }
 
+val protoktVersion =
+    file("$projectDir/../build/repos/integration/com/toasttab/protokt/v1/protokt-gradle-plugin")
+        .listFiles { f -> f.isDirectory }!!
+        .single()
+        .name
+
 allprojects {
     group = "com.toasttab.protokt.integration"
-    version = rootProject.version
+    version = protoktVersion
 
     apply(plugin = "com.diffplug.spotless")
 
@@ -50,7 +62,8 @@ allprojects {
                 "ktlint_standard_trailing-comma-on-call-site" to "disabled",
                 "ktlint_standard_trailing-comma-on-declaration-site" to "disabled",
                 "ktlint_function_signature_body_expression_wrapping" to "always",
-                "ij_kotlin_packages_to_use_import_on_demand" to null,
+                "ij_kotlin_packages_to_use_import_on_demand" to "",
+                "ktlint_standard_no-unused-imports" to "enabled",
             )
 
         kotlinGradle {
@@ -97,7 +110,7 @@ subprojects {
 
     tasks {
         withType<Test> {
-            environment("version", version.toString())
+            environment("version", protoktVersion)
         }
 
         withType<JavaCompile> {
