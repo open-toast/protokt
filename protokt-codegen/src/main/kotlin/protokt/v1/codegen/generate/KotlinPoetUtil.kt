@@ -36,7 +36,7 @@ fun String.embed() =
     "\"" + this + "\""
 
 fun String.bindSpaces() =
-    replace(" ", "\u00b7")
+    replace(" ", "·")
 
 fun constructorProperty(name: String, type: KClass<*>, override: Boolean) =
     PropertySpec.builder(name, type).apply {

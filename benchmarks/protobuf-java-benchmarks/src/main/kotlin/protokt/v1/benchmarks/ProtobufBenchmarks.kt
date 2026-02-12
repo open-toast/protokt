@@ -15,6 +15,7 @@
 
 package protokt.v1.benchmarks
 
+import com.google.protobuf.ByteString
 import com.google.protobuf.UnsafeByteOperations
 import com.google.protobuf.benchmarks.Benchmarks
 import com.toasttab.protokt.v1.benchmarks.GenericMessage
@@ -39,7 +40,7 @@ open class ProtobufBenchmarks {
     private lateinit var smallDataset: Benchmarks.BenchmarkDataset
     private lateinit var smallParsedDataset: List<GenericMessage.GenericMessage4>
 
-    private lateinit var byteValues: Array<com.google.protobuf.ByteString>
+    private lateinit var byteValues: Array<ByteString>
 
     @Setup
     fun setup() {

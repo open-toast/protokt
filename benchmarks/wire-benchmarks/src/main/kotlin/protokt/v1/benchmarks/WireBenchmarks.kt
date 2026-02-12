@@ -18,6 +18,7 @@ package protokt.v1.benchmarks
 import com.google.protobuf.benchmarks.BenchmarkDataset
 import com.toasttab.protokt.v1.benchmarks.GenericMessage1
 import com.toasttab.protokt.v1.benchmarks.GenericMessage4
+import okio.ByteString
 import okio.ByteString.Companion.toByteString
 import org.openjdk.jmh.annotations.Benchmark
 import org.openjdk.jmh.annotations.BenchmarkMode
@@ -40,7 +41,7 @@ open class WireBenchmarks {
     private lateinit var smallDataset: BenchmarkDataset
     private lateinit var smallParsedDataset: List<GenericMessage4>
 
-    private lateinit var byteValues: Array<okio.ByteString>
+    private lateinit var byteValues: Array<ByteString>
 
     @Setup
     fun setup() {

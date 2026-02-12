@@ -73,12 +73,12 @@ private class DeserializerGenerator(
                             addStatement("var %L", declareDeserializeVar(it))
                         }
                     }
-                    addStatement("var\u00b7unknownFields:\u00b7%T?\u00b7=\u00b7null\n", UnknownFieldSet.Builder::class)
+                    addStatement("var·unknownFields:·%T?·=·null\n", UnknownFieldSet.Builder::class)
                     beginControlFlow("while (true)")
                     beginControlFlow("when ($READER.readTag())")
                     val constructor =
                         buildCodeBlock {
-                            add("0u\u00b7->\u00b7return\u00b7%T(\n", msg.className)
+                            add("0u·->·return·%T(\n", msg.className)
                             withIndent {
                                 constructorLines(properties).forEach(::add)
                             }
