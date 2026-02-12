@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast, Inc.
+ * Copyright (c) 2024 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,16 +13,8 @@
  * limitations under the License.
  */
 
-plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
+package protokt.v1.testing.android
+
+object TestMessageFactory {
+    const val DEFAULT_FOO = "test-fixture-foo"
 }
-
-rootProject.name = "gradle-plugin-integration-test"
-
-listOf(
-    "jvm-regular",
-    "jvm-lite",
-    "multiplatform",
-    "wrapper-types",
-    "android-test-fixtures"
-).forEach { include(it) }

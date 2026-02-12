@@ -34,7 +34,7 @@ internal fun configureProtobufPlugin(
     ext: ProtoktExtension,
     disableJava: Boolean,
     target: KotlinTarget,
-    binaryPath: String
+    binaryPath: Provider<String>
 ) {
     project.apply<ProtobufPlugin>()
 
@@ -46,9 +46,7 @@ internal fun configureProtobufPlugin(
         }
 
         plugins {
-            id(target.protocPluginName) {
-                path = normalizePath(binaryPath)
-            }
+            id(target.protocPluginName)
         }
 
         generateProtoTasks {
@@ -70,9 +68,20 @@ internal fun configureProtobufPlugin(
                     mainExtractProtoAdditions.add(TaskInputFiles(extensions.taskName, extensions.main))
                 }
 
+                val extensionFiles = project.objects.fileCollection().from(extensions.asList())
+                task.inputs.files(extensionFiles).withPropertyName("protoktExtensionClasspath")
+
+                val classpathFile = project.layout.buildDirectory.file("protokt/classpath/${task.name}.txt")
+
+                task.doFirst {
+                    val file = classpathFile.get().asFile
+                    file.parentFile.mkdirs()
+                    file.writeText(extensionFiles.files.joinToString(";") { it.path })
+                }
+
                 task.plugins {
                     id(target.protocPluginName) {
-                        option("$KOTLIN_EXTRA_CLASSPATH=${extraClasspath(project, extensions)}")
+                        option("$KOTLIN_EXTRA_CLASSPATH_FILE=${classpathFile.get().asFile.absolutePath}")
                         option("$GENERATE_TYPES=${ext.generate.types}")
                         option("$GENERATE_DESCRIPTORS=${ext.generate.descriptors}")
                         option("$GENERATE_GRPC_DESCRIPTORS=${ext.generate.grpcDescriptors}")
@@ -84,6 +93,19 @@ internal fun configureProtobufPlugin(
             }
 
             project.handleExtraInputFiles(mainExtractProtoAdditions, testExtractProtoAdditions)
+        }
+    }
+
+    project.afterEvaluate {
+        configure<ProtobufExtension> {
+            plugins {
+                val pluginLocator = getByName(target.protocPluginName)
+                project.tasks.withType<GenerateProtoTask>().configureEach {
+                    doFirst {
+                        pluginLocator.path = normalizePath(binaryPath.get())
+                    }
+                }
+            }
         }
     }
 }
@@ -111,9 +133,6 @@ private class TaskInputFiles(
     val taskName: String,
     val inputFiles: Any
 )
-
-private fun extraClasspath(project: Project, extensions: ExtensionsConfigurations) =
-    compressClasspath(project.objects.fileCollection().from(extensions.asList()).files.joinToString(";") { it.path })
 
 private class ExtensionsConfigurations(
     val taskName: String,

@@ -15,32 +15,13 @@
 
 package protokt.v1.gradle
 
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
-import java.util.Base64
-import java.util.zip.GZIPInputStream
-import java.util.zip.GZIPOutputStream
-
-internal const val KOTLIN_EXTRA_CLASSPATH = "kotlin_extra_classpath"
+internal const val KOTLIN_EXTRA_CLASSPATH_FILE = "kotlin_extra_classpath_file"
 internal const val GENERATE_TYPES = "generate_types"
 internal const val GENERATE_DESCRIPTORS = "generate_descriptors"
 internal const val GENERATE_GRPC_DESCRIPTORS = "generate_grpc_descriptors"
 internal const val GENERATE_GRPC_KOTLIN_STUBS = "generate_grpc_kotlin_stubs"
 internal const val FORMAT_OUTPUT = "format_output"
 internal const val KOTLIN_TARGET = "kotlin_target"
-
-internal fun compressClasspath(classpath: String): String {
-    if (classpath.isEmpty()) return ""
-    val baos = ByteArrayOutputStream()
-    GZIPOutputStream(baos).use { it.write(classpath.toByteArray()) }
-    return Base64.getUrlEncoder().withoutPadding().encodeToString(baos.toByteArray())
-}
-
-internal fun decompressClasspath(compressed: String): String {
-    if (compressed.isEmpty()) return ""
-    val bytes = Base64.getUrlDecoder().decode(compressed)
-    return GZIPInputStream(ByteArrayInputStream(bytes)).bufferedReader().readText()
-}
 
 private val namesByKotlinTarget =
     mapOf(
