@@ -50,11 +50,7 @@ fun KotlinJsTargetDsl.configureJsTests() {
     browser {
         testTask {
             useKarma {
-                useFirefoxHeadless()
-
-                if (System.getProperty("os.name").lowercase().contains("mac")) {
-                    environment["FIREFOX_BIN"] = "/Applications/Firefox.app/Contents/MacOS/firefox"
-                }
+                useChromeHeadless()
             }
         }
     }
