@@ -34,11 +34,7 @@ import kotlin.reflect.full.declaredMemberProperties
 internal class PluginParams(
     params: Map<String, String>
 ) {
-    val classLookup =
-        ClassLookup(
-            resolveExtraClasspath(params)
-        )
-
+    val classLookup = ClassLookup(resolveExtraClasspath(params))
     val generateTypes = params.getOrDefault<Generate>(GENERATE_TYPES)
     val generateDescriptors = params.getOrDefault<Generate>(GENERATE_DESCRIPTORS)
     val generateGrpcDescriptors = params.getOrDefault<Generate>(GENERATE_GRPC_DESCRIPTORS)
