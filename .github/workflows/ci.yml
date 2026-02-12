@@ -33,8 +33,8 @@ jobs:
     strategy:
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
-        kotlin: [ 2.0.21, 2.1.21, 2.2.21 ]
-        jdk: [ 17, 21 ]
+        kotlin: [ 2.0.21, 2.1.21, 2.2.21, 2.3.10 ]
+        jdk: [ 17, 21, 25 ]
 
     runs-on: ${{ matrix.os }}
 
@@ -53,8 +53,8 @@ jobs:
         name: integration-repository
         path: build/repos/integration
     - name: Build and test
-      run: ./gradlew "-Dkotlin-integration.version=${{ matrix.kotlin }}" clean build --stacktrace --no-daemon
+      run: ./gradlew "-Dkotlin-integration.version=${{ matrix.kotlin }}" "-Djava-integration.version=${{ matrix.jdk }}" clean build --stacktrace --no-daemon
       working-directory: gradle-plugin-integration-test
     - name: Verify configuration cache compatibility
-      run: ./gradlew "-Dkotlin-integration.version=${{ matrix.kotlin }}" --configuration-cache build --stacktrace --no-daemon
+      run: ./gradlew "-Dkotlin-integration.version=${{ matrix.kotlin }}" "-Djava-integration.version=${{ matrix.jdk }}" --configuration-cache build --stacktrace --no-daemon
       working-directory: gradle-plugin-integration-test

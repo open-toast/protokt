@@ -28,15 +28,14 @@ dependencies {
     kapt(libs.autoService)
 }
 
-// pin to the runtime version of protokt
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(libs.versions.java.get().toInt()))
+        languageVersion.set(JavaLanguageVersion.of(System.getProperty("java-integration.version", libs.versions.java.get()).toInt()))
     }
 }
 
 kotlin {
-    jvmToolchain(libs.versions.java.get().toInt())
+    jvmToolchain(System.getProperty("java-integration.version", libs.versions.java.get()).toInt())
 
     compilerOptions {
         // suppress a kapt warning for K2 and Kotlin 2.x
