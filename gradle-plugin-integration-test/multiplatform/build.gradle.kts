@@ -88,6 +88,12 @@ tasks.named("checkKotlinGradlePluginConfigurationErrors") {
     enabled = false
 }
 
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    compilerOptions {
+        allWarningsAsErrors = false
+    }
+}
+
 dependencies {
     protoktExtensions("com.toasttab.protokt.v1:protokt-extensions:$version")
 }
