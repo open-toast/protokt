@@ -56,7 +56,7 @@ class ConformanceTest {
 
             override fun env() =
                 mapOf("PROTOKT_COLLECTIONS_PERSISTENT" to "true")
-        }, // https://github.com/pinterest/ktlint/issues/1933
+        },
         ;
 
         abstract fun driver(): Path
@@ -121,8 +121,7 @@ private fun command(runner: ConformanceTest.ConformanceRunner) =
     "${System.getProperty("conformance-runner")} --maximum_edition 2023 --enforce_recommended ${failureList(runner.project)} ${runner.driver()}"
 
 private const val UNMODIFIABLE_COLLECTION_TYPE = "protokt.v1.UnmodifiableList"
-private const val PERSISTENT_COLLECTION_TYPE =
-    "kotlinx.collections.immutable.implementations.immutableList.SmallPersistentVector"
+private const val PERSISTENT_COLLECTION_TYPE = "kotlinx.collections.immutable.implementations.immutableList.SmallPersistentVector"
 
 private fun verifyCollectionType(stderr: String, runner: ConformanceTest.ConformanceRunner) {
     val collectionType = "protoktPersistentCollectionType=(.+)".toRegex().find(stderr)?.groupValues?.get(1)?.trim()
