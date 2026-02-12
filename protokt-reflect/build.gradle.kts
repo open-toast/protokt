@@ -42,7 +42,7 @@ kotlin {
 tasks.withType<JavaCompile> { enabled = true }
 
 sourceSets {
-    main {
+    named("commonMain") {
         java {
             srcDir(rootProject.file("shared-src/reflect"))
         }

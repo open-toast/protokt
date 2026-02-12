@@ -22,10 +22,7 @@ plugins {
 }
 
 kotlin {
-    jvm {
-        @Suppress("DEPRECATION")
-        withJava()
-    }
+    jvm {}
 
     js(IR) {
         browser {
@@ -84,9 +81,6 @@ tasks.named<Test>("jvmTest") {
     useJUnitPlatform()
 }
 
-tasks.named("checkKotlinGradlePluginConfigurationErrors") {
-    enabled = false
-}
 
 dependencies {
     protoktExtensions("com.toasttab.protokt.v1:protokt-extensions:$version")

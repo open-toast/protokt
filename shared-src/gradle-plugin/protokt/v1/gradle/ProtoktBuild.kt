@@ -128,6 +128,10 @@ private fun Project.configureForMpp(
     config: Config,
     binary: Provider<String>
 ) {
+    pluginManager.apply("java-base")
+    the<SourceSetContainer>().create("commonMain")
+    the<SourceSetContainer>().create("commonTest")
+
     configureTarget("common", disableJava, config, binary)
 
     // todo: figure out how to run this after the user specifies their targets without using afterEvaluate
@@ -151,6 +155,11 @@ private fun Project.configureTarget(
     config: Config,
     binary: Provider<String>
 ) {
+    if (targetName != "common") {
+        the<SourceSetContainer>().create("${targetName}Main")
+        the<SourceSetContainer>().create("${targetName}Test")
+    }
+
     configureProtobufPlugin(project, config.extension, disableJava, KotlinTarget.fromMultiplatformTargetString(targetName), binary)
 
     val sourceSets = extensions.getByType(KotlinMultiplatformExtension::class.java).sourceSets
@@ -184,20 +193,10 @@ private fun AbstractCopyTask.excludeDuplicates() {
 }
 
 private fun Project.linkGenerateProtoTasksAndIncludeGeneratedSource(sourceSet: KotlinSourceSet, test: Boolean) {
-    val protoSourceSetRoot = if (test) "test" else "main"
-
     val extension = project.extensions.getByType<ProtobufExtension>()
 
     val generateProtoTask =
-        if (sourceSet.name.startsWith("common")) {
-            if (test) {
-                extension.generateProtoTasks.all().singleOrNull { it.name == "generateTestProto" }
-            } else {
-                extension.generateProtoTasks.all().singleOrNull { it.name == "generateProto" }
-            }
-        } else {
-            extension.generateProtoTasks.all().singleOrNull { it.name == "generate${sourceSet.name.capitalized()}Proto" }
-        }
+        extension.generateProtoTasks.all().singleOrNull { it.name == "generate${sourceSet.name.capitalized()}Proto" }
 
     generateProtoTask?.let { genProtoTask ->
         // todo: investigate how non-jvmMain and non-jvmTest sources got added to the set in the first place
@@ -212,7 +211,7 @@ private fun Project.linkGenerateProtoTasksAndIncludeGeneratedSource(sourceSet: K
 
         sourceSet.kotlin.srcDir(genProtoTask.buildSourceDirectorySet())
         the<SourceSetContainer>()
-            .getByName(protoSourceSetRoot)
+            .getByName(sourceSet.name)
             .proto { sourceSet.resources.source(this) }
 
         // todo: it would be better to avoid this by making the outputs of genProtoTask an input of the correct compile task
