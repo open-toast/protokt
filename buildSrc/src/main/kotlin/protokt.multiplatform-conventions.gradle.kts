@@ -16,7 +16,11 @@
 plugins {
     `kotlin-multiplatform`
     id("protokt.common-conventions")
+    `java-base`
 }
+
+the<SourceSetContainer>().create("main")
+the<SourceSetContainer>().create("test")
 
 kotlin {
     jvm {}
@@ -51,4 +55,3 @@ tasks.named<Test>("jvmTest") {
 
 pureKotlin()
 configureJvmToolchain()
-

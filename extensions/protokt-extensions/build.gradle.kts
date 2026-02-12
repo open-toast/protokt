@@ -58,9 +58,9 @@ kotlin {
 }
 
 sourceSets {
-    named("commonMain") {
+    named("main") {
         proto {
-            srcDir("../protokt-extensions-lite/src/commonMain/proto")
+            srcDir("../protokt-extensions-lite/src/main/proto")
             srcDir("../protokt-extensions-lite/src/extensions-proto")
         }
     }

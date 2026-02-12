@@ -25,6 +25,8 @@ localProtokt(false)
 kotlin {
     sourceSets {
         val jvmMain by getting {
+            kotlin.srcDir(rootProject.file("shared-src/reflect"))
+
             dependencies {
                 api(project(":protokt-core"))
                 api(libs.protobuf.java)
@@ -39,13 +41,15 @@ kotlin {
     }
 }
 
-tasks.withType<JavaCompile> { enabled = true }
+val javaMainSources = the<SourceSetContainer>().getByName("main").allJava
+tasks.named<JavaCompile>("compileJvmMainJava") {
+    enabled = true
+    setOnlyIf("Java compilation enabled for protokt-reflect") { true }
+    source(javaMainSources)
+}
 
 sourceSets {
-    named("commonMain") {
-        java {
-            srcDir(rootProject.file("shared-src/reflect"))
-        }
+    named("main") {
         proto {
             srcDir("../extensions/protokt-extensions-lite/src/extensions-proto")
         }

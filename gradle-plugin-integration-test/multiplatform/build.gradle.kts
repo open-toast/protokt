@@ -81,7 +81,6 @@ tasks.named<Test>("jvmTest") {
     useJUnitPlatform()
 }
 
-
 dependencies {
     protoktExtensions("com.toasttab.protokt.v1:protokt-extensions:$version")
 }
