@@ -264,7 +264,11 @@ private class MessageGenerator(
                     } else {
                         buildCodeBlock {
                             add("return \"%L(\" +\n", msg.className.simpleName)
-                            toStringLines(properties).forEach(::add)
+                            if (properties.size < 100) {
+                                toStringLines(properties).forEach(::add)
+                            } else {
+                                add(toStringLine(properties))
+                            }
                             add(unknownFieldsToString(prefix = ", "))
                         }
                     }
@@ -283,6 +287,12 @@ private class MessageGenerator(
                 prop.name
             )
         }
+
+    private fun toStringLine(properties: List<PropertyInfo>): CodeBlock {
+        val string = "\"" + properties.joinToString(", ") { "%N=\$%N" } + "\" +\n"
+        val names = properties.flatMap { listOf(it, it) }
+        return CodeBlock.of(string.bindSpaces(), *names.map { it.name }.toTypedArray())
+    }
 }
 
 fun formatDoc(lines: List<String>) =
