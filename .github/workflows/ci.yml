@@ -35,6 +35,13 @@ jobs:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
         kotlin: [ 2.0.21, 2.1.21, 2.2.21, 2.3.10 ]
         jdk: [ 17, 21, 25 ]
+        exclude:
+          - kotlin: 2.0.21
+            jdk: 25
+          - kotlin: 2.1.21
+            jdk: 25
+          - kotlin: 2.2.21
+            jdk: 25
 
     runs-on: ${{ matrix.os }}
 
