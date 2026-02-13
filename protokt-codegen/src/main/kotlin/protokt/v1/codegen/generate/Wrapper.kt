@@ -22,7 +22,6 @@ import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.asTypeName
 import protokt.v1.BytesSlice
 import protokt.v1.Converter
-import protokt.v1.OptimizedSizeOfConverter
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.util.GeneratorContext
 import protokt.v1.codegen.util.StandardField
@@ -76,11 +75,7 @@ internal object Wrapper {
         ctx: Context
     ): CodeBlock =
         f.withWrapper(ctx.info.context) {
-            if (it.optimizedSizeof) {
-                accessSize
-            } else {
-                interceptValueAccess(f, ctx, accessSize)
-            }
+            interceptValueAccess(f, ctx, accessSize)
         } ?: accessSize
 
     fun interceptFieldSizeof(
@@ -88,14 +83,7 @@ internal object Wrapper {
         accessSize: CodeBlock,
         fieldAccess: CodeBlock,
         ctx: Context
-    ) =
-        f.withWrapper(ctx.info.context) {
-            if (it.optimizedSizeof) {
-                callConverterMethod(OptimizedSizeOfConverter<Any, Any>::sizeOf, it, fieldAccess)
-            } else {
-                accessSize
-            }
-        } ?: accessSize
+    ) = accessSize
 
     fun interceptValueAccess(
         f: StandardField,

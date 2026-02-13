@@ -16,24 +16,16 @@
 package protokt.v1
 
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
-object StringCachingConverter : CachingConverter<Bytes, String> {
-    override val wrapperClass = String::class
+object StringConverter : Converter<Bytes, String> {
+    override val wrapper = String::class
+
+    override val wrapped = Bytes::class
 
     override fun wrap(unwrapped: Bytes): String =
         unwrapped.value.decodeToString()
 
     override fun unwrap(wrapped: String): Bytes =
         Bytes(wrapped.encodeToByteArray())
-
-    override fun writeTo(writer: Writer, value: Any) {
-        if (value is Bytes) writer.write(value) else writer.write(value as String)
-    }
-
-    override fun sizeOf(value: Any): Int =
-        if (value is Bytes) SizeCodecs.sizeOf(value) else SizeCodecs.sizeOf(value as String)
-
-    override fun isDefault(value: Any): Boolean =
-        if (value is Bytes) value.isEmpty() else (value as String).isEmpty()
 
     fun readValidatedBytes(reader: Reader): Bytes {
         val bytes = reader.readBytes()

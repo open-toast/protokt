@@ -17,7 +17,6 @@ package protokt.v1.reflect
 
 import protokt.v1.Bytes
 import protokt.v1.Converter
-import protokt.v1.OptimizedSizeOfConverter
 import java.io.File
 import java.net.URLClassLoader
 import kotlin.reflect.KClass
@@ -105,7 +104,6 @@ internal class ClassLookup(classpath: List<String>) {
         return ConverterDetails(
             converter,
             kotlinClassCanonicalName,
-            converter is OptimizedSizeOfConverter<*, *>,
             !converter.acceptsDefaultValue
         )
     }
@@ -155,6 +153,5 @@ private fun <T : Any> tryDeserializeDefaultValue(converter: Converter<T, *>): Th
 internal class ConverterDetails(
     val converter: Converter<*, *>,
     val kotlinCanonicalClassName: String,
-    val optimizedSizeof: Boolean,
     val cannotDeserializeDefaultValue: Boolean
 )

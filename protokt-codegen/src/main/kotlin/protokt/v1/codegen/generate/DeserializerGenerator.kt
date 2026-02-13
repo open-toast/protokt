@@ -27,7 +27,7 @@ import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
 import protokt.v1.AbstractDeserializer
 import protokt.v1.Reader
-import protokt.v1.StringCachingConverter
+import protokt.v1.StringConverter
 import protokt.v1.UnknownFieldSet
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Wrapper.interceptRead
@@ -176,7 +176,7 @@ private class DeserializerGenerator(
         }
 
     private fun cachingStringDeserialize() =
-        CodeBlock.of("%T.readValidatedBytes($READER)", StringCachingConverter::class)
+        CodeBlock.of("%T.readValidatedBytes($READER)", StringConverter::class)
 
     private val StandardField.tagList
         get() =

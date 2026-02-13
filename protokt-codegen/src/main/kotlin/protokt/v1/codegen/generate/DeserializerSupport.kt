@@ -18,8 +18,8 @@ package protokt.v1.codegen.generate
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.buildCodeBlock
 import protokt.v1.Bytes
-import protokt.v1.CachingReference
-import protokt.v1.StringCachingConverter
+import protokt.v1.LazyReference
+import protokt.v1.StringConverter
 import protokt.v1.reflect.FieldType
 
 internal fun deserializeVarInitialState(p: PropertyInfo) =
@@ -36,9 +36,9 @@ internal fun wrapDeserializedValueForConstructor(p: PropertyInfo, fromBuilder: B
         CodeBlock.of("%M(%N)", unmodifiableList, p.name)
     } else if (p.cachingString) {
         if (fromBuilder) {
-            CodeBlock.of("%T(%N, %T)", CachingReference::class, p.name, StringCachingConverter::class)
+            CodeBlock.of("%T(%N, %T)", LazyReference::class, p.name, StringConverter::class)
         } else {
-            CodeBlock.of("%T(%N ?: %T.empty(), %T)", CachingReference::class, p.name, Bytes::class, StringCachingConverter::class)
+            CodeBlock.of("%T(%N ?: %T.empty(), %T)", LazyReference::class, p.name, Bytes::class, StringConverter::class)
         }
     } else {
         buildCodeBlock {

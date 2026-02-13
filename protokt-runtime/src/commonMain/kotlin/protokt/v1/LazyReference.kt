@@ -18,14 +18,14 @@ package protokt.v1
 import kotlin.concurrent.Volatile
 
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
-class CachingReference<WireT : Any, KotlinT : Any>(
+class LazyReference<WireT : Any, KotlinT : Any>(
     @Volatile private var ref: Any,
-    private val converter: CachingConverter<WireT, KotlinT>
+    private val converter: Converter<WireT, KotlinT>
 ) {
     /** Returns the user-facing Kotlin type. Lazily converts from wire form if needed. */
     fun value(): KotlinT {
         val current = ref
-        return if (converter.wrapperClass.isInstance(current)) {
+        return if (converter.wrapper.isInstance(current)) {
             @Suppress("UNCHECKED_CAST")
             current as KotlinT
         } else {
@@ -39,7 +39,7 @@ class CachingReference<WireT : Any, KotlinT : Any>(
     /** Returns the wire type. Lazily converts from Kotlin form if needed. */
     fun wireValue(): WireT {
         val current = ref
-        return if (!converter.wrapperClass.isInstance(current)) {
+        return if (!converter.wrapper.isInstance(current)) {
             @Suppress("UNCHECKED_CAST")
             current as WireT
         } else {
@@ -50,23 +50,41 @@ class CachingReference<WireT : Any, KotlinT : Any>(
         }
     }
 
-    /** Write to a Writer using whichever form is currently cached. No forced conversion. */
-    fun writeTo(writer: Writer) =
-        converter.writeTo(writer, ref)
+    /** Write the wire form to a Writer. Uses cached wire value if available. */
+    fun writeTo(writer: Writer) {
+        when (val wire = wireValue()) {
+            is Bytes -> writer.write(wire)
+            is String -> writer.write(wire)
+            is Message -> wire.serialize(writer)
+            else -> error("Unsupported wire type: ${wire::class}")
+        }
+    }
 
-    /** Compute serialized size from whichever form is currently cached. */
-    fun sizeOf(): Int =
-        converter.sizeOf(ref)
+    /** Compute serialized size from the wire form. */
+    fun sizeOf(): Int {
+        return when (val wire = wireValue()) {
+            is Bytes -> SizeCodecs.sizeOf(wire)
+            is String -> SizeCodecs.sizeOf(wire)
+            is Message -> wire.messageSize()
+            else -> error("Unsupported wire type: ${wire::class}")
+        }
+    }
 
-    /** Check default-ness without conversion. */
-    fun isDefault(): Boolean =
-        converter.isDefault(ref)
+    /** Check default-ness from the wire form. */
+    fun isDefault(): Boolean {
+        return when (val wire = wireValue()) {
+            is Bytes -> wire.isEmpty()
+            is String -> wire.isEmpty()
+            is Message -> false
+            else -> error("Unsupported wire type: ${wire::class}")
+        }
+    }
 
     fun isNotDefault(): Boolean =
         !isDefault()
 
     override fun equals(other: Any?): Boolean =
-        other is CachingReference<*, *> && value() == other.value()
+        other is LazyReference<*, *> && value() == other.value()
 
     override fun hashCode(): Int =
         value().hashCode()

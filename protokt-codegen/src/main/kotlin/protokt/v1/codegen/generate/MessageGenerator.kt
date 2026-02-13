@@ -27,7 +27,7 @@ import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
 import protokt.v1.AbstractMessage
 import protokt.v1.Bytes
-import protokt.v1.CachingReference
+import protokt.v1.LazyReference
 import protokt.v1.GeneratedMessage
 import protokt.v1.GeneratedProperty
 import protokt.v1.UnknownFieldSet
@@ -208,11 +208,11 @@ private class MessageGenerator(
     }
 
     private fun generateCachingStringProperty(property: PropertyInfo): MessageProperties {
-        val cachingRefType = CachingReference::class.asTypeName()
+        val lazyRefType = LazyReference::class.asTypeName()
             .parameterizedBy(Bytes::class.asTypeName(), String::class.asTypeName())
 
-        // Constructor parameter: private val _name: CachingReference<Bytes, String>
-        val backingProp = PropertySpec.builder("_${property.name}", cachingRefType)
+        // Constructor parameter: private val _name: LazyReference<Bytes, String>
+        val backingProp = PropertySpec.builder("_${property.name}", lazyRefType)
             .addModifiers(KModifier.PRIVATE)
             .initializer("_${property.name}")
             .build()

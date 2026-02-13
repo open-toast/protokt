@@ -15,17 +15,11 @@
 
 package protokt.v1
 
-import protokt.v1.SizeCodecs.sizeOf
 import java.nio.ByteBuffer
 import java.util.UUID
 
-object UuidBytesConverter : AbstractConverter<Bytes, UUID>(), OptimizedSizeOfConverter<Bytes, UUID> {
+object UuidBytesConverter : AbstractConverter<Bytes, UUID>() {
     override val acceptsDefaultValue = false
-
-    private val sizeOfProxy = ByteArray(16)
-
-    override fun sizeOf(wrapped: UUID) =
-        sizeOf(sizeOfProxy)
 
     override fun wrap(unwrapped: Bytes): UUID {
         val buf = unwrapped.asReadOnlyBuffer()
