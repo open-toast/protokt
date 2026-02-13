@@ -41,6 +41,10 @@ fun Project.compatibleWithAndroid(api: Int = 19) {
             callerStartsWith("com/google/protobuf/UnsafeUtil\$JvmMemoryAccessor")
             // assume the parts of Guava that we are using are ok
             callerStartsWith("com/google/common")
+            // persistent collection builders are only loaded when the user opts in
+            // via the protokt.collections.persistent system property and adds
+            // kotlinx-collections-immutable to their runtime classpath
+            callerStartsWith("protokt/v1/Persistent")
 
             file(rootProject.layout.projectDirectory.file("expediter/expediter.json"))
         }

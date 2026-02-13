@@ -23,6 +23,8 @@ import protokt.v1.Message
 internal expect object Platform {
     fun printErr(message: String)
 
+    fun className(obj: Any): String
+
     fun runBlockingMain(block: suspend CoroutineScope.() -> Unit)
 
     suspend fun <T : Message> readMessageFromStdIn(

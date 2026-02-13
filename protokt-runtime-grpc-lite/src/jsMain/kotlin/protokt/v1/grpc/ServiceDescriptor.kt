@@ -16,7 +16,7 @@
 package protokt.v1.grpc
 
 import protokt.v1.Beta
-import protokt.v1.Collections.copyList
+import protokt.v1.Collections.freezeList
 
 @Beta
 class ServiceDescriptor internal constructor(
@@ -24,7 +24,7 @@ class ServiceDescriptor internal constructor(
     methods: List<MethodDescriptor<*, *>>,
     val schemaDescriptor: Any? = null
 ) {
-    val methods = copyList(methods)
+    val methods = freezeList(methods)
 
     override fun toString() =
         "ServiceDescriptor(" +

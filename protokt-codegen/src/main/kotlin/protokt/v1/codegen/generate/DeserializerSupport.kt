@@ -28,9 +28,23 @@ internal fun deserializeVarInitialState(p: PropertyInfo) =
 
 internal fun wrapDeserializedValueForConstructor(p: PropertyInfo) =
     if (p.isMap) {
-        CodeBlock.of("%M(%N)", unmodifiableMap, p.name)
+        CodeBlock.of("%M(%N)", freezeMap, p.name)
     } else if (p.repeated) {
-        CodeBlock.of("%M(%N)", unmodifiableList, p.name)
+        CodeBlock.of("%M(%N)", freezeList, p.name)
+    } else {
+        buildCodeBlock {
+            add("%N", p.name)
+            if (p.wrapped && !(p.generateNullableBackingProperty || p.nullable)) {
+                add(" ?: %L", p.defaultValue)
+            }
+        }
+    }
+
+internal fun wrapDeserializedBuilderValueForConstructor(p: PropertyInfo) =
+    if (p.isMap) {
+        CodeBlock.of("%N?.build() ?: emptyMap()", p.name)
+    } else if (p.repeated) {
+        CodeBlock.of("%N?.build() ?: emptyList()", p.name)
     } else {
         buildCodeBlock {
             add("%N", p.name)

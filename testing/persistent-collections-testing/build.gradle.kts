@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast, Inc.
+ * Copyright (c) 2026 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,25 +14,16 @@
  */
 
 plugins {
-    id("protokt.benchmarks-conventions")
-    id("com.google.protobuf")
-    application
+    id("protokt.jvm-conventions")
 }
 
-defaultProtoc()
-
-configure<JavaApplication> {
-    mainClass.set("protokt.v1.benchmarks.ProtobufBenchmarksKt")
-    executableDir = ".."
+tasks.test {
+    systemProperty("protokt.collections.persistent", "true")
 }
 
 dependencies {
-    implementation(project(":benchmarks:benchmarks-util"))
-    implementation(libs.protobuf.java)
-
-    protobuf(project(":benchmarks:schema"))
-}
-
-tasks.named("run") {
-    dependsOn(":benchmarks:datasets")
+    testImplementation(project(":testing:interop"))
+    testImplementation(project(":testing:protobuf-java"))
+    testImplementation(libs.kotlinx.collectionsImmutable)
+    testImplementation(libs.protobuf.java)
 }

@@ -61,6 +61,7 @@ include(
     "testing:conformance:jvm",
     "testing:conformance:runner",
     "testing:interop",
+    "testing:persistent-collections-testing",
     "testing:multiplatform-testing",
     "testing:options",
     "testing:options-api",
