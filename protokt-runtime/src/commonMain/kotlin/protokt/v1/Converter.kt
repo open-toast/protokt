@@ -22,9 +22,6 @@ interface Converter<WireT : Any, KotlinT : Any> {
 
     val wrapped: KClass<WireT>
 
-    val acceptsDefaultValue
-        get() = true
-
     fun wrap(unwrapped: WireT): KotlinT
     fun unwrap(wrapped: KotlinT): WireT
 }

@@ -27,9 +27,9 @@ import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
 import protokt.v1.AbstractMessage
 import protokt.v1.Bytes
-import protokt.v1.LazyReference
 import protokt.v1.GeneratedMessage
 import protokt.v1.GeneratedProperty
+import protokt.v1.LazyReference
 import protokt.v1.UnknownFieldSet
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.CodeGenerator.generate
@@ -143,7 +143,7 @@ private class MessageGenerator(
     private fun properties(properties: List<PropertyInfo>): MessageProperties =
         properties.fold(MessageProperties(emptyList(), emptyList(), emptyList(), emptyList())) { props, property ->
             when {
-                property.cachingString -> props + generateCachingStringProperty(property)
+                property.cachingInfo != null -> props + generateCachingProperty(property, property.cachingInfo)
                 property.generateNullableBackingProperty -> props + generateWithBackingProperty(property)
                 else -> props + generateStandardProperty(property)
             }
@@ -207,17 +207,20 @@ private class MessageGenerator(
         )
     }
 
-    private fun generateCachingStringProperty(property: PropertyInfo): MessageProperties {
+    private fun generateCachingProperty(property: PropertyInfo, info: CachingFieldInfo): MessageProperties {
+        val wireTypeName = when (info) {
+            is CachingFieldInfo.PlainString -> Bytes::class.asTypeName()
+            is CachingFieldInfo.BytesWrapped -> Bytes::class.asTypeName()
+            is CachingFieldInfo.StringWrapped -> String::class.asTypeName()
+        }
         val lazyRefType = LazyReference::class.asTypeName()
-            .parameterizedBy(Bytes::class.asTypeName(), String::class.asTypeName())
+            .parameterizedBy(wireTypeName, property.propertyType)
 
-        // Constructor parameter: private val _name: LazyReference<Bytes, String>
         val backingProp = PropertySpec.builder("_${property.name}", lazyRefType)
             .addModifiers(KModifier.PRIVATE)
             .initializer("_${property.name}")
             .build()
 
-        // Public delegate: @GeneratedProperty(N) val name: String get() = _name.value()
         val publicProp = PropertySpec.builder(property.name, property.propertyType).apply {
             addAnnotation(
                 AnnotationSpec.builder(GeneratedProperty::class)

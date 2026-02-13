@@ -19,8 +19,6 @@ import java.nio.ByteBuffer
 import java.util.UUID
 
 object UuidBytesConverter : AbstractConverter<Bytes, UUID>() {
-    override val acceptsDefaultValue = false
-
     override fun wrap(unwrapped: Bytes): UUID {
         val buf = unwrapped.asReadOnlyBuffer()
 

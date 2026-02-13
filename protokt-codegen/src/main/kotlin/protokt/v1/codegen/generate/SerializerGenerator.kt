@@ -109,9 +109,9 @@ internal fun serialize(
             )
         }
 
-        !mapEntry && isCachingString(f) && o == null -> buildCodeBlock {
+        !mapEntry && p.name == "_${f.fieldName}" && o == null -> buildCodeBlock {
             add("$WRITER.writeTag(${f.tag.value}u)\n")
-            add("%N.writeTo($WRITER)", "_${f.fieldName}")
+            add("%N.writeTo($WRITER)", p)
         }
 
         else -> buildCodeBlock {

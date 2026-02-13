@@ -61,24 +61,22 @@ class LazyReference<WireT : Any, KotlinT : Any>(
     }
 
     /** Compute serialized size from the wire form. */
-    fun sizeOf(): Int {
-        return when (val wire = wireValue()) {
+    fun sizeOf(): Int =
+        when (val wire = wireValue()) {
             is Bytes -> SizeCodecs.sizeOf(wire)
             is String -> SizeCodecs.sizeOf(wire)
             is Message -> wire.messageSize()
             else -> error("Unsupported wire type: ${wire::class}")
         }
-    }
 
     /** Check default-ness from the wire form. */
-    fun isDefault(): Boolean {
-        return when (val wire = wireValue()) {
+    fun isDefault(): Boolean =
+        when (val wire = wireValue()) {
             is Bytes -> wire.isEmpty()
             is String -> wire.isEmpty()
             is Message -> false
             else -> error("Unsupported wire type: ${wire::class}")
         }
-    }
 
     fun isNotDefault(): Boolean =
         !isDefault()

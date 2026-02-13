@@ -19,9 +19,7 @@ import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.buildCodeBlock
 import protokt.v1.codegen.generate.CodeGenerator.Context
-import protokt.v1.codegen.generate.Nullability.nullable
 import protokt.v1.codegen.generate.Wrapper.interceptValueAccess
-import protokt.v1.codegen.generate.Wrapper.wrapperRequiresNullability
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.Oneof
 import protokt.v1.codegen.util.StandardField
@@ -39,7 +37,7 @@ internal fun Message.mapFields(
         .map { (field, property) ->
             when (field) {
                 is StandardField ->
-                    standardFieldExecution(ctx, field, skipConditionalForUnpackedRepeatedFields) { std(field, property) }
+                    standardFieldExecution(ctx, field, property, skipConditionalForUnpackedRepeatedFields) { std(field, property) }
                 is Oneof ->
                     oneofFieldExecution(field) { oneof(field, it, property) }
             }
@@ -48,6 +46,7 @@ internal fun Message.mapFields(
 private fun standardFieldExecution(
     ctx: Context,
     field: StandardField,
+    property: PropertySpec,
     skipConditional: Boolean,
     stmt: () -> CodeBlock
 ): CodeBlock {
@@ -61,16 +60,16 @@ private fun standardFieldExecution(
             // skip isNotEmpty check when not packed; will short circuit correctly
             addStmt()
         } else {
-            beginControlFlow("if (%L)", field.nonDefault(ctx))
+            beginControlFlow("if (%L)", field.nonDefault(ctx, property))
             addStmt()
             endControlFlow()
         }
     }
 }
 
-private fun StandardField.nonDefault(ctx: Context): CodeBlock {
-    if (isCachingString(this)) {
-        return CodeBlock.of("%N.isNotDefault()", "_$fieldName")
+private fun StandardField.nonDefault(ctx: Context, property: PropertySpec): CodeBlock {
+    if (property.name == "_$fieldName") {
+        return CodeBlock.of("%N.isNotDefault()", property)
     }
 
     val valueAccess = interceptValueAccess(this, ctx, CodeBlock.of("%N", fieldName))
@@ -86,11 +85,7 @@ private fun StandardField.nonDefault(ctx: Context): CodeBlock {
             else -> error("Field doesn't have nondefault check: $this, $type")
         }
 
-    return if (!nullable && wrapperRequiresNullability(ctx)) {
-        CodeBlock.of("%L != null && %L", fieldName, defaultCheck)
-    } else {
-        defaultCheck
-    }
+    return defaultCheck
 }
 
 private fun oneofFieldExecution(

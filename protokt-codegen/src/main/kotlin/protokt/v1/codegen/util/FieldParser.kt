@@ -29,7 +29,7 @@ import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.google.protobuf.DescriptorProtos.OneofDescriptorProto
 import com.squareup.kotlinpoet.ClassName
 import com.toasttab.protokt.v1.ProtoktProtos
-import protokt.v1.codegen.generate.Wrapper.wrapperRequiresNonNullOptionForNonNullity
+import protokt.v1.codegen.generate.Wrapper.wrapped
 import protokt.v1.codegen.util.ErrorContext.withFieldName
 import protokt.v1.reflect.FieldType
 import protokt.v1.reflect.typeName
@@ -267,8 +267,8 @@ internal class FieldParser(
                 "and is inapplicable to oneof field $typeName"
         }
 
-        require((field.type == FieldType.Message && !field.repeated) || field.wrapperRequiresNonNullOptionForNonNullity(ctx)) {
-            "(protokt.property).generate_non_null_accessor is only applicable to message types " +
+        require((field.type == FieldType.Message && !field.repeated) || field.wrapped) {
+            "(protokt.property).generate_non_null_accessor is only applicable to message types or wrapped types " +
                 "and is inapplicable to non-message " +
                 when {
                     field.mapEntry != null ->

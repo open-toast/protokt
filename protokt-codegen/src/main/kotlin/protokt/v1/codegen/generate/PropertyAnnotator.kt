@@ -28,10 +28,10 @@ import protokt.v1.codegen.generate.Nullability.dslPropertyType
 import protokt.v1.codegen.generate.Nullability.generateNonNullAccessor
 import protokt.v1.codegen.generate.Nullability.nullable
 import protokt.v1.codegen.generate.Nullability.propertyType
+import protokt.v1.codegen.generate.Wrapper.cachingFieldInfo
 import protokt.v1.codegen.generate.Wrapper.interceptDefaultValue
 import protokt.v1.codegen.generate.Wrapper.interceptTypeName
 import protokt.v1.codegen.generate.Wrapper.wrapped
-import protokt.v1.codegen.generate.Wrapper.wrapperRequiresNullability
 import protokt.v1.codegen.util.ErrorContext.withFieldName
 import protokt.v1.codegen.util.Field
 import protokt.v1.codegen.util.Message
@@ -56,28 +56,29 @@ private class PropertyAnnotator(
         return when (field) {
             is StandardField -> {
                 annotateStandard(field).let { type ->
-                    val wrapperRequiresNullability = field.wrapperRequiresNullability(ctx)
-                    val cachingString = isCachingString(field) && !msg.mapEntry
+                    val cachingInfo = field.cachingFieldInfo(ctx, msg.mapEntry)
                     PropertyInfo(
                         name = field.fieldName,
                         number = field.number,
-                        propertyType = propertyType(field, type, wrapperRequiresNullability),
+                        propertyType = propertyType(field, type),
                         generateNullableBackingProperty = field.generateNonNullAccessor,
                         deserializeType =
-                        if (cachingString) {
-                            Bytes::class.asTypeName().copy(nullable = true)
-                        } else {
-                            deserializeType(field, type)
+                        when (cachingInfo) {
+                            is CachingFieldInfo.PlainString, is CachingFieldInfo.BytesWrapped ->
+                                Bytes::class.asTypeName().copy(nullable = true)
+                            is CachingFieldInfo.StringWrapped ->
+                                String::class.asTypeName().copy(nullable = true)
+                            null -> deserializeType(field, type)
                         },
                         builderPropertyType = dslPropertyType(field, type),
                         defaultValue = field.defaultValue(ctx, msg.mapEntry),
                         fieldType = field.type,
                         repeated = field.repeated,
                         mapEntry = field.mapEntry,
-                        nullable = field.nullable || field.optional || wrapperRequiresNullability,
+                        nullable = field.nullable || field.optional,
                         overrides = field.overrides(ctx, msg),
                         wrapped = field.wrapped,
-                        cachingString = cachingString,
+                        cachingInfo = cachingInfo,
                         documentation = documentation,
                         deprecation = deprecation(field)
                     )
@@ -155,7 +156,7 @@ internal class PropertyInfo(
     val mapEntry: Message? = null,
     val oneof: Boolean = false,
     val wrapped: Boolean = false,
-    val cachingString: Boolean = false,
+    val cachingInfo: CachingFieldInfo? = null,
     val overrides: Boolean = false,
     val documentation: List<String>?,
     val deprecation: Deprecation.RenderOptions? = null
@@ -164,5 +165,8 @@ internal class PropertyInfo(
         get() = mapEntry != null
 }
 
-internal fun isCachingString(f: StandardField): Boolean =
-    f.type == FieldType.String && !f.repeated && !f.isMap && !f.wrapped && !f.optional
+internal sealed class CachingFieldInfo {
+    object PlainString : CachingFieldInfo()
+    data class BytesWrapped(val converterClassName: com.squareup.kotlinpoet.ClassName) : CachingFieldInfo()
+    data class StringWrapped(val converterClassName: com.squareup.kotlinpoet.ClassName) : CachingFieldInfo()
+}

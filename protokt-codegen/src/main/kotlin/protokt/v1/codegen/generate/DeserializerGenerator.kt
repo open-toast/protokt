@@ -129,7 +129,7 @@ private class DeserializerGenerator(
 
     private fun declareDeserializeVar(p: PropertyInfo): CodeBlock {
         val initialState = deserializeVarInitialState(p)
-        return if (p.fieldType == FieldType.Message || p.repeated || p.oneof || p.nullable || p.wrapped || p.cachingString) {
+        return if (p.fieldType == FieldType.Message || p.repeated || p.oneof || p.nullable || p.wrapped || p.cachingInfo != null) {
             CodeBlock.of("%N: %T = %L", p.name, deserializeType(p), initialState)
         } else {
             CodeBlock.of("%N = %L", p.name, initialState)
@@ -160,23 +160,31 @@ private class DeserializerGenerator(
         val value: CodeBlock
     )
 
+    private fun cachingInfoForField(field: StandardField): CachingFieldInfo? =
+        properties.firstOrNull { it.name == field.fieldName }?.cachingInfo
+
     private fun deserializerInfo(): List<DeserializerInfo> =
         msg.flattenedSortedFields().flatMap { (field, oneOf) ->
             field.tagList.map { tag ->
+                val cachingInfo = if (oneOf == null) cachingInfoForField(field) else null
                 DeserializerInfo(
                     tag.value,
                     oneOf?.fieldName ?: field.fieldName,
                     when {
                         oneOf != null -> oneofDes(oneOf, field)
-                        isCachingString(field) -> cachingStringDeserialize()
+                        cachingInfo != null -> cachingDeserialize(cachingInfo)
                         else -> deserialize(field, ctx, tag is Tag.Packed)
                     }
                 )
             }
         }
 
-    private fun cachingStringDeserialize() =
-        CodeBlock.of("%T.readValidatedBytes($READER)", StringConverter::class)
+    private fun cachingDeserialize(info: CachingFieldInfo) =
+        when (info) {
+            is CachingFieldInfo.PlainString -> CodeBlock.of("%T.readValidatedBytes($READER)", StringConverter::class)
+            is CachingFieldInfo.BytesWrapped -> CodeBlock.of("$READER.readBytes()")
+            is CachingFieldInfo.StringWrapped -> CodeBlock.of("$READER.readString()")
+        }
 
     private val StandardField.tagList
         get() =
