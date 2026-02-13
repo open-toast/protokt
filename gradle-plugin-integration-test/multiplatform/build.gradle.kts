@@ -22,10 +22,7 @@ plugins {
 }
 
 kotlin {
-    jvm {
-        @Suppress("DEPRECATION")
-        withJava()
-    }
+    jvm {}
 
     js(IR) {
         browser {
@@ -82,10 +79,6 @@ kotlin {
 
 tasks.named<Test>("jvmTest") {
     useJUnitPlatform()
-}
-
-tasks.named("checkKotlinGradlePluginConfigurationErrors") {
-    enabled = false
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
