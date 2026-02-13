@@ -28,9 +28,9 @@ fun run(self: KClass<*>) =
     Runner(
         OptionsBuilder()
             .include(".*" + self.simpleName + ".*")
-            .warmupIterations(1)
+            .warmupIterations(3)
             .measurementIterations(5)
-            .forks(1)
+            .forks(2)
             .resultFormat(ResultFormatType.JSON)
             .result("../build/jmh-${self.simpleName}.json")
             .build()

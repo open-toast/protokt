@@ -8,7 +8,7 @@ public final class protokt/v1/DurationConverter : protokt/v1/AbstractConverter {
 
 public final class protokt/v1/EnumOptions : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/EnumOptions$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lprotokt/v1/CachingReference;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/CachingReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/EnumOptions;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/EnumOptions;
 	public fun equals (Ljava/lang/Object;)Z
@@ -38,7 +38,7 @@ public final class protokt/v1/EnumOptions$Deserializer : protokt/v1/AbstractDese
 
 public final class protokt/v1/EnumValueOptions : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/EnumValueOptions$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lprotokt/v1/CachingReference;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/CachingReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/EnumValueOptions;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/EnumValueOptions;
 	public fun equals (Ljava/lang/Object;)Z
@@ -68,7 +68,7 @@ public final class protokt/v1/EnumValueOptions$Deserializer : protokt/v1/Abstrac
 
 public final class protokt/v1/FieldOptions : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/FieldOptions$Deserializer;
-	public synthetic fun <init> (ZLjava/lang/String;ZLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lprotokt/v1/CachingReference;Lprotokt/v1/CachingReference;Lprotokt/v1/CachingReference;Lprotokt/v1/CachingReference;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ZLprotokt/v1/CachingReference;ZLprotokt/v1/CachingReference;Lprotokt/v1/CachingReference;Lprotokt/v1/CachingReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/FieldOptions;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/FieldOptions;
 	public fun equals (Ljava/lang/Object;)Z
@@ -113,7 +113,7 @@ public final class protokt/v1/FieldOptions$Deserializer : protokt/v1/AbstractDes
 
 public final class protokt/v1/FileOptions : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/FileOptions$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lprotokt/v1/CachingReference;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/CachingReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/FileOptions;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/FileOptions;
 	public fun equals (Ljava/lang/Object;)Z
@@ -226,7 +226,7 @@ public final class protokt/v1/LocalDateStringValueConverter : protokt/v1/Abstrac
 
 public final class protokt/v1/MessageOptions : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/MessageOptions$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lprotokt/v1/CachingReference;Lprotokt/v1/CachingReference;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/CachingReference;Lprotokt/v1/CachingReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/MessageOptions;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/MessageOptions;
 	public fun equals (Ljava/lang/Object;)Z
@@ -259,7 +259,7 @@ public final class protokt/v1/MessageOptions$Deserializer : protokt/v1/AbstractD
 
 public final class protokt/v1/MethodOptions : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/MethodOptions$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lprotokt/v1/CachingReference;Lprotokt/v1/CachingReference;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/CachingReference;Lprotokt/v1/CachingReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/MethodOptions;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/MethodOptions;
 	public fun equals (Ljava/lang/Object;)Z
@@ -292,7 +292,7 @@ public final class protokt/v1/MethodOptions$Deserializer : protokt/v1/AbstractDe
 
 public final class protokt/v1/OneofOptions : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/OneofOptions$Deserializer;
-	public synthetic fun <init> (ZLjava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lprotokt/v1/CachingReference;Lprotokt/v1/CachingReference;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ZLprotokt/v1/CachingReference;Lprotokt/v1/CachingReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/OneofOptions;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/OneofOptions;
 	public fun equals (Ljava/lang/Object;)Z

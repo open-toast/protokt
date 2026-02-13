@@ -147,20 +147,11 @@ private class DeserializerGenerator(
         }
 
     private fun constructorLines(properties: List<PropertyInfo>): List<CodeBlock> {
-        val cachingStringProperties = properties.filter { it.cachingString }
         val positionalArgs = properties.map {
             CodeBlock.of("%L,\n", wrapDeserializedValueForConstructor(it))
         }
-        val unknownFieldsArg = if (cachingStringProperties.isEmpty()) {
-            CodeBlock.of("%T.from(unknownFields)", UnknownFieldSet::class)
-        } else {
-            CodeBlock.of("%T.from(unknownFields),\n", UnknownFieldSet::class)
-        }
-        val trailingArgs = cachingStringProperties.mapIndexed { idx, prop ->
-            val suffix = if (idx < cachingStringProperties.size - 1) ",\n" else ""
-            CodeBlock.of("%L$suffix", cachingStringTrailingParam(prop))
-        }
-        return positionalArgs + listOf(unknownFieldsArg) + trailingArgs
+        val unknownFieldsArg = CodeBlock.of("%T.from(unknownFields)", UnknownFieldSet::class)
+        return positionalArgs + listOf(unknownFieldsArg)
     }
 
     private class DeserializerInfo(

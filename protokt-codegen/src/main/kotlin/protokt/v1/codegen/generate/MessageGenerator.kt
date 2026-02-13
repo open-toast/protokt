@@ -30,7 +30,6 @@ import protokt.v1.Bytes
 import protokt.v1.CachingReference
 import protokt.v1.GeneratedMessage
 import protokt.v1.GeneratedProperty
-import protokt.v1.StringCachingConverter
 import protokt.v1.UnknownFieldSet
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.CodeGenerator.generate
@@ -212,31 +211,13 @@ private class MessageGenerator(
         val cachingRefType = CachingReference::class.asTypeName()
             .parameterizedBy(Bytes::class.asTypeName(), String::class.asTypeName())
 
-        // Constructor gets a plain String param at this field's position (for Jackson compat)
-        val constructorEntry = ConstructorEntry.PlainParam(
-            ParameterSpec.builder(property.name, String::class).build()
-        )
-
-        // Trailing defaulted CachingReference? param (for deserializer to pass raw bytes)
-        val trailingParam = ParameterSpec.builder("_pkt_${property.name}", cachingRefType.copy(nullable = true))
-            .defaultValue("null")
-            .build()
-
-        // Body property: private val _name = _pkt_name ?: CachingReference(name, StringCachingConverter)
+        // Constructor parameter: private val _name: CachingReference<Bytes, String>
         val backingProp = PropertySpec.builder("_${property.name}", cachingRefType)
             .addModifiers(KModifier.PRIVATE)
-            .initializer(
-                CodeBlock.of(
-                    "_pkt_%L ?: %T(%N, %T)",
-                    property.name,
-                    CachingReference::class,
-                    property.name,
-                    StringCachingConverter::class
-                )
-            )
+            .initializer("_${property.name}")
             .build()
 
-        // Body property: @GeneratedProperty(N) val name: String get() = _name.value()
+        // Public delegate: @GeneratedProperty(N) val name: String get() = _name.value()
         val publicProp = PropertySpec.builder(property.name, property.propertyType).apply {
             addAnnotation(
                 AnnotationSpec.builder(GeneratedProperty::class)
@@ -256,9 +237,9 @@ private class MessageGenerator(
         }.build()
 
         return MessageProperties(
-            constructorEntries = listOf(constructorEntry),
-            delegateProps = listOf(backingProp, publicProp),
-            trailingParams = listOf(trailingParam),
+            constructorEntries = listOf(ConstructorEntry.ValProp(backingProp)),
+            delegateProps = listOf(publicProp),
+            trailingParams = emptyList(),
             serializationProps = listOf(backingProp)
         )
     }

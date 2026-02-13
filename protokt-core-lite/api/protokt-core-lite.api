@@ -1,6 +1,6 @@
 public final class protokt/v1/google/protobuf/Any : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/Any$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/Bytes;Lprotokt/v1/UnknownFieldSet;Lprotokt/v1/CachingReference;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/CachingReference;Lprotokt/v1/Bytes;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Any;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/protobuf/Any;
 	public fun equals (Ljava/lang/Object;)Z
@@ -33,7 +33,7 @@ public final class protokt/v1/google/protobuf/Any$Deserializer : protokt/v1/Abst
 
 public final class protokt/v1/google/protobuf/Api : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/Api$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/String;Lprotokt/v1/google/protobuf/SourceContext;Ljava/util/List;Lprotokt/v1/google/protobuf/Syntax;Lprotokt/v1/UnknownFieldSet;Lprotokt/v1/CachingReference;Lprotokt/v1/CachingReference;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/CachingReference;Ljava/util/List;Ljava/util/List;Lprotokt/v1/CachingReference;Lprotokt/v1/google/protobuf/SourceContext;Ljava/util/List;Lprotokt/v1/google/protobuf/Syntax;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Api;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/protobuf/Api;
 	public fun equals (Ljava/lang/Object;)Z
@@ -451,7 +451,7 @@ public final class protokt/v1/google/protobuf/Empty$Deserializer : protokt/v1/Ab
 
 public final class protokt/v1/google/protobuf/Enum : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/Enum$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/util/List;Lprotokt/v1/google/protobuf/SourceContext;Lprotokt/v1/google/protobuf/Syntax;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lprotokt/v1/CachingReference;Lprotokt/v1/CachingReference;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/CachingReference;Ljava/util/List;Ljava/util/List;Lprotokt/v1/google/protobuf/SourceContext;Lprotokt/v1/google/protobuf/Syntax;Lprotokt/v1/CachingReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Enum;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/protobuf/Enum;
 	public fun equals (Ljava/lang/Object;)Z
@@ -613,7 +613,7 @@ public final class protokt/v1/google/protobuf/EnumOptions$Deserializer : protokt
 
 public final class protokt/v1/google/protobuf/EnumValue : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/EnumValue$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;ILjava/util/List;Lprotokt/v1/UnknownFieldSet;Lprotokt/v1/CachingReference;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/CachingReference;ILjava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumValue;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/protobuf/EnumValue;
 	public fun equals (Ljava/lang/Object;)Z
@@ -1152,7 +1152,7 @@ public final class protokt/v1/google/protobuf/FeatureSetDefaults$FeatureSetEditi
 
 public final class protokt/v1/google/protobuf/Field : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/Field$Deserializer;
-	public synthetic fun <init> (Lprotokt/v1/google/protobuf/Field$Kind;Lprotokt/v1/google/protobuf/Field$Cardinality;ILjava/lang/String;Ljava/lang/String;IZLjava/util/List;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lprotokt/v1/CachingReference;Lprotokt/v1/CachingReference;Lprotokt/v1/CachingReference;Lprotokt/v1/CachingReference;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/google/protobuf/Field$Kind;Lprotokt/v1/google/protobuf/Field$Cardinality;ILprotokt/v1/CachingReference;Lprotokt/v1/CachingReference;IZLjava/util/List;Lprotokt/v1/CachingReference;Lprotokt/v1/CachingReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Field;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/protobuf/Field;
 	public fun equals (Ljava/lang/Object;)Z
@@ -2332,7 +2332,7 @@ public final class protokt/v1/google/protobuf/MessageOptions$Deserializer : prot
 
 public final class protokt/v1/google/protobuf/Method : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/Method$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ZLjava/lang/String;ZLjava/util/List;Lprotokt/v1/google/protobuf/Syntax;Lprotokt/v1/UnknownFieldSet;Lprotokt/v1/CachingReference;Lprotokt/v1/CachingReference;Lprotokt/v1/CachingReference;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/CachingReference;Lprotokt/v1/CachingReference;ZLprotokt/v1/CachingReference;ZLjava/util/List;Lprotokt/v1/google/protobuf/Syntax;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Method;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/protobuf/Method;
 	public fun equals (Ljava/lang/Object;)Z
@@ -2492,7 +2492,7 @@ public final class protokt/v1/google/protobuf/MethodOptions$IdempotencyLevel$UNR
 
 public final class protokt/v1/google/protobuf/Mixin : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/Mixin$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lprotokt/v1/CachingReference;Lprotokt/v1/CachingReference;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/CachingReference;Lprotokt/v1/CachingReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Mixin;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/protobuf/Mixin;
 	public fun equals (Ljava/lang/Object;)Z
@@ -2611,7 +2611,7 @@ public final class protokt/v1/google/protobuf/OneofOptions$Deserializer : protok
 
 public final class protokt/v1/google/protobuf/Option : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/Option$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/google/protobuf/Any;Lprotokt/v1/UnknownFieldSet;Lprotokt/v1/CachingReference;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/CachingReference;Lprotokt/v1/google/protobuf/Any;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Option;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/protobuf/Option;
 	public fun equals (Ljava/lang/Object;)Z
@@ -2788,7 +2788,7 @@ public final class protokt/v1/google/protobuf/SourceCodeInfo$Location$Deserializ
 
 public final class protokt/v1/google/protobuf/SourceContext : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/SourceContext$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lprotokt/v1/CachingReference;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/CachingReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/SourceContext;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/protobuf/SourceContext;
 	public fun equals (Ljava/lang/Object;)Z
@@ -2818,7 +2818,7 @@ public final class protokt/v1/google/protobuf/SourceContext$Deserializer : proto
 
 public final class protokt/v1/google/protobuf/StringValue : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/StringValue$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lprotokt/v1/CachingReference;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/CachingReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/StringValue;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/protobuf/StringValue;
 	public fun equals (Ljava/lang/Object;)Z
@@ -2949,7 +2949,7 @@ public final class protokt/v1/google/protobuf/Timestamp$Deserializer : protokt/v
 
 public final class protokt/v1/google/protobuf/Type : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/Type$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lprotokt/v1/google/protobuf/SourceContext;Lprotokt/v1/google/protobuf/Syntax;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lprotokt/v1/CachingReference;Lprotokt/v1/CachingReference;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/CachingReference;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lprotokt/v1/google/protobuf/SourceContext;Lprotokt/v1/google/protobuf/Syntax;Lprotokt/v1/CachingReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Type;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/protobuf/Type;
 	public fun equals (Ljava/lang/Object;)Z
@@ -3125,7 +3125,7 @@ public final class protokt/v1/google/protobuf/UninterpretedOption$Deserializer :
 
 public final class protokt/v1/google/protobuf/UninterpretedOption$NamePart : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/UninterpretedOption$NamePart$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;ZLprotokt/v1/UnknownFieldSet;Lprotokt/v1/CachingReference;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/CachingReference;ZLprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/UninterpretedOption$NamePart;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/protobuf/UninterpretedOption$NamePart;
 	public fun equals (Ljava/lang/Object;)Z

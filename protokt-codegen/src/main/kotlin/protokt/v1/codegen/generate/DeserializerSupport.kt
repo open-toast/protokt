@@ -17,6 +17,7 @@ package protokt.v1.codegen.generate
 
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.buildCodeBlock
+import protokt.v1.Bytes
 import protokt.v1.CachingReference
 import protokt.v1.StringCachingConverter
 import protokt.v1.reflect.FieldType
@@ -34,14 +35,10 @@ internal fun wrapDeserializedValueForConstructor(p: PropertyInfo, fromBuilder: B
     } else if (p.repeated) {
         CodeBlock.of("%M(%N)", unmodifiableList, p.name)
     } else if (p.cachingString) {
-        // Both builder and deserializer pass the String value for the positional param.
-        // For builder: the user-provided String goes to the name: String param.
-        // For deserializer: an empty string dummy goes to name: String param
-        //   (the trailing _pkt_name param carries the real CachingReference).
         if (fromBuilder) {
-            CodeBlock.of("%N", p.name)
+            CodeBlock.of("%T(%N, %T)", CachingReference::class, p.name, StringCachingConverter::class)
         } else {
-            CodeBlock.of("%S", "")
+            CodeBlock.of("%T(%N ?: %T.empty(), %T)", CachingReference::class, p.name, Bytes::class, StringCachingConverter::class)
         }
     } else {
         buildCodeBlock {
@@ -51,11 +48,3 @@ internal fun wrapDeserializedValueForConstructor(p: PropertyInfo, fromBuilder: B
             }
         }
     }
-
-internal fun cachingStringTrailingParam(p: PropertyInfo) =
-    CodeBlock.of(
-        "%N?.let·{·%T(it,·%T)·}",
-        p.name,
-        CachingReference::class,
-        StringCachingConverter::class
-    )
