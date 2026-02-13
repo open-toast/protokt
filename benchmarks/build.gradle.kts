@@ -39,8 +39,8 @@ tasks.register<Copy>("datasets") {
 
 tasks.register("run") {
     dependsOn(
-        "protobuf-java:run",
-        "protokt:run",
-        "wire:run"
+        "protobuf-java-benchmarks:run",
+        "protokt-benchmarks:run",
+        "wire-benchmarks:run"
     )
 }

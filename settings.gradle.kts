@@ -50,7 +50,6 @@ include(
 
     "extensions",
     "extensions:protokt-extensions",
-    "extensions:protokt-extensions-api",
     "extensions:protokt-extensions-lite",
 
     "testing:android",

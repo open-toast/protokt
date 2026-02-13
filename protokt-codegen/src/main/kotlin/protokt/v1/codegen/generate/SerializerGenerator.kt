@@ -60,7 +60,8 @@ internal fun serialize(
     f: StandardField,
     ctx: Context,
     p: PropertySpec,
-    o: Oneof? = null
+    o: Oneof? = null,
+    mapEntry: Boolean = false
 ): CodeBlock {
     val fieldAccess =
         if (o == null) {
@@ -106,6 +107,11 @@ internal fun serialize(
                     "write" to f.write(fieldAccess)
                 )
             )
+        }
+
+        !mapEntry && p.name == "_${f.fieldName}" && o == null -> buildCodeBlock {
+            add("$WRITER.writeTag(${f.tag.value}u)\n")
+            add("%N.writeTo($WRITER)", p)
         }
 
         else -> buildCodeBlock {

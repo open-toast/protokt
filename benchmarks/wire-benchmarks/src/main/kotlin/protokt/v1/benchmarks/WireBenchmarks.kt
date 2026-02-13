@@ -90,6 +90,27 @@ open class WireBenchmarks {
     fun serializeSmallToMemory(bh: Blackhole) {
         smallParsedDataset.forEach { msg -> bh.consume(GenericMessage4.ADAPTER.encode(msg)) }
     }
+
+    @Benchmark
+    fun passThroughLargeFromMemory(bh: Blackhole) {
+        largeDataset.payload.forEach { bytes ->
+            bh.consume(GenericMessage1.ADAPTER.encode(GenericMessage1.ADAPTER.decode(bytes)))
+        }
+    }
+
+    @Benchmark
+    fun passThroughMediumFromMemory(bh: Blackhole) {
+        mediumDataset.payload.forEach { bytes ->
+            bh.consume(GenericMessage1.ADAPTER.encode(GenericMessage1.ADAPTER.decode(bytes)))
+        }
+    }
+
+    @Benchmark
+    fun passThroughSmallFromMemory(bh: Blackhole) {
+        smallDataset.payload.forEach { bytes ->
+            bh.consume(GenericMessage4.ADAPTER.encode(GenericMessage4.ADAPTER.decode(bytes)))
+        }
+    }
 }
 
 fun main() {

@@ -15,6 +15,13 @@
 
 package protokt.v1
 
-interface OptimizedSizeOfConverter<ProtobufT : Any, KotlinT : Any> : Converter<ProtobufT, KotlinT> {
-    fun sizeOf(wrapped: KotlinT): Int
+import kotlin.reflect.KClass
+
+interface Converter<WireT : Any, KotlinT : Any> {
+    val wrapper: KClass<KotlinT>
+
+    val wrapped: KClass<WireT>
+
+    fun wrap(unwrapped: WireT): KotlinT
+    fun unwrap(wrapped: KotlinT): WireT
 }

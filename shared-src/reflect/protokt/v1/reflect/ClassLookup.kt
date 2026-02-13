@@ -15,9 +15,7 @@
 
 package protokt.v1.reflect
 
-import protokt.v1.Bytes
 import protokt.v1.Converter
-import protokt.v1.OptimizedSizeOfConverter
 import java.io.File
 import java.net.URLClassLoader
 import kotlin.reflect.KClass
@@ -89,24 +87,9 @@ internal class ClassLookup(classpath: List<String>) {
                 .firstOrNull()
                 ?: converters.first()
 
-        val defaultValueFailure = tryDeserializeDefaultValue(converter)
-
-        if (converter.acceptsDefaultValue) {
-            require(defaultValueFailure == null) {
-                "Converter $converter claims to work on protobuf default value but it does not; " +
-                    "it fails with ${defaultValueFailure!!.stackTraceToString()}"
-            }
-        } else {
-            require(defaultValueFailure != null) {
-                "Converter $converter claims not to work on protobuf default value but it does"
-            }
-        }
-
         return ConverterDetails(
             converter,
-            kotlinClassCanonicalName,
-            converter is OptimizedSizeOfConverter<*, *>,
-            !converter.acceptsDefaultValue
+            kotlinClassCanonicalName
         )
     }
 
@@ -126,35 +109,7 @@ internal class ClassLookup(classpath: List<String>) {
     }
 }
 
-private fun <T : Any> tryDeserializeDefaultValue(converter: Converter<T, *>): Throwable? {
-    fun tryWrap(unwrapped: T) =
-        try {
-            converter.wrap(unwrapped)
-            null
-        } catch (t: Throwable) {
-            t
-        }
-
-    val protoDefault: Any? =
-        when (converter.wrapped) {
-            Int::class -> 0
-            Long::class -> 0L
-            UInt::class -> 0u
-            ULong::class -> 0uL
-            Float::class -> 0.0F
-            Double::class -> 0.0
-            String::class -> ""
-            Bytes::class -> Bytes.empty()
-            else -> null
-        }
-
-    @Suppress("UNCHECKED_CAST")
-    return if (protoDefault == null) null else tryWrap(protoDefault as T)
-}
-
 internal class ConverterDetails(
     val converter: Converter<*, *>,
-    val kotlinCanonicalClassName: String,
-    val optimizedSizeof: Boolean,
-    val cannotDeserializeDefaultValue: Boolean
+    val kotlinCanonicalClassName: String
 )

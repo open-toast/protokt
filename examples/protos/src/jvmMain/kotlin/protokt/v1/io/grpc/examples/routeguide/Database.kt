@@ -15,10 +15,7 @@
 
 package protokt.v1.io.grpc.examples.routeguide
 
-import com.fasterxml.jackson.databind.DeserializationContext
-import com.fasterxml.jackson.databind.KeyDeserializer
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.readValue
 
@@ -27,16 +24,30 @@ actual object Database {
         javaClass.getResourceAsStream("route_guide_db.json").use {
             ObjectMapper()
                 .registerModule(KotlinModule.Builder().build())
-                .registerModule(
-                    SimpleModule()
-                        .addKeyDeserializer(
-                            UInt::class.java,
-                            object : KeyDeserializer() {
-                                override fun deserializeKey(key: String, ctxt: DeserializationContext) =
-                                    key.toUInt()
-                            }
-                        )
-                )
-                .readValue<FeatureDatabase>(it!!.reader())
-        }.feature
+                .readValue<JsonFeatureDatabase>(it!!.reader())
+        }.feature.map { f ->
+            Feature {
+                name = f.name
+                location = f.location?.let { l ->
+                    Point {
+                        latitude = l.latitude
+                        longitude = l.longitude
+                    }
+                }
+            }
+        }
+
+    private data class JsonFeatureDatabase(
+        val feature: List<JsonFeature>
+    )
+
+    private data class JsonFeature(
+        val name: String = "",
+        val location: JsonPoint? = null
+    )
+
+    private data class JsonPoint(
+        val latitude: Int = 0,
+        val longitude: Int = 0
+    )
 }

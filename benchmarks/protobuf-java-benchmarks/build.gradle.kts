@@ -22,7 +22,7 @@ plugins {
 defaultProtoc()
 
 configure<JavaApplication> {
-    mainClass.set("com.toasttab.protokt.benchmarks.ProtobufBenchmarksKt")
+    mainClass.set("protokt.v1.benchmarks.ProtobufBenchmarksKt")
     executableDir = ".."
 }
 
