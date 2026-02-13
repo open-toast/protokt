@@ -28,6 +28,7 @@ import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.named
 import org.gradle.kotlin.dsl.withType
+import java.net.URLEncoder
 
 internal fun configureProtobufPlugin(
     project: Project,
@@ -71,23 +72,20 @@ internal fun configureProtobufPlugin(
                 val extensionFiles = project.objects.fileCollection().from(extensions.asList())
                 task.inputs.files(extensionFiles).withPropertyName("protoktExtensionClasspath")
 
-                val classpathFile = project.layout.buildDirectory.file("protokt/classpath/${task.name}.txt")
-
-                task.doFirst {
-                    val file = classpathFile.get().asFile
-                    file.parentFile.mkdirs()
-                    file.writeText(extensionFiles.files.joinToString(";") { it.path })
-                }
-
                 task.plugins {
                     id(target.protocPluginName) {
-                        option("$KOTLIN_EXTRA_CLASSPATH_FILE=${classpathFile.get().asFile.absolutePath}")
                         option("$GENERATE_TYPES=${ext.generate.types}")
                         option("$GENERATE_DESCRIPTORS=${ext.generate.descriptors}")
                         option("$GENERATE_GRPC_DESCRIPTORS=${ext.generate.grpcDescriptors}")
                         option("$GENERATE_GRPC_KOTLIN_STUBS=${ext.generate.grpcKotlinStubs}")
                         option("$FORMAT_OUTPUT=${ext.formatOutput}")
                         option("$KOTLIN_TARGET=$target")
+
+                        val pluginOptions = this
+                        task.doFirst {
+                            val classpath = extensionFiles.files.joinToString(";") { URLEncoder.encode(it.path, "UTF-8") }
+                            pluginOptions.option("$KOTLIN_EXTRA_CLASSPATH=$classpath")
+                        }
                     }
                 }
             }

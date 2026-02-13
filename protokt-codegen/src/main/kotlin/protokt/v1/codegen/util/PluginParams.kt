@@ -22,32 +22,31 @@ import protokt.v1.gradle.GENERATE_DESCRIPTORS
 import protokt.v1.gradle.GENERATE_GRPC_DESCRIPTORS
 import protokt.v1.gradle.GENERATE_GRPC_KOTLIN_STUBS
 import protokt.v1.gradle.GENERATE_TYPES
-import protokt.v1.gradle.KOTLIN_EXTRA_CLASSPATH_FILE
+import protokt.v1.gradle.KOTLIN_EXTRA_CLASSPATH
 import protokt.v1.gradle.KOTLIN_TARGET
 import protokt.v1.gradle.KotlinTarget
 import protokt.v1.gradle.ProtoktExtension
 import protokt.v1.gradle.ProtoktExtension.Generate
 import protokt.v1.reflect.ClassLookup
-import java.io.File
+import java.net.URLDecoder
 import kotlin.reflect.full.declaredMemberProperties
 
 internal class PluginParams(
     params: Map<String, String>
 ) {
-    val classLookup = ClassLookup(resolveExtraClasspath(params))
+    val classLookup =
+        ClassLookup(
+            params.getOrDefault(KOTLIN_EXTRA_CLASSPATH, "")
+                .split(";")
+                .map { URLDecoder.decode(it, "UTF-8") }
+        )
+
     val generateTypes = params.getOrDefault<Generate>(GENERATE_TYPES)
     val generateDescriptors = params.getOrDefault<Generate>(GENERATE_DESCRIPTORS)
     val generateGrpcDescriptors = params.getOrDefault<Generate>(GENERATE_GRPC_DESCRIPTORS)
     val generateGrpcKotlinStubs = params.getOrDefault<Generate>(GENERATE_GRPC_KOTLIN_STUBS)
     val formatOutput = params.getOrDefault<ProtoktExtension>(FORMAT_OUTPUT)
     val kotlinTarget = KotlinTarget.fromPluginOptionString(params.getValue(KOTLIN_TARGET))
-}
-
-private fun resolveExtraClasspath(params: Map<String, String>): List<String> {
-    val classpathFile = params[KOTLIN_EXTRA_CLASSPATH_FILE] ?: return emptyList()
-    return File(classpathFile).readText()
-        .split(";")
-        .filter { it.isNotEmpty() }
 }
 
 private inline fun <reified T> Map<String, String>.getOrDefault(key: String): Boolean {
