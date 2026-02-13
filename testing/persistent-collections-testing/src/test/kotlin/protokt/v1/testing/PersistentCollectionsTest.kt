@@ -148,12 +148,7 @@ class PersistentCollectionsTest {
                 map = mapOf(content to protoktSimple, content0 to protoktSimple0)
             }
             val deserialized = MapTest.deserialize(original.serialize())
-            assertThat(deserialized.map).containsExactly(
-                content,
-                protoktSimple,
-                content0,
-                protoktSimple0
-            )
+            assertThat(deserialized.map).containsExactlyEntriesIn(mapOf(content to protoktSimple, content0 to protoktSimple0))
         }
 
         @Test
@@ -164,59 +159,40 @@ class PersistentCollectionsTest {
                         map = mapOf(content to protoktSimple, content0 to protoktSimple0)
                     }.serialize()
                 ).mapMap
-            ).containsExactly(
-                content,
-                javaSimple,
-                content0,
-                javaSimple0
-            )
+            ).containsExactlyEntriesIn(mapOf(content to javaSimple, content0 to javaSimple0))
         }
 
         @Test
         fun `kotlin from java produces persistent map`() {
-            val deserialized = MapTest.deserialize(
-                JavaMapTest.newBuilder().apply {
-                    putMap(content, javaSimple)
-                    putMap(content0, javaSimple0)
-                }.build().toByteArray()
-            )
-            assertThat(deserialized.map).containsExactly(
-                content,
-                protoktSimple,
-                content0,
-                protoktSimple0
-            )
+            val deserialized =
+                MapTest.deserialize(
+                    JavaMapTest.newBuilder().apply {
+                        putMap(content, javaSimple)
+                        putMap(content0, javaSimple0)
+                    }.build().toByteArray()
+                )
+            assertThat(deserialized.map).containsExactlyEntriesIn(mapOf(content to protoktSimple, content0 to protoktSimple0))
             assertThat(deserialized.map).isInstanceOf(PersistentMap::class.java)
         }
 
         @Test
         fun `serialized bytes match java protobuf`() {
-            val protoktBytes = MapTest {
-                map = mapOf(content to protoktSimple, content0 to protoktSimple0)
-            }.serialize()
+            val protoktBytes = MapTest { map = mapOf(content to protoktSimple, content0 to protoktSimple0) }.serialize()
 
-            val javaBytes = JavaMapTest.newBuilder().apply {
-                putMap(content, javaSimple)
-                putMap(content0, javaSimple0)
-            }.build().toByteArray()
+            val javaBytes =
+                JavaMapTest.newBuilder().apply {
+                    putMap(content, javaSimple)
+                    putMap(content0, javaSimple0)
+                }.build().toByteArray()
 
             assertThat(protoktBytes).isEqualTo(javaBytes)
         }
 
         @Test
         fun `copy append produces persistent map`() {
-            val original = MapTest.deserialize(
-                MapTest {
-                    map = mapOf(content to protoktSimple)
-                }.serialize()
-            )
+            val original = MapTest.deserialize(MapTest { map = mapOf(content to protoktSimple) }.serialize())
             val copied = original.copy { map = map + (content0 to protoktSimple0) }
-            assertThat(copied.map).containsExactly(
-                content,
-                protoktSimple,
-                content0,
-                protoktSimple0
-            )
+            assertThat(copied.map).containsExactlyEntriesIn(mapOf(content to protoktSimple, content0 to protoktSimple0))
         }
     }
 
@@ -224,9 +200,7 @@ class PersistentCollectionsTest {
     inner class FreezePassThrough {
         @Test
         fun `persistent list passes through freezeList unchanged`() {
-            val deserialized = ListTest.deserialize(
-                ListTest { list = listOf(protoktSimple) }.serialize()
-            )
+            val deserialized = ListTest.deserialize(ListTest { list = listOf(protoktSimple) }.serialize())
             val list = deserialized.list
             assertThat(list).isInstanceOf(PersistentList::class.java)
 
@@ -236,9 +210,7 @@ class PersistentCollectionsTest {
 
         @Test
         fun `persistent map passes through freezeMap unchanged`() {
-            val deserialized = MapTest.deserialize(
-                MapTest { map = mapOf(content to protoktSimple) }.serialize()
-            )
+            val deserialized = MapTest.deserialize(MapTest { map = mapOf(content to protoktSimple) }.serialize())
             val map = deserialized.map
             assertThat(map).isInstanceOf(PersistentMap::class.java)
 
