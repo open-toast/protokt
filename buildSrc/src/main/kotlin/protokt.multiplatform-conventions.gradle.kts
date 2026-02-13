@@ -16,7 +16,11 @@
 plugins {
     `kotlin-multiplatform`
     id("protokt.common-conventions")
+    `java-base` // protobuf-gradle-plugin requires Java source sets to discover proto directories
 }
+
+the<SourceSetContainer>().create("main")
+the<SourceSetContainer>().create("test")
 
 kotlin {
     jvm {
@@ -52,7 +56,6 @@ tasks.named<Test>("jvmTest") {
     useJUnitPlatform()
 }
 
-pureKotlin()
 configureJvmToolchain()
 
 tasks.named("checkKotlinGradlePluginConfigurationErrors") {

@@ -50,11 +50,6 @@ kotlin {
             }
         }
 
-        jvm {
-            @Suppress("DEPRECATION")
-            withJava()
-        }
-
         js(IR) {
             nodejs {}
             useCommonJs()
