@@ -16,6 +16,7 @@
 package protokt.v1.conformance
 
 import com.google.common.truth.Truth.assertThat
+import kotlinx.collections.immutable.persistentListOf
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
@@ -121,7 +122,7 @@ private fun command(runner: ConformanceTest.ConformanceRunner) =
     "${System.getProperty("conformance-runner")} --maximum_edition 2023 --enforce_recommended ${failureList(runner.project)} ${runner.driver()}"
 
 private const val UNMODIFIABLE_COLLECTION_TYPE = "protokt.v1.UnmodifiableList"
-private const val PERSISTENT_COLLECTION_TYPE = "kotlinx.collections.immutable.implementations.immutableList.SmallPersistentVector"
+private val PERSISTENT_COLLECTION_TYPE = persistentListOf<Any>()::class.qualifiedName!!
 
 private fun verifyCollectionType(stderr: String, runner: ConformanceTest.ConformanceRunner) {
     val collectionType = "protoktPersistentCollectionType=(.+)".toRegex().find(stderr)?.groupValues?.get(1)?.trim()
