@@ -62,6 +62,28 @@ public final class protokt/v1/BytesSlice$Companion {
 	public final fun from ([B)Lprotokt/v1/BytesSlice;
 }
 
+public abstract interface class protokt/v1/CachingConverter {
+	public abstract fun getWrapperClass ()Lkotlin/reflect/KClass;
+	public abstract fun isDefault (Ljava/lang/Object;)Z
+	public abstract fun sizeOf (Ljava/lang/Object;)I
+	public abstract fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
+	public abstract fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
+	public abstract fun writeTo (Lprotokt/v1/Writer;Ljava/lang/Object;)V
+}
+
+public final class protokt/v1/CachingReference {
+	public fun <init> (Ljava/lang/Object;Lprotokt/v1/CachingConverter;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public final fun isDefault ()Z
+	public final fun isNotDefault ()Z
+	public final fun sizeOf ()I
+	public fun toString ()Ljava/lang/String;
+	public final fun value ()Ljava/lang/Object;
+	public final fun wireValue ()Ljava/lang/Object;
+	public final fun writeTo (Lprotokt/v1/Writer;)V
+}
+
 public final class protokt/v1/Collections {
 	public static final field INSTANCE Lprotokt/v1/Collections;
 	public static final fun copyList (Ljava/util/List;)Ljava/util/List;
@@ -201,6 +223,19 @@ public final class protokt/v1/SizeCodecs {
 	public static final fun sizeOfSInt64 (J)I
 	public static final fun sizeOfUInt32 (I)I
 	public static final fun sizeOfUInt64 (J)I
+}
+
+public final class protokt/v1/StringCachingConverter : protokt/v1/CachingConverter {
+	public static final field INSTANCE Lprotokt/v1/StringCachingConverter;
+	public fun getWrapperClass ()Lkotlin/reflect/KClass;
+	public fun isDefault (Ljava/lang/Object;)Z
+	public final fun readValidatedBytes (Lprotokt/v1/Reader;)Lprotokt/v1/Bytes;
+	public fun sizeOf (Ljava/lang/Object;)I
+	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun unwrap (Ljava/lang/String;)Lprotokt/v1/Bytes;
+	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun wrap (Lprotokt/v1/Bytes;)Ljava/lang/String;
+	public fun writeTo (Lprotokt/v1/Writer;Ljava/lang/Object;)V
 }
 
 public final class protokt/v1/UnknownField {

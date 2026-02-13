@@ -27,6 +27,7 @@ import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
 import protokt.v1.AbstractDeserializer
 import protokt.v1.Reader
+import protokt.v1.StringCachingConverter
 import protokt.v1.UnknownFieldSet
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Wrapper.interceptRead
@@ -128,7 +129,7 @@ private class DeserializerGenerator(
 
     private fun declareDeserializeVar(p: PropertyInfo): CodeBlock {
         val initialState = deserializeVarInitialState(p)
-        return if (p.fieldType == FieldType.Message || p.repeated || p.oneof || p.nullable || p.wrapped) {
+        return if (p.fieldType == FieldType.Message || p.repeated || p.oneof || p.nullable || p.wrapped || p.cachingString) {
             CodeBlock.of("%N: %T = %L", p.name, deserializeType(p), initialState)
         } else {
             CodeBlock.of("%N = %L", p.name, initialState)
@@ -145,9 +146,13 @@ private class DeserializerGenerator(
             p.deserializeType
         }
 
-    private fun constructorLines(properties: List<PropertyInfo>) =
-        properties.map { CodeBlock.of("%L,\n", wrapDeserializedValueForConstructor(it)) } +
-            CodeBlock.of("%T.from(unknownFields)", UnknownFieldSet::class)
+    private fun constructorLines(properties: List<PropertyInfo>): List<CodeBlock> {
+        val positionalArgs = properties.map {
+            CodeBlock.of("%L,\n", wrapDeserializedValueForConstructor(it))
+        }
+        val unknownFieldsArg = CodeBlock.of("%T.from(unknownFields)", UnknownFieldSet::class)
+        return positionalArgs + listOf(unknownFieldsArg)
+    }
 
     private class DeserializerInfo(
         val tag: UInt,
@@ -161,10 +166,17 @@ private class DeserializerGenerator(
                 DeserializerInfo(
                     tag.value,
                     oneOf?.fieldName ?: field.fieldName,
-                    oneOf?.let { oneofDes(it, field) } ?: deserialize(field, ctx, tag is Tag.Packed)
+                    when {
+                        oneOf != null -> oneofDes(oneOf, field)
+                        isCachingString(field) -> cachingStringDeserialize()
+                        else -> deserialize(field, ctx, tag is Tag.Packed)
+                    }
                 )
             }
         }
+
+    private fun cachingStringDeserialize() =
+        CodeBlock.of("%T.readValidatedBytes($READER)", StringCachingConverter::class)
 
     private val StandardField.tagList
         get() =

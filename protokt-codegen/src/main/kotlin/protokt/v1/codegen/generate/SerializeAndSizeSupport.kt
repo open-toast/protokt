@@ -69,6 +69,10 @@ private fun standardFieldExecution(
 }
 
 private fun StandardField.nonDefault(ctx: Context): CodeBlock {
+    if (isCachingString(this)) {
+        return CodeBlock.of("%N.isNotDefault()", "_$fieldName")
+    }
+
     val valueAccess = interceptValueAccess(this, ctx, CodeBlock.of("%N", fieldName))
     val defaultCheck =
         when {

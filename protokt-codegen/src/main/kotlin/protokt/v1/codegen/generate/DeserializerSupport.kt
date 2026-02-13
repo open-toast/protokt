@@ -17,20 +17,29 @@ package protokt.v1.codegen.generate
 
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.buildCodeBlock
+import protokt.v1.Bytes
+import protokt.v1.CachingReference
+import protokt.v1.StringCachingConverter
 import protokt.v1.reflect.FieldType
 
 internal fun deserializeVarInitialState(p: PropertyInfo) =
-    if (p.repeated || p.wrapped || p.nullable || p.fieldType == FieldType.Message) {
+    if (p.repeated || p.wrapped || p.nullable || p.cachingString || p.fieldType == FieldType.Message) {
         CodeBlock.of("null")
     } else {
         p.defaultValue
     }
 
-internal fun wrapDeserializedValueForConstructor(p: PropertyInfo) =
+internal fun wrapDeserializedValueForConstructor(p: PropertyInfo, fromBuilder: Boolean = false) =
     if (p.isMap) {
         CodeBlock.of("%M(%N)", unmodifiableMap, p.name)
     } else if (p.repeated) {
         CodeBlock.of("%M(%N)", unmodifiableList, p.name)
+    } else if (p.cachingString) {
+        if (fromBuilder) {
+            CodeBlock.of("%T(%N, %T)", CachingReference::class, p.name, StringCachingConverter::class)
+        } else {
+            CodeBlock.of("%T(%N ?: %T.empty(), %T)", CachingReference::class, p.name, Bytes::class, StringCachingConverter::class)
+        }
     } else {
         buildCodeBlock {
             add("%N", p.name)
