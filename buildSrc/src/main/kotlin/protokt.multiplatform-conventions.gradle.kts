@@ -23,10 +23,7 @@ the<SourceSetContainer>().create("main")
 the<SourceSetContainer>().create("test")
 
 kotlin {
-    jvm {
-        @Suppress("DEPRECATION")
-        withJava()
-    }
+    jvm {}
 
     js(IR) {
         configureJsTests()
@@ -57,7 +54,3 @@ tasks.named<Test>("jvmTest") {
 }
 
 configureJvmToolchain()
-
-tasks.named("checkKotlinGradlePluginConfigurationErrors") {
-    enabled = false
-}
