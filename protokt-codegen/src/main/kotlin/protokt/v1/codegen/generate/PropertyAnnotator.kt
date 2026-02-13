@@ -19,6 +19,7 @@ import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.asTypeName
+import protokt.v1.Bytes
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Deprecation.renderOptions
 import protokt.v1.codegen.generate.Implements.overrides
@@ -56,12 +57,18 @@ private class PropertyAnnotator(
             is StandardField -> {
                 annotateStandard(field).let { type ->
                     val wrapperRequiresNullability = field.wrapperRequiresNullability(ctx)
+                    val cachingString = isCachingString(field) && !msg.mapEntry
                     PropertyInfo(
                         name = field.fieldName,
                         number = field.number,
                         propertyType = propertyType(field, type, wrapperRequiresNullability),
                         generateNullableBackingProperty = field.generateNonNullAccessor,
-                        deserializeType = deserializeType(field, type),
+                        deserializeType =
+                        if (cachingString) {
+                            Bytes::class.asTypeName().copy(nullable = true)
+                        } else {
+                            deserializeType(field, type)
+                        },
                         builderPropertyType = dslPropertyType(field, type),
                         defaultValue = field.defaultValue(ctx, msg.mapEntry),
                         fieldType = field.type,
@@ -70,6 +77,7 @@ private class PropertyAnnotator(
                         nullable = field.nullable || field.optional || wrapperRequiresNullability,
                         overrides = field.overrides(ctx, msg),
                         wrapped = field.wrapped,
+                        cachingString = cachingString,
                         documentation = documentation,
                         deprecation = deprecation(field)
                     )
@@ -147,6 +155,7 @@ internal class PropertyInfo(
     val mapEntry: Message? = null,
     val oneof: Boolean = false,
     val wrapped: Boolean = false,
+    val cachingString: Boolean = false,
     val overrides: Boolean = false,
     val documentation: List<String>?,
     val deprecation: Deprecation.RenderOptions? = null
@@ -154,3 +163,6 @@ internal class PropertyInfo(
     val isMap
         get() = mapEntry != null
 }
+
+internal fun isCachingString(f: StandardField): Boolean =
+    f.type == FieldType.String && !f.repeated && !f.isMap && !f.wrapped && !f.optional

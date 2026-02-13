@@ -99,7 +99,8 @@ private class MessageSizeGenerator(
 internal fun sizeOf(
     f: StandardField,
     ctx: Context,
-    oneOfFieldAccess: CodeBlock? = null
+    oneOfFieldAccess: CodeBlock? = null,
+    mapEntry: Boolean = false
 ): CodeBlock {
     val fieldAccess =
         oneOfFieldAccess
@@ -135,6 +136,16 @@ internal fun sizeOf(
                 )
             )
         }
+        !mapEntry && isCachingString(f) && oneOfFieldAccess == null -> {
+            buildCodeBlock {
+                add(
+                    "%M(${f.tag}u) + %N.sizeOf()",
+                    sizeOf,
+                    "_${f.fieldName}"
+                )
+            }
+        }
+
         else -> {
             buildCodeBlock {
                 add(
