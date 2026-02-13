@@ -90,24 +90,30 @@ internal object PersistentCollections {
 
 private class PersistentListBuilderImpl<T> : ListBuilder<T> {
     private val builder = persistentListOf<T>().builder()
+
     override fun add(element: T) {
         builder.add(element)
     }
+
     override fun addAll(elements: Iterable<T>) {
         builder.addAll(elements)
     }
+
     override fun build(): List<T> =
         builder.build()
 }
 
 private class PersistentMapBuilderImpl<K, V> : MapBuilder<K, V> {
     private val builder = persistentMapOf<K, V>().builder()
+
     override fun put(key: K, value: V) {
         builder[key] = value
     }
+
     override fun putAll(from: Map<K, V>) {
         builder.putAll(from)
     }
+
     override fun build(): Map<K, V> =
         builder.build()
 }
