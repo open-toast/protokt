@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Toast, Inc.
+ * Copyright (c) 2026 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +15,21 @@
 
 package protokt.v1
 
-import protokt.v1.google.protobuf.BytesValue
-import java.util.UUID
+@OptIn(OnlyForUseByGeneratedProtoCode::class)
+object StringConverter : Converter<Bytes, String> {
+    override val wrapper = String::class
 
-object UuidBytesValueConverter : AbstractConverter<BytesValue, UUID>() {
-    override fun wrap(unwrapped: BytesValue) =
-        UuidBytesConverter.wrap(unwrapped.value)
+    override val wrapped = Bytes::class
 
-    override fun unwrap(wrapped: UUID) =
-        BytesValue { value = UuidBytesConverter.unwrap(wrapped) }
+    override fun wrap(unwrapped: Bytes): String =
+        unwrapped.value.decodeToString()
+
+    override fun unwrap(wrapped: String): Bytes =
+        Bytes(wrapped.encodeToByteArray())
+
+    fun readValidatedBytes(reader: Reader): Bytes {
+        val bytes = reader.readBytes()
+        validateUtf8(bytes.value)
+        return bytes
+    }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast, Inc.
+ * Copyright (c) 2026 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,19 +13,18 @@
  * limitations under the License.
  */
 
+@file:OptIn(OnlyForUseByGeneratedProtoCode::class)
+
 package protokt.v1
 
-import kotlin.reflect.KClass
+internal actual val collectionProvider: CollectionProvider by lazy {
+    val providerFqcn =
+        System.getProperty("protokt.collection.provider")
+            ?: System.getenv("PROTOKT_COLLECTION_PROVIDER")
 
-interface Converter<ProtobufT : Any, KotlinT : Any> {
-    val wrapper: KClass<KotlinT>
-
-    val wrapped: KClass<ProtobufT>
-
-    val acceptsDefaultValue
-        get() = true
-
-    fun wrap(unwrapped: ProtobufT): KotlinT
-
-    fun unwrap(wrapped: KotlinT): ProtobufT
+    if (providerFqcn != null) {
+        Class.forName(providerFqcn).getField("INSTANCE").get(null) as CollectionProvider
+    } else {
+        DefaultCollectionProvider
+    }
 }

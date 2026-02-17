@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast, Inc.
+ * Copyright (c) 2026 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,26 +13,13 @@
  * limitations under the License.
  */
 
-plugins {
-    id("protokt.benchmarks-conventions")
-    id("com.google.protobuf")
-    application
-}
+@file:OptIn(OnlyForUseByGeneratedProtoCode::class)
 
-defaultProtoc()
+package protokt.v1
 
-configure<JavaApplication> {
-    mainClass.set("protokt.v1.benchmarks.ProtobufBenchmarksKt")
-    executableDir = ".."
-}
-
-dependencies {
-    implementation(project(":benchmarks:benchmarks-util"))
-    implementation(libs.protobuf.java)
-
-    protobuf(project(":benchmarks:schema"))
-}
-
-tasks.named("run") {
-    dependsOn(":benchmarks:datasets")
-}
+internal actual val collectionProvider: CollectionProvider =
+    if (js("(typeof process !== 'undefined' && process.env && process.env.PROTOKT_COLLECTION_PROVIDER === 'protokt.v1.PersistentCollectionProvider')").unsafeCast<Boolean>()) {
+        PersistentCollectionProvider
+    } else {
+        DefaultCollectionProvider
+    }

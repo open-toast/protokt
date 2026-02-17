@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast, Inc.
+ * Copyright (c) 2026 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,16 @@
  */
 
 plugins {
-    id("protokt.multiplatform-published-conventions")
+    id("protokt.jvm-conventions")
 }
 
-compatibleWithAndroid()
+tasks.test {
+    systemProperty("protokt.collection.provider", "protokt.v1.PersistentCollectionProvider")
+}
+
+dependencies {
+    testImplementation(project(":testing:interop"))
+    testImplementation(project(":testing:protobuf-java"))
+    testImplementation(libs.kotlinx.collectionsImmutable)
+    testImplementation(libs.protobuf.java)
+}

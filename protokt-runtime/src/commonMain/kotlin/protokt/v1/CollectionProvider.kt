@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Toast, Inc.
+ * Copyright (c) 2026 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +15,14 @@
 
 package protokt.v1
 
-import protokt.v1.google.protobuf.BytesValue
-import java.util.UUID
-
-object UuidBytesValueConverter : AbstractConverter<BytesValue, UUID>() {
-    override fun wrap(unwrapped: BytesValue) =
-        UuidBytesConverter.wrap(unwrapped.value)
-
-    override fun unwrap(wrapped: UUID) =
-        BytesValue { value = UuidBytesConverter.unwrap(wrapped) }
+@OnlyForUseByGeneratedProtoCode
+interface CollectionProvider {
+    fun <T> listBuilder(): ListBuilder<T>
+    fun <K, V> mapBuilder(): MapBuilder<K, V>
+    fun <T> freezeList(list: List<T>): List<T>
+    fun <K, V> freezeMap(map: Map<K, V>): Map<K, V>
+    fun <T> listPlus(list: List<T>, element: T): List<T>
+    fun <T> listPlusAll(list: List<T>, elements: Iterable<T>): List<T>
+    fun <K, V> mapPlus(map: Map<K, V>, pair: Pair<K, V>): Map<K, V>
+    fun <K, V> mapPlusAll(map: Map<K, V>, pairs: Iterable<Pair<K, V>>): Map<K, V>
 }

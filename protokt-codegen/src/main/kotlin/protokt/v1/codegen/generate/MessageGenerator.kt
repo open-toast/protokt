@@ -20,13 +20,16 @@ import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterSpec
+import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
 import protokt.v1.AbstractMessage
+import protokt.v1.Bytes
 import protokt.v1.GeneratedMessage
 import protokt.v1.GeneratedProperty
+import protokt.v1.LazyReference
 import protokt.v1.UnknownFieldSet
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.CodeGenerator.generate
@@ -48,16 +51,16 @@ private class MessageGenerator(
 ) {
     fun generate(): TypeSpec {
         val properties = annotateProperties(msg, ctx)
-        val (constructorProps, delegateProps) = properties(properties)
+        val msgProps = properties(properties)
 
         return TypeSpec.classBuilder(msg.className).apply {
             annotateMessageDocumentation(ctx)?.let { addKdoc(formatDoc(it)) }
             handleAnnotations()
-            handleConstructor(constructorProps)
+            handleConstructor(msgProps)
             addTypes(annotateOneofs(msg, ctx))
-            handleMessageSize(constructorProps)
-            addProperties(delegateProps)
-            addFunction(generateSerializer(msg, propertySpecs, ctx))
+            handleMessageSize(msgProps.serializationProps)
+            addProperties(msgProps.delegateProps)
+            addFunction(generateSerializer(msg, msgProps.serializationProps, ctx))
             handleEquals(properties)
             handleHashCode(properties)
             handleToString(properties)
@@ -82,11 +85,11 @@ private class MessageGenerator(
         }
 
     private fun TypeSpec.Builder.handleConstructor(
-        properties: List<PropertySpec>
+        props: MessageProperties
     ) =
         apply {
             superclass(AbstractMessage::class)
-            addProperties(properties)
+            addProperties(props.constructorPropertySpecs)
             addProperty(
                 PropertySpec.builder("unknownFields", UnknownFieldSet::class)
                     .initializer("unknownFields")
@@ -95,85 +98,172 @@ private class MessageGenerator(
             primaryConstructor(
                 FunSpec.constructorBuilder()
                     .addModifiers(KModifier.PRIVATE)
-                    .addParameters(properties.map { ParameterSpec(it.name, it.type) })
+                    .addParameters(
+                        props.constructorEntries.map { entry ->
+                            when (entry) {
+                                is ConstructorEntry.ValProp -> ParameterSpec(entry.spec.name, entry.spec.type)
+                                is ConstructorEntry.PlainParam -> entry.spec
+                            }
+                        }
+                    )
                     .addParameter(
                         ParameterSpec.builder("unknownFields", UnknownFieldSet::class)
                             .defaultValue("%T.empty()", UnknownFieldSet::class)
                             .build()
                     )
+                    .addParameters(props.trailingParams)
                     .build()
             )
             handleSuperInterface(msg, ctx)
         }
 
+    private sealed class ConstructorEntry {
+        data class ValProp(val spec: PropertySpec) : ConstructorEntry()
+        data class PlainParam(val spec: ParameterSpec) : ConstructorEntry()
+    }
+
     private data class MessageProperties(
-        val constructorProps: List<PropertySpec>,
-        val delegateProps: List<PropertySpec>
+        val constructorEntries: List<ConstructorEntry>,
+        val delegateProps: List<PropertySpec>,
+        val trailingParams: List<ParameterSpec>,
+        val serializationProps: List<PropertySpec>
     ) {
-        constructor(property: PropertySpec) : this(listOf(property), emptyList())
-        constructor(constructorProp: PropertySpec, delegateProp: PropertySpec) :
-            this(listOf(constructorProp), listOf(delegateProp))
+        val constructorPropertySpecs get() =
+            constructorEntries.filterIsInstance<ConstructorEntry.ValProp>().map { it.spec }
 
         operator fun plus(props: MessageProperties) =
             MessageProperties(
-                constructorProps + props.constructorProps,
-                delegateProps + props.delegateProps
+                constructorEntries + props.constructorEntries,
+                delegateProps + props.delegateProps,
+                trailingParams + props.trailingParams,
+                serializationProps + props.serializationProps
             )
     }
 
     private fun properties(properties: List<PropertyInfo>): MessageProperties =
-        properties.fold(MessageProperties(emptyList(), emptyList())) { props, property ->
-            if (property.generateNullableBackingProperty) {
-                props + generateWithBackingProperty(property)
-            } else {
-                props + generateStandardProperty(property)
+        properties.fold(MessageProperties(emptyList(), emptyList(), emptyList(), emptyList())) { props, property ->
+            when {
+                property.cachingInfo != null -> props + generateCachingProperty(property, property.cachingInfo)
+                property.generateNullableBackingProperty -> props + generateWithBackingProperty(property)
+                else -> props + generateStandardProperty(property)
             }
         }
 
-    private fun generateStandardProperty(property: PropertyInfo) =
-        MessageProperties(
-            PropertySpec.builder(property.name, property.propertyType).apply {
-                if (property.number != null) {
-                    addAnnotation(
-                        AnnotationSpec.builder(GeneratedProperty::class)
-                            .addMember("${property.number}")
-                            .build()
-                    )
-                }
-                initializer(property.name)
-                if (property.overrides) {
-                    addModifiers(KModifier.OVERRIDE)
-                }
-                property.documentation?.let { addKdoc(formatDoc(it)) }
-                handleDeprecation(property.deprecation)
-            }.build()
-        )
-
-    private fun generateWithBackingProperty(property: PropertyInfo) =
-        MessageProperties(
-            PropertySpec.builder(property.name, property.propertyType.copy(nullable = true)).apply {
-                if (property.number != null) {
-                    addAnnotation(
-                        AnnotationSpec.builder(GeneratedProperty::class)
-                            .addMember("${property.number}")
-                            .build()
-                    )
-                }
-                if (property.overrides) {
-                    addModifiers(KModifier.OVERRIDE)
-                }
-                initializer(property.name)
-            }.build(),
-            PropertySpec.builder(nonNullPropName(property.name), property.propertyType.copy(nullable = false)).apply {
-                getter(
-                    FunSpec.getterBuilder()
-                        .addCode("return ${dereferenceNullableBackingProperty(property.name, property.oneof)}")
+    private fun generateStandardProperty(property: PropertyInfo): MessageProperties {
+        val prop = PropertySpec.builder(property.name, property.propertyType).apply {
+            if (property.number != null) {
+                addAnnotation(
+                    AnnotationSpec.builder(GeneratedProperty::class)
+                        .addMember("${property.number}")
                         .build()
                 )
-                property.documentation?.let { addKdoc(formatDoc(it)) }
-                handleDeprecation(property.deprecation)
-            }.build()
+            }
+            initializer(property.name)
+            if (property.overrides) {
+                addModifiers(KModifier.OVERRIDE)
+            }
+            property.documentation?.let { addKdoc(formatDoc(it)) }
+            handleDeprecation(property.deprecation)
+        }.build()
+
+        return MessageProperties(
+            constructorEntries = listOf(ConstructorEntry.ValProp(prop)),
+            delegateProps = emptyList(),
+            trailingParams = emptyList(),
+            serializationProps = listOf(prop)
         )
+    }
+
+    private fun generateWithBackingProperty(property: PropertyInfo): MessageProperties {
+        val backingProp = PropertySpec.builder(property.name, property.propertyType.copy(nullable = true)).apply {
+            if (property.number != null) {
+                addAnnotation(
+                    AnnotationSpec.builder(GeneratedProperty::class)
+                        .addMember("${property.number}")
+                        .build()
+                )
+            }
+            if (property.overrides) {
+                addModifiers(KModifier.OVERRIDE)
+            }
+            initializer(property.name)
+        }.build()
+
+        val delegateProp = PropertySpec.builder(nonNullPropName(property.name), property.propertyType.copy(nullable = false)).apply {
+            getter(
+                FunSpec.getterBuilder()
+                    .addCode("return ${dereferenceNullableBackingProperty(property.name, property.oneof)}")
+                    .build()
+            )
+            property.documentation?.let { addKdoc(formatDoc(it)) }
+            handleDeprecation(property.deprecation)
+        }.build()
+
+        return MessageProperties(
+            constructorEntries = listOf(ConstructorEntry.ValProp(backingProp)),
+            delegateProps = listOf(delegateProp),
+            trailingParams = emptyList(),
+            serializationProps = listOf(backingProp)
+        )
+    }
+
+    private fun generateCachingProperty(property: PropertyInfo, info: CachingFieldInfo): MessageProperties {
+        val wireTypeName = when (info) {
+            is CachingFieldInfo.PlainString -> Bytes::class.asTypeName()
+            is CachingFieldInfo.Converted -> info.wireTypeName
+        }
+        val nonNullPropertyType = property.propertyType.copy(nullable = false)
+        val lazyRefType = LazyReference::class.asTypeName()
+            .parameterizedBy(wireTypeName, nonNullPropertyType)
+        val backingType = if (info.nullable) lazyRefType.copy(nullable = true) else lazyRefType
+
+        val backingProp = PropertySpec.builder("_${property.name}", backingType)
+            .addModifiers(KModifier.PRIVATE)
+            .initializer("_${property.name}")
+            .build()
+
+        val valueAccessCode = if (info.nullable) "_${property.name}?.value()" else "_${property.name}.value()"
+
+        val publicProp = PropertySpec.builder(property.name, property.propertyType).apply {
+            addAnnotation(
+                AnnotationSpec.builder(GeneratedProperty::class)
+                    .addMember("${property.number}")
+                    .build()
+            )
+            if (property.overrides) {
+                addModifiers(KModifier.OVERRIDE)
+            }
+            getter(
+                FunSpec.getterBuilder()
+                    .addCode("return $valueAccessCode")
+                    .build()
+            )
+            property.documentation?.let { addKdoc(formatDoc(it)) }
+            handleDeprecation(property.deprecation)
+        }.build()
+
+        val delegateProps = mutableListOf(publicProp)
+        if (property.generateNullableBackingProperty && info.nullable) {
+            delegateProps.add(
+                PropertySpec.builder(nonNullPropName(property.name), nonNullPropertyType).apply {
+                    getter(
+                        FunSpec.getterBuilder()
+                            .addCode("return ${dereferenceNullableBackingProperty(property.name, property.oneof)}")
+                            .build()
+                    )
+                    property.documentation?.let { addKdoc(formatDoc(it)) }
+                    handleDeprecation(property.deprecation)
+                }.build()
+            )
+        }
+
+        return MessageProperties(
+            constructorEntries = listOf(ConstructorEntry.ValProp(backingProp)),
+            delegateProps = delegateProps,
+            trailingParams = emptyList(),
+            serializationProps = listOf(backingProp)
+        )
+    }
 
     private fun dereferenceNullableBackingProperty(propName: String, oneof: Boolean) =
         "requireNotNull($propName) { \"$propName is assumed non-null with (protokt.v1.${if (oneof) "oneof" else "property"}).generate_non_null_accessor but was null\" }".bindSpaces()
