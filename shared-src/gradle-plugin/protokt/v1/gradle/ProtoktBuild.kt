@@ -233,10 +233,7 @@ private fun Project.linkGenerateProtoTasksAndIncludeGeneratedSource(target: Kotl
 
         // todo: it would be better to avoid this by making the outputs of genProtoTask an input of the correct compile task
         tasks.withType<AbstractKotlinCompile<*>> {
-            if (
-                ((test && "Test" in name) || (!test && "Test" !in name)) &&
-                "Metadata" !in name
-            ) {
+            if ((test && "Test" in name) || (!test && "Test" !in name)) {
                 logger.log(DEBUG_LOG_LEVEL, "Making task {} a dependency of {}", genProtoTask.name, name)
                 dependsOn(genProtoTask)
             }
