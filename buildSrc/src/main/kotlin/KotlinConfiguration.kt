@@ -28,9 +28,7 @@ fun KotlinCommonCompilerOptions.configureKotlin() {
     languageVersion.set(KotlinVersion.KOTLIN_2_0)
     apiVersion.set(KotlinVersion.KOTLIN_2_0)
 
-    // do not generate DefaultImpls objects since we do not target < JVM 1.8
-    // https://blog.jetbrains.com/kotlin/2020/07/kotlin-1-4-m3-generating-default-methods-in-interfaces
-    freeCompilerArgs.addAll("-Xjvm-default=all", "-Xexpect-actual-classes")
+    freeCompilerArgs.add("-Xexpect-actual-classes")
 }
 
 fun Project.configureJvmToolchain() {
