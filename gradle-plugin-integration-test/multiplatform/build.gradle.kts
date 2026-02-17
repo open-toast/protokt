@@ -77,7 +77,6 @@ kotlin {
 
         languageVersion = apiVersion
     }
-
 }
 
 tasks.named<Test>("jvmTest") {
