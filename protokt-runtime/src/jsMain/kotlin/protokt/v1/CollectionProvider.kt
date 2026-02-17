@@ -13,17 +13,13 @@
  * limitations under the License.
  */
 
-plugins {
-    id("protokt.jvm-conventions")
-}
+@file:OptIn(OnlyForUseByGeneratedProtoCode::class)
 
-tasks.test {
-    systemProperty("protokt.collection.provider", "protokt.v1.PersistentCollectionProvider")
-}
+package protokt.v1
 
-dependencies {
-    testImplementation(project(":testing:interop"))
-    testImplementation(project(":testing:protobuf-java"))
-    testImplementation(libs.kotlinx.collectionsImmutable)
-    testImplementation(libs.protobuf.java)
-}
+internal actual val collectionProvider: CollectionProvider =
+    if (js("(typeof process !== 'undefined' && process.env && process.env.PROTOKT_COLLECTION_PROVIDER === 'protokt.v1.PersistentCollectionProvider')").unsafeCast<Boolean>()) {
+        PersistentCollectionProvider
+    } else {
+        DefaultCollectionProvider
+    }

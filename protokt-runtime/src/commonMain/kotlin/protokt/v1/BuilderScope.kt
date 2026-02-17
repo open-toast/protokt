@@ -24,14 +24,14 @@ package protokt.v1
 @OnlyForUseByGeneratedProtoCode
 interface BuilderScope {
     operator fun <T> List<T>.plus(element: T): List<T> =
-        PersistentCollections.listPlus(this, element)
+        collectionProvider.listPlus(this, element)
 
     operator fun <T> List<T>.plus(elements: Iterable<T>): List<T> =
-        PersistentCollections.listPlusAll(this, elements)
+        collectionProvider.listPlusAll(this, elements)
 
     operator fun <K, V> Map<K, V>.plus(pair: Pair<K, V>): Map<K, V> =
-        PersistentCollections.mapPlus(this, pair)
+        collectionProvider.mapPlus(this, pair)
 
     operator fun <K, V> Map<K, V>.plus(pairs: Iterable<Pair<K, V>>): Map<K, V> =
-        PersistentCollections.mapPlusAll(this, pairs)
+        collectionProvider.mapPlusAll(this, pairs)
 }

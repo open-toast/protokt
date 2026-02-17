@@ -415,6 +415,52 @@ private fun FileDescriptor.toProtobufJavaDescriptor(): Descriptors.FileDescripto
     )
 ```
 
+### Persistent collections
+
+By default, deserialized `repeated` and `map` fields use unmodifiable
+collections that are expensive to copy. When you use the `copy {}` DSL to
+append to pre-populated collections (e.g. `field = field + element`), each `+`
+copies the entire collection, costing O(n) per append.
+
+Enabling persistent collections switches the backing implementation to
+`PersistentList` and `PersistentMap` from
+[`kotlinx-collections-immutable`](https://github.com/Kotlin/kotlinx.collections.immutable).
+These use tree-based structural sharing so that `+` inside a `copy {}` block
+runs in O(log n) instead of O(n).
+
+Workloads that incrementally build up repeated or map fields via `copy {}` on messages that 
+already have large collections may benefit from this option. Benchmarks show
+up to 47x speedup on list appends and 150x on map puts for pre-populated
+messages.
+
+Deserialization is ~5-7% slower for large messages because persistent list construction has 
+more overhead than regular mutable lists. Serialization is marginally slower for large messages.
+If your workload is dominated by deserialize-then-read-only access patterns, the default 
+unmodifiable collections will perform better.
+
+To enable on JVM, set the system property:
+
+```
+-Dprotokt.collection.provider=protokt.v1.PersistentCollectionProvider
+```
+
+On JVM or JS, set the environment variable:
+
+```
+PROTOKT_COLLECTION_PROVIDER=protokt.v1.PersistentCollectionProvider
+```
+
+You can also supply any custom `CollectionProvider` implementation by FQCN
+(the class must be a Kotlin `object`).
+
+You must also add `kotlinx-collections-immutable` to your runtime classpath:
+
+```kotlin
+dependencies {
+    implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:<version>")
+}
+```
+
 ### Other Notes
 
 - `optimize_for` is ignored.

@@ -31,8 +31,8 @@ import java.util.concurrent.TimeUnit
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 @State(Scope.Benchmark)
 open class ProtoktBenchmarks {
-    @Param("false", "true")
-    var persistentCollections: String = "false"
+    @Param("", "protokt.v1.PersistentCollectionProvider")
+    var collectionProvider: String = ""
 
     private lateinit var largeDataset: BenchmarkDataset
     private lateinit var largeParsedDataset: List<GenericMessage1>
@@ -49,7 +49,11 @@ open class ProtoktBenchmarks {
     fun setup() {
         byteValues = Array(1000) { i -> Bytes.from(byteArrayOf(i.toByte())) }
 
-        System.setProperty("protokt.collections.persistent", persistentCollections)
+        if (collectionProvider.isNotEmpty()) {
+            System.setProperty("protokt.collection.provider", collectionProvider)
+        } else {
+            System.clearProperty("protokt.collection.provider")
+        }
 
         readData("large").use { stream ->
             largeDataset = BenchmarkDataset.deserialize(stream)

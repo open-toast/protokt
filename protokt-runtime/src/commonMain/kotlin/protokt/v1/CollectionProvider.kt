@@ -15,8 +15,14 @@
 
 package protokt.v1
 
-internal actual val usePersistentCollections: Boolean by lazy {
-    System.getProperty("protokt.collections.persistent")?.toBoolean()
-        ?: System.getenv("PROTOKT_COLLECTIONS_PERSISTENT")?.toBoolean()
-        ?: false
+@OnlyForUseByGeneratedProtoCode
+interface CollectionProvider {
+    fun <T> listBuilder(): ListBuilder<T>
+    fun <K, V> mapBuilder(): MapBuilder<K, V>
+    fun <T> freezeList(list: List<T>): List<T>
+    fun <K, V> freezeMap(map: Map<K, V>): Map<K, V>
+    fun <T> listPlus(list: List<T>, element: T): List<T>
+    fun <T> listPlusAll(list: List<T>, elements: Iterable<T>): List<T>
+    fun <K, V> mapPlus(map: Map<K, V>, pair: Pair<K, V>): Map<K, V>
+    fun <K, V> mapPlusAll(map: Map<K, V>, pairs: Iterable<Pair<K, V>>): Map<K, V>
 }

@@ -21,27 +21,31 @@ import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.PersistentMap
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.persistentMapOf
-import kotlin.jvm.JvmStatic
 
-internal object PersistentCollections {
-    @JvmStatic
-    fun <T> listBuilder(): ListBuilder<T> =
+internal object PersistentCollectionProvider : CollectionProvider {
+    override fun <T> listBuilder(): ListBuilder<T> =
         PersistentListBuilderImpl()
 
-    @JvmStatic
-    fun <K, V> mapBuilder(): MapBuilder<K, V> =
+    override fun <K, V> mapBuilder(): MapBuilder<K, V> =
         PersistentMapBuilderImpl()
 
-    @JvmStatic
-    fun isFrozenList(list: List<*>): Boolean =
-        list is PersistentList
+    override fun <T> freezeList(list: List<T>): List<T> =
+        when {
+            list.isEmpty() -> list
+            list is UnmodifiableList -> list
+            list is PersistentList -> list
+            else -> UnmodifiableList(ArrayList(list))
+        }
 
-    @JvmStatic
-    fun isFrozenMap(map: Map<*, *>): Boolean =
-        map is PersistentMap
+    override fun <K, V> freezeMap(map: Map<K, V>): Map<K, V> =
+        when {
+            map.isEmpty() -> emptyMap()
+            map is UnmodifiableMap -> map
+            map is PersistentMap -> map
+            else -> UnmodifiableMap(LinkedHashMap(map))
+        }
 
-    @JvmStatic
-    fun <T> listPlus(list: List<T>, element: T): List<T> =
+    override fun <T> listPlus(list: List<T>, element: T): List<T> =
         if (list is PersistentList) {
             list.add(element)
         } else {
@@ -51,8 +55,7 @@ internal object PersistentCollections {
             }
         }
 
-    @JvmStatic
-    fun <T> listPlusAll(list: List<T>, elements: Iterable<T>): List<T> =
+    override fun <T> listPlusAll(list: List<T>, elements: Iterable<T>): List<T> =
         if (list is PersistentList) {
             val collection = elements as? Collection ?: elements.toList()
             list.addAll(collection)
@@ -63,16 +66,14 @@ internal object PersistentCollections {
             }
         }
 
-    @JvmStatic
-    fun <K, V> mapPlus(map: Map<K, V>, pair: Pair<K, V>): Map<K, V> =
+    override fun <K, V> mapPlus(map: Map<K, V>, pair: Pair<K, V>): Map<K, V> =
         if (map is PersistentMap) {
             map.put(pair.first, pair.second)
         } else {
             LinkedHashMap(map).apply { put(pair.first, pair.second) }
         }
 
-    @JvmStatic
-    fun <K, V> mapPlusAll(map: Map<K, V>, pairs: Iterable<Pair<K, V>>): Map<K, V> =
+    override fun <K, V> mapPlusAll(map: Map<K, V>, pairs: Iterable<Pair<K, V>>): Map<K, V> =
         if (map is PersistentMap) {
             var result: PersistentMap<K, V> = map
             for ((k, v) in pairs) {
