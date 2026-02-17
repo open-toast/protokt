@@ -1,5 +1,5 @@
 {
-  "name": "protokt-extensions-api",
+  "name": "protokt-runtime",
   "issues": [
     {
       "type": "member-missing",

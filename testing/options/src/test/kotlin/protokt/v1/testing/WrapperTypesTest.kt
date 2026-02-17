@@ -51,36 +51,33 @@ class WrapperTypesTest {
         }
 
     @Test
-    fun `uuid property is nullable`() {
-        assertThat(Wrappers::class.propertyIsMarkedNullable("uuid")).isTrue()
+    fun `uuid property is not nullable`() {
+        assertThat(Wrappers::class.propertyIsMarkedNullable("uuid")).isFalse()
     }
 
     @Test
-    fun `ipAddress property is nullable`() {
-        assertThat(Wrappers::class.propertyIsMarkedNullable("ipAddress")).isTrue()
+    fun `ipAddress property is not nullable`() {
+        assertThat(Wrappers::class.propertyIsMarkedNullable("ipAddress")).isFalse()
     }
 
     @Test
-    fun `localDate property is nullable`() {
-        assertThat(Wrappers::class.propertyIsMarkedNullable("localDate")).isTrue()
+    fun `localDate property is not nullable`() {
+        assertThat(Wrappers::class.propertyIsMarkedNullable("localDate")).isFalse()
     }
 
     @Test
     fun `nonnull uuid property is not nullable`() {
-        assertThat(Wrappers::class.propertyIsMarkedNullable("nonNullUuid")).isTrue()
-        assertThat(Wrappers::class.propertyIsMarkedNullable("requireNonNullUuid")).isFalse()
+        assertThat(Wrappers::class.propertyIsMarkedNullable("nonNullUuid")).isFalse()
     }
 
     @Test
-    fun `nonnull ipAddress property is nullable with accessor`() {
-        assertThat(Wrappers::class.propertyIsMarkedNullable("nonNullIpAddress")).isTrue()
-        assertThat(Wrappers::class.propertyIsMarkedNullable("requireNonNullIpAddress")).isFalse()
+    fun `nonnull ipAddress property is not nullable`() {
+        assertThat(Wrappers::class.propertyIsMarkedNullable("nonNullIpAddress")).isFalse()
     }
 
     @Test
-    fun `nonnull localDate property is nullable with accessor`() {
-        assertThat(Wrappers::class.propertyIsMarkedNullable("nonNullLocalDate")).isTrue()
-        assertThat(Wrappers::class.propertyIsMarkedNullable("requireNonNullLocalDate")).isFalse()
+    fun `nonnull localDate property is not nullable`() {
+        assertThat(Wrappers::class.propertyIsMarkedNullable("nonNullLocalDate")).isFalse()
     }
 
     @Test
@@ -106,7 +103,7 @@ class WrapperTypesTest {
     fun `round trip should preserve uuid`() {
         val deserialized = Wrappers.deserialize(model.serialize())
 
-        assertThat(deserialized.uuid as Any?).isEqualTo(model.uuid)
+        assertThat(deserialized.uuid).isEqualTo(model.uuid)
     }
 
     @Test
@@ -134,7 +131,7 @@ class WrapperTypesTest {
     fun `round trip should preserve localdate`() {
         val deserialized = Wrappers.deserialize(model.serialize())
 
-        assertThat(deserialized.localDate as Any?).isEqualTo(model.localDate)
+        assertThat(deserialized.localDate).isEqualTo(model.localDate)
     }
 
     @Test
@@ -236,7 +233,7 @@ class WrapperTypesTest {
     fun `round trip should preserve uuid oneof`() {
         val deserialized = OneofWrappers.deserialize(
             OneofWrappers {
-                wrappedOneof = WrappedOneof.UuidOneof(model.uuid!!)
+                wrappedOneof = WrappedOneof.UuidOneof(model.uuid)
             }.serialize()
         )
 
@@ -249,7 +246,7 @@ class WrapperTypesTest {
     fun `round trip should preserve ip address oneof`() {
         val deserialized = OneofWrappers.deserialize(
             OneofWrappers {
-                wrappedOneof = WrappedOneof.IpAddressOneof(model.ipAddress!!)
+                wrappedOneof = WrappedOneof.IpAddressOneof(model.ipAddress)
             }.serialize()
         )
 
@@ -314,7 +311,7 @@ class WrapperTypesTest {
     fun `round trip should preserve localdate oneof`() {
         val deserialized = OneofWrappers.deserialize(
             OneofWrappers {
-                wrappedOneof = WrappedOneof.LocalDateOneof(model.localDate!!)
+                wrappedOneof = WrappedOneof.LocalDateOneof(model.localDate)
             }.serialize()
         )
 
