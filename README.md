@@ -458,17 +458,14 @@ Converters implement the
 interface:
 
 ```kotlin
-interface Converter<ProtobufT : Any, KotlinT : Any> {
+interface Converter<WireT : Any, KotlinT : Any> {
   val wrapper: KClass<KotlinT>
 
-  val wrapped: KClass<ProtobufT>
+  val wrapped: KClass<WireT>
 
-  val acceptsDefaultValue
-    get() = true
+  fun wrap(unwrapped: WireT): KotlinT
 
-  fun wrap(unwrapped: ProtobufT): KotlinT
-
-  fun unwrap(wrapped: KotlinT): ProtobufT
+  fun unwrap(wrapped: KotlinT): WireT
 }
 ```
 
@@ -488,17 +485,30 @@ object InstantConverter : AbstractConverter<Timestamp, Instant>() {
 }
 ```
 
+All wrapper types use lazy conversion via `LazyReference`. The wire-form value
+is stored at deserialization time and only converted to the Kotlin type on first
+access. This means:
+- Deserialization never invokes the converter's `wrap()` — it only reads the
+  raw wire value
+- Serialization uses `wireValue()` to write the original wire form without
+  re-encoding
+- Conversion exceptions (e.g. malformed data) are deferred to the point of
+  access rather than thrown during deserialization
+
 ```kotlin
 @GeneratedMessage("protokt.v1.testing.WrapperMessage")
 public class WrapperMessage private constructor(
-  @GeneratedProperty(1)
-  public val instant: Instant?,
+  private val _instant: LazyReference<Timestamp, Instant>?,  // null means absent
   public val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
+  @GeneratedProperty(1)
+  public val instant: Instant?
+    get() = _instant?.value()                                 // lazy conversion on first access
+
   private val `$messageSize`: Int by lazy {
     var result = 0
-    if (instant != null) {
-      result += sizeOf(10u) + sizeOf(InstantConverter.unwrap(instant))
+    if (_instant != null) {
+      result += sizeOf(10u) + sizeOf(_instant.wireValue())    // size from wire form, no unwrap()
     }
     result += unknownFields.size()
     result
@@ -507,72 +517,36 @@ public class WrapperMessage private constructor(
   override fun messageSize(): Int = `$messageSize`
 
   override fun serialize(writer: Writer) {
-    if (instant != null) {
-      writer.writeTag(10u).write(InstantConverter.unwrap(instant))
+    if (_instant != null) {
+      writer.writeTag(10u).write(_instant.wireValue())        // writes wire form directly
     }
     writer.writeUnknown(unknownFields)
   }
 
-  override fun equals(other: Any?): Boolean =
-    other is WrapperMessage &&
-      other.instant == instant &&
-      other.unknownFields == unknownFields
-
-  override fun hashCode(): Int {
-    var result = unknownFields.hashCode()
-    result = 31 * result + instant.hashCode()
-    return result
-  }
-
-  override fun toString(): String =
-    "WrapperMessage(" +
-      "instant=$instant" +
-      if (unknownFields.isEmpty()) ")" else ", unknownFields=$unknownFields)"
-
-  public fun copy(builder: Builder.() -> Unit): WrapperMessage =
-    Builder().apply {
-      instant = this@WrapperMessage.instant
-      unknownFields = this@WrapperMessage.unknownFields
-      builder()
-    }.build()
+  // equals, hashCode, toString, copy use the public getters (Kotlin types)
 
   @BuilderDsl
   public class Builder {
-    public var instant: Instant? = null
-
-    public var unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
+    public var instant: Instant? = null                       // builder works with Kotlin types
 
     public fun build(): WrapperMessage =
       WrapperMessage(
-        instant,
+        instant?.let { LazyReference(it, InstantConverter) }, // wraps Kotlin value in LazyReference
         unknownFields
       )
-    }
+  }
 
   public companion object Deserializer : AbstractDeserializer<WrapperMessage>() {
     @JvmStatic
     override fun deserialize(reader: Reader): WrapperMessage {
-      var instant: Instant? = null
-      var unknownFields: UnknownFieldSet.Builder? = null
-
-      while (true) {
-        when (reader.readTag()) {
-          0u -> return WrapperMessage(
-            instant,
-            UnknownFieldSet.from(unknownFields)
-          )
-          10u -> instant = InstantConverter.wrap(reader.readMessage(Timestamp))
-          else ->
-            unknownFields =
-              (unknownFields ?: UnknownFieldSet.Builder()).also {
-                it.add(reader.readUnknown())
-              }
-        }
-      }
+      var instant: Timestamp? = null                          // stays as wire type
+      // ...
+      10u -> instant = reader.readMessage(Timestamp)          // no conversion at read time
+      0u -> return WrapperMessage(
+        instant?.let { LazyReference(it, InstantConverter) }, // deferred conversion
+        UnknownFieldSet.from(unknownFields)
+      )
     }
-
-    @JvmStatic
-    public operator fun invoke(dsl: Builder.() -> Unit): WrapperMessage = Builder().apply(dsl).build()
   }
 }
 ```
@@ -589,44 +563,6 @@ can register converters with an annotation:
 object InstantConverter : Converter<Instant, Timestamp> { ... }
 ```
 
-Converters can also implement the `OptimizedSizeofConverter` interface adding
-`sizeof()`, which allows them to optimize the calculation of the wrapper's size
-rather than unwrap the object twice. For example, a UUID is always 16 bytes:
-
-```kotlin
-object UuidBytesConverter : OptimizedSizeOfConverter<UUID, Bytes> {
-    override val wrapper = UUID::class
-
-    override val wrapped = Bytes::class
-
-    private val sizeOfProxy = ByteArray(16)
-
-    override fun sizeOf(wrapped: UUID) =
-        sizeOf(sizeOfProxy)
-
-    override fun wrap(unwrapped: Bytes): UUID {
-        val buf = unwrapped.asReadOnlyBuffer()
-
-        require(buf.remaining() == 16) {
-            "UUID source must have size 16; had ${buf.remaining()}"
-        }
-
-        return buf.run { UUID(long, long) }
-    }
-
-    override fun unwrap(wrapped: UUID): Bytes =
-        Bytes.from(
-            ByteBuffer.allocate(16)
-                .putLong(wrapped.mostSignificantBits)
-                .putLong(wrapped.leastSignificantBits)
-               .array()
-        )
-```
-
-Rather than convert a UUID to a byte array both for size calculation and for
-serialization (which is what a naïve implementation would do), UuidConverter
-always returns the size of a constant 16-byte array.
-
 If the wrapper type is in the same package as the generated protobuf message,
 then it does not need a fully-qualified name. Custom wrapper type converters can
 be in the same project as protobuf types that reference them. In order to use any
@@ -639,32 +575,45 @@ dependencies {
 }
 ```
 
-Wrapper types that wrap protobuf messages are nullable. For example,
-`java.time.Instant` wraps the well-known type `google.protobuf.Timestamp`. You 
-can generate non-null accessors with the `generate_non_null_accessor` option
-described below.
+Wrapper types that wrap protobuf messages are nullable because message fields
+have no presence in proto3 unless present on the wire. For example,
+`java.time.Instant` wraps the well-known type `google.protobuf.Timestamp` and
+generates `val instant: Instant?`. You can generate non-null accessors with the
+`generate_non_null_accessor` option described below.
 
-Wrapper types that wrap protobuf primitives, for example `java.util.UUID`
-which wraps `bytes`, are nullable when they cannot wrap their wrapped type's
-default value. Converters must override `acceptsDefaultValue` to be `false` in
-these cases. For example, a UUID cannot wrap an empty byte array and each of
-the following declarations will produce a nullable property:
+Wrapper types that wrap protobuf primitives are non-null. For example,
+`java.util.UUID` wrapping `bytes` generates `val uuid: UUID`. Conversion from
+the wire default value (e.g. empty bytes) to the Kotlin type is deferred until
+the property is accessed, so a converter that rejects default values (like
+`UuidBytesConverter` which requires exactly 16 bytes) will throw at access time
+rather than at deserialization time:
 
 ```protobuf
 bytes uuid = 1 [
   (protokt.v1.property).wrap = "java.util.UUID"
 ];
+// generates: val uuid: UUID (non-null, lazily converted)
+```
 
+`optional` primitive wrapper fields are nullable — `null` represents absence:
+
+```protobuf
 optional bytes optional_uuid = 2 [
   (protokt.v1.property).wrap = "java.util.UUID"
 ];
+// generates: val optionalUuid: UUID? (null when absent)
+```
 
+Well-known wrapper message types (e.g. `BytesValue`) are also nullable:
+
+```protobuf
 google.protobuf.BytesValue nullable_uuid = 3 [
   (protokt.v1.property).wrap = "java.util.UUID"
 ];
+// generates: val nullableUuid: UUID? (null when absent)
 ```
 
-As for message types, you can generate non-null accessors with the 
+As for message types, you can generate non-null accessors with the
 `generate_non_null_accessor` option.
 
 Wrapper types can be repeated:

@@ -8,6 +8,12 @@ public abstract class protokt/v1/AbstractBytes {
 	public final fun toString ()Ljava/lang/String;
 }
 
+public abstract class protokt/v1/AbstractConverter : protokt/v1/Converter {
+	public fun <init> ()V
+	public final fun getWrapped ()Lkotlin/reflect/KClass;
+	public final fun getWrapper ()Lkotlin/reflect/KClass;
+}
+
 public abstract class protokt/v1/AbstractDeserializer : protokt/v1/Deserializer {
 	public fun <init> ()V
 	public final fun deserialize (Lprotokt/v1/Bytes;)Lprotokt/v1/Message;
@@ -68,6 +74,13 @@ public final class protokt/v1/Collections {
 	public static final fun copyMap (Ljava/util/Map;)Ljava/util/Map;
 	public static final fun unmodifiableList (Ljava/util/List;)Ljava/util/List;
 	public static final fun unmodifiableMap (Ljava/util/Map;)Ljava/util/Map;
+}
+
+public abstract interface class protokt/v1/Converter {
+	public abstract fun getWrapped ()Lkotlin/reflect/KClass;
+	public abstract fun getWrapper ()Lkotlin/reflect/KClass;
+	public abstract fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
+	public abstract fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
 }
 
 public abstract interface class protokt/v1/Deserializer {
@@ -136,6 +149,15 @@ public abstract interface annotation class protokt/v1/GeneratedProperty : java/l
 	public abstract fun number ()I
 }
 
+public final class protokt/v1/LazyReference {
+	public fun <init> (Ljava/lang/Object;Lprotokt/v1/Converter;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+	public final fun value ()Ljava/lang/Object;
+	public final fun wireValue ()Ljava/lang/Object;
+}
+
 public final class protokt/v1/LengthDelimitedVal : protokt/v1/UnknownValue {
 	public static final synthetic fun box-impl (Lprotokt/v1/Bytes;)Lprotokt/v1/LengthDelimitedVal;
 	public static fun constructor-impl (Lprotokt/v1/Bytes;)Lprotokt/v1/Bytes;
@@ -201,6 +223,17 @@ public final class protokt/v1/SizeCodecs {
 	public static final fun sizeOfSInt64 (J)I
 	public static final fun sizeOfUInt32 (I)I
 	public static final fun sizeOfUInt64 (J)I
+}
+
+public final class protokt/v1/StringConverter : protokt/v1/Converter {
+	public static final field INSTANCE Lprotokt/v1/StringConverter;
+	public fun getWrapped ()Lkotlin/reflect/KClass;
+	public fun getWrapper ()Lkotlin/reflect/KClass;
+	public final fun readValidatedBytes (Lprotokt/v1/Reader;)Lprotokt/v1/Bytes;
+	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun unwrap (Ljava/lang/String;)Lprotokt/v1/Bytes;
+	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun wrap (Lprotokt/v1/Bytes;)Ljava/lang/String;
 }
 
 public final class protokt/v1/UnknownField {
