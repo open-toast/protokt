@@ -3348,7 +3348,7 @@ public final class protokt/v1/google/api/SelectiveGapicGeneration$Deserializer :
 
 public final class protokt/v1/google/api/Service : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/Service$Deserializer;
-	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lprotokt/v1/google/api/Documentation;Lprotokt/v1/google/api/Backend;Lprotokt/v1/google/api/Http;Lprotokt/v1/google/api/Quota;Lprotokt/v1/google/api/Authentication;Lprotokt/v1/google/api/Context;Lprotokt/v1/google/api/Usage;Ljava/util/List;Lkotlin/UInt;Lprotokt/v1/google/api/Control;Lprotokt/v1/LazyReference;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lprotokt/v1/google/api/Billing;Lprotokt/v1/google/api/Logging;Lprotokt/v1/google/api/Monitoring;Lprotokt/v1/google/api/SystemParameters;Lprotokt/v1/LazyReference;Lprotokt/v1/google/api/SourceInfo;Lprotokt/v1/google/api/Publishing;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lprotokt/v1/google/api/Documentation;Lprotokt/v1/google/api/Backend;Lprotokt/v1/google/api/Http;Lprotokt/v1/google/api/Quota;Lprotokt/v1/google/api/Authentication;Lprotokt/v1/google/api/Context;Lprotokt/v1/google/api/Usage;Ljava/util/List;Lprotokt/v1/LazyReference;Lprotokt/v1/google/api/Control;Lprotokt/v1/LazyReference;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lprotokt/v1/google/api/Billing;Lprotokt/v1/google/api/Logging;Lprotokt/v1/google/api/Monitoring;Lprotokt/v1/google/api/SystemParameters;Lprotokt/v1/LazyReference;Lprotokt/v1/google/api/SourceInfo;Lprotokt/v1/google/api/Publishing;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Service;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/Service;
 	public fun equals (Ljava/lang/Object;)Z
@@ -9053,7 +9053,7 @@ public final class protokt/v1/google/type/CalendarPeriod$YEAR : protokt/v1/googl
 
 public final class protokt/v1/google/type/Color : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/type/Color$Deserializer;
-	public synthetic fun <init> (FFFLjava/lang/Float;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (FFFLprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/Color;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/type/Color;
 	public fun equals (Ljava/lang/Object;)Z

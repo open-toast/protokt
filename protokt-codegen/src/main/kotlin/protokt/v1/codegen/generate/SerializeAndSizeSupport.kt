@@ -69,7 +69,11 @@ private fun standardFieldExecution(
 
 private fun StandardField.nonDefault(ctx: Context, property: PropertySpec): CodeBlock {
     if (property.name == "_$fieldName") {
-        return CodeBlock.of("%N.isNotDefault()", property)
+        return if (property.type.isNullable) {
+            CodeBlock.of("%N != null", property)
+        } else {
+            CodeBlock.of("%N.isNotDefault()", property)
+        }
     }
 
     val valueAccess = interceptValueAccess(this, ctx, CodeBlock.of("%N", fieldName))

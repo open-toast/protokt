@@ -172,18 +172,17 @@ private class DeserializerGenerator(
                     oneOf?.fieldName ?: field.fieldName,
                     when {
                         oneOf != null -> oneofDes(oneOf, field)
-                        cachingInfo != null -> cachingDeserialize(cachingInfo)
+                        cachingInfo != null -> cachingDeserialize(cachingInfo, field)
                         else -> deserialize(field, ctx, tag is Tag.Packed)
                     }
                 )
             }
         }
 
-    private fun cachingDeserialize(info: CachingFieldInfo) =
+    private fun cachingDeserialize(info: CachingFieldInfo, field: StandardField) =
         when (info) {
             is CachingFieldInfo.PlainString -> CodeBlock.of("%T.readValidatedBytes($READER)", StringConverter::class)
-            is CachingFieldInfo.BytesWrapped -> CodeBlock.of("$READER.readBytes()")
-            is CachingFieldInfo.StringWrapped -> CodeBlock.of("$READER.readString()")
+            is CachingFieldInfo.Converted -> CodeBlock.of("$READER.%L", field.readFn())
         }
 
     private val StandardField.tagList
@@ -261,7 +260,7 @@ private fun deserializeMap(f: StandardField, read: CodeBlock): CodeBlock =
         endControlFlowWithoutNewline()
     }
 
-private fun StandardField.readFn() =
+internal fun StandardField.readFn() =
     when (type) {
         SFixed32 -> CodeBlock.of("readSFixed32()")
         SFixed64 -> CodeBlock.of("readSFixed64()")

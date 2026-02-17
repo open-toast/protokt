@@ -155,11 +155,9 @@ public final class protokt/v1/LazyReference {
 	public fun hashCode ()I
 	public final fun isDefault ()Z
 	public final fun isNotDefault ()Z
-	public final fun sizeOf ()I
 	public fun toString ()Ljava/lang/String;
 	public final fun value ()Ljava/lang/Object;
 	public final fun wireValue ()Ljava/lang/Object;
-	public final fun writeTo (Lprotokt/v1/Writer;)V
 }
 
 public final class protokt/v1/LengthDelimitedVal : protokt/v1/UnknownValue {

@@ -20,6 +20,7 @@ import com.squareup.kotlinpoet.buildCodeBlock
 import protokt.v1.Bytes
 import protokt.v1.LazyReference
 import protokt.v1.StringConverter
+import protokt.v1.codegen.util.defaultValue
 import protokt.v1.reflect.FieldType
 
 internal fun deserializeVarInitialState(p: PropertyInfo) =
@@ -48,24 +49,29 @@ internal fun wrapDeserializedValueForConstructor(p: PropertyInfo, fromBuilder: B
 private fun cachingConstructorArg(p: PropertyInfo, info: CachingFieldInfo, fromBuilder: Boolean): CodeBlock {
     val converterRef = when (info) {
         is CachingFieldInfo.PlainString -> CodeBlock.of("%T", StringConverter::class)
-        is CachingFieldInfo.BytesWrapped -> CodeBlock.of("%T", info.converterClassName)
-        is CachingFieldInfo.StringWrapped -> CodeBlock.of("%T", info.converterClassName)
+        is CachingFieldInfo.Converted -> CodeBlock.of("%T", info.converterClassName)
     }
+
+    if (info.nullable) {
+        // Message-typed wrappers: LazyReference is nullable, null means absent
+        return CodeBlock.of("%N?.let { %T(it, %L) }", p.name, LazyReference::class, converterRef)
+    }
+
     return if (fromBuilder) {
         // Builder has KotlinT? (or String for plain string); if null use wire default
-        val wireDefault = when (info) {
-            is CachingFieldInfo.PlainString -> CodeBlock.of("\"\"")
-            is CachingFieldInfo.BytesWrapped -> CodeBlock.of("%T.empty()", Bytes::class)
-            is CachingFieldInfo.StringWrapped -> CodeBlock.of("\"\"")
-        }
+        val wireDefault = wireDefault(info, forBuilder = true)
         CodeBlock.of("%T(%N ?: %L, %L)", LazyReference::class, p.name, wireDefault, converterRef)
     } else {
-        // Deserializer has Bytes? (PlainString/BytesWrapped) or String? (StringWrapped)
-        val wireDefault = when (info) {
-            is CachingFieldInfo.PlainString -> CodeBlock.of("%T.empty()", Bytes::class)
-            is CachingFieldInfo.BytesWrapped -> CodeBlock.of("%T.empty()", Bytes::class)
-            is CachingFieldInfo.StringWrapped -> CodeBlock.of("\"\"")
-        }
+        // Deserializer has WireT?; if null use wire default
+        val wireDefault = wireDefault(info, forBuilder = false)
         CodeBlock.of("%T(%N ?: %L, %L)", LazyReference::class, p.name, wireDefault, converterRef)
     }
 }
+
+private fun wireDefault(info: CachingFieldInfo, forBuilder: Boolean): CodeBlock =
+    when (info) {
+        is CachingFieldInfo.PlainString ->
+            if (forBuilder) CodeBlock.of("\"\"") else CodeBlock.of("%T.empty()", Bytes::class)
+        is CachingFieldInfo.Converted ->
+            info.fieldType.defaultValue
+    }

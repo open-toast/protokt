@@ -110,8 +110,10 @@ internal fun serialize(
         }
 
         !mapEntry && p.name == "_${f.fieldName}" && o == null -> buildCodeBlock {
-            add("$WRITER.writeTag(${f.tag.value}u)\n")
-            add("%N.writeTo($WRITER)", p)
+            add(
+                "$WRITER.writeTag(${f.tag.value}u).%L",
+                f.write(CodeBlock.of("%N.wireValue()", p))
+            )
         }
 
         else -> buildCodeBlock {

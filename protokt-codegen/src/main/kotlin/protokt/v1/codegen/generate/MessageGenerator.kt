@@ -210,16 +210,19 @@ private class MessageGenerator(
     private fun generateCachingProperty(property: PropertyInfo, info: CachingFieldInfo): MessageProperties {
         val wireTypeName = when (info) {
             is CachingFieldInfo.PlainString -> Bytes::class.asTypeName()
-            is CachingFieldInfo.BytesWrapped -> Bytes::class.asTypeName()
-            is CachingFieldInfo.StringWrapped -> String::class.asTypeName()
+            is CachingFieldInfo.Converted -> info.wireTypeName
         }
+        val nonNullPropertyType = property.propertyType.copy(nullable = false)
         val lazyRefType = LazyReference::class.asTypeName()
-            .parameterizedBy(wireTypeName, property.propertyType)
+            .parameterizedBy(wireTypeName, nonNullPropertyType)
+        val backingType = if (info.nullable) lazyRefType.copy(nullable = true) else lazyRefType
 
-        val backingProp = PropertySpec.builder("_${property.name}", lazyRefType)
+        val backingProp = PropertySpec.builder("_${property.name}", backingType)
             .addModifiers(KModifier.PRIVATE)
             .initializer("_${property.name}")
             .build()
+
+        val valueAccessCode = if (info.nullable) "_${property.name}?.value()" else "_${property.name}.value()"
 
         val publicProp = PropertySpec.builder(property.name, property.propertyType).apply {
             addAnnotation(
@@ -232,16 +235,31 @@ private class MessageGenerator(
             }
             getter(
                 FunSpec.getterBuilder()
-                    .addCode("return _${property.name}.value()")
+                    .addCode("return $valueAccessCode")
                     .build()
             )
             property.documentation?.let { addKdoc(formatDoc(it)) }
             handleDeprecation(property.deprecation)
         }.build()
 
+        val delegateProps = mutableListOf(publicProp)
+        if (property.generateNullableBackingProperty && info.nullable) {
+            delegateProps.add(
+                PropertySpec.builder(nonNullPropName(property.name), nonNullPropertyType).apply {
+                    getter(
+                        FunSpec.getterBuilder()
+                            .addCode("return ${dereferenceNullableBackingProperty(property.name, property.oneof)}")
+                            .build()
+                    )
+                    property.documentation?.let { addKdoc(formatDoc(it)) }
+                    handleDeprecation(property.deprecation)
+                }.build()
+            )
+        }
+
         return MessageProperties(
             constructorEntries = listOf(ConstructorEntry.ValProp(backingProp)),
-            delegateProps = listOf(publicProp),
+            delegateProps = delegateProps,
             trailingParams = emptyList(),
             serializationProps = listOf(backingProp)
         )

@@ -20,7 +20,6 @@ import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.asTypeName
-import protokt.v1.Bytes
 import protokt.v1.BytesSlice
 import protokt.v1.Converter
 import protokt.v1.codegen.generate.CodeGenerator.Context
@@ -141,16 +140,18 @@ internal object Wrapper {
         converterDetails.converter::class.asClassName()
 
     fun StandardField.cachingFieldInfo(ctx: Context, mapEntry: Boolean): CachingFieldInfo? {
-        if (repeated || isMap || mapEntry || optional) return null
+        if (repeated || isMap || mapEntry) return null
         if (!wrapped) {
-            return if (type == FieldType.String) CachingFieldInfo.PlainString else null
+            return if (type == FieldType.String && !optional) CachingFieldInfo.PlainString else null
         }
+        val nullable = type == FieldType.Message || optional
         return withWrapper(ctx.info.context) { details ->
-            when (details.converter.wrapped) {
-                Bytes::class -> CachingFieldInfo.BytesWrapped(details.converter::class.asClassName())
-                String::class -> CachingFieldInfo.StringWrapped(details.converter::class.asClassName())
-                else -> null
-            }
+            CachingFieldInfo.Converted(
+                details.converter::class.asClassName(),
+                details.converter.wrapped.asTypeName(),
+                type,
+                nullable
+            )
         }
     }
 

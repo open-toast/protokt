@@ -64,10 +64,10 @@ private class PropertyAnnotator(
                         generateNullableBackingProperty = field.generateNonNullAccessor,
                         deserializeType =
                         when (cachingInfo) {
-                            is CachingFieldInfo.PlainString, is CachingFieldInfo.BytesWrapped ->
+                            is CachingFieldInfo.PlainString ->
                                 Bytes::class.asTypeName().copy(nullable = true)
-                            is CachingFieldInfo.StringWrapped ->
-                                String::class.asTypeName().copy(nullable = true)
+                            is CachingFieldInfo.Converted ->
+                                cachingInfo.wireTypeName.copy(nullable = true)
                             null -> deserializeType(field, type)
                         },
                         builderPropertyType = dslPropertyType(field, type),
@@ -166,7 +166,15 @@ internal class PropertyInfo(
 }
 
 internal sealed class CachingFieldInfo {
+    /** Whether the cached LazyReference is nullable (message-typed wrappers are nullable because absence = null). */
+    open val nullable: Boolean get() = false
+
     object PlainString : CachingFieldInfo()
-    data class BytesWrapped(val converterClassName: com.squareup.kotlinpoet.ClassName) : CachingFieldInfo()
-    data class StringWrapped(val converterClassName: com.squareup.kotlinpoet.ClassName) : CachingFieldInfo()
+
+    data class Converted(
+        val converterClassName: com.squareup.kotlinpoet.ClassName,
+        val wireTypeName: com.squareup.kotlinpoet.TypeName,
+        val fieldType: protokt.v1.reflect.FieldType,
+        override val nullable: Boolean
+    ) : CachingFieldInfo()
 }

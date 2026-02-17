@@ -50,32 +50,19 @@ class LazyReference<WireT : Any, KotlinT : Any>(
         }
     }
 
-    /** Write the wire form to a Writer. Uses cached wire value if available. */
-    fun writeTo(writer: Writer) {
-        when (val wire = wireValue()) {
-            is Bytes -> writer.write(wire)
-            is String -> writer.write(wire)
-            is Message -> wire.serialize(writer)
-            else -> error("Unsupported wire type: ${wire::class}")
-        }
-    }
-
-    /** Compute serialized size from the wire form. */
-    fun sizeOf(): Int =
-        when (val wire = wireValue()) {
-            is Bytes -> SizeCodecs.sizeOf(wire)
-            is String -> SizeCodecs.sizeOf(wire)
-            is Message -> wire.messageSize()
-            else -> error("Unsupported wire type: ${wire::class}")
-        }
-
     /** Check default-ness from the wire form. */
     fun isDefault(): Boolean =
         when (val wire = wireValue()) {
             is Bytes -> wire.isEmpty()
             is String -> wire.isEmpty()
-            is Message -> false
-            else -> error("Unsupported wire type: ${wire::class}")
+            is Boolean -> !wire
+            is Int -> wire == 0
+            is UInt -> wire == 0u
+            is Long -> wire == 0L
+            is ULong -> wire == 0uL
+            is Float -> wire == 0.0f
+            is Double -> wire == 0.0
+            else -> false
         }
 
     fun isNotDefault(): Boolean =
