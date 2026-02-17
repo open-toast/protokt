@@ -189,8 +189,11 @@ class Status private constructor(
 
     companion object {
         fun fromCodeValue(value: Int): Status =
-            if (value in Code.STATUS_LIST.indices) Code.STATUS_LIST[value]
-            else Status(Code.UNKNOWN, "Unknown code: $value")
+            if (value in Code.STATUS_LIST.indices) {
+                Code.STATUS_LIST[value]
+            } else {
+                Status(Code.UNKNOWN, "Unknown code: $value")
+            }
 
         // A pseudo-enum of Status instances mapped 1:1 with values in Code. This simplifies construction
         // patterns for derived instances of Status.
