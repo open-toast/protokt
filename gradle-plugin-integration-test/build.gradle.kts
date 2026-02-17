@@ -101,6 +101,8 @@ repositories {
     mavenCentral()
 }
 
+tasks.findByName("kotlinStoreYarnLock")?.enabled = false
+
 subprojects {
     repositories {
         maven(url = "${rootProject.projectDir}/../build/repos/integration")
