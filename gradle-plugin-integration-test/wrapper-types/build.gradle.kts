@@ -28,7 +28,7 @@ dependencies {
     kapt(libs.autoService)
 }
 
-// pin to the runtime version of protokt; wrapper-types extensions are loaded
+// pin to the runtime version used by protokt; wrapper-types extensions are loaded
 // by the codegen plugin which runs on the project's own JDK
 java {
     toolchain {

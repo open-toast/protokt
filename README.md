@@ -1124,8 +1124,11 @@ Community contributions are welcome. See the
 [code of conduct](CODE-OF-CONDUCT.md).
 
 To enable rapid development of the code generator, the protobuf conformance
-tests have been compiled and included in the `testing` project. They run on Mac
-OS 10.14+ and Ubuntu 16.04 x86-64 as part of normal Gradle builds.
+tests have been compiled and included in the `testing` project. They run on
+macOS and Linux as part of normal Gradle builds.
+
+Integration tests run on Linux, macOS, and Windows across Kotlin 2.0-2.3 and
+JDK 17, 21, and 25.
 
 When integration testing the Gradle plugin, note that after changing the plugin
 and republishing it to the integration repository, `./gradlew clean` is needed
