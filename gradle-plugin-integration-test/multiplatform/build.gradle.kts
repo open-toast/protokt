@@ -24,7 +24,7 @@ plugins {
 kotlin {
     jvm {
         compilerOptions {
-            freeCompilerArgs.add("-jvm-default=${System.getProperty("jvm-default-integration.mode", "all")}")
+            freeCompilerArgs.add(System.getProperty("jvm-default-integration.arg", "-Xjvm-default=all"))
         }
     }
 
