@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast, Inc.
+ * Copyright (c) 2026 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,17 +15,15 @@
 
 plugins {
     id("protokt.jvm-conventions")
-    application
 }
 
-application {
-    applicationName = "protokt-conformance"
-    mainClass.set("protokt.v1.conformance.MainKt")
+tasks.test {
+    systemProperty("protokt.collection.provider", "protokt.v1.PersistentCollectionProvider")
 }
 
 dependencies {
-    implementation(project(":testing:conformance:driver"))
-
-    runtimeOnly(libs.kotlinx.collectionsImmutable)
-    runtimeOnly(libs.protobuf.java)
+    testImplementation(project(":testing:interop"))
+    testImplementation(project(":testing:protobuf-java"))
+    testImplementation(libs.kotlinx.collectionsImmutable)
+    testImplementation(libs.protobuf.java)
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast, Inc.
+ * Copyright (c) 2026 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,19 +13,18 @@
  * limitations under the License.
  */
 
-plugins {
-    id("protokt.jvm-conventions")
-    application
-}
+@file:OptIn(OnlyForUseByGeneratedProtoCode::class)
 
-application {
-    applicationName = "protokt-conformance"
-    mainClass.set("protokt.v1.conformance.MainKt")
-}
+package protokt.v1
 
-dependencies {
-    implementation(project(":testing:conformance:driver"))
+internal actual val collectionProvider: CollectionProvider by lazy {
+    val providerFqcn =
+        System.getProperty("protokt.collection.provider")
+            ?: System.getenv("PROTOKT_COLLECTION_PROVIDER")
 
-    runtimeOnly(libs.kotlinx.collectionsImmutable)
-    runtimeOnly(libs.protobuf.java)
+    if (providerFqcn != null) {
+        Class.forName(providerFqcn).getField("INSTANCE").get(null) as CollectionProvider
+    } else {
+        DefaultCollectionProvider
+    }
 }

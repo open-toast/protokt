@@ -719,7 +719,7 @@ public final class protokt/v1/EnumOptions : protokt/v1/AbstractMessage {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/EnumOptions$Builder {
+public final class protokt/v1/EnumOptions$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/EnumOptions;
 	public final fun getDeprecationMessage ()Ljava/lang/String;
@@ -749,7 +749,7 @@ public final class protokt/v1/EnumValueOptions : protokt/v1/AbstractMessage {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/EnumValueOptions$Builder {
+public final class protokt/v1/EnumValueOptions$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/EnumValueOptions;
 	public final fun getDeprecationMessage ()Ljava/lang/String;
@@ -784,7 +784,7 @@ public final class protokt/v1/FieldOptions : protokt/v1/AbstractMessage {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/FieldOptions$Builder {
+public final class protokt/v1/FieldOptions$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/FieldOptions;
 	public final fun getBytesSlice ()Z
@@ -824,7 +824,7 @@ public final class protokt/v1/FileOptions : protokt/v1/AbstractMessage {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/FileOptions$Builder {
+public final class protokt/v1/FileOptions$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/FileOptions;
 	public final fun getFileDescriptorObjectName ()Ljava/lang/String;
@@ -855,7 +855,7 @@ public final class protokt/v1/MessageOptions : protokt/v1/AbstractMessage {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/MessageOptions$Builder {
+public final class protokt/v1/MessageOptions$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/MessageOptions;
 	public final fun getDeprecationMessage ()Ljava/lang/String;
@@ -888,7 +888,7 @@ public final class protokt/v1/MethodOptions : protokt/v1/AbstractMessage {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/MethodOptions$Builder {
+public final class protokt/v1/MethodOptions$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/MethodOptions;
 	public final fun getRequestMarshaller ()Ljava/lang/String;
@@ -922,7 +922,7 @@ public final class protokt/v1/OneofOptions : protokt/v1/AbstractMessage {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/OneofOptions$Builder {
+public final class protokt/v1/OneofOptions$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/OneofOptions;
 	public final fun getDeprecationMessage ()Ljava/lang/String;
@@ -966,7 +966,7 @@ public final class protokt/v1/ServiceOptions : protokt/v1/AbstractMessage {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class protokt/v1/ServiceOptions$Builder {
+public final class protokt/v1/ServiceOptions$Builder : protokt/v1/BuilderScope {
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/ServiceOptions;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
