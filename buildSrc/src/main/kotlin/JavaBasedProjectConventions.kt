@@ -19,6 +19,7 @@ import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.kotlin
 import org.gradle.kotlin.dsl.repositories
 import org.gradle.kotlin.dsl.withType
+import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 fun Project.javaBasedProjectConventions() {
@@ -41,7 +42,7 @@ fun Project.javaBasedProjectConventions() {
 
             // do not generate DefaultImpls objects since we do not target < JVM 1.8
             // https://blog.jetbrains.com/kotlin/2020/07/kotlin-1-4-m3-generating-default-methods-in-interfaces
-            freeCompilerArgs.add("-jvm-default=all")
+            jvmDefault.set(JvmDefaultMode.NO_COMPATIBILITY)
         }
     }
 

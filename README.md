@@ -38,7 +38,7 @@ for use with [grpc-java](#integrating-with-grpcs-java-api),
 The Gradle plugin requires Java 17+ and Gradle 8.0+. It runs on recent versions of
 MacOS, Linux, and Windows.
 
-The runtime and generated code are compatible with Kotlin 2.0+, Java 8+, and Android 4.4+.
+The runtime and generated code are compatible with Kotlin 2.0+ and Java 17+.
 
 ## Usage
 
