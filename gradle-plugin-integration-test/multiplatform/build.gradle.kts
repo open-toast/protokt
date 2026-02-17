@@ -24,7 +24,7 @@ plugins {
 kotlin {
     jvm {
         compilerOptions {
-            freeCompilerArgs.add("-Xjvm-default=all")
+            freeCompilerArgs.add("-jvm-default=all")
         }
     }
 
