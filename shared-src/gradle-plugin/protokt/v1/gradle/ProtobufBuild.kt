@@ -22,6 +22,7 @@ import com.google.protobuf.gradle.ProtobufPlugin
 import com.google.protobuf.gradle.id
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
+import org.gradle.api.file.FileCollection
 import org.gradle.api.provider.Provider
 import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.apply
@@ -70,24 +71,9 @@ internal fun configureProtobufPlugin(
                 }
 
                 val extensionFiles = project.objects.fileCollection().from(extensions.asList())
-                task.inputs.files(extensionFiles).withPropertyName("protoktExtensionClasspath")
+                task.inputs.files(extensionFiles).withPropertyName("protoktExtensionClasspath-${target.protocPluginName}")
 
-                task.plugins {
-                    id(target.protocPluginName) {
-                        option("$GENERATE_TYPES=${ext.generate.types}")
-                        option("$GENERATE_DESCRIPTORS=${ext.generate.descriptors}")
-                        option("$GENERATE_GRPC_DESCRIPTORS=${ext.generate.grpcDescriptors}")
-                        option("$GENERATE_GRPC_KOTLIN_STUBS=${ext.generate.grpcKotlinStubs}")
-                        option("$FORMAT_OUTPUT=${ext.formatOutput}")
-                        option("$KOTLIN_TARGET=$target")
-
-                        val pluginOptions = this
-                        task.doFirst {
-                            val classpath = extensionFiles.files.joinToString(";") { URLEncoder.encode(it.path, "UTF-8") }
-                            pluginOptions.option("$KOTLIN_EXTRA_CLASSPATH=$classpath")
-                        }
-                    }
-                }
+                addPluginToTask(task, target, ext, extensionFiles)
             }
 
             project.handleExtraInputFiles(mainExtractProtoAdditions, testExtractProtoAdditions)
@@ -103,6 +89,30 @@ internal fun configureProtobufPlugin(
                         pluginLocator.path = normalizePath(binaryPath.get())
                     }
                 }
+            }
+        }
+    }
+}
+
+private fun addPluginToTask(
+    task: GenerateProtoTask,
+    target: KotlinTarget,
+    ext: ProtoktExtension,
+    extensionFiles: FileCollection
+) {
+    task.plugins {
+        id(target.protocPluginName) {
+            option("$GENERATE_TYPES=${ext.generate.types}")
+            option("$GENERATE_DESCRIPTORS=${ext.generate.descriptors}")
+            option("$GENERATE_GRPC_DESCRIPTORS=${ext.generate.grpcDescriptors}")
+            option("$GENERATE_GRPC_KOTLIN_STUBS=${ext.generate.grpcKotlinStubs}")
+            option("$FORMAT_OUTPUT=${ext.formatOutput}")
+            option("$KOTLIN_TARGET=$target")
+
+            val pluginOptions = this
+            task.doFirst {
+                val classpath = extensionFiles.files.joinToString(";") { URLEncoder.encode(it.path, "UTF-8") }
+                pluginOptions.option("$KOTLIN_EXTRA_CLASSPATH=$classpath")
             }
         }
     }

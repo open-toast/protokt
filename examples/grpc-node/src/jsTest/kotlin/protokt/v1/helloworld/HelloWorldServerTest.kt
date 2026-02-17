@@ -25,7 +25,7 @@ import kotlin.test.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class HelloWorldServerTest {
-    private val server = HelloWorldServer()
+    private val server = HelloWorldServer(0)
 
     @AfterTest
     fun after() {
@@ -33,11 +33,11 @@ class HelloWorldServerTest {
     }
 
     @Test
-    fun animals() =
+    fun sayHello() =
         runTest {
             server.start()
 
-            val stub = GreeterCoroutineStub("localhost:50051", ChannelCredentials.createInsecure())
+            val stub = GreeterCoroutineStub("localhost:${server.port}", ChannelCredentials.createInsecure())
             val testName = "test name"
 
             val reply = stub.sayHello(HelloRequest { this.name = testName })

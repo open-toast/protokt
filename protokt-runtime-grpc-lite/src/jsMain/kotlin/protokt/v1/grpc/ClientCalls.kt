@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.launch
 import protokt.v1.Beta
 import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 @Beta
@@ -33,7 +34,13 @@ object ClientCalls {
         request: ReqT
     ): RespT =
         suspendCoroutine { continuation ->
-            val onResponse = { _: dynamic, resp: RespT -> continuation.resume(resp) }
+            val onResponse = { error: dynamic, resp: RespT ->
+                if (error != null) {
+                    continuation.resumeWithException(toStatusException(error))
+                } else {
+                    continuation.resume(resp)
+                }
+            }
             executeCall<Unit>(client, method, request, onResponse)
         }
 
@@ -45,6 +52,7 @@ object ClientCalls {
         callbackFlow {
             val call = executeCall<ClientReadableStream<RespT>>(client, method, request)
             call.on("data") { launch { send(it as RespT) } }
+            call.on("error") { close(toStatusException(it)) }
             call.on("end") { close() }
             awaitClose()
         }
@@ -57,7 +65,13 @@ object ClientCalls {
         val context = currentCoroutineContext()
         return suspendCoroutine { continuation ->
             CoroutineScope(context).launch {
-                val onResponse = { _: dynamic, resp: RespT -> continuation.resume(resp) }
+                val onResponse = { error: dynamic, resp: RespT ->
+                    if (error != null) {
+                        continuation.resumeWithException(toStatusException(error))
+                    } else {
+                        continuation.resume(resp)
+                    }
+                }
                 val call = executeCall<ClientWritableStream<ReqT>>(client, method, null, onResponse)
                 requests.collect { call.write(it, null) }
                 call.end()
@@ -73,6 +87,7 @@ object ClientCalls {
         callbackFlow {
             val call = executeCall<ClientDuplexStream<ReqT, RespT>>(client, method)
             call.on("data") { launch { send(it as RespT) } }
+            call.on("error") { close(toStatusException(it)) }
             call.on("end") { close() }
 
             launch {
@@ -108,6 +123,13 @@ object ClientCalls {
                 error("unsupported call type")
         } as T
     }
+}
+
+private fun toStatusException(error: dynamic): StatusException {
+    val code = (error.code as? Int) ?: Status.Code.UNKNOWN.value
+    val message = (error.details as? String) ?: (error.message as? String) ?: "Unknown error"
+    val status = Status.fromCodeValue(code).withDescription(message)
+    return StatusException(status)
 }
 
 fun newClient(

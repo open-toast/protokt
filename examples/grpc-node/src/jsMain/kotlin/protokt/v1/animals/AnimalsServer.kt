@@ -23,17 +23,18 @@ import protokt.v1.grpc.ServerCredentials
 import protokt.v1.grpc.addService
 import protokt.v1.grpc.start
 
-class AnimalsServer {
-    val port = 50051
+class AnimalsServer(private val requestedPort: Int = 50051) {
+    var port: Int = 0
+        private set
+
     val server = Server()
 
     suspend fun start() {
-        server
+        port = server
             .addService(DogGrpc.getServiceDescriptor(), DogService())
             .addService(PigGrpc.getServiceDescriptor(), PigService())
             .addService(SheepGrpc.getServiceDescriptor(), SheepService())
-            .start("0.0.0.0:$port", ServerCredentials.createInsecure())
-        println("Server started, listening on $port")
+            .start("0.0.0.0:$requestedPort", ServerCredentials.createInsecure())
     }
 
     internal class DogService : DogCoroutineImplBase() {

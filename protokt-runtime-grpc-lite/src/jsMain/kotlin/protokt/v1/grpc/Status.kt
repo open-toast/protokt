@@ -188,10 +188,13 @@ class Status private constructor(
         Status(code, description, cause)
 
     companion object {
+        fun fromCodeValue(value: Int): Status =
+            Code.values().firstOrNull { it.value == value }?.toStatus()
+                ?: Status(Code.UNKNOWN, "Unknown code: $value")
+
         // A pseudo-enum of Status instances mapped 1:1 with values in Code. This simplifies construction
         // patterns for derived instances of Status.
-        // A pseudo-enum of Status instances mapped 1:1 with values in Code. This simplifies construction
-        // patterns for derived instances of Status.
+
         /** The operation completed successfully.  */
         val OK: Status = Code.OK.toStatus()
 
