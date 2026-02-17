@@ -114,7 +114,7 @@ private class BuilderGenerator(
                                     add("return %T(\n", msg.className)
                                     withIndent {
                                         properties
-                                            .map(::wrapDeserializedValueForConstructor)
+                                            .map { wrapDeserializedValueForConstructor(it, fromBuilder = true) }
                                             .forEach { add("%L,\n", it) }
                                         add("unknownFields\n")
                                     }
