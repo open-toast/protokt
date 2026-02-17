@@ -57,8 +57,11 @@ private fun cachingConstructorArg(p: PropertyInfo, info: CachingFieldInfo, fromB
         return CodeBlock.of("%N?.let { %T(it, %L) }", p.name, LazyReference::class, converterRef)
     }
 
-    return if (fromBuilder) {
-        // Builder has KotlinT? (or String for plain string); if null use wire default
+    return if (fromBuilder && info is CachingFieldInfo.PlainString) {
+        // Builder has non-nullable String for plain string fields; no Elvis needed
+        CodeBlock.of("%T(%N, %L)", LazyReference::class, p.name, converterRef)
+    } else if (fromBuilder) {
+        // Builder has KotlinT? for wrapped fields; if null use wire default
         val wireDefault = wireDefault(info, forBuilder = true)
         CodeBlock.of("%T(%N ?: %L, %L)", LazyReference::class, p.name, wireDefault, converterRef)
     } else {
