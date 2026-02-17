@@ -44,7 +44,6 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinSingleTargetExtension
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
-import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile
 
 internal const val BASE_GROUP_NAME = "com.toasttab.protokt.v1"
 
@@ -148,6 +147,8 @@ private fun Project.configureForMpp(
                 logger.log(DEBUG_LOG_LEVEL, "Handling Kotlin multiplatform target {}", it)
                 configureTarget(it.targetName, disableJava, config, binary)
             }
+
+        configureJarTasksForMpp()
     }
 }
 
@@ -179,21 +180,20 @@ private fun Project.configureTarget(
     }
 
     afterEvaluate {
-        linkGenerateProtoToSourceCompileForKotlinMpp(mainSourceSet, testSourceSet)
+        linkGenerateProtoTasksAndIncludeGeneratedSource(mainSourceSet, false)
+        linkGenerateProtoTasksAndIncludeGeneratedSource(testSourceSet, true)
     }
 }
 
-private fun Project.linkGenerateProtoToSourceCompileForKotlinMpp(mainSourceSet: KotlinSourceSet, testSourceSet: KotlinSourceSet) {
-    linkGenerateProtoTasksAndIncludeGeneratedSource(mainSourceSet, false)
-    linkGenerateProtoTasksAndIncludeGeneratedSource(testSourceSet, true)
-
-    tasks.withType<Jar> {
-        from(fileTree("${layout.buildDirectory.get()}/extracted-protos/main"))
-        excludeDuplicates()
+private fun Project.configureJarTasksForMpp() {
+    for (extractTask in extractProtoTasks()) {
+        tasks.withType<Jar> {
+            from(extractTask.destDir)
+            excludeDuplicates()
+        }
     }
 
-    val jsProcessResources = tasks.findByName("jsProcessResources") as Copy?
-    jsProcessResources?.excludeDuplicates()
+    (tasks.findByName("jsProcessResources") as? Copy)?.excludeDuplicates()
 }
 
 // TODO: figure out how to get rid of this?
@@ -232,17 +232,6 @@ private fun Project.linkGenerateProtoTasksAndIncludeGeneratedSource(sourceSet: K
         the<SourceSetContainer>()
             .getByName(protoSourceSetRoot)
             .proto { sourceSet.resources.source(this) }
-
-        // todo: it would be better to avoid this by making the outputs of genProtoTask an input of the correct compile task
-        tasks.withType<AbstractKotlinCompile<*>> {
-            if (
-                ((test && "Test" in name) || (!test && "Test" !in name)) &&
-                "Metadata" !in name
-            ) {
-                logger.log(DEBUG_LOG_LEVEL, "Making task {} a dependency of {}", genProtoTask.name, name)
-                dependsOn(genProtoTask)
-            }
-        }
     }
 }
 

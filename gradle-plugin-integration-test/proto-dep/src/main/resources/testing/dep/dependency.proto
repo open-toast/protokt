@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package testing.dep;
+
+message DependencyMessage {
+  string name = 1;
+}

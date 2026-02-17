@@ -181,3 +181,8 @@ private fun String.isTestTask() =
 
 private fun Project.extractIncludeProtoTasks() =
     project.tasks.withType<ProtobufExtract>().filter { it.name.startsWith("extractInclude") }
+
+internal fun Project.extractProtoTasks() =
+    project.tasks.withType<ProtobufExtract>().filter {
+        !it.name.startsWith("extractInclude") && !it.isTestTask()
+    }

@@ -13,17 +13,14 @@
  * limitations under the License.
  */
 
-plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
+package protokt.v1.testing
+
+import kotlin.test.Test
+import kotlin.test.assertNotNull
+
+class ExtractedProtoDependencyTest {
+    @Test
+    fun `extracted proto dependency should be available on classpath`() {
+        assertNotNull(javaClass.classLoader.getResource("testing/dep/dependency.proto"))
+    }
 }
-
-rootProject.name = "gradle-plugin-integration-test"
-
-listOf(
-    "jvm-regular",
-    "jvm-lite",
-    "multiplatform",
-    "wrapper-types",
-    "android-test-fixtures",
-    "proto-dep"
-).forEach { include(it) }
