@@ -50,24 +50,6 @@ class LazyReference<WireT : Any, KotlinT : Any>(
         }
     }
 
-    /** Check default-ness from the wire form. */
-    fun isDefault(): Boolean =
-        when (val wire = wireValue()) {
-            is Bytes -> wire.isEmpty()
-            is String -> wire.isEmpty()
-            is Boolean -> !wire
-            is Int -> wire == 0
-            is UInt -> wire == 0u
-            is Long -> wire == 0L
-            is ULong -> wire == 0uL
-            is Float -> wire == 0.0f
-            is Double -> wire == 0.0
-            else -> false
-        }
-
-    fun isNotDefault(): Boolean =
-        !isDefault()
-
     override fun equals(other: Any?): Boolean =
         other is LazyReference<*, *> && value() == other.value()
 

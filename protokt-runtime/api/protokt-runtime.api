@@ -153,8 +153,6 @@ public final class protokt/v1/LazyReference {
 	public fun <init> (Ljava/lang/Object;Lprotokt/v1/Converter;)V
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
-	public final fun isDefault ()Z
-	public final fun isNotDefault ()Z
 	public fun toString ()Ljava/lang/String;
 	public final fun value ()Ljava/lang/Object;
 	public final fun wireValue ()Ljava/lang/Object;

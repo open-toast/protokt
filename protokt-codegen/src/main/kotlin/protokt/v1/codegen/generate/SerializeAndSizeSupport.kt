@@ -72,7 +72,14 @@ private fun StandardField.nonDefault(ctx: Context, property: PropertySpec): Code
         return if (property.type.isNullable) {
             CodeBlock.of("%N != null", property)
         } else {
-            CodeBlock.of("%N.isNotDefault()", property)
+            val wireValueAccess = CodeBlock.of("%N.wireValue()", property)
+            when {
+                type == FieldType.Bytes || type == FieldType.String ->
+                    CodeBlock.of("%L.isNotEmpty()", wireValueAccess)
+                type == FieldType.Bool -> wireValueAccess
+                type.scalar -> CodeBlock.of("%L != %L", wireValueAccess, type.defaultValue)
+                else -> error("Unsupported non-nullable caching field type: $type")
+            }
         }
     }
 
