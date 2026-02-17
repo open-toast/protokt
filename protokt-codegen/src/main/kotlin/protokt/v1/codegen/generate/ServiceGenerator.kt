@@ -103,7 +103,7 @@ private class ServiceGenerator(
 
             val grpcServiceObjectClassName = ClassName(ctx.info.kotlinPackage, s.name + "Grpc")
             val grpcServiceObject =
-                if (ctx.info.context.generateGrpcDescriptors) {
+                if (ctx.info.context.generateGrpcDescriptors && kotlinTarget !is KotlinTarget.MultiplatformCommon) {
                     TypeSpec.objectBuilder(grpcServiceObjectClassName)
                         .addProperty(
                             PropertySpec.builder("SERVICE_NAME", String::class)

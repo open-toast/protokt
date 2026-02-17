@@ -21,7 +21,9 @@ import protokt.v1.grpc.addService
 import protokt.v1.grpc.start
 import protokt.v1.helloworld.GreeterGrpcKt.GreeterCoroutineImplBase
 
-class HelloWorldServer(private val requestedPort: Int = 50051) {
+class HelloWorldServer(
+    private val requestedPort: Int = 50051
+) {
     var port: Int = 0
         private set
 

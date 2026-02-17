@@ -23,7 +23,9 @@ import protokt.v1.grpc.ServerCredentials
 import protokt.v1.grpc.addService
 import protokt.v1.grpc.start
 
-class AnimalsServer(private val requestedPort: Int = 50051) {
+class AnimalsServer(
+    private val requestedPort: Int = 50051
+) {
     var port: Int = 0
         private set
 

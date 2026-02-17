@@ -18,7 +18,6 @@ package protokt.v1.codegen.util
 import com.google.protobuf.DescriptorProtos
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.toasttab.protokt.v1.ProtoktProtos
-import protokt.v1.gradle.KotlinTarget
 import protokt.v1.gradle.PROTOKT_VERSION
 
 internal class GeneratorContext(
@@ -29,15 +28,10 @@ internal class GeneratorContext(
     val classLookup = params.classLookup
     val generateTypes = params.generateTypes
     val generateDescriptors = params.generateDescriptors
+    val generateGrpcDescriptors = params.generateGrpcDescriptors
+    val generateGrpcKotlinStubs = params.generateGrpcKotlinStubs
     val formatOutput = params.formatOutput
     val kotlinTarget = params.kotlinTarget
-
-    // In multiplatform projects, gRPC code is platform-specific (JVM uses io.grpc.*,
-    // JS uses protokt.v1.grpc.*). The common target should only generate types, not gRPC,
-    // since common code is inherited by all platforms. Each platform target generates its
-    // own gRPC stubs with the appropriate imports.
-    val generateGrpcDescriptors = params.generateGrpcDescriptors && params.kotlinTarget !is KotlinTarget.MultiplatformCommon
-    val generateGrpcKotlinStubs = params.generateGrpcKotlinStubs && params.kotlinTarget !is KotlinTarget.MultiplatformCommon
 
     val protoktVersion = PROTOKT_VERSION
 

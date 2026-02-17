@@ -135,7 +135,6 @@ private fun Project.configureForMpp(
     // ensures both already-registered targets and future targets are handled. This is
     // critical: the generateProtoTasks actions must be stored before the protobuf plugin's
     // afterEvaluate applies them, so each target's protoc plugin is actually invoked.
-    @Suppress("DEPRECATION")
     extensions.getByType(KotlinMultiplatformExtension::class.java).targets.all(
         Action {
             if (targetName != "metadata") {
@@ -201,20 +200,20 @@ private fun Project.linkGenerateProtoTasksAndIncludeGeneratedSource(target: Kotl
 
     val extension = project.extensions.getByType<ProtobufExtension>()
 
-    val baseTaskName = if (test) "generateTestProto" else "generateProto"
-    val perTargetTaskName = "generate${sourceSet.name.capitalized()}Proto"
-    val allTasks = extension.generateProtoTasks.all()
-
-    val generateProtoTask =
-        if (sourceSet.name.startsWith("common")) {
-            allTasks.singleOrNull { it.name == baseTaskName }
+    // JVM targets create Gradle source sets (e.g., jvmMain), so the protobuf plugin
+    // creates per-target tasks (e.g., generateJvmMainProto). Non-JVM targets (common, JS)
+    // don't create Gradle source sets, so only the base tasks exist.
+    val taskName =
+        if (target.treatTargetAsJvm) {
+            "generate${sourceSet.name.capitalized()}Proto"
+        } else if (test) {
+            "generateTestProto"
         } else {
-            // Try per-target task first (e.g., generateJvmMainProto), fall back to base
-            // task (e.g., generateProto). In KMP projects without a JVM target, the protobuf
-            // plugin only creates the base task, not per-target tasks.
-            allTasks.singleOrNull { it.name == perTargetTaskName }
-                ?: allTasks.singleOrNull { it.name == baseTaskName }
+            "generateProto"
         }
+
+    val allTasks = extension.generateProtoTasks.all()
+    val generateProtoTask = allTasks.singleOrNull { it.name == taskName }
 
     generateProtoTask?.let { genProtoTask ->
         // Only include this target's output directory, not all targets' output directories.
