@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package testing.dep;
+package protokt.v1.testing;
 
 message DependencyMessage {
   string name = 1;

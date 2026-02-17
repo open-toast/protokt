@@ -1,1 +1,4 @@
-plugins { `java-library` }
+plugins {
+    `java-library`
+    id("com.google.protobuf")
+}

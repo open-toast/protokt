@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast, Inc.
+ * Copyright (c) 2026 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,6 @@ import kotlin.test.assertNotNull
 class ExtractedProtoDependencyTest {
     @Test
     fun `extracted proto dependency should be available on classpath`() {
-        assertNotNull(javaClass.classLoader.getResource("testing/dep/dependency.proto"))
+        assertNotNull(javaClass.classLoader.getResource("protokt/v1/testing/dependency.proto"))
     }
 }
