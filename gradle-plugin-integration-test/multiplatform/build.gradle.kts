@@ -87,11 +87,11 @@ dependencies {
 }
 
 tasks.named("jsNodeTest") {
-    enabled = System.getProperty("kotlin.version", libs.versions.kotlin.get()) == libs.versions.kotlin.get()
+    enabled = System.getProperty("kotlin-integration.version", libs.versions.kotlin.get()) == libs.versions.kotlin.get()
 }
 
 tasks.named("jsBrowserTest") {
-    enabled = System.getProperty("kotlin.version", libs.versions.kotlin.get()) == libs.versions.kotlin.get()
+    enabled = System.getProperty("kotlin-integration.version", libs.versions.kotlin.get()) == libs.versions.kotlin.get()
 }
 
 java {
