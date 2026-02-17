@@ -13,11 +13,18 @@
  * limitations under the License.
  */
 
+import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
+import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
+
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 
 rootProject.name = "gradle-plugin-integration-test"
+
+plugins.withType<YarnPlugin> {
+    the<YarnRootExtension>().yarnLockAutoReplace = true
+}
 
 listOf(
     "jvm-regular",
