@@ -23,7 +23,7 @@ jobs:
       run: npm install protobufjs@7.2.6 long@5.2.3
     - name: Build and test
       run: ./gradlew clean check publishToIntegrationRepository --stacktrace --no-daemon
-    - uses: actions/upload-artifact@v5
+    - uses: actions/upload-artifact@v6
       with:
         name: integration-repository
         path: build/repos/integration
@@ -48,7 +48,7 @@ jobs:
       with:
         distribution: corretto
         java-version: ${{ matrix.jdk }}
-    - uses: actions/download-artifact@v6
+    - uses: actions/download-artifact@v7
       with:
         name: integration-repository
         path: build/repos/integration

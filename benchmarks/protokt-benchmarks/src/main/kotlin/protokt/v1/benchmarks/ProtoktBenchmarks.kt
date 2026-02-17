@@ -160,6 +160,27 @@ open class ProtoktBenchmarks {
         }
         bh.consume(msg)
     }
+
+    @Benchmark
+    fun passThroughLargeFromMemory(bh: Blackhole) {
+        largeDataset.payload.forEach { bytes ->
+            bh.consume(GenericMessage1.deserialize(bytes).serialize())
+        }
+    }
+
+    @Benchmark
+    fun passThroughMediumFromMemory(bh: Blackhole) {
+        mediumDataset.payload.forEach { bytes ->
+            bh.consume(GenericMessage1.deserialize(bytes).serialize())
+        }
+    }
+
+    @Benchmark
+    fun passThroughSmallFromMemory(bh: Blackhole) {
+        smallDataset.payload.forEach { bytes ->
+            bh.consume(GenericMessage4.deserialize(bytes).serialize())
+        }
+    }
 }
 
 fun main() {

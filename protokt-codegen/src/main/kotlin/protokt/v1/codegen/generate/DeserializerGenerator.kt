@@ -26,6 +26,7 @@ import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
 import protokt.v1.AbstractDeserializer
 import protokt.v1.Reader
+import protokt.v1.StringConverter
 import protokt.v1.UnknownFieldSet
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Wrapper.interceptRead
@@ -127,7 +128,7 @@ private class DeserializerGenerator(
 
     private fun declareDeserializeVar(p: PropertyInfo): CodeBlock {
         val initialState = deserializeVarInitialState(p)
-        return if (p.fieldType == FieldType.Message || p.repeated || p.oneof || p.nullable || p.wrapped) {
+        return if (p.fieldType == FieldType.Message || p.repeated || p.oneof || p.nullable || p.wrapped || p.cachingInfo != null) {
             CodeBlock.of("%N: %T = %L", p.name, deserializeType(p), initialState)
         } else {
             CodeBlock.of("%N = %L", p.name, initialState)
@@ -160,15 +161,29 @@ private class DeserializerGenerator(
         val value: CodeBlock
     )
 
+    private fun cachingInfoForField(field: StandardField): CachingFieldInfo? =
+        properties.firstOrNull { it.name == field.fieldName }?.cachingInfo
+
     private fun deserializerInfo(): List<DeserializerInfo> =
         msg.flattenedSortedFields().flatMap { (field, oneOf) ->
             field.tagList.map { tag ->
+                val cachingInfo = if (oneOf == null) cachingInfoForField(field) else null
                 DeserializerInfo(
                     tag.value,
                     oneOf?.fieldName ?: field.fieldName,
-                    oneOf?.let { oneofDes(it, field) } ?: deserialize(field, ctx, tag is Tag.Packed)
+                    when {
+                        oneOf != null -> oneofDes(oneOf, field)
+                        cachingInfo != null -> cachingDeserialize(cachingInfo, field)
+                        else -> deserialize(field, ctx, tag is Tag.Packed)
+                    }
                 )
             }
+        }
+
+    private fun cachingDeserialize(info: CachingFieldInfo, field: StandardField) =
+        when (info) {
+            is CachingFieldInfo.PlainString -> CodeBlock.of("%T.readValidatedBytes($READER)", StringConverter::class)
+            is CachingFieldInfo.Converted -> CodeBlock.of("$READER.%L", field.readFn())
         }
 
     private val StandardField.tagList
@@ -246,7 +261,7 @@ private fun deserializeMap(f: StandardField, read: CodeBlock): CodeBlock =
         endControlFlowWithoutNewline()
     }
 
-private fun StandardField.readFn() =
+internal fun StandardField.readFn() =
     when (type) {
         SFixed32 -> CodeBlock.of("readSFixed32()")
         SFixed64 -> CodeBlock.of("readSFixed64()")

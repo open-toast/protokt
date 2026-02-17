@@ -19,6 +19,7 @@ import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.asTypeName
+import protokt.v1.Bytes
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Deprecation.renderOptions
 import protokt.v1.codegen.generate.Implements.overrides
@@ -27,10 +28,10 @@ import protokt.v1.codegen.generate.Nullability.dslPropertyType
 import protokt.v1.codegen.generate.Nullability.generateNonNullAccessor
 import protokt.v1.codegen.generate.Nullability.nullable
 import protokt.v1.codegen.generate.Nullability.propertyType
+import protokt.v1.codegen.generate.Wrapper.cachingFieldInfo
 import protokt.v1.codegen.generate.Wrapper.interceptDefaultValue
 import protokt.v1.codegen.generate.Wrapper.interceptTypeName
 import protokt.v1.codegen.generate.Wrapper.wrapped
-import protokt.v1.codegen.generate.Wrapper.wrapperRequiresNullability
 import protokt.v1.codegen.util.ErrorContext.withFieldName
 import protokt.v1.codegen.util.Field
 import protokt.v1.codegen.util.Message
@@ -55,21 +56,29 @@ private class PropertyAnnotator(
         return when (field) {
             is StandardField -> {
                 annotateStandard(field).let { type ->
-                    val wrapperRequiresNullability = field.wrapperRequiresNullability(ctx)
+                    val cachingInfo = field.cachingFieldInfo(ctx, msg.mapEntry)
                     PropertyInfo(
                         name = field.fieldName,
                         number = field.number,
-                        propertyType = propertyType(field, type, wrapperRequiresNullability),
+                        propertyType = propertyType(field, type),
                         generateNullableBackingProperty = field.generateNonNullAccessor,
-                        deserializeType = deserializeType(field, type),
+                        deserializeType =
+                        when (cachingInfo) {
+                            is CachingFieldInfo.PlainString ->
+                                Bytes::class.asTypeName().copy(nullable = true)
+                            is CachingFieldInfo.Converted ->
+                                cachingInfo.wireTypeName.copy(nullable = true)
+                            null -> deserializeType(field, type)
+                        },
                         builderPropertyType = dslPropertyType(field, type),
                         defaultValue = field.defaultValue(ctx, msg.mapEntry),
                         fieldType = field.type,
                         repeated = field.repeated,
                         mapEntry = field.mapEntry,
-                        nullable = field.nullable || field.optional || wrapperRequiresNullability,
+                        nullable = field.nullable || field.optional,
                         overrides = field.overrides(ctx, msg),
                         wrapped = field.wrapped,
+                        cachingInfo = cachingInfo,
                         documentation = documentation,
                         deprecation = deprecation(field)
                     )
@@ -147,10 +156,25 @@ internal class PropertyInfo(
     val mapEntry: Message? = null,
     val oneof: Boolean = false,
     val wrapped: Boolean = false,
+    val cachingInfo: CachingFieldInfo? = null,
     val overrides: Boolean = false,
     val documentation: List<String>?,
     val deprecation: Deprecation.RenderOptions? = null
 ) {
     val isMap
         get() = mapEntry != null
+}
+
+internal sealed class CachingFieldInfo {
+    /** Whether the cached LazyReference is nullable (message-typed wrappers are nullable because absence = null). */
+    open val nullable: Boolean get() = false
+
+    object PlainString : CachingFieldInfo()
+
+    data class Converted(
+        val converterClassName: com.squareup.kotlinpoet.ClassName,
+        val wireTypeName: com.squareup.kotlinpoet.TypeName,
+        val fieldType: protokt.v1.reflect.FieldType,
+        override val nullable: Boolean
+    ) : CachingFieldInfo()
 }

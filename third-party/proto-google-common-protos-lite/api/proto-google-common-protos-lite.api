@@ -1,6 +1,6 @@
 public final class protokt/v1/google/api/Advice : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/Advice$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Advice;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/Advice;
 	public fun equals (Ljava/lang/Object;)Z
@@ -30,7 +30,7 @@ public final class protokt/v1/google/api/Advice$Deserializer : protokt/v1/Abstra
 
 public final class protokt/v1/google/api/AuthProvider : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/AuthProvider$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/AuthProvider;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/AuthProvider;
 	public fun equals (Ljava/lang/Object;)Z
@@ -75,7 +75,7 @@ public final class protokt/v1/google/api/AuthProvider$Deserializer : protokt/v1/
 
 public final class protokt/v1/google/api/AuthRequirement : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/AuthRequirement$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/AuthRequirement;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/AuthRequirement;
 	public fun equals (Ljava/lang/Object;)Z
@@ -141,7 +141,7 @@ public final class protokt/v1/google/api/Authentication$Deserializer : protokt/v
 
 public final class protokt/v1/google/api/AuthenticationRule : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/AuthenticationRule$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/google/api/OAuthRequirements;ZLjava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/google/api/OAuthRequirements;ZLjava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/AuthenticationRule;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/AuthenticationRule;
 	public fun equals (Ljava/lang/Object;)Z
@@ -210,7 +210,7 @@ public final class protokt/v1/google/api/Backend$Deserializer : protokt/v1/Abstr
 
 public final class protokt/v1/google/api/BackendRule : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/BackendRule$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;DDDLprotokt/v1/google/api/BackendRule$PathTranslation;Lprotokt/v1/google/api/BackendRule$Authentication;Ljava/lang/String;Ljava/util/Map;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;DDDLprotokt/v1/google/api/BackendRule$PathTranslation;Lprotokt/v1/google/api/BackendRule$Authentication;Lprotokt/v1/LazyReference;Ljava/util/Map;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/BackendRule;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/BackendRule;
 	public fun equals (Ljava/lang/Object;)Z
@@ -332,7 +332,7 @@ public final class protokt/v1/google/api/Billing : protokt/v1/AbstractMessage {
 
 public final class protokt/v1/google/api/Billing$BillingDestination : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/Billing$BillingDestination$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Billing$BillingDestination;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/Billing$BillingDestination;
 	public fun equals (Ljava/lang/Object;)Z
@@ -488,7 +488,7 @@ public final class protokt/v1/google/api/ClientLibraryOrganization$UNRECOGNIZED 
 
 public final class protokt/v1/google/api/ClientLibrarySettings : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/ClientLibrarySettings$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/google/api/LaunchStage;ZLprotokt/v1/google/api/JavaSettings;Lprotokt/v1/google/api/CppSettings;Lprotokt/v1/google/api/PhpSettings;Lprotokt/v1/google/api/PythonSettings;Lprotokt/v1/google/api/NodeSettings;Lprotokt/v1/google/api/DotnetSettings;Lprotokt/v1/google/api/RubySettings;Lprotokt/v1/google/api/GoSettings;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/google/api/LaunchStage;ZLprotokt/v1/google/api/JavaSettings;Lprotokt/v1/google/api/CppSettings;Lprotokt/v1/google/api/PhpSettings;Lprotokt/v1/google/api/PythonSettings;Lprotokt/v1/google/api/NodeSettings;Lprotokt/v1/google/api/DotnetSettings;Lprotokt/v1/google/api/RubySettings;Lprotokt/v1/google/api/GoSettings;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/ClientLibrarySettings;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/ClientLibrarySettings;
 	public fun equals (Ljava/lang/Object;)Z
@@ -548,7 +548,7 @@ public final class protokt/v1/google/api/ClientLibrarySettings$Deserializer : pr
 
 public final class protokt/v1/google/api/CommonLanguageSettings : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/CommonLanguageSettings$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Lprotokt/v1/google/api/SelectiveGapicGeneration;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Ljava/util/List;Lprotokt/v1/google/api/SelectiveGapicGeneration;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/CommonLanguageSettings;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/CommonLanguageSettings;
 	public fun equals (Ljava/lang/Object;)Z
@@ -584,7 +584,7 @@ public final class protokt/v1/google/api/CommonLanguageSettings$Deserializer : p
 
 public final class protokt/v1/google/api/ConfigChange : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/ConfigChange$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/google/api/ChangeType;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/google/api/ChangeType;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/ConfigChange;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/ConfigChange;
 	public fun equals (Ljava/lang/Object;)Z
@@ -656,7 +656,7 @@ public final class protokt/v1/google/api/Context$Deserializer : protokt/v1/Abstr
 
 public final class protokt/v1/google/api/ContextRule : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/ContextRule$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/ContextRule;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/ContextRule;
 	public fun equals (Ljava/lang/Object;)Z
@@ -698,7 +698,7 @@ public final class protokt/v1/google/api/ContextRule$Deserializer : protokt/v1/A
 
 public final class protokt/v1/google/api/Control : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/Control$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Control;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/Control;
 	public fun equals (Ljava/lang/Object;)Z
@@ -761,7 +761,7 @@ public final class protokt/v1/google/api/CppSettings$Deserializer : protokt/v1/A
 
 public final class protokt/v1/google/api/CustomHttpPattern : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/CustomHttpPattern$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/CustomHttpPattern;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/CustomHttpPattern;
 	public fun equals (Ljava/lang/Object;)Z
@@ -1079,7 +1079,7 @@ public final class protokt/v1/google/api/Distribution$Range$Deserializer : proto
 
 public final class protokt/v1/google/api/Documentation : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/Documentation$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Ljava/util/List;Lprotokt/v1/LazyReference;Ljava/util/List;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Documentation;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/Documentation;
 	public fun equals (Ljava/lang/Object;)Z
@@ -1124,7 +1124,7 @@ public final class protokt/v1/google/api/Documentation$Deserializer : protokt/v1
 
 public final class protokt/v1/google/api/DocumentationRule : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/DocumentationRule$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/DocumentationRule;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/DocumentationRule;
 	public fun equals (Ljava/lang/Object;)Z
@@ -1205,7 +1205,7 @@ public final class protokt/v1/google/api/DotnetSettings$Deserializer : protokt/v
 
 public final class protokt/v1/google/api/Endpoint : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/Endpoint$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;ZLjava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Ljava/util/List;ZLprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Endpoint;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/Endpoint;
 	public fun equals (Ljava/lang/Object;)Z
@@ -1513,7 +1513,7 @@ public final class protokt/v1/google/api/FieldInfo$Format$UUID4 : protokt/v1/goo
 
 public final class protokt/v1/google/api/FieldPolicy : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/FieldPolicy$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/FieldPolicy;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/FieldPolicy;
 	public fun equals (Ljava/lang/Object;)Z
@@ -1615,7 +1615,7 @@ public final class protokt/v1/google/api/Http$Deserializer : protokt/v1/Abstract
 
 public final class protokt/v1/google/api/HttpBody : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/HttpBody$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/Bytes;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/Bytes;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/HttpBody;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/HttpBody;
 	public fun equals (Ljava/lang/Object;)Z
@@ -1651,7 +1651,7 @@ public final class protokt/v1/google/api/HttpBody$Deserializer : protokt/v1/Abst
 
 public final class protokt/v1/google/api/HttpRule : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/HttpRule$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/google/api/HttpRule$Pattern;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/google/api/HttpRule$Pattern;Lprotokt/v1/LazyReference;Ljava/util/List;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/HttpRule;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/HttpRule;
 	public fun equals (Ljava/lang/Object;)Z
@@ -1762,7 +1762,7 @@ public final class protokt/v1/google/api/HttpRule$Pattern$Put : protokt/v1/googl
 
 public final class protokt/v1/google/api/JavaSettings : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/JavaSettings$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/util/Map;Lprotokt/v1/google/api/CommonLanguageSettings;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Ljava/util/Map;Lprotokt/v1/google/api/CommonLanguageSettings;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/JavaSettings;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/JavaSettings;
 	public fun equals (Ljava/lang/Object;)Z
@@ -1798,7 +1798,7 @@ public final class protokt/v1/google/api/JavaSettings$Deserializer : protokt/v1/
 
 public final class protokt/v1/google/api/JwtLocation : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/JwtLocation$Deserializer;
-	public synthetic fun <init> (Lprotokt/v1/google/api/JwtLocation$In;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/google/api/JwtLocation$In;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/JwtLocation;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/JwtLocation;
 	public fun equals (Ljava/lang/Object;)Z
@@ -1867,7 +1867,7 @@ public final class protokt/v1/google/api/JwtLocation$In$Query : protokt/v1/googl
 
 public final class protokt/v1/google/api/LabelDescriptor : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/LabelDescriptor$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/google/api/LabelDescriptor$ValueType;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/google/api/LabelDescriptor$ValueType;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/LabelDescriptor;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/LabelDescriptor;
 	public fun equals (Ljava/lang/Object;)Z
@@ -1979,7 +1979,7 @@ public final class protokt/v1/google/api/LaunchStage$UNRECOGNIZED : protokt/v1/g
 
 public final class protokt/v1/google/api/LogDescriptor : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/LogDescriptor$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Ljava/util/List;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/LogDescriptor;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/LogDescriptor;
 	public fun equals (Ljava/lang/Object;)Z
@@ -2051,7 +2051,7 @@ public final class protokt/v1/google/api/Logging$Deserializer : protokt/v1/Abstr
 
 public final class protokt/v1/google/api/Logging$LoggingDestination : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/Logging$LoggingDestination$Deserializer;
-	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/util/List;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Logging$LoggingDestination;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/Logging$LoggingDestination;
 	public fun equals (Ljava/lang/Object;)Z
@@ -2084,7 +2084,7 @@ public final class protokt/v1/google/api/Logging$LoggingDestination$Deserializer
 
 public final class protokt/v1/google/api/MethodPolicy : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/MethodPolicy$Deserializer;
-	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/util/List;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/MethodPolicy;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/MethodPolicy;
 	public fun equals (Ljava/lang/Object;)Z
@@ -2117,7 +2117,7 @@ public final class protokt/v1/google/api/MethodPolicy$Deserializer : protokt/v1/
 
 public final class protokt/v1/google/api/MethodSettings : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/MethodSettings$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/google/api/MethodSettings$LongRunning;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/google/api/MethodSettings$LongRunning;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/MethodSettings;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/MethodSettings;
 	public fun equals (Ljava/lang/Object;)Z
@@ -2192,7 +2192,7 @@ public final class protokt/v1/google/api/MethodSettings$LongRunning$Deserializer
 
 public final class protokt/v1/google/api/Metric : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/Metric$Deserializer;
-	public synthetic fun <init> (Ljava/util/Map;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/util/Map;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Metric;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/Metric;
 	public fun equals (Ljava/lang/Object;)Z
@@ -2225,7 +2225,7 @@ public final class protokt/v1/google/api/Metric$Deserializer : protokt/v1/Abstra
 
 public final class protokt/v1/google/api/MetricDescriptor : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/MetricDescriptor$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Lprotokt/v1/google/api/MetricDescriptor$MetricKind;Lprotokt/v1/google/api/MetricDescriptor$ValueType;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/google/api/MetricDescriptor$MetricDescriptorMetadata;Lprotokt/v1/google/api/LaunchStage;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Ljava/util/List;Lprotokt/v1/google/api/MetricDescriptor$MetricKind;Lprotokt/v1/google/api/MetricDescriptor$ValueType;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/google/api/MetricDescriptor$MetricDescriptorMetadata;Lprotokt/v1/google/api/LaunchStage;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/MetricDescriptor;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/MetricDescriptor;
 	public fun equals (Ljava/lang/Object;)Z
@@ -2432,7 +2432,7 @@ public final class protokt/v1/google/api/MetricDescriptor$ValueType$VALUE_TYPE_U
 
 public final class protokt/v1/google/api/MetricRule : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/MetricRule$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/util/Map;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Ljava/util/Map;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/MetricRule;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/MetricRule;
 	public fun equals (Ljava/lang/Object;)Z
@@ -2465,7 +2465,7 @@ public final class protokt/v1/google/api/MetricRule$Deserializer : protokt/v1/Ab
 
 public final class protokt/v1/google/api/MonitoredResource : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/MonitoredResource$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/util/Map;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Ljava/util/Map;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/MonitoredResource;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/MonitoredResource;
 	public fun equals (Ljava/lang/Object;)Z
@@ -2498,7 +2498,7 @@ public final class protokt/v1/google/api/MonitoredResource$Deserializer : protok
 
 public final class protokt/v1/google/api/MonitoredResourceDescriptor : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/MonitoredResourceDescriptor$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Lprotokt/v1/google/api/LaunchStage;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Ljava/util/List;Lprotokt/v1/LazyReference;Lprotokt/v1/google/api/LaunchStage;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/MonitoredResourceDescriptor;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/MonitoredResourceDescriptor;
 	public fun equals (Ljava/lang/Object;)Z
@@ -2609,7 +2609,7 @@ public final class protokt/v1/google/api/Monitoring$Deserializer : protokt/v1/Ab
 
 public final class protokt/v1/google/api/Monitoring$MonitoringDestination : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/Monitoring$MonitoringDestination$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Monitoring$MonitoringDestination;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/Monitoring$MonitoringDestination;
 	public fun equals (Ljava/lang/Object;)Z
@@ -2672,7 +2672,7 @@ public final class protokt/v1/google/api/NodeSettings$Deserializer : protokt/v1/
 
 public final class protokt/v1/google/api/OAuthRequirements : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/OAuthRequirements$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/OAuthRequirements;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/OAuthRequirements;
 	public fun equals (Ljava/lang/Object;)Z
@@ -2702,7 +2702,7 @@ public final class protokt/v1/google/api/OAuthRequirements$Deserializer : protok
 
 public final class protokt/v1/google/api/Page : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/Page$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Page;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/Page;
 	public fun equals (Ljava/lang/Object;)Z
@@ -2798,7 +2798,7 @@ public final class protokt/v1/google/api/ProjectProperties$Deserializer : protok
 
 public final class protokt/v1/google/api/Property : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/Property$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/google/api/Property$PropertyType;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/google/api/Property$PropertyType;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Property;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/Property;
 	public fun equals (Ljava/lang/Object;)Z
@@ -2870,7 +2870,7 @@ public final class protokt/v1/google/api/Property$PropertyType$UNSPECIFIED : pro
 
 public final class protokt/v1/google/api/Publishing : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/Publishing$Deserializer;
-	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Lprotokt/v1/google/api/ClientLibraryOrganization;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/util/List;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Ljava/util/List;Lprotokt/v1/LazyReference;Lprotokt/v1/google/api/ClientLibraryOrganization;Ljava/util/List;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Publishing;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/Publishing;
 	public fun equals (Ljava/lang/Object;)Z
@@ -3032,7 +3032,7 @@ public final class protokt/v1/google/api/Quota$Deserializer : protokt/v1/Abstrac
 
 public final class protokt/v1/google/api/QuotaLimit : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/QuotaLimit$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;JJLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;JJLprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;JLprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Ljava/util/Map;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/QuotaLimit;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/QuotaLimit;
 	public fun equals (Ljava/lang/Object;)Z
@@ -3089,7 +3089,7 @@ public final class protokt/v1/google/api/QuotaLimit$Deserializer : protokt/v1/Ab
 
 public final class protokt/v1/google/api/ResourceDescriptor : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/ResourceDescriptor$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Lprotokt/v1/google/api/ResourceDescriptor$History;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Ljava/util/List;Lprotokt/v1/LazyReference;Lprotokt/v1/google/api/ResourceDescriptor$History;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/ResourceDescriptor;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/ResourceDescriptor;
 	public fun equals (Ljava/lang/Object;)Z
@@ -3189,7 +3189,7 @@ public final class protokt/v1/google/api/ResourceDescriptor$Style$UNRECOGNIZED :
 
 public final class protokt/v1/google/api/ResourceReference : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/ResourceReference$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/ResourceReference;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/ResourceReference;
 	public fun equals (Ljava/lang/Object;)Z
@@ -3222,7 +3222,7 @@ public final class protokt/v1/google/api/ResourceReference$Deserializer : protok
 
 public final class protokt/v1/google/api/RoutingParameter : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/RoutingParameter$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/RoutingParameter;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/RoutingParameter;
 	public fun equals (Ljava/lang/Object;)Z
@@ -3348,7 +3348,7 @@ public final class protokt/v1/google/api/SelectiveGapicGeneration$Deserializer :
 
 public final class protokt/v1/google/api/Service : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/Service$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lprotokt/v1/google/api/Documentation;Lprotokt/v1/google/api/Backend;Lprotokt/v1/google/api/Http;Lprotokt/v1/google/api/Quota;Lprotokt/v1/google/api/Authentication;Lprotokt/v1/google/api/Context;Lprotokt/v1/google/api/Usage;Ljava/util/List;Lkotlin/UInt;Lprotokt/v1/google/api/Control;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lprotokt/v1/google/api/Billing;Lprotokt/v1/google/api/Logging;Lprotokt/v1/google/api/Monitoring;Lprotokt/v1/google/api/SystemParameters;Ljava/lang/String;Lprotokt/v1/google/api/SourceInfo;Lprotokt/v1/google/api/Publishing;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lprotokt/v1/google/api/Documentation;Lprotokt/v1/google/api/Backend;Lprotokt/v1/google/api/Http;Lprotokt/v1/google/api/Quota;Lprotokt/v1/google/api/Authentication;Lprotokt/v1/google/api/Context;Lprotokt/v1/google/api/Usage;Ljava/util/List;Lprotokt/v1/LazyReference;Lprotokt/v1/google/api/Control;Lprotokt/v1/LazyReference;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lprotokt/v1/google/api/Billing;Lprotokt/v1/google/api/Logging;Lprotokt/v1/google/api/Monitoring;Lprotokt/v1/google/api/SystemParameters;Lprotokt/v1/LazyReference;Lprotokt/v1/google/api/SourceInfo;Lprotokt/v1/google/api/Publishing;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Service;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/Service;
 	public fun equals (Ljava/lang/Object;)Z
@@ -3483,7 +3483,7 @@ public final class protokt/v1/google/api/SourceInfo$Deserializer : protokt/v1/Ab
 
 public final class protokt/v1/google/api/SystemParameter : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/SystemParameter$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/SystemParameter;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/SystemParameter;
 	public fun equals (Ljava/lang/Object;)Z
@@ -3519,7 +3519,7 @@ public final class protokt/v1/google/api/SystemParameter$Deserializer : protokt/
 
 public final class protokt/v1/google/api/SystemParameterRule : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/SystemParameterRule$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/SystemParameterRule;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/SystemParameterRule;
 	public fun equals (Ljava/lang/Object;)Z
@@ -3582,7 +3582,7 @@ public final class protokt/v1/google/api/SystemParameters$Deserializer : protokt
 
 public final class protokt/v1/google/api/TypeReference : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/TypeReference$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/TypeReference;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/TypeReference;
 	public fun equals (Ljava/lang/Object;)Z
@@ -3612,7 +3612,7 @@ public final class protokt/v1/google/api/TypeReference$Deserializer : protokt/v1
 
 public final class protokt/v1/google/api/Usage : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/Usage$Deserializer;
-	public synthetic fun <init> (Ljava/util/List;Ljava/util/List;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/util/List;Ljava/util/List;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Usage;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/Usage;
 	public fun equals (Ljava/lang/Object;)Z
@@ -3648,7 +3648,7 @@ public final class protokt/v1/google/api/Usage$Deserializer : protokt/v1/Abstrac
 
 public final class protokt/v1/google/api/UsageRule : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/UsageRule$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;ZZLprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;ZZLprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/UsageRule;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/UsageRule;
 	public fun equals (Ljava/lang/Object;)Z
@@ -3714,7 +3714,7 @@ public final class protokt/v1/google/api/Visibility$Deserializer : protokt/v1/Ab
 
 public final class protokt/v1/google/api/VisibilityRule : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/VisibilityRule$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/VisibilityRule;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/VisibilityRule;
 	public fun equals (Ljava/lang/Object;)Z
@@ -3747,7 +3747,7 @@ public final class protokt/v1/google/api/VisibilityRule$Deserializer : protokt/v
 
 public final class protokt/v1/google/apps/card/v1/Action : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Action$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Lprotokt/v1/google/apps/card/v1/Action$LoadIndicator;ZLprotokt/v1/google/apps/card/v1/Action$Interaction;Ljava/util/List;ZLprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Ljava/util/List;Lprotokt/v1/google/apps/card/v1/Action$LoadIndicator;ZLprotokt/v1/google/apps/card/v1/Action$Interaction;Ljava/util/List;ZLprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Action;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Action;
 	public fun equals (Ljava/lang/Object;)Z
@@ -3768,7 +3768,7 @@ public final class protokt/v1/google/apps/card/v1/Action : protokt/v1/AbstractMe
 
 public final class protokt/v1/google/apps/card/v1/Action$ActionParameter : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Action$ActionParameter$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Action$ActionParameter;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Action$ActionParameter;
 	public fun equals (Ljava/lang/Object;)Z
@@ -3940,7 +3940,7 @@ public final class protokt/v1/google/apps/card/v1/BorderStyle$Deserializer : pro
 
 public final class protokt/v1/google/apps/card/v1/Button : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Button$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/google/apps/card/v1/Icon;Lprotokt/v1/google/type/Color;Lprotokt/v1/google/apps/card/v1/OnClick;ZLjava/lang/String;Lprotokt/v1/google/apps/card/v1/Button$Type;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/google/apps/card/v1/Icon;Lprotokt/v1/google/type/Color;Lprotokt/v1/google/apps/card/v1/OnClick;ZLprotokt/v1/LazyReference;Lprotokt/v1/google/apps/card/v1/Button$Type;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Button;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Button;
 	public fun equals (Ljava/lang/Object;)Z
@@ -4054,7 +4054,7 @@ public final class protokt/v1/google/apps/card/v1/ButtonList$Deserializer : prot
 
 public final class protokt/v1/google/apps/card/v1/Card : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Card$Deserializer;
-	public synthetic fun <init> (Lprotokt/v1/google/apps/card/v1/Card$CardHeader;Ljava/util/List;Ljava/util/List;Ljava/lang/String;Lprotokt/v1/google/apps/card/v1/Card$CardFixedFooter;Lprotokt/v1/google/apps/card/v1/Card$DisplayStyle;Lprotokt/v1/google/apps/card/v1/Card$CardHeader;Lprotokt/v1/google/apps/card/v1/Card$DividerStyle;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/google/apps/card/v1/Card$CardHeader;Ljava/util/List;Ljava/util/List;Lprotokt/v1/LazyReference;Lprotokt/v1/google/apps/card/v1/Card$CardFixedFooter;Lprotokt/v1/google/apps/card/v1/Card$DisplayStyle;Lprotokt/v1/google/apps/card/v1/Card$CardHeader;Lprotokt/v1/google/apps/card/v1/Card$DividerStyle;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Card;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Card;
 	public fun equals (Ljava/lang/Object;)Z
@@ -4099,7 +4099,7 @@ public final class protokt/v1/google/apps/card/v1/Card$Builder : protokt/v1/Buil
 
 public final class protokt/v1/google/apps/card/v1/Card$CardAction : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Card$CardAction$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/google/apps/card/v1/OnClick;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/google/apps/card/v1/OnClick;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Card$CardAction;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Card$CardAction;
 	public fun equals (Ljava/lang/Object;)Z
@@ -4165,7 +4165,7 @@ public final class protokt/v1/google/apps/card/v1/Card$CardFixedFooter$Deseriali
 
 public final class protokt/v1/google/apps/card/v1/Card$CardHeader : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Card$CardHeader$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/google/apps/card/v1/Widget$ImageType;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/google/apps/card/v1/Widget$ImageType;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Card$CardHeader;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Card$CardHeader;
 	public fun equals (Ljava/lang/Object;)Z
@@ -4335,7 +4335,7 @@ public final class protokt/v1/google/apps/card/v1/Card$NestedWidget$Deserializer
 
 public final class protokt/v1/google/apps/card/v1/Card$Section : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Card$Section$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;ZILprotokt/v1/google/apps/card/v1/CollapseControl;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Ljava/util/List;ZILprotokt/v1/google/apps/card/v1/CollapseControl;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Card$Section;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Card$Section;
 	public fun equals (Ljava/lang/Object;)Z
@@ -4440,7 +4440,7 @@ public final class protokt/v1/google/apps/card/v1/Carousel$Deserializer : protok
 
 public final class protokt/v1/google/apps/card/v1/Chip : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Chip$Deserializer;
-	public synthetic fun <init> (Lprotokt/v1/google/apps/card/v1/Icon;Ljava/lang/String;Lprotokt/v1/google/apps/card/v1/OnClick;ZLjava/lang/String;ZLprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/google/apps/card/v1/Icon;Lprotokt/v1/LazyReference;Lprotokt/v1/google/apps/card/v1/OnClick;ZLprotokt/v1/LazyReference;ZLprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Chip;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Chip;
 	public fun equals (Ljava/lang/Object;)Z
@@ -4832,7 +4832,7 @@ public final class protokt/v1/google/apps/card/v1/Columns$Deserializer : protokt
 
 public final class protokt/v1/google/apps/card/v1/DateTimePicker : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/DateTimePicker$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/google/apps/card/v1/DateTimePicker$DateTimePickerType;Ljava/lang/Long;ILprotokt/v1/google/apps/card/v1/Action;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/google/apps/card/v1/DateTimePicker$DateTimePickerType;Ljava/lang/Long;ILprotokt/v1/google/apps/card/v1/Action;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/DateTimePicker;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/DateTimePicker;
 	public fun equals (Ljava/lang/Object;)Z
@@ -4905,7 +4905,7 @@ public final class protokt/v1/google/apps/card/v1/DateTimePicker$Deserializer : 
 
 public final class protokt/v1/google/apps/card/v1/DecoratedText : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/DecoratedText$Deserializer;
-	public synthetic fun <init> (Lprotokt/v1/google/apps/card/v1/Icon;Ljava/lang/String;Ljava/lang/String;ZLjava/lang/String;Lprotokt/v1/google/apps/card/v1/OnClick;Lprotokt/v1/google/apps/card/v1/DecoratedText$Control;Lprotokt/v1/google/apps/card/v1/Icon;Lprotokt/v1/google/apps/card/v1/Widget$VerticalAlignment;Lprotokt/v1/google/apps/card/v1/TextParagraph;Lprotokt/v1/google/apps/card/v1/TextParagraph;Lprotokt/v1/google/apps/card/v1/TextParagraph;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/google/apps/card/v1/Icon;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;ZLprotokt/v1/LazyReference;Lprotokt/v1/google/apps/card/v1/OnClick;Lprotokt/v1/google/apps/card/v1/DecoratedText$Control;Lprotokt/v1/google/apps/card/v1/Icon;Lprotokt/v1/google/apps/card/v1/Widget$VerticalAlignment;Lprotokt/v1/google/apps/card/v1/TextParagraph;Lprotokt/v1/google/apps/card/v1/TextParagraph;Lprotokt/v1/google/apps/card/v1/TextParagraph;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/DecoratedText;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/DecoratedText;
 	public fun equals (Ljava/lang/Object;)Z
@@ -5004,7 +5004,7 @@ public final class protokt/v1/google/apps/card/v1/DecoratedText$Deserializer : p
 
 public final class protokt/v1/google/apps/card/v1/DecoratedText$SwitchControl : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ZLprotokt/v1/google/apps/card/v1/Action;Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$ControlType;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;ZLprotokt/v1/google/apps/card/v1/Action;Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$ControlType;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl;
 	public fun equals (Ljava/lang/Object;)Z
@@ -5101,7 +5101,7 @@ public final class protokt/v1/google/apps/card/v1/Divider$Deserializer : protokt
 
 public final class protokt/v1/google/apps/card/v1/Grid : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Grid$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Lprotokt/v1/google/apps/card/v1/BorderStyle;ILprotokt/v1/google/apps/card/v1/OnClick;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Ljava/util/List;Lprotokt/v1/google/apps/card/v1/BorderStyle;ILprotokt/v1/google/apps/card/v1/OnClick;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Grid;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Grid;
 	public fun equals (Ljava/lang/Object;)Z
@@ -5143,7 +5143,7 @@ public final class protokt/v1/google/apps/card/v1/Grid$Deserializer : protokt/v1
 
 public final class protokt/v1/google/apps/card/v1/Grid$GridItem : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Grid$GridItem$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/google/apps/card/v1/ImageComponent;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/google/apps/card/v1/Grid$GridItem$GridItemLayout;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/google/apps/card/v1/ImageComponent;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/google/apps/card/v1/Grid$GridItem$GridItemLayout;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Grid$GridItem;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Grid$GridItem;
 	public fun equals (Ljava/lang/Object;)Z
@@ -5213,7 +5213,7 @@ public final class protokt/v1/google/apps/card/v1/Grid$GridItem$GridItemLayout$U
 
 public final class protokt/v1/google/apps/card/v1/Icon : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Icon$Deserializer;
-	public synthetic fun <init> (Lprotokt/v1/google/apps/card/v1/Icon$Icons;Ljava/lang/String;Lprotokt/v1/google/apps/card/v1/Widget$ImageType;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/google/apps/card/v1/Icon$Icons;Lprotokt/v1/LazyReference;Lprotokt/v1/google/apps/card/v1/Widget$ImageType;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Icon;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Icon;
 	public fun equals (Ljava/lang/Object;)Z
@@ -5285,7 +5285,7 @@ public final class protokt/v1/google/apps/card/v1/Icon$Icons$MaterialIcon : prot
 
 public final class protokt/v1/google/apps/card/v1/Image : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Image$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/google/apps/card/v1/OnClick;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/google/apps/card/v1/OnClick;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Image;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/Image;
 	public fun equals (Ljava/lang/Object;)Z
@@ -5321,7 +5321,7 @@ public final class protokt/v1/google/apps/card/v1/Image$Deserializer : protokt/v
 
 public final class protokt/v1/google/apps/card/v1/ImageComponent : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/ImageComponent$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/google/apps/card/v1/ImageCropStyle;Lprotokt/v1/google/apps/card/v1/BorderStyle;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/google/apps/card/v1/ImageCropStyle;Lprotokt/v1/google/apps/card/v1/BorderStyle;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/ImageComponent;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/ImageComponent;
 	public fun equals (Ljava/lang/Object;)Z
@@ -5429,7 +5429,7 @@ public final class protokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType$U
 
 public final class protokt/v1/google/apps/card/v1/MaterialIcon : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/MaterialIcon$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;ZIILprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;ZIILprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/MaterialIcon;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/MaterialIcon;
 	public fun equals (Ljava/lang/Object;)Z
@@ -5556,7 +5556,7 @@ public final class protokt/v1/google/apps/card/v1/OnClick$Deserializer : protokt
 
 public final class protokt/v1/google/apps/card/v1/OpenLink : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/OpenLink$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/google/apps/card/v1/OpenLink$OpenAs;Lprotokt/v1/google/apps/card/v1/OpenLink$OnClose;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/google/apps/card/v1/OpenLink$OpenAs;Lprotokt/v1/google/apps/card/v1/OpenLink$OnClose;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/OpenLink;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/OpenLink;
 	public fun equals (Ljava/lang/Object;)Z
@@ -5670,7 +5670,7 @@ public final class protokt/v1/google/apps/card/v1/OverflowMenu$Deserializer : pr
 
 public final class protokt/v1/google/apps/card/v1/OverflowMenu$OverflowMenuItem : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/OverflowMenu$OverflowMenuItem$Deserializer;
-	public synthetic fun <init> (Lprotokt/v1/google/apps/card/v1/Icon;Ljava/lang/String;Lprotokt/v1/google/apps/card/v1/OnClick;ZLprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/google/apps/card/v1/Icon;Lprotokt/v1/LazyReference;Lprotokt/v1/google/apps/card/v1/OnClick;ZLprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/OverflowMenu$OverflowMenuItem;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/OverflowMenu$OverflowMenuItem;
 	public fun equals (Ljava/lang/Object;)Z
@@ -5709,7 +5709,7 @@ public final class protokt/v1/google/apps/card/v1/OverflowMenu$OverflowMenuItem$
 
 public final class protokt/v1/google/apps/card/v1/SelectionInput : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/SelectionInput$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/google/apps/card/v1/SelectionInput$SelectionType;Ljava/util/List;Lprotokt/v1/google/apps/card/v1/Action;Ljava/lang/Integer;ILprotokt/v1/google/apps/card/v1/SelectionInput$MultiSelectDataSource;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/google/apps/card/v1/SelectionInput$SelectionType;Ljava/util/List;Lprotokt/v1/google/apps/card/v1/Action;Ljava/lang/Integer;ILprotokt/v1/google/apps/card/v1/SelectionInput$MultiSelectDataSource;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/SelectionInput;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/SelectionInput;
 	public fun equals (Ljava/lang/Object;)Z
@@ -5853,7 +5853,7 @@ public final class protokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSou
 
 public final class protokt/v1/google/apps/card/v1/SelectionInput$SelectionItem : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/SelectionInput$SelectionItem$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ZLprotokt/v1/google/apps/card/v1/SelectionInput$SelectionItem$StartIcon;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;ZLprotokt/v1/google/apps/card/v1/SelectionInput$SelectionItem$StartIcon;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/SelectionInput$SelectionItem;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/SelectionInput$SelectionItem;
 	public fun equals (Ljava/lang/Object;)Z
@@ -6019,7 +6019,7 @@ public final class protokt/v1/google/apps/card/v1/Suggestions$SuggestionItem$Des
 
 public final class protokt/v1/google/apps/card/v1/TextInput : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/TextInput$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/google/apps/card/v1/TextInput$Type;Lprotokt/v1/google/apps/card/v1/Action;Lprotokt/v1/google/apps/card/v1/Suggestions;Lprotokt/v1/google/apps/card/v1/Action;Lprotokt/v1/google/apps/card/v1/Validation;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/google/apps/card/v1/TextInput$Type;Lprotokt/v1/google/apps/card/v1/Action;Lprotokt/v1/google/apps/card/v1/Suggestions;Lprotokt/v1/google/apps/card/v1/Action;Lprotokt/v1/google/apps/card/v1/Validation;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/TextInput;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/TextInput;
 	public fun equals (Ljava/lang/Object;)Z
@@ -6100,7 +6100,7 @@ public final class protokt/v1/google/apps/card/v1/TextInput$Type$UNRECOGNIZED : 
 
 public final class protokt/v1/google/apps/card/v1/TextParagraph : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/TextParagraph$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;ILprotokt/v1/google/apps/card/v1/TextParagraph$TextSyntax;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;ILprotokt/v1/google/apps/card/v1/TextParagraph$TextSyntax;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/TextParagraph;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/apps/card/v1/TextParagraph;
 	public fun equals (Ljava/lang/Object;)Z
@@ -6529,7 +6529,7 @@ public final class protokt/v1/google/cloud/OperationResponseMapping$UNRECOGNIZED
 
 public final class protokt/v1/google/cloud/audit/AuditLog : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/cloud/audit/AuditLog$Deserializer;
-	public synthetic fun <init> (Lprotokt/v1/google/rpc/Status;Lprotokt/v1/google/cloud/audit/AuthenticationInfo;Lprotokt/v1/google/cloud/audit/RequestMetadata;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;JLprotokt/v1/google/protobuf/Any;Lprotokt/v1/google/protobuf/Struct;Lprotokt/v1/google/protobuf/Struct;Lprotokt/v1/google/protobuf/Struct;Lprotokt/v1/google/protobuf/Struct;Lprotokt/v1/google/cloud/audit/ResourceLocation;Lprotokt/v1/google/cloud/audit/PolicyViolationInfo;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/google/rpc/Status;Lprotokt/v1/google/cloud/audit/AuthenticationInfo;Lprotokt/v1/google/cloud/audit/RequestMetadata;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Ljava/util/List;Lprotokt/v1/LazyReference;JLprotokt/v1/google/protobuf/Any;Lprotokt/v1/google/protobuf/Struct;Lprotokt/v1/google/protobuf/Struct;Lprotokt/v1/google/protobuf/Struct;Lprotokt/v1/google/protobuf/Struct;Lprotokt/v1/google/cloud/audit/ResourceLocation;Lprotokt/v1/google/cloud/audit/PolicyViolationInfo;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/AuditLog;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/cloud/audit/AuditLog;
 	public fun equals (Ljava/lang/Object;)Z
@@ -6601,7 +6601,7 @@ public final class protokt/v1/google/cloud/audit/AuditLog$Deserializer : protokt
 
 public final class protokt/v1/google/cloud/audit/AuthenticationInfo : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/cloud/audit/AuthenticationInfo$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/google/protobuf/Struct;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/google/protobuf/Struct;Lprotokt/v1/LazyReference;Ljava/util/List;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/AuthenticationInfo;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/cloud/audit/AuthenticationInfo;
 	public fun equals (Ljava/lang/Object;)Z
@@ -6646,7 +6646,7 @@ public final class protokt/v1/google/cloud/audit/AuthenticationInfo$Deserializer
 
 public final class protokt/v1/google/cloud/audit/AuthorizationInfo : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/cloud/audit/AuthorizationInfo$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ZLprotokt/v1/google/rpc/context/AttributeContext$Resource;Lprotokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;ZLprotokt/v1/google/rpc/context/AttributeContext$Resource;Lprotokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/AuthorizationInfo;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/cloud/audit/AuthorizationInfo;
 	public fun equals (Ljava/lang/Object;)Z
@@ -6724,7 +6724,7 @@ public final class protokt/v1/google/cloud/audit/AuthorizationInfo$PermissionTyp
 
 public final class protokt/v1/google/cloud/audit/OrgPolicyViolationInfo : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/cloud/audit/OrgPolicyViolationInfo$Deserializer;
-	public synthetic fun <init> (Lprotokt/v1/google/protobuf/Struct;Ljava/lang/String;Ljava/util/Map;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/google/protobuf/Struct;Lprotokt/v1/LazyReference;Ljava/util/Map;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/OrgPolicyViolationInfo;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/cloud/audit/OrgPolicyViolationInfo;
 	public fun equals (Ljava/lang/Object;)Z
@@ -6793,7 +6793,7 @@ public final class protokt/v1/google/cloud/audit/PolicyViolationInfo$Deserialize
 
 public final class protokt/v1/google/cloud/audit/RequestMetadata : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/cloud/audit/RequestMetadata$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/google/rpc/context/AttributeContext$Request;Lprotokt/v1/google/rpc/context/AttributeContext$Peer;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/google/rpc/context/AttributeContext$Request;Lprotokt/v1/google/rpc/context/AttributeContext$Peer;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/RequestMetadata;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/cloud/audit/RequestMetadata;
 	public fun equals (Ljava/lang/Object;)Z
@@ -6868,7 +6868,7 @@ public final class protokt/v1/google/cloud/audit/ResourceLocation$Deserializer :
 
 public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$Deserializer;
-	public synthetic fun <init> (Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$Authority;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$Authority;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo;
 	public fun equals (Ljava/lang/Object;)Z
@@ -6926,7 +6926,7 @@ public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$De
 
 public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$FirstPartyPrincipal : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$FirstPartyPrincipal$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/google/protobuf/Struct;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/google/protobuf/Struct;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$FirstPartyPrincipal;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$FirstPartyPrincipal;
 	public fun equals (Ljava/lang/Object;)Z
@@ -6989,7 +6989,7 @@ public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$Th
 
 public final class protokt/v1/google/cloud/audit/ViolationInfo : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/cloud/audit/ViolationInfo$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/google/cloud/audit/ViolationInfo$PolicyType;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/google/cloud/audit/ViolationInfo$PolicyType;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/ViolationInfo;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/cloud/audit/ViolationInfo;
 	public fun equals (Ljava/lang/Object;)Z
@@ -7060,7 +7060,7 @@ public final class protokt/v1/google/cloud/audit/ViolationInfo$PolicyType$UNRECO
 
 public final class protokt/v1/google/cloud/location/GetLocationRequest : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/cloud/location/GetLocationRequest$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/location/GetLocationRequest;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/cloud/location/GetLocationRequest;
 	public fun equals (Ljava/lang/Object;)Z
@@ -7090,7 +7090,7 @@ public final class protokt/v1/google/cloud/location/GetLocationRequest$Deseriali
 
 public final class protokt/v1/google/cloud/location/ListLocationsRequest : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/cloud/location/ListLocationsRequest$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;ILprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/location/ListLocationsRequest;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/cloud/location/ListLocationsRequest;
 	public fun equals (Ljava/lang/Object;)Z
@@ -7129,7 +7129,7 @@ public final class protokt/v1/google/cloud/location/ListLocationsRequest$Deseria
 
 public final class protokt/v1/google/cloud/location/ListLocationsResponse : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/cloud/location/ListLocationsResponse$Deserializer;
-	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/util/List;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/location/ListLocationsResponse;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/cloud/location/ListLocationsResponse;
 	public fun equals (Ljava/lang/Object;)Z
@@ -7162,7 +7162,7 @@ public final class protokt/v1/google/cloud/location/ListLocationsResponse$Deseri
 
 public final class protokt/v1/google/cloud/location/Location : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/cloud/location/Location$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/util/Map;Lprotokt/v1/google/protobuf/Any;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Ljava/util/Map;Lprotokt/v1/google/protobuf/Any;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/location/Location;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/cloud/location/Location;
 	public fun equals (Ljava/lang/Object;)Z
@@ -7237,7 +7237,7 @@ public final class protokt/v1/google/geo/type/Viewport$Deserializer : protokt/v1
 
 public final class protokt/v1/google/logging/type/HttpRequest : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/logging/type/HttpRequest$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;JIJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;ZZZJLjava/lang/String;Lprotokt/v1/google/protobuf/Duration;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;JIJLprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;ZZZJLprotokt/v1/LazyReference;Lprotokt/v1/google/protobuf/Duration;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/logging/type/HttpRequest;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/logging/type/HttpRequest;
 	public fun equals (Ljava/lang/Object;)Z
@@ -7361,7 +7361,7 @@ public final class protokt/v1/google/logging/type/LogSeverity$WARNING : protokt/
 
 public final class protokt/v1/google/longrunning/CancelOperationRequest : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/longrunning/CancelOperationRequest$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/longrunning/CancelOperationRequest;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/longrunning/CancelOperationRequest;
 	public fun equals (Ljava/lang/Object;)Z
@@ -7391,7 +7391,7 @@ public final class protokt/v1/google/longrunning/CancelOperationRequest$Deserial
 
 public final class protokt/v1/google/longrunning/DeleteOperationRequest : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/longrunning/DeleteOperationRequest$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/longrunning/DeleteOperationRequest;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/longrunning/DeleteOperationRequest;
 	public fun equals (Ljava/lang/Object;)Z
@@ -7421,7 +7421,7 @@ public final class protokt/v1/google/longrunning/DeleteOperationRequest$Deserial
 
 public final class protokt/v1/google/longrunning/GetOperationRequest : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/longrunning/GetOperationRequest$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/longrunning/GetOperationRequest;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/longrunning/GetOperationRequest;
 	public fun equals (Ljava/lang/Object;)Z
@@ -7451,7 +7451,7 @@ public final class protokt/v1/google/longrunning/GetOperationRequest$Deserialize
 
 public final class protokt/v1/google/longrunning/ListOperationsRequest : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/longrunning/ListOperationsRequest$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;ZLprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;ILprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;ZLprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/longrunning/ListOperationsRequest;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/longrunning/ListOperationsRequest;
 	public fun equals (Ljava/lang/Object;)Z
@@ -7493,7 +7493,7 @@ public final class protokt/v1/google/longrunning/ListOperationsRequest$Deseriali
 
 public final class protokt/v1/google/longrunning/ListOperationsResponse : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/longrunning/ListOperationsResponse$Deserializer;
-	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/util/List;Lprotokt/v1/LazyReference;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/longrunning/ListOperationsResponse;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/longrunning/ListOperationsResponse;
 	public fun equals (Ljava/lang/Object;)Z
@@ -7529,7 +7529,7 @@ public final class protokt/v1/google/longrunning/ListOperationsResponse$Deserial
 
 public final class protokt/v1/google/longrunning/Operation : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/longrunning/Operation$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/google/protobuf/Any;ZLprotokt/v1/google/longrunning/Operation$Result;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/google/protobuf/Any;ZLprotokt/v1/google/longrunning/Operation$Result;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/longrunning/Operation;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/longrunning/Operation;
 	public fun equals (Ljava/lang/Object;)Z
@@ -7593,7 +7593,7 @@ public final class protokt/v1/google/longrunning/Operation$Result$Response : pro
 
 public final class protokt/v1/google/longrunning/OperationInfo : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/longrunning/OperationInfo$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/longrunning/OperationInfo;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/longrunning/OperationInfo;
 	public fun equals (Ljava/lang/Object;)Z
@@ -7626,7 +7626,7 @@ public final class protokt/v1/google/longrunning/OperationInfo$Deserializer : pr
 
 public final class protokt/v1/google/longrunning/WaitOperationRequest : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/longrunning/WaitOperationRequest$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/google/protobuf/Duration;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/google/protobuf/Duration;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/longrunning/WaitOperationRequest;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/longrunning/WaitOperationRequest;
 	public fun equals (Ljava/lang/Object;)Z
@@ -7689,7 +7689,7 @@ public final class protokt/v1/google/rpc/BadRequest$Deserializer : protokt/v1/Ab
 
 public final class protokt/v1/google/rpc/BadRequest$FieldViolation : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/rpc/BadRequest$FieldViolation$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/google/rpc/LocalizedMessage;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/google/rpc/LocalizedMessage;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/BadRequest$FieldViolation;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/rpc/BadRequest$FieldViolation;
 	public fun equals (Ljava/lang/Object;)Z
@@ -7812,7 +7812,7 @@ public final class protokt/v1/google/rpc/Code$UNRECOGNIZED : protokt/v1/google/r
 
 public final class protokt/v1/google/rpc/DebugInfo : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/rpc/DebugInfo$Deserializer;
-	public synthetic fun <init> (Ljava/util/List;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/util/List;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/DebugInfo;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/rpc/DebugInfo;
 	public fun equals (Ljava/lang/Object;)Z
@@ -7845,7 +7845,7 @@ public final class protokt/v1/google/rpc/DebugInfo$Deserializer : protokt/v1/Abs
 
 public final class protokt/v1/google/rpc/ErrorInfo : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/rpc/ErrorInfo$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Ljava/util/Map;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/ErrorInfo;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/rpc/ErrorInfo;
 	public fun equals (Ljava/lang/Object;)Z
@@ -7911,7 +7911,7 @@ public final class protokt/v1/google/rpc/Help$Deserializer : protokt/v1/Abstract
 
 public final class protokt/v1/google/rpc/Help$Link : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/rpc/Help$Link$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/Help$Link;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/rpc/Help$Link;
 	public fun equals (Ljava/lang/Object;)Z
@@ -7944,7 +7944,7 @@ public final class protokt/v1/google/rpc/Help$Link$Deserializer : protokt/v1/Abs
 
 public final class protokt/v1/google/rpc/LocalizedMessage : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/rpc/LocalizedMessage$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/LocalizedMessage;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/rpc/LocalizedMessage;
 	public fun equals (Ljava/lang/Object;)Z
@@ -8007,7 +8007,7 @@ public final class protokt/v1/google/rpc/PreconditionFailure$Deserializer : prot
 
 public final class protokt/v1/google/rpc/PreconditionFailure$Violation : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/rpc/PreconditionFailure$Violation$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/PreconditionFailure$Violation;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/rpc/PreconditionFailure$Violation;
 	public fun equals (Ljava/lang/Object;)Z
@@ -8073,7 +8073,7 @@ public final class protokt/v1/google/rpc/QuotaFailure$Deserializer : protokt/v1/
 
 public final class protokt/v1/google/rpc/QuotaFailure$Violation : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/rpc/QuotaFailure$Violation$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;JLjava/lang/Long;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Ljava/util/Map;JLjava/lang/Long;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/QuotaFailure$Violation;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/rpc/QuotaFailure$Violation;
 	public fun equals (Ljava/lang/Object;)Z
@@ -8124,7 +8124,7 @@ public final class protokt/v1/google/rpc/QuotaFailure$Violation$Deserializer : p
 
 public final class protokt/v1/google/rpc/RequestInfo : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/rpc/RequestInfo$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/RequestInfo;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/rpc/RequestInfo;
 	public fun equals (Ljava/lang/Object;)Z
@@ -8157,7 +8157,7 @@ public final class protokt/v1/google/rpc/RequestInfo$Deserializer : protokt/v1/A
 
 public final class protokt/v1/google/rpc/ResourceInfo : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/rpc/ResourceInfo$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/ResourceInfo;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/rpc/ResourceInfo;
 	public fun equals (Ljava/lang/Object;)Z
@@ -8226,7 +8226,7 @@ public final class protokt/v1/google/rpc/RetryInfo$Deserializer : protokt/v1/Abs
 
 public final class protokt/v1/google/rpc/Status : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/rpc/Status$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILprotokt/v1/LazyReference;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/Status;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/rpc/Status;
 	public fun equals (Ljava/lang/Object;)Z
@@ -8284,7 +8284,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext : protokt/v1/A
 
 public final class protokt/v1/google/rpc/context/AttributeContext$Api : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/rpc/context/AttributeContext$Api$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/context/AttributeContext$Api;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/rpc/context/AttributeContext$Api;
 	public fun equals (Ljava/lang/Object;)Z
@@ -8323,7 +8323,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Api$Deserializ
 
 public final class protokt/v1/google/rpc/context/AttributeContext$Auth : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/rpc/context/AttributeContext$Auth$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Lprotokt/v1/google/protobuf/Struct;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Ljava/util/List;Lprotokt/v1/LazyReference;Lprotokt/v1/google/protobuf/Struct;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/context/AttributeContext$Auth;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/rpc/context/AttributeContext$Auth;
 	public fun equals (Ljava/lang/Object;)Z
@@ -8394,7 +8394,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Deserializer :
 
 public final class protokt/v1/google/rpc/context/AttributeContext$Peer : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/rpc/context/AttributeContext$Peer$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;JLjava/util/Map;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;JLjava/util/Map;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/context/AttributeContext$Peer;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/rpc/context/AttributeContext$Peer;
 	public fun equals (Ljava/lang/Object;)Z
@@ -8436,7 +8436,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Peer$Deseriali
 
 public final class protokt/v1/google/rpc/context/AttributeContext$Request : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/rpc/context/AttributeContext$Request$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/google/protobuf/Timestamp;JLjava/lang/String;Ljava/lang/String;Lprotokt/v1/google/rpc/context/AttributeContext$Auth;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Ljava/util/Map;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/google/protobuf/Timestamp;JLprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/google/rpc/context/AttributeContext$Auth;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/context/AttributeContext$Request;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/rpc/context/AttributeContext$Request;
 	public fun equals (Ljava/lang/Object;)Z
@@ -8499,7 +8499,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Request$Deseri
 
 public final class protokt/v1/google/rpc/context/AttributeContext$Resource : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/rpc/context/AttributeContext$Resource$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljava/lang/String;Ljava/util/Map;Ljava/lang/String;Lprotokt/v1/google/protobuf/Timestamp;Lprotokt/v1/google/protobuf/Timestamp;Lprotokt/v1/google/protobuf/Timestamp;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Ljava/util/Map;Lprotokt/v1/LazyReference;Ljava/util/Map;Lprotokt/v1/LazyReference;Lprotokt/v1/google/protobuf/Timestamp;Lprotokt/v1/google/protobuf/Timestamp;Lprotokt/v1/google/protobuf/Timestamp;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/context/AttributeContext$Resource;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/rpc/context/AttributeContext$Resource;
 	public fun equals (Ljava/lang/Object;)Z
@@ -8604,7 +8604,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Response$Deser
 
 public final class protokt/v1/google/rpc/context/AuditContext : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/rpc/context/AuditContext$Deserializer;
-	public synthetic fun <init> (Lprotokt/v1/Bytes;Lprotokt/v1/google/protobuf/Struct;Lprotokt/v1/google/protobuf/Struct;ILjava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/Bytes;Lprotokt/v1/google/protobuf/Struct;Lprotokt/v1/google/protobuf/Struct;ILprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/context/AuditContext;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/rpc/context/AuditContext;
 	public fun equals (Ljava/lang/Object;)Z
@@ -9053,7 +9053,7 @@ public final class protokt/v1/google/type/CalendarPeriod$YEAR : protokt/v1/googl
 
 public final class protokt/v1/google/type/Color : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/type/Color$Deserializer;
-	public synthetic fun <init> (FFFLjava/lang/Float;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (FFFLprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/Color;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/type/Color;
 	public fun equals (Ljava/lang/Object;)Z
@@ -9252,7 +9252,7 @@ public final class protokt/v1/google/type/DayOfWeek$WEDNESDAY : protokt/v1/googl
 
 public final class protokt/v1/google/type/Decimal : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/type/Decimal$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/Decimal;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/type/Decimal;
 	public fun equals (Ljava/lang/Object;)Z
@@ -9282,7 +9282,7 @@ public final class protokt/v1/google/type/Decimal$Deserializer : protokt/v1/Abst
 
 public final class protokt/v1/google/type/Expr : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/type/Expr$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/Expr;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/type/Expr;
 	public fun equals (Ljava/lang/Object;)Z
@@ -9420,7 +9420,7 @@ public final class protokt/v1/google/type/LatLng$Deserializer : protokt/v1/Abstr
 
 public final class protokt/v1/google/type/LocalizedText : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/type/LocalizedText$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/LocalizedText;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/type/LocalizedText;
 	public fun equals (Ljava/lang/Object;)Z
@@ -9453,7 +9453,7 @@ public final class protokt/v1/google/type/LocalizedText$Deserializer : protokt/v
 
 public final class protokt/v1/google/type/Money : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/type/Money$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;JILprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;JILprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/Money;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/type/Money;
 	public fun equals (Ljava/lang/Object;)Z
@@ -9557,7 +9557,7 @@ public final class protokt/v1/google/type/Month$UNRECOGNIZED : protokt/v1/google
 
 public final class protokt/v1/google/type/PhoneNumber : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/type/PhoneNumber$Deserializer;
-	public synthetic fun <init> (Lprotokt/v1/google/type/PhoneNumber$Kind;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/google/type/PhoneNumber$Kind;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/PhoneNumber;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/type/PhoneNumber;
 	public fun equals (Ljava/lang/Object;)Z
@@ -9615,7 +9615,7 @@ public final class protokt/v1/google/type/PhoneNumber$Kind$ShortCode : protokt/v
 
 public final class protokt/v1/google/type/PhoneNumber$ShortCode : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/type/PhoneNumber$ShortCode$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/PhoneNumber$ShortCode;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/type/PhoneNumber$ShortCode;
 	public fun equals (Ljava/lang/Object;)Z
@@ -9648,7 +9648,7 @@ public final class protokt/v1/google/type/PhoneNumber$ShortCode$Deserializer : p
 
 public final class protokt/v1/google/type/PostalAddress : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/type/PostalAddress$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Ljava/util/List;Ljava/util/List;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/PostalAddress;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/type/PostalAddress;
 	public fun equals (Ljava/lang/Object;)Z
@@ -9786,7 +9786,7 @@ public final class protokt/v1/google/type/TimeOfDay$Deserializer : protokt/v1/Ab
 
 public final class protokt/v1/google/type/TimeZone : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/type/TimeZone$Deserializer;
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/TimeZone;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/type/TimeZone;
 	public fun equals (Ljava/lang/Object;)Z

@@ -148,6 +148,27 @@ open class ProtobufBenchmarks {
         }
         bh.consume(msg)
     }
+
+    @Benchmark
+    fun passThroughLargeFromMemory(bh: Blackhole) {
+        largeDataset.payloadList.forEach { bytes ->
+            bh.consume(GenericMessage.GenericMessage1.parseFrom(bytes).toByteArray())
+        }
+    }
+
+    @Benchmark
+    fun passThroughMediumFromMemory(bh: Blackhole) {
+        mediumDataset.payloadList.forEach { bytes ->
+            bh.consume(GenericMessage.GenericMessage1.parseFrom(bytes).toByteArray())
+        }
+    }
+
+    @Benchmark
+    fun passThroughSmallFromMemory(bh: Blackhole) {
+        smallDataset.payloadList.forEach { bytes ->
+            bh.consume(GenericMessage.GenericMessage4.parseFrom(bytes).toByteArray())
+        }
+    }
 }
 
 fun main() {

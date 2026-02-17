@@ -17,20 +17,26 @@ package protokt.v1.codegen.generate
 
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.buildCodeBlock
+import protokt.v1.Bytes
+import protokt.v1.LazyReference
+import protokt.v1.StringConverter
+import protokt.v1.codegen.util.defaultValue
 import protokt.v1.reflect.FieldType
 
 internal fun deserializeVarInitialState(p: PropertyInfo) =
-    if (p.repeated || p.wrapped || p.nullable || p.fieldType == FieldType.Message) {
+    if (p.repeated || p.wrapped || p.nullable || p.cachingInfo != null || p.fieldType == FieldType.Message) {
         CodeBlock.of("null")
     } else {
         p.defaultValue
     }
 
-internal fun wrapDeserializedValueForConstructor(p: PropertyInfo) =
+internal fun wrapDeserializedValueForConstructor(p: PropertyInfo, fromBuilder: Boolean = false) =
     if (p.isMap) {
         CodeBlock.of("%M(%N)", freezeMap, p.name)
     } else if (p.repeated) {
         CodeBlock.of("%M(%N)", freezeList, p.name)
+    } else if (p.cachingInfo != null) {
+        cachingConstructorArg(p, p.cachingInfo, fromBuilder)
     } else {
         buildCodeBlock {
             add("%N", p.name)
@@ -45,6 +51,8 @@ internal fun wrapDeserializedBuilderValueForConstructor(p: PropertyInfo) =
         CodeBlock.of("%N?.build() ?: emptyMap()", p.name)
     } else if (p.repeated) {
         CodeBlock.of("%N?.build() ?: emptyList()", p.name)
+    } else if (p.cachingInfo != null) {
+        cachingConstructorArg(p, p.cachingInfo, fromBuilder = false)
     } else {
         buildCodeBlock {
             add("%N", p.name)
@@ -52,4 +60,34 @@ internal fun wrapDeserializedBuilderValueForConstructor(p: PropertyInfo) =
                 add(" ?: %L", p.defaultValue)
             }
         }
+    }
+
+private fun cachingConstructorArg(p: PropertyInfo, info: CachingFieldInfo, fromBuilder: Boolean): CodeBlock {
+    val converterRef = when (info) {
+        is CachingFieldInfo.PlainString -> CodeBlock.of("%T", StringConverter::class)
+        is CachingFieldInfo.Converted -> CodeBlock.of("%T", info.converterClassName)
+    }
+
+    if (info.nullable) {
+        // Message-typed wrappers: LazyReference is nullable, null means absent
+        return CodeBlock.of("%N?.let { %T(it, %L) }", p.name, LazyReference::class, converterRef)
+    }
+
+    return if (fromBuilder) {
+        // Builder has KotlinT? (or String for plain string); if null use wire default
+        val wireDefault = wireDefault(info, forBuilder = true)
+        CodeBlock.of("%T(%N ?: %L, %L)", LazyReference::class, p.name, wireDefault, converterRef)
+    } else {
+        // Deserializer has WireT?; if null use wire default
+        val wireDefault = wireDefault(info, forBuilder = false)
+        CodeBlock.of("%T(%N ?: %L, %L)", LazyReference::class, p.name, wireDefault, converterRef)
+    }
+}
+
+private fun wireDefault(info: CachingFieldInfo, forBuilder: Boolean): CodeBlock =
+    when (info) {
+        is CachingFieldInfo.PlainString ->
+            if (forBuilder) CodeBlock.of("\"\"") else CodeBlock.of("%T.empty()", Bytes::class)
+        is CachingFieldInfo.Converted ->
+            info.fieldType.defaultValue
     }

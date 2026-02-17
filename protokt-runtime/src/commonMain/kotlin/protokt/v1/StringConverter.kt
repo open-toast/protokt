@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast, Inc.
+ * Copyright (c) 2026 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,17 +15,21 @@
 
 package protokt.v1
 
-import kotlin.reflect.KClass
+@OptIn(OnlyForUseByGeneratedProtoCode::class)
+object StringConverter : Converter<Bytes, String> {
+    override val wrapper = String::class
 
-interface Converter<ProtobufT : Any, KotlinT : Any> {
-    val wrapper: KClass<KotlinT>
+    override val wrapped = Bytes::class
 
-    val wrapped: KClass<ProtobufT>
+    override fun wrap(unwrapped: Bytes): String =
+        unwrapped.value.decodeToString()
 
-    val acceptsDefaultValue
-        get() = true
+    override fun unwrap(wrapped: String): Bytes =
+        Bytes(wrapped.encodeToByteArray())
 
-    fun wrap(unwrapped: ProtobufT): KotlinT
-
-    fun unwrap(wrapped: KotlinT): ProtobufT
+    fun readValidatedBytes(reader: Reader): Bytes {
+        val bytes = reader.readBytes()
+        validateUtf8(bytes.value)
+        return bytes
+    }
 }
