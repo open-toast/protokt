@@ -14,6 +14,10 @@
  */
 
 plugins {
-    `java-library`
-    id("com.google.protobuf")
+    kotlin("jvm")
+    id("com.toasttab.protokt.v1")
+}
+
+kotlin {
+    jvmToolchain(System.getProperty("java-integration.version", libs.versions.java.get()).toInt())
 }
