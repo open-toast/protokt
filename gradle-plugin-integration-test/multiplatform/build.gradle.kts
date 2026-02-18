@@ -85,7 +85,9 @@ tasks.named<Test>("jvmTest") {
 
 dependencies {
     protoktExtensions("com.toasttab.protokt.v1:protokt-extensions:$version")
-    protobuf(project(":proto-dep"))
+    protobuf(project(":proto-dep")) {
+        isTransitive = false
+    }
 }
 
 tasks.named("jsNodeTest") {

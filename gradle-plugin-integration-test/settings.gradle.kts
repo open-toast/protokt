@@ -23,7 +23,7 @@ listOf(
     "jvm-regular",
     "jvm-lite",
     "multiplatform",
+    "proto-dep",
     "wrapper-types",
-    "android-test-fixtures",
-    "proto-dep"
+    "android-test-fixtures"
 ).forEach { include(it) }
