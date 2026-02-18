@@ -20,7 +20,7 @@ plugins {
 }
 
 application {
-    mainClass.set("com.toasttab.protokt.benchmarks.WireBenchmarksKt")
+    mainClass.set("protokt.v1.benchmarks.WireBenchmarksKt")
     executableDir = ".."
 }
 

@@ -32,6 +32,25 @@ application {
     mainClass.set("protokt.v1.codegen.MainKt")
 }
 
+tasks.named<CreateStartScripts>("startScripts") {
+    doLast {
+        // Replace the long enumerated classpath with a wildcard to avoid
+        // exceeding Windows' command line length limit
+        windowsScript.writeText(
+            windowsScript.readText().replace(
+                Regex("set CLASSPATH=.*"),
+                "set CLASSPATH=%APP_HOME%\\\\lib\\\\*"
+            )
+        )
+        unixScript.writeText(
+            unixScript.readText().replace(
+                Regex("CLASSPATH=.*"),
+                "CLASSPATH=\\\$APP_HOME/lib/*"
+            )
+        )
+    }
+}
+
 kotlin {
     compilerOptions {
         freeCompilerArgs.add("-opt-in=protokt.v1.OnlyForUseByGeneratedProtoCode")
@@ -39,7 +58,6 @@ kotlin {
 }
 
 dependencies {
-    implementation(project(":extensions:protokt-extensions-api"))
     implementation(project(":protokt-runtime"))
     implementation(project(":protokt-runtime-grpc-lite"))
     implementation(project(":grpc-kotlin-shim"))

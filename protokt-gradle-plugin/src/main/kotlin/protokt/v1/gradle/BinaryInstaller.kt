@@ -74,7 +74,7 @@ abstract class UnzipDistTransform : TransformAction<TransformParameters.None> {
     }
 }
 
-internal fun binaryFromArtifact(project: Project): String {
+internal fun binaryFromArtifact(project: Project): Provider<String> {
     val configuration = project.configurations.create(CODEGEN_CONFIGURATION) {
         attributes.attribute(UNPACKED_CODEGEN_ATTRIBUTE, true)
     }
@@ -105,9 +105,11 @@ internal fun binaryFromArtifact(project: Project): String {
         }
     }
 
-    return configuration.singleFile.absolutePath + "/$CODEGEN_NAME-$PROTOKT_VERSION/bin/$CODEGEN_NAME"
+    return project.provider {
+        configuration.singleFile.absolutePath + "/$CODEGEN_NAME-$PROTOKT_VERSION/bin/$CODEGEN_NAME"
+    }
 }
 
-private fun <T> NamedDomainObjectContainer<T>.createIfNecessary(name: String, configure: T.() -> Unit) {
+private fun <T : Any> NamedDomainObjectContainer<T>.createIfNecessary(name: String, configure: T.() -> Unit) {
     (findByName(name) ?: create(name)).configure()
 }

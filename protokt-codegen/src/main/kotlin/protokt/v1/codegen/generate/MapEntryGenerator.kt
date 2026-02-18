@@ -102,8 +102,8 @@ private class MapEntryGenerator(
             buildFunSpec("serialize") {
                 addModifiers(KModifier.OVERRIDE)
                 addParameter(WRITER, Writer::class)
-                addStatement("%L", serialize(key, ctx, keyProp))
-                addStatement("%L", serialize(value, ctx, valProp))
+                addStatement("%L", serialize(key, ctx, keyProp, mapEntry = true))
+                addStatement("%L", serialize(value, ctx, valProp, mapEntry = true))
             }
         )
     }
@@ -125,7 +125,7 @@ private class MapEntryGenerator(
                         if (value.type.sizeFn is SizeFn.Method) {
                             addParameter("value", valueTypeName)
                         }
-                        addStatement("return %L + %L", sizeOf(key, ctx), sizeOf(value, ctx))
+                        addStatement("return %L + %L", sizeOf(key, ctx, mapEntry = true), sizeOf(value, ctx, mapEntry = true))
                     }
                 )
                 .addFunction(

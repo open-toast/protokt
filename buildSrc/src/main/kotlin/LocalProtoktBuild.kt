@@ -23,7 +23,7 @@ import protokt.v1.gradle.configureProtokt
 import java.io.File
 
 fun Project.localProtokt(disableJava: Boolean = true) {
-    configureProtokt(this, null, disableJava, "$rootDir/protokt-codegen/build/install/$CODEGEN_NAME/bin/$CODEGEN_NAME")
+    configureProtokt(this, null, disableJava, provider { "$rootDir/protokt-codegen/build/install/$CODEGEN_NAME/bin/$CODEGEN_NAME" })
 
     afterEvaluate {
         tasks.withType<GenerateProtoTask> {
@@ -50,11 +50,7 @@ fun KotlinJsTargetDsl.configureJsTests() {
     browser {
         testTask {
             useKarma {
-                useFirefoxHeadless()
-
-                if (System.getProperty("os.name").lowercase().contains("mac")) {
-                    environment["FIREFOX_BIN"] = "/Applications/Firefox.app/Contents/MacOS/firefox"
-                }
+                useChromeHeadless()
             }
         }
     }

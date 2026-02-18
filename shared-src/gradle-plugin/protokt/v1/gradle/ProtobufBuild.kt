@@ -35,7 +35,7 @@ internal fun configureProtobufPlugin(
     ext: ProtoktExtension,
     disableJava: Boolean,
     target: KotlinTarget,
-    binaryPath: String
+    binaryPath: Provider<String>
 ) {
     project.apply<ProtobufPlugin>()
 
@@ -47,9 +47,7 @@ internal fun configureProtobufPlugin(
         }
 
         plugins {
-            id(target.protocPluginName) {
-                path = normalizePath(binaryPath)
-            }
+            id(target.protocPluginName)
         }
 
         generateProtoTasks {
@@ -71,20 +69,41 @@ internal fun configureProtobufPlugin(
                     mainExtractProtoAdditions.add(TaskInputFiles(extensions.taskName, extensions.main))
                 }
 
+                val extensionFiles = project.objects.fileCollection().from(extensions.asList())
+                task.inputs.files(extensionFiles).withPropertyName("protoktExtensionClasspath-${target.protocPluginName}")
+
                 task.plugins {
                     id(target.protocPluginName) {
-                        option("$KOTLIN_EXTRA_CLASSPATH=${extraClasspath(project, extensions)}")
                         option("$GENERATE_TYPES=${ext.generate.types}")
                         option("$GENERATE_DESCRIPTORS=${ext.generate.descriptors}")
                         option("$GENERATE_GRPC_DESCRIPTORS=${ext.generate.grpcDescriptors}")
                         option("$GENERATE_GRPC_KOTLIN_STUBS=${ext.generate.grpcKotlinStubs}")
                         option("$FORMAT_OUTPUT=${ext.formatOutput}")
                         option("$KOTLIN_TARGET=$target")
+
+                        val pluginOptions = this
+                        task.doFirst {
+                            val classpath = extensionFiles.files.joinToString(";") { URLEncoder.encode(it.path, "UTF-8") }
+                            pluginOptions.option("$KOTLIN_EXTRA_CLASSPATH=$classpath")
+                        }
                     }
                 }
             }
 
             project.handleExtraInputFiles(mainExtractProtoAdditions, testExtractProtoAdditions)
+        }
+    }
+
+    project.afterEvaluate {
+        configure<ProtobufExtension> {
+            plugins {
+                val pluginLocator = getByName(target.protocPluginName)
+                project.tasks.withType<GenerateProtoTask>().configureEach {
+                    doFirst {
+                        pluginLocator.path = normalizePath(binaryPath.get())
+                    }
+                }
+            }
         }
     }
 }
@@ -112,9 +131,6 @@ private class TaskInputFiles(
     val taskName: String,
     val inputFiles: Any
 )
-
-private fun extraClasspath(project: Project, extensions: ExtensionsConfigurations) =
-    project.objects.fileCollection().from(extensions.asList()).files.joinToString(";") { URLEncoder.encode(it.path, "UTF-8") }
 
 private class ExtensionsConfigurations(
     val taskName: String,

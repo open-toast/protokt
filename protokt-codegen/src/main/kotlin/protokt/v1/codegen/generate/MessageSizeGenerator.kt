@@ -54,7 +54,7 @@ private class MessageSizeGenerator(
                 ctx,
                 properties,
                 false,
-                { std, _ -> CodeBlock.of("$resultVarName·+=·%L", sizeOf(std, ctx)) },
+                { std, p -> CodeBlock.of("$resultVarName·+=·%L", sizeOf(std, ctx, property = p)) },
                 { oneof, std, _ -> sizeofOneof(oneof, std) }
             )
 
@@ -99,8 +99,11 @@ private class MessageSizeGenerator(
 internal fun sizeOf(
     f: StandardField,
     ctx: Context,
-    oneOfFieldAccess: CodeBlock? = null
+    oneOfFieldAccess: CodeBlock? = null,
+    mapEntry: Boolean = false,
+    property: PropertySpec? = null
 ): CodeBlock {
+    val isCaching = property != null && property.name == "_${f.fieldName}"
     val fieldAccess =
         oneOfFieldAccess
             ?: if (f.repeated) {
@@ -135,6 +138,16 @@ internal fun sizeOf(
                 )
             )
         }
+        !mapEntry && isCaching && oneOfFieldAccess == null -> {
+            buildCodeBlock {
+                add(
+                    "%M(${f.tag}u) + %L",
+                    sizeOf,
+                    f.sizeOf(CodeBlock.of("%N.wireValue()", property!!))
+                )
+            }
+        }
+
         else -> {
             buildCodeBlock {
                 add(

@@ -18,6 +18,8 @@ package protokt.v1.benchmarks
 import com.google.protobuf.benchmarks.BenchmarkDataset
 import com.toasttab.protokt.v1.benchmarks.GenericMessage1
 import com.toasttab.protokt.v1.benchmarks.GenericMessage4
+import okio.ByteString
+import okio.ByteString.Companion.toByteString
 import org.openjdk.jmh.annotations.Benchmark
 import org.openjdk.jmh.annotations.BenchmarkMode
 import org.openjdk.jmh.annotations.Mode
@@ -39,8 +41,11 @@ open class WireBenchmarks {
     private lateinit var smallDataset: BenchmarkDataset
     private lateinit var smallParsedDataset: List<GenericMessage4>
 
+    private lateinit var byteValues: Array<ByteString>
+
     @Setup
     fun setup() {
+        byteValues = Array(1000) { i -> byteArrayOf(i.toByte()).toByteString() }
         readData("large").use { stream ->
             largeDataset = BenchmarkDataset.ADAPTER.decode(stream)
         }
@@ -89,6 +94,81 @@ open class WireBenchmarks {
     @Benchmark
     fun serializeSmallToMemory(bh: Blackhole) {
         smallParsedDataset.forEach { msg -> bh.consume(GenericMessage4.ADAPTER.encode(msg)) }
+    }
+
+    @Benchmark
+    fun copyAppendListLarge(bh: Blackhole) {
+        var msg = largeParsedDataset.first()
+        repeat(1000) { i ->
+            msg = msg.copy(field_bytes1500 = msg.field_bytes1500 + byteValues[i])
+        }
+        bh.consume(msg)
+    }
+
+    @Benchmark
+    fun copyAppendMapLarge(bh: Blackhole) {
+        var msg = largeParsedDataset.first()
+        repeat(1000) { i ->
+            msg = msg.copy(field_map5000 = msg.field_map5000 + ("key$i" to i.toLong()))
+        }
+        bh.consume(msg)
+    }
+
+    @Benchmark
+    fun copyAppendListMedium(bh: Blackhole) {
+        var msg = mediumParsedDataset.first()
+        repeat(1000) { i ->
+            msg = msg.copy(field_bytes1500 = msg.field_bytes1500 + byteValues[i])
+        }
+        bh.consume(msg)
+    }
+
+    @Benchmark
+    fun copyAppendMapMedium(bh: Blackhole) {
+        var msg = mediumParsedDataset.first()
+        repeat(1000) { i ->
+            msg = msg.copy(field_map5000 = msg.field_map5000 + ("key$i" to i.toLong()))
+        }
+        bh.consume(msg)
+    }
+
+    @Benchmark
+    fun copyAppendListSmall(bh: Blackhole) {
+        var msg = mediumParsedDataset.first().copy(field_bytes1500 = emptyList())
+        repeat(1000) { i ->
+            msg = msg.copy(field_bytes1500 = msg.field_bytes1500 + byteValues[i])
+        }
+        bh.consume(msg)
+    }
+
+    @Benchmark
+    fun copyAppendMapSmall(bh: Blackhole) {
+        var msg = mediumParsedDataset.first().copy(field_map5000 = emptyMap())
+        repeat(1000) { i ->
+            msg = msg.copy(field_map5000 = msg.field_map5000 + ("key$i" to i.toLong()))
+        }
+        bh.consume(msg)
+    }
+
+    @Benchmark
+    fun passThroughLargeFromMemory(bh: Blackhole) {
+        largeDataset.payload.forEach { bytes ->
+            bh.consume(GenericMessage1.ADAPTER.encode(GenericMessage1.ADAPTER.decode(bytes)))
+        }
+    }
+
+    @Benchmark
+    fun passThroughMediumFromMemory(bh: Blackhole) {
+        mediumDataset.payload.forEach { bytes ->
+            bh.consume(GenericMessage1.ADAPTER.encode(GenericMessage1.ADAPTER.decode(bytes)))
+        }
+    }
+
+    @Benchmark
+    fun passThroughSmallFromMemory(bh: Blackhole) {
+        smallDataset.payload.forEach { bytes ->
+            bh.consume(GenericMessage4.ADAPTER.encode(GenericMessage4.ADAPTER.decode(bytes)))
+        }
     }
 }
 

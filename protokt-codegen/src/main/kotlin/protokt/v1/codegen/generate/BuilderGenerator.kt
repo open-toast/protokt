@@ -24,6 +24,7 @@ import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
 import protokt.v1.BuilderDsl
+import protokt.v1.BuilderScope
 import protokt.v1.UnknownFieldSet
 import protokt.v1.codegen.generate.Deprecation.handleDeprecation
 import protokt.v1.codegen.util.BUILDER
@@ -64,6 +65,7 @@ private class BuilderGenerator(
         builder.addType(
             TypeSpec.classBuilder(msg.builderClassName)
                 .addAnnotation(BuilderDsl::class)
+                .addSuperinterface(BuilderScope::class)
                 .addProperties(
                     properties.map {
                         PropertySpec.builder(it.name, it.builderPropertyType)
@@ -74,14 +76,14 @@ private class BuilderGenerator(
                                     setter(
                                         FunSpec.setterBuilder()
                                             .addParameter("newValue", Map::class)
-                                            .addCode("field = %M(newValue)", copyMap)
+                                            .addCode("field = %M(newValue)", freezeMap)
                                             .build()
                                     )
                                 } else if (it.repeated) {
                                     setter(
                                         FunSpec.setterBuilder()
                                             .addParameter("newValue", List::class)
-                                            .addCode("field = %M(newValue)", copyList)
+                                            .addCode("field = %M(newValue)", freezeList)
                                             .build()
                                     )
                                 }
@@ -114,7 +116,7 @@ private class BuilderGenerator(
                                     add("return %T(\n", msg.className)
                                     withIndent {
                                         properties
-                                            .map(::wrapDeserializedValueForConstructor)
+                                            .map { wrapDeserializedValueForConstructor(it, fromBuilder = true) }
                                             .forEach { add("%L,\n", it) }
                                         add("unknownFields\n")
                                     }
