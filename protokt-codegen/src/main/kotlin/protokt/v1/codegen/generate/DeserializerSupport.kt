@@ -32,11 +32,27 @@ internal fun deserializeVarInitialState(p: PropertyInfo) =
 
 internal fun wrapDeserializedValueForConstructor(p: PropertyInfo, fromBuilder: Boolean = false) =
     if (p.isMap) {
-        CodeBlock.of("%M(%N)", unmodifiableMap, p.name)
+        CodeBlock.of("%M(%N)", freezeMap, p.name)
     } else if (p.repeated) {
-        CodeBlock.of("%M(%N)", unmodifiableList, p.name)
+        CodeBlock.of("%M(%N)", freezeList, p.name)
     } else if (p.cachingInfo != null) {
         cachingConstructorArg(p, p.cachingInfo, fromBuilder)
+    } else {
+        buildCodeBlock {
+            add("%N", p.name)
+            if (p.wrapped && !(p.generateNullableBackingProperty || p.nullable)) {
+                add(" ?: %L", p.defaultValue)
+            }
+        }
+    }
+
+internal fun wrapDeserializedBuilderValueForConstructor(p: PropertyInfo) =
+    if (p.isMap) {
+        CodeBlock.of("%N?.build() ?: emptyMap()", p.name)
+    } else if (p.repeated) {
+        CodeBlock.of("%N?.build() ?: emptyList()", p.name)
+    } else if (p.cachingInfo != null) {
+        cachingConstructorArg(p, p.cachingInfo, fromBuilder = false)
     } else {
         buildCodeBlock {
             add("%N", p.name)
@@ -57,8 +73,11 @@ private fun cachingConstructorArg(p: PropertyInfo, info: CachingFieldInfo, fromB
         return CodeBlock.of("%N?.let { %T(it, %L) }", p.name, LazyReference::class, converterRef)
     }
 
-    return if (fromBuilder) {
-        // Builder has KotlinT? (or String for plain string); if null use wire default
+    return if (fromBuilder && info is CachingFieldInfo.PlainString) {
+        // Builder has non-nullable String for plain string fields; no Elvis needed
+        CodeBlock.of("%T(%N, %L)", LazyReference::class, p.name, converterRef)
+    } else if (fromBuilder) {
+        // Builder has KotlinT? for wrapped fields; if null use wire default
         val wireDefault = wireDefault(info, forBuilder = true)
         CodeBlock.of("%T(%N ?: %L, %L)", LazyReference::class, p.name, wireDefault, converterRef)
     } else {

@@ -13,63 +13,143 @@
  * limitations under the License.
  */
 
+@file:OptIn(OnlyForUseByGeneratedProtoCode::class)
+
 package protokt.v1
 
 import kotlin.jvm.JvmStatic
 
 @OnlyForUseByGeneratedProtoCode
+interface ListBuilder<T> {
+    fun add(element: T)
+
+    fun addAll(elements: Iterable<T>)
+
+    fun build(): List<T>
+}
+
+@OnlyForUseByGeneratedProtoCode
+interface MapBuilder<K, V> {
+    fun put(key: K, value: V)
+
+    fun putAll(from: Map<K, V>)
+
+    fun build(): Map<K, V>
+}
+
+@OnlyForUseByGeneratedProtoCode
 object Collections {
     @JvmStatic
-    fun <K, V> unmodifiableMap(map: Map<K, V>?): Map<K, V> =
-        when {
-            map.isNullOrEmpty() -> emptyMap()
-            map is UnmodifiableMap -> map
-            else -> UnmodifiableMap(map)
-        }
+    fun <T> freezeList(list: List<T>): List<T> =
+        collectionProvider.freezeList(list)
 
     @JvmStatic
-    fun <K, V> copyMap(map: Map<K, V>): Map<K, V> =
+    fun <K, V> freezeMap(map: Map<K, V>): Map<K, V> =
+        collectionProvider.freezeMap(map)
+
+    @JvmStatic
+    fun <T> listBuilder(): ListBuilder<T> =
+        collectionProvider.listBuilder()
+
+    @JvmStatic
+    fun <K, V> mapBuilder(): MapBuilder<K, V> =
+        collectionProvider.mapBuilder()
+}
+
+internal expect val collectionProvider: CollectionProvider
+
+internal object DefaultCollectionProvider : CollectionProvider {
+    override fun <T> listBuilder(): ListBuilder<T> =
+        MutableListBuilderImpl()
+
+    override fun <K, V> mapBuilder(): MapBuilder<K, V> =
+        MutableMapBuilderImpl()
+
+    override fun <T> freezeList(list: List<T>): List<T> =
+        when {
+            list.isEmpty() -> list
+            list is UnmodifiableList -> list
+            else -> UnmodifiableList(ArrayList(list))
+        }
+
+    override fun <K, V> freezeMap(map: Map<K, V>): Map<K, V> =
         when {
             map.isEmpty() -> emptyMap()
             map is UnmodifiableMap -> map
             else -> UnmodifiableMap(LinkedHashMap(map))
         }
 
-    @JvmStatic
-    fun <T> unmodifiableList(list: List<T>?): List<T> =
-        when {
-            list.isNullOrEmpty() -> emptyList()
-            list is UnmodifiableList -> list
-            else -> UnmodifiableList(list)
+    override fun <T> listPlus(list: List<T>, element: T): List<T> =
+        ArrayList<T>(list.size + 1).apply {
+            addAll(list)
+            add(element)
         }
 
-    @JvmStatic
-    fun <T> copyList(list: List<T>): List<T> =
-        when {
-            list.isEmpty() -> list
-            list is UnmodifiableList -> list
-            else -> UnmodifiableList(ArrayList(list))
+    override fun <T> listPlusAll(list: List<T>, elements: Iterable<T>): List<T> =
+        ArrayList<T>().apply {
+            addAll(list)
+            addAll(elements)
+        }
+
+    override fun <K, V> mapPlus(map: Map<K, V>, pair: Pair<K, V>): Map<K, V> =
+        LinkedHashMap(map).apply { put(pair.first, pair.second) }
+
+    override fun <K, V> mapPlusAll(map: Map<K, V>, pairs: Iterable<Pair<K, V>>): Map<K, V> =
+        LinkedHashMap(map).apply {
+            for ((k, v) in pairs) {
+                put(k, v)
+            }
         }
 }
 
-private class UnmodifiableIterator<E>(delegate: Iterator<E>) : Iterator<E> by delegate
+private class MutableListBuilderImpl<T> : ListBuilder<T> {
+    private val list = mutableListOf<T>()
 
-private class UnmodifiableListIterator<E>(delegate: ListIterator<E>) : ListIterator<E> by delegate
+    override fun add(element: T) {
+        list.add(element)
+    }
 
-private open class UnmodifiableCollection<E>(
+    override fun addAll(elements: Iterable<T>) {
+        list.addAll(elements)
+    }
+
+    override fun build(): List<T> =
+        UnmodifiableList(list)
+}
+
+private class MutableMapBuilderImpl<K, V> : MapBuilder<K, V> {
+    private val map = mutableMapOf<K, V>()
+
+    override fun put(key: K, value: V) {
+        map[key] = value
+    }
+
+    override fun putAll(from: Map<K, V>) {
+        map.putAll(from)
+    }
+
+    override fun build(): Map<K, V> =
+        UnmodifiableMap(map)
+}
+
+internal class UnmodifiableIterator<E>(delegate: Iterator<E>) : Iterator<E> by delegate
+
+internal class UnmodifiableListIterator<E>(delegate: ListIterator<E>) : ListIterator<E> by delegate
+
+internal open class UnmodifiableCollection<E>(
     private val delegate: Collection<E>
 ) : Collection<E> by delegate {
     override fun iterator(): Iterator<E> =
         UnmodifiableIterator(delegate.iterator())
 }
 
-private class UnmodifiableSet<E>(delegate: Collection<E>) :
+internal class UnmodifiableSet<E>(delegate: Collection<E>) :
     UnmodifiableCollection<E>(delegate),
     Set<E>
 
-private class UnmodifiableMapEntry<K, V>(delegate: Map.Entry<K, V>) : Map.Entry<K, V> by delegate
+internal class UnmodifiableMapEntry<K, V>(delegate: Map.Entry<K, V>) : Map.Entry<K, V> by delegate
 
-private class UnmodifiableMapEntries<K, V>(
+internal class UnmodifiableMapEntries<K, V>(
     private val delegate: Set<Map.Entry<K, V>>
 ) : UnmodifiableCollection<Map.Entry<K, V>>(delegate),
     Set<Map.Entry<K, V>> {
@@ -83,7 +163,7 @@ private class UnmodifiableMapEntries<K, V>(
     }
 }
 
-private class UnmodifiableList<T>(
+internal class UnmodifiableList<T>(
     private val delegate: List<T>
 ) : List<T> by delegate {
     override fun iterator() =
@@ -105,7 +185,7 @@ private class UnmodifiableList<T>(
         delegate.toString()
 }
 
-private class UnmodifiableMap<K, V>(
+internal class UnmodifiableMap<K, V>(
     private val delegate: Map<K, V>
 ) : Map<K, V> by delegate {
     override val entries

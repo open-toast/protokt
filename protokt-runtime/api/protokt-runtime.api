@@ -33,6 +33,13 @@ public abstract interface annotation class protokt/v1/Beta : java/lang/annotatio
 public abstract interface annotation class protokt/v1/BuilderDsl : java/lang/annotation/Annotation {
 }
 
+public abstract interface class protokt/v1/BuilderScope {
+	public fun plus (Ljava/util/List;Ljava/lang/Iterable;)Ljava/util/List;
+	public fun plus (Ljava/util/List;Ljava/lang/Object;)Ljava/util/List;
+	public fun plus (Ljava/util/Map;Ljava/lang/Iterable;)Ljava/util/Map;
+	public fun plus (Ljava/util/Map;Lkotlin/Pair;)Ljava/util/Map;
+}
+
 public final class protokt/v1/Bytes : protokt/v1/AbstractBytes {
 	public static final field Companion Lprotokt/v1/Bytes$Companion;
 	public final fun asReadOnlyBuffer ()Ljava/nio/ByteBuffer;
@@ -68,12 +75,23 @@ public final class protokt/v1/BytesSlice$Companion {
 	public final fun from ([B)Lprotokt/v1/BytesSlice;
 }
 
+public abstract interface class protokt/v1/CollectionProvider {
+	public abstract fun freezeList (Ljava/util/List;)Ljava/util/List;
+	public abstract fun freezeMap (Ljava/util/Map;)Ljava/util/Map;
+	public abstract fun listBuilder ()Lprotokt/v1/ListBuilder;
+	public abstract fun listPlus (Ljava/util/List;Ljava/lang/Object;)Ljava/util/List;
+	public abstract fun listPlusAll (Ljava/util/List;Ljava/lang/Iterable;)Ljava/util/List;
+	public abstract fun mapBuilder ()Lprotokt/v1/MapBuilder;
+	public abstract fun mapPlus (Ljava/util/Map;Lkotlin/Pair;)Ljava/util/Map;
+	public abstract fun mapPlusAll (Ljava/util/Map;Ljava/lang/Iterable;)Ljava/util/Map;
+}
+
 public final class protokt/v1/Collections {
 	public static final field INSTANCE Lprotokt/v1/Collections;
-	public static final fun copyList (Ljava/util/List;)Ljava/util/List;
-	public static final fun copyMap (Ljava/util/Map;)Ljava/util/Map;
-	public static final fun unmodifiableList (Ljava/util/List;)Ljava/util/List;
-	public static final fun unmodifiableMap (Ljava/util/Map;)Ljava/util/Map;
+	public static final fun freezeList (Ljava/util/List;)Ljava/util/List;
+	public static final fun freezeMap (Ljava/util/Map;)Ljava/util/Map;
+	public static final fun listBuilder ()Lprotokt/v1/ListBuilder;
+	public static final fun mapBuilder ()Lprotokt/v1/MapBuilder;
 }
 
 public abstract interface class protokt/v1/Converter {
@@ -172,6 +190,18 @@ public final class protokt/v1/LengthDelimitedVal : protokt/v1/UnknownValue {
 	public fun toString ()Ljava/lang/String;
 	public static fun toString-impl (Lprotokt/v1/Bytes;)Ljava/lang/String;
 	public final synthetic fun unbox-impl ()Lprotokt/v1/Bytes;
+}
+
+public abstract interface class protokt/v1/ListBuilder {
+	public abstract fun add (Ljava/lang/Object;)V
+	public abstract fun addAll (Ljava/lang/Iterable;)V
+	public abstract fun build ()Ljava/util/List;
+}
+
+public abstract interface class protokt/v1/MapBuilder {
+	public abstract fun build ()Ljava/util/Map;
+	public abstract fun put (Ljava/lang/Object;Ljava/lang/Object;)V
+	public abstract fun putAll (Ljava/util/Map;)V
 }
 
 public abstract interface class protokt/v1/Message {

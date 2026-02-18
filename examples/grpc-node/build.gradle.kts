@@ -13,6 +13,7 @@
  * limitations under the License.
  */
 
+import com.google.protobuf.gradle.proto
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsExec
 import protokt.v1.gradle.protokt
 
@@ -50,6 +51,12 @@ kotlin {
 }
 
 localProtokt()
+
+the<SourceSetContainer>().named("main") {
+    proto {
+        srcDir(project(":examples:protos").file("src/main/proto"))
+    }
+}
 
 protokt {
     generate {

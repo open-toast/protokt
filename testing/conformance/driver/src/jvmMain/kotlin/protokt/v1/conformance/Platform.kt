@@ -31,6 +31,9 @@ internal actual object Platform {
         System.err.println(message)
     }
 
+    actual fun className(obj: Any) =
+        obj::class.qualifiedName!!
+
     actual fun runBlockingMain(block: suspend CoroutineScope.() -> Unit) {
         runBlocking(block = block)
     }

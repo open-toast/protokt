@@ -15,6 +15,8 @@
 
 package protokt.v1.benchmarks
 
+import com.google.protobuf.ByteString
+import com.google.protobuf.UnsafeByteOperations
 import com.google.protobuf.benchmarks.Benchmarks
 import com.toasttab.protokt.v1.benchmarks.GenericMessage
 import org.openjdk.jmh.annotations.Benchmark
@@ -38,8 +40,11 @@ open class ProtobufBenchmarks {
     private lateinit var smallDataset: Benchmarks.BenchmarkDataset
     private lateinit var smallParsedDataset: List<GenericMessage.GenericMessage4>
 
+    private lateinit var byteValues: Array<ByteString>
+
     @Setup
     fun setup() {
+        byteValues = Array(1000) { i -> UnsafeByteOperations.unsafeWrap(byteArrayOf(i.toByte())) }
         readData("large").use { stream ->
             largeDataset = Benchmarks.BenchmarkDataset.parseFrom(stream)
         }
@@ -88,6 +93,60 @@ open class ProtobufBenchmarks {
     @Benchmark
     fun serializeSmallToMemory(bh: Blackhole) {
         smallParsedDataset.forEach { msg -> bh.consume(msg.toByteArray()) }
+    }
+
+    @Benchmark
+    fun copyAppendListLarge(bh: Blackhole) {
+        var msg = largeParsedDataset.first()
+        repeat(1000) { i ->
+            msg = msg.toBuilder().addFieldBytes1500(byteValues[i]).build()
+        }
+        bh.consume(msg)
+    }
+
+    @Benchmark
+    fun copyAppendMapLarge(bh: Blackhole) {
+        var msg = largeParsedDataset.first()
+        repeat(1000) { i ->
+            msg = msg.toBuilder().putFieldMap5000("key$i", i.toLong()).build()
+        }
+        bh.consume(msg)
+    }
+
+    @Benchmark
+    fun copyAppendListMedium(bh: Blackhole) {
+        var msg = mediumParsedDataset.first()
+        repeat(1000) { i ->
+            msg = msg.toBuilder().addFieldBytes1500(byteValues[i]).build()
+        }
+        bh.consume(msg)
+    }
+
+    @Benchmark
+    fun copyAppendMapMedium(bh: Blackhole) {
+        var msg = mediumParsedDataset.first()
+        repeat(1000) { i ->
+            msg = msg.toBuilder().putFieldMap5000("key$i", i.toLong()).build()
+        }
+        bh.consume(msg)
+    }
+
+    @Benchmark
+    fun copyAppendListSmall(bh: Blackhole) {
+        var msg = mediumParsedDataset.first().toBuilder().clearFieldBytes1500().build()
+        repeat(1000) { i ->
+            msg = msg.toBuilder().addFieldBytes1500(byteValues[i]).build()
+        }
+        bh.consume(msg)
+    }
+
+    @Benchmark
+    fun copyAppendMapSmall(bh: Blackhole) {
+        var msg = mediumParsedDataset.first().toBuilder().clearFieldMap5000().build()
+        repeat(1000) { i ->
+            msg = msg.toBuilder().putFieldMap5000("key$i", i.toLong()).build()
+        }
+        bh.consume(msg)
     }
 
     @Benchmark

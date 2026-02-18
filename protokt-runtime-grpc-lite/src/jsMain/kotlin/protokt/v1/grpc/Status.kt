@@ -16,7 +16,7 @@
 package protokt.v1.grpc
 
 import protokt.v1.Beta
-import protokt.v1.Collections.unmodifiableList
+import protokt.v1.Collections.freezeList
 
 @Beta
 class Status private constructor(
@@ -176,8 +176,8 @@ class Status private constructor(
         fun toStatus() =
             STATUS_LIST[value]
 
-        private companion object {
-            val STATUS_LIST = unmodifiableList(values().map(::Status))
+        internal companion object {
+            val STATUS_LIST = freezeList(values().map(::Status))
         }
     }
 
@@ -188,10 +188,16 @@ class Status private constructor(
         Status(code, description, cause)
 
     companion object {
+        fun fromCodeValue(value: Int): Status =
+            if (value in Code.STATUS_LIST.indices) {
+                Code.STATUS_LIST[value]
+            } else {
+                Status(Code.UNKNOWN, "Unknown code: $value")
+            }
+
         // A pseudo-enum of Status instances mapped 1:1 with values in Code. This simplifies construction
         // patterns for derived instances of Status.
-        // A pseudo-enum of Status instances mapped 1:1 with values in Code. This simplifies construction
-        // patterns for derived instances of Status.
+
         /** The operation completed successfully.  */
         val OK: Status = Code.OK.toStatus()
 

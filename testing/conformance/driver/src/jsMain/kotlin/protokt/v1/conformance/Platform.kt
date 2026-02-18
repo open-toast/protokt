@@ -35,6 +35,9 @@ internal actual object Platform {
         Process.stderr.write(message + "\n")
     }
 
+    actual fun className(obj: Any) =
+        obj::class.simpleName!!
+
     actual fun runBlockingMain(block: suspend CoroutineScope.() -> Unit) {
         @OptIn(DelicateCoroutinesApi::class)
         GlobalScope.launch(block = block)
