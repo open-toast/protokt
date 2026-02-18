@@ -176,7 +176,7 @@ class Status private constructor(
         fun toStatus() =
             STATUS_LIST[value]
 
-        private companion object {
+        internal companion object {
             val STATUS_LIST = freezeList(values().map(::Status))
         }
     }
@@ -188,10 +188,16 @@ class Status private constructor(
         Status(code, description, cause)
 
     companion object {
+        fun fromCodeValue(value: Int): Status =
+            if (value in Code.STATUS_LIST.indices) {
+                Code.STATUS_LIST[value]
+            } else {
+                Status(Code.UNKNOWN, "Unknown code: $value")
+            }
+
         // A pseudo-enum of Status instances mapped 1:1 with values in Code. This simplifies construction
         // patterns for derived instances of Status.
-        // A pseudo-enum of Status instances mapped 1:1 with values in Code. This simplifies construction
-        // patterns for derived instances of Status.
+
         /** The operation completed successfully.  */
         val OK: Status = Code.OK.toStatus()
 

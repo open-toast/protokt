@@ -15,16 +15,13 @@
 
 package protokt.v1.gradle
 
-import com.google.protobuf.gradle.GenerateProtoTask
 import com.google.protobuf.gradle.ProtobufExtension
 import com.google.protobuf.gradle.ProtobufPlugin
-import com.google.protobuf.gradle.outputSourceDirectoriesHack
 import com.google.protobuf.gradle.proto
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.file.DuplicatesStrategy
-import org.gradle.api.file.SourceDirectorySet
 import org.gradle.api.logging.LogLevel
 import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.AbstractCopyTask
@@ -40,9 +37,6 @@ import org.gradle.kotlin.dsl.project
 import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
-import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
-import org.jetbrains.kotlin.gradle.dsl.KotlinSingleTargetExtension
-import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile
 
@@ -136,18 +130,11 @@ private fun Project.configureForMpp(
 
     configureTarget("common", disableJava, config, binary)
 
-    // todo: figure out how to run this after the user specifies their targets without using afterEvaluate
-    afterEvaluate {
-        @Suppress("DEPRECATION")
-        val targets = kotlinExtension.targets
-        logger.log(DEBUG_LOG_LEVEL, "Configuring protokt for Kotlin multiplatform for targets: ${targets.map { it.targetName }}")
-
-        targets
-            .filterNot { it.targetName == "metadata" }
-            .forEach {
-                logger.log(DEBUG_LOG_LEVEL, "Handling Kotlin multiplatform target {}", it)
-                configureTarget(it.targetName, disableJava, config, binary)
-            }
+    extensions.getByType(KotlinMultiplatformExtension::class.java).targets.all {
+        if (targetName != "metadata") {
+            logger.log(DEBUG_LOG_LEVEL, "Handling Kotlin multiplatform target {}", this)
+            configureTarget(targetName, disableJava, config, binary)
+        }
     }
 }
 
@@ -179,13 +166,13 @@ private fun Project.configureTarget(
     }
 
     afterEvaluate {
-        linkGenerateProtoToSourceCompileForKotlinMpp(mainSourceSet, testSourceSet)
+        linkGenerateProtoToSourceCompileForKotlinMpp(target, mainSourceSet, testSourceSet)
     }
 }
 
-private fun Project.linkGenerateProtoToSourceCompileForKotlinMpp(mainSourceSet: KotlinSourceSet, testSourceSet: KotlinSourceSet) {
-    linkGenerateProtoTasksAndIncludeGeneratedSource(mainSourceSet, false)
-    linkGenerateProtoTasksAndIncludeGeneratedSource(testSourceSet, true)
+private fun Project.linkGenerateProtoToSourceCompileForKotlinMpp(target: KotlinTarget, mainSourceSet: KotlinSourceSet, testSourceSet: KotlinSourceSet) {
+    linkGenerateProtoTasksAndIncludeGeneratedSource(target, mainSourceSet, false)
+    linkGenerateProtoTasksAndIncludeGeneratedSource(target, testSourceSet, true)
 
     tasks.withType<Jar> {
         from(fileTree("${layout.buildDirectory.get()}/extracted-protos/main"))
@@ -201,61 +188,48 @@ private fun AbstractCopyTask.excludeDuplicates() {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
-private fun Project.linkGenerateProtoTasksAndIncludeGeneratedSource(sourceSet: KotlinSourceSet, test: Boolean) {
+private fun Project.linkGenerateProtoTasksAndIncludeGeneratedSource(target: KotlinTarget, sourceSet: KotlinSourceSet, test: Boolean) {
     val protoSourceSetRoot = if (test) "test" else "main"
 
     val extension = project.extensions.getByType<ProtobufExtension>()
 
-    val generateProtoTask =
-        if (sourceSet.name.startsWith("common")) {
-            if (test) {
-                extension.generateProtoTasks.all().singleOrNull { it.name == "generateTestProto" }
-            } else {
-                extension.generateProtoTasks.all().singleOrNull { it.name == "generateProto" }
-            }
+    // JVM targets create Gradle source sets (e.g., jvmMain), so the protobuf plugin
+    // creates per-target tasks (e.g., generateJvmMainProto). Non-JVM targets (common, JS)
+    // don't create Gradle source sets, so only the base tasks exist.
+    val taskName =
+        if (target.treatTargetAsJvm) {
+            "generate${sourceSet.name.capitalized()}Proto"
+        } else if (test) {
+            "generateTestProto"
         } else {
-            extension.generateProtoTasks.all().singleOrNull { it.name == "generate${sourceSet.name.capitalized()}Proto" }
+            "generateProto"
         }
+
+    val allTasks = extension.generateProtoTasks.all()
+    val generateProtoTask = allTasks.singleOrNull { it.name == taskName }
 
     generateProtoTask?.let { genProtoTask ->
-        // todo: investigate how non-jvmMain and non-jvmTest sources got added to the set in the first place
-        if ("common" !in sourceSet.name) {
-            sourceSet.kotlin.setSrcDirs(
-                sourceSet.kotlin.srcDirs.filterNot {
-                    "proto/main/protokt-common" in it.path ||
-                        "proto/test/protokt-common" in it.path
-                }
-            )
+        // Only include this target's output directory, not all targets' output directories.
+        val targetOutputDir = layout.buildDirectory.dir("generated/sources/proto/$protoSourceSetRoot/${target.protocPluginName}")
+        sourceSet.kotlin.srcDir(targetOutputDir)
+
+        // JVM targets also need the Java protobuf output directory so the Kotlin compiler
+        // can resolve references to generated Java classes (e.g., ProtoktProtos).
+        if (target.treatTargetAsJvm) {
+            sourceSet.kotlin.srcDir(layout.buildDirectory.dir("generated/sources/proto/$protoSourceSetRoot/java"))
         }
 
-        sourceSet.kotlin.srcDir(genProtoTask.buildSourceDirectorySet())
         the<SourceSetContainer>()
             .getByName(protoSourceSetRoot)
             .proto { sourceSet.resources.source(this) }
 
-        // todo: it would be better to avoid this by making the outputs of genProtoTask an input of the correct compile task
         tasks.withType<AbstractKotlinCompile<*>> {
-            if (
-                ((test && "Test" in name) || (!test && "Test" !in name)) &&
-                "Metadata" !in name
-            ) {
+            if ((test && "Test" in name) || (!test && "Test" !in name)) {
                 logger.log(DEBUG_LOG_LEVEL, "Making task {} a dependency of {}", genProtoTask.name, name)
                 dependsOn(genProtoTask)
             }
         }
     }
-}
-
-private fun GenerateProtoTask.buildSourceDirectorySet(): SourceDirectorySet {
-    val srcSetName = "generate-proto-$name"
-    val srcSet = objectFactory.sourceDirectorySet(srcSetName, srcSetName)
-    srcSet.srcDirs(
-        objectFactory
-            .fileCollection()
-            .builtBy(this)
-            .from(providerFactory.provider { outputSourceDirectoriesHack })
-    )
-    return srcSet
 }
 
 private fun Project.resolveProtoktCoreDep(protoktVersion: Any?): Dependency? {
@@ -288,11 +262,3 @@ private fun Project.resolveDependency(rootArtifactId: String, protoktVersion: An
         dependencies.create("$BASE_GROUP_NAME:$artifactId:$protoktVersion")
     }
 }
-
-// see https://github.com/JetBrains/kotlin/blob/b04c107fddd70340864d3561740952b4a4a3c083/libraries/tools/kotlin-gradle-plugin/src/common/kotlin/org/jetbrains/kotlin/gradle/utils/kotlinExtensionUtils.kt#L15
-internal val KotlinProjectExtension.targets
-    get() = when (this) {
-        is KotlinSingleTargetExtension<*> -> listOf(this.target)
-        is KotlinMultiplatformExtension -> targets
-        else -> error("Unexpected 'kotlin' extension $this")
-    }

@@ -32,15 +32,17 @@ import kotlin.time.TimeSource
  * Kotlin adaptation of RouteGuideServer from the Java gRPC example.
  */
 class RouteGuideServer(
-    private val port: Int
+    private val requestedPort: Int
 ) {
+    var port: Int = 0
+        private set
+
     private val server = Server()
 
     suspend fun start() {
-        server
+        port = server
             .addService(RouteGuideGrpc.getServiceDescriptor(), RouteGuideService(Database.features()))
-            .start("0.0.0.0:$port", ServerCredentials.createInsecure())
-        println("Server started, listening on $port")
+            .start("0.0.0.0:$requestedPort", ServerCredentials.createInsecure())
     }
 
     fun stop() {

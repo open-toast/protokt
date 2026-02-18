@@ -21,15 +21,18 @@ import protokt.v1.grpc.addService
 import protokt.v1.grpc.start
 import protokt.v1.helloworld.GreeterGrpcKt.GreeterCoroutineImplBase
 
-class HelloWorldServer {
-    val port = 50051
+class HelloWorldServer(
+    private val requestedPort: Int = 50051
+) {
+    var port: Int = 0
+        private set
+
     val server = Server()
 
     suspend fun start() {
-        server
+        port = server
             .addService(GreeterGrpc.getServiceDescriptor(), HelloWorldService())
-            .start("0.0.0.0:$port", ServerCredentials.createInsecure())
-        println("Server started, listening on $port")
+            .start("0.0.0.0:$requestedPort", ServerCredentials.createInsecure())
     }
 
     internal class HelloWorldService : GreeterCoroutineImplBase() {

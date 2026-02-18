@@ -27,7 +27,7 @@ import kotlin.test.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class AnimalsServerTest {
-    private val server = AnimalsServer()
+    private val server = AnimalsServer(0)
 
     @AfterTest
     fun after() {
@@ -39,15 +39,16 @@ class AnimalsServerTest {
         runTest {
             server.start()
 
-            val dogStub = DogCoroutineStub("localhost:50051", ChannelCredentials.createInsecure())
+            val address = "localhost:${server.port}"
+            val dogStub = DogCoroutineStub(address, ChannelCredentials.createInsecure())
             val dogBark = dogStub.bark(BarkRequest { })
             assertEquals("Bark!", dogBark.message)
 
-            val pigStub = PigCoroutineStub("localhost:50051", ChannelCredentials.createInsecure())
+            val pigStub = PigCoroutineStub(address, ChannelCredentials.createInsecure())
             val pigOink = pigStub.oink(OinkRequest { })
             assertEquals("Oink!", pigOink.message)
 
-            val sheepStub = SheepCoroutineStub("localhost:50051", ChannelCredentials.createInsecure())
+            val sheepStub = SheepCoroutineStub(address, ChannelCredentials.createInsecure())
             val sheepBaa = sheepStub.baa(BaaRequest { })
             assertEquals("Baa!", sheepBaa.message)
         }

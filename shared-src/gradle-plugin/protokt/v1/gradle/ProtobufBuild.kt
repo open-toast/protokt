@@ -70,7 +70,7 @@ internal fun configureProtobufPlugin(
                 }
 
                 val extensionFiles = project.objects.fileCollection().from(extensions.asList())
-                task.inputs.files(extensionFiles).withPropertyName("protoktExtensionClasspath")
+                task.inputs.files(extensionFiles).withPropertyName("protoktExtensionClasspath-${target.protocPluginName}")
 
                 task.plugins {
                     id(target.protocPluginName) {
