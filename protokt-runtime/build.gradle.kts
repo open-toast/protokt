@@ -41,7 +41,7 @@ kotlin {
                 // regardless of whether the code path is reached. Since Collections.kt and
                 // BuilderScope.kt reference PersistentList/PersistentMap, the library must
                 // always be bundled for JS even when persistent collections are not enabled.
-                implementation(libs.kotlinx.collectionsImmutable)
+                api(libs.kotlinx.collectionsImmutable)
             }
         }
     }
