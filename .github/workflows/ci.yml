@@ -33,8 +33,24 @@ jobs:
     strategy:
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
-        kotlin: [ 2.0.21, 2.1.21, 2.2.21 ]
-        jdk: [ 17, 21 ]
+        kotlin: [ 2.0.21, 2.1.21, 2.2.21, 2.3.10 ]
+        jdk: [ 17, 21, 25 ]
+        exclude:
+          - kotlin: 2.0.21
+            jdk: 25
+          - kotlin: 2.1.21
+            jdk: 25
+          - kotlin: 2.2.21
+            jdk: 25
+        include:
+          - kotlin: 2.0.21
+            jvm_default_arg: -Xjvm-default=all
+          - kotlin: 2.1.21
+            jvm_default_arg: -Xjvm-default=all
+          - kotlin: 2.2.21
+            jvm_default_arg: -jvm-default=no-compatibility
+          - kotlin: 2.3.10
+            jvm_default_arg: -jvm-default=no-compatibility
 
     runs-on: ${{ matrix.os }}
 
@@ -53,8 +69,8 @@ jobs:
         name: integration-repository
         path: build/repos/integration
     - name: Build and test
-      run: ./gradlew "-Dkotlin-integration.version=${{ matrix.kotlin }}" clean build --stacktrace --no-daemon
+      run: ./gradlew "-Dkotlin-integration.version=${{ matrix.kotlin }}" "-Djava-integration.version=${{ matrix.jdk }}" "-Djvm-default-integration.arg=${{ matrix.jvm_default_arg }}" clean build --stacktrace --no-daemon
       working-directory: gradle-plugin-integration-test
     - name: Verify configuration cache compatibility
-      run: ./gradlew "-Dkotlin-integration.version=${{ matrix.kotlin }}" --configuration-cache build --stacktrace --no-daemon
+      run: ./gradlew "-Dkotlin-integration.version=${{ matrix.kotlin }}" "-Djava-integration.version=${{ matrix.jdk }}" "-Djvm-default-integration.arg=${{ matrix.jvm_default_arg }}" --configuration-cache build --stacktrace --no-daemon
       working-directory: gradle-plugin-integration-test

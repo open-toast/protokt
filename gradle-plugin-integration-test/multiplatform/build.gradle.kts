@@ -22,7 +22,11 @@ plugins {
 }
 
 kotlin {
-    jvm {}
+    jvm {
+        compilerOptions {
+            freeCompilerArgs.add(System.getProperty("jvm-default-integration.arg", "-Xjvm-default=all"))
+        }
+    }
 
     js(IR) {
         browser {
@@ -64,8 +68,6 @@ kotlin {
 
     compilerOptions {
         allWarningsAsErrors = false
-
-        freeCompilerArgs.add("-Xjvm-default=all")
 
         apiVersion = KotlinVersion.fromVersion(
             System.getProperty("kotlin-integration.version")
