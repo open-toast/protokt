@@ -18,7 +18,6 @@ package protokt.v1.gradle
 import com.google.protobuf.gradle.ProtobufExtension
 import com.google.protobuf.gradle.ProtobufPlugin
 import com.google.protobuf.gradle.proto
-import org.gradle.api.Action
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.artifacts.Dependency
@@ -131,18 +130,12 @@ private fun Project.configureForMpp(
 
     configureTarget("common", disableJava, config, binary)
 
-    // React to each target during configuration (not afterEvaluate). Using all(Action)
-    // ensures both already-registered targets and future targets are handled. This is
-    // critical: the generateProtoTasks actions must be stored before the protobuf plugin's
-    // afterEvaluate applies them, so each target's protoc plugin is actually invoked.
-    extensions.getByType(KotlinMultiplatformExtension::class.java).targets.all(
-        Action {
-            if (targetName != "metadata") {
-                logger.log(DEBUG_LOG_LEVEL, "Handling Kotlin multiplatform target {}", this)
-                configureTarget(targetName, disableJava, config, binary)
-            }
+    extensions.getByType(KotlinMultiplatformExtension::class.java).targets.all {
+        if (targetName != "metadata") {
+            logger.log(DEBUG_LOG_LEVEL, "Handling Kotlin multiplatform target {}", this)
+            configureTarget(targetName, disableJava, config, binary)
         }
-    )
+    }
 }
 
 private fun Project.configureTarget(
