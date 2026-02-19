@@ -21,7 +21,6 @@ import kotlinx.collections.immutable.persistentListOf
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
-import protokt.v1.conformance.ConformanceTest.Codec
 import protokt.v1.conformance.ConformanceTest.CollectionFactory.PERSISTENT
 import protokt.v1.conformance.ConformanceTest.Platform.JS_IR
 import protokt.v1.conformance.ConformanceTest.Platform.JVM
@@ -41,12 +40,9 @@ class ConformanceTest {
 
     enum class CollectionFactory { DEFAULT, PERSISTENT }
 
-    enum class Codec { DEFAULT, KOTLIN }
-
     data class ConformanceConfig(
         val platform: Platform,
-        val collectionFactory: CollectionFactory,
-        val codec: Codec
+        val collectionFactory: CollectionFactory
     ) {
         fun driver(): Path =
             when (platform) {
@@ -61,18 +57,12 @@ class ConformanceTest {
                         if (collectionFactory == PERSISTENT) {
                             add("-Dprotokt.collection.factory=protokt.v1.PersistentCollectionFactory")
                         }
-                        if (codec == Codec.KOTLIN) {
-                            add("-Dprotokt.codec=protokt.v1.KotlinCodec")
-                        }
                     }
                     if (flags.isNotEmpty()) mapOf("JAVA_OPTS" to flags.joinToString(" ")) else emptyMap()
                 }
                 JS_IR -> buildMap {
                     if (collectionFactory == PERSISTENT) {
                         put("PROTOKT_COLLECTION_FACTORY", "protokt.v1.PersistentCollectionFactory")
-                    }
-                    if (codec == Codec.KOTLIN) {
-                        put("PROTOKT_CODEC", "protokt.v1.KotlinCodec")
                     }
                 }
             }
@@ -83,13 +73,11 @@ class ConformanceTest {
         fun configurations() =
             Lists.cartesianProduct(
                 Platform.entries,
-                CollectionFactory.entries,
-                Codec.entries
+                CollectionFactory.entries
             ).map {
                 ConformanceConfig(
                     it[0] as Platform,
-                    it[1] as CollectionFactory,
-                    it[2] as Codec
+                    it[1] as CollectionFactory
                 )
             }
     }
@@ -163,16 +151,10 @@ private fun verifyCollectionType(stderr: String, config: ConformanceTest.Conform
 
 private const val PROTOBUF_JAVA_CODEC = "protokt.v1.ProtobufJavaCodec"
 private const val PROTOBUF_JS_CODEC = "protokt.v1.ProtobufJsCodec"
-private const val KOTLIN_CODEC = "protokt.v1.KotlinCodec"
 
 private fun verifyCodec(stderr: String, config: ConformanceTest.ConformanceConfig) {
     val codecName = "protoktCodec=(.+)".toRegex().find(stderr)?.groupValues?.get(1)?.trim()
-    val expected =
-        if (config.codec == Codec.KOTLIN) {
-            KOTLIN_CODEC
-        } else {
-            if (config.platform.project == "jvm") PROTOBUF_JAVA_CODEC else PROTOBUF_JS_CODEC
-        }
+    val expected = if (config.platform.project == "jvm") PROTOBUF_JAVA_CODEC else PROTOBUF_JS_CODEC
     val platformExpected = if (config.platform.project == "jvm") expected else expected.substringAfterLast(".")
     assertThat(codecName).isEqualTo(platformExpected)
 }
