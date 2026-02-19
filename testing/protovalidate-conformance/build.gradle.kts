@@ -25,7 +25,7 @@ plugins {
 
 localProtokt(false)
 
-protokt { 
+protokt {
     formatOutput = false
 }
 
