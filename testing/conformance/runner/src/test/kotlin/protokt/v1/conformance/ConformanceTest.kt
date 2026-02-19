@@ -25,7 +25,6 @@ import protokt.v1.conformance.ConformanceTest.Codec
 import protokt.v1.conformance.ConformanceTest.CollectionFactory.PERSISTENT
 import protokt.v1.conformance.ConformanceTest.Platform.JS_IR
 import protokt.v1.conformance.ConformanceTest.Platform.JVM
-import protokt.v1.conformance.ConformanceTest.SerializationMode
 import protokt.v1.testing.projectRoot
 import protokt.v1.testing.runCommand
 import java.io.File
@@ -44,13 +43,10 @@ class ConformanceTest {
 
     enum class Codec { DEFAULT, KOTLIN }
 
-    enum class SerializationMode { STANDARD, STREAMING }
-
     data class ConformanceConfig(
         val platform: Platform,
         val collectionFactory: CollectionFactory,
-        val codec: Codec,
-        val serializationMode: SerializationMode
+        val codec: Codec
     ) {
         fun driver(): Path =
             when (platform) {
@@ -68,9 +64,6 @@ class ConformanceTest {
                         if (codec == Codec.KOTLIN) {
                             add("-Dprotokt.codec=protokt.v1.KotlinCodec")
                         }
-                        if (serializationMode == SerializationMode.STREAMING) {
-                            add("-Dprotokt.streaming=true")
-                        }
                     }
                     if (flags.isNotEmpty()) mapOf("JAVA_OPTS" to flags.joinToString(" ")) else emptyMap()
                 }
@@ -80,9 +73,6 @@ class ConformanceTest {
                     }
                     if (codec == Codec.KOTLIN) {
                         put("PROTOKT_CODEC", "protokt.v1.KotlinCodec")
-                    }
-                    if (serializationMode == SerializationMode.STREAMING) {
-                        put("PROTOKT_STREAMING", "true")
                     }
                 }
             }
@@ -94,14 +84,12 @@ class ConformanceTest {
             Lists.cartesianProduct(
                 Platform.entries,
                 CollectionFactory.entries,
-                Codec.entries,
-                SerializationMode.entries
+                Codec.entries
             ).map {
                 ConformanceConfig(
                     it[0] as Platform,
                     it[1] as CollectionFactory,
-                    it[2] as Codec,
-                    it[3] as SerializationMode
+                    it[2] as Codec
                 )
             }
     }
@@ -121,7 +109,6 @@ class ConformanceTest {
             val allStderr = output.stderr + jsStderrLog(config.platform.project)
             verifyCollectionType(allStderr, config)
             verifyCodec(allStderr, config)
-            verifyStreaming(allStderr, config)
 
             assertThat(output.stderr).contains("CONFORMANCE SUITE PASSED")
             val matches = " (\\d+) unexpected failures".toRegex().findAll(output.stderr).toList()
@@ -188,10 +175,4 @@ private fun verifyCodec(stderr: String, config: ConformanceTest.ConformanceConfi
         }
     val platformExpected = if (config.platform.project == "jvm") expected else expected.substringAfterLast(".")
     assertThat(codecName).isEqualTo(platformExpected)
-}
-
-private fun verifyStreaming(stderr: String, config: ConformanceTest.ConformanceConfig) {
-    val streaming = "protoktStreaming=(.+)".toRegex().find(stderr)?.groupValues?.get(1)?.trim()
-    val expected = (config.serializationMode == SerializationMode.STREAMING).toString()
-    assertThat(streaming).isEqualTo(expected)
 }

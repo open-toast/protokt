@@ -15,8 +15,6 @@
 
 package protokt.v1
 
-import kotlinx.io.Source
-
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
 expect interface Deserializer<T : Message> {
     fun deserialize(reader: Reader): T
@@ -26,7 +24,4 @@ expect interface Deserializer<T : Message> {
     fun deserialize(bytes: ByteArray): T
 
     fun deserialize(bytes: BytesSlice): T
-
-    @Beta
-    fun deserialize(source: Source): T
 }

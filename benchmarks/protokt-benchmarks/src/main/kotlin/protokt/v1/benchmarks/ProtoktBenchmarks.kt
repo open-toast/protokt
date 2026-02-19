@@ -31,11 +31,8 @@ import java.util.concurrent.TimeUnit
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 @State(Scope.Benchmark)
 open class ProtoktBenchmarks {
-    @Param("protokt.v1.DefaultCollectionFactory", "protokt.v1.PersistentCollectionFactory")
-    var collectionFactory: String = "protokt.v1.DefaultCollectionFactory"
-
-    @Param("protokt.v1.ProtobufJavaCodec", "protokt.v1.KotlinCodec")
-    var codec: String = "protokt.v1.ProtobufJavaCodec"
+    @Param("protokt.v1.DefaultCollectionProvider", "protokt.v1.PersistentCollectionProvider")
+    var collectionProvider: String = "protokt.v1.DefaultCollectionProvider"
 
     private lateinit var largeDataset: BenchmarkDataset
     private lateinit var largeParsedDataset: List<GenericMessage1>
@@ -52,8 +49,7 @@ open class ProtoktBenchmarks {
     fun setup() {
         byteValues = Array(1000) { i -> Bytes.from(byteArrayOf(i.toByte())) }
 
-        System.setProperty("protokt.collection.factory", collectionFactory)
-        System.setProperty("protokt.codec", codec)
+        System.setProperty("protokt.collection.provider", collectionProvider)
 
         readData("large").use { stream ->
             largeDataset = BenchmarkDataset.deserialize(stream)
@@ -183,6 +179,6 @@ open class ProtoktBenchmarks {
     }
 }
 
-fun main(args: Array<String>) {
-    run(ProtoktBenchmarks::class, args)
+fun main() {
+    run(ProtoktBenchmarks::class)
 }

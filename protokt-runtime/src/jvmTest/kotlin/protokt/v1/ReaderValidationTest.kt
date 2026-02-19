@@ -16,7 +16,6 @@
 package protokt.v1
 
 import com.google.common.truth.Truth.assertThat
-import kotlinx.io.Sink
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
@@ -226,7 +225,6 @@ private object EmptyMessage : AbstractDeserializer<EmptyMessage>(), Message {
     override fun serialize(writer: Writer) {}
     override fun serialize() =
         byteArrayOf()
-    override fun serialize(sink: Sink) {}
     override fun deserialize(reader: Reader): EmptyMessage {
         while (true) {
             when (reader.readTag()) {
@@ -244,7 +242,6 @@ private object Fixed32FieldMessage : AbstractDeserializer<Fixed32FieldMessage>()
     override fun serialize(writer: Writer) {}
     override fun serialize() =
         byteArrayOf()
-    override fun serialize(sink: Sink) {}
     override fun deserialize(reader: Reader): Fixed32FieldMessage {
         while (true) {
             when (reader.readTag()) {
@@ -263,7 +260,6 @@ private object Fixed64FieldMessage : AbstractDeserializer<Fixed64FieldMessage>()
     override fun serialize(writer: Writer) {}
     override fun serialize() =
         byteArrayOf()
-    override fun serialize(sink: Sink) {}
     override fun deserialize(reader: Reader): Fixed64FieldMessage {
         while (true) {
             when (reader.readTag()) {
@@ -282,7 +278,6 @@ private object VarintFieldMessage : AbstractDeserializer<VarintFieldMessage>(), 
     override fun serialize(writer: Writer) {}
     override fun serialize() =
         byteArrayOf()
-    override fun serialize(sink: Sink) {}
     override fun deserialize(reader: Reader): VarintFieldMessage {
         while (true) {
             when (reader.readTag()) {
@@ -300,7 +295,6 @@ private object NestedLenDelimitedMessage : AbstractDeserializer<NestedLenDelimit
     override fun serialize(writer: Writer) {}
     override fun serialize() =
         byteArrayOf()
-    override fun serialize(sink: Sink) {}
     override fun deserialize(reader: Reader): NestedLenDelimitedMessage {
         while (true) {
             when (reader.readTag()) {
@@ -319,7 +313,6 @@ private object RecursiveMessage : AbstractDeserializer<RecursiveMessage>(), Mess
     override fun serialize(writer: Writer) {}
     override fun serialize() =
         byteArrayOf()
-    override fun serialize(sink: Sink) {}
     override fun deserialize(reader: Reader): RecursiveMessage {
         while (true) {
             when (reader.readTag()) {
@@ -330,4 +323,3 @@ private object RecursiveMessage : AbstractDeserializer<RecursiveMessage>(), Mess
         }
     }
 }
-

@@ -24,7 +24,6 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 compileOnly(libs.kotlinx.collectionsImmutable)
-                compileOnly(libs.kotlinx.io)
             }
         }
 
@@ -37,7 +36,6 @@ kotlin {
         val jvmTest by getting {
             dependencies {
                 implementation(libs.protobuf.java)
-                implementation(libs.kotlinx.io)
             }
         }
 
@@ -50,7 +48,6 @@ kotlin {
                 // BuilderScope.kt reference PersistentList/PersistentMap, the library must
                 // always be bundled for JS even when persistent collections are not enabled.
                 api(libs.kotlinx.collectionsImmutable)
-                api(libs.kotlinx.io)
             }
         }
     }

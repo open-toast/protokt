@@ -16,7 +16,6 @@
 package protokt.v1
 
 import com.google.protobuf.CodedInputStream
-import kotlinx.io.Source
 import java.io.InputStream
 import java.nio.ByteBuffer
 
@@ -29,9 +28,6 @@ actual interface Deserializer<T : Message> {
     actual fun deserialize(bytes: BytesSlice): T
 
     actual fun deserialize(reader: Reader): T
-
-    @Beta
-    actual fun deserialize(source: Source): T
 
     fun deserialize(stream: InputStream): T =
         (codec as? JvmCodec)?.let { deserialize(it.reader(stream)) }

@@ -16,7 +16,6 @@ public abstract class protokt/v1/AbstractConverter : protokt/v1/Converter {
 
 public abstract class protokt/v1/AbstractDeserializer : protokt/v1/Deserializer {
 	public fun <init> ()V
-	public final fun deserialize (Lkotlinx/io/Source;)Lprotokt/v1/Message;
 	public final fun deserialize (Lprotokt/v1/Bytes;)Lprotokt/v1/Message;
 	public final fun deserialize (Lprotokt/v1/BytesSlice;)Lprotokt/v1/Message;
 	public abstract fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
@@ -26,7 +25,6 @@ public abstract class protokt/v1/AbstractDeserializer : protokt/v1/Deserializer 
 public abstract class protokt/v1/AbstractMessage : protokt/v1/Message {
 	public fun <init> ()V
 	public final fun serialize ()[B
-	public final fun serialize (Lkotlinx/io/Sink;)V
 }
 
 public abstract interface annotation class protokt/v1/Beta : java/lang/annotation/Annotation {
@@ -117,7 +115,6 @@ public abstract interface class protokt/v1/Deserializer {
 	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lprotokt/v1/Message;
 	public fun deserialize (Ljava/io/InputStream;)Lprotokt/v1/Message;
 	public fun deserialize (Ljava/nio/ByteBuffer;)Lprotokt/v1/Message;
-	public abstract fun deserialize (Lkotlinx/io/Source;)Lprotokt/v1/Message;
 	public abstract fun deserialize (Lprotokt/v1/Bytes;)Lprotokt/v1/Message;
 	public abstract fun deserialize (Lprotokt/v1/BytesSlice;)Lprotokt/v1/Message;
 	public abstract fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
@@ -226,7 +223,6 @@ public abstract interface class protokt/v1/MapBuilder {
 public abstract interface class protokt/v1/Message {
 	public abstract fun serialize ()[B
 	public fun serialize (Ljava/io/OutputStream;)V
-	public abstract fun serialize (Lkotlinx/io/Sink;)V
 	public abstract fun serialize (Lprotokt/v1/Writer;)V
 	public abstract fun serializedSize ()I
 }
@@ -234,15 +230,13 @@ public abstract interface class protokt/v1/Message {
 public abstract interface annotation class protokt/v1/OnlyForUseByGeneratedProtoCode : java/lang/annotation/Annotation {
 }
 
-public final class protokt/v1/ProtobufJavaCodec : protokt/v1/JvmCodec, protokt/v1/StreamingCodec {
+public final class protokt/v1/ProtobufJavaCodec : protokt/v1/JvmCodec {
 	public static final field INSTANCE Lprotokt/v1/ProtobufJavaCodec;
 	public fun reader (Ljava/io/InputStream;)Lprotokt/v1/Reader;
 	public fun reader (Ljava/nio/ByteBuffer;)Lprotokt/v1/Reader;
-	public fun reader (Lkotlinx/io/Source;)Lprotokt/v1/Reader;
 	public fun reader ([B)Lprotokt/v1/Reader;
 	public fun reader ([BII)Lprotokt/v1/Reader;
 	public fun serialize (Lprotokt/v1/Message;Ljava/io/OutputStream;)V
-	public fun serialize (Lprotokt/v1/Message;Lkotlinx/io/Sink;)V
 	public fun writer (I)Lprotokt/v1/Writer;
 }
 
@@ -286,11 +280,6 @@ public final class protokt/v1/Sizes {
 	public static final fun sizeOfSInt64 (J)I
 	public static final fun sizeOfUInt32 (I)I
 	public static final fun sizeOfUInt64 (J)I
-}
-
-public abstract interface class protokt/v1/StreamingCodec : protokt/v1/Codec {
-	public abstract fun reader (Lkotlinx/io/Source;)Lprotokt/v1/Reader;
-	public abstract fun serialize (Lprotokt/v1/Message;Lkotlinx/io/Sink;)V
 }
 
 public final class protokt/v1/StringConverter : protokt/v1/Converter {

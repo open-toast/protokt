@@ -28,7 +28,6 @@ fun main() =
         val builderResult = Collections.listBuilder<Any>().build()
         Platform.printErr("protoktPersistentCollectionType=${Platform.className(builderResult)}")
         Platform.printErr("protoktCodec=${Platform.className(codec)}")
-        Platform.printErr("protoktStreaming=${Platform.streaming}")
         while (true) {
             val request = Platform.readMessageFromStdIn(ConformanceRequest) ?: break
 

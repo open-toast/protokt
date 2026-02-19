@@ -24,22 +24,14 @@ import kotlin.reflect.KClass
 fun readData(dataset: String) =
     File("../build/datasets/dataset-$dataset").inputStream().buffered()
 
-fun run(self: KClass<*>, args: Array<String> = emptyArray()) {
-    val opts = OptionsBuilder()
-        .include(".*" + self.simpleName + ".*")
-        .warmupIterations(3)
-        .measurementIterations(5)
-        .forks(2)
-        .resultFormat(ResultFormatType.JSON)
-        .result("../build/jmh-${self.simpleName}.json")
-
-    args.toList()
-        .windowed(2, 2, partialWindows = false)
-        .filter { it[0] == "-p" }
-        .forEach { (_, spec) ->
-            val (name, value) = spec.split("=", limit = 2)
-            opts.param(name, value)
-        }
-
-    Runner(opts.build()).run()
-}
+fun run(self: KClass<*>) =
+    Runner(
+        OptionsBuilder()
+            .include(".*" + self.simpleName + ".*")
+            .warmupIterations(3)
+            .measurementIterations(5)
+            .forks(2)
+            .resultFormat(ResultFormatType.JSON)
+            .result("../build/jmh-${self.simpleName}.json")
+            .build()
+    ).run()

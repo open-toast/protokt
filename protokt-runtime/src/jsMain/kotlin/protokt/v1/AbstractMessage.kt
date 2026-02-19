@@ -15,8 +15,6 @@
 
 package protokt.v1
 
-import kotlinx.io.Sink
-
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
 actual abstract class AbstractMessage actual constructor() : Message {
     actual final override fun serialize(): ByteArray {
@@ -24,8 +22,4 @@ actual abstract class AbstractMessage actual constructor() : Message {
         serialize(writer)
         return writer.toByteArray()
     }
-
-    actual final override fun serialize(sink: Sink) =
-        (codec as? StreamingCodec)?.serialize(this, sink)
-            ?: sink.write(serialize())
 }

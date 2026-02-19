@@ -37,13 +37,6 @@ dependencies {
     runtimeOnly(libs.protobuf.java)
 }
 
-// Run all parameter combinations:
-//   ./gradlew :benchmarks:protokt-benchmarks:run
-//
-// Pin specific parameters with -p:
-//   ./gradlew :benchmarks:protokt-benchmarks:run --args="-p codec=protokt.v1.KotlinCodec"
-//   ./gradlew :benchmarks:protokt-benchmarks:run --args="-p collectionFactory=protokt.v1.DefaultCollectionFactory"
-//   ./gradlew :benchmarks:protokt-benchmarks:run --args="-p codec=protokt.v1.KotlinCodec -p collectionFactory=protokt.v1.DefaultCollectionFactory"
 tasks.named("run") {
     dependsOn(":benchmarks:datasets")
 }

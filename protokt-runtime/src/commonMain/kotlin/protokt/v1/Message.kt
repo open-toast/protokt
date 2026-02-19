@@ -15,8 +15,6 @@
 
 package protokt.v1
 
-import kotlinx.io.Sink
-
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
 expect interface Message {
     fun serializedSize(): Int
@@ -24,7 +22,4 @@ expect interface Message {
     fun serialize(writer: Writer)
 
     fun serialize(): ByteArray
-
-    @Beta
-    fun serialize(sink: Sink)
 }

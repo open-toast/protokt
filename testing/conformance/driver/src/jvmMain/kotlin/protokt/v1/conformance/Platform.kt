@@ -17,8 +17,6 @@ package protokt.v1.conformance
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.runBlocking
-import kotlinx.io.Buffer
-import kotlinx.io.readByteArray
 import protokt.v1.Bytes
 import protokt.v1.Deserializer
 import protokt.v1.Message
@@ -29,8 +27,6 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
 internal actual object Platform {
-    actual val streaming = System.getProperty("protokt.streaming")?.toBoolean() ?: false
-
     actual fun printErr(message: String) {
         System.err.println(message)
     }
@@ -71,26 +67,14 @@ internal actual object Platform {
         deserializer: Deserializer<T>
     ): ConformanceStepResult<T> =
         try {
-            if (streaming) {
-                val source = Buffer()
-                source.write(bytes)
-                Proceed(deserializer.deserialize(source))
-            } else {
-                Proceed(deserializer.deserialize(bytes))
-            }
+            Proceed(deserializer.deserialize(bytes))
         } catch (t: Throwable) {
             Stop(ParseError(t.stackTraceToString()))
         }
 
     actual fun serializeProtobuf(message: Message): ConformanceStepResult<Bytes> =
         try {
-            if (streaming) {
-                val buffer = Buffer()
-                message.serialize(buffer)
-                Proceed(Bytes.from(buffer.readByteArray()))
-            } else {
-                Proceed(Bytes.from(message))
-            }
+            Proceed(Bytes.from(message))
         } catch (t: Throwable) {
             Stop(SerializeError(t.stackTraceToString()))
         }
