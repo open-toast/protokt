@@ -8,8 +8,8 @@ public final class protokt/v1/google/api/Advice : protokt/v1/AbstractMessage {
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Advice;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -43,8 +43,8 @@ public final class protokt/v1/google/api/AuthProvider : protokt/v1/AbstractMessa
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/AuthProvider;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -84,8 +84,8 @@ public final class protokt/v1/google/api/AuthRequirement : protokt/v1/AbstractMe
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/AuthRequirement;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -117,8 +117,8 @@ public final class protokt/v1/google/api/Authentication : protokt/v1/AbstractMes
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Authentication;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -152,8 +152,8 @@ public final class protokt/v1/google/api/AuthenticationRule : protokt/v1/Abstrac
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/AuthenticationRule;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -188,8 +188,8 @@ public final class protokt/v1/google/api/Backend : protokt/v1/AbstractMessage {
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Backend;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -226,8 +226,8 @@ public final class protokt/v1/google/api/BackendRule : protokt/v1/AbstractMessag
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/BackendRule;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -302,9 +302,9 @@ public final class protokt/v1/google/api/BackendRule$PathTranslation$CONSTANT_AD
 	public static final field INSTANCE Lprotokt/v1/google/api/BackendRule$PathTranslation$CONSTANT_ADDRESS;
 }
 
-public final class protokt/v1/google/api/BackendRule$PathTranslation$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/api/BackendRule$PathTranslation;
+public final class protokt/v1/google/api/BackendRule$PathTranslation$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/api/BackendRule$PathTranslation;
 }
 
 public final class protokt/v1/google/api/BackendRule$PathTranslation$PATH_TRANSLATION_UNSPECIFIED : protokt/v1/google/api/BackendRule$PathTranslation {
@@ -325,8 +325,8 @@ public final class protokt/v1/google/api/Billing : protokt/v1/AbstractMessage {
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Billing;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -341,8 +341,8 @@ public final class protokt/v1/google/api/Billing$BillingDestination : protokt/v1
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Billing$BillingDestination;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -393,9 +393,9 @@ public final class protokt/v1/google/api/ChangeType$CHANGE_TYPE_UNSPECIFIED : pr
 	public static final field INSTANCE Lprotokt/v1/google/api/ChangeType$CHANGE_TYPE_UNSPECIFIED;
 }
 
-public final class protokt/v1/google/api/ChangeType$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/api/ChangeType;
+public final class protokt/v1/google/api/ChangeType$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/api/ChangeType;
 }
 
 public final class protokt/v1/google/api/ChangeType$MODIFIED : protokt/v1/google/api/ChangeType {
@@ -421,9 +421,9 @@ public final class protokt/v1/google/api/ClientLibraryDestination$CLIENT_LIBRARY
 	public static final field INSTANCE Lprotokt/v1/google/api/ClientLibraryDestination$CLIENT_LIBRARY_DESTINATION_UNSPECIFIED;
 }
 
-public final class protokt/v1/google/api/ClientLibraryDestination$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/api/ClientLibraryDestination;
+public final class protokt/v1/google/api/ClientLibraryDestination$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/api/ClientLibraryDestination;
 }
 
 public final class protokt/v1/google/api/ClientLibraryDestination$GITHUB : protokt/v1/google/api/ClientLibraryDestination {
@@ -457,9 +457,9 @@ public final class protokt/v1/google/api/ClientLibraryOrganization$CLOUD : proto
 	public static final field INSTANCE Lprotokt/v1/google/api/ClientLibraryOrganization$CLOUD;
 }
 
-public final class protokt/v1/google/api/ClientLibraryOrganization$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/api/ClientLibraryOrganization;
+public final class protokt/v1/google/api/ClientLibraryOrganization$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/api/ClientLibraryOrganization;
 }
 
 public final class protokt/v1/google/api/ClientLibraryOrganization$GENERATIVE_AI : protokt/v1/google/api/ClientLibraryOrganization {
@@ -506,8 +506,8 @@ public final class protokt/v1/google/api/ClientLibrarySettings : protokt/v1/Abst
 	public final fun getVersion ()Ljava/lang/String;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/ClientLibrarySettings;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -558,8 +558,8 @@ public final class protokt/v1/google/api/CommonLanguageSettings : protokt/v1/Abs
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/CommonLanguageSettings;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -596,8 +596,8 @@ public final class protokt/v1/google/api/ConfigChange : protokt/v1/AbstractMessa
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/ConfigChange;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -634,8 +634,8 @@ public final class protokt/v1/google/api/Context : protokt/v1/AbstractMessage {
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Context;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -668,8 +668,8 @@ public final class protokt/v1/google/api/ContextRule : protokt/v1/AbstractMessag
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/ContextRule;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -707,8 +707,8 @@ public final class protokt/v1/google/api/Control : protokt/v1/AbstractMessage {
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Control;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -739,8 +739,8 @@ public final class protokt/v1/google/api/CppSettings : protokt/v1/AbstractMessag
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/CppSettings;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -770,8 +770,8 @@ public final class protokt/v1/google/api/CustomHttpPattern : protokt/v1/Abstract
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/CustomHttpPattern;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -808,8 +808,8 @@ public final class protokt/v1/google/api/Distribution : protokt/v1/AbstractMessa
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Distribution;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -823,8 +823,8 @@ public final class protokt/v1/google/api/Distribution$BucketOptions : protokt/v1
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Distribution$BucketOptions;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -853,8 +853,8 @@ public final class protokt/v1/google/api/Distribution$BucketOptions$Explicit : p
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Distribution$BucketOptions$Explicit;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -885,8 +885,8 @@ public final class protokt/v1/google/api/Distribution$BucketOptions$Exponential 
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Distribution$BucketOptions$Exponential;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -921,8 +921,8 @@ public final class protokt/v1/google/api/Distribution$BucketOptions$Linear : pro
 	public final fun getWidth ()D
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Distribution$BucketOptions$Linear;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -1020,8 +1020,8 @@ public final class protokt/v1/google/api/Distribution$Exemplar : protokt/v1/Abst
 	public final fun getValue ()D
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Distribution$Exemplar;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -1055,8 +1055,8 @@ public final class protokt/v1/google/api/Distribution$Range : protokt/v1/Abstrac
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Distribution$Range;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -1092,8 +1092,8 @@ public final class protokt/v1/google/api/Documentation : protokt/v1/AbstractMess
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Documentation;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -1134,8 +1134,8 @@ public final class protokt/v1/google/api/DocumentationRule : protokt/v1/Abstract
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/DocumentationRule;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -1173,8 +1173,8 @@ public final class protokt/v1/google/api/DotnetSettings : protokt/v1/AbstractMes
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/DotnetSettings;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -1216,8 +1216,8 @@ public final class protokt/v1/google/api/Endpoint : protokt/v1/AbstractMessage {
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Endpoint;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -1305,9 +1305,9 @@ public final class protokt/v1/google/api/ErrorReason$CREDENTIALS_MISSING : proto
 	public static final field INSTANCE Lprotokt/v1/google/api/ErrorReason$CREDENTIALS_MISSING;
 }
 
-public final class protokt/v1/google/api/ErrorReason$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/api/ErrorReason;
+public final class protokt/v1/google/api/ErrorReason$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/api/ErrorReason;
 }
 
 public final class protokt/v1/google/api/ErrorReason$ERROR_REASON_UNSPECIFIED : protokt/v1/google/api/ErrorReason {
@@ -1397,9 +1397,9 @@ public abstract class protokt/v1/google/api/FieldBehavior : protokt/v1/Enum {
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/api/FieldBehavior$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/api/FieldBehavior;
+public final class protokt/v1/google/api/FieldBehavior$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/api/FieldBehavior;
 }
 
 public final class protokt/v1/google/api/FieldBehavior$FIELD_BEHAVIOR_UNSPECIFIED : protokt/v1/google/api/FieldBehavior {
@@ -1453,8 +1453,8 @@ public final class protokt/v1/google/api/FieldInfo : protokt/v1/AbstractMessage 
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/FieldInfo;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -1482,9 +1482,9 @@ public abstract class protokt/v1/google/api/FieldInfo$Format : protokt/v1/Enum {
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/api/FieldInfo$Format$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/api/FieldInfo$Format;
+public final class protokt/v1/google/api/FieldInfo$Format$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/api/FieldInfo$Format;
 }
 
 public final class protokt/v1/google/api/FieldInfo$Format$FORMAT_UNSPECIFIED : protokt/v1/google/api/FieldInfo$Format {
@@ -1523,8 +1523,8 @@ public final class protokt/v1/google/api/FieldPolicy : protokt/v1/AbstractMessag
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/FieldPolicy;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -1558,8 +1558,8 @@ public final class protokt/v1/google/api/GoSettings : protokt/v1/AbstractMessage
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/GoSettings;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -1591,8 +1591,8 @@ public final class protokt/v1/google/api/Http : protokt/v1/AbstractMessage {
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Http;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -1625,8 +1625,8 @@ public final class protokt/v1/google/api/HttpBody : protokt/v1/AbstractMessage {
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/HttpBody;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -1663,8 +1663,8 @@ public final class protokt/v1/google/api/HttpRule : protokt/v1/AbstractMessage {
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/HttpRule;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -1772,8 +1772,8 @@ public final class protokt/v1/google/api/JavaSettings : protokt/v1/AbstractMessa
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/JavaSettings;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -1807,8 +1807,8 @@ public final class protokt/v1/google/api/JwtLocation : protokt/v1/AbstractMessag
 	public final fun getValuePrefix ()Ljava/lang/String;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/JwtLocation;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -1877,8 +1877,8 @@ public final class protokt/v1/google/api/LabelDescriptor : protokt/v1/AbstractMe
 	public final fun getValueType ()Lprotokt/v1/google/api/LabelDescriptor$ValueType;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/LabelDescriptor;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -1912,9 +1912,9 @@ public final class protokt/v1/google/api/LabelDescriptor$ValueType$BOOL : protok
 	public static final field INSTANCE Lprotokt/v1/google/api/LabelDescriptor$ValueType$BOOL;
 }
 
-public final class protokt/v1/google/api/LabelDescriptor$ValueType$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/api/LabelDescriptor$ValueType;
+public final class protokt/v1/google/api/LabelDescriptor$ValueType$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/api/LabelDescriptor$ValueType;
 }
 
 public final class protokt/v1/google/api/LabelDescriptor$ValueType$INT64 : protokt/v1/google/api/LabelDescriptor$ValueType {
@@ -1948,9 +1948,9 @@ public final class protokt/v1/google/api/LaunchStage$DEPRECATED : protokt/v1/goo
 	public static final field INSTANCE Lprotokt/v1/google/api/LaunchStage$DEPRECATED;
 }
 
-public final class protokt/v1/google/api/LaunchStage$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/api/LaunchStage;
+public final class protokt/v1/google/api/LaunchStage$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/api/LaunchStage;
 }
 
 public final class protokt/v1/google/api/LaunchStage$EARLY_ACCESS : protokt/v1/google/api/LaunchStage {
@@ -1990,8 +1990,8 @@ public final class protokt/v1/google/api/LogDescriptor : protokt/v1/AbstractMess
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/LogDescriptor;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2027,8 +2027,8 @@ public final class protokt/v1/google/api/Logging : protokt/v1/AbstractMessage {
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Logging;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2060,8 +2060,8 @@ public final class protokt/v1/google/api/Logging$LoggingDestination : protokt/v1
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Logging$LoggingDestination;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2093,8 +2093,8 @@ public final class protokt/v1/google/api/MethodPolicy : protokt/v1/AbstractMessa
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/MethodPolicy;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2127,8 +2127,8 @@ public final class protokt/v1/google/api/MethodSettings : protokt/v1/AbstractMes
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/MethodSettings;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2164,8 +2164,8 @@ public final class protokt/v1/google/api/MethodSettings$LongRunning : protokt/v1
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/MethodSettings$LongRunning;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2201,8 +2201,8 @@ public final class protokt/v1/google/api/Metric : protokt/v1/AbstractMessage {
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Metric;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2243,8 +2243,8 @@ public final class protokt/v1/google/api/MetricDescriptor : protokt/v1/AbstractM
 	public final fun getValueType ()Lprotokt/v1/google/api/MetricDescriptor$ValueType;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/MetricDescriptor;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2296,8 +2296,8 @@ public final class protokt/v1/google/api/MetricDescriptor$MetricDescriptorMetada
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/MetricDescriptor$MetricDescriptorMetadata;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2329,9 +2329,9 @@ public abstract class protokt/v1/google/api/MetricDescriptor$MetricDescriptorMet
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/api/MetricDescriptor$MetricDescriptorMetadata$TimeSeriesResourceHierarchyLevel$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/api/MetricDescriptor$MetricDescriptorMetadata$TimeSeriesResourceHierarchyLevel;
+public final class protokt/v1/google/api/MetricDescriptor$MetricDescriptorMetadata$TimeSeriesResourceHierarchyLevel$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/api/MetricDescriptor$MetricDescriptorMetadata$TimeSeriesResourceHierarchyLevel;
 }
 
 public final class protokt/v1/google/api/MetricDescriptor$MetricDescriptorMetadata$TimeSeriesResourceHierarchyLevel$FOLDER : protokt/v1/google/api/MetricDescriptor$MetricDescriptorMetadata$TimeSeriesResourceHierarchyLevel {
@@ -2369,9 +2369,9 @@ public final class protokt/v1/google/api/MetricDescriptor$MetricKind$DELTA : pro
 	public static final field INSTANCE Lprotokt/v1/google/api/MetricDescriptor$MetricKind$DELTA;
 }
 
-public final class protokt/v1/google/api/MetricDescriptor$MetricKind$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/api/MetricDescriptor$MetricKind;
+public final class protokt/v1/google/api/MetricDescriptor$MetricKind$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/api/MetricDescriptor$MetricKind;
 }
 
 public final class protokt/v1/google/api/MetricDescriptor$MetricKind$GAUGE : protokt/v1/google/api/MetricDescriptor$MetricKind {
@@ -2405,9 +2405,9 @@ public final class protokt/v1/google/api/MetricDescriptor$ValueType$DOUBLE : pro
 	public static final field INSTANCE Lprotokt/v1/google/api/MetricDescriptor$ValueType$DOUBLE;
 }
 
-public final class protokt/v1/google/api/MetricDescriptor$ValueType$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/api/MetricDescriptor$ValueType;
+public final class protokt/v1/google/api/MetricDescriptor$ValueType$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/api/MetricDescriptor$ValueType;
 }
 
 public final class protokt/v1/google/api/MetricDescriptor$ValueType$INT64 : protokt/v1/google/api/MetricDescriptor$ValueType {
@@ -2441,8 +2441,8 @@ public final class protokt/v1/google/api/MetricRule : protokt/v1/AbstractMessage
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/MetricRule;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2474,8 +2474,8 @@ public final class protokt/v1/google/api/MonitoredResource : protokt/v1/Abstract
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/MonitoredResource;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2511,8 +2511,8 @@ public final class protokt/v1/google/api/MonitoredResourceDescriptor : protokt/v
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/MonitoredResourceDescriptor;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2552,8 +2552,8 @@ public final class protokt/v1/google/api/MonitoredResourceMetadata : protokt/v1/
 	public final fun getUserLabels ()Ljava/util/Map;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/MonitoredResourceMetadata;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2585,8 +2585,8 @@ public final class protokt/v1/google/api/Monitoring : protokt/v1/AbstractMessage
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Monitoring;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2618,8 +2618,8 @@ public final class protokt/v1/google/api/Monitoring$MonitoringDestination : prot
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Monitoring$MonitoringDestination;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2650,8 +2650,8 @@ public final class protokt/v1/google/api/NodeSettings : protokt/v1/AbstractMessa
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/NodeSettings;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2680,8 +2680,8 @@ public final class protokt/v1/google/api/OAuthRequirements : protokt/v1/Abstract
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/OAuthRequirements;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2712,8 +2712,8 @@ public final class protokt/v1/google/api/Page : protokt/v1/AbstractMessage {
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Page;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2746,8 +2746,8 @@ public final class protokt/v1/google/api/PhpSettings : protokt/v1/AbstractMessag
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/PhpSettings;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2776,8 +2776,8 @@ public final class protokt/v1/google/api/ProjectProperties : protokt/v1/Abstract
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/ProjectProperties;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2808,8 +2808,8 @@ public final class protokt/v1/google/api/Property : protokt/v1/AbstractMessage {
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Property;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2847,9 +2847,9 @@ public final class protokt/v1/google/api/Property$PropertyType$DOUBLE : protokt/
 	public static final field INSTANCE Lprotokt/v1/google/api/Property$PropertyType$DOUBLE;
 }
 
-public final class protokt/v1/google/api/Property$PropertyType$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/api/Property$PropertyType;
+public final class protokt/v1/google/api/Property$PropertyType$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/api/Property$PropertyType;
 }
 
 public final class protokt/v1/google/api/Property$PropertyType$INT64 : protokt/v1/google/api/Property$PropertyType {
@@ -2888,8 +2888,8 @@ public final class protokt/v1/google/api/Publishing : protokt/v1/AbstractMessage
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Publishing;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2939,8 +2939,8 @@ public final class protokt/v1/google/api/PythonSettings : protokt/v1/AbstractMes
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/PythonSettings;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2973,8 +2973,8 @@ public final class protokt/v1/google/api/PythonSettings$ExperimentalFeatures : p
 	public final fun getUnversionedPackageDisabled ()Z
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/PythonSettings$ExperimentalFeatures;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -3008,8 +3008,8 @@ public final class protokt/v1/google/api/Quota : protokt/v1/AbstractMessage {
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Quota;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -3049,8 +3049,8 @@ public final class protokt/v1/google/api/QuotaLimit : protokt/v1/AbstractMessage
 	public final fun getValues ()Ljava/util/Map;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/QuotaLimit;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -3103,8 +3103,8 @@ public final class protokt/v1/google/api/ResourceDescriptor : protokt/v1/Abstrac
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/ResourceDescriptor;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -3142,9 +3142,9 @@ public abstract class protokt/v1/google/api/ResourceDescriptor$History : protokt
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/api/ResourceDescriptor$History$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/api/ResourceDescriptor$History;
+public final class protokt/v1/google/api/ResourceDescriptor$History$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/api/ResourceDescriptor$History;
 }
 
 public final class protokt/v1/google/api/ResourceDescriptor$History$FUTURE_MULTI_PATTERN : protokt/v1/google/api/ResourceDescriptor$History {
@@ -3174,9 +3174,9 @@ public final class protokt/v1/google/api/ResourceDescriptor$Style$DECLARATIVE_FR
 	public static final field INSTANCE Lprotokt/v1/google/api/ResourceDescriptor$Style$DECLARATIVE_FRIENDLY;
 }
 
-public final class protokt/v1/google/api/ResourceDescriptor$Style$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/api/ResourceDescriptor$Style;
+public final class protokt/v1/google/api/ResourceDescriptor$Style$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/api/ResourceDescriptor$Style;
 }
 
 public final class protokt/v1/google/api/ResourceDescriptor$Style$STYLE_UNSPECIFIED : protokt/v1/google/api/ResourceDescriptor$Style {
@@ -3198,8 +3198,8 @@ public final class protokt/v1/google/api/ResourceReference : protokt/v1/Abstract
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/ResourceReference;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -3231,8 +3231,8 @@ public final class protokt/v1/google/api/RoutingParameter : protokt/v1/AbstractM
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/RoutingParameter;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -3263,8 +3263,8 @@ public final class protokt/v1/google/api/RoutingRule : protokt/v1/AbstractMessag
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/RoutingRule;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -3293,8 +3293,8 @@ public final class protokt/v1/google/api/RubySettings : protokt/v1/AbstractMessa
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/RubySettings;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -3324,8 +3324,8 @@ public final class protokt/v1/google/api/SelectiveGapicGeneration : protokt/v1/A
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/SelectiveGapicGeneration;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -3381,8 +3381,8 @@ public final class protokt/v1/google/api/Service : protokt/v1/AbstractMessage {
 	public final fun getUsage ()Lprotokt/v1/google/api/Usage;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Service;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -3461,8 +3461,8 @@ public final class protokt/v1/google/api/SourceInfo : protokt/v1/AbstractMessage
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/SourceInfo;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -3493,8 +3493,8 @@ public final class protokt/v1/google/api/SystemParameter : protokt/v1/AbstractMe
 	public final fun getUrlQueryParameter ()Ljava/lang/String;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/SystemParameter;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -3528,8 +3528,8 @@ public final class protokt/v1/google/api/SystemParameterRule : protokt/v1/Abstra
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/SystemParameterRule;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -3560,8 +3560,8 @@ public final class protokt/v1/google/api/SystemParameters : protokt/v1/AbstractM
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/SystemParameters;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -3590,8 +3590,8 @@ public final class protokt/v1/google/api/TypeReference : protokt/v1/AbstractMess
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/TypeReference;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -3622,8 +3622,8 @@ public final class protokt/v1/google/api/Usage : protokt/v1/AbstractMessage {
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Usage;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -3658,8 +3658,8 @@ public final class protokt/v1/google/api/UsageRule : protokt/v1/AbstractMessage 
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/UsageRule;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -3692,8 +3692,8 @@ public final class protokt/v1/google/api/Visibility : protokt/v1/AbstractMessage
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Visibility;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -3723,8 +3723,8 @@ public final class protokt/v1/google/api/VisibilityRule : protokt/v1/AbstractMes
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/VisibilityRule;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -3761,8 +3761,8 @@ public final class protokt/v1/google/apps/card/v1/Action : protokt/v1/AbstractMe
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Action;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -3777,8 +3777,8 @@ public final class protokt/v1/google/apps/card/v1/Action$ActionParameter : proto
 	public final fun getValue ()Ljava/lang/String;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Action$ActionParameter;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -3833,9 +3833,9 @@ public abstract class protokt/v1/google/apps/card/v1/Action$Interaction : protok
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/apps/card/v1/Action$Interaction$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/apps/card/v1/Action$Interaction;
+public final class protokt/v1/google/apps/card/v1/Action$Interaction$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/apps/card/v1/Action$Interaction;
 }
 
 public final class protokt/v1/google/apps/card/v1/Action$Interaction$INTERACTION_UNSPECIFIED : protokt/v1/google/apps/card/v1/Action$Interaction {
@@ -3857,9 +3857,9 @@ public abstract class protokt/v1/google/apps/card/v1/Action$LoadIndicator : prot
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/apps/card/v1/Action$LoadIndicator$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/apps/card/v1/Action$LoadIndicator;
+public final class protokt/v1/google/apps/card/v1/Action$LoadIndicator$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/apps/card/v1/Action$LoadIndicator;
 }
 
 public final class protokt/v1/google/apps/card/v1/Action$LoadIndicator$NONE : protokt/v1/google/apps/card/v1/Action$LoadIndicator {
@@ -3886,8 +3886,8 @@ public final class protokt/v1/google/apps/card/v1/BorderStyle : protokt/v1/Abstr
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/BorderStyle;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -3902,9 +3902,9 @@ public final class protokt/v1/google/apps/card/v1/BorderStyle$BorderType$BORDER_
 	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/BorderStyle$BorderType$BORDER_TYPE_UNSPECIFIED;
 }
 
-public final class protokt/v1/google/apps/card/v1/BorderStyle$BorderType$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/apps/card/v1/BorderStyle$BorderType;
+public final class protokt/v1/google/apps/card/v1/BorderStyle$BorderType$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/apps/card/v1/BorderStyle$BorderType;
 }
 
 public final class protokt/v1/google/apps/card/v1/BorderStyle$BorderType$NO_BORDER : protokt/v1/google/apps/card/v1/BorderStyle$BorderType {
@@ -3954,8 +3954,8 @@ public final class protokt/v1/google/apps/card/v1/Button : protokt/v1/AbstractMe
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Button;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -3997,9 +3997,9 @@ public final class protokt/v1/google/apps/card/v1/Button$Type$BORDERLESS : proto
 	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/Button$Type$BORDERLESS;
 }
 
-public final class protokt/v1/google/apps/card/v1/Button$Type$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/apps/card/v1/Button$Type;
+public final class protokt/v1/google/apps/card/v1/Button$Type$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/apps/card/v1/Button$Type;
 }
 
 public final class protokt/v1/google/apps/card/v1/Button$Type$FILLED : protokt/v1/google/apps/card/v1/Button$Type {
@@ -4032,8 +4032,8 @@ public final class protokt/v1/google/apps/card/v1/ButtonList : protokt/v1/Abstra
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/ButtonList;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -4069,8 +4069,8 @@ public final class protokt/v1/google/apps/card/v1/Card : protokt/v1/AbstractMess
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Card;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -4108,8 +4108,8 @@ public final class protokt/v1/google/apps/card/v1/Card$CardAction : protokt/v1/A
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Card$CardAction;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -4141,8 +4141,8 @@ public final class protokt/v1/google/apps/card/v1/Card$CardFixedFooter : protokt
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Card$CardFixedFooter;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -4177,8 +4177,8 @@ public final class protokt/v1/google/apps/card/v1/Card$CardHeader : protokt/v1/A
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Card$CardHeader;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -4222,9 +4222,9 @@ public final class protokt/v1/google/apps/card/v1/Card$DisplayStyle$DISPLAY_STYL
 	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/Card$DisplayStyle$DISPLAY_STYLE_UNSPECIFIED;
 }
 
-public final class protokt/v1/google/apps/card/v1/Card$DisplayStyle$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/apps/card/v1/Card$DisplayStyle;
+public final class protokt/v1/google/apps/card/v1/Card$DisplayStyle$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/apps/card/v1/Card$DisplayStyle;
 }
 
 public final class protokt/v1/google/apps/card/v1/Card$DisplayStyle$PEEK : protokt/v1/google/apps/card/v1/Card$DisplayStyle {
@@ -4250,9 +4250,9 @@ public final class protokt/v1/google/apps/card/v1/Card$DividerStyle$DIVIDER_STYL
 	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/Card$DividerStyle$DIVIDER_STYLE_UNSPECIFIED;
 }
 
-public final class protokt/v1/google/apps/card/v1/Card$DividerStyle$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/apps/card/v1/Card$DividerStyle;
+public final class protokt/v1/google/apps/card/v1/Card$DividerStyle$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/apps/card/v1/Card$DividerStyle;
 }
 
 public final class protokt/v1/google/apps/card/v1/Card$DividerStyle$NO_DIVIDER : protokt/v1/google/apps/card/v1/Card$DividerStyle {
@@ -4277,8 +4277,8 @@ public final class protokt/v1/google/apps/card/v1/Card$NestedWidget : protokt/v1
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Card$NestedWidget;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -4347,8 +4347,8 @@ public final class protokt/v1/google/apps/card/v1/Card$Section : protokt/v1/Abst
 	public final fun getWidgets ()Ljava/util/List;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Card$Section;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -4385,8 +4385,8 @@ public final class protokt/v1/google/apps/card/v1/Carousel : protokt/v1/Abstract
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Carousel;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -4410,8 +4410,8 @@ public final class protokt/v1/google/apps/card/v1/Carousel$CarouselCard : protok
 	public final fun getWidgets ()Ljava/util/List;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Carousel$CarouselCard;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -4453,8 +4453,8 @@ public final class protokt/v1/google/apps/card/v1/Chip : protokt/v1/AbstractMess
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Chip;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -4494,8 +4494,8 @@ public final class protokt/v1/google/apps/card/v1/ChipList : protokt/v1/Abstract
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/ChipList;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -4523,9 +4523,9 @@ public abstract class protokt/v1/google/apps/card/v1/ChipList$Layout : protokt/v
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/apps/card/v1/ChipList$Layout$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/apps/card/v1/ChipList$Layout;
+public final class protokt/v1/google/apps/card/v1/ChipList$Layout$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/apps/card/v1/ChipList$Layout;
 }
 
 public final class protokt/v1/google/apps/card/v1/ChipList$Layout$HORIZONTAL_SCROLLABLE : protokt/v1/google/apps/card/v1/ChipList$Layout {
@@ -4556,8 +4556,8 @@ public final class protokt/v1/google/apps/card/v1/CollapseControl : protokt/v1/A
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/CollapseControl;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -4590,8 +4590,8 @@ public final class protokt/v1/google/apps/card/v1/Columns : protokt/v1/AbstractM
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Columns;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -4617,8 +4617,8 @@ public final class protokt/v1/google/apps/card/v1/Columns$Column : protokt/v1/Ab
 	public final fun getWidgets ()Ljava/util/List;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Columns$Column;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -4650,9 +4650,9 @@ public abstract class protokt/v1/google/apps/card/v1/Columns$Column$HorizontalSi
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/apps/card/v1/Columns$Column$HorizontalSizeStyle$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/apps/card/v1/Columns$Column$HorizontalSizeStyle;
+public final class protokt/v1/google/apps/card/v1/Columns$Column$HorizontalSizeStyle$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/apps/card/v1/Columns$Column$HorizontalSizeStyle;
 }
 
 public final class protokt/v1/google/apps/card/v1/Columns$Column$HorizontalSizeStyle$FILL_AVAILABLE_SPACE : protokt/v1/google/apps/card/v1/Columns$Column$HorizontalSizeStyle {
@@ -4686,9 +4686,9 @@ public final class protokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignme
 	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment$CENTER;
 }
 
-public final class protokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment;
+public final class protokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment;
 }
 
 public final class protokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment$TOP : protokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment {
@@ -4713,8 +4713,8 @@ public final class protokt/v1/google/apps/card/v1/Columns$Column$Widgets : proto
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -4845,8 +4845,8 @@ public final class protokt/v1/google/apps/card/v1/DateTimePicker : protokt/v1/Ab
 	public final fun getValueMsEpoch ()Ljava/lang/Long;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/DateTimePicker;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -4884,9 +4884,9 @@ public final class protokt/v1/google/apps/card/v1/DateTimePicker$DateTimePickerT
 	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/DateTimePicker$DateTimePickerType$DATE_ONLY;
 }
 
-public final class protokt/v1/google/apps/card/v1/DateTimePicker$DateTimePickerType$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/apps/card/v1/DateTimePicker$DateTimePickerType;
+public final class protokt/v1/google/apps/card/v1/DateTimePicker$DateTimePickerType$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/apps/card/v1/DateTimePicker$DateTimePickerType;
 }
 
 public final class protokt/v1/google/apps/card/v1/DateTimePicker$DateTimePickerType$TIME_ONLY : protokt/v1/google/apps/card/v1/DateTimePicker$DateTimePickerType {
@@ -4924,8 +4924,8 @@ public final class protokt/v1/google/apps/card/v1/DecoratedText : protokt/v1/Abs
 	public final fun getWrapText ()Z
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/DecoratedText;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -5016,8 +5016,8 @@ public final class protokt/v1/google/apps/card/v1/DecoratedText$SwitchControl : 
 	public final fun getValue ()Ljava/lang/String;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -5053,9 +5053,9 @@ public final class protokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$Co
 	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$ControlType$CHECK_BOX;
 }
 
-public final class protokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$ControlType$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$ControlType;
+public final class protokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$ControlType$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$ControlType;
 }
 
 public final class protokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$ControlType$SWITCH : protokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$ControlType {
@@ -5081,8 +5081,8 @@ public final class protokt/v1/google/apps/card/v1/Divider : protokt/v1/AbstractM
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Divider;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -5113,8 +5113,8 @@ public final class protokt/v1/google/apps/card/v1/Grid : protokt/v1/AbstractMess
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Grid;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -5155,8 +5155,8 @@ public final class protokt/v1/google/apps/card/v1/Grid$GridItem : protokt/v1/Abs
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Grid$GridItem;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -5190,9 +5190,9 @@ public abstract class protokt/v1/google/apps/card/v1/Grid$GridItem$GridItemLayou
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/apps/card/v1/Grid$GridItem$GridItemLayout$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/apps/card/v1/Grid$GridItem$GridItemLayout;
+public final class protokt/v1/google/apps/card/v1/Grid$GridItem$GridItemLayout$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/apps/card/v1/Grid$GridItem$GridItemLayout;
 }
 
 public final class protokt/v1/google/apps/card/v1/Grid$GridItem$GridItemLayout$GRID_ITEM_LAYOUT_UNSPECIFIED : protokt/v1/google/apps/card/v1/Grid$GridItem$GridItemLayout {
@@ -5223,8 +5223,8 @@ public final class protokt/v1/google/apps/card/v1/Icon : protokt/v1/AbstractMess
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Icon;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -5295,8 +5295,8 @@ public final class protokt/v1/google/apps/card/v1/Image : protokt/v1/AbstractMes
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Image;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -5332,8 +5332,8 @@ public final class protokt/v1/google/apps/card/v1/ImageComponent : protokt/v1/Ab
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/ImageComponent;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -5369,8 +5369,8 @@ public final class protokt/v1/google/apps/card/v1/ImageCropStyle : protokt/v1/Ab
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/ImageCropStyle;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -5402,9 +5402,9 @@ public final class protokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType$C
 	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType$CIRCLE;
 }
 
-public final class protokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType;
+public final class protokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType;
 }
 
 public final class protokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType$IMAGE_CROP_TYPE_UNSPECIFIED : protokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType {
@@ -5440,8 +5440,8 @@ public final class protokt/v1/google/apps/card/v1/MaterialIcon : protokt/v1/Abst
 	public final fun getWeight ()I
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/MaterialIcon;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -5476,8 +5476,8 @@ public final class protokt/v1/google/apps/card/v1/OnClick : protokt/v1/AbstractM
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/OnClick;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -5566,8 +5566,8 @@ public final class protokt/v1/google/apps/card/v1/OpenLink : protokt/v1/Abstract
 	public final fun getUrl ()Ljava/lang/String;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/OpenLink;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -5597,9 +5597,9 @@ public abstract class protokt/v1/google/apps/card/v1/OpenLink$OnClose : protokt/
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/apps/card/v1/OpenLink$OnClose$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/apps/card/v1/OpenLink$OnClose;
+public final class protokt/v1/google/apps/card/v1/OpenLink$OnClose$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/apps/card/v1/OpenLink$OnClose;
 }
 
 public final class protokt/v1/google/apps/card/v1/OpenLink$OnClose$NOTHING : protokt/v1/google/apps/card/v1/OpenLink$OnClose {
@@ -5621,9 +5621,9 @@ public abstract class protokt/v1/google/apps/card/v1/OpenLink$OpenAs : protokt/v
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/apps/card/v1/OpenLink$OpenAs$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/apps/card/v1/OpenLink$OpenAs;
+public final class protokt/v1/google/apps/card/v1/OpenLink$OpenAs$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/apps/card/v1/OpenLink$OpenAs;
 }
 
 public final class protokt/v1/google/apps/card/v1/OpenLink$OpenAs$FULL_SIZE : protokt/v1/google/apps/card/v1/OpenLink$OpenAs {
@@ -5648,8 +5648,8 @@ public final class protokt/v1/google/apps/card/v1/OverflowMenu : protokt/v1/Abst
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/OverflowMenu;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -5681,8 +5681,8 @@ public final class protokt/v1/google/apps/card/v1/OverflowMenu$OverflowMenuItem 
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/OverflowMenu$OverflowMenuItem;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -5724,8 +5724,8 @@ public final class protokt/v1/google/apps/card/v1/SelectionInput : protokt/v1/Ab
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/SelectionInput;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -5793,8 +5793,8 @@ public final class protokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSou
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -5814,9 +5814,9 @@ public abstract class protokt/v1/google/apps/card/v1/SelectionInput$PlatformData
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$CommonDataSource$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$CommonDataSource;
+public final class protokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$CommonDataSource$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$CommonDataSource;
 }
 
 public final class protokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$CommonDataSource$UNKNOWN : protokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$CommonDataSource {
@@ -5865,8 +5865,8 @@ public final class protokt/v1/google/apps/card/v1/SelectionInput$SelectionItem :
 	public final fun getValue ()Ljava/lang/String;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/SelectionInput$SelectionItem;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -5922,9 +5922,9 @@ public final class protokt/v1/google/apps/card/v1/SelectionInput$SelectionType$D
 	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/SelectionInput$SelectionType$DROPDOWN;
 }
 
-public final class protokt/v1/google/apps/card/v1/SelectionInput$SelectionType$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/apps/card/v1/SelectionInput$SelectionType;
+public final class protokt/v1/google/apps/card/v1/SelectionInput$SelectionType$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/apps/card/v1/SelectionInput$SelectionType;
 }
 
 public final class protokt/v1/google/apps/card/v1/SelectionInput$SelectionType$MULTI_SELECT : protokt/v1/google/apps/card/v1/SelectionInput$SelectionType {
@@ -5953,8 +5953,8 @@ public final class protokt/v1/google/apps/card/v1/Suggestions : protokt/v1/Abstr
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Suggestions;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -5983,8 +5983,8 @@ public final class protokt/v1/google/apps/card/v1/Suggestions$SuggestionItem : p
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Suggestions$SuggestionItem;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -6036,8 +6036,8 @@ public final class protokt/v1/google/apps/card/v1/TextInput : protokt/v1/Abstrac
 	public final fun getValue ()Ljava/lang/String;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/TextInput;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -6081,9 +6081,9 @@ public abstract class protokt/v1/google/apps/card/v1/TextInput$Type : protokt/v1
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/apps/card/v1/TextInput$Type$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/apps/card/v1/TextInput$Type;
+public final class protokt/v1/google/apps/card/v1/TextInput$Type$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/apps/card/v1/TextInput$Type;
 }
 
 public final class protokt/v1/google/apps/card/v1/TextInput$Type$MULTIPLE_LINE : protokt/v1/google/apps/card/v1/TextInput$Type {
@@ -6110,8 +6110,8 @@ public final class protokt/v1/google/apps/card/v1/TextParagraph : protokt/v1/Abs
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/TextParagraph;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -6141,9 +6141,9 @@ public abstract class protokt/v1/google/apps/card/v1/TextParagraph$TextSyntax : 
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/apps/card/v1/TextParagraph$TextSyntax$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/apps/card/v1/TextParagraph$TextSyntax;
+public final class protokt/v1/google/apps/card/v1/TextParagraph$TextSyntax$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/apps/card/v1/TextParagraph$TextSyntax;
 }
 
 public final class protokt/v1/google/apps/card/v1/TextParagraph$TextSyntax$HTML : protokt/v1/google/apps/card/v1/TextParagraph$TextSyntax {
@@ -6173,8 +6173,8 @@ public final class protokt/v1/google/apps/card/v1/Validation : protokt/v1/Abstra
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Validation;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -6202,9 +6202,9 @@ public abstract class protokt/v1/google/apps/card/v1/Validation$InputType : prot
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/apps/card/v1/Validation$InputType$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/apps/card/v1/Validation$InputType;
+public final class protokt/v1/google/apps/card/v1/Validation$InputType$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/apps/card/v1/Validation$InputType;
 }
 
 public final class protokt/v1/google/apps/card/v1/Validation$InputType$EMAIL : protokt/v1/google/apps/card/v1/Validation$InputType {
@@ -6246,8 +6246,8 @@ public final class protokt/v1/google/apps/card/v1/Widget : protokt/v1/AbstractMe
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/apps/card/v1/Widget;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -6414,9 +6414,9 @@ public final class protokt/v1/google/apps/card/v1/Widget$HorizontalAlignment$CEN
 	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/Widget$HorizontalAlignment$CENTER;
 }
 
-public final class protokt/v1/google/apps/card/v1/Widget$HorizontalAlignment$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/apps/card/v1/Widget$HorizontalAlignment;
+public final class protokt/v1/google/apps/card/v1/Widget$HorizontalAlignment$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/apps/card/v1/Widget$HorizontalAlignment;
 }
 
 public final class protokt/v1/google/apps/card/v1/Widget$HorizontalAlignment$END : protokt/v1/google/apps/card/v1/Widget$HorizontalAlignment {
@@ -6446,9 +6446,9 @@ public final class protokt/v1/google/apps/card/v1/Widget$ImageType$CIRCLE : prot
 	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/Widget$ImageType$CIRCLE;
 }
 
-public final class protokt/v1/google/apps/card/v1/Widget$ImageType$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/apps/card/v1/Widget$ImageType;
+public final class protokt/v1/google/apps/card/v1/Widget$ImageType$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/apps/card/v1/Widget$ImageType;
 }
 
 public final class protokt/v1/google/apps/card/v1/Widget$ImageType$SQUARE : protokt/v1/google/apps/card/v1/Widget$ImageType {
@@ -6470,9 +6470,9 @@ public final class protokt/v1/google/apps/card/v1/Widget$VerticalAlignment$BOTTO
 	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/Widget$VerticalAlignment$BOTTOM;
 }
 
-public final class protokt/v1/google/apps/card/v1/Widget$VerticalAlignment$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/apps/card/v1/Widget$VerticalAlignment;
+public final class protokt/v1/google/apps/card/v1/Widget$VerticalAlignment$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/apps/card/v1/Widget$VerticalAlignment;
 }
 
 public final class protokt/v1/google/apps/card/v1/Widget$VerticalAlignment$MIDDLE : protokt/v1/google/apps/card/v1/Widget$VerticalAlignment {
@@ -6498,9 +6498,9 @@ public abstract class protokt/v1/google/cloud/OperationResponseMapping : protokt
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/cloud/OperationResponseMapping$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/cloud/OperationResponseMapping;
+public final class protokt/v1/google/cloud/OperationResponseMapping$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/cloud/OperationResponseMapping;
 }
 
 public final class protokt/v1/google/cloud/OperationResponseMapping$ERROR_CODE : protokt/v1/google/cloud/OperationResponseMapping {
@@ -6551,8 +6551,8 @@ public final class protokt/v1/google/cloud/audit/AuditLog : protokt/v1/AbstractM
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/AuditLog;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -6614,8 +6614,8 @@ public final class protokt/v1/google/cloud/audit/AuthenticationInfo : protokt/v1
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/AuthenticationInfo;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -6658,8 +6658,8 @@ public final class protokt/v1/google/cloud/audit/AuthorizationInfo : protokt/v1/
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/AuthorizationInfo;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -6709,9 +6709,9 @@ public final class protokt/v1/google/cloud/audit/AuthorizationInfo$PermissionTyp
 	public static final field INSTANCE Lprotokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType$DATA_WRITE;
 }
 
-public final class protokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType;
+public final class protokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType;
 }
 
 public final class protokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType$PERMISSION_TYPE_UNSPECIFIED : protokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType {
@@ -6735,8 +6735,8 @@ public final class protokt/v1/google/cloud/audit/OrgPolicyViolationInfo : protok
 	public final fun getViolationInfo ()Ljava/util/List;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/OrgPolicyViolationInfo;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -6771,8 +6771,8 @@ public final class protokt/v1/google/cloud/audit/PolicyViolationInfo : protokt/v
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/PolicyViolationInfo;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -6805,8 +6805,8 @@ public final class protokt/v1/google/cloud/audit/RequestMetadata : protokt/v1/Ab
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/RequestMetadata;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -6844,8 +6844,8 @@ public final class protokt/v1/google/cloud/audit/ResourceLocation : protokt/v1/A
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/ResourceLocation;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -6877,8 +6877,8 @@ public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo : 
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -6935,8 +6935,8 @@ public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$Fi
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$FirstPartyPrincipal;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -6967,8 +6967,8 @@ public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$Th
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$ThirdPartyPrincipal;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -7000,8 +7000,8 @@ public final class protokt/v1/google/cloud/audit/ViolationInfo : protokt/v1/Abst
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/audit/ViolationInfo;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -7041,9 +7041,9 @@ public final class protokt/v1/google/cloud/audit/ViolationInfo$PolicyType$CUSTOM
 	public static final field INSTANCE Lprotokt/v1/google/cloud/audit/ViolationInfo$PolicyType$CUSTOM_CONSTRAINT;
 }
 
-public final class protokt/v1/google/cloud/audit/ViolationInfo$PolicyType$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/cloud/audit/ViolationInfo$PolicyType;
+public final class protokt/v1/google/cloud/audit/ViolationInfo$PolicyType$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/cloud/audit/ViolationInfo$PolicyType;
 }
 
 public final class protokt/v1/google/cloud/audit/ViolationInfo$PolicyType$LIST_CONSTRAINT : protokt/v1/google/cloud/audit/ViolationInfo$PolicyType {
@@ -7068,8 +7068,8 @@ public final class protokt/v1/google/cloud/location/GetLocationRequest : protokt
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/location/GetLocationRequest;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -7101,8 +7101,8 @@ public final class protokt/v1/google/cloud/location/ListLocationsRequest : proto
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/location/ListLocationsRequest;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -7138,8 +7138,8 @@ public final class protokt/v1/google/cloud/location/ListLocationsResponse : prot
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/location/ListLocationsResponse;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -7174,8 +7174,8 @@ public final class protokt/v1/google/cloud/location/Location : protokt/v1/Abstra
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/cloud/location/Location;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -7213,8 +7213,8 @@ public final class protokt/v1/google/geo/type/Viewport : protokt/v1/AbstractMess
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/geo/type/Viewport;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -7259,8 +7259,8 @@ public final class protokt/v1/google/logging/type/HttpRequest : protokt/v1/Abstr
 	public final fun getUserAgent ()Ljava/lang/String;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/logging/type/HttpRequest;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -7330,9 +7330,9 @@ public final class protokt/v1/google/logging/type/LogSeverity$DEFAULT : protokt/
 	public static final field INSTANCE Lprotokt/v1/google/logging/type/LogSeverity$DEFAULT;
 }
 
-public final class protokt/v1/google/logging/type/LogSeverity$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/logging/type/LogSeverity;
+public final class protokt/v1/google/logging/type/LogSeverity$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/logging/type/LogSeverity;
 }
 
 public final class protokt/v1/google/logging/type/LogSeverity$EMERGENCY : protokt/v1/google/logging/type/LogSeverity {
@@ -7369,8 +7369,8 @@ public final class protokt/v1/google/longrunning/CancelOperationRequest : protok
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/longrunning/CancelOperationRequest;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -7399,8 +7399,8 @@ public final class protokt/v1/google/longrunning/DeleteOperationRequest : protok
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/longrunning/DeleteOperationRequest;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -7429,8 +7429,8 @@ public final class protokt/v1/google/longrunning/GetOperationRequest : protokt/v
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/longrunning/GetOperationRequest;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -7463,8 +7463,8 @@ public final class protokt/v1/google/longrunning/ListOperationsRequest : protokt
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/longrunning/ListOperationsRequest;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -7503,8 +7503,8 @@ public final class protokt/v1/google/longrunning/ListOperationsResponse : protok
 	public final fun getUnreachable ()Ljava/util/List;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/longrunning/ListOperationsResponse;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -7540,8 +7540,8 @@ public final class protokt/v1/google/longrunning/Operation : protokt/v1/Abstract
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/longrunning/Operation;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -7602,8 +7602,8 @@ public final class protokt/v1/google/longrunning/OperationInfo : protokt/v1/Abst
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/longrunning/OperationInfo;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -7635,8 +7635,8 @@ public final class protokt/v1/google/longrunning/WaitOperationRequest : protokt/
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/longrunning/WaitOperationRequest;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -7667,8 +7667,8 @@ public final class protokt/v1/google/rpc/BadRequest : protokt/v1/AbstractMessage
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/BadRequest;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -7700,8 +7700,8 @@ public final class protokt/v1/google/rpc/BadRequest$FieldViolation : protokt/v1/
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/BadRequest$FieldViolation;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -7753,9 +7753,9 @@ public final class protokt/v1/google/rpc/Code$DEADLINE_EXCEEDED : protokt/v1/goo
 	public static final field INSTANCE Lprotokt/v1/google/rpc/Code$DEADLINE_EXCEEDED;
 }
 
-public final class protokt/v1/google/rpc/Code$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/rpc/Code;
+public final class protokt/v1/google/rpc/Code$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/rpc/Code;
 }
 
 public final class protokt/v1/google/rpc/Code$FAILED_PRECONDITION : protokt/v1/google/rpc/Code {
@@ -7821,8 +7821,8 @@ public final class protokt/v1/google/rpc/DebugInfo : protokt/v1/AbstractMessage 
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/DebugInfo;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -7855,8 +7855,8 @@ public final class protokt/v1/google/rpc/ErrorInfo : protokt/v1/AbstractMessage 
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/ErrorInfo;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -7889,8 +7889,8 @@ public final class protokt/v1/google/rpc/Help : protokt/v1/AbstractMessage {
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/Help;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -7920,8 +7920,8 @@ public final class protokt/v1/google/rpc/Help$Link : protokt/v1/AbstractMessage 
 	public final fun getUrl ()Ljava/lang/String;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/Help$Link;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -7953,8 +7953,8 @@ public final class protokt/v1/google/rpc/LocalizedMessage : protokt/v1/AbstractM
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/LocalizedMessage;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -7985,8 +7985,8 @@ public final class protokt/v1/google/rpc/PreconditionFailure : protokt/v1/Abstra
 	public final fun getViolations ()Ljava/util/List;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/PreconditionFailure;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -8017,8 +8017,8 @@ public final class protokt/v1/google/rpc/PreconditionFailure$Violation : protokt
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/PreconditionFailure$Violation;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -8051,8 +8051,8 @@ public final class protokt/v1/google/rpc/QuotaFailure : protokt/v1/AbstractMessa
 	public final fun getViolations ()Ljava/util/List;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/QuotaFailure;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -8088,8 +8088,8 @@ public final class protokt/v1/google/rpc/QuotaFailure$Violation : protokt/v1/Abs
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/QuotaFailure$Violation;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -8133,8 +8133,8 @@ public final class protokt/v1/google/rpc/RequestInfo : protokt/v1/AbstractMessag
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/RequestInfo;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -8168,8 +8168,8 @@ public final class protokt/v1/google/rpc/ResourceInfo : protokt/v1/AbstractMessa
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/ResourceInfo;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -8204,8 +8204,8 @@ public final class protokt/v1/google/rpc/RetryInfo : protokt/v1/AbstractMessage 
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/RetryInfo;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -8236,8 +8236,8 @@ public final class protokt/v1/google/rpc/Status : protokt/v1/AbstractMessage {
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/Status;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -8277,8 +8277,8 @@ public final class protokt/v1/google/rpc/context/AttributeContext : protokt/v1/A
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/context/AttributeContext;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -8295,8 +8295,8 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Api : protokt/
 	public final fun getVersion ()Ljava/lang/String;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/context/AttributeContext$Api;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -8335,8 +8335,8 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Auth : protokt
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/context/AttributeContext$Auth;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -8406,8 +8406,8 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Peer : protokt
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/context/AttributeContext$Peer;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -8455,8 +8455,8 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Request : prot
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/context/AttributeContext$Request;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -8518,8 +8518,8 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Resource : pro
 	public final fun getUpdateTime ()Lprotokt/v1/google/protobuf/Timestamp;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/context/AttributeContext$Resource;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -8574,8 +8574,8 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Response : pro
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/context/AttributeContext$Response;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -8616,8 +8616,8 @@ public final class protokt/v1/google/rpc/context/AuditContext : protokt/v1/Abstr
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/context/AuditContext;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -8653,8 +8653,8 @@ public final class protokt/v1/google/shopping/type/Channel : protokt/v1/Abstract
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/shopping/type/Channel;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -8676,9 +8676,9 @@ public final class protokt/v1/google/shopping/type/Channel$ChannelEnum$CHANNEL_E
 	public static final field INSTANCE Lprotokt/v1/google/shopping/type/Channel$ChannelEnum$CHANNEL_ENUM_UNSPECIFIED;
 }
 
-public final class protokt/v1/google/shopping/type/Channel$ChannelEnum$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/shopping/type/Channel$ChannelEnum;
+public final class protokt/v1/google/shopping/type/Channel$ChannelEnum$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/shopping/type/Channel$ChannelEnum;
 }
 
 public final class protokt/v1/google/shopping/type/Channel$ChannelEnum$LOCAL : protokt/v1/google/shopping/type/Channel$ChannelEnum {
@@ -8711,8 +8711,8 @@ public final class protokt/v1/google/shopping/type/CustomAttribute : protokt/v1/
 	public final fun getValue ()Ljava/lang/String;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/shopping/type/CustomAttribute;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -8744,8 +8744,8 @@ public final class protokt/v1/google/shopping/type/Destination : protokt/v1/Abst
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/shopping/type/Destination;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -8777,9 +8777,9 @@ public final class protokt/v1/google/shopping/type/Destination$DestinationEnum$D
 	public static final field INSTANCE Lprotokt/v1/google/shopping/type/Destination$DestinationEnum$DISPLAY_ADS;
 }
 
-public final class protokt/v1/google/shopping/type/Destination$DestinationEnum$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/shopping/type/Destination$DestinationEnum;
+public final class protokt/v1/google/shopping/type/Destination$DestinationEnum$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/shopping/type/Destination$DestinationEnum;
 }
 
 public final class protokt/v1/google/shopping/type/Destination$DestinationEnum$FREE_LISTINGS : protokt/v1/google/shopping/type/Destination$DestinationEnum {
@@ -8817,8 +8817,8 @@ public final class protokt/v1/google/shopping/type/Price : protokt/v1/AbstractMe
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/shopping/type/Price;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -8848,8 +8848,8 @@ public final class protokt/v1/google/shopping/type/ReportingContext : protokt/v1
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/shopping/type/ReportingContext;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -8893,9 +8893,9 @@ public final class protokt/v1/google/shopping/type/ReportingContext$ReportingCon
 	public static final field INSTANCE Lprotokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$DISPLAY_ADS;
 }
 
-public final class protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum;
+public final class protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum;
 }
 
 public final class protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$FREE_LISTINGS : protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum {
@@ -8953,8 +8953,8 @@ public final class protokt/v1/google/shopping/type/Weight : protokt/v1/AbstractM
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/shopping/type/Weight;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -8982,9 +8982,9 @@ public abstract class protokt/v1/google/shopping/type/Weight$WeightUnit : protok
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/shopping/type/Weight$WeightUnit$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/shopping/type/Weight$WeightUnit;
+public final class protokt/v1/google/shopping/type/Weight$WeightUnit$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/shopping/type/Weight$WeightUnit;
 }
 
 public final class protokt/v1/google/shopping/type/Weight$WeightUnit$KILOGRAM : protokt/v1/google/shopping/type/Weight$WeightUnit {
@@ -9018,9 +9018,9 @@ public final class protokt/v1/google/type/CalendarPeriod$DAY : protokt/v1/google
 	public static final field INSTANCE Lprotokt/v1/google/type/CalendarPeriod$DAY;
 }
 
-public final class protokt/v1/google/type/CalendarPeriod$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/type/CalendarPeriod;
+public final class protokt/v1/google/type/CalendarPeriod$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/type/CalendarPeriod;
 }
 
 public final class protokt/v1/google/type/CalendarPeriod$FORTNIGHT : protokt/v1/google/type/CalendarPeriod {
@@ -9064,8 +9064,8 @@ public final class protokt/v1/google/type/Color : protokt/v1/AbstractMessage {
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/Color;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -9102,8 +9102,8 @@ public final class protokt/v1/google/type/Date : protokt/v1/AbstractMessage {
 	public final fun getYear ()I
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/Date;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -9143,8 +9143,8 @@ public final class protokt/v1/google/type/DateTime : protokt/v1/AbstractMessage 
 	public final fun getYear ()I
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/DateTime;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -9213,9 +9213,9 @@ public final class protokt/v1/google/type/DayOfWeek$DAY_OF_WEEK_UNSPECIFIED : pr
 	public static final field INSTANCE Lprotokt/v1/google/type/DayOfWeek$DAY_OF_WEEK_UNSPECIFIED;
 }
 
-public final class protokt/v1/google/type/DayOfWeek$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/type/DayOfWeek;
+public final class protokt/v1/google/type/DayOfWeek$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/type/DayOfWeek;
 }
 
 public final class protokt/v1/google/type/DayOfWeek$FRIDAY : protokt/v1/google/type/DayOfWeek {
@@ -9260,8 +9260,8 @@ public final class protokt/v1/google/type/Decimal : protokt/v1/AbstractMessage {
 	public final fun getValue ()Ljava/lang/String;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/Decimal;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -9293,8 +9293,8 @@ public final class protokt/v1/google/type/Expr : protokt/v1/AbstractMessage {
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/Expr;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -9330,8 +9330,8 @@ public final class protokt/v1/google/type/Fraction : protokt/v1/AbstractMessage 
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/Fraction;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -9363,8 +9363,8 @@ public final class protokt/v1/google/type/Interval : protokt/v1/AbstractMessage 
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/Interval;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -9396,8 +9396,8 @@ public final class protokt/v1/google/type/LatLng : protokt/v1/AbstractMessage {
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/LatLng;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -9429,8 +9429,8 @@ public final class protokt/v1/google/type/LocalizedText : protokt/v1/AbstractMes
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/LocalizedText;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -9463,8 +9463,8 @@ public final class protokt/v1/google/type/Money : protokt/v1/AbstractMessage {
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/Money;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -9506,9 +9506,9 @@ public final class protokt/v1/google/type/Month$DECEMBER : protokt/v1/google/typ
 	public static final field INSTANCE Lprotokt/v1/google/type/Month$DECEMBER;
 }
 
-public final class protokt/v1/google/type/Month$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/type/Month;
+public final class protokt/v1/google/type/Month$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/type/Month;
 }
 
 public final class protokt/v1/google/type/Month$FEBRUARY : protokt/v1/google/type/Month {
@@ -9566,8 +9566,8 @@ public final class protokt/v1/google/type/PhoneNumber : protokt/v1/AbstractMessa
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/PhoneNumber;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -9624,8 +9624,8 @@ public final class protokt/v1/google/type/PhoneNumber$ShortCode : protokt/v1/Abs
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/PhoneNumber$ShortCode;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -9666,8 +9666,8 @@ public final class protokt/v1/google/type/PostalAddress : protokt/v1/AbstractMes
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/PostalAddress;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -9719,8 +9719,8 @@ public final class protokt/v1/google/type/Quaternion : protokt/v1/AbstractMessag
 	public final fun getZ ()D
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/Quaternion;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -9758,8 +9758,8 @@ public final class protokt/v1/google/type/TimeOfDay : protokt/v1/AbstractMessage
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/TimeOfDay;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -9795,8 +9795,8 @@ public final class protokt/v1/google/type/TimeZone : protokt/v1/AbstractMessage 
 	public final fun getVersion ()Ljava/lang/String;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/type/TimeZone;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 

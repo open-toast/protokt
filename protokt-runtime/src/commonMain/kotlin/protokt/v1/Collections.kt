@@ -41,24 +41,24 @@ interface MapBuilder<K, V> {
 object Collections {
     @JvmStatic
     fun <T> freezeList(list: List<T>): List<T> =
-        collectionProvider.freezeList(list)
+        collectionFactory.freezeList(list)
 
     @JvmStatic
     fun <K, V> freezeMap(map: Map<K, V>): Map<K, V> =
-        collectionProvider.freezeMap(map)
+        collectionFactory.freezeMap(map)
 
     @JvmStatic
     fun <T> listBuilder(): ListBuilder<T> =
-        collectionProvider.listBuilder()
+        collectionFactory.listBuilder()
 
     @JvmStatic
     fun <K, V> mapBuilder(): MapBuilder<K, V> =
-        collectionProvider.mapBuilder()
+        collectionFactory.mapBuilder()
 }
 
-internal expect val collectionProvider: CollectionProvider
+internal expect val collectionFactory: CollectionFactory
 
-internal object DefaultCollectionProvider : CollectionProvider {
+internal object DefaultCollectionFactory : CollectionFactory {
     override fun <T> listBuilder(): ListBuilder<T> =
         MutableListBuilderImpl()
 

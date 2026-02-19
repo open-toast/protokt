@@ -13,16 +13,18 @@
  * limitations under the License.
  */
 
+@file:OptIn(OnlyForUseByGeneratedProtoCode::class)
+
 package protokt.v1
 
-@OnlyForUseByGeneratedProtoCode
-interface CollectionProvider {
-    fun <T> listBuilder(): ListBuilder<T>
-    fun <K, V> mapBuilder(): MapBuilder<K, V>
-    fun <T> freezeList(list: List<T>): List<T>
-    fun <K, V> freezeMap(map: Map<K, V>): Map<K, V>
-    fun <T> listPlus(list: List<T>, element: T): List<T>
-    fun <T> listPlusAll(list: List<T>, elements: Iterable<T>): List<T>
-    fun <K, V> mapPlus(map: Map<K, V>, pair: Pair<K, V>): Map<K, V>
-    fun <K, V> mapPlusAll(map: Map<K, V>, pairs: Iterable<Pair<K, V>>): Map<K, V>
+internal actual val collectionFactory: CollectionFactory by lazy {
+    val factoryFqcn =
+        System.getProperty("protokt.collection.factory")
+            ?: System.getenv("PROTOKT_COLLECTION_FACTORY")
+
+    if (factoryFqcn != null) {
+        Class.forName(factoryFqcn).getField("INSTANCE").get(null) as CollectionFactory
+    } else {
+        DefaultCollectionFactory
+    }
 }

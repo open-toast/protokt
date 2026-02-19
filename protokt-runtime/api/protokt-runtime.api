@@ -75,7 +75,7 @@ public final class protokt/v1/BytesSlice$Companion {
 	public final fun from ([B)Lprotokt/v1/BytesSlice;
 }
 
-public abstract interface class protokt/v1/CollectionProvider {
+public abstract interface class protokt/v1/CollectionFactory {
 	public abstract fun freezeList (Ljava/util/List;)Ljava/util/List;
 	public abstract fun freezeMap (Ljava/util/Map;)Ljava/util/Map;
 	public abstract fun listBuilder ()Lprotokt/v1/ListBuilder;
@@ -120,8 +120,8 @@ public abstract class protokt/v1/Enum {
 	public final fun toString ()Ljava/lang/String;
 }
 
-public abstract interface class protokt/v1/EnumReader {
-	public abstract fun from (I)Lprotokt/v1/Enum;
+public abstract interface class protokt/v1/EnumDeserializer {
+	public abstract fun deserialize (I)Lprotokt/v1/Enum;
 }
 
 public final class protokt/v1/Fixed32Val : protokt/v1/UnknownValue {
@@ -205,10 +205,10 @@ public abstract interface class protokt/v1/MapBuilder {
 }
 
 public abstract interface class protokt/v1/Message {
-	public abstract fun messageSize ()I
 	public abstract fun serialize ()[B
 	public fun serialize (Ljava/io/OutputStream;)V
 	public abstract fun serialize (Lprotokt/v1/Writer;)V
+	public abstract fun serializedSize ()I
 }
 
 public abstract interface annotation class protokt/v1/OnlyForUseByGeneratedProtoCode : java/lang/annotation/Annotation {
@@ -219,7 +219,7 @@ public abstract interface class protokt/v1/Reader {
 	public abstract fun readBytes ()Lprotokt/v1/Bytes;
 	public abstract fun readBytesSlice ()Lprotokt/v1/BytesSlice;
 	public abstract fun readDouble ()D
-	public fun readEnum (Lprotokt/v1/EnumReader;)Lprotokt/v1/Enum;
+	public fun readEnum (Lprotokt/v1/EnumDeserializer;)Lprotokt/v1/Enum;
 	public abstract fun readFixed32-pVg5ArA ()I
 	public abstract fun readFixed64-s-VKNKU ()J
 	public abstract fun readFloat ()F
@@ -238,8 +238,8 @@ public abstract interface class protokt/v1/Reader {
 	public abstract fun readUnknown ()Lprotokt/v1/UnknownField;
 }
 
-public final class protokt/v1/SizeCodecs {
-	public static final field INSTANCE Lprotokt/v1/SizeCodecs;
+public final class protokt/v1/Sizes {
+	public static final field INSTANCE Lprotokt/v1/Sizes;
 	public static final fun sizeOf (I)I
 	public static final fun sizeOf (J)I
 	public static final fun sizeOf (Ljava/lang/String;)I

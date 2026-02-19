@@ -43,7 +43,7 @@ class ConformanceTest {
                 jvmConformanceDriver
 
             override fun env() =
-                mapOf("JAVA_OPTS" to "-Dprotokt.collection.provider=protokt.v1.PersistentCollectionProvider")
+                mapOf("JAVA_OPTS" to "-Dprotokt.collection.factory=protokt.v1.PersistentCollectionFactory")
         },
 
         JS_IR("js-ir") {
@@ -56,7 +56,7 @@ class ConformanceTest {
                 jsConformanceDriver(project)
 
             override fun env() =
-                mapOf("PROTOKT_COLLECTION_PROVIDER" to "protokt.v1.PersistentCollectionProvider")
+                mapOf("PROTOKT_COLLECTION_FACTORY" to "protokt.v1.PersistentCollectionFactory")
         },
         ;
 
