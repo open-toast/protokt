@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast, Inc.
+ * Copyright (c) 2026 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,16 +15,14 @@
 
 package protokt.v1
 
-import kotlinx.io.Sink
-
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
-actual interface Message {
-    actual fun serializedSize(): Int
+object ProtobufJsCodec : Codec {
+    override fun writer(size: Int): Writer =
+        ProtobufJsWriter(ProtobufJsWriterAdapter.create())
 
-    actual fun serialize(writer: Writer)
+    override fun reader(bytes: ByteArray): Reader =
+        ProtobufJsReader(ProtobufJsReaderAdapter.create(bytes.asUint8Array()))
 
-    actual fun serialize(): ByteArray
-
-    @Beta
-    actual fun serialize(sink: Sink)
+    override fun reader(bytes: ByteArray, offset: Int, length: Int): Reader =
+        ProtobufJsReader(ProtobufJsReaderAdapter.create(bytes.asUint8Array().subarray(offset, offset + length)))
 }

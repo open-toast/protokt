@@ -16,6 +16,7 @@ public abstract class protokt/v1/AbstractConverter : protokt/v1/Converter {
 
 public abstract class protokt/v1/AbstractDeserializer : protokt/v1/Deserializer {
 	public fun <init> ()V
+	public final fun deserialize (Lkotlinx/io/Source;)Lprotokt/v1/Message;
 	public final fun deserialize (Lprotokt/v1/Bytes;)Lprotokt/v1/Message;
 	public final fun deserialize (Lprotokt/v1/BytesSlice;)Lprotokt/v1/Message;
 	public abstract fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
@@ -25,6 +26,7 @@ public abstract class protokt/v1/AbstractDeserializer : protokt/v1/Deserializer 
 public abstract class protokt/v1/AbstractMessage : protokt/v1/Message {
 	public fun <init> ()V
 	public final fun serialize ()[B
+	public final fun serialize (Lkotlinx/io/Sink;)V
 }
 
 public abstract interface annotation class protokt/v1/Beta : java/lang/annotation/Annotation {
@@ -75,6 +77,16 @@ public final class protokt/v1/BytesSlice$Companion {
 	public final fun from ([B)Lprotokt/v1/BytesSlice;
 }
 
+public abstract interface class protokt/v1/Codec {
+	public abstract fun reader ([B)Lprotokt/v1/Reader;
+	public abstract fun reader ([BII)Lprotokt/v1/Reader;
+	public abstract fun writer (I)Lprotokt/v1/Writer;
+}
+
+public final class protokt/v1/CodecKt {
+	public static final fun getCodec ()Lprotokt/v1/Codec;
+}
+
 public abstract interface class protokt/v1/CollectionFactory {
 	public abstract fun freezeList (Ljava/util/List;)Ljava/util/List;
 	public abstract fun freezeMap (Ljava/util/Map;)Ljava/util/Map;
@@ -105,6 +117,7 @@ public abstract interface class protokt/v1/Deserializer {
 	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lprotokt/v1/Message;
 	public fun deserialize (Ljava/io/InputStream;)Lprotokt/v1/Message;
 	public fun deserialize (Ljava/nio/ByteBuffer;)Lprotokt/v1/Message;
+	public abstract fun deserialize (Lkotlinx/io/Source;)Lprotokt/v1/Message;
 	public abstract fun deserialize (Lprotokt/v1/Bytes;)Lprotokt/v1/Message;
 	public abstract fun deserialize (Lprotokt/v1/BytesSlice;)Lprotokt/v1/Message;
 	public abstract fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
@@ -167,6 +180,12 @@ public abstract interface annotation class protokt/v1/GeneratedProperty : java/l
 	public abstract fun number ()I
 }
 
+public abstract interface class protokt/v1/JvmCodec : protokt/v1/Codec {
+	public abstract fun reader (Ljava/io/InputStream;)Lprotokt/v1/Reader;
+	public abstract fun reader (Ljava/nio/ByteBuffer;)Lprotokt/v1/Reader;
+	public abstract fun serialize (Lprotokt/v1/Message;Ljava/io/OutputStream;)V
+}
+
 public final class protokt/v1/LazyReference {
 	public fun <init> (Ljava/lang/Object;Lprotokt/v1/Converter;)V
 	public fun equals (Ljava/lang/Object;)Z
@@ -207,6 +226,7 @@ public abstract interface class protokt/v1/MapBuilder {
 public abstract interface class protokt/v1/Message {
 	public abstract fun serialize ()[B
 	public fun serialize (Ljava/io/OutputStream;)V
+	public abstract fun serialize (Lkotlinx/io/Sink;)V
 	public abstract fun serialize (Lprotokt/v1/Writer;)V
 	public abstract fun serializedSize ()I
 }
@@ -214,7 +234,20 @@ public abstract interface class protokt/v1/Message {
 public abstract interface annotation class protokt/v1/OnlyForUseByGeneratedProtoCode : java/lang/annotation/Annotation {
 }
 
+public final class protokt/v1/ProtobufJavaCodec : protokt/v1/JvmCodec, protokt/v1/StreamingCodec {
+	public static final field INSTANCE Lprotokt/v1/ProtobufJavaCodec;
+	public fun reader (Ljava/io/InputStream;)Lprotokt/v1/Reader;
+	public fun reader (Ljava/nio/ByteBuffer;)Lprotokt/v1/Reader;
+	public fun reader (Lkotlinx/io/Source;)Lprotokt/v1/Reader;
+	public fun reader ([B)Lprotokt/v1/Reader;
+	public fun reader ([BII)Lprotokt/v1/Reader;
+	public fun serialize (Lprotokt/v1/Message;Ljava/io/OutputStream;)V
+	public fun serialize (Lprotokt/v1/Message;Lkotlinx/io/Sink;)V
+	public fun writer (I)Lprotokt/v1/Writer;
+}
+
 public abstract interface class protokt/v1/Reader {
+	public abstract fun getLastTag-pVg5ArA ()I
 	public fun readBool ()Z
 	public abstract fun readBytes ()Lprotokt/v1/Bytes;
 	public abstract fun readBytesSlice ()Lprotokt/v1/BytesSlice;
@@ -235,7 +268,7 @@ public abstract interface class protokt/v1/Reader {
 	public abstract fun readTag-pVg5ArA ()I
 	public fun readUInt32-pVg5ArA ()I
 	public abstract fun readUInt64-s-VKNKU ()J
-	public abstract fun readUnknown ()Lprotokt/v1/UnknownField;
+	public fun readUnknown ()Lprotokt/v1/UnknownField;
 }
 
 public final class protokt/v1/Sizes {
@@ -253,6 +286,11 @@ public final class protokt/v1/Sizes {
 	public static final fun sizeOfSInt64 (J)I
 	public static final fun sizeOfUInt32 (I)I
 	public static final fun sizeOfUInt64 (J)I
+}
+
+public abstract interface class protokt/v1/StreamingCodec : protokt/v1/Codec {
+	public abstract fun reader (Lkotlinx/io/Source;)Lprotokt/v1/Reader;
+	public abstract fun serialize (Lprotokt/v1/Message;Lkotlinx/io/Sink;)V
 }
 
 public final class protokt/v1/StringConverter : protokt/v1/Converter {
@@ -345,6 +383,7 @@ public final class protokt/v1/VarintVal : protokt/v1/UnknownValue {
 }
 
 public abstract interface class protokt/v1/Writer {
+	public abstract fun toByteArray ()[B
 	public abstract fun write (D)V
 	public abstract fun write (F)V
 	public abstract fun write (I)V

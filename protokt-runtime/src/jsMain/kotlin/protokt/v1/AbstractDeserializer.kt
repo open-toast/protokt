@@ -15,6 +15,9 @@
 
 package protokt.v1
 
+import kotlinx.io.Source
+import kotlinx.io.readByteArray
+
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
 actual abstract class AbstractDeserializer<T : Message> actual constructor() : Deserializer<T> {
     actual abstract override fun deserialize(reader: Reader): T
@@ -23,8 +26,12 @@ actual abstract class AbstractDeserializer<T : Message> actual constructor() : D
         deserialize(bytes.value)
 
     actual final override fun deserialize(bytes: ByteArray): T =
-        deserialize(reader(ProtobufJsReader.create(bytes.asUint8Array())))
+        deserialize(codec.reader(bytes))
 
     actual final override fun deserialize(bytes: BytesSlice): T =
-        deserialize(reader(ProtobufJsReader.create(bytes.asUint8Array())))
+        deserialize(codec.reader(bytes.array, bytes.offset, bytes.length))
+
+    actual final override fun deserialize(source: Source): T =
+        (codec as? StreamingCodec)?.let { deserialize(it.reader(source)) }
+            ?: deserialize(source.readByteArray())
 }

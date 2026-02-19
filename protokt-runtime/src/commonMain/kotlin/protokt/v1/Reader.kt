@@ -17,6 +17,8 @@ package protokt.v1
 
 @OnlyForUseByGeneratedProtoCode
 interface Reader {
+    val lastTag: UInt
+
     fun readBytes(): Bytes
     fun readBytesSlice(): BytesSlice
     fun readDouble(): Double
@@ -31,9 +33,29 @@ interface Reader {
     fun readString(): String
     fun readUInt64(): ULong
     fun readTag(): UInt
-    fun readUnknown(): UnknownField
     fun readRepeated(packed: Boolean, acc: Reader.() -> Unit)
     fun <T : Message> readMessage(m: Deserializer<T>): T
+
+    fun readUnknown(): UnknownField {
+        val tag = lastTag.toInt()
+        val fieldNumber = WireFormat.getTagFieldNumber(tag).toUInt()
+        return when (WireFormat.getTagWireType(tag)) {
+            WireFormat.WIRETYPE_VARINT ->
+                UnknownField.varint(fieldNumber, readInt64())
+            WireFormat.WIRETYPE_FIXED64 ->
+                UnknownField.fixed64(fieldNumber, readFixed64())
+            WireFormat.WIRETYPE_LENGTH_DELIMITED ->
+                UnknownField.lengthDelimited(fieldNumber, readBytes().value)
+            WireFormat.WIRETYPE_FIXED32 ->
+                UnknownField.fixed32(fieldNumber, readFixed32())
+            WireFormat.WIRETYPE_START_GROUP ->
+                throw UnsupportedOperationException("WIRETYPE_START_GROUP")
+            WireFormat.WIRETYPE_END_GROUP ->
+                throw UnsupportedOperationException("WIRETYPE_END_GROUP")
+            else ->
+                error("Unrecognized wire type")
+        }
+    }
 
     // protobufjs:
     // Protobuf allows int64 values for bool but reader.bool() reads an int32.

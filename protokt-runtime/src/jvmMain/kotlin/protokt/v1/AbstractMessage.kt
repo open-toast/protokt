@@ -15,13 +15,17 @@
 
 package protokt.v1
 
-import com.google.protobuf.CodedOutputStream
+import kotlinx.io.Sink
 
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
 actual abstract class AbstractMessage actual constructor() : Message {
     actual final override fun serialize(): ByteArray {
-        val buf = ByteArray(serializedSize())
-        serialize(writer(CodedOutputStream.newInstance(buf)))
-        return buf
+        val writer = codec.writer(serializedSize())
+        serialize(writer)
+        return writer.toByteArray()
     }
+
+    actual final override fun serialize(sink: Sink) =
+        (codec as? StreamingCodec)?.serialize(this, sink)
+            ?: sink.write(serialize())
 }

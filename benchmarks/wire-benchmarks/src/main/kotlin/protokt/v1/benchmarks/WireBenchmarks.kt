@@ -172,6 +172,6 @@ open class WireBenchmarks {
     }
 }
 
-fun main() {
-    run(WireBenchmarks::class)
+fun main(args: Array<String>) {
+    run(WireBenchmarks::class, args)
 }

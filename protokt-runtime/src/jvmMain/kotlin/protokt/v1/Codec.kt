@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast, Inc.
+ * Copyright (c) 2026 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,18 +13,18 @@
  * limitations under the License.
  */
 
+@file:OptIn(OnlyForUseByGeneratedProtoCode::class)
+
 package protokt.v1
 
-import kotlinx.io.Sink
+actual val codec: Codec by lazy {
+    val codecFqcn =
+        System.getProperty("protokt.codec")
+            ?: System.getenv("PROTOKT_CODEC")
 
-@OptIn(OnlyForUseByGeneratedProtoCode::class)
-actual interface Message {
-    actual fun serializedSize(): Int
-
-    actual fun serialize(writer: Writer)
-
-    actual fun serialize(): ByteArray
-
-    @Beta
-    actual fun serialize(sink: Sink)
+    if (codecFqcn != null) {
+        Class.forName(codecFqcn).getField("INSTANCE").get(null) as Codec
+    } else {
+        ProtobufJavaCodec
+    }
 }

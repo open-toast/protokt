@@ -15,11 +15,17 @@
 
 package protokt.v1.conformance
 
+import com.google.common.collect.Lists
 import com.google.common.truth.Truth.assertThat
 import kotlinx.collections.immutable.persistentListOf
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.EnumSource
+import org.junit.jupiter.params.provider.MethodSource
+import protokt.v1.conformance.ConformanceTest.Codec
+import protokt.v1.conformance.ConformanceTest.CollectionFactory.PERSISTENT
+import protokt.v1.conformance.ConformanceTest.Platform.JS_IR
+import protokt.v1.conformance.ConformanceTest.Platform.JVM
+import protokt.v1.conformance.ConformanceTest.SerializationMode
 import protokt.v1.testing.projectRoot
 import protokt.v1.testing.runCommand
 import java.io.File
@@ -29,41 +35,75 @@ import kotlin.io.path.exists
 import kotlin.io.path.readText
 
 class ConformanceTest {
-    enum class ConformanceRunner(
-        val project: String,
-        val expectPersistentCollections: Boolean = false
+    enum class Platform(val project: String) {
+        JVM("jvm"),
+        JS_IR("js-ir")
+    }
+
+    enum class CollectionFactory { DEFAULT, PERSISTENT }
+
+    enum class Codec { DEFAULT, KOTLIN }
+
+    enum class SerializationMode { STANDARD, STREAMING }
+
+    data class ConformanceConfig(
+        val platform: Platform,
+        val collectionFactory: CollectionFactory,
+        val codec: Codec,
+        val serializationMode: SerializationMode
     ) {
-        JVM("jvm") {
-            override fun driver() =
-                jvmConformanceDriver
-        },
+        fun driver(): Path =
+            when (platform) {
+                JVM -> jvmConformanceDriver
+                JS_IR -> jsConformanceDriver(platform.project)
+            }
 
-        JVM_PERSISTENT("jvm", true) {
-            override fun driver() =
-                jvmConformanceDriver
+        fun env(): Map<String, String> =
+            when (platform) {
+                JVM -> {
+                    val flags = buildList {
+                        if (collectionFactory == PERSISTENT) {
+                            add("-Dprotokt.collection.factory=protokt.v1.PersistentCollectionFactory")
+                        }
+                        if (codec == Codec.KOTLIN) {
+                            add("-Dprotokt.codec=protokt.v1.KotlinCodec")
+                        }
+                        if (serializationMode == SerializationMode.STREAMING) {
+                            add("-Dprotokt.streaming=true")
+                        }
+                    }
+                    if (flags.isNotEmpty()) mapOf("JAVA_OPTS" to flags.joinToString(" ")) else emptyMap()
+                }
+                JS_IR -> buildMap {
+                    if (collectionFactory == PERSISTENT) {
+                        put("PROTOKT_COLLECTION_FACTORY", "protokt.v1.PersistentCollectionFactory")
+                    }
+                    if (codec == Codec.KOTLIN) {
+                        put("PROTOKT_CODEC", "protokt.v1.KotlinCodec")
+                    }
+                    if (serializationMode == SerializationMode.STREAMING) {
+                        put("PROTOKT_STREAMING", "true")
+                    }
+                }
+            }
+    }
 
-            override fun env() =
-                mapOf("JAVA_OPTS" to "-Dprotokt.collection.factory=protokt.v1.PersistentCollectionFactory")
-        },
-
-        JS_IR("js-ir") {
-            override fun driver() =
-                jsConformanceDriver(project)
-        },
-
-        JS_IR_PERSISTENT("js-ir", true) {
-            override fun driver() =
-                jsConformanceDriver(project)
-
-            override fun env() =
-                mapOf("PROTOKT_COLLECTION_FACTORY" to "protokt.v1.PersistentCollectionFactory")
-        },
-        ;
-
-        abstract fun driver(): Path
-
-        open fun env(): Map<String, String> =
-            emptyMap()
+    companion object {
+        @JvmStatic
+        fun configurations() =
+            Lists.cartesianProduct(
+                Platform.entries,
+                CollectionFactory.entries,
+                Codec.entries,
+                SerializationMode.entries
+            ).map {
+                ConformanceConfig(
+                    it[0] as Platform,
+                    it[1] as CollectionFactory,
+                    it[2] as Codec,
+                    it[3] as SerializationMode
+                )
+            }
     }
 
     @BeforeEach
@@ -72,13 +112,16 @@ class ConformanceTest {
     }
 
     @ParameterizedTest
-    @EnumSource
-    fun `run conformance tests`(runner: ConformanceRunner) {
+    @MethodSource("configurations")
+    fun `run conformance tests`(config: ConformanceConfig) {
         try {
-            val output = command(runner).runCommand(projectRoot.toPath(), runner.env())
+            val output = command(config).runCommand(projectRoot.toPath(), config.env())
             println(output.stderr)
 
-            verifyCollectionType(output.stderr + jsStderrLog(runner.project), runner)
+            val allStderr = output.stderr + jsStderrLog(config.platform.project)
+            verifyCollectionType(allStderr, config)
+            verifyCodec(allStderr, config)
+            verifyStreaming(allStderr, config)
 
             assertThat(output.stderr).contains("CONFORMANCE SUITE PASSED")
             val matches = " (\\d+) unexpected failures".toRegex().findAll(output.stderr).toList()
@@ -90,7 +133,7 @@ class ConformanceTest {
             if (failingTests.exists()) {
                 println("Failing tests:\n" + failingTests.readText())
             }
-            val jsStderr = jsStderrLog(runner.project)
+            val jsStderr = jsStderrLog(config.platform.project)
             if (jsStderr.isNotEmpty()) {
                 println("JS driver stderr:\n$jsStderr")
             }
@@ -118,15 +161,37 @@ private val failingTests =
 private fun failureList(project: String) =
     "--failure_list ../$project/failure_list_kt.txt"
 
-private fun command(runner: ConformanceTest.ConformanceRunner) =
-    "${System.getProperty("conformance-runner")} --maximum_edition 2023 --enforce_recommended ${failureList(runner.project)} ${runner.driver()}"
+private fun command(config: ConformanceTest.ConformanceConfig) =
+    "${System.getProperty("conformance-runner")} --maximum_edition 2023 --enforce_recommended ${failureList(config.platform.project)} ${config.driver()}"
 
 private const val UNMODIFIABLE_COLLECTION_TYPE = "protokt.v1.UnmodifiableList"
 private val PERSISTENT_COLLECTION_TYPE = persistentListOf<Any>()::class.qualifiedName!!
 
-private fun verifyCollectionType(stderr: String, runner: ConformanceTest.ConformanceRunner) {
+private fun verifyCollectionType(stderr: String, config: ConformanceTest.ConformanceConfig) {
     val collectionType = "protoktPersistentCollectionType=(.+)".toRegex().find(stderr)?.groupValues?.get(1)?.trim()
-    val expected = if (runner.expectPersistentCollections) PERSISTENT_COLLECTION_TYPE else UNMODIFIABLE_COLLECTION_TYPE
-    val platformExpected = if (runner.project == "jvm") expected else expected.substringAfterLast(".")
+    val expected = if (config.collectionFactory == PERSISTENT) PERSISTENT_COLLECTION_TYPE else UNMODIFIABLE_COLLECTION_TYPE
+    val platformExpected = if (config.platform.project == "jvm") expected else expected.substringAfterLast(".")
     assertThat(collectionType).isEqualTo(platformExpected)
+}
+
+private const val PROTOBUF_JAVA_CODEC = "protokt.v1.ProtobufJavaCodec"
+private const val PROTOBUF_JS_CODEC = "protokt.v1.ProtobufJsCodec"
+private const val KOTLIN_CODEC = "protokt.v1.KotlinCodec"
+
+private fun verifyCodec(stderr: String, config: ConformanceTest.ConformanceConfig) {
+    val codecName = "protoktCodec=(.+)".toRegex().find(stderr)?.groupValues?.get(1)?.trim()
+    val expected =
+        if (config.codec == Codec.KOTLIN) {
+            KOTLIN_CODEC
+        } else {
+            if (config.platform.project == "jvm") PROTOBUF_JAVA_CODEC else PROTOBUF_JS_CODEC
+        }
+    val platformExpected = if (config.platform.project == "jvm") expected else expected.substringAfterLast(".")
+    assertThat(codecName).isEqualTo(platformExpected)
+}
+
+private fun verifyStreaming(stderr: String, config: ConformanceTest.ConformanceConfig) {
+    val streaming = "protoktStreaming=(.+)".toRegex().find(stderr)?.groupValues?.get(1)?.trim()
+    val expected = (config.serializationMode == SerializationMode.STREAMING).toString()
+    assertThat(streaming).isEqualTo(expected)
 }

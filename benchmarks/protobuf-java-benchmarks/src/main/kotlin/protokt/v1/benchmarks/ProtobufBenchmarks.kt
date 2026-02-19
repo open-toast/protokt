@@ -171,6 +171,6 @@ open class ProtobufBenchmarks {
     }
 }
 
-fun main() {
-    run(ProtobufBenchmarks::class)
+fun main(args: Array<String>) {
+    run(ProtobufBenchmarks::class, args)
 }

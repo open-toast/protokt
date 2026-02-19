@@ -34,6 +34,9 @@ open class ProtoktBenchmarks {
     @Param("protokt.v1.DefaultCollectionFactory", "protokt.v1.PersistentCollectionFactory")
     var collectionFactory: String = "protokt.v1.DefaultCollectionFactory"
 
+    @Param("protokt.v1.ProtobufJavaCodec", "protokt.v1.KotlinCodec")
+    var codec: String = "protokt.v1.ProtobufJavaCodec"
+
     private lateinit var largeDataset: BenchmarkDataset
     private lateinit var largeParsedDataset: List<GenericMessage1>
 
@@ -50,6 +53,7 @@ open class ProtoktBenchmarks {
         byteValues = Array(1000) { i -> Bytes.from(byteArrayOf(i.toByte())) }
 
         System.setProperty("protokt.collection.factory", collectionFactory)
+        System.setProperty("protokt.codec", codec)
 
         readData("large").use { stream ->
             largeDataset = BenchmarkDataset.deserialize(stream)
@@ -179,6 +183,6 @@ open class ProtoktBenchmarks {
     }
 }
 
-fun main() {
-    run(ProtoktBenchmarks::class)
+fun main(args: Array<String>) {
+    run(ProtoktBenchmarks::class, args)
 }
