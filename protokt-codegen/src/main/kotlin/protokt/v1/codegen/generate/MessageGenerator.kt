@@ -271,10 +271,10 @@ private class MessageGenerator(
     private fun TypeSpec.Builder.handleMessageSize(propertySpecs: List<PropertySpec>) {
         addProperty(generateMessageSize(msg, propertySpecs, ctx))
         addFunction(
-            buildFunSpec("messageSize") {
+            buildFunSpec("serializedSize") {
                 returns(Int::class)
                 addModifiers(KModifier.OVERRIDE)
-                addStatement("return $MESSAGE_SIZE")
+                addStatement("return $SERIALIZED_SIZE")
             }
         )
     }

@@ -19,7 +19,7 @@ import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.MemberName
 import com.squareup.kotlinpoet.MemberName.Companion.member
 import com.squareup.kotlinpoet.asTypeName
-import protokt.v1.SizeCodecs
+import protokt.v1.Sizes
 import protokt.v1.codegen.generate.sizeOf
 import protokt.v1.reflect.FieldType
 
@@ -33,8 +33,8 @@ internal val FieldType.sizeFn
         FieldType.Bool -> SizeFn.Const(1)
         FieldType.Double, FieldType.Fixed64, FieldType.SFixed64 -> SizeFn.Const(8)
         FieldType.Float, FieldType.Fixed32, FieldType.SFixed32 -> SizeFn.Const(4)
-        FieldType.SInt32 -> SizeFn.Method(SizeCodecs::class.asTypeName().member(SizeCodecs::sizeOfSInt32.name))
-        FieldType.SInt64 -> SizeFn.Method(SizeCodecs::class.asTypeName().member(SizeCodecs::sizeOfSInt64.name))
+        FieldType.SInt32 -> SizeFn.Method(Sizes::class.asTypeName().member(Sizes::sizeOfSInt32.name))
+        FieldType.SInt64 -> SizeFn.Method(Sizes::class.asTypeName().member(Sizes::sizeOfSInt64.name))
         else -> SizeFn.Method(sizeOf)
     }
 

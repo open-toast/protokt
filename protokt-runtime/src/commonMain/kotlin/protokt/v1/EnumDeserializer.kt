@@ -15,6 +15,6 @@
 
 package protokt.v1
 
-interface EnumReader<E : Enum> {
-    fun from(value: Int): E
+interface EnumDeserializer<E : Enum> {
+    fun deserialize(value: Int): E
 }

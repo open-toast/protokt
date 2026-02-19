@@ -20,7 +20,7 @@ import com.google.protobuf.CodedOutputStream
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
 actual abstract class AbstractMessage actual constructor() : Message {
     actual final override fun serialize(): ByteArray {
-        val buf = ByteArray(messageSize())
+        val buf = ByteArray(serializedSize())
         serialize(writer(CodedOutputStream.newInstance(buf)))
         return buf
     }

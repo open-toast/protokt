@@ -141,7 +141,7 @@ class DynamicMessageTest {
     private fun verifyMessage(message: Message) {
         val dynamicMessage = message.toDynamicMessage(getContextReflectively())
 
-        assertThat(dynamicMessage.serializedSize).isEqualTo(message.messageSize())
+        assertThat(dynamicMessage.serializedSize).isEqualTo(message.serializedSize())
         assertThat(dynamicMessage.toByteArray()).isEqualTo(message.serialize())
     }
 }

@@ -17,7 +17,7 @@ package protokt.v1
 
 import protokt.v1.Collections.freezeList
 import protokt.v1.Collections.freezeMap
-import protokt.v1.SizeCodecs.sizeOf
+import protokt.v1.Sizes.sizeOf
 
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
 class UnknownFieldSet private constructor(
