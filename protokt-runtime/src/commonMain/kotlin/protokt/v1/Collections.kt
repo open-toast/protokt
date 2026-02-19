@@ -56,8 +56,6 @@ object Collections {
         collectionFactory.mapBuilder()
 }
 
-internal expect val collectionFactory: CollectionFactory
-
 internal object DefaultCollectionFactory : CollectionFactory {
     override fun <T> listBuilder(): ListBuilder<T> =
         MutableListBuilderImpl()

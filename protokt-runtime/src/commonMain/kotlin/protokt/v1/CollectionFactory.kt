@@ -13,9 +13,10 @@
  * limitations under the License.
  */
 
+@file:OptIn(OnlyForUseByGeneratedProtoCode::class)
+
 package protokt.v1
 
-@OnlyForUseByGeneratedProtoCode
 interface CollectionFactory {
     fun <T> listBuilder(): ListBuilder<T>
     fun <K, V> mapBuilder(): MapBuilder<K, V>
@@ -26,3 +27,5 @@ interface CollectionFactory {
     fun <K, V> mapPlus(map: Map<K, V>, pair: Pair<K, V>): Map<K, V>
     fun <K, V> mapPlusAll(map: Map<K, V>, pairs: Iterable<Pair<K, V>>): Map<K, V>
 }
+
+internal expect val collectionFactory: CollectionFactory
