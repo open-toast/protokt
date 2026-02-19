@@ -23,6 +23,7 @@ internal class ProtobufJavaReader(
     private val bytes: ByteArray? = null
 ) : Reader {
     private var messageDepth: Int = 0
+
     override val lastTag: UInt
         get() = stream.lastTag.toUInt()
 

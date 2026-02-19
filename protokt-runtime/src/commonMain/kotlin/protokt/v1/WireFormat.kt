@@ -19,13 +19,15 @@ internal object WireFormat {
     // same default as protobuf-java. they allow configuration; we do not, but we could.
     const val DEFAULT_RECURSION_LIMIT = 100
 
-    // error messages matching protobuf-java's InvalidProtocolBufferException
+    // error messages inspired by protobuf-java's InvalidProtocolBufferException
     const val NEGATIVE_SIZE =
-        "CodedInputStream encountered an embedded string or message which claimed to have negative size."
+        "Protocol message had an embedded string or message which claimed to have negative size."
+
     const val TRUNCATED_MESSAGE =
         "While parsing a protocol message, the input ended unexpectedly " +
             "in the middle of a field.  This could mean either that the input has been truncated " +
             "or that an embedded message misreported its own length."
+
     const val TOO_MANY_LEVELS_OF_NESTING =
         "Protocol message had too many levels of nesting"
 

@@ -53,7 +53,7 @@ class ReaderValidationTest {
             val reader = codec.reader(bytes)
             reader.readTag()
             val ex = assertThrows<Exception> { reader.readString() }
-            assertThat(ex).hasMessageThat().isEqualTo(WireFormat.NEGATIVE_SIZE)
+            assertThat(ex).hasMessageThat().endsWith("an embedded string or message which claimed to have negative size.")
         }
 
         @ParameterizedTest
@@ -63,7 +63,7 @@ class ReaderValidationTest {
             val reader = codec.reader(bytes)
             reader.readTag()
             val ex = assertThrows<Exception> { reader.readBytes() }
-            assertThat(ex).hasMessageThat().isEqualTo(WireFormat.NEGATIVE_SIZE)
+            assertThat(ex).hasMessageThat().endsWith("an embedded string or message which claimed to have negative size.")
         }
 
         @ParameterizedTest
@@ -73,7 +73,7 @@ class ReaderValidationTest {
             val reader = codec.reader(bytes)
             reader.readTag()
             val ex = assertThrows<Exception> { reader.readMessage(EmptyMessage) }
-            assertThat(ex).hasMessageThat().isEqualTo(WireFormat.NEGATIVE_SIZE)
+            assertThat(ex).hasMessageThat().endsWith("an embedded string or message which claimed to have negative size.")
         }
     }
 
