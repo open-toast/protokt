@@ -136,6 +136,10 @@ private fun Project.configureForMpp(
             configureTarget(targetName, disableJava, config, binary)
         }
     }
+
+    afterEvaluate {
+        configureJarTasksForMpp()
+    }
 }
 
 private fun Project.configureTarget(
@@ -166,21 +170,20 @@ private fun Project.configureTarget(
     }
 
     afterEvaluate {
-        linkGenerateProtoToSourceCompileForKotlinMpp(target, mainSourceSet, testSourceSet)
+        linkGenerateProtoTasksAndIncludeGeneratedSource(target, mainSourceSet, false)
+        linkGenerateProtoTasksAndIncludeGeneratedSource(target, testSourceSet, true)
     }
 }
 
-private fun Project.linkGenerateProtoToSourceCompileForKotlinMpp(target: KotlinTarget, mainSourceSet: KotlinSourceSet, testSourceSet: KotlinSourceSet) {
-    linkGenerateProtoTasksAndIncludeGeneratedSource(target, mainSourceSet, false)
-    linkGenerateProtoTasksAndIncludeGeneratedSource(target, testSourceSet, true)
-
-    tasks.withType<Jar> {
-        from(fileTree("${layout.buildDirectory.get()}/extracted-protos/main"))
-        excludeDuplicates()
+private fun Project.configureJarTasksForMpp() {
+    for (extractTask in extractProtoTasks()) {
+        tasks.withType<Jar> {
+            from(extractTask.destDir)
+            excludeDuplicates()
+        }
     }
 
-    val jsProcessResources = tasks.findByName("jsProcessResources") as Copy?
-    jsProcessResources?.excludeDuplicates()
+    (tasks.findByName("jsProcessResources") as? Copy)?.excludeDuplicates()
 }
 
 // TODO: figure out how to get rid of this?

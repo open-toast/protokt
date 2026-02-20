@@ -85,14 +85,17 @@ tasks.named<Test>("jvmTest") {
 
 dependencies {
     protoktExtensions("com.toasttab.protokt.v1:protokt-extensions:$version")
+    protobuf(project(":proto-dep")) {
+        isTransitive = false
+    }
 }
 
 tasks.named("jsNodeTest") {
-    enabled = System.getProperty("kotlin.version", libs.versions.kotlin.get()) == libs.versions.kotlin.get()
+    enabled = System.getProperty("kotlin-integration.version", libs.versions.kotlin.get()) == libs.versions.kotlin.get()
 }
 
 tasks.named("jsBrowserTest") {
-    enabled = System.getProperty("kotlin.version", libs.versions.kotlin.get()) == libs.versions.kotlin.get()
+    enabled = System.getProperty("kotlin-integration.version", libs.versions.kotlin.get()) == libs.versions.kotlin.get()
 }
 
 java {
