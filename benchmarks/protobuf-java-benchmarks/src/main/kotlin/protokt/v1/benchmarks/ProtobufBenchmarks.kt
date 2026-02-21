@@ -27,6 +27,8 @@ import org.openjdk.jmh.annotations.Scope
 import org.openjdk.jmh.annotations.Setup
 import org.openjdk.jmh.annotations.State
 import org.openjdk.jmh.infra.Blackhole
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 import java.util.Random
 import java.util.concurrent.TimeUnit
 
@@ -47,6 +49,10 @@ open class ProtobufBenchmarks {
     private lateinit var stringOneofPayloads: List<ByteString>
     private lateinit var stringOneofVeryHeavyPayloads: List<ByteString>
     private lateinit var stringVeryHeavyPayloads: List<ByteString>
+
+    private lateinit var largePayloadArrays: List<ByteArray>
+    private lateinit var mediumPayloadArrays: List<ByteArray>
+    private lateinit var smallPayloadArrays: List<ByteArray>
 
     @Setup
     fun setup() {
@@ -97,6 +103,10 @@ open class ProtobufBenchmarks {
             smallDataset = Benchmarks.BenchmarkDataset.parseFrom(stream)
         }
         smallParsedDataset = smallDataset.payloadList.map { GenericMessage.GenericMessage4.parseFrom(it) }
+
+        largePayloadArrays = largeDataset.payloadList.map { it.toByteArray() }
+        mediumPayloadArrays = mediumDataset.payloadList.map { it.toByteArray() }
+        smallPayloadArrays = smallDataset.payloadList.map { it.toByteArray() }
     }
 
     @Benchmark
@@ -190,6 +200,36 @@ open class ProtobufBenchmarks {
     }
 
     @Benchmark
+    fun serializeLargeStreaming(bh: Blackhole) {
+        val baos = ByteArrayOutputStream()
+        largeParsedDataset.forEach { msg ->
+            msg.writeTo(baos)
+            bh.consume(baos.size())
+            baos.reset()
+        }
+    }
+
+    @Benchmark
+    fun serializeMediumStreaming(bh: Blackhole) {
+        val baos = ByteArrayOutputStream()
+        mediumParsedDataset.forEach { msg ->
+            msg.writeTo(baos)
+            bh.consume(baos.size())
+            baos.reset()
+        }
+    }
+
+    @Benchmark
+    fun serializeSmallStreaming(bh: Blackhole) {
+        val baos = ByteArrayOutputStream()
+        smallParsedDataset.forEach { msg ->
+            msg.writeTo(baos)
+            bh.consume(baos.size())
+            baos.reset()
+        }
+    }
+
+    @Benchmark
     fun passThroughLargeFromMemory(bh: Blackhole) {
         largeDataset.payloadList.forEach { bytes ->
             bh.consume(GenericMessage.GenericMessage1.parseFrom(bytes).toByteArray())
@@ -269,6 +309,27 @@ open class ProtobufBenchmarks {
                 .setFieldString3000(msg.fieldString3000 + "x")
                 .build()
             bh.consume(mutated.toByteArray())
+        }
+    }
+
+    @Benchmark
+    fun deserializeLargeStreaming(bh: Blackhole) {
+        largePayloadArrays.forEach { bytes ->
+            bh.consume(GenericMessage.GenericMessage1.parseFrom(ByteArrayInputStream(bytes)))
+        }
+    }
+
+    @Benchmark
+    fun deserializeMediumStreaming(bh: Blackhole) {
+        mediumPayloadArrays.forEach { bytes ->
+            bh.consume(GenericMessage.GenericMessage1.parseFrom(ByteArrayInputStream(bytes)))
+        }
+    }
+
+    @Benchmark
+    fun deserializeSmallStreaming(bh: Blackhole) {
+        smallPayloadArrays.forEach { bytes ->
+            bh.consume(GenericMessage.GenericMessage4.parseFrom(ByteArrayInputStream(bytes)))
         }
     }
 }

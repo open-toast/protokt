@@ -15,6 +15,8 @@
 
 package protokt.v1.benchmarks
 
+import kotlinx.io.asSink
+import kotlinx.io.buffered
 import org.openjdk.jmh.annotations.Benchmark
 import org.openjdk.jmh.annotations.BenchmarkMode
 import org.openjdk.jmh.annotations.Mode
@@ -25,6 +27,7 @@ import org.openjdk.jmh.annotations.Setup
 import org.openjdk.jmh.annotations.State
 import org.openjdk.jmh.infra.Blackhole
 import protokt.v1.Bytes
+import java.io.ByteArrayOutputStream
 import java.util.Random
 import java.util.concurrent.TimeUnit
 
@@ -34,6 +37,9 @@ import java.util.concurrent.TimeUnit
 open class ProtoktBenchmarks {
     @Param("protokt.v1.DefaultCollectionFactory", "protokt.v1.PersistentCollectionFactory")
     var collectionFactory: String = "protokt.v1.DefaultCollectionFactory"
+
+    @Param("protokt.v1.ProtobufJavaCodec", "protokt.v1.KotlinCodec")
+    var codec: String = "protokt.v1.ProtobufJavaCodec"
 
     private lateinit var largeDataset: BenchmarkDataset
     private lateinit var largeParsedDataset: List<GenericMessage1>
@@ -56,39 +62,7 @@ open class ProtoktBenchmarks {
         byteValues = Array(1000) { i -> Bytes.from(byteArrayOf(i.toByte())) }
 
         System.setProperty("protokt.collection.factory", collectionFactory)
-
-        val random = Random(42)
-        stringHeavyPayloads = (0 until 100).map {
-            GenericMessage1 {
-                fieldString1 = randomUtf8String(random, 10_000)
-                fieldString2 = randomUtf8String(random, 10_000)
-                fieldString3000 = randomUtf8String(random, 10_000)
-            }
-        }.map { Bytes.from(it.serialize()) }
-
-        stringOneofPayloads = (0 until 100).map {
-            StringOneofMessage {
-                content1 = StringOneofMessage.Content1.StringVal1(randomUtf8String(random, 10_000))
-                content2 = StringOneofMessage.Content2.StringVal2(randomUtf8String(random, 10_000))
-                content3 = StringOneofMessage.Content3.StringVal3(randomUtf8String(random, 10_000))
-            }
-        }.map { Bytes.from(it.serialize()) }
-
-        stringOneofVeryHeavyPayloads = (0 until 10).map {
-            StringOneofMessage {
-                content1 = StringOneofMessage.Content1.StringVal1(randomUtf8String(random, 1_000_000))
-                content2 = StringOneofMessage.Content2.StringVal2(randomUtf8String(random, 1_000_000))
-                content3 = StringOneofMessage.Content3.StringVal3(randomUtf8String(random, 1_000_000))
-            }
-        }.map { Bytes.from(it.serialize()) }
-
-        stringVeryHeavyPayloads = (0 until 10).map {
-            GenericMessage1 {
-                fieldString1 = randomUtf8String(random, 1_000_000)
-                fieldString2 = randomUtf8String(random, 1_000_000)
-                fieldString3000 = randomUtf8String(random, 1_000_000)
-            }
-        }.map { Bytes.from(it.serialize()) }
+        System.setProperty("protokt.codec", codec)
 
         val random = Random(42)
         stringHeavyPayloads = (0 until 100).map {
@@ -230,6 +204,42 @@ open class ProtoktBenchmarks {
     }
 
     @Benchmark
+    fun serializeLargeStreaming(bh: Blackhole) {
+        val baos = ByteArrayOutputStream()
+        val sink = baos.asSink().buffered()
+        largeParsedDataset.forEach { msg ->
+            msg.serialize(sink)
+            sink.flush()
+            bh.consume(baos.size())
+            baos.reset()
+        }
+    }
+
+    @Benchmark
+    fun serializeMediumStreaming(bh: Blackhole) {
+        val baos = ByteArrayOutputStream()
+        val sink = baos.asSink().buffered()
+        mediumParsedDataset.forEach { msg ->
+            msg.serialize(sink)
+            sink.flush()
+            bh.consume(baos.size())
+            baos.reset()
+        }
+    }
+
+    @Benchmark
+    fun serializeSmallStreaming(bh: Blackhole) {
+        val baos = ByteArrayOutputStream()
+        val sink = baos.asSink().buffered()
+        smallParsedDataset.forEach { msg ->
+            msg.serialize(sink)
+            sink.flush()
+            bh.consume(baos.size())
+            baos.reset()
+        }
+    }
+
+    @Benchmark
     fun passThroughLargeFromMemory(bh: Blackhole) {
         largeDataset.payload.forEach { bytes ->
             bh.consume(GenericMessage1.deserialize(bytes).serialize())
@@ -325,6 +335,27 @@ open class ProtoktBenchmarks {
                 fieldString3000 = msg.fieldString3000 + "x"
             }
             bh.consume(mutated.serialize())
+        }
+    }
+
+    @Benchmark
+    fun deserializeLargeStreaming(bh: Blackhole) {
+        largeDataset.payload.forEach { bytes ->
+            bh.consume(GenericMessage1.deserialize(bytes.inputStream()))
+        }
+    }
+
+    @Benchmark
+    fun deserializeMediumStreaming(bh: Blackhole) {
+        mediumDataset.payload.forEach { bytes ->
+            bh.consume(GenericMessage1.deserialize(bytes.inputStream()))
+        }
+    }
+
+    @Benchmark
+    fun deserializeSmallStreaming(bh: Blackhole) {
+        smallDataset.payload.forEach { bytes ->
+            bh.consume(GenericMessage4.deserialize(bytes.inputStream()))
         }
     }
 }

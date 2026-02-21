@@ -33,6 +33,7 @@ dependencies {
     implementation(kotlin("reflect"))
     implementation(project(":benchmarks:benchmarks-util"))
     implementation(libs.kotlinx.collectionsImmutable)
+    implementation(libs.kotlinx.io)
 
     runtimeOnly(libs.protobuf.java)
 }

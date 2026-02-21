@@ -182,15 +182,6 @@ public abstract interface class protokt/v1/JvmCodec : protokt/v1/Codec {
 	public abstract fun serialize (Lprotokt/v1/Message;Ljava/io/OutputStream;)V
 }
 
-public final class protokt/v1/KotlinCodec : protokt/v1/StreamingCodec {
-	public static final field INSTANCE Lprotokt/v1/KotlinCodec;
-	public fun reader (Lkotlinx/io/Source;)Lprotokt/v1/Reader;
-	public fun reader ([B)Lprotokt/v1/Reader;
-	public fun reader ([BII)Lprotokt/v1/Reader;
-	public fun serialize (Lprotokt/v1/Message;Lkotlinx/io/Sink;)V
-	public fun writer (I)Lprotokt/v1/Writer;
-}
-
 public final class protokt/v1/LazyReference {
 	public fun <init> (Ljava/lang/Object;Lprotokt/v1/Converter;)V
 	public fun equals (Ljava/lang/Object;)Z

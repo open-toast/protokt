@@ -19,7 +19,7 @@ import kotlinx.io.Sink
 import kotlinx.io.Source
 
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
-object KotlinCodec : StreamingCodec {
+internal object KotlinCodec : StreamingCodec {
     override fun writer(size: Int): Writer =
         KotlinWriter(ByteArray(size))
 
