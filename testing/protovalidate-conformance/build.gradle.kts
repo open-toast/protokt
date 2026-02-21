@@ -16,6 +16,7 @@
 import com.google.protobuf.gradle.GenerateProtoTask
 import com.google.protobuf.gradle.proto
 import org.gradle.api.distribution.plugins.DistributionPlugin.TASK_INSTALL_NAME
+import protokt.v1.gradle.protokt
 
 plugins {
     id("protokt.jvm-conventions")
@@ -23,6 +24,10 @@ plugins {
 }
 
 localProtokt(false)
+
+protokt {
+    formatOutput = false
+}
 
 dependencies {
     implementation(project(":protokt-protovalidate"))
@@ -98,9 +103,7 @@ val conformance =
         )
     }
 
-// Unstable in CI.
-// Run locally with `./gradlew :testing:protovalidate-conformance:conformance`
-// tasks.test { dependsOn(conformance) }
+tasks.test { dependsOn(conformance) }
 
 application {
     mainClass.set("protokt.v1.buf.validate.conformance.Main")

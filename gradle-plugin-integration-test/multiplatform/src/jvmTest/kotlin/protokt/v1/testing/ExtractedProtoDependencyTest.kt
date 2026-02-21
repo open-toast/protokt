@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast, Inc.
+ * Copyright (c) 2026 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,17 +13,14 @@
  * limitations under the License.
  */
 
-plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
+package protokt.v1.testing
+
+import kotlin.test.Test
+import kotlin.test.assertNotNull
+
+class ExtractedProtoDependencyTest {
+    @Test
+    fun `extracted proto dependency should be available on classpath`() {
+        assertNotNull(javaClass.classLoader.getResource("protokt/v1/testing/dependency.proto"))
+    }
 }
-
-rootProject.name = "gradle-plugin-integration-test"
-
-listOf(
-    "jvm-regular",
-    "jvm-lite",
-    "multiplatform",
-    "proto-dep",
-    "wrapper-types",
-    "android-test-fixtures"
-).forEach { include(it) }

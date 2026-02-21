@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast, Inc.
+ * Copyright (c) 2026 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,16 +14,10 @@
  */
 
 plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
+    kotlin("jvm")
+    id("com.toasttab.protokt.v1")
 }
 
-rootProject.name = "gradle-plugin-integration-test"
-
-listOf(
-    "jvm-regular",
-    "jvm-lite",
-    "multiplatform",
-    "proto-dep",
-    "wrapper-types",
-    "android-test-fixtures"
-).forEach { include(it) }
+kotlin {
+    jvmToolchain(System.getProperty("java-integration.version", libs.versions.java.get()).toInt())
+}
