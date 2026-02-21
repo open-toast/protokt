@@ -143,7 +143,7 @@ private const val UNMODIFIABLE_COLLECTION_TYPE = "protokt.v1.UnmodifiableList"
 private val PERSISTENT_COLLECTION_TYPE = persistentListOf<Any>()::class.qualifiedName!!
 
 private fun verifyCollectionType(stderr: String, config: ConformanceTest.ConformanceConfig) {
-    val collectionType = "protoktPersistentCollectionType=(.+)".toRegex().find(stderr)?.groupValues?.get(1)?.trim()
+    val collectionType = "protoktCollectionFactory=(.+)".toRegex().find(stderr)?.groupValues?.get(1)?.trim()
     val expected = if (config.collectionFactory == PERSISTENT) PERSISTENT_COLLECTION_TYPE else UNMODIFIABLE_COLLECTION_TYPE
     val platformExpected = if (config.platform.project == "jvm") expected else expected.substringAfterLast(".")
     assertThat(collectionType).isEqualTo(platformExpected)

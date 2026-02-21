@@ -26,7 +26,7 @@ import protokt.v1.protobuf_test_messages.proto3.TestAllTypesProto3
 fun main() =
     Platform.runBlockingMain {
         val builderResult = Collections.listBuilder<Any>().build()
-        Platform.printErr("protoktPersistentCollectionType=${Platform.className(builderResult)}")
+        Platform.printErr("protoktCollectionFactory=${Platform.className(builderResult)}")
         Platform.printErr("protoktCodec=${Platform.className(codec)}")
         while (true) {
             val request = Platform.readMessageFromStdIn(ConformanceRequest) ?: break

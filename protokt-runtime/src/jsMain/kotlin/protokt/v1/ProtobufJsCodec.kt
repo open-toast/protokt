@@ -16,7 +16,7 @@
 package protokt.v1
 
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
-object ProtobufJsCodec : Codec {
+internal object ProtobufJsCodec : Codec {
     override fun writer(size: Int): Writer =
         ProtobufJsWriter(ProtobufJsWriterAdapter.create())
 

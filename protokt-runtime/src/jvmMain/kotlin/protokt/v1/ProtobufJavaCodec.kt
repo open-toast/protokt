@@ -22,7 +22,7 @@ import java.io.OutputStream
 import java.nio.ByteBuffer
 
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
-object ProtobufJavaCodec : JvmCodec {
+internal object ProtobufJavaCodec : JvmCodec {
     override fun writer(size: Int): Writer {
         val bytes = ByteArray(size)
         return ProtobufJavaWriter(CodedOutputStream.newInstance(bytes), bytes)

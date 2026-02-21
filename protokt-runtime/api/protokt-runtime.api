@@ -230,16 +230,6 @@ public abstract interface class protokt/v1/Message {
 public abstract interface annotation class protokt/v1/OnlyForUseByGeneratedProtoCode : java/lang/annotation/Annotation {
 }
 
-public final class protokt/v1/ProtobufJavaCodec : protokt/v1/JvmCodec {
-	public static final field INSTANCE Lprotokt/v1/ProtobufJavaCodec;
-	public fun reader (Ljava/io/InputStream;)Lprotokt/v1/Reader;
-	public fun reader (Ljava/nio/ByteBuffer;)Lprotokt/v1/Reader;
-	public fun reader ([B)Lprotokt/v1/Reader;
-	public fun reader ([BII)Lprotokt/v1/Reader;
-	public fun serialize (Lprotokt/v1/Message;Ljava/io/OutputStream;)V
-	public fun writer (I)Lprotokt/v1/Writer;
-}
-
 public abstract interface class protokt/v1/Reader {
 	public abstract fun getLastTag-pVg5ArA ()I
 	public fun readBool ()Z
