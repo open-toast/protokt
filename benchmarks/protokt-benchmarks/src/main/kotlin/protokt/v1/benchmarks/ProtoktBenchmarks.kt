@@ -90,6 +90,39 @@ open class ProtoktBenchmarks {
             }
         }.map { Bytes.from(it.serialize()) }
 
+        val random = Random(42)
+        stringHeavyPayloads = (0 until 100).map {
+            GenericMessage1 {
+                fieldString1 = randomUtf8String(random, 10_000)
+                fieldString2 = randomUtf8String(random, 10_000)
+                fieldString3000 = randomUtf8String(random, 10_000)
+            }
+        }.map { Bytes.from(it.serialize()) }
+
+        stringOneofPayloads = (0 until 100).map {
+            StringOneofMessage {
+                content1 = StringOneofMessage.Content1.StringVal1(randomUtf8String(random, 10_000))
+                content2 = StringOneofMessage.Content2.StringVal2(randomUtf8String(random, 10_000))
+                content3 = StringOneofMessage.Content3.StringVal3(randomUtf8String(random, 10_000))
+            }
+        }.map { Bytes.from(it.serialize()) }
+
+        stringOneofVeryHeavyPayloads = (0 until 10).map {
+            StringOneofMessage {
+                content1 = StringOneofMessage.Content1.StringVal1(randomUtf8String(random, 1_000_000))
+                content2 = StringOneofMessage.Content2.StringVal2(randomUtf8String(random, 1_000_000))
+                content3 = StringOneofMessage.Content3.StringVal3(randomUtf8String(random, 1_000_000))
+            }
+        }.map { Bytes.from(it.serialize()) }
+
+        stringVeryHeavyPayloads = (0 until 10).map {
+            GenericMessage1 {
+                fieldString1 = randomUtf8String(random, 1_000_000)
+                fieldString2 = randomUtf8String(random, 1_000_000)
+                fieldString3000 = randomUtf8String(random, 1_000_000)
+            }
+        }.map { Bytes.from(it.serialize()) }
+
         readData("large").use { stream ->
             largeDataset = BenchmarkDataset.deserialize(stream)
         }
