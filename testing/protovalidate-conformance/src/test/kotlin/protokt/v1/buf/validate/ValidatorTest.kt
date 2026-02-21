@@ -337,7 +337,7 @@ class ValidatorTest {
     abstract class AbstractDynamicMessage : AbstractMessage() {
         abstract val unknownFields: UnknownFieldSet
 
-        override fun messageSize() =
+        override fun serializedSize() =
             unknownFields.size()
 
         override fun serialize(writer: Writer) {

@@ -9,8 +9,8 @@ public final class protokt/v1/google/protobuf/Any : protokt/v1/AbstractMessage {
 	public final fun getValue ()Lprotokt/v1/Bytes;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Any;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -47,8 +47,8 @@ public final class protokt/v1/google/protobuf/Api : protokt/v1/AbstractMessage {
 	public final fun getVersion ()Ljava/lang/String;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Api;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -89,8 +89,8 @@ public final class protokt/v1/google/protobuf/BoolValue : protokt/v1/AbstractMes
 	public final fun getValue ()Z
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/BoolValue;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -129,8 +129,8 @@ public final class protokt/v1/google/protobuf/BytesValue : protokt/v1/AbstractMe
 	public final fun getValue ()Lprotokt/v1/Bytes;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/BytesValue;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -178,8 +178,8 @@ public final class protokt/v1/google/protobuf/DescriptorProto : protokt/v1/Abstr
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/DescriptorProto;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -228,8 +228,8 @@ public final class protokt/v1/google/protobuf/DescriptorProto$ExtensionRange : p
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/DescriptorProto$ExtensionRange;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -263,8 +263,8 @@ public final class protokt/v1/google/protobuf/DescriptorProto$ReservedRange : pr
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/DescriptorProto$ReservedRange;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -295,8 +295,8 @@ public final class protokt/v1/google/protobuf/DoubleValue : protokt/v1/AbstractM
 	public final fun getValue ()D
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/DoubleValue;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -336,8 +336,8 @@ public final class protokt/v1/google/protobuf/Duration : protokt/v1/AbstractMess
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Duration;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -365,9 +365,9 @@ public abstract class protokt/v1/google/protobuf/Edition : protokt/v1/Enum {
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/protobuf/Edition$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/protobuf/Edition;
+public final class protokt/v1/google/protobuf/Edition$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/protobuf/Edition;
 }
 
 public final class protokt/v1/google/protobuf/Edition$EDITION_1_TEST_ONLY : protokt/v1/google/protobuf/Edition {
@@ -431,8 +431,8 @@ public final class protokt/v1/google/protobuf/Empty : protokt/v1/AbstractMessage
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Empty;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -464,8 +464,8 @@ public final class protokt/v1/google/protobuf/Enum : protokt/v1/AbstractMessage 
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Enum;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -508,8 +508,8 @@ public final class protokt/v1/google/protobuf/EnumDescriptorProto : protokt/v1/A
 	public final fun getValue ()Ljava/util/List;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumDescriptorProto;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -547,8 +547,8 @@ public final class protokt/v1/google/protobuf/EnumDescriptorProto$EnumReservedRa
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumDescriptorProto$EnumReservedRange;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -583,8 +583,8 @@ public final class protokt/v1/google/protobuf/EnumOptions : protokt/v1/AbstractM
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumOptions;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -623,8 +623,8 @@ public final class protokt/v1/google/protobuf/EnumValue : protokt/v1/AbstractMes
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumValue;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -659,8 +659,8 @@ public final class protokt/v1/google/protobuf/EnumValueDescriptorProto : protokt
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumValueDescriptorProto;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -697,8 +697,8 @@ public final class protokt/v1/google/protobuf/EnumValueOptions : protokt/v1/Abst
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumValueOptions;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -738,8 +738,8 @@ public final class protokt/v1/google/protobuf/ExtensionRangeOptions : protokt/v1
 	public final fun getVerification ()Lprotokt/v1/google/protobuf/ExtensionRangeOptions$VerificationState;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/ExtensionRangeOptions;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -772,8 +772,8 @@ public final class protokt/v1/google/protobuf/ExtensionRangeOptions$Declaration 
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/ExtensionRangeOptions$Declaration;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -817,9 +817,9 @@ public final class protokt/v1/google/protobuf/ExtensionRangeOptions$Verification
 	public static final field INSTANCE Lprotokt/v1/google/protobuf/ExtensionRangeOptions$VerificationState$DECLARATION;
 }
 
-public final class protokt/v1/google/protobuf/ExtensionRangeOptions$VerificationState$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/protobuf/ExtensionRangeOptions$VerificationState;
+public final class protokt/v1/google/protobuf/ExtensionRangeOptions$VerificationState$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/protobuf/ExtensionRangeOptions$VerificationState;
 }
 
 public final class protokt/v1/google/protobuf/ExtensionRangeOptions$VerificationState$UNRECOGNIZED : protokt/v1/google/protobuf/ExtensionRangeOptions$VerificationState {
@@ -846,8 +846,8 @@ public final class protokt/v1/google/protobuf/FeatureSet : protokt/v1/AbstractMe
 	public final fun getUtf8Validation ()Lprotokt/v1/google/protobuf/FeatureSet$Utf8Validation;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FeatureSet;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -885,9 +885,9 @@ public abstract class protokt/v1/google/protobuf/FeatureSet$EnforceNamingStyle :
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/protobuf/FeatureSet$EnforceNamingStyle$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/protobuf/FeatureSet$EnforceNamingStyle;
+public final class protokt/v1/google/protobuf/FeatureSet$EnforceNamingStyle$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/protobuf/FeatureSet$EnforceNamingStyle;
 }
 
 public final class protokt/v1/google/protobuf/FeatureSet$EnforceNamingStyle$ENFORCE_NAMING_STYLE_UNKNOWN : protokt/v1/google/protobuf/FeatureSet$EnforceNamingStyle {
@@ -917,9 +917,9 @@ public final class protokt/v1/google/protobuf/FeatureSet$EnumType$CLOSED : proto
 	public static final field INSTANCE Lprotokt/v1/google/protobuf/FeatureSet$EnumType$CLOSED;
 }
 
-public final class protokt/v1/google/protobuf/FeatureSet$EnumType$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/protobuf/FeatureSet$EnumType;
+public final class protokt/v1/google/protobuf/FeatureSet$EnumType$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/protobuf/FeatureSet$EnumType;
 }
 
 public final class protokt/v1/google/protobuf/FeatureSet$EnumType$ENUM_TYPE_UNKNOWN : protokt/v1/google/protobuf/FeatureSet$EnumType {
@@ -941,9 +941,9 @@ public abstract class protokt/v1/google/protobuf/FeatureSet$FieldPresence : prot
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/protobuf/FeatureSet$FieldPresence$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/protobuf/FeatureSet$FieldPresence;
+public final class protokt/v1/google/protobuf/FeatureSet$FieldPresence$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/protobuf/FeatureSet$FieldPresence;
 }
 
 public final class protokt/v1/google/protobuf/FeatureSet$FieldPresence$EXPLICIT : protokt/v1/google/protobuf/FeatureSet$FieldPresence {
@@ -977,9 +977,9 @@ public final class protokt/v1/google/protobuf/FeatureSet$JsonFormat$ALLOW : prot
 	public static final field INSTANCE Lprotokt/v1/google/protobuf/FeatureSet$JsonFormat$ALLOW;
 }
 
-public final class protokt/v1/google/protobuf/FeatureSet$JsonFormat$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/protobuf/FeatureSet$JsonFormat;
+public final class protokt/v1/google/protobuf/FeatureSet$JsonFormat$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/protobuf/FeatureSet$JsonFormat;
 }
 
 public final class protokt/v1/google/protobuf/FeatureSet$JsonFormat$JSON_FORMAT_UNKNOWN : protokt/v1/google/protobuf/FeatureSet$JsonFormat {
@@ -1005,9 +1005,9 @@ public final class protokt/v1/google/protobuf/FeatureSet$MessageEncoding$DELIMIT
 	public static final field INSTANCE Lprotokt/v1/google/protobuf/FeatureSet$MessageEncoding$DELIMITED;
 }
 
-public final class protokt/v1/google/protobuf/FeatureSet$MessageEncoding$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/protobuf/FeatureSet$MessageEncoding;
+public final class protokt/v1/google/protobuf/FeatureSet$MessageEncoding$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/protobuf/FeatureSet$MessageEncoding;
 }
 
 public final class protokt/v1/google/protobuf/FeatureSet$MessageEncoding$LENGTH_PREFIXED : protokt/v1/google/protobuf/FeatureSet$MessageEncoding {
@@ -1029,9 +1029,9 @@ public abstract class protokt/v1/google/protobuf/FeatureSet$RepeatedFieldEncodin
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/protobuf/FeatureSet$RepeatedFieldEncoding$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/protobuf/FeatureSet$RepeatedFieldEncoding;
+public final class protokt/v1/google/protobuf/FeatureSet$RepeatedFieldEncoding$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/protobuf/FeatureSet$RepeatedFieldEncoding;
 }
 
 public final class protokt/v1/google/protobuf/FeatureSet$RepeatedFieldEncoding$EXPANDED : protokt/v1/google/protobuf/FeatureSet$RepeatedFieldEncoding {
@@ -1057,9 +1057,9 @@ public abstract class protokt/v1/google/protobuf/FeatureSet$Utf8Validation : pro
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/protobuf/FeatureSet$Utf8Validation$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/protobuf/FeatureSet$Utf8Validation;
+public final class protokt/v1/google/protobuf/FeatureSet$Utf8Validation$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/protobuf/FeatureSet$Utf8Validation;
 }
 
 public final class protokt/v1/google/protobuf/FeatureSet$Utf8Validation$NONE : protokt/v1/google/protobuf/FeatureSet$Utf8Validation {
@@ -1090,8 +1090,8 @@ public final class protokt/v1/google/protobuf/FeatureSetDefaults : protokt/v1/Ab
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FeatureSetDefaults;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -1126,8 +1126,8 @@ public final class protokt/v1/google/protobuf/FeatureSetDefaults$FeatureSetEditi
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FeatureSetDefaults$FeatureSetEditionDefault;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -1169,8 +1169,8 @@ public final class protokt/v1/google/protobuf/Field : protokt/v1/AbstractMessage
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Field;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -1208,9 +1208,9 @@ public abstract class protokt/v1/google/protobuf/Field$Cardinality : protokt/v1/
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/protobuf/Field$Cardinality$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/protobuf/Field$Cardinality;
+public final class protokt/v1/google/protobuf/Field$Cardinality$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/protobuf/Field$Cardinality;
 }
 
 public final class protokt/v1/google/protobuf/Field$Cardinality$OPTIONAL : protokt/v1/google/protobuf/Field$Cardinality {
@@ -1246,9 +1246,9 @@ public abstract class protokt/v1/google/protobuf/Field$Kind : protokt/v1/Enum {
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/protobuf/Field$Kind$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/protobuf/Field$Kind;
+public final class protokt/v1/google/protobuf/Field$Kind$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/protobuf/Field$Kind;
 }
 
 public final class protokt/v1/google/protobuf/Field$Kind$TYPE_BOOL : protokt/v1/google/protobuf/Field$Kind {
@@ -1351,8 +1351,8 @@ public final class protokt/v1/google/protobuf/FieldDescriptorProto : protokt/v1/
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FieldDescriptorProto;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -1398,9 +1398,9 @@ public abstract class protokt/v1/google/protobuf/FieldDescriptorProto$Label : pr
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/protobuf/FieldDescriptorProto$Label$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/protobuf/FieldDescriptorProto$Label;
+public final class protokt/v1/google/protobuf/FieldDescriptorProto$Label$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/protobuf/FieldDescriptorProto$Label;
 }
 
 public final class protokt/v1/google/protobuf/FieldDescriptorProto$Label$OPTIONAL : protokt/v1/google/protobuf/FieldDescriptorProto$Label {
@@ -1438,9 +1438,9 @@ public final class protokt/v1/google/protobuf/FieldDescriptorProto$Type$DOUBLE :
 	public static final field INSTANCE Lprotokt/v1/google/protobuf/FieldDescriptorProto$Type$DOUBLE;
 }
 
-public final class protokt/v1/google/protobuf/FieldDescriptorProto$Type$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/protobuf/FieldDescriptorProto$Type;
+public final class protokt/v1/google/protobuf/FieldDescriptorProto$Type$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/protobuf/FieldDescriptorProto$Type;
 }
 
 public final class protokt/v1/google/protobuf/FieldDescriptorProto$Type$ENUM : protokt/v1/google/protobuf/FieldDescriptorProto$Type {
@@ -1517,8 +1517,8 @@ public final class protokt/v1/google/protobuf/FieldMask : protokt/v1/AbstractMes
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FieldMask;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -1560,8 +1560,8 @@ public final class protokt/v1/google/protobuf/FieldOptions : protokt/v1/Abstract
 	public final fun getWeak ()Ljava/lang/Boolean;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FieldOptions;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -1611,9 +1611,9 @@ public final class protokt/v1/google/protobuf/FieldOptions$CType$CORD : protokt/
 	public static final field INSTANCE Lprotokt/v1/google/protobuf/FieldOptions$CType$CORD;
 }
 
-public final class protokt/v1/google/protobuf/FieldOptions$CType$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/protobuf/FieldOptions$CType;
+public final class protokt/v1/google/protobuf/FieldOptions$CType$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/protobuf/FieldOptions$CType;
 }
 
 public final class protokt/v1/google/protobuf/FieldOptions$CType$STRING : protokt/v1/google/protobuf/FieldOptions$CType {
@@ -1645,8 +1645,8 @@ public final class protokt/v1/google/protobuf/FieldOptions$EditionDefault : prot
 	public final fun getValue ()Ljava/lang/String;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FieldOptions$EditionDefault;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -1680,8 +1680,8 @@ public final class protokt/v1/google/protobuf/FieldOptions$FeatureSupport : prot
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FieldOptions$FeatureSupport;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -1713,9 +1713,9 @@ public abstract class protokt/v1/google/protobuf/FieldOptions$JSType : protokt/v
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/protobuf/FieldOptions$JSType$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/protobuf/FieldOptions$JSType;
+public final class protokt/v1/google/protobuf/FieldOptions$JSType$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/protobuf/FieldOptions$JSType;
 }
 
 public final class protokt/v1/google/protobuf/FieldOptions$JSType$JS_NORMAL : protokt/v1/google/protobuf/FieldOptions$JSType {
@@ -1741,9 +1741,9 @@ public abstract class protokt/v1/google/protobuf/FieldOptions$OptionRetention : 
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/protobuf/FieldOptions$OptionRetention$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/protobuf/FieldOptions$OptionRetention;
+public final class protokt/v1/google/protobuf/FieldOptions$OptionRetention$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/protobuf/FieldOptions$OptionRetention;
 }
 
 public final class protokt/v1/google/protobuf/FieldOptions$OptionRetention$RETENTION_RUNTIME : protokt/v1/google/protobuf/FieldOptions$OptionRetention {
@@ -1769,9 +1769,9 @@ public abstract class protokt/v1/google/protobuf/FieldOptions$OptionTargetType :
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/protobuf/FieldOptions$OptionTargetType$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/protobuf/FieldOptions$OptionTargetType;
+public final class protokt/v1/google/protobuf/FieldOptions$OptionTargetType$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/protobuf/FieldOptions$OptionTargetType;
 }
 
 public final class protokt/v1/google/protobuf/FieldOptions$OptionTargetType$TARGET_TYPE_ENUM : protokt/v1/google/protobuf/FieldOptions$OptionTargetType {
@@ -1840,8 +1840,8 @@ public final class protokt/v1/google/protobuf/FileDescriptorProto : protokt/v1/A
 	public final fun getWeakDependency ()Ljava/util/List;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FileDescriptorProto;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -1894,8 +1894,8 @@ public final class protokt/v1/google/protobuf/FileDescriptorSet : protokt/v1/Abs
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FileDescriptorSet;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -1944,8 +1944,8 @@ public final class protokt/v1/google/protobuf/FileOptions : protokt/v1/AbstractM
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FileOptions;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2015,9 +2015,9 @@ public final class protokt/v1/google/protobuf/FileOptions$OptimizeMode$CODE_SIZE
 	public static final field INSTANCE Lprotokt/v1/google/protobuf/FileOptions$OptimizeMode$CODE_SIZE;
 }
 
-public final class protokt/v1/google/protobuf/FileOptions$OptimizeMode$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/protobuf/FileOptions$OptimizeMode;
+public final class protokt/v1/google/protobuf/FileOptions$OptimizeMode$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/protobuf/FileOptions$OptimizeMode;
 }
 
 public final class protokt/v1/google/protobuf/FileOptions$OptimizeMode$LITE_RUNTIME : protokt/v1/google/protobuf/FileOptions$OptimizeMode {
@@ -2042,8 +2042,8 @@ public final class protokt/v1/google/protobuf/FloatValue : protokt/v1/AbstractMe
 	public final fun getValue ()F
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FloatValue;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2082,8 +2082,8 @@ public final class protokt/v1/google/protobuf/GeneratedCodeInfo : protokt/v1/Abs
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/GeneratedCodeInfo;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2101,8 +2101,8 @@ public final class protokt/v1/google/protobuf/GeneratedCodeInfo$Annotation : pro
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/GeneratedCodeInfo$Annotation;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2140,9 +2140,9 @@ public final class protokt/v1/google/protobuf/GeneratedCodeInfo$Annotation$Seman
 	public static final field INSTANCE Lprotokt/v1/google/protobuf/GeneratedCodeInfo$Annotation$Semantic$ALIAS;
 }
 
-public final class protokt/v1/google/protobuf/GeneratedCodeInfo$Annotation$Semantic$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/protobuf/GeneratedCodeInfo$Annotation$Semantic;
+public final class protokt/v1/google/protobuf/GeneratedCodeInfo$Annotation$Semantic$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/protobuf/GeneratedCodeInfo$Annotation$Semantic;
 }
 
 public final class protokt/v1/google/protobuf/GeneratedCodeInfo$Annotation$Semantic$NONE : protokt/v1/google/protobuf/GeneratedCodeInfo$Annotation$Semantic {
@@ -2182,8 +2182,8 @@ public final class protokt/v1/google/protobuf/Int32Value : protokt/v1/AbstractMe
 	public final fun getValue ()I
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Int32Value;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2222,8 +2222,8 @@ public final class protokt/v1/google/protobuf/Int64Value : protokt/v1/AbstractMe
 	public final fun getValue ()J
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Int64Value;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2262,8 +2262,8 @@ public final class protokt/v1/google/protobuf/ListValue : protokt/v1/AbstractMes
 	public final fun getValues ()Ljava/util/List;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/ListValue;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2298,8 +2298,8 @@ public final class protokt/v1/google/protobuf/MessageOptions : protokt/v1/Abstra
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/MessageOptions;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2346,8 +2346,8 @@ public final class protokt/v1/google/protobuf/Method : protokt/v1/AbstractMessag
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Method;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2393,8 +2393,8 @@ public final class protokt/v1/google/protobuf/MethodDescriptorProto : protokt/v1
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/MethodDescriptorProto;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2436,8 +2436,8 @@ public final class protokt/v1/google/protobuf/MethodOptions : protokt/v1/Abstrac
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/MethodOptions;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2469,9 +2469,9 @@ public abstract class protokt/v1/google/protobuf/MethodOptions$IdempotencyLevel 
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/protobuf/MethodOptions$IdempotencyLevel$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/protobuf/MethodOptions$IdempotencyLevel;
+public final class protokt/v1/google/protobuf/MethodOptions$IdempotencyLevel$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/protobuf/MethodOptions$IdempotencyLevel;
 }
 
 public final class protokt/v1/google/protobuf/MethodOptions$IdempotencyLevel$IDEMPOTENCY_UNKNOWN : protokt/v1/google/protobuf/MethodOptions$IdempotencyLevel {
@@ -2501,8 +2501,8 @@ public final class protokt/v1/google/protobuf/Mixin : protokt/v1/AbstractMessage
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Mixin;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2530,9 +2530,9 @@ public abstract class protokt/v1/google/protobuf/NullValue : protokt/v1/Enum {
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/protobuf/NullValue$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/protobuf/NullValue;
+public final class protokt/v1/google/protobuf/NullValue$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/protobuf/NullValue;
 }
 
 public final class protokt/v1/google/protobuf/NullValue$NULL_VALUE : protokt/v1/google/protobuf/NullValue {
@@ -2554,8 +2554,8 @@ public final class protokt/v1/google/protobuf/OneofDescriptorProto : protokt/v1/
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/OneofDescriptorProto;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2587,8 +2587,8 @@ public final class protokt/v1/google/protobuf/OneofOptions : protokt/v1/Abstract
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/OneofOptions;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2620,8 +2620,8 @@ public final class protokt/v1/google/protobuf/Option : protokt/v1/AbstractMessag
 	public final fun getValue ()Lprotokt/v1/google/protobuf/Any;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Option;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2654,8 +2654,8 @@ public final class protokt/v1/google/protobuf/ServiceDescriptorProto : protokt/v
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/ServiceDescriptorProto;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2690,8 +2690,8 @@ public final class protokt/v1/google/protobuf/ServiceOptions : protokt/v1/Abstra
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/ServiceOptions;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2724,8 +2724,8 @@ public final class protokt/v1/google/protobuf/SourceCodeInfo : protokt/v1/Abstra
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/SourceCodeInfo;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2758,8 +2758,8 @@ public final class protokt/v1/google/protobuf/SourceCodeInfo$Location : protokt/
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/SourceCodeInfo$Location;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2796,8 +2796,8 @@ public final class protokt/v1/google/protobuf/SourceContext : protokt/v1/Abstrac
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/SourceContext;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2826,8 +2826,8 @@ public final class protokt/v1/google/protobuf/StringValue : protokt/v1/AbstractM
 	public final fun getValue ()Ljava/lang/String;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/StringValue;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2866,8 +2866,8 @@ public final class protokt/v1/google/protobuf/Struct : protokt/v1/AbstractMessag
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Struct;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2893,9 +2893,9 @@ public abstract class protokt/v1/google/protobuf/Syntax : protokt/v1/Enum {
 	public fun getValue ()I
 }
 
-public final class protokt/v1/google/protobuf/Syntax$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/google/protobuf/Syntax;
+public final class protokt/v1/google/protobuf/Syntax$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/protobuf/Syntax;
 }
 
 public final class protokt/v1/google/protobuf/Syntax$EDITIONS : protokt/v1/google/protobuf/Syntax {
@@ -2925,8 +2925,8 @@ public final class protokt/v1/google/protobuf/Timestamp : protokt/v1/AbstractMes
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Timestamp;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2963,8 +2963,8 @@ public final class protokt/v1/google/protobuf/Type : protokt/v1/AbstractMessage 
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Type;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -3005,8 +3005,8 @@ public final class protokt/v1/google/protobuf/UInt32Value : protokt/v1/AbstractM
 	public final fun getValue-pVg5ArA ()I
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/UInt32Value;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -3045,8 +3045,8 @@ public final class protokt/v1/google/protobuf/UInt64Value : protokt/v1/AbstractM
 	public final fun getValue-s-VKNKU ()J
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/UInt64Value;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -3091,8 +3091,8 @@ public final class protokt/v1/google/protobuf/UninterpretedOption : protokt/v1/A
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/UninterpretedOption;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -3134,8 +3134,8 @@ public final class protokt/v1/google/protobuf/UninterpretedOption$NamePart : pro
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/UninterpretedOption$NamePart;
 	public final fun isExtension ()Z
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -3166,8 +3166,8 @@ public final class protokt/v1/google/protobuf/Value : protokt/v1/AbstractMessage
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Value;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -3267,8 +3267,8 @@ public final class protokt/v1/pb/JavaFeatures : protokt/v1/AbstractMessage {
 	public final fun getUtf8Validation ()Lprotokt/v1/pb/JavaFeatures$Utf8Validation;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/pb/JavaFeatures;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -3302,9 +3302,9 @@ public final class protokt/v1/pb/JavaFeatures$Utf8Validation$DEFAULT : protokt/v
 	public static final field INSTANCE Lprotokt/v1/pb/JavaFeatures$Utf8Validation$DEFAULT;
 }
 
-public final class protokt/v1/pb/JavaFeatures$Utf8Validation$Deserializer : protokt/v1/EnumReader {
-	public synthetic fun from (I)Lprotokt/v1/Enum;
-	public fun from (I)Lprotokt/v1/pb/JavaFeatures$Utf8Validation;
+public final class protokt/v1/pb/JavaFeatures$Utf8Validation$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/pb/JavaFeatures$Utf8Validation;
 }
 
 public final class protokt/v1/pb/JavaFeatures$Utf8Validation$UNRECOGNIZED : protokt/v1/pb/JavaFeatures$Utf8Validation {

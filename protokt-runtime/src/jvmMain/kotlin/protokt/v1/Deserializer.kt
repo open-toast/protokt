@@ -30,11 +30,17 @@ actual interface Deserializer<T : Message> {
     actual fun deserialize(reader: Reader): T
 
     fun deserialize(stream: InputStream): T =
-        deserialize(reader(CodedInputStream.newInstance(stream)))
+        (codec as? JvmCodec)?.let { deserialize(it.reader(stream)) }
+            ?: deserialize(stream.readBytes())
 
     fun deserialize(stream: CodedInputStream): T =
-        deserialize(reader(stream))
+        deserialize(ProtobufJavaReader(stream))
 
     fun deserialize(buffer: ByteBuffer): T =
-        deserialize(reader(CodedInputStream.newInstance(buffer)))
+        (codec as? JvmCodec)?.let { deserialize(it.reader(buffer)) }
+            ?: run {
+                val bytes = ByteArray(buffer.remaining())
+                buffer.get(bytes)
+                deserialize(bytes)
+            }
 }

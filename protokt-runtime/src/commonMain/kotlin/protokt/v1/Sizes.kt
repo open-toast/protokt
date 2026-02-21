@@ -18,14 +18,14 @@ package protokt.v1
 import kotlin.jvm.JvmName
 import kotlin.jvm.JvmStatic
 
-object SizeCodecs {
+object Sizes {
     @JvmStatic
     fun sizeOf(enum: Enum) =
         sizeOf(enum.value)
 
     @JvmStatic
     fun sizeOf(msg: Message) =
-        sizeOf(msg.messageSize().toUInt()) + msg.messageSize()
+        sizeOf(msg.serializedSize().toUInt()) + msg.serializedSize()
 
     @JvmStatic
     fun sizeOf(b: Bytes) =

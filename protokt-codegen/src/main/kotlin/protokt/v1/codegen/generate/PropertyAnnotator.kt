@@ -132,7 +132,7 @@ private class PropertyAnnotator(
                         isMap -> CodeBlock.of("emptyMap()")
                         repeated -> CodeBlock.of("emptyList()")
                         type == FieldType.Message -> CodeBlock.of("null")
-                        type == FieldType.Enum -> CodeBlock.of("%T.from(0)", className)
+                        type == FieldType.Enum -> CodeBlock.of("%T.deserialize(0)", className)
                         nullable && !mapEntry -> CodeBlock.of("null")
                         else -> type.defaultValue
                     },

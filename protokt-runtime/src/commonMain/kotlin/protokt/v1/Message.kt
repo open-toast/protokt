@@ -17,7 +17,7 @@ package protokt.v1
 
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
 expect interface Message {
-    fun messageSize(): Int
+    fun serializedSize(): Int
 
     fun serialize(writer: Writer)
 

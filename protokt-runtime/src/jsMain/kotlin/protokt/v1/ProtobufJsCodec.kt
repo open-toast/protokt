@@ -13,18 +13,16 @@
  * limitations under the License.
  */
 
-@file:OptIn(OnlyForUseByGeneratedProtoCode::class)
-
 package protokt.v1
 
-internal actual val collectionProvider: CollectionProvider by lazy {
-    val providerFqcn =
-        System.getProperty("protokt.collection.provider")
-            ?: System.getenv("PROTOKT_COLLECTION_PROVIDER")
+@OptIn(OnlyForUseByGeneratedProtoCode::class)
+internal object ProtobufJsCodec : Codec {
+    override fun writer(size: Int): Writer =
+        ProtobufJsWriter(ProtobufJsWriterAdapter.create())
 
-    if (providerFqcn != null) {
-        Class.forName(providerFqcn).getField("INSTANCE").get(null) as CollectionProvider
-    } else {
-        DefaultCollectionProvider
-    }
+    override fun reader(bytes: ByteArray): Reader =
+        ProtobufJsReader(ProtobufJsReaderAdapter.create(bytes.asUint8Array()))
+
+    override fun reader(bytes: ByteArray, offset: Int, length: Int): Reader =
+        ProtobufJsReader(ProtobufJsReaderAdapter.create(bytes.asUint8Array().subarray(offset, offset + length)))
 }

@@ -42,7 +42,7 @@ fun Project.compatibleWithAndroid(api: Int = 19) {
             // assume the parts of Guava that we are using are ok
             callerStartsWith("com/google/common")
             // persistent collection builders are only loaded when the user opts in
-            // via the protokt.collection.provider system property and adds
+            // via the protokt.collection.factory system property and adds
             // kotlinx-collections-immutable to their runtime classpath
             callerStartsWith("protokt/v1/Persistent")
 
