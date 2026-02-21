@@ -21,6 +21,7 @@ import kotlinx.collections.immutable.persistentListOf
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
+import protokt.v1.conformance.ConformanceTest.Codec
 import protokt.v1.conformance.ConformanceTest.CollectionFactory.PERSISTENT
 import protokt.v1.conformance.ConformanceTest.Platform.JS_IR
 import protokt.v1.conformance.ConformanceTest.Platform.JVM
@@ -41,11 +42,14 @@ class ConformanceTest {
 
     enum class CollectionFactory { DEFAULT, PERSISTENT }
 
+    enum class Codec { DEFAULT, KOTLIN }
+
     enum class SerializationMode { STANDARD, STREAMING }
 
     data class ConformanceConfig(
         val platform: Platform,
         val collectionFactory: CollectionFactory,
+        val codec: Codec,
         val serializationMode: SerializationMode
     ) {
         fun driver(): Path =
@@ -61,6 +65,9 @@ class ConformanceTest {
                         if (collectionFactory == PERSISTENT) {
                             add("-Dprotokt.collection.factory=protokt.v1.PersistentCollectionFactory")
                         }
+                        if (codec == Codec.KOTLIN) {
+                            add("-Dprotokt.codec=protokt.v1.KotlinCodec")
+                        }
                         if (serializationMode == SerializationMode.STREAMING) {
                             add("-Dprotokt.streaming=true")
                         }
@@ -70,6 +77,12 @@ class ConformanceTest {
                 JS_IR -> buildMap {
                     if (collectionFactory == PERSISTENT) {
                         put("PROTOKT_COLLECTION_FACTORY", "protokt.v1.PersistentCollectionFactory")
+                    }
+                    if (codec == Codec.KOTLIN) {
+                        put("PROTOKT_CODEC", "protokt.v1.KotlinCodec")
+                    }
+                    if (serializationMode == SerializationMode.STREAMING) {
+                        put("PROTOKT_STREAMING", "true")
                     }
                 }
             }
@@ -81,12 +94,14 @@ class ConformanceTest {
             Lists.cartesianProduct(
                 Platform.entries,
                 CollectionFactory.entries,
+                Codec.entries,
                 SerializationMode.entries
             ).map {
                 ConformanceConfig(
                     it[0] as Platform,
                     it[1] as CollectionFactory,
-                    it[2] as SerializationMode
+                    it[2] as Codec,
+                    it[3] as SerializationMode
                 )
             }.filter {
                 // streaming is only supported on JVM (protobuf-java InputStream/OutputStream)
@@ -164,10 +179,16 @@ private fun verifyCollectionType(stderr: String, config: ConformanceTest.Conform
 
 private const val PROTOBUF_JAVA_READER = "protokt.v1.ProtobufJavaReader"
 private const val PROTOBUF_JS_READER = "protokt.v1.ProtobufJsReader"
+private const val KOTLIN_READER = "protokt.v1.KotlinReader"
 
 private fun verifyCodec(stderr: String, config: ConformanceTest.ConformanceConfig) {
     val codecName = "protoktCodec=(.+)".toRegex().find(stderr)?.groupValues?.get(1)?.trim()
-    val expected = if (config.platform.project == "jvm") PROTOBUF_JAVA_READER else PROTOBUF_JS_READER
+    val expected =
+        if (config.codec == Codec.KOTLIN) {
+            KOTLIN_READER
+        } else {
+            if (config.platform.project == "jvm") PROTOBUF_JAVA_READER else PROTOBUF_JS_READER
+        }
     val platformExpected = if (config.platform.project == "jvm") expected else expected.substringAfterLast(".")
     assertThat(codecName).isEqualTo(platformExpected)
 }

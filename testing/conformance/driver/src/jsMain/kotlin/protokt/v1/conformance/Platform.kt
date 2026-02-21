@@ -19,6 +19,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.io.readByteArray
 import org.khronos.webgl.ArrayBufferView
 import org.khronos.webgl.Int8Array
 import org.khronos.webgl.Uint8Array
@@ -31,7 +32,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 internal actual object Platform {
-    actual val streaming: Boolean = false
+    actual val streaming: Boolean = js("process.env.PROTOKT_STREAMING === 'true'").unsafeCast<Boolean>()
 
     actual fun printErr(message: String) {
         Process.stderr.write(message + "\n")
@@ -101,7 +102,13 @@ internal actual object Platform {
         deserializer: Deserializer<T>
     ): ConformanceStepResult<T> =
         try {
-            Proceed(deserializer.deserialize(bytes))
+            if (streaming) {
+                val source = kotlinx.io.Buffer()
+                source.write(bytes)
+                Proceed(deserializer.deserialize(source))
+            } else {
+                Proceed(deserializer.deserialize(bytes))
+            }
         } catch (t: Throwable) {
             Stop(ParseError(t.stackTraceToString()))
         } catch (d: dynamic) {
@@ -110,7 +117,13 @@ internal actual object Platform {
 
     actual fun serializeProtobuf(message: Message): ConformanceStepResult<Bytes> =
         try {
-            Proceed(Bytes.from(message))
+            if (streaming) {
+                val buffer = kotlinx.io.Buffer()
+                message.serialize(buffer)
+                Proceed(Bytes.from(buffer.readByteArray()))
+            } else {
+                Proceed(Bytes.from(message))
+            }
         } catch (t: Throwable) {
             Stop(SerializeError(t.stackTraceToString()))
         } catch (d: dynamic) {
