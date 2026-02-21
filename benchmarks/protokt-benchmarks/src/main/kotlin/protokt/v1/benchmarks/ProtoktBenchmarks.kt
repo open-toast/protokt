@@ -25,6 +25,7 @@ import org.openjdk.jmh.annotations.Setup
 import org.openjdk.jmh.annotations.State
 import org.openjdk.jmh.infra.Blackhole
 import protokt.v1.Bytes
+import java.util.Random
 import java.util.concurrent.TimeUnit
 
 @BenchmarkMode(Mode.AverageTime)
@@ -45,11 +46,49 @@ open class ProtoktBenchmarks {
 
     private lateinit var byteValues: Array<Bytes>
 
+    private lateinit var stringHeavyPayloads: List<Bytes>
+    private lateinit var stringOneofPayloads: List<Bytes>
+    private lateinit var stringOneofVeryHeavyPayloads: List<Bytes>
+    private lateinit var stringVeryHeavyPayloads: List<Bytes>
+
     @Setup
     fun setup() {
         byteValues = Array(1000) { i -> Bytes.from(byteArrayOf(i.toByte())) }
 
         System.setProperty("protokt.collection.factory", collectionFactory)
+
+        val random = Random(42)
+        stringHeavyPayloads = (0 until 100).map {
+            GenericMessage1 {
+                fieldString1 = randomUtf8String(random, 10_000)
+                fieldString2 = randomUtf8String(random, 10_000)
+                fieldString3000 = randomUtf8String(random, 10_000)
+            }
+        }.map { Bytes.from(it.serialize()) }
+
+        stringOneofPayloads = (0 until 100).map {
+            StringOneofMessage {
+                content1 = StringOneofMessage.Content1.StringVal1(randomUtf8String(random, 10_000))
+                content2 = StringOneofMessage.Content2.StringVal2(randomUtf8String(random, 10_000))
+                content3 = StringOneofMessage.Content3.StringVal3(randomUtf8String(random, 10_000))
+            }
+        }.map { Bytes.from(it.serialize()) }
+
+        stringOneofVeryHeavyPayloads = (0 until 10).map {
+            StringOneofMessage {
+                content1 = StringOneofMessage.Content1.StringVal1(randomUtf8String(random, 1_000_000))
+                content2 = StringOneofMessage.Content2.StringVal2(randomUtf8String(random, 1_000_000))
+                content3 = StringOneofMessage.Content3.StringVal3(randomUtf8String(random, 1_000_000))
+            }
+        }.map { Bytes.from(it.serialize()) }
+
+        stringVeryHeavyPayloads = (0 until 10).map {
+            GenericMessage1 {
+                fieldString1 = randomUtf8String(random, 1_000_000)
+                fieldString2 = randomUtf8String(random, 1_000_000)
+                fieldString3000 = randomUtf8String(random, 1_000_000)
+            }
+        }.map { Bytes.from(it.serialize()) }
 
         readData("large").use { stream ->
             largeDataset = BenchmarkDataset.deserialize(stream)
@@ -177,8 +216,86 @@ open class ProtoktBenchmarks {
             bh.consume(GenericMessage4.deserialize(bytes).serialize())
         }
     }
+
+    @Benchmark
+    fun mutateAndSerializeStringHeavy(bh: Blackhole) {
+        stringHeavyPayloads.forEach { bytes ->
+            val msg = GenericMessage1.deserialize(bytes)
+            val mutated = msg.copy {
+                fieldString1 = msg.fieldString1 + "x"
+                fieldString2 = msg.fieldString2 + "x"
+                fieldString3000 = msg.fieldString3000 + "x"
+            }
+            bh.consume(mutated.serialize())
+        }
+    }
+
+    @Benchmark
+    fun passThroughStringHeavy(bh: Blackhole) {
+        stringHeavyPayloads.forEach { bytes ->
+            bh.consume(GenericMessage1.deserialize(bytes).serialize())
+        }
+    }
+
+    @Benchmark
+    fun mutateAndSerializeStringOneof(bh: Blackhole) {
+        stringOneofPayloads.forEach { bytes ->
+            val msg = StringOneofMessage.deserialize(bytes)
+            val mutated = msg.copy {
+                content1 = StringOneofMessage.Content1.StringVal1(
+                    (msg.content1 as StringOneofMessage.Content1.StringVal1).stringVal1 + "x"
+                )
+                content2 = StringOneofMessage.Content2.StringVal2(
+                    (msg.content2 as StringOneofMessage.Content2.StringVal2).stringVal2 + "x"
+                )
+                content3 = StringOneofMessage.Content3.StringVal3(
+                    (msg.content3 as StringOneofMessage.Content3.StringVal3).stringVal3 + "x"
+                )
+            }
+            bh.consume(mutated.serialize())
+        }
+    }
+
+    @Benchmark
+    fun passThroughStringOneof(bh: Blackhole) {
+        stringOneofPayloads.forEach { bytes ->
+            bh.consume(StringOneofMessage.deserialize(bytes).serialize())
+        }
+    }
+
+    @Benchmark
+    fun mutateAndSerializeStringOneofVeryHeavy(bh: Blackhole) {
+        stringOneofVeryHeavyPayloads.forEach { bytes ->
+            val msg = StringOneofMessage.deserialize(bytes)
+            val mutated = msg.copy {
+                content1 = StringOneofMessage.Content1.StringVal1(
+                    (msg.content1 as StringOneofMessage.Content1.StringVal1).stringVal1 + "x"
+                )
+                content2 = StringOneofMessage.Content2.StringVal2(
+                    (msg.content2 as StringOneofMessage.Content2.StringVal2).stringVal2 + "x"
+                )
+                content3 = StringOneofMessage.Content3.StringVal3(
+                    (msg.content3 as StringOneofMessage.Content3.StringVal3).stringVal3 + "x"
+                )
+            }
+            bh.consume(mutated.serialize())
+        }
+    }
+
+    @Benchmark
+    fun mutateAndSerializeStringVeryHeavy(bh: Blackhole) {
+        stringVeryHeavyPayloads.forEach { bytes ->
+            val msg = GenericMessage1.deserialize(bytes)
+            val mutated = msg.copy {
+                fieldString1 = msg.fieldString1 + "x"
+                fieldString2 = msg.fieldString2 + "x"
+                fieldString3000 = msg.fieldString3000 + "x"
+            }
+            bh.consume(mutated.serialize())
+        }
+    }
 }
 
-fun main() {
-    run(ProtoktBenchmarks::class)
+fun main(args: Array<String>) {
+    run(ProtoktBenchmarks::class, args)
 }

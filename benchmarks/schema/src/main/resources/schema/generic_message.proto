@@ -80,3 +80,18 @@ message GenericMessage4 {
     string field_string1 = 1;
     float field_num3 = 3;
 }
+
+message StringOneofMessage {
+  oneof content1 {
+    string string_val1 = 1;
+    int64 int_val1 = 2;
+  }
+  oneof content2 {
+    string string_val2 = 3;
+    int64 int_val2 = 4;
+  }
+  oneof content3 {
+    string string_val3 = 5;
+    int64 int_val3 = 6;
+  }
+}
