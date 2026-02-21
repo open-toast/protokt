@@ -15,11 +15,16 @@
 
 package protokt.v1
 
+import kotlinx.io.Sink
+
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
 actual interface Message {
-    actual fun messageSize(): Int
+    actual fun serializedSize(): Int
 
     actual fun serialize(writer: Writer)
 
     actual fun serialize(): ByteArray
+
+    @Beta
+    actual fun serialize(sink: Sink)
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2026 Toast, Inc.
+ * Copyright (c) 2019 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,9 @@
  * limitations under the License.
  */
 
-@file:OptIn(OnlyForUseByGeneratedProtoCode::class)
-
 package protokt.v1
 
-internal actual val collectionProvider: CollectionProvider =
-    if (js("(typeof process !== 'undefined' && process.env && process.env.PROTOKT_COLLECTION_PROVIDER === 'protokt.v1.PersistentCollectionProvider')").unsafeCast<Boolean>()) {
-        PersistentCollectionProvider
-    } else {
-        DefaultCollectionProvider
-    }
+@OnlyForUseByGeneratedProtoCode
+interface EnumDeserializer<E : Enum> {
+    fun deserialize(value: Int): E
+}

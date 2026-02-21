@@ -15,20 +15,21 @@
 
 package protokt.v1
 
-import com.google.protobuf.CodedOutputStream
+import kotlinx.io.Sink
 import java.io.OutputStream
 
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
 actual interface Message {
-    actual fun messageSize(): Int
+    actual fun serializedSize(): Int
 
     actual fun serialize(writer: Writer)
 
     actual fun serialize(): ByteArray
 
+    @Beta
+    actual fun serialize(sink: Sink)
+
     fun serialize(outputStream: OutputStream) =
-        CodedOutputStream.newInstance(outputStream).run {
-            serialize(writer(this))
-            flush()
-        }
+        (codec as? JvmCodec)?.serialize(this, outputStream)
+            ?: outputStream.write(serialize())
 }

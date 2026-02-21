@@ -34,4 +34,5 @@ dependencies {
     testProtobuf(project(":testing:options"))
 
     testRuntimeOnly(libs.protobuf.java)
+    testRuntimeOnly(libs.kotlinx.io)
 }

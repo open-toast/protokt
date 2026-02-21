@@ -30,4 +30,5 @@ pureKotlin()
 
 dependencies {
     testRuntimeOnly(libs.protobuf.lite)
+    testRuntimeOnly(libs.kotlinx.io)
 }

@@ -24,7 +24,7 @@ import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.asTypeName
 import protokt.v1.Collections
-import protokt.v1.SizeCodecs
+import protokt.v1.Sizes
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.reflect.inferClassName
 import kotlin.reflect.KClass
@@ -61,9 +61,9 @@ fun namedCodeBlock(format: String, arguments: Map<String, *>) =
     CodeBlock.builder().addNamed(format, arguments).build()
 
 @Suppress("ktlint:standard:backing-property-naming")
-private val _sizeOf: KFunction1<Int, Int> = SizeCodecs::sizeOf
+private val _sizeOf: KFunction1<Int, Int> = Sizes::sizeOf
 
-val sizeOf = SizeCodecs::class.asTypeName().member(_sizeOf.name)
+val sizeOf = Sizes::class.asTypeName().member(_sizeOf.name)
 
 @Suppress("ktlint:standard:backing-property-naming")
 private val _freezeMap: KFunction1<Map<Any, Any>, Map<Any, Any>> = Collections::freezeMap
