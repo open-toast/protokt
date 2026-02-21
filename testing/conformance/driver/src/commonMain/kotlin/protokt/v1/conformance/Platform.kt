@@ -21,6 +21,8 @@ import protokt.v1.Deserializer
 import protokt.v1.Message
 
 internal expect object Platform {
+    val streaming: Boolean
+
     fun printErr(message: String)
 
     fun className(obj: Any): String

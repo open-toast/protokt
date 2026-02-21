@@ -82,7 +82,7 @@ internal class ProtobufJavaReader(
         } else {
             stream.readRawVarint32().also { sz ->
                 val limit = stream.pushLimit(sz)
-                while (!stream.isAtEnd) {
+                while (stream.bytesUntilLimit > 0) {
                     acc(this)
                 }
                 stream.popLimit(limit)
@@ -95,7 +95,7 @@ internal class ProtobufJavaReader(
         try {
             val limit = stream.pushLimit(stream.readRawVarint32())
             val res = m.deserialize(this)
-            require(stream.isAtEnd)
+            require(stream.bytesUntilLimit == 0)
             stream.popLimit(limit)
             return res
         } finally {
