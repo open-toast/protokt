@@ -23,10 +23,14 @@ import protokt.v1.Message
 import protokt.v1.conformance.ConformanceResponse.Result.ParseError
 import protokt.v1.conformance.ConformanceResponse.Result.RuntimeError
 import protokt.v1.conformance.ConformanceResponse.Result.SerializeError
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
 internal actual object Platform {
+    actual val streaming = System.getProperty("protokt.streaming")?.toBoolean() ?: false
+
     actual fun printErr(message: String) {
         System.err.println(message)
     }
@@ -67,14 +71,24 @@ internal actual object Platform {
         deserializer: Deserializer<T>
     ): ConformanceStepResult<T> =
         try {
-            Proceed(deserializer.deserialize(bytes))
+            if (streaming) {
+                Proceed(deserializer.deserialize(ByteArrayInputStream(bytes)))
+            } else {
+                Proceed(deserializer.deserialize(bytes))
+            }
         } catch (t: Throwable) {
             Stop(ParseError(t.stackTraceToString()))
         }
 
     actual fun serializeProtobuf(message: Message): ConformanceStepResult<Bytes> =
         try {
-            Proceed(Bytes.from(message))
+            if (streaming) {
+                val baos = ByteArrayOutputStream(message.serializedSize())
+                message.serialize(baos)
+                Proceed(Bytes.from(baos.toByteArray()))
+            } else {
+                Proceed(Bytes.from(message))
+            }
         } catch (t: Throwable) {
             Stop(SerializeError(t.stackTraceToString()))
         }

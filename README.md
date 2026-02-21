@@ -441,16 +441,16 @@ unmodifiable collections will perform better.
 To enable on JVM, set the system property:
 
 ```
--Dprotokt.collection.provider=protokt.v1.PersistentCollectionProvider
+-Dprotokt.collection.factory=protokt.v1.PersistentCollectionFactory
 ```
 
 On JVM or JS, set the environment variable:
 
 ```
-PROTOKT_COLLECTION_PROVIDER=protokt.v1.PersistentCollectionProvider
+PROTOKT_COLLECTION_FACTORY=protokt.v1.PersistentCollectionFactory
 ```
 
-You can also supply any custom `CollectionProvider` implementation by FQCN
+You can also supply any custom `CollectionFactory` implementation by FQCN
 (the class must be a Kotlin `object`).
 
 You must also add `kotlinx-collections-immutable` to your runtime classpath:

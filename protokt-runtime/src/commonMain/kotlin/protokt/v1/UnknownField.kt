@@ -15,7 +15,7 @@
 
 package protokt.v1
 
-import protokt.v1.SizeCodecs.sizeOf
+import protokt.v1.Sizes.sizeOf
 import kotlin.jvm.JvmInline
 import kotlin.jvm.JvmStatic
 

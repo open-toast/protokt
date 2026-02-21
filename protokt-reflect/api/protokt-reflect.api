@@ -714,8 +714,8 @@ public final class protokt/v1/EnumOptions : protokt/v1/AbstractMessage {
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/EnumOptions;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -744,8 +744,8 @@ public final class protokt/v1/EnumValueOptions : protokt/v1/AbstractMessage {
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/EnumValueOptions;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -779,8 +779,8 @@ public final class protokt/v1/FieldOptions : protokt/v1/AbstractMessage {
 	public final fun getWrap ()Ljava/lang/String;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/FieldOptions;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -819,8 +819,8 @@ public final class protokt/v1/FileOptions : protokt/v1/AbstractMessage {
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/FileOptions;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -850,8 +850,8 @@ public final class protokt/v1/MessageOptions : protokt/v1/AbstractMessage {
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/MessageOptions;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -883,8 +883,8 @@ public final class protokt/v1/MethodOptions : protokt/v1/AbstractMessage {
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/MethodOptions;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -917,8 +917,8 @@ public final class protokt/v1/OneofOptions : protokt/v1/AbstractMessage {
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/OneofOptions;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -961,8 +961,8 @@ public final class protokt/v1/ServiceOptions : protokt/v1/AbstractMessage {
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ServiceOptions;
-	public fun messageSize ()I
 	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
 	public fun toString ()Ljava/lang/String;
 }
 

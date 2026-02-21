@@ -81,7 +81,7 @@ private class MapEntryGenerator(
 
     private fun TypeSpec.Builder.addMessageSize() {
         addFunction(
-            buildFunSpec(protokt.v1.Message::messageSize.name) {
+            buildFunSpec(protokt.v1.Message::serializedSize.name) {
                 returns(Int::class)
                 addModifiers(KModifier.OVERRIDE)
                 addStatement(
