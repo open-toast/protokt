@@ -158,3 +158,55 @@ private fun utf8LengthGeneral(s: String, start: Int): Int {
     }
     return extra
 }
+
+/**
+ * Encodes [s] as UTF-8 directly into [dest] starting at [offset].
+ * Returns the number of bytes written.
+ *
+ * Modeled after com.google.protobuf.Utf8.SafeProcessor.encodeUtf8: ASCII
+ * fast-scan loop, then multi-byte handling.
+ */
+internal fun encodeUtf8Into(s: String, dest: ByteArray, offset: Int): Int {
+    val utf16Length = s.length
+    var j = offset
+    var i = 0
+
+    // ASCII fast-scan: tight loop, one byte per char.
+    while (i < utf16Length) {
+        val c = s[i]
+        if (c.code >= 0x80) break
+        dest[j + i] = c.code.toByte()
+        i++
+    }
+    j += i
+
+    // Multi-byte handling.
+    while (i < utf16Length) {
+        val c = s[i]
+        when {
+            c.code < 0x80 -> {
+                dest[j++] = c.code.toByte()
+            }
+            c.code < 0x800 -> {
+                dest[j++] = (0xC0 or (c.code shr 6)).toByte()
+                dest[j++] = (0x80 or (c.code and 0x3F)).toByte()
+            }
+            c.isHighSurrogate() -> {
+                val low = s[i + 1]
+                val cp = 0x10000 + (c.code - 0xD800) * 0x400 + (low.code - 0xDC00)
+                dest[j++] = (0xF0 or (cp shr 18)).toByte()
+                dest[j++] = (0x80 or ((cp shr 12) and 0x3F)).toByte()
+                dest[j++] = (0x80 or ((cp shr 6) and 0x3F)).toByte()
+                dest[j++] = (0x80 or (cp and 0x3F)).toByte()
+                i++
+            }
+            else -> {
+                dest[j++] = (0xE0 or (c.code shr 12)).toByte()
+                dest[j++] = (0x80 or ((c.code shr 6) and 0x3F)).toByte()
+                dest[j++] = (0x80 or (c.code and 0x3F)).toByte()
+            }
+        }
+        i++
+    }
+    return j - offset
+}

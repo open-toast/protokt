@@ -15,6 +15,7 @@
 
 package protokt.v1
 
+@OnlyForUseByGeneratedProtoCode
 interface EnumDeserializer<E : Enum> {
     fun deserialize(value: Int): E
 }

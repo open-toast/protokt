@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast, Inc.
+ * Copyright (c) 2026 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +16,23 @@
 package protokt.v1
 
 import kotlinx.io.Sink
+import kotlinx.io.Source
 
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
-actual interface Message {
-    actual fun serializedSize(): Int
+object KotlinCodec : StreamingCodec {
+    override fun writer(size: Int): Writer =
+        KotlinWriter(ByteArray(size))
 
-    actual fun serialize(writer: Writer)
+    override fun reader(bytes: ByteArray): Reader =
+        KotlinReader(bytes)
 
-    actual fun serialize(): ByteArray
+    override fun reader(bytes: ByteArray, offset: Int, length: Int): Reader =
+        KotlinReader(bytes, offset, offset + length)
 
-    @Beta
-    actual fun serialize(sink: Sink)
+    override fun reader(source: Source): Reader =
+        KotlinSourceReader(source)
+
+    override fun serialize(message: Message, sink: Sink) {
+        message.serialize(KotlinSinkWriter(sink))
+    }
 }

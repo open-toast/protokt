@@ -17,6 +17,7 @@
 
 package protokt.v1
 
+@OnlyForUseByGeneratedProtoCode
 interface CollectionFactory {
     fun <T> listBuilder(): ListBuilder<T>
     fun <K, V> mapBuilder(): MapBuilder<K, V>

@@ -45,6 +45,8 @@ fun Project.compatibleWithAndroid(api: Int = 19) {
             // via the protokt.collection.factory system property and adds
             // kotlinx-collections-immutable to their runtime classpath
             callerStartsWith("protokt/v1/Persistent")
+            // kotlinx-io is not in the Android SDK
+            targetStartsWith("kotlinx/io")
 
             file(rootProject.layout.projectDirectory.file("expediter/expediter.json"))
         }
