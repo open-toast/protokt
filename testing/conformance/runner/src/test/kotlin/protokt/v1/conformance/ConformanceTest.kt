@@ -149,12 +149,12 @@ private fun verifyCollectionType(stderr: String, config: ConformanceTest.Conform
     assertThat(collectionType).isEqualTo(platformExpected)
 }
 
-private const val PROTOBUF_JAVA_CODEC = "protokt.v1.ProtobufJavaCodec"
-private const val PROTOBUF_JS_CODEC = "protokt.v1.ProtobufJsCodec"
+private const val PROTOBUF_JAVA_READER = "protokt.v1.ProtobufJavaReader"
+private const val PROTOBUF_JS_READER = "protokt.v1.ProtobufJsReader"
 
 private fun verifyCodec(stderr: String, config: ConformanceTest.ConformanceConfig) {
     val codecName = "protoktCodec=(.+)".toRegex().find(stderr)?.groupValues?.get(1)?.trim()
-    val expected = if (config.platform.project == "jvm") PROTOBUF_JAVA_CODEC else PROTOBUF_JS_CODEC
+    val expected = if (config.platform.project == "jvm") PROTOBUF_JAVA_READER else PROTOBUF_JS_READER
     val platformExpected = if (config.platform.project == "jvm") expected else expected.substringAfterLast(".")
     assertThat(codecName).isEqualTo(platformExpected)
 }

@@ -81,10 +81,6 @@ public abstract interface class protokt/v1/Codec {
 	public abstract fun writer (I)Lprotokt/v1/Writer;
 }
 
-public final class protokt/v1/CodecKt {
-	public static final fun getCodec ()Lprotokt/v1/Codec;
-}
-
 public abstract interface class protokt/v1/CollectionFactory {
 	public abstract fun freezeList (Ljava/util/List;)Ljava/util/List;
 	public abstract fun freezeMap (Ljava/util/Map;)Ljava/util/Map;

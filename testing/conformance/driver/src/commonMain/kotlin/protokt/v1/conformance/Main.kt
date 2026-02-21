@@ -15,9 +15,11 @@
 
 package protokt.v1.conformance
 
+import protokt.v1.AbstractDeserializer
 import protokt.v1.Collections
+import protokt.v1.Message
 import protokt.v1.OnlyForUseByGeneratedProtoCode
-import protokt.v1.codec
+import protokt.v1.Reader
 import protokt.v1.conformance.ConformanceRequest.Payload.ProtobufPayload
 import protokt.v1.conformance.ConformanceResponse.Result
 import protokt.v1.protobuf_test_messages.proto3.TestAllTypesProto3
@@ -27,7 +29,14 @@ fun main() =
     Platform.runBlockingMain {
         val builderResult = Collections.listBuilder<Any>().build()
         Platform.printErr("protoktCollectionFactory=${Platform.className(builderResult)}")
-        Platform.printErr("protoktCodec=${Platform.className(codec)}")
+        lateinit var codecReader: Any
+        object : AbstractDeserializer<Message>() {
+            override fun deserialize(reader: Reader): Message {
+                codecReader = reader
+                return ConformanceRequest {}
+            }
+        }.deserialize(byteArrayOf())
+        Platform.printErr("protoktCodec=${Platform.className(codecReader)}")
         while (true) {
             val request = Platform.readMessageFromStdIn(ConformanceRequest) ?: break
 

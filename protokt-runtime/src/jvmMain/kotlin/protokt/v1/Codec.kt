@@ -17,7 +17,7 @@
 
 package protokt.v1
 
-actual val codec: Codec by lazy {
+internal actual val codec: Codec by lazy {
     val codecFqcn =
         System.getProperty("protokt.codec")
             ?: System.getenv("PROTOKT_CODEC")

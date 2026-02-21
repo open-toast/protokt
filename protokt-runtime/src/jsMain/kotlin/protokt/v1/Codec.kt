@@ -17,5 +17,5 @@
 
 package protokt.v1
 
-actual val codec: Codec =
+internal actual val codec: Codec =
     ProtobufJsCodec

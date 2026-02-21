@@ -23,4 +23,4 @@ interface Codec {
     fun reader(bytes: ByteArray, offset: Int, length: Int): Reader
 }
 
-expect val codec: Codec
+internal expect val codec: Codec
