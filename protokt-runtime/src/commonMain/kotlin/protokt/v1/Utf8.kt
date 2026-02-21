@@ -99,3 +99,62 @@ internal fun validateUtf8(bytes: ByteArray) {
 
 private fun invalid(): Nothing =
     throw IllegalArgumentException("Invalid UTF-8")
+
+/**
+ * Returns the number of bytes needed to encode [s] as UTF-8,
+ * without allocating any intermediate objects.
+ *
+ * Modeled after com.google.protobuf.Utf8.encodedLength: ASCII fast-scan,
+ * branch-free accounting for chars < 0x800, general fallback for BMP+.
+ */
+internal fun utf8Length(s: String): Int {
+    val utf16Length = s.length
+    var utf8Length = utf16Length
+    var i = 0
+
+    // Fast-scan ASCII: each char is exactly 1 UTF-8 byte.
+    while (i < utf16Length && s[i].code < 0x80) {
+        i++
+    }
+
+    // Mixed content: branch-free for chars < 0x800.
+    // Start with utf8Length = utf16Length (1 byte assumed per char);
+    // add 1 extra byte per non-ASCII char (branch-free via unsigned shift).
+    while (i < utf16Length) {
+        val c = s[i]
+        if (c.code < 0x800) {
+            // Branch-free: adds 0 for ASCII, 1 for 0x80..0x7FF
+            utf8Length += (0x7f - c.code) ushr 31
+        } else {
+            utf8Length += utf8LengthGeneral(s, i)
+            break
+        }
+        i++
+    }
+
+    return utf8Length
+}
+
+private fun utf8LengthGeneral(s: String, start: Int): Int {
+    val utf16Length = s.length
+    var extra = 0
+    var i = start
+    while (i < utf16Length) {
+        val c = s[i]
+        if (c.code < 0x800) {
+            // Branch-free: adds 0 for ASCII, 1 for 0x80..0x7FF
+            extra += (0x7f - c.code) ushr 31
+        } else {
+            // 3-byte BMP char: 2 extra bytes beyond the 1 already counted
+            extra += 2
+            if (c.isHighSurrogate()) {
+                // Surrogate pair: 4 UTF-8 bytes. Base already counts 1 per
+                // char (2 total); we added 2 extra above (= 4). Skip the
+                // low surrogate so it doesn't get a spurious +2.
+                i++
+            }
+        }
+        i++
+    }
+    return extra
+}
