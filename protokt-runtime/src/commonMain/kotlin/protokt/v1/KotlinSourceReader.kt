@@ -17,6 +17,9 @@ package protokt.v1
 
 import kotlinx.io.Source
 import kotlinx.io.readByteArray
+import kotlinx.io.readIntLe
+import kotlinx.io.readLongLe
+import kotlinx.io.readString
 
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
 internal class KotlinSourceReader(
@@ -76,8 +79,8 @@ internal class KotlinSourceReader(
     override fun readString(): String {
         val length = readRawVarint32()
         checkLength(length)
-        val bytes = readSourceByteArray(length)
-        return bytes.decodeToString()
+        bytesRead += length
+        return source.readString(length.toLong())
     }
 
     override fun readUInt64(): ULong =
@@ -187,26 +190,13 @@ internal class KotlinSourceReader(
 
     private fun readFixed32Bits(): UInt {
         checkAvailable(4)
-        val b0 = readSourceByte().toInt() and 0xff
-        val b1 = readSourceByte().toInt() and 0xff
-        val b2 = readSourceByte().toInt() and 0xff
-        val b3 = readSourceByte().toInt() and 0xff
-        return (b0 or (b1 shl 8) or (b2 shl 16) or (b3 shl 24)).toUInt()
+        bytesRead += 4
+        return source.readIntLe().toUInt()
     }
 
     private fun readFixed64Bits(): ULong {
         checkAvailable(8)
-        val b0 = readSourceByte().toLong() and 0xff
-        val b1 = readSourceByte().toLong() and 0xff
-        val b2 = readSourceByte().toLong() and 0xff
-        val b3 = readSourceByte().toLong() and 0xff
-        val b4 = readSourceByte().toLong() and 0xff
-        val b5 = readSourceByte().toLong() and 0xff
-        val b6 = readSourceByte().toLong() and 0xff
-        val b7 = readSourceByte().toLong() and 0xff
-        return (
-            b0 or (b1 shl 8) or (b2 shl 16) or (b3 shl 24) or
-                (b4 shl 32) or (b5 shl 40) or (b6 shl 48) or (b7 shl 56)
-            ).toULong()
+        bytesRead += 8
+        return source.readLongLe().toULong()
     }
 }

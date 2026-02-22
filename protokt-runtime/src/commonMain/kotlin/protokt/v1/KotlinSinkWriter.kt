@@ -16,12 +16,21 @@
 package protokt.v1
 
 import kotlinx.io.Buffer
-import kotlinx.io.Sink
+import kotlinx.io.UnsafeIoApi
+import kotlinx.io.unsafe.UnsafeBufferOperations
 import kotlinx.io.writeString
 
-@OptIn(OnlyForUseByGeneratedProtoCode::class)
+// Writes protobuf wire format into a Buffer using UnsafeBufferOperations for
+// direct segment access. Each varint or fixed-width write is a single
+// writeToTail call with direct byte array writes, avoiding the per-byte
+// virtual dispatch chain (Sink.writeByte -> Buffer.writeByte -> Segment) and
+// segment pool operations that dominate small-field workloads.
+//
+// The caller (KotlinCodec.serialize) transfers the buffer to the actual Sink
+// after serialization, moving segment pointers rather than copying bytes.
+@OptIn(OnlyForUseByGeneratedProtoCode::class, UnsafeIoApi::class)
 internal class KotlinSinkWriter(
-    private val sink: Sink
+    private val buffer: Buffer
 ) : Writer {
     override fun writeFixed32(i: UInt) =
         writeFixed32Bits(i)
@@ -65,15 +74,15 @@ internal class KotlinSinkWriter(
         writeFixed64Bits(d.toRawBits().toULong())
 
     // Encode into a temporary Buffer to learn the UTF-8 byte count without a
-    // separate measurement pass. The transfer to sink moves segment pointers
+    // separate measurement pass. The transfer to buffer moves segment pointers
     // rather than copying bytes; the only overhead is the Buffer allocation and
-    // segment pool checkout. Sink is forward-only so reserve-and-backtrack
-    // (as in KotlinWriter.write(String)) isn't possible here.
+    // segment pool checkout. Reserve-and-backtrack (as in KotlinWriter.write(String))
+    // isn't possible on a linked segment chain.
     override fun write(s: String) {
         val tmp = Buffer()
         tmp.writeString(s)
         writeRawVarint32(tmp.size.toInt())
-        sink.write(tmp, tmp.size)
+        buffer.write(tmp, tmp.size)
     }
 
     override fun write(b: Boolean) =
@@ -81,54 +90,71 @@ internal class KotlinSinkWriter(
 
     override fun write(b: ByteArray) {
         writeRawVarint32(b.size)
-        sink.write(b)
+        buffer.write(b)
     }
 
     override fun write(b: BytesSlice) {
         writeRawVarint32(b.length)
-        sink.write(b.array, b.offset, b.offset + b.length)
+        buffer.write(b.array, b.offset, b.offset + b.length)
     }
 
     private fun writeRawByte(value: Int) {
-        sink.writeByte(value.toByte())
+        UnsafeBufferOperations.writeToTail(buffer, 1) { bytes, start, _ ->
+            bytes[start] = value.toByte()
+            1
+        }
     }
 
     private fun writeRawVarint32(value: Int) {
-        var v = value
-        while (v and 0x7f.inv() != 0) {
-            writeRawByte((v and 0x7f) or 0x80)
-            v = v ushr 7
+        UnsafeBufferOperations.writeToTail(buffer, 5) { bytes, start, _ ->
+            var v = value
+            var pos = start
+            while (v and 0x7f.inv() != 0) {
+                bytes[pos++] = ((v and 0x7f) or 0x80).toByte()
+                v = v ushr 7
+            }
+            bytes[pos++] = v.toByte()
+            pos - start
         }
-        writeRawByte(v)
     }
 
     private fun writeRawVarint64(value: Long) {
-        var v = value
-        while (v and 0x7fL.inv() != 0L) {
-            writeRawByte(((v and 0x7f) or 0x80).toInt())
-            v = v ushr 7
+        UnsafeBufferOperations.writeToTail(buffer, 10) { bytes, start, _ ->
+            var v = value
+            var pos = start
+            while (v and 0x7fL.inv() != 0L) {
+                bytes[pos++] = ((v and 0x7f) or 0x80).toByte()
+                v = v ushr 7
+            }
+            bytes[pos++] = v.toByte()
+            pos - start
         }
-        writeRawByte(v.toInt())
     }
 
     private fun writeFixed32Bits(value: UInt) {
-        val v = value.toInt()
-        writeRawByte(v and 0xff)
-        writeRawByte((v ushr 8) and 0xff)
-        writeRawByte((v ushr 16) and 0xff)
-        writeRawByte((v ushr 24) and 0xff)
+        UnsafeBufferOperations.writeToTail(buffer, 4) { bytes, start, _ ->
+            val v = value.toInt()
+            bytes[start] = (v and 0xff).toByte()
+            bytes[start + 1] = ((v ushr 8) and 0xff).toByte()
+            bytes[start + 2] = ((v ushr 16) and 0xff).toByte()
+            bytes[start + 3] = ((v ushr 24) and 0xff).toByte()
+            4
+        }
     }
 
     private fun writeFixed64Bits(value: ULong) {
-        val v = value.toLong()
-        writeRawByte((v and 0xff).toInt())
-        writeRawByte(((v ushr 8) and 0xff).toInt())
-        writeRawByte(((v ushr 16) and 0xff).toInt())
-        writeRawByte(((v ushr 24) and 0xff).toInt())
-        writeRawByte(((v ushr 32) and 0xff).toInt())
-        writeRawByte(((v ushr 40) and 0xff).toInt())
-        writeRawByte(((v ushr 48) and 0xff).toInt())
-        writeRawByte(((v ushr 56) and 0xff).toInt())
+        UnsafeBufferOperations.writeToTail(buffer, 8) { bytes, start, _ ->
+            val v = value.toLong()
+            bytes[start] = (v and 0xff).toByte()
+            bytes[start + 1] = ((v ushr 8) and 0xff).toByte()
+            bytes[start + 2] = ((v ushr 16) and 0xff).toByte()
+            bytes[start + 3] = ((v ushr 24) and 0xff).toByte()
+            bytes[start + 4] = ((v ushr 32) and 0xff).toByte()
+            bytes[start + 5] = ((v ushr 40) and 0xff).toByte()
+            bytes[start + 6] = ((v ushr 48) and 0xff).toByte()
+            bytes[start + 7] = ((v ushr 56) and 0xff).toByte()
+            8
+        }
     }
 
     override fun toByteArray(): ByteArray =

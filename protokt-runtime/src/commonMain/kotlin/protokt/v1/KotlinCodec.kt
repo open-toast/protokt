@@ -15,6 +15,7 @@
 
 package protokt.v1
 
+import kotlinx.io.Buffer
 import kotlinx.io.Sink
 import kotlinx.io.Source
 
@@ -33,6 +34,8 @@ internal object KotlinCodec : StreamingCodec {
         KotlinSourceReader(source)
 
     override fun serialize(message: Message, sink: Sink) {
-        message.serialize(KotlinSinkWriter(sink))
+        val buffer = Buffer()
+        message.serialize(KotlinSinkWriter(buffer))
+        sink.write(buffer, buffer.size)
     }
 }
