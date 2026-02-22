@@ -15,6 +15,7 @@
 
 package protokt.v1
 
+import kotlinx.io.Buffer
 import kotlinx.io.Sink
 import kotlinx.io.writeString
 
@@ -63,10 +64,16 @@ internal class KotlinSinkWriter(
     override fun write(d: Double) =
         writeFixed64Bits(d.toRawBits().toULong())
 
+    // Encode into a temporary Buffer to learn the UTF-8 byte count without a
+    // separate measurement pass. The transfer to sink moves segment pointers
+    // rather than copying bytes; the only overhead is the Buffer allocation and
+    // segment pool checkout. Sink is forward-only so reserve-and-backtrack
+    // (as in KotlinWriter.write(String)) isn't possible here.
     override fun write(s: String) {
-        val length = utf8Length(s)
-        writeRawVarint32(length)
-        sink.writeString(s)
+        val tmp = Buffer()
+        tmp.writeString(s)
+        writeRawVarint32(tmp.size.toInt())
+        sink.write(tmp, tmp.size)
     }
 
     override fun write(b: Boolean) =

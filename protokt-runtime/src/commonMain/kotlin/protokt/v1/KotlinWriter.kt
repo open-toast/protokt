@@ -62,11 +62,27 @@ internal class KotlinWriter(
     override fun write(d: Double) =
         writeFixed64Bits(d.toRawBits().toULong())
 
+    // Reserve-and-backtrack: when the varint length prefix size is the same for
+    // min (all ASCII) and max (all 3-byte) UTF-8 encodings, skip the measurement
+    // pass - reserve space for the varint, encode directly, backfill the byte count.
+    // See also protobuf-java's CodedOutputStream.writeStringNoTag.
     override fun write(s: String) {
-        val length = utf8Length(s)
-        writeRawVarint32(length)
-        encodeUtf8Into(s, buf, pos)
-        pos += length
+        val minVarIntSize = computeVarint32Size(s.length)
+        val maxVarIntSize = computeVarint32Size(s.length * 3)
+
+        if (minVarIntSize == maxVarIntSize) {
+            // Fast path: encode first, backfill length.
+            val encodePos = pos + minVarIntSize
+            val bytesWritten = encodeUtf8Into(s, buf, encodePos)
+            writeRawVarint32(bytesWritten)
+            pos = encodePos + bytesWritten
+        } else {
+            // Varint size depends on actual UTF-8 length; measure first.
+            val length = utf8Length(s)
+            writeRawVarint32(length)
+            encodeUtf8Into(s, buf, pos)
+            pos += length
+        }
     }
 
     override fun write(b: Boolean) =
@@ -116,6 +132,11 @@ internal class KotlinWriter(
 
     override fun toByteArray(): ByteArray =
         buf
+
+    private fun computeVarint32Size(value: Int): Int {
+        val clz = value.countLeadingZeroBits()
+        return ((32 * 9 + 64) - (clz * 9)) ushr 6
+    }
 
     private fun writeFixed64Bits(value: ULong) {
         val v = value.toLong()

@@ -54,6 +54,7 @@ open class WireBenchmarks {
     private lateinit var stringOneofPayloads: List<ByteString>
     private lateinit var stringOneofVeryHeavyPayloads: List<ByteString>
     private lateinit var stringVeryHeavyPayloads: List<ByteString>
+    private lateinit var stringOneof20kPayloads: List<ByteString>
 
     private lateinit var largePayloadArrays: List<ByteArray>
     private lateinit var mediumPayloadArrays: List<ByteArray>
@@ -77,6 +78,14 @@ open class WireBenchmarks {
                 string_val1 = randomUtf8String(random, 10_000),
                 string_val2 = randomUtf8String(random, 10_000),
                 string_val3 = randomUtf8String(random, 10_000)
+            )
+        }.map { ByteString.of(*StringOneofMessage.ADAPTER.encode(it)) }
+
+        stringOneof20kPayloads = (0 until 100).map {
+            StringOneofMessage(
+                string_val1 = randomUtf8String(random, 20_000),
+                string_val2 = randomUtf8String(random, 20_000),
+                string_val3 = randomUtf8String(random, 20_000)
             )
         }.map { ByteString.of(*StringOneofMessage.ADAPTER.encode(it)) }
 
@@ -294,6 +303,55 @@ open class WireBenchmarks {
     fun passThroughStringOneof(bh: Blackhole) {
         stringOneofPayloads.forEach { bytes ->
             bh.consume(StringOneofMessage.ADAPTER.encode(StringOneofMessage.ADAPTER.decode(bytes)))
+        }
+    }
+
+    @Benchmark
+    fun mutateAndSerializeStringOneofStreaming(bh: Blackhole) {
+        val baos = ByteArrayOutputStream()
+        val sink = baos.sink().buffer()
+        stringOneofPayloads.forEach { bytes ->
+            val msg = StringOneofMessage.ADAPTER.decode(bytes)
+            val mutated = msg.copy(
+                string_val1 = msg.string_val1!! + "x",
+                string_val2 = msg.string_val2!! + "x",
+                string_val3 = msg.string_val3!! + "x"
+            )
+            StringOneofMessage.ADAPTER.encode(sink, mutated)
+            sink.flush()
+            bh.consume(baos.size())
+            baos.reset()
+        }
+    }
+
+    @Benchmark
+    fun mutateAndSerializeStringOneof20k(bh: Blackhole) {
+        stringOneof20kPayloads.forEach { bytes ->
+            val msg = StringOneofMessage.ADAPTER.decode(bytes)
+            val mutated = msg.copy(
+                string_val1 = msg.string_val1!! + "x",
+                string_val2 = msg.string_val2!! + "x",
+                string_val3 = msg.string_val3!! + "x"
+            )
+            bh.consume(StringOneofMessage.ADAPTER.encode(mutated))
+        }
+    }
+
+    @Benchmark
+    fun mutateAndSerializeStringOneof20kStreaming(bh: Blackhole) {
+        val baos = ByteArrayOutputStream()
+        val sink = baos.sink().buffer()
+        stringOneof20kPayloads.forEach { bytes ->
+            val msg = StringOneofMessage.ADAPTER.decode(bytes)
+            val mutated = msg.copy(
+                string_val1 = msg.string_val1!! + "x",
+                string_val2 = msg.string_val2!! + "x",
+                string_val3 = msg.string_val3!! + "x"
+            )
+            StringOneofMessage.ADAPTER.encode(sink, mutated)
+            sink.flush()
+            bh.consume(baos.size())
+            baos.reset()
         }
     }
 

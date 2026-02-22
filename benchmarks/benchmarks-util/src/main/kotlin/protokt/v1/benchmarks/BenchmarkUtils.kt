@@ -40,6 +40,19 @@ fun randomUtf8String(random: Random, charCount: Int): String {
     return sb.toString()
 }
 
+/**
+ * Runs JMH benchmarks for the given class.
+ *
+ * Supported args (passed via `--args`):
+ *   -i regex         Include only benchmarks matching regex (e.g. `-i mutateAndSerialize`)
+ *   -e regex         Exclude benchmarks matching regex (e.g. `-e .*copyAppend.*`)
+ *   -p name=value    Set a JMH parameter (e.g. `-p codec=protokt.v1.KotlinCodec`)
+ *   -prof name       Add a JMH profiler (e.g. `-prof async`)
+ *   -wi n            Warmup iterations (default 3)
+ *   -mi n            Measurement iterations (default 5)
+ *   -f n             Forks (default 2)
+ *   -jvmArgs args    Extra JVM args (e.g. `-jvmArgs -agentpath:...`)
+ */
 fun run(self: KClass<*>, args: Array<String> = emptyArray()) {
     val opts = OptionsBuilder()
         .warmupIterations(3)
@@ -63,6 +76,18 @@ fun run(self: KClass<*>, args: Array<String> = emptyArray()) {
                     val (name, value) = spec.split("=", limit = 2)
                     opts.param(name, value)
                 }
+                "-prof" -> {
+                    val parts = spec.split(":", limit = 2)
+                    if (parts.size == 2) {
+                        opts.addProfiler(parts[0], parts[1])
+                    } else {
+                        opts.addProfiler(parts[0])
+                    }
+                }
+                "-wi" -> opts.warmupIterations(spec.toInt())
+                "-mi" -> opts.measurementIterations(spec.toInt())
+                "-f" -> opts.forks(spec.toInt())
+                "-jvmArgs" -> opts.jvmArgs(spec)
             }
         }
 

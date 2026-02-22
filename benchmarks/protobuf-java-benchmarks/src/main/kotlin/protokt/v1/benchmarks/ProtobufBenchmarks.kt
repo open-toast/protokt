@@ -49,6 +49,7 @@ open class ProtobufBenchmarks {
     private lateinit var stringOneofPayloads: List<ByteString>
     private lateinit var stringOneofVeryHeavyPayloads: List<ByteString>
     private lateinit var stringVeryHeavyPayloads: List<ByteString>
+    private lateinit var stringOneof20kPayloads: List<ByteString>
 
     private lateinit var largePayloadArrays: List<ByteArray>
     private lateinit var mediumPayloadArrays: List<ByteArray>
@@ -72,6 +73,14 @@ open class ProtobufBenchmarks {
                 .setStringVal1(randomUtf8String(random, 10_000))
                 .setStringVal2(randomUtf8String(random, 10_000))
                 .setStringVal3(randomUtf8String(random, 10_000))
+                .build()
+        }.map { UnsafeByteOperations.unsafeWrap(it.toByteArray()) }
+
+        stringOneof20kPayloads = (0 until 100).map {
+            GenericMessage.StringOneofMessage.newBuilder()
+                .setStringVal1(randomUtf8String(random, 20_000))
+                .setStringVal2(randomUtf8String(random, 20_000))
+                .setStringVal3(randomUtf8String(random, 20_000))
                 .build()
         }.map { UnsafeByteOperations.unsafeWrap(it.toByteArray()) }
 
@@ -260,6 +269,18 @@ open class ProtobufBenchmarks {
     }
 
     @Benchmark
+    fun mutateAndSerializeStringHeavyStreaming(bh: Blackhole) {
+        val baos = ByteArrayOutputStream()
+        stringHeavyPayloads.forEach { bytes ->
+            val msg = GenericMessage.GenericMessage1.parseFrom(bytes)
+            val mutated = msg.toBuilder().setFieldString1(msg.fieldString1 + "x").setFieldString2(msg.fieldString2 + "x").setFieldString3000(msg.fieldString3000 + "x").build()
+            mutated.writeTo(baos)
+            bh.consume(baos.size())
+            baos.reset()
+        }
+    }
+
+    @Benchmark
     fun passThroughStringHeavy(bh: Blackhole) {
         stringHeavyPayloads.forEach { bytes ->
             bh.consume(GenericMessage.GenericMessage1.parseFrom(bytes).toByteArray())
@@ -283,6 +304,51 @@ open class ProtobufBenchmarks {
     fun passThroughStringOneof(bh: Blackhole) {
         stringOneofPayloads.forEach { bytes ->
             bh.consume(GenericMessage.StringOneofMessage.parseFrom(bytes).toByteArray())
+        }
+    }
+
+    @Benchmark
+    fun mutateAndSerializeStringOneofStreaming(bh: Blackhole) {
+        val baos = ByteArrayOutputStream()
+        stringOneofPayloads.forEach { bytes ->
+            val msg = GenericMessage.StringOneofMessage.parseFrom(bytes)
+            val mutated = msg.toBuilder()
+                .setStringVal1(msg.stringVal1 + "x")
+                .setStringVal2(msg.stringVal2 + "x")
+                .setStringVal3(msg.stringVal3 + "x")
+                .build()
+            mutated.writeTo(baos)
+            bh.consume(baos.size())
+            baos.reset()
+        }
+    }
+
+    @Benchmark
+    fun mutateAndSerializeStringOneof20k(bh: Blackhole) {
+        stringOneof20kPayloads.forEach { bytes ->
+            val msg = GenericMessage.StringOneofMessage.parseFrom(bytes)
+            val mutated = msg.toBuilder()
+                .setStringVal1(msg.stringVal1 + "x")
+                .setStringVal2(msg.stringVal2 + "x")
+                .setStringVal3(msg.stringVal3 + "x")
+                .build()
+            bh.consume(mutated.toByteArray())
+        }
+    }
+
+    @Benchmark
+    fun mutateAndSerializeStringOneof20kStreaming(bh: Blackhole) {
+        val baos = ByteArrayOutputStream()
+        stringOneof20kPayloads.forEach { bytes ->
+            val msg = GenericMessage.StringOneofMessage.parseFrom(bytes)
+            val mutated = msg.toBuilder()
+                .setStringVal1(msg.stringVal1 + "x")
+                .setStringVal2(msg.stringVal2 + "x")
+                .setStringVal3(msg.stringVal3 + "x")
+                .build()
+            mutated.writeTo(baos)
+            bh.consume(baos.size())
+            baos.reset()
         }
     }
 
