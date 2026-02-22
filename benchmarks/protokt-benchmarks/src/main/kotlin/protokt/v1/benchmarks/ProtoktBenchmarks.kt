@@ -313,6 +313,20 @@ open class ProtoktBenchmarks {
     }
 
     @Benchmark
+    fun deserializeStringHeavyStreaming(bh: Blackhole) {
+        stringHeavyPayloads.forEach { bytes ->
+            bh.consume(GenericMessage1.deserialize(bytes.inputStream()))
+        }
+    }
+
+    @Benchmark
+    fun deserializeStringOneofStreaming(bh: Blackhole) {
+        stringOneofPayloads.forEach { bytes ->
+            bh.consume(StringOneofMessage.deserialize(bytes.inputStream()))
+        }
+    }
+
+    @Benchmark
     fun mutateAndSerializeStringOneof(bh: Blackhole) {
         stringOneofPayloads.forEach { bytes ->
             val msg = StringOneofMessage.deserialize(bytes)

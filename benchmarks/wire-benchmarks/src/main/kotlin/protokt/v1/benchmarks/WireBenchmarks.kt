@@ -59,6 +59,8 @@ open class WireBenchmarks {
     private lateinit var largePayloadArrays: List<ByteArray>
     private lateinit var mediumPayloadArrays: List<ByteArray>
     private lateinit var smallPayloadArrays: List<ByteArray>
+    private lateinit var stringHeavyPayloadArrays: List<ByteArray>
+    private lateinit var stringOneofPayloadArrays: List<ByteArray>
 
     @Setup
     fun setup() {
@@ -121,6 +123,8 @@ open class WireBenchmarks {
         largePayloadArrays = largeDataset.payload.map { it.toByteArray() }
         mediumPayloadArrays = mediumDataset.payload.map { it.toByteArray() }
         smallPayloadArrays = smallDataset.payload.map { it.toByteArray() }
+        stringHeavyPayloadArrays = stringHeavyPayloads.map { it.toByteArray() }
+        stringOneofPayloadArrays = stringOneofPayloads.map { it.toByteArray() }
     }
 
     @Benchmark
@@ -280,9 +284,37 @@ open class WireBenchmarks {
     }
 
     @Benchmark
+    fun mutateAndSerializeStringHeavyStreaming(bh: Blackhole) {
+        val baos = ByteArrayOutputStream()
+        val sink = baos.sink().buffer()
+        stringHeavyPayloads.forEach { bytes ->
+            val msg = GenericMessage1.ADAPTER.decode(bytes)
+            val mutated = msg.copy(field_string1 = msg.field_string1 + "x", field_string2 = msg.field_string2 + "x", field_string3000 = msg.field_string3000 + "x")
+            GenericMessage1.ADAPTER.encode(sink, mutated)
+            sink.flush()
+            bh.consume(baos.size())
+            baos.reset()
+        }
+    }
+
+    @Benchmark
     fun passThroughStringHeavy(bh: Blackhole) {
         stringHeavyPayloads.forEach { bytes ->
             bh.consume(GenericMessage1.ADAPTER.encode(GenericMessage1.ADAPTER.decode(bytes)))
+        }
+    }
+
+    @Benchmark
+    fun deserializeStringHeavyStreaming(bh: Blackhole) {
+        stringHeavyPayloadArrays.forEach { bytes ->
+            bh.consume(GenericMessage1.ADAPTER.decode(ByteArrayInputStream(bytes).source().buffer()))
+        }
+    }
+
+    @Benchmark
+    fun deserializeStringOneofStreaming(bh: Blackhole) {
+        stringOneofPayloadArrays.forEach { bytes ->
+            bh.consume(StringOneofMessage.ADAPTER.decode(ByteArrayInputStream(bytes).source().buffer()))
         }
     }
 

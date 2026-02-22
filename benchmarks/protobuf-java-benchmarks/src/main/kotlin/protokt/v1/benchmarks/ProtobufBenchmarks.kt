@@ -54,6 +54,8 @@ open class ProtobufBenchmarks {
     private lateinit var largePayloadArrays: List<ByteArray>
     private lateinit var mediumPayloadArrays: List<ByteArray>
     private lateinit var smallPayloadArrays: List<ByteArray>
+    private lateinit var stringHeavyPayloadArrays: List<ByteArray>
+    private lateinit var stringOneofPayloadArrays: List<ByteArray>
 
     @Setup
     fun setup() {
@@ -116,6 +118,8 @@ open class ProtobufBenchmarks {
         largePayloadArrays = largeDataset.payloadList.map { it.toByteArray() }
         mediumPayloadArrays = mediumDataset.payloadList.map { it.toByteArray() }
         smallPayloadArrays = smallDataset.payloadList.map { it.toByteArray() }
+        stringHeavyPayloadArrays = stringHeavyPayloads.map { it.toByteArray() }
+        stringOneofPayloadArrays = stringOneofPayloads.map { it.toByteArray() }
     }
 
     @Benchmark
@@ -375,6 +379,20 @@ open class ProtobufBenchmarks {
                 .setFieldString3000(msg.fieldString3000 + "x")
                 .build()
             bh.consume(mutated.toByteArray())
+        }
+    }
+
+    @Benchmark
+    fun deserializeStringHeavyStreaming(bh: Blackhole) {
+        stringHeavyPayloadArrays.forEach { bytes ->
+            bh.consume(GenericMessage.GenericMessage1.parseFrom(ByteArrayInputStream(bytes)))
+        }
+    }
+
+    @Benchmark
+    fun deserializeStringOneofStreaming(bh: Blackhole) {
+        stringOneofPayloadArrays.forEach { bytes ->
+            bh.consume(GenericMessage.StringOneofMessage.parseFrom(ByteArrayInputStream(bytes)))
         }
     }
 
