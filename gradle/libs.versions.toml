@@ -42,7 +42,7 @@ spotless = "8.2.1"
 
 # benchmarks
 datasets = "0.1.0"
-download = "5.6.0"
+download = "5.7.0"
 jmh = "1.37"
 wire = "5.5.0"
 
