@@ -66,7 +66,7 @@ class ConformanceTest {
                             add("-Dprotokt.collection.factory=protokt.v1.PersistentCollectionFactory")
                         }
                         if (codec == Codec.KOTLIN) {
-                            add("-Dprotokt.codec=protokt.v1.KotlinCodec")
+                            add("-Dprotokt.codec=protokt.v1.ProtoktCodec")
                         }
                         if (serializationMode == SerializationMode.STREAMING) {
                             add("-Dprotokt.streaming=true")
@@ -79,7 +79,7 @@ class ConformanceTest {
                         put("PROTOKT_COLLECTION_FACTORY", "protokt.v1.PersistentCollectionFactory")
                     }
                     if (codec == Codec.KOTLIN) {
-                        put("PROTOKT_CODEC", "protokt.v1.KotlinCodec")
+                        put("PROTOKT_CODEC", "protokt.v1.ProtoktCodec")
                     }
                     if (serializationMode == SerializationMode.STREAMING) {
                         put("PROTOKT_STREAMING", "true")
@@ -179,13 +179,13 @@ private fun verifyCollectionType(stderr: String, config: ConformanceTest.Conform
 
 private const val PROTOBUF_JAVA_READER = "protokt.v1.ProtobufJavaReader"
 private const val PROTOBUF_JS_READER = "protokt.v1.ProtobufJsReader"
-private const val KOTLIN_READER = "protokt.v1.KotlinReader"
+private const val PROTOKT_READER = "protokt.v1.ProtoktReader"
 
 private fun verifyCodec(stderr: String, config: ConformanceTest.ConformanceConfig) {
     val codecName = "protoktCodec=(.+)".toRegex().find(stderr)?.groupValues?.get(1)?.trim()
     val expected =
         if (config.codec == Codec.KOTLIN) {
-            KOTLIN_READER
+            PROTOKT_READER
         } else {
             if (config.platform.project == "jvm") PROTOBUF_JAVA_READER else PROTOBUF_JS_READER
         }

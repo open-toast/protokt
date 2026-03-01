@@ -46,7 +46,7 @@ fun randomUtf8String(random: Random, charCount: Int): String {
  * Supported args (passed via `--args`):
  *   -i regex         Include only benchmarks matching regex (e.g. `-i mutateAndSerialize`)
  *   -e regex         Exclude benchmarks matching regex (e.g. `-e .*copyAppend.*`)
- *   -p name=value    Set a JMH parameter (e.g. `-p codec=protokt.v1.KotlinCodec`)
+ *   -p name=value    Set a JMH parameter (e.g. `-p codec=protokt.v1.ProtoktCodec`)
  *   -prof name       Add a JMH profiler (e.g. `-prof async`)
  *   -wi n            Warmup iterations (default 3)
  *   -mi n            Measurement iterations (default 5)

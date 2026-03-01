@@ -19,20 +19,20 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
-class KotlinCodecTest {
+class ProtoktCodecTest {
     private fun roundtripVarint32(value: Int): Int {
         val buf = ByteArray(10)
-        val writer = KotlinWriter(buf)
+        val writer = ProtoktWriter(buf)
         writer.write(value)
-        val reader = KotlinReader(buf)
+        val reader = ProtoktReader(buf)
         return reader.readInt64().toInt()
     }
 
     private fun roundtripVarint64(value: Long): Long {
         val buf = ByteArray(10)
-        val writer = KotlinWriter(buf)
+        val writer = ProtoktWriter(buf)
         writer.write(value)
-        val reader = KotlinReader(buf)
+        val reader = ProtoktReader(buf)
         return reader.readInt64()
     }
 
@@ -94,18 +94,18 @@ class KotlinCodecTest {
     @Test
     fun uint32_roundtrip() {
         val buf = ByteArray(5)
-        val writer = KotlinWriter(buf)
+        val writer = ProtoktWriter(buf)
         writer.writeUInt32(0xDEADBEEFu)
-        val reader = KotlinReader(buf)
+        val reader = ProtoktReader(buf)
         assertEquals(0xDEADBEEFu, reader.readUInt32())
     }
 
     @Test
     fun uint64_roundtrip() {
         val buf = ByteArray(10)
-        val writer = KotlinWriter(buf)
+        val writer = ProtoktWriter(buf)
         writer.writeUInt64(0xDEADBEEFCAFEBABEuL)
-        val reader = KotlinReader(buf)
+        val reader = ProtoktReader(buf)
         assertEquals(0xDEADBEEFCAFEBABEuL, reader.readUInt64())
     }
 
@@ -113,9 +113,9 @@ class KotlinCodecTest {
     fun sint32_roundtrip() {
         for (value in listOf(0, 1, -1, 127, -128, Int.MAX_VALUE, Int.MIN_VALUE)) {
             val buf = ByteArray(10)
-            val writer = KotlinWriter(buf)
+            val writer = ProtoktWriter(buf)
             writer.writeSInt32(value)
-            val reader = KotlinReader(buf)
+            val reader = ProtoktReader(buf)
             assertEquals(value, reader.readSInt32(), "sint32 roundtrip failed for $value")
         }
     }
@@ -124,9 +124,9 @@ class KotlinCodecTest {
     fun sint64_roundtrip() {
         for (value in listOf(0L, 1L, -1L, Long.MAX_VALUE, Long.MIN_VALUE)) {
             val buf = ByteArray(10)
-            val writer = KotlinWriter(buf)
+            val writer = ProtoktWriter(buf)
             writer.writeSInt64(value)
-            val reader = KotlinReader(buf)
+            val reader = ProtoktReader(buf)
             assertEquals(value, reader.readSInt64(), "sint64 roundtrip failed for $value")
         }
     }
@@ -134,36 +134,36 @@ class KotlinCodecTest {
     @Test
     fun fixed32_roundtrip() {
         val buf = ByteArray(4)
-        val writer = KotlinWriter(buf)
+        val writer = ProtoktWriter(buf)
         writer.writeFixed32(0xDEADBEEFu)
-        val reader = KotlinReader(buf)
+        val reader = ProtoktReader(buf)
         assertEquals(0xDEADBEEFu, reader.readFixed32())
     }
 
     @Test
     fun sfixed32_roundtrip() {
         val buf = ByteArray(4)
-        val writer = KotlinWriter(buf)
+        val writer = ProtoktWriter(buf)
         writer.writeSFixed32(-42)
-        val reader = KotlinReader(buf)
+        val reader = ProtoktReader(buf)
         assertEquals(-42, reader.readSFixed32())
     }
 
     @Test
     fun fixed64_roundtrip() {
         val buf = ByteArray(8)
-        val writer = KotlinWriter(buf)
+        val writer = ProtoktWriter(buf)
         writer.writeFixed64(0xDEADBEEFCAFEBABEuL)
-        val reader = KotlinReader(buf)
+        val reader = ProtoktReader(buf)
         assertEquals(0xDEADBEEFCAFEBABEuL, reader.readFixed64())
     }
 
     @Test
     fun sfixed64_roundtrip() {
         val buf = ByteArray(8)
-        val writer = KotlinWriter(buf)
+        val writer = ProtoktWriter(buf)
         writer.writeSFixed64(-123456789L)
-        val reader = KotlinReader(buf)
+        val reader = ProtoktReader(buf)
         assertEquals(-123456789L, reader.readSFixed64())
     }
 
@@ -171,9 +171,9 @@ class KotlinCodecTest {
     fun float_roundtrip() {
         for (value in listOf(0.0f, 1.0f, -1.0f, Float.MAX_VALUE, Float.MIN_VALUE, Float.NaN, Float.POSITIVE_INFINITY)) {
             val buf = ByteArray(4)
-            val writer = KotlinWriter(buf)
+            val writer = ProtoktWriter(buf)
             writer.write(value)
-            val reader = KotlinReader(buf)
+            val reader = ProtoktReader(buf)
             val result = reader.readFloat()
             assertEquals(value.toRawBits(), result.toRawBits(), "float roundtrip failed for $value")
         }
@@ -183,9 +183,9 @@ class KotlinCodecTest {
     fun double_roundtrip() {
         for (value in listOf(0.0, 1.0, -1.0, Double.MAX_VALUE, Double.MIN_VALUE, Double.NaN, Double.POSITIVE_INFINITY)) {
             val buf = ByteArray(8)
-            val writer = KotlinWriter(buf)
+            val writer = ProtoktWriter(buf)
             writer.write(value)
-            val reader = KotlinReader(buf)
+            val reader = ProtoktReader(buf)
             val result = reader.readDouble()
             assertEquals(value.toRawBits(), result.toRawBits(), "double roundtrip failed for $value")
         }
@@ -194,9 +194,9 @@ class KotlinCodecTest {
     @Test
     fun boolean_roundtrip() {
         val buf = ByteArray(1)
-        val writer = KotlinWriter(buf)
+        val writer = ProtoktWriter(buf)
         writer.write(true)
-        val reader = KotlinReader(buf)
+        val reader = ProtoktReader(buf)
         assertEquals(true, reader.readBool())
     }
 
@@ -204,9 +204,9 @@ class KotlinCodecTest {
     fun string_ascii_roundtrip() {
         val value = "hello world"
         val buf = ByteArray(1 + value.encodeToByteArray().size)
-        val writer = KotlinWriter(buf)
+        val writer = ProtoktWriter(buf)
         writer.write(value)
-        val reader = KotlinReader(buf)
+        val reader = ProtoktReader(buf)
         assertEquals(value, reader.readString())
     }
 
@@ -215,9 +215,9 @@ class KotlinCodecTest {
         val value = "hello \u00e9\u00e8\u00ea \u4e16\u754c \uD83D\uDE00"
         val encoded = value.encodeToByteArray()
         val buf = ByteArray(Sizes.sizeOf(encoded.size) + encoded.size)
-        val writer = KotlinWriter(buf)
+        val writer = ProtoktWriter(buf)
         writer.write(value)
-        val reader = KotlinReader(buf)
+        val reader = ProtoktReader(buf)
         assertEquals(value, reader.readString())
     }
 
@@ -225,9 +225,9 @@ class KotlinCodecTest {
     fun bytes_roundtrip() {
         val value = byteArrayOf(1, 2, 3, 4, 5)
         val buf = ByteArray(1 + value.size)
-        val writer = KotlinWriter(buf)
+        val writer = ProtoktWriter(buf)
         writer.write(value)
-        val reader = KotlinReader(buf)
+        val reader = ProtoktReader(buf)
         val result = reader.readBytes()
         assertEquals(value.toList(), result.value.toList())
     }
@@ -236,9 +236,9 @@ class KotlinCodecTest {
     fun bytesSlice_roundtrip() {
         val value = BytesSlice(byteArrayOf(0, 1, 2, 3, 4), 1, 3)
         val buf = ByteArray(1 + value.length)
-        val writer = KotlinWriter(buf)
+        val writer = ProtoktWriter(buf)
         writer.write(value)
-        val reader = KotlinReader(buf)
+        val reader = ProtoktReader(buf)
         val result = reader.readBytesSlice()
         assertEquals(3, result.length)
         assertEquals(listOf<Byte>(1, 2, 3), (0 until result.length).map { result.array[result.offset + it] })
@@ -248,22 +248,22 @@ class KotlinCodecTest {
     fun tag_roundtrip() {
         val tag = (5u shl 3) or 0u // field 5, varint wire type
         val buf = ByteArray(1)
-        val writer = KotlinWriter(buf)
+        val writer = ProtoktWriter(buf)
         writer.writeTag(tag)
-        val reader = KotlinReader(buf)
+        val reader = ProtoktReader(buf)
         assertEquals(tag, reader.readTag())
     }
 
     @Test
     fun readTag_at_end_returns_zero() {
-        val reader = KotlinReader(ByteArray(0))
+        val reader = ProtoktReader(ByteArray(0))
         assertEquals(0u, reader.readTag())
     }
 
     @Test
     fun reader_with_offset_and_limit() {
         val inner = byteArrayOf(0, 0, 42, 0, 0)
-        val reader = KotlinReader(inner, 2, 3)
+        val reader = ProtoktReader(inner, 2, 3)
         assertEquals(42L, reader.readInt64())
     }
 }

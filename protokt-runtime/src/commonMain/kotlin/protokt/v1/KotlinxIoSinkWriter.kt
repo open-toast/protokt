@@ -26,10 +26,10 @@ import kotlinx.io.writeString
 // virtual dispatch chain (Sink.writeByte -> Buffer.writeByte -> Segment) and
 // segment pool operations that dominate small-field workloads.
 //
-// The caller (KotlinCodec.serialize) transfers the buffer to the actual Sink
+// The caller (ProtoktCodec.serialize) transfers the buffer to the actual Sink
 // after serialization, moving segment pointers rather than copying bytes.
 @OptIn(OnlyForUseByGeneratedProtoCode::class, UnsafeIoApi::class)
-internal class KotlinSinkWriter(
+internal class KotlinxIoSinkWriter(
     private val buffer: Buffer
 ) : Writer {
     override fun writeFixed32(i: UInt) =
@@ -76,7 +76,7 @@ internal class KotlinSinkWriter(
     // Encode into a temporary Buffer to learn the UTF-8 byte count without a
     // separate measurement pass. The transfer to buffer moves segment pointers
     // rather than copying bytes; the only overhead is the Buffer allocation and
-    // segment pool checkout. Reserve-and-backtrack (as in KotlinWriter.write(String))
+    // segment pool checkout. Reserve-and-backtrack (as in ProtoktWriter.write(String))
     // isn't possible on a linked segment chain.
     override fun write(s: String) {
         val tmp = Buffer()
@@ -158,5 +158,5 @@ internal class KotlinSinkWriter(
     }
 
     override fun toByteArray(): ByteArray =
-        throw UnsupportedOperationException("KotlinSinkWriter does not support toByteArray()")
+        throw UnsupportedOperationException("KotlinxIoSinkWriter does not support toByteArray()")
 }

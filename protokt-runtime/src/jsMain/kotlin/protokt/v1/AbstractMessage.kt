@@ -25,7 +25,9 @@ actual abstract class AbstractMessage actual constructor() : Message {
         return writer.toByteArray()
     }
 
-    actual final override fun serialize(sink: Sink) =
-        (codec as? StreamingCodec)?.serialize(this, sink)
-            ?: sink.write(serialize())
+    actual final override fun serialize(sink: Sink) {
+        val c = codec
+        check(c is StreamingCodec) { "Configured codec ${c::class.simpleName} does not support streaming serialization" }
+        c.serialize(this, sink)
+    }
 }

@@ -29,7 +29,7 @@ protokt benchmarks accept these JMH parameters (set via `-p`):
 | Parameter | Values | Default |
 |-----------|--------|---------|
 | `collectionFactory` | `protokt.v1.DefaultCollectionFactory`, `protokt.v1.PersistentCollectionFactory` | Both |
-| `codec` | `protokt.v1.ProtobufJavaCodec`, `protokt.v1.KotlinCodec` | Both |
+| `codec` | `protokt.v1.ProtobufJavaCodec`, `protokt.v1.ProtoktCodec` | Both |
 
 ## Examples
 
@@ -54,7 +54,7 @@ Pin a JMH parameter:
 Run with a specific codec:
 
 ```
-./gradlew :benchmarks:protokt-benchmarks:run --args="-p codec=protokt.v1.KotlinCodec"
+./gradlew :benchmarks:protokt-benchmarks:run --args="-p codec=protokt.v1.ProtoktCodec"
 ```
 
 Combine flags:

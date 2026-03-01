@@ -20,7 +20,7 @@ import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 
-fun Project.compatibleWithAndroid(api: Int = 19) {
+fun Project.compatibleWithAndroid(api: Int = 21) {
     apply<ExpediterPlugin>()
 
     configure<ExpediterExtension> {

@@ -38,7 +38,7 @@ open class ProtoktBenchmarks {
     @Param("protokt.v1.DefaultCollectionFactory", "protokt.v1.PersistentCollectionFactory")
     var collectionFactory: String = "protokt.v1.DefaultCollectionFactory"
 
-    @Param("protokt.v1.ProtobufJavaCodec", "protokt.v1.KotlinCodec")
+    @Param("protokt.v1.ProtobufJavaCodec", "protokt.v1.ProtoktCodec")
     var codec: String = "protokt.v1.ProtobufJavaCodec"
 
     private lateinit var largeDataset: BenchmarkDataset

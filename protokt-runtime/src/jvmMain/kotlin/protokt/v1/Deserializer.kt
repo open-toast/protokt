@@ -33,18 +33,18 @@ actual interface Deserializer<T : Message> {
     @Beta
     actual fun deserialize(source: Source): T
 
-    fun deserialize(stream: InputStream): T =
-        (codec as? JvmCodec)?.let { deserialize(it.reader(stream)) }
-            ?: deserialize(stream.readBytes())
+    fun deserialize(stream: InputStream): T {
+        val c = codec
+        check(c is JvmCodec) { "Configured codec ${c::class.java.name} does not support InputStream deserialization" }
+        return deserialize(c.reader(stream))
+    }
 
     fun deserialize(stream: CodedInputStream): T =
         deserialize(ProtobufJavaReader(stream))
 
-    fun deserialize(buffer: ByteBuffer): T =
-        (codec as? JvmCodec)?.let { deserialize(it.reader(buffer)) }
-            ?: run {
-                val bytes = ByteArray(buffer.remaining())
-                buffer.get(bytes)
-                deserialize(bytes)
-            }
+    fun deserialize(buffer: ByteBuffer): T {
+        val c = codec
+        check(c is JvmCodec) { "Configured codec ${c::class.java.name} does not support ByteBuffer deserialization" }
+        return deserialize(c.reader(buffer))
+    }
 }

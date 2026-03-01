@@ -16,7 +16,7 @@
 package protokt.v1
 
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
-internal class KotlinWriter(
+internal class ProtoktWriter(
     private val buf: ByteArray
 ) : Writer {
     private var pos = 0

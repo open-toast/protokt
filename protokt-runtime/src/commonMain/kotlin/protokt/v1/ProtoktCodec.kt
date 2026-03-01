@@ -20,22 +20,22 @@ import kotlinx.io.Sink
 import kotlinx.io.Source
 
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
-internal object KotlinCodec : StreamingCodec {
+internal object ProtoktCodec : StreamingCodec {
     override fun writer(size: Int): Writer =
-        KotlinWriter(ByteArray(size))
+        ProtoktWriter(ByteArray(size))
 
     override fun reader(bytes: ByteArray): Reader =
-        KotlinReader(bytes)
+        ProtoktReader(bytes)
 
     override fun reader(bytes: ByteArray, offset: Int, length: Int): Reader =
-        KotlinReader(bytes, offset, offset + length)
+        ProtoktReader(bytes, offset, offset + length)
 
     override fun reader(source: Source): Reader =
-        KotlinSourceReader(source)
+        KotlinxIoSourceReader(source)
 
     override fun serialize(message: Message, sink: Sink) {
         val buffer = Buffer()
-        message.serialize(KotlinSinkWriter(buffer))
+        message.serialize(KotlinxIoSinkWriter(buffer))
         sink.write(buffer, buffer.size)
     }
 }

@@ -22,7 +22,7 @@ import kotlinx.io.readLongLe
 import kotlinx.io.readString
 
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
-internal class KotlinSourceReader(
+internal class KotlinxIoSourceReader(
     private val source: Source
 ) : Reader {
     private var _lastTag: Int = 0

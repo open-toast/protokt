@@ -28,7 +28,7 @@ class ReaderValidationTest {
     companion object {
         @JvmStatic
         fun codecs(): List<Codec> =
-            listOf(KotlinCodec, ProtobufJavaCodec, KotlinSourceCodec)
+            listOf(ProtoktCodec, ProtobufJavaCodec, ProtoktSourceCodec)
 
         private val NEGATIVE_ONE_VARINT =
             byteArrayOf(
@@ -333,13 +333,13 @@ private object RecursiveMessage : AbstractDeserializer<RecursiveMessage>(), Mess
 }
 
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
-private object KotlinSourceCodec : Codec {
+private object ProtoktSourceCodec : Codec {
     override fun writer(size: Int): Writer =
-        KotlinWriter(ByteArray(size))
+        ProtoktWriter(ByteArray(size))
 
     override fun reader(bytes: ByteArray): Reader =
-        KotlinSourceReader(Buffer().also { it.write(bytes) })
+        KotlinxIoSourceReader(Buffer().also { it.write(bytes) })
 
     override fun reader(bytes: ByteArray, offset: Int, length: Int): Reader =
-        KotlinSourceReader(Buffer().also { it.write(bytes, offset, offset + length) })
+        KotlinxIoSourceReader(Buffer().also { it.write(bytes, offset, offset + length) })
 }

@@ -42,11 +42,6 @@
     },
     {
       "type": "type-missing",
-      "caller": "kotlin/random/jdk8/PlatformThreadLocalRandom",
-      "target": "java/util/concurrent/ThreadLocalRandom"
-    },
-    {
-      "type": "type-missing",
       "caller": "io/grpc/CallOptions",
       "target": "java/time/Duration"
     },
