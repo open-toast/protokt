@@ -22,6 +22,7 @@ import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.Feature
 import com.squareup.kotlinpoet.FileSpec
 import com.toasttab.protokt.v1.ProtoktProtos
+import io.github.oshai.kotlinlogging.KotlinLoggingConfiguration
 import protokt.v1.codegen.generate.generateFile
 import protokt.v1.codegen.util.ErrorContext.withFileName
 import protokt.v1.codegen.util.GeneratorContext
@@ -36,6 +37,7 @@ import java.io.PrintStream
 import kotlin.system.exitProcess
 
 fun main() {
+    KotlinLoggingConfiguration.logStartupMessage = false
     exitProcess(main(System.`in`, System.out, System.err))
 }
 
