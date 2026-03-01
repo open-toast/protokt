@@ -23,11 +23,13 @@ import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Wrapper.interceptFieldSizeof
 import protokt.v1.codegen.generate.Wrapper.interceptSizeof
 import protokt.v1.codegen.generate.Wrapper.interceptValueAccess
+import protokt.v1.codegen.generate.Wrapper.wrapped
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.Oneof
 import protokt.v1.codegen.util.SizeFn
 import protokt.v1.codegen.util.StandardField
 import protokt.v1.codegen.util.sizeFn
+import protokt.v1.reflect.FieldType
 
 internal const val SERIALIZED_SIZE = "`\$serializedSize`"
 
@@ -82,18 +84,28 @@ private class MessageSizeGenerator(
     }
 
     private fun sizeofOneof(o: Oneof, f: StandardField) =
-        CodeBlock.of(
-            "$resultVarName·+=·%L",
-            sizeOf(
-                f,
-                ctx,
-                interceptSizeof(
+        if (f.type == FieldType.String && !f.wrapped) {
+            buildCodeBlock {
+                add(
+                    "$resultVarName·+=·%M(${f.tag}u) + %L",
+                    sizeOf,
+                    f.sizeOf(CodeBlock.of("%N.%N.wireValue()", o.fieldName, "_${f.fieldName}"))
+                )
+            }
+        } else {
+            CodeBlock.of(
+                "$resultVarName·+=·%L",
+                sizeOf(
                     f,
-                    CodeBlock.of("%N.%N", o.fieldName, f.fieldName),
-                    ctx
+                    ctx,
+                    interceptSizeof(
+                        f,
+                        CodeBlock.of("%N.%N", o.fieldName, f.fieldName),
+                        ctx
+                    )
                 )
             )
-        )
+        }
 }
 
 internal fun sizeOf(
