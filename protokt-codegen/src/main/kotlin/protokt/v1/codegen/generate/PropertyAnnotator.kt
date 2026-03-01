@@ -169,7 +169,7 @@ internal sealed class CachingFieldInfo {
     /** Whether the cached LazyReference is nullable (message-typed wrappers are nullable because absence = null). */
     open val nullable: Boolean get() = false
 
-    object PlainString : CachingFieldInfo()
+    data class PlainString(override val nullable: Boolean) : CachingFieldInfo()
 
     data class Converted(
         val converterClassName: com.squareup.kotlinpoet.ClassName,

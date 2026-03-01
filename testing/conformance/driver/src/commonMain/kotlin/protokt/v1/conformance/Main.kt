@@ -37,6 +37,7 @@ fun main() =
             }
         }.deserialize(byteArrayOf())
         Platform.printErr("protoktCodec=${Platform.className(codecReader)}")
+        Platform.printErr("protoktStreaming=${Platform.streaming}")
         while (true) {
             val request = Platform.readMessageFromStdIn(ConformanceRequest) ?: break
 

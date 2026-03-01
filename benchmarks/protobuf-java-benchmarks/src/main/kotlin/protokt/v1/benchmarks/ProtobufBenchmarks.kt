@@ -27,6 +27,7 @@ import org.openjdk.jmh.annotations.Scope
 import org.openjdk.jmh.annotations.Setup
 import org.openjdk.jmh.annotations.State
 import org.openjdk.jmh.infra.Blackhole
+import java.util.Random
 import java.util.concurrent.TimeUnit
 
 @BenchmarkMode(Mode.AverageTime)
@@ -42,9 +43,48 @@ open class ProtobufBenchmarks {
 
     private lateinit var byteValues: Array<ByteString>
 
+    private lateinit var stringHeavyPayloads: List<ByteString>
+    private lateinit var stringOneofPayloads: List<ByteString>
+    private lateinit var stringOneofVeryHeavyPayloads: List<ByteString>
+    private lateinit var stringVeryHeavyPayloads: List<ByteString>
+
     @Setup
     fun setup() {
         byteValues = Array(1000) { i -> UnsafeByteOperations.unsafeWrap(byteArrayOf(i.toByte())) }
+
+        val random = Random(42)
+        stringHeavyPayloads = (0 until 100).map {
+            GenericMessage.GenericMessage1.newBuilder()
+                .setFieldString1(randomUtf8String(random, 10_000))
+                .setFieldString2(randomUtf8String(random, 10_000))
+                .setFieldString3000(randomUtf8String(random, 10_000))
+                .build()
+        }.map { UnsafeByteOperations.unsafeWrap(it.toByteArray()) }
+
+        stringOneofPayloads = (0 until 100).map {
+            GenericMessage.StringOneofMessage.newBuilder()
+                .setStringVal1(randomUtf8String(random, 10_000))
+                .setStringVal2(randomUtf8String(random, 10_000))
+                .setStringVal3(randomUtf8String(random, 10_000))
+                .build()
+        }.map { UnsafeByteOperations.unsafeWrap(it.toByteArray()) }
+
+        stringOneofVeryHeavyPayloads = (0 until 10).map {
+            GenericMessage.StringOneofMessage.newBuilder()
+                .setStringVal1(randomUtf8String(random, 1_000_000))
+                .setStringVal2(randomUtf8String(random, 1_000_000))
+                .setStringVal3(randomUtf8String(random, 1_000_000))
+                .build()
+        }.map { UnsafeByteOperations.unsafeWrap(it.toByteArray()) }
+
+        stringVeryHeavyPayloads = (0 until 10).map {
+            GenericMessage.GenericMessage1.newBuilder()
+                .setFieldString1(randomUtf8String(random, 1_000_000))
+                .setFieldString2(randomUtf8String(random, 1_000_000))
+                .setFieldString3000(randomUtf8String(random, 1_000_000))
+                .build()
+        }.map { UnsafeByteOperations.unsafeWrap(it.toByteArray()) }
+
         readData("large").use { stream ->
             largeDataset = Benchmarks.BenchmarkDataset.parseFrom(stream)
         }
@@ -169,8 +209,70 @@ open class ProtobufBenchmarks {
             bh.consume(GenericMessage.GenericMessage4.parseFrom(bytes).toByteArray())
         }
     }
+
+    @Benchmark
+    fun mutateAndSerializeStringHeavy(bh: Blackhole) {
+        stringHeavyPayloads.forEach { bytes ->
+            val msg = GenericMessage.GenericMessage1.parseFrom(bytes)
+            val mutated = msg.toBuilder().setFieldString1(msg.fieldString1 + "x").setFieldString2(msg.fieldString2 + "x").setFieldString3000(msg.fieldString3000 + "x").build()
+            bh.consume(mutated.toByteArray())
+        }
+    }
+
+    @Benchmark
+    fun passThroughStringHeavy(bh: Blackhole) {
+        stringHeavyPayloads.forEach { bytes ->
+            bh.consume(GenericMessage.GenericMessage1.parseFrom(bytes).toByteArray())
+        }
+    }
+
+    @Benchmark
+    fun mutateAndSerializeStringOneof(bh: Blackhole) {
+        stringOneofPayloads.forEach { bytes ->
+            val msg = GenericMessage.StringOneofMessage.parseFrom(bytes)
+            val mutated = msg.toBuilder()
+                .setStringVal1(msg.stringVal1 + "x")
+                .setStringVal2(msg.stringVal2 + "x")
+                .setStringVal3(msg.stringVal3 + "x")
+                .build()
+            bh.consume(mutated.toByteArray())
+        }
+    }
+
+    @Benchmark
+    fun passThroughStringOneof(bh: Blackhole) {
+        stringOneofPayloads.forEach { bytes ->
+            bh.consume(GenericMessage.StringOneofMessage.parseFrom(bytes).toByteArray())
+        }
+    }
+
+    @Benchmark
+    fun mutateAndSerializeStringOneofVeryHeavy(bh: Blackhole) {
+        stringOneofVeryHeavyPayloads.forEach { bytes ->
+            val msg = GenericMessage.StringOneofMessage.parseFrom(bytes)
+            val mutated = msg.toBuilder()
+                .setStringVal1(msg.stringVal1 + "x")
+                .setStringVal2(msg.stringVal2 + "x")
+                .setStringVal3(msg.stringVal3 + "x")
+                .build()
+            bh.consume(mutated.toByteArray())
+        }
+    }
+
+    @Benchmark
+    fun mutateAndSerializeStringVeryHeavy(bh: Blackhole) {
+        stringVeryHeavyPayloads.forEach { bytes ->
+            val msg = GenericMessage.GenericMessage1.parseFrom(bytes)
+            val mutated = msg.toBuilder()
+                .setFieldString1(msg.fieldString1 + "x")
+                .setFieldString2(msg.fieldString2 + "x")
+                .setFieldString3000(msg.fieldString3000 + "x")
+                .build()
+            bh.consume(mutated.toByteArray())
+        }
+    }
 }
 
-fun main() {
-    run(ProtobufBenchmarks::class)
+fun main(args: Array<String>) {
+    run(ProtobufBenchmarks::class, args)
 }

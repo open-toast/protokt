@@ -24,6 +24,7 @@ import org.junit.jupiter.params.provider.MethodSource
 import protokt.v1.conformance.ConformanceTest.CollectionFactory.PERSISTENT
 import protokt.v1.conformance.ConformanceTest.Platform.JS_IR
 import protokt.v1.conformance.ConformanceTest.Platform.JVM
+import protokt.v1.conformance.ConformanceTest.SerializationMode
 import protokt.v1.testing.projectRoot
 import protokt.v1.testing.runCommand
 import java.io.File
@@ -40,9 +41,12 @@ class ConformanceTest {
 
     enum class CollectionFactory { DEFAULT, PERSISTENT }
 
+    enum class SerializationMode { STANDARD, STREAMING }
+
     data class ConformanceConfig(
         val platform: Platform,
-        val collectionFactory: CollectionFactory
+        val collectionFactory: CollectionFactory,
+        val serializationMode: SerializationMode
     ) {
         fun driver(): Path =
             when (platform) {
@@ -56,6 +60,9 @@ class ConformanceTest {
                     val flags = buildList {
                         if (collectionFactory == PERSISTENT) {
                             add("-Dprotokt.collection.factory=protokt.v1.PersistentCollectionFactory")
+                        }
+                        if (serializationMode == SerializationMode.STREAMING) {
+                            add("-Dprotokt.streaming=true")
                         }
                     }
                     if (flags.isNotEmpty()) mapOf("JAVA_OPTS" to flags.joinToString(" ")) else emptyMap()
@@ -73,12 +80,17 @@ class ConformanceTest {
         fun configurations() =
             Lists.cartesianProduct(
                 Platform.entries,
-                CollectionFactory.entries
+                CollectionFactory.entries,
+                SerializationMode.entries
             ).map {
                 ConformanceConfig(
                     it[0] as Platform,
-                    it[1] as CollectionFactory
+                    it[1] as CollectionFactory,
+                    it[2] as SerializationMode
                 )
+            }.filter {
+                // streaming is only supported on JVM (protobuf-java InputStream/OutputStream)
+                it.serializationMode != SerializationMode.STREAMING || it.platform == JVM
             }
     }
 
@@ -97,6 +109,7 @@ class ConformanceTest {
             val allStderr = output.stderr + jsStderrLog(config.platform.project)
             verifyCollectionType(allStderr, config)
             verifyCodec(allStderr, config)
+            verifyStreaming(allStderr, config)
 
             assertThat(output.stderr).contains("CONFORMANCE SUITE PASSED")
             val matches = " (\\d+) unexpected failures".toRegex().findAll(output.stderr).toList()
@@ -157,4 +170,10 @@ private fun verifyCodec(stderr: String, config: ConformanceTest.ConformanceConfi
     val expected = if (config.platform.project == "jvm") PROTOBUF_JAVA_READER else PROTOBUF_JS_READER
     val platformExpected = if (config.platform.project == "jvm") expected else expected.substringAfterLast(".")
     assertThat(codecName).isEqualTo(platformExpected)
+}
+
+private fun verifyStreaming(stderr: String, config: ConformanceTest.ConformanceConfig) {
+    val streaming = "protoktStreaming=(.+)".toRegex().find(stderr)?.groupValues?.get(1)?.trim()
+    val expected = (config.serializationMode == SerializationMode.STREAMING).toString()
+    assertThat(streaming).isEqualTo(expected)
 }

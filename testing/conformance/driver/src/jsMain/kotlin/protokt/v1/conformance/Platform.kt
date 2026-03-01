@@ -31,6 +31,8 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 internal actual object Platform {
+    actual val streaming: Boolean = false
+
     actual fun printErr(message: String) {
         Process.stderr.write(message + "\n")
     }
