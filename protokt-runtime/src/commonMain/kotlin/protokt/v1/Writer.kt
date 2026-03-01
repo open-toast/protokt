@@ -44,11 +44,13 @@ interface Writer {
         write(e.value)
 
     fun write(m: Message) {
-        write(m.messageSize())
+        write(m.serializedSize())
         m.serialize(this)
     }
 
     fun writeUnknown(u: UnknownFieldSet) {
         u.unknownFields.forEach { (k, v) -> v.write(k, this) }
     }
+
+    fun toByteArray(): ByteArray
 }

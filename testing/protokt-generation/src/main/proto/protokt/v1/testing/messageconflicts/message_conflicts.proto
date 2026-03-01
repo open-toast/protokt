@@ -47,7 +47,7 @@ message AbstractDeserializer {}
 message Message {}
 message AbstractMessage {}
 message BytesSlice {}
-message EnumReader {}
+message EnumDeserializer {}
 message AbstractEnum {}
 message UnknownField {}
 message UnknownValue {}

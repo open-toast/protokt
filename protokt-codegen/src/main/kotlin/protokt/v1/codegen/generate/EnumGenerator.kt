@@ -23,7 +23,7 @@ import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
-import protokt.v1.EnumReader
+import protokt.v1.EnumDeserializer
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Deprecation.handleDeprecation
 import protokt.v1.codegen.util.Enum
@@ -106,12 +106,12 @@ private class EnumGenerator(
         addType(
             TypeSpec.companionObjectBuilder(e.deserializerClassName.simpleName)
                 .addSuperinterface(
-                    EnumReader::class
+                    EnumDeserializer::class
                         .asTypeName()
                         .parameterizedBy(e.className)
                 )
                 .addFunction(
-                    buildFunSpec("from") {
+                    buildFunSpec("deserialize") {
                         addModifiers(KModifier.OVERRIDE)
                         returns(e.className)
                         addParameter("value", Int::class)

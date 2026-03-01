@@ -33,6 +33,12 @@ kotlin {
             }
         }
 
+        val jvmTest by getting {
+            dependencies {
+                implementation(libs.protobuf.java)
+            }
+        }
+
         val jsMain by getting {
             dependencies {
                 api(npm("protobufjs", libs.versions.protobuf.js.get()))

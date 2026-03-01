@@ -28,5 +28,5 @@ actual interface Deserializer<T : Message> {
     actual fun deserialize(reader: Reader): T
 
     fun deserialize(bytes: Uint8Array): T =
-        deserialize(reader(ProtobufJsReader.create(bytes)))
+        deserialize(ProtobufJsReader(ProtobufJsReaderAdapter.create(bytes)))
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast, Inc.
+ * Copyright (c) 2026 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,13 @@
  * limitations under the License.
  */
 
+@file:OptIn(OnlyForUseByGeneratedProtoCode::class)
+
 package protokt.v1
 
-@OptIn(OnlyForUseByGeneratedProtoCode::class)
-actual interface Message {
-    actual fun serializedSize(): Int
-
-    actual fun serialize(writer: Writer)
-
-    actual fun serialize(): ByteArray
-}
+internal actual val collectionFactory: CollectionFactory =
+    if (js("(typeof process !== 'undefined' && process.env && process.env.PROTOKT_COLLECTION_FACTORY === 'protokt.v1.PersistentCollectionFactory')").unsafeCast<Boolean>()) {
+        PersistentCollectionFactory
+    } else {
+        DefaultCollectionFactory
+    }

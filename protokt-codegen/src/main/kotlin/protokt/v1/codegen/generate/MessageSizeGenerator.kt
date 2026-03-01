@@ -29,7 +29,7 @@ import protokt.v1.codegen.util.SizeFn
 import protokt.v1.codegen.util.StandardField
 import protokt.v1.codegen.util.sizeFn
 
-internal const val MESSAGE_SIZE = "`\$messageSize`"
+internal const val SERIALIZED_SIZE = "`\$serializedSize`"
 
 internal fun generateMessageSize(msg: Message, properties: List<PropertySpec>, ctx: Context) =
     MessageSizeGenerator(msg, properties, ctx).generate()
@@ -58,7 +58,7 @@ private class MessageSizeGenerator(
                 { oneof, std, _ -> sizeofOneof(oneof, std) }
             )
 
-        return PropertySpec.builder(MESSAGE_SIZE, Int::class)
+        return PropertySpec.builder(SERIALIZED_SIZE, Int::class)
             .addModifiers(KModifier.PRIVATE)
             .delegate(
                 buildCodeBlock {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast, Inc.
+ * Copyright (c) 2026 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,8 +13,18 @@
  * limitations under the License.
  */
 
+@file:OptIn(OnlyForUseByGeneratedProtoCode::class)
+
 package protokt.v1
 
-interface EnumReader<E : Enum> {
-    fun from(value: Int): E
+internal actual val codec: Codec by lazy {
+    val codecFqcn =
+        System.getProperty("protokt.codec")
+            ?: System.getenv("PROTOKT_CODEC")
+
+    if (codecFqcn != null) {
+        Class.forName(codecFqcn).getField("INSTANCE").get(null) as Codec
+    } else {
+        ProtobufJavaCodec
+    }
 }

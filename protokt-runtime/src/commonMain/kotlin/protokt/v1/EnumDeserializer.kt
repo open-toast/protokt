@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast, Inc.
+ * Copyright (c) 2019 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,16 +15,6 @@
 
 package protokt.v1
 
-@OptIn(OnlyForUseByGeneratedProtoCode::class)
-actual abstract class AbstractDeserializer<T : Message> actual constructor() : Deserializer<T> {
-    actual abstract override fun deserialize(reader: Reader): T
-
-    actual final override fun deserialize(bytes: Bytes) =
-        deserialize(bytes.value)
-
-    actual final override fun deserialize(bytes: ByteArray) =
-        deserialize(codec.reader(bytes))
-
-    actual final override fun deserialize(bytes: BytesSlice) =
-        deserialize(codec.reader(bytes.array, bytes.offset, bytes.length))
+interface EnumDeserializer<E : Enum> {
+    fun deserialize(value: Int): E
 }

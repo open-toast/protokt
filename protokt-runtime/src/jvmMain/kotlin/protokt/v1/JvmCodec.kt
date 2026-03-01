@@ -17,9 +17,14 @@
 
 package protokt.v1
 
-internal actual val collectionProvider: CollectionProvider =
-    if (js("(typeof process !== 'undefined' && process.env && process.env.PROTOKT_COLLECTION_PROVIDER === 'protokt.v1.PersistentCollectionProvider')").unsafeCast<Boolean>()) {
-        PersistentCollectionProvider
-    } else {
-        DefaultCollectionProvider
-    }
+import java.io.InputStream
+import java.io.OutputStream
+import java.nio.ByteBuffer
+
+interface JvmCodec : Codec {
+    fun serialize(message: Message, outputStream: OutputStream)
+
+    fun reader(stream: InputStream): Reader
+
+    fun reader(buffer: ByteBuffer): Reader
+}

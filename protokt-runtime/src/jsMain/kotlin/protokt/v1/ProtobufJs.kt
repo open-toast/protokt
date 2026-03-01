@@ -21,46 +21,46 @@ package protokt.v1
 import org.khronos.webgl.Uint8Array
 
 @JsName("Writer")
-internal external class ProtobufJsWriter {
-    fun bool(value: Boolean): ProtobufJsWriter
+internal external class ProtobufJsWriterAdapter {
+    fun bool(value: Boolean): ProtobufJsWriterAdapter
 
-    fun bytes(value: Uint8Array): ProtobufJsWriter
+    fun bytes(value: Uint8Array): ProtobufJsWriterAdapter
 
-    fun double(value: Double): ProtobufJsWriter
+    fun double(value: Double): ProtobufJsWriterAdapter
 
-    fun fixed32(value: Int): ProtobufJsWriter
+    fun fixed32(value: Int): ProtobufJsWriterAdapter
 
-    fun fixed64(value: dynamic): ProtobufJsWriter
+    fun fixed64(value: dynamic): ProtobufJsWriterAdapter
 
-    fun float(value: Float): ProtobufJsWriter
+    fun float(value: Float): ProtobufJsWriterAdapter
 
-    fun int32(value: Int): ProtobufJsWriter
+    fun int32(value: Int): ProtobufJsWriterAdapter
 
-    fun int64(value: dynamic): ProtobufJsWriter
+    fun int64(value: dynamic): ProtobufJsWriterAdapter
 
-    fun sfixed32(value: Int): ProtobufJsWriter
+    fun sfixed32(value: Int): ProtobufJsWriterAdapter
 
-    fun sfixed64(value: dynamic): ProtobufJsWriter
+    fun sfixed64(value: dynamic): ProtobufJsWriterAdapter
 
-    fun sint32(value: Int): ProtobufJsWriter
+    fun sint32(value: Int): ProtobufJsWriterAdapter
 
-    fun sint64(value: dynamic): ProtobufJsWriter
+    fun sint64(value: dynamic): ProtobufJsWriterAdapter
 
-    fun string(value: String): ProtobufJsWriter
+    fun string(value: String): ProtobufJsWriterAdapter
 
-    fun uint32(value: Int): ProtobufJsWriter
+    fun uint32(value: Int): ProtobufJsWriterAdapter
 
-    fun uint64(value: dynamic): ProtobufJsWriter
+    fun uint64(value: dynamic): ProtobufJsWriterAdapter
 
     fun finish(): Uint8Array
 
     companion object {
-        fun create(): ProtobufJsWriter
+        fun create(): ProtobufJsWriterAdapter
     }
 }
 
 @JsName("Reader")
-internal external class ProtobufJsReader {
+internal external class ProtobufJsReaderAdapter {
     val len: Int
 
     val pos: Int
@@ -90,6 +90,6 @@ internal external class ProtobufJsReader {
     fun uint64(): dynamic
 
     companion object {
-        fun create(buf: Uint8Array): ProtobufJsReader
+        fun create(buf: Uint8Array): ProtobufJsReaderAdapter
     }
 }

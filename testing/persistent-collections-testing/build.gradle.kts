@@ -18,7 +18,7 @@ plugins {
 }
 
 tasks.test {
-    systemProperty("protokt.collection.provider", "protokt.v1.PersistentCollectionProvider")
+    systemProperty("protokt.collection.factory", "protokt.v1.PersistentCollectionFactory")
 }
 
 dependencies {
