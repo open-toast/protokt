@@ -29,7 +29,8 @@ actual interface Message {
     @Beta
     actual fun serialize(sink: Sink)
 
-    fun serialize(outputStream: OutputStream) =
-        (codec as? JvmCodec)?.serialize(this, outputStream)
-            ?: outputStream.write(serialize())
+    fun serialize(outputStream: OutputStream) {
+        check(codec is JvmCodec) { "Configured codec ${codec::class.java.name} does not support OutputStream serialization" }
+        (codec as JvmCodec).serialize(this, outputStream)
+    }
 }

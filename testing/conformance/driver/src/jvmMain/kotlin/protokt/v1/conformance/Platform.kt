@@ -25,6 +25,8 @@ import protokt.v1.Message
 import protokt.v1.conformance.ConformanceResponse.Result.ParseError
 import protokt.v1.conformance.ConformanceResponse.Result.RuntimeError
 import protokt.v1.conformance.ConformanceResponse.Result.SerializeError
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
