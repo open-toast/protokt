@@ -1,0 +1,202 @@
+/*
+ * Copyright (c) 2026 Toast, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package protokt.v1
+
+import kotlinx.io.Source
+import kotlinx.io.readByteArray
+import kotlinx.io.readIntLe
+import kotlinx.io.readLongLe
+import kotlinx.io.readString
+
+@OptIn(OnlyForUseByGeneratedProtoCode::class)
+internal class KotlinxIoSourceReader(
+    private val source: Source
+) : Reader {
+    private var _lastTag: Int = 0
+    private var messageDepth: Int = 0
+    private var bytesRead: Long = 0
+    private var currentLimit: Long = Long.MAX_VALUE
+
+    override val lastTag: UInt
+        get() = _lastTag.toUInt()
+
+    override fun readTag(): UInt {
+        if (bytesRead >= currentLimit || !source.request(1)) {
+            _lastTag = 0
+            return 0u
+        }
+        _lastTag = readRawVarint32()
+        if (_lastTag == 0 || WireFormat.getTagFieldNumber(_lastTag) == 0) {
+            throw IllegalStateException("Invalid tag: $_lastTag")
+        }
+        return _lastTag.toUInt()
+    }
+
+    override fun readDouble(): Double =
+        Double.fromBits(readFixed64Bits().toLong())
+
+    override fun readFloat(): Float =
+        Float.fromBits(readFixed32Bits().toInt())
+
+    override fun readFixed32(): UInt =
+        readFixed32Bits()
+
+    override fun readFixed64(): ULong =
+        readFixed64Bits()
+
+    override fun readInt64(): Long =
+        readRawVarint64().toLong()
+
+    override fun readSFixed32(): Int =
+        readFixed32Bits().toInt()
+
+    override fun readSFixed64(): Long =
+        readFixed64Bits().toLong()
+
+    override fun readSInt32(): Int {
+        val n = readRawVarint32()
+        return (n ushr 1) xor -(n and 1)
+    }
+
+    override fun readSInt64(): Long {
+        val n = readRawVarint64().toLong()
+        return (n ushr 1) xor -(n and 1)
+    }
+
+    override fun readString(): String {
+        val length = readRawVarint32()
+        checkLength(length)
+        bytesRead += length
+        return source.readString(length.toLong())
+    }
+
+    override fun readUInt64(): ULong =
+        readRawVarint64()
+
+    override fun readBytes(): Bytes {
+        val length = readRawVarint32()
+        checkLength(length)
+        return Bytes(readSourceByteArray(length))
+    }
+
+    override fun readBytesSlice(): BytesSlice {
+        val length = readRawVarint32()
+        checkLength(length)
+        val bytes = readSourceByteArray(length)
+        return BytesSlice(bytes, 0, length)
+    }
+
+    override fun readRepeated(packed: Boolean, acc: Reader.() -> Unit) {
+        if (!packed || WireFormat.getTagWireType(_lastTag) != WireFormat.WIRETYPE_LENGTH_DELIMITED) {
+            acc(this)
+        } else {
+            val length = readRawVarint32()
+            checkLength(length)
+            val oldLimit = currentLimit
+            currentLimit = bytesRead + length
+            while (bytesRead < currentLimit) {
+                acc(this)
+            }
+            currentLimit = oldLimit
+        }
+    }
+
+    override fun <T : Message> readMessage(m: Deserializer<T>): T {
+        check(++messageDepth <= WireFormat.DEFAULT_RECURSION_LIMIT) { WireFormat.TOO_MANY_LEVELS_OF_NESTING }
+        try {
+            val length = readRawVarint32()
+            checkLength(length)
+            val oldLimit = currentLimit
+            currentLimit = bytesRead + length
+            val res = m.deserialize(this)
+            require(bytesRead == currentLimit) { "Message not fully consumed" }
+            currentLimit = oldLimit
+            return res
+        } finally {
+            messageDepth--
+        }
+    }
+
+    private fun checkLength(length: Int) {
+        check(length >= 0) { WireFormat.NEGATIVE_SIZE }
+        check(length <= currentLimit - bytesRead) { WireFormat.TRUNCATED_MESSAGE }
+        check(source.request(length.toLong())) { WireFormat.TRUNCATED_MESSAGE }
+    }
+
+    private fun checkAvailable(size: Int) {
+        check(currentLimit - bytesRead >= size) { WireFormat.TRUNCATED_MESSAGE }
+        check(source.request(size.toLong())) { WireFormat.TRUNCATED_MESSAGE }
+    }
+
+    private fun readSourceByte(): Byte {
+        bytesRead++
+        return source.readByte()
+    }
+
+    private fun readSourceByteArray(length: Int): ByteArray {
+        bytesRead += length
+        return source.readByteArray(length)
+    }
+
+    private fun readRawVarint32(): Int {
+        var result = 0
+        var shift = 0
+        while (shift < 32) {
+            checkAvailable(1)
+            val b = readSourceByte().toInt()
+            result = result or ((b and 0x7f) shl shift)
+            if (b and 0x80 == 0) {
+                return result
+            }
+            shift += 7
+        }
+        // discard upper bits for oversized varints
+        while (true) {
+            checkAvailable(1)
+            val b = readSourceByte().toInt()
+            if (b and 0x80 == 0) {
+                return result
+            }
+        }
+    }
+
+    private fun readRawVarint64(): ULong {
+        var result = 0UL
+        var shift = 0
+        while (shift < 64) {
+            checkAvailable(1)
+            val b = readSourceByte().toInt()
+            result = result or ((b.toLong() and 0x7f).toULong() shl shift)
+            if (b and 0x80 == 0) {
+                return result
+            }
+            shift += 7
+        }
+        throw IllegalStateException("Varint too long")
+    }
+
+    private fun readFixed32Bits(): UInt {
+        checkAvailable(4)
+        bytesRead += 4
+        return source.readIntLe().toUInt()
+    }
+
+    private fun readFixed64Bits(): ULong {
+        checkAvailable(8)
+        bytesRead += 8
+        return source.readLongLe().toULong()
+    }
+}

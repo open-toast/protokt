@@ -35,6 +35,7 @@ dependencies {
     testImplementation(kotlin("reflect"))
 
     testRuntimeOnly(libs.protobuf.lite)
+    testRuntimeOnly(libs.kotlinx.io)
 }
 
 sourceSets {

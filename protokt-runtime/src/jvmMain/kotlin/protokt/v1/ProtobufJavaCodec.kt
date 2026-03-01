@@ -17,12 +17,16 @@ package protokt.v1
 
 import com.google.protobuf.CodedInputStream
 import com.google.protobuf.CodedOutputStream
+import kotlinx.io.Sink
+import kotlinx.io.Source
+import kotlinx.io.asInputStream
+import kotlinx.io.asOutputStream
 import java.io.InputStream
 import java.io.OutputStream
 import java.nio.ByteBuffer
 
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
-internal object ProtobufJavaCodec : JvmCodec {
+internal object ProtobufJavaCodec : JvmCodec, StreamingCodec {
     override fun writer(size: Int): Writer {
         val bytes = ByteArray(size)
         return ProtobufJavaWriter(CodedOutputStream.newInstance(bytes), bytes)
@@ -46,4 +50,10 @@ internal object ProtobufJavaCodec : JvmCodec {
 
     override fun reader(buffer: ByteBuffer): Reader =
         ProtobufJavaReader(CodedInputStream.newInstance(buffer))
+
+    override fun reader(source: Source): Reader =
+        reader(source.asInputStream())
+
+    override fun serialize(message: Message, sink: Sink) =
+        serialize(message, sink.asOutputStream())
 }

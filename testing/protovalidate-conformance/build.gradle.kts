@@ -39,6 +39,7 @@ dependencies {
 
     testImplementation(project(":testing:testing-util"))
     testImplementation(libs.truth)
+    testRuntimeOnly(libs.kotlinx.io)
 }
 
 sourceSets.main {

@@ -17,14 +17,14 @@ package protokt.v1.conformance
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.runBlocking
+import kotlinx.io.Buffer
+import kotlinx.io.readByteArray
 import protokt.v1.Bytes
 import protokt.v1.Deserializer
 import protokt.v1.Message
 import protokt.v1.conformance.ConformanceResponse.Result.ParseError
 import protokt.v1.conformance.ConformanceResponse.Result.RuntimeError
 import protokt.v1.conformance.ConformanceResponse.Result.SerializeError
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
@@ -72,7 +72,9 @@ internal actual object Platform {
     ): ConformanceStepResult<T> =
         try {
             if (streaming) {
-                Proceed(deserializer.deserialize(ByteArrayInputStream(bytes)))
+                val source = Buffer()
+                source.write(bytes)
+                Proceed(deserializer.deserialize(source))
             } else {
                 Proceed(deserializer.deserialize(bytes))
             }
@@ -83,9 +85,9 @@ internal actual object Platform {
     actual fun serializeProtobuf(message: Message): ConformanceStepResult<Bytes> =
         try {
             if (streaming) {
-                val baos = ByteArrayOutputStream(message.serializedSize())
-                message.serialize(baos)
-                Proceed(Bytes.from(baos.toByteArray()))
+                val buffer = Buffer()
+                message.serialize(buffer)
+                Proceed(Bytes.from(buffer.readByteArray()))
             } else {
                 Proceed(Bytes.from(message))
             }

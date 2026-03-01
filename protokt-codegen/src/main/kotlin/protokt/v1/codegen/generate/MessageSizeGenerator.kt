@@ -138,14 +138,12 @@ internal fun sizeOf(
                 )
             )
         }
-        !mapEntry && isCaching && oneOfFieldAccess == null -> {
-            buildCodeBlock {
-                add(
-                    "%M(${f.tag}u) + %L",
-                    sizeOf,
-                    f.sizeOf(CodeBlock.of("%N.wireValue()", property!!))
-                )
-            }
+        !mapEntry && isCaching && oneOfFieldAccess == null -> buildCodeBlock {
+            add(
+                "%M(${f.tag}u) + %L",
+                sizeOf,
+                f.sizeOf(CodeBlock.of("%N.wireValue()", property!!))
+            )
         }
 
         else -> {

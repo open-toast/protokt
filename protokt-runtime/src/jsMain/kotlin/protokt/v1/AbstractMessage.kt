@@ -15,11 +15,19 @@
 
 package protokt.v1
 
+import kotlinx.io.Sink
+
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
 actual abstract class AbstractMessage actual constructor() : Message {
     actual final override fun serialize(): ByteArray {
         val writer = codec.writer(serializedSize())
         serialize(writer)
         return writer.toByteArray()
+    }
+
+    actual final override fun serialize(sink: Sink) {
+        val c = codec
+        check(c is StreamingCodec) { "Configured codec ${c::class.simpleName} does not support streaming serialization" }
+        c.serialize(this, sink)
     }
 }

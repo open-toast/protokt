@@ -22,6 +22,15 @@ Flags are passed via `--args`:
 
 When no `-i` flag is given, all benchmarks in the class are included.
 
+## Parameters
+
+protokt benchmarks accept these JMH parameters (set via `-p`):
+
+| Parameter | Values | Default |
+|-----------|--------|---------|
+| `collectionFactory` | `protokt.v1.DefaultCollectionFactory`, `protokt.v1.PersistentCollectionFactory` | Both |
+| `codec` | `protokt.v1.ProtobufJavaCodec`, `protokt.v1.ProtoktCodec` | Both |
+
 ## Examples
 
 Run a single benchmark method:
@@ -40,6 +49,12 @@ Pin a JMH parameter:
 
 ```
 ./gradlew :benchmarks:protokt-benchmarks:run --args="-p collectionFactory=protokt.v1.DefaultCollectionFactory"
+```
+
+Run with a specific codec:
+
+```
+./gradlew :benchmarks:protokt-benchmarks:run --args="-p codec=protokt.v1.ProtoktCodec"
 ```
 
 Combine flags:
