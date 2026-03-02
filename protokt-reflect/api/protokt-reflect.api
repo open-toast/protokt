@@ -1,4 +1,4 @@
-public final class com/toasttab/protokt/v1/ProtoktProtos {
+public final class com/toasttab/protokt/v1/ProtoktProtos : com/google/protobuf/GeneratedFile {
 	public static final field CLASS_FIELD_NUMBER I
 	public static final field ENUM_FIELD_NUMBER I
 	public static final field ENUM_VALUE_FIELD_NUMBER I
@@ -30,6 +30,7 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$EnumOptions : com/googl
 	public fun getDeprecationMessage ()Ljava/lang/String;
 	public fun getDeprecationMessageBytes ()Lcom/google/protobuf/ByteString;
 	public static final fun getDescriptor ()Lcom/google/protobuf/Descriptors$Descriptor;
+	public fun getDescriptorForType ()Lcom/google/protobuf/Descriptors$Descriptor;
 	public fun getParserForType ()Lcom/google/protobuf/Parser;
 	public fun getSerializedSize ()I
 	public fun hashCode ()I
@@ -107,6 +108,7 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$EnumValueOptions : com/
 	public fun getDeprecationMessage ()Ljava/lang/String;
 	public fun getDeprecationMessageBytes ()Lcom/google/protobuf/ByteString;
 	public static final fun getDescriptor ()Lcom/google/protobuf/Descriptors$Descriptor;
+	public fun getDescriptorForType ()Lcom/google/protobuf/Descriptors$Descriptor;
 	public fun getParserForType ()Lcom/google/protobuf/Parser;
 	public fun getSerializedSize ()I
 	public fun hashCode ()I
@@ -190,6 +192,7 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$FieldOptions : com/goog
 	public fun getDeprecationMessage ()Ljava/lang/String;
 	public fun getDeprecationMessageBytes ()Lcom/google/protobuf/ByteString;
 	public static final fun getDescriptor ()Lcom/google/protobuf/Descriptors$Descriptor;
+	public fun getDescriptorForType ()Lcom/google/protobuf/Descriptors$Descriptor;
 	public fun getGenerateNonNullAccessor ()Z
 	public fun getKeyWrap ()Ljava/lang/String;
 	public fun getKeyWrapBytes ()Lcom/google/protobuf/ByteString;
@@ -301,6 +304,7 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$FileOptions : com/googl
 	public synthetic fun getDefaultInstanceForType ()Lcom/google/protobuf/MessageLite;
 	public fun getDefaultInstanceForType ()Lcom/toasttab/protokt/v1/ProtoktProtos$FileOptions;
 	public static final fun getDescriptor ()Lcom/google/protobuf/Descriptors$Descriptor;
+	public fun getDescriptorForType ()Lcom/google/protobuf/Descriptors$Descriptor;
 	public fun getFileDescriptorObjectName ()Ljava/lang/String;
 	public fun getFileDescriptorObjectNameBytes ()Lcom/google/protobuf/ByteString;
 	public fun getParserForType ()Lcom/google/protobuf/Parser;
@@ -381,6 +385,7 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$MessageOptions : com/go
 	public fun getDeprecationMessage ()Ljava/lang/String;
 	public fun getDeprecationMessageBytes ()Lcom/google/protobuf/ByteString;
 	public static final fun getDescriptor ()Lcom/google/protobuf/Descriptors$Descriptor;
+	public fun getDescriptorForType ()Lcom/google/protobuf/Descriptors$Descriptor;
 	public fun getImplements ()Ljava/lang/String;
 	public fun getImplementsBytes ()Lcom/google/protobuf/ByteString;
 	public fun getParserForType ()Lcom/google/protobuf/Parser;
@@ -466,6 +471,7 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$MethodOptions : com/goo
 	public synthetic fun getDefaultInstanceForType ()Lcom/google/protobuf/MessageLite;
 	public fun getDefaultInstanceForType ()Lcom/toasttab/protokt/v1/ProtoktProtos$MethodOptions;
 	public static final fun getDescriptor ()Lcom/google/protobuf/Descriptors$Descriptor;
+	public fun getDescriptorForType ()Lcom/google/protobuf/Descriptors$Descriptor;
 	public fun getParserForType ()Lcom/google/protobuf/Parser;
 	public fun getRequestMarshaller ()Ljava/lang/String;
 	public fun getRequestMarshallerBytes ()Lcom/google/protobuf/ByteString;
@@ -556,6 +562,7 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$OneofOptions : com/goog
 	public fun getDeprecationMessage ()Ljava/lang/String;
 	public fun getDeprecationMessageBytes ()Lcom/google/protobuf/ByteString;
 	public static final fun getDescriptor ()Lcom/google/protobuf/Descriptors$Descriptor;
+	public fun getDescriptorForType ()Lcom/google/protobuf/Descriptors$Descriptor;
 	public fun getGenerateNonNullAccessor ()Z
 	public fun getImplements ()Ljava/lang/String;
 	public fun getImplementsBytes ()Lcom/google/protobuf/ByteString;
@@ -644,6 +651,7 @@ public final class com/toasttab/protokt/v1/ProtoktProtos$ServiceOptions : com/go
 	public synthetic fun getDefaultInstanceForType ()Lcom/google/protobuf/MessageLite;
 	public fun getDefaultInstanceForType ()Lcom/toasttab/protokt/v1/ProtoktProtos$ServiceOptions;
 	public static final fun getDescriptor ()Lcom/google/protobuf/Descriptors$Descriptor;
+	public fun getDescriptorForType ()Lcom/google/protobuf/Descriptors$Descriptor;
 	public fun getParserForType ()Lcom/google/protobuf/Parser;
 	public fun getSerializedSize ()I
 	public fun hashCode ()I
