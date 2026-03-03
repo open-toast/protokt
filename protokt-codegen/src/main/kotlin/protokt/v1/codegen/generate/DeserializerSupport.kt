@@ -68,23 +68,24 @@ private fun cachingConstructorArg(p: PropertyInfo, info: CachingFieldInfo, fromB
         is CachingFieldInfo.Converted -> CodeBlock.of("%T", info.converterClassName)
     }
 
+    if (fromBuilder) {
+        // Builder uses private _<name>Ref properties; pass LazyReference through unchanged
+        val refPropName = "_${p.name}Ref"
+        if (info.nullable) {
+            return CodeBlock.of("%N", refPropName)
+        }
+        val wireDefault = wireDefault(info, forBuilder = false)
+        return CodeBlock.of("%N ?: %T(%L, %L)", refPropName, LazyReference::class, wireDefault, converterRef)
+    }
+
     if (info.nullable) {
         // Message-typed wrappers: LazyReference is nullable, null means absent
         return CodeBlock.of("%N?.let { %T(it, %L) }", p.name, LazyReference::class, converterRef)
     }
 
-    return if (fromBuilder && info is CachingFieldInfo.PlainString) {
-        // Builder has non-nullable String for plain string fields; no Elvis needed
-        CodeBlock.of("%T(%N, %L)", LazyReference::class, p.name, converterRef)
-    } else if (fromBuilder) {
-        // Builder has KotlinT? for wrapped fields; if null use wire default
-        val wireDefault = wireDefault(info, forBuilder = true)
-        CodeBlock.of("%T(%N ?: %L, %L)", LazyReference::class, p.name, wireDefault, converterRef)
-    } else {
-        // Deserializer has WireT?; if null use wire default
-        val wireDefault = wireDefault(info, forBuilder = false)
-        CodeBlock.of("%T(%N ?: %L, %L)", LazyReference::class, p.name, wireDefault, converterRef)
-    }
+    // Deserializer has WireT?; if null use wire default
+    val wireDefault = wireDefault(info, forBuilder = false)
+    return CodeBlock.of("%T(%N ?: %L, %L)", LazyReference::class, p.name, wireDefault, converterRef)
 }
 
 private fun wireDefault(info: CachingFieldInfo, forBuilder: Boolean): CodeBlock =
