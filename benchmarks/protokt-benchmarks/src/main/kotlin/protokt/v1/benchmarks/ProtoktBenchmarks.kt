@@ -64,6 +64,12 @@ open class ProtoktBenchmarks : ProtobufBenchmarkSet {
     // where the varint could be 2 or 3 bytes.
     private lateinit var stringOneof20kPayloads: List<Bytes>
 
+    private lateinit var stringRepeatedPayloads: List<Bytes>
+    private lateinit var stringRepeatedParsed: List<StringCollectionMessage>
+    private lateinit var stringMapPayloads: List<Bytes>
+    private lateinit var stringMapParsed: List<StringCollectionMessage>
+    private lateinit var stringValues: Array<String>
+
     @Setup
     fun setup() {
         byteValues = Array(1000) { i -> Bytes.from(byteArrayOf(i.toByte())) }
@@ -111,6 +117,24 @@ open class ProtoktBenchmarks : ProtobufBenchmarkSet {
                 fieldString3000 = randomUtf8String(random, 1_000_000)
             }
         }.map { Bytes.from(it.serialize()) }
+
+        stringValues = Array(1000) { i -> "value$i" }
+
+        stringRepeatedPayloads = (0 until 20).map {
+            StringCollectionMessage {
+                fieldRepeatedString = (0 until 500).map { i -> randomUtf8String(random, 100) }
+            }
+        }.map { Bytes.from(it.serialize()) }
+
+        stringRepeatedParsed = stringRepeatedPayloads.map { StringCollectionMessage.deserialize(it) }
+
+        stringMapPayloads = (0 until 20).map {
+            StringCollectionMessage {
+                fieldMapStringString = (0 until 500).associate { i -> "key$i" to randomUtf8String(random, 100) }
+            }
+        }.map { Bytes.from(it.serialize()) }
+
+        stringMapParsed = stringMapPayloads.map { StringCollectionMessage.deserialize(it) }
 
         readData("large").use { stream ->
             largeDataset = BenchmarkDataset.deserialize(stream.readBytes())
@@ -450,6 +474,52 @@ open class ProtoktBenchmarks : ProtobufBenchmarkSet {
             }
             bh.consume(mutated.serialize())
         }
+    }
+
+    @Benchmark
+    override fun passThroughStringRepeated(bh: Blackhole) {
+        stringRepeatedPayloads.forEach { bytes ->
+            bh.consume(StringCollectionMessage.deserialize(bytes).serialize())
+        }
+    }
+
+    @Benchmark
+    override fun passThroughStringMap(bh: Blackhole) {
+        stringMapPayloads.forEach { bytes ->
+            bh.consume(StringCollectionMessage.deserialize(bytes).serialize())
+        }
+    }
+
+    @Benchmark
+    override fun deserializeStringRepeated(bh: Blackhole) {
+        stringRepeatedPayloads.forEach { bytes ->
+            bh.consume(StringCollectionMessage.deserialize(bytes))
+        }
+    }
+
+    @Benchmark
+    override fun deserializeStringMap(bh: Blackhole) {
+        stringMapPayloads.forEach { bytes ->
+            bh.consume(StringCollectionMessage.deserialize(bytes))
+        }
+    }
+
+    @Benchmark
+    override fun copyAppendRepeatedString(bh: Blackhole) {
+        var msg = stringRepeatedParsed.first()
+        repeat(1000) { i ->
+            msg = msg.copy { fieldRepeatedString = fieldRepeatedString + stringValues[i] }
+        }
+        bh.consume(msg)
+    }
+
+    @Benchmark
+    override fun copyAppendMapStringString(bh: Blackhole) {
+        var msg = stringMapParsed.first()
+        repeat(1000) { i ->
+            msg = msg.copy { fieldMapStringString = fieldMapStringString + ("key${500 + i}" to stringValues[i]) }
+        }
+        bh.consume(msg)
     }
 
     @Benchmark

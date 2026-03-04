@@ -81,6 +81,11 @@ message GenericMessage4 {
     float field_num3 = 3;
 }
 
+message StringCollectionMessage {
+    repeated string field_repeated_string = 1;
+    map<string, string> field_map_string_string = 2;
+}
+
 message StringOneofMessage {
   oneof content1 {
     string string_val1 = 1;

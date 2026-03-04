@@ -18,6 +18,7 @@ package protokt.v1.benchmarks
 import com.google.protobuf.benchmarks.BenchmarkDataset
 import com.toasttab.protokt.v1.benchmarks.GenericMessage1
 import com.toasttab.protokt.v1.benchmarks.GenericMessage4
+import com.toasttab.protokt.v1.benchmarks.StringCollectionMessage
 import com.toasttab.protokt.v1.benchmarks.StringOneofMessage
 import okio.ByteString
 import okio.ByteString.Companion.toByteString
@@ -55,6 +56,12 @@ open class WireBenchmarks : ProtobufBenchmarkSet {
     private lateinit var stringOneofVeryHeavyPayloads: List<ByteString>
     private lateinit var stringVeryHeavyPayloads: List<ByteString>
     private lateinit var stringOneof20kPayloads: List<ByteString>
+
+    private lateinit var stringRepeatedPayloads: List<ByteString>
+    private lateinit var stringRepeatedParsed: List<StringCollectionMessage>
+    private lateinit var stringMapPayloads: List<ByteString>
+    private lateinit var stringMapParsed: List<StringCollectionMessage>
+    private lateinit var stringValues: Array<String>
 
     private lateinit var largePayloadArrays: List<ByteArray>
     private lateinit var mediumPayloadArrays: List<ByteArray>
@@ -106,6 +113,24 @@ open class WireBenchmarks : ProtobufBenchmarkSet {
                 field_string3000 = randomUtf8String(random, 1_000_000)
             )
         }.map { ByteString.of(*GenericMessage1.ADAPTER.encode(it)) }
+
+        stringValues = Array(1000) { i -> "value$i" }
+
+        stringRepeatedPayloads = (0 until 20).map {
+            StringCollectionMessage(
+                field_repeated_string = (0 until 500).map { i -> randomUtf8String(random, 100) }
+            )
+        }.map { ByteString.of(*StringCollectionMessage.ADAPTER.encode(it)) }
+
+        stringRepeatedParsed = stringRepeatedPayloads.map { StringCollectionMessage.ADAPTER.decode(it) }
+
+        stringMapPayloads = (0 until 20).map {
+            StringCollectionMessage(
+                field_map_string_string = (0 until 500).associate { i -> "key$i" to randomUtf8String(random, 100) }
+            )
+        }.map { ByteString.of(*StringCollectionMessage.ADAPTER.encode(it)) }
+
+        stringMapParsed = stringMapPayloads.map { StringCollectionMessage.ADAPTER.decode(it) }
 
         readData("large").use { stream ->
             largeDataset = BenchmarkDataset.ADAPTER.decode(stream)
@@ -411,6 +436,52 @@ open class WireBenchmarks : ProtobufBenchmarkSet {
             )
             bh.consume(GenericMessage1.ADAPTER.encode(mutated))
         }
+    }
+
+    @Benchmark
+    override fun passThroughStringRepeated(bh: Blackhole) {
+        stringRepeatedPayloads.forEach { bytes ->
+            bh.consume(StringCollectionMessage.ADAPTER.encode(StringCollectionMessage.ADAPTER.decode(bytes)))
+        }
+    }
+
+    @Benchmark
+    override fun passThroughStringMap(bh: Blackhole) {
+        stringMapPayloads.forEach { bytes ->
+            bh.consume(StringCollectionMessage.ADAPTER.encode(StringCollectionMessage.ADAPTER.decode(bytes)))
+        }
+    }
+
+    @Benchmark
+    override fun deserializeStringRepeated(bh: Blackhole) {
+        stringRepeatedPayloads.forEach { bytes ->
+            bh.consume(StringCollectionMessage.ADAPTER.decode(bytes))
+        }
+    }
+
+    @Benchmark
+    override fun deserializeStringMap(bh: Blackhole) {
+        stringMapPayloads.forEach { bytes ->
+            bh.consume(StringCollectionMessage.ADAPTER.decode(bytes))
+        }
+    }
+
+    @Benchmark
+    override fun copyAppendRepeatedString(bh: Blackhole) {
+        var msg = stringRepeatedParsed.first()
+        repeat(1000) { i ->
+            msg = msg.copy(field_repeated_string = msg.field_repeated_string + stringValues[i])
+        }
+        bh.consume(msg)
+    }
+
+    @Benchmark
+    override fun copyAppendMapStringString(bh: Blackhole) {
+        var msg = stringMapParsed.first()
+        repeat(1000) { i ->
+            msg = msg.copy(field_map_string_string = msg.field_map_string_string + ("key${500 + i}" to stringValues[i]))
+        }
+        bh.consume(msg)
     }
 
     @Benchmark
