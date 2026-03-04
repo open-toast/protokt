@@ -72,6 +72,9 @@ internal class ProtobufJavaWriter(
         stream.write(b.array, b.offset, b.length)
     }
 
-    override fun toByteArray(): ByteArray =
-        bytes ?: throw UnsupportedOperationException("Writer not backed by a byte array")
+    override fun toByteArray(): ByteArray {
+        val b = bytes ?: throw UnsupportedOperationException("Writer not backed by a byte array")
+        val written = b.size - stream.spaceLeft()
+        return if (written == b.size) b else b.copyOfRange(0, written)
+    }
 }

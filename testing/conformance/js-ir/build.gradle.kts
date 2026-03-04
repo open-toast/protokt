@@ -27,6 +27,8 @@ kotlin {
         val jsMain by getting {
             dependencies {
                 implementation(project(":testing:conformance:driver"))
+                implementation(project(":protokt-runtime-protobufjs"))
+                implementation(project(":protokt-runtime-persistent-collections"))
             }
         }
     }

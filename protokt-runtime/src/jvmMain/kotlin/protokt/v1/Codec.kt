@@ -25,6 +25,17 @@ internal actual val codec: Codec by lazy {
     if (codecFqcn != null) {
         Class.forName(codecFqcn).getField("INSTANCE").get(null) as Codec
     } else {
-        ProtobufJavaCodec
+        tryLoad("protokt.v1.OptimalJvmCodec") as? Codec
+            ?: tryLoad("protokt.v1.OptimalKmpCodec") as? Codec
+            ?: tryLoad("protokt.v1.ProtobufJavaCodec") as? Codec
+            ?: tryLoad("protokt.v1.KotlinxIoCodec") as? Codec
+            ?: ProtoktCodec
     }
 }
+
+private fun tryLoad(fqcn: String): Any? =
+    try {
+        Class.forName(fqcn).getField("INSTANCE").get(null)
+    } catch (_: ClassNotFoundException) {
+        null
+    }

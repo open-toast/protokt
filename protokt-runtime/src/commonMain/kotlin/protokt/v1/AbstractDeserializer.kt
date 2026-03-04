@@ -15,8 +15,6 @@
 
 package protokt.v1
 
-import kotlinx.io.Source
-
 @OnlyForUseByGeneratedProtoCode
 expect abstract class AbstractDeserializer<T : Message>() : Deserializer<T> {
     abstract override fun deserialize(reader: Reader): T
@@ -26,6 +24,4 @@ expect abstract class AbstractDeserializer<T : Message>() : Deserializer<T> {
     final override fun deserialize(bytes: ByteArray): T
 
     final override fun deserialize(bytes: BytesSlice): T
-
-    final override fun deserialize(source: Source): T
 }

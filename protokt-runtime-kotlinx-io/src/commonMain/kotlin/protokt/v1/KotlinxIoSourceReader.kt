@@ -45,36 +45,11 @@ internal class KotlinxIoSourceReader(
         return _lastTag.toUInt()
     }
 
-    override fun readDouble(): Double =
-        Double.fromBits(readFixed64Bits().toLong())
-
-    override fun readFloat(): Float =
-        Float.fromBits(readFixed32Bits().toInt())
-
     override fun readFixed32(): UInt =
         readFixed32Bits()
 
     override fun readFixed64(): ULong =
         readFixed64Bits()
-
-    override fun readInt64(): Long =
-        readRawVarint64().toLong()
-
-    override fun readSFixed32(): Int =
-        readFixed32Bits().toInt()
-
-    override fun readSFixed64(): Long =
-        readFixed64Bits().toLong()
-
-    override fun readSInt32(): Int {
-        val n = readRawVarint32()
-        return (n ushr 1) xor -(n and 1)
-    }
-
-    override fun readSInt64(): Long {
-        val n = readRawVarint64().toLong()
-        return (n ushr 1) xor -(n and 1)
-    }
 
     override fun readString(): String {
         val length = readRawVarint32()

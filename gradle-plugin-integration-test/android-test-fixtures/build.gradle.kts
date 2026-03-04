@@ -48,5 +48,4 @@ dependencies {
     testImplementation(libs.junit.jupiter)
 
     testRuntimeOnly(libs.junit.platformLauncher)
-    testRuntimeOnly(libs.protobuf.lite)
 }

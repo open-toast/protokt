@@ -17,9 +17,8 @@
 
 package protokt.v1
 
-internal actual val codec: Codec =
-    if (js("(typeof process !== 'undefined' && process.env && process.env.PROTOKT_CODEC === 'protokt.v1.ProtoktCodec')").unsafeCast<Boolean>()) {
-        ProtoktCodec
-    } else {
-        ProtobufJsCodec
-    }
+internal actual val codec: Codec by lazy {
+    codecOverride ?: ProtoktCodec
+}
+
+internal var codecOverride: Codec? = null

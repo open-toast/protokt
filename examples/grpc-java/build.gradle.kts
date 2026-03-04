@@ -33,6 +33,4 @@ dependencies {
     protobuf(project(":examples:protos"))
 
     implementation(project(":examples:protos"))
-
-    runtimeOnly(libs.protobuf.java)
 }

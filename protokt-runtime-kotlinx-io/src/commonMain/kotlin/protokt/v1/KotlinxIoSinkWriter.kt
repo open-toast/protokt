@@ -17,6 +17,7 @@ package protokt.v1
 
 import kotlinx.io.Buffer
 import kotlinx.io.UnsafeIoApi
+import kotlinx.io.readByteArray
 import kotlinx.io.unsafe.UnsafeBufferOperations
 import kotlinx.io.writeString
 
@@ -26,7 +27,7 @@ import kotlinx.io.writeString
 // virtual dispatch chain (Sink.writeByte -> Buffer.writeByte -> Segment) and
 // segment pool operations that dominate small-field workloads.
 //
-// The caller (ProtoktCodec.serialize) transfers the buffer to the actual Sink
+// The caller (KotlinxIoCodec.serialize) transfers the buffer to the actual Sink
 // after serialization, moving segment pointers rather than copying bytes.
 @OptIn(OnlyForUseByGeneratedProtoCode::class, UnsafeIoApi::class)
 internal class KotlinxIoSinkWriter(
@@ -35,43 +36,14 @@ internal class KotlinxIoSinkWriter(
     override fun writeFixed32(i: UInt) =
         writeFixed32Bits(i)
 
-    override fun writeSFixed32(i: Int) =
-        writeFixed32Bits(i.toUInt())
-
     override fun writeUInt32(i: UInt) =
         writeRawVarint32(i.toInt())
-
-    override fun writeSInt32(i: Int) =
-        writeRawVarint32((i shl 1) xor (i shr 31))
 
     override fun writeFixed64(l: ULong) =
         writeFixed64Bits(l)
 
-    override fun writeSFixed64(l: Long) =
-        writeFixed64Bits(l.toULong())
-
     override fun writeUInt64(l: ULong) =
         writeRawVarint64(l.toLong())
-
-    override fun writeSInt64(l: Long) =
-        writeRawVarint64((l shl 1) xor (l shr 63))
-
-    override fun write(i: Int) {
-        if (i >= 0) {
-            writeRawVarint32(i)
-        } else {
-            writeRawVarint64(i.toLong())
-        }
-    }
-
-    override fun write(l: Long) =
-        writeRawVarint64(l)
-
-    override fun write(f: Float) =
-        writeFixed32Bits(f.toRawBits().toUInt())
-
-    override fun write(d: Double) =
-        writeFixed64Bits(d.toRawBits().toULong())
 
     // Encode into a temporary Buffer to learn the UTF-8 byte count without a
     // separate measurement pass. The transfer to buffer moves segment pointers
@@ -84,9 +56,6 @@ internal class KotlinxIoSinkWriter(
         writeRawVarint32(tmp.size.toInt())
         buffer.write(tmp, tmp.size)
     }
-
-    override fun write(b: Boolean) =
-        writeRawByte(if (b) 1 else 0)
 
     override fun write(b: ByteArray) {
         writeRawVarint32(b.size)
@@ -158,5 +127,5 @@ internal class KotlinxIoSinkWriter(
     }
 
     override fun toByteArray(): ByteArray =
-        throw UnsupportedOperationException("KotlinxIoSinkWriter does not support toByteArray()")
+        buffer.readByteArray()
 }

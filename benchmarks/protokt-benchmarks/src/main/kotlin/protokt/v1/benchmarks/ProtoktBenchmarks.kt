@@ -27,6 +27,7 @@ import org.openjdk.jmh.annotations.Setup
 import org.openjdk.jmh.annotations.State
 import org.openjdk.jmh.infra.Blackhole
 import protokt.v1.Bytes
+import protokt.v1.serialize
 import java.io.ByteArrayOutputStream
 import java.util.Random
 import java.util.concurrent.TimeUnit
@@ -38,7 +39,7 @@ open class ProtoktBenchmarks {
     @Param("protokt.v1.DefaultCollectionFactory", "protokt.v1.PersistentCollectionFactory")
     var collectionFactory: String = "protokt.v1.DefaultCollectionFactory"
 
-    @Param("protokt.v1.ProtobufJavaCodec", "protokt.v1.ProtoktCodec")
+    @Param("protokt.v1.ProtobufJavaCodec", "protokt.v1.KotlinxIoCodec", "protokt.v1.ProtoktCodec", "protokt.v1.OptimalKmpCodec", "protokt.v1.OptimalJvmCodec")
     var codec: String = "protokt.v1.ProtobufJavaCodec"
 
     private lateinit var largeDataset: BenchmarkDataset
@@ -112,17 +113,17 @@ open class ProtoktBenchmarks {
         }.map { Bytes.from(it.serialize()) }
 
         readData("large").use { stream ->
-            largeDataset = BenchmarkDataset.deserialize(stream)
+            largeDataset = BenchmarkDataset.deserialize(stream.readBytes())
         }
         largeParsedDataset = largeDataset.payload.map { GenericMessage1.deserialize(it) }
 
         readData("medium").use { stream ->
-            mediumDataset = BenchmarkDataset.deserialize(stream)
+            mediumDataset = BenchmarkDataset.deserialize(stream.readBytes())
         }
         mediumParsedDataset = mediumDataset.payload.map { GenericMessage1.deserialize(it) }
 
         readData("small").use { stream ->
-            smallDataset = BenchmarkDataset.deserialize(stream)
+            smallDataset = BenchmarkDataset.deserialize(stream.readBytes())
         }
         smallParsedDataset = smallDataset.payload.map { GenericMessage4.deserialize(it) }
     }

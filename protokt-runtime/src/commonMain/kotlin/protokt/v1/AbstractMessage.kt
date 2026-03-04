@@ -15,11 +15,7 @@
 
 package protokt.v1
 
-import kotlinx.io.Sink
-
 @OnlyForUseByGeneratedProtoCode
 expect abstract class AbstractMessage() : Message {
     final override fun serialize(): ByteArray
-
-    final override fun serialize(sink: Sink)
 }

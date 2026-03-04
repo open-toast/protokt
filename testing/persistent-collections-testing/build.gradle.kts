@@ -17,13 +17,8 @@ plugins {
     id("protokt.jvm-conventions")
 }
 
-tasks.test {
-    systemProperty("protokt.collection.factory", "protokt.v1.PersistentCollectionFactory")
-}
-
 dependencies {
     testImplementation(project(":testing:interop"))
     testImplementation(project(":testing:protobuf-java"))
-    testImplementation(libs.kotlinx.collectionsImmutable)
-    testImplementation(libs.protobuf.java)
+    testImplementation(project(":protokt-runtime-persistent-collections"))
 }

@@ -17,9 +17,8 @@
 
 package protokt.v1
 
-internal actual val collectionFactory: CollectionFactory =
-    if (js("(typeof process !== 'undefined' && process.env && process.env.PROTOKT_COLLECTION_FACTORY === 'protokt.v1.PersistentCollectionFactory')").unsafeCast<Boolean>()) {
-        PersistentCollectionFactory
-    } else {
-        DefaultCollectionFactory
-    }
+internal actual val collectionFactory: CollectionFactory by lazy {
+    collectionFactoryOverride ?: DefaultCollectionFactory
+}
+
+internal var collectionFactoryOverride: CollectionFactory? = null

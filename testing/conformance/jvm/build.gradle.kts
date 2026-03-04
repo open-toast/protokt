@@ -26,6 +26,5 @@ application {
 dependencies {
     implementation(project(":testing:conformance:driver"))
 
-    runtimeOnly(libs.kotlinx.collectionsImmutable)
-    runtimeOnly(libs.protobuf.java)
+    runtimeOnly(project(":protokt-runtime-persistent-collections"))
 }

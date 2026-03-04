@@ -54,12 +54,12 @@ fun randomUtf8String(random: Random, charCount: Int): String {
  *   -jvmArgs args    Extra JVM args (e.g. `-jvmArgs -agentpath:...`)
  */
 fun run(self: KClass<*>, args: Array<String> = emptyArray()) {
+    var resultSuffix = ""
     val opts = OptionsBuilder()
         .warmupIterations(3)
         .measurementIterations(5)
         .forks(2)
         .resultFormat(ResultFormatType.JSON)
-        .result("../build/jmh-${self.simpleName}.json")
 
     var hasInclude = false
 
@@ -67,6 +67,7 @@ fun run(self: KClass<*>, args: Array<String> = emptyArray()) {
         .windowed(2, 2, partialWindows = false)
         .forEach { (flag, spec) ->
             when (flag) {
+                "-o" -> resultSuffix = "-$spec"
                 "-i" -> {
                     hasInclude = true
                     opts.include(".*" + self.simpleName + "." + spec + ".*")
@@ -74,7 +75,7 @@ fun run(self: KClass<*>, args: Array<String> = emptyArray()) {
                 "-e" -> opts.exclude(spec)
                 "-p" -> {
                     val (name, value) = spec.split("=", limit = 2)
-                    opts.param(name, value)
+                    opts.param(name, *value.split(",").toTypedArray())
                 }
                 "-prof" -> {
                     val parts = spec.split(":", limit = 2)
@@ -90,6 +91,8 @@ fun run(self: KClass<*>, args: Array<String> = emptyArray()) {
                 "-jvmArgs" -> opts.jvmArgs(spec)
             }
         }
+
+    opts.result("../build/jmh-${self.simpleName}$resultSuffix.json")
 
     if (!hasInclude) {
         opts.include(".*" + self.simpleName + ".*")

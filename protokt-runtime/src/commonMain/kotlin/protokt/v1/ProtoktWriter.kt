@@ -24,43 +24,14 @@ internal class ProtoktWriter(
     override fun writeFixed32(i: UInt) =
         writeFixed32Bits(i)
 
-    override fun writeSFixed32(i: Int) =
-        writeFixed32Bits(i.toUInt())
-
     override fun writeUInt32(i: UInt) =
         writeRawVarint32(i.toInt())
-
-    override fun writeSInt32(i: Int) =
-        writeRawVarint32((i shl 1) xor (i shr 31))
 
     override fun writeFixed64(l: ULong) =
         writeFixed64Bits(l)
 
-    override fun writeSFixed64(l: Long) =
-        writeFixed64Bits(l.toULong())
-
     override fun writeUInt64(l: ULong) =
         writeRawVarint64(l.toLong())
-
-    override fun writeSInt64(l: Long) =
-        writeRawVarint64((l shl 1) xor (l shr 63))
-
-    override fun write(i: Int) {
-        if (i >= 0) {
-            writeRawVarint32(i)
-        } else {
-            writeRawVarint64(i.toLong())
-        }
-    }
-
-    override fun write(l: Long) =
-        writeRawVarint64(l)
-
-    override fun write(f: Float) =
-        writeFixed32Bits(f.toRawBits().toUInt())
-
-    override fun write(d: Double) =
-        writeFixed64Bits(d.toRawBits().toULong())
 
     // Reserve-and-backtrack: when the varint length prefix size is the same for
     // min (all ASCII) and max (all 3-byte) UTF-8 encodings, skip the measurement
@@ -84,9 +55,6 @@ internal class ProtoktWriter(
             pos += length
         }
     }
-
-    override fun write(b: Boolean) =
-        writeRawByte(if (b) 1 else 0)
 
     override fun write(b: ByteArray) {
         writeRawVarint32(b.size)
@@ -131,7 +99,7 @@ internal class ProtoktWriter(
     }
 
     override fun toByteArray(): ByteArray =
-        buf
+        if (pos == buf.size) buf else buf.copyOfRange(0, pos)
 
     private fun computeVarint32Size(value: Int): Int {
         val clz = value.countLeadingZeroBits()

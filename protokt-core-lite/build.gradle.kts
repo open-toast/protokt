@@ -21,7 +21,7 @@ plugins {
     kotlin("kapt")
 }
 
-localProtokt()
+publishedLocalProtokt()
 compatibleWithAndroid()
 
 spotless {

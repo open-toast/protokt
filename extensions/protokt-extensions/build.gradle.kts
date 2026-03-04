@@ -21,7 +21,7 @@ plugins {
     id("protokt.multiplatform-published-conventions")
 }
 
-localProtokt()
+publishedLocalProtokt()
 compatibleWithAndroid()
 
 configure<ExpediterExtension> {

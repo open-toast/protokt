@@ -27,6 +27,18 @@ open class ProtoktExtension {
         generate.configure()
     }
 
+    internal var codec: Codec = Codec()
+
+    fun codec(configure: Codec.() -> Unit) {
+        codec.configure()
+    }
+
+    internal var collections: Collections = Collections()
+
+    fun collections(configure: Collections.() -> Unit) {
+        collections.configure()
+    }
+
     /**
      * Whether to format the generated code.
      */
@@ -101,5 +113,64 @@ open class ProtoktExtension {
             grpcDescriptors = true
             grpcKotlinStubs = true
         }
+    }
+
+    class Codec {
+        internal var selection: CodecSelection = CodecSelection.OPTIMAL
+
+        fun optimal() {
+            selection = CodecSelection.OPTIMAL
+        }
+
+        fun optimalKmp() {
+            selection = CodecSelection.OPTIMAL_KMP
+        }
+
+        fun optimalJvm() {
+            selection = CodecSelection.OPTIMAL_JVM
+        }
+
+        fun optimalJvmLite() {
+            selection = CodecSelection.OPTIMAL_JVM_LITE
+        }
+
+        fun protobufJava() {
+            selection = CodecSelection.PROTOBUF_JAVA
+        }
+
+        fun protobufJavalite() {
+            selection = CodecSelection.PROTOBUF_JAVALITE
+        }
+
+        fun minimal() {
+            selection = CodecSelection.MINIMAL
+        }
+    }
+
+    enum class CodecSelection {
+        OPTIMAL,
+        OPTIMAL_KMP,
+        OPTIMAL_JVM,
+        OPTIMAL_JVM_LITE,
+        PROTOBUF_JAVA,
+        PROTOBUF_JAVALITE,
+        MINIMAL
+    }
+
+    class Collections {
+        internal var selection: CollectionsSelection = CollectionsSelection.PERSISTENT
+
+        fun persistent() {
+            selection = CollectionsSelection.PERSISTENT
+        }
+
+        fun minimal() {
+            selection = CollectionsSelection.MINIMAL
+        }
+    }
+
+    enum class CollectionsSelection {
+        PERSISTENT,
+        MINIMAL
     }
 }
