@@ -111,7 +111,7 @@ object SizeCodecs {
                         in 0x80..0x7ff -> 2
                         in 0x800..0xffff -> 3
                         else -> 4
-                    }.toInt()
+                    }
                 }
         return sizeOf(length) + length
     }
