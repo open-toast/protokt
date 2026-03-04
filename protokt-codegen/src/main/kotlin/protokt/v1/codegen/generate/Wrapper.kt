@@ -20,8 +20,10 @@ import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.asTypeName
+import protokt.v1.Bytes
 import protokt.v1.BytesSlice
 import protokt.v1.Converter
+import protokt.v1.StringConverter
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.util.GeneratorContext
 import protokt.v1.codegen.util.StandardField
@@ -153,6 +155,59 @@ internal object Wrapper {
                 nullable
             )
         }
+    }
+
+    fun StandardField.repeatedCachingFieldInfo(ctx: Context): RepeatedCachingInfo? {
+        if (!repeated || isMap) return null
+        if (type == FieldType.String) return RepeatedCachingInfo.PlainString
+        if (!wrapped) return null
+        return withWrapper(ctx.info.context) { details ->
+            RepeatedCachingInfo.Converted(
+                details.converter::class.asClassName(),
+                details.converter.wrapped.asTypeName()
+            )
+        }
+    }
+
+    fun StandardField.mapCachingFieldInfo(ctx: Context): MapCachingInfo? {
+        if (!isMap) return null
+        val key = mapKey
+        val value = mapValue
+        val keyIsString = !key.wrapped && key.type == FieldType.String
+        val keyIsWrapped = key.wrapped
+        val valueIsString = !value.wrapped && value.type == FieldType.String
+        val valueIsWrapped = value.wrapped
+        if (!keyIsString && !keyIsWrapped && !valueIsString && !valueIsWrapped) return null
+
+        val keyConverterClassName = when {
+            keyIsString -> StringConverter::class.asClassName()
+            keyIsWrapped -> key.withWrapper(ctx.info.context) { it.converter::class.asClassName() }
+            else -> null
+        }
+        val keyWireTypeName = when {
+            keyIsString -> Bytes::class.asTypeName()
+            keyIsWrapped -> key.withWrapper(ctx.info.context) { it.converter.wrapped.asTypeName() }
+            else -> null
+        }
+        val valueConverterClassName = when {
+            valueIsString -> StringConverter::class.asClassName()
+            valueIsWrapped -> value.withWrapper(ctx.info.context) { it.converter::class.asClassName() }
+            else -> null
+        }
+        val valueWireTypeName = when {
+            valueIsString -> Bytes::class.asTypeName()
+            valueIsWrapped -> value.withWrapper(ctx.info.context) { it.converter.wrapped.asTypeName() }
+            else -> null
+        }
+
+        return MapCachingInfo(
+            keyConverterClassName = keyConverterClassName,
+            keyWireTypeName = keyWireTypeName,
+            valueConverterClassName = valueConverterClassName,
+            valueWireTypeName = valueWireTypeName,
+            keyIsString = keyIsString,
+            valueIsString = valueIsString
+        )
     }
 
     private fun converter(protoClassName: String, kotlinClassName: String, ctx: GeneratorContext) =

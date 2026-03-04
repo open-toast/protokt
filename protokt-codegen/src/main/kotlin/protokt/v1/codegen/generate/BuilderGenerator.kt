@@ -28,6 +28,8 @@ import com.squareup.kotlinpoet.withIndent
 import protokt.v1.BuilderDsl
 import protokt.v1.BuilderScope
 import protokt.v1.Bytes
+import protokt.v1.LazyConvertingList
+import protokt.v1.LazyConvertingMap
 import protokt.v1.LazyReference
 import protokt.v1.StringConverter
 import protokt.v1.UnknownFieldSet
@@ -78,7 +80,11 @@ private class BuilderGenerator(
                                     .mutable(true)
                                     .handleDeprecation(prop.deprecation)
                                     .apply {
-                                        if (prop.isMap) {
+                                        if (prop.mapCachingInfo != null) {
+                                            setter(convertingMapSetter(prop.mapCachingInfo))
+                                        } else if (prop.repeatedCachingInfo != null) {
+                                            setter(convertingListSetter(prop.repeatedCachingInfo))
+                                        } else if (prop.isMap) {
                                             setter(
                                                 FunSpec.setterBuilder()
                                                     .addParameter("newValue", Map::class)
@@ -195,6 +201,47 @@ private class BuilderGenerator(
             .build()
 
         return listOf(refProp, publicProp)
+    }
+
+    private fun convertingListSetter(info: RepeatedCachingInfo): FunSpec {
+        val converterRef = when (info) {
+            is RepeatedCachingInfo.PlainString -> CodeBlock.of("%T", StringConverter::class)
+            is RepeatedCachingInfo.Converted -> CodeBlock.of("%T", info.converterClassName)
+        }
+        return FunSpec.setterBuilder()
+            .addParameter("newValue", List::class)
+            .addCode(
+                "field = if (newValue is %T<*, *>) newValue else %T.fromKotlin(newValue, %L)",
+                LazyConvertingList::class,
+                LazyConvertingList::class,
+                converterRef
+            )
+            .build()
+    }
+
+    private fun convertingMapSetter(info: MapCachingInfo): FunSpec {
+        val keyConverterRef = if (info.keyConverterClassName != null) {
+            CodeBlock.of("%T", info.keyConverterClassName)
+        } else {
+            CodeBlock.of("null")
+        }
+        val valueConverterRef = if (info.valueConverterClassName != null) {
+            CodeBlock.of("%T", info.valueConverterClassName)
+        } else {
+            CodeBlock.of("null")
+        }
+        return FunSpec.setterBuilder()
+            .addParameter("newValue", Map::class)
+            .addCode(
+                "field = if (newValue is %T<*, *>) newValue else %T.fromKotlin(newValue, %L, %L, %L, %L)",
+                LazyConvertingMap::class,
+                LazyConvertingMap::class,
+                info.keyWrapped,
+                info.valueWrapped,
+                keyConverterRef,
+                valueConverterRef
+            )
+            .build()
     }
 
     private fun fromFunction(): FunSpec =

@@ -29,6 +29,18 @@ import com.toasttab.protokt.v1.testing.TestOuterClass.Test as JavaTest
 import protokt.v1.testing.Test as KtTest
 
 class PersistentCollectionsTest {
+    private fun backingList(list: List<*>): List<*> {
+        val field = list.javaClass.getDeclaredField("backing")
+        field.isAccessible = true
+        return field.get(list) as List<*>
+    }
+
+    private fun backingMap(map: Map<*, *>): Map<*, *> {
+        val field = map.javaClass.getDeclaredField("backing")
+        field.isAccessible = true
+        return field.get(map) as Map<*, *>
+    }
+
     private val content = "this is a test"
     private val content0 = "this is another test"
 
@@ -96,7 +108,7 @@ class PersistentCollectionsTest {
                 RepeatedTest { list = stringList }.serialize()
             )
             assertThat(deserialized.list).containsExactlyElementsIn(stringList).inOrder()
-            assertThat(deserialized.list).isInstanceOf(PersistentList::class.java)
+            assertThat(backingList(deserialized.list)).isInstanceOf(PersistentList::class.java)
         }
 
         @Test
@@ -139,7 +151,7 @@ class PersistentCollectionsTest {
                     map = mapOf(content to protoktSimple, content0 to protoktSimple0)
                 }.serialize()
             )
-            assertThat(deserialized.map).isInstanceOf(PersistentMap::class.java)
+            assertThat(backingMap(deserialized.map)).isInstanceOf(PersistentMap::class.java)
         }
 
         @Test
@@ -172,7 +184,7 @@ class PersistentCollectionsTest {
                     }.build().toByteArray()
                 )
             assertThat(deserialized.map).containsExactlyEntriesIn(mapOf(content to protoktSimple, content0 to protoktSimple0))
-            assertThat(deserialized.map).isInstanceOf(PersistentMap::class.java)
+            assertThat(backingMap(deserialized.map)).isInstanceOf(PersistentMap::class.java)
         }
 
         @Test
@@ -212,7 +224,7 @@ class PersistentCollectionsTest {
         fun `persistent map passes through freezeMap unchanged`() {
             val deserialized = MapTest.deserialize(MapTest { map = mapOf(content to protoktSimple) }.serialize())
             val map = deserialized.map
-            assertThat(map).isInstanceOf(PersistentMap::class.java)
+            assertThat(backingMap(map)).isInstanceOf(PersistentMap::class.java)
 
             val copied = deserialized.copy { this.map = map }
             assertThat(copied.map).isSameInstanceAs(map)

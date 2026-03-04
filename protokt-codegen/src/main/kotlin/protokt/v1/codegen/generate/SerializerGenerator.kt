@@ -19,9 +19,14 @@ import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec
+import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
+import protokt.v1.Bytes
+import protokt.v1.LazyConvertingList
+import protokt.v1.LazyConvertingMap
 import protokt.v1.Writer
 import protokt.v1.codegen.generate.CodeGenerator.Context
+import protokt.v1.codegen.generate.Wrapper.interceptTypeName
 import protokt.v1.codegen.generate.Wrapper.interceptValueAccess
 import protokt.v1.codegen.generate.Wrapper.wrapped
 import protokt.v1.codegen.util.Message
@@ -31,21 +36,39 @@ import protokt.v1.reflect.FieldType
 
 internal val WRITER = Writer::class.simpleName!!.lowercase()
 
-internal fun generateSerializer(msg: Message, properties: List<PropertySpec>, ctx: Context) =
-    SerializerGenerator(msg, properties, ctx).generate()
+internal fun generateSerializer(
+    msg: Message,
+    properties: List<PropertySpec>,
+    ctx: Context,
+    propertyInfoList: List<PropertyInfo> = emptyList()
+) =
+    SerializerGenerator(msg, properties, ctx, propertyInfoList).generate()
 
 private class SerializerGenerator(
     private val msg: Message,
     private val properties: List<PropertySpec>,
-    private val ctx: Context
+    private val ctx: Context,
+    private val propertyInfoList: List<PropertyInfo>
 ) {
+    private fun propertyInfoForField(f: StandardField): PropertyInfo? =
+        propertyInfoList.firstOrNull { it.name == f.fieldName }
+
     fun generate(): FunSpec {
         val fieldSerializations =
             msg.mapFields(
                 ctx,
                 properties,
                 true,
-                { f, p -> serialize(f, ctx, p) },
+                { f, p ->
+                    val propInfo = propertyInfoForField(f)
+                    when {
+                        propInfo?.repeatedCachingInfo != null ->
+                            serializeRepeatedCaching(f, p, propInfo.repeatedCachingInfo)
+                        propInfo?.mapCachingInfo != null ->
+                            serializeMapCaching(f, p, propInfo.mapCachingInfo)
+                        else -> serialize(f, ctx, p)
+                    }
+                },
                 { oneof, std, p -> serialize(std, ctx, p, oneof) }
             )
 
@@ -56,6 +79,50 @@ private class SerializerGenerator(
             addCode("$WRITER.writeUnknown(unknownFields)")
         }
     }
+
+    private fun repeatedWireTypeName(info: RepeatedCachingInfo) =
+        when (info) {
+            is RepeatedCachingInfo.PlainString -> Bytes::class.asTypeName()
+            is RepeatedCachingInfo.Converted -> info.wireTypeName
+        }
+
+    private fun serializeRepeatedCaching(
+        f: StandardField,
+        p: PropertySpec,
+        info: RepeatedCachingInfo
+    ): CodeBlock =
+        buildCodeBlock {
+            val wireType = repeatedWireTypeName(info)
+            beginControlFlow("if (%N.isNotEmpty())", p)
+            add("@%T(\"UNCHECKED_CAST\")\n", Suppress::class)
+            add("(%N as %T<%T, %T>).wireForEach·{·", p, LazyConvertingList::class, wireType, com.squareup.kotlinpoet.ANY)
+            add("$WRITER.writeTag(${f.tag.value}u).%L·}\n", f.write(CodeBlock.of("it")))
+            endControlFlowWithoutNewline()
+        }
+
+    private fun mapWireKeyType(f: StandardField, info: MapCachingInfo) =
+        info.keyWireTypeName ?: f.mapKey.interceptTypeName(ctx)
+
+    private fun mapWireValueType(f: StandardField, info: MapCachingInfo) =
+        info.valueWireTypeName ?: f.mapValue.interceptTypeName(ctx)
+
+    private fun serializeMapCaching(
+        f: StandardField,
+        p: PropertySpec,
+        info: MapCachingInfo
+    ): CodeBlock =
+        buildCodeBlock {
+            val wireKeyType = mapWireKeyType(f, info)
+            val wireValueType = mapWireValueType(f, info)
+            beginControlFlow("if (%N.isNotEmpty())", p)
+            add("@%T(\"UNCHECKED_CAST\")\n", Suppress::class)
+            add("(%N as %T<%T, %T>).wireEntryForEach<%T, %T>·{·wireK,·wireV·->\n", p, LazyConvertingMap::class, com.squareup.kotlinpoet.ANY.copy(nullable = true), com.squareup.kotlinpoet.ANY.copy(nullable = true), wireKeyType, wireValueType)
+            indent()
+            add("$WRITER.writeTag(${f.tag.value}u).write(%T(wireK, wireV))\n", f.className)
+            unindent()
+            add("}\n")
+            endControlFlowWithoutNewline()
+        }
 }
 
 internal fun serialize(
