@@ -25,12 +25,14 @@ import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
 import protokt.v1.AbstractDeserializer
+import protokt.v1.LazyReference
 import protokt.v1.Reader
 import protokt.v1.StringConverter
 import protokt.v1.UnknownFieldSet
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Wrapper.interceptRead
 import protokt.v1.codegen.generate.Wrapper.wrapField
+import protokt.v1.codegen.generate.Wrapper.wrapped
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.Oneof
 import protokt.v1.codegen.util.StandardField
@@ -226,7 +228,17 @@ private class DeserializerGenerator(
     )
 
     private fun oneofDes(f: Oneof, ff: StandardField) =
-        CodeBlock.of("%T(%L)", f.qualify(ff), deserialize(ff, ctx))
+        if (ff.type == FieldType.String && !ff.wrapped) {
+            CodeBlock.of(
+                "%T(%T(%T.readValidatedBytes($READER), %T))",
+                f.qualify(ff),
+                LazyReference::class,
+                StringConverter::class,
+                StringConverter::class
+            )
+        } else {
+            CodeBlock.of("%T(%L)", f.qualify(ff), deserialize(ff, ctx))
+        }
 }
 
 internal fun deserialize(f: StandardField, ctx: Context, packed: Boolean = false): CodeBlock {
