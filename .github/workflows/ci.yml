@@ -58,8 +58,8 @@ jobs:
         name: integration-repository
         path: build/repos/integration
     - name: Build and test
-      run: ./gradlew "-Dkotlin-integration.version=${{ matrix.kotlin }}" "-Djava-integration.version=${{ matrix.jdk }}" "-Djvm-default-integration.arg=-jvm-default=no-compatibility" clean build --stacktrace --no-daemon
+      run: ./gradlew "-Dkotlin-integration.version=${{ matrix.kotlin }}" "-Djava-integration.version=${{ matrix.jdk }}" build --stacktrace --no-daemon
       working-directory: gradle-plugin-integration-test
     - name: Verify configuration cache compatibility
-      run: ./gradlew "-Dkotlin-integration.version=${{ matrix.kotlin }}" "-Djava-integration.version=${{ matrix.jdk }}" "-Djvm-default-integration.arg=-jvm-default=no-compatibility" --configuration-cache build --stacktrace --no-daemon
+      run: ./gradlew "-Dkotlin-integration.version=${{ matrix.kotlin }}" "-Djava-integration.version=${{ matrix.jdk }}" --configuration-cache build --stacktrace --no-daemon
       working-directory: gradle-plugin-integration-test
