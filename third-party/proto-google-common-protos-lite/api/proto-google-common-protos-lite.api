@@ -15,7 +15,7 @@ public final class protokt/v1/google/api/Advice : protokt/v1/AbstractMessage {
 }
 
 public final class protokt/v1/google/api/Advice$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/Advice$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/Advice$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Advice;
 	public final fun getDescription ()Ljava/lang/String;
@@ -24,7 +24,7 @@ public final class protokt/v1/google/api/Advice$Builder : protokt/v1/BuilderScop
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/Advice$Builder$Companion {
+public final class protokt/v1/google/api/Advice$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/Advice$Deserializer : protokt/v1/AbstractDeserializer {
@@ -55,7 +55,7 @@ public final class protokt/v1/google/api/AuthProvider : protokt/v1/AbstractMessa
 }
 
 public final class protokt/v1/google/api/AuthProvider$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/AuthProvider$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/AuthProvider$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/AuthProvider;
 	public final fun getAudiences ()Ljava/lang/String;
@@ -74,7 +74,7 @@ public final class protokt/v1/google/api/AuthProvider$Builder : protokt/v1/Build
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/AuthProvider$Builder$Companion {
+public final class protokt/v1/google/api/AuthProvider$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/AuthProvider$Deserializer : protokt/v1/AbstractDeserializer {
@@ -101,7 +101,7 @@ public final class protokt/v1/google/api/AuthRequirement : protokt/v1/AbstractMe
 }
 
 public final class protokt/v1/google/api/AuthRequirement$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/AuthRequirement$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/AuthRequirement$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/AuthRequirement;
 	public final fun getAudiences ()Ljava/lang/String;
@@ -112,7 +112,7 @@ public final class protokt/v1/google/api/AuthRequirement$Builder : protokt/v1/Bu
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/AuthRequirement$Builder$Companion {
+public final class protokt/v1/google/api/AuthRequirement$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/AuthRequirement$Deserializer : protokt/v1/AbstractDeserializer {
@@ -139,7 +139,7 @@ public final class protokt/v1/google/api/Authentication : protokt/v1/AbstractMes
 }
 
 public final class protokt/v1/google/api/Authentication$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/Authentication$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/Authentication$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Authentication;
 	public final fun getProviders ()Ljava/util/List;
@@ -150,7 +150,7 @@ public final class protokt/v1/google/api/Authentication$Builder : protokt/v1/Bui
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/Authentication$Builder$Companion {
+public final class protokt/v1/google/api/Authentication$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/Authentication$Deserializer : protokt/v1/AbstractDeserializer {
@@ -179,7 +179,7 @@ public final class protokt/v1/google/api/AuthenticationRule : protokt/v1/Abstrac
 }
 
 public final class protokt/v1/google/api/AuthenticationRule$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/AuthenticationRule$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/AuthenticationRule$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/AuthenticationRule;
 	public final fun getAllowWithoutCredential ()Z
@@ -194,7 +194,7 @@ public final class protokt/v1/google/api/AuthenticationRule$Builder : protokt/v1
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/AuthenticationRule$Builder$Companion {
+public final class protokt/v1/google/api/AuthenticationRule$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/AuthenticationRule$Deserializer : protokt/v1/AbstractDeserializer {
@@ -220,7 +220,7 @@ public final class protokt/v1/google/api/Backend : protokt/v1/AbstractMessage {
 }
 
 public final class protokt/v1/google/api/Backend$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/Backend$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/Backend$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Backend;
 	public final fun getRules ()Ljava/util/List;
@@ -229,7 +229,7 @@ public final class protokt/v1/google/api/Backend$Builder : protokt/v1/BuilderSco
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/Backend$Builder$Companion {
+public final class protokt/v1/google/api/Backend$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/Backend$Deserializer : protokt/v1/AbstractDeserializer {
@@ -288,7 +288,7 @@ public final class protokt/v1/google/api/BackendRule$Authentication$JwtAudience 
 }
 
 public final class protokt/v1/google/api/BackendRule$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/BackendRule$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/BackendRule$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/BackendRule;
 	public final fun getAddress ()Ljava/lang/String;
@@ -313,7 +313,7 @@ public final class protokt/v1/google/api/BackendRule$Builder : protokt/v1/Builde
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/BackendRule$Builder$Companion {
+public final class protokt/v1/google/api/BackendRule$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/BackendRule$Deserializer : protokt/v1/AbstractDeserializer {
@@ -384,7 +384,7 @@ public final class protokt/v1/google/api/Billing$BillingDestination : protokt/v1
 }
 
 public final class protokt/v1/google/api/Billing$BillingDestination$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/Billing$BillingDestination$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/Billing$BillingDestination$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Billing$BillingDestination;
 	public final fun getMetrics ()Ljava/util/List;
@@ -395,7 +395,7 @@ public final class protokt/v1/google/api/Billing$BillingDestination$Builder : pr
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/Billing$BillingDestination$Builder$Companion {
+public final class protokt/v1/google/api/Billing$BillingDestination$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/Billing$BillingDestination$Deserializer : protokt/v1/AbstractDeserializer {
@@ -405,7 +405,7 @@ public final class protokt/v1/google/api/Billing$BillingDestination$Deserializer
 }
 
 public final class protokt/v1/google/api/Billing$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/Billing$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/Billing$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Billing;
 	public final fun getConsumerDestinations ()Ljava/util/List;
@@ -414,7 +414,7 @@ public final class protokt/v1/google/api/Billing$Builder : protokt/v1/BuilderSco
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/Billing$Builder$Companion {
+public final class protokt/v1/google/api/Billing$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/Billing$Deserializer : protokt/v1/AbstractDeserializer {
@@ -558,7 +558,7 @@ public final class protokt/v1/google/api/ClientLibrarySettings : protokt/v1/Abst
 }
 
 public final class protokt/v1/google/api/ClientLibrarySettings$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/ClientLibrarySettings$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/ClientLibrarySettings$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/ClientLibrarySettings;
 	public final fun getCppSettings ()Lprotokt/v1/google/api/CppSettings;
@@ -587,7 +587,7 @@ public final class protokt/v1/google/api/ClientLibrarySettings$Builder : protokt
 	public final fun setVersion (Ljava/lang/String;)V
 }
 
-public final class protokt/v1/google/api/ClientLibrarySettings$Builder$Companion {
+public final class protokt/v1/google/api/ClientLibrarySettings$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/ClientLibrarySettings$Deserializer : protokt/v1/AbstractDeserializer {
@@ -615,7 +615,7 @@ public final class protokt/v1/google/api/CommonLanguageSettings : protokt/v1/Abs
 }
 
 public final class protokt/v1/google/api/CommonLanguageSettings$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/CommonLanguageSettings$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/CommonLanguageSettings$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/CommonLanguageSettings;
 	public final fun getDestinations ()Ljava/util/List;
@@ -628,7 +628,7 @@ public final class protokt/v1/google/api/CommonLanguageSettings$Builder : protok
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/CommonLanguageSettings$Builder$Companion {
+public final class protokt/v1/google/api/CommonLanguageSettings$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/CommonLanguageSettings$Deserializer : protokt/v1/AbstractDeserializer {
@@ -658,7 +658,7 @@ public final class protokt/v1/google/api/ConfigChange : protokt/v1/AbstractMessa
 }
 
 public final class protokt/v1/google/api/ConfigChange$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/ConfigChange$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/ConfigChange$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/ConfigChange;
 	public final fun getAdvices ()Ljava/util/List;
@@ -675,7 +675,7 @@ public final class protokt/v1/google/api/ConfigChange$Builder : protokt/v1/Build
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/ConfigChange$Builder$Companion {
+public final class protokt/v1/google/api/ConfigChange$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/ConfigChange$Deserializer : protokt/v1/AbstractDeserializer {
@@ -701,7 +701,7 @@ public final class protokt/v1/google/api/Context : protokt/v1/AbstractMessage {
 }
 
 public final class protokt/v1/google/api/Context$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/Context$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/Context$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Context;
 	public final fun getRules ()Ljava/util/List;
@@ -710,7 +710,7 @@ public final class protokt/v1/google/api/Context$Builder : protokt/v1/BuilderSco
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/Context$Builder$Companion {
+public final class protokt/v1/google/api/Context$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/Context$Deserializer : protokt/v1/AbstractDeserializer {
@@ -740,7 +740,7 @@ public final class protokt/v1/google/api/ContextRule : protokt/v1/AbstractMessag
 }
 
 public final class protokt/v1/google/api/ContextRule$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/ContextRule$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/ContextRule$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/ContextRule;
 	public final fun getAllowedRequestExtensions ()Ljava/util/List;
@@ -757,7 +757,7 @@ public final class protokt/v1/google/api/ContextRule$Builder : protokt/v1/Builde
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/ContextRule$Builder$Companion {
+public final class protokt/v1/google/api/ContextRule$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/ContextRule$Deserializer : protokt/v1/AbstractDeserializer {
@@ -784,7 +784,7 @@ public final class protokt/v1/google/api/Control : protokt/v1/AbstractMessage {
 }
 
 public final class protokt/v1/google/api/Control$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/Control$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/Control$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Control;
 	public final fun getEnvironment ()Ljava/lang/String;
@@ -795,7 +795,7 @@ public final class protokt/v1/google/api/Control$Builder : protokt/v1/BuilderSco
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/Control$Builder$Companion {
+public final class protokt/v1/google/api/Control$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/Control$Deserializer : protokt/v1/AbstractDeserializer {
@@ -821,7 +821,7 @@ public final class protokt/v1/google/api/CppSettings : protokt/v1/AbstractMessag
 }
 
 public final class protokt/v1/google/api/CppSettings$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/CppSettings$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/CppSettings$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/CppSettings;
 	public final fun getCommon ()Lprotokt/v1/google/api/CommonLanguageSettings;
@@ -830,7 +830,7 @@ public final class protokt/v1/google/api/CppSettings$Builder : protokt/v1/Builde
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/CppSettings$Builder$Companion {
+public final class protokt/v1/google/api/CppSettings$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/CppSettings$Deserializer : protokt/v1/AbstractDeserializer {
@@ -857,7 +857,7 @@ public final class protokt/v1/google/api/CustomHttpPattern : protokt/v1/Abstract
 }
 
 public final class protokt/v1/google/api/CustomHttpPattern$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/CustomHttpPattern$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/CustomHttpPattern$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/CustomHttpPattern;
 	public final fun getKind ()Ljava/lang/String;
@@ -868,7 +868,7 @@ public final class protokt/v1/google/api/CustomHttpPattern$Builder : protokt/v1/
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/CustomHttpPattern$Builder$Companion {
+public final class protokt/v1/google/api/CustomHttpPattern$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/CustomHttpPattern$Deserializer : protokt/v1/AbstractDeserializer {
@@ -916,7 +916,7 @@ public final class protokt/v1/google/api/Distribution$BucketOptions : protokt/v1
 }
 
 public final class protokt/v1/google/api/Distribution$BucketOptions$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/Distribution$BucketOptions$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/Distribution$BucketOptions$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Distribution$BucketOptions;
 	public final fun getOptions ()Lprotokt/v1/google/api/Distribution$BucketOptions$Options;
@@ -925,7 +925,7 @@ public final class protokt/v1/google/api/Distribution$BucketOptions$Builder : pr
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/Distribution$BucketOptions$Builder$Companion {
+public final class protokt/v1/google/api/Distribution$BucketOptions$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/Distribution$BucketOptions$Deserializer : protokt/v1/AbstractDeserializer {
@@ -951,7 +951,7 @@ public final class protokt/v1/google/api/Distribution$BucketOptions$Explicit : p
 }
 
 public final class protokt/v1/google/api/Distribution$BucketOptions$Explicit$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/Distribution$BucketOptions$Explicit$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/Distribution$BucketOptions$Explicit$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Distribution$BucketOptions$Explicit;
 	public final fun getBounds ()Ljava/util/List;
@@ -960,7 +960,7 @@ public final class protokt/v1/google/api/Distribution$BucketOptions$Explicit$Bui
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/Distribution$BucketOptions$Explicit$Builder$Companion {
+public final class protokt/v1/google/api/Distribution$BucketOptions$Explicit$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/Distribution$BucketOptions$Explicit$Deserializer : protokt/v1/AbstractDeserializer {
@@ -988,7 +988,7 @@ public final class protokt/v1/google/api/Distribution$BucketOptions$Exponential 
 }
 
 public final class protokt/v1/google/api/Distribution$BucketOptions$Exponential$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/Distribution$BucketOptions$Exponential$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/Distribution$BucketOptions$Exponential$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Distribution$BucketOptions$Exponential;
 	public final fun getGrowthFactor ()D
@@ -1001,7 +1001,7 @@ public final class protokt/v1/google/api/Distribution$BucketOptions$Exponential$
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/Distribution$BucketOptions$Exponential$Builder$Companion {
+public final class protokt/v1/google/api/Distribution$BucketOptions$Exponential$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/Distribution$BucketOptions$Exponential$Deserializer : protokt/v1/AbstractDeserializer {
@@ -1029,7 +1029,7 @@ public final class protokt/v1/google/api/Distribution$BucketOptions$Linear : pro
 }
 
 public final class protokt/v1/google/api/Distribution$BucketOptions$Linear$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/Distribution$BucketOptions$Linear$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/Distribution$BucketOptions$Linear$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Distribution$BucketOptions$Linear;
 	public final fun getNumFiniteBuckets ()I
@@ -1042,7 +1042,7 @@ public final class protokt/v1/google/api/Distribution$BucketOptions$Linear$Build
 	public final fun setWidth (D)V
 }
 
-public final class protokt/v1/google/api/Distribution$BucketOptions$Linear$Builder$Companion {
+public final class protokt/v1/google/api/Distribution$BucketOptions$Linear$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/Distribution$BucketOptions$Linear$Deserializer : protokt/v1/AbstractDeserializer {
@@ -1088,7 +1088,7 @@ public final class protokt/v1/google/api/Distribution$BucketOptions$Options$Line
 }
 
 public final class protokt/v1/google/api/Distribution$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/Distribution$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/Distribution$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Distribution;
 	public final fun getBucketCounts ()Ljava/util/List;
@@ -1109,7 +1109,7 @@ public final class protokt/v1/google/api/Distribution$Builder : protokt/v1/Build
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/Distribution$Builder$Companion {
+public final class protokt/v1/google/api/Distribution$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/Distribution$Deserializer : protokt/v1/AbstractDeserializer {
@@ -1137,7 +1137,7 @@ public final class protokt/v1/google/api/Distribution$Exemplar : protokt/v1/Abst
 }
 
 public final class protokt/v1/google/api/Distribution$Exemplar$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/Distribution$Exemplar$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/Distribution$Exemplar$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Distribution$Exemplar;
 	public final fun getAttachments ()Ljava/util/List;
@@ -1150,7 +1150,7 @@ public final class protokt/v1/google/api/Distribution$Exemplar$Builder : protokt
 	public final fun setValue (D)V
 }
 
-public final class protokt/v1/google/api/Distribution$Exemplar$Builder$Companion {
+public final class protokt/v1/google/api/Distribution$Exemplar$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/Distribution$Exemplar$Deserializer : protokt/v1/AbstractDeserializer {
@@ -1177,7 +1177,7 @@ public final class protokt/v1/google/api/Distribution$Range : protokt/v1/Abstrac
 }
 
 public final class protokt/v1/google/api/Distribution$Range$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/Distribution$Range$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/Distribution$Range$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Distribution$Range;
 	public final fun getMax ()D
@@ -1188,7 +1188,7 @@ public final class protokt/v1/google/api/Distribution$Range$Builder : protokt/v1
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/Distribution$Range$Builder$Companion {
+public final class protokt/v1/google/api/Distribution$Range$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/Distribution$Range$Deserializer : protokt/v1/AbstractDeserializer {
@@ -1219,7 +1219,7 @@ public final class protokt/v1/google/api/Documentation : protokt/v1/AbstractMess
 }
 
 public final class protokt/v1/google/api/Documentation$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/Documentation$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/Documentation$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Documentation;
 	public final fun getDocumentationRootUrl ()Ljava/lang/String;
@@ -1238,7 +1238,7 @@ public final class protokt/v1/google/api/Documentation$Builder : protokt/v1/Buil
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/Documentation$Builder$Companion {
+public final class protokt/v1/google/api/Documentation$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/Documentation$Deserializer : protokt/v1/AbstractDeserializer {
@@ -1266,7 +1266,7 @@ public final class protokt/v1/google/api/DocumentationRule : protokt/v1/Abstract
 }
 
 public final class protokt/v1/google/api/DocumentationRule$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/DocumentationRule$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/DocumentationRule$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/DocumentationRule;
 	public final fun getDeprecationDescription ()Ljava/lang/String;
@@ -1279,7 +1279,7 @@ public final class protokt/v1/google/api/DocumentationRule$Builder : protokt/v1/
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/DocumentationRule$Builder$Companion {
+public final class protokt/v1/google/api/DocumentationRule$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/DocumentationRule$Deserializer : protokt/v1/AbstractDeserializer {
@@ -1310,7 +1310,7 @@ public final class protokt/v1/google/api/DotnetSettings : protokt/v1/AbstractMes
 }
 
 public final class protokt/v1/google/api/DotnetSettings$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/DotnetSettings$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/DotnetSettings$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/DotnetSettings;
 	public final fun getCommon ()Lprotokt/v1/google/api/CommonLanguageSettings;
@@ -1329,7 +1329,7 @@ public final class protokt/v1/google/api/DotnetSettings$Builder : protokt/v1/Bui
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/DotnetSettings$Builder$Companion {
+public final class protokt/v1/google/api/DotnetSettings$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/DotnetSettings$Deserializer : protokt/v1/AbstractDeserializer {
@@ -1358,7 +1358,7 @@ public final class protokt/v1/google/api/Endpoint : protokt/v1/AbstractMessage {
 }
 
 public final class protokt/v1/google/api/Endpoint$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/Endpoint$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/Endpoint$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Endpoint;
 	public final fun getAliases ()Ljava/util/List;
@@ -1373,7 +1373,7 @@ public final class protokt/v1/google/api/Endpoint$Builder : protokt/v1/BuilderSc
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/Endpoint$Builder$Companion {
+public final class protokt/v1/google/api/Endpoint$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/Endpoint$Deserializer : protokt/v1/AbstractDeserializer {
@@ -1600,7 +1600,7 @@ public final class protokt/v1/google/api/FieldInfo : protokt/v1/AbstractMessage 
 }
 
 public final class protokt/v1/google/api/FieldInfo$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/FieldInfo$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/FieldInfo$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/FieldInfo;
 	public final fun getFormat ()Lprotokt/v1/google/api/FieldInfo$Format;
@@ -1611,7 +1611,7 @@ public final class protokt/v1/google/api/FieldInfo$Builder : protokt/v1/BuilderS
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/FieldInfo$Builder$Companion {
+public final class protokt/v1/google/api/FieldInfo$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/FieldInfo$Deserializer : protokt/v1/AbstractDeserializer {
@@ -1675,7 +1675,7 @@ public final class protokt/v1/google/api/FieldPolicy : protokt/v1/AbstractMessag
 }
 
 public final class protokt/v1/google/api/FieldPolicy$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/FieldPolicy$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/FieldPolicy$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/FieldPolicy;
 	public final fun getResourcePermission ()Ljava/lang/String;
@@ -1688,7 +1688,7 @@ public final class protokt/v1/google/api/FieldPolicy$Builder : protokt/v1/Builde
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/FieldPolicy$Builder$Companion {
+public final class protokt/v1/google/api/FieldPolicy$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/FieldPolicy$Deserializer : protokt/v1/AbstractDeserializer {
@@ -1715,7 +1715,7 @@ public final class protokt/v1/google/api/GoSettings : protokt/v1/AbstractMessage
 }
 
 public final class protokt/v1/google/api/GoSettings$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/GoSettings$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/GoSettings$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/GoSettings;
 	public final fun getCommon ()Lprotokt/v1/google/api/CommonLanguageSettings;
@@ -1726,7 +1726,7 @@ public final class protokt/v1/google/api/GoSettings$Builder : protokt/v1/Builder
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/GoSettings$Builder$Companion {
+public final class protokt/v1/google/api/GoSettings$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/GoSettings$Deserializer : protokt/v1/AbstractDeserializer {
@@ -1753,7 +1753,7 @@ public final class protokt/v1/google/api/Http : protokt/v1/AbstractMessage {
 }
 
 public final class protokt/v1/google/api/Http$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/Http$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/Http$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Http;
 	public final fun getFullyDecodeReservedExpansion ()Z
@@ -1764,7 +1764,7 @@ public final class protokt/v1/google/api/Http$Builder : protokt/v1/BuilderScope 
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/Http$Builder$Companion {
+public final class protokt/v1/google/api/Http$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/Http$Deserializer : protokt/v1/AbstractDeserializer {
@@ -1792,7 +1792,7 @@ public final class protokt/v1/google/api/HttpBody : protokt/v1/AbstractMessage {
 }
 
 public final class protokt/v1/google/api/HttpBody$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/HttpBody$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/HttpBody$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/HttpBody;
 	public final fun getContentType ()Ljava/lang/String;
@@ -1805,7 +1805,7 @@ public final class protokt/v1/google/api/HttpBody$Builder : protokt/v1/BuilderSc
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/HttpBody$Builder$Companion {
+public final class protokt/v1/google/api/HttpBody$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/HttpBody$Deserializer : protokt/v1/AbstractDeserializer {
@@ -1835,7 +1835,7 @@ public final class protokt/v1/google/api/HttpRule : protokt/v1/AbstractMessage {
 }
 
 public final class protokt/v1/google/api/HttpRule$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/HttpRule$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/HttpRule$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/HttpRule;
 	public final fun getAdditionalBindings ()Ljava/util/List;
@@ -1852,7 +1852,7 @@ public final class protokt/v1/google/api/HttpRule$Builder : protokt/v1/BuilderSc
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/HttpRule$Builder$Companion {
+public final class protokt/v1/google/api/HttpRule$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/HttpRule$Deserializer : protokt/v1/AbstractDeserializer {
@@ -1949,7 +1949,7 @@ public final class protokt/v1/google/api/JavaSettings : protokt/v1/AbstractMessa
 }
 
 public final class protokt/v1/google/api/JavaSettings$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/JavaSettings$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/JavaSettings$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/JavaSettings;
 	public final fun getCommon ()Lprotokt/v1/google/api/CommonLanguageSettings;
@@ -1962,7 +1962,7 @@ public final class protokt/v1/google/api/JavaSettings$Builder : protokt/v1/Build
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/JavaSettings$Builder$Companion {
+public final class protokt/v1/google/api/JavaSettings$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/JavaSettings$Deserializer : protokt/v1/AbstractDeserializer {
@@ -1989,7 +1989,7 @@ public final class protokt/v1/google/api/JwtLocation : protokt/v1/AbstractMessag
 }
 
 public final class protokt/v1/google/api/JwtLocation$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/JwtLocation$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/JwtLocation$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/JwtLocation;
 	public final fun getIn ()Lprotokt/v1/google/api/JwtLocation$In;
@@ -2000,7 +2000,7 @@ public final class protokt/v1/google/api/JwtLocation$Builder : protokt/v1/Builde
 	public final fun setValuePrefix (Ljava/lang/String;)V
 }
 
-public final class protokt/v1/google/api/JwtLocation$Builder$Companion {
+public final class protokt/v1/google/api/JwtLocation$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/JwtLocation$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2064,7 +2064,7 @@ public final class protokt/v1/google/api/LabelDescriptor : protokt/v1/AbstractMe
 }
 
 public final class protokt/v1/google/api/LabelDescriptor$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/LabelDescriptor$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/LabelDescriptor$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/LabelDescriptor;
 	public final fun getDescription ()Ljava/lang/String;
@@ -2077,7 +2077,7 @@ public final class protokt/v1/google/api/LabelDescriptor$Builder : protokt/v1/Bu
 	public final fun setValueType (Lprotokt/v1/google/api/LabelDescriptor$ValueType;)V
 }
 
-public final class protokt/v1/google/api/LabelDescriptor$Builder$Companion {
+public final class protokt/v1/google/api/LabelDescriptor$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/LabelDescriptor$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2182,7 +2182,7 @@ public final class protokt/v1/google/api/LogDescriptor : protokt/v1/AbstractMess
 }
 
 public final class protokt/v1/google/api/LogDescriptor$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/LogDescriptor$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/LogDescriptor$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/LogDescriptor;
 	public final fun getDescription ()Ljava/lang/String;
@@ -2197,7 +2197,7 @@ public final class protokt/v1/google/api/LogDescriptor$Builder : protokt/v1/Buil
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/LogDescriptor$Builder$Companion {
+public final class protokt/v1/google/api/LogDescriptor$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/LogDescriptor$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2224,7 +2224,7 @@ public final class protokt/v1/google/api/Logging : protokt/v1/AbstractMessage {
 }
 
 public final class protokt/v1/google/api/Logging$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/Logging$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/Logging$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Logging;
 	public final fun getConsumerDestinations ()Ljava/util/List;
@@ -2235,7 +2235,7 @@ public final class protokt/v1/google/api/Logging$Builder : protokt/v1/BuilderSco
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/Logging$Builder$Companion {
+public final class protokt/v1/google/api/Logging$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/Logging$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2262,7 +2262,7 @@ public final class protokt/v1/google/api/Logging$LoggingDestination : protokt/v1
 }
 
 public final class protokt/v1/google/api/Logging$LoggingDestination$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/Logging$LoggingDestination$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/Logging$LoggingDestination$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Logging$LoggingDestination;
 	public final fun getLogs ()Ljava/util/List;
@@ -2273,7 +2273,7 @@ public final class protokt/v1/google/api/Logging$LoggingDestination$Builder : pr
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/Logging$LoggingDestination$Builder$Companion {
+public final class protokt/v1/google/api/Logging$LoggingDestination$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/Logging$LoggingDestination$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2300,7 +2300,7 @@ public final class protokt/v1/google/api/MethodPolicy : protokt/v1/AbstractMessa
 }
 
 public final class protokt/v1/google/api/MethodPolicy$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/MethodPolicy$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/MethodPolicy$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/MethodPolicy;
 	public final fun getRequestPolicies ()Ljava/util/List;
@@ -2311,7 +2311,7 @@ public final class protokt/v1/google/api/MethodPolicy$Builder : protokt/v1/Build
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/MethodPolicy$Builder$Companion {
+public final class protokt/v1/google/api/MethodPolicy$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/MethodPolicy$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2339,7 +2339,7 @@ public final class protokt/v1/google/api/MethodSettings : protokt/v1/AbstractMes
 }
 
 public final class protokt/v1/google/api/MethodSettings$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/MethodSettings$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/MethodSettings$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/MethodSettings;
 	public final fun getAutoPopulatedFields ()Ljava/util/List;
@@ -2352,7 +2352,7 @@ public final class protokt/v1/google/api/MethodSettings$Builder : protokt/v1/Bui
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/MethodSettings$Builder$Companion {
+public final class protokt/v1/google/api/MethodSettings$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/MethodSettings$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2381,7 +2381,7 @@ public final class protokt/v1/google/api/MethodSettings$LongRunning : protokt/v1
 }
 
 public final class protokt/v1/google/api/MethodSettings$LongRunning$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/MethodSettings$LongRunning$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/MethodSettings$LongRunning$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/MethodSettings$LongRunning;
 	public final fun getInitialPollDelay ()Lprotokt/v1/google/protobuf/Duration;
@@ -2396,7 +2396,7 @@ public final class protokt/v1/google/api/MethodSettings$LongRunning$Builder : pr
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/MethodSettings$LongRunning$Builder$Companion {
+public final class protokt/v1/google/api/MethodSettings$LongRunning$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/MethodSettings$LongRunning$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2423,7 +2423,7 @@ public final class protokt/v1/google/api/Metric : protokt/v1/AbstractMessage {
 }
 
 public final class protokt/v1/google/api/Metric$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/Metric$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/Metric$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Metric;
 	public final fun getLabels ()Ljava/util/Map;
@@ -2434,7 +2434,7 @@ public final class protokt/v1/google/api/Metric$Builder : protokt/v1/BuilderScop
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/Metric$Builder$Companion {
+public final class protokt/v1/google/api/Metric$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/Metric$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2470,7 +2470,7 @@ public final class protokt/v1/google/api/MetricDescriptor : protokt/v1/AbstractM
 }
 
 public final class protokt/v1/google/api/MetricDescriptor$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/MetricDescriptor$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/MetricDescriptor$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/MetricDescriptor;
 	public final fun getDescription ()Ljava/lang/String;
@@ -2499,7 +2499,7 @@ public final class protokt/v1/google/api/MetricDescriptor$Builder : protokt/v1/B
 	public final fun setValueType (Lprotokt/v1/google/api/MetricDescriptor$ValueType;)V
 }
 
-public final class protokt/v1/google/api/MetricDescriptor$Builder$Companion {
+public final class protokt/v1/google/api/MetricDescriptor$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/MetricDescriptor$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2528,7 +2528,7 @@ public final class protokt/v1/google/api/MetricDescriptor$MetricDescriptorMetada
 }
 
 public final class protokt/v1/google/api/MetricDescriptor$MetricDescriptorMetadata$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/MetricDescriptor$MetricDescriptorMetadata$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/MetricDescriptor$MetricDescriptorMetadata$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/MetricDescriptor$MetricDescriptorMetadata;
 	public final fun getIngestDelay ()Lprotokt/v1/google/protobuf/Duration;
@@ -2543,7 +2543,7 @@ public final class protokt/v1/google/api/MetricDescriptor$MetricDescriptorMetada
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/MetricDescriptor$MetricDescriptorMetadata$Builder$Companion {
+public final class protokt/v1/google/api/MetricDescriptor$MetricDescriptorMetadata$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/MetricDescriptor$MetricDescriptorMetadata$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2678,7 +2678,7 @@ public final class protokt/v1/google/api/MetricRule : protokt/v1/AbstractMessage
 }
 
 public final class protokt/v1/google/api/MetricRule$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/MetricRule$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/MetricRule$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/MetricRule;
 	public final fun getMetricCosts ()Ljava/util/Map;
@@ -2689,7 +2689,7 @@ public final class protokt/v1/google/api/MetricRule$Builder : protokt/v1/Builder
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/MetricRule$Builder$Companion {
+public final class protokt/v1/google/api/MetricRule$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/MetricRule$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2716,7 +2716,7 @@ public final class protokt/v1/google/api/MonitoredResource : protokt/v1/Abstract
 }
 
 public final class protokt/v1/google/api/MonitoredResource$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/MonitoredResource$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/MonitoredResource$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/MonitoredResource;
 	public final fun getLabels ()Ljava/util/Map;
@@ -2727,7 +2727,7 @@ public final class protokt/v1/google/api/MonitoredResource$Builder : protokt/v1/
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/MonitoredResource$Builder$Companion {
+public final class protokt/v1/google/api/MonitoredResource$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/MonitoredResource$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2758,7 +2758,7 @@ public final class protokt/v1/google/api/MonitoredResourceDescriptor : protokt/v
 }
 
 public final class protokt/v1/google/api/MonitoredResourceDescriptor$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/MonitoredResourceDescriptor$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/MonitoredResourceDescriptor$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/MonitoredResourceDescriptor;
 	public final fun getDescription ()Ljava/lang/String;
@@ -2777,7 +2777,7 @@ public final class protokt/v1/google/api/MonitoredResourceDescriptor$Builder : p
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/MonitoredResourceDescriptor$Builder$Companion {
+public final class protokt/v1/google/api/MonitoredResourceDescriptor$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/MonitoredResourceDescriptor$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2804,7 +2804,7 @@ public final class protokt/v1/google/api/MonitoredResourceMetadata : protokt/v1/
 }
 
 public final class protokt/v1/google/api/MonitoredResourceMetadata$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/MonitoredResourceMetadata$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/MonitoredResourceMetadata$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/MonitoredResourceMetadata;
 	public final fun getSystemLabels ()Lprotokt/v1/google/protobuf/Struct;
@@ -2815,7 +2815,7 @@ public final class protokt/v1/google/api/MonitoredResourceMetadata$Builder : pro
 	public final fun setUserLabels (Ljava/util/Map;)V
 }
 
-public final class protokt/v1/google/api/MonitoredResourceMetadata$Builder$Companion {
+public final class protokt/v1/google/api/MonitoredResourceMetadata$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/MonitoredResourceMetadata$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2842,7 +2842,7 @@ public final class protokt/v1/google/api/Monitoring : protokt/v1/AbstractMessage
 }
 
 public final class protokt/v1/google/api/Monitoring$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/Monitoring$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/Monitoring$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Monitoring;
 	public final fun getConsumerDestinations ()Ljava/util/List;
@@ -2853,7 +2853,7 @@ public final class protokt/v1/google/api/Monitoring$Builder : protokt/v1/Builder
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/Monitoring$Builder$Companion {
+public final class protokt/v1/google/api/Monitoring$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/Monitoring$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2880,7 +2880,7 @@ public final class protokt/v1/google/api/Monitoring$MonitoringDestination : prot
 }
 
 public final class protokt/v1/google/api/Monitoring$MonitoringDestination$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/Monitoring$MonitoringDestination$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/Monitoring$MonitoringDestination$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Monitoring$MonitoringDestination;
 	public final fun getMetrics ()Ljava/util/List;
@@ -2891,7 +2891,7 @@ public final class protokt/v1/google/api/Monitoring$MonitoringDestination$Builde
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/Monitoring$MonitoringDestination$Builder$Companion {
+public final class protokt/v1/google/api/Monitoring$MonitoringDestination$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/Monitoring$MonitoringDestination$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2917,7 +2917,7 @@ public final class protokt/v1/google/api/NodeSettings : protokt/v1/AbstractMessa
 }
 
 public final class protokt/v1/google/api/NodeSettings$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/NodeSettings$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/NodeSettings$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/NodeSettings;
 	public final fun getCommon ()Lprotokt/v1/google/api/CommonLanguageSettings;
@@ -2926,7 +2926,7 @@ public final class protokt/v1/google/api/NodeSettings$Builder : protokt/v1/Build
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/NodeSettings$Builder$Companion {
+public final class protokt/v1/google/api/NodeSettings$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/NodeSettings$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2952,7 +2952,7 @@ public final class protokt/v1/google/api/OAuthRequirements : protokt/v1/Abstract
 }
 
 public final class protokt/v1/google/api/OAuthRequirements$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/OAuthRequirements$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/OAuthRequirements$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/OAuthRequirements;
 	public final fun getCanonicalScopes ()Ljava/lang/String;
@@ -2961,7 +2961,7 @@ public final class protokt/v1/google/api/OAuthRequirements$Builder : protokt/v1/
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/OAuthRequirements$Builder$Companion {
+public final class protokt/v1/google/api/OAuthRequirements$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/OAuthRequirements$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2989,7 +2989,7 @@ public final class protokt/v1/google/api/Page : protokt/v1/AbstractMessage {
 }
 
 public final class protokt/v1/google/api/Page$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/Page$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/Page$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Page;
 	public final fun getContent ()Ljava/lang/String;
@@ -3002,7 +3002,7 @@ public final class protokt/v1/google/api/Page$Builder : protokt/v1/BuilderScope 
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/Page$Builder$Companion {
+public final class protokt/v1/google/api/Page$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/Page$Deserializer : protokt/v1/AbstractDeserializer {
@@ -3028,7 +3028,7 @@ public final class protokt/v1/google/api/PhpSettings : protokt/v1/AbstractMessag
 }
 
 public final class protokt/v1/google/api/PhpSettings$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/PhpSettings$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/PhpSettings$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/PhpSettings;
 	public final fun getCommon ()Lprotokt/v1/google/api/CommonLanguageSettings;
@@ -3037,7 +3037,7 @@ public final class protokt/v1/google/api/PhpSettings$Builder : protokt/v1/Builde
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/PhpSettings$Builder$Companion {
+public final class protokt/v1/google/api/PhpSettings$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/PhpSettings$Deserializer : protokt/v1/AbstractDeserializer {
@@ -3063,7 +3063,7 @@ public final class protokt/v1/google/api/ProjectProperties : protokt/v1/Abstract
 }
 
 public final class protokt/v1/google/api/ProjectProperties$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/ProjectProperties$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/ProjectProperties$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/ProjectProperties;
 	public final fun getProperties ()Ljava/util/List;
@@ -3072,7 +3072,7 @@ public final class protokt/v1/google/api/ProjectProperties$Builder : protokt/v1/
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/ProjectProperties$Builder$Companion {
+public final class protokt/v1/google/api/ProjectProperties$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/ProjectProperties$Deserializer : protokt/v1/AbstractDeserializer {
@@ -3100,7 +3100,7 @@ public final class protokt/v1/google/api/Property : protokt/v1/AbstractMessage {
 }
 
 public final class protokt/v1/google/api/Property$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/Property$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/Property$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Property;
 	public final fun getDescription ()Ljava/lang/String;
@@ -3113,7 +3113,7 @@ public final class protokt/v1/google/api/Property$Builder : protokt/v1/BuilderSc
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/Property$Builder$Companion {
+public final class protokt/v1/google/api/Property$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/Property$Deserializer : protokt/v1/AbstractDeserializer {
@@ -3185,7 +3185,7 @@ public final class protokt/v1/google/api/Publishing : protokt/v1/AbstractMessage
 }
 
 public final class protokt/v1/google/api/Publishing$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/Publishing$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/Publishing$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Publishing;
 	public final fun getApiShortName ()Ljava/lang/String;
@@ -3214,7 +3214,7 @@ public final class protokt/v1/google/api/Publishing$Builder : protokt/v1/Builder
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/Publishing$Builder$Companion {
+public final class protokt/v1/google/api/Publishing$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/Publishing$Deserializer : protokt/v1/AbstractDeserializer {
@@ -3241,7 +3241,7 @@ public final class protokt/v1/google/api/PythonSettings : protokt/v1/AbstractMes
 }
 
 public final class protokt/v1/google/api/PythonSettings$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/PythonSettings$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/PythonSettings$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/PythonSettings;
 	public final fun getCommon ()Lprotokt/v1/google/api/CommonLanguageSettings;
@@ -3252,7 +3252,7 @@ public final class protokt/v1/google/api/PythonSettings$Builder : protokt/v1/Bui
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/PythonSettings$Builder$Companion {
+public final class protokt/v1/google/api/PythonSettings$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/PythonSettings$Deserializer : protokt/v1/AbstractDeserializer {
@@ -3280,7 +3280,7 @@ public final class protokt/v1/google/api/PythonSettings$ExperimentalFeatures : p
 }
 
 public final class protokt/v1/google/api/PythonSettings$ExperimentalFeatures$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/PythonSettings$ExperimentalFeatures$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/PythonSettings$ExperimentalFeatures$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/PythonSettings$ExperimentalFeatures;
 	public final fun getProtobufPythonicTypesEnabled ()Z
@@ -3293,7 +3293,7 @@ public final class protokt/v1/google/api/PythonSettings$ExperimentalFeatures$Bui
 	public final fun setUnversionedPackageDisabled (Z)V
 }
 
-public final class protokt/v1/google/api/PythonSettings$ExperimentalFeatures$Builder$Companion {
+public final class protokt/v1/google/api/PythonSettings$ExperimentalFeatures$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/PythonSettings$ExperimentalFeatures$Deserializer : protokt/v1/AbstractDeserializer {
@@ -3320,7 +3320,7 @@ public final class protokt/v1/google/api/Quota : protokt/v1/AbstractMessage {
 }
 
 public final class protokt/v1/google/api/Quota$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/Quota$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/Quota$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Quota;
 	public final fun getLimits ()Ljava/util/List;
@@ -3331,7 +3331,7 @@ public final class protokt/v1/google/api/Quota$Builder : protokt/v1/BuilderScope
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/Quota$Builder$Companion {
+public final class protokt/v1/google/api/Quota$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/Quota$Deserializer : protokt/v1/AbstractDeserializer {
@@ -3366,7 +3366,7 @@ public final class protokt/v1/google/api/QuotaLimit : protokt/v1/AbstractMessage
 }
 
 public final class protokt/v1/google/api/QuotaLimit$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/QuotaLimit$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/QuotaLimit$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/QuotaLimit;
 	public final fun getDefaultLimit ()J
@@ -3393,7 +3393,7 @@ public final class protokt/v1/google/api/QuotaLimit$Builder : protokt/v1/Builder
 	public final fun setValues (Ljava/util/Map;)V
 }
 
-public final class protokt/v1/google/api/QuotaLimit$Builder$Companion {
+public final class protokt/v1/google/api/QuotaLimit$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/QuotaLimit$Deserializer : protokt/v1/AbstractDeserializer {
@@ -3425,7 +3425,7 @@ public final class protokt/v1/google/api/ResourceDescriptor : protokt/v1/Abstrac
 }
 
 public final class protokt/v1/google/api/ResourceDescriptor$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/ResourceDescriptor$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/ResourceDescriptor$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/ResourceDescriptor;
 	public final fun getHistory ()Lprotokt/v1/google/api/ResourceDescriptor$History;
@@ -3446,7 +3446,7 @@ public final class protokt/v1/google/api/ResourceDescriptor$Builder : protokt/v1
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/ResourceDescriptor$Builder$Companion {
+public final class protokt/v1/google/api/ResourceDescriptor$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/ResourceDescriptor$Deserializer : protokt/v1/AbstractDeserializer {
@@ -3525,7 +3525,7 @@ public final class protokt/v1/google/api/ResourceReference : protokt/v1/Abstract
 }
 
 public final class protokt/v1/google/api/ResourceReference$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/ResourceReference$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/ResourceReference$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/ResourceReference;
 	public final fun getChildType ()Ljava/lang/String;
@@ -3536,7 +3536,7 @@ public final class protokt/v1/google/api/ResourceReference$Builder : protokt/v1/
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/ResourceReference$Builder$Companion {
+public final class protokt/v1/google/api/ResourceReference$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/ResourceReference$Deserializer : protokt/v1/AbstractDeserializer {
@@ -3563,7 +3563,7 @@ public final class protokt/v1/google/api/RoutingParameter : protokt/v1/AbstractM
 }
 
 public final class protokt/v1/google/api/RoutingParameter$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/RoutingParameter$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/RoutingParameter$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/RoutingParameter;
 	public final fun getField ()Ljava/lang/String;
@@ -3574,7 +3574,7 @@ public final class protokt/v1/google/api/RoutingParameter$Builder : protokt/v1/B
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/RoutingParameter$Builder$Companion {
+public final class protokt/v1/google/api/RoutingParameter$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/RoutingParameter$Deserializer : protokt/v1/AbstractDeserializer {
@@ -3600,7 +3600,7 @@ public final class protokt/v1/google/api/RoutingRule : protokt/v1/AbstractMessag
 }
 
 public final class protokt/v1/google/api/RoutingRule$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/RoutingRule$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/RoutingRule$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/RoutingRule;
 	public final fun getRoutingParameters ()Ljava/util/List;
@@ -3609,7 +3609,7 @@ public final class protokt/v1/google/api/RoutingRule$Builder : protokt/v1/Builde
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/RoutingRule$Builder$Companion {
+public final class protokt/v1/google/api/RoutingRule$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/RoutingRule$Deserializer : protokt/v1/AbstractDeserializer {
@@ -3635,7 +3635,7 @@ public final class protokt/v1/google/api/RubySettings : protokt/v1/AbstractMessa
 }
 
 public final class protokt/v1/google/api/RubySettings$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/RubySettings$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/RubySettings$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/RubySettings;
 	public final fun getCommon ()Lprotokt/v1/google/api/CommonLanguageSettings;
@@ -3644,7 +3644,7 @@ public final class protokt/v1/google/api/RubySettings$Builder : protokt/v1/Build
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/RubySettings$Builder$Companion {
+public final class protokt/v1/google/api/RubySettings$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/RubySettings$Deserializer : protokt/v1/AbstractDeserializer {
@@ -3671,7 +3671,7 @@ public final class protokt/v1/google/api/SelectiveGapicGeneration : protokt/v1/A
 }
 
 public final class protokt/v1/google/api/SelectiveGapicGeneration$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/SelectiveGapicGeneration$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/SelectiveGapicGeneration$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/SelectiveGapicGeneration;
 	public final fun getGenerateOmittedAsInternal ()Z
@@ -3682,7 +3682,7 @@ public final class protokt/v1/google/api/SelectiveGapicGeneration$Builder : prot
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/SelectiveGapicGeneration$Builder$Companion {
+public final class protokt/v1/google/api/SelectiveGapicGeneration$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/SelectiveGapicGeneration$Deserializer : protokt/v1/AbstractDeserializer {
@@ -3733,7 +3733,7 @@ public final class protokt/v1/google/api/Service : protokt/v1/AbstractMessage {
 }
 
 public final class protokt/v1/google/api/Service$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/Service$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/Service$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Service;
 	public final fun getApis ()Ljava/util/List;
@@ -3792,7 +3792,7 @@ public final class protokt/v1/google/api/Service$Builder : protokt/v1/BuilderSco
 	public final fun setUsage (Lprotokt/v1/google/api/Usage;)V
 }
 
-public final class protokt/v1/google/api/Service$Builder$Companion {
+public final class protokt/v1/google/api/Service$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/Service$Deserializer : protokt/v1/AbstractDeserializer {
@@ -3818,7 +3818,7 @@ public final class protokt/v1/google/api/SourceInfo : protokt/v1/AbstractMessage
 }
 
 public final class protokt/v1/google/api/SourceInfo$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/SourceInfo$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/SourceInfo$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/SourceInfo;
 	public final fun getSourceFiles ()Ljava/util/List;
@@ -3827,7 +3827,7 @@ public final class protokt/v1/google/api/SourceInfo$Builder : protokt/v1/Builder
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/SourceInfo$Builder$Companion {
+public final class protokt/v1/google/api/SourceInfo$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/SourceInfo$Deserializer : protokt/v1/AbstractDeserializer {
@@ -3855,7 +3855,7 @@ public final class protokt/v1/google/api/SystemParameter : protokt/v1/AbstractMe
 }
 
 public final class protokt/v1/google/api/SystemParameter$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/SystemParameter$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/SystemParameter$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/SystemParameter;
 	public final fun getHttpHeader ()Ljava/lang/String;
@@ -3868,7 +3868,7 @@ public final class protokt/v1/google/api/SystemParameter$Builder : protokt/v1/Bu
 	public final fun setUrlQueryParameter (Ljava/lang/String;)V
 }
 
-public final class protokt/v1/google/api/SystemParameter$Builder$Companion {
+public final class protokt/v1/google/api/SystemParameter$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/SystemParameter$Deserializer : protokt/v1/AbstractDeserializer {
@@ -3895,7 +3895,7 @@ public final class protokt/v1/google/api/SystemParameterRule : protokt/v1/Abstra
 }
 
 public final class protokt/v1/google/api/SystemParameterRule$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/SystemParameterRule$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/SystemParameterRule$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/SystemParameterRule;
 	public final fun getParameters ()Ljava/util/List;
@@ -3906,7 +3906,7 @@ public final class protokt/v1/google/api/SystemParameterRule$Builder : protokt/v
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/SystemParameterRule$Builder$Companion {
+public final class protokt/v1/google/api/SystemParameterRule$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/SystemParameterRule$Deserializer : protokt/v1/AbstractDeserializer {
@@ -3932,7 +3932,7 @@ public final class protokt/v1/google/api/SystemParameters : protokt/v1/AbstractM
 }
 
 public final class protokt/v1/google/api/SystemParameters$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/SystemParameters$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/SystemParameters$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/SystemParameters;
 	public final fun getRules ()Ljava/util/List;
@@ -3941,7 +3941,7 @@ public final class protokt/v1/google/api/SystemParameters$Builder : protokt/v1/B
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/SystemParameters$Builder$Companion {
+public final class protokt/v1/google/api/SystemParameters$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/SystemParameters$Deserializer : protokt/v1/AbstractDeserializer {
@@ -3967,7 +3967,7 @@ public final class protokt/v1/google/api/TypeReference : protokt/v1/AbstractMess
 }
 
 public final class protokt/v1/google/api/TypeReference$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/TypeReference$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/TypeReference$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/TypeReference;
 	public final fun getTypeName ()Ljava/lang/String;
@@ -3976,7 +3976,7 @@ public final class protokt/v1/google/api/TypeReference$Builder : protokt/v1/Buil
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/TypeReference$Builder$Companion {
+public final class protokt/v1/google/api/TypeReference$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/TypeReference$Deserializer : protokt/v1/AbstractDeserializer {
@@ -4004,7 +4004,7 @@ public final class protokt/v1/google/api/Usage : protokt/v1/AbstractMessage {
 }
 
 public final class protokt/v1/google/api/Usage$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/Usage$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/Usage$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Usage;
 	public final fun getProducerNotificationChannel ()Ljava/lang/String;
@@ -4017,7 +4017,7 @@ public final class protokt/v1/google/api/Usage$Builder : protokt/v1/BuilderScope
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/Usage$Builder$Companion {
+public final class protokt/v1/google/api/Usage$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/Usage$Deserializer : protokt/v1/AbstractDeserializer {
@@ -4045,7 +4045,7 @@ public final class protokt/v1/google/api/UsageRule : protokt/v1/AbstractMessage 
 }
 
 public final class protokt/v1/google/api/UsageRule$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/UsageRule$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/UsageRule$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/UsageRule;
 	public final fun getAllowUnregisteredCalls ()Z
@@ -4058,7 +4058,7 @@ public final class protokt/v1/google/api/UsageRule$Builder : protokt/v1/BuilderS
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/UsageRule$Builder$Companion {
+public final class protokt/v1/google/api/UsageRule$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/UsageRule$Deserializer : protokt/v1/AbstractDeserializer {
@@ -4084,7 +4084,7 @@ public final class protokt/v1/google/api/Visibility : protokt/v1/AbstractMessage
 }
 
 public final class protokt/v1/google/api/Visibility$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/Visibility$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/Visibility$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/Visibility;
 	public final fun getRules ()Ljava/util/List;
@@ -4093,7 +4093,7 @@ public final class protokt/v1/google/api/Visibility$Builder : protokt/v1/Builder
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/Visibility$Builder$Companion {
+public final class protokt/v1/google/api/Visibility$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/Visibility$Deserializer : protokt/v1/AbstractDeserializer {
@@ -4120,7 +4120,7 @@ public final class protokt/v1/google/api/VisibilityRule : protokt/v1/AbstractMes
 }
 
 public final class protokt/v1/google/api/VisibilityRule$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/api/VisibilityRule$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/api/VisibilityRule$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/VisibilityRule;
 	public final fun getRestriction ()Ljava/lang/String;
@@ -4131,7 +4131,7 @@ public final class protokt/v1/google/api/VisibilityRule$Builder : protokt/v1/Bui
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/api/VisibilityRule$Builder$Companion {
+public final class protokt/v1/google/api/VisibilityRule$Builder$Factory {
 }
 
 public final class protokt/v1/google/api/VisibilityRule$Deserializer : protokt/v1/AbstractDeserializer {
@@ -4180,7 +4180,7 @@ public final class protokt/v1/google/apps/card/v1/Action$ActionParameter : proto
 }
 
 public final class protokt/v1/google/apps/card/v1/Action$ActionParameter$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/Action$ActionParameter$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/Action$ActionParameter$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Action$ActionParameter;
 	public final fun getKey ()Ljava/lang/String;
@@ -4191,7 +4191,7 @@ public final class protokt/v1/google/apps/card/v1/Action$ActionParameter$Builder
 	public final fun setValue (Ljava/lang/String;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/Action$ActionParameter$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/Action$ActionParameter$Builder$Factory {
 }
 
 public final class protokt/v1/google/apps/card/v1/Action$ActionParameter$Deserializer : protokt/v1/AbstractDeserializer {
@@ -4201,7 +4201,7 @@ public final class protokt/v1/google/apps/card/v1/Action$ActionParameter$Deseria
 }
 
 public final class protokt/v1/google/apps/card/v1/Action$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/Action$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/Action$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Action;
 	public final fun getAllWidgetsAreRequired ()Z
@@ -4222,7 +4222,7 @@ public final class protokt/v1/google/apps/card/v1/Action$Builder : protokt/v1/Bu
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/Action$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/Action$Builder$Factory {
 }
 
 public final class protokt/v1/google/apps/card/v1/Action$Deserializer : protokt/v1/AbstractDeserializer {
@@ -4326,7 +4326,7 @@ public final class protokt/v1/google/apps/card/v1/BorderStyle$BorderType$UNRECOG
 }
 
 public final class protokt/v1/google/apps/card/v1/BorderStyle$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/BorderStyle$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/BorderStyle$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/BorderStyle;
 	public final fun getCornerRadius ()I
@@ -4339,7 +4339,7 @@ public final class protokt/v1/google/apps/card/v1/BorderStyle$Builder : protokt/
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/BorderStyle$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/BorderStyle$Builder$Factory {
 }
 
 public final class protokt/v1/google/apps/card/v1/BorderStyle$Deserializer : protokt/v1/AbstractDeserializer {
@@ -4371,7 +4371,7 @@ public final class protokt/v1/google/apps/card/v1/Button : protokt/v1/AbstractMe
 }
 
 public final class protokt/v1/google/apps/card/v1/Button$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/Button$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/Button$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Button;
 	public final fun getAltText ()Ljava/lang/String;
@@ -4392,7 +4392,7 @@ public final class protokt/v1/google/apps/card/v1/Button$Builder : protokt/v1/Bu
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/Button$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/Button$Builder$Factory {
 }
 
 public final class protokt/v1/google/apps/card/v1/Button$Deserializer : protokt/v1/AbstractDeserializer {
@@ -4454,7 +4454,7 @@ public final class protokt/v1/google/apps/card/v1/ButtonList : protokt/v1/Abstra
 }
 
 public final class protokt/v1/google/apps/card/v1/ButtonList$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/ButtonList$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/ButtonList$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/ButtonList;
 	public final fun getButtons ()Ljava/util/List;
@@ -4463,7 +4463,7 @@ public final class protokt/v1/google/apps/card/v1/ButtonList$Builder : protokt/v
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/ButtonList$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/ButtonList$Builder$Factory {
 }
 
 public final class protokt/v1/google/apps/card/v1/ButtonList$Deserializer : protokt/v1/AbstractDeserializer {
@@ -4496,7 +4496,7 @@ public final class protokt/v1/google/apps/card/v1/Card : protokt/v1/AbstractMess
 }
 
 public final class protokt/v1/google/apps/card/v1/Card$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/Card$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/Card$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Card;
 	public final fun getCardActions ()Ljava/util/List;
@@ -4519,7 +4519,7 @@ public final class protokt/v1/google/apps/card/v1/Card$Builder : protokt/v1/Buil
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/Card$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/Card$Builder$Factory {
 }
 
 public final class protokt/v1/google/apps/card/v1/Card$CardAction : protokt/v1/AbstractMessage {
@@ -4540,7 +4540,7 @@ public final class protokt/v1/google/apps/card/v1/Card$CardAction : protokt/v1/A
 }
 
 public final class protokt/v1/google/apps/card/v1/Card$CardAction$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/Card$CardAction$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/Card$CardAction$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Card$CardAction;
 	public final fun getActionLabel ()Ljava/lang/String;
@@ -4551,7 +4551,7 @@ public final class protokt/v1/google/apps/card/v1/Card$CardAction$Builder : prot
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/Card$CardAction$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/Card$CardAction$Builder$Factory {
 }
 
 public final class protokt/v1/google/apps/card/v1/Card$CardAction$Deserializer : protokt/v1/AbstractDeserializer {
@@ -4578,7 +4578,7 @@ public final class protokt/v1/google/apps/card/v1/Card$CardFixedFooter : protokt
 }
 
 public final class protokt/v1/google/apps/card/v1/Card$CardFixedFooter$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/Card$CardFixedFooter$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/Card$CardFixedFooter$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Card$CardFixedFooter;
 	public final fun getPrimaryButton ()Lprotokt/v1/google/apps/card/v1/Button;
@@ -4589,7 +4589,7 @@ public final class protokt/v1/google/apps/card/v1/Card$CardFixedFooter$Builder :
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/Card$CardFixedFooter$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/Card$CardFixedFooter$Builder$Factory {
 }
 
 public final class protokt/v1/google/apps/card/v1/Card$CardFixedFooter$Deserializer : protokt/v1/AbstractDeserializer {
@@ -4619,7 +4619,7 @@ public final class protokt/v1/google/apps/card/v1/Card$CardHeader : protokt/v1/A
 }
 
 public final class protokt/v1/google/apps/card/v1/Card$CardHeader$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/Card$CardHeader$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/Card$CardHeader$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Card$CardHeader;
 	public final fun getImageAltText ()Ljava/lang/String;
@@ -4636,7 +4636,7 @@ public final class protokt/v1/google/apps/card/v1/Card$CardHeader$Builder : prot
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/Card$CardHeader$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/Card$CardHeader$Builder$Factory {
 }
 
 public final class protokt/v1/google/apps/card/v1/Card$CardHeader$Deserializer : protokt/v1/AbstractDeserializer {
@@ -4724,7 +4724,7 @@ public final class protokt/v1/google/apps/card/v1/Card$NestedWidget : protokt/v1
 }
 
 public final class protokt/v1/google/apps/card/v1/Card$NestedWidget$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/Card$NestedWidget$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/Card$NestedWidget$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Card$NestedWidget;
 	public final fun getData ()Lprotokt/v1/google/apps/card/v1/Card$NestedWidget$Data;
@@ -4733,7 +4733,7 @@ public final class protokt/v1/google/apps/card/v1/Card$NestedWidget$Builder : pr
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/Card$NestedWidget$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/Card$NestedWidget$Builder$Factory {
 }
 
 public abstract class protokt/v1/google/apps/card/v1/Card$NestedWidget$Data {
@@ -4799,7 +4799,7 @@ public final class protokt/v1/google/apps/card/v1/Card$Section : protokt/v1/Abst
 }
 
 public final class protokt/v1/google/apps/card/v1/Card$Section$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/Card$Section$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/Card$Section$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Card$Section;
 	public final fun getCollapseControl ()Lprotokt/v1/google/apps/card/v1/CollapseControl;
@@ -4816,7 +4816,7 @@ public final class protokt/v1/google/apps/card/v1/Card$Section$Builder : protokt
 	public final fun setWidgets (Ljava/util/List;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/Card$Section$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/Card$Section$Builder$Factory {
 }
 
 public final class protokt/v1/google/apps/card/v1/Card$Section$Deserializer : protokt/v1/AbstractDeserializer {
@@ -4842,7 +4842,7 @@ public final class protokt/v1/google/apps/card/v1/Carousel : protokt/v1/Abstract
 }
 
 public final class protokt/v1/google/apps/card/v1/Carousel$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/Carousel$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/Carousel$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Carousel;
 	public final fun getCarouselCards ()Ljava/util/List;
@@ -4851,7 +4851,7 @@ public final class protokt/v1/google/apps/card/v1/Carousel$Builder : protokt/v1/
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/Carousel$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/Carousel$Builder$Factory {
 }
 
 public final class protokt/v1/google/apps/card/v1/Carousel$CarouselCard : protokt/v1/AbstractMessage {
@@ -4872,7 +4872,7 @@ public final class protokt/v1/google/apps/card/v1/Carousel$CarouselCard : protok
 }
 
 public final class protokt/v1/google/apps/card/v1/Carousel$CarouselCard$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/Carousel$CarouselCard$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/Carousel$CarouselCard$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Carousel$CarouselCard;
 	public final fun getFooterWidgets ()Ljava/util/List;
@@ -4883,7 +4883,7 @@ public final class protokt/v1/google/apps/card/v1/Carousel$CarouselCard$Builder 
 	public final fun setWidgets (Ljava/util/List;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/Carousel$CarouselCard$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/Carousel$CarouselCard$Builder$Factory {
 }
 
 public final class protokt/v1/google/apps/card/v1/Carousel$CarouselCard$Deserializer : protokt/v1/AbstractDeserializer {
@@ -4920,7 +4920,7 @@ public final class protokt/v1/google/apps/card/v1/Chip : protokt/v1/AbstractMess
 }
 
 public final class protokt/v1/google/apps/card/v1/Chip$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/Chip$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/Chip$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Chip;
 	public final fun getAltText ()Ljava/lang/String;
@@ -4939,7 +4939,7 @@ public final class protokt/v1/google/apps/card/v1/Chip$Builder : protokt/v1/Buil
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/Chip$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/Chip$Builder$Factory {
 }
 
 public final class protokt/v1/google/apps/card/v1/Chip$Deserializer : protokt/v1/AbstractDeserializer {
@@ -4966,7 +4966,7 @@ public final class protokt/v1/google/apps/card/v1/ChipList : protokt/v1/Abstract
 }
 
 public final class protokt/v1/google/apps/card/v1/ChipList$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/ChipList$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/ChipList$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/ChipList;
 	public final fun getChips ()Ljava/util/List;
@@ -4977,7 +4977,7 @@ public final class protokt/v1/google/apps/card/v1/ChipList$Builder : protokt/v1/
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/ChipList$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/ChipList$Builder$Factory {
 }
 
 public final class protokt/v1/google/apps/card/v1/ChipList$Deserializer : protokt/v1/AbstractDeserializer {
@@ -5033,7 +5033,7 @@ public final class protokt/v1/google/apps/card/v1/CollapseControl : protokt/v1/A
 }
 
 public final class protokt/v1/google/apps/card/v1/CollapseControl$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/CollapseControl$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/CollapseControl$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/CollapseControl;
 	public final fun getCollapseButton ()Lprotokt/v1/google/apps/card/v1/Button;
@@ -5046,7 +5046,7 @@ public final class protokt/v1/google/apps/card/v1/CollapseControl$Builder : prot
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/CollapseControl$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/CollapseControl$Builder$Factory {
 }
 
 public final class protokt/v1/google/apps/card/v1/CollapseControl$Deserializer : protokt/v1/AbstractDeserializer {
@@ -5072,7 +5072,7 @@ public final class protokt/v1/google/apps/card/v1/Columns : protokt/v1/AbstractM
 }
 
 public final class protokt/v1/google/apps/card/v1/Columns$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/Columns$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/Columns$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Columns;
 	public final fun getColumnItems ()Ljava/util/List;
@@ -5081,7 +5081,7 @@ public final class protokt/v1/google/apps/card/v1/Columns$Builder : protokt/v1/B
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/Columns$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/Columns$Builder$Factory {
 }
 
 public final class protokt/v1/google/apps/card/v1/Columns$Column : protokt/v1/AbstractMessage {
@@ -5104,7 +5104,7 @@ public final class protokt/v1/google/apps/card/v1/Columns$Column : protokt/v1/Ab
 }
 
 public final class protokt/v1/google/apps/card/v1/Columns$Column$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/Columns$Column$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/Columns$Column$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Columns$Column;
 	public final fun getHorizontalAlignment ()Lprotokt/v1/google/apps/card/v1/Widget$HorizontalAlignment;
@@ -5119,7 +5119,7 @@ public final class protokt/v1/google/apps/card/v1/Columns$Column$Builder : proto
 	public final fun setWidgets (Ljava/util/List;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/Columns$Column$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/Columns$Column$Builder$Factory {
 }
 
 public final class protokt/v1/google/apps/card/v1/Columns$Column$Deserializer : protokt/v1/AbstractDeserializer {
@@ -5205,7 +5205,7 @@ public final class protokt/v1/google/apps/card/v1/Columns$Column$Widgets : proto
 }
 
 public final class protokt/v1/google/apps/card/v1/Columns$Column$Widgets$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets;
 	public final fun getData ()Lprotokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data;
@@ -5214,7 +5214,7 @@ public final class protokt/v1/google/apps/card/v1/Columns$Column$Widgets$Builder
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/Columns$Column$Widgets$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/Columns$Column$Widgets$Builder$Factory {
 }
 
 public abstract class protokt/v1/google/apps/card/v1/Columns$Column$Widgets$Data {
@@ -5342,7 +5342,7 @@ public final class protokt/v1/google/apps/card/v1/DateTimePicker : protokt/v1/Ab
 }
 
 public final class protokt/v1/google/apps/card/v1/DateTimePicker$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/DateTimePicker$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/DateTimePicker$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/DateTimePicker;
 	public final fun getLabel ()Ljava/lang/String;
@@ -5361,7 +5361,7 @@ public final class protokt/v1/google/apps/card/v1/DateTimePicker$Builder : proto
 	public final fun setValueMsEpoch (Ljava/lang/Long;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/DateTimePicker$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/DateTimePicker$Builder$Factory {
 }
 
 public abstract class protokt/v1/google/apps/card/v1/DateTimePicker$DateTimePickerType : protokt/v1/Enum {
@@ -5426,7 +5426,7 @@ public final class protokt/v1/google/apps/card/v1/DecoratedText : protokt/v1/Abs
 }
 
 public final class protokt/v1/google/apps/card/v1/DecoratedText$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/DecoratedText$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/DecoratedText$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/DecoratedText;
 	public final fun getBottomLabel ()Ljava/lang/String;
@@ -5457,7 +5457,7 @@ public final class protokt/v1/google/apps/card/v1/DecoratedText$Builder : protok
 	public final fun setWrapText (Z)V
 }
 
-public final class protokt/v1/google/apps/card/v1/DecoratedText$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/DecoratedText$Builder$Factory {
 }
 
 public abstract class protokt/v1/google/apps/card/v1/DecoratedText$Control {
@@ -5523,7 +5523,7 @@ public final class protokt/v1/google/apps/card/v1/DecoratedText$SwitchControl : 
 }
 
 public final class protokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl;
 	public final fun getControlType ()Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$ControlType;
@@ -5540,7 +5540,7 @@ public final class protokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$Bu
 	public final fun setValue (Ljava/lang/String;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$Builder$Factory {
 }
 
 public abstract class protokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$ControlType : protokt/v1/Enum {
@@ -5593,14 +5593,14 @@ public final class protokt/v1/google/apps/card/v1/Divider : protokt/v1/AbstractM
 }
 
 public final class protokt/v1/google/apps/card/v1/Divider$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/Divider$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/Divider$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Divider;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/Divider$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/Divider$Builder$Factory {
 }
 
 public final class protokt/v1/google/apps/card/v1/Divider$Deserializer : protokt/v1/AbstractDeserializer {
@@ -5630,7 +5630,7 @@ public final class protokt/v1/google/apps/card/v1/Grid : protokt/v1/AbstractMess
 }
 
 public final class protokt/v1/google/apps/card/v1/Grid$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/Grid$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/Grid$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Grid;
 	public final fun getBorderStyle ()Lprotokt/v1/google/apps/card/v1/BorderStyle;
@@ -5647,7 +5647,7 @@ public final class protokt/v1/google/apps/card/v1/Grid$Builder : protokt/v1/Buil
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/Grid$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/Grid$Builder$Factory {
 }
 
 public final class protokt/v1/google/apps/card/v1/Grid$Deserializer : protokt/v1/AbstractDeserializer {
@@ -5677,7 +5677,7 @@ public final class protokt/v1/google/apps/card/v1/Grid$GridItem : protokt/v1/Abs
 }
 
 public final class protokt/v1/google/apps/card/v1/Grid$GridItem$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/Grid$GridItem$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/Grid$GridItem$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Grid$GridItem;
 	public final fun getId ()Ljava/lang/String;
@@ -5694,7 +5694,7 @@ public final class protokt/v1/google/apps/card/v1/Grid$GridItem$Builder : protok
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/Grid$GridItem$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/Grid$GridItem$Builder$Factory {
 }
 
 public final class protokt/v1/google/apps/card/v1/Grid$GridItem$Deserializer : protokt/v1/AbstractDeserializer {
@@ -5750,7 +5750,7 @@ public final class protokt/v1/google/apps/card/v1/Icon : protokt/v1/AbstractMess
 }
 
 public final class protokt/v1/google/apps/card/v1/Icon$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/Icon$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/Icon$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Icon;
 	public final fun getAltText ()Ljava/lang/String;
@@ -5763,7 +5763,7 @@ public final class protokt/v1/google/apps/card/v1/Icon$Builder : protokt/v1/Buil
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/Icon$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/Icon$Builder$Factory {
 }
 
 public final class protokt/v1/google/apps/card/v1/Icon$Deserializer : protokt/v1/AbstractDeserializer {
@@ -5827,7 +5827,7 @@ public final class protokt/v1/google/apps/card/v1/Image : protokt/v1/AbstractMes
 }
 
 public final class protokt/v1/google/apps/card/v1/Image$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/Image$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/Image$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Image;
 	public final fun getAltText ()Ljava/lang/String;
@@ -5840,7 +5840,7 @@ public final class protokt/v1/google/apps/card/v1/Image$Builder : protokt/v1/Bui
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/Image$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/Image$Builder$Factory {
 }
 
 public final class protokt/v1/google/apps/card/v1/Image$Deserializer : protokt/v1/AbstractDeserializer {
@@ -5869,7 +5869,7 @@ public final class protokt/v1/google/apps/card/v1/ImageComponent : protokt/v1/Ab
 }
 
 public final class protokt/v1/google/apps/card/v1/ImageComponent$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/ImageComponent$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/ImageComponent$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/ImageComponent;
 	public final fun getAltText ()Ljava/lang/String;
@@ -5884,7 +5884,7 @@ public final class protokt/v1/google/apps/card/v1/ImageComponent$Builder : proto
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/ImageComponent$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/ImageComponent$Builder$Factory {
 }
 
 public final class protokt/v1/google/apps/card/v1/ImageComponent$Deserializer : protokt/v1/AbstractDeserializer {
@@ -5911,7 +5911,7 @@ public final class protokt/v1/google/apps/card/v1/ImageCropStyle : protokt/v1/Ab
 }
 
 public final class protokt/v1/google/apps/card/v1/ImageCropStyle$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/ImageCropStyle$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/ImageCropStyle$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/ImageCropStyle;
 	public final fun getAspectRatio ()D
@@ -5922,7 +5922,7 @@ public final class protokt/v1/google/apps/card/v1/ImageCropStyle$Builder : proto
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/ImageCropStyle$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/ImageCropStyle$Builder$Factory {
 }
 
 public final class protokt/v1/google/apps/card/v1/ImageCropStyle$Deserializer : protokt/v1/AbstractDeserializer {
@@ -5987,7 +5987,7 @@ public final class protokt/v1/google/apps/card/v1/MaterialIcon : protokt/v1/Abst
 }
 
 public final class protokt/v1/google/apps/card/v1/MaterialIcon$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/MaterialIcon$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/MaterialIcon$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/MaterialIcon;
 	public final fun getFill ()Z
@@ -6002,7 +6002,7 @@ public final class protokt/v1/google/apps/card/v1/MaterialIcon$Builder : protokt
 	public final fun setWeight (I)V
 }
 
-public final class protokt/v1/google/apps/card/v1/MaterialIcon$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/MaterialIcon$Builder$Factory {
 }
 
 public final class protokt/v1/google/apps/card/v1/MaterialIcon$Deserializer : protokt/v1/AbstractDeserializer {
@@ -6028,7 +6028,7 @@ public final class protokt/v1/google/apps/card/v1/OnClick : protokt/v1/AbstractM
 }
 
 public final class protokt/v1/google/apps/card/v1/OnClick$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/OnClick$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/OnClick$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/OnClick;
 	public final fun getData ()Lprotokt/v1/google/apps/card/v1/OnClick$Data;
@@ -6037,7 +6037,7 @@ public final class protokt/v1/google/apps/card/v1/OnClick$Builder : protokt/v1/B
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/OnClick$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/OnClick$Builder$Factory {
 }
 
 public abstract class protokt/v1/google/apps/card/v1/OnClick$Data {
@@ -6123,7 +6123,7 @@ public final class protokt/v1/google/apps/card/v1/OpenLink : protokt/v1/Abstract
 }
 
 public final class protokt/v1/google/apps/card/v1/OpenLink$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/OpenLink$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/OpenLink$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/OpenLink;
 	public final fun getOnClose ()Lprotokt/v1/google/apps/card/v1/OpenLink$OnClose;
@@ -6136,7 +6136,7 @@ public final class protokt/v1/google/apps/card/v1/OpenLink$Builder : protokt/v1/
 	public final fun setUrl (Ljava/lang/String;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/OpenLink$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/OpenLink$Builder$Factory {
 }
 
 public final class protokt/v1/google/apps/card/v1/OpenLink$Deserializer : protokt/v1/AbstractDeserializer {
@@ -6210,7 +6210,7 @@ public final class protokt/v1/google/apps/card/v1/OverflowMenu : protokt/v1/Abst
 }
 
 public final class protokt/v1/google/apps/card/v1/OverflowMenu$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/OverflowMenu$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/OverflowMenu$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/OverflowMenu;
 	public final fun getItems ()Ljava/util/List;
@@ -6219,7 +6219,7 @@ public final class protokt/v1/google/apps/card/v1/OverflowMenu$Builder : protokt
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/OverflowMenu$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/OverflowMenu$Builder$Factory {
 }
 
 public final class protokt/v1/google/apps/card/v1/OverflowMenu$Deserializer : protokt/v1/AbstractDeserializer {
@@ -6248,7 +6248,7 @@ public final class protokt/v1/google/apps/card/v1/OverflowMenu$OverflowMenuItem 
 }
 
 public final class protokt/v1/google/apps/card/v1/OverflowMenu$OverflowMenuItem$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/OverflowMenu$OverflowMenuItem$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/OverflowMenu$OverflowMenuItem$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/OverflowMenu$OverflowMenuItem;
 	public final fun getDisabled ()Z
@@ -6263,7 +6263,7 @@ public final class protokt/v1/google/apps/card/v1/OverflowMenu$OverflowMenuItem$
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/OverflowMenu$OverflowMenuItem$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/OverflowMenu$OverflowMenuItem$Builder$Factory {
 }
 
 public final class protokt/v1/google/apps/card/v1/OverflowMenu$OverflowMenuItem$Deserializer : protokt/v1/AbstractDeserializer {
@@ -6296,7 +6296,7 @@ public final class protokt/v1/google/apps/card/v1/SelectionInput : protokt/v1/Ab
 }
 
 public final class protokt/v1/google/apps/card/v1/SelectionInput$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/SelectionInput$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/SelectionInput$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/SelectionInput;
 	public final fun getItems ()Ljava/util/List;
@@ -6319,7 +6319,7 @@ public final class protokt/v1/google/apps/card/v1/SelectionInput$Builder : proto
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/SelectionInput$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/SelectionInput$Builder$Factory {
 }
 
 public final class protokt/v1/google/apps/card/v1/SelectionInput$Deserializer : protokt/v1/AbstractDeserializer {
@@ -6370,7 +6370,7 @@ public final class protokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSou
 }
 
 public final class protokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource;
 	public final fun getDataSource ()Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$DataSource;
@@ -6379,7 +6379,7 @@ public final class protokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSou
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$Builder$Factory {
 }
 
 public abstract class protokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$CommonDataSource : protokt/v1/Enum {
@@ -6447,7 +6447,7 @@ public final class protokt/v1/google/apps/card/v1/SelectionInput$SelectionItem :
 }
 
 public final class protokt/v1/google/apps/card/v1/SelectionInput$SelectionItem$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/SelectionInput$SelectionItem$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/SelectionInput$SelectionItem$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/SelectionInput$SelectionItem;
 	public final fun getBottomText ()Ljava/lang/String;
@@ -6464,7 +6464,7 @@ public final class protokt/v1/google/apps/card/v1/SelectionInput$SelectionItem$B
 	public final fun setValue (Ljava/lang/String;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/SelectionInput$SelectionItem$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/SelectionInput$SelectionItem$Builder$Factory {
 }
 
 public final class protokt/v1/google/apps/card/v1/SelectionInput$SelectionItem$Deserializer : protokt/v1/AbstractDeserializer {
@@ -6540,7 +6540,7 @@ public final class protokt/v1/google/apps/card/v1/Suggestions : protokt/v1/Abstr
 }
 
 public final class protokt/v1/google/apps/card/v1/Suggestions$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/Suggestions$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/Suggestions$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Suggestions;
 	public final fun getItems ()Ljava/util/List;
@@ -6549,7 +6549,7 @@ public final class protokt/v1/google/apps/card/v1/Suggestions$Builder : protokt/
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/Suggestions$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/Suggestions$Builder$Factory {
 }
 
 public final class protokt/v1/google/apps/card/v1/Suggestions$Deserializer : protokt/v1/AbstractDeserializer {
@@ -6575,7 +6575,7 @@ public final class protokt/v1/google/apps/card/v1/Suggestions$SuggestionItem : p
 }
 
 public final class protokt/v1/google/apps/card/v1/Suggestions$SuggestionItem$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/Suggestions$SuggestionItem$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/Suggestions$SuggestionItem$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Suggestions$SuggestionItem;
 	public final fun getContent ()Lprotokt/v1/google/apps/card/v1/Suggestions$SuggestionItem$Content;
@@ -6584,7 +6584,7 @@ public final class protokt/v1/google/apps/card/v1/Suggestions$SuggestionItem$Bui
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/Suggestions$SuggestionItem$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/Suggestions$SuggestionItem$Builder$Factory {
 }
 
 public abstract class protokt/v1/google/apps/card/v1/Suggestions$SuggestionItem$Content {
@@ -6633,7 +6633,7 @@ public final class protokt/v1/google/apps/card/v1/TextInput : protokt/v1/Abstrac
 }
 
 public final class protokt/v1/google/apps/card/v1/TextInput$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/TextInput$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/TextInput$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/TextInput;
 	public final fun getAutoCompleteAction ()Lprotokt/v1/google/apps/card/v1/Action;
@@ -6660,7 +6660,7 @@ public final class protokt/v1/google/apps/card/v1/TextInput$Builder : protokt/v1
 	public final fun setValue (Ljava/lang/String;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/TextInput$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/TextInput$Builder$Factory {
 }
 
 public final class protokt/v1/google/apps/card/v1/TextInput$Deserializer : protokt/v1/AbstractDeserializer {
@@ -6712,7 +6712,7 @@ public final class protokt/v1/google/apps/card/v1/TextParagraph : protokt/v1/Abs
 }
 
 public final class protokt/v1/google/apps/card/v1/TextParagraph$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/TextParagraph$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/TextParagraph$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/TextParagraph;
 	public final fun getMaxLines ()I
@@ -6725,7 +6725,7 @@ public final class protokt/v1/google/apps/card/v1/TextParagraph$Builder : protok
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/TextParagraph$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/TextParagraph$Builder$Factory {
 }
 
 public final class protokt/v1/google/apps/card/v1/TextParagraph$Deserializer : protokt/v1/AbstractDeserializer {
@@ -6780,7 +6780,7 @@ public final class protokt/v1/google/apps/card/v1/Validation : protokt/v1/Abstra
 }
 
 public final class protokt/v1/google/apps/card/v1/Validation$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/Validation$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/Validation$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Validation;
 	public final fun getCharacterLimit ()I
@@ -6791,7 +6791,7 @@ public final class protokt/v1/google/apps/card/v1/Validation$Builder : protokt/v
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/Validation$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/Validation$Builder$Factory {
 }
 
 public final class protokt/v1/google/apps/card/v1/Validation$Deserializer : protokt/v1/AbstractDeserializer {
@@ -6858,7 +6858,7 @@ public final class protokt/v1/google/apps/card/v1/Widget : protokt/v1/AbstractMe
 }
 
 public final class protokt/v1/google/apps/card/v1/Widget$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/apps/card/v1/Widget$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/apps/card/v1/Widget$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/apps/card/v1/Widget;
 	public final fun getData ()Lprotokt/v1/google/apps/card/v1/Widget$Data;
@@ -6869,7 +6869,7 @@ public final class protokt/v1/google/apps/card/v1/Widget$Builder : protokt/v1/Bu
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/apps/card/v1/Widget$Builder$Companion {
+public final class protokt/v1/google/apps/card/v1/Widget$Builder$Factory {
 }
 
 public abstract class protokt/v1/google/apps/card/v1/Widget$Data {
@@ -7168,7 +7168,7 @@ public final class protokt/v1/google/cloud/audit/AuditLog : protokt/v1/AbstractM
 }
 
 public final class protokt/v1/google/cloud/audit/AuditLog$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/cloud/audit/AuditLog$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/cloud/audit/AuditLog$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/cloud/audit/AuditLog;
 	public final fun getAuthenticationInfo ()Lprotokt/v1/google/cloud/audit/AuthenticationInfo;
@@ -7205,7 +7205,7 @@ public final class protokt/v1/google/cloud/audit/AuditLog$Builder : protokt/v1/B
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/cloud/audit/AuditLog$Builder$Companion {
+public final class protokt/v1/google/cloud/audit/AuditLog$Builder$Factory {
 }
 
 public final class protokt/v1/google/cloud/audit/AuditLog$Deserializer : protokt/v1/AbstractDeserializer {
@@ -7236,7 +7236,7 @@ public final class protokt/v1/google/cloud/audit/AuthenticationInfo : protokt/v1
 }
 
 public final class protokt/v1/google/cloud/audit/AuthenticationInfo$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/cloud/audit/AuthenticationInfo$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/cloud/audit/AuthenticationInfo$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/cloud/audit/AuthenticationInfo;
 	public final fun getAuthoritySelector ()Ljava/lang/String;
@@ -7255,7 +7255,7 @@ public final class protokt/v1/google/cloud/audit/AuthenticationInfo$Builder : pr
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/cloud/audit/AuthenticationInfo$Builder$Companion {
+public final class protokt/v1/google/cloud/audit/AuthenticationInfo$Builder$Factory {
 }
 
 public final class protokt/v1/google/cloud/audit/AuthenticationInfo$Deserializer : protokt/v1/AbstractDeserializer {
@@ -7285,7 +7285,7 @@ public final class protokt/v1/google/cloud/audit/AuthorizationInfo : protokt/v1/
 }
 
 public final class protokt/v1/google/cloud/audit/AuthorizationInfo$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/cloud/audit/AuthorizationInfo$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/cloud/audit/AuthorizationInfo$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/cloud/audit/AuthorizationInfo;
 	public final fun getGranted ()Z
@@ -7302,7 +7302,7 @@ public final class protokt/v1/google/cloud/audit/AuthorizationInfo$Builder : pro
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/cloud/audit/AuthorizationInfo$Builder$Companion {
+public final class protokt/v1/google/cloud/audit/AuthorizationInfo$Builder$Factory {
 }
 
 public final class protokt/v1/google/cloud/audit/AuthorizationInfo$Deserializer : protokt/v1/AbstractDeserializer {
@@ -7367,7 +7367,7 @@ public final class protokt/v1/google/cloud/audit/OrgPolicyViolationInfo : protok
 }
 
 public final class protokt/v1/google/cloud/audit/OrgPolicyViolationInfo$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/cloud/audit/OrgPolicyViolationInfo$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/cloud/audit/OrgPolicyViolationInfo$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/cloud/audit/OrgPolicyViolationInfo;
 	public final fun getPayload ()Lprotokt/v1/google/protobuf/Struct;
@@ -7382,7 +7382,7 @@ public final class protokt/v1/google/cloud/audit/OrgPolicyViolationInfo$Builder 
 	public final fun setViolationInfo (Ljava/util/List;)V
 }
 
-public final class protokt/v1/google/cloud/audit/OrgPolicyViolationInfo$Builder$Companion {
+public final class protokt/v1/google/cloud/audit/OrgPolicyViolationInfo$Builder$Factory {
 }
 
 public final class protokt/v1/google/cloud/audit/OrgPolicyViolationInfo$Deserializer : protokt/v1/AbstractDeserializer {
@@ -7408,7 +7408,7 @@ public final class protokt/v1/google/cloud/audit/PolicyViolationInfo : protokt/v
 }
 
 public final class protokt/v1/google/cloud/audit/PolicyViolationInfo$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/cloud/audit/PolicyViolationInfo$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/cloud/audit/PolicyViolationInfo$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/cloud/audit/PolicyViolationInfo;
 	public final fun getOrgPolicyViolationInfo ()Lprotokt/v1/google/cloud/audit/OrgPolicyViolationInfo;
@@ -7417,7 +7417,7 @@ public final class protokt/v1/google/cloud/audit/PolicyViolationInfo$Builder : p
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/cloud/audit/PolicyViolationInfo$Builder$Companion {
+public final class protokt/v1/google/cloud/audit/PolicyViolationInfo$Builder$Factory {
 }
 
 public final class protokt/v1/google/cloud/audit/PolicyViolationInfo$Deserializer : protokt/v1/AbstractDeserializer {
@@ -7447,7 +7447,7 @@ public final class protokt/v1/google/cloud/audit/RequestMetadata : protokt/v1/Ab
 }
 
 public final class protokt/v1/google/cloud/audit/RequestMetadata$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/cloud/audit/RequestMetadata$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/cloud/audit/RequestMetadata$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/cloud/audit/RequestMetadata;
 	public final fun getCallerIp ()Ljava/lang/String;
@@ -7464,7 +7464,7 @@ public final class protokt/v1/google/cloud/audit/RequestMetadata$Builder : proto
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/cloud/audit/RequestMetadata$Builder$Companion {
+public final class protokt/v1/google/cloud/audit/RequestMetadata$Builder$Factory {
 }
 
 public final class protokt/v1/google/cloud/audit/RequestMetadata$Deserializer : protokt/v1/AbstractDeserializer {
@@ -7491,7 +7491,7 @@ public final class protokt/v1/google/cloud/audit/ResourceLocation : protokt/v1/A
 }
 
 public final class protokt/v1/google/cloud/audit/ResourceLocation$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/cloud/audit/ResourceLocation$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/cloud/audit/ResourceLocation$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/cloud/audit/ResourceLocation;
 	public final fun getCurrentLocations ()Ljava/util/List;
@@ -7502,7 +7502,7 @@ public final class protokt/v1/google/cloud/audit/ResourceLocation$Builder : prot
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/cloud/audit/ResourceLocation$Builder$Companion {
+public final class protokt/v1/google/cloud/audit/ResourceLocation$Builder$Factory {
 }
 
 public final class protokt/v1/google/cloud/audit/ResourceLocation$Deserializer : protokt/v1/AbstractDeserializer {
@@ -7554,7 +7554,7 @@ public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$Au
 }
 
 public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo;
 	public final fun getAuthority ()Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$Authority;
@@ -7565,7 +7565,7 @@ public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$Bu
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$Builder$Companion {
+public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$Builder$Factory {
 }
 
 public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$Deserializer : protokt/v1/AbstractDeserializer {
@@ -7592,7 +7592,7 @@ public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$Fi
 }
 
 public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$FirstPartyPrincipal$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$FirstPartyPrincipal$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$FirstPartyPrincipal$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$FirstPartyPrincipal;
 	public final fun getPrincipalEmail ()Ljava/lang/String;
@@ -7603,7 +7603,7 @@ public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$Fi
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$FirstPartyPrincipal$Builder$Companion {
+public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$FirstPartyPrincipal$Builder$Factory {
 }
 
 public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$FirstPartyPrincipal$Deserializer : protokt/v1/AbstractDeserializer {
@@ -7629,7 +7629,7 @@ public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$Th
 }
 
 public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$ThirdPartyPrincipal$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$ThirdPartyPrincipal$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$ThirdPartyPrincipal$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$ThirdPartyPrincipal;
 	public final fun getThirdPartyClaims ()Lprotokt/v1/google/protobuf/Struct;
@@ -7638,7 +7638,7 @@ public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$Th
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$ThirdPartyPrincipal$Builder$Companion {
+public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$ThirdPartyPrincipal$Builder$Factory {
 }
 
 public final class protokt/v1/google/cloud/audit/ServiceAccountDelegationInfo$ThirdPartyPrincipal$Deserializer : protokt/v1/AbstractDeserializer {
@@ -7667,7 +7667,7 @@ public final class protokt/v1/google/cloud/audit/ViolationInfo : protokt/v1/Abst
 }
 
 public final class protokt/v1/google/cloud/audit/ViolationInfo$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/cloud/audit/ViolationInfo$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/cloud/audit/ViolationInfo$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/cloud/audit/ViolationInfo;
 	public final fun getCheckedValue ()Ljava/lang/String;
@@ -7682,7 +7682,7 @@ public final class protokt/v1/google/cloud/audit/ViolationInfo$Builder : protokt
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/cloud/audit/ViolationInfo$Builder$Companion {
+public final class protokt/v1/google/cloud/audit/ViolationInfo$Builder$Factory {
 }
 
 public final class protokt/v1/google/cloud/audit/ViolationInfo$Deserializer : protokt/v1/AbstractDeserializer {
@@ -7740,7 +7740,7 @@ public final class protokt/v1/google/cloud/location/GetLocationRequest : protokt
 }
 
 public final class protokt/v1/google/cloud/location/GetLocationRequest$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/cloud/location/GetLocationRequest$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/cloud/location/GetLocationRequest$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/cloud/location/GetLocationRequest;
 	public final fun getName ()Ljava/lang/String;
@@ -7749,7 +7749,7 @@ public final class protokt/v1/google/cloud/location/GetLocationRequest$Builder :
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/cloud/location/GetLocationRequest$Builder$Companion {
+public final class protokt/v1/google/cloud/location/GetLocationRequest$Builder$Factory {
 }
 
 public final class protokt/v1/google/cloud/location/GetLocationRequest$Deserializer : protokt/v1/AbstractDeserializer {
@@ -7778,7 +7778,7 @@ public final class protokt/v1/google/cloud/location/ListLocationsRequest : proto
 }
 
 public final class protokt/v1/google/cloud/location/ListLocationsRequest$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/cloud/location/ListLocationsRequest$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/cloud/location/ListLocationsRequest$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/cloud/location/ListLocationsRequest;
 	public final fun getFilter ()Ljava/lang/String;
@@ -7793,7 +7793,7 @@ public final class protokt/v1/google/cloud/location/ListLocationsRequest$Builder
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/cloud/location/ListLocationsRequest$Builder$Companion {
+public final class protokt/v1/google/cloud/location/ListLocationsRequest$Builder$Factory {
 }
 
 public final class protokt/v1/google/cloud/location/ListLocationsRequest$Deserializer : protokt/v1/AbstractDeserializer {
@@ -7820,7 +7820,7 @@ public final class protokt/v1/google/cloud/location/ListLocationsResponse : prot
 }
 
 public final class protokt/v1/google/cloud/location/ListLocationsResponse$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/cloud/location/ListLocationsResponse$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/cloud/location/ListLocationsResponse$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/cloud/location/ListLocationsResponse;
 	public final fun getLocations ()Ljava/util/List;
@@ -7831,7 +7831,7 @@ public final class protokt/v1/google/cloud/location/ListLocationsResponse$Builde
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/cloud/location/ListLocationsResponse$Builder$Companion {
+public final class protokt/v1/google/cloud/location/ListLocationsResponse$Builder$Factory {
 }
 
 public final class protokt/v1/google/cloud/location/ListLocationsResponse$Deserializer : protokt/v1/AbstractDeserializer {
@@ -7861,7 +7861,7 @@ public final class protokt/v1/google/cloud/location/Location : protokt/v1/Abstra
 }
 
 public final class protokt/v1/google/cloud/location/Location$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/cloud/location/Location$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/cloud/location/Location$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/cloud/location/Location;
 	public final fun getDisplayName ()Ljava/lang/String;
@@ -7878,7 +7878,7 @@ public final class protokt/v1/google/cloud/location/Location$Builder : protokt/v
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/cloud/location/Location$Builder$Companion {
+public final class protokt/v1/google/cloud/location/Location$Builder$Factory {
 }
 
 public final class protokt/v1/google/cloud/location/Location$Deserializer : protokt/v1/AbstractDeserializer {
@@ -7905,7 +7905,7 @@ public final class protokt/v1/google/geo/type/Viewport : protokt/v1/AbstractMess
 }
 
 public final class protokt/v1/google/geo/type/Viewport$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/geo/type/Viewport$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/geo/type/Viewport$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/geo/type/Viewport;
 	public final fun getHigh ()Lprotokt/v1/google/type/LatLng;
@@ -7916,7 +7916,7 @@ public final class protokt/v1/google/geo/type/Viewport$Builder : protokt/v1/Buil
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/geo/type/Viewport$Builder$Companion {
+public final class protokt/v1/google/geo/type/Viewport$Builder$Factory {
 }
 
 public final class protokt/v1/google/geo/type/Viewport$Deserializer : protokt/v1/AbstractDeserializer {
@@ -7956,7 +7956,7 @@ public final class protokt/v1/google/logging/type/HttpRequest : protokt/v1/Abstr
 }
 
 public final class protokt/v1/google/logging/type/HttpRequest$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/logging/type/HttpRequest$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/logging/type/HttpRequest$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/logging/type/HttpRequest;
 	public final fun getCacheFillBytes ()J
@@ -7993,7 +7993,7 @@ public final class protokt/v1/google/logging/type/HttpRequest$Builder : protokt/
 	public final fun setUserAgent (Ljava/lang/String;)V
 }
 
-public final class protokt/v1/google/logging/type/HttpRequest$Builder$Companion {
+public final class protokt/v1/google/logging/type/HttpRequest$Builder$Factory {
 }
 
 public final class protokt/v1/google/logging/type/HttpRequest$Deserializer : protokt/v1/AbstractDeserializer {
@@ -8071,7 +8071,7 @@ public final class protokt/v1/google/longrunning/CancelOperationRequest : protok
 }
 
 public final class protokt/v1/google/longrunning/CancelOperationRequest$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/longrunning/CancelOperationRequest$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/longrunning/CancelOperationRequest$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/longrunning/CancelOperationRequest;
 	public final fun getName ()Ljava/lang/String;
@@ -8080,7 +8080,7 @@ public final class protokt/v1/google/longrunning/CancelOperationRequest$Builder 
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/longrunning/CancelOperationRequest$Builder$Companion {
+public final class protokt/v1/google/longrunning/CancelOperationRequest$Builder$Factory {
 }
 
 public final class protokt/v1/google/longrunning/CancelOperationRequest$Deserializer : protokt/v1/AbstractDeserializer {
@@ -8106,7 +8106,7 @@ public final class protokt/v1/google/longrunning/DeleteOperationRequest : protok
 }
 
 public final class protokt/v1/google/longrunning/DeleteOperationRequest$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/longrunning/DeleteOperationRequest$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/longrunning/DeleteOperationRequest$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/longrunning/DeleteOperationRequest;
 	public final fun getName ()Ljava/lang/String;
@@ -8115,7 +8115,7 @@ public final class protokt/v1/google/longrunning/DeleteOperationRequest$Builder 
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/longrunning/DeleteOperationRequest$Builder$Companion {
+public final class protokt/v1/google/longrunning/DeleteOperationRequest$Builder$Factory {
 }
 
 public final class protokt/v1/google/longrunning/DeleteOperationRequest$Deserializer : protokt/v1/AbstractDeserializer {
@@ -8141,7 +8141,7 @@ public final class protokt/v1/google/longrunning/GetOperationRequest : protokt/v
 }
 
 public final class protokt/v1/google/longrunning/GetOperationRequest$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/longrunning/GetOperationRequest$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/longrunning/GetOperationRequest$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/longrunning/GetOperationRequest;
 	public final fun getName ()Ljava/lang/String;
@@ -8150,7 +8150,7 @@ public final class protokt/v1/google/longrunning/GetOperationRequest$Builder : p
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/longrunning/GetOperationRequest$Builder$Companion {
+public final class protokt/v1/google/longrunning/GetOperationRequest$Builder$Factory {
 }
 
 public final class protokt/v1/google/longrunning/GetOperationRequest$Deserializer : protokt/v1/AbstractDeserializer {
@@ -8180,7 +8180,7 @@ public final class protokt/v1/google/longrunning/ListOperationsRequest : protokt
 }
 
 public final class protokt/v1/google/longrunning/ListOperationsRequest$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/longrunning/ListOperationsRequest$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/longrunning/ListOperationsRequest$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/longrunning/ListOperationsRequest;
 	public final fun getFilter ()Ljava/lang/String;
@@ -8197,7 +8197,7 @@ public final class protokt/v1/google/longrunning/ListOperationsRequest$Builder :
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/longrunning/ListOperationsRequest$Builder$Companion {
+public final class protokt/v1/google/longrunning/ListOperationsRequest$Builder$Factory {
 }
 
 public final class protokt/v1/google/longrunning/ListOperationsRequest$Deserializer : protokt/v1/AbstractDeserializer {
@@ -8225,7 +8225,7 @@ public final class protokt/v1/google/longrunning/ListOperationsResponse : protok
 }
 
 public final class protokt/v1/google/longrunning/ListOperationsResponse$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/longrunning/ListOperationsResponse$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/longrunning/ListOperationsResponse$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/longrunning/ListOperationsResponse;
 	public final fun getNextPageToken ()Ljava/lang/String;
@@ -8238,7 +8238,7 @@ public final class protokt/v1/google/longrunning/ListOperationsResponse$Builder 
 	public final fun setUnreachable (Ljava/util/List;)V
 }
 
-public final class protokt/v1/google/longrunning/ListOperationsResponse$Builder$Companion {
+public final class protokt/v1/google/longrunning/ListOperationsResponse$Builder$Factory {
 }
 
 public final class protokt/v1/google/longrunning/ListOperationsResponse$Deserializer : protokt/v1/AbstractDeserializer {
@@ -8267,7 +8267,7 @@ public final class protokt/v1/google/longrunning/Operation : protokt/v1/Abstract
 }
 
 public final class protokt/v1/google/longrunning/Operation$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/longrunning/Operation$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/longrunning/Operation$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/longrunning/Operation;
 	public final fun getDone ()Z
@@ -8282,7 +8282,7 @@ public final class protokt/v1/google/longrunning/Operation$Builder : protokt/v1/
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/longrunning/Operation$Builder$Companion {
+public final class protokt/v1/google/longrunning/Operation$Builder$Factory {
 }
 
 public final class protokt/v1/google/longrunning/Operation$Deserializer : protokt/v1/AbstractDeserializer {
@@ -8334,7 +8334,7 @@ public final class protokt/v1/google/longrunning/OperationInfo : protokt/v1/Abst
 }
 
 public final class protokt/v1/google/longrunning/OperationInfo$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/longrunning/OperationInfo$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/longrunning/OperationInfo$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/longrunning/OperationInfo;
 	public final fun getMetadataType ()Ljava/lang/String;
@@ -8345,7 +8345,7 @@ public final class protokt/v1/google/longrunning/OperationInfo$Builder : protokt
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/longrunning/OperationInfo$Builder$Companion {
+public final class protokt/v1/google/longrunning/OperationInfo$Builder$Factory {
 }
 
 public final class protokt/v1/google/longrunning/OperationInfo$Deserializer : protokt/v1/AbstractDeserializer {
@@ -8372,7 +8372,7 @@ public final class protokt/v1/google/longrunning/WaitOperationRequest : protokt/
 }
 
 public final class protokt/v1/google/longrunning/WaitOperationRequest$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/longrunning/WaitOperationRequest$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/longrunning/WaitOperationRequest$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/longrunning/WaitOperationRequest;
 	public final fun getName ()Ljava/lang/String;
@@ -8383,7 +8383,7 @@ public final class protokt/v1/google/longrunning/WaitOperationRequest$Builder : 
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/longrunning/WaitOperationRequest$Builder$Companion {
+public final class protokt/v1/google/longrunning/WaitOperationRequest$Builder$Factory {
 }
 
 public final class protokt/v1/google/longrunning/WaitOperationRequest$Deserializer : protokt/v1/AbstractDeserializer {
@@ -8409,7 +8409,7 @@ public final class protokt/v1/google/rpc/BadRequest : protokt/v1/AbstractMessage
 }
 
 public final class protokt/v1/google/rpc/BadRequest$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/rpc/BadRequest$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/rpc/BadRequest$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/BadRequest;
 	public final fun getFieldViolations ()Ljava/util/List;
@@ -8418,7 +8418,7 @@ public final class protokt/v1/google/rpc/BadRequest$Builder : protokt/v1/Builder
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/rpc/BadRequest$Builder$Companion {
+public final class protokt/v1/google/rpc/BadRequest$Builder$Factory {
 }
 
 public final class protokt/v1/google/rpc/BadRequest$Deserializer : protokt/v1/AbstractDeserializer {
@@ -8447,7 +8447,7 @@ public final class protokt/v1/google/rpc/BadRequest$FieldViolation : protokt/v1/
 }
 
 public final class protokt/v1/google/rpc/BadRequest$FieldViolation$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/rpc/BadRequest$FieldViolation$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/rpc/BadRequest$FieldViolation$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/BadRequest$FieldViolation;
 	public final fun getDescription ()Ljava/lang/String;
@@ -8462,7 +8462,7 @@ public final class protokt/v1/google/rpc/BadRequest$FieldViolation$Builder : pro
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/rpc/BadRequest$FieldViolation$Builder$Companion {
+public final class protokt/v1/google/rpc/BadRequest$FieldViolation$Builder$Factory {
 }
 
 public final class protokt/v1/google/rpc/BadRequest$FieldViolation$Deserializer : protokt/v1/AbstractDeserializer {
@@ -8573,7 +8573,7 @@ public final class protokt/v1/google/rpc/DebugInfo : protokt/v1/AbstractMessage 
 }
 
 public final class protokt/v1/google/rpc/DebugInfo$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/rpc/DebugInfo$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/rpc/DebugInfo$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/DebugInfo;
 	public final fun getDetail ()Ljava/lang/String;
@@ -8584,7 +8584,7 @@ public final class protokt/v1/google/rpc/DebugInfo$Builder : protokt/v1/BuilderS
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/rpc/DebugInfo$Builder$Companion {
+public final class protokt/v1/google/rpc/DebugInfo$Builder$Factory {
 }
 
 public final class protokt/v1/google/rpc/DebugInfo$Deserializer : protokt/v1/AbstractDeserializer {
@@ -8612,7 +8612,7 @@ public final class protokt/v1/google/rpc/ErrorInfo : protokt/v1/AbstractMessage 
 }
 
 public final class protokt/v1/google/rpc/ErrorInfo$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/rpc/ErrorInfo$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/rpc/ErrorInfo$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/ErrorInfo;
 	public final fun getDomain ()Ljava/lang/String;
@@ -8625,7 +8625,7 @@ public final class protokt/v1/google/rpc/ErrorInfo$Builder : protokt/v1/BuilderS
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/rpc/ErrorInfo$Builder$Companion {
+public final class protokt/v1/google/rpc/ErrorInfo$Builder$Factory {
 }
 
 public final class protokt/v1/google/rpc/ErrorInfo$Deserializer : protokt/v1/AbstractDeserializer {
@@ -8651,7 +8651,7 @@ public final class protokt/v1/google/rpc/Help : protokt/v1/AbstractMessage {
 }
 
 public final class protokt/v1/google/rpc/Help$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/rpc/Help$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/rpc/Help$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/Help;
 	public final fun getLinks ()Ljava/util/List;
@@ -8660,7 +8660,7 @@ public final class protokt/v1/google/rpc/Help$Builder : protokt/v1/BuilderScope 
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/rpc/Help$Builder$Companion {
+public final class protokt/v1/google/rpc/Help$Builder$Factory {
 }
 
 public final class protokt/v1/google/rpc/Help$Deserializer : protokt/v1/AbstractDeserializer {
@@ -8687,7 +8687,7 @@ public final class protokt/v1/google/rpc/Help$Link : protokt/v1/AbstractMessage 
 }
 
 public final class protokt/v1/google/rpc/Help$Link$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/rpc/Help$Link$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/rpc/Help$Link$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/Help$Link;
 	public final fun getDescription ()Ljava/lang/String;
@@ -8698,7 +8698,7 @@ public final class protokt/v1/google/rpc/Help$Link$Builder : protokt/v1/BuilderS
 	public final fun setUrl (Ljava/lang/String;)V
 }
 
-public final class protokt/v1/google/rpc/Help$Link$Builder$Companion {
+public final class protokt/v1/google/rpc/Help$Link$Builder$Factory {
 }
 
 public final class protokt/v1/google/rpc/Help$Link$Deserializer : protokt/v1/AbstractDeserializer {
@@ -8725,7 +8725,7 @@ public final class protokt/v1/google/rpc/LocalizedMessage : protokt/v1/AbstractM
 }
 
 public final class protokt/v1/google/rpc/LocalizedMessage$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/rpc/LocalizedMessage$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/rpc/LocalizedMessage$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/LocalizedMessage;
 	public final fun getLocale ()Ljava/lang/String;
@@ -8736,7 +8736,7 @@ public final class protokt/v1/google/rpc/LocalizedMessage$Builder : protokt/v1/B
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/rpc/LocalizedMessage$Builder$Companion {
+public final class protokt/v1/google/rpc/LocalizedMessage$Builder$Factory {
 }
 
 public final class protokt/v1/google/rpc/LocalizedMessage$Deserializer : protokt/v1/AbstractDeserializer {
@@ -8762,7 +8762,7 @@ public final class protokt/v1/google/rpc/PreconditionFailure : protokt/v1/Abstra
 }
 
 public final class protokt/v1/google/rpc/PreconditionFailure$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/rpc/PreconditionFailure$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/rpc/PreconditionFailure$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/PreconditionFailure;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
@@ -8771,7 +8771,7 @@ public final class protokt/v1/google/rpc/PreconditionFailure$Builder : protokt/v
 	public final fun setViolations (Ljava/util/List;)V
 }
 
-public final class protokt/v1/google/rpc/PreconditionFailure$Builder$Companion {
+public final class protokt/v1/google/rpc/PreconditionFailure$Builder$Factory {
 }
 
 public final class protokt/v1/google/rpc/PreconditionFailure$Deserializer : protokt/v1/AbstractDeserializer {
@@ -8799,7 +8799,7 @@ public final class protokt/v1/google/rpc/PreconditionFailure$Violation : protokt
 }
 
 public final class protokt/v1/google/rpc/PreconditionFailure$Violation$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/rpc/PreconditionFailure$Violation$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/rpc/PreconditionFailure$Violation$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/PreconditionFailure$Violation;
 	public final fun getDescription ()Ljava/lang/String;
@@ -8812,7 +8812,7 @@ public final class protokt/v1/google/rpc/PreconditionFailure$Violation$Builder :
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/rpc/PreconditionFailure$Violation$Builder$Companion {
+public final class protokt/v1/google/rpc/PreconditionFailure$Violation$Builder$Factory {
 }
 
 public final class protokt/v1/google/rpc/PreconditionFailure$Violation$Deserializer : protokt/v1/AbstractDeserializer {
@@ -8838,7 +8838,7 @@ public final class protokt/v1/google/rpc/QuotaFailure : protokt/v1/AbstractMessa
 }
 
 public final class protokt/v1/google/rpc/QuotaFailure$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/rpc/QuotaFailure$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/rpc/QuotaFailure$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/QuotaFailure;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
@@ -8847,7 +8847,7 @@ public final class protokt/v1/google/rpc/QuotaFailure$Builder : protokt/v1/Build
 	public final fun setViolations (Ljava/util/List;)V
 }
 
-public final class protokt/v1/google/rpc/QuotaFailure$Builder$Companion {
+public final class protokt/v1/google/rpc/QuotaFailure$Builder$Factory {
 }
 
 public final class protokt/v1/google/rpc/QuotaFailure$Deserializer : protokt/v1/AbstractDeserializer {
@@ -8880,7 +8880,7 @@ public final class protokt/v1/google/rpc/QuotaFailure$Violation : protokt/v1/Abs
 }
 
 public final class protokt/v1/google/rpc/QuotaFailure$Violation$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/rpc/QuotaFailure$Violation$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/rpc/QuotaFailure$Violation$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/QuotaFailure$Violation;
 	public final fun getApiService ()Ljava/lang/String;
@@ -8903,7 +8903,7 @@ public final class protokt/v1/google/rpc/QuotaFailure$Violation$Builder : protok
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/rpc/QuotaFailure$Violation$Builder$Companion {
+public final class protokt/v1/google/rpc/QuotaFailure$Violation$Builder$Factory {
 }
 
 public final class protokt/v1/google/rpc/QuotaFailure$Violation$Deserializer : protokt/v1/AbstractDeserializer {
@@ -8930,7 +8930,7 @@ public final class protokt/v1/google/rpc/RequestInfo : protokt/v1/AbstractMessag
 }
 
 public final class protokt/v1/google/rpc/RequestInfo$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/rpc/RequestInfo$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/rpc/RequestInfo$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/RequestInfo;
 	public final fun getRequestId ()Ljava/lang/String;
@@ -8941,7 +8941,7 @@ public final class protokt/v1/google/rpc/RequestInfo$Builder : protokt/v1/Builde
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/rpc/RequestInfo$Builder$Companion {
+public final class protokt/v1/google/rpc/RequestInfo$Builder$Factory {
 }
 
 public final class protokt/v1/google/rpc/RequestInfo$Deserializer : protokt/v1/AbstractDeserializer {
@@ -8970,7 +8970,7 @@ public final class protokt/v1/google/rpc/ResourceInfo : protokt/v1/AbstractMessa
 }
 
 public final class protokt/v1/google/rpc/ResourceInfo$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/rpc/ResourceInfo$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/rpc/ResourceInfo$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/ResourceInfo;
 	public final fun getDescription ()Ljava/lang/String;
@@ -8985,7 +8985,7 @@ public final class protokt/v1/google/rpc/ResourceInfo$Builder : protokt/v1/Build
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/rpc/ResourceInfo$Builder$Companion {
+public final class protokt/v1/google/rpc/ResourceInfo$Builder$Factory {
 }
 
 public final class protokt/v1/google/rpc/ResourceInfo$Deserializer : protokt/v1/AbstractDeserializer {
@@ -9011,7 +9011,7 @@ public final class protokt/v1/google/rpc/RetryInfo : protokt/v1/AbstractMessage 
 }
 
 public final class protokt/v1/google/rpc/RetryInfo$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/rpc/RetryInfo$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/rpc/RetryInfo$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/RetryInfo;
 	public final fun getRetryDelay ()Lprotokt/v1/google/protobuf/Duration;
@@ -9020,7 +9020,7 @@ public final class protokt/v1/google/rpc/RetryInfo$Builder : protokt/v1/BuilderS
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/rpc/RetryInfo$Builder$Companion {
+public final class protokt/v1/google/rpc/RetryInfo$Builder$Factory {
 }
 
 public final class protokt/v1/google/rpc/RetryInfo$Deserializer : protokt/v1/AbstractDeserializer {
@@ -9048,7 +9048,7 @@ public final class protokt/v1/google/rpc/Status : protokt/v1/AbstractMessage {
 }
 
 public final class protokt/v1/google/rpc/Status$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/rpc/Status$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/rpc/Status$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/Status;
 	public final fun getCode ()I
@@ -9061,7 +9061,7 @@ public final class protokt/v1/google/rpc/Status$Builder : protokt/v1/BuilderScop
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/rpc/Status$Builder$Companion {
+public final class protokt/v1/google/rpc/Status$Builder$Factory {
 }
 
 public final class protokt/v1/google/rpc/Status$Deserializer : protokt/v1/AbstractDeserializer {
@@ -9113,7 +9113,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Api : protokt/
 }
 
 public final class protokt/v1/google/rpc/context/AttributeContext$Api$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/rpc/context/AttributeContext$Api$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/rpc/context/AttributeContext$Api$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/context/AttributeContext$Api;
 	public final fun getOperation ()Ljava/lang/String;
@@ -9128,7 +9128,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Api$Builder : 
 	public final fun setVersion (Ljava/lang/String;)V
 }
 
-public final class protokt/v1/google/rpc/context/AttributeContext$Api$Builder$Companion {
+public final class protokt/v1/google/rpc/context/AttributeContext$Api$Builder$Factory {
 }
 
 public final class protokt/v1/google/rpc/context/AttributeContext$Api$Deserializer : protokt/v1/AbstractDeserializer {
@@ -9158,7 +9158,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Auth : protokt
 }
 
 public final class protokt/v1/google/rpc/context/AttributeContext$Auth$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/rpc/context/AttributeContext$Auth$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/rpc/context/AttributeContext$Auth$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/context/AttributeContext$Auth;
 	public final fun getAccessLevels ()Ljava/util/List;
@@ -9175,7 +9175,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Auth$Builder :
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/rpc/context/AttributeContext$Auth$Builder$Companion {
+public final class protokt/v1/google/rpc/context/AttributeContext$Auth$Builder$Factory {
 }
 
 public final class protokt/v1/google/rpc/context/AttributeContext$Auth$Deserializer : protokt/v1/AbstractDeserializer {
@@ -9185,7 +9185,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Auth$Deseriali
 }
 
 public final class protokt/v1/google/rpc/context/AttributeContext$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/rpc/context/AttributeContext$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/rpc/context/AttributeContext$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/context/AttributeContext;
 	public final fun getApi ()Lprotokt/v1/google/rpc/context/AttributeContext$Api;
@@ -9208,7 +9208,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Builder : prot
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/rpc/context/AttributeContext$Builder$Companion {
+public final class protokt/v1/google/rpc/context/AttributeContext$Builder$Factory {
 }
 
 public final class protokt/v1/google/rpc/context/AttributeContext$Deserializer : protokt/v1/AbstractDeserializer {
@@ -9238,7 +9238,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Peer : protokt
 }
 
 public final class protokt/v1/google/rpc/context/AttributeContext$Peer$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/rpc/context/AttributeContext$Peer$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/rpc/context/AttributeContext$Peer$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/context/AttributeContext$Peer;
 	public final fun getIp ()Ljava/lang/String;
@@ -9255,7 +9255,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Peer$Builder :
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/rpc/context/AttributeContext$Peer$Builder$Companion {
+public final class protokt/v1/google/rpc/context/AttributeContext$Peer$Builder$Factory {
 }
 
 public final class protokt/v1/google/rpc/context/AttributeContext$Peer$Deserializer : protokt/v1/AbstractDeserializer {
@@ -9292,7 +9292,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Request : prot
 }
 
 public final class protokt/v1/google/rpc/context/AttributeContext$Request$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/rpc/context/AttributeContext$Request$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/rpc/context/AttributeContext$Request$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/context/AttributeContext$Request;
 	public final fun getAuth ()Lprotokt/v1/google/rpc/context/AttributeContext$Auth;
@@ -9323,7 +9323,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Request$Builde
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/rpc/context/AttributeContext$Request$Builder$Companion {
+public final class protokt/v1/google/rpc/context/AttributeContext$Request$Builder$Factory {
 }
 
 public final class protokt/v1/google/rpc/context/AttributeContext$Request$Deserializer : protokt/v1/AbstractDeserializer {
@@ -9360,7 +9360,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Resource : pro
 }
 
 public final class protokt/v1/google/rpc/context/AttributeContext$Resource$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/rpc/context/AttributeContext$Resource$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/rpc/context/AttributeContext$Resource$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/context/AttributeContext$Resource;
 	public final fun getAnnotations ()Ljava/util/Map;
@@ -9391,7 +9391,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Resource$Build
 	public final fun setUpdateTime (Lprotokt/v1/google/protobuf/Timestamp;)V
 }
 
-public final class protokt/v1/google/rpc/context/AttributeContext$Resource$Builder$Companion {
+public final class protokt/v1/google/rpc/context/AttributeContext$Resource$Builder$Factory {
 }
 
 public final class protokt/v1/google/rpc/context/AttributeContext$Resource$Deserializer : protokt/v1/AbstractDeserializer {
@@ -9421,7 +9421,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Response : pro
 }
 
 public final class protokt/v1/google/rpc/context/AttributeContext$Response$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/rpc/context/AttributeContext$Response$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/rpc/context/AttributeContext$Response$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/context/AttributeContext$Response;
 	public final fun getBackendLatency ()Lprotokt/v1/google/protobuf/Duration;
@@ -9438,7 +9438,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Response$Build
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/rpc/context/AttributeContext$Response$Builder$Companion {
+public final class protokt/v1/google/rpc/context/AttributeContext$Response$Builder$Factory {
 }
 
 public final class protokt/v1/google/rpc/context/AttributeContext$Response$Deserializer : protokt/v1/AbstractDeserializer {
@@ -9468,7 +9468,7 @@ public final class protokt/v1/google/rpc/context/AuditContext : protokt/v1/Abstr
 }
 
 public final class protokt/v1/google/rpc/context/AuditContext$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/rpc/context/AuditContext$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/rpc/context/AuditContext$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/rpc/context/AuditContext;
 	public final fun getAuditLog ()Lprotokt/v1/Bytes;
@@ -9485,7 +9485,7 @@ public final class protokt/v1/google/rpc/context/AuditContext$Builder : protokt/
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/rpc/context/AuditContext$Builder$Companion {
+public final class protokt/v1/google/rpc/context/AuditContext$Builder$Factory {
 }
 
 public final class protokt/v1/google/rpc/context/AuditContext$Deserializer : protokt/v1/AbstractDeserializer {
@@ -9510,14 +9510,14 @@ public final class protokt/v1/google/shopping/type/Channel : protokt/v1/Abstract
 }
 
 public final class protokt/v1/google/shopping/type/Channel$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/shopping/type/Channel$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/shopping/type/Channel$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/shopping/type/Channel;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/shopping/type/Channel$Builder$Companion {
+public final class protokt/v1/google/shopping/type/Channel$Builder$Factory {
 }
 
 public abstract class protokt/v1/google/shopping/type/Channel$ChannelEnum : protokt/v1/Enum {
@@ -9573,7 +9573,7 @@ public final class protokt/v1/google/shopping/type/CustomAttribute : protokt/v1/
 }
 
 public final class protokt/v1/google/shopping/type/CustomAttribute$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/shopping/type/CustomAttribute$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/shopping/type/CustomAttribute$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/shopping/type/CustomAttribute;
 	public final fun getGroupValues ()Ljava/util/List;
@@ -9586,7 +9586,7 @@ public final class protokt/v1/google/shopping/type/CustomAttribute$Builder : pro
 	public final fun setValue (Ljava/lang/String;)V
 }
 
-public final class protokt/v1/google/shopping/type/CustomAttribute$Builder$Companion {
+public final class protokt/v1/google/shopping/type/CustomAttribute$Builder$Factory {
 }
 
 public final class protokt/v1/google/shopping/type/CustomAttribute$Deserializer : protokt/v1/AbstractDeserializer {
@@ -9611,14 +9611,14 @@ public final class protokt/v1/google/shopping/type/Destination : protokt/v1/Abst
 }
 
 public final class protokt/v1/google/shopping/type/Destination$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/shopping/type/Destination$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/shopping/type/Destination$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/shopping/type/Destination;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/shopping/type/Destination$Builder$Companion {
+public final class protokt/v1/google/shopping/type/Destination$Builder$Factory {
 }
 
 public final class protokt/v1/google/shopping/type/Destination$Deserializer : protokt/v1/AbstractDeserializer {
@@ -9689,7 +9689,7 @@ public final class protokt/v1/google/shopping/type/Price : protokt/v1/AbstractMe
 }
 
 public final class protokt/v1/google/shopping/type/Price$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/shopping/type/Price$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/shopping/type/Price$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/shopping/type/Price;
 	public final fun getAmountMicros ()Ljava/lang/Long;
@@ -9700,7 +9700,7 @@ public final class protokt/v1/google/shopping/type/Price$Builder : protokt/v1/Bu
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/shopping/type/Price$Builder$Companion {
+public final class protokt/v1/google/shopping/type/Price$Builder$Factory {
 }
 
 public final class protokt/v1/google/shopping/type/Price$Deserializer : protokt/v1/AbstractDeserializer {
@@ -9725,14 +9725,14 @@ public final class protokt/v1/google/shopping/type/ReportingContext : protokt/v1
 }
 
 public final class protokt/v1/google/shopping/type/ReportingContext$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/shopping/type/ReportingContext$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/shopping/type/ReportingContext$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/shopping/type/ReportingContext;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/shopping/type/ReportingContext$Builder$Companion {
+public final class protokt/v1/google/shopping/type/ReportingContext$Builder$Factory {
 }
 
 public final class protokt/v1/google/shopping/type/ReportingContext$Deserializer : protokt/v1/AbstractDeserializer {
@@ -9835,7 +9835,7 @@ public final class protokt/v1/google/shopping/type/Weight : protokt/v1/AbstractM
 }
 
 public final class protokt/v1/google/shopping/type/Weight$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/shopping/type/Weight$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/shopping/type/Weight$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/shopping/type/Weight;
 	public final fun getAmountMicros ()Ljava/lang/Long;
@@ -9846,7 +9846,7 @@ public final class protokt/v1/google/shopping/type/Weight$Builder : protokt/v1/B
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/shopping/type/Weight$Builder$Companion {
+public final class protokt/v1/google/shopping/type/Weight$Builder$Factory {
 }
 
 public final class protokt/v1/google/shopping/type/Weight$Deserializer : protokt/v1/AbstractDeserializer {
@@ -9951,7 +9951,7 @@ public final class protokt/v1/google/type/Color : protokt/v1/AbstractMessage {
 }
 
 public final class protokt/v1/google/type/Color$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/type/Color$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/type/Color$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/type/Color;
 	public final fun getAlpha ()Ljava/lang/Float;
@@ -9966,7 +9966,7 @@ public final class protokt/v1/google/type/Color$Builder : protokt/v1/BuilderScop
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/type/Color$Builder$Companion {
+public final class protokt/v1/google/type/Color$Builder$Factory {
 }
 
 public final class protokt/v1/google/type/Color$Deserializer : protokt/v1/AbstractDeserializer {
@@ -9994,7 +9994,7 @@ public final class protokt/v1/google/type/Date : protokt/v1/AbstractMessage {
 }
 
 public final class protokt/v1/google/type/Date$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/type/Date$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/type/Date$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/type/Date;
 	public final fun getDay ()I
@@ -10007,7 +10007,7 @@ public final class protokt/v1/google/type/Date$Builder : protokt/v1/BuilderScope
 	public final fun setYear (I)V
 }
 
-public final class protokt/v1/google/type/Date$Builder$Companion {
+public final class protokt/v1/google/type/Date$Builder$Factory {
 }
 
 public final class protokt/v1/google/type/Date$Deserializer : protokt/v1/AbstractDeserializer {
@@ -10040,7 +10040,7 @@ public final class protokt/v1/google/type/DateTime : protokt/v1/AbstractMessage 
 }
 
 public final class protokt/v1/google/type/DateTime$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/type/DateTime$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/type/DateTime$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/type/DateTime;
 	public final fun getDay ()I
@@ -10063,7 +10063,7 @@ public final class protokt/v1/google/type/DateTime$Builder : protokt/v1/BuilderS
 	public final fun setYear (I)V
 }
 
-public final class protokt/v1/google/type/DateTime$Builder$Companion {
+public final class protokt/v1/google/type/DateTime$Builder$Factory {
 }
 
 public final class protokt/v1/google/type/DateTime$Deserializer : protokt/v1/AbstractDeserializer {
@@ -10162,7 +10162,7 @@ public final class protokt/v1/google/type/Decimal : protokt/v1/AbstractMessage {
 }
 
 public final class protokt/v1/google/type/Decimal$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/type/Decimal$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/type/Decimal$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/type/Decimal;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
@@ -10171,7 +10171,7 @@ public final class protokt/v1/google/type/Decimal$Builder : protokt/v1/BuilderSc
 	public final fun setValue (Ljava/lang/String;)V
 }
 
-public final class protokt/v1/google/type/Decimal$Builder$Companion {
+public final class protokt/v1/google/type/Decimal$Builder$Factory {
 }
 
 public final class protokt/v1/google/type/Decimal$Deserializer : protokt/v1/AbstractDeserializer {
@@ -10200,7 +10200,7 @@ public final class protokt/v1/google/type/Expr : protokt/v1/AbstractMessage {
 }
 
 public final class protokt/v1/google/type/Expr$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/type/Expr$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/type/Expr$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/type/Expr;
 	public final fun getDescription ()Ljava/lang/String;
@@ -10215,7 +10215,7 @@ public final class protokt/v1/google/type/Expr$Builder : protokt/v1/BuilderScope
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/type/Expr$Builder$Companion {
+public final class protokt/v1/google/type/Expr$Builder$Factory {
 }
 
 public final class protokt/v1/google/type/Expr$Deserializer : protokt/v1/AbstractDeserializer {
@@ -10242,7 +10242,7 @@ public final class protokt/v1/google/type/Fraction : protokt/v1/AbstractMessage 
 }
 
 public final class protokt/v1/google/type/Fraction$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/type/Fraction$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/type/Fraction$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/type/Fraction;
 	public final fun getDenominator ()J
@@ -10253,7 +10253,7 @@ public final class protokt/v1/google/type/Fraction$Builder : protokt/v1/BuilderS
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/type/Fraction$Builder$Companion {
+public final class protokt/v1/google/type/Fraction$Builder$Factory {
 }
 
 public final class protokt/v1/google/type/Fraction$Deserializer : protokt/v1/AbstractDeserializer {
@@ -10280,7 +10280,7 @@ public final class protokt/v1/google/type/Interval : protokt/v1/AbstractMessage 
 }
 
 public final class protokt/v1/google/type/Interval$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/type/Interval$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/type/Interval$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/type/Interval;
 	public final fun getEndTime ()Lprotokt/v1/google/protobuf/Timestamp;
@@ -10291,7 +10291,7 @@ public final class protokt/v1/google/type/Interval$Builder : protokt/v1/BuilderS
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/type/Interval$Builder$Companion {
+public final class protokt/v1/google/type/Interval$Builder$Factory {
 }
 
 public final class protokt/v1/google/type/Interval$Deserializer : protokt/v1/AbstractDeserializer {
@@ -10318,7 +10318,7 @@ public final class protokt/v1/google/type/LatLng : protokt/v1/AbstractMessage {
 }
 
 public final class protokt/v1/google/type/LatLng$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/type/LatLng$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/type/LatLng$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/type/LatLng;
 	public final fun getLatitude ()D
@@ -10329,7 +10329,7 @@ public final class protokt/v1/google/type/LatLng$Builder : protokt/v1/BuilderSco
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/type/LatLng$Builder$Companion {
+public final class protokt/v1/google/type/LatLng$Builder$Factory {
 }
 
 public final class protokt/v1/google/type/LatLng$Deserializer : protokt/v1/AbstractDeserializer {
@@ -10356,7 +10356,7 @@ public final class protokt/v1/google/type/LocalizedText : protokt/v1/AbstractMes
 }
 
 public final class protokt/v1/google/type/LocalizedText$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/type/LocalizedText$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/type/LocalizedText$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/type/LocalizedText;
 	public final fun getLanguageCode ()Ljava/lang/String;
@@ -10367,7 +10367,7 @@ public final class protokt/v1/google/type/LocalizedText$Builder : protokt/v1/Bui
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/type/LocalizedText$Builder$Companion {
+public final class protokt/v1/google/type/LocalizedText$Builder$Factory {
 }
 
 public final class protokt/v1/google/type/LocalizedText$Deserializer : protokt/v1/AbstractDeserializer {
@@ -10395,7 +10395,7 @@ public final class protokt/v1/google/type/Money : protokt/v1/AbstractMessage {
 }
 
 public final class protokt/v1/google/type/Money$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/type/Money$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/type/Money$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/type/Money;
 	public final fun getCurrencyCode ()Ljava/lang/String;
@@ -10408,7 +10408,7 @@ public final class protokt/v1/google/type/Money$Builder : protokt/v1/BuilderScop
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/type/Money$Builder$Companion {
+public final class protokt/v1/google/type/Money$Builder$Factory {
 }
 
 public final class protokt/v1/google/type/Money$Deserializer : protokt/v1/AbstractDeserializer {
@@ -10503,7 +10503,7 @@ public final class protokt/v1/google/type/PhoneNumber : protokt/v1/AbstractMessa
 }
 
 public final class protokt/v1/google/type/PhoneNumber$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/type/PhoneNumber$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/type/PhoneNumber$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/type/PhoneNumber;
 	public final fun getExtension ()Ljava/lang/String;
@@ -10514,7 +10514,7 @@ public final class protokt/v1/google/type/PhoneNumber$Builder : protokt/v1/Build
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/type/PhoneNumber$Builder$Companion {
+public final class protokt/v1/google/type/PhoneNumber$Builder$Factory {
 }
 
 public final class protokt/v1/google/type/PhoneNumber$Deserializer : protokt/v1/AbstractDeserializer {
@@ -10566,7 +10566,7 @@ public final class protokt/v1/google/type/PhoneNumber$ShortCode : protokt/v1/Abs
 }
 
 public final class protokt/v1/google/type/PhoneNumber$ShortCode$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/type/PhoneNumber$ShortCode$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/type/PhoneNumber$ShortCode$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/type/PhoneNumber$ShortCode;
 	public final fun getNumber ()Ljava/lang/String;
@@ -10577,7 +10577,7 @@ public final class protokt/v1/google/type/PhoneNumber$ShortCode$Builder : protok
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/type/PhoneNumber$ShortCode$Builder$Companion {
+public final class protokt/v1/google/type/PhoneNumber$ShortCode$Builder$Factory {
 }
 
 public final class protokt/v1/google/type/PhoneNumber$ShortCode$Deserializer : protokt/v1/AbstractDeserializer {
@@ -10613,7 +10613,7 @@ public final class protokt/v1/google/type/PostalAddress : protokt/v1/AbstractMes
 }
 
 public final class protokt/v1/google/type/PostalAddress$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/type/PostalAddress$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/type/PostalAddress$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/type/PostalAddress;
 	public final fun getAddressLines ()Ljava/util/List;
@@ -10642,7 +10642,7 @@ public final class protokt/v1/google/type/PostalAddress$Builder : protokt/v1/Bui
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/type/PostalAddress$Builder$Companion {
+public final class protokt/v1/google/type/PostalAddress$Builder$Factory {
 }
 
 public final class protokt/v1/google/type/PostalAddress$Deserializer : protokt/v1/AbstractDeserializer {
@@ -10671,7 +10671,7 @@ public final class protokt/v1/google/type/Quaternion : protokt/v1/AbstractMessag
 }
 
 public final class protokt/v1/google/type/Quaternion$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/type/Quaternion$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/type/Quaternion$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/type/Quaternion;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
@@ -10686,7 +10686,7 @@ public final class protokt/v1/google/type/Quaternion$Builder : protokt/v1/Builde
 	public final fun setZ (D)V
 }
 
-public final class protokt/v1/google/type/Quaternion$Builder$Companion {
+public final class protokt/v1/google/type/Quaternion$Builder$Factory {
 }
 
 public final class protokt/v1/google/type/Quaternion$Deserializer : protokt/v1/AbstractDeserializer {
@@ -10715,7 +10715,7 @@ public final class protokt/v1/google/type/TimeOfDay : protokt/v1/AbstractMessage
 }
 
 public final class protokt/v1/google/type/TimeOfDay$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/type/TimeOfDay$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/type/TimeOfDay$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/type/TimeOfDay;
 	public final fun getHours ()I
@@ -10730,7 +10730,7 @@ public final class protokt/v1/google/type/TimeOfDay$Builder : protokt/v1/Builder
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
-public final class protokt/v1/google/type/TimeOfDay$Builder$Companion {
+public final class protokt/v1/google/type/TimeOfDay$Builder$Factory {
 }
 
 public final class protokt/v1/google/type/TimeOfDay$Deserializer : protokt/v1/AbstractDeserializer {
@@ -10757,7 +10757,7 @@ public final class protokt/v1/google/type/TimeZone : protokt/v1/AbstractMessage 
 }
 
 public final class protokt/v1/google/type/TimeZone$Builder : protokt/v1/BuilderScope {
-	public static final field Companion Lprotokt/v1/google/type/TimeZone$Builder$Companion;
+	public static final field Factory Lprotokt/v1/google/type/TimeZone$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/type/TimeZone;
 	public final fun getId ()Ljava/lang/String;
@@ -10768,7 +10768,7 @@ public final class protokt/v1/google/type/TimeZone$Builder : protokt/v1/BuilderS
 	public final fun setVersion (Ljava/lang/String;)V
 }
 
-public final class protokt/v1/google/type/TimeZone$Builder$Companion {
+public final class protokt/v1/google/type/TimeZone$Builder$Factory {
 }
 
 public final class protokt/v1/google/type/TimeZone$Deserializer : protokt/v1/AbstractDeserializer {

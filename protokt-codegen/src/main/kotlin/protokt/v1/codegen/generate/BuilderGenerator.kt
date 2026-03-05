@@ -141,7 +141,7 @@ private class BuilderGenerator(
                         .build()
                 )
                 .addType(
-                    TypeSpec.companionObjectBuilder()
+                    TypeSpec.companionObjectBuilder("Factory")
                         .addFunction(fromFunction())
                         .build()
                 )
