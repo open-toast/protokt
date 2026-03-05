@@ -38,7 +38,7 @@ for use with [grpc-java](#integrating-with-grpcs-java-api),
 The Gradle plugin requires Java 17+ and Gradle 8.0+. It runs on recent versions of
 MacOS, Linux, and Windows.
 
-The runtime and generated code are compatible with Kotlin 2.0+, Java 17+, and Android 5.0+.
+The runtime and generated code are compatible with Kotlin 2.1+, Java 17+, and Android 5.0+.
 
 ## Usage
 
@@ -1122,7 +1122,7 @@ To enable rapid development of the code generator, the protobuf conformance
 tests have been compiled and included in the `testing` project. They run on
 macOS and Linux as part of normal Gradle builds.
 
-Integration tests run on Linux, macOS, and Windows across Kotlin 2.0-2.3 and
+Integration tests run on Linux, macOS, and Windows across Kotlin 2.1-2.3 and
 JDK 17, 21, and 25.
 
 When integration testing the Gradle plugin, note that after changing the plugin

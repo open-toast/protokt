@@ -13,6 +13,7 @@
  * limitations under the License.
  */
 
+import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import protokt.v1.gradle.protoktExtensions
 
@@ -24,7 +25,7 @@ plugins {
 kotlin {
     jvm {
         compilerOptions {
-            freeCompilerArgs.add(System.getProperty("jvm-default-integration.arg", "-Xjvm-default=all"))
+            jvmDefault.set(JvmDefaultMode.NO_COMPATIBILITY)
         }
     }
 

@@ -101,7 +101,11 @@ repositories {
     mavenCentral()
 }
 
-tasks.findByName("kotlinStoreYarnLock")?.enabled = false
+tasks.configureEach {
+    if (name == "kotlinStoreYarnLock") {
+        enabled = false
+    }
+}
 
 subprojects {
     repositories {

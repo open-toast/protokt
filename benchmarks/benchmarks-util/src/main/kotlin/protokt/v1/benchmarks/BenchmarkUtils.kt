@@ -31,7 +31,7 @@ fun randomUtf8String(random: Random, charCount: Int): String {
     repeat(charCount) {
         sb.append(
             when (random.nextInt(3)) {
-                0 -> ('a' + random.nextInt(26)).toChar()
+                0 -> 'a' + random.nextInt(26)
                 1 -> (0x00C0 + random.nextInt(64)).toChar()
                 else -> (0x4E00 + random.nextInt(0x5000)).toChar()
             }
