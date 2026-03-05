@@ -142,7 +142,7 @@ internal object Wrapper {
     fun StandardField.cachingFieldInfo(ctx: Context, mapEntry: Boolean): CachingFieldInfo? {
         if (repeated || isMap || mapEntry) return null
         if (!wrapped) {
-            return if (type == FieldType.String && !optional) CachingFieldInfo.PlainString else null
+            return if (type == FieldType.String) CachingFieldInfo.PlainString(optional) else null
         }
         val nullable = type == FieldType.Message || optional
         return withWrapper(ctx.info.context) { details ->

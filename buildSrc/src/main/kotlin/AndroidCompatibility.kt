@@ -20,7 +20,7 @@ import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 
-fun Project.compatibleWithAndroid(api: Int = 19) {
+fun Project.compatibleWithAndroid(api: Int = 21) {
     apply<ExpediterPlugin>()
 
     configure<ExpediterExtension> {
@@ -42,9 +42,11 @@ fun Project.compatibleWithAndroid(api: Int = 19) {
             // assume the parts of Guava that we are using are ok
             callerStartsWith("com/google/common")
             // persistent collection builders are only loaded when the user opts in
-            // via the protokt.collection.provider system property and adds
+            // via the protokt.collection.factory system property and adds
             // kotlinx-collections-immutable to their runtime classpath
             callerStartsWith("protokt/v1/Persistent")
+            // kotlinx-io is not in the Android SDK
+            targetStartsWith("kotlinx/io")
 
             file(rootProject.layout.projectDirectory.file("expediter/expediter.json"))
         }

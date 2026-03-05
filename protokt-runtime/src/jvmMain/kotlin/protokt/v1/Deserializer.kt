@@ -16,6 +16,7 @@
 package protokt.v1
 
 import com.google.protobuf.CodedInputStream
+import kotlinx.io.Source
 import java.io.InputStream
 import java.nio.ByteBuffer
 
@@ -29,12 +30,21 @@ actual interface Deserializer<T : Message> {
 
     actual fun deserialize(reader: Reader): T
 
-    fun deserialize(stream: InputStream): T =
-        deserialize(reader(CodedInputStream.newInstance(stream)))
+    @Beta
+    actual fun deserialize(source: Source): T
+
+    fun deserialize(stream: InputStream): T {
+        val c = codec
+        check(c is JvmCodec) { "Configured codec ${c::class.java.name} does not support InputStream deserialization" }
+        return deserialize(c.reader(stream))
+    }
 
     fun deserialize(stream: CodedInputStream): T =
-        deserialize(reader(stream))
+        deserialize(ProtobufJavaReader(stream))
 
-    fun deserialize(buffer: ByteBuffer): T =
-        deserialize(reader(CodedInputStream.newInstance(buffer)))
+    fun deserialize(buffer: ByteBuffer): T {
+        val c = codec
+        check(c is JvmCodec) { "Configured codec ${c::class.java.name} does not support ByteBuffer deserialization" }
+        return deserialize(c.reader(buffer))
+    }
 }

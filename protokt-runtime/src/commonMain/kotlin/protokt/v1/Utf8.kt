@@ -99,3 +99,114 @@ internal fun validateUtf8(bytes: ByteArray) {
 
 private fun invalid(): Nothing =
     throw IllegalArgumentException("Invalid UTF-8")
+
+/**
+ * Returns the number of bytes needed to encode [s] as UTF-8,
+ * without allocating any intermediate objects.
+ *
+ * Modeled after com.google.protobuf.Utf8.encodedLength: ASCII fast-scan,
+ * branch-free accounting for chars < 0x800, general fallback for BMP+.
+ */
+internal fun utf8Length(s: String): Int {
+    val utf16Length = s.length
+    var utf8Length = utf16Length
+    var i = 0
+
+    // Fast-scan ASCII: each char is exactly 1 UTF-8 byte.
+    while (i < utf16Length && s[i].code < 0x80) {
+        i++
+    }
+
+    // Mixed content: branch-free for chars < 0x800.
+    // Start with utf8Length = utf16Length (1 byte assumed per char);
+    // add 1 extra byte per non-ASCII char (branch-free via unsigned shift).
+    while (i < utf16Length) {
+        val c = s[i]
+        if (c.code < 0x800) {
+            // Branch-free: adds 0 for ASCII, 1 for 0x80..0x7FF
+            utf8Length += (0x7f - c.code) ushr 31
+        } else {
+            utf8Length += utf8LengthGeneral(s, i)
+            break
+        }
+        i++
+    }
+
+    return utf8Length
+}
+
+private fun utf8LengthGeneral(s: String, start: Int): Int {
+    val utf16Length = s.length
+    var extra = 0
+    var i = start
+    while (i < utf16Length) {
+        val c = s[i]
+        if (c.code < 0x800) {
+            // Branch-free: adds 0 for ASCII, 1 for 0x80..0x7FF
+            extra += (0x7f - c.code) ushr 31
+        } else {
+            // 3-byte BMP char: 2 extra bytes beyond the 1 already counted
+            extra += 2
+            if (c.isHighSurrogate()) {
+                // Surrogate pair: 4 UTF-8 bytes. Base already counts 1 per
+                // char (2 total); we added 2 extra above (= 4). Skip the
+                // low surrogate so it doesn't get a spurious +2.
+                i++
+            }
+        }
+        i++
+    }
+    return extra
+}
+
+/**
+ * Encodes [s] as UTF-8 directly into [dest] starting at [offset].
+ * Returns the number of bytes written.
+ *
+ * Modeled after com.google.protobuf.Utf8.SafeProcessor.encodeUtf8: ASCII
+ * fast-scan loop, then multi-byte handling.
+ */
+internal fun encodeUtf8Into(s: String, dest: ByteArray, offset: Int): Int {
+    val utf16Length = s.length
+    var j = offset
+    var i = 0
+
+    // ASCII fast-scan: tight loop, one byte per char.
+    while (i < utf16Length) {
+        val c = s[i]
+        if (c.code >= 0x80) break
+        dest[j + i] = c.code.toByte()
+        i++
+    }
+    j += i
+
+    // Multi-byte handling.
+    while (i < utf16Length) {
+        val c = s[i]
+        when {
+            c.code < 0x80 -> {
+                dest[j++] = c.code.toByte()
+            }
+            c.code < 0x800 -> {
+                dest[j++] = (0xC0 or (c.code shr 6)).toByte()
+                dest[j++] = (0x80 or (c.code and 0x3F)).toByte()
+            }
+            c.isHighSurrogate() -> {
+                val low = s[i + 1]
+                val cp = 0x10000 + (c.code - 0xD800) * 0x400 + (low.code - 0xDC00)
+                dest[j++] = (0xF0 or (cp shr 18)).toByte()
+                dest[j++] = (0x80 or ((cp shr 12) and 0x3F)).toByte()
+                dest[j++] = (0x80 or ((cp shr 6) and 0x3F)).toByte()
+                dest[j++] = (0x80 or (cp and 0x3F)).toByte()
+                i++
+            }
+            else -> {
+                dest[j++] = (0xE0 or (c.code shr 12)).toByte()
+                dest[j++] = (0x80 or ((c.code shr 6) and 0x3F)).toByte()
+                dest[j++] = (0x80 or (c.code and 0x3F)).toByte()
+            }
+        }
+        i++
+    }
+    return j - offset
+}

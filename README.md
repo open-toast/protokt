@@ -38,7 +38,7 @@ for use with [grpc-java](#integrating-with-grpcs-java-api),
 The Gradle plugin requires Java 17+ and Gradle 8.0+. It runs on recent versions of
 MacOS, Linux, and Windows.
 
-The runtime and generated code are compatible with Kotlin 2.1+, Java 17+, and Android 4.4+.
+The runtime and generated code are compatible with Kotlin 2.1+, Java 17+, and Android 5.0+.
 
 ## Usage
 
@@ -441,16 +441,16 @@ unmodifiable collections will perform better.
 To enable on JVM, set the system property:
 
 ```
--Dprotokt.collection.provider=protokt.v1.PersistentCollectionProvider
+-Dprotokt.collection.factory=protokt.v1.PersistentCollectionFactory
 ```
 
 On JVM or JS, set the environment variable:
 
 ```
-PROTOKT_COLLECTION_PROVIDER=protokt.v1.PersistentCollectionProvider
+PROTOKT_COLLECTION_FACTORY=protokt.v1.PersistentCollectionFactory
 ```
 
-You can also supply any custom `CollectionProvider` implementation by FQCN
+You can also supply any custom `CollectionFactory` implementation by FQCN
 (the class must be a Kotlin `object`).
 
 You must also add `kotlinx-collections-immutable` to your runtime classpath:

@@ -17,14 +17,14 @@
 
 package protokt.v1
 
-internal actual val collectionProvider: CollectionProvider by lazy {
-    val providerFqcn =
-        System.getProperty("protokt.collection.provider")
-            ?: System.getenv("PROTOKT_COLLECTION_PROVIDER")
+internal actual val codec: Codec by lazy {
+    val codecFqcn =
+        System.getProperty("protokt.codec")
+            ?: System.getenv("PROTOKT_CODEC")
 
-    if (providerFqcn != null) {
-        Class.forName(providerFqcn).getField("INSTANCE").get(null) as CollectionProvider
+    if (codecFqcn != null) {
+        Class.forName(codecFqcn).getField("INSTANCE").get(null) as Codec
     } else {
-        DefaultCollectionProvider
+        ProtobufJavaCodec
     }
 }

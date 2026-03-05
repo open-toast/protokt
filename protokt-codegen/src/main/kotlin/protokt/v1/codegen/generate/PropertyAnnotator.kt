@@ -132,7 +132,7 @@ private class PropertyAnnotator(
                         isMap -> CodeBlock.of("emptyMap()")
                         repeated -> CodeBlock.of("emptyList()")
                         type == FieldType.Message -> CodeBlock.of("null")
-                        type == FieldType.Enum -> CodeBlock.of("%T.from(0)", className)
+                        type == FieldType.Enum -> CodeBlock.of("%T.deserialize(0)", className)
                         nullable && !mapEntry -> CodeBlock.of("null")
                         else -> type.defaultValue
                     },
@@ -169,7 +169,7 @@ internal sealed class CachingFieldInfo {
     /** Whether the cached LazyReference is nullable (message-typed wrappers are nullable because absence = null). */
     open val nullable: Boolean get() = false
 
-    object PlainString : CachingFieldInfo()
+    data class PlainString(override val nullable: Boolean) : CachingFieldInfo()
 
     data class Converted(
         val converterClassName: com.squareup.kotlinpoet.ClassName,

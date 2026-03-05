@@ -15,16 +15,19 @@
 
 package protokt.v1
 
-import org.khronos.webgl.Int8Array
+import kotlinx.io.Sink
 
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
 actual abstract class AbstractMessage actual constructor() : Message {
     actual final override fun serialize(): ByteArray {
-        val writer = ProtobufJsWriter.create()
-        serialize(writer(writer))
-        val buf = writer.finish()
-        val res = Int8Array(buf.buffer, buf.byteOffset, buf.length).unsafeCast<ByteArray>()
-        check(res.size == messageSize()) { "Expected ${messageSize()}, got ${res.size}" }
-        return res
+        val writer = codec.writer(serializedSize())
+        serialize(writer)
+        return writer.toByteArray()
+    }
+
+    actual final override fun serialize(sink: Sink) {
+        val c = codec
+        check(c is StreamingCodec) { "Configured codec ${c::class.simpleName} does not support streaming serialization" }
+        c.serialize(this, sink)
     }
 }

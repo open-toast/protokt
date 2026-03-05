@@ -18,14 +18,14 @@ package protokt.v1
 import kotlin.jvm.JvmName
 import kotlin.jvm.JvmStatic
 
-object SizeCodecs {
+object Sizes {
     @JvmStatic
     fun sizeOf(enum: Enum) =
         sizeOf(enum.value)
 
     @JvmStatic
     fun sizeOf(msg: Message) =
-        sizeOf(msg.messageSize().toUInt()) + msg.messageSize()
+        sizeOf(msg.serializedSize().toUInt()) + msg.serializedSize()
 
     @JvmStatic
     fun sizeOf(b: Bytes) =
@@ -103,40 +103,8 @@ object SizeCodecs {
 
     @JvmStatic
     fun sizeOf(s: String): Int {
-        val length =
-            Iterable { CodePointIterator(s) }
-                .sumOf {
-                    when (it) {
-                        in 0..0x7f -> 1
-                        in 0x80..0x7ff -> 2
-                        in 0x800..0xffff -> 3
-                        else -> 4
-                    }
-                }
+        val length = utf8Length(s)
         return sizeOf(length) + length
-    }
-
-    private class CodePointIterator(
-        private val s: String
-    ) : Iterator<Int> {
-        var pos = 0
-
-        override fun hasNext() =
-            pos < s.length
-
-        override fun next(): Int {
-            if (pos >= s.length) throw NoSuchElementException()
-
-            val v = s[pos++]
-            if (v.isHighSurrogate() && pos < s.length) {
-                val l = s[pos]
-                if (l.isLowSurrogate()) {
-                    pos++
-                    return 0x10000 + (v - 0xD800).code * 0x400 + (l - 0xDC00).code
-                }
-            }
-            return v.code and 0xffff
-        }
     }
 
     @JvmStatic

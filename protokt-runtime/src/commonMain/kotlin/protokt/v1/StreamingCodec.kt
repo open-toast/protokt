@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast, Inc.
+ * Copyright (c) 2026 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,8 +13,16 @@
  * limitations under the License.
  */
 
+@file:OptIn(OnlyForUseByGeneratedProtoCode::class)
+
 package protokt.v1
 
-interface EnumReader<E : Enum> {
-    fun from(value: Int): E
+import kotlinx.io.Sink
+import kotlinx.io.Source
+
+@Beta
+interface StreamingCodec : Codec {
+    fun reader(source: Source): Reader
+
+    fun serialize(message: Message, sink: Sink)
 }
