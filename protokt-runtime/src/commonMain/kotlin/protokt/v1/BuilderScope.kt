@@ -25,7 +25,7 @@ package protokt.v1
 @OnlyForUseByGeneratedProtoCode
 interface BuilderScope {
     @Suppress("UNCHECKED_CAST")
-    operator fun <T> List<T>.plus(element: T): List<T> =
+    operator fun <T : Any> List<T>.plus(element: T): List<T> =
         if (this is LazyConvertingList<*, *>) {
             (this as LazyConvertingList<Any, T>).plus(element)
         } else {
@@ -33,7 +33,7 @@ interface BuilderScope {
         }
 
     @Suppress("UNCHECKED_CAST")
-    operator fun <T> List<T>.plus(elements: Iterable<T>): List<T> =
+    operator fun <T : Any> List<T>.plus(elements: Iterable<T>): List<T> =
         if (this is LazyConvertingList<*, *>) {
             (this as LazyConvertingList<Any, T>).plus(elements)
         } else {
