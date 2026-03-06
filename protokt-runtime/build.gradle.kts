@@ -21,36 +21,11 @@ compatibleWithAndroid()
 
 kotlin {
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                compileOnly(libs.kotlinx.collectionsImmutable)
-                compileOnly(libs.kotlinx.io)
-            }
-        }
-
-        val jvmMain by getting {
-            dependencies {
-                compileOnly(libs.protobuf.java)
-            }
-        }
-
         val jvmTest by getting {
             dependencies {
+                implementation(project(":protokt-runtime-protobuf-java"))
+                implementation(project(":protokt-runtime-kotlinx-io"))
                 implementation(libs.protobuf.java)
-                implementation(libs.kotlinx.io)
-            }
-        }
-
-        val jsMain by getting {
-            dependencies {
-                api(npm("protobufjs", libs.versions.protobuf.js.get()))
-
-                // JS module imports fail at load time if referenced classes are missing,
-                // regardless of whether the code path is reached. Since Collections.kt and
-                // BuilderScope.kt reference PersistentList/PersistentMap, the library must
-                // always be bundled for JS even when persistent collections are not enabled.
-                api(libs.kotlinx.collectionsImmutable)
-                api(libs.kotlinx.io)
             }
         }
     }

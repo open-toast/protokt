@@ -21,17 +21,35 @@ interface Reader {
 
     fun readBytes(): Bytes
     fun readBytesSlice(): BytesSlice
-    fun readDouble(): Double
     fun readFixed32(): UInt
     fun readFixed64(): ULong
-    fun readFloat(): Float
-    fun readInt64(): Long
-    fun readSFixed32(): Int
-    fun readSFixed64(): Long
-    fun readSInt32(): Int
-    fun readSInt64(): Long
     fun readString(): String
     fun readUInt64(): ULong
+
+    fun readDouble(): Double =
+        Double.fromBits(readFixed64().toLong())
+
+    fun readFloat(): Float =
+        Float.fromBits(readFixed32().toInt())
+
+    fun readInt64(): Long =
+        readUInt64().toLong()
+
+    fun readSFixed32(): Int =
+        readFixed32().toInt()
+
+    fun readSFixed64(): Long =
+        readFixed64().toLong()
+
+    fun readSInt32(): Int {
+        val n = readInt32()
+        return (n ushr 1) xor -(n and 1)
+    }
+
+    fun readSInt64(): Long {
+        val n = readInt64()
+        return (n ushr 1) xor -(n and 1)
+    }
     fun readTag(): UInt
     fun readRepeated(packed: Boolean, acc: Reader.() -> Unit)
     fun <T : Message> readMessage(m: Deserializer<T>): T

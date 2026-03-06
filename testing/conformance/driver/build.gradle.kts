@@ -26,7 +26,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(libs.kotlinx.coroutines.core)
-                implementation(libs.kotlinx.io)
+                implementation(project(":protokt-runtime-kotlinx-io"))
             }
         }
     }

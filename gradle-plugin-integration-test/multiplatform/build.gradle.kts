@@ -58,7 +58,6 @@ kotlin {
 
         val jvmTest by getting {
             dependencies {
-                runtimeOnly(libs.protobuf.java)
                 runtimeOnly(libs.junit.platformLauncher)
             }
         }

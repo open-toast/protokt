@@ -1,5 +1,7 @@
 # Benchmarks
 
+See [RESULTS.md](RESULTS.md) for detailed benchmark results and analysis.
+
 ## Running
 
 Run all benchmarks for a given implementation:
@@ -29,7 +31,7 @@ protokt benchmarks accept these JMH parameters (set via `-p`):
 | Parameter | Values | Default |
 |-----------|--------|---------|
 | `collectionFactory` | `protokt.v1.DefaultCollectionFactory`, `protokt.v1.PersistentCollectionFactory` | Both |
-| `codec` | `protokt.v1.ProtobufJavaCodec`, `protokt.v1.ProtoktCodec` | Both |
+| `codec` | `protokt.v1.ProtobufJavaCodec`, `protokt.v1.KotlinxIoCodec`, `protokt.v1.ProtoktCodec`, `protokt.v1.OptimalKmpCodec`, `protokt.v1.OptimalJvmCodec` | All |
 
 ## Examples
 

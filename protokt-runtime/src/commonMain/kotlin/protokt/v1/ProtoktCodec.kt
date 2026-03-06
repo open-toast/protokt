@@ -15,12 +15,8 @@
 
 package protokt.v1
 
-import kotlinx.io.Buffer
-import kotlinx.io.Sink
-import kotlinx.io.Source
-
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
-internal object ProtoktCodec : StreamingCodec {
+internal object ProtoktCodec : Codec {
     override fun writer(size: Int): Writer =
         ProtoktWriter(ByteArray(size))
 
@@ -29,13 +25,4 @@ internal object ProtoktCodec : StreamingCodec {
 
     override fun reader(bytes: ByteArray, offset: Int, length: Int): Reader =
         ProtoktReader(bytes, offset, offset + length)
-
-    override fun reader(source: Source): Reader =
-        KotlinxIoSourceReader(source)
-
-    override fun serialize(message: Message, sink: Sink) {
-        val buffer = Buffer()
-        message.serialize(KotlinxIoSinkWriter(buffer))
-        sink.write(buffer, buffer.size)
-    }
 }

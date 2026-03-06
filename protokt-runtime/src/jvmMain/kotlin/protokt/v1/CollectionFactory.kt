@@ -25,6 +25,14 @@ internal actual val collectionFactory: CollectionFactory by lazy {
     if (factoryFqcn != null) {
         Class.forName(factoryFqcn).getField("INSTANCE").get(null) as CollectionFactory
     } else {
-        DefaultCollectionFactory
+        tryLoad("protokt.v1.PersistentCollectionFactory") as? CollectionFactory
+            ?: DefaultCollectionFactory
     }
 }
+
+private fun tryLoad(fqcn: String): Any? =
+    try {
+        Class.forName(fqcn).getField("INSTANCE").get(null)
+    } catch (_: ClassNotFoundException) {
+        null
+    }

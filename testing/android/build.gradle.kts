@@ -24,7 +24,3 @@ android {
 }
 
 localProtokt()
-
-dependencies {
-    testRuntimeOnly(libs.protobuf.lite)
-}

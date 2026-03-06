@@ -15,8 +15,6 @@
 
 package protokt.v1
 
-import kotlinx.io.Source
-
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
 actual abstract class AbstractDeserializer<T : Message> actual constructor() : Deserializer<T> {
     actual abstract override fun deserialize(reader: Reader): T
@@ -29,10 +27,4 @@ actual abstract class AbstractDeserializer<T : Message> actual constructor() : D
 
     actual final override fun deserialize(bytes: BytesSlice): T =
         deserialize(codec.reader(bytes.array, bytes.offset, bytes.length))
-
-    actual final override fun deserialize(source: Source): T {
-        val c = codec
-        check(c is StreamingCodec) { "Configured codec ${c::class.simpleName} does not support streaming deserialization" }
-        return deserialize(c.reader(source))
-    }
 }

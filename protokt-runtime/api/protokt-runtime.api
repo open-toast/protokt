@@ -16,7 +16,6 @@ public abstract class protokt/v1/AbstractConverter : protokt/v1/Converter {
 
 public abstract class protokt/v1/AbstractDeserializer : protokt/v1/Deserializer {
 	public fun <init> ()V
-	public final fun deserialize (Lkotlinx/io/Source;)Lprotokt/v1/Message;
 	public final fun deserialize (Lprotokt/v1/Bytes;)Lprotokt/v1/Message;
 	public final fun deserialize (Lprotokt/v1/BytesSlice;)Lprotokt/v1/Message;
 	public abstract fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
@@ -26,7 +25,6 @@ public abstract class protokt/v1/AbstractDeserializer : protokt/v1/Deserializer 
 public abstract class protokt/v1/AbstractMessage : protokt/v1/Message {
 	public fun <init> ()V
 	public final fun serialize ()[B
-	public final fun serialize (Lkotlinx/io/Sink;)V
 }
 
 public abstract interface annotation class protokt/v1/Beta : java/lang/annotation/Annotation {
@@ -110,10 +108,8 @@ public abstract interface class protokt/v1/Converter {
 }
 
 public abstract interface class protokt/v1/Deserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lprotokt/v1/Message;
 	public fun deserialize (Ljava/io/InputStream;)Lprotokt/v1/Message;
 	public fun deserialize (Ljava/nio/ByteBuffer;)Lprotokt/v1/Message;
-	public abstract fun deserialize (Lkotlinx/io/Source;)Lprotokt/v1/Message;
 	public abstract fun deserialize (Lprotokt/v1/Bytes;)Lprotokt/v1/Message;
 	public abstract fun deserialize (Lprotokt/v1/BytesSlice;)Lprotokt/v1/Message;
 	public abstract fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
@@ -222,7 +218,6 @@ public abstract interface class protokt/v1/MapBuilder {
 public abstract interface class protokt/v1/Message {
 	public abstract fun serialize ()[B
 	public fun serialize (Ljava/io/OutputStream;)V
-	public abstract fun serialize (Lkotlinx/io/Sink;)V
 	public abstract fun serialize (Lprotokt/v1/Writer;)V
 	public abstract fun serializedSize ()I
 }
@@ -235,19 +230,19 @@ public abstract interface class protokt/v1/Reader {
 	public fun readBool ()Z
 	public abstract fun readBytes ()Lprotokt/v1/Bytes;
 	public abstract fun readBytesSlice ()Lprotokt/v1/BytesSlice;
-	public abstract fun readDouble ()D
+	public fun readDouble ()D
 	public fun readEnum (Lprotokt/v1/EnumDeserializer;)Lprotokt/v1/Enum;
 	public abstract fun readFixed32-pVg5ArA ()I
 	public abstract fun readFixed64-s-VKNKU ()J
-	public abstract fun readFloat ()F
+	public fun readFloat ()F
 	public fun readInt32 ()I
-	public abstract fun readInt64 ()J
+	public fun readInt64 ()J
 	public abstract fun readMessage (Lprotokt/v1/Deserializer;)Lprotokt/v1/Message;
 	public abstract fun readRepeated (ZLkotlin/jvm/functions/Function1;)V
-	public abstract fun readSFixed32 ()I
-	public abstract fun readSFixed64 ()J
-	public abstract fun readSInt32 ()I
-	public abstract fun readSInt64 ()J
+	public fun readSFixed32 ()I
+	public fun readSFixed64 ()J
+	public fun readSInt32 ()I
+	public fun readSInt64 ()J
 	public abstract fun readString ()Ljava/lang/String;
 	public abstract fun readTag-pVg5ArA ()I
 	public fun readUInt32-pVg5ArA ()I
@@ -270,11 +265,6 @@ public final class protokt/v1/Sizes {
 	public static final fun sizeOfSInt64 (J)I
 	public static final fun sizeOfUInt32 (I)I
 	public static final fun sizeOfUInt64 (J)I
-}
-
-public abstract interface class protokt/v1/StreamingCodec : protokt/v1/Codec {
-	public abstract fun reader (Lkotlinx/io/Source;)Lprotokt/v1/Reader;
-	public abstract fun serialize (Lprotokt/v1/Message;Lkotlinx/io/Sink;)V
 }
 
 public final class protokt/v1/StringConverter : protokt/v1/Converter {
@@ -368,23 +358,23 @@ public final class protokt/v1/VarintVal : protokt/v1/UnknownValue {
 
 public abstract interface class protokt/v1/Writer {
 	public abstract fun toByteArray ()[B
-	public abstract fun write (D)V
-	public abstract fun write (F)V
-	public abstract fun write (I)V
-	public abstract fun write (J)V
+	public fun write (D)V
+	public fun write (F)V
+	public fun write (I)V
+	public fun write (J)V
 	public abstract fun write (Ljava/lang/String;)V
 	public fun write (Lprotokt/v1/Bytes;)V
 	public abstract fun write (Lprotokt/v1/BytesSlice;)V
 	public fun write (Lprotokt/v1/Enum;)V
 	public fun write (Lprotokt/v1/Message;)V
-	public abstract fun write (Z)V
+	public fun write (Z)V
 	public abstract fun write ([B)V
 	public abstract fun writeFixed32-WZ4Q5Ns (I)V
 	public abstract fun writeFixed64-VKZWuLQ (J)V
-	public abstract fun writeSFixed32 (I)V
-	public abstract fun writeSFixed64 (J)V
-	public abstract fun writeSInt32 (I)V
-	public abstract fun writeSInt64 (J)V
+	public fun writeSFixed32 (I)V
+	public fun writeSFixed64 (J)V
+	public fun writeSInt32 (I)V
+	public fun writeSInt64 (J)V
 	public fun writeTag-WZ4Q5Ns (I)Lprotokt/v1/Writer;
 	public abstract fun writeUInt32-WZ4Q5Ns (I)V
 	public abstract fun writeUInt64-VKZWuLQ (J)V

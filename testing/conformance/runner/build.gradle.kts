@@ -46,7 +46,7 @@ configurations.create("conformance")
 val conformanceVersion = libs.versions.protobuf.java.get().replace(Regex("^\\d+\\."), "")
 
 dependencies {
-    testImplementation(libs.kotlinx.collectionsImmutable)
+    testImplementation(project(":protokt-runtime-persistent-collections"))
     testImplementation(project(":testing:testing-util"))
     add("conformance", "build-protobuf-conformance-runner:conformance_test_runner:$conformanceVersion") {
         artifact {

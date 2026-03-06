@@ -39,7 +39,6 @@ dependencies {
 
     testImplementation(project(":testing:testing-util"))
     testImplementation(libs.truth)
-    testRuntimeOnly(libs.kotlinx.io)
 }
 
 sourceSets.main {
@@ -108,4 +107,5 @@ tasks.test { dependsOn(conformance) }
 
 application {
     mainClass.set("protokt.v1.buf.validate.conformance.Main")
+    applicationDefaultJvmArgs = emptyList()
 }

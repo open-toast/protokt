@@ -21,7 +21,7 @@ import kotlinx.collections.immutable.persistentListOf
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
-import protokt.v1.conformance.ConformanceTest.Codec
+import protokt.v1.conformance.ConformanceTest.Codec.PROTOBUF
 import protokt.v1.conformance.ConformanceTest.CollectionFactory.PERSISTENT
 import protokt.v1.conformance.ConformanceTest.Platform.JS_IR
 import protokt.v1.conformance.ConformanceTest.Platform.JVM
@@ -42,7 +42,7 @@ class ConformanceTest {
 
     enum class CollectionFactory { DEFAULT, PERSISTENT }
 
-    enum class Codec { DEFAULT, KOTLIN }
+    enum class Codec { DEFAULT, PROTOBUF }
 
     enum class SerializationMode { STANDARD, STREAMING }
 
@@ -62,12 +62,20 @@ class ConformanceTest {
             when (platform) {
                 JVM -> {
                     val flags = buildList {
-                        if (collectionFactory == PERSISTENT) {
-                            add("-Dprotokt.collection.factory=protokt.v1.PersistentCollectionFactory")
-                        }
-                        if (codec == Codec.KOTLIN) {
-                            add("-Dprotokt.codec=protokt.v1.ProtoktCodec")
-                        }
+                        add(
+                            if (collectionFactory == PERSISTENT) {
+                                "-Dprotokt.collection.factory=protokt.v1.PersistentCollectionFactory"
+                            } else {
+                                "-Dprotokt.collection.factory=protokt.v1.DefaultCollectionFactory"
+                            }
+                        )
+                        add(
+                            if (codec == PROTOBUF) {
+                                "-Dprotokt.codec=protokt.v1.ProtobufJavaCodec"
+                            } else {
+                                "-Dprotokt.codec=protokt.v1.ProtoktCodec"
+                            }
+                        )
                         if (serializationMode == SerializationMode.STREAMING) {
                             add("-Dprotokt.streaming=true")
                         }
@@ -75,12 +83,22 @@ class ConformanceTest {
                     if (flags.isNotEmpty()) mapOf("JAVA_OPTS" to flags.joinToString(" ")) else emptyMap()
                 }
                 JS_IR -> buildMap {
-                    if (collectionFactory == PERSISTENT) {
-                        put("PROTOKT_COLLECTION_FACTORY", "protokt.v1.PersistentCollectionFactory")
-                    }
-                    if (codec == Codec.KOTLIN) {
-                        put("PROTOKT_CODEC", "protokt.v1.ProtoktCodec")
-                    }
+                    put(
+                        "PROTOKT_COLLECTION_FACTORY",
+                        if (collectionFactory == PERSISTENT) {
+                            "protokt.v1.PersistentCollectionFactory"
+                        } else {
+                            "protokt.v1.DefaultCollectionFactory"
+                        }
+                    )
+                    put(
+                        "PROTOKT_CODEC",
+                        if (codec == PROTOBUF) {
+                            "protokt.v1.ProtobufJsCodec"
+                        } else {
+                            "protokt.v1.ProtoktCodec"
+                        }
+                    )
                     if (serializationMode == SerializationMode.STREAMING) {
                         put("PROTOKT_STREAMING", "true")
                     }
@@ -184,12 +202,12 @@ private const val PROTOKT_READER = "protokt.v1.ProtoktReader"
 private fun verifyCodec(stderr: String, config: ConformanceTest.ConformanceConfig) {
     val codecName = "protoktCodec=(.+)".toRegex().find(stderr)?.groupValues?.get(1)?.trim()
     val expected =
-        if (config.codec == Codec.KOTLIN) {
-            PROTOKT_READER
+        if (config.codec == PROTOBUF) {
+            if (config.platform == JVM) PROTOBUF_JAVA_READER else PROTOBUF_JS_READER
         } else {
-            if (config.platform.project == "jvm") PROTOBUF_JAVA_READER else PROTOBUF_JS_READER
+            PROTOKT_READER
         }
-    val platformExpected = if (config.platform.project == "jvm") expected else expected.substringAfterLast(".")
+    val platformExpected = if (config.platform == JVM) expected else expected.substringAfterLast(".")
     assertThat(codecName).isEqualTo(platformExpected)
 }
 

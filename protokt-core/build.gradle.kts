@@ -20,7 +20,7 @@ plugins {
     id("protokt.multiplatform-published-conventions")
 }
 
-localProtokt()
+publishedLocalProtokt()
 compatibleWithAndroid()
 
 spotless {

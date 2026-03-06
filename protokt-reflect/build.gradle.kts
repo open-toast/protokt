@@ -20,7 +20,7 @@ plugins {
     id("protokt.multiplatform-published-conventions")
 }
 
-localProtokt(false)
+publishedLocalProtokt(false)
 
 kotlin {
     sourceSets {

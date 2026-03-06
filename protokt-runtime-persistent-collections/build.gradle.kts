@@ -13,16 +13,19 @@
  * limitations under the License.
  */
 
-package protokt.v1
+plugins {
+    id("protokt.multiplatform-published-conventions")
+}
 
-@OptIn(OnlyForUseByGeneratedProtoCode::class)
-internal object ProtobufJsCodec : Codec {
-    override fun writer(size: Int): Writer =
-        ProtobufJsWriter(ProtobufJsWriterAdapter.create())
+runtimeFriendPaths()
 
-    override fun reader(bytes: ByteArray): Reader =
-        ProtobufJsReader(ProtobufJsReaderAdapter.create(bytes.asUint8Array()))
-
-    override fun reader(bytes: ByteArray, offset: Int, length: Int): Reader =
-        ProtobufJsReader(ProtobufJsReaderAdapter.create(bytes.asUint8Array().subarray(offset, offset + length)))
+kotlin {
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                api(project(":protokt-runtime"))
+                api(libs.kotlinx.collectionsImmutable)
+            }
+        }
+    }
 }

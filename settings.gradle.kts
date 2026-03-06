@@ -35,6 +35,10 @@ include(
     "protokt-protovalidate",
     "protokt-reflect",
     "protokt-runtime",
+    "protokt-runtime-kotlinx-io",
+    "protokt-runtime-protobuf-java",
+    "protokt-runtime-protobufjs",
+    "protokt-runtime-persistent-collections",
     "protokt-runtime-grpc",
     "protokt-runtime-grpc-lite",
 

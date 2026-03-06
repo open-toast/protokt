@@ -62,10 +62,22 @@ internal fun configureProtokt(
 
     // must wait for extension to resolve
     project.afterEvaluate {
-        listOfNotNull(
-            project.resolveProtoktCoreDep(protoktVersion),
-            project.resolveProtoktGrpcDep(protoktVersion)
-        ).forEach(config.extensions.dependencies::add)
+        val ext = the<ProtoktExtension>()
+
+        (
+            listOfNotNull(
+                project.resolveProtoktCoreDep(protoktVersion),
+                project.resolveProtoktGrpcDep(protoktVersion),
+            ) + project.resolveCommonCodecDeps(protoktVersion) +
+                project.resolveCollectionsDeps(protoktVersion)
+            ).forEach(config.extensions.dependencies::add)
+
+        // For OPTIMAL in KMP, add JVM-specific deps to target configs
+        if (ext.codec.selection == ProtoktExtension.CodecSelection.OPTIMAL &&
+            plugins.hasPlugin(KotlinPlugins.MULTIPLATFORM)
+        ) {
+            addPerTargetOptimalDeps(protoktVersion, ext)
+        }
     }
 
     project.configureProtobuf(disableJava, config, binary)
@@ -259,6 +271,92 @@ private fun Project.resolveDependency(rootArtifactId: String, protoktVersion: An
             "$rootArtifactId-lite"
         }
 
+    return if (protoktVersion == null) {
+        dependencies.project(":$artifactId")
+    } else {
+        dependencies.create("$BASE_GROUP_NAME:$artifactId:$protoktVersion")
+    }
+}
+
+private fun Project.resolveCommonCodecDeps(protoktVersion: Any?): List<Dependency> {
+    val ext = the<ProtoktExtension>()
+    return when (ext.codec.selection) {
+        ProtoktExtension.CodecSelection.OPTIMAL ->
+            if (plugins.hasPlugin(KotlinPlugins.MULTIPLATFORM)) {
+                // KMP: common deps are kotlinx-io only; JVM-specific deps added per-target
+                resolveOptimalKmpDeps(protoktVersion)
+            } else if (plugins.hasPlugin(KotlinPlugins.ANDROID)) {
+                resolveOptimalJvmLiteDeps(protoktVersion, ext)
+            } else {
+                resolveOptimalJvmDeps(protoktVersion, ext)
+            }
+
+        ProtoktExtension.CodecSelection.OPTIMAL_KMP ->
+            resolveOptimalKmpDeps(protoktVersion)
+
+        ProtoktExtension.CodecSelection.OPTIMAL_JVM ->
+            resolveOptimalJvmDeps(protoktVersion, ext)
+
+        ProtoktExtension.CodecSelection.OPTIMAL_JVM_LITE ->
+            resolveOptimalJvmLiteDeps(protoktVersion, ext)
+
+        ProtoktExtension.CodecSelection.PROTOBUF_JAVA -> listOfNotNull(
+            resolveOptionalDep("protokt-runtime-protobuf-java", protoktVersion),
+            dependencies.create("com.google.protobuf:protobuf-java:${ext.protocVersion}")
+        )
+
+        ProtoktExtension.CodecSelection.PROTOBUF_JAVALITE -> listOfNotNull(
+            resolveOptionalDep("protokt-runtime-protobuf-java", protoktVersion),
+            dependencies.create("com.google.protobuf:protobuf-javalite:${ext.protocVersion}")
+        )
+
+        ProtoktExtension.CodecSelection.MINIMAL -> emptyList()
+    }
+}
+
+private fun Project.resolveOptimalKmpDeps(protoktVersion: Any?) =
+    listOfNotNull(resolveOptionalDep("protokt-runtime-kotlinx-io", protoktVersion))
+
+private fun Project.resolveOptimalJvmDeps(protoktVersion: Any?, ext: ProtoktExtension) =
+    listOfNotNull(
+        resolveOptionalDep("protokt-runtime-protobuf-java", protoktVersion),
+        dependencies.create("com.google.protobuf:protobuf-java:${ext.protocVersion}")
+    )
+
+private fun Project.resolveOptimalJvmLiteDeps(protoktVersion: Any?, ext: ProtoktExtension) =
+    listOfNotNull(
+        resolveOptionalDep("protokt-runtime-protobuf-java", protoktVersion),
+        dependencies.create("com.google.protobuf:protobuf-javalite:${ext.protocVersion}")
+    )
+
+private fun Project.addPerTargetOptimalDeps(protoktVersion: Any?, ext: ProtoktExtension) {
+    val kmpExt = extensions.getByType(KotlinMultiplatformExtension::class.java)
+    kmpExt.targets.all {
+        val target = KotlinTarget.fromMultiplatformTargetString(targetName)
+        if (target.treatTargetAsJvm) {
+            val mainImplConfig = kmpExt.sourceSets
+                .getByName("${targetName}Main")
+                .implementationConfigurationName
+            val deps = if (target is KotlinTarget.MultiplatformAndroid) {
+                resolveOptimalJvmLiteDeps(protoktVersion, ext)
+            } else {
+                resolveOptimalJvmDeps(protoktVersion, ext)
+            }
+            deps.forEach { configurations.getByName(mainImplConfig).dependencies.add(it) }
+        }
+    }
+}
+
+private fun Project.resolveCollectionsDeps(protoktVersion: Any?): List<Dependency> =
+    when (the<ProtoktExtension>().collections.selection) {
+        ProtoktExtension.CollectionsSelection.PERSISTENT ->
+            listOfNotNull(resolveOptionalDep("protokt-runtime-persistent-collections", protoktVersion))
+
+        ProtoktExtension.CollectionsSelection.MINIMAL -> emptyList()
+    }
+
+private fun Project.resolveOptionalDep(artifactId: String, protoktVersion: Any?): Dependency? {
+    if (name == artifactId) return null
     return if (protoktVersion == null) {
         dependencies.project(":$artifactId")
     } else {

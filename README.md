@@ -19,14 +19,13 @@ and more
 - Representation of the well-known types as Kotlin nullable types: `StringValue`
 is represented as `String?`, etc.
 - Multiplatform support for Kotlin JS (beta)
-- (JVM) Built on Protobuf's Java library: usage of CodedInputStream and
-CodedOutputStream for best performance
-- (JS) Built on protobufJS for best performance
+- [Modular runtime](#runtime-modules) with pluggable codecs: pure-Kotlin default,
+optional protobuf-java, kotlinx-io, and protobufjs backends
 - gRPC [method descriptor and service descriptor generation](#grpc-code-generation)
 for use with [grpc-java](#integrating-with-grpcs-java-api),
 [grpc-kotlin](#integrating-with-grpcs-kotlin-api), and
 [grpc-node](#integrating-with-grpcs-nodejs-api) (experimental) (see examples  in [examples](examples))
-- (JVM) Integration with [Protovalidate](#protovalidate-integration) 
+- (JVM) Integration with [Protovalidate](#protovalidate-integration)
 
 ### Not yet implemented
 
@@ -69,22 +68,12 @@ apply(plugin = "com.toasttab.protokt.v1")
 
 This will automatically download and install protokt, apply the Google protobuf
 plugin, and configure all the necessary boilerplate. By default it will also add
-`protokt-core` to the `api` scope of the project. On the JVM you must explicitly
-choose to depend on `protobuf-java` or `protobuf-javalite`:
+`protokt-core` to the `api` scope of the project.
 
-```kotlin
-dependencies {
-    implementation("com.google.protobuf:protobuf-java:<version>")
-}
-```
-
-or
-
-```kotlin
-dependencies {
-    implementation("com.google.protobuf:protobuf-javalite:<version>")
-}
-```
+By default the plugin auto-detects the best codec for your project type and adds
+`protokt-runtime-persistent-collections` dependencies automatically. You can
+customize which codec and collection implementation to use with the
+[`codec`](#codec-dsl) and [`collections`](#collections-dsl) DSLs described below.
 
 If your project has no Java code you may run into the following error:
 
@@ -283,6 +272,129 @@ any escaping mutability of the provided collection. The Java protobuf
 implementation takes a similar approach; it only exposes mutation methods on the
 builder and not assignment. Mutating the builder does a similar copy operation.
 
+## Runtime Modules
+
+The protokt runtime is split into modules so that external dependencies are opt-in.
+
+### `protokt-runtime` (core)
+
+Zero external dependencies. Contains implementations for serializing and deserializing
+to byte arrays.
+
+### `protokt-runtime-protobuf-java`
+
+Provides `ProtobufJavaCodec`, implementing serialization and deserialization to and from 
+`OutputStream` and `InputStream`.
+
+```kotlin
+dependencies {
+    implementation("com.toasttab.protokt.v1:protokt-runtime-protobuf-java:<version>")
+}
+```
+
+### `protokt-runtime-kotlinx-io`
+
+Provides `KotlinxIoCodec`, implementing serialization and deserialization to and from
+`Source` and `Sink`. On the JVM it also supports `InputStream` and `OutputStream`.
+
+Provides `OptimalKmpCodec`, which blends `ProtoktCodec` for byte-array paths with
+`KotlinxIoCodec` for streaming paths. Best for multiplatform projects.
+
+```kotlin
+dependencies {
+    implementation("com.toasttab.protokt.v1:protokt-runtime-kotlinx-io:<version>")
+}
+```
+
+### `protokt-runtime-protobufjs`
+
+Provides `ProtobufJsCodec` for Kotlin/JS targets using the `protobufjs` npm package.
+
+### `protokt-runtime-persistent-collections`
+
+Provides `PersistentCollectionFactory` backed by `kotlinx-collections-immutable`. See
+[Persistent collections](#persistent-collections) below.
+
+```kotlin
+dependencies {
+    implementation("com.toasttab.protokt.v1:protokt-runtime-persistent-collections:<version>")
+}
+```
+
+### Codec DSL
+
+The `codec` DSL controls which codec module the plugin adds to your project's
+dependencies. The default is `optimal()`, which auto-detects the best codec
+based on your Kotlin plugin type:
+
+- **`kotlin("jvm")`** projects get `protokt-runtime-protobuf-java` + `protobuf-java`
+- **`kotlin("android")`** projects get `protokt-runtime-protobuf-java` + `protobuf-javalite`
+- **`kotlin("multiplatform")`** projects get `protokt-runtime-kotlinx-io` for all targets,
+  plus `protokt-runtime-protobuf-java` and the appropriate `protobuf-java`/`protobuf-javalite`
+  added to JVM/Android target-specific configurations
+
+```kotlin
+protokt {
+    codec {
+        optimal()          // default; auto-detects based on Kotlin plugin
+        // optimalKmp()    // adds protokt-runtime-kotlinx-io
+        // optimalJvm()    // adds protokt-runtime-protobuf-java + protobuf-java
+        // optimalJvmLite() // adds protokt-runtime-protobuf-java + protobuf-javalite
+        // protobufJava()  // adds protokt-runtime-protobuf-java + protobuf-java
+        // protobufJavalite() // adds protokt-runtime-protobuf-java + protobuf-javalite
+        // minimal()       // no extra deps; uses built-in ProtoktCodec
+    }
+}
+```
+
+If you are generating a library for export, `minimal()` is likely the right
+choice so that consumers can select their own codec without extra dependencies.
+
+### Codec selection
+
+At runtime on JVM, the best available codec is auto-detected from the classpath
+in the following order:
+
+1. `OptimalJvmCodec` (from `protokt-runtime-protobuf-java`)
+2. `OptimalKmpCodec` (from `protokt-runtime-kotlinx-io`)
+3. `ProtobufJavaCodec` (from `protokt-runtime-protobuf-java`)
+4. `KotlinxIoCodec` (from `protokt-runtime-kotlinx-io`)
+5. `ProtoktCodec` (built-in fallback)
+
+You can override auto-detection with a system property or environment variable:
+
+```
+-Dprotokt.codec=protokt.v1.ProtobufJavaCodec
+```
+
+or
+
+```
+PROTOKT_CODEC=protokt.v1.ProtobufJavaCodec
+```
+
+The codec class is loaded reflectively and must be a Kotlin `object` implementing `Codec`.
+
+Available codecs:
+
+| Codec | Module | Capabilities                                                                                             |
+|-------|--------|----------------------------------------------------------------------------------------------------------|
+| `protokt.v1.ProtoktCodec` | `protokt-runtime` (built-in) | Byte-array serialization/deserialization. Pure Kotlin, no external dependencies.                         |
+| `protokt.v1.ProtobufJavaCodec` | `protokt-runtime-protobuf-java` | Byte-array + `InputStream`/`OutputStream`/`ByteBuffer`.                                                  |
+| `protokt.v1.KotlinxIoCodec` | `protokt-runtime-kotlinx-io` | Byte-array + `InputStream`/`OutputStream`/`ByteBuffer` + `Source`/`Sink`.                                |
+| `protokt.v1.OptimalKmpCodec` | `protokt-runtime-kotlinx-io` | Byte-array (via `ProtoktCodec`) + streaming (via kotlinx-io). Best for multiplatform. |
+| `protokt.v1.OptimalJvmCodec` | `protokt-runtime-protobuf-java` | Byte-array (via `ProtoktCodec`) + streaming (via protobuf-java). Best for JVM. |
+
+See [benchmarks/RESULTS.md](benchmarks/RESULTS.md) for detailed performance
+comparisons across codecs, protobuf-java, and Wire.
+
+### InputStream / OutputStream support
+
+`Message.serialize(OutputStream)` and `Deserializer.deserialize(InputStream)` are available
+on JVM but require a codec that implements `JvmCodec`. `ProtoktCodec` (the default) does
+not implement `JvmCodec` - configure `ProtobufJavaCodec`, `KotlinxIoCodec`,
+`OptimalJvmCodec`, or `OptimalKmpCodec` to use these methods.
+
 ## Runtime Notes
 
 ### Package
@@ -415,6 +527,24 @@ private fun FileDescriptor.toProtobufJavaDescriptor(): Descriptors.FileDescripto
     )
 ```
 
+### Collections DSL
+
+The `collections` DSL controls which collection factory module the plugin adds
+to your project's dependencies. The default is `persistent()`, which adds
+`protokt-runtime-persistent-collections`:
+
+```kotlin
+protokt {
+    collections {
+        persistent()  // default; adds protokt-runtime-persistent-collections
+        // minimal()  // no extra deps; uses built-in UnmodifiableList/Map
+    }
+}
+```
+
+As with the codec DSL, `minimal()` is likely the right choice for libraries to
+avoid imposing a collection implementation on consumers.
+
 ### Persistent collections
 
 By default, deserialized `repeated` and `map` fields use unmodifiable
@@ -422,44 +552,39 @@ collections that are expensive to copy. When you use the `copy {}` DSL to
 append to pre-populated collections (e.g. `field = field + element`), each `+`
 copies the entire collection, costing O(n) per append.
 
-Enabling persistent collections switches the backing implementation to
-`PersistentList` and `PersistentMap` from
+With the default `persistent()` collections setting, the backing implementation
+uses `PersistentList` and `PersistentMap` from
 [`kotlinx-collections-immutable`](https://github.com/Kotlin/kotlinx.collections.immutable).
 These use tree-based structural sharing so that `+` inside a `copy {}` block
 runs in O(log n) instead of O(n).
 
-Workloads that incrementally build up repeated or map fields via `copy {}` on messages that 
+At runtime on JVM, `PersistentCollectionFactory` is auto-detected from the
+classpath if present; otherwise `DefaultCollectionFactory` is used.
+
+Workloads that incrementally build up repeated or map fields via `copy {}` on messages that
 already have large collections may benefit from this option. Benchmarks show
 up to 47x speedup on list appends and 150x on map puts for pre-populated
 messages.
 
-Deserialization is ~5-7% slower for large messages because persistent list construction has 
+Deserialization is ~5-7% slower for large messages because persistent list construction has
 more overhead than regular mutable lists. Serialization is marginally slower for large messages.
-If your workload is dominated by deserialize-then-read-only access patterns, the default 
-unmodifiable collections will perform better.
+If your workload is dominated by deserialize-then-read-only access patterns, use
+`collections { default() }` for the built-in unmodifiable collections.
 
-To enable on JVM, set the system property:
+You can override auto-detection with a system property or environment variable:
 
 ```
 -Dprotokt.collection.factory=protokt.v1.PersistentCollectionFactory
 ```
 
-On JVM or JS, set the environment variable:
+or
 
 ```
 PROTOKT_COLLECTION_FACTORY=protokt.v1.PersistentCollectionFactory
 ```
 
-You can also supply any custom `CollectionFactory` implementation by FQCN
-(the class must be a Kotlin `object`).
-
-You must also add `kotlinx-collections-immutable` to your runtime classpath:
-
-```kotlin
-dependencies {
-    implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:<version>")
-}
-```
+You can also supply any custom `CollectionFactory` implementation by fully
+qualified class name (the class must be a Kotlin `object`).
 
 ### Other Notes
 

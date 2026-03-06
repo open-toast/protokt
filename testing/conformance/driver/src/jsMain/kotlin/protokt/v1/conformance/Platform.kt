@@ -28,6 +28,8 @@ import protokt.v1.Deserializer
 import protokt.v1.Message
 import protokt.v1.conformance.ConformanceResponse.Result.ParseError
 import protokt.v1.conformance.ConformanceResponse.Result.SerializeError
+import protokt.v1.deserialize
+import protokt.v1.serialize
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
