@@ -51,10 +51,10 @@ class LazyReference<WireT : Any, KotlinT : Any>(
     }
 
     override fun equals(other: Any?): Boolean =
-        other is LazyReference<*, *> && value() == other.value()
+        other is LazyReference<*, *> && wireValue() == other.wireValue()
 
     override fun hashCode(): Int =
-        value().hashCode()
+        wireValue().hashCode()
 
     override fun toString(): String =
         value().toString()

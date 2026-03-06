@@ -31,6 +31,8 @@ import protokt.v1.codegen.generate.Nullability.propertyType
 import protokt.v1.codegen.generate.Wrapper.cachingFieldInfo
 import protokt.v1.codegen.generate.Wrapper.interceptDefaultValue
 import protokt.v1.codegen.generate.Wrapper.interceptTypeName
+import protokt.v1.codegen.generate.Wrapper.mapCachingFieldInfo
+import protokt.v1.codegen.generate.Wrapper.repeatedCachingFieldInfo
 import protokt.v1.codegen.generate.Wrapper.wrapped
 import protokt.v1.codegen.util.ErrorContext.withFieldName
 import protokt.v1.codegen.util.Field
@@ -57,6 +59,8 @@ private class PropertyAnnotator(
             is StandardField -> {
                 annotateStandard(field).let { type ->
                     val cachingInfo = field.cachingFieldInfo(ctx, msg.mapEntry)
+                    val repeatedCachingInfo = field.repeatedCachingFieldInfo(ctx)
+                    val mapCachingInfo = field.mapCachingFieldInfo(ctx)
                     PropertyInfo(
                         name = field.fieldName,
                         number = field.number,
@@ -79,6 +83,8 @@ private class PropertyAnnotator(
                         overrides = field.overrides(ctx, msg),
                         wrapped = field.wrapped,
                         cachingInfo = cachingInfo,
+                        repeatedCachingInfo = repeatedCachingInfo,
+                        mapCachingInfo = mapCachingInfo,
                         documentation = documentation,
                         deprecation = deprecation(field)
                     )
@@ -157,6 +163,8 @@ internal class PropertyInfo(
     val oneof: Boolean = false,
     val wrapped: Boolean = false,
     val cachingInfo: CachingFieldInfo? = null,
+    val repeatedCachingInfo: RepeatedCachingInfo? = null,
+    val mapCachingInfo: MapCachingInfo? = null,
     val overrides: Boolean = false,
     val documentation: List<String>?,
     val deprecation: Deprecation.RenderOptions? = null
@@ -177,4 +185,25 @@ internal sealed class CachingFieldInfo {
         val fieldType: protokt.v1.reflect.FieldType,
         override val nullable: Boolean
     ) : CachingFieldInfo()
+}
+
+internal sealed class RepeatedCachingInfo {
+    data object PlainString : RepeatedCachingInfo()
+
+    data class Converted(
+        val converterClassName: com.squareup.kotlinpoet.ClassName,
+        val wireTypeName: com.squareup.kotlinpoet.TypeName
+    ) : RepeatedCachingInfo()
+}
+
+internal data class MapCachingInfo(
+    val keyConverterClassName: com.squareup.kotlinpoet.ClassName?,
+    val keyWireTypeName: com.squareup.kotlinpoet.TypeName?,
+    val valueConverterClassName: com.squareup.kotlinpoet.ClassName?,
+    val valueWireTypeName: com.squareup.kotlinpoet.TypeName?,
+    val keyIsString: Boolean,
+    val valueIsString: Boolean
+) {
+    val keyWrapped get() = keyConverterClassName != null
+    val valueWrapped get() = valueConverterClassName != null
 }

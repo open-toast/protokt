@@ -11,10 +11,12 @@ public final class protokt/v1/google/protobuf/Any : protokt/v1/AbstractMessage {
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Any;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/Any$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/Any$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/Any$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/Any;
 	public final fun getTypeUrl ()Ljava/lang/String;
@@ -23,6 +25,9 @@ public final class protokt/v1/google/protobuf/Any$Builder : protokt/v1/BuilderSc
 	public final fun setTypeUrl (Ljava/lang/String;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 	public final fun setValue (Lprotokt/v1/Bytes;)V
+}
+
+public final class protokt/v1/google/protobuf/Any$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/Any$Deserializer : protokt/v1/AbstractDeserializer {
@@ -49,10 +54,12 @@ public final class protokt/v1/google/protobuf/Api : protokt/v1/AbstractMessage {
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Api;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/Api$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/Api$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/Api$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/Api;
 	public final fun getMethods ()Ljava/util/List;
@@ -73,6 +80,9 @@ public final class protokt/v1/google/protobuf/Api$Builder : protokt/v1/BuilderSc
 	public final fun setVersion (Ljava/lang/String;)V
 }
 
+public final class protokt/v1/google/protobuf/Api$Builder$Factory {
+}
+
 public final class protokt/v1/google/protobuf/Api$Deserializer : protokt/v1/AbstractDeserializer {
 	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
 	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/protobuf/Api;
@@ -91,16 +101,21 @@ public final class protokt/v1/google/protobuf/BoolValue : protokt/v1/AbstractMes
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/BoolValue;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/BoolValue$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/BoolValue$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/BoolValue$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/BoolValue;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getValue ()Z
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 	public final fun setValue (Z)V
+}
+
+public final class protokt/v1/google/protobuf/BoolValue$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/BoolValue$Deserializer : protokt/v1/AbstractDeserializer {
@@ -131,16 +146,21 @@ public final class protokt/v1/google/protobuf/BytesValue : protokt/v1/AbstractMe
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/BytesValue;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/BytesValue$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/BytesValue$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/BytesValue$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/BytesValue;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getValue ()Lprotokt/v1/Bytes;
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 	public final fun setValue (Lprotokt/v1/Bytes;)V
+}
+
+public final class protokt/v1/google/protobuf/BytesValue$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/BytesValue$Deserializer : protokt/v1/AbstractDeserializer {
@@ -180,10 +200,12 @@ public final class protokt/v1/google/protobuf/DescriptorProto : protokt/v1/Abstr
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/DescriptorProto;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/DescriptorProto$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/DescriptorProto$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/DescriptorProto$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/DescriptorProto;
 	public final fun getEnumType ()Ljava/util/List;
@@ -210,6 +232,9 @@ public final class protokt/v1/google/protobuf/DescriptorProto$Builder : protokt/
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
+public final class protokt/v1/google/protobuf/DescriptorProto$Builder$Factory {
+}
+
 public final class protokt/v1/google/protobuf/DescriptorProto$Deserializer : protokt/v1/AbstractDeserializer {
 	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
 	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/protobuf/DescriptorProto;
@@ -230,10 +255,12 @@ public final class protokt/v1/google/protobuf/DescriptorProto$ExtensionRange : p
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/DescriptorProto$ExtensionRange;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/DescriptorProto$ExtensionRange$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/DescriptorProto$ExtensionRange$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/DescriptorProto$ExtensionRange$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/DescriptorProto$ExtensionRange;
 	public final fun getEnd ()Ljava/lang/Integer;
@@ -244,6 +271,9 @@ public final class protokt/v1/google/protobuf/DescriptorProto$ExtensionRange$Bui
 	public final fun setOptions (Lprotokt/v1/google/protobuf/ExtensionRangeOptions;)V
 	public final fun setStart (Ljava/lang/Integer;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/DescriptorProto$ExtensionRange$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/DescriptorProto$ExtensionRange$Deserializer : protokt/v1/AbstractDeserializer {
@@ -265,10 +295,12 @@ public final class protokt/v1/google/protobuf/DescriptorProto$ReservedRange : pr
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/DescriptorProto$ReservedRange;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/DescriptorProto$ReservedRange$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/DescriptorProto$ReservedRange$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/DescriptorProto$ReservedRange$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/DescriptorProto$ReservedRange;
 	public final fun getEnd ()Ljava/lang/Integer;
@@ -277,6 +309,9 @@ public final class protokt/v1/google/protobuf/DescriptorProto$ReservedRange$Buil
 	public final fun setEnd (Ljava/lang/Integer;)V
 	public final fun setStart (Ljava/lang/Integer;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/DescriptorProto$ReservedRange$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/DescriptorProto$ReservedRange$Deserializer : protokt/v1/AbstractDeserializer {
@@ -297,16 +332,21 @@ public final class protokt/v1/google/protobuf/DoubleValue : protokt/v1/AbstractM
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/DoubleValue;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/DoubleValue$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/DoubleValue$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/DoubleValue$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/DoubleValue;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getValue ()D
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 	public final fun setValue (D)V
+}
+
+public final class protokt/v1/google/protobuf/DoubleValue$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/DoubleValue$Deserializer : protokt/v1/AbstractDeserializer {
@@ -338,10 +378,12 @@ public final class protokt/v1/google/protobuf/Duration : protokt/v1/AbstractMess
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Duration;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/Duration$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/Duration$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/Duration$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/Duration;
 	public final fun getNanos ()I
@@ -350,6 +392,9 @@ public final class protokt/v1/google/protobuf/Duration$Builder : protokt/v1/Buil
 	public final fun setNanos (I)V
 	public final fun setSeconds (J)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/Duration$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/Duration$Deserializer : protokt/v1/AbstractDeserializer {
@@ -433,14 +478,19 @@ public final class protokt/v1/google/protobuf/Empty : protokt/v1/AbstractMessage
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Empty;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/Empty$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/Empty$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/Empty$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/Empty;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/Empty$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/Empty$Deserializer : protokt/v1/AbstractDeserializer {
@@ -466,10 +516,12 @@ public final class protokt/v1/google/protobuf/Enum : protokt/v1/AbstractMessage 
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Enum;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/Enum$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/Enum$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/Enum$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/Enum;
 	public final fun getEdition ()Ljava/lang/String;
@@ -486,6 +538,9 @@ public final class protokt/v1/google/protobuf/Enum$Builder : protokt/v1/BuilderS
 	public final fun setSourceContext (Lprotokt/v1/google/protobuf/SourceContext;)V
 	public final fun setSyntax (Lprotokt/v1/google/protobuf/Syntax;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/Enum$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/Enum$Deserializer : protokt/v1/AbstractDeserializer {
@@ -510,10 +565,12 @@ public final class protokt/v1/google/protobuf/EnumDescriptorProto : protokt/v1/A
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumDescriptorProto;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/EnumDescriptorProto$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/EnumDescriptorProto$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/EnumDescriptorProto$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/EnumDescriptorProto;
 	public final fun getName ()Ljava/lang/String;
@@ -528,6 +585,9 @@ public final class protokt/v1/google/protobuf/EnumDescriptorProto$Builder : prot
 	public final fun setReservedRange (Ljava/util/List;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 	public final fun setValue (Ljava/util/List;)V
+}
+
+public final class protokt/v1/google/protobuf/EnumDescriptorProto$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/EnumDescriptorProto$Deserializer : protokt/v1/AbstractDeserializer {
@@ -549,10 +609,12 @@ public final class protokt/v1/google/protobuf/EnumDescriptorProto$EnumReservedRa
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumDescriptorProto$EnumReservedRange;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/EnumDescriptorProto$EnumReservedRange$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/EnumDescriptorProto$EnumReservedRange$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/EnumDescriptorProto$EnumReservedRange$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/EnumDescriptorProto$EnumReservedRange;
 	public final fun getEnd ()Ljava/lang/Integer;
@@ -561,6 +623,9 @@ public final class protokt/v1/google/protobuf/EnumDescriptorProto$EnumReservedRa
 	public final fun setEnd (Ljava/lang/Integer;)V
 	public final fun setStart (Ljava/lang/Integer;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/EnumDescriptorProto$EnumReservedRange$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/EnumDescriptorProto$EnumReservedRange$Deserializer : protokt/v1/AbstractDeserializer {
@@ -585,10 +650,12 @@ public final class protokt/v1/google/protobuf/EnumOptions : protokt/v1/AbstractM
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumOptions;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/EnumOptions$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/EnumOptions$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/EnumOptions$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/EnumOptions;
 	public final fun getAllowAlias ()Ljava/lang/Boolean;
@@ -603,6 +670,9 @@ public final class protokt/v1/google/protobuf/EnumOptions$Builder : protokt/v1/B
 	public final fun setFeatures (Lprotokt/v1/google/protobuf/FeatureSet;)V
 	public final fun setUninterpretedOption (Ljava/util/List;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/EnumOptions$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/EnumOptions$Deserializer : protokt/v1/AbstractDeserializer {
@@ -625,10 +695,12 @@ public final class protokt/v1/google/protobuf/EnumValue : protokt/v1/AbstractMes
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumValue;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/EnumValue$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/EnumValue$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/EnumValue$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/EnumValue;
 	public final fun getName ()Ljava/lang/String;
@@ -639,6 +711,9 @@ public final class protokt/v1/google/protobuf/EnumValue$Builder : protokt/v1/Bui
 	public final fun setNumber (I)V
 	public final fun setOptions (Ljava/util/List;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/EnumValue$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/EnumValue$Deserializer : protokt/v1/AbstractDeserializer {
@@ -661,10 +736,12 @@ public final class protokt/v1/google/protobuf/EnumValueDescriptorProto : protokt
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumValueDescriptorProto;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/EnumValueDescriptorProto$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/EnumValueDescriptorProto$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/EnumValueDescriptorProto$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/EnumValueDescriptorProto;
 	public final fun getName ()Ljava/lang/String;
@@ -675,6 +752,9 @@ public final class protokt/v1/google/protobuf/EnumValueDescriptorProto$Builder :
 	public final fun setNumber (Ljava/lang/Integer;)V
 	public final fun setOptions (Lprotokt/v1/google/protobuf/EnumValueOptions;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/EnumValueDescriptorProto$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/EnumValueDescriptorProto$Deserializer : protokt/v1/AbstractDeserializer {
@@ -699,10 +779,12 @@ public final class protokt/v1/google/protobuf/EnumValueOptions : protokt/v1/Abst
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/EnumValueOptions;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/EnumValueOptions$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/EnumValueOptions$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/EnumValueOptions$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/EnumValueOptions;
 	public final fun getDebugRedact ()Ljava/lang/Boolean;
@@ -717,6 +799,9 @@ public final class protokt/v1/google/protobuf/EnumValueOptions$Builder : protokt
 	public final fun setFeatures (Lprotokt/v1/google/protobuf/FeatureSet;)V
 	public final fun setUninterpretedOption (Ljava/util/List;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/EnumValueOptions$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/EnumValueOptions$Deserializer : protokt/v1/AbstractDeserializer {
@@ -740,10 +825,12 @@ public final class protokt/v1/google/protobuf/ExtensionRangeOptions : protokt/v1
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/ExtensionRangeOptions;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/ExtensionRangeOptions$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/ExtensionRangeOptions$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/ExtensionRangeOptions$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/ExtensionRangeOptions;
 	public final fun getDeclaration ()Ljava/util/List;
@@ -756,6 +843,9 @@ public final class protokt/v1/google/protobuf/ExtensionRangeOptions$Builder : pr
 	public final fun setUninterpretedOption (Ljava/util/List;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 	public final fun setVerification (Lprotokt/v1/google/protobuf/ExtensionRangeOptions$VerificationState;)V
+}
+
+public final class protokt/v1/google/protobuf/ExtensionRangeOptions$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/ExtensionRangeOptions$Declaration : protokt/v1/AbstractMessage {
@@ -774,10 +864,12 @@ public final class protokt/v1/google/protobuf/ExtensionRangeOptions$Declaration 
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/ExtensionRangeOptions$Declaration;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/ExtensionRangeOptions$Declaration$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/ExtensionRangeOptions$Declaration$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/ExtensionRangeOptions$Declaration$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/ExtensionRangeOptions$Declaration;
 	public final fun getFullName ()Ljava/lang/String;
@@ -792,6 +884,9 @@ public final class protokt/v1/google/protobuf/ExtensionRangeOptions$Declaration$
 	public final fun setReserved (Ljava/lang/Boolean;)V
 	public final fun setType (Ljava/lang/String;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/ExtensionRangeOptions$Declaration$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/ExtensionRangeOptions$Declaration$Deserializer : protokt/v1/AbstractDeserializer {
@@ -848,10 +943,12 @@ public final class protokt/v1/google/protobuf/FeatureSet : protokt/v1/AbstractMe
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FeatureSet;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/FeatureSet$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/FeatureSet$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/FeatureSet$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/FeatureSet;
 	public final fun getEnforceNamingStyle ()Lprotokt/v1/google/protobuf/FeatureSet$EnforceNamingStyle;
@@ -870,6 +967,9 @@ public final class protokt/v1/google/protobuf/FeatureSet$Builder : protokt/v1/Bu
 	public final fun setRepeatedFieldEncoding (Lprotokt/v1/google/protobuf/FeatureSet$RepeatedFieldEncoding;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 	public final fun setUtf8Validation (Lprotokt/v1/google/protobuf/FeatureSet$Utf8Validation;)V
+}
+
+public final class protokt/v1/google/protobuf/FeatureSet$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/FeatureSet$Deserializer : protokt/v1/AbstractDeserializer {
@@ -1092,10 +1192,12 @@ public final class protokt/v1/google/protobuf/FeatureSetDefaults : protokt/v1/Ab
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FeatureSetDefaults;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/FeatureSetDefaults$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/FeatureSetDefaults$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/FeatureSetDefaults$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/FeatureSetDefaults;
 	public final fun getDefaults ()Ljava/util/List;
@@ -1106,6 +1208,9 @@ public final class protokt/v1/google/protobuf/FeatureSetDefaults$Builder : proto
 	public final fun setMaximumEdition (Lprotokt/v1/google/protobuf/Edition;)V
 	public final fun setMinimumEdition (Lprotokt/v1/google/protobuf/Edition;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/FeatureSetDefaults$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/FeatureSetDefaults$Deserializer : protokt/v1/AbstractDeserializer {
@@ -1128,10 +1233,12 @@ public final class protokt/v1/google/protobuf/FeatureSetDefaults$FeatureSetEditi
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FeatureSetDefaults$FeatureSetEditionDefault;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/FeatureSetDefaults$FeatureSetEditionDefault$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/FeatureSetDefaults$FeatureSetEditionDefault$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/FeatureSetDefaults$FeatureSetEditionDefault$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/FeatureSetDefaults$FeatureSetEditionDefault;
 	public final fun getEdition ()Lprotokt/v1/google/protobuf/Edition;
@@ -1142,6 +1249,9 @@ public final class protokt/v1/google/protobuf/FeatureSetDefaults$FeatureSetEditi
 	public final fun setFixedFeatures (Lprotokt/v1/google/protobuf/FeatureSet;)V
 	public final fun setOverridableFeatures (Lprotokt/v1/google/protobuf/FeatureSet;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/FeatureSetDefaults$FeatureSetEditionDefault$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/FeatureSetDefaults$FeatureSetEditionDefault$Deserializer : protokt/v1/AbstractDeserializer {
@@ -1171,10 +1281,12 @@ public final class protokt/v1/google/protobuf/Field : protokt/v1/AbstractMessage
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Field;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/Field$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/Field$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/Field$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/Field;
 	public final fun getCardinality ()Lprotokt/v1/google/protobuf/Field$Cardinality;
@@ -1199,6 +1311,9 @@ public final class protokt/v1/google/protobuf/Field$Builder : protokt/v1/Builder
 	public final fun setPacked (Z)V
 	public final fun setTypeUrl (Ljava/lang/String;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/Field$Builder$Factory {
 }
 
 public abstract class protokt/v1/google/protobuf/Field$Cardinality : protokt/v1/Enum {
@@ -1353,10 +1468,12 @@ public final class protokt/v1/google/protobuf/FieldDescriptorProto : protokt/v1/
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FieldDescriptorProto;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/FieldDescriptorProto$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/FieldDescriptorProto$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/FieldDescriptorProto$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/FieldDescriptorProto;
 	public final fun getDefaultValue ()Ljava/lang/String;
@@ -1383,6 +1500,9 @@ public final class protokt/v1/google/protobuf/FieldDescriptorProto$Builder : pro
 	public final fun setType (Lprotokt/v1/google/protobuf/FieldDescriptorProto$Type;)V
 	public final fun setTypeName (Ljava/lang/String;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/FieldDescriptorProto$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/FieldDescriptorProto$Deserializer : protokt/v1/AbstractDeserializer {
@@ -1519,16 +1639,21 @@ public final class protokt/v1/google/protobuf/FieldMask : protokt/v1/AbstractMes
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FieldMask;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/FieldMask$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/FieldMask$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/FieldMask$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/FieldMask;
 	public final fun getPaths ()Ljava/util/List;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun setPaths (Ljava/util/List;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/FieldMask$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/FieldMask$Deserializer : protokt/v1/AbstractDeserializer {
@@ -1562,10 +1687,12 @@ public final class protokt/v1/google/protobuf/FieldOptions : protokt/v1/Abstract
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FieldOptions;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/FieldOptions$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/FieldOptions$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/FieldOptions$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/FieldOptions;
 	public final fun getCtype ()Lprotokt/v1/google/protobuf/FieldOptions$CType;
@@ -1598,6 +1725,9 @@ public final class protokt/v1/google/protobuf/FieldOptions$Builder : protokt/v1/
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 	public final fun setUnverifiedLazy (Ljava/lang/Boolean;)V
 	public final fun setWeak (Ljava/lang/Boolean;)V
+}
+
+public final class protokt/v1/google/protobuf/FieldOptions$Builder$Factory {
 }
 
 public abstract class protokt/v1/google/protobuf/FieldOptions$CType : protokt/v1/Enum {
@@ -1647,10 +1777,12 @@ public final class protokt/v1/google/protobuf/FieldOptions$EditionDefault : prot
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FieldOptions$EditionDefault;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/FieldOptions$EditionDefault$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/FieldOptions$EditionDefault$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/FieldOptions$EditionDefault$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/FieldOptions$EditionDefault;
 	public final fun getEdition ()Lprotokt/v1/google/protobuf/Edition;
@@ -1659,6 +1791,9 @@ public final class protokt/v1/google/protobuf/FieldOptions$EditionDefault$Builde
 	public final fun setEdition (Lprotokt/v1/google/protobuf/Edition;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 	public final fun setValue (Ljava/lang/String;)V
+}
+
+public final class protokt/v1/google/protobuf/FieldOptions$EditionDefault$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/FieldOptions$EditionDefault$Deserializer : protokt/v1/AbstractDeserializer {
@@ -1682,10 +1817,12 @@ public final class protokt/v1/google/protobuf/FieldOptions$FeatureSupport : prot
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FieldOptions$FeatureSupport;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/FieldOptions$FeatureSupport$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/FieldOptions$FeatureSupport$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/FieldOptions$FeatureSupport$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/FieldOptions$FeatureSupport;
 	public final fun getDeprecationWarning ()Ljava/lang/String;
@@ -1698,6 +1835,9 @@ public final class protokt/v1/google/protobuf/FieldOptions$FeatureSupport$Builde
 	public final fun setEditionIntroduced (Lprotokt/v1/google/protobuf/Edition;)V
 	public final fun setEditionRemoved (Lprotokt/v1/google/protobuf/Edition;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/FieldOptions$FeatureSupport$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/FieldOptions$FeatureSupport$Deserializer : protokt/v1/AbstractDeserializer {
@@ -1842,10 +1982,12 @@ public final class protokt/v1/google/protobuf/FileDescriptorProto : protokt/v1/A
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FileDescriptorProto;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/FileDescriptorProto$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/FileDescriptorProto$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/FileDescriptorProto$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/FileDescriptorProto;
 	public final fun getDependency ()Ljava/util/List;
@@ -1878,6 +2020,9 @@ public final class protokt/v1/google/protobuf/FileDescriptorProto$Builder : prot
 	public final fun setWeakDependency (Ljava/util/List;)V
 }
 
+public final class protokt/v1/google/protobuf/FileDescriptorProto$Builder$Factory {
+}
+
 public final class protokt/v1/google/protobuf/FileDescriptorProto$Deserializer : protokt/v1/AbstractDeserializer {
 	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
 	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/protobuf/FileDescriptorProto;
@@ -1896,16 +2041,21 @@ public final class protokt/v1/google/protobuf/FileDescriptorSet : protokt/v1/Abs
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FileDescriptorSet;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/FileDescriptorSet$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/FileDescriptorSet$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/FileDescriptorSet$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/FileDescriptorSet;
 	public final fun getFile ()Ljava/util/List;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun setFile (Ljava/util/List;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/FileDescriptorSet$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/FileDescriptorSet$Deserializer : protokt/v1/AbstractDeserializer {
@@ -1946,10 +2096,12 @@ public final class protokt/v1/google/protobuf/FileOptions : protokt/v1/AbstractM
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FileOptions;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/FileOptions$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/FileOptions$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/FileOptions$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/FileOptions;
 	public final fun getCcEnableArenas ()Ljava/lang/Boolean;
@@ -1998,6 +2150,9 @@ public final class protokt/v1/google/protobuf/FileOptions$Builder : protokt/v1/B
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
+public final class protokt/v1/google/protobuf/FileOptions$Builder$Factory {
+}
+
 public final class protokt/v1/google/protobuf/FileOptions$Deserializer : protokt/v1/AbstractDeserializer {
 	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
 	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/protobuf/FileOptions;
@@ -2044,16 +2199,21 @@ public final class protokt/v1/google/protobuf/FloatValue : protokt/v1/AbstractMe
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/FloatValue;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/FloatValue$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/FloatValue$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/FloatValue$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/FloatValue;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getValue ()F
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 	public final fun setValue (F)V
+}
+
+public final class protokt/v1/google/protobuf/FloatValue$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/FloatValue$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2084,6 +2244,7 @@ public final class protokt/v1/google/protobuf/GeneratedCodeInfo : protokt/v1/Abs
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/GeneratedCodeInfo;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/GeneratedCodeInfo$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2103,10 +2264,12 @@ public final class protokt/v1/google/protobuf/GeneratedCodeInfo$Annotation : pro
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/GeneratedCodeInfo$Annotation;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/GeneratedCodeInfo$Annotation$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/GeneratedCodeInfo$Annotation$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/GeneratedCodeInfo$Annotation$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/GeneratedCodeInfo$Annotation;
 	public final fun getBegin ()Ljava/lang/Integer;
@@ -2121,6 +2284,9 @@ public final class protokt/v1/google/protobuf/GeneratedCodeInfo$Annotation$Build
 	public final fun setSemantic (Lprotokt/v1/google/protobuf/GeneratedCodeInfo$Annotation$Semantic;)V
 	public final fun setSourceFile (Ljava/lang/String;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/GeneratedCodeInfo$Annotation$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/GeneratedCodeInfo$Annotation$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2158,12 +2324,16 @@ public final class protokt/v1/google/protobuf/GeneratedCodeInfo$Annotation$Seman
 }
 
 public final class protokt/v1/google/protobuf/GeneratedCodeInfo$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/GeneratedCodeInfo$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/GeneratedCodeInfo;
 	public final fun getAnnotation ()Ljava/util/List;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun setAnnotation (Ljava/util/List;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/GeneratedCodeInfo$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/GeneratedCodeInfo$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2184,16 +2354,21 @@ public final class protokt/v1/google/protobuf/Int32Value : protokt/v1/AbstractMe
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Int32Value;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/Int32Value$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/Int32Value$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/Int32Value$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/Int32Value;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getValue ()I
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 	public final fun setValue (I)V
+}
+
+public final class protokt/v1/google/protobuf/Int32Value$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/Int32Value$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2224,16 +2399,21 @@ public final class protokt/v1/google/protobuf/Int64Value : protokt/v1/AbstractMe
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Int64Value;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/Int64Value$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/Int64Value$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/Int64Value$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/Int64Value;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getValue ()J
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 	public final fun setValue (J)V
+}
+
+public final class protokt/v1/google/protobuf/Int64Value$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/Int64Value$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2264,16 +2444,21 @@ public final class protokt/v1/google/protobuf/ListValue : protokt/v1/AbstractMes
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/ListValue;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/ListValue$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/ListValue$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/ListValue$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/ListValue;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getValues ()Ljava/util/List;
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 	public final fun setValues (Ljava/util/List;)V
+}
+
+public final class protokt/v1/google/protobuf/ListValue$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/ListValue$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2300,10 +2485,12 @@ public final class protokt/v1/google/protobuf/MessageOptions : protokt/v1/Abstra
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/MessageOptions;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/MessageOptions$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/MessageOptions$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/MessageOptions$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/MessageOptions;
 	public final fun getDeprecated ()Ljava/lang/Boolean;
@@ -2322,6 +2509,9 @@ public final class protokt/v1/google/protobuf/MessageOptions$Builder : protokt/v
 	public final fun setNoStandardDescriptorAccessor (Ljava/lang/Boolean;)V
 	public final fun setUninterpretedOption (Ljava/util/List;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/MessageOptions$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/MessageOptions$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2348,10 +2538,12 @@ public final class protokt/v1/google/protobuf/Method : protokt/v1/AbstractMessag
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Method;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/Method$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/Method$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/Method$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/Method;
 	public final fun getName ()Ljava/lang/String;
@@ -2370,6 +2562,9 @@ public final class protokt/v1/google/protobuf/Method$Builder : protokt/v1/Builde
 	public final fun setResponseTypeUrl (Ljava/lang/String;)V
 	public final fun setSyntax (Lprotokt/v1/google/protobuf/Syntax;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/Method$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/Method$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2395,10 +2590,12 @@ public final class protokt/v1/google/protobuf/MethodDescriptorProto : protokt/v1
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/MethodDescriptorProto;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/MethodDescriptorProto$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/MethodDescriptorProto$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/MethodDescriptorProto$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/MethodDescriptorProto;
 	public final fun getClientStreaming ()Ljava/lang/Boolean;
@@ -2415,6 +2612,9 @@ public final class protokt/v1/google/protobuf/MethodDescriptorProto$Builder : pr
 	public final fun setOutputType (Ljava/lang/String;)V
 	public final fun setServerStreaming (Ljava/lang/Boolean;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/MethodDescriptorProto$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/MethodDescriptorProto$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2438,10 +2638,12 @@ public final class protokt/v1/google/protobuf/MethodOptions : protokt/v1/Abstrac
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/MethodOptions;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/MethodOptions$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/MethodOptions$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/MethodOptions$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/MethodOptions;
 	public final fun getDeprecated ()Ljava/lang/Boolean;
@@ -2454,6 +2656,9 @@ public final class protokt/v1/google/protobuf/MethodOptions$Builder : protokt/v1
 	public final fun setIdempotencyLevel (Lprotokt/v1/google/protobuf/MethodOptions$IdempotencyLevel;)V
 	public final fun setUninterpretedOption (Ljava/util/List;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/MethodOptions$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/MethodOptions$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2503,10 +2708,12 @@ public final class protokt/v1/google/protobuf/Mixin : protokt/v1/AbstractMessage
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Mixin;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/Mixin$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/Mixin$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/Mixin$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/Mixin;
 	public final fun getName ()Ljava/lang/String;
@@ -2515,6 +2722,9 @@ public final class protokt/v1/google/protobuf/Mixin$Builder : protokt/v1/Builder
 	public final fun setName (Ljava/lang/String;)V
 	public final fun setRoot (Ljava/lang/String;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/Mixin$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/Mixin$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2556,10 +2766,12 @@ public final class protokt/v1/google/protobuf/OneofDescriptorProto : protokt/v1/
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/OneofDescriptorProto;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/OneofDescriptorProto$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/OneofDescriptorProto$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/OneofDescriptorProto$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/OneofDescriptorProto;
 	public final fun getName ()Ljava/lang/String;
@@ -2568,6 +2780,9 @@ public final class protokt/v1/google/protobuf/OneofDescriptorProto$Builder : pro
 	public final fun setName (Ljava/lang/String;)V
 	public final fun setOptions (Lprotokt/v1/google/protobuf/OneofOptions;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/OneofDescriptorProto$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/OneofDescriptorProto$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2589,10 +2804,12 @@ public final class protokt/v1/google/protobuf/OneofOptions : protokt/v1/Abstract
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/OneofOptions;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/OneofOptions$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/OneofOptions$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/OneofOptions$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/OneofOptions;
 	public final fun getFeatures ()Lprotokt/v1/google/protobuf/FeatureSet;
@@ -2601,6 +2818,9 @@ public final class protokt/v1/google/protobuf/OneofOptions$Builder : protokt/v1/
 	public final fun setFeatures (Lprotokt/v1/google/protobuf/FeatureSet;)V
 	public final fun setUninterpretedOption (Ljava/util/List;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/OneofOptions$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/OneofOptions$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2622,10 +2842,12 @@ public final class protokt/v1/google/protobuf/Option : protokt/v1/AbstractMessag
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Option;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/Option$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/Option$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/Option$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/Option;
 	public final fun getName ()Ljava/lang/String;
@@ -2634,6 +2856,9 @@ public final class protokt/v1/google/protobuf/Option$Builder : protokt/v1/Builde
 	public final fun setName (Ljava/lang/String;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 	public final fun setValue (Lprotokt/v1/google/protobuf/Any;)V
+}
+
+public final class protokt/v1/google/protobuf/Option$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/Option$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2656,10 +2881,12 @@ public final class protokt/v1/google/protobuf/ServiceDescriptorProto : protokt/v
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/ServiceDescriptorProto;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/ServiceDescriptorProto$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/ServiceDescriptorProto$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/ServiceDescriptorProto$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/ServiceDescriptorProto;
 	public final fun getMethod ()Ljava/util/List;
@@ -2670,6 +2897,9 @@ public final class protokt/v1/google/protobuf/ServiceDescriptorProto$Builder : p
 	public final fun setName (Ljava/lang/String;)V
 	public final fun setOptions (Lprotokt/v1/google/protobuf/ServiceOptions;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/ServiceDescriptorProto$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/ServiceDescriptorProto$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2692,10 +2922,12 @@ public final class protokt/v1/google/protobuf/ServiceOptions : protokt/v1/Abstra
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/ServiceOptions;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/ServiceOptions$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/ServiceOptions$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/ServiceOptions$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/ServiceOptions;
 	public final fun getDeprecated ()Ljava/lang/Boolean;
@@ -2706,6 +2938,9 @@ public final class protokt/v1/google/protobuf/ServiceOptions$Builder : protokt/v
 	public final fun setFeatures (Lprotokt/v1/google/protobuf/FeatureSet;)V
 	public final fun setUninterpretedOption (Ljava/util/List;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/ServiceOptions$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/ServiceOptions$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2726,16 +2961,21 @@ public final class protokt/v1/google/protobuf/SourceCodeInfo : protokt/v1/Abstra
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/SourceCodeInfo;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/SourceCodeInfo$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/SourceCodeInfo$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/SourceCodeInfo$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/SourceCodeInfo;
 	public final fun getLocation ()Ljava/util/List;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun setLocation (Ljava/util/List;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/SourceCodeInfo$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/SourceCodeInfo$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2760,10 +3000,12 @@ public final class protokt/v1/google/protobuf/SourceCodeInfo$Location : protokt/
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/SourceCodeInfo$Location;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/SourceCodeInfo$Location$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/SourceCodeInfo$Location$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/SourceCodeInfo$Location$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/SourceCodeInfo$Location;
 	public final fun getLeadingComments ()Ljava/lang/String;
@@ -2778,6 +3020,9 @@ public final class protokt/v1/google/protobuf/SourceCodeInfo$Location$Builder : 
 	public final fun setSpan (Ljava/util/List;)V
 	public final fun setTrailingComments (Ljava/lang/String;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/SourceCodeInfo$Location$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/SourceCodeInfo$Location$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2798,16 +3043,21 @@ public final class protokt/v1/google/protobuf/SourceContext : protokt/v1/Abstrac
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/SourceContext;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/SourceContext$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/SourceContext$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/SourceContext$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/SourceContext;
 	public final fun getFileName ()Ljava/lang/String;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun setFileName (Ljava/lang/String;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/SourceContext$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/SourceContext$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2828,16 +3078,21 @@ public final class protokt/v1/google/protobuf/StringValue : protokt/v1/AbstractM
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/StringValue;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/StringValue$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/StringValue$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/StringValue$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/StringValue;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getValue ()Ljava/lang/String;
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 	public final fun setValue (Ljava/lang/String;)V
+}
+
+public final class protokt/v1/google/protobuf/StringValue$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/StringValue$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2868,16 +3123,21 @@ public final class protokt/v1/google/protobuf/Struct : protokt/v1/AbstractMessag
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Struct;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/Struct$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/Struct$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/Struct$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/Struct;
 	public final fun getFields ()Ljava/util/Map;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun setFields (Ljava/util/Map;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/Struct$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/Struct$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2927,10 +3187,12 @@ public final class protokt/v1/google/protobuf/Timestamp : protokt/v1/AbstractMes
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Timestamp;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/Timestamp$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/Timestamp$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/Timestamp$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/Timestamp;
 	public final fun getNanos ()I
@@ -2939,6 +3201,9 @@ public final class protokt/v1/google/protobuf/Timestamp$Builder : protokt/v1/Bui
 	public final fun setNanos (I)V
 	public final fun setSeconds (J)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/Timestamp$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/Timestamp$Deserializer : protokt/v1/AbstractDeserializer {
@@ -2965,10 +3230,12 @@ public final class protokt/v1/google/protobuf/Type : protokt/v1/AbstractMessage 
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Type;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/Type$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/Type$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/Type$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/Type;
 	public final fun getEdition ()Ljava/lang/String;
@@ -2989,6 +3256,9 @@ public final class protokt/v1/google/protobuf/Type$Builder : protokt/v1/BuilderS
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
+public final class protokt/v1/google/protobuf/Type$Builder$Factory {
+}
+
 public final class protokt/v1/google/protobuf/Type$Deserializer : protokt/v1/AbstractDeserializer {
 	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
 	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/protobuf/Type;
@@ -3007,16 +3277,21 @@ public final class protokt/v1/google/protobuf/UInt32Value : protokt/v1/AbstractM
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/UInt32Value;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/UInt32Value$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/UInt32Value$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/UInt32Value$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/UInt32Value;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getValue-pVg5ArA ()I
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 	public final fun setValue-WZ4Q5Ns (I)V
+}
+
+public final class protokt/v1/google/protobuf/UInt32Value$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/UInt32Value$Deserializer : protokt/v1/AbstractDeserializer {
@@ -3047,16 +3322,21 @@ public final class protokt/v1/google/protobuf/UInt64Value : protokt/v1/AbstractM
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/UInt64Value;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/UInt64Value$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/UInt64Value$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/UInt64Value$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/UInt64Value;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getValue-s-VKNKU ()J
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 	public final fun setValue-VKZWuLQ (J)V
+}
+
+public final class protokt/v1/google/protobuf/UInt64Value$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/UInt64Value$Deserializer : protokt/v1/AbstractDeserializer {
@@ -3093,10 +3373,12 @@ public final class protokt/v1/google/protobuf/UninterpretedOption : protokt/v1/A
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/UninterpretedOption;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/UninterpretedOption$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/UninterpretedOption$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/UninterpretedOption$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/UninterpretedOption;
 	public final fun getAggregateValue ()Ljava/lang/String;
@@ -3115,6 +3397,9 @@ public final class protokt/v1/google/protobuf/UninterpretedOption$Builder : prot
 	public final fun setPositiveIntValue-ADd3fzo (Lkotlin/ULong;)V
 	public final fun setStringValue (Lprotokt/v1/Bytes;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/UninterpretedOption$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/UninterpretedOption$Deserializer : protokt/v1/AbstractDeserializer {
@@ -3136,10 +3421,12 @@ public final class protokt/v1/google/protobuf/UninterpretedOption$NamePart : pro
 	public final fun isExtension ()Z
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/UninterpretedOption$NamePart$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/UninterpretedOption$NamePart$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/UninterpretedOption$NamePart$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/UninterpretedOption$NamePart;
 	public final fun getNamePart ()Ljava/lang/String;
@@ -3148,6 +3435,9 @@ public final class protokt/v1/google/protobuf/UninterpretedOption$NamePart$Build
 	public final fun setExtension (Z)V
 	public final fun setNamePart (Ljava/lang/String;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/UninterpretedOption$NamePart$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/UninterpretedOption$NamePart$Deserializer : protokt/v1/AbstractDeserializer {
@@ -3168,16 +3458,21 @@ public final class protokt/v1/google/protobuf/Value : protokt/v1/AbstractMessage
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/protobuf/Value;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/protobuf/Value$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/google/protobuf/Value$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/protobuf/Value$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/protobuf/Value;
 	public final fun getKind ()Lprotokt/v1/google/protobuf/Value$Kind;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun setKind (Lprotokt/v1/google/protobuf/Value$Kind;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/protobuf/Value$Builder$Factory {
 }
 
 public final class protokt/v1/google/protobuf/Value$Deserializer : protokt/v1/AbstractDeserializer {
@@ -3269,10 +3564,12 @@ public final class protokt/v1/pb/JavaFeatures : protokt/v1/AbstractMessage {
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/pb/JavaFeatures;
 	public fun serialize (Lprotokt/v1/Writer;)V
 	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/pb/JavaFeatures$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class protokt/v1/pb/JavaFeatures$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/pb/JavaFeatures$Builder$Factory;
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/pb/JavaFeatures;
 	public final fun getLegacyClosedEnum ()Ljava/lang/Boolean;
@@ -3283,6 +3580,9 @@ public final class protokt/v1/pb/JavaFeatures$Builder : protokt/v1/BuilderScope 
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 	public final fun setUseOldOuterClassnameDefault (Ljava/lang/Boolean;)V
 	public final fun setUtf8Validation (Lprotokt/v1/pb/JavaFeatures$Utf8Validation;)V
+}
+
+public final class protokt/v1/pb/JavaFeatures$Builder$Factory {
 }
 
 public final class protokt/v1/pb/JavaFeatures$Deserializer : protokt/v1/AbstractDeserializer {

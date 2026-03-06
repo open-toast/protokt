@@ -58,15 +58,15 @@ private class MessageGenerator(
             handleAnnotations()
             handleConstructor(msgProps)
             addTypes(annotateOneofs(msg, ctx))
-            handleMessageSize(msgProps.serializationProps)
+            handleMessageSize(msgProps.serializationProps, properties)
             addProperties(msgProps.delegateProps)
-            addFunction(generateSerializer(msg, msgProps.serializationProps, ctx))
+            addFunction(generateSerializer(msg, msgProps.serializationProps, ctx, properties))
             handleEquals(properties)
             handleHashCode(properties)
             handleToString(properties)
             handleBuilder(msg, properties)
             addType(generateDeserializer(msg, ctx, properties))
-            addTypes(properties.mapNotNull { it.mapEntry }.map { generateMapEntry(it, ctx) })
+            addTypes(properties.filter { it.isMap }.map { generateMapEntry(it.mapEntry!!, ctx, it.mapCachingInfo) })
             addTypes(msg.nestedTypes.filterNot { it is Message && it.mapEntry }.flatMap { generate(it, ctx) })
         }.build()
     }
@@ -268,8 +268,8 @@ private class MessageGenerator(
     private fun dereferenceNullableBackingProperty(propName: String, oneof: Boolean) =
         "requireNotNull($propName) { \"$propName is assumed non-null with (protokt.v1.${if (oneof) "oneof" else "property"}).generate_non_null_accessor but was null\" }".bindSpaces()
 
-    private fun TypeSpec.Builder.handleMessageSize(propertySpecs: List<PropertySpec>) {
-        addProperty(generateMessageSize(msg, propertySpecs, ctx))
+    private fun TypeSpec.Builder.handleMessageSize(propertySpecs: List<PropertySpec>, propertyInfoList: List<PropertyInfo>) {
+        addProperty(generateMessageSize(msg, propertySpecs, ctx, propertyInfoList))
         addFunction(
             buildFunSpec("serializedSize") {
                 returns(Int::class)

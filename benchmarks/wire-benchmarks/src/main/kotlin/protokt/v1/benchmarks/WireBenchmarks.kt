@@ -18,6 +18,7 @@ package protokt.v1.benchmarks
 import com.google.protobuf.benchmarks.BenchmarkDataset
 import com.toasttab.protokt.v1.benchmarks.GenericMessage1
 import com.toasttab.protokt.v1.benchmarks.GenericMessage4
+import com.toasttab.protokt.v1.benchmarks.StringCollectionMessage
 import com.toasttab.protokt.v1.benchmarks.StringOneofMessage
 import okio.ByteString
 import okio.ByteString.Companion.toByteString
@@ -40,7 +41,7 @@ import java.util.concurrent.TimeUnit
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 @State(Scope.Benchmark)
-open class WireBenchmarks {
+open class WireBenchmarks : ProtobufBenchmarkSet {
     private lateinit var largeDataset: BenchmarkDataset
     private lateinit var largeParsedDataset: List<GenericMessage1>
     private lateinit var mediumDataset: BenchmarkDataset
@@ -55,6 +56,12 @@ open class WireBenchmarks {
     private lateinit var stringOneofVeryHeavyPayloads: List<ByteString>
     private lateinit var stringVeryHeavyPayloads: List<ByteString>
     private lateinit var stringOneof20kPayloads: List<ByteString>
+
+    private lateinit var stringRepeatedPayloads: List<ByteString>
+    private lateinit var stringRepeatedParsed: List<StringCollectionMessage>
+    private lateinit var stringMapPayloads: List<ByteString>
+    private lateinit var stringMapParsed: List<StringCollectionMessage>
+    private lateinit var stringValues: Array<String>
 
     private lateinit var largePayloadArrays: List<ByteArray>
     private lateinit var mediumPayloadArrays: List<ByteArray>
@@ -107,6 +114,24 @@ open class WireBenchmarks {
             )
         }.map { ByteString.of(*GenericMessage1.ADAPTER.encode(it)) }
 
+        stringValues = Array(1000) { i -> "value$i" }
+
+        stringRepeatedPayloads = (0 until 20).map {
+            StringCollectionMessage(
+                field_repeated_string = (0 until 500).map { i -> randomUtf8String(random, 100) }
+            )
+        }.map { ByteString.of(*StringCollectionMessage.ADAPTER.encode(it)) }
+
+        stringRepeatedParsed = stringRepeatedPayloads.map { StringCollectionMessage.ADAPTER.decode(it) }
+
+        stringMapPayloads = (0 until 20).map {
+            StringCollectionMessage(
+                field_map_string_string = (0 until 500).associate { i -> "key$i" to randomUtf8String(random, 100) }
+            )
+        }.map { ByteString.of(*StringCollectionMessage.ADAPTER.encode(it)) }
+
+        stringMapParsed = stringMapPayloads.map { StringCollectionMessage.ADAPTER.decode(it) }
+
         readData("large").use { stream ->
             largeDataset = BenchmarkDataset.ADAPTER.decode(stream)
         }
@@ -128,43 +153,43 @@ open class WireBenchmarks {
     }
 
     @Benchmark
-    fun deserializeLargeFromMemory(bh: Blackhole) {
+    override fun deserializeLargeFromMemory(bh: Blackhole) {
         largeDataset.payload.forEach { bytes ->
             bh.consume(GenericMessage1.ADAPTER.decode(bytes))
         }
     }
 
     @Benchmark
-    fun deserializeMediumFromMemory(bh: Blackhole) {
+    override fun deserializeMediumFromMemory(bh: Blackhole) {
         mediumDataset.payload.forEach { bytes ->
             bh.consume(GenericMessage1.ADAPTER.decode(bytes))
         }
     }
 
     @Benchmark
-    fun deserializeSmallFromMemory(bh: Blackhole) {
+    override fun deserializeSmallFromMemory(bh: Blackhole) {
         smallDataset.payload.forEach { bytes ->
             bh.consume(GenericMessage4.ADAPTER.decode(bytes))
         }
     }
 
     @Benchmark
-    fun serializeLargeToMemory(bh: Blackhole) {
+    override fun serializeLargeToMemory(bh: Blackhole) {
         largeParsedDataset.forEach { msg -> bh.consume(GenericMessage1.ADAPTER.encode(msg)) }
     }
 
     @Benchmark
-    fun serializeMediumToMemory(bh: Blackhole) {
+    override fun serializeMediumToMemory(bh: Blackhole) {
         mediumParsedDataset.forEach { msg -> bh.consume(GenericMessage1.ADAPTER.encode(msg)) }
     }
 
     @Benchmark
-    fun serializeSmallToMemory(bh: Blackhole) {
+    override fun serializeSmallToMemory(bh: Blackhole) {
         smallParsedDataset.forEach { msg -> bh.consume(GenericMessage4.ADAPTER.encode(msg)) }
     }
 
     @Benchmark
-    fun copyAppendListLarge(bh: Blackhole) {
+    override fun copyAppendListLarge(bh: Blackhole) {
         var msg = largeParsedDataset.first()
         repeat(1000) { i ->
             msg = msg.copy(field_bytes1500 = msg.field_bytes1500 + byteValues[i])
@@ -173,7 +198,7 @@ open class WireBenchmarks {
     }
 
     @Benchmark
-    fun copyAppendMapLarge(bh: Blackhole) {
+    override fun copyAppendMapLarge(bh: Blackhole) {
         var msg = largeParsedDataset.first()
         repeat(1000) { i ->
             msg = msg.copy(field_map5000 = msg.field_map5000 + ("key$i" to i.toLong()))
@@ -182,7 +207,7 @@ open class WireBenchmarks {
     }
 
     @Benchmark
-    fun copyAppendListMedium(bh: Blackhole) {
+    override fun copyAppendListMedium(bh: Blackhole) {
         var msg = mediumParsedDataset.first()
         repeat(1000) { i ->
             msg = msg.copy(field_bytes1500 = msg.field_bytes1500 + byteValues[i])
@@ -191,7 +216,7 @@ open class WireBenchmarks {
     }
 
     @Benchmark
-    fun copyAppendMapMedium(bh: Blackhole) {
+    override fun copyAppendMapMedium(bh: Blackhole) {
         var msg = mediumParsedDataset.first()
         repeat(1000) { i ->
             msg = msg.copy(field_map5000 = msg.field_map5000 + ("key$i" to i.toLong()))
@@ -200,7 +225,7 @@ open class WireBenchmarks {
     }
 
     @Benchmark
-    fun copyAppendListSmall(bh: Blackhole) {
+    override fun copyAppendListSmall(bh: Blackhole) {
         var msg = mediumParsedDataset.first().copy(field_bytes1500 = emptyList())
         repeat(1000) { i ->
             msg = msg.copy(field_bytes1500 = msg.field_bytes1500 + byteValues[i])
@@ -209,7 +234,7 @@ open class WireBenchmarks {
     }
 
     @Benchmark
-    fun copyAppendMapSmall(bh: Blackhole) {
+    override fun copyAppendMapSmall(bh: Blackhole) {
         var msg = mediumParsedDataset.first().copy(field_map5000 = emptyMap())
         repeat(1000) { i ->
             msg = msg.copy(field_map5000 = msg.field_map5000 + ("key$i" to i.toLong()))
@@ -218,7 +243,7 @@ open class WireBenchmarks {
     }
 
     @Benchmark
-    fun serializeLargeStreaming(bh: Blackhole) {
+    override fun serializeLargeStreaming(bh: Blackhole) {
         val baos = ByteArrayOutputStream()
         val sink = baos.sink().buffer()
         largeParsedDataset.forEach { msg ->
@@ -230,7 +255,7 @@ open class WireBenchmarks {
     }
 
     @Benchmark
-    fun serializeMediumStreaming(bh: Blackhole) {
+    override fun serializeMediumStreaming(bh: Blackhole) {
         val baos = ByteArrayOutputStream()
         val sink = baos.sink().buffer()
         mediumParsedDataset.forEach { msg ->
@@ -242,7 +267,7 @@ open class WireBenchmarks {
     }
 
     @Benchmark
-    fun serializeSmallStreaming(bh: Blackhole) {
+    override fun serializeSmallStreaming(bh: Blackhole) {
         val baos = ByteArrayOutputStream()
         val sink = baos.sink().buffer()
         smallParsedDataset.forEach { msg ->
@@ -254,28 +279,28 @@ open class WireBenchmarks {
     }
 
     @Benchmark
-    fun passThroughLargeFromMemory(bh: Blackhole) {
+    override fun passThroughLargeFromMemory(bh: Blackhole) {
         largeDataset.payload.forEach { bytes ->
             bh.consume(GenericMessage1.ADAPTER.encode(GenericMessage1.ADAPTER.decode(bytes)))
         }
     }
 
     @Benchmark
-    fun passThroughMediumFromMemory(bh: Blackhole) {
+    override fun passThroughMediumFromMemory(bh: Blackhole) {
         mediumDataset.payload.forEach { bytes ->
             bh.consume(GenericMessage1.ADAPTER.encode(GenericMessage1.ADAPTER.decode(bytes)))
         }
     }
 
     @Benchmark
-    fun passThroughSmallFromMemory(bh: Blackhole) {
+    override fun passThroughSmallFromMemory(bh: Blackhole) {
         smallDataset.payload.forEach { bytes ->
             bh.consume(GenericMessage4.ADAPTER.encode(GenericMessage4.ADAPTER.decode(bytes)))
         }
     }
 
     @Benchmark
-    fun mutateAndSerializeStringHeavy(bh: Blackhole) {
+    override fun mutateAndSerializeStringHeavy(bh: Blackhole) {
         stringHeavyPayloads.forEach { bytes ->
             val msg = GenericMessage1.ADAPTER.decode(bytes)
             val mutated = msg.copy(field_string1 = msg.field_string1 + "x", field_string2 = msg.field_string2 + "x", field_string3000 = msg.field_string3000 + "x")
@@ -284,7 +309,7 @@ open class WireBenchmarks {
     }
 
     @Benchmark
-    fun mutateAndSerializeStringHeavyStreaming(bh: Blackhole) {
+    override fun mutateAndSerializeStringHeavyStreaming(bh: Blackhole) {
         val baos = ByteArrayOutputStream()
         val sink = baos.sink().buffer()
         stringHeavyPayloads.forEach { bytes ->
@@ -298,28 +323,28 @@ open class WireBenchmarks {
     }
 
     @Benchmark
-    fun passThroughStringHeavy(bh: Blackhole) {
+    override fun passThroughStringHeavy(bh: Blackhole) {
         stringHeavyPayloads.forEach { bytes ->
             bh.consume(GenericMessage1.ADAPTER.encode(GenericMessage1.ADAPTER.decode(bytes)))
         }
     }
 
     @Benchmark
-    fun deserializeStringHeavyStreaming(bh: Blackhole) {
+    override fun deserializeStringHeavyStreaming(bh: Blackhole) {
         stringHeavyPayloadArrays.forEach { bytes ->
             bh.consume(GenericMessage1.ADAPTER.decode(ByteArrayInputStream(bytes).source().buffer()))
         }
     }
 
     @Benchmark
-    fun deserializeStringOneofStreaming(bh: Blackhole) {
+    override fun deserializeStringOneofStreaming(bh: Blackhole) {
         stringOneofPayloadArrays.forEach { bytes ->
             bh.consume(StringOneofMessage.ADAPTER.decode(ByteArrayInputStream(bytes).source().buffer()))
         }
     }
 
     @Benchmark
-    fun mutateAndSerializeStringOneof(bh: Blackhole) {
+    override fun mutateAndSerializeStringOneof(bh: Blackhole) {
         stringOneofPayloads.forEach { bytes ->
             val msg = StringOneofMessage.ADAPTER.decode(bytes)
             val mutated = msg.copy(
@@ -332,14 +357,14 @@ open class WireBenchmarks {
     }
 
     @Benchmark
-    fun passThroughStringOneof(bh: Blackhole) {
+    override fun passThroughStringOneof(bh: Blackhole) {
         stringOneofPayloads.forEach { bytes ->
             bh.consume(StringOneofMessage.ADAPTER.encode(StringOneofMessage.ADAPTER.decode(bytes)))
         }
     }
 
     @Benchmark
-    fun mutateAndSerializeStringOneofStreaming(bh: Blackhole) {
+    override fun mutateAndSerializeStringOneofStreaming(bh: Blackhole) {
         val baos = ByteArrayOutputStream()
         val sink = baos.sink().buffer()
         stringOneofPayloads.forEach { bytes ->
@@ -357,7 +382,7 @@ open class WireBenchmarks {
     }
 
     @Benchmark
-    fun mutateAndSerializeStringOneof20k(bh: Blackhole) {
+    override fun mutateAndSerializeStringOneof20k(bh: Blackhole) {
         stringOneof20kPayloads.forEach { bytes ->
             val msg = StringOneofMessage.ADAPTER.decode(bytes)
             val mutated = msg.copy(
@@ -370,7 +395,7 @@ open class WireBenchmarks {
     }
 
     @Benchmark
-    fun mutateAndSerializeStringOneof20kStreaming(bh: Blackhole) {
+    override fun mutateAndSerializeStringOneof20kStreaming(bh: Blackhole) {
         val baos = ByteArrayOutputStream()
         val sink = baos.sink().buffer()
         stringOneof20kPayloads.forEach { bytes ->
@@ -388,7 +413,7 @@ open class WireBenchmarks {
     }
 
     @Benchmark
-    fun mutateAndSerializeStringOneofVeryHeavy(bh: Blackhole) {
+    override fun mutateAndSerializeStringOneofVeryHeavy(bh: Blackhole) {
         stringOneofVeryHeavyPayloads.forEach { bytes ->
             val msg = StringOneofMessage.ADAPTER.decode(bytes)
             val mutated = msg.copy(
@@ -401,7 +426,7 @@ open class WireBenchmarks {
     }
 
     @Benchmark
-    fun mutateAndSerializeStringVeryHeavy(bh: Blackhole) {
+    override fun mutateAndSerializeStringVeryHeavy(bh: Blackhole) {
         stringVeryHeavyPayloads.forEach { bytes ->
             val msg = GenericMessage1.ADAPTER.decode(bytes)
             val mutated = msg.copy(
@@ -414,21 +439,67 @@ open class WireBenchmarks {
     }
 
     @Benchmark
-    fun deserializeLargeStreaming(bh: Blackhole) {
+    override fun passThroughStringRepeated(bh: Blackhole) {
+        stringRepeatedPayloads.forEach { bytes ->
+            bh.consume(StringCollectionMessage.ADAPTER.encode(StringCollectionMessage.ADAPTER.decode(bytes)))
+        }
+    }
+
+    @Benchmark
+    override fun passThroughStringMap(bh: Blackhole) {
+        stringMapPayloads.forEach { bytes ->
+            bh.consume(StringCollectionMessage.ADAPTER.encode(StringCollectionMessage.ADAPTER.decode(bytes)))
+        }
+    }
+
+    @Benchmark
+    override fun deserializeStringRepeated(bh: Blackhole) {
+        stringRepeatedPayloads.forEach { bytes ->
+            bh.consume(StringCollectionMessage.ADAPTER.decode(bytes))
+        }
+    }
+
+    @Benchmark
+    override fun deserializeStringMap(bh: Blackhole) {
+        stringMapPayloads.forEach { bytes ->
+            bh.consume(StringCollectionMessage.ADAPTER.decode(bytes))
+        }
+    }
+
+    @Benchmark
+    override fun copyAppendRepeatedString(bh: Blackhole) {
+        var msg = stringRepeatedParsed.first()
+        repeat(1000) { i ->
+            msg = msg.copy(field_repeated_string = msg.field_repeated_string + stringValues[i])
+        }
+        bh.consume(msg)
+    }
+
+    @Benchmark
+    override fun copyAppendMapStringString(bh: Blackhole) {
+        var msg = stringMapParsed.first()
+        repeat(1000) { i ->
+            msg = msg.copy(field_map_string_string = msg.field_map_string_string + ("key${500 + i}" to stringValues[i]))
+        }
+        bh.consume(msg)
+    }
+
+    @Benchmark
+    override fun deserializeLargeStreaming(bh: Blackhole) {
         largePayloadArrays.forEach { bytes ->
             bh.consume(GenericMessage1.ADAPTER.decode(ByteArrayInputStream(bytes).source().buffer()))
         }
     }
 
     @Benchmark
-    fun deserializeMediumStreaming(bh: Blackhole) {
+    override fun deserializeMediumStreaming(bh: Blackhole) {
         mediumPayloadArrays.forEach { bytes ->
             bh.consume(GenericMessage1.ADAPTER.decode(ByteArrayInputStream(bytes).source().buffer()))
         }
     }
 
     @Benchmark
-    fun deserializeSmallStreaming(bh: Blackhole) {
+    override fun deserializeSmallStreaming(bh: Blackhole) {
         smallPayloadArrays.forEach { bytes ->
             bh.consume(GenericMessage4.ADAPTER.decode(ByteArrayInputStream(bytes).source().buffer()))
         }

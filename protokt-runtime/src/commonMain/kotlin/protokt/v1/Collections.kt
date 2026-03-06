@@ -67,6 +67,7 @@ internal object DefaultCollectionFactory : CollectionFactory {
         when {
             list.isEmpty() -> list
             list is UnmodifiableList -> list
+            list is LazyConvertingList<*, *> -> list
             else -> UnmodifiableList(ArrayList(list))
         }
 
@@ -74,6 +75,7 @@ internal object DefaultCollectionFactory : CollectionFactory {
         when {
             map.isEmpty() -> emptyMap()
             map is UnmodifiableMap -> map
+            map is LazyConvertingMap<*, *> -> map
             else -> UnmodifiableMap(LinkedHashMap(map))
         }
 

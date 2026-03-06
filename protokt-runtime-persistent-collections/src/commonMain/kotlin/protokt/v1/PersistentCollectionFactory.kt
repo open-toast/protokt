@@ -34,6 +34,7 @@ internal object PersistentCollectionFactory : CollectionFactory {
             list.isEmpty() -> list
             list is UnmodifiableList -> list
             list is PersistentList -> list
+            list is LazyConvertingList<*, *> -> list
             else -> UnmodifiableList(ArrayList(list))
         }
 
@@ -42,6 +43,7 @@ internal object PersistentCollectionFactory : CollectionFactory {
             map.isEmpty() -> emptyMap()
             map is UnmodifiableMap -> map
             map is PersistentMap -> map
+            map is LazyConvertingMap<*, *> -> map
             else -> UnmodifiableMap(LinkedHashMap(map))
         }
 
