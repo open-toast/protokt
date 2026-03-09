@@ -49,10 +49,12 @@ internal object CodeGenerator {
                         )
                     )
                 }
+
             is Enum ->
                 withEnumName(type.className) {
                     listOfNotNull(generateEnum(type, ctx))
                 }
+
             is Service ->
                 withServiceName(type.name) {
                     generateService(

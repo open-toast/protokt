@@ -52,9 +52,13 @@ class RuntimeContext internal constructor(
     fun convertValue(value: Any) =
         when (value) {
             is Enum -> value.value
+
             is UInt -> value.toInt()
+
             is ULong -> value.toLong()
+
             is Message -> toDynamicMessage(value, this)
+
             is Bytes -> UnsafeByteOperations.unsafeWrap(value.asReadOnlyBuffer())
 
             // pray

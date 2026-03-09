@@ -39,19 +39,26 @@ internal fun wrapDeserializedValueForConstructor(p: PropertyInfo, fromBuilder: B
         p.mapCachingInfo != null && fromBuilder ->
             // From builder: already a LazyConvertingMap, pass through
             CodeBlock.of("%N", p.name)
+
         p.mapCachingInfo != null ->
             CodeBlock.of("%M(%N)", freezeMap, p.name)
+
         p.repeatedCachingInfo != null && fromBuilder ->
             // From builder: already a LazyConvertingList, pass through
             CodeBlock.of("%N", p.name)
+
         p.repeatedCachingInfo != null ->
             CodeBlock.of("%M(%N)", freezeList, p.name)
+
         p.isMap ->
             CodeBlock.of("%M(%N)", freezeMap, p.name)
+
         p.repeated ->
             CodeBlock.of("%M(%N)", freezeList, p.name)
+
         p.cachingInfo != null ->
             cachingConstructorArg(p, p.cachingInfo, fromBuilder)
+
         else ->
             buildCodeBlock {
                 add("%N", p.name)
@@ -83,6 +90,7 @@ internal fun wrapDeserializedBuilderValueForConstructor(p: PropertyInfo) =
                 converterRef
             )
         }
+
         p.mapCachingInfo != null -> {
             val info = p.mapCachingInfo
             val keyConverterRef = if (info.keyConverterClassName != null) CodeBlock.of("%T", info.keyConverterClassName) else CodeBlock.of("null")
@@ -97,12 +105,16 @@ internal fun wrapDeserializedBuilderValueForConstructor(p: PropertyInfo) =
                 valueConverterRef
             )
         }
+
         p.isMap ->
             CodeBlock.of("%N?.build() ?: emptyMap()", p.name)
+
         p.repeated ->
             CodeBlock.of("%N?.build() ?: emptyList()", p.name)
+
         p.cachingInfo != null ->
             cachingConstructorArg(p, p.cachingInfo, fromBuilder = false)
+
         else ->
             buildCodeBlock {
                 add("%N", p.name)
@@ -142,6 +154,7 @@ private fun wireDefault(info: CachingFieldInfo, forBuilder: Boolean): CodeBlock 
     when (info) {
         is CachingFieldInfo.PlainString ->
             if (forBuilder) CodeBlock.of("\"\"") else CodeBlock.of("%T.empty()", Bytes::class)
+
         is CachingFieldInfo.Converted ->
             info.fieldType.defaultValue
     }

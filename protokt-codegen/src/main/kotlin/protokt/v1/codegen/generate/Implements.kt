@@ -118,11 +118,13 @@ internal object Implements {
         val implements = options.protokt.implements
         return when {
             implements.isEmpty() -> null
+
             implements.contains(" by ") ->
                 SuperInterface(
                     inferClassName(implements.substringBefore(" by "), ctx),
                     implements.substringAfter(" by ")
                 )
+
             else -> SuperInterface(inferClassName(implements, ctx), null)
         }
     }

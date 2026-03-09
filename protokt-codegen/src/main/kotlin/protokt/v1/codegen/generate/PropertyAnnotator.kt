@@ -70,8 +70,10 @@ private class PropertyAnnotator(
                         when (cachingInfo) {
                             is CachingFieldInfo.PlainString ->
                                 Bytes::class.asTypeName().copy(nullable = true)
+
                             is CachingFieldInfo.Converted ->
                                 cachingInfo.wireTypeName.copy(nullable = true)
+
                             null -> deserializeType(field, type)
                         },
                         builderPropertyType = dslPropertyType(field, type),
@@ -90,6 +92,7 @@ private class PropertyAnnotator(
                     )
                 }
             }
+
             is Oneof ->
                 PropertyInfo(
                     name = field.fieldName,
@@ -144,6 +147,7 @@ private class PropertyAnnotator(
                     },
                     ctx
                 )
+
             is Oneof -> CodeBlock.of("null")
         }
 }

@@ -29,6 +29,7 @@ internal class ClassLookup(classpath: List<String>) {
 
         when {
             classpath.isEmpty() -> current
+
             else ->
                 URLClassLoader(
                     classpath

@@ -82,6 +82,7 @@ class ConformanceTest {
                     }
                     if (flags.isNotEmpty()) mapOf("JAVA_OPTS" to flags.joinToString(" ")) else emptyMap()
                 }
+
                 JS_IR -> buildMap {
                     put(
                         "PROTOKT_COLLECTION_FACTORY",

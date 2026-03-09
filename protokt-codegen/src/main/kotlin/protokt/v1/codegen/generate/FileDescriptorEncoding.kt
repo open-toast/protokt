@@ -59,12 +59,19 @@ private fun escape(bytes: Sequence<Byte>) =
     bytes.joinToString("") {
         when (val c = it.toInt().toChar()) {
             '\n' -> "\\n"
+
             '\r' -> "\\r"
+
             '\t' -> "\\t"
+
             '\"' -> "\\\""
+
             '\'' -> "\\'"
+
             '\\' -> "\\\\"
+
             '\b' -> "\\b"
+
             '$' -> "\\\$"
 
             // All other characters are representable directly in Kotlin source.

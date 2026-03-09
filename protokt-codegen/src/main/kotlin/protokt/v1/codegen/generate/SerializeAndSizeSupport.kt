@@ -38,6 +38,7 @@ internal fun Message.mapFields(
             when (field) {
                 is StandardField ->
                     standardFieldExecution(ctx, field, property, skipConditionalForUnpackedRepeatedFields) { std(field, property) }
+
                 is Oneof ->
                     oneofFieldExecution(field) { oneof(field, it, property) }
             }
@@ -76,8 +77,11 @@ private fun StandardField.nonDefault(ctx: Context, property: PropertySpec): Code
             when {
                 type == FieldType.Bytes || type == FieldType.String ->
                     CodeBlock.of("%L.isNotEmpty()", wireValueAccess)
+
                 type == FieldType.Bool -> wireValueAccess
+
                 type.scalar -> CodeBlock.of("%L != %L", wireValueAccess, type.defaultValue)
+
                 else -> error("Unsupported non-nullable caching field type: $type")
             }
         }

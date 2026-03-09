@@ -64,8 +64,10 @@ private class SerializerGenerator(
                     when {
                         propInfo?.repeatedCachingInfo != null ->
                             serializeRepeatedCaching(f, p, propInfo.repeatedCachingInfo)
+
                         propInfo?.mapCachingInfo != null ->
                             serializeMapCaching(f, p, propInfo.mapCachingInfo)
+
                         else -> serialize(f, ctx, p)
                     }
                 },
@@ -161,6 +163,7 @@ internal fun serialize(
             )
             add("%N.forEach·{·$WRITER.%L·}", p, f.write(CodeBlock.of("it")))
         }
+
         f.isMap -> buildCodeBlock {
             beginControlFlow("%N.entries.forEach", p)
             add(
@@ -169,6 +172,7 @@ internal fun serialize(
             )
             endControlFlowWithoutNewline()
         }
+
         f.repeated -> buildCodeBlock {
             addNamed(
                 "%name:N.forEach·{·" +
