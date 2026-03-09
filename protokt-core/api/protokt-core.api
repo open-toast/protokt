@@ -44,6 +44,8 @@ public final class protokt/v1/google/protobuf/Descriptor_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/FeatureSet$MessageEncoding$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/FeatureSet$RepeatedFieldEncoding$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/FeatureSet$Utf8Validation$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/FeatureSet$VisibilityFeature$DefaultSymbolVisibility$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/FeatureSet$VisibilityFeature$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/FeatureSetDefaults$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/FeatureSetDefaults$FeatureSetEditionDefault$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/FieldDescriptorProto$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
@@ -73,6 +75,7 @@ public final class protokt/v1/google/protobuf/Descriptor_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/ServiceOptions$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/SourceCodeInfo$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/SourceCodeInfo$Location$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/SymbolVisibility$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/UninterpretedOption$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/protobuf/UninterpretedOption$NamePart$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 }
@@ -213,6 +216,8 @@ public final class protokt/v1/google/protobuf/wrappers_file_descriptor {
 
 public final class protokt/v1/pb/Java_features_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/pb/JavaFeatures$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/pb/JavaFeatures$NestInFileClassFeature$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/pb/JavaFeatures$NestInFileClassFeature$NestInFileClass$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 	public static final fun getDescriptor (Lprotokt/v1/pb/JavaFeatures$Utf8Validation$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 }
 

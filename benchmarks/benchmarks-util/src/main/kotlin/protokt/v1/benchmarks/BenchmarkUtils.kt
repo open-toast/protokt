@@ -46,11 +46,12 @@ fun randomUtf8String(random: Random, charCount: Int): String {
  * Supported args (passed via `--args`):
  *   -i regex         Include only benchmarks matching regex (e.g. `-i mutateAndSerialize`)
  *   -e regex         Exclude benchmarks matching regex (e.g. `-e .*copyAppend.*`)
- *   -p name=value    Set a JMH parameter (e.g. `-p codec=protokt.v1.ProtoktCodec`)
+ *   -p name=v1,v2    Set a JMH parameter; comma-separated values (e.g. `-p codec=ProtoktCodec,KotlinxIoCodec`)
  *   -prof name       Add a JMH profiler (e.g. `-prof async`)
  *   -wi n            Warmup iterations (default 3)
  *   -mi n            Measurement iterations (default 5)
  *   -f n             Forks (default 2)
+ *   -o suffix        Append suffix to result filename (e.g. `-o streaming` → `jmh-Foo-streaming.json`)
  *   -jvmArgs args    Extra JVM args (e.g. `-jvmArgs -agentpath:...`)
  */
 fun run(self: KClass<*>, args: Array<String> = emptyArray()) {
@@ -62,6 +63,7 @@ fun run(self: KClass<*>, args: Array<String> = emptyArray()) {
         .resultFormat(ResultFormatType.JSON)
 
     var hasInclude = false
+    var resultSuffix = ""
 
     args.toList()
         .windowed(2, 2, partialWindows = false)
@@ -77,6 +79,7 @@ fun run(self: KClass<*>, args: Array<String> = emptyArray()) {
                     val (name, value) = spec.split("=", limit = 2)
                     opts.param(name, *value.split(",").toTypedArray())
                 }
+                "-o" -> resultSuffix = "-$spec"
                 "-prof" -> {
                     val parts = spec.split(":", limit = 2)
                     if (parts.size == 2) {
@@ -97,6 +100,8 @@ fun run(self: KClass<*>, args: Array<String> = emptyArray()) {
     if (!hasInclude) {
         opts.include(".*" + self.simpleName + ".*")
     }
+
+    opts.result("../build/jmh-${self.simpleName}$resultSuffix.json")
 
     Runner(opts.build()).run()
 }
