@@ -241,8 +241,10 @@ private class MapEntryGenerator(
         return when {
             needsTypeAnnotation ->
                 CodeBlock.of("var %L: %T = %L", varName, wireType.copy(nullable = true), "null")
+
             field.type == FieldType.Enum ->
                 CodeBlock.of("var %L = %T.deserialize(0)", varName, field.className)
+
             else ->
                 CodeBlock.of("var %L = %L", varName, field.type.defaultValue)
         }

@@ -68,15 +68,19 @@ fun run(self: KClass<*>, args: Array<String> = emptyArray()) {
         .forEach { (flag, spec) ->
             when (flag) {
                 "-o" -> resultSuffix = "-$spec"
+
                 "-i" -> {
                     hasInclude = true
                     opts.include(".*" + self.simpleName + "." + spec + ".*")
                 }
+
                 "-e" -> opts.exclude(spec)
+
                 "-p" -> {
                     val (name, value) = spec.split("=", limit = 2)
                     opts.param(name, *value.split(",").toTypedArray())
                 }
+
                 "-prof" -> {
                     val parts = spec.split(":", limit = 2)
                     if (parts.size == 2) {
@@ -85,9 +89,13 @@ fun run(self: KClass<*>, args: Array<String> = emptyArray()) {
                         opts.addProfiler(parts[0])
                     }
                 }
+
                 "-wi" -> opts.warmupIterations(spec.toInt())
+
                 "-mi" -> opts.measurementIterations(spec.toInt())
+
                 "-f" -> opts.forks(spec.toInt())
+
                 "-jvmArgs" -> opts.jvmArgs(spec)
             }
         }

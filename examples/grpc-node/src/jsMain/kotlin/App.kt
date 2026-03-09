@@ -33,34 +33,43 @@ suspend fun main() {
                 "server" -> {
                     HelloWorldServer().start()
                 }
+
                 "client" -> {
                     HelloWorldClient().greet()
                 }
+
                 else -> error("unsupported mode: $mode")
             }
         }
+
         "routeguide" -> {
             when (mode) {
                 "server" -> {
                     serverMain()
                 }
+
                 "client" -> {
                     clientMain()
                 }
+
                 else -> error("unsupported mode: $mode")
             }
         }
+
         "animals" -> {
             when (mode) {
                 "server" -> {
                     AnimalsServer().start()
                 }
+
                 "client" -> {
                     protokt.v1.animals.main(argv.drop(2).toTypedArray())
                 }
+
                 else -> error("unsupported mode: $mode")
             }
         }
+
         else -> error("unsupported service: $service")
     }
 }

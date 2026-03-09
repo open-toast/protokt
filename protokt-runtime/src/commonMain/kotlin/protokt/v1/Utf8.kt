@@ -187,10 +187,12 @@ internal fun encodeUtf8Into(s: String, dest: ByteArray, offset: Int): Int {
             c.code < 0x80 -> {
                 dest[j++] = c.code.toByte()
             }
+
             c.code < 0x800 -> {
                 dest[j++] = (0xC0 or (c.code shr 6)).toByte()
                 dest[j++] = (0x80 or (c.code and 0x3F)).toByte()
             }
+
             c.isHighSurrogate() -> {
                 val low = s[i + 1]
                 val cp = 0x10000 + (c.code - 0xD800) * 0x400 + (low.code - 0xDC00)
@@ -200,6 +202,7 @@ internal fun encodeUtf8Into(s: String, dest: ByteArray, offset: Int): Int {
                 dest[j++] = (0x80 or (cp and 0x3F)).toByte()
                 i++
             }
+
             else -> {
                 dest[j++] = (0xE0 or (c.code shr 12)).toByte()
                 dest[j++] = (0x80 or ((c.code shr 6) and 0x3F)).toByte()

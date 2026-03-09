@@ -78,11 +78,13 @@ private class MessageSizeGenerator(
                                 "$resultVarName·+=·%L",
                                 sizeOfRepeatedCaching(std, p, propInfo.repeatedCachingInfo)
                             )
+
                         propInfo?.mapCachingInfo != null ->
                             CodeBlock.of(
                                 "$resultVarName·+=·%L",
                                 sizeOfMapCaching(std, p, propInfo.mapCachingInfo)
                             )
+
                         else ->
                             CodeBlock.of("$resultVarName·+=·%L", sizeOf(std, ctx, property = p))
                     }
@@ -163,6 +165,7 @@ private class MessageSizeGenerator(
             when (val sizeFn = f.type.sizeFn) {
                 is SizeFn.Const ->
                     add("(list.size * %L)", sizeFn.size)
+
                 is SizeFn.Method -> {
                     add("run·{·var·sum·=·0;·for·(i·in·list.indices)·sum·+=·%M(list.wireGet(i));·sum·}", sizeFn.method)
                 }
@@ -215,6 +218,7 @@ internal fun sizeOf(
 
     return when {
         f.isMap -> sizeOfMap(f, fieldAccess)
+
         f.repeated && f.packed -> {
             namedCodeBlock(
                 "sizeOf(${f.tag}u) + " +
@@ -225,6 +229,7 @@ internal fun sizeOf(
                 )
             )
         }
+
         f.repeated -> {
             namedCodeBlock(
                 "(%sizeOf:M(${f.tag}u) * %name:L.size) + %elementsSize:L",
@@ -239,6 +244,7 @@ internal fun sizeOf(
                 )
             )
         }
+
         !mapEntry && isCaching && oneOfFieldAccess == null -> buildCodeBlock {
             add(
                 "%M(${f.tag}u) + %L",
@@ -296,6 +302,7 @@ internal fun StandardField.elementsSize(
         is SizeFn.Const ->
             CodeBlock.of("(%N.size * %L)", fieldName, sizeFn.size)
                 .let { if (parenthesize) CodeBlock.of("(%L)", it) else it }
+
         is SizeFn.Method ->
             CodeBlock.of("%N.sumOf·{·%L·}", fieldName, sizeOf(fieldAccess))
     }

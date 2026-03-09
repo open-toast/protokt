@@ -60,16 +60,22 @@ interface Reader {
         return when (WireFormat.getTagWireType(tag)) {
             WireFormat.WIRETYPE_VARINT ->
                 UnknownField.varint(fieldNumber, readInt64())
+
             WireFormat.WIRETYPE_FIXED64 ->
                 UnknownField.fixed64(fieldNumber, readFixed64())
+
             WireFormat.WIRETYPE_LENGTH_DELIMITED ->
                 UnknownField.lengthDelimited(fieldNumber, readBytes().value)
+
             WireFormat.WIRETYPE_FIXED32 ->
                 UnknownField.fixed32(fieldNumber, readFixed32())
+
             WireFormat.WIRETYPE_START_GROUP ->
                 throw UnsupportedOperationException("WIRETYPE_START_GROUP")
+
             WireFormat.WIRETYPE_END_GROUP ->
                 throw UnsupportedOperationException("WIRETYPE_END_GROUP")
+
             else ->
                 error("Unrecognized wire type")
         }

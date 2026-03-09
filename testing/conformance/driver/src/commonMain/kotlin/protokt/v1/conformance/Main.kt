@@ -82,8 +82,10 @@ private fun skipReason(request: ConformanceRequest): SkipReason? =
     when {
         request.messageType !in supportedMessageTypes ->
             SkipReason.UNSUPPORTED_MESSAGE_TYPE
+
         request.requestedOutputFormat != WireFormat.PROTOBUF ->
             SkipReason.UNSUPPORTED_OUTPUT_FORMAT
+
         else ->
             null
     }

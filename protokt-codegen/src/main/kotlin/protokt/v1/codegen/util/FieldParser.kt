@@ -309,6 +309,7 @@ internal class FieldParser(
                     }
                     capNext = false
                 }
+
                 char.isUpperCase() -> {
                     if (result.isEmpty() && !capNext) {
                         result.append(char.lowercaseChar())
@@ -317,10 +318,12 @@ internal class FieldParser(
                     }
                     capNext = false
                 }
+
                 char.isDigit() -> {
                     result.append(char)
                     capNext = true
                 }
+
                 else -> {
                     capNext = true
                 }

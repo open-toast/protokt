@@ -257,7 +257,10 @@ private object Fixed32FieldMessage : AbstractDeserializer<Fixed32FieldMessage>()
         while (true) {
             when (reader.readTag()) {
                 0u -> return this
-                0x0du -> reader.readFixed32() // field 1, FIXED32
+
+                // field 1, FIXED32
+                0x0du -> reader.readFixed32()
+
                 else -> reader.readUnknown()
             }
         }
@@ -276,7 +279,10 @@ private object Fixed64FieldMessage : AbstractDeserializer<Fixed64FieldMessage>()
         while (true) {
             when (reader.readTag()) {
                 0u -> return this
-                0x09u -> reader.readFixed64() // field 1, FIXED64
+
+                // field 1, FIXED64
+                0x09u -> reader.readFixed64()
+
                 else -> reader.readUnknown()
             }
         }
@@ -313,7 +319,10 @@ private object NestedLenDelimitedMessage : AbstractDeserializer<NestedLenDelimit
         while (true) {
             when (reader.readTag()) {
                 0u -> return this
-                0x0au -> reader.readMessage(EmptyMessage) // field 1, LEN
+
+                // field 1, LEN
+                0x0au -> reader.readMessage(EmptyMessage)
+
                 else -> reader.readUnknown()
             }
         }
@@ -332,7 +341,10 @@ private object RecursiveMessage : AbstractDeserializer<RecursiveMessage>(), Mess
         while (true) {
             when (reader.readTag()) {
                 0u -> return this
-                0x0au -> reader.readMessage(RecursiveMessage) // field 1, LEN (self)
+
+                // field 1, LEN (self)
+                0x0au -> reader.readMessage(RecursiveMessage)
+
                 else -> reader.readUnknown()
             }
         }

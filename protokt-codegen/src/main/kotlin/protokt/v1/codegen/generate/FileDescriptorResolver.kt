@@ -235,6 +235,7 @@ private constructor(
                 } else {
                     listOf(MessageInfo(type, enclosingMessages))
                 } + findMessages(enclosingMessages + type, type)
+
             else -> emptyList()
         }
 
