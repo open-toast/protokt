@@ -45,7 +45,7 @@ spotless = "8.2.1"
 datasets = "0.1.0"
 download = "5.7.0"
 jmh = "1.37"
-wire = "5.5.1"
+wire = "6.0.0"
 
 # test
 buf = "1.47.2"
