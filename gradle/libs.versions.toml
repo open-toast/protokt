@@ -48,7 +48,9 @@ jmh = "1.37"
 wire = "6.0.0"
 
 # test
+androidx-datastore = "1.1.7"
 buf = "1.47.2"
+okio = "3.12.0"
 classgraph = "4.8.184"
 grpc-js = "1.12.4"
 jackson = "2.21.1"
@@ -101,7 +103,10 @@ wireRuntime = { module = "com.squareup.wire:wire-runtime", version.ref = "wire" 
 protoGoogleCommonProtos = { module = "com.google.api.grpc:proto-google-common-protos", version.ref = "protoGoogleCommonProtos" }
 
 # test
+androidx-datastore-core = { module = "androidx.datastore:datastore-core", version.ref = "androidx-datastore" }
+androidx-datastore-core-okio = { module = "androidx.datastore:datastore-core-okio", version.ref = "androidx-datastore" }
 classgraph = { module = "io.github.classgraph:classgraph", version.ref = "classgraph" }
+okio-fakefilesystem = { module = "com.squareup.okio:okio-fakefilesystem", version.ref = "okio" }
 grpc-kotlin-stub = { module = "io.grpc:grpc-kotlin-stub", version.ref = "grpc-kotlin" }
 grpc-testing = { module = "io.grpc:grpc-testing", version.ref = "grpc-java" }
 jackson = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }

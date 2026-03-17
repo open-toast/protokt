@@ -17,7 +17,7 @@ package protokt.v1
 
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
 @OnlyForUseByGeneratedProtoCode
-class LazyConvertingMap<KotlinK, KotlinV>(
+class LazyConvertingMap<KotlinK : Any, KotlinV : Any>(
     private val backing: Map<Any?, Any?>,
     private val keyWrapped: Boolean,
     private val valueWrapped: Boolean,
@@ -95,6 +95,15 @@ class LazyConvertingMap<KotlinK, KotlinV>(
                     return object : Map.Entry<KotlinK, KotlinV> {
                         override val key: KotlinK = key
                         override val value: KotlinV = value
+
+                        override fun hashCode(): Int =
+                            key.hashCode() xor value.hashCode()
+
+                        override fun equals(other: Any?): Boolean =
+                            other is Map.Entry<*, *> && key == other.key && value == other.value
+
+                        override fun toString(): String =
+                            "$key=$value"
                     }
                 }
             }
@@ -103,7 +112,7 @@ class LazyConvertingMap<KotlinK, KotlinV>(
 
     companion object {
         @Suppress("UNCHECKED_CAST")
-        fun <KotlinK, KotlinV> fromKotlin(
+        fun <KotlinK : Any, KotlinV : Any> fromKotlin(
             kotlinMap: Map<KotlinK, KotlinV>,
             keyWrapped: Boolean,
             valueWrapped: Boolean,

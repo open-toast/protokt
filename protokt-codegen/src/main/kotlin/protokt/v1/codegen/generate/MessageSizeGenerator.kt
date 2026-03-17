@@ -184,7 +184,7 @@ private class MessageSizeGenerator(
         val wireValueType = mapWireValueType(f, info)
         return buildCodeBlock {
             add("@%T(\"UNCHECKED_CAST\")\n", Suppress::class)
-            add("(%N as %T<%T, %T>).let·{·map·->\n", p, LazyConvertingMap::class, com.squareup.kotlinpoet.ANY.copy(nullable = true), com.squareup.kotlinpoet.ANY.copy(nullable = true))
+            add("(%N as %T<%T, %T>).let·{·map·->\n", p, LazyConvertingMap::class, com.squareup.kotlinpoet.ANY, com.squareup.kotlinpoet.ANY)
             indent()
             add("var·sum·=·0\n")
             val sizeOfCall = sizeOfCall(f.mapKey, f.mapValue, CodeBlock.of("wireK"), CodeBlock.of("wireV"))
