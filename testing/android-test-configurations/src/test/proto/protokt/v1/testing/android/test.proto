@@ -22,3 +22,7 @@ option java_package = "com.toasttab.protokt.v1.testing.android";
 message TestMessage {
   string foo = 1;
 }
+
+message MapMessage {
+  map<string, TestMessage> entries = 1;
+}

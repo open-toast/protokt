@@ -41,7 +41,7 @@ interface BuilderScope {
         }
 
     @Suppress("UNCHECKED_CAST")
-    operator fun <K, V> Map<K, V>.plus(pair: Pair<K, V>): Map<K, V> =
+    operator fun <K : Any, V : Any> Map<K, V>.plus(pair: Pair<K, V>): Map<K, V> =
         if (this is LazyConvertingMap<*, *>) {
             (this as LazyConvertingMap<K, V>).plus(pair)
         } else {
@@ -49,11 +49,11 @@ interface BuilderScope {
         }
 
     @Suppress("UNCHECKED_CAST")
-    operator fun <K, V> Map<K, V>.plus(pairs: Iterable<Pair<K, V>>): Map<K, V> =
+    operator fun <K : Any, V : Any> Map<K, V>.plus(pairs: Iterable<Pair<K, V>>): Map<K, V> =
         collectionFactory.mapPlusAll(this, pairs)
 
     @Suppress("UNCHECKED_CAST")
-    operator fun <K, V> Map<K, V>.plus(other: Map<out K, V>): Map<K, V> =
+    operator fun <K : Any, V : Any> Map<K, V>.plus(other: Map<out K, V>): Map<K, V> =
         if (this is LazyConvertingMap<*, *>) {
             (this as LazyConvertingMap<K, V>).plus(other)
         } else {

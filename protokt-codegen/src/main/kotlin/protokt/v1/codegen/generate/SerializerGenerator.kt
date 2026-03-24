@@ -118,7 +118,7 @@ private class SerializerGenerator(
             val wireValueType = mapWireValueType(f, info)
             beginControlFlow("if (%N.isNotEmpty())", p)
             add("@%T(\"UNCHECKED_CAST\")\n", Suppress::class)
-            add("(%N as %T<%T, %T>).wireEntryForEach<%T, %T>·{·wireK,·wireV·->\n", p, LazyConvertingMap::class, com.squareup.kotlinpoet.ANY.copy(nullable = true), com.squareup.kotlinpoet.ANY.copy(nullable = true), wireKeyType, wireValueType)
+            add("(%N as %T<%T, %T>).wireEntryForEach<%T, %T>·{·wireK,·wireV·->\n", p, LazyConvertingMap::class, com.squareup.kotlinpoet.ANY, com.squareup.kotlinpoet.ANY, wireKeyType, wireValueType)
             indent()
             add("$WRITER.writeTag(${f.tag.value}u).write(%T(wireK, wireV))\n", f.className)
             unindent()
