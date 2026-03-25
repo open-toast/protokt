@@ -28,6 +28,7 @@ import com.squareup.kotlinpoet.withIndent
 import protokt.v1.BuilderDsl
 import protokt.v1.BuilderScope
 import protokt.v1.Bytes
+import protokt.v1.OnlyForUseByGeneratedProtoCode
 import protokt.v1.LazyConvertingList
 import protokt.v1.LazyConvertingMap
 import protokt.v1.LazyReference
@@ -246,6 +247,7 @@ private class BuilderGenerator(
 
     private fun fromFunction(): FunSpec =
         FunSpec.builder("from")
+            .addAnnotation(OnlyForUseByGeneratedProtoCode::class)
             .addModifiers(KModifier.INTERNAL)
             .addParameter("msg", msg.className)
             .returns(msg.builderClassName)
