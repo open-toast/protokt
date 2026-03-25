@@ -28,10 +28,10 @@ import com.squareup.kotlinpoet.withIndent
 import protokt.v1.BuilderDsl
 import protokt.v1.BuilderScope
 import protokt.v1.Bytes
-import protokt.v1.OnlyForUseByGeneratedProtoCode
 import protokt.v1.LazyConvertingList
 import protokt.v1.LazyConvertingMap
 import protokt.v1.LazyReference
+import protokt.v1.OnlyForUseByGeneratedProtoCode
 import protokt.v1.StringConverter
 import protokt.v1.UnknownFieldSet
 import protokt.v1.codegen.generate.Deprecation.handleDeprecation
