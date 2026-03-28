@@ -19,8 +19,8 @@ package protokt.v1
 
 internal actual val codec: Codec by lazy {
     val codecFqcn =
-        System.getProperty("protokt.codec")
-            ?: System.getenv("PROTOKT_CODEC")
+        System.getProperty("protokt.v1.codec")
+            ?: System.getenv("PROTOKT_V1_CODEC")
 
     if (codecFqcn != null) {
         Class.forName(codecFqcn).getField("INSTANCE").get(null) as Codec

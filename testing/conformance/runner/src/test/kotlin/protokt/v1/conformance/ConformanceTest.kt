@@ -64,20 +64,20 @@ class ConformanceTest {
                     val flags = buildList {
                         add(
                             if (collectionFactory == PERSISTENT) {
-                                "-Dprotokt.collection.factory=protokt.v1.PersistentCollectionFactory"
+                                "-Dprotokt.v1.collection.factory=protokt.v1.PersistentCollectionFactory"
                             } else {
-                                "-Dprotokt.collection.factory=protokt.v1.DefaultCollectionFactory"
+                                "-Dprotokt.v1.collection.factory=protokt.v1.DefaultCollectionFactory"
                             }
                         )
                         add(
                             if (codec == PROTOBUF) {
-                                "-Dprotokt.codec=protokt.v1.ProtobufJavaCodec"
+                                "-Dprotokt.v1.codec=protokt.v1.ProtobufJavaCodec"
                             } else {
-                                "-Dprotokt.codec=protokt.v1.ProtoktCodec"
+                                "-Dprotokt.v1.codec=protokt.v1.ProtoktCodec"
                             }
                         )
                         if (serializationMode == SerializationMode.STREAMING) {
-                            add("-Dprotokt.streaming=true")
+                            add("-Dprotokt.v1.streaming=true")
                         }
                     }
                     if (flags.isNotEmpty()) mapOf("JAVA_OPTS" to flags.joinToString(" ")) else emptyMap()
@@ -85,7 +85,7 @@ class ConformanceTest {
 
                 JS_IR -> buildMap {
                     put(
-                        "PROTOKT_COLLECTION_FACTORY",
+                        "PROTOKT_V1_COLLECTION_FACTORY",
                         if (collectionFactory == PERSISTENT) {
                             "protokt.v1.PersistentCollectionFactory"
                         } else {
@@ -93,7 +93,7 @@ class ConformanceTest {
                         }
                     )
                     put(
-                        "PROTOKT_CODEC",
+                        "PROTOKT_V1_CODEC",
                         if (codec == PROTOBUF) {
                             "protokt.v1.ProtobufJsCodec"
                         } else {
@@ -101,7 +101,7 @@ class ConformanceTest {
                         }
                     )
                     if (serializationMode == SerializationMode.STREAMING) {
-                        put("PROTOKT_STREAMING", "true")
+                        put("PROTOKT_V1_STREAMING", "true")
                     }
                 }
             }

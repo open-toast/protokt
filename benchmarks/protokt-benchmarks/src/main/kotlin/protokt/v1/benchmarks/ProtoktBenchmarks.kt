@@ -74,8 +74,8 @@ open class ProtoktBenchmarks : ProtobufBenchmarkSet {
     fun setup() {
         byteValues = Array(1000) { i -> Bytes.from(byteArrayOf(i.toByte())) }
 
-        System.setProperty("protokt.collection.factory", collectionFactory)
-        System.setProperty("protokt.codec", codec)
+        System.setProperty("protokt.v1.collection.factory", collectionFactory)
+        System.setProperty("protokt.v1.codec", codec)
 
         val random = Random(42)
         stringHeavyPayloads = (0 until 100).map {
