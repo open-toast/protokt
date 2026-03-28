@@ -34,7 +34,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 internal actual object Platform {
-    actual val streaming: Boolean = js("process.env.PROTOKT_V1_STREAMING === 'true'").unsafeCast<Boolean>()
+    actual val streaming: Boolean = js("process.env.PROTOKT_STREAMING === 'true'").unsafeCast<Boolean>()
 
     actual fun printErr(message: String) {
         Process.stderr.write(message + "\n")

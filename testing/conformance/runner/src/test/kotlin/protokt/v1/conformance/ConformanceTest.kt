@@ -77,7 +77,7 @@ class ConformanceTest {
                             }
                         )
                         if (serializationMode == SerializationMode.STREAMING) {
-                            add("-Dprotokt.v1.streaming=true")
+                            add("-Dprotokt.streaming=true")
                         }
                     }
                     if (flags.isNotEmpty()) mapOf("JAVA_OPTS" to flags.joinToString(" ")) else emptyMap()
@@ -101,7 +101,7 @@ class ConformanceTest {
                         }
                     )
                     if (serializationMode == SerializationMode.STREAMING) {
-                        put("PROTOKT_V1_STREAMING", "true")
+                        put("PROTOKT_STREAMING", "true")
                     }
                 }
             }

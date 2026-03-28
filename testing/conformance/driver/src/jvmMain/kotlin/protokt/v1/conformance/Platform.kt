@@ -31,7 +31,7 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
 internal actual object Platform {
-    actual val streaming = System.getProperty("protokt.v1.streaming")?.toBoolean() ?: false
+    actual val streaming = System.getProperty("protokt.streaming")?.toBoolean() ?: false
 
     actual fun printErr(message: String) {
         System.err.println(message)
