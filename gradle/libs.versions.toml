@@ -50,7 +50,7 @@ wire = "6.2.0"
 # test
 androidx-datastore = "1.1.7"
 buf = "1.47.2"
-okio = "3.12.0"
+okio = "3.17.0"
 classgraph = "4.8.184"
 grpc-js = "1.12.4"
 jackson = "2.21.1"
