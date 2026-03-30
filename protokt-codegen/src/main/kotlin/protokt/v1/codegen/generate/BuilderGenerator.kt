@@ -31,6 +31,7 @@ import protokt.v1.Bytes
 import protokt.v1.LazyConvertingList
 import protokt.v1.LazyConvertingMap
 import protokt.v1.LazyReference
+import protokt.v1.OnlyForUseByGeneratedProtoCode
 import protokt.v1.StringConverter
 import protokt.v1.UnknownFieldSet
 import protokt.v1.codegen.generate.Deprecation.handleDeprecation
@@ -246,6 +247,7 @@ private class BuilderGenerator(
 
     private fun fromFunction(): FunSpec =
         FunSpec.builder("from")
+            .addAnnotation(OnlyForUseByGeneratedProtoCode::class)
             .addModifiers(KModifier.INTERNAL)
             .addParameter("msg", msg.className)
             .returns(msg.builderClassName)
