@@ -45,7 +45,7 @@ spotless = "8.4.0"
 datasets = "0.1.0"
 download = "5.7.0"
 jmh = "1.37"
-wire = "6.0.0"
+wire = "6.2.0"
 
 # test
 androidx-datastore = "1.1.7"
