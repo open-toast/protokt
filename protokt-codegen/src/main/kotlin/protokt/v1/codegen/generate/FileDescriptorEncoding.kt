@@ -43,14 +43,14 @@ private const val BYTES_PER_PART = BYTES_PER_LINE * LINES_PER_PART
 // This makes huge bytecode files and can easily hit the compiler's internal
 // code size limits (error "code to large").  String literals are apparently
 // embedded raw, which is what we want.
-fun encodeFileDescriptor(fileDescriptorProto: FileDescriptorProto): List<List<String>> {
-    val parts = mutableListOf<MutableList<String>>()
+fun encodeFileDescriptor(fileDescriptorProto: FileDescriptorProto): List<String> {
+    val parts = mutableListOf<String>()
     val bytes = fileDescriptorProto.toByteArray()
     for (i in bytes.indices step BYTES_PER_LINE) {
         if (i % BYTES_PER_PART == 0) {
-            parts.add(mutableListOf())
+            parts.add("")
         }
-        parts.last().add(escape(bytes.asSequence().drop(i).take(BYTES_PER_LINE)))
+        parts[parts.size - 1] += escape(bytes.asSequence().drop(i).take(BYTES_PER_LINE))
     }
     return parts
 }
