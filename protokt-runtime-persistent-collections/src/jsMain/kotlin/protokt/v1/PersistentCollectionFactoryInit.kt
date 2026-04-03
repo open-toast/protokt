@@ -16,7 +16,7 @@
 package protokt.v1
 
 fun configurePersistentCollections() {
-    val env = js("(typeof process !== 'undefined' && process.env && process.env.PROTOKT_COLLECTION_FACTORY) || ''")
+    val env = js("(typeof process !== 'undefined' && process.env && process.env.PROTOKT_V1_COLLECTION_FACTORY) || ''")
     if ((env as String) == "protokt.v1.PersistentCollectionFactory") {
         collectionFactoryOverride = PersistentCollectionFactory
     }

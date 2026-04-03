@@ -19,7 +19,7 @@ package protokt.v1
 @OptIn(ExperimentalStdlibApi::class)
 @EagerInitialization
 private val initCodec: Unit = run {
-    val env = js("(typeof process !== 'undefined' && process.env && process.env.PROTOKT_CODEC) || ''")
+    val env = js("(typeof process !== 'undefined' && process.env && process.env.PROTOKT_V1_CODEC) || ''")
     if ((env as String) == "protokt.v1.ProtobufJsCodec") {
         codecOverride = ProtobufJsCodec
     }
