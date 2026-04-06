@@ -38,7 +38,7 @@ buildConfig = "6.0.9"
 gradleMavenPublishPlugin = "0.36.0"
 java = "17"
 kotlin = "2.3.20"
-pluginPublish = "2.0.0"
+pluginPublish = "2.1.1"
 spotless = "8.4.0"
 
 # benchmarks
