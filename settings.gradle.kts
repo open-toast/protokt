@@ -13,14 +13,6 @@
  * limitations under the License.
  */
 
-pluginManagement {
-    repositories {
-        maven("https://packages.jetbrains.team/maven/p/krpc/grpc")
-        gradlePluginPortal()
-        mavenCentral()
-    }
-}
-
 buildscript {
     repositories {
         maven(url = "https://repo1.maven.org/maven2")

@@ -1,0 +1,13 @@
+public abstract interface class protokt/v1/google/cloud/location/Locations {
+	public abstract fun GetLocation (Lprotokt/v1/google/cloud/location/GetLocationRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun ListLocations (Lprotokt/v1/google/cloud/location/ListLocationsRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract interface class protokt/v1/google/longrunning/Operations {
+	public abstract fun CancelOperation (Lprotokt/v1/google/longrunning/CancelOperationRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun DeleteOperation (Lprotokt/v1/google/longrunning/DeleteOperationRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun GetOperation (Lprotokt/v1/google/longrunning/GetOperationRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun ListOperations (Lprotokt/v1/google/longrunning/ListOperationsRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun WaitOperation (Lprotokt/v1/google/longrunning/WaitOperationRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+

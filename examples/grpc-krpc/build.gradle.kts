@@ -16,17 +16,6 @@
 import com.google.protobuf.gradle.protobuf
 import protokt.v1.gradle.protokt
 
-buildscript {
-    repositories {
-        maven("https://packages.jetbrains.team/maven/p/krpc/grpc")
-        mavenCentral()
-        gradlePluginPortal()
-    }
-    dependencies {
-        classpath("org.jetbrains.kotlinx:kotlinx-rpc-gradle-plugin:${libs.versions.kotlinx.rpc.get()}")
-    }
-}
-
 plugins {
     id("protokt.jvm-conventions")
 }
@@ -44,9 +33,7 @@ repositories {
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     compilerOptions {
-        freeCompilerArgs.addAll(
-            "-opt-in=kotlinx.rpc.internal.utils.ExperimentalRpcApi",
-        )
+        freeCompilerArgs.addAll("-opt-in=kotlinx.rpc.internal.utils.ExperimentalRpcApi")
     }
 }
 
