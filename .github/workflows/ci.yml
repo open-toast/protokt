@@ -7,10 +7,14 @@ on:
     branches: [ main ]
 
 jobs:
-  # JVM + JS: compile, test, conformance, and publish to integration repository.
+  # Primary build: JVM + JS tests, macOS native tests + conformance,
+  # cross-compile all other native test binaries, publish integration repo.
+  #
+  # macOS can cross-compile for all Kotlin/Native targets, so this single
+  # job produces every artifact the satellite jobs need.
   build:
-    name: "JVM + JS (ubuntu x64)"
-    runs-on: ubuntu-latest
+    name: "Build + test (macOS arm64)"
+    runs-on: macos-14
     steps:
     - uses: actions/checkout@v6
       with:
@@ -21,21 +25,41 @@ jobs:
       with:
         distribution: corretto
         java-version: 17
-    - name: Set up js stuff
+    - name: Set up js
       run: npm install protobufjs@7.2.6 long@5.2.3
-    - name: Build and test
-      run: ./gradlew clean check publishToIntegrationRepository -Dconformance.platforms=JVM,JS_IR --stacktrace --no-daemon
+    - name: Build, test, and publish integration repo
+      run: ./gradlew clean check publishToIntegrationRepository --stacktrace --no-daemon
     - uses: actions/upload-artifact@v7
       with:
         name: integration-repository
         path: build/repos/integration
-    # Cross-compile linuxArm64 test binaries for the arm64 runner
-    - name: Cross-compile linuxArm64 test binaries
-      run: ./gradlew linkDebugTestLinuxArm64 --stacktrace --no-daemon
+    # Cross-compile test binaries and conformance drivers for satellite runners.
+    # macOS native tests already ran as part of check above.
+    - name: Cross-compile native binaries for satellite runners
+      run: ./gradlew linkDebugTestLinuxX64 linkDebugTestLinuxArm64 linkDebugTestMingwX64 linkReleaseExecutableLinuxX64 --stacktrace --no-daemon
     - uses: actions/upload-artifact@v7
       with:
-        name: linuxArm64-test-binaries
-        path: "**/build/bin/linuxArm64/debugTest/"
+        name: native-linuxX64
+        path: "**/build/bin/linuxX64/"
+    - uses: actions/upload-artifact@v7
+      with:
+        name: native-linuxArm64
+        path: "**/build/bin/linuxArm64/"
+    - uses: actions/upload-artifact@v7
+      with:
+        name: native-mingwX64
+        path: "**/build/bin/mingwX64/"
+    - name: Package conformance runner for Linux
+      run: |
+        version=$(grep 'protobuf-java = "' gradle/libs.versions.toml | head -1 | sed 's/.*"\(.*\)"/\1/' | sed 's/^[0-9]*\.//')
+        curl -fSL "https://github.com/ogolberg/build-protobuf-conformance-runner/releases/download/${version}/conformance_test_runner-Linux-X64-${version}" -o conformance_test_runner
+        cp testing/conformance/jvm/failure_list_kt.txt failure_list_kt.txt
+    - uses: actions/upload-artifact@v7
+      with:
+        name: conformance-linux-x64
+        path: |
+          conformance_test_runner
+          failure_list_kt.txt
 
   # Gradle plugin integration tests across OS, Kotlin, and JDK versions.
   integration:
@@ -75,15 +99,14 @@ jobs:
       run: ./gradlew "-Dkotlin-integration.version=${{ matrix.kotlin }}" "-Djava-integration.version=${{ matrix.jdk }}" --configuration-cache build --stacktrace --no-daemon
       working-directory: gradle-plugin-integration-test
 
-  # Native: compile, test, and run conformance on each host platform.
+  # Native satellite jobs: download cross-compiled binaries and execute.
+  # No Gradle or Kotlin toolchain needed — just raw binary execution.
   #
   # Coverage:
-  #   macOS arm64:  macosArm64, macosX64, iosArm64, iosX64, iosSimulatorArm64,
-  #                 watchosArm32, watchosArm64, watchosX64, watchosSimulatorArm64,
-  #                 watchosDeviceArm64, tvosArm64, tvosX64, tvosSimulatorArm64
-  #   Linux x64:    linuxX64
-  #   Linux arm64:  linuxArm64 (cross-compiled on x64, executed on arm64 runner)
-  #   Windows x64:  mingwX64
+  #   macOS arm64:  all Apple targets (tested in build job via Gradle)
+  #   Linux x64:    linuxX64 tests + conformance
+  #   Linux arm64:  linuxArm64 tests (KT-36871: no K/N host toolchain for arm64)
+  #   Windows x64:  mingwX64 tests
   native:
     name: "Native (${{ matrix.name }})"
     needs: build
@@ -91,52 +114,40 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - name: Apple targets (macOS arm64)
-            os: macos-14
-            task: allTests -x jvmTest -x jsTest
-            conformance: true
           - name: Linux x64
             os: ubuntu-latest
-            task: linuxX64Test
+            artifact: native-linuxX64
             conformance: true
-          # protoc command line exceeds Windows' CreateProcess limit in
-          # examples; run specific runtime/core modules instead
+          - name: Linux arm64
+            os: ubuntu-24.04-arm
+            artifact: native-linuxArm64
+            conformance: false
           - name: Windows x64
             os: windows-latest
-            task: :protokt-runtime:mingwX64Test :protokt-core-lite:mingwX64Test :protokt-core:mingwX64Test :protokt-runtime-grpc-lite:mingwX64Test :testing:multiplatform-testing:mingwX64Test
+            artifact: native-mingwX64
             conformance: false
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v6
-      with:
-        fetch-depth: 0
-    - uses: ./.github/actions/gradle-cache
-    - name: Set up java
-      uses: actions/setup-java@v5
-      with:
-        distribution: corretto
-        java-version: 17
-    - name: Native tests
-      run: ./gradlew ${{ matrix.task }} --stacktrace --no-daemon
-    - name: Native conformance
-      if: matrix.conformance
-      run: ./gradlew :testing:conformance:runner:test -Dconformance.platforms=NATIVE --stacktrace --no-daemon
-
-  # Linux arm64: run cross-compiled test binaries on a native arm64 runner.
-  # Kotlin/Native doesn't ship a linux arm64 host toolchain yet (KT-36871),
-  # so we cross-compile on x64 and execute on arm64.
-  native-linux-arm64:
-    name: "Native (Linux arm64)"
-    needs: build
-    runs-on: ubuntu-24.04-arm
-    steps:
     - uses: actions/download-artifact@v8
       with:
-        name: linuxArm64-test-binaries
-    - name: Run linuxArm64 tests
+        name: ${{ matrix.artifact }}
+    - name: Run native tests
+      shell: bash
       run: |
-        find . -name "test.kexe" -type f | while read binary; do
-          echo "Running: $binary"
+        find . -name "test.kexe" -o -name "test.exe" | while read binary; do
+          echo "=== Running: $binary ==="
           chmod +x "$binary"
           "$binary"
         done
+    - uses: actions/download-artifact@v8
+      if: matrix.conformance
+      with:
+        name: conformance-linux-x64
+    - name: Run native conformance
+      if: matrix.conformance
+      shell: bash
+      run: |
+        chmod +x conformance_test_runner
+        driver=$(find . -path "*/linuxX64/releaseExecutable/driver.kexe" | head -1)
+        chmod +x "$driver"
+        ./conformance_test_runner --maximum_edition 2023 --enforce_recommended --failure_list failure_list_kt.txt "$driver"
