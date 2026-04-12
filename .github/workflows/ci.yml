@@ -71,10 +71,13 @@ jobs:
         include:
           - os: macos-14
             task: allTests -x jvmTest -x jsTest
+            conformance: true
           - os: ubuntu-latest
             task: linuxX64Test
+            conformance: false
           - os: windows-latest
             task: mingwX64Test
+            conformance: false
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v6
@@ -88,3 +91,6 @@ jobs:
         java-version: 17
     - name: Native tests
       run: ./gradlew ${{ matrix.task }} --stacktrace --no-daemon
+    - name: Native conformance tests
+      if: matrix.conformance
+      run: ./gradlew :testing:conformance:runner:test --stacktrace --no-daemon
