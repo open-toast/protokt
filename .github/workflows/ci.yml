@@ -7,10 +7,9 @@ on:
     branches: [ main ]
 
 jobs:
-  # JVM + JS: compile, test, and publish artifacts for the integration test repository.
-  # Runs conformance tests against JVM, JS, and Linux native drivers.
+  # JVM + JS: compile, test, conformance, and publish to integration repository.
   build:
-    name: "JVM + JS + Linux native (ubuntu x64)"
+    name: "JVM + JS (ubuntu x64)"
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v6
@@ -25,7 +24,7 @@ jobs:
     - name: Set up js stuff
       run: npm install protobufjs@7.2.6 long@5.2.3
     - name: Build and test
-      run: ./gradlew clean check publishToIntegrationRepository --stacktrace --no-daemon
+      run: ./gradlew clean check publishToIntegrationRepository -Dconformance.platforms=JVM,JS_IR --stacktrace --no-daemon
       env:
         ORG_GRADLE_PROJECT_publishNativeTargets: "false"
     - uses: actions/upload-artifact@v7
@@ -71,14 +70,12 @@ jobs:
       run: ./gradlew "-Dkotlin-integration.version=${{ matrix.kotlin }}" "-Djava-integration.version=${{ matrix.jdk }}" --configuration-cache build --stacktrace --no-daemon
       working-directory: gradle-plugin-integration-test
 
-  # Native targets: compile and test on each host platform.
-  # Each host builds and tests only the targets it can compile natively.
+  # Native: compile, test, and run conformance on each host platform.
   #
   # Coverage:
   #   macOS arm64:  macosArm64, macosX64, iosArm64, iosX64, iosSimulatorArm64,
   #                 watchosArm32, watchosArm64, watchosX64, watchosSimulatorArm64,
   #                 watchosDeviceArm64, tvosArm64, tvosX64, tvosSimulatorArm64
-  #                 + conformance suite against native driver
   #   Linux x64:    linuxX64
   #   Windows x64:  mingwX64
   #
@@ -100,9 +97,9 @@ jobs:
           - name: Linux x64
             os: ubuntu-latest
             task: linuxX64Test
-            conformance: false
-          # protoc command line length exceeds Windows' limit in examples;
-          # exclude proto generation for modules that trigger it
+            conformance: true
+          # protoc command line length exceeds Windows' CreateProcess limit
+          # in examples module; exclude its proto generation
           - name: Windows x64
             os: windows-latest
             task: mingwX64Test -x :examples:protos:generateProto
@@ -120,6 +117,6 @@ jobs:
         java-version: 17
     - name: Native tests
       run: ./gradlew ${{ matrix.task }} --stacktrace --no-daemon
-    - name: Conformance tests (native driver)
+    - name: Native conformance
       if: matrix.conformance
       run: ./gradlew :testing:conformance:runner:test -Dconformance.platforms=NATIVE --stacktrace --no-daemon
