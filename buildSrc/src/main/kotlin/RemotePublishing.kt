@@ -19,6 +19,8 @@ import com.vanniktech.maven.publish.KotlinJvm
 import com.vanniktech.maven.publish.KotlinMultiplatform
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
 import com.vanniktech.maven.publish.SonatypeHost
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
@@ -130,14 +132,12 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
 
         val publishingExtension = project.the<PublishingExtension>()
         val skipNative = project.findProperty("publishNativeTargets") == "false"
-        val nativeTargetNames = setOf(
-            "macosArm64", "macosX64",
-            "iosArm64", "iosX64", "iosSimulatorArm64",
-            "watchosArm32", "watchosArm64", "watchosX64", "watchosSimulatorArm64", "watchosDeviceArm64",
-            "tvosArm64", "tvosX64", "tvosSimulatorArm64",
-            "linuxX64", "linuxArm64",
-            "mingwX64"
-        )
+        val nativeTargetNames = extensions.findByType(KotlinMultiplatformExtension::class.java)
+            ?.targets
+            ?.filterIsInstance<KotlinNativeTarget>()
+            ?.map { it.name }
+            ?.toSet()
+            ?: emptySet()
 
         dependsOn(
             tasks.withType<PublishToMavenRepository>().matching {
