@@ -1,0 +1,14 @@
+public final class protokt/v1/grpc/krpc/ProtoktGrpcMarshaller : kotlinx/rpc/grpc/marshaller/GrpcMarshaller {
+	public fun <init> (Lprotokt/v1/Deserializer;)V
+	public synthetic fun decode (Lkotlinx/io/Source;Lkotlinx/rpc/grpc/marshaller/GrpcMarshallerConfig;)Ljava/lang/Object;
+	public fun decode (Lkotlinx/io/Source;Lkotlinx/rpc/grpc/marshaller/GrpcMarshallerConfig;)Lprotokt/v1/Message;
+	public synthetic fun encode (Ljava/lang/Object;Lkotlinx/rpc/grpc/marshaller/GrpcMarshallerConfig;)Lkotlinx/io/Source;
+	public fun encode (Lprotokt/v1/Message;Lkotlinx/rpc/grpc/marshaller/GrpcMarshallerConfig;)Lkotlinx/io/Source;
+}
+
+public final class protokt/v1/grpc/krpc/ProtoktMarshallerResolver : kotlinx/rpc/grpc/marshaller/GrpcMarshallerResolver {
+	public fun <init> (Ljava/util/Map;)V
+	public synthetic fun resolveOrNull (Lkotlin/reflect/KType;)Lkotlinx/rpc/grpc/marshaller/GrpcMarshaller;
+	public fun resolveOrNull (Lkotlin/reflect/KType;)Lprotokt/v1/grpc/krpc/ProtoktGrpcMarshaller;
+}
+
