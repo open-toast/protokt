@@ -105,7 +105,7 @@ jobs:
   # Coverage:
   #   macOS arm64:  all Apple targets (tested in build job via Gradle)
   #   Linux x64:    linuxX64 tests + conformance
-  #   Linux arm64:  linuxArm64 tests (KT-36871: no K/N host toolchain for arm64)
+  #   Linux arm64:  linuxArm64 tests (cross-compiled from macOS)
   #   Windows x64:  mingwX64 tests
   native:
     name: "Native (${{ matrix.name }})"
