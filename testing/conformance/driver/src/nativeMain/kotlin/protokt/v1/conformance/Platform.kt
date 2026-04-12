@@ -123,7 +123,7 @@ private fun readExact(fd: Int, buf: ByteArray, count: Int): Int {
         while (totalRead < count) {
             val n = read(fd, pinned.addressOf(totalRead), (count - totalRead).convert())
             if (n <= 0) break
-            totalRead += n.toInt()
+            totalRead += n.convert<Int>()
         }
     }
     return totalRead
