@@ -13,6 +13,7 @@
  * limitations under the License.
  */
 
+import com.toasttab.expediter.gradle.config.ExpediterExtension
 import protokt.v1.gradle.protokt
 
 plugins {
@@ -25,6 +26,15 @@ pureKotlin()
 enablePublishing()
 compatibleWithAndroid()
 trackKotlinApiCompatibility()
+
+configure<ExpediterExtension> {
+    ignore {
+        // kotlinx-rpc transitively pulls in protobuf-java via grpc-java alongside
+        // protokt's protobuf-javalite; these duplicate types are benign since this
+        // module only contains generated @Grpc interfaces.
+        targetStartsWith("com/google/protobuf")
+    }
+}
 
 repositories {
     maven("https://packages.jetbrains.team/maven/p/krpc/grpc")
