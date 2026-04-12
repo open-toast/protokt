@@ -15,7 +15,6 @@
 
 package protokt.v1
 
-@OptIn(OnlyForUseByGeneratedProtoCode::class)
 actual interface Deserializer<T : Message> {
     actual fun deserialize(bytes: Bytes): T
 

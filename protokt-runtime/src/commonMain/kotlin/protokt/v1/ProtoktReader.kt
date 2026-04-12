@@ -15,7 +15,6 @@
 
 package protokt.v1
 
-@OptIn(OnlyForUseByGeneratedProtoCode::class)
 internal class ProtoktReader(
     private val buf: ByteArray,
     private var pos: Int = 0,

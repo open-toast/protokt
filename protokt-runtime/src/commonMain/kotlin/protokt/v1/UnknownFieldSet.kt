@@ -19,7 +19,6 @@ import protokt.v1.Collections.freezeList
 import protokt.v1.Collections.freezeMap
 import protokt.v1.Sizes.sizeOf
 
-@OptIn(OnlyForUseByGeneratedProtoCode::class)
 class UnknownFieldSet private constructor(
     val unknownFields: Map<UInt, Field>
 ) {
@@ -58,7 +57,6 @@ class UnknownFieldSet private constructor(
                 .add(unknown.value)
         }
 
-        @OptIn(OnlyForUseByGeneratedProtoCode::class)
         fun build() =
             UnknownFieldSet(freezeMap(map.mapValues { (_, v) -> v.build() }))
     }
@@ -153,7 +151,6 @@ class UnknownFieldSet private constructor(
                 }
             }
 
-            @OptIn(OnlyForUseByGeneratedProtoCode::class)
             fun build() =
                 Field(
                     varint?.let { freezeList(it) } ?: emptyList(),

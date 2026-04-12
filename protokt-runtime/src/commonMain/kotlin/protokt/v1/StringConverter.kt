@@ -15,7 +15,6 @@
 
 package protokt.v1
 
-@OptIn(OnlyForUseByGeneratedProtoCode::class)
 object StringConverter : Converter<Bytes, String> {
     override val wrapper = String::class
 

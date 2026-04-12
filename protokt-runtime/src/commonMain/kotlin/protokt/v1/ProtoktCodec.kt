@@ -15,7 +15,6 @@
 
 package protokt.v1
 
-@OptIn(OnlyForUseByGeneratedProtoCode::class)
 internal object ProtoktCodec : Codec {
     override fun writer(size: Int): Writer =
         ProtoktWriter(ByteArray(size))

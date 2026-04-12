@@ -16,7 +16,6 @@
 package protokt.v1
 
 @Suppress("UNCHECKED_CAST")
-@OptIn(OnlyForUseByGeneratedProtoCode::class)
 @OnlyForUseByGeneratedProtoCode
 class LazyConvertingList<WireT : Any, KotlinT : Any>(
     private val backing: List<*>,

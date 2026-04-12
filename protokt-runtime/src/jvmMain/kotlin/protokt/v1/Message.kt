@@ -17,7 +17,6 @@ package protokt.v1
 
 import java.io.OutputStream
 
-@OptIn(OnlyForUseByGeneratedProtoCode::class)
 actual interface Message {
     actual fun serializedSize(): Int
 

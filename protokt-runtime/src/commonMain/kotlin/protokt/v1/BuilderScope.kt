@@ -21,7 +21,6 @@ package protokt.v1
  * persistent collection or a [LazyConvertingList]/[LazyConvertingMap], shadowing the
  * standard-library [plus] extensions within the builder scope.
  */
-@OptIn(OnlyForUseByGeneratedProtoCode::class)
 @OnlyForUseByGeneratedProtoCode
 interface BuilderScope {
     @Suppress("UNCHECKED_CAST")

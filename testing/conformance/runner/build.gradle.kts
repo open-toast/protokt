@@ -39,57 +39,65 @@ repositories {
     }
 }
 
-configurations.create("conformance")
+val conformanceSupported = Os.current.kind != Os.Kind.WINDOWS
 
-// protobuf-java version is [java-specific major version].[protobuf version], e.g. 4.26.1
-// the conformance runner version is just [protobuf version], e.g. 26.1
-val conformanceVersion = libs.versions.protobuf.java.get().replace(Regex("^\\d+\\."), "")
+if (conformanceSupported) {
+    configurations.create("conformance")
 
-dependencies {
-    testImplementation(project(":protokt-runtime-persistent-collections"))
-    testImplementation(project(":testing:testing-util"))
-    add("conformance", "build-protobuf-conformance-runner:conformance_test_runner:$conformanceVersion") {
-        artifact {
-            extension = "exe"
-            classifier = Os.current.conformanceClassifier
+    // protobuf-java version is [java-specific major version].[protobuf version], e.g. 4.26.1
+    // the conformance runner version is just [protobuf version], e.g. 26.1
+    val conformanceVersion = libs.versions.protobuf.java.get().replace(Regex("^\\d+\\."), "")
+
+    dependencies {
+        testImplementation(project(":protokt-runtime-persistent-collections"))
+        testImplementation(project(":testing:testing-util"))
+        add("conformance", "build-protobuf-conformance-runner:conformance_test_runner:$conformanceVersion") {
+            artifact {
+                extension = "exe"
+                classifier = Os.current.conformanceClassifier
+            }
         }
     }
-}
 
-tasks.register<Copy>("setupRunner") {
-    from(configurations.getAt("conformance"))
-    into(layout.buildDirectory.dir("bin"))
-    filePermissions {
-        user {
-            read = true
-            execute = true
+    tasks.register<Copy>("setupRunner") {
+        from(configurations.getAt("conformance"))
+        into(layout.buildDirectory.dir("bin"))
+        filePermissions {
+            user {
+                read = true
+                execute = true
+            }
         }
     }
-}
 
-val nativeTarget = when {
-    Os.current.kind == Os.Kind.MACOS && Os.current.arch == Os.Arch.ARM64 -> "macosArm64"
-    Os.current.kind == Os.Kind.MACOS && Os.current.arch == Os.Arch.X64 -> "macosX64"
-    Os.current.kind == Os.Kind.LINUX && Os.current.arch == Os.Arch.ARM64 -> "linuxArm64"
-    Os.current.kind == Os.Kind.LINUX && Os.current.arch == Os.Arch.X64 -> "linuxX64"
-    Os.current.kind == Os.Kind.WINDOWS -> "mingwX64"
-    else -> null
-}
+    val nativeTarget = when {
+        Os.current.kind == Os.Kind.MACOS && Os.current.arch == Os.Arch.ARM64 -> "macosArm64"
+        Os.current.kind == Os.Kind.MACOS && Os.current.arch == Os.Arch.X64 -> "macosX64"
+        Os.current.kind == Os.Kind.LINUX && Os.current.arch == Os.Arch.ARM64 -> "linuxArm64"
+        Os.current.kind == Os.Kind.LINUX && Os.current.arch == Os.Arch.X64 -> "linuxX64"
+        else -> null
+    }
 
-tasks {
-    test {
-        systemProperty("conformance-runner", layout.buildDirectory.dir("bin").get().file("conformance_test_runner-$conformanceVersion-${Os.current.conformanceClassifier}.exe").asFile.path)
-        if (nativeTarget != null) {
-            systemProperty("native-conformance-target", nativeTarget)
+    tasks {
+        test {
+            systemProperty("conformance-runner", layout.buildDirectory.dir("bin").get().file("conformance_test_runner-$conformanceVersion-${Os.current.conformanceClassifier}.exe").asFile.path)
+            if (nativeTarget != null) {
+                systemProperty("native-conformance-target", nativeTarget)
+            }
+
+            outputs.upToDateWhen { false }
+
+            dependsOn("setupRunner")
+            dependsOn(":testing:conformance:js-ir:compileProductionExecutableKotlinJs")
+            dependsOn(":testing:conformance:jvm:installDist")
+            if (nativeTarget != null) {
+                dependsOn(":testing:conformance:driver:linkReleaseExecutable${nativeTarget.replaceFirstChar { it.uppercase() }}")
+            }
         }
-
-        outputs.upToDateWhen { false }
-
-        dependsOn("setupRunner")
-        dependsOn(":testing:conformance:js-ir:compileProductionExecutableKotlinJs")
-        dependsOn(":testing:conformance:jvm:installDist")
-        if (nativeTarget != null) {
-            dependsOn(":testing:conformance:driver:linkReleaseExecutable${nativeTarget.replaceFirstChar { it.uppercase() }}")
-        }
+    }
+} else {
+    dependencies {
+        testImplementation(project(":protokt-runtime-persistent-collections"))
+        testImplementation(project(":testing:testing-util"))
     }
 }

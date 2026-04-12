@@ -20,6 +20,10 @@ plugins {
 compatibleWithAndroid()
 
 kotlin {
+    compilerOptions {
+        freeCompilerArgs.add("-opt-in=protokt.v1.OnlyForUseByGeneratedProtoCode")
+    }
+
     sourceSets {
         val jvmTest by getting {
             dependencies {
