@@ -42,5 +42,6 @@ class ProtoktGrpcMarshaller<T : Message>(
 class ProtoktMarshallerResolver(
     private val marshallers: Map<KType, ProtoktGrpcMarshaller<*>>
 ) : GrpcMarshallerResolver {
-    override fun resolveOrNull(kType: KType) = marshallers[kType]
+    override fun resolveOrNull(kType: KType) =
+        marshallers[kType]
 }

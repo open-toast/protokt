@@ -18,26 +18,27 @@ package protokt.v1.helloworld
 import kotlinx.coroutines.runBlocking
 import kotlinx.rpc.grpc.client.GrpcClient
 import kotlinx.rpc.withService
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 
 class HelloWorldServerTest {
     @Test
-    fun sayHello() = runBlocking {
-        val port = 50078
-        val server = helloWorldServer(port)
+    fun sayHello() =
+        runBlocking {
+            val port = 50078
+            val server = helloWorldServer(port)
 
-        try {
-            val client = GrpcClient("localhost", port) {
-                messageMarshallerResolver = helloWorldMarshallerResolver
-                credentials = plaintext()
+            try {
+                val client = GrpcClient("localhost", port) {
+                    messageMarshallerResolver = helloWorldMarshallerResolver
+                    credentials = plaintext()
+                }
+
+                val greeter = client.withService<Greeter>()
+                val reply = greeter.SayHello(HelloRequest { name = "test name" })
+                assertEquals("Hello test name", reply.message)
+            } finally {
+                server.shutdownNow()
             }
-
-            val greeter = client.withService<Greeter>()
-            val reply = greeter.SayHello(HelloRequest { name = "test name" })
-            assertEquals("Hello test name", reply.message)
-        } finally {
-            server.shutdownNow()
         }
-    }
 }
