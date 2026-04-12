@@ -233,7 +233,7 @@ private val PERSISTENT_COLLECTION_TYPE = persistentListOf<Any>()::class.qualifie
 private fun verifyCollectionType(stderr: String, config: ConformanceTest.ConformanceConfig) {
     val collectionType = "protoktCollectionFactory=(.+)".toRegex().find(stderr)?.groupValues?.get(1)?.trim()
     val expected = if (config.collectionFactory == PERSISTENT) PERSISTENT_COLLECTION_TYPE else UNMODIFIABLE_COLLECTION_TYPE
-    val platformExpected = if (config.platform == JVM) expected else expected.substringAfterLast(".")
+    val platformExpected = if (config.platform == JS_IR) expected.substringAfterLast(".") else expected
     assertThat(collectionType).isEqualTo(platformExpected)
 }
 
@@ -249,7 +249,7 @@ private fun verifyCodec(stderr: String, config: ConformanceTest.ConformanceConfi
         } else {
             PROTOKT_READER
         }
-    val platformExpected = if (config.platform == JVM) expected else expected.substringAfterLast(".")
+    val platformExpected = if (config.platform == JS_IR) expected.substringAfterLast(".") else expected
     assertThat(codecName).isEqualTo(platformExpected)
 }
 

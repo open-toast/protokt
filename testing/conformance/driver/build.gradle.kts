@@ -26,7 +26,7 @@ kotlin {
     targets.withType<KotlinNativeTarget> {
         binaries {
             executable {
-                entryPoint = "protokt.v1.conformance.main"
+                entryPoint = "protokt.v1.conformance.nativeMain"
             }
         }
     }
