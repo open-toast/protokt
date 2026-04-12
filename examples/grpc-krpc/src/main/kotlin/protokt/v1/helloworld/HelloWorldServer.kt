@@ -18,6 +18,7 @@ package protokt.v1.helloworld
 import io.grpc.InsecureServerCredentials
 import kotlinx.rpc.grpc.marshaller.GrpcMarshallerResolver
 import kotlinx.rpc.grpc.server.GrpcServer
+import kotlinx.rpc.registerService
 import protokt.v1.grpc.krpc.ProtoktGrpcMarshaller
 import protokt.v1.grpc.krpc.ProtoktMarshallerResolver
 import kotlin.reflect.typeOf
@@ -36,13 +37,14 @@ val helloWorldMarshallerResolver: GrpcMarshallerResolver =
     )
 
 fun helloWorldServer(port: Int): GrpcServer {
-    val server = GrpcServer(port) {
-        messageMarshallerResolver = helloWorldMarshallerResolver
-        credentials = InsecureServerCredentials.create()
-        services {
-            registerService(Greeter::class) { GreeterService() }
+    val server =
+        GrpcServer(port) {
+            messageMarshallerResolver = helloWorldMarshallerResolver
+            credentials = InsecureServerCredentials.create()
+            services {
+                registerService<Greeter> { GreeterService() }
+            }
         }
-    }
     return server.start()
 }
 

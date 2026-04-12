@@ -23,8 +23,6 @@ plugins {
 localProtokt()
 pureKotlin()
 
-// Apply after localProtokt() so protobuf-gradle-plugin's 'proto' extension is
-// already registered before the rpc plugin tries to register its own.
 apply(plugin = "org.jetbrains.kotlinx.rpc.plugin")
 
 repositories {
