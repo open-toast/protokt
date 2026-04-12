@@ -53,7 +53,7 @@ jobs:
       run: |
         version=$(grep 'protobuf-java = "' gradle/libs.versions.toml | head -1 | sed 's/.*"\(.*\)"/\1/' | sed 's/^[0-9]*\.//')
         curl -fSL "https://github.com/ogolberg/build-protobuf-conformance-runner/releases/download/${version}/conformance_test_runner-Linux-X64-${version}" -o conformance_test_runner
-        cp testing/conformance/jvm/failure_list_kt.txt failure_list_kt.txt
+        cp testing/conformance/failure_list_kt.txt failure_list_kt.txt
     - uses: actions/upload-artifact@v7
       with:
         name: conformance-linux-x64

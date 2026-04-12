@@ -212,15 +212,11 @@ private fun jsStderrLog(project: String): String {
 private val failingTests =
     Path.of(projectRoot.absolutePath, "failing_tests.txt")
 
-private fun failureList(project: String) =
-    if (project == "native") {
-        "--failure_list ../jvm/failure_list_kt.txt"
-    } else {
-        "--failure_list ../$project/failure_list_kt.txt"
-    }
+private fun failureList() =
+    "--failure_list ../failure_list_kt.txt"
 
 private fun command(config: ConformanceTest.ConformanceConfig) =
-    "${System.getProperty("conformance-runner")} --maximum_edition 2023 --enforce_recommended ${failureList(config.platform.project)} ${config.driver()}"
+    "${System.getProperty("conformance-runner")} --maximum_edition 2023 --enforce_recommended ${failureList()} ${config.driver()}"
 
 private const val UNMODIFIABLE_COLLECTION_TYPE = "protokt.v1.UnmodifiableList"
 private val PERSISTENT_COLLECTION_TYPE = persistentListOf<Any>()::class.qualifiedName!!
