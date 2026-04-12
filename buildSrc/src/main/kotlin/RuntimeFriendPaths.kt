@@ -48,6 +48,7 @@ fun Project.runtimeFriendPaths() {
                                 friendPaths.from(runtimeProject.tasks.named(jarTaskName))
                             }
                         }
+
                         is KotlinNativeCompile -> {
                             val klibDirs = runtimeCompilation.output.classesDirs
                             compilerOptions.freeCompilerArgs.addAll(

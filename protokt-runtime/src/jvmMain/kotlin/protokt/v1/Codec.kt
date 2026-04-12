@@ -13,7 +13,6 @@
  * limitations under the License.
  */
 
-
 package protokt.v1
 
 internal actual val codec: Codec by lazy {
