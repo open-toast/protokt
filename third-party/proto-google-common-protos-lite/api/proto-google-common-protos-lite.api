@@ -9634,6 +9634,10 @@ public abstract class protokt/v1/google/shopping/type/Destination$DestinationEnu
 	public fun getValue ()I
 }
 
+public final class protokt/v1/google/shopping/type/Destination$DestinationEnum$CLOUD_RETAIL : protokt/v1/google/shopping/type/Destination$DestinationEnum {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/Destination$DestinationEnum$CLOUD_RETAIL;
+}
+
 public final class protokt/v1/google/shopping/type/Destination$DestinationEnum$DESTINATION_ENUM_UNSPECIFIED : protokt/v1/google/shopping/type/Destination$DestinationEnum {
 	public static final field INSTANCE Lprotokt/v1/google/shopping/type/Destination$DestinationEnum$DESTINATION_ENUM_UNSPECIFIED;
 }
@@ -9655,6 +9659,14 @@ public final class protokt/v1/google/shopping/type/Destination$DestinationEnum$F
 	public static final field INSTANCE Lprotokt/v1/google/shopping/type/Destination$DestinationEnum$FREE_LOCAL_LISTINGS;
 }
 
+public final class protokt/v1/google/shopping/type/Destination$DestinationEnum$FREE_VEHICLE_LISTINGS : protokt/v1/google/shopping/type/Destination$DestinationEnum {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/Destination$DestinationEnum$FREE_VEHICLE_LISTINGS;
+}
+
+public final class protokt/v1/google/shopping/type/Destination$DestinationEnum$LOCAL_CLOUD_RETAIL : protokt/v1/google/shopping/type/Destination$DestinationEnum {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/Destination$DestinationEnum$LOCAL_CLOUD_RETAIL;
+}
+
 public final class protokt/v1/google/shopping/type/Destination$DestinationEnum$LOCAL_INVENTORY_ADS : protokt/v1/google/shopping/type/Destination$DestinationEnum {
 	public static final field INSTANCE Lprotokt/v1/google/shopping/type/Destination$DestinationEnum$LOCAL_INVENTORY_ADS;
 }
@@ -9667,8 +9679,20 @@ public final class protokt/v1/google/shopping/type/Destination$DestinationEnum$U
 	public fun <init> (I)V
 }
 
+public final class protokt/v1/google/shopping/type/Destination$DestinationEnum$VEHICLE_ADS : protokt/v1/google/shopping/type/Destination$DestinationEnum {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/Destination$DestinationEnum$VEHICLE_ADS;
+}
+
+public final class protokt/v1/google/shopping/type/Destination$DestinationEnum$YOUTUBE_AFFILIATE : protokt/v1/google/shopping/type/Destination$DestinationEnum {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/Destination$DestinationEnum$YOUTUBE_AFFILIATE;
+}
+
 public final class protokt/v1/google/shopping/type/Destination$DestinationEnum$YOUTUBE_SHOPPING : protokt/v1/google/shopping/type/Destination$DestinationEnum {
 	public static final field INSTANCE Lprotokt/v1/google/shopping/type/Destination$DestinationEnum$YOUTUBE_SHOPPING;
+}
+
+public final class protokt/v1/google/shopping/type/Destination$DestinationEnum$YOUTUBE_SHOPPING_CHECKOUT : protokt/v1/google/shopping/type/Destination$DestinationEnum {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/Destination$DestinationEnum$YOUTUBE_SHOPPING_CHECKOUT;
 }
 
 public final class protokt/v1/google/shopping/type/Price : protokt/v1/AbstractMessage {
@@ -9777,6 +9801,10 @@ public final class protokt/v1/google/shopping/type/ReportingContext$ReportingCon
 	public static final field INSTANCE Lprotokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$FREE_LISTINGS;
 }
 
+public final class protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$FREE_LISTINGS_UCP_CHECKOUT : protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$FREE_LISTINGS_UCP_CHECKOUT;
+}
+
 public final class protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$FREE_LOCAL_LISTINGS : protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum {
 	public static final field INSTANCE Lprotokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$FREE_LOCAL_LISTINGS;
 }
@@ -9791,6 +9819,14 @@ public final class protokt/v1/google/shopping/type/ReportingContext$ReportingCon
 
 public final class protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$LOCAL_INVENTORY_ADS : protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum {
 	public static final field INSTANCE Lprotokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$LOCAL_INVENTORY_ADS;
+}
+
+public final class protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$MERCHANT_REVIEWS : protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$MERCHANT_REVIEWS;
+}
+
+public final class protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$PRODUCT_REVIEWS : protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$PRODUCT_REVIEWS;
 }
 
 public final class protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$REPORTING_CONTEXT_ENUM_UNSPECIFIED : protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum {
@@ -9811,6 +9847,14 @@ public final class protokt/v1/google/shopping/type/ReportingContext$ReportingCon
 
 public final class protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$VIDEO_ADS : protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum {
 	public static final field INSTANCE Lprotokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$VIDEO_ADS;
+}
+
+public final class protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$YOUTUBE_AFFILIATE : protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$YOUTUBE_AFFILIATE;
+}
+
+public final class protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$YOUTUBE_CHECKOUT : protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum {
+	public static final field INSTANCE Lprotokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$YOUTUBE_CHECKOUT;
 }
 
 public final class protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$YOUTUBE_SHOPPING : protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum {
