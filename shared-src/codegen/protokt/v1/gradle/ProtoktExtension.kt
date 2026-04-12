@@ -115,17 +115,6 @@ open class ProtoktExtension {
         }
 
         /**
-         * Generates all variations of code.
-         */
-        fun all() {
-            types = true
-            descriptors = true
-            grpcDescriptors = true
-            grpcKotlinStubs = true
-            grpcKrpc = false
-        }
-
-        /**
          * Generates message and enum types and @Grpc-annotated service
          * interfaces for use with the kotlinx-rpc compiler plugin.
          */
