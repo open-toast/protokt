@@ -76,6 +76,9 @@ jobs:
           - os: ubuntu-latest
             task: linuxX64Test
             conformance: false
+          - os: ubuntu-24.04-arm
+            task: linuxArm64Test
+            conformance: false
           - os: windows-latest
             task: mingwX64Test
             conformance: false

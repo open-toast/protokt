@@ -14,6 +14,8 @@
  */
 
 import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import org.jetbrains.kotlin.konan.target.HostManager
 
 plugins {
     `kotlin-multiplatform`
@@ -51,6 +53,7 @@ kotlin {
     tvosX64()
     tvosSimulatorArm64()
     linuxX64()
+    linuxArm64()
     mingwX64()
 
     applyDefaultHierarchyTemplate()
@@ -77,6 +80,19 @@ kotlin {
 
 tasks.named<Test>("jvmTest") {
     useJUnitPlatform()
+}
+
+// Disable compilation, test, and publication tasks for native targets that
+// can't cross-compile on the current host (e.g., linuxArm64 on an x64 host).
+afterEvaluate {
+    val disabledTargets = kotlin.targets
+        .filterIsInstance<KotlinNativeTarget>()
+        .filter { !HostManager().isEnabled(it.konanTarget) }
+
+    for (target in disabledTargets) {
+        tasks.matching { it.name.contains(target.name, ignoreCase = true) }
+            .configureEach { enabled = false }
+    }
 }
 
 configureJvmToolchain()
