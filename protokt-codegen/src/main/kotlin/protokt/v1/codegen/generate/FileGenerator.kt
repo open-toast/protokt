@@ -108,6 +108,9 @@ private fun suffixes(contents: ProtoFileContents): List<String> {
         if (contents.info.context.generateGrpcKotlinStubs && contents.info.context.kotlinTarget !is KotlinTarget.MultiplatformCommon) {
             suffixes.add("_grpc_kotlin")
         }
+        if (contents.info.context.generateGrpcKrpc && contents.info.context.kotlinTarget !is KotlinTarget.MultiplatformCommon) {
+            suffixes.add("_grpc_krpc")
+        }
     }
     return suffixes
 }

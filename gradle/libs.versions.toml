@@ -20,6 +20,7 @@ kotlinLogging = "8.0.02"
 kotlinPoet = "2.3.0"
 kotlinx-collectionsImmutable = "0.4.0"
 kotlinx-coroutines = "1.10.2"
+kotlinx-rpc = "0.11.0-grpc-187"
 kotlinx-io = "0.9.0"
 kotlinx-serialization = "1.11.0"
 ktlint = "1.8.0"
@@ -78,6 +79,10 @@ kotlinLogging = { module = "io.github.oshai:kotlin-logging", version.ref = "kotl
 kotlinPoet = { module = "com.squareup:kotlinpoet", version.ref = "kotlinPoet" }
 kotlinx-collectionsImmutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx-collectionsImmutable" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-rpc-grpc-client = { module = "org.jetbrains.kotlinx:kotlinx-rpc-grpc-client", version.ref = "kotlinx-rpc" }
+kotlinx-rpc-grpc-core = { module = "org.jetbrains.kotlinx:kotlinx-rpc-grpc-core", version.ref = "kotlinx-rpc" }
+kotlinx-rpc-grpc-marshaller = { module = "org.jetbrains.kotlinx:kotlinx-rpc-grpc-marshaller", version.ref = "kotlinx-rpc" }
+kotlinx-rpc-grpc-server = { module = "org.jetbrains.kotlinx:kotlinx-rpc-grpc-server", version.ref = "kotlinx-rpc" }
 kotlinx-io = { module = "org.jetbrains.kotlinx:kotlinx-io-core", version.ref = "kotlinx-io" }
 ktlint = { module = "com.pinterest.ktlint:ktlint-rule-engine", version.ref = "ktlint" }
 ktlintRuleSetStandard = { module = "com.pinterest.ktlint:ktlint-ruleset-standard", version.ref = "ktlint" }

@@ -21,6 +21,7 @@ import protokt.v1.gradle.FORMAT_OUTPUT
 import protokt.v1.gradle.GENERATE_DESCRIPTORS
 import protokt.v1.gradle.GENERATE_GRPC_DESCRIPTORS
 import protokt.v1.gradle.GENERATE_GRPC_KOTLIN_STUBS
+import protokt.v1.gradle.GENERATE_GRPC_KRPC
 import protokt.v1.gradle.GENERATE_TYPES
 import protokt.v1.gradle.KOTLIN_EXTRA_CLASSPATH
 import protokt.v1.gradle.KOTLIN_TARGET
@@ -45,6 +46,7 @@ internal class PluginParams(
     val generateDescriptors = params.getOrDefault<Generate>(GENERATE_DESCRIPTORS)
     val generateGrpcDescriptors = params.getOrDefault<Generate>(GENERATE_GRPC_DESCRIPTORS)
     val generateGrpcKotlinStubs = params.getOrDefault<Generate>(GENERATE_GRPC_KOTLIN_STUBS)
+    val generateGrpcKrpc = params.getOrDefault<Generate>(GENERATE_GRPC_KRPC)
     val formatOutput = params.getOrDefault<ProtoktExtension>(FORMAT_OUTPUT)
     val kotlinTarget = KotlinTarget.fromPluginOptionString(params.getValue(KOTLIN_TARGET))
 }

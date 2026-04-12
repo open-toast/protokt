@@ -57,11 +57,8 @@ internal object CodeGenerator {
 
             is Service ->
                 withServiceName(type.name) {
-                    generateService(
-                        type,
-                        ctx,
-                        ctx.info.context.kotlinTarget
-                    )
+                    generateService(type, ctx, ctx.info.context.kotlinTarget) +
+                        listOfNotNull(generateGrpcKrpcService(type, ctx))
                 }
         }
 }
