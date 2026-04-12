@@ -29,10 +29,11 @@ class HelloWorldServerTest {
             val server = helloWorldServer(port)
 
             try {
-                val client = GrpcClient("localhost", port) {
-                    messageMarshallerResolver = helloWorldMarshallerResolver
-                    credentials = plaintext()
-                }
+                val client =
+                    GrpcClient("localhost", port) {
+                        messageMarshallerResolver = helloWorldMarshallerResolver
+                        credentials = plaintext()
+                    }
 
                 val greeter = client.withService<Greeter>()
                 val reply = greeter.SayHello(HelloRequest { name = "test name" })

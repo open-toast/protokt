@@ -20,10 +20,11 @@ import kotlinx.rpc.withService
 
 suspend fun main(args: Array<String>) {
     val port = 50051
-    val client = GrpcClient("localhost", port) {
-        messageMarshallerResolver = helloWorldMarshallerResolver
-        credentials = plaintext()
-    }
+    val client =
+        GrpcClient("localhost", port) {
+            messageMarshallerResolver = helloWorldMarshallerResolver
+            credentials = plaintext()
+        }
 
     val greeter = client.withService<Greeter>()
     val user = args.singleOrNull() ?: "world"
