@@ -25,6 +25,7 @@ import protokt.v1.conformance.ConformanceTest.Codec.PROTOBUF
 import protokt.v1.conformance.ConformanceTest.CollectionFactory.PERSISTENT
 import protokt.v1.conformance.ConformanceTest.Platform.JS_IR
 import protokt.v1.conformance.ConformanceTest.Platform.JVM
+import protokt.v1.conformance.ConformanceTest.Platform.NATIVE
 import protokt.v1.conformance.ConformanceTest.SerializationMode
 import protokt.v1.testing.projectRoot
 import protokt.v1.testing.runCommand
@@ -37,7 +38,8 @@ import kotlin.io.path.readText
 class ConformanceTest {
     enum class Platform(val project: String) {
         JVM("jvm"),
-        JS_IR("js-ir")
+        JS_IR("js-ir"),
+        NATIVE("native")
     }
 
     enum class CollectionFactory { DEFAULT, PERSISTENT }
@@ -56,6 +58,7 @@ class ConformanceTest {
             when (platform) {
                 JVM -> jvmConformanceDriver
                 JS_IR -> jsConformanceDriver(platform.project)
+                NATIVE -> nativeConformanceDriver
             }
 
         fun env(): Map<String, String> =
@@ -104,6 +107,20 @@ class ConformanceTest {
                         put("PROTOKT_STREAMING", "true")
                     }
                 }
+
+                NATIVE -> buildMap {
+                    put(
+                        "PROTOKT_COLLECTION_FACTORY",
+                        if (collectionFactory == PERSISTENT) {
+                            "protokt.v1.PersistentCollectionFactory"
+                        } else {
+                            "protokt.v1.DefaultCollectionFactory"
+                        }
+                    )
+                    if (serializationMode == SerializationMode.STREAMING) {
+                        put("PROTOKT_STREAMING", "true")
+                    }
+                }
             }
     }
 
@@ -123,8 +140,10 @@ class ConformanceTest {
                     it[3] as SerializationMode
                 )
             }.filter {
-                // streaming is only supported on JVM (protobuf-java InputStream/OutputStream)
-                it.serializationMode != SerializationMode.STREAMING || it.platform == JVM
+                // streaming is only supported on JVM and Native (via kotlinx-io), not JS
+                (it.serializationMode != SerializationMode.STREAMING || it.platform != JS_IR) &&
+                    // native only has ProtoktCodec (no protobuf-java or protobufjs)
+                    (it.codec != Codec.PROTOBUF || it.platform != NATIVE)
             }
     }
 
@@ -169,6 +188,24 @@ class ConformanceTest {
 private val jvmConformanceDriver =
     Path.of(File(projectRoot.parentFile, "jvm").absolutePath, "build", "install", "protokt-conformance", "bin", "protokt-conformance")
 
+private val nativeConformanceDriver by lazy {
+    val target = System.getProperty("native-conformance-target") ?: hostNativeTarget()
+    Path.of(File(projectRoot.parentFile, "driver").absolutePath, "build", "bin", target, "releaseExecutable", "driver.kexe")
+}
+
+private fun hostNativeTarget(): String {
+    val os = System.getProperty("os.name").lowercase()
+    val arch = System.getProperty("os.arch").lowercase()
+    return when {
+        os.contains("mac") && arch.contains("aarch64") -> "macosArm64"
+        os.contains("mac") -> "macosX64"
+        os.contains("linux") && arch.contains("aarch64") -> "linuxArm64"
+        os.contains("linux") -> "linuxX64"
+        os.contains("windows") -> "mingwX64"
+        else -> error("Unsupported host: $os $arch")
+    }
+}
+
 private fun jsConformanceDriver(project: String) =
     Path.of(File(projectRoot.parentFile, project).absolutePath, "run.sh")
 
@@ -181,7 +218,11 @@ private val failingTests =
     Path.of(projectRoot.absolutePath, "failing_tests.txt")
 
 private fun failureList(project: String) =
-    "--failure_list ../$project/failure_list_kt.txt"
+    if (project == "native") {
+        "--failure_list ../jvm/failure_list_kt.txt"
+    } else {
+        "--failure_list ../$project/failure_list_kt.txt"
+    }
 
 private fun command(config: ConformanceTest.ConformanceConfig) =
     "${System.getProperty("conformance-runner")} --maximum_edition 2023 --enforce_recommended ${failureList(config.platform.project)} ${config.driver()}"
@@ -192,7 +233,7 @@ private val PERSISTENT_COLLECTION_TYPE = persistentListOf<Any>()::class.qualifie
 private fun verifyCollectionType(stderr: String, config: ConformanceTest.ConformanceConfig) {
     val collectionType = "protoktCollectionFactory=(.+)".toRegex().find(stderr)?.groupValues?.get(1)?.trim()
     val expected = if (config.collectionFactory == PERSISTENT) PERSISTENT_COLLECTION_TYPE else UNMODIFIABLE_COLLECTION_TYPE
-    val platformExpected = if (config.platform.project == "jvm") expected else expected.substringAfterLast(".")
+    val platformExpected = if (config.platform == JVM) expected else expected.substringAfterLast(".")
     assertThat(collectionType).isEqualTo(platformExpected)
 }
 

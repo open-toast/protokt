@@ -17,6 +17,7 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.tasks.BaseKotlinCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile
 
 fun Project.runtimeFriendPaths() {
     configure<KotlinMultiplatformExtension> {
@@ -36,13 +37,23 @@ fun Project.runtimeFriendPaths() {
                         .getByName(compilation.target.name)
                         .compilations
                         .getByName(compilation.compilationName)
-                    (this as BaseKotlinCompile).friendPaths.from(
-                        runtimeCompilation.output.classesDirs,
-                        runtimeCompilation.output.allOutputs
-                    )
-                    val jarTaskName = "${compilation.target.name}Jar"
-                    if (jarTaskName in runtimeProject.tasks.names) {
-                        friendPaths.from(runtimeProject.tasks.named(jarTaskName))
+                    when (this) {
+                        is BaseKotlinCompile -> {
+                            friendPaths.from(
+                                runtimeCompilation.output.classesDirs,
+                                runtimeCompilation.output.allOutputs
+                            )
+                            val jarTaskName = "${compilation.target.name}Jar"
+                            if (jarTaskName in runtimeProject.tasks.names) {
+                                friendPaths.from(runtimeProject.tasks.named(jarTaskName))
+                            }
+                        }
+                        is KotlinNativeCompile -> {
+                            val klibDirs = runtimeCompilation.output.classesDirs
+                            compilerOptions.freeCompilerArgs.addAll(
+                                klibDirs.map { "-friend-modules=${it.absolutePath}" }
+                            )
+                        }
                     }
                 }
             }

@@ -39,6 +39,7 @@ import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile
 
 internal const val BASE_GROUP_NAME = "com.toasttab.protokt.v1"
 
@@ -196,6 +197,12 @@ private fun Project.configureJarTasksForMpp() {
     }
 
     (tasks.findByName("jsProcessResources") as? Copy)?.excludeDuplicates()
+
+    tasks.withType<Copy> {
+        if (name.endsWith("ProcessResources") && name != "jvmProcessResources" && name != "jsProcessResources") {
+            excludeDuplicates()
+        }
+    }
 }
 
 // TODO: figure out how to get rid of this?
@@ -239,6 +246,12 @@ private fun Project.linkGenerateProtoTasksAndIncludeGeneratedSource(target: Kotl
             .proto { sourceSet.resources.source(this) }
 
         tasks.withType<AbstractKotlinCompile<*>> {
+            if ((test && "Test" in name) || (!test && "Test" !in name)) {
+                logger.log(DEBUG_LOG_LEVEL, "Making task {} a dependency of {}", genProtoTask.name, name)
+                dependsOn(genProtoTask)
+            }
+        }
+        tasks.withType<KotlinNativeCompile> {
             if ((test && "Test" in name) || (!test && "Test" !in name)) {
                 logger.log(DEBUG_LOG_LEVEL, "Making task {} a dependency of {}", genProtoTask.name, name)
                 dependsOn(genProtoTask)

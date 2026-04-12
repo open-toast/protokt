@@ -13,6 +13,7 @@
  * limitations under the License.
  */
 
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -22,11 +23,25 @@ plugins {
 localProtokt()
 
 kotlin {
+    targets.withType<KotlinNativeTarget> {
+        binaries {
+            executable {
+                entryPoint = "protokt.v1.conformance.main"
+            }
+        }
+    }
+
     sourceSets {
         val commonMain by getting {
             dependencies {
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(project(":protokt-runtime-kotlinx-io"))
+            }
+        }
+
+        val nativeMain by getting {
+            dependencies {
+                implementation(project(":protokt-runtime-persistent-collections"))
             }
         }
     }

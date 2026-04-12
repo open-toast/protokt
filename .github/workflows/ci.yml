@@ -63,3 +63,28 @@ jobs:
     - name: Verify configuration cache compatibility
       run: ./gradlew "-Dkotlin-integration.version=${{ matrix.kotlin }}" "-Djava-integration.version=${{ matrix.jdk }}" --configuration-cache build --stacktrace --no-daemon
       working-directory: gradle-plugin-integration-test
+
+  native:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-14
+            task: allTests -x jvmTest -x jsTest
+          - os: ubuntu-latest
+            task: linuxX64Test
+          - os: windows-latest
+            task: mingwX64Test
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v6
+      with:
+        fetch-depth: 0
+    - uses: ./.github/actions/gradle-cache
+    - name: Set up java
+      uses: actions/setup-java@v5
+      with:
+        distribution: corretto
+        java-version: 17
+    - name: Native tests
+      run: ./gradlew ${{ matrix.task }} --stacktrace --no-daemon

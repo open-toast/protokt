@@ -67,14 +67,29 @@ tasks.register<Copy>("setupRunner") {
     }
 }
 
+val nativeTarget = when {
+    Os.current.kind == Os.Kind.MACOS && Os.current.arch == Os.Arch.ARM64 -> "macosArm64"
+    Os.current.kind == Os.Kind.MACOS && Os.current.arch == Os.Arch.X64 -> "macosX64"
+    Os.current.kind == Os.Kind.LINUX && Os.current.arch == Os.Arch.ARM64 -> "linuxArm64"
+    Os.current.kind == Os.Kind.LINUX && Os.current.arch == Os.Arch.X64 -> "linuxX64"
+    Os.current.kind == Os.Kind.WINDOWS -> "mingwX64"
+    else -> null
+}
+
 tasks {
     test {
         systemProperty("conformance-runner", layout.buildDirectory.dir("bin").get().file("conformance_test_runner-$conformanceVersion-${Os.current.conformanceClassifier}.exe").asFile.path)
+        if (nativeTarget != null) {
+            systemProperty("native-conformance-target", nativeTarget)
+        }
 
         outputs.upToDateWhen { false }
 
         dependsOn("setupRunner")
         dependsOn(":testing:conformance:js-ir:compileProductionExecutableKotlinJs")
         dependsOn(":testing:conformance:jvm:installDist")
+        if (nativeTarget != null) {
+            dependsOn(":testing:conformance:driver:linkReleaseExecutable${nativeTarget.replaceFirstChar { it.uppercase() }}")
+        }
     }
 }
