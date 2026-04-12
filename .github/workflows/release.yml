@@ -5,9 +5,17 @@ on:
     tags:
       - '[0-9]+.[0-9]+.*'
 
+env:
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.internal.http.socketTimeout=120000 -Dorg.gradle.internal.network.retry.max.attempts=1 -Dorg.gradle.internal.publish.checksums.insecure=true"
+
 jobs:
+  # Publish from macOS which can cross-compile for all targets:
+  #   - JVM, JS, Kotlin metadata
+  #   - All Apple targets (macOS, iOS, watchOS, tvOS)
+  #   - Linux (x64, arm64)
+  #   - Windows (mingwX64)
   release:
-    runs-on: ubuntu-latest
+    runs-on: macos-15
     steps:
     - uses: actions/checkout@v6
       with:
@@ -18,13 +26,15 @@ jobs:
       with:
         distribution: corretto
         java-version: 17
-    - name: Publish
-      run: ./gradlew publishAllPublicationsToMavenCentral publishPlugins --no-configuration-cache --stacktrace --no-daemon
+    - name: Publish to Maven Central
+      run: ./gradlew publishAllPublicationsToMavenCentral --no-configuration-cache --stacktrace --no-daemon
       env:
         PGP_KEY: ${{ secrets.PGP_KEY }}
         PGP_PASSWORD: ${{ secrets.PGP_PASSWORD }}
         ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.OSSRH_USERNAME }}
         ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.OSSRH_PASSWORD }}
+    - name: Publish Gradle plugin
+      run: ./gradlew publishPlugins --no-configuration-cache --stacktrace --no-daemon
+      env:
         GRADLE_PUBLISH_KEY: ${{ secrets.GRADLE_PORTAL_PUBLISH_KEY }}
         GRADLE_PUBLISH_SECRET: ${{ secrets.GRADLE_PORTAL_PUBLISH_SECRET }}
-        GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.internal.http.socketTimeout=120000 -Dorg.gradle.internal.network.retry.max.attempts=1 -Dorg.gradle.internal.publish.checksums.insecure=true"
