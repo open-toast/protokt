@@ -101,11 +101,11 @@ jobs:
             os: ubuntu-latest
             task: linuxX64Test
             conformance: true
-          # protoc command line length exceeds Windows' CreateProcess limit
-          # in examples module; exclude its proto generation
+          # protoc command line exceeds Windows' CreateProcess limit in
+          # examples; run specific runtime/core modules instead
           - name: Windows x64
             os: windows-latest
-            task: mingwX64Test -x :examples:protos:generateProto
+            task: :protokt-runtime:mingwX64Test :protokt-core-lite:mingwX64Test :protokt-core:mingwX64Test :protokt-runtime-grpc-lite:mingwX64Test :testing:multiplatform-testing:mingwX64Test
             conformance: false
     runs-on: ${{ matrix.os }}
     steps:
