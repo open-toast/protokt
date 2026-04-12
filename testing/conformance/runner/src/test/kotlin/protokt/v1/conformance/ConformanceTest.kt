@@ -126,8 +126,13 @@ class ConformanceTest {
 
     companion object {
         @JvmStatic
-        fun configurations() =
-            Lists.cartesianProduct(
+        fun configurations(): List<ConformanceConfig> {
+            val platformFilter = System.getProperty("conformance.platforms")
+                ?.split(",")
+                ?.map { Platform.valueOf(it.trim()) }
+                ?.toSet()
+
+            return Lists.cartesianProduct(
                 Platform.entries,
                 CollectionFactory.entries,
                 Codec.entries,
@@ -143,8 +148,11 @@ class ConformanceTest {
                 // streaming is only supported on JVM and Native (via kotlinx-io), not JS
                 (it.serializationMode != SerializationMode.STREAMING || it.platform != JS_IR) &&
                     // native only has ProtoktCodec (no protobuf-java or protobufjs)
-                    (it.codec != Codec.PROTOBUF || it.platform != NATIVE)
+                    (it.codec != Codec.PROTOBUF || it.platform != NATIVE) &&
+                    // optional platform filter (e.g., -Dconformance.platforms=NATIVE)
+                    (platformFilter == null || it.platform in platformFilter)
             }
+        }
     }
 
     @BeforeEach

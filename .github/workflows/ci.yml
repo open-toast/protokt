@@ -80,8 +80,10 @@ jobs:
   #                 watchosDeviceArm64, tvosArm64, tvosX64, tvosSimulatorArm64
   #                 + conformance suite against native driver
   #   Linux x64:    linuxX64
-  #   Linux arm64:  linuxArm64
   #   Windows x64:  mingwX64
+  #
+  # linuxArm64 is cross-compiled (from macOS for publication) but not tested
+  # natively — Kotlin/Native doesn't ship a linux arm64 host toolchain yet.
   native:
     name: "Native (${{ matrix.name }})"
     needs: build
@@ -97,13 +99,9 @@ jobs:
             os: ubuntu-latest
             task: linuxX64Test
             conformance: false
-          - name: Linux arm64
-            os: ubuntu-24.04-arm
-            task: linuxArm64Test
-            conformance: false
           - name: Windows x64
             os: windows-latest
-            task: mingwX64Test
+            task: :protokt-runtime:mingwX64Test :protokt-core-lite:mingwX64Test :protokt-core:mingwX64Test :testing:multiplatform-testing:mingwX64Test
             conformance: false
     runs-on: ${{ matrix.os }}
     steps:
@@ -120,4 +118,4 @@ jobs:
       run: ./gradlew ${{ matrix.task }} --stacktrace --no-daemon
     - name: Conformance tests (native driver)
       if: matrix.conformance
-      run: ./gradlew :testing:conformance:runner:test --stacktrace --no-daemon
+      run: ./gradlew :testing:conformance:runner:test -Dconformance.platforms=NATIVE --stacktrace --no-daemon

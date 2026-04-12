@@ -14,7 +14,6 @@
  */
 
 import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
-import protokt.v1.gradle.Os
 
 plugins {
     `kotlin-multiplatform`
@@ -52,12 +51,8 @@ kotlin {
     tvosX64()
     tvosSimulatorArm64()
     linuxX64()
+    linuxArm64()
     mingwX64()
-
-    // linuxArm64 can only be compiled on arm64 hosts (or macOS which can cross-compile)
-    if (Os.current.arch == Os.Arch.ARM64 || Os.current.kind == Os.Kind.MACOS) {
-        linuxArm64()
-    }
 
     applyDefaultHierarchyTemplate()
 
