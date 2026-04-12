@@ -131,7 +131,6 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
         group = "publishing"
 
         val publishingExtension = project.the<PublishingExtension>()
-        val skipNative = project.findProperty("publishNativeTargets") == "false"
         val nativeTargetNames = extensions.findByType(KotlinMultiplatformExtension::class.java)
             ?.targets
             ?.filterIsInstance<KotlinNativeTarget>()
@@ -142,7 +141,7 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
         dependsOn(
             tasks.withType<PublishToMavenRepository>().matching {
                 it.repository == publishingExtension.repositories.getByName("integration") &&
-                    (!skipNative || nativeTargetNames.none { target -> it.name.contains(target, ignoreCase = true) })
+                    nativeTargetNames.none { target -> it.name.contains(target, ignoreCase = true) }
             }
         )
     }
