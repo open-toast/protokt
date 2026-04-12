@@ -25,7 +25,7 @@ repositories {
     maven("https://packages.jetbrains.team/maven/p/krpc/grpc")
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+kotlin {
     compilerOptions {
         freeCompilerArgs.addAll("-opt-in=kotlinx.rpc.internal.utils.ExperimentalRpcApi")
     }
