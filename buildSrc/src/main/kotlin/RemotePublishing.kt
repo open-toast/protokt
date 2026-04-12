@@ -128,10 +128,20 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
         group = "publishing"
 
         val publishingExtension = project.the<PublishingExtension>()
+        val skipNative = project.findProperty("publishNativeTargets") == "false"
+        val nativeTargetNames = setOf(
+            "macosArm64", "macosX64",
+            "iosArm64", "iosX64", "iosSimulatorArm64",
+            "watchosArm32", "watchosArm64", "watchosX64", "watchosSimulatorArm64", "watchosDeviceArm64",
+            "tvosArm64", "tvosX64", "tvosSimulatorArm64",
+            "linuxX64", "linuxArm64",
+            "mingwX64"
+        )
 
         dependsOn(
             tasks.withType<PublishToMavenRepository>().matching {
-                it.repository == publishingExtension.repositories.getByName("integration")
+                it.repository == publishingExtension.repositories.getByName("integration") &&
+                    (!skipNative || nativeTargetNames.none { target -> it.name.contains(target, ignoreCase = true) })
             }
         )
     }
