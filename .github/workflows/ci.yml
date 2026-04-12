@@ -31,6 +31,13 @@ jobs:
       with:
         name: integration-repository
         path: build/repos/integration
+    # Cross-compile linuxArm64 test binaries for the arm64 runner
+    - name: Cross-compile linuxArm64 test binaries
+      run: ./gradlew linkDebugTestLinuxArm64 --stacktrace --no-daemon
+    - uses: actions/upload-artifact@v7
+      with:
+        name: linuxArm64-test-binaries
+        path: "**/build/bin/linuxArm64/debugTest/"
 
   # Gradle plugin integration tests across OS, Kotlin, and JDK versions.
   integration:
@@ -77,12 +84,8 @@ jobs:
   #                 watchosArm32, watchosArm64, watchosX64, watchosSimulatorArm64,
   #                 watchosDeviceArm64, tvosArm64, tvosX64, tvosSimulatorArm64
   #   Linux x64:    linuxX64
+  #   Linux arm64:  linuxArm64 (cross-compiled on x64, executed on arm64 runner)
   #   Windows x64:  mingwX64
-  #
-  # linuxArm64 is cross-compiled (from macOS for publication) but not tested
-  # natively — Kotlin/Native doesn't ship a linux arm64 host toolchain yet
-  # (TargetSupportException: Unknown host target: linux aarch64).
-  # Track https://youtrack.jetbrains.com/issue/KT-36871 for arm64 host support.
   native:
     name: "Native (${{ matrix.name }})"
     needs: build
@@ -120,3 +123,22 @@ jobs:
     - name: Native conformance
       if: matrix.conformance
       run: ./gradlew :testing:conformance:runner:test -Dconformance.platforms=NATIVE --stacktrace --no-daemon
+
+  # Linux arm64: run cross-compiled test binaries on a native arm64 runner.
+  # Kotlin/Native doesn't ship a linux arm64 host toolchain yet (KT-36871),
+  # so we cross-compile on x64 and execute on arm64.
+  native-linux-arm64:
+    name: "Native (Linux arm64)"
+    needs: build
+    runs-on: ubuntu-24.04-arm
+    steps:
+    - uses: actions/download-artifact@v8
+      with:
+        name: linuxArm64-test-binaries
+    - name: Run linuxArm64 tests
+      run: |
+        find . -name "test.kexe" -type f | while read binary; do
+          echo "Running: $binary"
+          chmod +x "$binary"
+          "$binary"
+        done
