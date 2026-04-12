@@ -78,6 +78,7 @@ internal fun configureProtobufPlugin(
                         option("$GENERATE_DESCRIPTORS=${ext.generate.descriptors}")
                         option("$GENERATE_GRPC_DESCRIPTORS=${ext.generate.grpcDescriptors}")
                         option("$GENERATE_GRPC_KOTLIN_STUBS=${ext.generate.grpcKotlinStubs}")
+                        option("$GENERATE_GRPC_KRPC=${ext.generate.grpcKrpc}")
                         option("$FORMAT_OUTPUT=${ext.formatOutput}")
                         option("$KOTLIN_TARGET=$target")
 

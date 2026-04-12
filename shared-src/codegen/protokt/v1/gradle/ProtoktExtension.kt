@@ -73,6 +73,13 @@ open class ProtoktExtension {
         var grpcKotlinStubs = false
 
         /**
+         * Whether to generate @Grpc-annotated interfaces for use with the
+         * kotlinx-rpc compiler plugin. If enabled, the project must apply the
+         * kotlinx-rpc Gradle plugin and depend on kotlinx-rpc-grpc-core.
+         */
+        var grpcKrpc = false
+
+        /**
          * Generates only message and enum types.
          */
         fun lite() {
@@ -80,6 +87,7 @@ open class ProtoktExtension {
             descriptors = false
             grpcDescriptors = false
             grpcKotlinStubs = false
+            grpcKrpc = false
         }
 
         /**
@@ -91,6 +99,7 @@ open class ProtoktExtension {
             descriptors = false
             grpcDescriptors = true
             grpcKotlinStubs = false
+            grpcKrpc = false
         }
 
         /**
@@ -102,6 +111,7 @@ open class ProtoktExtension {
             descriptors = false
             grpcDescriptors = true
             grpcKotlinStubs = true
+            grpcKrpc = false
         }
 
         /**
@@ -112,6 +122,19 @@ open class ProtoktExtension {
             descriptors = true
             grpcDescriptors = true
             grpcKotlinStubs = true
+            grpcKrpc = false
+        }
+
+        /**
+         * Generates message and enum types and @Grpc-annotated service
+         * interfaces for use with the kotlinx-rpc compiler plugin.
+         */
+        fun grpcKrpcLite() {
+            types = true
+            descriptors = false
+            grpcDescriptors = false
+            grpcKotlinStubs = false
+            grpcKrpc = true
         }
     }
 

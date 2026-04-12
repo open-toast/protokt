@@ -13,6 +13,14 @@
  * limitations under the License.
  */
 
+pluginManagement {
+    repositories {
+        maven("https://packages.jetbrains.team/maven/p/krpc/grpc")
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
+
 buildscript {
     repositories {
         maven(url = "https://repo1.maven.org/maven2")
@@ -49,6 +57,7 @@ include(
     "examples:grpc-java-lite",
     "examples:grpc-kotlin",
     "examples:grpc-kotlin-lite",
+    "examples:grpc-krpc",
     "examples:grpc-node",
     "examples:protos",
 
@@ -91,5 +100,6 @@ include(
     "third-party:proto-google-common-protos-extensions-lite",
     "third-party:proto-google-common-protos-grpc",
     "third-party:proto-google-common-protos-grpc-kotlin",
+    "third-party:proto-google-common-protos-grpc-krpc",
     "third-party:proto-google-common-protos-lite"
 )
