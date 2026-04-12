@@ -100,12 +100,11 @@ jobs:
       working-directory: gradle-plugin-integration-test
 
   # Native satellite jobs: download cross-compiled binaries and execute.
-  # No Gradle or Kotlin toolchain needed — just raw binary execution.
   #
   # Coverage:
-  #   macOS arm64:  all Apple targets (tested in build job via Gradle)
+  #   macOS arm64:  covered by main CI job, includes conformance JVM/JS
   #   Linux x64:    linuxX64 tests + conformance
-  #   Linux arm64:  linuxArm64 tests (cross-compiled from macOS)
+  #   Linux arm64:  linuxArm64 tests
   #   Windows x64:  mingwX64 tests
   native:
     name: "Native (${{ matrix.name }})"
