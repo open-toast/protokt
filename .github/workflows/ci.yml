@@ -65,6 +65,7 @@ jobs:
       working-directory: gradle-plugin-integration-test
 
   native:
+    needs: build
     strategy:
       fail-fast: false
       matrix:
