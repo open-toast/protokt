@@ -18,6 +18,7 @@ import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.KotlinJvm
 import com.vanniktech.maven.publish.KotlinMultiplatform
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
+import com.vanniktech.maven.publish.SonatypeHost
 import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
@@ -101,7 +102,7 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
 
     if (isRelease()) {
         configure<MavenPublishBaseExtension> {
-            publishToMavenCentral()
+            publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, automaticRelease = true)
         }
 
         apply(plugin = "signing")
