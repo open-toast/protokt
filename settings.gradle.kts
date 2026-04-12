@@ -41,6 +41,7 @@ include(
     "protokt-runtime-protobufjs",
     "protokt-runtime-persistent-collections",
     "protokt-runtime-grpc",
+    "protokt-runtime-grpc-krpc",
     "protokt-runtime-grpc-lite",
 
     "grpc-kotlin-shim",

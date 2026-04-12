@@ -13,19 +13,13 @@
  * limitations under the License.
  */
 
-import com.google.protobuf.gradle.protobuf
-import protokt.v1.gradle.protokt
-
 plugins {
     id("protokt.jvm-conventions")
 }
 
-localProtokt()
+enablePublishing()
 pureKotlin()
-
-// Apply after localProtokt() so protobuf-gradle-plugin's 'proto' extension is
-// already registered before the rpc plugin tries to register its own.
-apply(plugin = "org.jetbrains.kotlinx.rpc.plugin")
+trackKotlinApiCompatibility()
 
 repositories {
     maven("https://packages.jetbrains.team/maven/p/krpc/grpc")
@@ -37,24 +31,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     }
 }
 
-protokt {
-    generate {
-        types = false
-        descriptors = false
-        grpcKrpc = true
-    }
-}
-
 dependencies {
-    protobuf(project(":examples:protos"))
-
-    implementation(project(":examples:protos"))
-    implementation(project(":protokt-runtime-grpc-krpc"))
-    implementation(libs.kotlinx.rpc.grpc.client)
-    implementation(libs.kotlinx.rpc.grpc.server)
-    implementation(libs.kotlinx.coroutines.core)
-
-    runtimeOnly(libs.grpc.netty)
-
-    testImplementation(libs.junit.jupiter)
+    api(project(":protokt-runtime-kotlinx-io"))
+    api(libs.kotlinx.rpc.grpc.marshaller)
 }
