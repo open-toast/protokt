@@ -7,7 +7,10 @@ on:
     branches: [ main ]
 
 jobs:
+  # JVM + JS: compile, test, and publish artifacts for the integration test repository.
+  # Runs conformance tests against JVM, JS, and Linux native drivers.
   build:
+    name: "JVM + JS + Linux native (ubuntu x64)"
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v6
@@ -28,7 +31,9 @@ jobs:
         name: integration-repository
         path: build/repos/integration
 
+  # Gradle plugin integration tests across OS, Kotlin, and JDK versions.
   integration:
+    name: "Integration (${{ matrix.os }}, Kotlin ${{ matrix.kotlin }}, JDK ${{ matrix.jdk }})"
     needs: build
     strategy:
       matrix:
@@ -64,22 +69,38 @@ jobs:
       run: ./gradlew "-Dkotlin-integration.version=${{ matrix.kotlin }}" "-Djava-integration.version=${{ matrix.jdk }}" --configuration-cache build --stacktrace --no-daemon
       working-directory: gradle-plugin-integration-test
 
+  # Native targets: compile and test on each host platform.
+  # Each host builds and tests only the targets it can compile natively.
+  #
+  # Coverage:
+  #   macOS arm64:  macosArm64, macosX64, iosArm64, iosX64, iosSimulatorArm64,
+  #                 watchosArm32, watchosArm64, watchosX64, watchosSimulatorArm64,
+  #                 watchosDeviceArm64, tvosArm64, tvosX64, tvosSimulatorArm64
+  #                 + conformance suite against native driver
+  #   Linux x64:    linuxX64
+  #   Linux arm64:  linuxArm64
+  #   Windows x64:  mingwX64
   native:
+    name: "Native (${{ matrix.name }})"
     needs: build
     strategy:
       fail-fast: false
       matrix:
         include:
-          - os: macos-14
+          - name: Apple targets (macOS arm64)
+            os: macos-14
             task: allTests -x jvmTest -x jsTest
             conformance: true
-          - os: ubuntu-latest
+          - name: Linux x64
+            os: ubuntu-latest
             task: linuxX64Test
             conformance: false
-          - os: ubuntu-24.04-arm
+          - name: Linux arm64
+            os: ubuntu-24.04-arm
             task: linuxArm64Test
             conformance: false
-          - os: windows-latest
+          - name: Windows x64
+            os: windows-latest
             task: mingwX64Test
             conformance: false
     runs-on: ${{ matrix.os }}
@@ -95,6 +116,6 @@ jobs:
         java-version: 17
     - name: Native tests
       run: ./gradlew ${{ matrix.task }} --stacktrace --no-daemon
-    - name: Native conformance tests
+    - name: Conformance tests (native driver)
       if: matrix.conformance
       run: ./gradlew :testing:conformance:runner:test --stacktrace --no-daemon
