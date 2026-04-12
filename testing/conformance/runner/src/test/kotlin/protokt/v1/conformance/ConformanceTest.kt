@@ -189,21 +189,8 @@ private val jvmConformanceDriver =
     Path.of(File(projectRoot.parentFile, "jvm").absolutePath, "build", "install", "protokt-conformance", "bin", "protokt-conformance")
 
 private val nativeConformanceDriver by lazy {
-    val target = System.getProperty("native-conformance-target") ?: hostNativeTarget()
+    val target = System.getProperty("native-conformance-target")
     Path.of(File(projectRoot.parentFile, "driver").absolutePath, "build", "bin", target, "releaseExecutable", "driver.kexe")
-}
-
-private fun hostNativeTarget(): String {
-    val os = System.getProperty("os.name").lowercase()
-    val arch = System.getProperty("os.arch").lowercase()
-    return when {
-        os.contains("mac") && arch.contains("aarch64") -> "macosArm64"
-        os.contains("mac") -> "macosX64"
-        os.contains("linux") && arch.contains("aarch64") -> "linuxArm64"
-        os.contains("linux") -> "linuxX64"
-        os.contains("windows") -> "mingwX64"
-        else -> error("Unsupported host: $os $arch")
-    }
 }
 
 private fun jsConformanceDriver(project: String) =

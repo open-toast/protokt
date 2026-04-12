@@ -59,6 +59,15 @@ class Os private constructor(
         UNKNOWN
     }
 
+    val hostNativeTarget by lazy {
+        when (kind) {
+            Kind.MACOS -> if (arch == Arch.ARM64) "macosArm64" else "macosX64"
+            Kind.LINUX -> if (arch == Arch.ARM64) "linuxArm64" else "linuxX64"
+            Kind.WINDOWS -> "mingwX64"
+            else -> error("Unsupported OS: $kind $arch")
+        }
+    }
+
     val conformanceClassifier by lazy {
         when (kind) {
             Kind.LINUX -> "Linux"
