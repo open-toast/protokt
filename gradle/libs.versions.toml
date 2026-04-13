@@ -99,6 +99,7 @@ spotlessGradlePlugin = { module = "com.diffplug.spotless:spotless-plugin-gradle"
 # benchmarks
 jmh-core = { module = "org.openjdk.jmh:jmh-core", version.ref = "jmh" }
 jmh-generator = { module = "org.openjdk.jmh:jmh-generator-annprocess", version.ref = "jmh" }
+kotlinx-benchmark-plugin = { module = "org.jetbrains.kotlinx:kotlinx-benchmark-plugin", version.ref = "kotlinx-benchmark" }
 kotlinx-benchmark-runtime = { module = "org.jetbrains.kotlinx:kotlinx-benchmark-runtime", version.ref = "kotlinx-benchmark" }
 wireRuntime = { module = "com.squareup.wire:wire-runtime", version.ref = "wire" }
 
