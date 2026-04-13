@@ -20,6 +20,18 @@ import org.jetbrains.kotlin.gradle.tasks.BaseKotlinCompile
 import org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile
 import java.io.File
 
+// Configures friend-module paths so that extension modules (protokt-runtime-kotlinx-io,
+// protokt-runtime-protobufjs, etc.) can access internal members of :protokt-runtime.
+//
+// Two quirks stem from protokt-runtime's custom nonJvmMain intermediate source set:
+//
+//   1. Metadata-target KotlinNativeCompile tasks (e.g. compileNativeMainKotlinMetadata)
+//      must friend ALL metadata compilations, not just the matching one, because
+//      internal members like codecOverride live in nonJvmMain while the consuming
+//      code is in nativeMain.
+//
+//   2. -friend-modules only honours the last occurrence when passed multiple times,
+//      so all paths must be joined into a single argument.
 fun Project.runtimeFriendPaths() {
     configure<KotlinMultiplatformExtension> {
         compilerOptions {
@@ -52,21 +64,14 @@ fun Project.runtimeFriendPaths() {
                         }
 
                         is KotlinNativeCompile -> {
-                            val friendDirs = if (compilation.target.name == "metadata") {
-                                // Metadata target KotlinNativeCompile tasks need
-                                // friends from all metadata compilations, not just
-                                // the matching one, because internal members may be
-                                // defined in a different intermediate source set
-                                // (e.g. codecOverride in nonJvmMain accessed from
-                                // nativeMain).
-                                runtimeKmp.targets.getByName("metadata")
-                                    .compilations
-                                    .flatMap { it.output.classesDirs }
-                            } else {
-                                runtimeCompilation.output.classesDirs.toList()
-                            }
-                            // -friend-modules only uses the last value when
-                            // passed multiple times; join all paths into one.
+                            val friendDirs =
+                                if (compilation.target.name == "metadata") {
+                                    runtimeKmp.targets.getByName("metadata")
+                                        .compilations
+                                        .flatMap { it.output.classesDirs }
+                                } else {
+                                    runtimeCompilation.output.classesDirs.toList()
+                                }
                             val joined = friendDirs.joinToString(File.pathSeparator) { it.absolutePath }
                             compilerOptions.freeCompilerArgs.add("-friend-modules=$joined")
                         }

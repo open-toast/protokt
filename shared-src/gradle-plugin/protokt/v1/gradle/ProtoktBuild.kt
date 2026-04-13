@@ -38,8 +38,7 @@ import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
-import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile
-import org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 internal const val BASE_GROUP_NAME = "com.toasttab.protokt.v1"
 
@@ -196,10 +195,11 @@ private fun Project.configureJarTasksForMpp() {
         }
     }
 
-    (tasks.findByName("jsProcessResources") as? Copy)?.excludeDuplicates()
-
+    // Non-JVM ProcessResources tasks see the same proto resources from
+    // multiple source sets (e.g. commonMain protos appear in each native
+    // target's resource processing), causing duplicate entry errors.
     tasks.withType<Copy> {
-        if (name.endsWith("ProcessResources") && name != "jvmProcessResources" && name != "jsProcessResources") {
+        if (name.endsWith("ProcessResources") && name != "jvmProcessResources") {
             excludeDuplicates()
         }
     }
@@ -245,13 +245,7 @@ private fun Project.linkGenerateProtoTasksAndIncludeGeneratedSource(target: Kotl
             .getByName(protoSourceSetRoot)
             .proto { sourceSet.resources.source(this) }
 
-        tasks.withType<AbstractKotlinCompile<*>> {
-            if ((test && "Test" in name) || (!test && "Test" !in name)) {
-                logger.log(DEBUG_LOG_LEVEL, "Making task {} a dependency of {}", genProtoTask.name, name)
-                dependsOn(genProtoTask)
-            }
-        }
-        tasks.withType<KotlinNativeCompile> {
+        tasks.withType<KotlinCompilationTask<*>> {
             if ((test && "Test" in name) || (!test && "Test" !in name)) {
                 logger.log(DEBUG_LOG_LEVEL, "Making task {} a dependency of {}", genProtoTask.name, name)
                 dependsOn(genProtoTask)
