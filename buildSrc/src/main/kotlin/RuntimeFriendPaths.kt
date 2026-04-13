@@ -18,6 +18,7 @@ import org.gradle.kotlin.dsl.configure
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.tasks.BaseKotlinCompile
 import org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile
+import java.io.File
 
 fun Project.runtimeFriendPaths() {
     configure<KotlinMultiplatformExtension> {
@@ -30,9 +31,10 @@ fun Project.runtimeFriendPaths() {
                 val compilation = this
                 compileTaskProvider.configure {
                     val runtimeProject = project(":protokt-runtime")
-                    val runtimeCompilation = runtimeProject
+                    val runtimeKmp = runtimeProject
                         .extensions
                         .getByType(KotlinMultiplatformExtension::class.java)
+                    val runtimeCompilation = runtimeKmp
                         .targets
                         .getByName(compilation.target.name)
                         .compilations
@@ -50,10 +52,23 @@ fun Project.runtimeFriendPaths() {
                         }
 
                         is KotlinNativeCompile -> {
-                            val klibDirs = runtimeCompilation.output.classesDirs
-                            compilerOptions.freeCompilerArgs.addAll(
-                                klibDirs.map { "-friend-modules=${it.absolutePath}" }
-                            )
+                            val friendDirs = if (compilation.target.name == "metadata") {
+                                // Metadata target KotlinNativeCompile tasks need
+                                // friends from all metadata compilations, not just
+                                // the matching one, because internal members may be
+                                // defined in a different intermediate source set
+                                // (e.g. codecOverride in nonJvmMain accessed from
+                                // nativeMain).
+                                runtimeKmp.targets.getByName("metadata")
+                                    .compilations
+                                    .flatMap { it.output.classesDirs }
+                            } else {
+                                runtimeCompilation.output.classesDirs.toList()
+                            }
+                            // -friend-modules only uses the last value when
+                            // passed multiple times; join all paths into one.
+                            val joined = friendDirs.joinToString(File.pathSeparator) { it.absolutePath }
+                            compilerOptions.freeCompilerArgs.add("-friend-modules=$joined")
                         }
                     }
                 }
