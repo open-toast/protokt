@@ -25,6 +25,10 @@ jobs:
       with:
         distribution: corretto
         java-version: 17
+    - name: Set up go
+      uses: actions/setup-go@v5
+      with:
+        go-version: stable
     - name: Set up js
       run: npm install protobufjs@7.2.6 long@5.2.3
     - name: Build, test, and publish integration repo
