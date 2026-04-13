@@ -27,6 +27,7 @@ import kotlinx.benchmark.State
 import kotlinx.io.Buffer
 import protokt.v1.Bytes
 import protokt.v1.serialize
+import kotlin.random.Random
 
 @State(Scope.Benchmark)
 @BenchmarkMode(Mode.AverageTime)
@@ -64,7 +65,7 @@ class ProtoktMultiplatformBenchmarks : ProtobufBenchmarkSet<Blackhole> {
     fun setup() {
         byteValues = Array(1000) { i -> Bytes.from(byteArrayOf(i.toByte())) }
 
-        val random = kotlin.random.Random(42)
+        val random = Random(42)
         stringHeavyPayloads = (0 until 100).map {
             GenericMessage1 {
                 fieldString1 = randomUtf8String(random, 10_000)

@@ -17,6 +17,8 @@ package protokt.v1.benchmarks
 
 import kotlin.random.Random
 
+expect fun readDatasetBytes(name: String): ByteArray
+
 /** Mix of 1-byte (ASCII), 2-byte (Latin Extended), and 3-byte (CJK) UTF-8 characters. */
 fun randomUtf8String(random: Random, charCount: Int): String {
     val sb = StringBuilder(charCount)
