@@ -39,7 +39,7 @@ fun Project.runtimeFriendPaths() {
         }
 
         targets.all {
-            compilations.all {
+            compilations.matching { it.compilationName in setOf("main", "test") }.all {
                 val compilation = this
                 compileTaskProvider.configure {
                     val runtimeProject = project(":protokt-runtime")
