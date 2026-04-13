@@ -54,7 +54,10 @@ Quick smoke test (1 warmup, 1 iteration, 1 fork):
 
 protokt benchmarks accept `@Param`-annotated properties:
 
-| Parameter | Values |
-|-----------|--------|
-| `codec` | `protokt.v1.ProtobufJavaCodec`, `protokt.v1.KotlinxIoCodec`, `protokt.v1.ProtoktCodec`, `protokt.v1.OptimalKmpCodec`, `protokt.v1.OptimalJvmCodec` |
-| `collectionFactory` | `protokt.v1.DefaultCollectionFactory`, `protokt.v1.PersistentCollectionFactory` |
+| Parameter | Targets | Values |
+|-----------|---------|--------|
+| `collectionFactory` | JVM + Native | `protokt.v1.DefaultCollectionFactory`, `protokt.v1.PersistentCollectionFactory` |
+| `codec` | JVM only | `protokt.v1.ProtobufJavaCodec`, `protokt.v1.KotlinxIoCodec`, `protokt.v1.ProtoktCodec`, `protokt.v1.OptimalKmpCodec`, `protokt.v1.OptimalJvmCodec` |
+
+Native benchmarks always use `ProtoktCodec`. Collection factory selection works
+on native via direct override (no env var or system property needed).
