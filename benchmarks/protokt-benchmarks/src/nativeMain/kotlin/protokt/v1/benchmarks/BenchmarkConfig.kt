@@ -15,14 +15,7 @@
 
 package protokt.v1.benchmarks
 
-import protokt.v1.PersistentCollectionFactory
-import protokt.v1.collectionFactoryOverride
-
-actual fun applyBenchmarkConfig(collectionFactory: String) {
-    collectionFactoryOverride =
-        if (collectionFactory == "protokt.v1.PersistentCollectionFactory") {
-            PersistentCollectionFactory
-        } else {
-            null
-        }
-}
+// PersistentCollectionFactory is internal to protokt-runtime-persistent-collections.
+// On native, set PROTOKT_COLLECTION_FACTORY=protokt.v1.PersistentCollectionFactory
+// before running benchmarks to test persistent collections.
+actual fun applyBenchmarkConfig(collectionFactory: String) {}
