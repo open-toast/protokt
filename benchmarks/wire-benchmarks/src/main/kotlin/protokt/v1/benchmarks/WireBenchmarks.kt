@@ -35,8 +35,8 @@ import org.openjdk.jmh.annotations.State
 import org.openjdk.jmh.infra.Blackhole
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
-import kotlin.random.Random
 import java.util.concurrent.TimeUnit
+import kotlin.random.Random
 
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)

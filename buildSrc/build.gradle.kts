@@ -39,8 +39,10 @@ dependencies {
     implementation(libs.kotlinGradlePlugin)
     implementation(libs.protobuf.gradlePlugin)
     implementation(libs.spotlessGradlePlugin)
-    implementation(libs.kotlinx.benchmark.plugin) {
-        exclude(group = "com.squareup", module = "kotlinpoet")
+    implementation(libs.kotlinx.benchmark.plugin)
+
+    constraints {
+        implementation(libs.kotlinPoet)
     }
     implementation(kotlin("gradle-plugin-api"))
     implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))

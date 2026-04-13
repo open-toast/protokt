@@ -42,13 +42,30 @@ fun run(self: KClass<*>, args: Array<String> = emptyArray()) {
         .forEach { (flag, spec) ->
             when (flag) {
                 "-o" -> resultSuffix = "-$spec"
-                "-i" -> { hasInclude = true; opts.include(".*" + self.simpleName + "." + spec + ".*") }
+
+                "-i" -> {
+                    hasInclude = true
+                    opts.include(".*" + self.simpleName + "." + spec + ".*")
+                }
+
                 "-e" -> opts.exclude(spec)
-                "-p" -> { val (name, value) = spec.split("=", limit = 2); opts.param(name, *value.split(",").toTypedArray()) }
-                "-prof" -> { val parts = spec.split(":", limit = 2); if (parts.size == 2) opts.addProfiler(parts[0], parts[1]) else opts.addProfiler(parts[0]) }
+
+                "-p" -> {
+                    val (name, value) = spec.split("=", limit = 2)
+                    opts.param(name, *value.split(",").toTypedArray())
+                }
+
+                "-prof" -> {
+                    val parts = spec.split(":", limit = 2)
+                    if (parts.size == 2) opts.addProfiler(parts[0], parts[1]) else opts.addProfiler(parts[0])
+                }
+
                 "-wi" -> opts.warmupIterations(spec.toInt())
+
                 "-mi" -> opts.measurementIterations(spec.toInt())
+
                 "-f" -> opts.forks(spec.toInt())
+
                 "-jvmArgs" -> opts.jvmArgs(spec)
             }
         }
