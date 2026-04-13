@@ -33,6 +33,8 @@ jobs:
       run: npm install protobufjs@7.2.6 long@5.2.3
     - name: Build, test, and publish integration repo
       run: ./gradlew clean check publishToIntegrationRepository --stacktrace --no-daemon
+      env:
+        GRADLE_OPTS: "-Xmx4g"
     - uses: actions/upload-artifact@v7
       with:
         name: integration-repository
