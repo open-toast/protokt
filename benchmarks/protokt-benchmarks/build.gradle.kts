@@ -27,6 +27,7 @@ allOpen {
 }
 
 localProtokt()
+runtimeFriendPaths()
 configureBenchmarks()
 
 kotlin {
@@ -35,13 +36,13 @@ kotlin {
             dependencies {
                 implementation(project(":benchmarks:benchmarks-util"))
                 implementation(project(":protokt-runtime-kotlinx-io"))
+                implementation(project(":protokt-runtime-persistent-collections"))
                 implementation(libs.kotlinx.benchmark.runtime)
             }
         }
 
         val jvmMain by getting {
             dependencies {
-                implementation(project(":protokt-runtime-persistent-collections"))
                 implementation(kotlin("reflect"))
             }
         }

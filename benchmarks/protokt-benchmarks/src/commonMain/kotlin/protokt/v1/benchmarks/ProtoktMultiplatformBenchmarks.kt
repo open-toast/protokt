@@ -24,6 +24,7 @@ import kotlinx.benchmark.OutputTimeUnit
 import kotlinx.benchmark.Scope
 import kotlinx.benchmark.Setup
 import kotlinx.benchmark.State
+import kotlinx.benchmark.Param
 import kotlinx.io.Buffer
 import protokt.v1.Bytes
 import protokt.v1.serialize
@@ -33,6 +34,9 @@ import kotlin.random.Random
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(BenchmarkTimeUnit.MILLISECONDS)
 class ProtoktMultiplatformBenchmarks : ProtobufBenchmarkSet<Blackhole> {
+    @Param("protokt.v1.DefaultCollectionFactory", "protokt.v1.PersistentCollectionFactory")
+    var collectionFactory: String = "protokt.v1.DefaultCollectionFactory"
+
     private lateinit var largeDataset: BenchmarkDataset
     private lateinit var largeParsedDataset: List<GenericMessage1>
 
@@ -63,6 +67,7 @@ class ProtoktMultiplatformBenchmarks : ProtobufBenchmarkSet<Blackhole> {
 
     @Setup
     fun setup() {
+        applyBenchmarkConfig(collectionFactory)
         byteValues = Array(1000) { i -> Bytes.from(byteArrayOf(i.toByte())) }
 
         val random = Random(42)
