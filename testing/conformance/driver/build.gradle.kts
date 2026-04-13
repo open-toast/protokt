@@ -21,6 +21,7 @@ plugins {
 }
 
 localProtokt()
+enableNativeTargets()
 
 kotlin {
     targets.withType<KotlinNativeTarget> {

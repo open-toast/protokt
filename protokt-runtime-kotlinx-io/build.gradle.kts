@@ -18,6 +18,7 @@ plugins {
 }
 
 runtimeFriendPaths()
+enableNativeTargets()
 
 kotlin {
     sourceSets {

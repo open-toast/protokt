@@ -22,6 +22,7 @@ plugins {
 
 publishedLocalProtokt()
 compatibleWithAndroid()
+enableNativeTargets()
 
 spotless {
     kotlin {

@@ -23,6 +23,7 @@ plugins {
 
 publishedLocalProtokt()
 compatibleWithAndroid()
+enableNativeTargets()
 
 configure<ExpediterExtension> {
     ignore {

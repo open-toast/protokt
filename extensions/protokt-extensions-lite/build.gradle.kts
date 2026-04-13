@@ -21,6 +21,7 @@ plugins {
 }
 
 publishedLocalProtokt()
+enableNativeTargets()
 
 spotless {
     kotlin {
