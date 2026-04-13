@@ -19,8 +19,8 @@ package protokt.v1
 
 internal actual val collectionFactory: CollectionFactory by lazy {
     val factoryFqcn =
-        System.getProperty("protokt.collection.factory")
-            ?: System.getenv("PROTOKT_COLLECTION_FACTORY")
+        System.getProperty("protokt.v1.collection.factory")
+            ?: System.getenv("PROTOKT_V1_COLLECTION_FACTORY")
 
     if (factoryFqcn != null) {
         Class.forName(factoryFqcn).getField("INSTANCE").get(null) as CollectionFactory

@@ -364,13 +364,13 @@ in the following order:
 You can override auto-detection with a system property or environment variable:
 
 ```
--Dprotokt.codec=protokt.v1.ProtobufJavaCodec
+-Dprotokt.v1.codec=protokt.v1.ProtobufJavaCodec
 ```
 
 or
 
 ```
-PROTOKT_CODEC=protokt.v1.ProtobufJavaCodec
+PROTOKT_V1_CODEC=protokt.v1.ProtobufJavaCodec
 ```
 
 The codec class is loaded reflectively and must be a Kotlin `object` implementing `Codec`.
@@ -574,13 +574,13 @@ If your workload is dominated by deserialize-then-read-only access patterns, use
 You can override auto-detection with a system property or environment variable:
 
 ```
--Dprotokt.collection.factory=protokt.v1.PersistentCollectionFactory
+-Dprotokt.v1.collection.factory=protokt.v1.PersistentCollectionFactory
 ```
 
 or
 
 ```
-PROTOKT_COLLECTION_FACTORY=protokt.v1.PersistentCollectionFactory
+PROTOKT_V1_COLLECTION_FACTORY=protokt.v1.PersistentCollectionFactory
 ```
 
 You can also supply any custom `CollectionFactory` implementation by fully
