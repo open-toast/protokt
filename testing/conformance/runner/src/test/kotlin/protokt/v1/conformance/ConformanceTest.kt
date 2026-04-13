@@ -149,10 +149,8 @@ class ConformanceTest {
                     it[3] as SerializationMode
                 )
             }.filter {
-                // streaming is only supported on JVM and Native (via kotlinx-io), not JS
-                (it.serializationMode != SerializationMode.STREAMING || it.platform != JS_IR) &&
-                    // native only has ProtoktCodec (no protobuf-java or protobufjs)
-                    (it.codec != Codec.PROTOBUF || it.platform != NATIVE) &&
+                // native only has ProtoktCodec (no protobuf-java or protobufjs)
+                (it.codec != Codec.PROTOBUF || it.platform != NATIVE) &&
                     // optional platform filter (e.g., -Dconformance.platforms=NATIVE)
                     (platformFilter == null || it.platform in platformFilter)
             }
