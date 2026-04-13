@@ -22,8 +22,7 @@ import kotlinx.collections.immutable.PersistentMap
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.persistentMapOf
 
-@OnlyForUseByGeneratedProtoCode
-object PersistentCollectionFactory : CollectionFactory {
+internal object PersistentCollectionFactory : CollectionFactory {
     override fun <T> listBuilder(): ListBuilder<T> =
         PersistentListBuilderImpl()
 

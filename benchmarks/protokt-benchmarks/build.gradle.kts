@@ -28,6 +28,7 @@ allOpen {
 
 localProtokt()
 runtimeFriendPaths()
+friendPaths(":protokt-runtime-persistent-collections")
 configureBenchmarks()
 
 kotlin {

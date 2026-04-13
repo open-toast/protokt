@@ -33,20 +33,26 @@ import java.io.File
 //   2. -friend-modules only honours the last occurrence when passed multiple times,
 //      so all paths must be joined into a single argument.
 fun Project.runtimeFriendPaths() {
+    friendPaths(":protokt-runtime")
+
     configure<KotlinMultiplatformExtension> {
         compilerOptions {
             freeCompilerArgs.add("-opt-in=protokt.v1.OnlyForUseByGeneratedProtoCode")
         }
+    }
+}
 
+fun Project.friendPaths(friendProjectPath: String) {
+    configure<KotlinMultiplatformExtension> {
         targets.all {
             compilations.matching { it.compilationName in setOf("main", "test") }.all {
                 val compilation = this
                 compileTaskProvider.configure {
-                    val runtimeProject = project(":protokt-runtime")
-                    val runtimeKmp = runtimeProject
+                    val friendProject = project(friendProjectPath)
+                    val friendKmp = friendProject
                         .extensions
                         .getByType(KotlinMultiplatformExtension::class.java)
-                    val runtimeCompilation = runtimeKmp
+                    val friendCompilation = friendKmp
                         .targets
                         .getByName(compilation.target.name)
                         .compilations
@@ -54,23 +60,23 @@ fun Project.runtimeFriendPaths() {
                     when (this) {
                         is BaseKotlinCompile -> {
                             friendPaths.from(
-                                runtimeCompilation.output.classesDirs,
-                                runtimeCompilation.output.allOutputs
+                                friendCompilation.output.classesDirs,
+                                friendCompilation.output.allOutputs
                             )
                             val jarTaskName = "${compilation.target.name}Jar"
-                            if (jarTaskName in runtimeProject.tasks.names) {
-                                friendPaths.from(runtimeProject.tasks.named(jarTaskName))
+                            if (jarTaskName in friendProject.tasks.names) {
+                                friendPaths.from(friendProject.tasks.named(jarTaskName))
                             }
                         }
 
                         is KotlinNativeCompile -> {
                             val friendDirs =
                                 if (compilation.target.name == "metadata") {
-                                    runtimeKmp.targets.getByName("metadata")
+                                    friendKmp.targets.getByName("metadata")
                                         .compilations
                                         .flatMap { it.output.classesDirs }
                                 } else {
-                                    runtimeCompilation.output.classesDirs.toList()
+                                    friendCompilation.output.classesDirs.toList()
                                 }
                             val joined = friendDirs.joinToString(File.pathSeparator) { it.absolutePath }
                             compilerOptions.freeCompilerArgs.add("-friend-modules=$joined")
