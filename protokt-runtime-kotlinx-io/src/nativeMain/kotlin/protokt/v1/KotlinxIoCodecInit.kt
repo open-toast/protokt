@@ -20,10 +20,7 @@ package protokt.v1
 import kotlinx.cinterop.toKString
 import platform.posix.getenv
 
-@Suppress("DEPRECATION")
-@OptIn(ExperimentalStdlibApi::class)
-@EagerInitialization
-private val initCodec: Unit = run {
+fun configureKotlinxIoCodec() {
     val env = getenv("PROTOKT_V1_CODEC")?.toKString() ?: ""
     if (env == "protokt.v1.OptimalKmpCodec") {
         codecOverride = OptimalKmpCodec
