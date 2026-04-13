@@ -47,6 +47,11 @@ class ProtoktMultiplatformBenchmarks : ProtobufBenchmarkSet<Blackhole> {
     private lateinit var stringOneofPayloads: List<Bytes>
     private lateinit var stringOneofVeryHeavyPayloads: List<Bytes>
     private lateinit var stringVeryHeavyPayloads: List<Bytes>
+
+    // 20K chars: UTF-8 byte count ranges from 20,000 (all ASCII) to 60,000 (all 3-byte),
+    // both requiring a 3-byte varint length prefix. This lets the writer skip the UTF-8
+    // length measurement pass and encode directly (reserve-and-backtrack), unlike 10K chars
+    // where the varint could be 2 or 3 bytes.
     private lateinit var stringOneof20kPayloads: List<Bytes>
 
     private lateinit var stringRepeatedPayloads: List<Bytes>

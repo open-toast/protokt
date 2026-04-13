@@ -18,18 +18,18 @@ import com.google.protobuf.gradle.protobuf
 plugins {
     id("protokt.multiplatform-conventions")
     id("org.jetbrains.kotlinx.benchmark")
-    `kotlin-kapt`
+    id("org.jetbrains.kotlin.plugin.allopen")
+}
+
+allOpen {
+    annotation("org.openjdk.jmh.annotations.State")
+    annotation("kotlinx.benchmark.State")
 }
 
 localProtokt()
+configureBenchmarks()
 
 kotlin {
-    targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
-        binaries {
-            executable { entryPoint = "main" }
-        }
-    }
-
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -41,6 +41,7 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(project(":protokt-runtime-persistent-collections"))
+                implementation(kotlin("reflect"))
             }
         }
     }
@@ -48,7 +49,6 @@ kotlin {
 
 dependencies {
     protobuf(project(":benchmarks:schema"))
-    kapt(libs.jmh.generator)
 }
 
 benchmark {
@@ -60,12 +60,4 @@ benchmark {
 
 tasks.matching { it.name.contains("benchmark", ignoreCase = true) }.configureEach {
     dependsOn(":benchmarks:datasets")
-}
-
-tasks.register<JavaExec>("run") {
-    dependsOn(":benchmarks:datasets")
-    mainClass.set("protokt.v1.benchmarks.ProtoktBenchmarksKt")
-    classpath = kotlin.jvm().compilations["main"].runtimeDependencyFiles +
-        kotlin.jvm().compilations["main"].output.allOutputs
-    workingDir = file("..")
 }

@@ -16,10 +16,16 @@
 plugins {
     id("protokt.jvm-conventions")
     id("org.jetbrains.kotlinx.benchmark")
+    id("org.jetbrains.kotlin.plugin.allopen")
+}
+
+allOpen {
+    annotation("org.openjdk.jmh.annotations.State")
+    annotation("kotlinx.benchmark.State")
 }
 
 dependencies {
-    implementation(libs.jmh.core)
+    implementation(libs.kotlinx.benchmark.runtime)
 }
 
 configureBenchmarks()

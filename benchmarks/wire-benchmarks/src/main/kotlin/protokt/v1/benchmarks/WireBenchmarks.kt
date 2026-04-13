@@ -41,7 +41,7 @@ import kotlin.random.Random
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(BenchmarkTimeUnit.MILLISECONDS)
 @State(Scope.Benchmark)
-open class WireBenchmarks : JvmProtobufBenchmarkSet<Blackhole> {
+class WireBenchmarks : JvmProtobufBenchmarkSet<Blackhole> {
     private lateinit var largeDataset: BenchmarkDataset
     private lateinit var largeParsedDataset: List<GenericMessage1>
     private lateinit var mediumDataset: BenchmarkDataset

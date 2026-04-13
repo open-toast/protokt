@@ -31,6 +31,7 @@ fun Project.configureBenchmarks() {
             mode = "avgt"
             outputTimeUnit = "ms"
             advanced("jvmForks", f)
+            advanced("jmhIgnoreLock", true)
             reportFormat = "json"
 
             findProperty("benchmarkInclude")?.toString()?.let { include(it) }
