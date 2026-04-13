@@ -21,10 +21,10 @@ import kotlinx.benchmark.BenchmarkTimeUnit
 import kotlinx.benchmark.Blackhole
 import kotlinx.benchmark.Mode
 import kotlinx.benchmark.OutputTimeUnit
+import kotlinx.benchmark.Param
 import kotlinx.benchmark.Scope
 import kotlinx.benchmark.Setup
 import kotlinx.benchmark.State
-import kotlinx.benchmark.Param
 import kotlinx.io.Buffer
 import protokt.v1.Bytes
 import protokt.v1.serialize
