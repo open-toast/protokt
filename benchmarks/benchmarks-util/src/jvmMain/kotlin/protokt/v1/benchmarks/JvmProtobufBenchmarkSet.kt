@@ -15,8 +15,6 @@
 
 package protokt.v1.benchmarks
 
-
-
 interface JvmProtobufBenchmarkSet<T> : ProtobufBenchmarkSet<T> {
     fun deserializeStringHeavyStreaming(bh: T)
     fun deserializeStringOneofStreaming(bh: T)

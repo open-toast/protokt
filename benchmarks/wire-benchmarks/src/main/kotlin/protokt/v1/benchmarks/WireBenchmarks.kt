@@ -20,22 +20,22 @@ import com.toasttab.protokt.v1.benchmarks.GenericMessage1
 import com.toasttab.protokt.v1.benchmarks.GenericMessage4
 import com.toasttab.protokt.v1.benchmarks.StringCollectionMessage
 import com.toasttab.protokt.v1.benchmarks.StringOneofMessage
-import okio.ByteString
-import okio.ByteString.Companion.toByteString
-import okio.buffer
-import okio.sink
-import okio.source
 import kotlinx.benchmark.Benchmark
 import kotlinx.benchmark.BenchmarkMode
+import kotlinx.benchmark.BenchmarkTimeUnit
+import kotlinx.benchmark.Blackhole
 import kotlinx.benchmark.Mode
 import kotlinx.benchmark.OutputTimeUnit
 import kotlinx.benchmark.Scope
 import kotlinx.benchmark.Setup
 import kotlinx.benchmark.State
-import kotlinx.benchmark.Blackhole
+import okio.ByteString
+import okio.ByteString.Companion.toByteString
+import okio.buffer
+import okio.sink
+import okio.source
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
-import kotlinx.benchmark.BenchmarkTimeUnit
 import kotlin.random.Random
 
 @BenchmarkMode(Mode.AverageTime)

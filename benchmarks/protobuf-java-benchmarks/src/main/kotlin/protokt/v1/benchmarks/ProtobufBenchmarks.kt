@@ -21,15 +21,15 @@ import com.google.protobuf.benchmarks.Benchmarks
 import com.toasttab.protokt.v1.benchmarks.GenericMessage
 import kotlinx.benchmark.Benchmark
 import kotlinx.benchmark.BenchmarkMode
+import kotlinx.benchmark.BenchmarkTimeUnit
+import kotlinx.benchmark.Blackhole
 import kotlinx.benchmark.Mode
 import kotlinx.benchmark.OutputTimeUnit
 import kotlinx.benchmark.Scope
 import kotlinx.benchmark.Setup
 import kotlinx.benchmark.State
-import kotlinx.benchmark.Blackhole
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
-import kotlinx.benchmark.BenchmarkTimeUnit
 import kotlin.random.Random
 
 @BenchmarkMode(Mode.AverageTime)

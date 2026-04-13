@@ -15,4 +15,3 @@ protokt-codegen/src/test/resources/protokt/v1/codegen/test-proto-bin-request.bin
 node_modules/
 package-lock.json
 package.json
-.claude/

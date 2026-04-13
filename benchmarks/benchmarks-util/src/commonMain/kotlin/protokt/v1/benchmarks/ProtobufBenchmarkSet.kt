@@ -15,8 +15,6 @@
 
 package protokt.v1.benchmarks
 
-
-
 interface ProtobufBenchmarkSet<T> {
     fun deserializeLargeFromMemory(bh: T)
     fun deserializeMediumFromMemory(bh: T)

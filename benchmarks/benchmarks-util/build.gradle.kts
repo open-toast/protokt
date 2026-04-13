@@ -16,19 +16,3 @@
 plugins {
     id("protokt.multiplatform-conventions")
 }
-
-kotlin {
-    sourceSets {
-        val commonMain by getting {
-            dependencies {
-                api(libs.kotlinx.benchmark.runtime)
-            }
-        }
-
-        val jvmMain by getting {
-            dependencies {
-                implementation(libs.jmh.core)
-            }
-        }
-    }
-}
