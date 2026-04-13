@@ -45,18 +45,19 @@ fun Project.runtimeFriendPaths() {
 fun Project.friendPaths(friendProjectPath: String) {
     configure<KotlinMultiplatformExtension> {
         targets.all {
-            compilations.matching { it.compilationName in setOf("main", "test") }.all {
+            compilations.all {
                 val compilation = this
                 compileTaskProvider.configure {
                     val friendProject = project(friendProjectPath)
                     val friendKmp = friendProject
                         .extensions
                         .getByType(KotlinMultiplatformExtension::class.java)
-                    val friendCompilation = friendKmp
+                    val friendTarget = friendKmp
                         .targets
-                        .getByName(compilation.target.name)
-                        .compilations
-                        .getByName(compilation.compilationName)
+                        .findByName(compilation.target.name) ?: return@configure
+                    val friendCompilationName =
+                        if (friendTarget.compilations.findByName(compilation.compilationName) != null) compilation.compilationName else "main"
+                    val friendCompilation = friendTarget.compilations.getByName(friendCompilationName)
                     when (this) {
                         is BaseKotlinCompile -> {
                             friendPaths.from(
