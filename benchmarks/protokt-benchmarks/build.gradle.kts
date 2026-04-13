@@ -27,8 +27,13 @@ allOpen {
 }
 
 localProtokt()
-runtimeFriendPaths()
-friendPaths(":protokt-runtime-persistent-collections")
+friendPaths(":protokt-runtime", ":protokt-runtime-persistent-collections")
+
+configure<org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension> {
+    compilerOptions {
+        freeCompilerArgs.add("-opt-in=protokt.v1.OnlyForUseByGeneratedProtoCode")
+    }
+}
 configureBenchmarks()
 
 kotlin {

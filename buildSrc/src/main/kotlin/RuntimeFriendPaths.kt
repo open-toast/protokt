@@ -16,6 +16,7 @@
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation
 import org.jetbrains.kotlin.gradle.tasks.BaseKotlinCompile
 import org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile
 import java.io.File
@@ -42,36 +43,44 @@ fun Project.runtimeFriendPaths() {
     }
 }
 
-fun Project.friendPaths(friendProjectPath: String) {
+fun Project.friendPaths(vararg friendProjectPaths: String) {
     configure<KotlinMultiplatformExtension> {
         targets.all {
             compilations.all {
                 val compilation = this
-                compileTaskProvider.configure {
-                    val friendProject = project(friendProjectPath)
+                val friends = friendProjectPaths.mapNotNull { path ->
+                    val friendProject = project(path)
                     val friendKmp = friendProject
                         .extensions
                         .getByType(KotlinMultiplatformExtension::class.java)
                     val friendTarget = friendKmp
                         .targets
-                        .findByName(compilation.target.name) ?: return@configure
+                        .findByName(compilation.target.name) ?: return@mapNotNull null
                     val friendCompilationName =
-                        if (friendTarget.compilations.findByName(compilation.compilationName) != null) compilation.compilationName else "main"
-                    val friendCompilation = friendTarget.compilations.getByName(friendCompilationName)
+                        if (friendTarget.compilations.findByName(compilation.compilationName) != null) {
+                            compilation.compilationName
+                        } else {
+                            KotlinCompilation.MAIN_COMPILATION_NAME
+                        }
+                    Triple(friendProject, friendKmp, friendTarget.compilations.getByName(friendCompilationName))
+                }
+
+                if (friends.isEmpty()) return@all
+
+                compileTaskProvider.configure {
                     when (this) {
                         is BaseKotlinCompile -> {
-                            friendPaths.from(
-                                friendCompilation.output.classesDirs,
-                                friendCompilation.output.allOutputs
-                            )
-                            val jarTaskName = "${compilation.target.name}Jar"
-                            if (jarTaskName in friendProject.tasks.names) {
-                                friendPaths.from(friendProject.tasks.named(jarTaskName))
+                            for ((friendProject, _, friend) in friends) {
+                                friendPaths.from(friend.output.classesDirs, friend.output.allOutputs)
+                                val jarTaskName = "${compilation.target.name}Jar"
+                                if (jarTaskName in friendProject.tasks.names) {
+                                    friendPaths.from(friendProject.tasks.named(jarTaskName))
+                                }
                             }
                         }
 
                         is KotlinNativeCompile -> {
-                            val friendDirs =
+                            val allDirs = friends.flatMap { (_, friendKmp, friendCompilation) ->
                                 if (compilation.target.name == "metadata") {
                                     friendKmp.targets.getByName("metadata")
                                         .compilations
@@ -79,7 +88,8 @@ fun Project.friendPaths(friendProjectPath: String) {
                                 } else {
                                     friendCompilation.output.classesDirs.toList()
                                 }
-                            val joined = friendDirs.joinToString(File.pathSeparator) { it.absolutePath }
+                            }
+                            val joined = allDirs.joinToString(File.pathSeparator) { it.absolutePath }
                             compilerOptions.freeCompilerArgs.add("-friend-modules=$joined")
                         }
                     }
