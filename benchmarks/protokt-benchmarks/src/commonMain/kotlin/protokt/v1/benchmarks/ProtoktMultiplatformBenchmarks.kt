@@ -135,17 +135,23 @@ class ProtoktMultiplatformBenchmarks : ProtobufBenchmarkSet<Blackhole> {
 
     @Benchmark
     override fun deserializeLargeFromMemory(bh: Blackhole) {
-        largeDataset.payload.forEach { bytes -> bh.consume(GenericMessage1.deserialize(bytes)) }
+        largeDataset.payload.forEach { bytes ->
+            bh.consume(GenericMessage1.deserialize(bytes))
+        }
     }
 
     @Benchmark
     override fun deserializeMediumFromMemory(bh: Blackhole) {
-        mediumDataset.payload.forEach { bytes -> bh.consume(GenericMessage1.deserialize(bytes)) }
+        mediumDataset.payload.forEach { bytes ->
+            bh.consume(GenericMessage1.deserialize(bytes))
+        }
     }
 
     @Benchmark
     override fun deserializeSmallFromMemory(bh: Blackhole) {
-        smallDataset.payload.forEach { bytes -> bh.consume(GenericMessage4.deserialize(bytes)) }
+        smallDataset.payload.forEach { bytes ->
+            bh.consume(GenericMessage4.deserialize(bytes))
+        }
     }
 
     @Benchmark
@@ -249,17 +255,23 @@ class ProtoktMultiplatformBenchmarks : ProtobufBenchmarkSet<Blackhole> {
 
     @Benchmark
     override fun passThroughLargeFromMemory(bh: Blackhole) {
-        largeDataset.payload.forEach { bytes -> bh.consume(GenericMessage1.deserialize(bytes).serialize()) }
+        largeDataset.payload.forEach { bytes ->
+            bh.consume(GenericMessage1.deserialize(bytes).serialize())
+        }
     }
 
     @Benchmark
     override fun passThroughMediumFromMemory(bh: Blackhole) {
-        mediumDataset.payload.forEach { bytes -> bh.consume(GenericMessage1.deserialize(bytes).serialize()) }
+        mediumDataset.payload.forEach { bytes ->
+            bh.consume(GenericMessage1.deserialize(bytes).serialize())
+        }
     }
 
     @Benchmark
     override fun passThroughSmallFromMemory(bh: Blackhole) {
-        smallDataset.payload.forEach { bytes -> bh.consume(GenericMessage4.deserialize(bytes).serialize()) }
+        smallDataset.payload.forEach { bytes ->
+            bh.consume(GenericMessage4.deserialize(bytes).serialize())
+        }
     }
 
     @Benchmark
@@ -293,7 +305,9 @@ class ProtoktMultiplatformBenchmarks : ProtobufBenchmarkSet<Blackhole> {
 
     @Benchmark
     override fun passThroughStringHeavy(bh: Blackhole) {
-        stringHeavyPayloads.forEach { bytes -> bh.consume(GenericMessage1.deserialize(bytes).serialize()) }
+        stringHeavyPayloads.forEach { bytes ->
+            bh.consume(GenericMessage1.deserialize(bytes).serialize())
+        }
     }
 
     @Benchmark
@@ -317,7 +331,9 @@ class ProtoktMultiplatformBenchmarks : ProtobufBenchmarkSet<Blackhole> {
 
     @Benchmark
     override fun passThroughStringOneof(bh: Blackhole) {
-        stringOneofPayloads.forEach { bytes -> bh.consume(StringOneofMessage.deserialize(bytes).serialize()) }
+        stringOneofPayloads.forEach { bytes ->
+            bh.consume(StringOneofMessage.deserialize(bytes).serialize())
+        }
     }
 
     @Benchmark
@@ -431,12 +447,16 @@ class ProtoktMultiplatformBenchmarks : ProtobufBenchmarkSet<Blackhole> {
 
     @Benchmark
     override fun deserializeStringRepeated(bh: Blackhole) {
-        stringRepeatedPayloads.forEach { bytes -> bh.consume(StringCollectionMessage.deserialize(bytes)) }
+        stringRepeatedPayloads.forEach { bytes ->
+            bh.consume(StringCollectionMessage.deserialize(bytes))
+        }
     }
 
     @Benchmark
     override fun deserializeStringMap(bh: Blackhole) {
-        stringMapPayloads.forEach { bytes -> bh.consume(StringCollectionMessage.deserialize(bytes)) }
+        stringMapPayloads.forEach { bytes ->
+            bh.consume(StringCollectionMessage.deserialize(bytes))
+        }
     }
 
     @Benchmark
