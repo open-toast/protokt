@@ -117,6 +117,10 @@ class ConformanceTest {
                             "protokt.v1.DefaultCollectionFactory"
                         }
                     )
+                    put(
+                        "PROTOKT_V1_CODEC",
+                        "protokt.v1.ProtoktCodec"
+                    )
                     if (serializationMode == SerializationMode.STREAMING) {
                         put("PROTOKT_STREAMING", "true")
                     }
