@@ -4,7 +4,22 @@ See [RESULTS.md](RESULTS.md) for detailed benchmark results and analysis.
 
 ## Running
 
-Run all benchmarks for a given implementation:
+### kotlinx-benchmark (JVM + Native)
+
+Run protokt benchmarks on the current platform via kotlinx-benchmark:
+
+```
+./gradlew :benchmarks:protokt-benchmarks:jvmBenchmark
+./gradlew :benchmarks:protokt-benchmarks:macosArm64Benchmark
+```
+
+These use kotlinx-benchmark (JMH on JVM, native runtime on K/N) and run the
+full `ProtoktMultiplatformBenchmarks` suite on both platforms for direct
+comparison.
+
+### JMH runner (JVM only)
+
+Run benchmarks via the legacy JMH runner for protokt, protobuf-java, and Wire:
 
 ```
 ./gradlew :benchmarks:protokt-benchmarks:run
@@ -12,9 +27,12 @@ Run all benchmarks for a given implementation:
 ./gradlew :benchmarks:wire-benchmarks:run
 ```
 
+The JMH runner supports flags and parameter selection (see below). The
+protobuf-java and Wire modules are JVM-only comparison benchmarks.
+
 ## Flags
 
-Flags are passed via `--args`:
+Flags are passed via `--args` (JMH runner only):
 
 | Flag | Description |
 |------|-------------|

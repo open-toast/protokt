@@ -27,6 +27,19 @@ fun readData(dataset: String) =
 actual fun readDatasetBytes(name: String): ByteArray =
     File("../build/datasets/dataset-$name").readBytes()
 
+/**
+ * Runs JMH benchmarks for the given class.
+ *
+ * Supported args (passed via `--args`):
+ *   -i regex         Include only benchmarks matching regex (e.g. `-i mutateAndSerialize`)
+ *   -e regex         Exclude benchmarks matching regex (e.g. `-e .*copyAppend.*`)
+ *   -p name=value    Set a JMH parameter (e.g. `-p codec=protokt.v1.ProtoktCodec`)
+ *   -prof name       Add a JMH profiler (e.g. `-prof async`)
+ *   -wi n            Warmup iterations (default 3)
+ *   -mi n            Measurement iterations (default 5)
+ *   -f n             Forks (default 2)
+ *   -jvmArgs args    Extra JVM args (e.g. `-jvmArgs -agentpath:...`)
+ */
 fun run(self: KClass<*>, args: Array<String> = emptyArray()) {
     var resultSuffix = ""
     val opts = OptionsBuilder()
