@@ -7,8 +7,10 @@ on:
     branches: [ main ]
 
 jobs:
-  # Primary build: JVM + JS tests, macOS native tests + conformance,
-  # cross-compile all other native test binaries, publish integration repo.
+  # Primary build: JVM + JS tests, macOS native tests, cross-compile all
+  # other native test binaries, publish integration repo.  Protovalidate
+  # conformance runs in a separate Gradle invocation to avoid OOM during
+  # the heavy compilation phase.
   #
   # macOS can cross-compile for all Kotlin/Native targets, so this single
   # job produces every artifact the satellite jobs need.
@@ -32,7 +34,11 @@ jobs:
     - name: Set up js
       run: npm install protobufjs@7.2.6 long@5.2.3
     - name: Build, test, and publish integration repo
-      run: ./gradlew clean check publishToIntegrationRepository --stacktrace --no-daemon
+      run: ./gradlew clean check publishToIntegrationRepository -x :testing:protovalidate-conformance:conformance -x :testing:protovalidate-conformance:test --stacktrace --no-daemon
+      env:
+        GRADLE_OPTS: "-Xmx4g"
+    - name: Run protovalidate conformance
+      run: ./gradlew :testing:protovalidate-conformance:conformance --stacktrace --no-daemon
       env:
         GRADLE_OPTS: "-Xmx4g"
     - uses: actions/upload-artifact@v7
