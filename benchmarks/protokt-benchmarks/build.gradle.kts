@@ -16,26 +16,59 @@
 import com.google.protobuf.gradle.protobuf
 
 plugins {
-    id("protokt.benchmarks-conventions")
-    application
+    id("protokt.multiplatform-conventions")
+    id("org.jetbrains.kotlinx.benchmark")
+    `kotlin-kapt`
 }
 
 localProtokt()
 
-configure<JavaApplication> {
-    mainClass.set("protokt.v1.benchmarks.ProtoktBenchmarksKt")
-    executableDir = ".."
+kotlin {
+    targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
+        binaries {
+            executable { entryPoint = "main" }
+        }
+    }
+
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation(libs.kotlinx.benchmark.runtime)
+                implementation(project(":protokt-runtime-kotlinx-io"))
+            }
+        }
+
+        val jvmMain by getting {
+            dependencies {
+                implementation(libs.jmh.core)
+                implementation(project(":benchmarks:benchmarks-util"))
+                implementation(project(":protokt-runtime-persistent-collections"))
+                implementation(kotlin("reflect"))
+            }
+        }
+    }
 }
 
 dependencies {
     protobuf(project(":benchmarks:schema"))
-
-    implementation(kotlin("reflect"))
-    implementation(project(":benchmarks:benchmarks-util"))
-    implementation(project(":protokt-runtime-persistent-collections"))
-    implementation(project(":protokt-runtime-kotlinx-io"))
+    kapt(libs.jmh.generator)
 }
 
-tasks.named("run") {
+benchmark {
+    targets {
+        register("jvm")
+        register("macosArm64")
+    }
+}
+
+tasks.matching { it.name.contains("benchmark", ignoreCase = true) }.configureEach {
     dependsOn(":benchmarks:datasets")
+}
+
+tasks.register<JavaExec>("run") {
+    dependsOn(":benchmarks:datasets")
+    mainClass.set("protokt.v1.benchmarks.ProtoktBenchmarksKt")
+    classpath = kotlin.jvm().compilations["main"].runtimeDependencyFiles +
+        kotlin.jvm().compilations["main"].output.allOutputs
+    workingDir = file("..")
 }
