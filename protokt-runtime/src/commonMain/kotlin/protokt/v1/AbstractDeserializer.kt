@@ -16,12 +16,15 @@
 package protokt.v1
 
 @OnlyForUseByGeneratedProtoCode
-expect abstract class AbstractDeserializer<T : Message>() : Deserializer<T> {
+abstract class AbstractDeserializer<T : Message> : Deserializer<T> {
     abstract override fun deserialize(reader: Reader): T
 
-    final override fun deserialize(bytes: Bytes): T
+    final override fun deserialize(bytes: Bytes): T =
+        deserialize(bytes.value)
 
-    final override fun deserialize(bytes: ByteArray): T
+    final override fun deserialize(bytes: ByteArray): T =
+        deserialize(codec.reader(bytes))
 
-    final override fun deserialize(bytes: BytesSlice): T
+    final override fun deserialize(bytes: BytesSlice): T =
+        deserialize(codec.reader(bytes.array, bytes.offset, bytes.length))
 }

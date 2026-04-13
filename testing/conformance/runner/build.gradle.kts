@@ -39,58 +39,49 @@ repositories {
     }
 }
 
-val conformanceSupported = Os.current.kind != Os.Kind.WINDOWS
+configurations.create("conformance")
 
-if (conformanceSupported) {
-    configurations.create("conformance")
+// protobuf-java version is [java-specific major version].[protobuf version], e.g. 4.26.1
+// the conformance runner version is just [protobuf version], e.g. 26.1
+val conformanceVersion = libs.versions.protobuf.java.get().replace(Regex("^\\d+\\."), "")
 
-    // protobuf-java version is [java-specific major version].[protobuf version], e.g. 4.26.1
-    // the conformance runner version is just [protobuf version], e.g. 26.1
-    val conformanceVersion = libs.versions.protobuf.java.get().replace(Regex("^\\d+\\."), "")
-
-    dependencies {
-        testImplementation(project(":protokt-runtime-persistent-collections"))
-        testImplementation(project(":testing:testing-util"))
-        add("conformance", "build-protobuf-conformance-runner:conformance_test_runner:$conformanceVersion") {
-            artifact {
-                extension = "exe"
-                classifier = Os.current.conformanceClassifier
-            }
+dependencies {
+    testImplementation(project(":protokt-runtime-persistent-collections"))
+    testImplementation(project(":testing:testing-util"))
+    add("conformance", "build-protobuf-conformance-runner:conformance_test_runner:$conformanceVersion") {
+        artifact {
+            extension = "exe"
+            classifier = Os.current.conformanceClassifier
         }
     }
+}
 
-    tasks.register<Copy>("setupRunner") {
-        from(configurations.getAt("conformance"))
-        into(layout.buildDirectory.dir("bin"))
-        filePermissions {
-            user {
-                read = true
-                execute = true
-            }
+tasks.register<Copy>("setupRunner") {
+    from(configurations.getAt("conformance"))
+    into(layout.buildDirectory.dir("bin"))
+    filePermissions {
+        user {
+            read = true
+            execute = true
         }
     }
+}
 
-    val nativeTarget = Os.current.hostNativeTarget
+val nativeTarget = Os.current.hostNativeTarget
 
-    tasks {
-        test {
-            systemProperty("conformance-runner", layout.buildDirectory.dir("bin").get().file("conformance_test_runner-$conformanceVersion-${Os.current.conformanceClassifier}.exe").asFile.path)
-            systemProperty("native-conformance-target", nativeTarget)
-            System.getProperty("conformance.platforms")?.let {
-                systemProperty("conformance.platforms", it)
-            }
-
-            outputs.upToDateWhen { false }
-
-            dependsOn("setupRunner")
-            dependsOn(":testing:conformance:js-ir:compileProductionExecutableKotlinJs")
-            dependsOn(":testing:conformance:jvm:installDist")
-            dependsOn(":testing:conformance:driver:linkReleaseExecutable${nativeTarget.replaceFirstChar { it.uppercase() }}")
+tasks {
+    test {
+        systemProperty("conformance-runner", layout.buildDirectory.dir("bin").get().file("conformance_test_runner-$conformanceVersion-${Os.current.conformanceClassifier}.exe").asFile.path)
+        systemProperty("native-conformance-target", nativeTarget)
+        System.getProperty("conformance.platforms")?.let {
+            systemProperty("conformance.platforms", it)
         }
-    }
-} else {
-    dependencies {
-        testImplementation(project(":protokt-runtime-persistent-collections"))
-        testImplementation(project(":testing:testing-util"))
+
+        outputs.upToDateWhen { false }
+
+        dependsOn("setupRunner")
+        dependsOn(":testing:conformance:js-ir:compileProductionExecutableKotlinJs")
+        dependsOn(":testing:conformance:jvm:installDist")
+        dependsOn(":testing:conformance:driver:linkReleaseExecutable${nativeTarget.replaceFirstChar { it.uppercase() }}")
     }
 }

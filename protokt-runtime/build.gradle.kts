@@ -26,6 +26,13 @@ kotlin {
     }
 
     sourceSets {
+        val nonJvmMain by creating {
+            dependsOn(commonMain.get())
+        }
+
+        jsMain.get().dependsOn(nonJvmMain)
+        nativeMain.get().dependsOn(nonJvmMain)
+
         val jvmTest by getting {
             dependencies {
                 implementation(project(":protokt-runtime-protobuf-java"))
