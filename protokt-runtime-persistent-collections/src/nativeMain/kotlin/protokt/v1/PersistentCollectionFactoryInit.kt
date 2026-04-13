@@ -21,7 +21,7 @@ import kotlinx.cinterop.toKString
 import platform.posix.getenv
 
 fun configurePersistentCollections() {
-    val env = getenv("PROTOKT_COLLECTION_FACTORY")?.toKString() ?: ""
+    val env = getenv("PROTOKT_V1_COLLECTION_FACTORY")?.toKString() ?: ""
     if (env == "protokt.v1.PersistentCollectionFactory") {
         collectionFactoryOverride = PersistentCollectionFactory
     }

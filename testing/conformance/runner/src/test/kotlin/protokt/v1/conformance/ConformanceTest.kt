@@ -110,7 +110,7 @@ class ConformanceTest {
 
                 NATIVE -> buildMap {
                     put(
-                        "PROTOKT_COLLECTION_FACTORY",
+                        "PROTOKT_V1_COLLECTION_FACTORY",
                         if (collectionFactory == PERSISTENT) {
                             "protokt.v1.PersistentCollectionFactory"
                         } else {
