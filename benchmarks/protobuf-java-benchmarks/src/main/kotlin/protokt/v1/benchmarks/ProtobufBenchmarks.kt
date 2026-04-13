@@ -29,13 +29,13 @@ import org.openjdk.jmh.annotations.State
 import org.openjdk.jmh.infra.Blackhole
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
-import java.util.Random
+import kotlin.random.Random
 import java.util.concurrent.TimeUnit
 
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 @State(Scope.Benchmark)
-open class ProtobufBenchmarks : ProtobufBenchmarkSet {
+open class ProtobufBenchmarks : JvmProtobufBenchmarkSet {
     private lateinit var largeDataset: Benchmarks.BenchmarkDataset
     private lateinit var largeParsedDataset: List<GenericMessage.GenericMessage1>
     private lateinit var mediumDataset: Benchmarks.BenchmarkDataset

@@ -13,30 +13,30 @@
  * limitations under the License.
  */
 
+@file:OptIn(kotlinx.cinterop.ExperimentalForeignApi::class)
+
 package protokt.v1.benchmarks
 
-import kotlinx.cinterop.ExperimentalForeignApi
-import kotlinx.cinterop.refTo
+import kotlinx.cinterop.addressOf
+import kotlinx.cinterop.convert
+import kotlinx.cinterop.usePinned
 import platform.posix.SEEK_END
-import platform.posix.SEEK_SET
 import platform.posix.fclose
 import platform.posix.fopen
 import platform.posix.fread
 import platform.posix.fseek
 import platform.posix.ftell
+import platform.posix.rewind
 
-@OptIn(ExperimentalForeignApi::class)
 actual fun readDatasetBytes(name: String): ByteArray {
-    val path = "../build/datasets/dataset-$name"
-    val file = fopen(path, "rb") ?: error("Cannot open dataset file: $path")
-    try {
-        fseek(file, 0, SEEK_END)
-        val size = ftell(file).toInt()
-        fseek(file, 0, SEEK_SET)
-        val buffer = ByteArray(size)
-        fread(buffer.refTo(0), 1u, size.toULong(), file)
-        return buffer
-    } finally {
-        fclose(file)
+    val file = fopen("../build/datasets/dataset-$name", "rb") ?: error("Cannot open dataset: $name")
+    fseek(file, 0, SEEK_END)
+    val size = ftell(file).toInt()
+    rewind(file)
+    val bytes = ByteArray(size)
+    bytes.usePinned { pinned ->
+        fread(pinned.addressOf(0), 1u.convert(), size.convert(), file)
     }
+    fclose(file)
+    return bytes
 }

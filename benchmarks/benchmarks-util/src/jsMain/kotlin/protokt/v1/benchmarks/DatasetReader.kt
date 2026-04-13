@@ -16,4 +16,4 @@
 package protokt.v1.benchmarks
 
 actual fun readDatasetBytes(name: String): ByteArray =
-    error("Benchmarks are not supported on JS")
+    error("Benchmarks not supported on JS")

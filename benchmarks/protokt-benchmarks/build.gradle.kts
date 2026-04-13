@@ -33,17 +33,14 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(libs.kotlinx.benchmark.runtime)
+                implementation(project(":benchmarks:benchmarks-util"))
                 implementation(project(":protokt-runtime-kotlinx-io"))
             }
         }
 
         val jvmMain by getting {
             dependencies {
-                implementation(libs.jmh.core)
-                implementation(project(":benchmarks:benchmarks-util"))
                 implementation(project(":protokt-runtime-persistent-collections"))
-                implementation(kotlin("reflect"))
             }
         }
     }

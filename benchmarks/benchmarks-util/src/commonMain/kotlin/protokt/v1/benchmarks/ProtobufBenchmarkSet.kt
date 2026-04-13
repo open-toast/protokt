@@ -15,7 +15,7 @@
 
 package protokt.v1.benchmarks
 
-import org.openjdk.jmh.infra.Blackhole
+import kotlinx.benchmark.Blackhole
 
 interface ProtobufBenchmarkSet {
     fun deserializeLargeFromMemory(bh: Blackhole)
@@ -39,8 +39,6 @@ interface ProtobufBenchmarkSet {
     fun mutateAndSerializeStringHeavy(bh: Blackhole)
     fun mutateAndSerializeStringHeavyStreaming(bh: Blackhole)
     fun passThroughStringHeavy(bh: Blackhole)
-    fun deserializeStringHeavyStreaming(bh: Blackhole)
-    fun deserializeStringOneofStreaming(bh: Blackhole)
     fun mutateAndSerializeStringOneof(bh: Blackhole)
     fun passThroughStringOneof(bh: Blackhole)
     fun mutateAndSerializeStringOneofStreaming(bh: Blackhole)
@@ -54,7 +52,4 @@ interface ProtobufBenchmarkSet {
     fun deserializeStringMap(bh: Blackhole)
     fun copyAppendRepeatedString(bh: Blackhole)
     fun copyAppendMapStringString(bh: Blackhole)
-    fun deserializeLargeStreaming(bh: Blackhole)
-    fun deserializeMediumStreaming(bh: Blackhole)
-    fun deserializeSmallStreaming(bh: Blackhole)
 }

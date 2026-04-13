@@ -15,7 +15,12 @@
 
 package protokt.v1.benchmarks
 
-import java.io.File
+import kotlinx.benchmark.Blackhole
 
-actual fun readDatasetBytes(name: String): ByteArray =
-    File("../build/datasets/dataset-$name").readBytes()
+interface JvmProtobufBenchmarkSet : ProtobufBenchmarkSet {
+    fun deserializeStringHeavyStreaming(bh: Blackhole)
+    fun deserializeStringOneofStreaming(bh: Blackhole)
+    fun deserializeLargeStreaming(bh: Blackhole)
+    fun deserializeMediumStreaming(bh: Blackhole)
+    fun deserializeSmallStreaming(bh: Blackhole)
+}
