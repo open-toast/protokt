@@ -15,12 +15,12 @@
 
 package protokt.v1.benchmarks
 
-import kotlinx.benchmark.Blackhole
 
-interface JvmProtobufBenchmarkSet : ProtobufBenchmarkSet {
-    fun deserializeStringHeavyStreaming(bh: Blackhole)
-    fun deserializeStringOneofStreaming(bh: Blackhole)
-    fun deserializeLargeStreaming(bh: Blackhole)
-    fun deserializeMediumStreaming(bh: Blackhole)
-    fun deserializeSmallStreaming(bh: Blackhole)
+
+interface JvmProtobufBenchmarkSet<T> : ProtobufBenchmarkSet<T> {
+    fun deserializeStringHeavyStreaming(bh: T)
+    fun deserializeStringOneofStreaming(bh: T)
+    fun deserializeLargeStreaming(bh: T)
+    fun deserializeMediumStreaming(bh: T)
+    fun deserializeSmallStreaming(bh: T)
 }

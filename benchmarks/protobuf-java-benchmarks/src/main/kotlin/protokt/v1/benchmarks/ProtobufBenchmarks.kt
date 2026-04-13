@@ -19,23 +19,23 @@ import com.google.protobuf.ByteString
 import com.google.protobuf.UnsafeByteOperations
 import com.google.protobuf.benchmarks.Benchmarks
 import com.toasttab.protokt.v1.benchmarks.GenericMessage
-import org.openjdk.jmh.annotations.Benchmark
-import org.openjdk.jmh.annotations.BenchmarkMode
-import org.openjdk.jmh.annotations.Mode
-import org.openjdk.jmh.annotations.OutputTimeUnit
-import org.openjdk.jmh.annotations.Scope
-import org.openjdk.jmh.annotations.Setup
-import org.openjdk.jmh.annotations.State
-import org.openjdk.jmh.infra.Blackhole
+import kotlinx.benchmark.Benchmark
+import kotlinx.benchmark.BenchmarkMode
+import kotlinx.benchmark.Mode
+import kotlinx.benchmark.OutputTimeUnit
+import kotlinx.benchmark.Scope
+import kotlinx.benchmark.Setup
+import kotlinx.benchmark.State
+import kotlinx.benchmark.Blackhole
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
-import java.util.concurrent.TimeUnit
+import kotlinx.benchmark.BenchmarkTimeUnit
 import kotlin.random.Random
 
 @BenchmarkMode(Mode.AverageTime)
-@OutputTimeUnit(TimeUnit.MILLISECONDS)
+@OutputTimeUnit(BenchmarkTimeUnit.MILLISECONDS)
 @State(Scope.Benchmark)
-open class ProtobufBenchmarks : JvmProtobufBenchmarkSet {
+open class ProtobufBenchmarks : JvmProtobufBenchmarkSet<Blackhole> {
     private lateinit var largeDataset: Benchmarks.BenchmarkDataset
     private lateinit var largeParsedDataset: List<GenericMessage.GenericMessage1>
     private lateinit var mediumDataset: Benchmarks.BenchmarkDataset

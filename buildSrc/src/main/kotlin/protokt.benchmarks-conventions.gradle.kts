@@ -15,10 +15,11 @@
 
 plugins {
     id("protokt.jvm-conventions")
-    `kotlin-kapt`
+    id("org.jetbrains.kotlinx.benchmark")
 }
 
 dependencies {
     implementation(libs.jmh.core)
-    kapt(libs.jmh.generator)
 }
+
+configureBenchmarks()

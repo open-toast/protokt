@@ -31,7 +31,7 @@ import protokt.v1.serialize
 @State(Scope.Benchmark)
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(BenchmarkTimeUnit.MILLISECONDS)
-class ProtoktMultiplatformBenchmarks : ProtobufBenchmarkSet {
+class ProtoktMultiplatformBenchmarks : ProtobufBenchmarkSet<Blackhole> {
     private lateinit var largeDataset: BenchmarkDataset
     private lateinit var largeParsedDataset: List<GenericMessage1>
 
