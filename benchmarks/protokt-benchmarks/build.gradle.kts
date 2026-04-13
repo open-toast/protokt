@@ -35,6 +35,7 @@ kotlin {
             dependencies {
                 implementation(project(":benchmarks:benchmarks-util"))
                 implementation(project(":protokt-runtime-kotlinx-io"))
+                implementation(libs.kotlinx.benchmark.runtime)
             }
         }
 

@@ -505,7 +505,3 @@ class WireBenchmarks : JvmProtobufBenchmarkSet<Blackhole> {
         }
     }
 }
-
-fun main(args: Array<String>) {
-    run(WireBenchmarks::class, args)
-}

@@ -487,7 +487,3 @@ class ProtobufBenchmarks : JvmProtobufBenchmarkSet<Blackhole> {
         }
     }
 }
-
-fun main(args: Array<String>) {
-    run(ProtobufBenchmarks::class, args)
-}
