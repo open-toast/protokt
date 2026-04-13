@@ -130,12 +130,13 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
         group = "publishing"
 
         val publishingExtension = project.the<PublishingExtension>()
-        val nativeTargetNames = extensions.findByType(KotlinMultiplatformExtension::class.java)
-            ?.targets
-            ?.filterIsInstance<KotlinNativeTarget>()
-            ?.map { it.name }
-            ?.toSet()
-            ?: emptySet()
+        val nativeTargetNames =
+            extensions.findByType(KotlinMultiplatformExtension::class.java)
+                ?.targets
+                ?.filterIsInstance<KotlinNativeTarget>()
+                ?.map { it.name }
+                ?.toSet()
+                ?: emptySet()
 
         dependsOn(
             tasks.withType<PublishToMavenRepository>().matching {
