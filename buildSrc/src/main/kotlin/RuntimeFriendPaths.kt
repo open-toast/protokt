@@ -48,30 +48,14 @@ fun Project.friendPaths(vararg friendProjectPaths: String) {
         targets.all {
             compilations.all {
                 val compilation = this
-                val friends = friendProjectPaths.mapNotNull { path ->
-                    val friendProject = project(path)
-                    val friendKmp = friendProject
-                        .extensions
-                        .getByType(KotlinMultiplatformExtension::class.java)
-                    val friendTarget = friendKmp
-                        .targets
-                        .findByName(compilation.target.name) ?: return@mapNotNull null
-                    val friendCompilationName =
-                        if (friendTarget.compilations.findByName(compilation.compilationName) != null) {
-                            compilation.compilationName
-                        } else {
-                            KotlinCompilation.MAIN_COMPILATION_NAME
-                        }
-                    Triple(friendProject, friendKmp, friendTarget.compilations.getByName(friendCompilationName))
-                }
-
-                if (friends.isEmpty()) return@all
+                val friendCompilations = resolveFriendCompilations(compilation, friendProjectPaths)
+                if (friendCompilations.isEmpty()) return@all
 
                 compileTaskProvider.configure {
                     when (this) {
                         is BaseKotlinCompile -> {
-                            for ((friendProject, _, friend) in friends) {
-                                friendPaths.from(friend.output.classesDirs, friend.output.allOutputs)
+                            for ((friendProject, _, friendCompilation) in friendCompilations) {
+                                friendPaths.from(friendCompilation.output.classesDirs, friendCompilation.output.allOutputs)
                                 val jarTaskName = "${compilation.target.name}Jar"
                                 if (jarTaskName in friendProject.tasks.names) {
                                     friendPaths.from(friendProject.tasks.named(jarTaskName))
@@ -80,7 +64,7 @@ fun Project.friendPaths(vararg friendProjectPaths: String) {
                         }
 
                         is KotlinNativeCompile -> {
-                            val allDirs = friends.flatMap { (_, friendKmp, friendCompilation) ->
+                            val allDirs = friendCompilations.flatMap { (_, friendKmp, friendCompilation) ->
                                 if (compilation.target.name == "metadata") {
                                     friendKmp.targets.getByName("metadata")
                                         .compilations
@@ -98,3 +82,24 @@ fun Project.friendPaths(vararg friendProjectPaths: String) {
         }
     }
 }
+
+private fun Project.resolveFriendCompilations(
+    compilation: KotlinCompilation<*>,
+    friendProjectPaths: Array<out String>
+) =
+    friendProjectPaths.mapNotNull { path ->
+        val friendProject = project(path)
+        val friendKmp = friendProject
+            .extensions
+            .getByType(KotlinMultiplatformExtension::class.java)
+        val friendTarget = friendKmp
+            .targets
+            .findByName(compilation.target.name) ?: return@mapNotNull null
+        val name =
+            if (friendTarget.compilations.findByName(compilation.compilationName) != null) {
+                compilation.compilationName
+            } else {
+                KotlinCompilation.MAIN_COMPILATION_NAME
+            }
+        Triple(friendProject, friendKmp, friendTarget.compilations.getByName(name))
+    }
