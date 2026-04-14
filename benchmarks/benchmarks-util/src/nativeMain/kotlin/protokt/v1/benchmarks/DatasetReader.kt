@@ -31,6 +31,7 @@ import platform.posix.rewind
 actual fun readDatasetBytes(name: String): ByteArray {
     val file = fopen("../build/datasets/dataset-$name", "rb") ?: error("Cannot open dataset: $name")
     fseek(file, 0, SEEK_END)
+    @Suppress("REDUNDANT_CALL_OF_CONVERSION_METHOD")
     val size = ftell(file).toInt()
     rewind(file)
     val bytes = ByteArray(size)
