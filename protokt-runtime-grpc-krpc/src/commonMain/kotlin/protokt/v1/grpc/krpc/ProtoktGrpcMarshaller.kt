@@ -20,12 +20,14 @@ import kotlinx.io.Source
 import kotlinx.rpc.grpc.marshaller.GrpcMarshaller
 import kotlinx.rpc.grpc.marshaller.GrpcMarshallerConfig
 import kotlinx.rpc.grpc.marshaller.GrpcMarshallerResolver
+import protokt.v1.Beta
 import protokt.v1.Deserializer
 import protokt.v1.Message
 import protokt.v1.deserialize
 import protokt.v1.serialize
 import kotlin.reflect.KType
 
+@Beta
 class ProtoktGrpcMarshaller<T : Message>(
     private val deserializer: Deserializer<T>
 ) : GrpcMarshaller<T> {
@@ -39,6 +41,7 @@ class ProtoktGrpcMarshaller<T : Message>(
         deserializer.deserialize(source)
 }
 
+@Beta
 class ProtoktMarshallerResolver(
     private val marshallers: Map<KType, ProtoktGrpcMarshaller<*>>
 ) : GrpcMarshallerResolver {
