@@ -31,7 +31,10 @@ repositories {
 
 kotlin {
     compilerOptions {
-        freeCompilerArgs.addAll("-opt-in=kotlinx.rpc.internal.utils.ExperimentalRpcApi")
+        freeCompilerArgs.addAll(
+            "-opt-in=kotlinx.rpc.internal.utils.ExperimentalRpcApi",
+            "-opt-in=protokt.v1.OnlyForUseByGeneratedProtoCode",
+        )
     }
 }
 

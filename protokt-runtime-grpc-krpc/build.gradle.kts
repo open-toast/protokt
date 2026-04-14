@@ -13,9 +13,16 @@
  * limitations under the License.
  */
 
+import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
+
 plugins {
-    id("protokt.jvm-conventions")
+    `kotlin-multiplatform`
+    id("protokt.common-conventions")
+    `java-base`
 }
+
+the<SourceSetContainer>().create("main")
+the<SourceSetContainer>().create("test")
 
 enablePublishing()
 pureKotlin()
@@ -26,12 +33,60 @@ repositories {
 }
 
 kotlin {
+    jvm {
+        compilerOptions {
+            jvmDefault.set(JvmDefaultMode.NO_COMPATIBILITY)
+        }
+    }
+
+    macosArm64()
+    macosX64()
+    iosArm64()
+    iosX64()
+    iosSimulatorArm64()
+    watchosArm32()
+    watchosArm64()
+    watchosX64()
+    watchosSimulatorArm64()
+    watchosDeviceArm64()
+    tvosArm64()
+    tvosX64()
+    tvosSimulatorArm64()
+    linuxX64()
+    linuxArm64()
+
+    applyDefaultHierarchyTemplate()
+
     compilerOptions {
+        configureKotlin()
         freeCompilerArgs.addAll("-opt-in=kotlinx.rpc.internal.utils.ExperimentalRpcApi")
+    }
+
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                api(project(":protokt-runtime-kotlinx-io"))
+                api(libs.kotlinx.rpc.grpc.marshaller)
+            }
+        }
+
+        val commonTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+            }
+        }
+
+        val jvmTest by getting {
+            dependencies {
+                implementation(libs.junit.jupiter)
+                implementation(libs.truth)
+            }
+        }
     }
 }
 
-dependencies {
-    api(project(":protokt-runtime-kotlinx-io"))
-    api(libs.kotlinx.rpc.grpc.marshaller)
+tasks.named<Test>("jvmTest") {
+    useJUnitPlatform()
 }
+
+configureJvmToolchain()

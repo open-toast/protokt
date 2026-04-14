@@ -31,7 +31,7 @@ import protokt.v1.codegen.util.Service
 private val GRPC_ANNOTATION = ClassName("kotlinx.rpc.grpc.annotations", "Grpc")
 
 internal fun generateGrpcKrpcService(s: Service, ctx: Context): TypeSpec? =
-    if (ctx.info.context.generateGrpcKrpc) {
+    if (ctx.info.context.generateGrpcKrpc && ctx.info.context.kotlinTarget.isPrimaryTarget) {
         GrpcKrpcServiceGenerator(s, ctx).generate()
     } else {
         null
