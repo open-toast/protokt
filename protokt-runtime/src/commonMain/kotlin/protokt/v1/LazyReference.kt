@@ -17,7 +17,6 @@ package protokt.v1
 
 import kotlin.concurrent.Volatile
 
-@OptIn(OnlyForUseByGeneratedProtoCode::class)
 class LazyReference<WireT : Any, KotlinT : Any>(
     @Volatile private var ref: Any,
     private val converter: Converter<WireT, KotlinT>

@@ -13,8 +13,6 @@
  * limitations under the License.
  */
 
-@file:OptIn(OnlyForUseByGeneratedProtoCode::class)
-
 package protokt.v1
 
 interface Codec {

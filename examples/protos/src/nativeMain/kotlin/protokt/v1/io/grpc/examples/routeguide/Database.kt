@@ -13,12 +13,9 @@
  * limitations under the License.
  */
 
-@file:OptIn(OnlyForUseByGeneratedProtoCode::class)
+package protokt.v1.io.grpc.examples.routeguide
 
-package protokt.v1
-
-internal actual val codec: Codec by lazy {
-    codecOverride ?: ProtoktCodec
+actual object Database {
+    actual fun features(): List<Feature> =
+        error("Not implemented on native")
 }
-
-internal var codecOverride: Codec? = null

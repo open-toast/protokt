@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Toast, Inc.
+ * Copyright (c) 2026 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
 
 package protokt.v1
 
-@OptIn(OnlyForUseByGeneratedProtoCode::class)
 actual class Bytes internal actual constructor(value: ByteArray) : AbstractBytes(value) {
     // Annotation `@JvmStatic` is missing on actual declaration
     @Suppress("ACTUAL_ANNOTATIONS_NOT_MATCH_EXPECT")

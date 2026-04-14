@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast, Inc.
+ * Copyright (c) 2026 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,4 @@
 
 package protokt.v1
 
-@OptIn(OnlyForUseByGeneratedProtoCode::class)
-actual abstract class AbstractMessage actual constructor() : Message {
-    actual final override fun serialize(): ByteArray {
-        val writer = codec.writer(serializedSize())
-        serialize(writer)
-        return writer.toByteArray()
-    }
-}
+internal actual object OptimalKmpCodec : AbstractOptimalKmpCodec()

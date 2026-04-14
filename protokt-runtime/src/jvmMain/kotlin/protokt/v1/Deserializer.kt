@@ -18,7 +18,6 @@ package protokt.v1
 import java.io.InputStream
 import java.nio.ByteBuffer
 
-@OptIn(OnlyForUseByGeneratedProtoCode::class)
 actual interface Deserializer<T : Message> {
     actual fun deserialize(bytes: Bytes): T
 

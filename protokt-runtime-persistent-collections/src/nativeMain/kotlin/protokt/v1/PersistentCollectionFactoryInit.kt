@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast, Inc.
+ * Copyright (c) 2026 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,16 @@
  * limitations under the License.
  */
 
+@file:OptIn(kotlinx.cinterop.ExperimentalForeignApi::class)
+
 package protokt.v1
 
-@OptIn(OnlyForUseByGeneratedProtoCode::class)
-actual abstract class AbstractMessage actual constructor() : Message {
-    actual final override fun serialize(): ByteArray {
-        val writer = codec.writer(serializedSize())
-        serialize(writer)
-        return writer.toByteArray()
+import kotlinx.cinterop.toKString
+import platform.posix.getenv
+
+fun configurePersistentCollections() {
+    val env = getenv("PROTOKT_V1_COLLECTION_FACTORY")?.toKString() ?: ""
+    if (env == "protokt.v1.PersistentCollectionFactory") {
+        collectionFactoryOverride = PersistentCollectionFactory
     }
 }

@@ -36,7 +36,7 @@ import protokt.v1.codegen.util.StandardField
 import protokt.v1.codegen.util.sizeFn
 import protokt.v1.reflect.FieldType
 
-internal const val SERIALIZED_SIZE = "`\$serializedSize`"
+internal const val SERIALIZED_SIZE = "__serializedSize"
 
 internal fun generateMessageSize(
     msg: Message,

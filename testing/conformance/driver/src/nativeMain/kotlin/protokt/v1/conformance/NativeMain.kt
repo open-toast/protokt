@@ -13,12 +13,13 @@
  * limitations under the License.
  */
 
-@file:OptIn(OnlyForUseByGeneratedProtoCode::class)
+package protokt.v1.conformance
 
-package protokt.v1
+import protokt.v1.configureKotlinxIoCodec
+import protokt.v1.configurePersistentCollections
 
-internal actual val collectionFactory: CollectionFactory by lazy {
-    collectionFactoryOverride ?: DefaultCollectionFactory
+fun nativeMain() {
+    configurePersistentCollections()
+    configureKotlinxIoCodec()
+    main()
 }
-
-internal var collectionFactoryOverride: CollectionFactory? = null

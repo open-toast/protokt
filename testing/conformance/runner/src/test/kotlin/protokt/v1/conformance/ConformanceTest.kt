@@ -25,6 +25,7 @@ import protokt.v1.conformance.ConformanceTest.Codec.PROTOBUF
 import protokt.v1.conformance.ConformanceTest.CollectionFactory.PERSISTENT
 import protokt.v1.conformance.ConformanceTest.Platform.JS_IR
 import protokt.v1.conformance.ConformanceTest.Platform.JVM
+import protokt.v1.conformance.ConformanceTest.Platform.NATIVE
 import protokt.v1.conformance.ConformanceTest.SerializationMode
 import protokt.v1.testing.projectRoot
 import protokt.v1.testing.runCommand
@@ -37,7 +38,8 @@ import kotlin.io.path.readText
 class ConformanceTest {
     enum class Platform(val project: String) {
         JVM("jvm"),
-        JS_IR("js-ir")
+        JS_IR("js-ir"),
+        NATIVE("native")
     }
 
     enum class CollectionFactory { DEFAULT, PERSISTENT }
@@ -56,6 +58,7 @@ class ConformanceTest {
             when (platform) {
                 JVM -> jvmConformanceDriver
                 JS_IR -> jsConformanceDriver(platform.project)
+                NATIVE -> nativeConformanceDriver
             }
 
         fun env(): Map<String, String> =
@@ -104,13 +107,36 @@ class ConformanceTest {
                         put("PROTOKT_STREAMING", "true")
                     }
                 }
+
+                NATIVE -> buildMap {
+                    put(
+                        "PROTOKT_V1_COLLECTION_FACTORY",
+                        if (collectionFactory == PERSISTENT) {
+                            "protokt.v1.PersistentCollectionFactory"
+                        } else {
+                            "protokt.v1.DefaultCollectionFactory"
+                        }
+                    )
+                    put(
+                        "PROTOKT_V1_CODEC",
+                        "protokt.v1.ProtoktCodec"
+                    )
+                    if (serializationMode == SerializationMode.STREAMING) {
+                        put("PROTOKT_STREAMING", "true")
+                    }
+                }
             }
     }
 
     companion object {
         @JvmStatic
-        fun configurations() =
-            Lists.cartesianProduct(
+        fun configurations(): List<ConformanceConfig> {
+            val platformFilter = System.getProperty("conformance.platforms")
+                ?.split(",")
+                ?.map { Platform.valueOf(it.trim()) }
+                ?.toSet()
+
+            return Lists.cartesianProduct(
                 Platform.entries,
                 CollectionFactory.entries,
                 Codec.entries,
@@ -123,9 +149,12 @@ class ConformanceTest {
                     it[3] as SerializationMode
                 )
             }.filter {
-                // streaming is only supported on JVM (protobuf-java InputStream/OutputStream)
-                it.serializationMode != SerializationMode.STREAMING || it.platform == JVM
+                // native only has ProtoktCodec (no protobuf-java or protobufjs)
+                (it.codec != Codec.PROTOBUF || it.platform != NATIVE) &&
+                    // optional platform filter (e.g., -Dconformance.platforms=NATIVE)
+                    (platformFilter == null || it.platform in platformFilter)
             }
+        }
     }
 
     @BeforeEach
@@ -169,6 +198,11 @@ class ConformanceTest {
 private val jvmConformanceDriver =
     Path.of(File(projectRoot.parentFile, "jvm").absolutePath, "build", "install", "protokt-conformance", "bin", "protokt-conformance")
 
+private val nativeConformanceDriver by lazy {
+    val target = System.getProperty("native-conformance-target")
+    Path.of(File(projectRoot.parentFile, "driver").absolutePath, "build", "bin", target, "releaseExecutable", "driver.kexe")
+}
+
 private fun jsConformanceDriver(project: String) =
     Path.of(File(projectRoot.parentFile, project).absolutePath, "run.sh")
 
@@ -180,11 +214,11 @@ private fun jsStderrLog(project: String): String {
 private val failingTests =
     Path.of(projectRoot.absolutePath, "failing_tests.txt")
 
-private fun failureList(project: String) =
-    "--failure_list ../$project/failure_list_kt.txt"
+private fun failureList() =
+    "--failure_list ../failure_list_kt.txt"
 
 private fun command(config: ConformanceTest.ConformanceConfig) =
-    "${System.getProperty("conformance-runner")} --maximum_edition 2023 --enforce_recommended ${failureList(config.platform.project)} ${config.driver()}"
+    "${System.getProperty("conformance-runner")} --maximum_edition 2023 --enforce_recommended ${failureList()} ${config.driver()}"
 
 private const val UNMODIFIABLE_COLLECTION_TYPE = "protokt.v1.UnmodifiableList"
 private val PERSISTENT_COLLECTION_TYPE = persistentListOf<Any>()::class.qualifiedName!!
@@ -192,7 +226,7 @@ private val PERSISTENT_COLLECTION_TYPE = persistentListOf<Any>()::class.qualifie
 private fun verifyCollectionType(stderr: String, config: ConformanceTest.ConformanceConfig) {
     val collectionType = "protoktCollectionFactory=(.+)".toRegex().find(stderr)?.groupValues?.get(1)?.trim()
     val expected = if (config.collectionFactory == PERSISTENT) PERSISTENT_COLLECTION_TYPE else UNMODIFIABLE_COLLECTION_TYPE
-    val platformExpected = if (config.platform.project == "jvm") expected else expected.substringAfterLast(".")
+    val platformExpected = if (config.platform == JS_IR) expected.substringAfterLast(".") else expected
     assertThat(collectionType).isEqualTo(platformExpected)
 }
 
@@ -208,7 +242,7 @@ private fun verifyCodec(stderr: String, config: ConformanceTest.ConformanceConfi
         } else {
             PROTOKT_READER
         }
-    val platformExpected = if (config.platform == JVM) expected else expected.substringAfterLast(".")
+    val platformExpected = if (config.platform == JS_IR) expected.substringAfterLast(".") else expected
     assertThat(codecName).isEqualTo(platformExpected)
 }
 

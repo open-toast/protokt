@@ -20,6 +20,7 @@ plugins {
 }
 
 localProtokt()
+enableNativeTargets()
 
 dependencies {
     protoktExtensions(project(":extensions:protokt-extensions"))

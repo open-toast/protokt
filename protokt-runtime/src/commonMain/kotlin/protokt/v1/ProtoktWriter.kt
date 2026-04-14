@@ -15,7 +15,6 @@
 
 package protokt.v1
 
-@OptIn(OnlyForUseByGeneratedProtoCode::class)
 internal class ProtoktWriter(
     private val buf: ByteArray
 ) : Writer {

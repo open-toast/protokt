@@ -15,7 +15,6 @@
 
 package protokt.v1
 
-@OptIn(OnlyForUseByGeneratedProtoCode::class)
 @OnlyForUseByGeneratedProtoCode
 class LazyConvertingMap<KotlinK : Any, KotlinV : Any>(
     private val backing: Map<Any?, Any?>,

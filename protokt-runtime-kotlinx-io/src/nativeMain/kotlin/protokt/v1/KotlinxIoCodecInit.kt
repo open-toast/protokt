@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast, Inc.
+ * Copyright (c) 2026 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,18 @@
  * limitations under the License.
  */
 
+@file:OptIn(kotlinx.cinterop.ExperimentalForeignApi::class)
+
 package protokt.v1
 
-@OptIn(OnlyForUseByGeneratedProtoCode::class)
-actual interface Message {
-    actual fun serializedSize(): Int
+import kotlinx.cinterop.toKString
+import platform.posix.getenv
 
-    actual fun serialize(writer: Writer)
-
-    actual fun serialize(): ByteArray
+fun configureKotlinxIoCodec() {
+    val env = getenv("PROTOKT_V1_CODEC")?.toKString() ?: ""
+    if (env == "protokt.v1.OptimalKmpCodec") {
+        codecOverride = OptimalKmpCodec
+    } else if (env == "protokt.v1.KotlinxIoCodec") {
+        codecOverride = KotlinxIoCodec
+    }
 }
