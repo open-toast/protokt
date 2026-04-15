@@ -29,6 +29,8 @@ allOpen {
 localProtokt()
 friendPaths(":protokt-runtime", ":protokt-runtime-persistent-collections")
 
+enableNativeTargets()
+
 configure<org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension> {
     compilerOptions {
         freeCompilerArgs.add("-opt-in=protokt.v1.OnlyForUseByGeneratedProtoCode")

@@ -15,6 +15,7 @@
 
 package protokt.v1.benchmarks
 
-actual fun applyBenchmarkConfig(collectionFactory: String) {
+actual fun applyBenchmarkConfig(collectionFactory: String, codec: String) {
     System.setProperty("protokt.collection.factory", collectionFactory)
+    System.setProperty("protokt.codec", codec)
 }

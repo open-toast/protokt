@@ -37,6 +37,9 @@ class ProtoktMultiplatformBenchmarks : ProtobufBenchmarkSet<Blackhole> {
     @Param("protokt.v1.DefaultCollectionFactory", "protokt.v1.PersistentCollectionFactory")
     var collectionFactory: String = "protokt.v1.DefaultCollectionFactory"
 
+    @Param("protokt.v1.ProtobufJavaCodec", "protokt.v1.KotlinxIoCodec", "protokt.v1.ProtoktCodec")
+    var codec: String = "protokt.v1.ProtobufJavaCodec"
+
     private lateinit var largeDataset: BenchmarkDataset
     private lateinit var largeParsedDataset: List<GenericMessage1>
 
@@ -67,7 +70,7 @@ class ProtoktMultiplatformBenchmarks : ProtobufBenchmarkSet<Blackhole> {
 
     @Setup
     fun setup() {
-        applyBenchmarkConfig(collectionFactory)
+        applyBenchmarkConfig(collectionFactory, codec)
         byteValues = Array(1000) { i -> Bytes.from(byteArrayOf(i.toByte())) }
 
         val random = Random(42)

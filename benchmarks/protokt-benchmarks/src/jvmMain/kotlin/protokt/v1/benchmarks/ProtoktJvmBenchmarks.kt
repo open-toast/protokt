@@ -35,7 +35,7 @@ class ProtoktJvmBenchmarks {
     @Param("protokt.v1.DefaultCollectionFactory", "protokt.v1.PersistentCollectionFactory")
     var collectionFactory: String = "protokt.v1.DefaultCollectionFactory"
 
-    @Param("protokt.v1.ProtobufJavaCodec", "protokt.v1.KotlinxIoCodec", "protokt.v1.ProtoktCodec", "protokt.v1.OptimalKmpCodec", "protokt.v1.OptimalJvmCodec")
+    @Param("protokt.v1.ProtobufJavaCodec", "protokt.v1.KotlinxIoCodec", "protokt.v1.ProtoktCodec")
     var codec: String = "protokt.v1.ProtobufJavaCodec"
 
     private lateinit var largeDataset: BenchmarkDataset
@@ -46,8 +46,7 @@ class ProtoktJvmBenchmarks {
 
     @Setup
     fun setup() {
-        System.setProperty("protokt.collection.factory", collectionFactory)
-        System.setProperty("protokt.codec", codec)
+        applyBenchmarkConfig(collectionFactory, codec)
 
         val random = Random(42)
 

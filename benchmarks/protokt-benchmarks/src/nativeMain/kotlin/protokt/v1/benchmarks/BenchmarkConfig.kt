@@ -20,7 +20,7 @@ package protokt.v1.benchmarks
 import protokt.v1.PersistentCollectionFactory
 import protokt.v1.collectionFactoryOverride
 
-actual fun applyBenchmarkConfig(collectionFactory: String) {
+actual fun applyBenchmarkConfig(collectionFactory: String, codec: String) {
     collectionFactoryOverride =
         if (collectionFactory == "protokt.v1.PersistentCollectionFactory") {
             PersistentCollectionFactory

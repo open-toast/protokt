@@ -16,3 +16,5 @@
 plugins {
     id("protokt.multiplatform-conventions")
 }
+
+enableNativeTargets()

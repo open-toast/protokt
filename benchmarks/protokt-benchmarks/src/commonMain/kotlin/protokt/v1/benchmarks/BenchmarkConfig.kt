@@ -15,4 +15,4 @@
 
 package protokt.v1.benchmarks
 
-expect fun applyBenchmarkConfig(collectionFactory: String)
+expect fun applyBenchmarkConfig(collectionFactory: String, codec: String)
