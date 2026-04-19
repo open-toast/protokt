@@ -5,14 +5,14 @@ implementations against protobuf-java and Wire on JVM and Kotlin/Native.
 
 ## Environment
 
-|                  |                                |
-|------------------|--------------------------------|
-| **CPU**          | Apple M1 Pro (10 cores)        |
-| **Memory**       | 32 GB                          |
-| **Architecture** | arm64 (aarch64)                |
+|                  |                               |
+|------------------|-------------------------------|
+| **CPU**          | Apple M1 Pro (10 cores)       |
+| **Memory**       | 32 GB                         |
+| **Architecture** | arm64 (aarch64)               |
 | **JDK**          | Amazon Corretto 17.0.18+9-LTS |
-| **JMH**          | 1.37                           |
-| **Commit**       | `03b54f50`                     |
+| **JMH**          | 1.37                          |
+| **Commit**       | `03b54f50`                    |
 
 ### JMH configuration
 
