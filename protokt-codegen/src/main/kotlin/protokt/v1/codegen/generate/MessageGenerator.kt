@@ -92,6 +92,7 @@ private class MessageGenerator(
             addProperties(props.constructorPropertySpecs)
             addProperty(
                 PropertySpec.builder("unknownFields", UnknownFieldSet::class)
+                    .addModifiers(KModifier.OVERRIDE)
                     .initializer("unknownFields")
                     .build()
             )

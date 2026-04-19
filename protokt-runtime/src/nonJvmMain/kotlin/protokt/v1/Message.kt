@@ -16,6 +16,8 @@
 package protokt.v1
 
 actual interface Message {
+    actual val unknownFields: UnknownFieldSet
+
     actual fun serializedSize(): Int
 
     actual fun serialize(writer: Writer)

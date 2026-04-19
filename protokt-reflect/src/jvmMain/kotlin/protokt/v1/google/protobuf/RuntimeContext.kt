@@ -227,10 +227,11 @@ private fun convertMap(
     }
 }
 
+@OptIn(protokt.v1.OnlyForUseByGeneratedProtoCode::class)
 private fun mapUnknownFields(message: Message): UnknownFieldSet {
     val unknownFields = UnknownFieldSet.newBuilder()
 
-    getUnknownFields(message).forEach { (number, field) ->
+    message.unknownFields.forEach { number, field ->
         unknownFields.mergeField(
             number.toInt(),
             Field.newBuilder()

@@ -130,6 +130,43 @@ public abstract interface class protokt/v1/EnumDeserializer {
 	public abstract fun deserialize (I)Lprotokt/v1/Enum;
 }
 
+public final class protokt/v1/Extension {
+	public synthetic fun <init> (ILprotokt/v1/ExtensionCodec;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getNumber-pVg5ArA ()I
+}
+
+public abstract interface class protokt/v1/ExtensionCodec {
+	public abstract fun decodeRepeated (Lprotokt/v1/UnknownFieldSet$Field;)Ljava/util/List;
+	public abstract fun decodeSingular (Lprotokt/v1/UnknownFieldSet$Field;)Ljava/lang/Object;
+	public abstract fun encode-qim9Vi0 (ILjava/lang/Object;)Lprotokt/v1/UnknownField;
+}
+
+public final class protokt/v1/ExtensionCodecs {
+	public static final field INSTANCE Lprotokt/v1/ExtensionCodecs;
+	public final fun enum (Lprotokt/v1/EnumDeserializer;)Lprotokt/v1/ExtensionCodec;
+	public final fun getBool ()Lprotokt/v1/ExtensionCodec;
+	public final fun getBytes ()Lprotokt/v1/ExtensionCodec;
+	public final fun getDouble ()Lprotokt/v1/ExtensionCodec;
+	public final fun getFixed32 ()Lprotokt/v1/ExtensionCodec;
+	public final fun getFixed64 ()Lprotokt/v1/ExtensionCodec;
+	public final fun getFloat ()Lprotokt/v1/ExtensionCodec;
+	public final fun getInt32 ()Lprotokt/v1/ExtensionCodec;
+	public final fun getInt64 ()Lprotokt/v1/ExtensionCodec;
+	public final fun getSfixed32 ()Lprotokt/v1/ExtensionCodec;
+	public final fun getSfixed64 ()Lprotokt/v1/ExtensionCodec;
+	public final fun getSint32 ()Lprotokt/v1/ExtensionCodec;
+	public final fun getSint64 ()Lprotokt/v1/ExtensionCodec;
+	public final fun getString ()Lprotokt/v1/ExtensionCodec;
+	public final fun getUint32 ()Lprotokt/v1/ExtensionCodec;
+	public final fun getUint64 ()Lprotokt/v1/ExtensionCodec;
+	public final fun message (Lprotokt/v1/Deserializer;)Lprotokt/v1/ExtensionCodec;
+}
+
+public final class protokt/v1/ExtensionKt {
+	public static final fun get (Lprotokt/v1/Message;Lprotokt/v1/Extension;)Ljava/lang/Object;
+	public static final fun get (Lprotokt/v1/Message;Lprotokt/v1/RepeatedExtension;)Ljava/util/List;
+}
+
 public final class protokt/v1/Fixed32Val : protokt/v1/UnknownValue {
 	public static final synthetic fun box-impl (I)Lprotokt/v1/Fixed32Val;
 	public static fun constructor-impl (I)I
@@ -248,6 +285,7 @@ public abstract interface class protokt/v1/MapBuilder {
 }
 
 public abstract interface class protokt/v1/Message {
+	public abstract fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public abstract fun serialize ()[B
 	public fun serialize (Ljava/io/OutputStream;)V
 	public abstract fun serialize (Lprotokt/v1/Writer;)V
@@ -280,6 +318,11 @@ public abstract interface class protokt/v1/Reader {
 	public fun readUInt32-pVg5ArA ()I
 	public abstract fun readUInt64-s-VKNKU ()J
 	public fun readUnknown ()Lprotokt/v1/UnknownField;
+}
+
+public final class protokt/v1/RepeatedExtension {
+	public synthetic fun <init> (ILprotokt/v1/ExtensionCodec;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getNumber-pVg5ArA ()I
 }
 
 public final class protokt/v1/Sizes {
@@ -331,8 +374,10 @@ public final class protokt/v1/UnknownField$Companion {
 public final class protokt/v1/UnknownFieldSet {
 	public static final field Companion Lprotokt/v1/UnknownFieldSet$Companion;
 	public synthetic fun <init> (Ljava/util/Map;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun contains-WZ4Q5Ns (I)Z
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getUnknownFields ()Ljava/util/Map;
+	public final fun forEach (Lkotlin/jvm/functions/Function2;)V
+	public final fun get-WZ4Q5Ns (I)Lprotokt/v1/UnknownFieldSet$Field;
 	public fun hashCode ()I
 	public final fun isEmpty ()Z
 	public final fun size ()I
