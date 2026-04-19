@@ -35,6 +35,7 @@ allprojects {
             targetExclude(
                 "buildSrc/build/generated-sources/**",
                 "**/generated/**",
+                "**/protokt/v1/bootstrap/**",
                 "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/**/*.kt",
                 "extensions/protokt-jvm-extensions-lite/src/main/kotlin/com/toasttab/protokt/ext/**.kt",
                 "extensions/protokt-extensions-lite/src/jvmMain/kotlin/com/toasttab/protokt/ext/**.kt",
@@ -65,7 +66,8 @@ allprojects {
                 "**/build/generated/source/**",
                 "**/protokt/v1/animals/**",
                 "**/protokt/v1/helloworld/**",
-                "**/protokt/v1/io/grpc/examples/**"
+                "**/protokt/v1/io/grpc/examples/**",
+                "**/protokt/v1/bootstrap/**"
             )
         }
 

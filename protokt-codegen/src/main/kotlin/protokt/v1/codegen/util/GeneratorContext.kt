@@ -17,7 +17,6 @@ package protokt.v1.codegen.util
 
 import com.google.protobuf.DescriptorProtos
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
-import com.toasttab.protokt.v1.ProtoktProtos
 import protokt.v1.gradle.PROTOKT_VERSION
 
 internal class GeneratorContext(
@@ -49,7 +48,7 @@ internal class GeneratorContext(
 }
 
 val FileDescriptorProto.fileOptions
-    get() = FileOptions(options, options.getExtension(ProtoktProtos.file))
+    get() = FileOptions(options, options.protoktOptions())
 
 private fun generateFdpObjectNames(files: List<FileDescriptorProto>): Map<String, String> =
     files.associate { fdp ->

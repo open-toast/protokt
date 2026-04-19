@@ -18,7 +18,6 @@ package protokt.v1.codegen.util
 import com.google.protobuf.DescriptorProtos.MethodDescriptorProto
 import com.google.protobuf.DescriptorProtos.ServiceDescriptorProto
 import com.squareup.kotlinpoet.ClassName
-import com.toasttab.protokt.v1.ProtoktProtos
 import io.grpc.kotlin.generator.protoc.ProtoMethodName
 import protokt.v1.reflect.requalifyProtoType
 
@@ -33,7 +32,7 @@ class ServiceParser(
             deprecated = desc.options.deprecated,
             options = ServiceOptions(
                 desc.options,
-                desc.options.getExtension(ProtoktProtos.service)
+                desc.options.protoktOptions()
             ),
             index = idx
         )
@@ -48,7 +47,7 @@ class ServiceParser(
             deprecated = desc.options.deprecated,
             options = MethodOptions(
                 desc.options,
-                desc.options.getExtension(ProtoktProtos.method)
+                desc.options.protoktOptions()
             )
         )
 }

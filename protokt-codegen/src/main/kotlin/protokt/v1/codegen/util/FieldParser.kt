@@ -28,7 +28,6 @@ import com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Type
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
 import com.google.protobuf.DescriptorProtos.OneofDescriptorProto
 import com.squareup.kotlinpoet.ClassName
-import com.toasttab.protokt.v1.ProtoktProtos
 import protokt.v1.codegen.generate.Wrapper.wrapped
 import protokt.v1.codegen.util.ErrorContext.withFieldName
 import protokt.v1.reflect.FieldType
@@ -95,7 +94,7 @@ internal class FieldParser(
             fields = oneofStdFields,
             options = OneofOptions(
                 oneof.options,
-                oneof.options.getExtension(ProtoktProtos.oneof)
+                oneof.options.protoktOptions()
             ),
             // index relative to all oneofs in this message
             index = idx - fields.filterIsInstance<StandardField>().count()
@@ -108,7 +107,7 @@ internal class FieldParser(
         withinOneof: Boolean = false
     ): StandardField {
         val fieldType = FieldType.from(fdp.type)
-        val protoktOptions = fdp.options.getExtension(ProtoktProtos.property)
+        val protoktOptions = fdp.options.protoktOptions()
         val repeated = fdp.label == LABEL_REPEATED
         val mapEntry = mapEntry(fdp, protoktOptions)
         if (mapEntry == null) {
@@ -162,7 +161,7 @@ internal class FieldParser(
         return result
     }
 
-    private fun mapEntry(fdp: FieldDescriptorProto, options: ProtoktProtos.FieldOptions) =
+    private fun mapEntry(fdp: FieldDescriptorProto, options: protokt.v1.FieldOptions) =
         if (fdp.label == LABEL_REPEATED && fdp.type == Type.TYPE_MESSAGE) {
             findMapEntry(ctx.fdp, fdp.typeName)
                 ?.takeIf { it.options.mapEntry }

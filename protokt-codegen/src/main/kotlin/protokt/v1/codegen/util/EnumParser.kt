@@ -17,7 +17,6 @@ package protokt.v1.codegen.util
 
 import com.google.common.base.CaseFormat
 import com.google.protobuf.DescriptorProtos.EnumDescriptorProto
-import com.toasttab.protokt.v1.ProtoktProtos
 
 internal class EnumParser(
     private val ctx: GeneratorContext,
@@ -44,7 +43,7 @@ internal class EnumParser(
                     newEnumValueName(enumTypeNamePrefixToStrip, t.name),
                     EnumValueOptions(
                         t.options,
-                        t.options.getExtension(ProtoktProtos.enumValue)
+                        t.options.protoktOptions()
                     ),
                     enumIdx
                 )
@@ -52,7 +51,7 @@ internal class EnumParser(
             index = idx,
             options = EnumOptions(
                 desc.options,
-                desc.options.getExtension(ProtoktProtos.enum_)
+                desc.options.protoktOptions()
             ),
             className = ctx.className(simpleNames),
             deserializerClassName = ctx.className(simpleNames + DESERIALIZER)

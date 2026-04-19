@@ -16,12 +16,10 @@
 package protokt.v1.codegen
 
 import com.google.protobuf.DescriptorProtos.Edition
-import com.google.protobuf.ExtensionRegistry
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.Feature
 import com.squareup.kotlinpoet.FileSpec
-import com.toasttab.protokt.v1.ProtoktProtos
 import io.github.oshai.kotlinlogging.KotlinLoggingConfiguration
 import protokt.v1.codegen.generate.generateFile
 import protokt.v1.codegen.util.ErrorContext.withFileName
@@ -100,8 +98,4 @@ private fun parseParams(req: CodeGeneratorRequest) =
     }
 
 private fun parseCodeGeneratorRequest(`in`: InputStream) =
-    CodeGeneratorRequest.parseFrom(
-        `in`,
-        ExtensionRegistry.newInstance()
-            .also { ProtoktProtos.registerAllExtensions(it) }
-    )
+    CodeGeneratorRequest.parseFrom(`in`)
