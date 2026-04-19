@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast, Inc.
+ * Copyright (c) 2026 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,8 +13,7 @@
  * limitations under the License.
  */
 
-plugins {
-    id("protokt.multiplatform-conventions")
-}
+package protokt.v1.benchmarks
 
-enableNativeTargets()
+actual fun readDatasetBytes(name: String): ByteArray =
+    error("Benchmarks not supported on JS")

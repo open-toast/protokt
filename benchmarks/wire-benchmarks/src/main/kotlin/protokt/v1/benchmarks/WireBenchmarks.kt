@@ -20,28 +20,28 @@ import com.toasttab.protokt.v1.benchmarks.GenericMessage1
 import com.toasttab.protokt.v1.benchmarks.GenericMessage4
 import com.toasttab.protokt.v1.benchmarks.StringCollectionMessage
 import com.toasttab.protokt.v1.benchmarks.StringOneofMessage
+import kotlinx.benchmark.Benchmark
+import kotlinx.benchmark.BenchmarkMode
+import kotlinx.benchmark.BenchmarkTimeUnit
+import kotlinx.benchmark.Blackhole
+import kotlinx.benchmark.Mode
+import kotlinx.benchmark.OutputTimeUnit
+import kotlinx.benchmark.Scope
+import kotlinx.benchmark.Setup
+import kotlinx.benchmark.State
 import okio.ByteString
 import okio.ByteString.Companion.toByteString
 import okio.buffer
 import okio.sink
 import okio.source
-import org.openjdk.jmh.annotations.Benchmark
-import org.openjdk.jmh.annotations.BenchmarkMode
-import org.openjdk.jmh.annotations.Mode
-import org.openjdk.jmh.annotations.OutputTimeUnit
-import org.openjdk.jmh.annotations.Scope
-import org.openjdk.jmh.annotations.Setup
-import org.openjdk.jmh.annotations.State
-import org.openjdk.jmh.infra.Blackhole
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
-import java.util.Random
-import java.util.concurrent.TimeUnit
+import kotlin.random.Random
 
 @BenchmarkMode(Mode.AverageTime)
-@OutputTimeUnit(TimeUnit.MILLISECONDS)
+@OutputTimeUnit(BenchmarkTimeUnit.MILLISECONDS)
 @State(Scope.Benchmark)
-open class WireBenchmarks : ProtobufBenchmarkSet {
+class WireBenchmarks : JvmProtobufBenchmarkSet<Blackhole> {
     private lateinit var largeDataset: BenchmarkDataset
     private lateinit var largeParsedDataset: List<GenericMessage1>
     private lateinit var mediumDataset: BenchmarkDataset
@@ -504,8 +504,4 @@ open class WireBenchmarks : ProtobufBenchmarkSet {
             bh.consume(GenericMessage4.ADAPTER.decode(ByteArrayInputStream(bytes).source().buffer()))
         }
     }
-}
-
-fun main(args: Array<String>) {
-    run(WireBenchmarks::class, args)
 }

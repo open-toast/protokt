@@ -1,0 +1,35 @@
+/*
+ * Copyright (c) 2019 Toast, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package protokt.v1.benchmarks
+
+import kotlin.random.Random
+
+expect fun readDatasetBytes(name: String): ByteArray
+
+/** Mix of 1-byte (ASCII), 2-byte (Latin Extended), and 3-byte (CJK) UTF-8 characters. */
+fun randomUtf8String(random: Random, charCount: Int): String {
+    val sb = StringBuilder(charCount)
+    repeat(charCount) {
+        sb.append(
+            when (random.nextInt(3)) {
+                0 -> 'a' + random.nextInt(26)
+                1 -> (0x00C0 + random.nextInt(64)).toChar()
+                else -> (0x4E00 + random.nextInt(0x5000)).toChar()
+            }
+        )
+    }
+    return sb.toString()
+}

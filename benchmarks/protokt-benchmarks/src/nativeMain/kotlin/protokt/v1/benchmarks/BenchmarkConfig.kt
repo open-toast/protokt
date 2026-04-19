@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast, Inc.
+ * Copyright (c) 2026 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,8 +13,18 @@
  * limitations under the License.
  */
 
-plugins {
-    id("protokt.multiplatform-conventions")
-}
+@file:OptIn(protokt.v1.OnlyForUseByGeneratedProtoCode::class)
 
-enableNativeTargets()
+package protokt.v1.benchmarks
+
+import protokt.v1.PersistentCollectionFactory
+import protokt.v1.collectionFactoryOverride
+
+actual fun applyBenchmarkConfig(collectionFactory: String, codec: String) {
+    collectionFactoryOverride =
+        if (collectionFactory == "protokt.v1.PersistentCollectionFactory") {
+            PersistentCollectionFactory
+        } else {
+            null
+        }
+}

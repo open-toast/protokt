@@ -4,63 +4,79 @@ See [RESULTS.md](RESULTS.md) for detailed benchmark results and analysis.
 
 ## Running
 
-Run all benchmarks for a given implementation:
+All benchmarks use [kotlinx-benchmark](https://github.com/Kotlin/kotlinx-benchmark),
+which delegates to JMH on JVM and uses its own runtime on Kotlin/Native.
 
 ```
-./gradlew :benchmarks:protokt-benchmarks:run
-./gradlew :benchmarks:protobuf-java-benchmarks:run
-./gradlew :benchmarks:wire-benchmarks:run
+./gradlew :benchmarks:protobuf-java-benchmarks:benchmark
+./gradlew :benchmarks:wire-benchmarks:benchmark
+./gradlew :benchmarks:protokt-benchmarks:macosArm64Benchmark
 ```
 
-## Flags
+protokt JVM benchmarks must be run as **separate Gradle invocations per
+codec/factory combination**. The codec and collection factory are resolved
+once per JVM via `by lazy`, so running multiple `@Param` combos in a single
+JMH session causes all but the first to silently use the wrong configuration.
 
-Flags are passed via `--args`:
+```
+./gradlew :benchmarks:protokt-benchmarks:jvmBenchmark \
+  "-PbenchmarkParam=codec=protokt.v1.ProtobufJavaCodec,collectionFactory=protokt.v1.DefaultCollectionFactory"
+./gradlew :benchmarks:protokt-benchmarks:jvmBenchmark \
+  "-PbenchmarkParam=codec=protokt.v1.ProtobufJavaCodec,collectionFactory=protokt.v1.PersistentCollectionFactory"
+./gradlew :benchmarks:protokt-benchmarks:jvmBenchmark \
+  "-PbenchmarkParam=codec=protokt.v1.KotlinxIoCodec,collectionFactory=protokt.v1.DefaultCollectionFactory"
+./gradlew :benchmarks:protokt-benchmarks:jvmBenchmark \
+  "-PbenchmarkParam=codec=protokt.v1.KotlinxIoCodec,collectionFactory=protokt.v1.PersistentCollectionFactory"
+./gradlew :benchmarks:protokt-benchmarks:jvmBenchmark \
+  "-PbenchmarkParam=codec=protokt.v1.ProtoktCodec,collectionFactory=protokt.v1.DefaultCollectionFactory"
+./gradlew :benchmarks:protokt-benchmarks:jvmBenchmark \
+  "-PbenchmarkParam=codec=protokt.v1.ProtoktCodec,collectionFactory=protokt.v1.PersistentCollectionFactory"
+```
 
-| Flag | Description |
-|------|-------------|
-| `-i regex` | Include only benchmarks matching regex |
-| `-e regex` | Exclude benchmarks matching regex |
-| `-p name=value` | Set a JMH parameter |
+All modules share the same default configuration (3 warmup iterations,
+5 measurement iterations, 10s each, 2 forks, average time in ms/op).
 
-When no `-i` flag is given, all benchmarks in the class are included.
+## Gradle properties
 
-## Parameters
+Override defaults at invocation time via `-P`:
 
-protokt benchmarks accept these JMH parameters (set via `-p`):
-
-| Parameter | Values | Default |
-|-----------|--------|---------|
-| `collectionFactory` | `protokt.v1.DefaultCollectionFactory`, `protokt.v1.PersistentCollectionFactory` | Both |
-| `codec` | `protokt.v1.ProtobufJavaCodec`, `protokt.v1.KotlinxIoCodec`, `protokt.v1.ProtoktCodec`, `protokt.v1.OptimalKmpCodec`, `protokt.v1.OptimalJvmCodec` | All |
+| Property               | Description                                            | Default    |
+|------------------------|--------------------------------------------------------|------------|
+| `benchmarkInclude`     | Regex to include matching benchmarks                   | all        |
+| `benchmarkExclude`     | Regex to exclude matching benchmarks                   | none       |
+| `benchmarkParam`       | Comma-separated `name=value` pairs for `@Param` fields | all values |
+| `benchmarkWarmups`     | Warmup iterations                                      | 3          |
+| `benchmarkIterations`  | Measurement iterations                                 | 5          |
+| `benchmarkForks`       | JVM forks                                              | 2          |
 
 ## Examples
 
-Run a single benchmark method:
+Run only serialization benchmarks:
 
 ```
-./gradlew :benchmarks:protokt-benchmarks:run --args="-i serializeSmall"
-```
-
-Exclude copy/append benchmarks:
-
-```
-./gradlew :benchmarks:protokt-benchmarks:run --args="-e .*copyAppend.*"
-```
-
-Pin a JMH parameter:
-
-```
-./gradlew :benchmarks:protokt-benchmarks:run --args="-p collectionFactory=protokt.v1.DefaultCollectionFactory"
+./gradlew :benchmarks:protokt-benchmarks:jvmBenchmark -PbenchmarkInclude=.*serialize.*
 ```
 
 Run with a specific codec:
 
 ```
-./gradlew :benchmarks:protokt-benchmarks:run --args="-p codec=protokt.v1.ProtoktCodec"
+./gradlew :benchmarks:protokt-benchmarks:jvmBenchmark -PbenchmarkParam=codec=protokt.v1.ProtoktCodec
 ```
 
-Combine flags:
+Quick smoke test (1 warmup, 1 iteration, 1 fork):
 
 ```
-./gradlew :benchmarks:protokt-benchmarks:run --args="-i serialize -e .*String.*"
+./gradlew :benchmarks:protokt-benchmarks:jvmBenchmark -PbenchmarkWarmups=1 -PbenchmarkIterations=1 -PbenchmarkForks=1
 ```
+
+## Parameters
+
+protokt benchmarks accept `@Param`-annotated properties:
+
+| Parameter             | Targets      | Values                                                                           |
+|-----------------------|--------------|----------------------------------------------------------------------------------|
+| `collectionFactory`   | JVM + Native | `protokt.v1.DefaultCollectionFactory`, `protokt.v1.PersistentCollectionFactory`  |
+| `codec`               | JVM only     | `protokt.v1.ProtobufJavaCodec`, `protokt.v1.KotlinxIoCodec`, `protokt.v1.ProtoktCodec` |
+
+Native benchmarks always use `ProtoktCodec`. Collection factory selection works
+on native via direct override (no env var or system property needed).

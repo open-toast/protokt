@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast, Inc.
+ * Copyright (c) 2019 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,8 +13,12 @@
  * limitations under the License.
  */
 
-plugins {
-    id("protokt.multiplatform-conventions")
-}
+package protokt.v1.benchmarks
 
-enableNativeTargets()
+import java.io.File
+
+fun readData(dataset: String) =
+    File("../build/datasets/dataset-$dataset").inputStream().buffered()
+
+actual fun readDatasetBytes(name: String): ByteArray =
+    File("../build/datasets/dataset-$name").readBytes()

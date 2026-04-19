@@ -45,6 +45,7 @@ spotless = "8.4.0"
 datasets = "0.1.0"
 download = "5.7.0"
 jmh = "1.37"
+kotlinx-benchmark = "0.4.16"
 wire = "6.2.0"
 
 # test
@@ -63,6 +64,7 @@ protoGoogleCommonProtos = "2.69.0"
 [plugins]
 buildConfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildConfig" }
 download = { id = "de.undercouch.download", version.ref = "download" }
+kotlinx-benchmark = { id = "org.jetbrains.kotlinx.benchmark", version.ref = "kotlinx-benchmark" }
 pluginPublish = { id = "com.gradle.plugin-publish", version.ref = "pluginPublish" }
 wire = { id = "com.squareup.wire", version.ref = "wire" }
 
@@ -97,6 +99,8 @@ spotlessGradlePlugin = { module = "com.diffplug.spotless:spotless-plugin-gradle"
 # benchmarks
 jmh-core = { module = "org.openjdk.jmh:jmh-core", version.ref = "jmh" }
 jmh-generator = { module = "org.openjdk.jmh:jmh-generator-annprocess", version.ref = "jmh" }
+kotlinx-benchmark-plugin = { module = "org.jetbrains.kotlinx:kotlinx-benchmark-plugin", version.ref = "kotlinx-benchmark" }
+kotlinx-benchmark-runtime = { module = "org.jetbrains.kotlinx:kotlinx-benchmark-runtime", version.ref = "kotlinx-benchmark" }
 wireRuntime = { module = "com.squareup.wire:wire-runtime", version.ref = "wire" }
 
 # third party

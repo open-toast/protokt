@@ -16,26 +16,58 @@
 import com.google.protobuf.gradle.protobuf
 
 plugins {
-    id("protokt.benchmarks-conventions")
-    application
+    id("protokt.multiplatform-conventions")
+    id("org.jetbrains.kotlinx.benchmark")
+    id("org.jetbrains.kotlin.plugin.allopen")
+}
+
+allOpen {
+    annotation("org.openjdk.jmh.annotations.State")
+    annotation("kotlinx.benchmark.State")
 }
 
 localProtokt()
+friendPaths(":protokt-runtime", ":protokt-runtime-persistent-collections")
 
-configure<JavaApplication> {
-    mainClass.set("protokt.v1.benchmarks.ProtoktBenchmarksKt")
-    executableDir = ".."
+enableNativeTargets()
+
+configure<org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension> {
+    compilerOptions {
+        freeCompilerArgs.add("-opt-in=protokt.v1.OnlyForUseByGeneratedProtoCode")
+    }
+}
+configureBenchmarks()
+
+kotlin {
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation(project(":benchmarks:benchmarks-util"))
+                implementation(project(":protokt-runtime-kotlinx-io"))
+                implementation(project(":protokt-runtime-persistent-collections"))
+                implementation(libs.kotlinx.benchmark.runtime)
+            }
+        }
+
+        val jvmMain by getting {
+            dependencies {
+                implementation(kotlin("reflect"))
+            }
+        }
+    }
 }
 
 dependencies {
     protobuf(project(":benchmarks:schema"))
-
-    implementation(kotlin("reflect"))
-    implementation(project(":benchmarks:benchmarks-util"))
-    implementation(project(":protokt-runtime-persistent-collections"))
-    implementation(project(":protokt-runtime-kotlinx-io"))
 }
 
-tasks.named("run") {
+benchmark {
+    targets {
+        register("jvm")
+        register("macosArm64")
+    }
+}
+
+tasks.matching { it.name.contains("benchmark", ignoreCase = true) }.configureEach {
     dependsOn(":benchmarks:datasets")
 }
