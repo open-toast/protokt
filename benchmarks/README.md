@@ -8,10 +8,29 @@ All benchmarks use [kotlinx-benchmark](https://github.com/Kotlin/kotlinx-benchma
 which delegates to JMH on JVM and uses its own runtime on Kotlin/Native.
 
 ```
-./gradlew :benchmarks:protokt-benchmarks:jvmBenchmark
-./gradlew :benchmarks:protokt-benchmarks:macosArm64Benchmark
 ./gradlew :benchmarks:protobuf-java-benchmarks:benchmark
 ./gradlew :benchmarks:wire-benchmarks:benchmark
+./gradlew :benchmarks:protokt-benchmarks:macosArm64Benchmark
+```
+
+protokt JVM benchmarks must be run as **separate Gradle invocations per
+codec/factory combination**. The codec and collection factory are resolved
+once per JVM via `by lazy`, so running multiple `@Param` combos in a single
+JMH session causes all but the first to silently use the wrong configuration.
+
+```
+./gradlew :benchmarks:protokt-benchmarks:jvmBenchmark \
+  "-PbenchmarkParam=codec=protokt.v1.ProtobufJavaCodec,collectionFactory=protokt.v1.DefaultCollectionFactory"
+./gradlew :benchmarks:protokt-benchmarks:jvmBenchmark \
+  "-PbenchmarkParam=codec=protokt.v1.ProtobufJavaCodec,collectionFactory=protokt.v1.PersistentCollectionFactory"
+./gradlew :benchmarks:protokt-benchmarks:jvmBenchmark \
+  "-PbenchmarkParam=codec=protokt.v1.KotlinxIoCodec,collectionFactory=protokt.v1.DefaultCollectionFactory"
+./gradlew :benchmarks:protokt-benchmarks:jvmBenchmark \
+  "-PbenchmarkParam=codec=protokt.v1.KotlinxIoCodec,collectionFactory=protokt.v1.PersistentCollectionFactory"
+./gradlew :benchmarks:protokt-benchmarks:jvmBenchmark \
+  "-PbenchmarkParam=codec=protokt.v1.ProtoktCodec,collectionFactory=protokt.v1.DefaultCollectionFactory"
+./gradlew :benchmarks:protokt-benchmarks:jvmBenchmark \
+  "-PbenchmarkParam=codec=protokt.v1.ProtoktCodec,collectionFactory=protokt.v1.PersistentCollectionFactory"
 ```
 
 All modules share the same default configuration (3 warmup iterations,
@@ -57,7 +76,7 @@ protokt benchmarks accept `@Param`-annotated properties:
 | Parameter | Targets | Values |
 |-----------|---------|--------|
 | `collectionFactory` | JVM + Native | `protokt.v1.DefaultCollectionFactory`, `protokt.v1.PersistentCollectionFactory` |
-| `codec` | JVM only | `protokt.v1.ProtobufJavaCodec`, `protokt.v1.KotlinxIoCodec`, `protokt.v1.ProtoktCodec`, `protokt.v1.OptimalKmpCodec`, `protokt.v1.OptimalJvmCodec` |
+| `codec` | JVM only | `protokt.v1.ProtobufJavaCodec`, `protokt.v1.KotlinxIoCodec`, `protokt.v1.ProtoktCodec` |
 
 Native benchmarks always use `ProtoktCodec`. Collection factory selection works
 on native via direct override (no env var or system property needed).
