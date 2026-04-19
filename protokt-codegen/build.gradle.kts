@@ -13,7 +13,6 @@
  * limitations under the License.
  */
 
-import com.google.protobuf.gradle.proto
 import protokt.v1.gradle.CODEGEN_NAME
 
 plugins {
@@ -108,9 +107,6 @@ sourceSets {
         java {
             srcDir("../shared-src/codegen")
             srcDir("../shared-src/reflect")
-        }
-        proto {
-            srcDir("../extensions/protokt-extensions-lite/src/extensions-proto")
         }
     }
 }
