@@ -3619,3 +3619,7 @@ public final class protokt/v1/pb/JavaFeatures$Utf8Validation$VERIFY : protokt/v1
 	public static final field INSTANCE Lprotokt/v1/pb/JavaFeatures$Utf8Validation$VERIFY;
 }
 
+public final class protokt/v1/pb/Java_featuresKt {
+	public static final fun getJava (Lprotokt/v1/google/protobuf/FeatureSet;)Lprotokt/v1/pb/JavaFeatures;
+}
+

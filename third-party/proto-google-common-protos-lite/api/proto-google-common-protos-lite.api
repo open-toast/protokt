@@ -33,6 +33,10 @@ public final class protokt/v1/google/api/Advice$Deserializer : protokt/v1/Abstra
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Advice;
 }
 
+public final class protokt/v1/google/api/AnnotationsKt {
+	public static final fun getHttp (Lprotokt/v1/google/protobuf/MethodOptions;)Lprotokt/v1/google/api/HttpRule;
+}
+
 public final class protokt/v1/google/api/AuthProvider : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/AuthProvider$Deserializer;
 	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -453,6 +457,13 @@ public final class protokt/v1/google/api/ChangeType$REMOVED : protokt/v1/google/
 
 public final class protokt/v1/google/api/ChangeType$UNRECOGNIZED : protokt/v1/google/api/ChangeType {
 	public fun <init> (I)V
+}
+
+public final class protokt/v1/google/api/ClientKt {
+	public static final fun getApiVersion (Lprotokt/v1/google/protobuf/ServiceOptions;)Ljava/lang/String;
+	public static final fun getDefaultHost (Lprotokt/v1/google/protobuf/ServiceOptions;)Ljava/lang/String;
+	public static final fun getMethodSignature (Lprotokt/v1/google/protobuf/MethodOptions;)Ljava/util/List;
+	public static final fun getOauthScopes (Lprotokt/v1/google/protobuf/ServiceOptions;)Ljava/lang/String;
 }
 
 public abstract class protokt/v1/google/api/ClientLibraryDestination : protokt/v1/Enum {
@@ -1695,6 +1706,14 @@ public final class protokt/v1/google/api/FieldPolicy$Deserializer : protokt/v1/A
 	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
 	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/FieldPolicy;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/FieldPolicy;
+}
+
+public final class protokt/v1/google/api/Field_behaviorKt {
+	public static final fun getFieldBehavior (Lprotokt/v1/google/protobuf/FieldOptions;)Ljava/util/List;
+}
+
+public final class protokt/v1/google/api/Field_infoKt {
+	public static final fun getFieldInfo (Lprotokt/v1/google/protobuf/FieldOptions;)Lprotokt/v1/google/api/FieldInfo;
 }
 
 public final class protokt/v1/google/api/GoSettings : protokt/v1/AbstractMessage {
@@ -3046,6 +3065,11 @@ public final class protokt/v1/google/api/PhpSettings$Deserializer : protokt/v1/A
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/PhpSettings;
 }
 
+public final class protokt/v1/google/api/PolicyKt {
+	public static final fun getFieldPolicy (Lprotokt/v1/google/protobuf/FieldOptions;)Lprotokt/v1/google/api/FieldPolicy;
+	public static final fun getMethodPolicy (Lprotokt/v1/google/protobuf/MethodOptions;)Lprotokt/v1/google/api/MethodPolicy;
+}
+
 public final class protokt/v1/google/api/ProjectProperties : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/ProjectProperties$Deserializer;
 	public synthetic fun <init> (Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -3507,6 +3531,12 @@ public final class protokt/v1/google/api/ResourceDescriptor$Style$UNRECOGNIZED :
 	public fun <init> (I)V
 }
 
+public final class protokt/v1/google/api/ResourceKt {
+	public static final fun getResource (Lprotokt/v1/google/protobuf/MessageOptions;)Lprotokt/v1/google/api/ResourceDescriptor;
+	public static final fun getResourceDefinition (Lprotokt/v1/google/protobuf/FileOptions;)Ljava/util/List;
+	public static final fun getResourceReference (Lprotokt/v1/google/protobuf/FieldOptions;)Lprotokt/v1/google/api/ResourceReference;
+}
+
 public final class protokt/v1/google/api/ResourceReference : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/ResourceReference$Deserializer;
 	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -3543,6 +3573,10 @@ public final class protokt/v1/google/api/ResourceReference$Deserializer : protok
 	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
 	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/ResourceReference;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/ResourceReference;
+}
+
+public final class protokt/v1/google/api/RoutingKt {
+	public static final fun getRouting (Lprotokt/v1/google/protobuf/MethodOptions;)Lprotokt/v1/google/api/RoutingRule;
 }
 
 public final class protokt/v1/google/api/RoutingParameter : protokt/v1/AbstractMessage {
@@ -4100,6 +4134,15 @@ public final class protokt/v1/google/api/Visibility$Deserializer : protokt/v1/Ab
 	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
 	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/Visibility;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/Visibility;
+}
+
+public final class protokt/v1/google/api/VisibilityKt {
+	public static final fun getApiVisibility (Lprotokt/v1/google/protobuf/ServiceOptions;)Lprotokt/v1/google/api/VisibilityRule;
+	public static final fun getEnumVisibility (Lprotokt/v1/google/protobuf/EnumOptions;)Lprotokt/v1/google/api/VisibilityRule;
+	public static final fun getFieldVisibility (Lprotokt/v1/google/protobuf/FieldOptions;)Lprotokt/v1/google/api/VisibilityRule;
+	public static final fun getMessageVisibility (Lprotokt/v1/google/protobuf/MessageOptions;)Lprotokt/v1/google/api/VisibilityRule;
+	public static final fun getMethodVisibility (Lprotokt/v1/google/protobuf/MethodOptions;)Lprotokt/v1/google/api/VisibilityRule;
+	public static final fun getValueVisibility (Lprotokt/v1/google/protobuf/EnumValueOptions;)Lprotokt/v1/google/api/VisibilityRule;
 }
 
 public final class protokt/v1/google/api/VisibilityRule : protokt/v1/AbstractMessage {
@@ -7101,6 +7144,14 @@ public final class protokt/v1/google/apps/card/v1/Widget$VerticalAlignment$VERTI
 	public static final field INSTANCE Lprotokt/v1/google/apps/card/v1/Widget$VerticalAlignment$VERTICAL_ALIGNMENT_UNSPECIFIED;
 }
 
+public final class protokt/v1/google/cloud/Extended_operationsKt {
+	public static final fun getOperationField (Lprotokt/v1/google/protobuf/FieldOptions;)Lprotokt/v1/google/cloud/OperationResponseMapping;
+	public static final fun getOperationPollingMethod (Lprotokt/v1/google/protobuf/MethodOptions;)Ljava/lang/Boolean;
+	public static final fun getOperationRequestField (Lprotokt/v1/google/protobuf/FieldOptions;)Ljava/lang/String;
+	public static final fun getOperationResponseField (Lprotokt/v1/google/protobuf/FieldOptions;)Ljava/lang/String;
+	public static final fun getOperationService (Lprotokt/v1/google/protobuf/MethodOptions;)Ljava/lang/String;
+}
+
 public abstract class protokt/v1/google/cloud/OperationResponseMapping : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/cloud/OperationResponseMapping$Deserializer;
 	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -8352,6 +8403,10 @@ public final class protokt/v1/google/longrunning/OperationInfo$Deserializer : pr
 	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
 	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/longrunning/OperationInfo;
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/longrunning/OperationInfo;
+}
+
+public final class protokt/v1/google/longrunning/OperationsKt {
+	public static final fun getOperationInfo (Lprotokt/v1/google/protobuf/MethodOptions;)Lprotokt/v1/google/longrunning/OperationInfo;
 }
 
 public final class protokt/v1/google/longrunning/WaitOperationRequest : protokt/v1/AbstractMessage {
