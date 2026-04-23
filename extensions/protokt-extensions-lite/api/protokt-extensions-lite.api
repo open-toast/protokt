@@ -364,6 +364,17 @@ public final class protokt/v1/OneofOptions$Deserializer : protokt/v1/AbstractDes
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/OneofOptions;
 }
 
+public final class protokt/v1/ProtoktKt {
+	public static final fun getClass (Lprotokt/v1/google/protobuf/MessageOptions;)Lprotokt/v1/MessageOptions;
+	public static final fun getEnum (Lprotokt/v1/google/protobuf/EnumOptions;)Lprotokt/v1/EnumOptions;
+	public static final fun getEnumValue (Lprotokt/v1/google/protobuf/EnumValueOptions;)Lprotokt/v1/EnumValueOptions;
+	public static final fun getFile (Lprotokt/v1/google/protobuf/FileOptions;)Lprotokt/v1/FileOptions;
+	public static final fun getMethod (Lprotokt/v1/google/protobuf/MethodOptions;)Lprotokt/v1/MethodOptions;
+	public static final fun getOneof (Lprotokt/v1/google/protobuf/OneofOptions;)Lprotokt/v1/OneofOptions;
+	public static final fun getProperty (Lprotokt/v1/google/protobuf/FieldOptions;)Lprotokt/v1/FieldOptions;
+	public static final fun getService (Lprotokt/v1/google/protobuf/ServiceOptions;)Lprotokt/v1/ServiceOptions;
+}
+
 public final class protokt/v1/ServiceOptions : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/ServiceOptions$Deserializer;
 	public synthetic fun <init> (Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V

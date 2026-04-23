@@ -64,6 +64,15 @@ private class FileGenerator(
             builder.addType(it.typeSpec)
         }
 
+        val extensionProps = generateExtensions(contents)
+        if (extensionProps.isNotEmpty()) {
+            builder.addImport("protokt.v1", "get")
+        }
+        extensionProps.forEach {
+            anyCodeAdded = true
+            builder.addProperty(it)
+        }
+
         if (contents.info.context.generateDescriptors && contents.info.context.kotlinTarget.isPrimaryTarget) {
             val fileDescriptorInfo = FileDescriptorResolver.resolveFileDescriptor(contents)
 
