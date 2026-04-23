@@ -15,6 +15,7 @@
 
 package protokt.v1.codegen.util
 
+import com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Type
 import com.squareup.kotlinpoet.ClassName
 import protokt.v1.codegen.util.ErrorContext.withEnumName
 import protokt.v1.codegen.util.ErrorContext.withMessageName
@@ -36,7 +37,7 @@ internal fun parseFileContents(ctx: GeneratorContext) =
 
 private fun parseExtensions(ctx: GeneratorContext): List<ProtoExtension> =
     ctx.fdp.extension.mapNotNull { fdp ->
-        val fieldType = FieldType.from((fdp.type ?: FieldDescriptorProto.Type.STRING).value)
+        val fieldType = FieldType.from(Type.forNumber((fdp.type ?: FieldDescriptorProto.Type.STRING).value))
         val extendeeName = fdp.extendee?.removePrefix(".") ?: return@mapNotNull null
 
         val valueClassName =
