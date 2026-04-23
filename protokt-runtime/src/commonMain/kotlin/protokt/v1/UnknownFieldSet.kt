@@ -20,23 +20,35 @@ import protokt.v1.Collections.freezeMap
 import protokt.v1.Sizes.sizeOf
 
 class UnknownFieldSet private constructor(
-    val unknownFields: Map<UInt, Field>
+    private val fieldMap: Map<UInt, Field>
 ) {
-    fun size() =
-        unknownFields.entries.sumOf { (k, v) -> v.size(k) }
+    operator fun get(fieldNumber: UInt): Field? =
+        fieldMap[fieldNumber]
 
-    fun isEmpty() =
-        unknownFields.isEmpty()
+    operator fun contains(fieldNumber: UInt): Boolean =
+        fieldNumber in fieldMap
+
+    fun isEmpty(): Boolean =
+        fieldMap.isEmpty()
+
+    @OnlyForUseByGeneratedProtoCode
+    fun size() =
+        fieldMap.entries.sumOf { (k, v) -> v.size(k) }
+
+    @OnlyForUseByGeneratedProtoCode
+    fun forEach(action: (UInt, Field) -> Unit) {
+        fieldMap.forEach { (k, v) -> action(k, v) }
+    }
 
     override fun equals(other: Any?) =
         other is UnknownFieldSet &&
-            other.unknownFields == unknownFields
+            other.fieldMap == fieldMap
 
     override fun hashCode() =
-        unknownFields.hashCode()
+        fieldMap.hashCode()
 
     override fun toString() =
-        "UnknownFieldSet(unknownFields=$unknownFields)"
+        "UnknownFieldSet(fields=$fieldMap)"
 
     companion object {
         private val EMPTY = UnknownFieldSet(emptyMap())

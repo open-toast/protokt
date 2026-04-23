@@ -15,7 +15,6 @@
 
 package protokt.v1.reflect
 
-import com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Type
 import protokt.v1.Writer
 import kotlin.reflect.KClass
 
@@ -106,26 +105,26 @@ internal sealed class FieldType {
         }
 
     companion object {
-        fun from(type: Type) =
-            when (type) {
-                Type.TYPE_BOOL -> Bool
-                Type.TYPE_BYTES -> Bytes
-                Type.TYPE_DOUBLE -> Double
-                Type.TYPE_ENUM -> Enum
-                Type.TYPE_FIXED32 -> Fixed32
-                Type.TYPE_FIXED64 -> Fixed64
-                Type.TYPE_FLOAT -> Float
-                Type.TYPE_INT32 -> Int32
-                Type.TYPE_INT64 -> Int64
-                Type.TYPE_MESSAGE -> Message
-                Type.TYPE_SFIXED32 -> SFixed32
-                Type.TYPE_SFIXED64 -> SFixed64
-                Type.TYPE_SINT32 -> SInt32
-                Type.TYPE_SINT64 -> SInt64
-                Type.TYPE_STRING -> String
-                Type.TYPE_UINT32 -> UInt32
-                Type.TYPE_UINT64 -> UInt64
-                else -> error("Unknown type: $type")
+        fun from(typeValue: Int) =
+            when (typeValue) {
+                1 -> Double
+                2 -> Float
+                3 -> Int64
+                4 -> UInt64
+                5 -> Int32
+                6 -> Fixed64
+                7 -> Fixed32
+                8 -> Bool
+                9 -> String
+                11 -> Message
+                12 -> Bytes
+                13 -> UInt32
+                14 -> Enum
+                15 -> SFixed32
+                16 -> SFixed64
+                17 -> SInt32
+                18 -> SInt64
+                else -> error("Unknown type: $typeValue")
             }
     }
 }

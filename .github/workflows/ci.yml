@@ -34,7 +34,7 @@ jobs:
     - name: Set up js
       run: npm install protobufjs@7.2.6 long@5.2.3
     - name: Build, test, and publish integration repo
-      run: ./gradlew clean check publishToIntegrationRepository -x :testing:protovalidate-conformance:conformance -x :testing:protovalidate-conformance:test --stacktrace --no-daemon
+      run: ./gradlew clean check :protokt-codegen:verifyBootstrap publishToIntegrationRepository -x :testing:protovalidate-conformance:conformance -x :testing:protovalidate-conformance:test --stacktrace --no-daemon
       env:
         GRADLE_OPTS: "-Xmx4g"
     - name: Run protovalidate conformance

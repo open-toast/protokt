@@ -67,7 +67,7 @@ class RuntimeContext internal constructor(
 
     internal fun unwrap(value: Any, field: FieldDescriptor, wrap: String): Any {
         val proto = field.toProto()
-        val type = FieldType.from(proto.type)
+        val type = FieldType.from(proto.type.number)
         val converterDetails =
             classLookup.converter(
                 ClassLookup.evaluateProtobufTypeCanonicalName(
@@ -227,10 +227,11 @@ private fun convertMap(
     }
 }
 
+@OptIn(protokt.v1.OnlyForUseByGeneratedProtoCode::class)
 private fun mapUnknownFields(message: Message): UnknownFieldSet {
     val unknownFields = UnknownFieldSet.newBuilder()
 
-    getUnknownFields(message).forEach { (number, field) ->
+    message.unknownFields.forEach { number, field ->
         unknownFields.mergeField(
             number.toInt(),
             Field.newBuilder()

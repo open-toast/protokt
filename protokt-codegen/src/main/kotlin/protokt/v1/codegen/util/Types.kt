@@ -15,12 +15,19 @@
 
 package protokt.v1.codegen.util
 
-import com.google.protobuf.DescriptorProtos
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.TypeSpec
-import com.toasttab.protokt.v1.ProtoktProtos
 import io.grpc.kotlin.generator.protoc.ProtoMethodName
+import protokt.v1.google.protobuf.SourceCodeInfo
 import protokt.v1.reflect.FieldType
+import protokt.v1.google.protobuf.EnumOptions as PbEnumOptions
+import protokt.v1.google.protobuf.EnumValueOptions as PbEnumValueOptions
+import protokt.v1.google.protobuf.FieldOptions as PbFieldOptions
+import protokt.v1.google.protobuf.FileOptions as PbFileOptions
+import protokt.v1.google.protobuf.MessageOptions as PbMessageOptions
+import protokt.v1.google.protobuf.MethodOptions as PbMethodOptions
+import protokt.v1.google.protobuf.OneofOptions as PbOneofOptions
+import protokt.v1.google.protobuf.ServiceOptions as PbServiceOptions
 
 sealed class TopLevelType
 
@@ -36,8 +43,8 @@ class Message(
 ) : TopLevelType()
 
 data class MessageOptions(
-    val default: DescriptorProtos.MessageOptions,
-    val protokt: ProtoktProtos.MessageOptions
+    val default: PbMessageOptions,
+    val protokt: protokt.v1.MessageOptions
 )
 
 class Enum(
@@ -57,13 +64,13 @@ class Enum(
 }
 
 class EnumOptions(
-    val default: DescriptorProtos.EnumOptions,
-    val protokt: ProtoktProtos.EnumOptions
+    val default: PbEnumOptions,
+    val protokt: protokt.v1.EnumOptions
 )
 
 class EnumValueOptions(
-    val default: DescriptorProtos.EnumValueOptions,
-    val protokt: ProtoktProtos.EnumValueOptions
+    val default: PbEnumValueOptions,
+    val protokt: protokt.v1.EnumValueOptions
 )
 
 class Service(
@@ -75,8 +82,8 @@ class Service(
 ) : TopLevelType()
 
 class ServiceOptions(
-    val default: DescriptorProtos.ServiceOptions,
-    val protokt: ProtoktProtos.ServiceOptions
+    val default: PbServiceOptions,
+    val protokt: protokt.v1.ServiceOptions
 )
 
 class Method(
@@ -90,8 +97,8 @@ class Method(
 )
 
 class MethodOptions(
-    val default: DescriptorProtos.MethodOptions,
-    val protokt: ProtoktProtos.MethodOptions
+    val default: PbMethodOptions,
+    val protokt: protokt.v1.MethodOptions
 )
 
 sealed class Field {
@@ -139,34 +146,44 @@ internal class Oneof(
 ) : Field()
 
 class FieldOptions(
-    val default: DescriptorProtos.FieldOptions,
-    val protokt: ProtoktProtos.FieldOptions,
+    val default: PbFieldOptions,
+    val protokt: protokt.v1.FieldOptions,
     val wrap: String?
 )
 
 class OneofOptions(
-    val default: DescriptorProtos.OneofOptions,
-    val protokt: ProtoktProtos.OneofOptions
+    val default: PbOneofOptions,
+    val protokt: protokt.v1.OneofOptions
 )
 
 internal class ProtoFileInfo(
     val context: GeneratorContext
 ) {
-    val name = context.fdp.name
+    val name = context.fdp.name.orEmpty()
     val kotlinPackage = context.kotlinPackage
-    val protoPackage = context.fdp.`package`
+    val protoPackage = context.fdp.`package`.orEmpty()
     val options = context.fileOptions
-    val sourceCodeInfo = context.fdp.sourceCodeInfo
+    val sourceCodeInfo: SourceCodeInfo? = context.fdp.sourceCodeInfo
 }
 
 class FileOptions(
-    val default: DescriptorProtos.FileOptions,
-    val protokt: ProtoktProtos.FileOptions
+    val default: PbFileOptions,
+    val protokt: protokt.v1.FileOptions
+)
+
+internal class ProtoExtension(
+    val fieldName: String,
+    val number: Int,
+    val extendee: ClassName,
+    val fieldType: FieldType,
+    val valueClassName: ClassName?,
+    val repeated: Boolean
 )
 
 internal class ProtoFileContents(
     val info: ProtoFileInfo,
-    val types: List<TopLevelType>
+    val types: List<TopLevelType>,
+    val extensions: List<ProtoExtension> = emptyList()
 )
 
 class GeneratedType(

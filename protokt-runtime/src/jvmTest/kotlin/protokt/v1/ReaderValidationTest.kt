@@ -229,6 +229,7 @@ class ReaderValidationTest {
 
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
 private object EmptyMessage : AbstractDeserializer<EmptyMessage>(), Message {
+    override val unknownFields = UnknownFieldSet.empty()
     override fun serializedSize() =
         0
     override fun serialize(writer: Writer) {}
@@ -247,6 +248,7 @@ private object EmptyMessage : AbstractDeserializer<EmptyMessage>(), Message {
 
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
 private object Fixed32FieldMessage : AbstractDeserializer<Fixed32FieldMessage>(), Message {
+    override val unknownFields = UnknownFieldSet.empty()
     override fun serializedSize() =
         0
     override fun serialize(writer: Writer) {}
@@ -269,6 +271,7 @@ private object Fixed32FieldMessage : AbstractDeserializer<Fixed32FieldMessage>()
 
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
 private object Fixed64FieldMessage : AbstractDeserializer<Fixed64FieldMessage>(), Message {
+    override val unknownFields = UnknownFieldSet.empty()
     override fun serializedSize() =
         0
     override fun serialize(writer: Writer) {}
@@ -291,6 +294,7 @@ private object Fixed64FieldMessage : AbstractDeserializer<Fixed64FieldMessage>()
 
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
 private object VarintFieldMessage : AbstractDeserializer<VarintFieldMessage>(), Message {
+    override val unknownFields = UnknownFieldSet.empty()
     override fun serializedSize() =
         0
     override fun serialize(writer: Writer) {}
@@ -309,6 +313,7 @@ private object VarintFieldMessage : AbstractDeserializer<VarintFieldMessage>(), 
 
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
 private object NestedLenDelimitedMessage : AbstractDeserializer<NestedLenDelimitedMessage>(), Message {
+    override val unknownFields = UnknownFieldSet.empty()
     override fun serializedSize() =
         0
     override fun serialize(writer: Writer) {}
@@ -331,6 +336,7 @@ private object NestedLenDelimitedMessage : AbstractDeserializer<NestedLenDelimit
 
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
 private object RecursiveMessage : AbstractDeserializer<RecursiveMessage>(), Message {
+    override val unknownFields = UnknownFieldSet.empty()
     override fun serializedSize() =
         0
     override fun serialize(writer: Writer) {}

@@ -15,18 +15,62 @@
 
 package protokt.v1.codegen.util
 
-import com.google.protobuf.DescriptorProtos.DescriptorProto
-import com.google.protobuf.DescriptorProtos.EnumDescriptorProto
-import com.google.protobuf.DescriptorProtos.ServiceDescriptorProto
+import com.squareup.kotlinpoet.ClassName
 import protokt.v1.codegen.util.ErrorContext.withEnumName
 import protokt.v1.codegen.util.ErrorContext.withMessageName
 import protokt.v1.codegen.util.ErrorContext.withServiceName
+import protokt.v1.google.protobuf.DescriptorProto
+import protokt.v1.google.protobuf.EnumDescriptorProto
+import protokt.v1.google.protobuf.FieldDescriptorProto
+import protokt.v1.google.protobuf.ServiceDescriptorProto
+import protokt.v1.reflect.FieldType
+import protokt.v1.reflect.requalifyProtoType
+import protokt.v1.reflect.typeName
 
 internal fun parseFileContents(ctx: GeneratorContext) =
     ProtoFileContents(
         ProtoFileInfo(ctx),
-        FileContentParser(ctx).parseContents()
+        FileContentParser(ctx).parseContents(),
+        parseExtensions(ctx)
     )
+
+private fun parseExtensions(ctx: GeneratorContext): List<ProtoExtension> =
+    ctx.fdp.extension.mapNotNull { fdp ->
+        val fieldType = FieldType.from((fdp.type ?: FieldDescriptorProto.Type.STRING).value)
+        val extendeeName = fdp.extendee?.removePrefix(".") ?: return@mapNotNull null
+
+        val valueClassName =
+            when (fieldType) {
+                FieldType.Message, FieldType.Enum ->
+                    ClassName.bestGuess(typeName(fdp.typeName.orEmpty(), fieldType))
+
+                else -> null
+            }
+
+        ProtoExtension(
+            fieldName = camelCase(fdp.name.orEmpty()),
+            number = fdp.number ?: 0,
+            extendee = ClassName.bestGuess(requalifyProtoType(".$extendeeName")),
+            fieldType = fieldType,
+            valueClassName = valueClassName,
+            repeated = fdp.label == FieldDescriptorProto.Label.REPEATED
+        )
+    }
+
+private fun camelCase(name: String): String {
+    if (!name.contains('_')) return name
+    return buildString {
+        var capitalizeNext = false
+        for (c in name) {
+            if (c == '_') {
+                capitalizeNext = true
+            } else {
+                append(if (capitalizeNext) c.uppercaseChar() else c)
+                capitalizeNext = false
+            }
+        }
+    }
+}
 
 internal class FileContentParser(
     private val ctx: GeneratorContext,
@@ -37,25 +81,25 @@ internal class FileContentParser(
 ) {
     constructor(ctx: GeneratorContext) : this(
         ctx,
-        ctx.fdp.enumTypeList,
-        ctx.fdp.messageTypeList,
-        ctx.fdp.serviceList,
+        ctx.fdp.enumType,
+        ctx.fdp.messageType,
+        ctx.fdp.service,
         emptyList()
     )
 
     fun parseContents(): List<TopLevelType> =
         enums.mapIndexed { idx, desc ->
-            withEnumName(desc.name) {
+            withEnumName(desc.name.orEmpty()) {
                 EnumParser(ctx, idx, desc, enclosingMessages).toEnum()
             }
         } +
             messages.mapIndexed { idx, desc ->
-                withMessageName((enclosingMessages + desc.name).joinToString(".")) {
+                withMessageName((enclosingMessages + desc.name.orEmpty()).joinToString(".")) {
                     MessageParser(ctx, idx, desc, enclosingMessages, null, null).toMessage()
                 }
             } +
             services.mapIndexed { idx, desc ->
-                withServiceName(desc.name) {
+                withServiceName(desc.name.orEmpty()) {
                     ServiceParser(idx, desc).toService()
                 }
             }

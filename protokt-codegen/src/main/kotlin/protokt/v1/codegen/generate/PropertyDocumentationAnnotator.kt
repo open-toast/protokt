@@ -15,8 +15,6 @@
 
 package protokt.v1.codegen.generate
 
-import com.google.protobuf.DescriptorProtos.DescriptorProto.FIELD_FIELD_NUMBER
-import com.google.protobuf.DescriptorProtos.DescriptorProto.ONEOF_DECL_FIELD_NUMBER
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.util.Field
 import protokt.v1.codegen.util.Oneof
@@ -33,8 +31,10 @@ private class PropertyDocumentationAnnotator(
         baseLocation(
             ctx,
             when (field) {
-                is StandardField -> listOf(FIELD_FIELD_NUMBER, field.index)
-                is Oneof -> listOf(ONEOF_DECL_FIELD_NUMBER, field.index)
+                is StandardField -> listOf(2, field.index)
+
+                // DescriptorProto.FIELD_FIELD_NUMBER
+                is Oneof -> listOf(8, field.index) // DescriptorProto.ONEOF_DECL_FIELD_NUMBER
             }
         )?.cleanDocumentation()
 }

@@ -13,7 +13,7 @@ public final class protokt/v1/EnumOptions : protokt/v1/AbstractMessage {
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/EnumOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDeprecationMessage ()Ljava/lang/String;
-	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/EnumOptions;
 	public fun serialize (Lprotokt/v1/Writer;)V
@@ -48,7 +48,7 @@ public final class protokt/v1/EnumValueOptions : protokt/v1/AbstractMessage {
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/EnumValueOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDeprecationMessage ()Ljava/lang/String;
-	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/EnumValueOptions;
 	public fun serialize (Lprotokt/v1/Writer;)V
@@ -86,7 +86,7 @@ public final class protokt/v1/FieldOptions : protokt/v1/AbstractMessage {
 	public final fun getDeprecationMessage ()Ljava/lang/String;
 	public final fun getGenerateNonNullAccessor ()Z
 	public final fun getKeyWrap ()Ljava/lang/String;
-	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun getValueWrap ()Ljava/lang/String;
 	public final fun getWrap ()Ljava/lang/String;
 	public fun hashCode ()I
@@ -133,7 +133,7 @@ public final class protokt/v1/FileOptions : protokt/v1/AbstractMessage {
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/FileOptions;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getFileDescriptorObjectName ()Ljava/lang/String;
-	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/FileOptions;
 	public fun serialize (Lprotokt/v1/Writer;)V
@@ -185,7 +185,7 @@ public final class protokt/v1/InetSocketAddress : protokt/v1/AbstractMessage {
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAddress ()Lprotokt/v1/Bytes;
 	public final fun getPort ()I
-	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/InetSocketAddress;
 	public fun serialize (Lprotokt/v1/Writer;)V
@@ -255,7 +255,7 @@ public final class protokt/v1/MessageOptions : protokt/v1/AbstractMessage {
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDeprecationMessage ()Ljava/lang/String;
 	public final fun getImplements ()Ljava/lang/String;
-	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/MessageOptions;
 	public fun serialize (Lprotokt/v1/Writer;)V
@@ -293,7 +293,7 @@ public final class protokt/v1/MethodOptions : protokt/v1/AbstractMessage {
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getRequestMarshaller ()Ljava/lang/String;
 	public final fun getResponseMarshaller ()Ljava/lang/String;
-	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/MethodOptions;
 	public fun serialize (Lprotokt/v1/Writer;)V
@@ -332,7 +332,7 @@ public final class protokt/v1/OneofOptions : protokt/v1/AbstractMessage {
 	public final fun getDeprecationMessage ()Ljava/lang/String;
 	public final fun getGenerateNonNullAccessor ()Z
 	public final fun getImplements ()Ljava/lang/String;
-	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/OneofOptions;
 	public fun serialize (Lprotokt/v1/Writer;)V
@@ -364,13 +364,24 @@ public final class protokt/v1/OneofOptions$Deserializer : protokt/v1/AbstractDes
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/OneofOptions;
 }
 
+public final class protokt/v1/ProtoktKt {
+	public static final fun getClass (Lprotokt/v1/google/protobuf/MessageOptions;)Lprotokt/v1/MessageOptions;
+	public static final fun getEnum (Lprotokt/v1/google/protobuf/EnumOptions;)Lprotokt/v1/EnumOptions;
+	public static final fun getEnumValue (Lprotokt/v1/google/protobuf/EnumValueOptions;)Lprotokt/v1/EnumValueOptions;
+	public static final fun getFile (Lprotokt/v1/google/protobuf/FileOptions;)Lprotokt/v1/FileOptions;
+	public static final fun getMethod (Lprotokt/v1/google/protobuf/MethodOptions;)Lprotokt/v1/MethodOptions;
+	public static final fun getOneof (Lprotokt/v1/google/protobuf/OneofOptions;)Lprotokt/v1/OneofOptions;
+	public static final fun getProperty (Lprotokt/v1/google/protobuf/FieldOptions;)Lprotokt/v1/FieldOptions;
+	public static final fun getService (Lprotokt/v1/google/protobuf/ServiceOptions;)Lprotokt/v1/ServiceOptions;
+}
+
 public final class protokt/v1/ServiceOptions : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/ServiceOptions$Deserializer;
 	public synthetic fun <init> (Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ServiceOptions;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/ServiceOptions;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/ServiceOptions;
 	public fun serialize (Lprotokt/v1/Writer;)V
