@@ -15,26 +15,24 @@
 
 package protokt.v1.codegen.generate
 
-import com.google.protobuf.DescriptorProtos.DescriptorProto.NESTED_TYPE_FIELD_NUMBER
-import com.google.protobuf.DescriptorProtos.FileDescriptorProto.MESSAGE_TYPE_FIELD_NUMBER
-import com.google.protobuf.DescriptorProtos.SourceCodeInfo.Location
 import protokt.v1.codegen.generate.CodeGenerator.Context
+import protokt.v1.google.protobuf.SourceCodeInfo
 
 internal fun annotateMessageDocumentation(ctx: Context) =
     baseLocation(ctx)?.cleanDocumentation()
 
 internal fun baseLocation(ctx: Context, extraPath: List<Int> = emptyList()) =
-    ctx.info.sourceCodeInfo.locationList.firstOrNull { it.pathList == basePath(ctx) + extraPath }
+    ctx.info.sourceCodeInfo?.location?.firstOrNull { it.path == basePath(ctx) + extraPath }
 
 private fun basePath(ctx: Context): List<Int> {
     val path = mutableListOf<Int>()
 
     ctx.enclosing.forEachIndexed { idx, it ->
         if (idx == 0) {
-            path.add(MESSAGE_TYPE_FIELD_NUMBER)
+            path.add(4) // FileDescriptorProto.MESSAGE_TYPE_FIELD_NUMBER
             path.add(it.index)
         } else {
-            path.add(NESTED_TYPE_FIELD_NUMBER)
+            path.add(3) // DescriptorProto.NESTED_TYPE_FIELD_NUMBER
             path.add(it.index)
         }
     }
@@ -43,9 +41,9 @@ private fun basePath(ctx: Context): List<Int> {
 }
 
 // todo: see if an empty list passed upwards behaves the same as null, and if so, end this with a call to .orEmpty()
-fun Location.cleanDocumentation(): List<String>? =
+fun SourceCodeInfo.Location.cleanDocumentation(): List<String>? =
     leadingComments
-        .takeIf { it.isNotEmpty() }
+        ?.takeIf { it.isNotEmpty() }
         ?.run {
             substringBeforeLast("\n")
                 .split("\n")

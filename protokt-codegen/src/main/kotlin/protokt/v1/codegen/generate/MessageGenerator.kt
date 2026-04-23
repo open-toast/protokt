@@ -79,7 +79,7 @@ private class MessageGenerator(
                     .build()
             )
             handleDeprecation(
-                msg.options.default.deprecated,
+                msg.options.default.deprecated == true,
                 msg.options.protokt.deprecationMessage
             )
         }

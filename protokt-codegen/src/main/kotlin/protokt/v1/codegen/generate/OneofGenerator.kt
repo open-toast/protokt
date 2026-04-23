@@ -240,7 +240,7 @@ private class OneofGenerator(
         )
 
     private fun deprecation(f: StandardField) =
-        if (f.options.default.deprecated) {
+        if (f.options.default.deprecated == true) {
             renderOptions(
                 f.options.protokt.deprecationMessage
             )

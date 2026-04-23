@@ -67,7 +67,7 @@ class RuntimeContext internal constructor(
 
     internal fun unwrap(value: Any, field: FieldDescriptor, wrap: String): Any {
         val proto = field.toProto()
-        val type = FieldType.from(proto.type)
+        val type = FieldType.from(proto.type.number)
         val converterDetails =
             classLookup.converter(
                 ClassLookup.evaluateProtobufTypeCanonicalName(
