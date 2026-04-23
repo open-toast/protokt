@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Toast, Inc.
+ * Copyright (c) 2026 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,14 +13,25 @@
  * limitations under the License.
  */
 
-package protokt.v1.codegen.util
+plugins {
+    id("protokt.jvm-conventions")
+}
 
-import protokt.v1.google.protobuf.FileDescriptorProto
-import protokt.v1.reflect.DOT_GOOGLE_PROTOBUF
-import protokt.v1.reflect.PROTOKT_V1
-import protokt.v1.reflect.resolvePackage
+kotlin {
+    compilerOptions {
+        freeCompilerArgs.add("-opt-in=protokt.v1.OnlyForUseByGeneratedProtoCode")
+    }
+}
 
-val PROTOKT_V1_GOOGLE_PROTO = PROTOKT_V1 + DOT_GOOGLE_PROTOBUF
+dependencies {
+    implementation(project(":protokt-runtime"))
+}
 
-fun packagesByFileName(protoFileList: List<FileDescriptorProto>) =
-    protoFileList.associate { it.name to resolvePackage(it.`package`.orEmpty()) }
+spotless {
+    kotlin {
+        targetExclude("**/*.kt")
+    }
+    format("kotlinLicense") {
+        targetExclude("**/*.kt")
+    }
+}

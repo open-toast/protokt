@@ -15,7 +15,6 @@
 
 package protokt.v1.codegen.generate
 
-import com.google.protobuf.DescriptorProtos
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
@@ -32,6 +31,8 @@ import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.PROTOKT_V1_GOOGLE_PROTO
 import protokt.v1.codegen.util.ProtoFileContents
 import protokt.v1.codegen.util.TopLevelType
+import protokt.v1.google.protobuf.DescriptorProto
+import protokt.v1.google.protobuf.FileDescriptorProto
 
 class FileDescriptorInfo(
     val fdp: TypeSpec,
@@ -90,9 +91,7 @@ private constructor(
     private fun fileDescriptorParts() =
         encodeFileDescriptor(
             clearJsonInfo(
-                ctx.fdp.toBuilder()
-                    .clearSourceCodeInfo()
-                    .build()
+                ctx.fdp.copy { sourceCodeInfo = null }
             )
         )
 
@@ -101,40 +100,26 @@ private constructor(
             .map { CodeBlock.of("%T.descriptor", it) }
             .joinToCode(",\n")
 
-    private fun clearJsonInfo(fileDescriptorProto: DescriptorProtos.FileDescriptorProto) =
-        fileDescriptorProto.toBuilder()
-            .clearMessageType()
-            .addAllMessageType(clearJsonInfo(fileDescriptorProto.messageTypeList))
-            .build()
+    private fun clearJsonInfo(fileDescriptorProto: FileDescriptorProto) =
+        fileDescriptorProto.copy { messageType = clearJsonInfo(fileDescriptorProto.messageType) }
 
-    private fun clearJsonInfo(descriptorProtos: Iterable<DescriptorProtos.DescriptorProto>): Iterable<DescriptorProtos.DescriptorProto> =
+    private fun clearJsonInfo(descriptorProtos: List<DescriptorProto>): List<DescriptorProto> =
         descriptorProtos.map { dp ->
-            dp.toBuilder()
-                .clearField()
-                .addAllField(
-                    dp.fieldList
-                        .map { fdp ->
-                            fdp.toBuilder()
-                                .clearJsonName()
-                                .build()
-                        }
-                )
-                .clearNestedType()
-                .addAllNestedType(
-                    clearJsonInfo(dp.nestedTypeList)
-                )
-                .build()
+            dp.copy {
+                field = dp.field.map { fdp -> fdp.copy { jsonName = null } }
+                nestedType = clearJsonInfo(dp.nestedType)
+            }
         }
 
     private fun dependencies() =
-        ctx.fdp.dependencyList
+        ctx.fdp.dependency
             .filter {
                 // We don't generate anything for files without any of the
                 // following; e.g., a file containing only extensions.
                 ctx.allFilesByName.getValue(it).let { fdp ->
-                    fdp.messageTypeCount +
-                        fdp.enumTypeCount +
-                        fdp.serviceCount > 0
+                    fdp.messageType.size +
+                        fdp.enumType.size +
+                        fdp.service.size > 0
                 }
             }.map {
                 ClassName(
@@ -162,8 +147,8 @@ private constructor(
                     )
                     .apply {
                         if (
-                            containingTypes.any { it.options.default.deprecated } ||
-                            enum.options.default.deprecated
+                            containingTypes.any { it.options.default.deprecated == true } ||
+                            enum.options.default.deprecated == true
                         ) {
                             addAnnotation(
                                 AnnotationSpec.builder(Suppress::class)
@@ -209,8 +194,8 @@ private constructor(
                     )
                     .apply {
                         if (
-                            containingTypes.any { it.options.default.deprecated } ||
-                            msg.options.default.deprecated
+                            containingTypes.any { it.options.default.deprecated == true } ||
+                            msg.options.default.deprecated == true
                         ) {
                             addAnnotation(
                                 AnnotationSpec.builder(Suppress::class)
