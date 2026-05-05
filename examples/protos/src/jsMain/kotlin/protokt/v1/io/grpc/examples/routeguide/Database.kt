@@ -15,16 +15,11 @@
 
 package protokt.v1.io.grpc.examples.routeguide
 
-actual object Database {
-    actual fun features(): List<Feature> =
-        parseFeatures(featuresJson())
-
-    private fun featuresJson(): String =
-        js(
-            """
-                JSON.stringify(
-                    require('../../../../../examples/protos/src/commonMain/resources/protokt/v1/io/grpc/examples/routeguide/route_guide_db.json')
-                )
-            """
-        ) as String
-}
+internal actual fun loadRouteGuideJson(): String =
+    js(
+        """
+            JSON.stringify(
+                require('../../../../../examples/protos/src/commonMain/resources/protokt/v1/io/grpc/examples/routeguide/route_guide_db.json')
+            )
+        """
+    ) as String

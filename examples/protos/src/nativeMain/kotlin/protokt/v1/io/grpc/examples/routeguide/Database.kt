@@ -15,7 +15,5 @@
 
 package protokt.v1.io.grpc.examples.routeguide
 
-actual object Database {
-    actual fun features(): List<Feature> =
-        error("Not implemented on native")
-}
+internal actual fun loadRouteGuideJson(): String =
+    error("Not implemented on native")

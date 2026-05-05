@@ -15,9 +15,7 @@
 
 package protokt.v1.io.grpc.examples.routeguide
 
-actual object Database {
-    actual fun features(): List<Feature> =
-        javaClass.getResourceAsStream("route_guide_db.json").use {
-            parseFeatures(it!!.reader().readText())
-        }
-}
+internal actual fun loadRouteGuideJson(): String =
+    Database::class.java.getResourceAsStream("route_guide_db.json")!!.use {
+        it.reader().readText()
+    }
