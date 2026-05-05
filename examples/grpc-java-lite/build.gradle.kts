@@ -33,7 +33,6 @@ dependencies {
     protobuf(project(":examples:protos"))
 
     implementation(project(":examples:protos"))
-    implementation(libs.jackson)
 
     runtimeOnly(libs.protobuf.lite)
 }

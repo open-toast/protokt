@@ -31,23 +31,15 @@ protokt {
 
 kotlin {
     sourceSets {
-        val commonMain by getting {}
-
-        val jvmMain by getting {
+        val commonMain by getting {
             dependencies {
-                implementation(libs.jackson)
+                implementation(libs.kotlinx.serialization.json)
             }
         }
 
         val jvmTest by getting {
             dependencies {
                 runtimeOnly(libs.protobuf.java) // unclear why this is needed; no tests
-            }
-        }
-
-        val jsMain by getting {
-            dependencies {
-                implementation(libs.kotlinx.serialization.json)
             }
         }
 

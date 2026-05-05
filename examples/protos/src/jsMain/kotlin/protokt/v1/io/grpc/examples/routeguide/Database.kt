@@ -15,24 +15,9 @@
 
 package protokt.v1.io.grpc.examples.routeguide
 
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
-
 actual object Database {
-    actual fun features() =
-        Json.decodeFromString<FeatureDatabase>(featuresJson())
-            .feature
-            .map { f ->
-                Feature {
-                    name = f.name
-                    location = f.location.let { l ->
-                        Point {
-                            latitude = l.latitude
-                            longitude = l.longitude
-                        }
-                    }
-                }
-            }
+    actual fun features(): List<Feature> =
+        parseFeatures(featuresJson())
 
     private fun featuresJson(): String =
         js(
@@ -42,21 +27,4 @@ actual object Database {
                 )
             """
         ) as String
-
-    @Serializable
-    data class FeatureDatabase(
-        val feature: List<JsonFeature>
-    )
-
-    @Serializable
-    data class JsonFeature(
-        val name: String,
-        val location: JsonPoint
-    )
-
-    @Serializable
-    data class JsonPoint(
-        val latitude: Int,
-        val longitude: Int
-    )
 }

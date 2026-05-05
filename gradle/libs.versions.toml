@@ -54,7 +54,6 @@ buf = "1.47.2"
 okio = "3.17.0"
 classgraph = "4.8.184"
 grpc-js = "1.12.4"
-jackson = "2.21.3"
 junit = "6.0.3"
 truth = "1.4.5"
 
@@ -113,7 +112,6 @@ classgraph = { module = "io.github.classgraph:classgraph", version.ref = "classg
 okio-fakefilesystem = { module = "com.squareup.okio:okio-fakefilesystem", version.ref = "okio" }
 grpc-kotlin-stub = { module = "io.grpc:grpc-kotlin-stub", version.ref = "grpc-kotlin" }
 grpc-testing = { module = "io.grpc:grpc-testing", version.ref = "grpc-java" }
-jackson = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
 junit-platformLauncher = { module = "org.junit.platform:junit-platform-launcher" }
 junit-vintage = { module = "org.junit.vintage:junit-vintage-engine" }
