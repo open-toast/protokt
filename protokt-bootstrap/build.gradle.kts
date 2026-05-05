@@ -13,14 +13,25 @@
  * limitations under the License.
  */
 
-package protokt.v1
+plugins {
+    id("protokt.jvm-conventions")
+}
 
-actual interface Message {
-    actual val unknownFields: UnknownFieldSet
+kotlin {
+    compilerOptions {
+        freeCompilerArgs.add("-opt-in=protokt.v1.OnlyForUseByGeneratedProtoCode")
+    }
+}
 
-    actual fun serializedSize(): Int
+dependencies {
+    implementation(project(":protokt-runtime"))
+}
 
-    actual fun serialize(writer: Writer)
-
-    actual fun serialize(): ByteArray
+spotless {
+    kotlin {
+        targetExclude("**/*.kt")
+    }
+    format("kotlinLicense") {
+        targetExclude("**/*.kt")
+    }
 }

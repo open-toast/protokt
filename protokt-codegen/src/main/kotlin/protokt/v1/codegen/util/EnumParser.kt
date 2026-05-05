@@ -16,8 +16,9 @@
 package protokt.v1.codegen.util
 
 import com.google.common.base.CaseFormat
-import com.google.protobuf.DescriptorProtos.EnumDescriptorProto
-import com.toasttab.protokt.v1.ProtoktProtos
+import protokt.v1.enum
+import protokt.v1.enumValue
+import protokt.v1.google.protobuf.EnumDescriptorProto
 
 internal class EnumParser(
     private val ctx: GeneratorContext,
@@ -27,32 +28,32 @@ internal class EnumParser(
 ) {
     fun toEnum(): Enum {
         val enumTypeNamePrefixToStrip =
-            (CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, desc.name) + '_')
+            (CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, desc.name.orEmpty()) + '_')
                 .takeIf {
-                    desc.valueList.all { e ->
-                        e.name.startsWith(it) && e.name.length > it.length && !e.name[it.length].isDigit()
+                    desc.value.all { e ->
+                        e.name.orEmpty().startsWith(it) && e.name.orEmpty().length > it.length && !e.name.orEmpty()[it.length].isDigit()
                     }
                 }
 
-        val simpleNames = enclosingMessages + desc.name
+        val simpleNames = enclosingMessages + desc.name.orEmpty()
 
         return Enum(
-            values = desc.valueList.mapIndexed { enumIdx, t ->
+            values = desc.value.mapIndexed { enumIdx, t ->
                 Enum.Value(
-                    t.number,
-                    t.name,
-                    newEnumValueName(enumTypeNamePrefixToStrip, t.name),
+                    t.number ?: 0,
+                    t.name.orEmpty(),
+                    newEnumValueName(enumTypeNamePrefixToStrip, t.name.orEmpty()),
                     EnumValueOptions(
-                        t.options,
-                        t.options.getExtension(ProtoktProtos.enumValue)
+                        t.options ?: protokt.v1.google.protobuf.EnumValueOptions {},
+                        t.options?.enumValue ?: protokt.v1.EnumValueOptions {}
                     ),
                     enumIdx
                 )
             },
             index = idx,
             options = EnumOptions(
-                desc.options,
-                desc.options.getExtension(ProtoktProtos.enum_)
+                desc.options ?: protokt.v1.google.protobuf.EnumOptions {},
+                desc.options?.`enum` ?: protokt.v1.EnumOptions {}
             ),
             className = ctx.className(simpleNames),
             deserializerClassName = ctx.className(simpleNames + DESERIALIZER)

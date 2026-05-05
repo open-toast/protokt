@@ -19,6 +19,7 @@ import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
+import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
@@ -28,6 +29,7 @@ import protokt.v1.AbstractMessage
 import protokt.v1.Bytes
 import protokt.v1.Reader
 import protokt.v1.StringConverter
+import protokt.v1.UnknownFieldSet
 import protokt.v1.Writer
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Wrapper.interceptDefaultValue
@@ -80,6 +82,12 @@ private class MapEntryGenerator(
             superclass(AbstractMessage::class)
             addProperty(keyProp)
             addProperty(valProp)
+            addProperty(
+                PropertySpec.builder("unknownFields", UnknownFieldSet::class)
+                    .addModifiers(KModifier.OVERRIDE)
+                    .initializer("%T.empty()", UnknownFieldSet::class)
+                    .build()
+            )
             addConstructor()
             addMessageSize()
             addSerialize()

@@ -28,6 +28,7 @@ apply(plugin = "net.vivin.gradle-semantic-build-versioning")
 rootProject.name = "protokt"
 
 include(
+    "protokt-bootstrap",
     "protokt-codegen",
     "protokt-core",
     "protokt-core-lite",

@@ -15,13 +15,7 @@
 
 package protokt.v1.codegen
 
-import com.google.protobuf.DescriptorProtos.Edition
-import com.google.protobuf.ExtensionRegistry
-import com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest
-import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse
-import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.Feature
 import com.squareup.kotlinpoet.FileSpec
-import com.toasttab.protokt.v1.ProtoktProtos
 import io.github.oshai.kotlinlogging.KotlinLoggingConfiguration
 import protokt.v1.codegen.generate.generateFile
 import protokt.v1.codegen.util.ErrorContext.withFileName
@@ -31,6 +25,9 @@ import protokt.v1.codegen.util.formatErrorMessage
 import protokt.v1.codegen.util.generateGrpcKotlinStubs
 import protokt.v1.codegen.util.parseFileContents
 import protokt.v1.codegen.util.tidy
+import protokt.v1.google.protobuf.Edition
+import protokt.v1.google.protobuf.compiler.CodeGeneratorRequest
+import protokt.v1.google.protobuf.compiler.CodeGeneratorResponse
 import java.io.InputStream
 import java.io.OutputStream
 import java.io.PrintStream
@@ -52,56 +49,46 @@ internal fun main(`in`: InputStream, out: OutputStream, err: PrintStream) =
     }
 
 private fun main(`in`: InputStream, out: OutputStream) {
-    val req = parseCodeGeneratorRequest(`in`)
+    val req = CodeGeneratorRequest.deserialize(`in`)
     val params = PluginParams(parseParams(req))
-    val filesToGenerate = req.fileToGenerateList.toSet()
+    val filesToGenerate = req.fileToGenerate.toSet()
 
-    val files = req.protoFileList
+    val files = req.protoFile
         .filter { filesToGenerate.contains(it.name) }
         .mapNotNull { fdp ->
-            val context = GeneratorContext(fdp, params, req.protoFileList)
-            val fileSpec = withFileName(fdp.name) { generateFile(parseFileContents(context)) }
+            val context = GeneratorContext(fdp, params, req.protoFile)
+            val fileSpec = withFileName(fdp.name.orEmpty()) { generateFile(parseFileContents(context)) }
             fileSpec?.let { response(it, context) }
         }
 
     val grpcKotlinFiles = generateGrpcKotlinStubs(params, req)
 
-    CodeGeneratorResponse.newBuilder()
-        .setSupportedFeatures(
+    CodeGeneratorResponse {
+        supportedFeatures =
             (
-                Feature.FEATURE_PROTO3_OPTIONAL_VALUE or
-                    Feature.FEATURE_SUPPORTS_EDITIONS_VALUE
-                ).toLong()
-        )
-        // we don't support all of proto2 but we have to say we support it for protovalidate examples
-        .setMinimumEdition(Edition.EDITION_PROTO2_VALUE)
-        // we don't actually support 2023 yet but we have to say we support it for protovalidate examples
-        .setMaximumEdition(Edition.EDITION_2023_VALUE)
-        .addAllFile(files)
-        .addAllFile(grpcKotlinFiles)
-        .build()
-        .writeTo(out)
+                CodeGeneratorResponse.Feature.PROTO3_OPTIONAL.value or
+                    CodeGeneratorResponse.Feature.SUPPORTS_EDITIONS.value
+                ).toULong()
+
+        minimumEdition = Edition.EDITION_PROTO2.value
+        maximumEdition = Edition.EDITION_2023.value
+        file = files + grpcKotlinFiles
+    }.serialize(out)
 }
 
 private fun response(fileSpec: FileSpec, context: GeneratorContext) =
-    CodeGeneratorResponse.File
-        .newBuilder()
-        .setContent(tidy(fileSpec.toString(), context.formatOutput))
-        .setName(fileSpec.name)
-        .build()
-
-private fun parseParams(req: CodeGeneratorRequest) =
-    if (req.parameter == null || req.parameter.isEmpty()) {
-        emptyMap()
-    } else {
-        req.parameter
-            .split(',')
-            .associate { it.substringBefore('=') to it.substringAfter('=', "") }
+    CodeGeneratorResponse.File {
+        content = tidy(fileSpec.toString(), context.formatOutput)
+        name = fileSpec.name
     }
 
-private fun parseCodeGeneratorRequest(`in`: InputStream) =
-    CodeGeneratorRequest.parseFrom(
-        `in`,
-        ExtensionRegistry.newInstance()
-            .also { ProtoktProtos.registerAllExtensions(it) }
-    )
+private fun parseParams(req: CodeGeneratorRequest) =
+    req.parameter.orEmpty().let { param ->
+        if (param.isEmpty()) {
+            emptyMap()
+        } else {
+            param
+                .split(',')
+                .associate { it.substringBefore('=') to it.substringAfter('=', "") }
+        }
+    }
