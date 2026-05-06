@@ -15,39 +15,7 @@
 
 package protokt.v1.io.grpc.examples.routeguide
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.fasterxml.jackson.module.kotlin.readValue
-
-actual object Database {
-    actual fun features(): List<Feature> =
-        javaClass.getResourceAsStream("route_guide_db.json").use {
-            ObjectMapper()
-                .registerModule(KotlinModule.Builder().build())
-                .readValue<JsonFeatureDatabase>(it!!.reader())
-        }.feature.map { f ->
-            Feature {
-                name = f.name
-                location = f.location?.let { l ->
-                    Point {
-                        latitude = l.latitude
-                        longitude = l.longitude
-                    }
-                }
-            }
-        }
-
-    private data class JsonFeatureDatabase(
-        val feature: List<JsonFeature>
-    )
-
-    private data class JsonFeature(
-        val name: String = "",
-        val location: JsonPoint? = null
-    )
-
-    private data class JsonPoint(
-        val latitude: Int = 0,
-        val longitude: Int = 0
-    )
-}
+internal actual fun loadRouteGuideJson(): String =
+    Database::class.java.getResourceAsStream("route_guide_db.json")!!.use {
+        it.reader().readText()
+    }
