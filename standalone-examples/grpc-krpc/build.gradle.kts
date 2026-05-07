@@ -35,8 +35,6 @@ buildscript {
             .single()
             .name
 
-    // Pinned separately from the main build: the kotlinx-rpc compiler plugin
-    // resolves as {kotlinVersion}-{rpcVersion} and only supports up to 2.3.20.
     val krpcKotlinVersion = "2.3.20"
 
     repositories {
@@ -52,9 +50,9 @@ buildscript {
 
     dependencies {
         classpath("com.toasttab.protokt.v1:protokt-gradle-plugin:$protoktVersion")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$krpcKotlinVersion")
-        classpath("org.jetbrains.kotlinx:kotlinx-rpc-gradle-plugin:${libs.versions.kotlinx.rpc.get()}")
-        classpath("com.google.protobuf:protobuf-gradle-plugin:${libs.versions.protobufGradlePlugin.get()}")
+        classpath("${libs.kotlinGradlePlugin.get().module}:$krpcKotlinVersion")
+        classpath(libs.kotlinx.rpc.gradlePlugin)
+        classpath(libs.protobuf.gradlePlugin)
     }
 }
 
@@ -72,6 +70,10 @@ extensions.configure<protokt.v1.gradle.ProtoktExtension>("protokt") {
     generate {
         grpcKrpcLite()
     }
+}
+
+dependencies {
+    "protobuf"(files("../../examples/protos/src/main/proto/helloworld"))
 }
 
 configure<KotlinMultiplatformExtension> {
