@@ -14,18 +14,12 @@
  */
 
 import com.toasttab.expediter.gradle.config.ExpediterExtension
-import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
 import protokt.v1.gradle.protokt
 
 plugins {
-    `kotlin-multiplatform`
-    id("protokt.common-conventions")
+    id("protokt.krpc-conventions")
     id("protokt.third-party-conventions")
-    `java-base`
 }
-
-the<SourceSetContainer>().create("main")
-the<SourceSetContainer>().create("test")
 
 publishedLocalProtokt()
 pureKotlin()
@@ -42,10 +36,6 @@ configure<ExpediterExtension> {
     }
 }
 
-repositories {
-    maven("https://packages.jetbrains.team/maven/p/krpc/grpc")
-}
-
 protokt {
     generate {
         types = false
@@ -55,12 +45,6 @@ protokt {
 }
 
 kotlin {
-    jvm {
-        compilerOptions {
-            jvmDefault.set(JvmDefaultMode.NO_COMPATIBILITY)
-        }
-    }
-
     macosArm64()
     macosX64()
     iosArm64()
@@ -79,38 +63,15 @@ kotlin {
 
     applyDefaultHierarchyTemplate()
 
-    compilerOptions {
-        configureKotlin()
-    }
-
     sourceSets {
-        val commonMain by getting {
+        commonMain {
             dependencies {
                 api(project(":third-party:proto-google-common-protos-lite"))
                 api(libs.kotlinx.rpc.grpc.core)
             }
         }
-
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-            }
-        }
-
-        val jvmTest by getting {
-            dependencies {
-                implementation(libs.junit.jupiter)
-                implementation(libs.truth)
-            }
-        }
     }
 }
-
-tasks.named<Test>("jvmTest") {
-    useJUnitPlatform()
-}
-
-configureJvmToolchain()
 
 dependencies {
     protobufExcludingProtobufJava(libs.protoGoogleCommonProtos)
