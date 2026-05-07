@@ -15,13 +15,18 @@
 
 package protokt.v1.helloworld
 
-import io.grpc.InsecureServerCredentials
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.rpc.grpc.client.GrpcClient
 import kotlinx.rpc.grpc.marshaller.GrpcMarshallerResolver
 import kotlinx.rpc.grpc.server.GrpcServer
 import kotlinx.rpc.registerService
+import kotlinx.rpc.withService
 import protokt.v1.grpc.krpc.ProtoktGrpcMarshaller
 import protokt.v1.grpc.krpc.ProtoktMarshallerResolver
 import kotlin.reflect.typeOf
+import kotlin.time.Duration.Companion.milliseconds
 
 internal class GreeterService : Greeter {
     override suspend fun SayHello(message: HelloRequest) =
@@ -40,7 +45,6 @@ fun helloWorldServer(port: Int): GrpcServer {
     val server =
         GrpcServer(port) {
             messageMarshallerResolver = helloWorldMarshallerResolver
-            credentials = InsecureServerCredentials.create()
             services {
                 registerService<Greeter> { GreeterService() }
             }
@@ -48,9 +52,25 @@ fun helloWorldServer(port: Int): GrpcServer {
     return server.start()
 }
 
-suspend fun main() {
-    val port = 50051
-    val server = helloWorldServer(port)
-    println("Server started, listening on $port")
-    server.awaitTermination()
+fun runExample() {
+    runBlocking {
+        val port = 50051
+        val server = helloWorldServer(port)
+        println("Server started on port $port")
+
+        launch {
+            delay(100.milliseconds)
+            val client =
+                GrpcClient("localhost", port) {
+                    messageMarshallerResolver = helloWorldMarshallerResolver
+                    credentials = plaintext()
+                }
+            val greeter = client.withService<Greeter>()
+            val reply = greeter.SayHello(HelloRequest { name = "world" })
+            println("Received: ${reply.message}")
+            server.shutdownNow()
+        }
+
+        server.awaitTermination()
+    }
 }

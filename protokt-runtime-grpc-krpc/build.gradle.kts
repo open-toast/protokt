@@ -13,17 +13,13 @@
  * limitations under the License.
  */
 
-import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
-
 plugins {
     `kotlin-multiplatform`
     id("protokt.common-conventions")
     `java-base`
 }
 
-the<SourceSetContainer>().create("main")
-the<SourceSetContainer>().create("test")
-
+configureMultiplatformJvm()
 enablePublishing()
 pureKotlin()
 trackKotlinApiCompatibility()
@@ -33,12 +29,6 @@ repositories {
 }
 
 kotlin {
-    jvm {
-        compilerOptions {
-            jvmDefault.set(JvmDefaultMode.NO_COMPATIBILITY)
-        }
-    }
-
     macosArm64()
     macosX64()
     iosArm64()
@@ -58,35 +48,15 @@ kotlin {
     applyDefaultHierarchyTemplate()
 
     compilerOptions {
-        configureKotlin()
-        freeCompilerArgs.addAll("-opt-in=kotlinx.rpc.internal.utils.ExperimentalRpcApi")
+        freeCompilerArgs.add("-opt-in=kotlinx.rpc.internal.utils.ExperimentalRpcApi")
     }
 
     sourceSets {
-        val commonMain by getting {
+        commonMain {
             dependencies {
                 api(project(":protokt-runtime-kotlinx-io"))
                 api(libs.kotlinx.rpc.grpc.marshaller)
             }
         }
-
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-            }
-        }
-
-        val jvmTest by getting {
-            dependencies {
-                implementation(libs.junit.jupiter)
-                implementation(libs.truth)
-            }
-        }
     }
 }
-
-tasks.named<Test>("jvmTest") {
-    useJUnitPlatform()
-}
-
-configureJvmToolchain()

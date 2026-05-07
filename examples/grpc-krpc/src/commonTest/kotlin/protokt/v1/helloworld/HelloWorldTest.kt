@@ -17,16 +17,26 @@ package protokt.v1.helloworld
 
 import kotlinx.coroutines.runBlocking
 import kotlinx.rpc.grpc.client.GrpcClient
+import kotlinx.rpc.grpc.server.GrpcServer
+import kotlinx.rpc.registerService
 import kotlinx.rpc.withService
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
-class HelloWorldServerTest {
+class HelloWorldTest {
     @Test
     fun sayHello() =
         runBlocking {
-            val port = 50078
-            val server = helloWorldServer(port)
+            val port = 50079
+
+            val server =
+                GrpcServer(port) {
+                    messageMarshallerResolver = helloWorldMarshallerResolver
+                    services {
+                        registerService<Greeter> { GreeterService() }
+                    }
+                }
+            server.start()
 
             try {
                 val client =

@@ -14,12 +14,17 @@
  */
 
 import com.google.protobuf.gradle.protobuf
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import protokt.v1.gradle.Os
 import protokt.v1.gradle.protokt
 
 plugins {
-    id("protokt.jvm-conventions")
+    `kotlin-multiplatform`
+    id("protokt.common-conventions")
+    `java-base`
 }
 
+configureMultiplatformJvm()
 localProtokt()
 pureKotlin()
 
@@ -30,11 +35,48 @@ repositories {
 }
 
 kotlin {
+    when (Os.current.kind) {
+        Os.Kind.MACOS -> when (Os.current.arch) {
+            Os.Arch.ARM64 -> macosArm64()
+            Os.Arch.X64 -> macosX64()
+            else -> Unit
+        }
+
+        Os.Kind.LINUX -> when (Os.current.arch) {
+            Os.Arch.X64 -> linuxX64()
+            Os.Arch.ARM64 -> linuxArm64()
+            else -> Unit
+        }
+
+        else -> Unit
+    }
+
+    targets.withType<KotlinNativeTarget> {
+        binaries {
+            executable()
+        }
+    }
+
     compilerOptions {
-        freeCompilerArgs.addAll(
-            "-opt-in=kotlinx.rpc.internal.utils.ExperimentalRpcApi",
-            "-opt-in=protokt.v1.OnlyForUseByGeneratedProtoCode",
-        )
+        freeCompilerArgs.add("-opt-in=kotlinx.rpc.internal.utils.ExperimentalRpcApi")
+    }
+
+    sourceSets {
+        commonMain {
+            dependencies {
+                implementation(project(":examples:protos"))
+                implementation(project(":protokt-runtime-grpc-krpc"))
+                implementation(libs.kotlinx.rpc.grpc.client)
+                implementation(libs.kotlinx.rpc.grpc.server)
+                implementation(libs.kotlinx.coroutines.core)
+            }
+        }
+
+        jvmMain {
+            dependencies {
+                runtimeOnly(libs.grpc.netty)
+            }
+        }
     }
 }
 
@@ -48,14 +90,4 @@ protokt {
 
 dependencies {
     protobuf(project(":examples:protos"))
-
-    implementation(project(":examples:protos"))
-    implementation(project(":protokt-runtime-grpc-krpc"))
-    implementation(libs.kotlinx.rpc.grpc.client)
-    implementation(libs.kotlinx.rpc.grpc.server)
-    implementation(libs.kotlinx.coroutines.core)
-
-    runtimeOnly(libs.grpc.netty)
-
-    testImplementation(libs.junit.jupiter)
 }

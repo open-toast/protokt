@@ -13,21 +13,7 @@
  * limitations under the License.
  */
 
-package protokt.v1.helloworld
+import protokt.v1.helloworld.runExample
 
-import kotlinx.rpc.grpc.client.GrpcClient
-import kotlinx.rpc.withService
-
-suspend fun main(args: Array<String>) {
-    val port = 50051
-    val client =
-        GrpcClient("localhost", port) {
-            messageMarshallerResolver = helloWorldMarshallerResolver
-            credentials = plaintext()
-        }
-
-    val greeter = client.withService<Greeter>()
-    val user = args.singleOrNull() ?: "world"
-    val response = greeter.SayHello(HelloRequest { name = user })
-    println("Received: ${response.message}")
-}
+fun main() =
+    runExample()

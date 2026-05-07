@@ -15,7 +15,6 @@
 
 package protokt.v1
 
-@OnlyForUseByGeneratedProtoCode
 abstract class AbstractMessage : Message {
     final override fun serialize(): ByteArray {
         val writer = codec.writer(serializedSize())
