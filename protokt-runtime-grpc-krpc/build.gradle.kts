@@ -22,22 +22,7 @@ pureKotlin()
 trackKotlinApiCompatibility()
 
 kotlin {
-    macosArm64()
-    macosX64()
-    iosArm64()
-    iosX64()
-    iosSimulatorArm64()
-    watchosArm32()
-    watchosArm64()
-    watchosX64()
-    watchosSimulatorArm64()
-    watchosDeviceArm64()
-    tvosArm64()
-    tvosX64()
-    tvosSimulatorArm64()
-    linuxX64()
-    linuxArm64()
-
+    enableKrpcNativeTargets()
     applyDefaultHierarchyTemplate()
 
     sourceSets {
