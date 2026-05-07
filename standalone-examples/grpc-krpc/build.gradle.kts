@@ -24,10 +24,6 @@ val protoktVersion =
         .single()
         .name
 
-val kotlinVersion: String by project
-val kotlinxRpcVersion: String by project
-val protobufGradlePluginVersion: String by project
-
 buildscript {
     val protoktVersion =
         file("../../build/repos/integration/com/toasttab/protokt/v1/protokt-gradle-plugin")
@@ -43,14 +39,14 @@ buildscript {
     }
 
     configurations.all {
-        resolutionStrategy.force("org.jetbrains.kotlin:kotlin-gradle-plugin:${property("kotlinVersion")}")
+        resolutionStrategy.force("org.jetbrains.kotlin:kotlin-gradle-plugin:${libs.versions.kotlin.get()}")
     }
 
     dependencies {
         classpath("com.toasttab.protokt.v1:protokt-gradle-plugin:$protoktVersion")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${property("kotlinVersion")}")
-        classpath("org.jetbrains.kotlinx:kotlinx-rpc-gradle-plugin:${property("kotlinxRpcVersion")}")
-        classpath("com.google.protobuf:protobuf-gradle-plugin:${property("protobufGradlePluginVersion")}")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${libs.versions.kotlin.get()}")
+        classpath("org.jetbrains.kotlinx:kotlinx-rpc-gradle-plugin:${libs.versions.kotlinx.rpc.get()}")
+        classpath("com.google.protobuf:protobuf-gradle-plugin:${libs.versions.protobufGradlePlugin.get()}")
     }
 }
 
@@ -63,7 +59,6 @@ repositories {
     maven("https://packages.jetbrains.team/maven/p/krpc/grpc")
     mavenCentral()
 }
-
 
 extensions.configure<protokt.v1.gradle.ProtoktExtension>("protokt") {
     generate {
@@ -102,9 +97,9 @@ configure<KotlinMultiplatformExtension> {
     sourceSets.getByName("commonMain") {
         dependencies {
             implementation("com.toasttab.protokt.v1:protokt-runtime-grpc-krpc:$protoktVersion")
-            implementation("org.jetbrains.kotlinx:kotlinx-rpc-grpc-client:$kotlinxRpcVersion")
-            implementation("org.jetbrains.kotlinx:kotlinx-rpc-grpc-server:$kotlinxRpcVersion")
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
+            implementation("org.jetbrains.kotlinx:kotlinx-rpc-grpc-client:${libs.versions.kotlinx.rpc.get()}")
+            implementation("org.jetbrains.kotlinx:kotlinx-rpc-grpc-server:${libs.versions.kotlinx.rpc.get()}")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${libs.versions.kotlinx.coroutines.get()}")
         }
     }
 
@@ -116,7 +111,7 @@ configure<KotlinMultiplatformExtension> {
 
     sourceSets.getByName("jvmMain") {
         dependencies {
-            implementation("io.grpc:grpc-netty:1.81.0")
+            implementation("io.grpc:grpc-netty:${libs.versions.grpc.java.get()}")
         }
     }
 }

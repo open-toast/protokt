@@ -75,7 +75,8 @@ open class ProtoktExtension {
         /**
          * Whether to generate @Grpc-annotated interfaces for use with the
          * kotlinx-rpc compiler plugin. If enabled, the project must apply the
-         * kotlinx-rpc Gradle plugin and depend on kotlinx-rpc-grpc-core.
+         * kotlinx-rpc Gradle plugin and depend on kotlinx-rpc-grpc-client
+         * and/or kotlinx-rpc-grpc-server.
          */
         var grpcKrpc = false
 

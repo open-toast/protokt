@@ -46,9 +46,7 @@ jobs:
         name: integration-repository
         path: build/repos/integration
     - name: Test standalone kRPC example
-      run: |
-        protoktVersion=$(ls build/repos/integration/com/toasttab/protokt/v1/protokt-gradle-plugin/ | head -1)
-        ./gradlew check -PprotoktVersion="$protoktVersion" --stacktrace --no-daemon
+      run: ./gradlew check --stacktrace --no-daemon
       working-directory: standalone-examples/grpc-krpc
     # Cross-compile test binaries and conformance drivers for satellite runners.
     # macOS native tests already ran as part of check above.
