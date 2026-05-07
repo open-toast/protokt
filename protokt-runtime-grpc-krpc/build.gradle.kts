@@ -14,19 +14,12 @@
  */
 
 plugins {
-    `kotlin-multiplatform`
-    id("protokt.common-conventions")
-    `java-base`
+    id("protokt.krpc-conventions")
 }
 
-configureMultiplatformJvm()
 enablePublishing()
 pureKotlin()
 trackKotlinApiCompatibility()
-
-repositories {
-    maven("https://packages.jetbrains.team/maven/p/krpc/grpc")
-}
 
 kotlin {
     macosArm64()
@@ -46,10 +39,6 @@ kotlin {
     linuxArm64()
 
     applyDefaultHierarchyTemplate()
-
-    compilerOptions {
-        freeCompilerArgs.add("-opt-in=kotlinx.rpc.internal.utils.ExperimentalRpcApi")
-    }
 
     sourceSets {
         commonMain {

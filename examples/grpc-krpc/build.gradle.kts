@@ -19,20 +19,13 @@ import protokt.v1.gradle.Os
 import protokt.v1.gradle.protokt
 
 plugins {
-    `kotlin-multiplatform`
-    id("protokt.common-conventions")
-    `java-base`
+    id("protokt.krpc-conventions")
 }
 
-configureMultiplatformJvm()
 localProtokt()
 pureKotlin()
 
 apply(plugin = "org.jetbrains.kotlinx.rpc.plugin")
-
-repositories {
-    maven("https://packages.jetbrains.team/maven/p/krpc/grpc")
-}
 
 kotlin {
     when (Os.current.kind) {
@@ -55,10 +48,6 @@ kotlin {
         binaries {
             executable()
         }
-    }
-
-    compilerOptions {
-        freeCompilerArgs.add("-opt-in=kotlinx.rpc.internal.utils.ExperimentalRpcApi")
     }
 
     sourceSets {
