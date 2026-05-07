@@ -1235,11 +1235,9 @@ The project must also apply the kotlinx-rpc Gradle plugin and depend on
 `kotlinx-rpc-grpc-client`/`kotlinx-rpc-grpc-server`. See the
 [grpc-krpc example](examples/grpc-krpc) for a complete working setup.
 
-Protokt messages are bridged to kotlinx-rpc's marshaller system via zero-copy
-`kotlinx-io` serialization (no intermediate `ByteArray` allocation). On JVM,
-kotlinx-rpc delegates to grpc-java for transport. On Kotlin/Native, kotlinx-rpc
-uses gRPC C Core via cinterop (requires adding Native targets to the protokt
-runtime, which is not yet supported).
+Protokt messages are bridged to kotlinx-rpc's marshaller system via `kotlinx-io`
+serialization. On JVM, kotlinx-rpc delegates to grpc-java for transport. On
+Kotlin/Native, kotlinx-rpc uses gRPC C Core via cinterop.
 
 This integration is experimental and tracks kotlinx-rpc's dev preview releases.
 
