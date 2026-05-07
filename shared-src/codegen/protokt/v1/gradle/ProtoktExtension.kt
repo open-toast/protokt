@@ -127,18 +127,6 @@ open class ProtoktExtension {
         }
 
         /**
-         * Generates message and enum types, descriptors, and @Grpc-annotated
-         * service interfaces for use with the kotlinx-rpc compiler plugin.
-         */
-        fun grpcKrpc() {
-            types = true
-            descriptors = true
-            grpcDescriptors = false
-            grpcKotlinStubs = false
-            grpcKrpc = true
-        }
-
-        /**
          * Generates message and enum types and @Grpc-annotated service
          * interfaces for use with the kotlinx-rpc compiler plugin.
          */
