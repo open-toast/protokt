@@ -15,7 +15,6 @@
 
 import com.google.protobuf.gradle.protobuf
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
-import protokt.v1.gradle.Os
 import protokt.v1.gradle.protokt
 
 plugins {
@@ -28,21 +27,10 @@ pureKotlin()
 apply(plugin = "org.jetbrains.kotlinx.rpc.plugin")
 
 kotlin {
-    when (Os.current.kind) {
-        Os.Kind.MACOS -> when (Os.current.arch) {
-            Os.Arch.ARM64 -> macosArm64()
-            Os.Arch.X64 -> macosX64()
-            else -> Unit
-        }
-
-        Os.Kind.LINUX -> when (Os.current.arch) {
-            Os.Arch.X64 -> linuxX64()
-            Os.Arch.ARM64 -> linuxArm64()
-            else -> Unit
-        }
-
-        else -> Unit
-    }
+    macosArm64()
+    macosX64()
+    linuxX64()
+    linuxArm64()
 
     targets.withType<KotlinNativeTarget> {
         binaries {
