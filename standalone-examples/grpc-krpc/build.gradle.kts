@@ -39,12 +39,12 @@ buildscript {
     }
 
     configurations.all {
-        resolutionStrategy.force("org.jetbrains.kotlin:kotlin-gradle-plugin:${libs.versions.kotlin.krpc.get()}")
+        resolutionStrategy.force("org.jetbrains.kotlin:kotlin-gradle-plugin:${libs.versions.krpcKotlin.get()}")
     }
 
     dependencies {
         classpath("com.toasttab.protokt.v1:protokt-gradle-plugin:$protoktVersion")
-        classpath("${libs.kotlinGradlePlugin.get().module}:${libs.versions.kotlin.krpc.get()}")
+        classpath("${libs.kotlinGradlePlugin.get().module}:${libs.versions.krpcKotlin.get()}")
         classpath(libs.kotlinx.rpc.gradlePlugin)
         classpath(libs.protobuf.gradlePlugin)
     }

@@ -39,7 +39,7 @@ buildConfig = "6.0.9"
 gradleMavenPublishPlugin = "0.36.0"
 java = "17"
 kotlin = "2.3.21"
-kotlin-krpc = "2.3.20" # kotlinx-rpc compiler plugin only supports up to this version
+krpcKotlin = "2.3.20" # kotlinx-rpc compiler plugin only supports up to this version
 pluginPublish = "2.1.1"
 spotless = "8.4.0"
 
