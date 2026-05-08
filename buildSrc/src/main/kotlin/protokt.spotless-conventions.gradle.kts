@@ -89,7 +89,6 @@ allprojects {
                     "testing/interop/src/main/proto/google/protobuf/unittest_import.proto",
                     "testing/interop/src/main/proto/google/protobuf/unittest_import_public.proto",
                     "testing/interop/src/main/proto/google/protobuf/unittest_proto3.proto",
-                    "standalone-examples/grpc-krpc/src/main/proto/hello_world.proto",
                 ).map(rootProject::file) +
                     "node_modules/**" +
                     "**/build/extracted-include-protos/**" +
