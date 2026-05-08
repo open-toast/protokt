@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast, Inc.
+ * Copyright (c) 2026 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,20 @@
  * limitations under the License.
  */
 
-package protokt.v1
+plugins {
+    `kotlin-multiplatform`
+    id("protokt.common-conventions")
+    `java-base`
+}
 
-@SubclassOptInRequired(OnlyForUseByGeneratedProtoCode::class)
-abstract class AbstractMessage : Message {
-    final override fun serialize(): ByteArray {
-        val writer = codec.writer(serializedSize())
-        serialize(writer)
-        return writer.toByteArray()
+configureMultiplatformJvm()
+
+repositories {
+    maven("https://packages.jetbrains.team/maven/p/krpc/grpc")
+}
+
+kotlin {
+    compilerOptions {
+        freeCompilerArgs.add("-opt-in=kotlinx.rpc.internal.utils.ExperimentalRpcApi")
     }
 }

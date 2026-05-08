@@ -23,14 +23,14 @@ is represented as `String?`, etc.
 optional protobuf-java, kotlinx-io, and protobufjs backends
 - gRPC [method descriptor and service descriptor generation](#grpc-code-generation)
 for use with [grpc-java](#integrating-with-grpcs-java-api),
-[grpc-kotlin](#integrating-with-grpcs-kotlin-api), and
-[grpc-node](#integrating-with-grpcs-nodejs-api) (experimental) (see examples  in [examples](examples))
+[grpc-kotlin](#integrating-with-grpcs-kotlin-api),
+[grpc-node](#integrating-with-grpcs-nodejs-api) (experimental), and
+[kotlinx-rpc](#integrating-with-kotlinx-rpc) (experimental) (see examples in [examples](examples) and [standalone-examples](standalone-examples))
 - (JVM) Integration with [Protovalidate](#protovalidate-integration)
 
 ### Not yet implemented
 
 - Protobuf JSON support
-- Native support for gRPC
 
 ### Compatibility
 
@@ -1212,6 +1212,33 @@ are supported by an analogous runtime library in ServerCalls and ClientCalls obj
 These implementations are alpha-quality and for demonstration only. External contributions
 to harden the implementation are welcome. They use the same `grpcDescriptors` and
 `grpcKotlinStubs` plugin options to control code generation.
+
+#### Integrating with kotlinx-rpc
+
+Protokt can generate `@Grpc`-annotated interfaces for use with JetBrains'
+[kotlinx-rpc](https://github.com/Kotlin/kotlinx-rpc) compiler plugin. The
+kotlinx-rpc compiler plugin synthesizes stubs, service descriptors, and method
+descriptors from these interfaces at compile time.
+
+Enable generation with the `grpcKrpc` option:
+
+```kotlin
+protokt {
+    generate {
+        grpcKrpc = true
+    }
+}
+```
+
+The project must also apply the kotlinx-rpc Gradle plugin and depend on
+`kotlinx-rpc-grpc-client`/`kotlinx-rpc-grpc-server`. See the
+[grpc-krpc example](standalone-examples/grpc-krpc) for a complete working setup.
+
+Protokt messages are bridged to kotlinx-rpc's marshaller system via `kotlinx-io`
+serialization. On JVM, kotlinx-rpc delegates to grpc-java for transport. On
+Kotlin/Native, kotlinx-rpc uses gRPC C Core via cinterop.
+
+This integration is experimental and tracks kotlinx-rpc's dev preview releases.
 
 ## Protovalidate integration
 

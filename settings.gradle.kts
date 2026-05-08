@@ -41,6 +41,7 @@ include(
     "protokt-runtime-protobufjs",
     "protokt-runtime-persistent-collections",
     "protokt-runtime-grpc",
+    "protokt-runtime-grpc-krpc",
     "protokt-runtime-grpc-lite",
 
     "grpc-kotlin-shim",
@@ -92,5 +93,6 @@ include(
     "third-party:proto-google-common-protos-extensions-lite",
     "third-party:proto-google-common-protos-grpc",
     "third-party:proto-google-common-protos-grpc-kotlin",
+    "third-party:proto-google-common-protos-grpc-krpc",
     "third-party:proto-google-common-protos-lite"
 )

@@ -30,6 +30,7 @@ internal class GeneratorContext(
     val generateDescriptors = params.generateDescriptors
     val generateGrpcDescriptors = params.generateGrpcDescriptors
     val generateGrpcKotlinStubs = params.generateGrpcKotlinStubs
+    val generateGrpcKrpc = params.generateGrpcKrpc
     val formatOutput = params.formatOutput
     val kotlinTarget = params.kotlinTarget
 

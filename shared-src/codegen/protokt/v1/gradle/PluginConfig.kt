@@ -20,6 +20,7 @@ internal const val GENERATE_TYPES = "generate_types"
 internal const val GENERATE_DESCRIPTORS = "generate_descriptors"
 internal const val GENERATE_GRPC_DESCRIPTORS = "generate_grpc_descriptors"
 internal const val GENERATE_GRPC_KOTLIN_STUBS = "generate_grpc_kotlin_stubs"
+internal const val GENERATE_GRPC_KRPC = "generate_grpc_krpc"
 internal const val FORMAT_OUTPUT = "format_output"
 internal const val KOTLIN_TARGET = "kotlin_target"
 

@@ -26,6 +26,7 @@ buildConfig {
 }
 
 repositories {
+    maven("https://packages.jetbrains.team/maven/p/krpc/grpc")
     mavenCentral()
     gradlePluginPortal()
     google()
@@ -41,6 +42,7 @@ dependencies {
     implementation(libs.kotlinx.benchmark.plugin)
     implementation(libs.protobuf.gradlePlugin)
     implementation(libs.spotlessGradlePlugin)
+    implementation(libs.kotlinx.rpc.gradlePlugin)
     implementation(kotlin("gradle-plugin-api"))
     implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 

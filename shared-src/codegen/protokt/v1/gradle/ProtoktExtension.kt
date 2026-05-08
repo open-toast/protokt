@@ -73,6 +73,14 @@ open class ProtoktExtension {
         var grpcKotlinStubs = false
 
         /**
+         * Whether to generate @Grpc-annotated interfaces for use with the
+         * kotlinx-rpc compiler plugin. If enabled, the project must apply the
+         * kotlinx-rpc Gradle plugin and depend on kotlinx-rpc-grpc-client
+         * and/or kotlinx-rpc-grpc-server.
+         */
+        var grpcKrpc = false
+
+        /**
          * Generates only message and enum types.
          */
         fun lite() {
@@ -80,6 +88,7 @@ open class ProtoktExtension {
             descriptors = false
             grpcDescriptors = false
             grpcKotlinStubs = false
+            grpcKrpc = false
         }
 
         /**
@@ -91,6 +100,19 @@ open class ProtoktExtension {
             descriptors = false
             grpcDescriptors = true
             grpcKotlinStubs = false
+            grpcKrpc = false
+        }
+
+        /**
+         * Generates message and enum types, descriptors, gRPC descriptors, and
+         * Kotlin coroutine-based implementations.
+         */
+        fun grpcKotlin() {
+            types = true
+            descriptors = true
+            grpcDescriptors = true
+            grpcKotlinStubs = true
+            grpcKrpc = false
         }
 
         /**
@@ -102,16 +124,19 @@ open class ProtoktExtension {
             descriptors = false
             grpcDescriptors = true
             grpcKotlinStubs = true
+            grpcKrpc = false
         }
 
         /**
-         * Generates all variations of code.
+         * Generates message and enum types and @Grpc-annotated service
+         * interfaces for use with the kotlinx-rpc compiler plugin.
          */
-        fun all() {
+        fun grpcKrpcLite() {
             types = true
-            descriptors = true
-            grpcDescriptors = true
-            grpcKotlinStubs = true
+            descriptors = false
+            grpcDescriptors = false
+            grpcKotlinStubs = false
+            grpcKrpc = true
         }
     }
 

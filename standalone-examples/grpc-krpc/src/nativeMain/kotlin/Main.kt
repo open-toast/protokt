@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Toast, Inc.
+ * Copyright (c) 2026 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,7 @@
  * limitations under the License.
  */
 
-package protokt.v1
+import protokt.v1.helloworld.runExample
 
-@SubclassOptInRequired(OnlyForUseByGeneratedProtoCode::class)
-abstract class AbstractMessage : Message {
-    final override fun serialize(): ByteArray {
-        val writer = codec.writer(serializedSize())
-        serialize(writer)
-        return writer.toByteArray()
-    }
-}
+fun main() =
+    runExample()

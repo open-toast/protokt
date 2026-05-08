@@ -15,7 +15,7 @@
 
 package protokt.v1
 
-@OnlyForUseByGeneratedProtoCode
+@SubclassOptInRequired(OnlyForUseByGeneratedProtoCode::class)
 abstract class AbstractDeserializer<T : Message> : Deserializer<T> {
     abstract override fun deserialize(reader: Reader): T
 
