@@ -24,18 +24,12 @@ val protoktVersion =
         .single()
         .name
 
-// Pinned separately from the main build: the kotlinx-rpc compiler plugin
-// resolves as {kotlinVersion}-{rpcVersion} and only supports up to 2.3.20.
-val krpcKotlinVersion = "2.3.20"
-
 buildscript {
     val protoktVersion =
         file("../../build/repos/integration/com/toasttab/protokt/v1/protokt-gradle-plugin")
             .listFiles { f -> f.isDirectory }!!
             .single()
             .name
-
-    val krpcKotlinVersion = "2.3.20"
 
     repositories {
         maven(url = "../../build/repos/integration")
@@ -45,12 +39,12 @@ buildscript {
     }
 
     configurations.all {
-        resolutionStrategy.force("org.jetbrains.kotlin:kotlin-gradle-plugin:$krpcKotlinVersion")
+        resolutionStrategy.force("org.jetbrains.kotlin:kotlin-gradle-plugin:${libs.versions.kotlin.krpc.get()}")
     }
 
     dependencies {
         classpath("com.toasttab.protokt.v1:protokt-gradle-plugin:$protoktVersion")
-        classpath("${libs.kotlinGradlePlugin.get().module}:$krpcKotlinVersion")
+        classpath("${libs.kotlinGradlePlugin.get().module}:${libs.versions.kotlin.krpc.get()}")
         classpath(libs.kotlinx.rpc.gradlePlugin)
         classpath(libs.protobuf.gradlePlugin)
     }
