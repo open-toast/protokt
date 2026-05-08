@@ -25,13 +25,12 @@ optional protobuf-java, kotlinx-io, and protobufjs backends
 for use with [grpc-java](#integrating-with-grpcs-java-api),
 [grpc-kotlin](#integrating-with-grpcs-kotlin-api),
 [grpc-node](#integrating-with-grpcs-nodejs-api) (experimental), and
-[kotlinx-rpc](#integrating-with-kotlinx-rpc) (experimental) (see examples in [examples](examples))
+[kotlinx-rpc](#integrating-with-kotlinx-rpc) (experimental) (see examples in [examples](examples) and [standalone-examples](standalone-examples))
 - (JVM) Integration with [Protovalidate](#protovalidate-integration)
 
 ### Not yet implemented
 
 - Protobuf JSON support
-- Native support for gRPC
 
 ### Compatibility
 
