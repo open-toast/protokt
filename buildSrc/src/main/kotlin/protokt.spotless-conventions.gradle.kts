@@ -50,7 +50,7 @@ allprojects {
             targetExclude("buildSrc/build/**")
             licenseHeaderFile(
                 rootProject.file("gradle/license-header-c-style"),
-                "(package |@file|import |fun )|buildscript |plugins |subprojects |spotless |group =|dependencyResolutionManagement "
+                "(package |@file|import |fun )|buildscript |plugins |subprojects |spotless |group =|rootProject"
             )
         }
 
