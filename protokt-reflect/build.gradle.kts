@@ -32,6 +32,7 @@ kotlin {
                 api(libs.protobuf.java)
 
                 implementation(kotlin("reflect"))
+                implementation(libs.kotlinx.collectionsImmutable)
             }
         }
     }

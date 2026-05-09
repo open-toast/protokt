@@ -25,6 +25,9 @@ import com.google.protobuf.UnknownFieldSet.Field
 import com.google.protobuf.UnsafeByteOperations
 import com.google.protobuf.WireFormat
 import com.toasttab.protokt.v1.ProtoktProtos
+import kotlinx.collections.immutable.PersistentMap
+import kotlinx.collections.immutable.persistentMapOf
+import kotlinx.collections.immutable.toPersistentMap
 import protokt.v1.Beta
 import protokt.v1.Bytes
 import protokt.v1.Converter
@@ -41,13 +44,28 @@ import kotlin.Any
 import kotlin.reflect.full.findAnnotation
 
 @Beta
-class RuntimeContext internal constructor(
-    descriptors: Iterable<Descriptors.Descriptor>,
-    private val classLookup: ClassLookup
+class RuntimeContext private constructor(
+    private val descriptors: PersistentMap<String, Descriptors.Descriptor>,
+    private val classLookup: ClassLookup,
 ) {
+    internal constructor(
+        descriptors: Iterable<Descriptors.Descriptor>,
+        classLookup: ClassLookup,
+    ) : this(descriptors.associateBy { it.fullName }.toPersistentMap(), classLookup)
+
     constructor(descriptors: Iterable<Descriptors.Descriptor>) : this(descriptors, ClassLookup(emptyList()))
 
-    internal val descriptorsByTypeName = descriptors.associateBy { it.fullName }
+    internal val descriptorsByTypeName: Map<String, Descriptors.Descriptor>
+        get() = descriptors
+
+    /** Returns a new [RuntimeContext] with [descriptor] registered. */
+    operator fun plus(descriptor: Descriptors.Descriptor): RuntimeContext =
+        RuntimeContext(descriptors.put(descriptor.fullName, descriptor), classLookup)
+
+    companion object {
+        @JvmStatic
+        val EMPTY: RuntimeContext = RuntimeContext(persistentMapOf(), ClassLookup(emptyList()))
+    }
 
     fun convertValue(value: Any) =
         when (value) {
