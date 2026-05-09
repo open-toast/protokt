@@ -15,12 +15,29 @@
 
 package protokt.v1.conformance
 
+import protokt.v1.AbstractDeserializer
+import protokt.v1.Collections
+import protokt.v1.Message
+import protokt.v1.OnlyForUseByGeneratedProtoCode
+import protokt.v1.Reader
 import protokt.v1.conformance.ConformanceRequest.Payload.ProtobufPayload
 import protokt.v1.conformance.ConformanceResponse.Result
 import protokt.v1.protobuf_test_messages.proto3.TestAllTypesProto3
 
+@OptIn(OnlyForUseByGeneratedProtoCode::class)
 fun main() =
     Platform.runBlockingMain {
+        val builderResult = Collections.listBuilder<Any>().build()
+        Platform.printErr("protoktCollectionFactory=${Platform.className(builderResult)}")
+        lateinit var codecReader: Any
+        object : AbstractDeserializer<Message>() {
+            override fun deserialize(reader: Reader): Message {
+                codecReader = reader
+                return ConformanceRequest {}
+            }
+        }.deserialize(byteArrayOf())
+        Platform.printErr("protoktCodec=${Platform.className(codecReader)}")
+        Platform.printErr("protoktStreaming=${Platform.streaming}")
         while (true) {
             val request = Platform.readMessageFromStdIn(ConformanceRequest) ?: break
 
@@ -65,8 +82,10 @@ private fun skipReason(request: ConformanceRequest): SkipReason? =
     when {
         request.messageType !in supportedMessageTypes ->
             SkipReason.UNSUPPORTED_MESSAGE_TYPE
+
         request.requestedOutputFormat != WireFormat.PROTOBUF ->
             SkipReason.UNSUPPORTED_OUTPUT_FORMAT
+
         else ->
             null
     }

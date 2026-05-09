@@ -21,6 +21,7 @@ import kotlin.coroutines.suspendCoroutine
 import kotlin.js.json
 
 @Beta
+@Suppress("EXTENSION_SHADOWED_BY_MEMBER") // member is internal and not callable externally
 fun Server.addService(
     service: ServiceDescriptor,
     implementation: BindableService
@@ -44,12 +45,10 @@ private fun BindableService.toUntypedServiceImplementation() =
 suspend fun Server.start(
     address: String,
     credentials: ServerCredentials
-) =
-    apply {
-        suspendCoroutine { continuation ->
-            bindAsync(address, credentials) { _, _ ->
-                start()
-                continuation.resume(Unit)
-            }
+): Int =
+    suspendCoroutine { continuation ->
+        bindAsync(address, credentials) { _, port ->
+            start()
+            continuation.resume(port)
         }
     }

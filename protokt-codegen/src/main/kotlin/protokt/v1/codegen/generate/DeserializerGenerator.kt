@@ -15,7 +15,6 @@
 
 package protokt.v1.codegen.generate
 
-import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.LambdaTypeName
@@ -26,11 +25,14 @@ import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
 import protokt.v1.AbstractDeserializer
+import protokt.v1.LazyReference
 import protokt.v1.Reader
+import protokt.v1.StringConverter
 import protokt.v1.UnknownFieldSet
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Wrapper.interceptRead
 import protokt.v1.codegen.generate.Wrapper.wrapField
+import protokt.v1.codegen.generate.Wrapper.wrapped
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.Oneof
 import protokt.v1.codegen.util.StandardField
@@ -128,25 +130,50 @@ private class DeserializerGenerator(
 
     private fun declareDeserializeVar(p: PropertyInfo): CodeBlock {
         val initialState = deserializeVarInitialState(p)
-        return if (p.fieldType == FieldType.Message || p.repeated || p.oneof || p.nullable || p.wrapped) {
+        return if (p.fieldType == FieldType.Message || p.repeated || p.oneof || p.nullable || p.wrapped || p.cachingInfo != null) {
             CodeBlock.of("%N: %T = %L", p.name, deserializeType(p), initialState)
         } else {
             CodeBlock.of("%N = %L", p.name, initialState)
         }
     }
 
-    private fun deserializeType(p: PropertyInfo) =
-        if (p.repeated || p.isMap) {
-            p.deserializeType as ParameterizedTypeName
-            ClassName(p.deserializeType.rawType.packageName, "Mutable" + p.deserializeType.rawType.simpleName)
-                .parameterizedBy(p.deserializeType.typeArguments)
-                .copy(nullable = true)
-        } else {
-            p.deserializeType
+    private fun deserializeType(p: PropertyInfo): com.squareup.kotlinpoet.TypeName =
+        when {
+            p.repeatedCachingInfo != null -> {
+                // ListBuilder stores Any? (LazyReference instances)
+                listBuilderClassName
+                    .parameterizedBy(com.squareup.kotlinpoet.ANY.copy(nullable = true))
+                    .copy(nullable = true)
+            }
+
+            p.mapCachingInfo != null -> {
+                // MapBuilder stores Any? keys and values (mix of LazyReference and plain)
+                mapBuilderClassName
+                    .parameterizedBy(
+                        com.squareup.kotlinpoet.ANY.copy(nullable = true),
+                        com.squareup.kotlinpoet.ANY.copy(nullable = true)
+                    )
+                    .copy(nullable = true)
+            }
+
+            p.repeated || p.isMap -> {
+                val baseType = p.deserializeType as ParameterizedTypeName
+                if (p.isMap) {
+                    mapBuilderClassName
+                        .parameterizedBy(baseType.typeArguments)
+                        .copy(nullable = true)
+                } else {
+                    listBuilderClassName
+                        .parameterizedBy(baseType.typeArguments)
+                        .copy(nullable = true)
+                }
+            }
+
+            else -> p.deserializeType
         }
 
     private fun constructorLines(properties: List<PropertyInfo>) =
-        properties.map { CodeBlock.of("%L,\n", wrapDeserializedValueForConstructor(it)) } +
+        properties.map { CodeBlock.of("%L,\n", wrapDeserializedBuilderValueForConstructor(it)) } +
             CodeBlock.of("%T.from(unknownFields)", UnknownFieldSet::class)
 
     private class DeserializerInfo(
@@ -155,16 +182,105 @@ private class DeserializerGenerator(
         val value: CodeBlock
     )
 
+    private fun cachingInfoForField(field: StandardField): CachingFieldInfo? =
+        properties.firstOrNull { it.name == field.fieldName }?.cachingInfo
+
+    private fun propertyForField(field: StandardField): PropertyInfo? =
+        properties.firstOrNull { it.name == field.fieldName }
+
     private fun deserializerInfo(): List<DeserializerInfo> =
         msg.flattenedSortedFields().flatMap { (field, oneOf) ->
             field.tagList.map { tag ->
+                val cachingInfo = if (oneOf == null) cachingInfoForField(field) else null
+                val prop = if (oneOf == null) propertyForField(field) else null
                 DeserializerInfo(
                     tag.value,
                     oneOf?.fieldName ?: field.fieldName,
-                    oneOf?.let { oneofDes(it, field) } ?: deserialize(field, ctx, tag is Tag.Packed)
+                    when {
+                        oneOf != null -> oneofDes(oneOf, field)
+
+                        cachingInfo != null -> cachingDeserialize(cachingInfo, field)
+
+                        prop?.repeatedCachingInfo != null ->
+                            repeatedCachingDeserialize(prop.repeatedCachingInfo, field, tag is Tag.Packed)
+
+                        prop?.mapCachingInfo != null ->
+                            mapCachingDeserialize(prop.mapCachingInfo, field)
+
+                        else -> deserialize(field, ctx, tag is Tag.Packed)
+                    }
                 )
             }
         }
+
+    private fun cachingDeserialize(info: CachingFieldInfo, field: StandardField) =
+        when (info) {
+            is CachingFieldInfo.PlainString -> CodeBlock.of("%T.readValidatedBytes($READER)", StringConverter::class)
+            is CachingFieldInfo.Converted -> CodeBlock.of("$READER.%L", field.readFn())
+        }
+
+    private fun repeatedCachingDeserialize(
+        info: RepeatedCachingInfo,
+        field: StandardField,
+        packed: Boolean
+    ): CodeBlock {
+        val converterRef = when (info) {
+            is RepeatedCachingInfo.PlainString -> CodeBlock.of("%T", StringConverter::class)
+            is RepeatedCachingInfo.Converted -> CodeBlock.of("%T", info.converterClassName)
+        }
+        val readExpr = when (info) {
+            is RepeatedCachingInfo.PlainString ->
+                CodeBlock.of("%T.readValidatedBytes($READER)", StringConverter::class)
+
+            is RepeatedCachingInfo.Converted ->
+                CodeBlock.of("$READER.%L", field.readFn())
+        }
+
+        return buildCodeBlock {
+            add("\n(%N ?: %M())", field.fieldName, listBuilderFactory)
+            beginControlFlow(".apply")
+            beginControlFlow("$READER.readRepeated($packed)")
+            add("add(%T(%L, %L))\n", LazyReference::class, readExpr, converterRef)
+            endControlFlow()
+            endControlFlowWithoutNewline()
+        }
+    }
+
+    private fun mapCachingDeserialize(info: MapCachingInfo, field: StandardField): CodeBlock {
+        val read = CodeBlock.of("$READER.%L", interceptRead(field, field.readFn()))
+
+        return buildCodeBlock {
+            add("\n(%N ?: %M())", field.fieldName, mapBuilderFactory)
+            beginControlFlow(".apply")
+            beginControlFlow("$READER.readRepeated(false)")
+            add(read)
+            beginControlFlow(".let")
+            // Wrap key in LazyReference if needed
+            val keyExpr = if (info.keyWrapped) {
+                CodeBlock.of(
+                    "%T(it.key, %T)",
+                    LazyReference::class,
+                    info.keyConverterClassName!!
+                )
+            } else {
+                CodeBlock.of("it.key")
+            }
+            // Wrap value in LazyReference if needed
+            val valueExpr = if (info.valueWrapped) {
+                CodeBlock.of(
+                    "%T(it.value, %T)",
+                    LazyReference::class,
+                    info.valueConverterClassName!!
+                )
+            } else {
+                CodeBlock.of("it.value")
+            }
+            add("put(%L, %L)\n", keyExpr, valueExpr)
+            endControlFlow()
+            endControlFlow()
+            endControlFlowWithoutNewline()
+        }
+    }
 
     private val StandardField.tagList
         get() =
@@ -206,7 +322,17 @@ private class DeserializerGenerator(
     )
 
     private fun oneofDes(f: Oneof, ff: StandardField) =
-        CodeBlock.of("%T(%L)", f.qualify(ff), deserialize(ff, ctx))
+        if (ff.type == FieldType.String && !ff.wrapped) {
+            CodeBlock.of(
+                "%T(%T(%T.readValidatedBytes($READER), %T))",
+                f.qualify(ff),
+                LazyReference::class,
+                StringConverter::class,
+                StringConverter::class
+            )
+        } else {
+            CodeBlock.of("%T(%L)", f.qualify(ff), deserialize(ff, ctx))
+        }
 }
 
 internal fun deserialize(f: StandardField, ctx: Context, packed: Boolean = false): CodeBlock {
@@ -215,22 +341,24 @@ internal fun deserialize(f: StandardField, ctx: Context, packed: Boolean = false
 
     return when {
         f.isMap -> deserializeMap(f, read)
+
         f.repeated ->
             buildCodeBlock {
-                add("\n(%N ?: mutableListOf())", f.fieldName)
+                add("\n(%N ?: %M())", f.fieldName, listBuilderFactory)
                 beginControlFlow(".apply")
                 beginControlFlow("$READER.readRepeated($packed)")
                 add("add(%L)\n", wrappedRead)
                 endControlFlow()
                 endControlFlowWithoutNewline()
             }
+
         else -> wrappedRead
     }
 }
 
 private fun deserializeMap(f: StandardField, read: CodeBlock): CodeBlock =
     buildCodeBlock {
-        add("\n(%N ?: mutableMapOf())", f.fieldName)
+        add("\n(%N ?: %M())", f.fieldName, mapBuilderFactory)
         beginControlFlow(".apply")
         beginControlFlow("$READER.readRepeated(false)")
         add(read)
@@ -241,14 +369,20 @@ private fun deserializeMap(f: StandardField, read: CodeBlock): CodeBlock =
         endControlFlowWithoutNewline()
     }
 
-private fun StandardField.readFn() =
+internal fun StandardField.readFn() =
     when (type) {
         SFixed32 -> CodeBlock.of("readSFixed32()")
+
         SFixed64 -> CodeBlock.of("readSFixed64()")
+
         SInt32 -> CodeBlock.of("readSInt32()")
+
         SInt64 -> CodeBlock.of("readSInt64()")
+
         UInt32 -> CodeBlock.of("readUInt32()")
+
         UInt64 -> CodeBlock.of("readUInt64()")
+
         // by default for DOUBLE we get readDouble, for BOOL we get readBool(), etc.
         else -> buildCodeBlock {
             add("read${type::class.simpleName}(")

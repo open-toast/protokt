@@ -25,7 +25,8 @@ allprojects {
                 "ktlint_standard_trailing-comma-on-call-site" to "disabled",
                 "ktlint_standard_trailing-comma-on-declaration-site" to "disabled",
                 "ktlint_function_signature_body_expression_wrapping" to "always",
-                "ij_kotlin_packages_to_use_import_on_demand" to null,
+                "ij_kotlin_packages_to_use_import_on_demand" to "",
+                "ktlint_standard_no-unused-imports" to "enabled",
             )
 
         kotlin {
@@ -34,6 +35,7 @@ allprojects {
             targetExclude(
                 "buildSrc/build/generated-sources/**",
                 "**/generated/**",
+                "**/protokt-bootstrap/**",
                 "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/**/*.kt",
                 "extensions/protokt-jvm-extensions-lite/src/main/kotlin/com/toasttab/protokt/ext/**.kt",
                 "extensions/protokt-extensions-lite/src/jvmMain/kotlin/com/toasttab/protokt/ext/**.kt",
@@ -48,7 +50,7 @@ allprojects {
             targetExclude("buildSrc/build/**")
             licenseHeaderFile(
                 rootProject.file("gradle/license-header-c-style"),
-                "(package |@file|import |fun )|buildscript |plugins |subprojects |spotless |group ="
+                "(package |@file|import |fun )|buildscript |plugins |subprojects |spotless |group =|rootProject"
             )
         }
 
@@ -64,7 +66,8 @@ allprojects {
                 "**/build/generated/source/**",
                 "**/protokt/v1/animals/**",
                 "**/protokt/v1/helloworld/**",
-                "**/protokt/v1/io/grpc/examples/**"
+                "**/protokt/v1/io/grpc/examples/**",
+                "**/protokt/v1/bootstrap/**"
             )
         }
 

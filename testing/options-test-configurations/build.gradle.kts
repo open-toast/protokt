@@ -23,6 +23,10 @@ plugins {
 localProtokt()
 pureKotlin()
 
+tasks.withType<Test> {
+    failOnNoDiscoveredTests = false
+}
+
 dependencies {
     testProtoktExtensions(project(":testing:options-api"))
     testProtoktExtensions(project(":third-party:proto-google-common-protos-extensions"))
@@ -30,4 +34,5 @@ dependencies {
     testProtobuf(project(":testing:options"))
 
     testRuntimeOnly(libs.protobuf.java)
+    testRuntimeOnly(libs.kotlinx.io)
 }

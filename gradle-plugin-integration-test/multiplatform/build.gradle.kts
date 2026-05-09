@@ -13,6 +13,7 @@
  * limitations under the License.
  */
 
+import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import protokt.v1.gradle.protoktExtensions
 
@@ -23,14 +24,16 @@ plugins {
 
 kotlin {
     jvm {
-        withJava()
+        compilerOptions {
+            jvmDefault.set(JvmDefaultMode.NO_COMPATIBILITY)
+        }
     }
 
     js(IR) {
         browser {
             testTask {
                 useKarma {
-                    useFirefoxHeadless()
+                    useChromeHeadless()
                 }
             }
         }
@@ -55,7 +58,6 @@ kotlin {
 
         val jvmTest by getting {
             dependencies {
-                runtimeOnly(libs.protobuf.java)
                 runtimeOnly(libs.junit.platformLauncher)
             }
         }
@@ -64,19 +66,8 @@ kotlin {
         val jsTest by getting {}
     }
 
-    // in theory this should be able to go into compilerOptions but it doesn't seem to work
-    targets {
-        all {
-            compilations.all {
-                kotlinOptions {
-                    allWarningsAsErrors = false
-                }
-            }
-        }
-    }
-
     compilerOptions {
-        freeCompilerArgs.add("-Xjvm-default=all")
+        allWarningsAsErrors = false
 
         apiVersion = KotlinVersion.fromVersion(
             System.getProperty("kotlin-integration.version")
@@ -94,14 +85,17 @@ tasks.named<Test>("jvmTest") {
 
 dependencies {
     protoktExtensions("com.toasttab.protokt.v1:protokt-extensions:$version")
+    protobuf(project(":proto-dep")) {
+        isTransitive = false
+    }
 }
 
 tasks.named("jsNodeTest") {
-    enabled = System.getProperty("kotlin.version", libs.versions.kotlin.get()) == libs.versions.kotlin.get()
+    enabled = System.getProperty("kotlin-integration.version", libs.versions.kotlin.get()) == libs.versions.kotlin.get()
 }
 
 tasks.named("jsBrowserTest") {
-    enabled = System.getProperty("kotlin.version", libs.versions.kotlin.get()) == libs.versions.kotlin.get()
+    enabled = System.getProperty("kotlin-integration.version", libs.versions.kotlin.get()) == libs.versions.kotlin.get()
 }
 
 java {

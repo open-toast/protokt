@@ -20,28 +20,30 @@ plugins {
     id("protokt.multiplatform-published-conventions")
 }
 
-localProtokt(false)
+publishedLocalProtokt(false)
 
 kotlin {
     sourceSets {
         val jvmMain by getting {
+            kotlin.srcDir(rootProject.file("shared-src/reflect"))
+
             dependencies {
                 api(project(":protokt-core"))
                 api(libs.protobuf.java)
 
                 implementation(kotlin("reflect"))
+                implementation(libs.kotlinx.collectionsImmutable)
             }
         }
     }
+
+    compilerOptions {
+        freeCompilerArgs.add("-opt-in=protokt.v1.OnlyForUseByGeneratedProtoCode")
+    }
 }
 
-tasks.withType<JavaCompile> { enabled = true }
-
 sourceSets {
-    main {
-        java {
-            srcDir(rootProject.file("shared-src/reflect"))
-        }
+    named("main") {
         proto {
             srcDir("../extensions/protokt-extensions-lite/src/extensions-proto")
         }

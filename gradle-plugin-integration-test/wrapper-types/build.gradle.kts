@@ -22,12 +22,14 @@ dependencies {
     implementation("com.toasttab.protokt.v1:protokt-core:$version")
     implementation(libs.autoServiceAnnotations)
 
+    testRuntimeOnly(libs.junit.jupiter)
     testRuntimeOnly(libs.junit.platformLauncher)
 
     kapt(libs.autoService)
 }
 
-// pin to the runtime version of protokt
+// pin to the runtime version used by protokt; wrapper-types extensions are loaded
+// by the codegen plugin which runs on the project's own JDK
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(libs.versions.java.get().toInt()))

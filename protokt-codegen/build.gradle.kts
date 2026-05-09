@@ -13,7 +13,6 @@
  * limitations under the License.
  */
 
-import com.google.protobuf.gradle.proto
 import protokt.v1.gradle.CODEGEN_NAME
 
 plugins {
@@ -32,9 +31,34 @@ application {
     mainClass.set("protokt.v1.codegen.MainKt")
 }
 
+tasks.named<CreateStartScripts>("startScripts") {
+    doLast {
+        // Replace the long enumerated classpath with a wildcard to avoid
+        // exceeding Windows' command line length limit
+        windowsScript.writeText(
+            windowsScript.readText().replace(
+                Regex("set CLASSPATH=.*"),
+                "set CLASSPATH=%APP_HOME%\\\\lib\\\\*"
+            )
+        )
+        unixScript.writeText(
+            unixScript.readText().replace(
+                Regex("CLASSPATH=.*"),
+                "CLASSPATH=\\\$APP_HOME/lib/*"
+            )
+        )
+    }
+}
+
+kotlin {
+    compilerOptions {
+        freeCompilerArgs.add("-opt-in=protokt.v1.OnlyForUseByGeneratedProtoCode")
+    }
+}
+
 dependencies {
-    implementation(project(":extensions:protokt-extensions-api"))
-    implementation(project(":protokt-runtime"))
+    implementation(project(":protokt-bootstrap"))
+    implementation(project(":protokt-runtime-protobuf-java"))
     implementation(project(":protokt-runtime-grpc-lite"))
     implementation(project(":grpc-kotlin-shim"))
 
@@ -75,8 +99,39 @@ configure<PublishingExtension> {
 
 tasks.withType<Test> {
     afterEvaluate {
-        environment("PROTOC_PATH", configurations.named("protobufToolsLocator_protoc").get().singleFile)
+        val protoc = configurations.named("protobufToolsLocator_protoc").get().singleFile
+        protoc.setExecutable(true)
+        environment("PROTOC_PATH", protoc)
     }
+}
+
+val bootstrapDirPath = rootProject.file("protokt-bootstrap/src/main/kotlin").absolutePath
+
+val downloadWellKnownProtos by tasks.registering(DownloadWellKnownProtos::class) {
+    protobufVersion = libs.versions.protobuf.java
+    outputDir = layout.buildDirectory.dir("well-known-protos")
+}
+
+val regenerateBootstrap by tasks.registering(RegenerateBootstrap::class) {
+    description = "Regenerates checked-in bootstrap types from descriptor.proto, plugin.proto, and protokt.proto"
+    group = "protokt"
+    dependsOn("installDist", downloadWellKnownProtos)
+
+    protoc = configurations.named("protobufToolsLocator_protoc").map { layout.projectDirectory.file(it.singleFile.absolutePath) }
+    codegen = layout.buildDirectory.file("install/$CODEGEN_NAME/bin/$CODEGEN_NAME")
+    extensionsProtoDir = rootProject.layout.projectDirectory.dir("extensions/protokt-extensions-lite/src/extensions-proto")
+    wellKnownProtosDir = downloadWellKnownProtos.flatMap { it.outputDir }
+    generatedDir = layout.buildDirectory.dir("regenerate-bootstrap")
+    bootstrapDir = layout.projectDirectory.dir(bootstrapDirPath)
+}
+
+val verifyBootstrap by tasks.registering(VerifyBootstrap::class) {
+    description = "Verifies checked-in bootstrap types match what the current codegen would generate"
+    group = "protokt"
+    dependsOn(regenerateBootstrap)
+
+    generatedDir = regenerateBootstrap.flatMap { it.generatedDir }
+    bootstrapDir = layout.projectDirectory.dir(bootstrapDirPath)
 }
 
 sourceSets {
@@ -84,9 +139,6 @@ sourceSets {
         java {
             srcDir("../shared-src/codegen")
             srcDir("../shared-src/reflect")
-        }
-        proto {
-            srcDir("../extensions/protokt-extensions-lite/src/extensions-proto")
         }
     }
 }

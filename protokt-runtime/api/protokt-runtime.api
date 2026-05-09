@@ -8,6 +8,12 @@ public abstract class protokt/v1/AbstractBytes {
 	public final fun toString ()Ljava/lang/String;
 }
 
+public abstract class protokt/v1/AbstractConverter : protokt/v1/Converter {
+	public fun <init> ()V
+	public final fun getWrapped ()Lkotlin/reflect/KClass;
+	public final fun getWrapper ()Lkotlin/reflect/KClass;
+}
+
 public abstract class protokt/v1/AbstractDeserializer : protokt/v1/Deserializer {
 	public fun <init> ()V
 	public final fun deserialize (Lprotokt/v1/Bytes;)Lprotokt/v1/Message;
@@ -25,6 +31,14 @@ public abstract interface annotation class protokt/v1/Beta : java/lang/annotatio
 }
 
 public abstract interface annotation class protokt/v1/BuilderDsl : java/lang/annotation/Annotation {
+}
+
+public abstract interface class protokt/v1/BuilderScope {
+	public fun plus (Ljava/util/List;Ljava/lang/Iterable;)Ljava/util/List;
+	public fun plus (Ljava/util/List;Ljava/lang/Object;)Ljava/util/List;
+	public fun plus (Ljava/util/Map;Ljava/lang/Iterable;)Ljava/util/Map;
+	public fun plus (Ljava/util/Map;Ljava/util/Map;)Ljava/util/Map;
+	public fun plus (Ljava/util/Map;Lkotlin/Pair;)Ljava/util/Map;
 }
 
 public final class protokt/v1/Bytes : protokt/v1/AbstractBytes {
@@ -62,16 +76,39 @@ public final class protokt/v1/BytesSlice$Companion {
 	public final fun from ([B)Lprotokt/v1/BytesSlice;
 }
 
+public abstract interface class protokt/v1/Codec {
+	public abstract fun reader ([B)Lprotokt/v1/Reader;
+	public abstract fun reader ([BII)Lprotokt/v1/Reader;
+	public abstract fun writer (I)Lprotokt/v1/Writer;
+}
+
+public abstract interface class protokt/v1/CollectionFactory {
+	public abstract fun freezeList (Ljava/util/List;)Ljava/util/List;
+	public abstract fun freezeMap (Ljava/util/Map;)Ljava/util/Map;
+	public abstract fun listBuilder ()Lprotokt/v1/ListBuilder;
+	public abstract fun listPlus (Ljava/util/List;Ljava/lang/Object;)Ljava/util/List;
+	public abstract fun listPlusAll (Ljava/util/List;Ljava/lang/Iterable;)Ljava/util/List;
+	public abstract fun mapBuilder ()Lprotokt/v1/MapBuilder;
+	public abstract fun mapPlus (Ljava/util/Map;Lkotlin/Pair;)Ljava/util/Map;
+	public abstract fun mapPlusAll (Ljava/util/Map;Ljava/lang/Iterable;)Ljava/util/Map;
+}
+
 public final class protokt/v1/Collections {
 	public static final field INSTANCE Lprotokt/v1/Collections;
-	public static final fun copyList (Ljava/util/List;)Ljava/util/List;
-	public static final fun copyMap (Ljava/util/Map;)Ljava/util/Map;
-	public static final fun unmodifiableList (Ljava/util/List;)Ljava/util/List;
-	public static final fun unmodifiableMap (Ljava/util/Map;)Ljava/util/Map;
+	public static final fun freezeList (Ljava/util/List;)Ljava/util/List;
+	public static final fun freezeMap (Ljava/util/Map;)Ljava/util/Map;
+	public static final fun listBuilder ()Lprotokt/v1/ListBuilder;
+	public static final fun mapBuilder ()Lprotokt/v1/MapBuilder;
+}
+
+public abstract interface class protokt/v1/Converter {
+	public abstract fun getWrapped ()Lkotlin/reflect/KClass;
+	public abstract fun getWrapper ()Lkotlin/reflect/KClass;
+	public abstract fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
+	public abstract fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
 }
 
 public abstract interface class protokt/v1/Deserializer {
-	public fun deserialize (Lcom/google/protobuf/CodedInputStream;)Lprotokt/v1/Message;
 	public fun deserialize (Ljava/io/InputStream;)Lprotokt/v1/Message;
 	public fun deserialize (Ljava/nio/ByteBuffer;)Lprotokt/v1/Message;
 	public abstract fun deserialize (Lprotokt/v1/Bytes;)Lprotokt/v1/Message;
@@ -89,8 +126,45 @@ public abstract class protokt/v1/Enum {
 	public final fun toString ()Ljava/lang/String;
 }
 
-public abstract interface class protokt/v1/EnumReader {
-	public abstract fun from (I)Lprotokt/v1/Enum;
+public abstract interface class protokt/v1/EnumDeserializer {
+	public abstract fun deserialize (I)Lprotokt/v1/Enum;
+}
+
+public final class protokt/v1/Extension {
+	public synthetic fun <init> (ILprotokt/v1/ExtensionCodec;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getNumber-pVg5ArA ()I
+}
+
+public abstract interface class protokt/v1/ExtensionCodec {
+	public abstract fun decodeRepeated (Lprotokt/v1/UnknownFieldSet$Field;)Ljava/util/List;
+	public abstract fun decodeSingular (Lprotokt/v1/UnknownFieldSet$Field;)Ljava/lang/Object;
+	public abstract fun encode-qim9Vi0 (ILjava/lang/Object;)Lprotokt/v1/UnknownField;
+}
+
+public final class protokt/v1/ExtensionCodecs {
+	public static final field INSTANCE Lprotokt/v1/ExtensionCodecs;
+	public final fun enum (Lprotokt/v1/EnumDeserializer;)Lprotokt/v1/ExtensionCodec;
+	public final fun getBool ()Lprotokt/v1/ExtensionCodec;
+	public final fun getBytes ()Lprotokt/v1/ExtensionCodec;
+	public final fun getDouble ()Lprotokt/v1/ExtensionCodec;
+	public final fun getFixed32 ()Lprotokt/v1/ExtensionCodec;
+	public final fun getFixed64 ()Lprotokt/v1/ExtensionCodec;
+	public final fun getFloat ()Lprotokt/v1/ExtensionCodec;
+	public final fun getInt32 ()Lprotokt/v1/ExtensionCodec;
+	public final fun getInt64 ()Lprotokt/v1/ExtensionCodec;
+	public final fun getSfixed32 ()Lprotokt/v1/ExtensionCodec;
+	public final fun getSfixed64 ()Lprotokt/v1/ExtensionCodec;
+	public final fun getSint32 ()Lprotokt/v1/ExtensionCodec;
+	public final fun getSint64 ()Lprotokt/v1/ExtensionCodec;
+	public final fun getString ()Lprotokt/v1/ExtensionCodec;
+	public final fun getUint32 ()Lprotokt/v1/ExtensionCodec;
+	public final fun getUint64 ()Lprotokt/v1/ExtensionCodec;
+	public final fun message (Lprotokt/v1/Deserializer;)Lprotokt/v1/ExtensionCodec;
+}
+
+public final class protokt/v1/ExtensionKt {
+	public static final fun get (Lprotokt/v1/Message;Lprotokt/v1/Extension;)Ljava/lang/Object;
+	public static final fun get (Lprotokt/v1/Message;Lprotokt/v1/RepeatedExtension;)Ljava/util/List;
 }
 
 public final class protokt/v1/Fixed32Val : protokt/v1/UnknownValue {
@@ -136,6 +210,52 @@ public abstract interface annotation class protokt/v1/GeneratedProperty : java/l
 	public abstract fun number ()I
 }
 
+public abstract interface class protokt/v1/JvmCodec : protokt/v1/Codec {
+	public abstract fun reader (Ljava/io/InputStream;)Lprotokt/v1/Reader;
+	public abstract fun reader (Ljava/nio/ByteBuffer;)Lprotokt/v1/Reader;
+	public abstract fun serialize (Lprotokt/v1/Message;Ljava/io/OutputStream;)V
+}
+
+public final class protokt/v1/LazyConvertingList : kotlin/collections/AbstractList {
+	public static final field Companion Lprotokt/v1/LazyConvertingList$Companion;
+	public fun <init> (Ljava/util/List;Lprotokt/v1/Converter;)V
+	public fun get (I)Ljava/lang/Object;
+	public fun getSize ()I
+	public final fun plus (Ljava/lang/Iterable;)Lprotokt/v1/LazyConvertingList;
+	public final fun plus (Ljava/lang/Object;)Lprotokt/v1/LazyConvertingList;
+	public final fun wireForEach (Lkotlin/jvm/functions/Function1;)V
+	public final fun wireGet (I)Ljava/lang/Object;
+}
+
+public final class protokt/v1/LazyConvertingList$Companion {
+	public final fun fromKotlin (Ljava/util/List;Lprotokt/v1/Converter;)Lprotokt/v1/LazyConvertingList;
+}
+
+public final class protokt/v1/LazyConvertingMap : kotlin/collections/AbstractMap {
+	public static final field Companion Lprotokt/v1/LazyConvertingMap$Companion;
+	public fun <init> (Ljava/util/Map;ZZLprotokt/v1/Converter;Lprotokt/v1/Converter;)V
+	public fun containsKey (Ljava/lang/Object;)Z
+	public fun get (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun getEntries ()Ljava/util/Set;
+	public fun getSize ()I
+	public final fun plus (Ljava/util/Map;)Lprotokt/v1/LazyConvertingMap;
+	public final fun plus (Lkotlin/Pair;)Lprotokt/v1/LazyConvertingMap;
+	public final fun wireEntryForEach (Lkotlin/jvm/functions/Function2;)V
+}
+
+public final class protokt/v1/LazyConvertingMap$Companion {
+	public final fun fromKotlin (Ljava/util/Map;ZZLprotokt/v1/Converter;Lprotokt/v1/Converter;)Lprotokt/v1/LazyConvertingMap;
+}
+
+public final class protokt/v1/LazyReference {
+	public fun <init> (Ljava/lang/Object;Lprotokt/v1/Converter;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+	public final fun value ()Ljava/lang/Object;
+	public final fun wireValue ()Ljava/lang/Object;
+}
+
 public final class protokt/v1/LengthDelimitedVal : protokt/v1/UnknownValue {
 	public static final synthetic fun box-impl (Lprotokt/v1/Bytes;)Lprotokt/v1/LengthDelimitedVal;
 	public static fun constructor-impl (Lprotokt/v1/Bytes;)Lprotokt/v1/Bytes;
@@ -152,39 +272,61 @@ public final class protokt/v1/LengthDelimitedVal : protokt/v1/UnknownValue {
 	public final synthetic fun unbox-impl ()Lprotokt/v1/Bytes;
 }
 
+public abstract interface class protokt/v1/ListBuilder {
+	public abstract fun add (Ljava/lang/Object;)V
+	public abstract fun addAll (Ljava/lang/Iterable;)V
+	public abstract fun build ()Ljava/util/List;
+}
+
+public abstract interface class protokt/v1/MapBuilder {
+	public abstract fun build ()Ljava/util/Map;
+	public abstract fun put (Ljava/lang/Object;Ljava/lang/Object;)V
+	public abstract fun putAll (Ljava/util/Map;)V
+}
+
 public abstract interface class protokt/v1/Message {
-	public abstract fun messageSize ()I
+	public abstract fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public abstract fun serialize ()[B
 	public fun serialize (Ljava/io/OutputStream;)V
 	public abstract fun serialize (Lprotokt/v1/Writer;)V
+	public abstract fun serializedSize ()I
+}
+
+public abstract interface annotation class protokt/v1/OnlyForUseByGeneratedProtoCode : java/lang/annotation/Annotation {
 }
 
 public abstract interface class protokt/v1/Reader {
+	public abstract fun getLastTag-pVg5ArA ()I
 	public fun readBool ()Z
 	public abstract fun readBytes ()Lprotokt/v1/Bytes;
 	public abstract fun readBytesSlice ()Lprotokt/v1/BytesSlice;
-	public abstract fun readDouble ()D
-	public fun readEnum (Lprotokt/v1/EnumReader;)Lprotokt/v1/Enum;
+	public fun readDouble ()D
+	public fun readEnum (Lprotokt/v1/EnumDeserializer;)Lprotokt/v1/Enum;
 	public abstract fun readFixed32-pVg5ArA ()I
 	public abstract fun readFixed64-s-VKNKU ()J
-	public abstract fun readFloat ()F
+	public fun readFloat ()F
 	public fun readInt32 ()I
-	public abstract fun readInt64 ()J
+	public fun readInt64 ()J
 	public abstract fun readMessage (Lprotokt/v1/Deserializer;)Lprotokt/v1/Message;
 	public abstract fun readRepeated (ZLkotlin/jvm/functions/Function1;)V
-	public abstract fun readSFixed32 ()I
-	public abstract fun readSFixed64 ()J
-	public abstract fun readSInt32 ()I
-	public abstract fun readSInt64 ()J
+	public fun readSFixed32 ()I
+	public fun readSFixed64 ()J
+	public fun readSInt32 ()I
+	public fun readSInt64 ()J
 	public abstract fun readString ()Ljava/lang/String;
 	public abstract fun readTag-pVg5ArA ()I
 	public fun readUInt32-pVg5ArA ()I
 	public abstract fun readUInt64-s-VKNKU ()J
-	public abstract fun readUnknown ()Lprotokt/v1/UnknownField;
+	public fun readUnknown ()Lprotokt/v1/UnknownField;
 }
 
-public final class protokt/v1/SizeCodecs {
-	public static final field INSTANCE Lprotokt/v1/SizeCodecs;
+public final class protokt/v1/RepeatedExtension {
+	public synthetic fun <init> (ILprotokt/v1/ExtensionCodec;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getNumber-pVg5ArA ()I
+}
+
+public final class protokt/v1/Sizes {
+	public static final field INSTANCE Lprotokt/v1/Sizes;
 	public static final fun sizeOf (I)I
 	public static final fun sizeOf (J)I
 	public static final fun sizeOf (Ljava/lang/String;)I
@@ -198,6 +340,17 @@ public final class protokt/v1/SizeCodecs {
 	public static final fun sizeOfSInt64 (J)I
 	public static final fun sizeOfUInt32 (I)I
 	public static final fun sizeOfUInt64 (J)I
+}
+
+public final class protokt/v1/StringConverter : protokt/v1/Converter {
+	public static final field INSTANCE Lprotokt/v1/StringConverter;
+	public fun getWrapped ()Lkotlin/reflect/KClass;
+	public fun getWrapper ()Lkotlin/reflect/KClass;
+	public final fun readValidatedBytes (Lprotokt/v1/Reader;)Lprotokt/v1/Bytes;
+	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun unwrap (Ljava/lang/String;)Lprotokt/v1/Bytes;
+	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun wrap (Lprotokt/v1/Bytes;)Ljava/lang/String;
 }
 
 public final class protokt/v1/UnknownField {
@@ -221,8 +374,10 @@ public final class protokt/v1/UnknownField$Companion {
 public final class protokt/v1/UnknownFieldSet {
 	public static final field Companion Lprotokt/v1/UnknownFieldSet$Companion;
 	public synthetic fun <init> (Ljava/util/Map;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun contains-WZ4Q5Ns (I)Z
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getUnknownFields ()Ljava/util/Map;
+	public final fun forEach (Lkotlin/jvm/functions/Function2;)V
+	public final fun get-WZ4Q5Ns (I)Lprotokt/v1/UnknownFieldSet$Field;
 	public fun hashCode ()I
 	public final fun isEmpty ()Z
 	public final fun size ()I
@@ -279,23 +434,24 @@ public final class protokt/v1/VarintVal : protokt/v1/UnknownValue {
 }
 
 public abstract interface class protokt/v1/Writer {
-	public abstract fun write (D)V
-	public abstract fun write (F)V
-	public abstract fun write (I)V
-	public abstract fun write (J)V
+	public abstract fun toByteArray ()[B
+	public fun write (D)V
+	public fun write (F)V
+	public fun write (I)V
+	public fun write (J)V
 	public abstract fun write (Ljava/lang/String;)V
 	public fun write (Lprotokt/v1/Bytes;)V
 	public abstract fun write (Lprotokt/v1/BytesSlice;)V
 	public fun write (Lprotokt/v1/Enum;)V
 	public fun write (Lprotokt/v1/Message;)V
-	public abstract fun write (Z)V
+	public fun write (Z)V
 	public abstract fun write ([B)V
 	public abstract fun writeFixed32-WZ4Q5Ns (I)V
 	public abstract fun writeFixed64-VKZWuLQ (J)V
-	public abstract fun writeSFixed32 (I)V
-	public abstract fun writeSFixed64 (J)V
-	public abstract fun writeSInt32 (I)V
-	public abstract fun writeSInt64 (J)V
+	public fun writeSFixed32 (I)V
+	public fun writeSFixed64 (J)V
+	public fun writeSInt32 (I)V
+	public fun writeSInt64 (J)V
 	public fun writeTag-WZ4Q5Ns (I)Lprotokt/v1/Writer;
 	public abstract fun writeUInt32-WZ4Q5Ns (I)V
 	public abstract fun writeUInt64-VKZWuLQ (J)V

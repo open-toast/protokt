@@ -356,6 +356,7 @@ public final class protokt/v1/google/apps/card/v1/Card_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/BorderStyle$BorderType$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/BorderStyle$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Button$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Button$Type$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/ButtonList$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Card$CardAction$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Card$CardFixedFooter$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
@@ -363,7 +364,14 @@ public final class protokt/v1/google/apps/card/v1/Card_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Card$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Card$DisplayStyle$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Card$DividerStyle$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Card$NestedWidget$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Card$Section$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Carousel$CarouselCard$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Carousel$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Chip$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/ChipList$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/ChipList$Layout$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/CollapseControl$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Columns$Column$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Columns$Column$HorizontalSizeStyle$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
@@ -388,6 +396,8 @@ public final class protokt/v1/google/apps/card/v1/Card_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/OpenLink$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/OpenLink$OnClose$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/OpenLink$OpenAs$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/OverflowMenu$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/OverflowMenu$OverflowMenuItem$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/SelectionInput$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$CommonDataSource$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
@@ -398,9 +408,13 @@ public final class protokt/v1/google/apps/card/v1/Card_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/TextInput$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/TextInput$Type$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/TextParagraph$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/TextParagraph$TextSyntax$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Validation$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Validation$InputType$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Widget$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Widget$HorizontalAlignment$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Widget$ImageType$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/apps/card/v1/Widget$VerticalAlignment$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 }
 
 public final class protokt/v1/google/apps/card/v1/card_file_descriptor {

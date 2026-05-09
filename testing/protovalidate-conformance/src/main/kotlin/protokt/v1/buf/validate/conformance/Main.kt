@@ -47,8 +47,7 @@ object Main {
                 Config.newBuilder()
                     .setTypeRegistry(createTypeRegistry(fileDescriptors))
                     .setExtensionRegistry(createExtensionRegistry(fileDescriptors))
-                    .build(),
-                System.getenv("LAZY_BUF_IMPL").toBoolean()
+                    .build()
             )
         loadValidDescriptors(validator, descriptorMap.values)
         return TestConformanceResponse
@@ -110,6 +109,8 @@ object Main {
                     )
                     .build()
             }
+        } catch (e: CompilationException) {
+            TestResult.newBuilder().setCompilationError(e.message).build()
         } catch (e: ExecutionException) {
             TestResult.newBuilder().setRuntimeError(e.message).build()
         } catch (e: Exception) {

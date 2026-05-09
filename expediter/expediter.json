@@ -1,5 +1,5 @@
 {
-  "name": "protokt-extensions-api",
+  "name": "protokt-runtime",
   "issues": [
     {
       "type": "member-missing",
@@ -42,11 +42,6 @@
     },
     {
       "type": "type-missing",
-      "caller": "kotlin/random/jdk8/PlatformThreadLocalRandom",
-      "target": "java/util/concurrent/ThreadLocalRandom"
-    },
-    {
-      "type": "type-missing",
       "caller": "io/grpc/CallOptions",
       "target": "java/time/Duration"
     },
@@ -74,6 +69,26 @@
       "type": "type-missing",
       "caller": "kotlin/time/jdk8/InstantConversionsJDK8Kt",
       "target": "java/time/Instant"
+    },
+    {
+      "type": "type-missing",
+      "caller": "protokt/v1/UnmodifiableCollection",
+      "target": "java/util/function/Predicate"
+    },
+    {
+      "type": "type-missing",
+      "caller": "protokt/v1/UnmodifiableList",
+      "target": "java/util/function/UnaryOperator"
+    },
+    {
+      "type": "type-missing",
+      "caller": "protokt/v1/UnmodifiableMap",
+      "target": "java/util/function/BiFunction"
+    },
+    {
+      "type": "type-missing",
+      "caller": "protokt/v1/UnmodifiableMap",
+      "target": "java/util/function/Function"
     }
   ]
 }

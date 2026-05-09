@@ -24,7 +24,7 @@ import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.asTypeName
 import protokt.v1.Collections
-import protokt.v1.SizeCodecs
+import protokt.v1.Sizes
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.reflect.inferClassName
 import kotlin.reflect.KClass
@@ -61,29 +61,27 @@ fun namedCodeBlock(format: String, arguments: Map<String, *>) =
     CodeBlock.builder().addNamed(format, arguments).build()
 
 @Suppress("ktlint:standard:backing-property-naming")
-private val _sizeOf: KFunction1<Int, Int> = SizeCodecs::sizeOf
+private val _sizeOf: KFunction1<Int, Int> = Sizes::sizeOf
 
-val sizeOf = SizeCodecs::class.asTypeName().member(_sizeOf.name)
-
-@Suppress("ktlint:standard:backing-property-naming")
-private val _copyMap: KFunction1<Map<Any, Any>, Map<Any, Any>> = Collections::copyMap
-
-val copyMap = Collections::class.asTypeName().member(_copyMap.name)
+val sizeOf = Sizes::class.asTypeName().member(_sizeOf.name)
 
 @Suppress("ktlint:standard:backing-property-naming")
-private val _copyList: KFunction1<List<Any>, List<Any>> = Collections::copyList
+private val _freezeMap: KFunction1<Map<Any, Any>, Map<Any, Any>> = Collections::freezeMap
 
-val copyList = Collections::class.asTypeName().member(_copyList.name)
-
-@Suppress("ktlint:standard:backing-property-naming")
-private val _unmodifiableMap: KFunction1<Map<Any, Any>, Map<Any, Any>> = Collections::unmodifiableMap
-
-val unmodifiableMap = Collections::class.asTypeName().member(_unmodifiableMap.name)
+val freezeMap = Collections::class.asTypeName().member(_freezeMap.name)
 
 @Suppress("ktlint:standard:backing-property-naming")
-private val _unmodifiableList: KFunction1<List<Any>, List<Any>> = Collections::unmodifiableList
+private val _freezeList: KFunction1<List<Any>, List<Any>> = Collections::freezeList
 
-val unmodifiableList = Collections::class.asTypeName().member(_unmodifiableList.name)
+val freezeList = Collections::class.asTypeName().member(_freezeList.name)
+
+val listBuilderFactory = Collections::class.asTypeName().member("listBuilder")
+
+val mapBuilderFactory = Collections::class.asTypeName().member("mapBuilder")
+
+val listBuilderClassName = ClassName("protokt.v1", "ListBuilder")
+
+val mapBuilderClassName = ClassName("protokt.v1", "MapBuilder")
 
 fun CodeBlock.Builder.endControlFlowWithoutNewline() {
     unindent()

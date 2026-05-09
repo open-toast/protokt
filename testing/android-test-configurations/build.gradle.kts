@@ -29,5 +29,10 @@ localProtokt()
 pureKotlin()
 
 dependencies {
+    testImplementation(libs.androidx.datastore.core)
+    testImplementation(libs.androidx.datastore.core.okio)
+    testImplementation(libs.okio.fakefilesystem)
+    testImplementation(libs.kotlinx.coroutines.test)
     testRuntimeOnly(libs.protobuf.lite)
+    testRuntimeOnly(libs.kotlinx.io)
 }

@@ -16,54 +16,43 @@
 package protokt.v1.buf.validate
 
 import build.buf.protovalidate.Config
-import build.buf.protovalidate.ProtoktEvaluator
-import build.buf.protovalidate.ProtoktEvaluatorBuilder
 import build.buf.protovalidate.ValidationResult
+import build.buf.protovalidate.ValidatorFactory
 import com.google.protobuf.Descriptors.Descriptor
 import protokt.v1.Beta
 import protokt.v1.GeneratedMessage
 import protokt.v1.Message
 import protokt.v1.google.protobuf.RuntimeContext
-import java.util.Collections
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.reflect.full.findAnnotation
 
 @Beta
 class Validator @JvmOverloads constructor(
-    config: Config = Config.newBuilder().build(),
-    private val lazyConvert: Boolean = true
+    config: Config = Config.newBuilder().build()
 ) {
-    private val evaluatorBuilder = ProtoktEvaluatorBuilder(config)
+    private val delegate = ValidatorFactory.newBuilder().withConfig(config).build()
 
-    private val failFast = config.isFailFast
-
-    private val evaluatorsByFullTypeName = ConcurrentHashMap<String, ProtoktEvaluator>()
-    private val descriptors = Collections.newSetFromMap(ConcurrentHashMap<Descriptor, Boolean>())
+    private val descriptorsByFullName = ConcurrentHashMap<String, Descriptor>()
 
     @Volatile
-    private var runtimeContext = RuntimeContext(emptyList())
+    private var runtimeContext = RuntimeContext.EMPTY
 
     fun load(descriptor: Descriptor) {
         doLoad(descriptor)
-        runtimeContext = RuntimeContext(descriptors)
     }
 
     private fun doLoad(descriptor: Descriptor) {
-        descriptors.add(descriptor)
-        evaluatorsByFullTypeName[descriptor.fullName] = evaluatorBuilder.load(descriptor)
+        if (descriptorsByFullName.putIfAbsent(descriptor.fullName, descriptor) == null) {
+            runtimeContext = runtimeContext + descriptor
+        }
         descriptor.nestedTypes.forEach(::doLoad)
     }
 
     fun validate(message: Message): ValidationResult {
-        val result =
-            evaluatorsByFullTypeName
-                .getValue(message::class.findAnnotation<GeneratedMessage>()!!.fullTypeName)
-                .evaluate(message, runtimeContext, failFast, lazyConvert)
-
-        return if (result.isEmpty()) {
-            ValidationResult.EMPTY
-        } else {
-            result.build()
-        }
+        val fullName = message::class.findAnnotation<GeneratedMessage>()!!.fullTypeName
+        val descriptor =
+            descriptorsByFullName[fullName]
+                ?: error("descriptor not loaded for $fullName; call load(descriptor) first")
+        return delegate.validate(ProtoktMessageReflector(message, runtimeContext), descriptor)
     }
 }

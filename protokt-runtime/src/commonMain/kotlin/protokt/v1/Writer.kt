@@ -15,23 +15,47 @@
 
 package protokt.v1
 
+@OnlyForUseByGeneratedProtoCode
 interface Writer {
     fun writeFixed32(i: UInt)
-    fun writeSFixed32(i: Int)
     fun writeUInt32(i: UInt)
-    fun writeSInt32(i: Int)
     fun writeFixed64(l: ULong)
-    fun writeSFixed64(l: Long)
     fun writeUInt64(l: ULong)
-    fun writeSInt64(l: Long)
-    fun write(i: Int)
-    fun write(l: Long)
-    fun write(f: Float)
-    fun write(d: Double)
     fun write(s: String)
-    fun write(b: Boolean)
     fun write(b: ByteArray)
     fun write(b: BytesSlice)
+
+    fun writeSFixed32(i: Int) =
+        writeFixed32(i.toUInt())
+
+    fun writeSFixed64(l: Long) =
+        writeFixed64(l.toULong())
+
+    fun writeSInt32(i: Int) =
+        writeUInt32(((i shl 1) xor (i shr 31)).toUInt())
+
+    fun writeSInt64(l: Long) =
+        writeUInt64(((l shl 1) xor (l shr 63)).toULong())
+
+    fun write(f: Float) =
+        writeFixed32(f.toRawBits().toUInt())
+
+    fun write(d: Double) =
+        writeFixed64(d.toRawBits().toULong())
+
+    fun write(l: Long) =
+        writeUInt64(l.toULong())
+
+    fun write(i: Int) {
+        if (i >= 0) {
+            writeUInt32(i.toUInt())
+        } else {
+            writeUInt64(i.toLong().toULong())
+        }
+    }
+
+    fun write(b: Boolean) =
+        write(if (b) 1 else 0)
 
     fun write(b: Bytes) =
         write(b.value)
@@ -43,11 +67,13 @@ interface Writer {
         write(e.value)
 
     fun write(m: Message) {
-        write(m.messageSize())
+        write(m.serializedSize())
         m.serialize(this)
     }
 
     fun writeUnknown(u: UnknownFieldSet) {
-        u.unknownFields.forEach { (k, v) -> v.write(k, this) }
+        u.forEach { k, v -> v.write(k, this) }
     }
+
+    fun toByteArray(): ByteArray
 }

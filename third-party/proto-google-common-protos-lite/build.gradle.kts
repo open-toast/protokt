@@ -20,8 +20,9 @@ plugins {
     id("protokt.third-party-conventions")
 }
 
-localProtokt()
+publishedLocalProtokt()
 compatibleWithAndroid()
+enableNativeTargets()
 
 protokt {
     generate {
@@ -44,7 +45,7 @@ kotlin {
 }
 
 sourceSets {
-    test {
+    named("test") {
         java {
             srcDir(liteOptionTestSourceDir())
             srcDir(rootProject.file("shared-src/lite-util"))

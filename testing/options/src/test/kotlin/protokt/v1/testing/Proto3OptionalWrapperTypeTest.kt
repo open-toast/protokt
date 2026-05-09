@@ -40,7 +40,7 @@ class Proto3OptionalWrapperTypeTest {
 
         val deserialized = TestProto3OptionalWrapperType.deserialize(serialized)
 
-        assertThat(deserialized.optionalLocalDate).isEqualTo(date)
+        assertThat(deserialized.optionalLocalDate as Any?).isEqualTo(date)
     }
 
     @Test
@@ -49,6 +49,6 @@ class Proto3OptionalWrapperTypeTest {
 
         val deserialized = TestProto3OptionalWrapperType.deserialize(serialized)
 
-        assertThat(deserialized.optionalLocalDate).isNull()
+        assertThat(deserialized.optionalLocalDate as Any?).isNull()
     }
 }

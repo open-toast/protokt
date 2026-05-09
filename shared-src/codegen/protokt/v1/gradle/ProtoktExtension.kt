@@ -27,6 +27,18 @@ open class ProtoktExtension {
         generate.configure()
     }
 
+    internal var codec: Codec = Codec()
+
+    fun codec(configure: Codec.() -> Unit) {
+        codec.configure()
+    }
+
+    internal var collections: Collections = Collections()
+
+    fun collections(configure: Collections.() -> Unit) {
+        collections.configure()
+    }
+
     /**
      * Whether to format the generated code.
      */
@@ -61,6 +73,14 @@ open class ProtoktExtension {
         var grpcKotlinStubs = false
 
         /**
+         * Whether to generate @Grpc-annotated interfaces for use with the
+         * kotlinx-rpc compiler plugin. If enabled, the project must apply the
+         * kotlinx-rpc Gradle plugin and depend on kotlinx-rpc-grpc-client
+         * and/or kotlinx-rpc-grpc-server.
+         */
+        var grpcKrpc = false
+
+        /**
          * Generates only message and enum types.
          */
         fun lite() {
@@ -68,6 +88,7 @@ open class ProtoktExtension {
             descriptors = false
             grpcDescriptors = false
             grpcKotlinStubs = false
+            grpcKrpc = false
         }
 
         /**
@@ -79,6 +100,19 @@ open class ProtoktExtension {
             descriptors = false
             grpcDescriptors = true
             grpcKotlinStubs = false
+            grpcKrpc = false
+        }
+
+        /**
+         * Generates message and enum types, descriptors, gRPC descriptors, and
+         * Kotlin coroutine-based implementations.
+         */
+        fun grpcKotlin() {
+            types = true
+            descriptors = true
+            grpcDescriptors = true
+            grpcKotlinStubs = true
+            grpcKrpc = false
         }
 
         /**
@@ -90,16 +124,78 @@ open class ProtoktExtension {
             descriptors = false
             grpcDescriptors = true
             grpcKotlinStubs = true
+            grpcKrpc = false
         }
 
         /**
-         * Generates all variations of code.
+         * Generates message and enum types and @Grpc-annotated service
+         * interfaces for use with the kotlinx-rpc compiler plugin.
          */
-        fun all() {
+        fun grpcKrpcLite() {
             types = true
-            descriptors = true
-            grpcDescriptors = true
-            grpcKotlinStubs = true
+            descriptors = false
+            grpcDescriptors = false
+            grpcKotlinStubs = false
+            grpcKrpc = true
         }
+    }
+
+    class Codec {
+        internal var selection: CodecSelection = CodecSelection.OPTIMAL
+
+        fun optimal() {
+            selection = CodecSelection.OPTIMAL
+        }
+
+        fun optimalKmp() {
+            selection = CodecSelection.OPTIMAL_KMP
+        }
+
+        fun optimalJvm() {
+            selection = CodecSelection.OPTIMAL_JVM
+        }
+
+        fun optimalJvmLite() {
+            selection = CodecSelection.OPTIMAL_JVM_LITE
+        }
+
+        fun protobufJava() {
+            selection = CodecSelection.PROTOBUF_JAVA
+        }
+
+        fun protobufJavalite() {
+            selection = CodecSelection.PROTOBUF_JAVALITE
+        }
+
+        fun minimal() {
+            selection = CodecSelection.MINIMAL
+        }
+    }
+
+    enum class CodecSelection {
+        OPTIMAL,
+        OPTIMAL_KMP,
+        OPTIMAL_JVM,
+        OPTIMAL_JVM_LITE,
+        PROTOBUF_JAVA,
+        PROTOBUF_JAVALITE,
+        MINIMAL
+    }
+
+    class Collections {
+        internal var selection: CollectionsSelection = CollectionsSelection.PERSISTENT
+
+        fun persistent() {
+            selection = CollectionsSelection.PERSISTENT
+        }
+
+        fun minimal() {
+            selection = CollectionsSelection.MINIMAL
+        }
+    }
+
+    enum class CollectionsSelection {
+        PERSISTENT,
+        MINIMAL
     }
 }

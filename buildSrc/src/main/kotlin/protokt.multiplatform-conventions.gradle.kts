@@ -13,14 +13,24 @@
  * limitations under the License.
  */
 
+import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
+
 plugins {
     `kotlin-multiplatform`
     id("protokt.common-conventions")
+    `java-base` // protobuf-gradle-plugin requires Java source sets to discover proto directories
 }
+
+the<SourceSetContainer>().create("main")
+the<SourceSetContainer>().create("test")
 
 kotlin {
     jvm {
-        withJava()
+        compilerOptions {
+            // do not generate DefaultImpls objects since we do not target < JVM 1.8
+            // https://blog.jetbrains.com/kotlin/2020/07/kotlin-1-4-m3-generating-default-methods-in-interfaces
+            jvmDefault.set(JvmDefaultMode.NO_COMPATIBILITY)
+        }
     }
 
     js(IR) {
@@ -51,5 +61,4 @@ tasks.named<Test>("jvmTest") {
     useJUnitPlatform()
 }
 
-pureKotlin()
 configureJvmToolchain()

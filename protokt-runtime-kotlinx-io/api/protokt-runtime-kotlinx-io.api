@@ -1,0 +1,10 @@
+public final class protokt/v1/KotlinxIoExtensionsKt {
+	public static final fun deserialize (Lprotokt/v1/Deserializer;Lkotlinx/io/Source;)Lprotokt/v1/Message;
+	public static final fun serialize (Lprotokt/v1/Message;Lkotlinx/io/Sink;)V
+}
+
+public abstract interface class protokt/v1/StreamingCodec : protokt/v1/Codec {
+	public abstract fun reader (Lkotlinx/io/Source;)Lprotokt/v1/Reader;
+	public abstract fun serialize (Lprotokt/v1/Message;Lkotlinx/io/Sink;)V
+}
+

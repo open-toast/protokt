@@ -20,8 +20,9 @@ plugins {
     id("protokt.third-party-conventions")
 }
 
-localProtokt()
+publishedLocalProtokt()
 compatibleWithAndroid()
+enableNativeTargets()
 
 protokt {
     generate {

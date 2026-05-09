@@ -15,7 +15,7 @@
 
 package protokt.v1.google.protobuf
 
-import protokt.v1.Collections.unmodifiableList
+import protokt.v1.Collections.freezeList
 import kotlin.jvm.JvmStatic
 
 class FileDescriptor private constructor(
@@ -25,17 +25,17 @@ class FileDescriptor private constructor(
     val messageTypes =
         proto.messageType.mapIndexed { idx, proto ->
             Descriptor(proto, this, idx)
-        }.let(::unmodifiableList)
+        }.let(::freezeList)
 
     val enumTypes =
         proto.enumType.mapIndexed { idx, proto ->
             EnumDescriptor(proto, this, idx)
-        }.let(::unmodifiableList)
+        }.let(::freezeList)
 
     val services =
         proto.service.mapIndexed { idx, proto ->
             ServiceDescriptor(proto, this, idx)
-        }.let(::unmodifiableList)
+        }.let(::freezeList)
 
     companion object {
         @JvmStatic
@@ -54,7 +54,7 @@ class FileDescriptor private constructor(
 
             return FileDescriptor(
                 FileDescriptorProto.deserialize(descriptorBytes),
-                unmodifiableList(dependencies)
+                freezeList(dependencies)
             )
         }
     }
@@ -81,12 +81,12 @@ class Descriptor private constructor(
     val nestedTypes =
         proto.nestedType.mapIndexed { idx, proto ->
             Descriptor(proto, file, idx, this)
-        }.let(::unmodifiableList)
+        }.let(::freezeList)
 
     val enumTypes =
         proto.enumType.mapIndexed { idx, proto ->
             EnumDescriptor(proto, file, idx)
-        }.let(::unmodifiableList)
+        }.let(::freezeList)
 }
 
 class EnumDescriptor internal constructor(

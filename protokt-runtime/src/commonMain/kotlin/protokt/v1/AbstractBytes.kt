@@ -15,6 +15,7 @@
 
 package protokt.v1
 
+@OnlyForUseByGeneratedProtoCode
 abstract class AbstractBytes internal constructor(
     internal val value: ByteArray
 ) {

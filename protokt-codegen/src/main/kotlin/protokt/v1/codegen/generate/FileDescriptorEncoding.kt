@@ -15,7 +15,7 @@
 
 package protokt.v1.codegen.generate
 
-import com.google.protobuf.DescriptorProtos.FileDescriptorProto
+import protokt.v1.google.protobuf.FileDescriptorProto
 
 // For the Java implementation of descriptor encoding, see:
 // https://github.com/protocolbuffers/protobuf/blob/5e84a6169cf0f9716c9285c95c860bcb355dbdc1/src/google/protobuf/compiler/java/java_shared_code_generator.cc#L119
@@ -45,7 +45,7 @@ private const val BYTES_PER_PART = BYTES_PER_LINE * LINES_PER_PART
 // embedded raw, which is what we want.
 fun encodeFileDescriptor(fileDescriptorProto: FileDescriptorProto): List<List<String>> {
     val parts = mutableListOf<MutableList<String>>()
-    val bytes = fileDescriptorProto.toByteArray()
+    val bytes = fileDescriptorProto.serialize()
     for (i in bytes.indices step BYTES_PER_LINE) {
         if (i % BYTES_PER_PART == 0) {
             parts.add(mutableListOf())
@@ -59,12 +59,19 @@ private fun escape(bytes: Sequence<Byte>) =
     bytes.joinToString("") {
         when (val c = it.toInt().toChar()) {
             '\n' -> "\\n"
+
             '\r' -> "\\r"
+
             '\t' -> "\\t"
+
             '\"' -> "\\\""
+
             '\'' -> "\\'"
+
             '\\' -> "\\\\"
+
             '\b' -> "\\b"
+
             '$' -> "\\\$"
 
             // All other characters are representable directly in Kotlin source.

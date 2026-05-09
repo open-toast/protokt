@@ -14,11 +14,19 @@
  */
 
 import org.gradle.api.distribution.plugins.DistributionPlugin.TASK_INSTALL_NAME
+import protokt.v1.gradle.protokt
 
 plugins {
     id("protokt.jvm-conventions")
     application
 }
+
+localProtokt(false)
+
+protokt {
+    formatOutput = false
+}
+
 
 dependencies {
     implementation(project(":protokt-protovalidate"))
@@ -48,16 +56,13 @@ val installConformance =
         )
     }
 
-val lazyBufImpl: String by project
-
 val conformance =
     tasks.register<Exec>("conformance") {
         dependsOn(TASK_INSTALL_NAME, installConformance)
         description = "Runs protovalidate conformance tests."
         environment(
             "JAVA_OPTS" to "-Xmx64M",
-            "GOMEMLIMIT" to "40MiB",
-            "LAZY_BUF_IMPL" to lazyBufImpl
+            "GOMEMLIMIT" to "40MiB"
         )
         commandLine(
             conformanceExecutable.absolutePath,
@@ -69,10 +74,9 @@ val conformance =
         )
     }
 
-// Unstable in CI.
-// Run locally with `./gradlew :testing:protovalidate-conformance:conformance`
-// tasks.test { dependsOn(conformance) }
+tasks.test { dependsOn(conformance) }
 
 application {
     mainClass.set("protokt.v1.buf.validate.conformance.Main")
+    applicationDefaultJvmArgs = emptyList()
 }

@@ -23,7 +23,6 @@ import protokt.v1.Fixed64Val
 import protokt.v1.GeneratedProperty
 import protokt.v1.LengthDelimitedVal
 import protokt.v1.Message
-import protokt.v1.UnknownFieldSet
 import protokt.v1.VarintVal
 import java.nio.charset.StandardCharsets
 import java.util.concurrent.ConcurrentHashMap
@@ -99,7 +98,7 @@ internal object ProtoktReflect {
     }
 
     private fun getUnknownField(field: FieldDescriptor, message: Message) =
-        getUnknownFields(message)[field.number.toUInt()]?.let { value ->
+        message.unknownFields[field.number.toUInt()]?.let { value ->
             when {
                 value.varint.isNotEmpty() ->
                     value.varint
@@ -146,14 +145,3 @@ internal object ProtoktReflect {
     fun getField(message: Message, field: FieldDescriptor): Any? =
         getReflectedGettersByClass(message::class)(field, message)
 }
-
-internal fun getUnknownFields(message: Message) =
-    message::class
-        .declaredMemberProperties
-        .firstOrNull { it.returnType.classifier == UnknownFieldSet::class }
-        .let {
-            @Suppress("UNCHECKED_CAST")
-            it as KProperty1<Message, UnknownFieldSet>
-        }
-        .get(message)
-        .unknownFields

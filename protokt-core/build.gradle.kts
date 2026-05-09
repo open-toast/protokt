@@ -20,8 +20,9 @@ plugins {
     id("protokt.multiplatform-published-conventions")
 }
 
-localProtokt()
+publishedLocalProtokt()
 compatibleWithAndroid()
+enableNativeTargets()
 
 spotless {
     kotlin {
@@ -41,10 +42,13 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(project(":extensions:protokt-extensions-api"))
                 api(project(":protokt-core-lite"))
             }
         }
+    }
+
+    compilerOptions {
+        freeCompilerArgs.add("-opt-in=protokt.v1.OnlyForUseByGeneratedProtoCode")
     }
 }
 

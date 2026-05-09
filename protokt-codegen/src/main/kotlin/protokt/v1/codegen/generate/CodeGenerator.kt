@@ -49,17 +49,16 @@ internal object CodeGenerator {
                         )
                     )
                 }
+
             is Enum ->
                 withEnumName(type.className) {
                     listOfNotNull(generateEnum(type, ctx))
                 }
+
             is Service ->
                 withServiceName(type.name) {
-                    generateService(
-                        type,
-                        ctx,
-                        ctx.info.context.kotlinTarget
-                    )
+                    generateService(type, ctx, ctx.info.context.kotlinTarget) +
+                        listOfNotNull(generateGrpcKrpcService(type, ctx))
                 }
         }
 }

@@ -28,6 +28,7 @@ apply(plugin = "net.vivin.gradle-semantic-build-versioning")
 rootProject.name = "protokt"
 
 include(
+    "protokt-bootstrap",
     "protokt-codegen",
     "protokt-core",
     "protokt-core-lite",
@@ -35,7 +36,12 @@ include(
     "protokt-protovalidate",
     "protokt-reflect",
     "protokt-runtime",
+    "protokt-runtime-kotlinx-io",
+    "protokt-runtime-protobuf-java",
+    "protokt-runtime-protobufjs",
+    "protokt-runtime-persistent-collections",
     "protokt-runtime-grpc",
+    "protokt-runtime-grpc-krpc",
     "protokt-runtime-grpc-lite",
 
     "grpc-kotlin-shim",
@@ -50,7 +56,6 @@ include(
 
     "extensions",
     "extensions:protokt-extensions",
-    "extensions:protokt-extensions-api",
     "extensions:protokt-extensions-lite",
 
     "testing:android",
@@ -61,6 +66,7 @@ include(
     "testing:conformance:jvm",
     "testing:conformance:runner",
     "testing:interop",
+    "testing:persistent-collections-testing",
     "testing:multiplatform-testing",
     "testing:options",
     "testing:options-api",
@@ -88,5 +94,6 @@ include(
     "third-party:proto-google-common-protos-extensions-lite",
     "third-party:proto-google-common-protos-grpc",
     "third-party:proto-google-common-protos-grpc-kotlin",
+    "third-party:proto-google-common-protos-grpc-krpc",
     "third-party:proto-google-common-protos-lite"
 )

@@ -18,19 +18,20 @@ package protokt.v1.codegen.util
 import com.google.common.base.CaseFormat.LOWER_CAMEL
 import com.google.common.base.CaseFormat.LOWER_UNDERSCORE
 import com.google.common.base.CaseFormat.UPPER_CAMEL
-import com.google.protobuf.DescriptorProtos.DescriptorProto
-import com.google.protobuf.DescriptorProtos.FeatureSet
-import com.google.protobuf.DescriptorProtos.FeatureSet.FieldPresence
-import com.google.protobuf.DescriptorProtos.FieldDescriptorProto
-import com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Label.LABEL_OPTIONAL
-import com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Label.LABEL_REPEATED
 import com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Type
-import com.google.protobuf.DescriptorProtos.FileDescriptorProto
-import com.google.protobuf.DescriptorProtos.OneofDescriptorProto
 import com.squareup.kotlinpoet.ClassName
-import com.toasttab.protokt.v1.ProtoktProtos
-import protokt.v1.codegen.generate.Wrapper.wrapperRequiresNonNullOptionForNonNullity
+import protokt.v1.codegen.generate.Wrapper.wrapped
 import protokt.v1.codegen.util.ErrorContext.withFieldName
+import protokt.v1.google.protobuf.DescriptorProto
+import protokt.v1.google.protobuf.FeatureSet
+import protokt.v1.google.protobuf.FeatureSet.FieldPresence
+import protokt.v1.google.protobuf.FieldDescriptorProto
+import protokt.v1.google.protobuf.FieldDescriptorProto.Label.OPTIONAL
+import protokt.v1.google.protobuf.FieldDescriptorProto.Label.REPEATED
+import protokt.v1.google.protobuf.FileDescriptorProto
+import protokt.v1.google.protobuf.OneofDescriptorProto
+import protokt.v1.oneof
+import protokt.v1.property
 import protokt.v1.reflect.FieldType
 import protokt.v1.reflect.typeName
 
@@ -45,13 +46,13 @@ internal class FieldParser(
         val generatedOneofIndices = mutableSetOf<Int>()
         val fields = mutableListOf<Field>()
 
-        desc.fieldList.forEachIndexed { idx, t ->
-            withFieldName(t.name) {
-                if (t.type != Type.TYPE_GROUP) {
-                    t.oneofIndex.takeIf { t.hasOneofIndex() }?.let { oneofIndex ->
+        desc.field.forEachIndexed { idx, t ->
+            withFieldName(t.name.orEmpty()) {
+                if (t.type != FieldDescriptorProto.Type.GROUP) {
+                    t.oneofIndex?.let { oneofIndex ->
                         if (oneofIndex !in generatedOneofIndices) {
                             generatedOneofIndices.add(oneofIndex)
-                            fields.add(toOneof(idx, desc, desc.getOneofDecl(oneofIndex), t, fields))
+                            fields.add(toOneof(idx, desc, desc.oneofDecl[oneofIndex], t, fields))
                         }
                     } ?: fields.add(toStandard(idx, t))
                 }
@@ -68,12 +69,12 @@ internal class FieldParser(
         field: FieldDescriptorProto,
         fields: List<Field>
     ): Field {
-        if (field.proto3Optional) {
+        if (field.proto3Optional == true) {
             return toStandard(idx, field)
         }
 
         val oneofFieldDescriptors =
-            desc.fieldList.filter { it.hasOneofIndex() && it.oneofIndex == field.oneofIndex }
+            desc.field.filter { it.oneofIndex != null && it.oneofIndex == field.oneofIndex }
 
         val oneofStdFields =
             oneofFieldDescriptors.mapIndexed { fdpIdx, fdp ->
@@ -85,17 +86,17 @@ internal class FieldParser(
                 it.fieldName to LOWER_CAMEL.to(UPPER_CAMEL, it.fieldName)
             }
 
-        val name = LOWER_UNDERSCORE.to(UPPER_CAMEL, oneof.name)
+        val name = LOWER_UNDERSCORE.to(UPPER_CAMEL, oneof.name.orEmpty())
 
         return Oneof(
             name = name,
-            className = ClassName(ctx.kotlinPackage, enclosingMessages + desc.name + name),
+            className = ClassName(ctx.kotlinPackage, enclosingMessages + desc.name.orEmpty() + name),
             fieldTypeNames = fieldTypeNames,
-            fieldName = LOWER_UNDERSCORE.to(LOWER_CAMEL, oneof.name),
+            fieldName = LOWER_UNDERSCORE.to(LOWER_CAMEL, oneof.name.orEmpty()),
             fields = oneofStdFields,
             options = OneofOptions(
-                oneof.options,
-                oneof.options.getExtension(ProtoktProtos.oneof)
+                oneof.options ?: protokt.v1.google.protobuf.OneofOptions {},
+                oneof.options?.oneof ?: protokt.v1.OneofOptions {}
             ),
             // index relative to all oneofs in this message
             index = idx - fields.filterIsInstance<StandardField>().count()
@@ -107,9 +108,9 @@ internal class FieldParser(
         fdp: FieldDescriptorProto,
         withinOneof: Boolean = false
     ): StandardField {
-        val fieldType = FieldType.from(fdp.type)
-        val protoktOptions = fdp.options.getExtension(ProtoktProtos.property)
-        val repeated = fdp.label == LABEL_REPEATED
+        val fieldType = FieldType.from(Type.forNumber((fdp.type ?: FieldDescriptorProto.Type.STRING).value))
+        val protoktOptions = fdp.options?.property ?: protokt.v1.FieldOptions {}
+        val repeated = fdp.label == REPEATED
         val mapEntry = mapEntry(fdp, protoktOptions)
         if (mapEntry == null) {
             require(protoktOptions.keyWrap.isEmpty()) {
@@ -125,24 +126,25 @@ internal class FieldParser(
         }
         val optional = optional(fdp)
         val packed = packed(fieldType, fdp)
+        val number = fdp.number ?: 0
         val tag =
             if (repeated && packed) {
-                Tag.Packed(fdp.number)
+                Tag.Packed(number)
             } else {
-                Tag.Unpacked(fdp.number, fieldType.wireType)
+                Tag.Unpacked(number, fieldType.wireType)
             }
 
         val result = StandardField(
-            number = fdp.number,
+            number = number,
             tag = tag,
             type = fieldType,
             repeated = repeated,
             optional = !withinOneof && optional,
             packed = packed,
             mapEntry = mapEntry,
-            fieldName = camelCaseFieldName(fdp.name),
+            fieldName = camelCaseFieldName(fdp.name.orEmpty()),
             options = FieldOptions(
-                fdp.options,
+                fdp.options ?: protokt.v1.google.protobuf.FieldOptions {},
                 protoktOptions,
                 when {
                     keyWrap != null && idx == 0 -> keyWrap
@@ -150,8 +152,8 @@ internal class FieldParser(
                     else -> protoktOptions.wrap.takeIf { it.isNotEmpty() }
                 }
             ),
-            protoTypeName = fdp.typeName,
-            className = ClassName.bestGuess(typeName(fdp.typeName, fieldType)),
+            protoTypeName = fdp.typeName.orEmpty(),
+            className = ClassName.bestGuess(typeName(fdp.typeName.orEmpty(), fieldType)),
             index = idx
         )
 
@@ -162,16 +164,16 @@ internal class FieldParser(
         return result
     }
 
-    private fun mapEntry(fdp: FieldDescriptorProto, options: ProtoktProtos.FieldOptions) =
-        if (fdp.label == LABEL_REPEATED && fdp.type == Type.TYPE_MESSAGE) {
-            findMapEntry(ctx.fdp, fdp.typeName)
-                ?.takeIf { it.options.mapEntry }
+    private fun mapEntry(fdp: FieldDescriptorProto, options: protokt.v1.FieldOptions) =
+        if (fdp.label == REPEATED && fdp.type == FieldDescriptorProto.Type.MESSAGE) {
+            findMapEntry(ctx.fdp, fdp.typeName.orEmpty())
+                ?.takeIf { it.options?.mapEntry == true }
                 ?.let { entry ->
                     MessageParser(
                         ctx,
                         -1,
                         entry,
-                        enclosingMessages + desc.name,
+                        enclosingMessages + desc.name.orEmpty(),
                         options.keyWrap.takeIf { it.isNotEmpty() },
                         options.valueWrap.takeIf { it.isNotEmpty() }
                     ).toMessage()
@@ -188,11 +190,11 @@ internal class FieldParser(
         val (typeList, typeName) =
             if (parent == null) {
                 Pair(
-                    fdp.messageTypeList.filterNotNull(),
-                    name.removePrefix(".${fdp.`package`}.")
+                    fdp.messageType,
+                    name.removePrefix(".${fdp.`package`.orEmpty()}.")
                 )
             } else {
-                parent.nestedTypeList.filterNotNull() to name
+                parent.nestedType to name
             }
 
         typeName.indexOf('.').let { idx ->
@@ -209,31 +211,31 @@ internal class FieldParser(
     }
 
     private fun optional(fdp: FieldDescriptorProto) =
-        fdp.label != LABEL_REPEATED &&
+        fdp.label != REPEATED &&
             when {
-                ctx.proto2 -> fdp.label == LABEL_OPTIONAL
-                ctx.proto3 -> fdp.proto3Optional
-                ctx.edition2023 -> optional(ctx.fileOptions.default.features, fdp.options.features)
+                ctx.proto2 -> fdp.label == OPTIONAL
+                ctx.proto3 -> fdp.proto3Optional == true
+                ctx.edition2023 -> optional(ctx.fileOptions.default.features, fdp.options?.features)
                 else -> error("unexpected edition/syntax")
             }
 
-    private fun optional(fileFeatures: FeatureSet, fieldFeatures: FeatureSet) =
-        if (fileFeatures.fieldPresence == FieldPresence.EXPLICIT || !fileFeatures.hasFieldPresence()) {
-            fieldFeatures.fieldPresence !in setOf(FieldPresence.IMPLICIT, FieldPresence.LEGACY_REQUIRED)
+    private fun optional(fileFeatures: FeatureSet?, fieldFeatures: FeatureSet?) =
+        if (fileFeatures?.fieldPresence == FieldPresence.EXPLICIT || fileFeatures?.fieldPresence == null) {
+            fieldFeatures?.fieldPresence !in setOf(FieldPresence.IMPLICIT, FieldPresence.LEGACY_REQUIRED)
         } else {
-            fieldFeatures.fieldPresence == FieldPresence.EXPLICIT
+            fieldFeatures?.fieldPresence == FieldPresence.EXPLICIT
         }
 
     private fun packed(type: FieldType, fdp: FieldDescriptorProto) =
         type.packable &&
             // marginal support for proto2
             (
-                (ctx.proto2 && fdp.options.packed) ||
+                (ctx.proto2 && fdp.options?.packed == true) ||
                     // packed if: proto3 and `packed` isn't set, or proto3
                     // and `packed` is true. If proto3, only explicitly
                     // setting `packed` to false disables packing, since
                     // the default value for an unset boolean is false.
-                    (ctx.proto3 && (!fdp.options.hasPacked() || (fdp.options.hasPacked() && fdp.options.packed)))
+                    (ctx.proto3 && (fdp.options?.packed == null || fdp.options?.packed == true))
                 )
 
     private fun validateNonNullOption(
@@ -254,7 +256,7 @@ internal class FieldParser(
 
         val typeName =
             when (field.type) {
-                FieldType.Enum, FieldType.Message -> fdp.typeName
+                FieldType.Enum, FieldType.Message -> fdp.typeName.orEmpty()
                 else -> field.type.typeName()
             }
 
@@ -267,8 +269,8 @@ internal class FieldParser(
                 "and is inapplicable to oneof field $typeName"
         }
 
-        require((field.type == FieldType.Message && !field.repeated) || field.wrapperRequiresNonNullOptionForNonNullity(ctx)) {
-            "(protokt.property).generate_non_null_accessor is only applicable to message types " +
+        require((field.type == FieldType.Message && !field.repeated) || field.wrapped) {
+            "(protokt.property).generate_non_null_accessor is only applicable to message types or wrapped types " +
                 "and is inapplicable to non-message " +
                 when {
                     field.mapEntry != null ->
@@ -309,6 +311,7 @@ internal class FieldParser(
                     }
                     capNext = false
                 }
+
                 char.isUpperCase() -> {
                     if (result.isEmpty() && !capNext) {
                         result.append(char.lowercaseChar())
@@ -317,10 +320,12 @@ internal class FieldParser(
                     }
                     capNext = false
                 }
+
                 char.isDigit() -> {
                     result.append(char)
                     capNext = true
                 }
+
                 else -> {
                     capNext = true
                 }

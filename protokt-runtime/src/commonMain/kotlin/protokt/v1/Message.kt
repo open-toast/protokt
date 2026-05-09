@@ -16,7 +16,9 @@
 package protokt.v1
 
 expect interface Message {
-    fun messageSize(): Int
+    val unknownFields: UnknownFieldSet
+
+    fun serializedSize(): Int
 
     fun serialize(writer: Writer)
 

@@ -15,24 +15,71 @@
 
 package protokt.v1
 
+@OnlyForUseByGeneratedProtoCode
 interface Reader {
+    val lastTag: UInt
+
     fun readBytes(): Bytes
     fun readBytesSlice(): BytesSlice
-    fun readDouble(): Double
     fun readFixed32(): UInt
     fun readFixed64(): ULong
-    fun readFloat(): Float
-    fun readInt64(): Long
-    fun readSFixed32(): Int
-    fun readSFixed64(): Long
-    fun readSInt32(): Int
-    fun readSInt64(): Long
     fun readString(): String
     fun readUInt64(): ULong
+
+    fun readDouble(): Double =
+        Double.fromBits(readFixed64().toLong())
+
+    fun readFloat(): Float =
+        Float.fromBits(readFixed32().toInt())
+
+    fun readInt64(): Long =
+        readUInt64().toLong()
+
+    fun readSFixed32(): Int =
+        readFixed32().toInt()
+
+    fun readSFixed64(): Long =
+        readFixed64().toLong()
+
+    fun readSInt32(): Int {
+        val n = readInt32()
+        return (n ushr 1) xor -(n and 1)
+    }
+
+    fun readSInt64(): Long {
+        val n = readInt64()
+        return (n ushr 1) xor -(n and 1)
+    }
     fun readTag(): UInt
-    fun readUnknown(): UnknownField
     fun readRepeated(packed: Boolean, acc: Reader.() -> Unit)
     fun <T : Message> readMessage(m: Deserializer<T>): T
+
+    fun readUnknown(): UnknownField {
+        val tag = lastTag.toInt()
+        val fieldNumber = WireFormat.getTagFieldNumber(tag).toUInt()
+        return when (WireFormat.getTagWireType(tag)) {
+            WireFormat.WIRETYPE_VARINT ->
+                UnknownField.varint(fieldNumber, readInt64())
+
+            WireFormat.WIRETYPE_FIXED64 ->
+                UnknownField.fixed64(fieldNumber, readFixed64())
+
+            WireFormat.WIRETYPE_LENGTH_DELIMITED ->
+                UnknownField.lengthDelimited(fieldNumber, readBytes().value)
+
+            WireFormat.WIRETYPE_FIXED32 ->
+                UnknownField.fixed32(fieldNumber, readFixed32())
+
+            WireFormat.WIRETYPE_START_GROUP ->
+                throw UnsupportedOperationException("WIRETYPE_START_GROUP")
+
+            WireFormat.WIRETYPE_END_GROUP ->
+                throw UnsupportedOperationException("WIRETYPE_END_GROUP")
+
+            else ->
+                error("Unrecognized wire type")
+        }
+    }
 
     // protobufjs:
     // Protobuf allows int64 values for bool but reader.bool() reads an int32.
@@ -51,6 +98,6 @@ interface Reader {
     fun readUInt32(): UInt =
         readInt32().toUInt()
 
-    fun <T : Enum> readEnum(e: EnumReader<T>): T =
-        e.from(readInt32())
+    fun <T : Enum> readEnum(e: EnumDeserializer<T>): T =
+        e.deserialize(readInt32())
 }

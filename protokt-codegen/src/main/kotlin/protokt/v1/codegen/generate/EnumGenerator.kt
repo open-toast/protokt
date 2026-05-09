@@ -15,15 +15,14 @@
 
 package protokt.v1.codegen.generate
 
-import com.google.protobuf.DescriptorProtos.DescriptorProto.ENUM_TYPE_FIELD_NUMBER
-import com.google.protobuf.DescriptorProtos.EnumDescriptorProto.VALUE_FIELD_NUMBER
+import com.google.protobuf.DescriptorProtos
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
-import protokt.v1.EnumReader
+import protokt.v1.EnumDeserializer
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Deprecation.handleDeprecation
 import protokt.v1.codegen.util.Enum
@@ -39,14 +38,14 @@ private class EnumGenerator(
     val e: Enum,
     val ctx: Context
 ) {
-    private val enumPath = listOf(ENUM_TYPE_FIELD_NUMBER, e.index)
+    private val enumPath = listOf(DescriptorProtos.DescriptorProto.ENUM_TYPE_FIELD_NUMBER, e.index)
 
     fun generate() =
         TypeSpec.classBuilder(e.className).apply {
             addModifiers(KModifier.SEALED)
             superclass(protokt.v1.Enum::class)
             addKDoc()
-            handleDeprecation(e.options.default.deprecated, e.options.protokt.deprecationMessage)
+            handleDeprecation(e.options.default.deprecated == true, e.options.protokt.deprecationMessage)
             addConstructor()
             addEnumValues()
             addDeserializer()
@@ -60,7 +59,7 @@ private class EnumGenerator(
 
     private fun TypeSpec.Builder.addKDoc(value: Enum.Value) =
         apply {
-            baseLocation(ctx, enumPath + listOf(VALUE_FIELD_NUMBER, value.index))
+            baseLocation(ctx, enumPath + listOf(DescriptorProtos.EnumDescriptorProto.VALUE_FIELD_NUMBER, value.index))
                 ?.cleanDocumentation()
                 ?.let { addKdoc(formatDoc(it)) }
         }
@@ -84,7 +83,7 @@ private class EnumGenerator(
                     addKDoc(it)
                     addSuperclassConstructorParameter(it.number.toString())
                     addSuperclassConstructorParameter("\"${it.valueName}\"")
-                    handleDeprecation(it.options.default.deprecated, it.options.protokt.deprecationMessage)
+                    handleDeprecation(it.options.default.deprecated == true, it.options.protokt.deprecationMessage)
                 }.build()
             }
         )
@@ -106,12 +105,12 @@ private class EnumGenerator(
         addType(
             TypeSpec.companionObjectBuilder(e.deserializerClassName.simpleName)
                 .addSuperinterface(
-                    EnumReader::class
+                    EnumDeserializer::class
                         .asTypeName()
                         .parameterizedBy(e.className)
                 )
                 .addFunction(
-                    buildFunSpec("from") {
+                    buildFunSpec("deserialize") {
                         addModifiers(KModifier.OVERRIDE)
                         returns(e.className)
                         addParameter("value", Int::class)

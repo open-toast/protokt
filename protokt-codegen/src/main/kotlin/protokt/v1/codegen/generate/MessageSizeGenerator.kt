@@ -18,26 +18,39 @@ package protokt.v1.codegen.generate
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec
+import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
+import protokt.v1.Bytes
+import protokt.v1.LazyConvertingList
+import protokt.v1.LazyConvertingMap
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.generate.Wrapper.interceptFieldSizeof
 import protokt.v1.codegen.generate.Wrapper.interceptSizeof
+import protokt.v1.codegen.generate.Wrapper.interceptTypeName
 import protokt.v1.codegen.generate.Wrapper.interceptValueAccess
+import protokt.v1.codegen.generate.Wrapper.wrapped
 import protokt.v1.codegen.util.Message
 import protokt.v1.codegen.util.Oneof
 import protokt.v1.codegen.util.SizeFn
 import protokt.v1.codegen.util.StandardField
 import protokt.v1.codegen.util.sizeFn
+import protokt.v1.reflect.FieldType
 
-internal const val MESSAGE_SIZE = "`\$messageSize`"
+internal const val SERIALIZED_SIZE = "__serializedSize"
 
-internal fun generateMessageSize(msg: Message, properties: List<PropertySpec>, ctx: Context) =
-    MessageSizeGenerator(msg, properties, ctx).generate()
+internal fun generateMessageSize(
+    msg: Message,
+    properties: List<PropertySpec>,
+    ctx: Context,
+    propertyInfoList: List<PropertyInfo> = emptyList()
+) =
+    MessageSizeGenerator(msg, properties, ctx, propertyInfoList).generate()
 
 private class MessageSizeGenerator(
     private val msg: Message,
     private val properties: List<PropertySpec>,
-    private val ctx: Context
+    private val ctx: Context,
+    private val propertyInfoList: List<PropertyInfo>
 ) {
     private val resultVarName =
         run {
@@ -48,17 +61,38 @@ private class MessageSizeGenerator(
             name
         }
 
+    private fun propertyInfoForField(f: StandardField): PropertyInfo? =
+        propertyInfoList.firstOrNull { it.name == f.fieldName }
+
     fun generate(): PropertySpec {
         val fieldSizes =
             msg.mapFields(
                 ctx,
                 properties,
                 false,
-                { std, _ -> CodeBlock.of("$resultVarName·+=·%L", sizeOf(std, ctx)) },
+                { std, p ->
+                    val propInfo = propertyInfoForField(std)
+                    when {
+                        propInfo?.repeatedCachingInfo != null ->
+                            CodeBlock.of(
+                                "$resultVarName·+=·%L",
+                                sizeOfRepeatedCaching(std, p, propInfo.repeatedCachingInfo)
+                            )
+
+                        propInfo?.mapCachingInfo != null ->
+                            CodeBlock.of(
+                                "$resultVarName·+=·%L",
+                                sizeOfMapCaching(std, p, propInfo.mapCachingInfo)
+                            )
+
+                        else ->
+                            CodeBlock.of("$resultVarName·+=·%L", sizeOf(std, ctx, property = p))
+                    }
+                },
                 { oneof, std, _ -> sizeofOneof(oneof, std) }
             )
 
-        return PropertySpec.builder(MESSAGE_SIZE, Int::class)
+        return PropertySpec.builder(SERIALIZED_SIZE, Int::class)
             .addModifiers(KModifier.PRIVATE)
             .delegate(
                 buildCodeBlock {
@@ -82,25 +116,98 @@ private class MessageSizeGenerator(
     }
 
     private fun sizeofOneof(o: Oneof, f: StandardField) =
-        CodeBlock.of(
-            "$resultVarName·+=·%L",
-            sizeOf(
-                f,
-                ctx,
-                interceptSizeof(
+        if (f.type == FieldType.String && !f.wrapped) {
+            buildCodeBlock {
+                add(
+                    "$resultVarName·+=·%M(${f.tag}u) + %L",
+                    sizeOf,
+                    f.sizeOf(CodeBlock.of("%N.%N.wireValue()", o.fieldName, "_${f.fieldName}"))
+                )
+            }
+        } else {
+            CodeBlock.of(
+                "$resultVarName·+=·%L",
+                sizeOf(
                     f,
-                    CodeBlock.of("%N.%N", o.fieldName, f.fieldName),
-                    ctx
+                    ctx,
+                    interceptSizeof(
+                        f,
+                        CodeBlock.of("%N.%N", o.fieldName, f.fieldName),
+                        ctx
+                    )
                 )
             )
-        )
+        }
+
+    private fun repeatedWireTypeName(info: RepeatedCachingInfo) =
+        when (info) {
+            is RepeatedCachingInfo.PlainString -> Bytes::class.asTypeName()
+            is RepeatedCachingInfo.Converted -> info.wireTypeName
+        }
+
+    private fun mapWireKeyType(f: StandardField, info: MapCachingInfo) =
+        info.keyWireTypeName ?: f.mapKey.interceptTypeName(ctx)
+
+    private fun mapWireValueType(f: StandardField, info: MapCachingInfo) =
+        info.valueWireTypeName ?: f.mapValue.interceptTypeName(ctx)
+
+    private fun sizeOfRepeatedCaching(
+        f: StandardField,
+        p: PropertySpec,
+        info: RepeatedCachingInfo
+    ): CodeBlock {
+        val wireType = repeatedWireTypeName(info)
+        return buildCodeBlock {
+            add("@%T(\"UNCHECKED_CAST\")\n", Suppress::class)
+            add("(%N as %T<%T, %T>).let·{·list·->\n", p, LazyConvertingList::class, wireType, com.squareup.kotlinpoet.ANY)
+            indent()
+            add("(%M(${f.tag}u) * list.size) + ", sizeOf)
+            when (val sizeFn = f.type.sizeFn) {
+                is SizeFn.Const ->
+                    add("(list.size * %L)", sizeFn.size)
+
+                is SizeFn.Method -> {
+                    add("run·{·var·sum·=·0;·for·(i·in·list.indices)·sum·+=·%M(list.wireGet(i));·sum·}", sizeFn.method)
+                }
+            }
+            add("\n")
+            endControlFlowWithoutNewline()
+        }
+    }
+
+    private fun sizeOfMapCaching(
+        f: StandardField,
+        p: PropertySpec,
+        info: MapCachingInfo
+    ): CodeBlock {
+        val wireKeyType = mapWireKeyType(f, info)
+        val wireValueType = mapWireValueType(f, info)
+        return buildCodeBlock {
+            add("@%T(\"UNCHECKED_CAST\")\n", Suppress::class)
+            add("(%N as %T<%T, %T>).let·{·map·->\n", p, LazyConvertingMap::class, com.squareup.kotlinpoet.ANY, com.squareup.kotlinpoet.ANY)
+            indent()
+            add("var·sum·=·0\n")
+            val sizeOfCall = sizeOfCall(f.mapKey, f.mapValue, CodeBlock.of("wireK"), CodeBlock.of("wireV"))
+            add("map.wireEntryForEach<%T, %T>·{·wireK,·wireV·->\n", wireKeyType, wireValueType)
+            indent()
+            add("sum·+=·%M(${f.tag}u)·+·%T.%L.let·{·it·+·%M(it.toUInt())·}\n", sizeOf, f.className, sizeOfCall, sizeOf)
+            unindent()
+            add("}\n")
+            add("sum\n")
+            unindent()
+            add("}")
+        }
+    }
 }
 
 internal fun sizeOf(
     f: StandardField,
     ctx: Context,
-    oneOfFieldAccess: CodeBlock? = null
+    oneOfFieldAccess: CodeBlock? = null,
+    mapEntry: Boolean = false,
+    property: PropertySpec? = null
 ): CodeBlock {
+    val isCaching = property != null && property.name == "_${f.fieldName}"
     val fieldAccess =
         oneOfFieldAccess
             ?: if (f.repeated) {
@@ -111,6 +218,7 @@ internal fun sizeOf(
 
     return when {
         f.isMap -> sizeOfMap(f, fieldAccess)
+
         f.repeated && f.packed -> {
             namedCodeBlock(
                 "sizeOf(${f.tag}u) + " +
@@ -121,6 +229,7 @@ internal fun sizeOf(
                 )
             )
         }
+
         f.repeated -> {
             namedCodeBlock(
                 "(%sizeOf:M(${f.tag}u) * %name:L.size) + %elementsSize:L",
@@ -135,6 +244,15 @@ internal fun sizeOf(
                 )
             )
         }
+
+        !mapEntry && isCaching && oneOfFieldAccess == null -> buildCodeBlock {
+            add(
+                "%M(${f.tag}u) + %L",
+                sizeOf,
+                f.sizeOf(CodeBlock.of("%N.wireValue()", property!!))
+            )
+        }
+
         else -> {
             buildCodeBlock {
                 add(
@@ -184,6 +302,7 @@ internal fun StandardField.elementsSize(
         is SizeFn.Const ->
             CodeBlock.of("(%N.size * %L)", fieldName, sizeFn.size)
                 .let { if (parenthesize) CodeBlock.of("(%L)", it) else it }
+
         is SizeFn.Method ->
             CodeBlock.of("%N.sumOf·{·%L·}", fieldName, sizeOf(fieldAccess))
     }

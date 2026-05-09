@@ -16,14 +16,16 @@
 import com.google.protobuf.gradle.GenerateProtoTask
 import org.gradle.api.Project
 import org.gradle.api.tasks.compile.JavaCompile
+import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsTargetDsl
 import protokt.v1.gradle.CODEGEN_NAME
+import protokt.v1.gradle.ProtoktExtension
 import protokt.v1.gradle.configureProtokt
 import java.io.File
 
 fun Project.localProtokt(disableJava: Boolean = true) {
-    configureProtokt(this, null, disableJava, "$rootDir/protokt-codegen/build/install/$CODEGEN_NAME/bin/$CODEGEN_NAME")
+    configureProtokt(this, null, disableJava, provider { "$rootDir/protokt-codegen/build/install/$CODEGEN_NAME/bin/$CODEGEN_NAME" })
 
     afterEvaluate {
         tasks.withType<GenerateProtoTask> {
@@ -31,6 +33,12 @@ fun Project.localProtokt(disableJava: Boolean = true) {
             dependsOn(":protokt-codegen:installDist")
         }
     }
+}
+
+fun Project.publishedLocalProtokt(disableJava: Boolean = true) {
+    localProtokt(disableJava)
+    the<ProtoktExtension>().codec.minimal()
+    the<ProtoktExtension>().collections.minimal()
 }
 
 fun Project.pureKotlin() {
@@ -50,11 +58,7 @@ fun KotlinJsTargetDsl.configureJsTests() {
     browser {
         testTask {
             useKarma {
-                useFirefoxHeadless()
-
-                if (System.getProperty("os.name").lowercase().contains("mac")) {
-                    environment["FIREFOX_BIN"] = "/Applications/Firefox.app/Contents/MacOS/firefox"
-                }
+                useChromeHeadless()
             }
         }
     }

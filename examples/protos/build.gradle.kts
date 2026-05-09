@@ -21,6 +21,7 @@ plugins {
 }
 
 localProtokt()
+enableNativeTargets()
 
 protokt {
     generate {
@@ -30,11 +31,9 @@ protokt {
 
 kotlin {
     sourceSets {
-        val commonMain by getting {}
-
-        val jvmMain by getting {
+        val commonMain by getting {
             dependencies {
-                implementation(libs.jackson)
+                implementation(libs.kotlinx.serialization.json)
             }
         }
 
@@ -42,16 +41,6 @@ kotlin {
             dependencies {
                 runtimeOnly(libs.protobuf.java) // unclear why this is needed; no tests
             }
-        }
-
-        val jsMain by getting {
-            dependencies {
-                implementation(libs.kotlinx.serialization.json)
-            }
-        }
-
-        jvm {
-            withJava()
         }
 
         js(IR) {

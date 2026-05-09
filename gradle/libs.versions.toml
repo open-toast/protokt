@@ -13,53 +13,59 @@
 
 [versions]
 autoService = "1.1.1"
-cel = "0.9.1"
-grpc-java = "1.73.0"
-grpc-kotlin = "1.4.3"
-kotlinLogging = "7.0.7"
-kotlinPoet = "2.2.0"
+cel = "0.13.0-SNAPSHOT"
+grpc-java = "1.81.0"
+grpc-kotlin = "1.5.0"
+kotlinLogging = "8.0.02"
+kotlinPoet = "2.3.0"
+kotlinx-collectionsImmutable = "0.4.0"
 kotlinx-coroutines = "1.10.2"
-kotlinx-serialization = "1.8.1"
-ktlint = "1.6.0"
+kotlinx-rpc = "0.11.0-grpc-188"
+kotlinx-io = "0.9.0"
+kotlinx-serialization = "1.11.0"
+ktlint = "1.8.0"
 protobuf-java = "4.30.1"
 protobuf-js = "7.4.0"
-protobufGradlePlugin = "0.9.5"
-protovalidate = "0.13.0"
-protovalidateJava = "0.0.0-SNAPSHOT"
+protobufGradlePlugin = "0.10.0"
+protovalidate = "1.1.1"
+protovalidateJava = "1.2.3-SNAPSHOT"
 slf4j = "2.0.17"
 
 # build
-androidGradlePlugin = "7.4.2"
-expediter = "0.0.24"
-animalSnifferGradlePlugin = "2.0.0"
-binaryCompatibilityValidator = "0.17.0"
-buildConfig = "5.6.5"
-gradleMavenPublishPlugin = "0.31.0"
-java = "11"
-kotlin = "2.1.20"
-pluginPublish = "1.3.1"
-spotless = "7.0.4"
+androidGradlePlugin = "8.12.3"
+expediter = "0.2.0"
+binaryCompatibilityValidator = "0.18.1"
+buildConfig = "6.0.9"
+gradleMavenPublishPlugin = "0.36.0"
+java = "17"
+kotlin = "2.3.21"
+krpcKotlin = "2.3.20" # kotlinx-rpc compiler plugin only supports up to this version
+pluginPublish = "2.1.1"
+spotless = "8.4.0"
 
 # benchmarks
 datasets = "0.1.0"
-download = "5.6.0"
+download = "5.7.0"
 jmh = "1.37"
-wire = "5.3.1"
+kotlinx-benchmark = "0.4.16"
+wire = "6.2.0"
 
 # test
+androidx-datastore = "1.1.7"
 buf = "1.47.2"
-classgraph = "4.8.179"
+okio = "3.17.0"
+classgraph = "4.8.184"
 grpc-js = "1.12.4"
-jackson = "2.18.3"
-junit = "5.13.1"
-truth = "1.4.4"
+junit = "6.0.3"
+truth = "1.4.5"
 
 # third party
-protoGoogleCommonProtos = "2.57.0"
+protoGoogleCommonProtos = "2.70.0"
 
 [plugins]
 buildConfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildConfig" }
 download = { id = "de.undercouch.download", version.ref = "download" }
+kotlinx-benchmark = { id = "org.jetbrains.kotlinx.benchmark", version.ref = "kotlinx-benchmark" }
 pluginPublish = { id = "com.gradle.plugin-publish", version.ref = "pluginPublish" }
 wire = { id = "com.squareup.wire", version.ref = "wire" }
 
@@ -72,7 +78,13 @@ grpc-netty = { module = "io.grpc:grpc-netty", version.ref = "grpc-java" }
 grpc-stub = { module = "io.grpc:grpc-stub", version.ref = "grpc-java" }
 kotlinLogging = { module = "io.github.oshai:kotlin-logging", version.ref = "kotlinLogging" }
 kotlinPoet = { module = "com.squareup:kotlinpoet", version.ref = "kotlinPoet" }
+kotlinx-collectionsImmutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx-collectionsImmutable" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-rpc-grpc-client = { module = "org.jetbrains.kotlinx:kotlinx-rpc-grpc-client", version.ref = "kotlinx-rpc" }
+kotlinx-rpc-grpc-core = { module = "org.jetbrains.kotlinx:kotlinx-rpc-grpc-core", version.ref = "kotlinx-rpc" }
+kotlinx-rpc-grpc-marshaller = { module = "org.jetbrains.kotlinx:kotlinx-rpc-grpc-marshaller", version.ref = "kotlinx-rpc" }
+kotlinx-rpc-grpc-server = { module = "org.jetbrains.kotlinx:kotlinx-rpc-grpc-server", version.ref = "kotlinx-rpc" }
+kotlinx-io = { module = "org.jetbrains.kotlinx:kotlinx-io-core", version.ref = "kotlinx-io" }
 ktlint = { module = "com.pinterest.ktlint:ktlint-rule-engine", version.ref = "ktlint" }
 ktlintRuleSetStandard = { module = "com.pinterest.ktlint:ktlint-ruleset-standard", version.ref = "ktlint" }
 protobuf-gradlePlugin = { module = "com.google.protobuf:protobuf-gradle-plugin", version.ref = "protobufGradlePlugin" }
@@ -87,21 +99,26 @@ binaryCompatibilityValidator = { module = "org.jetbrains.kotlinx:binary-compatib
 expediter = { module = "com.toasttab.expediter:plugin", version.ref = "expediter" }
 gradleMavenPublishPlugin = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "gradleMavenPublishPlugin" }
 kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlinx-rpc-gradlePlugin = { module = "org.jetbrains.kotlinx:kotlinx-rpc-gradle-plugin", version.ref = "kotlinx-rpc" }
 spotlessGradlePlugin = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless" }
 
 # benchmarks
 jmh-core = { module = "org.openjdk.jmh:jmh-core", version.ref = "jmh" }
 jmh-generator = { module = "org.openjdk.jmh:jmh-generator-annprocess", version.ref = "jmh" }
+kotlinx-benchmark-plugin = { module = "org.jetbrains.kotlinx:kotlinx-benchmark-plugin", version.ref = "kotlinx-benchmark" }
+kotlinx-benchmark-runtime = { module = "org.jetbrains.kotlinx:kotlinx-benchmark-runtime", version.ref = "kotlinx-benchmark" }
 wireRuntime = { module = "com.squareup.wire:wire-runtime", version.ref = "wire" }
 
 # third party
 protoGoogleCommonProtos = { module = "com.google.api.grpc:proto-google-common-protos", version.ref = "protoGoogleCommonProtos" }
 
 # test
+androidx-datastore-core = { module = "androidx.datastore:datastore-core", version.ref = "androidx-datastore" }
+androidx-datastore-core-okio = { module = "androidx.datastore:datastore-core-okio", version.ref = "androidx-datastore" }
 classgraph = { module = "io.github.classgraph:classgraph", version.ref = "classgraph" }
+okio-fakefilesystem = { module = "com.squareup.okio:okio-fakefilesystem", version.ref = "okio" }
 grpc-kotlin-stub = { module = "io.grpc:grpc-kotlin-stub", version.ref = "grpc-kotlin" }
 grpc-testing = { module = "io.grpc:grpc-testing", version.ref = "grpc-java" }
-jackson = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
 junit-platformLauncher = { module = "org.junit.platform:junit-platform-launcher" }
 junit-vintage = { module = "org.junit.vintage:junit-vintage-engine" }
