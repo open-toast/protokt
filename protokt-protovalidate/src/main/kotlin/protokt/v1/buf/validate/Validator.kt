@@ -53,6 +53,6 @@ class Validator @JvmOverloads constructor(
         val descriptor =
             descriptorsByFullName[fullName]
                 ?: error("descriptor not loaded for $fullName; call load(descriptor) first")
-        return delegate.validate(ProtoktMessageReflector(message, runtimeContext), descriptor)
+        return delegate.validate(ProtoktMessageReflector(message, descriptor, runtimeContext), descriptor)
     }
 }

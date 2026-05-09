@@ -18,7 +18,9 @@ package protokt.v1.buf.validate
 import build.buf.protovalidate.MessageReflector
 import build.buf.protovalidate.Value
 import com.google.common.primitives.UnsignedLong
+import com.google.protobuf.Descriptors.Descriptor
 import com.google.protobuf.Descriptors.FieldDescriptor
+import dev.cel.common.values.CelByteString
 import protokt.v1.Bytes
 import protokt.v1.Enum
 import protokt.v1.Message
@@ -32,6 +34,7 @@ import protokt.v1.google.protobuf.hasField
  */
 internal class ProtoktMessageReflector(
     val message: Message,
+    val descriptor: Descriptor,
     val context: RuntimeContext,
 ) : MessageReflector {
     override fun hasField(field: FieldDescriptor) =
@@ -41,7 +44,7 @@ internal class ProtoktMessageReflector(
         ProtoktObjectValue(field, message.getField(field)!!, context)
 
     override fun celValue(): Any =
-        context.convertValue(message)
+        ProtoktStructValue(message, descriptor, context)
 }
 
 internal class ProtoktObjectValue(
@@ -53,7 +56,7 @@ internal class ProtoktObjectValue(
         fieldDescriptor
 
     override fun messageValue(): MessageReflector =
-        ProtoktMessageReflector(value as Message, context)
+        ProtoktMessageReflector(value as Message, fieldDescriptor.messageType, context)
 
     override fun repeatedValue() =
         (value as List<*>).map { ProtoktObjectValue(fieldDescriptor, it!!, context) }
@@ -72,21 +75,26 @@ internal class ProtoktObjectValue(
 
     override fun celValue(): Any =
         when (value) {
-            is Map<*, *> -> value.entries.associate { (k, v) ->
-                scalarCelValue(k!!) to scalarCelValue(v!!)
+            is Map<*, *> -> {
+                val keyDesc = fieldDescriptor.messageType.findFieldByNumber(1)
+                val valDesc = fieldDescriptor.messageType.findFieldByNumber(2)
+                value.entries.associate { (k, v) ->
+                    scalarCelValue(keyDesc, k!!) to scalarCelValue(valDesc, v!!)
+                }
             }
-            is List<*> -> value.map { scalarCelValue(it!!) }
-            else -> scalarCelValue(value)
+            is List<*> -> value.map { scalarCelValue(fieldDescriptor, it!!) }
+            else -> scalarCelValue(fieldDescriptor, value)
         }
 
-    private fun scalarCelValue(raw: Any): Any =
+    private fun scalarCelValue(fd: FieldDescriptor, raw: Any): Any =
         when (raw) {
             is Enum -> raw.value.toLong()
             is Float -> raw.toDouble()
             is Int -> raw.toLong()
             is UInt -> UnsignedLong.valueOf(raw.toLong())
             is ULong -> UnsignedLong.valueOf(raw.toLong())
-            is Message, is Bytes -> context.convertValue(raw)
+            is Bytes -> CelByteString.of(raw.bytes)
+            is Message -> wrapMessage(raw, fd.messageType, context)
             else -> raw
         }
 
