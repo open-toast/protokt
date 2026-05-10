@@ -77,6 +77,7 @@ include(
     "testing:protokt-generation-2",
     "testing:protobuf-java",
     "testing:protovalidate-conformance",
+    "testing:protovalidate-conformance:protos",
     "testing:protobufjs",
     "testing:testing-util",
 
