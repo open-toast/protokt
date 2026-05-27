@@ -37,6 +37,8 @@ internal class ProtoktMessageReflector(
     val descriptor: Descriptor,
     val context: RuntimeContext,
 ) : MessageReflector {
+    override fun getDescriptorForType(): Descriptor = descriptor
+
     override fun hasField(field: FieldDescriptor) =
         message.hasField(field)
 
