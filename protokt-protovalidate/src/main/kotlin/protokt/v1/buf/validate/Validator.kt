@@ -35,7 +35,7 @@ class Validator @JvmOverloads constructor(
     private val descriptorsByFullName = ConcurrentHashMap<String, Descriptor>()
 
     @Volatile
-    private var runtimeContext = RuntimeContext.EMPTY
+    private var runtimeContext = RuntimeContext(emptyList())
 
     fun load(descriptor: Descriptor) {
         doLoad(descriptor)
@@ -53,6 +53,6 @@ class Validator @JvmOverloads constructor(
         val descriptor =
             descriptorsByFullName[fullName]
                 ?: error("descriptor not loaded for $fullName; call load(descriptor) first")
-        return delegate.validate(ProtoktMessageReflector(message, descriptor, runtimeContext), descriptor)
+        return delegate.validate(ProtoktMessage(message, descriptor, runtimeContext))
     }
 }

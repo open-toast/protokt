@@ -13,6 +13,8 @@
  * limitations under the License.
  */
 
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id("protokt.jvm-conventions")
 }
@@ -25,4 +27,16 @@ dependencies {
     implementation(kotlin("reflect"))
     implementation(libs.cel)
     implementation(libs.protovalidateJava)
+}
+
+val thisProject = project
+project(":protokt-reflect").afterEvaluate {
+    val reflectJvmJar = tasks.named("jvmJar")
+    thisProject.tasks.named<KotlinCompile>("compileKotlin").configure {
+        dependsOn(reflectJvmJar)
+        compilerOptions.freeCompilerArgs.addAll(
+            reflectJvmJar.flatMap { (it as Jar).archiveFile }
+                .map { listOf("-Xfriend-paths=${it.asFile.absolutePath}") }
+        )
+    }
 }

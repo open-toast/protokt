@@ -26,7 +26,6 @@ import com.google.protobuf.UnsafeByteOperations
 import com.google.protobuf.WireFormat
 import com.toasttab.protokt.v1.ProtoktProtos
 import kotlinx.collections.immutable.PersistentMap
-import kotlinx.collections.immutable.persistentMapOf
 import kotlinx.collections.immutable.toPersistentMap
 import protokt.v1.Beta
 import protokt.v1.Bytes
@@ -45,27 +44,18 @@ import kotlin.reflect.full.findAnnotation
 
 @Beta
 class RuntimeContext private constructor(
-    private val descriptors: PersistentMap<String, Descriptors.Descriptor>,
-    private val classLookup: ClassLookup,
+    internal val descriptorsByTypeName: PersistentMap<String, Descriptors.Descriptor>,
+    private val classLookup: ClassLookup
 ) {
     internal constructor(
         descriptors: Iterable<Descriptors.Descriptor>,
-        classLookup: ClassLookup,
+        classLookup: ClassLookup
     ) : this(descriptors.associateBy { it.fullName }.toPersistentMap(), classLookup)
 
     constructor(descriptors: Iterable<Descriptors.Descriptor>) : this(descriptors, ClassLookup(emptyList()))
 
-    internal val descriptorsByTypeName: Map<String, Descriptors.Descriptor>
-        get() = descriptors
-
-    /** Returns a new [RuntimeContext] with [descriptor] registered. */
     operator fun plus(descriptor: Descriptors.Descriptor): RuntimeContext =
-        RuntimeContext(descriptors.put(descriptor.fullName, descriptor), classLookup)
-
-    companion object {
-        @JvmStatic
-        val EMPTY: RuntimeContext = RuntimeContext(persistentMapOf(), ClassLookup(emptyList()))
-    }
+        RuntimeContext(descriptorsByTypeName.put(descriptor.fullName, descriptor), classLookup)
 
     fun convertValue(value: Any) =
         when (value) {
@@ -150,7 +140,7 @@ private fun toDynamicMessage(
         .build()
 }
 
-private fun fieldOptions(field: FieldDescriptor): ProtoktProtos.FieldOptions {
+internal fun fieldOptions(field: FieldDescriptor): ProtoktProtos.FieldOptions {
     val options = field.toProto().options
 
     return if (options.hasField(ProtoktProtos.property.descriptor)) {
@@ -166,7 +156,7 @@ private fun fieldOptions(field: FieldDescriptor): ProtoktProtos.FieldOptions {
     }
 }
 
-private fun wrap(field: FieldDescriptor, fieldOptions: ProtoktProtos.FieldOptions) =
+internal fun wrap(field: FieldDescriptor, fieldOptions: ProtoktProtos.FieldOptions) =
     getClassName(fieldOptions.wrap, field)
 
 private fun getClassName(wrap: String, field: FieldDescriptor): String? =
@@ -245,8 +235,7 @@ private fun convertMap(
     }
 }
 
-@OptIn(protokt.v1.OnlyForUseByGeneratedProtoCode::class)
-private fun mapUnknownFields(message: Message): UnknownFieldSet {
+internal fun mapUnknownFields(message: Message): UnknownFieldSet {
     val unknownFields = UnknownFieldSet.newBuilder()
 
     message.unknownFields.forEach { number, field ->
