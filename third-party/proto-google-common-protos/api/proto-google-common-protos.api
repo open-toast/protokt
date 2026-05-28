@@ -19,12 +19,16 @@ public final class protokt/v1/google/api/Billing_descriptorsKt {
 }
 
 public final class protokt/v1/google/api/Client_descriptorsKt {
+	public static final fun getDescriptor (Lprotokt/v1/google/api/BatchingConfigProto$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/api/BatchingDescriptorProto$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/api/BatchingSettingsProto$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/api/ClientLibraryDestination$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/api/ClientLibraryOrganization$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/api/ClientLibrarySettings$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/api/CommonLanguageSettings$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/api/CppSettings$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/api/DotnetSettings$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/api/FlowControlLimitExceededBehaviorProto$Deserializer;)Lprotokt/v1/google/protobuf/EnumDescriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/api/GoSettings$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/api/JavaSettings$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 	public static final fun getDescriptor (Lprotokt/v1/google/api/MethodSettings$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
@@ -538,6 +542,12 @@ public final class protokt/v1/google/rpc/Error_details_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/google/rpc/RetryInfo$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 }
 
+public final class protokt/v1/google/rpc/Http_descriptorsKt {
+	public static final fun getDescriptor (Lprotokt/v1/google/rpc/HttpHeader$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/rpc/HttpRequest$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+	public static final fun getDescriptor (Lprotokt/v1/google/rpc/HttpResponse$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
+}
+
 public final class protokt/v1/google/rpc/Status_descriptorsKt {
 	public static final fun getDescriptor (Lprotokt/v1/google/rpc/Status$Deserializer;)Lprotokt/v1/google/protobuf/Descriptor;
 }
@@ -573,6 +583,11 @@ public final class protokt/v1/google/rpc/context/audit_context_file_descriptor {
 
 public final class protokt/v1/google/rpc/error_details_file_descriptor {
 	public static final field INSTANCE Lprotokt/v1/google/rpc/error_details_file_descriptor;
+	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
+}
+
+public final class protokt/v1/google/rpc/http_file_descriptor {
+	public static final field INSTANCE Lprotokt/v1/google/rpc/http_file_descriptor;
 	public final fun getDescriptor ()Lprotokt/v1/google/protobuf/FileDescriptor;
 }
 
