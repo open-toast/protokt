@@ -25,6 +25,7 @@ import protokt.v1.codegen.util.ErrorContext.withFieldName
 import protokt.v1.google.protobuf.DescriptorProto
 import protokt.v1.google.protobuf.FeatureSet
 import protokt.v1.google.protobuf.FeatureSet.FieldPresence
+import protokt.v1.google.protobuf.FeatureSet.RepeatedFieldEncoding
 import protokt.v1.google.protobuf.FieldDescriptorProto
 import protokt.v1.google.protobuf.FieldDescriptorProto.Label.OPTIONAL
 import protokt.v1.google.protobuf.FieldDescriptorProto.Label.REPEATED
@@ -235,8 +236,21 @@ internal class FieldParser(
                     // and `packed` is true. If proto3, only explicitly
                     // setting `packed` to false disables packing, since
                     // the default value for an unset boolean is false.
-                    (ctx.proto3 && (fdp.options?.packed == null || fdp.options?.packed == true))
+                    (ctx.proto3 && (fdp.options?.packed == null || fdp.options?.packed == true)) ||
+                    (ctx.edition2023 && packedEdition2023(fdp))
                 )
+
+    private fun packedEdition2023(fdp: FieldDescriptorProto): Boolean {
+        val fieldEncoding = fdp.options?.features?.repeatedFieldEncoding
+        if (fieldEncoding != null && fieldEncoding != RepeatedFieldEncoding.REPEATED_FIELD_ENCODING_UNKNOWN) {
+            return fieldEncoding == RepeatedFieldEncoding.PACKED
+        }
+        val fileEncoding = ctx.fileOptions.default.features?.repeatedFieldEncoding
+        if (fileEncoding != null && fileEncoding != RepeatedFieldEncoding.REPEATED_FIELD_ENCODING_UNKNOWN) {
+            return fileEncoding == RepeatedFieldEncoding.PACKED
+        }
+        return true
+    }
 
     private fun validateNonNullOption(
         fdp: FieldDescriptorProto,
