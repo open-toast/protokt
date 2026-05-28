@@ -17,12 +17,16 @@ package protokt.v1.conformance
 
 import protokt.v1.AbstractDeserializer
 import protokt.v1.Collections
+import protokt.v1.Deserializer
 import protokt.v1.Message
 import protokt.v1.OnlyForUseByGeneratedProtoCode
 import protokt.v1.Reader
 import protokt.v1.conformance.ConformanceRequest.Payload.ProtobufPayload
 import protokt.v1.conformance.ConformanceResponse.Result
+import protokt.v1.protobuf_test_messages.editions.TestAllTypesEdition2023
+import protokt.v1.protobuf_test_messages.proto2.TestAllTypesProto2
 import protokt.v1.protobuf_test_messages.proto3.TestAllTypesProto3
+import protokt.v1.protobuf_test_messages.editions.proto3.TestAllTypesProto3 as TestAllTypesEditionProto3
 
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
 fun main() =
@@ -56,13 +60,16 @@ fun main() =
 private fun processRequest(request: ConformanceRequest): ConformanceStepResult<Result> {
     val skipReason = skipReason(request)
     if (skipReason != null) {
-        Platform.printErr("Received unsupported request for message type ${request.messageType}: $skipReason")
+        // Platform.printErr("Received unsupported request for message type ${request.messageType}: $skipReason")
         return ConformanceStepResult.skip()
     }
 
+    val deserializer = deserializerFor(request.messageType.orEmpty())
+        ?: return ConformanceStepResult.skip()
+
     return when (val payload = request.payload) {
-        is ProtobufPayload -> Platform.deserializeProtobuf(payload.protobufPayload.bytes, TestAllTypesProto3)
-        else -> ConformanceStepResult.skip<TestAllTypesProto3>()
+        is ProtobufPayload -> Platform.deserializeProtobuf(payload.protobufPayload.bytes, deserializer)
+        else -> ConformanceStepResult.skip()
     }.flatMap {
         when (request.requestedOutputFormat) {
             WireFormat.PROTOBUF -> Platform.serializeProtobuf(it).map(Result::ProtobufPayload)
@@ -70,6 +77,15 @@ private fun processRequest(request: ConformanceRequest): ConformanceStepResult<R
         }
     }
 }
+
+private fun deserializerFor(messageType: String): Deserializer<out Message>? =
+    when (messageType) {
+        "protobuf_test_messages.proto3.TestAllTypesProto3" -> TestAllTypesProto3
+        "protobuf_test_messages.proto2.TestAllTypesProto2" -> TestAllTypesProto2
+        "protobuf_test_messages.editions.proto3.TestAllTypesProto3" -> TestAllTypesEditionProto3
+        "protobuf_test_messages.editions.TestAllTypesEdition2023" -> TestAllTypesEdition2023
+        else -> null
+    }
 
 private val supportedMessageTypes =
     setOf(

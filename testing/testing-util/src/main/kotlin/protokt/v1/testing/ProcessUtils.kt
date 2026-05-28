@@ -41,16 +41,29 @@ fun String.runCommand(
             .apply { environment().putAll(env) }
             .start()
 
+    // Drain stdout/stderr concurrently so the child doesn't block on a full
+    // pipe buffer (macOS/Linux pipes are typically 64KB).
+    val stdoutFuture = readStreamAsync(proc.inputStream)
+    val stderrFuture = readStreamAsync(proc.errorStream)
+
     if (!proc.waitFor(timeout.toSeconds(), TimeUnit.SECONDS)) {
         proc.destroyForcibly()
         fail("Process '$this' took too long")
     }
 
     return ProcessOutput(
-        proc.inputStream.bufferedReader().use { it.readText() },
-        proc.errorStream.bufferedReader().use { it.readText() },
+        stdoutFuture.get(),
+        stderrFuture.get(),
         proc.exitValue()
     )
+}
+
+private fun readStreamAsync(stream: java.io.InputStream): java.util.concurrent.Future<String> {
+    val executor = java.util.concurrent.Executors.newSingleThreadExecutor { r ->
+        Thread(r).apply { isDaemon = true }
+    }
+    return executor.submit<String> { stream.bufferedReader().use { it.readText() } }
+        .also { executor.shutdown() }
 }
 
 data class ProcessOutput(
