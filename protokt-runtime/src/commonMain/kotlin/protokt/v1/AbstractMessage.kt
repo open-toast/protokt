@@ -15,7 +15,11 @@
 
 package protokt.v1
 
-@OnlyForUseByGeneratedProtoCode
-expect abstract class AbstractMessage() : Message {
-    final override fun serialize(): ByteArray
+@SubclassOptInRequired(OnlyForUseByGeneratedProtoCode::class)
+abstract class AbstractMessage : Message {
+    final override fun serialize(): ByteArray {
+        val writer = codec.writer(serializedSize())
+        serialize(writer)
+        return writer.toByteArray()
+    }
 }

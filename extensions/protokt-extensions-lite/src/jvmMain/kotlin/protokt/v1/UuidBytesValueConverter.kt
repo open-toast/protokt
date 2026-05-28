@@ -15,17 +15,10 @@
 
 package protokt.v1
 
-import protokt.v1.SizeCodecs.sizeOf
 import protokt.v1.google.protobuf.BytesValue
 import java.util.UUID
 
-object UuidBytesValueConverter : AbstractConverter<BytesValue, UUID>(), OptimizedSizeOfConverter<BytesValue, UUID> {
-    private val sizeOfProxy =
-        BytesValue { value = Bytes.from(ByteArray(16)) }
-
-    override fun sizeOf(wrapped: UUID) =
-        sizeOf(sizeOfProxy)
-
+object UuidBytesValueConverter : AbstractConverter<BytesValue, UUID>() {
     override fun wrap(unwrapped: BytesValue) =
         UuidBytesConverter.wrap(unwrapped.value)
 

@@ -29,7 +29,7 @@ class NonNullValidationTest : AbstractProtoktCodegenTest() {
             "non_null.proto",
             fieldType,
             "Error generating code for file test_file.proto: message TestMessageWithBadNonNullField, field value",
-            "java.lang.IllegalArgumentException: (protokt.property).generate_non_null_accessor is only applicable to message types " +
+            "java.lang.IllegalArgumentException: (protokt.property).generate_non_null_accessor is only applicable to message types or wrapped types " +
                 "and is inapplicable to non-message " + (fieldTypeName ?: fieldType)
         )
     }
@@ -41,7 +41,7 @@ class NonNullValidationTest : AbstractProtoktCodegenTest() {
             "non_null_nested.proto",
             fieldType,
             "Error generating code for file test_file.proto: message Outer.TestNestedMessageWithBadNonNullField, field value",
-            "java.lang.IllegalArgumentException: (protokt.property).generate_non_null_accessor is only applicable to message types " +
+            "java.lang.IllegalArgumentException: (protokt.property).generate_non_null_accessor is only applicable to message types or wrapped types " +
                 "and is inapplicable to non-message " + (fieldTypeName ?: fieldType)
         )
     }

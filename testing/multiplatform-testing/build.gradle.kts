@@ -20,16 +20,7 @@ plugins {
 }
 
 localProtokt()
-
-kotlin {
-    sourceSets {
-        val jvmTest by getting {
-            dependencies {
-                runtimeOnly(libs.protobuf.java)
-            }
-        }
-    }
-}
+enableNativeTargets()
 
 dependencies {
     protoktExtensions(project(":extensions:protokt-extensions"))

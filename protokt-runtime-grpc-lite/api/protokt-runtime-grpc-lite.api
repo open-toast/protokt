@@ -3,7 +3,7 @@ public final class protokt/v1/grpc/Marshaller : io/grpc/MethodDescriptor$Marshal
 	public synthetic fun parse (Ljava/io/InputStream;)Ljava/lang/Object;
 	public fun parse (Ljava/io/InputStream;)Lprotokt/v1/Message;
 	public synthetic fun stream (Ljava/lang/Object;)Ljava/io/InputStream;
-	public fun stream (Lprotokt/v1/Message;)Ljava/io/ByteArrayInputStream;
+	public fun stream (Lprotokt/v1/Message;)Ljava/io/InputStream;
 }
 
 public final class protokt/v1/grpc/SchemaDescriptor {

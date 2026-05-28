@@ -16,14 +16,14 @@
 plugins {
     id("protokt.benchmarks-conventions")
     id("com.google.protobuf")
-    application
 }
 
 defaultProtoc()
 
-configure<JavaApplication> {
-    mainClass.set("com.toasttab.protokt.benchmarks.ProtobufBenchmarksKt")
-    executableDir = ".."
+benchmark {
+    targets {
+        register("main")
+    }
 }
 
 dependencies {
@@ -33,6 +33,6 @@ dependencies {
     protobuf(project(":benchmarks:schema"))
 }
 
-tasks.named("run") {
+tasks.matching { it.name.contains("benchmark", ignoreCase = true) }.configureEach {
     dependsOn(":benchmarks:datasets")
 }

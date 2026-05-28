@@ -15,12 +15,13 @@
 
 package protokt.v1.codegen.util
 
-import com.google.protobuf.DescriptorProtos.MethodDescriptorProto
-import com.google.protobuf.DescriptorProtos.ServiceDescriptorProto
 import com.squareup.kotlinpoet.ClassName
-import com.toasttab.protokt.v1.ProtoktProtos
 import io.grpc.kotlin.generator.protoc.ProtoMethodName
+import protokt.v1.google.protobuf.MethodDescriptorProto
+import protokt.v1.google.protobuf.ServiceDescriptorProto
+import protokt.v1.method
 import protokt.v1.reflect.requalifyProtoType
+import protokt.v1.service
 
 class ServiceParser(
     private val idx: Int,
@@ -28,27 +29,27 @@ class ServiceParser(
 ) {
     fun toService() =
         Service(
-            name = desc.name,
-            methods = desc.methodList.map(::toMethod),
-            deprecated = desc.options.deprecated,
+            name = desc.name.orEmpty(),
+            methods = desc.method.map(::toMethod),
+            deprecated = desc.options?.deprecated == true,
             options = ServiceOptions(
-                desc.options,
-                desc.options.getExtension(ProtoktProtos.service)
+                desc.options ?: protokt.v1.google.protobuf.ServiceOptions {},
+                desc.options?.service ?: protokt.v1.ServiceOptions {}
             ),
             index = idx
         )
 
     private fun toMethod(desc: MethodDescriptorProto) =
         Method(
-            name = ProtoMethodName(desc.name),
-            inputType = ClassName.bestGuess(requalifyProtoType(desc.inputType)),
-            outputType = ClassName.bestGuess(requalifyProtoType(desc.outputType)),
-            clientStreaming = desc.clientStreaming,
-            serverStreaming = desc.serverStreaming,
-            deprecated = desc.options.deprecated,
+            name = ProtoMethodName(desc.name.orEmpty()),
+            inputType = ClassName.bestGuess(requalifyProtoType(desc.inputType.orEmpty())),
+            outputType = ClassName.bestGuess(requalifyProtoType(desc.outputType.orEmpty())),
+            clientStreaming = desc.clientStreaming == true,
+            serverStreaming = desc.serverStreaming == true,
+            deprecated = desc.options?.deprecated == true,
             options = MethodOptions(
-                desc.options,
-                desc.options.getExtension(ProtoktProtos.method)
+                desc.options ?: protokt.v1.google.protobuf.MethodOptions {},
+                desc.options?.method ?: protokt.v1.MethodOptions {}
             )
         )
 }

@@ -19,6 +19,7 @@ import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import protokt.v1.codegen.util.ProtoFileContents
+import protokt.v1.gradle.KotlinTarget
 import protokt.v1.reflect.PROTOKT_V1
 
 internal fun generateFile(contents: ProtoFileContents) =
@@ -63,6 +64,15 @@ private class FileGenerator(
             builder.addType(it.typeSpec)
         }
 
+        val extensionProps = generateExtensions(contents)
+        if (extensionProps.isNotEmpty()) {
+            builder.addImport("protokt.v1", "get")
+        }
+        extensionProps.forEach {
+            anyCodeAdded = true
+            builder.addProperty(it)
+        }
+
         if (contents.info.context.generateDescriptors && contents.info.context.kotlinTarget.isPrimaryTarget) {
             val fileDescriptorInfo = FileDescriptorResolver.resolveFileDescriptor(contents)
 
@@ -92,11 +102,14 @@ private fun suffixes(contents: ProtoFileContents): List<String> {
         if (contents.info.context.generateDescriptors) {
             suffixes.add("_descriptors")
         }
-        if (contents.info.context.generateGrpcDescriptors) {
+        if (contents.info.context.generateGrpcDescriptors && contents.info.context.kotlinTarget !is KotlinTarget.MultiplatformCommon) {
             suffixes.add("_grpc")
         }
-        if (contents.info.context.generateGrpcKotlinStubs) {
+        if (contents.info.context.generateGrpcKotlinStubs && contents.info.context.kotlinTarget !is KotlinTarget.MultiplatformCommon) {
             suffixes.add("_grpc_kotlin")
+        }
+        if (contents.info.context.generateGrpcKrpc && contents.info.context.kotlinTarget !is KotlinTarget.MultiplatformCommon) {
+            suffixes.add("_grpc_krpc")
         }
     }
     return suffixes

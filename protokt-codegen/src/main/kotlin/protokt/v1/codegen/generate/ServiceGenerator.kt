@@ -103,7 +103,7 @@ private class ServiceGenerator(
 
             val grpcServiceObjectClassName = ClassName(ctx.info.kotlinPackage, s.name + "Grpc")
             val grpcServiceObject =
-                if (ctx.info.context.generateGrpcDescriptors) {
+                if (ctx.info.context.generateGrpcDescriptors && kotlinTarget !is KotlinTarget.MultiplatformCommon) {
                     TypeSpec.objectBuilder(grpcServiceObjectClassName)
                         .addProperty(
                             PropertySpec.builder("SERVICE_NAME", String::class)
@@ -241,20 +241,25 @@ private class ServiceGenerator(
                 when (methodType(method)) {
                     MethodType.CLIENT_STREAMING, MethodType.UNARY ->
                         addModifiers(KModifier.SUSPEND)
+
                     else -> Unit
                 }
                 when (methodType(method)) {
                     MethodType.UNARY, MethodType.SERVER_STREAMING ->
                         addParameter("request", method.inputType)
+
                     MethodType.CLIENT_STREAMING, MethodType.BIDI_STREAMING ->
                         addParameter("requests", Flow::class.asClassName().parameterizedBy(method.inputType))
+
                     MethodType.UNKNOWN -> error("unsupported method type")
                 }
                 when (methodType(method)) {
                     MethodType.UNARY, MethodType.CLIENT_STREAMING ->
                         returns(method.outputType)
+
                     MethodType.SERVER_STREAMING, MethodType.BIDI_STREAMING ->
                         returns(Flow::class.asClassName().parameterizedBy(method.outputType))
+
                     MethodType.UNKNOWN -> error("unsupported method type")
                 }
                 addCode(
@@ -308,21 +313,25 @@ private class ServiceGenerator(
                     ServerCalls::unaryServerMethodDefinition
                 def.name
             }
+
             MethodType.CLIENT_STREAMING -> {
                 val def: KFunction3<CoroutineContext, MethodDescriptor<Any, Any>, suspend (Flow<Any>) -> Any, ServerMethodDefinition<Any, Any>> =
                     ServerCalls::clientStreamingServerMethodDefinition
                 def.name
             }
+
             MethodType.SERVER_STREAMING -> {
                 val def: KFunction3<CoroutineContext, MethodDescriptor<Any, Any>, (Any) -> Flow<Any>, ServerMethodDefinition<Any, Any>> =
                     ServerCalls::serverStreamingServerMethodDefinition
                 def.name
             }
+
             MethodType.BIDI_STREAMING -> {
                 val def: KFunction3<CoroutineContext, MethodDescriptor<Any, Any>, (Flow<Any>) -> Flow<Any>, ServerMethodDefinition<Any, Any>> =
                     ServerCalls::bidiStreamingServerMethodDefinition
                 def.name
             }
+
             MethodType.UNKNOWN -> error("unsupported method type")
         }
 
@@ -357,6 +366,7 @@ private class ServiceGenerator(
                 when (methodType(method)) {
                     MethodType.CLIENT_STREAMING, MethodType.UNARY ->
                         addModifiers(KModifier.SUSPEND)
+
                     else -> Unit
                 }
                 val requestsVarName =
@@ -366,18 +376,22 @@ private class ServiceGenerator(
                             addParameter(name, method.inputType)
                             name
                         }
+
                         MethodType.CLIENT_STREAMING, MethodType.BIDI_STREAMING -> {
                             val name = "requests"
                             addParameter(name, Flow::class.asClassName().parameterizedBy(method.inputType))
                             name
                         }
+
                         MethodType.UNKNOWN -> error("unsupported method type")
                     }
                 when (methodType(method)) {
                     MethodType.UNARY, MethodType.CLIENT_STREAMING ->
                         returns(method.outputType)
+
                     MethodType.SERVER_STREAMING, MethodType.BIDI_STREAMING ->
                         returns(Flow::class.asClassName().parameterizedBy(method.outputType))
+
                     MethodType.UNKNOWN -> error("unsupported method type")
                 }
                 val methodName = UPPER_UNDERSCORE.to(LOWER_CAMEL, methodType(method).name) + "Rpc"

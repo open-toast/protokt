@@ -15,7 +15,7 @@
 
 package protokt.v1
 
-import protokt.v1.SizeCodecs.sizeOf
+import protokt.v1.Sizes.sizeOf
 import kotlin.jvm.JvmInline
 import kotlin.jvm.JvmStatic
 
@@ -50,7 +50,6 @@ interface UnknownValue {
 value class VarintVal(
     val value: ULong
 ) : UnknownValue {
-    @OptIn(OnlyForUseByGeneratedProtoCode::class)
     override fun size() =
         sizeOf(value)
 }
@@ -75,7 +74,6 @@ value class Fixed64Val(
 value class LengthDelimitedVal(
     val value: Bytes
 ) : UnknownValue {
-    @OptIn(OnlyForUseByGeneratedProtoCode::class)
     override fun size() =
         sizeOf(value)
 }

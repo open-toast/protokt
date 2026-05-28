@@ -15,13 +15,13 @@
 
 plugins {
     id("protokt.benchmarks-conventions")
-    application
     alias(libs.plugins.wire)
 }
 
-application {
-    mainClass.set("com.toasttab.protokt.benchmarks.WireBenchmarksKt")
-    executableDir = ".."
+benchmark {
+    targets {
+        register("main")
+    }
 }
 
 dependencies {
@@ -43,6 +43,6 @@ sourceSets {
     }
 }
 
-tasks.named("run") {
+tasks.matching { it.name.contains("benchmark", ignoreCase = true) }.configureEach {
     dependsOn(":benchmarks:datasets")
 }

@@ -15,9 +15,9 @@
 
 package protokt.v1.codegen.util
 
-import com.google.protobuf.DescriptorProtos
-import com.google.protobuf.DescriptorProtos.FileDescriptorProto
-import com.toasttab.protokt.v1.ProtoktProtos
+import protokt.v1.file
+import protokt.v1.google.protobuf.Edition
+import protokt.v1.google.protobuf.FileDescriptorProto
 import protokt.v1.gradle.PROTOKT_VERSION
 
 internal class GeneratorContext(
@@ -30,6 +30,7 @@ internal class GeneratorContext(
     val generateDescriptors = params.generateDescriptors
     val generateGrpcDescriptors = params.generateGrpcDescriptors
     val generateGrpcKotlinStubs = params.generateGrpcKotlinStubs
+    val generateGrpcKrpc = params.generateGrpcKrpc
     val formatOutput = params.formatOutput
     val kotlinTarget = params.kotlinTarget
 
@@ -43,19 +44,23 @@ internal class GeneratorContext(
     val fileDescriptorObjectName = allDescriptorClassNamesByFileName.getValue(fdp.name)
     val kotlinPackage = allPackagesByFileName.getValue(fdp.name)
 
-    val proto2 = !fdp.hasSyntax() || fdp.syntax == "proto2"
+    val proto2 = fdp.syntax == null || fdp.syntax == "proto2"
     val proto3 = fdp.syntax == "proto3"
-    val edition2023 = fdp.edition == DescriptorProtos.Edition.EDITION_2023
+    val edition2023 = fdp.edition == Edition.EDITION_2023
 }
 
 val FileDescriptorProto.fileOptions
-    get() = FileOptions(options, options.getExtension(ProtoktProtos.file))
+    get() =
+        FileOptions(
+            options ?: protokt.v1.google.protobuf.FileOptions {},
+            options?.file ?: protokt.v1.FileOptions {}
+        )
 
-private fun generateFdpObjectNames(files: List<FileDescriptorProto>): Map<String, String> =
+private fun generateFdpObjectNames(files: List<FileDescriptorProto>): Map<String?, String> =
     files.associate { fdp ->
         Pair(
             fdp.name,
             fdp.fileOptions.protokt.fileDescriptorObjectName.takeIf { it.isNotEmpty() }
-                ?: (fdp.name.substringBefore(".proto").substringAfterLast('/') + "_file_descriptor")
+                ?: (fdp.name.orEmpty().substringBefore(".proto").substringAfterLast('/') + "_file_descriptor")
         )
     }

@@ -15,9 +15,9 @@
 
 package protokt.v1.codegen.util
 
-import com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest
-import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse
 import io.grpc.kotlin.generator.GeneratorRunner
+import protokt.v1.google.protobuf.compiler.CodeGeneratorRequest
+import protokt.v1.google.protobuf.compiler.CodeGeneratorResponse
 import protokt.v1.reflect.resolvePackage
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
@@ -31,33 +31,27 @@ internal fun generateGrpcKotlinStubs(
         params.generateGrpcKotlinStubs
     ) {
         val out = ReadableByteArrayOutputStream()
-        GeneratorRunner.mainAsProtocPlugin(stripPackages(request).toByteArray().inputStream(), out)
-        CodeGeneratorResponse.parseFrom(out.inputStream()).fileList
-            .map {
-                it.toBuilder()
-                    .setContent(tidy(it.content, params.formatOutput))
-                    .build()
-            }
+        GeneratorRunner.mainAsProtocPlugin(stripPackages(request).inputStream(), out)
+        CodeGeneratorResponse.deserialize(out.toByteArray())
+            .file
+            .map { it.copy { content = tidy(it.content.orEmpty(), params.formatOutput) } }
     } else {
         emptyList()
     }
 
-private fun stripPackages(request: CodeGeneratorRequest) =
-    request.toBuilder()
-        .clearProtoFile()
-        .addAllProtoFile(
-            request.protoFileList.map { fdp ->
-                fdp.toBuilder()
-                    .setOptions(
-                        fdp.options.toBuilder()
-                            .setJavaPackage(resolvePackage(fdp.`package`))
-                            .setJavaMultipleFiles(true)
-                            .build()
-                    )
-                    .build()
+private fun stripPackages(request: CodeGeneratorRequest): ByteArray =
+    request.copy {
+        protoFile =
+            request.protoFile.map { fdp ->
+                fdp.copy {
+                    options =
+                        (fdp.options ?: protokt.v1.google.protobuf.FileOptions {}).copy {
+                            javaPackage = resolvePackage(fdp.`package`.orEmpty())
+                            javaMultipleFiles = true
+                        }
+                }
             }
-        )
-        .build()
+    }.serialize()
 
 private class ReadableByteArrayOutputStream : ByteArrayOutputStream() {
     fun inputStream() =

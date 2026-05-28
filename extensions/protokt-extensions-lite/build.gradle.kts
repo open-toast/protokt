@@ -20,7 +20,8 @@ plugins {
     id("protokt.multiplatform-published-conventions")
 }
 
-localProtokt()
+publishedLocalProtokt()
+enableNativeTargets()
 
 spotless {
     kotlin {
@@ -58,7 +59,7 @@ kotlin {
 }
 
 sourceSets {
-    main {
+    named("main") {
         proto {
             srcDir("src/extensions-proto")
         }

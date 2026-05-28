@@ -45,12 +45,10 @@ private fun BindableService.toUntypedServiceImplementation() =
 suspend fun Server.start(
     address: String,
     credentials: ServerCredentials
-) =
-    apply {
-        suspendCoroutine { continuation ->
-            bindAsync(address, credentials) { _, _ ->
-                start()
-                continuation.resume(Unit)
-            }
+): Int =
+    suspendCoroutine { continuation ->
+        bindAsync(address, credentials) { _, port ->
+            start()
+            continuation.resume(port)
         }
     }

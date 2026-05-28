@@ -26,6 +26,7 @@ kotlin {
         val jsTest by getting {
             dependencies {
                 api(kotlin("test"))
+                implementation(project(":protokt-runtime-protobufjs"))
             }
         }
     }

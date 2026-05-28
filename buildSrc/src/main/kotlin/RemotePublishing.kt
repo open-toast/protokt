@@ -29,6 +29,8 @@ import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
 import org.gradle.plugins.signing.Sign
 import org.gradle.plugins.signing.SigningExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import protokt.v1.gradle.KotlinPlugins
 
 private object Pgp {
@@ -101,7 +103,7 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
 
     if (isRelease()) {
         configure<MavenPublishBaseExtension> {
-            publishToMavenCentral()
+            publishToMavenCentral(automaticRelease = true)
         }
 
         apply(plugin = "signing")
@@ -128,10 +130,18 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
         group = "publishing"
 
         val publishingExtension = project.the<PublishingExtension>()
+        val nativeTargetNames =
+            extensions.findByType(KotlinMultiplatformExtension::class.java)
+                ?.targets
+                ?.filterIsInstance<KotlinNativeTarget>()
+                ?.map { it.name }
+                ?.toSet()
+                ?: emptySet()
 
         dependsOn(
             tasks.withType<PublishToMavenRepository>().matching {
-                it.repository == publishingExtension.repositories.getByName("integration")
+                it.repository == publishingExtension.repositories.getByName("integration") &&
+                    nativeTargetNames.none { target -> it.name.contains(target, ignoreCase = true) }
             }
         )
     }

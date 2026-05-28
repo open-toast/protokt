@@ -16,27 +16,22 @@
 package protokt.v1.buf.validate
 
 import build.buf.protovalidate.Config
-import build.buf.protovalidate.ProtoktEvaluator
-import build.buf.protovalidate.ProtoktEvaluatorBuilder
 import build.buf.protovalidate.ValidationResult
+import build.buf.protovalidate.ValidatorFactory
 import com.google.protobuf.Descriptors.Descriptor
 import protokt.v1.Beta
-import protokt.v1.GeneratedMessage
 import protokt.v1.Message
 import protokt.v1.google.protobuf.RuntimeContext
+import protokt.v1.google.protobuf.toDynamicMessage
 import java.util.Collections
 import java.util.concurrent.ConcurrentHashMap
-import kotlin.reflect.full.findAnnotation
 
 @Beta
 class Validator @JvmOverloads constructor(
     config: Config = Config.newBuilder().build()
 ) {
-    private val evaluatorBuilder = ProtoktEvaluatorBuilder(config)
+    private val delegate = ValidatorFactory.newBuilder().withConfig(config).build()
 
-    private val failFast = config.isFailFast
-
-    private val evaluatorsByFullTypeName = ConcurrentHashMap<String, ProtoktEvaluator>()
     private val descriptors = Collections.newSetFromMap(ConcurrentHashMap<Descriptor, Boolean>())
 
     @Volatile
@@ -49,20 +44,9 @@ class Validator @JvmOverloads constructor(
 
     private fun doLoad(descriptor: Descriptor) {
         descriptors.add(descriptor)
-        evaluatorsByFullTypeName[descriptor.fullName] = evaluatorBuilder.load(descriptor)
         descriptor.nestedTypes.forEach(::doLoad)
     }
 
-    fun validate(message: Message): ValidationResult {
-        val result =
-            evaluatorsByFullTypeName
-                .getValue(message::class.findAnnotation<GeneratedMessage>()!!.fullTypeName)
-                .evaluate(message, runtimeContext, failFast)
-
-        return if (result.isEmpty()) {
-            ValidationResult.EMPTY
-        } else {
-            result.build()
-        }
-    }
+    fun validate(message: Message): ValidationResult =
+        delegate.validate(message.toDynamicMessage(runtimeContext))
 }

@@ -55,6 +55,7 @@ internal sealed class FieldType {
     val protoktFieldType
         get() = when (this) {
             is Bytes -> protokt.v1.Bytes::class
+
             else ->
                 requireNotNull(kotlinRepresentation) {
                     "no protokt field type for $this"

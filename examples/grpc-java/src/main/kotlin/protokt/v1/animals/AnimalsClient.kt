@@ -77,8 +77,11 @@ fun main(args: Array<String>) {
     args.forEach {
         when (it) {
             "dog" -> client.bark()
+
             "pig" -> client.oink()
+
             "sheep" -> client.baa()
+
             else -> {
                 println("Unknown animal type: \"$it\". Try \"dog\", \"pig\" or \"sheep\".")
                 println(usage)

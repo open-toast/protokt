@@ -20,9 +20,10 @@ import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.asTypeName
+import protokt.v1.Bytes
 import protokt.v1.BytesSlice
 import protokt.v1.Converter
-import protokt.v1.OptimizedSizeOfConverter
+import protokt.v1.StringConverter
 import protokt.v1.codegen.generate.CodeGenerator.Context
 import protokt.v1.codegen.util.GeneratorContext
 import protokt.v1.codegen.util.StandardField
@@ -36,12 +37,6 @@ import kotlin.reflect.KFunction2
 internal object Wrapper {
     val StandardField.wrapped
         get() = wrapWithWellKnownInterception(options.wrap, protoTypeName) != null
-
-    fun StandardField.wrapperRequiresNullability(ctx: Context) =
-        wrapperRequiresNonNullOptionForNonNullity(ctx.info.context)
-
-    fun StandardField.wrapperRequiresNonNullOptionForNonNullity(ctx: GeneratorContext) =
-        wrapped && withWrapper(ctx) { it.cannotDeserializeDefaultValue && !repeated } ?: false
 
     private fun <T> StandardField.withWrapper(
         wrap: String?,
@@ -76,11 +71,7 @@ internal object Wrapper {
         ctx: Context
     ): CodeBlock =
         f.withWrapper(ctx.info.context) {
-            if (it.optimizedSizeof) {
-                accessSize
-            } else {
-                interceptValueAccess(f, ctx, accessSize)
-            }
+            interceptValueAccess(f, ctx, accessSize)
         } ?: accessSize
 
     fun interceptFieldSizeof(
@@ -89,13 +80,7 @@ internal object Wrapper {
         fieldAccess: CodeBlock,
         ctx: Context
     ) =
-        f.withWrapper(ctx.info.context) {
-            if (it.optimizedSizeof) {
-                callConverterMethod(OptimizedSizeOfConverter<Any, Any>::sizeOf, it, fieldAccess)
-            } else {
-                accessSize
-            }
-        } ?: accessSize
+        accessSize
 
     fun interceptValueAccess(
         f: StandardField,
@@ -155,6 +140,75 @@ internal object Wrapper {
 
     private fun converterClassName(converterDetails: ConverterDetails) =
         converterDetails.converter::class.asClassName()
+
+    fun StandardField.cachingFieldInfo(ctx: Context, mapEntry: Boolean): CachingFieldInfo? {
+        if (repeated || isMap || mapEntry) return null
+        if (!wrapped) {
+            return if (type == FieldType.String) CachingFieldInfo.PlainString(optional) else null
+        }
+        val nullable = type == FieldType.Message || optional
+        return withWrapper(ctx.info.context) { details ->
+            CachingFieldInfo.Converted(
+                details.converter::class.asClassName(),
+                details.converter.wrapped.asTypeName(),
+                type,
+                nullable
+            )
+        }
+    }
+
+    fun StandardField.repeatedCachingFieldInfo(ctx: Context): RepeatedCachingInfo? {
+        if (!repeated || isMap) return null
+        if (type == FieldType.String) return RepeatedCachingInfo.PlainString
+        if (!wrapped) return null
+        return withWrapper(ctx.info.context) { details ->
+            RepeatedCachingInfo.Converted(
+                details.converter::class.asClassName(),
+                details.converter.wrapped.asTypeName()
+            )
+        }
+    }
+
+    fun StandardField.mapCachingFieldInfo(ctx: Context): MapCachingInfo? {
+        if (!isMap) return null
+        val key = mapKey
+        val value = mapValue
+        val keyIsString = !key.wrapped && key.type == FieldType.String
+        val keyIsWrapped = key.wrapped
+        val valueIsString = !value.wrapped && value.type == FieldType.String
+        val valueIsWrapped = value.wrapped
+        if (!keyIsString && !keyIsWrapped && !valueIsString && !valueIsWrapped) return null
+
+        val keyConverterClassName = when {
+            keyIsString -> StringConverter::class.asClassName()
+            keyIsWrapped -> key.withWrapper(ctx.info.context) { it.converter::class.asClassName() }
+            else -> null
+        }
+        val keyWireTypeName = when {
+            keyIsString -> Bytes::class.asTypeName()
+            keyIsWrapped -> key.withWrapper(ctx.info.context) { it.converter.wrapped.asTypeName() }
+            else -> null
+        }
+        val valueConverterClassName = when {
+            valueIsString -> StringConverter::class.asClassName()
+            valueIsWrapped -> value.withWrapper(ctx.info.context) { it.converter::class.asClassName() }
+            else -> null
+        }
+        val valueWireTypeName = when {
+            valueIsString -> Bytes::class.asTypeName()
+            valueIsWrapped -> value.withWrapper(ctx.info.context) { it.converter.wrapped.asTypeName() }
+            else -> null
+        }
+
+        return MapCachingInfo(
+            keyConverterClassName = keyConverterClassName,
+            keyWireTypeName = keyWireTypeName,
+            valueConverterClassName = valueConverterClassName,
+            valueWireTypeName = valueWireTypeName,
+            keyIsString = keyIsString,
+            valueIsString = valueIsString
+        )
+    }
 
     private fun converter(protoClassName: String, kotlinClassName: String, ctx: GeneratorContext) =
         ctx.classLookup.converter(protoClassName, kotlinClassName)

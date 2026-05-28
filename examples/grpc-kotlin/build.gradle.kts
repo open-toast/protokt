@@ -39,8 +39,6 @@ dependencies {
     implementation(libs.grpc.kotlin.stub)
     implementation(libs.kotlinx.coroutines.core)
 
-    runtimeOnly(libs.protobuf.java)
-
     testImplementation(kotlin("test-junit"))
     testImplementation(libs.grpc.testing)
 }

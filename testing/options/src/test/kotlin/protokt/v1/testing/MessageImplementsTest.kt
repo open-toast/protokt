@@ -50,7 +50,7 @@ class MessageImplementsTest {
         val byDelegate = ImplementsWithDelegate { modelTwo = model2 }
         val serialized = byDelegate.serialize()
 
-        assertThat(serialized.size).isGreaterThan(model2.messageSize())
+        assertThat(serialized.size).isGreaterThan(model2.serializedSize())
         assertThat(ImplementsWithDelegate.deserialize(serialized)).isEqualTo(byDelegate)
     }
 
@@ -82,7 +82,7 @@ class MessageImplementsTest {
         val byDelegate = ImplementsWithNullableDelegate { modelTwo = model2 }
         val serialized = byDelegate.serialize()
 
-        assertThat(serialized.size).isGreaterThan(model2.messageSize())
+        assertThat(serialized.size).isGreaterThan(model2.serializedSize())
         assertThat(ImplementsWithNullableDelegate.deserialize(serialized)).isEqualTo(byDelegate)
     }
 
@@ -98,7 +98,7 @@ class MessageImplementsTest {
         val byDelegate = ImplementsWithDelegate2 { modelThree = model3 }
         val serialized = byDelegate.serialize()
 
-        assertThat(serialized.size).isGreaterThan(model3.messageSize())
+        assertThat(serialized.size).isGreaterThan(model3.serializedSize())
         assertThat(ImplementsWithDelegate2.deserialize(serialized)).isEqualTo(byDelegate)
     }
 
@@ -114,7 +114,7 @@ class MessageImplementsTest {
         val byDelegate = ImplementsWithNullableDelegate2 { modelThree = model3 }
         val serialized = byDelegate.serialize()
 
-        assertThat(serialized.size).isGreaterThan(model3.messageSize())
+        assertThat(serialized.size).isGreaterThan(model3.serializedSize())
         assertThat(ImplementsWithNullableDelegate2.deserialize(serialized)).isEqualTo(byDelegate)
     }
 }

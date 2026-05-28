@@ -15,7 +15,6 @@
 
 package protokt.v1
 
-@OptIn(OnlyForUseByGeneratedProtoCode::class)
 expect interface Deserializer<T : Message> {
     fun deserialize(reader: Reader): T
 

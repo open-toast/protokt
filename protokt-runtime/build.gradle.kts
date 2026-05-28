@@ -13,23 +13,40 @@
  * limitations under the License.
  */
 
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
+
 plugins {
     id("protokt.multiplatform-published-conventions")
 }
 
 compatibleWithAndroid()
+enableNativeTargets()
+
+// Metadata compilation tasks produce spurious KLIB duplicate unique_name
+// warnings when custom intermediate source sets (nonJvmMain) create
+// multiple paths to commonMain.  Suppress -Werror for those tasks.
+tasks.withType<KotlinCompilationTask<*>>()
+    .matching { it.name.endsWith("KotlinMetadata") }
+    .configureEach { compilerOptions { allWarningsAsErrors = false } }
 
 kotlin {
+    compilerOptions {
+        freeCompilerArgs.add("-opt-in=protokt.v1.OnlyForUseByGeneratedProtoCode")
+    }
+
     sourceSets {
-        val jvmMain by getting {
-            dependencies {
-                compileOnly(libs.protobuf.java)
-            }
+        val nonJvmMain by creating {
+            dependsOn(commonMain.get())
         }
 
-        val jsMain by getting {
+        jsMain.get().dependsOn(nonJvmMain)
+        nativeMain.get().dependsOn(nonJvmMain)
+
+        val jvmTest by getting {
             dependencies {
-                api(npm("protobufjs", libs.versions.protobuf.js.get()))
+                implementation(project(":protokt-runtime-protobuf-java"))
+                implementation(project(":protokt-runtime-kotlinx-io"))
+                implementation(libs.protobuf.java)
             }
         }
     }

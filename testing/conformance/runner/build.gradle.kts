@@ -46,6 +46,7 @@ configurations.create("conformance")
 val conformanceVersion = libs.versions.protobuf.java.get().replace(Regex("^\\d+\\."), "")
 
 dependencies {
+    testImplementation(project(":protokt-runtime-persistent-collections"))
     testImplementation(project(":testing:testing-util"))
     add("conformance", "build-protobuf-conformance-runner:conformance_test_runner:$conformanceVersion") {
         artifact {
@@ -66,14 +67,21 @@ tasks.register<Copy>("setupRunner") {
     }
 }
 
+val nativeTarget = Os.current.hostNativeTarget
+
 tasks {
     test {
         systemProperty("conformance-runner", layout.buildDirectory.dir("bin").get().file("conformance_test_runner-$conformanceVersion-${Os.current.conformanceClassifier}.exe").asFile.path)
+        systemProperty("native-conformance-target", nativeTarget)
+        System.getProperty("conformance.platforms")?.let {
+            systemProperty("conformance.platforms", it)
+        }
 
         outputs.upToDateWhen { false }
 
         dependsOn("setupRunner")
         dependsOn(":testing:conformance:js-ir:compileProductionExecutableKotlinJs")
         dependsOn(":testing:conformance:jvm:installDist")
+        dependsOn(":testing:conformance:driver:linkReleaseExecutable${nativeTarget.replaceFirstChar { it.uppercase() }}")
     }
 }

@@ -14,5 +14,7 @@
  */
 
 plugins {
-    id("protokt.benchmarks-conventions")
+    id("protokt.multiplatform-conventions")
 }
+
+enableNativeTargets()

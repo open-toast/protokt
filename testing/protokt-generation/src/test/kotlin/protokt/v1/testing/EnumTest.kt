@@ -24,7 +24,7 @@ class EnumTest {
         val with3 = HasMoreEnum { enum = MoreEnum.MORE_VALUE_3 }
         val as2 = HasAnEnum.deserialize(with3.serialize())
 
-        assertThat(as2.enum).isEqualTo(SomeEnum.from(2))
+        assertThat(as2.enum).isEqualTo(SomeEnum.deserialize(2))
 
         val as3From2 = HasMoreEnum.deserialize(as2.serialize())
 

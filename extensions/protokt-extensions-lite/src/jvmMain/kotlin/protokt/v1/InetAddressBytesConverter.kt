@@ -18,8 +18,6 @@ package protokt.v1
 import java.net.InetAddress
 
 object InetAddressBytesConverter : AbstractConverter<Bytes, InetAddress>() {
-    override val acceptsDefaultValue = false
-
     override fun wrap(unwrapped: Bytes): InetAddress {
         require(unwrapped.isNotEmpty()) {
             "cannot unwrap absent InetAddress"

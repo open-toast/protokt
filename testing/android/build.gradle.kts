@@ -26,5 +26,8 @@ android {
 localProtokt()
 
 dependencies {
-    testRuntimeOnly(libs.protobuf.lite)
+    testImplementation(libs.androidx.datastore.core)
+    testImplementation(libs.androidx.datastore.core.okio)
+    testImplementation(libs.okio.fakefilesystem)
+    testImplementation(libs.kotlinx.coroutines.test)
 }

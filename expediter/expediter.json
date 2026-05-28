@@ -1,5 +1,5 @@
 {
-  "name": "protokt-extensions-api",
+  "name": "protokt-runtime",
   "issues": [
     {
       "type": "member-missing",
@@ -39,11 +39,6 @@
         },
         "accessType": "VIRTUAL"
       }
-    },
-    {
-      "type": "type-missing",
-      "caller": "kotlin/random/jdk8/PlatformThreadLocalRandom",
-      "target": "java/util/concurrent/ThreadLocalRandom"
     },
     {
       "type": "type-missing",

@@ -23,7 +23,7 @@ import java.io.InputStream
 class Marshaller<T : Message>(
     private val deserializer: Deserializer<T>
 ) : MethodDescriptor.Marshaller<T> {
-    override fun stream(value: T) =
+    override fun stream(value: T): InputStream =
         value.serialize().inputStream()
 
     override fun parse(stream: InputStream) =

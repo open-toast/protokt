@@ -26,6 +26,7 @@ buildConfig {
 }
 
 repositories {
+    maven("https://packages.jetbrains.team/maven/p/krpc/grpc")
     mavenCentral()
     gradlePluginPortal()
     google()
@@ -33,14 +34,23 @@ repositories {
 
 dependencies {
     implementation(libs.androidGradlePlugin)
-    implementation(libs.expediter)
     implementation(libs.binaryCompatibilityValidator)
+    implementation(libs.expediter)
     implementation(libs.gradleMavenPublishPlugin)
     implementation(libs.kotlinGradlePlugin)
+    implementation("org.jetbrains.kotlin:kotlin-allopen:${libs.versions.kotlin.get()}")
+    implementation(libs.kotlinx.benchmark.plugin)
     implementation(libs.protobuf.gradlePlugin)
     implementation(libs.spotlessGradlePlugin)
+    implementation(libs.kotlinx.rpc.gradlePlugin)
     implementation(kotlin("gradle-plugin-api"))
     implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
+
+    // kotlinx-benchmark-plugin pulls an older KotlinPoet that's binary-incompatible
+    // with the version used by protokt-codegen; force alignment
+    constraints {
+        implementation(libs.kotlinPoet)
+    }
 }
 
 sourceSets {

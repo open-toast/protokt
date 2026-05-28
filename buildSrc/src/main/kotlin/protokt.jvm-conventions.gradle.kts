@@ -24,6 +24,6 @@ javaBasedProjectConventions()
 
 kotlin {
     jvmToolchain(libs.versions.java.get().toInt())
-    compilerOptions.apiVersion = KotlinVersion.KOTLIN_2_0
-    compilerOptions.languageVersion = KotlinVersion.KOTLIN_2_0
+    compilerOptions.apiVersion = KotlinVersion.KOTLIN_2_1
+    compilerOptions.languageVersion = KotlinVersion.KOTLIN_2_1
 }

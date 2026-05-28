@@ -52,9 +52,13 @@ class RuntimeContext internal constructor(
     fun convertValue(value: Any) =
         when (value) {
             is Enum -> value.value
+
             is UInt -> value.toInt()
+
             is ULong -> value.toLong()
+
             is Message -> toDynamicMessage(value, this)
+
             is Bytes -> UnsafeByteOperations.unsafeWrap(value.asReadOnlyBuffer())
 
             // pray
@@ -223,10 +227,11 @@ private fun convertMap(
     }
 }
 
+@OptIn(protokt.v1.OnlyForUseByGeneratedProtoCode::class)
 private fun mapUnknownFields(message: Message): UnknownFieldSet {
     val unknownFields = UnknownFieldSet.newBuilder()
 
-    getUnknownFields(message).forEach { (number, field) ->
+    message.unknownFields.forEach { number, field ->
         unknownFields.mergeField(
             number.toInt(),
             Field.newBuilder()

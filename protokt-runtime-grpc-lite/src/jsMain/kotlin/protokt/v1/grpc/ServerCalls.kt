@@ -43,7 +43,7 @@ object ServerCalls {
                 try {
                     callback(null, implementation(call.request), null, null)
                 } catch (t: Throwable) {
-                    callback(t, null, null, null)
+                    callback(statusToGrpcError(t), null, null, null)
                 }
             }
         }
@@ -71,7 +71,7 @@ object ServerCalls {
                 try {
                     callback(null, implementation(requests), null, null)
                 } catch (t: Throwable) {
-                    callback(t, null, null, null)
+                    callback(statusToGrpcError(t), null, null, null)
                 }
             }
         }
@@ -88,8 +88,12 @@ object ServerCalls {
         }
         val handler = { call: ServerWritableStream<ReqT, RespT> ->
             CoroutineScope(context).launch {
-                implementation(call.request).collect { call.write(it, null) }
-                call.end()
+                try {
+                    implementation(call.request).collect { call.write(it, null) }
+                    call.end()
+                } catch (t: Throwable) {
+                    call.emit("error", statusToGrpcError(t))
+                }
             }
         }
         return ServerMethodDefinition(descriptor, handler)
@@ -115,10 +119,18 @@ object ServerCalls {
                     implementation(requests).collect { call.write(it, null) }
                     call.end()
                 } catch (t: Throwable) {
-                    call.end()
+                    call.emit("error", statusToGrpcError(t))
                 }
             }
         }
         return ServerMethodDefinition(descriptor, handler)
     }
+}
+
+private fun statusToGrpcError(t: Throwable): dynamic {
+    val status = if (t is StatusException) t.status else Status.INTERNAL.withDescription(t.message ?: "")
+    val error = js("({})")
+    error.code = status.code.value
+    error.details = status.description ?: ""
+    return error
 }

@@ -15,8 +15,8 @@
 
 package protokt.v1.codegen.util
 
-import com.google.protobuf.DescriptorProtos.DescriptorProto
-import com.toasttab.protokt.v1.ProtoktProtos
+import protokt.v1.`class`
+import protokt.v1.google.protobuf.DescriptorProto
 
 internal class MessageParser(
     private val ctx: GeneratorContext,
@@ -28,7 +28,7 @@ internal class MessageParser(
 ) {
     fun toMessage(): Message {
         val fieldList = FieldParser(ctx, desc, enclosingMessages, keyWrap, valueWrap).toFields()
-        val simpleNames = enclosingMessages + desc.name
+        val simpleNames = enclosingMessages + desc.name.orEmpty()
         return Message(
             fields = fieldList.sortedBy {
                 when (it) {
@@ -38,18 +38,18 @@ internal class MessageParser(
             },
             nestedTypes = FileContentParser(
                 ctx,
-                desc.enumTypeList,
-                desc.nestedTypeList,
+                desc.enumType,
+                desc.nestedType,
                 emptyList(),
                 simpleNames
             ).parseContents(),
-            mapEntry = desc.options.mapEntry,
+            mapEntry = desc.options?.mapEntry == true,
             options = MessageOptions(
-                desc.options,
-                desc.options.getExtension(ProtoktProtos.class_)
+                desc.options ?: protokt.v1.google.protobuf.MessageOptions {},
+                desc.options?.`class` ?: protokt.v1.MessageOptions {}
             ),
             index = idx,
-            fullProtobufTypeName = "${ctx.fdp.`package`}.${simpleNames.joinToString(".")}",
+            fullProtobufTypeName = "${ctx.fdp.`package`.orEmpty()}.${simpleNames.joinToString(".")}",
             className = ctx.className(simpleNames),
             deserializerClassName = ctx.className(simpleNames + DESERIALIZER)
         )

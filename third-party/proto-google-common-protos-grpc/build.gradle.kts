@@ -20,7 +20,7 @@ plugins {
     id("protokt.third-party-conventions")
 }
 
-localProtokt()
+publishedLocalProtokt()
 pureKotlin()
 enablePublishing()
 compatibleWithAndroid()
