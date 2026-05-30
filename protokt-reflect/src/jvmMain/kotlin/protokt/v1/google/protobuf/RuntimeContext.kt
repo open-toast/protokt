@@ -150,7 +150,7 @@ private fun toDynamicMessage(
         .build()
 }
 
-private fun fieldOptions(field: FieldDescriptor): ProtoktProtos.FieldOptions {
+internal fun fieldOptions(field: FieldDescriptor): ProtoktProtos.FieldOptions {
     val options = field.toProto().options
 
     return if (options.hasField(ProtoktProtos.property.descriptor)) {
@@ -166,7 +166,7 @@ private fun fieldOptions(field: FieldDescriptor): ProtoktProtos.FieldOptions {
     }
 }
 
-private fun wrap(field: FieldDescriptor, fieldOptions: ProtoktProtos.FieldOptions) =
+internal fun wrap(field: FieldDescriptor, fieldOptions: ProtoktProtos.FieldOptions) =
     getClassName(fieldOptions.wrap, field)
 
 private fun getClassName(wrap: String, field: FieldDescriptor): String? =
