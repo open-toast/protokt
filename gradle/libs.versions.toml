@@ -29,7 +29,7 @@ protobuf-js = "7.4.0"
 protobufGradlePlugin = "0.10.0"
 protovalidate = "1.1.1"
 protovalidateJava = "1.2.2"
-slf4j = "2.0.17"
+slf4j = "2.0.18"
 
 # build
 androidGradlePlugin = "8.12.3"
