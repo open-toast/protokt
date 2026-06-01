@@ -56,7 +56,7 @@ buf = "1.47.2"
 okio = "3.17.0"
 classgraph = "4.8.184"
 grpc-js = "1.12.4"
-junit = "6.0.3"
+junit = "6.1.0"
 truth = "1.4.5"
 
 # third party
