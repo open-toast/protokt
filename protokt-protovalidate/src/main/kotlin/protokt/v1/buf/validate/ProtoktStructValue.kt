@@ -21,7 +21,6 @@ import com.google.protobuf.Descriptors.FieldDescriptor
 import com.google.protobuf.Descriptors.FieldDescriptor.Type
 import dev.cel.common.types.CelType
 import dev.cel.common.types.StructTypeReference
-import dev.cel.common.values.BaseProtoCelValueConverter
 import dev.cel.common.values.CelByteString
 import dev.cel.common.values.NullValue
 import dev.cel.common.values.StructValue
@@ -39,21 +38,19 @@ import java.util.Optional
  * evaluators can navigate protokt messages directly via reflection, without converting to
  * `com.google.protobuf.DynamicMessage` for the outer message.
  *
- * `value()` returns `this` so that `ProtoCelValueConverter.maybeUnwrap` leaves us as a
- * `StructValue` when selecting nested fields. A subsequent field selection then calls back
- * into `toRuntimeValue`, which recognizes `CelValue` and passes us through unchanged.
+ * `value()` returns `this` so that nested field selection keeps us as a `StructValue`: the
+ * planner's qualifier sees a `SelectableValue` and calls `select`, and any value we return
+ * that is already a `CelValue` is passed through unchanged.
  *
  * WKTs split into two groups:
  *  - Concrete types (Duration, Timestamp, wrappers, Empty) have fixed field layouts that map
  *    to a single CEL-native value. We unwrap them natively by reading their fields directly
- *    off the protokt message, with no DynamicMessage allocation and no round-trip through
- *    `BaseProtoCelValueConverter`.
+ *    off the protokt message, with no DynamicMessage allocation.
  *  - Open types (Any, Value, Struct, ListValue) wrap arbitrary data: Any holds a packed
  *    message of any type; Value is a union of JSON-like shapes; Struct and ListValue recurse
- *    through Value. We hand these off to [RuntimeContext.convertValue] to produce a
- *    `com.google.protobuf.Message`, then pre-unwrap via
- *    [BaseProtoCelValueConverter.toRuntimeValue]. CEL's maybeUnwrap won't call toRuntimeValue
- *    for us on the way out, so we do it up-front.
+ *    through Value. We hand these to [RuntimeContext.convertValue] to produce a
+ *    `com.google.protobuf.Message` and let the planner runtime convert it to a CelValue on
+ *    read.
  *  - FieldMask is not a WKT for CEL's purposes (see cel-java Patch 2); it flows through the
  *    ordinary [ProtoktStructValue] path like any other message.
  *
@@ -149,10 +146,9 @@ internal class ProtoktStructValue(
             "google.protobuf.Duration" -> java.time.Duration.ZERO
             "google.protobuf.Timestamp" -> Instant.EPOCH
             "google.protobuf.Empty" -> emptyMap<Any, Any>()
-            // Open WKTs: let CEL's converter produce the default via DynamicMessage.
-            in WellKnownTypes.OPEN_TYPES -> WellKnownTypes.unwrap(
+            // Open WKTs: hand the planner a DynamicMessage default; it converts on read.
+            in WellKnownTypes.OPEN_TYPES ->
                 com.google.protobuf.DynamicMessage.getDefaultInstance(messageType)
-            )
             // Non-WKT messages: empty ProtoktStructValue.
             else -> ProtoktStructValue(null, messageType, context)
         }
@@ -179,17 +175,13 @@ internal object WellKnownTypes {
         "google.protobuf.Empty",
     )
 
-    /** Open WKTs wrap arbitrary data. We hand them off to cel-java's converter via DynamicMessage. */
+    /** Open WKTs wrap arbitrary data. We hand them to the planner as a proto message to convert. */
     val OPEN_TYPES = setOf(
         "google.protobuf.Any",
         "google.protobuf.Value",
         "google.protobuf.Struct",
         "google.protobuf.ListValue",
     )
-
-    private val converter: BaseProtoCelValueConverter = object : BaseProtoCelValueConverter() {}
-
-    fun unwrap(dynamicMessage: Any): Any = converter.toRuntimeValue(dynamicMessage)
 
     fun isConcrete(typeName: String): Boolean = typeName in CONCRETE_TYPES
     fun isOpen(typeName: String): Boolean = typeName in OPEN_TYPES
@@ -203,7 +195,7 @@ internal fun wrapMessage(
     val fullName = messageType.fullName
     return when {
         WellKnownTypes.isConcrete(fullName) -> unwrapConcreteWkt(raw, messageType)
-        WellKnownTypes.isOpen(fullName) -> WellKnownTypes.unwrap(context.convertValue(raw))
+        WellKnownTypes.isOpen(fullName) -> context.convertValue(raw)
         else -> ProtoktStructValue(raw, messageType, context)
     }
 }

@@ -13,7 +13,7 @@
 
 [versions]
 autoService = "1.1.1"
-cel = "0.13.0-SNAPSHOT"
+cel = "0.13.0-planner-SNAPSHOT"
 grpc-java = "1.81.0"
 grpc-kotlin = "1.5.0"
 kotlinLogging = "8.0.02"
