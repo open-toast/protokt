@@ -19,8 +19,11 @@ import org.junit.jupiter.api.fail
 import protokt.v1.testing.ProcessOutput.Src.ERR
 import protokt.v1.testing.ProcessOutput.Src.OUT
 import java.io.File
+import java.io.InputStream
 import java.nio.file.Path
 import java.time.Duration
+import java.util.concurrent.Executors
+import java.util.concurrent.Future
 import java.util.concurrent.TimeUnit
 
 val projectRoot =
@@ -58,8 +61,8 @@ fun String.runCommand(
     )
 }
 
-private fun readStreamAsync(stream: java.io.InputStream): java.util.concurrent.Future<String> {
-    val executor = java.util.concurrent.Executors.newSingleThreadExecutor { r ->
+private fun readStreamAsync(stream: InputStream): Future<String> {
+    val executor = Executors.newSingleThreadExecutor { r ->
         Thread(r).apply { isDaemon = true }
     }
     return executor.submit<String> { stream.bufferedReader().use { it.readText() } }
