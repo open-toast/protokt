@@ -244,13 +244,14 @@ public final class protokt/v1/google/api/Backend$Deserializer : protokt/v1/Abstr
 
 public final class protokt/v1/google/api/BackendRule : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/BackendRule$Deserializer;
-	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;DDDLprotokt/v1/google/api/BackendRule$PathTranslation;Lprotokt/v1/google/api/BackendRule$Authentication;Lprotokt/v1/LazyReference;Ljava/util/Map;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;DDDLprotokt/v1/google/api/BackendRule$PathTranslation;Lprotokt/v1/google/api/BackendRule$Authentication;Lprotokt/v1/LazyReference;Ljava/util/Map;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/BackendRule;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/BackendRule;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAddress ()Ljava/lang/String;
 	public final fun getAuthentication ()Lprotokt/v1/google/api/BackendRule$Authentication;
 	public final fun getDeadline ()D
+	public final fun getLoadBalancingPolicy ()Ljava/lang/String;
 	public final fun getMinDeadline ()D
 	public final fun getOperationDeadline ()D
 	public final fun getOverridesByRequestProtocol ()Ljava/util/Map;
@@ -298,6 +299,7 @@ public final class protokt/v1/google/api/BackendRule$Builder : protokt/v1/Builde
 	public final fun getAddress ()Ljava/lang/String;
 	public final fun getAuthentication ()Lprotokt/v1/google/api/BackendRule$Authentication;
 	public final fun getDeadline ()D
+	public final fun getLoadBalancingPolicy ()Ljava/lang/String;
 	public final fun getMinDeadline ()D
 	public final fun getOperationDeadline ()D
 	public final fun getOverridesByRequestProtocol ()Ljava/util/Map;
@@ -308,6 +310,7 @@ public final class protokt/v1/google/api/BackendRule$Builder : protokt/v1/Builde
 	public final fun setAddress (Ljava/lang/String;)V
 	public final fun setAuthentication (Lprotokt/v1/google/api/BackendRule$Authentication;)V
 	public final fun setDeadline (D)V
+	public final fun setLoadBalancingPolicy (Ljava/lang/String;)V
 	public final fun setMinDeadline (D)V
 	public final fun setOperationDeadline (D)V
 	public final fun setOverridesByRequestProtocol (Ljava/util/Map;)V
@@ -352,6 +355,141 @@ public final class protokt/v1/google/api/BackendRule$PathTranslation$PATH_TRANSL
 
 public final class protokt/v1/google/api/BackendRule$PathTranslation$UNRECOGNIZED : protokt/v1/google/api/BackendRule$PathTranslation {
 	public fun <init> (I)V
+}
+
+public final class protokt/v1/google/api/BatchingConfigProto : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/api/BatchingConfigProto$Deserializer;
+	public synthetic fun <init> (Lprotokt/v1/google/api/BatchingSettingsProto;Lprotokt/v1/google/api/BatchingDescriptorProto;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/BatchingConfigProto;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/BatchingConfigProto;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBatchDescriptor ()Lprotokt/v1/google/api/BatchingDescriptorProto;
+	public final fun getThresholds ()Lprotokt/v1/google/api/BatchingSettingsProto;
+	public fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/BatchingConfigProto;
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/api/BatchingConfigProto$Builder;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/api/BatchingConfigProto$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/api/BatchingConfigProto$Builder$Factory;
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/api/BatchingConfigProto;
+	public final fun getBatchDescriptor ()Lprotokt/v1/google/api/BatchingDescriptorProto;
+	public final fun getThresholds ()Lprotokt/v1/google/api/BatchingSettingsProto;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setBatchDescriptor (Lprotokt/v1/google/api/BatchingDescriptorProto;)V
+	public final fun setThresholds (Lprotokt/v1/google/api/BatchingSettingsProto;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/api/BatchingConfigProto$Builder$Factory {
+}
+
+public final class protokt/v1/google/api/BatchingConfigProto$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/BatchingConfigProto;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/BatchingConfigProto;
+}
+
+public final class protokt/v1/google/api/BatchingDescriptorProto : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/api/BatchingDescriptorProto$Deserializer;
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Ljava/util/List;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/BatchingDescriptorProto;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/BatchingDescriptorProto;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBatchedField ()Ljava/lang/String;
+	public final fun getDiscriminatorFields ()Ljava/util/List;
+	public final fun getSubresponseField ()Ljava/lang/String;
+	public fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/BatchingDescriptorProto;
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/api/BatchingDescriptorProto$Builder;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/api/BatchingDescriptorProto$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/api/BatchingDescriptorProto$Builder$Factory;
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/api/BatchingDescriptorProto;
+	public final fun getBatchedField ()Ljava/lang/String;
+	public final fun getDiscriminatorFields ()Ljava/util/List;
+	public final fun getSubresponseField ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setBatchedField (Ljava/lang/String;)V
+	public final fun setDiscriminatorFields (Ljava/util/List;)V
+	public final fun setSubresponseField (Ljava/lang/String;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/api/BatchingDescriptorProto$Builder$Factory {
+}
+
+public final class protokt/v1/google/api/BatchingDescriptorProto$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/BatchingDescriptorProto;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/BatchingDescriptorProto;
+}
+
+public final class protokt/v1/google/api/BatchingSettingsProto : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/api/BatchingSettingsProto$Deserializer;
+	public synthetic fun <init> (IJLprotokt/v1/google/protobuf/Duration;IIIILprotokt/v1/google/api/FlowControlLimitExceededBehaviorProto;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/BatchingSettingsProto;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/BatchingSettingsProto;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDelayThreshold ()Lprotokt/v1/google/protobuf/Duration;
+	public final fun getElementCountLimit ()I
+	public final fun getElementCountThreshold ()I
+	public final fun getFlowControlByteLimit ()I
+	public final fun getFlowControlElementLimit ()I
+	public final fun getFlowControlLimitExceededBehavior ()Lprotokt/v1/google/api/FlowControlLimitExceededBehaviorProto;
+	public final fun getRequestByteLimit ()I
+	public final fun getRequestByteThreshold ()J
+	public fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/BatchingSettingsProto;
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/api/BatchingSettingsProto$Builder;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/api/BatchingSettingsProto$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/api/BatchingSettingsProto$Builder$Factory;
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/api/BatchingSettingsProto;
+	public final fun getDelayThreshold ()Lprotokt/v1/google/protobuf/Duration;
+	public final fun getElementCountLimit ()I
+	public final fun getElementCountThreshold ()I
+	public final fun getFlowControlByteLimit ()I
+	public final fun getFlowControlElementLimit ()I
+	public final fun getFlowControlLimitExceededBehavior ()Lprotokt/v1/google/api/FlowControlLimitExceededBehaviorProto;
+	public final fun getRequestByteLimit ()I
+	public final fun getRequestByteThreshold ()J
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setDelayThreshold (Lprotokt/v1/google/protobuf/Duration;)V
+	public final fun setElementCountLimit (I)V
+	public final fun setElementCountThreshold (I)V
+	public final fun setFlowControlByteLimit (I)V
+	public final fun setFlowControlElementLimit (I)V
+	public final fun setFlowControlLimitExceededBehavior (Lprotokt/v1/google/api/FlowControlLimitExceededBehaviorProto;)V
+	public final fun setRequestByteLimit (I)V
+	public final fun setRequestByteThreshold (J)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/api/BatchingSettingsProto$Builder$Factory {
+}
+
+public final class protokt/v1/google/api/BatchingSettingsProto$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/BatchingSettingsProto;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/BatchingSettingsProto;
 }
 
 public final class protokt/v1/google/api/Billing : protokt/v1/AbstractMessage {
@@ -1416,6 +1554,10 @@ public final class protokt/v1/google/api/ErrorReason$ACCOUNT_STATE_INVALID : pro
 	public static final field INSTANCE Lprotokt/v1/google/api/ErrorReason$ACCOUNT_STATE_INVALID;
 }
 
+public final class protokt/v1/google/api/ErrorReason$ACCOUNT_TYPE_UNSUPPORTED : protokt/v1/google/api/ErrorReason {
+	public static final field INSTANCE Lprotokt/v1/google/api/ErrorReason$ACCOUNT_TYPE_UNSUPPORTED;
+}
+
 public final class protokt/v1/google/api/ErrorReason$API_KEY_ANDROID_APP_BLOCKED : protokt/v1/google/api/ErrorReason {
 	public static final field INSTANCE Lprotokt/v1/google/api/ErrorReason$API_KEY_ANDROID_APP_BLOCKED;
 }
@@ -1456,9 +1598,25 @@ public final class protokt/v1/google/api/ErrorReason$CREDENTIALS_MISSING : proto
 	public static final field INSTANCE Lprotokt/v1/google/api/ErrorReason$CREDENTIALS_MISSING;
 }
 
+public final class protokt/v1/google/api/ErrorReason$CREDENTIAL_ANDROID_APP_INVALID : protokt/v1/google/api/ErrorReason {
+	public static final field INSTANCE Lprotokt/v1/google/api/ErrorReason$CREDENTIAL_ANDROID_APP_INVALID;
+}
+
+public final class protokt/v1/google/api/ErrorReason$CREDENTIAL_TYPE_UNSUPPORTED : protokt/v1/google/api/ErrorReason {
+	public static final field INSTANCE Lprotokt/v1/google/api/ErrorReason$CREDENTIAL_TYPE_UNSUPPORTED;
+}
+
 public final class protokt/v1/google/api/ErrorReason$Deserializer : protokt/v1/EnumDeserializer {
 	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
 	public fun deserialize (I)Lprotokt/v1/google/api/ErrorReason;
+}
+
+public final class protokt/v1/google/api/ErrorReason$EMULATOR_QUOTA_EXCEEDED : protokt/v1/google/api/ErrorReason {
+	public static final field INSTANCE Lprotokt/v1/google/api/ErrorReason$EMULATOR_QUOTA_EXCEEDED;
+}
+
+public final class protokt/v1/google/api/ErrorReason$ENDPOINT_USAGE_RESTRICTION_VIOLATED : protokt/v1/google/api/ErrorReason {
+	public static final field INSTANCE Lprotokt/v1/google/api/ErrorReason$ENDPOINT_USAGE_RESTRICTION_VIOLATED;
 }
 
 public final class protokt/v1/google/api/ErrorReason$ERROR_REASON_UNSPECIFIED : protokt/v1/google/api/ErrorReason {
@@ -1469,12 +1627,28 @@ public final class protokt/v1/google/api/ErrorReason$GCP_SUSPENDED : protokt/v1/
 	public static final field INSTANCE Lprotokt/v1/google/api/ErrorReason$GCP_SUSPENDED;
 }
 
+public final class protokt/v1/google/api/ErrorReason$IAM_PERMISSION_DENIED : protokt/v1/google/api/ErrorReason {
+	public static final field INSTANCE Lprotokt/v1/google/api/ErrorReason$IAM_PERMISSION_DENIED;
+}
+
+public final class protokt/v1/google/api/ErrorReason$JWT_TOKEN_INVALID : protokt/v1/google/api/ErrorReason {
+	public static final field INSTANCE Lprotokt/v1/google/api/ErrorReason$JWT_TOKEN_INVALID;
+}
+
+public final class protokt/v1/google/api/ErrorReason$LOCATION_ORG_POLICY_VIOLATED : protokt/v1/google/api/ErrorReason {
+	public static final field INSTANCE Lprotokt/v1/google/api/ErrorReason$LOCATION_ORG_POLICY_VIOLATED;
+}
+
 public final class protokt/v1/google/api/ErrorReason$LOCATION_POLICY_VIOLATED : protokt/v1/google/api/ErrorReason {
 	public static final field INSTANCE Lprotokt/v1/google/api/ErrorReason$LOCATION_POLICY_VIOLATED;
 }
 
 public final class protokt/v1/google/api/ErrorReason$LOCATION_TAX_POLICY_VIOLATED : protokt/v1/google/api/ErrorReason {
 	public static final field INSTANCE Lprotokt/v1/google/api/ErrorReason$LOCATION_TAX_POLICY_VIOLATED;
+}
+
+public final class protokt/v1/google/api/ErrorReason$MCP_SERVER_DISABLED : protokt/v1/google/api/ErrorReason {
+	public static final field INSTANCE Lprotokt/v1/google/api/ErrorReason$MCP_SERVER_DISABLED;
 }
 
 public final class protokt/v1/google/api/ErrorReason$MISSING_ORIGIN : protokt/v1/google/api/ErrorReason {
@@ -1527,6 +1701,14 @@ public final class protokt/v1/google/api/ErrorReason$SESSION_COOKIE_INVALID : pr
 
 public final class protokt/v1/google/api/ErrorReason$SYSTEM_PARAMETER_UNSUPPORTED : protokt/v1/google/api/ErrorReason {
 	public static final field INSTANCE Lprotokt/v1/google/api/ErrorReason$SYSTEM_PARAMETER_UNSUPPORTED;
+}
+
+public final class protokt/v1/google/api/ErrorReason$TLS_CIPHER_RESTRICTION_VIOLATED : protokt/v1/google/api/ErrorReason {
+	public static final field INSTANCE Lprotokt/v1/google/api/ErrorReason$TLS_CIPHER_RESTRICTION_VIOLATED;
+}
+
+public final class protokt/v1/google/api/ErrorReason$TLS_ORG_POLICY_VIOLATED : protokt/v1/google/api/ErrorReason {
+	public static final field INSTANCE Lprotokt/v1/google/api/ErrorReason$TLS_ORG_POLICY_VIOLATED;
 }
 
 public final class protokt/v1/google/api/ErrorReason$UNRECOGNIZED : protokt/v1/google/api/ErrorReason {
@@ -1714,6 +1896,38 @@ public final class protokt/v1/google/api/Field_behaviorKt {
 
 public final class protokt/v1/google/api/Field_infoKt {
 	public static final fun getFieldInfo (Lprotokt/v1/google/protobuf/FieldOptions;)Lprotokt/v1/google/api/FieldInfo;
+}
+
+public abstract class protokt/v1/google/api/FlowControlLimitExceededBehaviorProto : protokt/v1/Enum {
+	public static final field Deserializer Lprotokt/v1/google/api/FlowControlLimitExceededBehaviorProto$Deserializer;
+	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getName ()Ljava/lang/String;
+	public fun getValue ()I
+}
+
+public final class protokt/v1/google/api/FlowControlLimitExceededBehaviorProto$BLOCK : protokt/v1/google/api/FlowControlLimitExceededBehaviorProto {
+	public static final field INSTANCE Lprotokt/v1/google/api/FlowControlLimitExceededBehaviorProto$BLOCK;
+}
+
+public final class protokt/v1/google/api/FlowControlLimitExceededBehaviorProto$Deserializer : protokt/v1/EnumDeserializer {
+	public synthetic fun deserialize (I)Lprotokt/v1/Enum;
+	public fun deserialize (I)Lprotokt/v1/google/api/FlowControlLimitExceededBehaviorProto;
+}
+
+public final class protokt/v1/google/api/FlowControlLimitExceededBehaviorProto$IGNORE : protokt/v1/google/api/FlowControlLimitExceededBehaviorProto {
+	public static final field INSTANCE Lprotokt/v1/google/api/FlowControlLimitExceededBehaviorProto$IGNORE;
+}
+
+public final class protokt/v1/google/api/FlowControlLimitExceededBehaviorProto$THROW_EXCEPTION : protokt/v1/google/api/FlowControlLimitExceededBehaviorProto {
+	public static final field INSTANCE Lprotokt/v1/google/api/FlowControlLimitExceededBehaviorProto$THROW_EXCEPTION;
+}
+
+public final class protokt/v1/google/api/FlowControlLimitExceededBehaviorProto$UNRECOGNIZED : protokt/v1/google/api/FlowControlLimitExceededBehaviorProto {
+	public fun <init> (I)V
+}
+
+public final class protokt/v1/google/api/FlowControlLimitExceededBehaviorProto$UNSET_BEHAVIOR : protokt/v1/google/api/FlowControlLimitExceededBehaviorProto {
+	public static final field INSTANCE Lprotokt/v1/google/api/FlowControlLimitExceededBehaviorProto$UNSET_BEHAVIOR;
 }
 
 public final class protokt/v1/google/api/GoSettings : protokt/v1/AbstractMessage {
@@ -2341,11 +2555,12 @@ public final class protokt/v1/google/api/MethodPolicy$Deserializer : protokt/v1/
 
 public final class protokt/v1/google/api/MethodSettings : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/MethodSettings$Deserializer;
-	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/google/api/MethodSettings$LongRunning;Ljava/util/List;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/google/api/MethodSettings$LongRunning;Ljava/util/List;Lprotokt/v1/google/api/BatchingConfigProto;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/MethodSettings;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/MethodSettings;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAutoPopulatedFields ()Ljava/util/List;
+	public final fun getBatching ()Lprotokt/v1/google/api/BatchingConfigProto;
 	public final fun getLongRunning ()Lprotokt/v1/google/api/MethodSettings$LongRunning;
 	public final fun getSelector ()Ljava/lang/String;
 	public fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
@@ -2362,10 +2577,12 @@ public final class protokt/v1/google/api/MethodSettings$Builder : protokt/v1/Bui
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/MethodSettings;
 	public final fun getAutoPopulatedFields ()Ljava/util/List;
+	public final fun getBatching ()Lprotokt/v1/google/api/BatchingConfigProto;
 	public final fun getLongRunning ()Lprotokt/v1/google/api/MethodSettings$LongRunning;
 	public final fun getSelector ()Ljava/lang/String;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun setAutoPopulatedFields (Ljava/util/List;)V
+	public final fun setBatching (Lprotokt/v1/google/api/BatchingConfigProto;)V
 	public final fun setLongRunning (Lprotokt/v1/google/api/MethodSettings$LongRunning;)V
 	public final fun setSelector (Ljava/lang/String;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
@@ -3032,11 +3249,12 @@ public final class protokt/v1/google/api/Page$Deserializer : protokt/v1/Abstract
 
 public final class protokt/v1/google/api/PhpSettings : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/api/PhpSettings$Deserializer;
-	public synthetic fun <init> (Lprotokt/v1/google/api/CommonLanguageSettings;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/google/api/CommonLanguageSettings;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/PhpSettings;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/api/PhpSettings;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCommon ()Lprotokt/v1/google/api/CommonLanguageSettings;
+	public final fun getLibraryPackage ()Ljava/lang/String;
 	public fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public fun hashCode ()I
 	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/api/PhpSettings;
@@ -3051,8 +3269,10 @@ public final class protokt/v1/google/api/PhpSettings$Builder : protokt/v1/Builde
 	public fun <init> ()V
 	public final fun build ()Lprotokt/v1/google/api/PhpSettings;
 	public final fun getCommon ()Lprotokt/v1/google/api/CommonLanguageSettings;
+	public final fun getLibraryPackage ()Ljava/lang/String;
 	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
 	public final fun setCommon (Lprotokt/v1/google/api/CommonLanguageSettings;)V
+	public final fun setLibraryPackage (Ljava/lang/String;)V
 	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
 }
 
@@ -8762,6 +8982,132 @@ public final class protokt/v1/google/rpc/Help$Link$Deserializer : protokt/v1/Abs
 	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/Help$Link;
 }
 
+public final class protokt/v1/google/rpc/HttpHeader : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/rpc/HttpHeader$Deserializer;
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/HttpHeader;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/rpc/HttpHeader;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getKey ()Ljava/lang/String;
+	public fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/HttpHeader;
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/rpc/HttpHeader$Builder;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/rpc/HttpHeader$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/rpc/HttpHeader$Builder$Factory;
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/rpc/HttpHeader;
+	public final fun getKey ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun getValue ()Ljava/lang/String;
+	public final fun setKey (Ljava/lang/String;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+	public final fun setValue (Ljava/lang/String;)V
+}
+
+public final class protokt/v1/google/rpc/HttpHeader$Builder$Factory {
+}
+
+public final class protokt/v1/google/rpc/HttpHeader$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/rpc/HttpHeader;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/HttpHeader;
+}
+
+public final class protokt/v1/google/rpc/HttpRequest : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/rpc/HttpRequest$Deserializer;
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Ljava/util/List;Lprotokt/v1/Bytes;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/HttpRequest;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/rpc/HttpRequest;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBody ()Lprotokt/v1/Bytes;
+	public final fun getHeaders ()Ljava/util/List;
+	public final fun getMethod ()Ljava/lang/String;
+	public fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun getUri ()Ljava/lang/String;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/HttpRequest;
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/rpc/HttpRequest$Builder;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/rpc/HttpRequest$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/rpc/HttpRequest$Builder$Factory;
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/rpc/HttpRequest;
+	public final fun getBody ()Lprotokt/v1/Bytes;
+	public final fun getHeaders ()Ljava/util/List;
+	public final fun getMethod ()Ljava/lang/String;
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun getUri ()Ljava/lang/String;
+	public final fun setBody (Lprotokt/v1/Bytes;)V
+	public final fun setHeaders (Ljava/util/List;)V
+	public final fun setMethod (Ljava/lang/String;)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+	public final fun setUri (Ljava/lang/String;)V
+}
+
+public final class protokt/v1/google/rpc/HttpRequest$Builder$Factory {
+}
+
+public final class protokt/v1/google/rpc/HttpRequest$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/rpc/HttpRequest;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/HttpRequest;
+}
+
+public final class protokt/v1/google/rpc/HttpResponse : protokt/v1/AbstractMessage {
+	public static final field Deserializer Lprotokt/v1/google/rpc/HttpResponse$Deserializer;
+	public synthetic fun <init> (ILprotokt/v1/LazyReference;Ljava/util/List;Lprotokt/v1/Bytes;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/HttpResponse;
+	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/rpc/HttpResponse;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBody ()Lprotokt/v1/Bytes;
+	public final fun getHeaders ()Ljava/util/List;
+	public final fun getReason ()Ljava/lang/String;
+	public final fun getStatus ()I
+	public fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public fun hashCode ()I
+	public static final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/HttpResponse;
+	public fun serialize (Lprotokt/v1/Writer;)V
+	public fun serializedSize ()I
+	public final fun toBuilder ()Lprotokt/v1/google/rpc/HttpResponse$Builder;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class protokt/v1/google/rpc/HttpResponse$Builder : protokt/v1/BuilderScope {
+	public static final field Factory Lprotokt/v1/google/rpc/HttpResponse$Builder$Factory;
+	public fun <init> ()V
+	public final fun build ()Lprotokt/v1/google/rpc/HttpResponse;
+	public final fun getBody ()Lprotokt/v1/Bytes;
+	public final fun getHeaders ()Ljava/util/List;
+	public final fun getReason ()Ljava/lang/String;
+	public final fun getStatus ()I
+	public final fun getUnknownFields ()Lprotokt/v1/UnknownFieldSet;
+	public final fun setBody (Lprotokt/v1/Bytes;)V
+	public final fun setHeaders (Ljava/util/List;)V
+	public final fun setReason (Ljava/lang/String;)V
+	public final fun setStatus (I)V
+	public final fun setUnknownFields (Lprotokt/v1/UnknownFieldSet;)V
+}
+
+public final class protokt/v1/google/rpc/HttpResponse$Builder$Factory {
+}
+
+public final class protokt/v1/google/rpc/HttpResponse$Deserializer : protokt/v1/AbstractDeserializer {
+	public synthetic fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/Message;
+	public fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/rpc/HttpResponse;
+	public final fun invoke (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/HttpResponse;
+}
+
 public final class protokt/v1/google/rpc/LocalizedMessage : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/rpc/LocalizedMessage$Deserializer;
 	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -9321,7 +9667,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Peer$Deseriali
 
 public final class protokt/v1/google/rpc/context/AttributeContext$Request : protokt/v1/AbstractMessage {
 	public static final field Deserializer Lprotokt/v1/google/rpc/context/AttributeContext$Request$Deserializer;
-	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Ljava/util/Map;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/google/protobuf/Timestamp;JLprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/google/rpc/context/AttributeContext$Auth;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Ljava/util/Map;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/google/protobuf/Timestamp;JLprotokt/v1/LazyReference;Lprotokt/v1/LazyReference;Lprotokt/v1/google/rpc/context/AttributeContext$Auth;Lprotokt/v1/LazyReference;Lprotokt/v1/UnknownFieldSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun copy (Lkotlin/jvm/functions/Function1;)Lprotokt/v1/google/rpc/context/AttributeContext$Request;
 	public static fun deserialize (Lprotokt/v1/Reader;)Lprotokt/v1/google/rpc/context/AttributeContext$Request;
 	public fun equals (Ljava/lang/Object;)Z
@@ -9330,6 +9676,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Request : prot
 	public final fun getHost ()Ljava/lang/String;
 	public final fun getId ()Ljava/lang/String;
 	public final fun getMethod ()Ljava/lang/String;
+	public final fun getOrigin ()Ljava/lang/String;
 	public final fun getPath ()Ljava/lang/String;
 	public final fun getProtocol ()Ljava/lang/String;
 	public final fun getQuery ()Ljava/lang/String;
@@ -9355,6 +9702,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Request$Builde
 	public final fun getHost ()Ljava/lang/String;
 	public final fun getId ()Ljava/lang/String;
 	public final fun getMethod ()Ljava/lang/String;
+	public final fun getOrigin ()Ljava/lang/String;
 	public final fun getPath ()Ljava/lang/String;
 	public final fun getProtocol ()Ljava/lang/String;
 	public final fun getQuery ()Ljava/lang/String;
@@ -9368,6 +9716,7 @@ public final class protokt/v1/google/rpc/context/AttributeContext$Request$Builde
 	public final fun setHost (Ljava/lang/String;)V
 	public final fun setId (Ljava/lang/String;)V
 	public final fun setMethod (Ljava/lang/String;)V
+	public final fun setOrigin (Ljava/lang/String;)V
 	public final fun setPath (Ljava/lang/String;)V
 	public final fun setProtocol (Ljava/lang/String;)V
 	public final fun setQuery (Ljava/lang/String;)V

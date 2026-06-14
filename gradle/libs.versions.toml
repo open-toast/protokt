@@ -19,11 +19,10 @@ grpc-kotlin = "1.5.0"
 kotlinLogging = "8.0.02"
 kotlinPoet = "2.3.0"
 kotlinx-collectionsImmutable = "0.4.0"
-kotlinx-coroutines = "1.10.2"
+kotlinx-coroutines = "1.11.0"
 kotlinx-rpc = "0.11.0-grpc-188"
 kotlinx-io = "0.9.0"
 kotlinx-serialization = "1.11.0"
-ktor = "3.5.0"
 ktlint = "1.8.0"
 protobuf-java = "4.30.1"
 protobuf-js = "7.4.0"
@@ -49,7 +48,7 @@ datasets = "0.1.0"
 download = "5.7.0"
 jmh = "1.37"
 kotlinx-benchmark = "0.4.16"
-wire = "6.2.0"
+wire = "6.4.0"
 
 # test
 androidx-datastore = "1.1.7"
@@ -61,7 +60,7 @@ junit = "6.0.3"
 truth = "1.4.5"
 
 # third party
-protoGoogleCommonProtos = "2.70.0"
+protoGoogleCommonProtos = "2.71.0"
 
 [plugins]
 buildConfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildConfig" }
@@ -86,9 +85,6 @@ kotlinx-rpc-grpc-core = { module = "org.jetbrains.kotlinx:kotlinx-rpc-grpc-core"
 kotlinx-rpc-grpc-marshaller = { module = "org.jetbrains.kotlinx:kotlinx-rpc-grpc-marshaller", version.ref = "kotlinx-rpc" }
 kotlinx-rpc-grpc-server = { module = "org.jetbrains.kotlinx:kotlinx-rpc-grpc-server", version.ref = "kotlinx-rpc" }
 kotlinx-io = { module = "org.jetbrains.kotlinx:kotlinx-io-core", version.ref = "kotlinx-io" }
-ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
-ktor-server-cors = { module = "io.ktor:ktor-server-cors", version.ref = "ktor" }
-ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
 ktlint = { module = "com.pinterest.ktlint:ktlint-rule-engine", version.ref = "ktlint" }
 ktlintRuleSetStandard = { module = "com.pinterest.ktlint:ktlint-ruleset-standard", version.ref = "ktlint" }
 protobuf-gradlePlugin = { module = "com.google.protobuf:protobuf-gradle-plugin", version.ref = "protobufGradlePlugin" }
