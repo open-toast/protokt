@@ -48,7 +48,7 @@ datasets = "0.1.0"
 download = "5.7.0"
 jmh = "1.37"
 kotlinx-benchmark = "0.4.16"
-wire = "6.2.0"
+wire = "6.4.0"
 
 # test
 androidx-datastore = "1.1.7"
@@ -60,7 +60,7 @@ junit = "6.0.3"
 truth = "1.4.5"
 
 # third party
-protoGoogleCommonProtos = "2.70.0"
+protoGoogleCommonProtos = "2.71.0"
 
 [plugins]
 buildConfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildConfig" }
