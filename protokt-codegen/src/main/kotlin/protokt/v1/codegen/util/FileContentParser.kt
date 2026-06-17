@@ -37,6 +37,9 @@ internal fun parseFileContents(ctx: GeneratorContext) =
 
 private fun parseExtensions(ctx: GeneratorContext): List<ProtoExtension> =
     ctx.fdp.extension.mapNotNull { fdp ->
+        if (fdp.type == FieldDescriptorProto.Type.GROUP) {
+            return@mapNotNull null
+        }
         val fieldType = FieldType.from(Type.forNumber((fdp.type ?: FieldDescriptorProto.Type.STRING).value))
         val extendeeName = fdp.extendee?.removePrefix(".") ?: return@mapNotNull null
 

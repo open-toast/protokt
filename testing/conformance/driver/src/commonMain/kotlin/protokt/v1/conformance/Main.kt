@@ -24,6 +24,7 @@ import protokt.v1.Reader
 import protokt.v1.conformance.ConformanceRequest.Payload.ProtobufPayload
 import protokt.v1.conformance.ConformanceResponse.Result
 import protokt.v1.protobuf_test_messages.editions.TestAllTypesEdition2023
+import protokt.v1.protobuf_test_messages.proto2.TestAllTypesProto2
 import protokt.v1.protobuf_test_messages.proto3.TestAllTypesProto3
 import protokt.v1.protobuf_test_messages.editions.proto3.TestAllTypesProto3 as TestAllTypesEditionProto3
 
@@ -80,6 +81,7 @@ private fun processRequest(request: ConformanceRequest): ConformanceStepResult<R
 private fun deserializerFor(messageType: String): Deserializer<out Message>? =
     when (messageType) {
         "protobuf_test_messages.proto3.TestAllTypesProto3" -> TestAllTypesProto3
+        "protobuf_test_messages.proto2.TestAllTypesProto2" -> TestAllTypesProto2
         "protobuf_test_messages.editions.proto3.TestAllTypesProto3" -> TestAllTypesEditionProto3
         "protobuf_test_messages.editions.TestAllTypesEdition2023" -> TestAllTypesEdition2023
         else -> null
@@ -88,6 +90,7 @@ private fun deserializerFor(messageType: String): Deserializer<out Message>? =
 private val supportedMessageTypes =
     setOf(
         "protobuf_test_messages.proto3.TestAllTypesProto3",
+        "protobuf_test_messages.proto2.TestAllTypesProto2",
         "protobuf_test_messages.editions.proto3.TestAllTypesProto3",
         "protobuf_test_messages.editions.TestAllTypesEdition2023"
     )

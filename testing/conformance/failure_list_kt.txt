@@ -13,3 +13,9 @@ Required.Editions.ProtobufInput.ValidDelimitedExtension.GroupLike.ProtobufOutput
 Required.Editions.ProtobufInput.ValidDelimitedExtension.NotGroupLike.ProtobufOutput
 Required.Editions.ProtobufInput.ValidDelimitedField.GroupLike.ProtobufOutput
 Required.Editions.ProtobufInput.ValidDelimitedField.NotGroupLike.ProtobufOutput
+
+# proto2: protokt does not support (mirrors of the proto3 cases above)
+Recommended.Proto2.ProtobufInput.ValidDataOneofBinary.MESSAGE.Merge.ProtobufOutput
+Required.Proto2.ProtobufInput.RepeatedScalarMessageMerge.ProtobufOutput
+Required.Proto2.ProtobufInput.UnknownOrdering.ProtobufOutput
+Required.Proto2.ProtobufInput.ValidDataOneof.MESSAGE.Merge.ProtobufOutput
