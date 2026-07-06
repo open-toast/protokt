@@ -52,16 +52,10 @@ publishing {
     }
 }
 
-repositories {
-    google()
-}
-
 dependencies {
     implementation(kotlin("gradle-plugin"))
     implementation(gradleApi())
     implementation(libs.protobuf.gradlePlugin)
-
-    compileOnly(libs.androidGradlePluginApi)
 }
 
 sourceSets {
