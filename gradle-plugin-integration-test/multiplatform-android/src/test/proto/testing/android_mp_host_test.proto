@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 Toast, Inc.
+ * Copyright (c) 2026 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,12 +13,10 @@
  * limitations under the License.
  */
 
-package protokt.v1.gradle
+syntax = "proto3";
 
-internal object KotlinPlugins {
-    const val MULTIPLATFORM = "org.jetbrains.kotlin.multiplatform"
-    const val JVM = "org.jetbrains.kotlin.jvm"
-    const val ANDROID = "org.jetbrains.kotlin.android"
-    const val ANDROID_BASE = "com.android.base"
-    const val ANDROID_KMP_LIBRARY = "com.android.kotlin.multiplatform.library"
+package testing;
+
+message AndroidMpHostTestMessage {
+  string value = 1;
 }

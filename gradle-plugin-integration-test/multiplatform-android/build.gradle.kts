@@ -25,6 +25,7 @@ kotlin {
     android {
         namespace = "protokt.v1.testing.multiplatform.android"
         compileSdk = 36
+        withHostTestBuilder {}
     }
 
     sourceSets {
@@ -37,6 +38,12 @@ kotlin {
         val jvmTest by getting {
             dependencies {
                 runtimeOnly(libs.junit.platformLauncher)
+            }
+        }
+
+        val androidHostTest by getting {
+            dependencies {
+                implementation(kotlin("test-junit"))
             }
         }
     }
