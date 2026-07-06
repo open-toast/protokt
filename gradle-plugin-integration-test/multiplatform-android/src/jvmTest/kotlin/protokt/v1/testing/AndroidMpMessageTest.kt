@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Toast, Inc.
+ * Copyright (c) 2026 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,22 +13,19 @@
  * limitations under the License.
  */
 
-plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
-}
+package protokt.v1.testing
 
-rootProject.name = "gradle-plugin-integration-test"
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
-listOf(
-    "jvm-regular",
-    "jvm-lite",
-    "multiplatform",
-    "proto-dep",
-    "wrapper-types",
-    "android-test-fixtures"
-).forEach { include(it) }
+class AndroidMpMessageTest {
+    @Test
+    fun serialization_round_trip() {
+        val message = AndroidMpMessageFactory.create("hello")
 
-// uses AGP 9's `kotlin.android` KMP target DSL
-if (System.getProperty("android-integration.version", "8").substringBefore(".").toInt() >= 9) {
-    include("multiplatform-android")
+        assertEquals(
+            message,
+            AndroidMpMessage.deserialize(message.serialize())
+        )
+    }
 }

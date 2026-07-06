@@ -119,8 +119,25 @@ private fun Project.configureProtobuf(
         configureForJvmLike(config, disableJava, KotlinTarget.Jvm, binary)
     }
 
+    var androidConfigured = false
+
+    fun configureForAndroid() {
+        if (!androidConfigured) {
+            androidConfigured = true
+            configureForJvmLike(config, disableJava, KotlinTarget.Android, binary)
+        }
+    }
+
     pluginManager.withPlugin(KotlinPlugins.ANDROID) {
-        configureForJvmLike(config, disableJava, KotlinTarget.Android, binary)
+        configureForAndroid()
+    }
+
+    // AGP 9+ built-in Kotlin: org.jetbrains.kotlin.android is never applied, but the
+    // `kotlin` extension is already registered by the time com.android.base is applied.
+    pluginManager.withPlugin(KotlinPlugins.ANDROID_BASE) {
+        if (!pluginManager.hasPlugin(KotlinPlugins.MULTIPLATFORM) && extensions.findByName("kotlin") != null) {
+            configureForAndroid()
+        }
     }
 }
 
@@ -128,7 +145,10 @@ private fun Project.configureForJvmLike(config: Config, disableJava: Boolean, ta
     logger.log(DEBUG_LOG_LEVEL, "Configuring protokt for Kotlin ${target.name}")
     configureProtobufPlugin(project, config.extension, disableJava, target, binary)
     configurations.getByName("api").extendsFrom(config.extensions)
-    configurations.getByName("testApi").extendsFrom(config.testExtensions)
+
+    // AGP has no testApi configuration; test dependencies are visible via testImplementation only
+    (configurations.findByName("testApi") ?: configurations.getByName("testImplementation"))
+        .extendsFrom(config.testExtensions)
 }
 
 private fun Project.configureForMpp(
@@ -165,10 +185,15 @@ private fun Project.configureTarget(
 
     val sourceSets = extensions.getByType(KotlinMultiplatformExtension::class.java).sourceSets
     val mainSourceSet = sourceSets.getByName("${targetName}Main")
-    val testSourceSet = sourceSets.getByName("${targetName}Test")
+
+    // AGP's KMP android target has no `androidTest` source set; its test source
+    // sets are androidHostTest/androidDeviceTest and are not wired here.
+    val testSourceSet = sourceSets.findByName("${targetName}Test")
 
     configurations.getByName(mainSourceSet.apiConfigurationName).extendsFrom(config.extensions)
-    configurations.getByName(testSourceSet.apiConfigurationName).extendsFrom(config.testExtensions)
+    testSourceSet?.let {
+        configurations.getByName(it.apiConfigurationName).extendsFrom(config.testExtensions)
+    }
 
     // KMP disables Java compilation via onlyIf and doesn't wire Java source sets to compile tasks. Re-enable and connect them here.
     if (!disableJava && target.treatTargetAsJvm) {
@@ -183,7 +208,9 @@ private fun Project.configureTarget(
 
     afterEvaluate {
         linkGenerateProtoTasksAndIncludeGeneratedSource(target, mainSourceSet, false)
-        linkGenerateProtoTasksAndIncludeGeneratedSource(target, testSourceSet, true)
+        testSourceSet?.let {
+            linkGenerateProtoTasksAndIncludeGeneratedSource(target, it, true)
+        }
     }
 }
 
@@ -217,18 +244,19 @@ private fun Project.linkGenerateProtoTasksAndIncludeGeneratedSource(target: Kotl
 
     // JVM targets create Gradle source sets (e.g., jvmMain), so the protobuf plugin
     // creates per-target tasks (e.g., generateJvmMainProto). Non-JVM targets (common, JS)
-    // don't create Gradle source sets, so only the base tasks exist.
-    val taskName =
-        if (target.treatTargetAsJvm) {
-            "generate${sourceSet.name.capitalized()}Proto"
-        } else if (test) {
-            "generateTestProto"
-        } else {
-            "generateProto"
-        }
+    // don't create Gradle source sets, so only the base tasks exist. AGP's KMP android
+    // target creates no Gradle source set either, so it falls back to the base tasks.
+    val perSourceSetTaskName = "generate${sourceSet.name.capitalized()}Proto"
+    val baseTaskName = if (test) "generateTestProto" else "generateProto"
 
     val allTasks = extension.generateProtoTasks.all()
-    val generateProtoTask = allTasks.singleOrNull { it.name == taskName }
+    val generateProtoTask =
+        if (target.treatTargetAsJvm) {
+            allTasks.singleOrNull { it.name == perSourceSetTaskName }
+                ?: allTasks.singleOrNull { it.name == baseTaskName }
+        } else {
+            allTasks.singleOrNull { it.name == baseTaskName }
+        }
 
     generateProtoTask?.let { genProtoTask ->
         // Only include this target's output directory, not all targets' output directories.
@@ -239,6 +267,12 @@ private fun Project.linkGenerateProtoTasksAndIncludeGeneratedSource(target: Kotl
         // can resolve references to generated Java classes (e.g., ProtoktProtos).
         if (target.treatTargetAsJvm) {
             sourceSet.kotlin.srcDir(layout.buildDirectory.dir("generated/sources/proto/$protoSourceSetRoot/java"))
+        }
+
+        // AGP's KMP android target derives baselineProfiles directories as siblings of
+        // Kotlin source directories, which places them inside generateProto's output.
+        tasks.matching { it.name.endsWith("ArtProfile") }.configureEach {
+            mustRunAfter(genProtoTask)
         }
 
         the<SourceSetContainer>()
@@ -292,7 +326,7 @@ private fun Project.resolveCommonCodecDeps(protoktVersion: Any?): List<Dependenc
             if (plugins.hasPlugin(KotlinPlugins.MULTIPLATFORM)) {
                 // KMP: common deps are kotlinx-io only; JVM-specific deps added per-target
                 resolveOptimalKmpDeps(protoktVersion)
-            } else if (plugins.hasPlugin(KotlinPlugins.ANDROID)) {
+            } else if (plugins.hasPlugin(KotlinPlugins.ANDROID) || plugins.hasPlugin(KotlinPlugins.ANDROID_BASE)) {
                 resolveOptimalJvmLiteDeps(protoktVersion, ext)
             } else {
                 resolveOptimalJvmDeps(protoktVersion, ext)
