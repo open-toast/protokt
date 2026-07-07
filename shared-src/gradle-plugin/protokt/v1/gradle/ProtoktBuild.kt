@@ -92,7 +92,7 @@ private fun injectKotlinPluginsIntoProtobufGradle() {
     prerequisitePlugins.add("org.jetbrains.kotlin.multiplatform")
 }
 
-private class Config(
+internal class Config(
     val extension: ProtoktExtension,
     val extensions: Configuration,
     val testExtensions: Configuration
@@ -122,13 +122,27 @@ private fun Project.configureProtobuf(
     pluginManager.withPlugin(KotlinPlugins.ANDROID) {
         configureForJvmLike(config, disableJava, KotlinTarget.Android, binary)
     }
+
+    // AGP 9+ built-in Kotlin: org.jetbrains.kotlin.android is never applied, but the
+    // `kotlin` extension is already registered by the time com.android.base is applied.
+    pluginManager.withPlugin(KotlinPlugins.ANDROID_BASE) {
+        if (!pluginManager.hasPlugin(KotlinPlugins.MULTIPLATFORM) &&
+            !pluginManager.hasPlugin(KotlinPlugins.ANDROID) &&
+            extensions.findByName("kotlin") != null
+        ) {
+            configureForJvmLike(config, disableJava, KotlinTarget.Android, binary)
+        }
+    }
 }
 
 private fun Project.configureForJvmLike(config: Config, disableJava: Boolean, target: KotlinTarget, binary: Provider<String>) {
     logger.log(DEBUG_LOG_LEVEL, "Configuring protokt for Kotlin ${target.name}")
     configureProtobufPlugin(project, config.extension, disableJava, target, binary)
     configurations.getByName("api").extendsFrom(config.extensions)
-    configurations.getByName("testApi").extendsFrom(config.testExtensions)
+
+    // AGP has no testApi configuration; test dependencies are visible via testImplementation only
+    (configurations.findByName("testApi") ?: configurations.getByName("testImplementation"))
+        .extendsFrom(config.testExtensions)
 }
 
 private fun Project.configureForMpp(
@@ -162,6 +176,11 @@ private fun Project.configureTarget(
 ) {
     val target = KotlinTarget.fromMultiplatformTargetString(targetName)
     configureProtobufPlugin(project, config.extension, disableJava, target, binary)
+
+    if (target is KotlinTarget.MultiplatformAndroid && pluginManager.hasPlugin(KotlinPlugins.ANDROID_KMP_LIBRARY)) {
+        AndroidKmpLibrary.configure(project, target, config)
+        return
+    }
 
     val sourceSets = extensions.getByType(KotlinMultiplatformExtension::class.java).sourceSets
     val mainSourceSet = sourceSets.getByName("${targetName}Main")
@@ -292,7 +311,7 @@ private fun Project.resolveCommonCodecDeps(protoktVersion: Any?): List<Dependenc
             if (plugins.hasPlugin(KotlinPlugins.MULTIPLATFORM)) {
                 // KMP: common deps are kotlinx-io only; JVM-specific deps added per-target
                 resolveOptimalKmpDeps(protoktVersion)
-            } else if (plugins.hasPlugin(KotlinPlugins.ANDROID)) {
+            } else if (plugins.hasPlugin(KotlinPlugins.ANDROID) || plugins.hasPlugin(KotlinPlugins.ANDROID_BASE)) {
                 resolveOptimalJvmLiteDeps(protoktVersion, ext)
             } else {
                 resolveOptimalJvmDeps(protoktVersion, ext)

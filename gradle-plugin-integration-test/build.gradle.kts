@@ -40,7 +40,7 @@ buildscript {
         classpath("com.toasttab.protokt.v1:protokt-gradle-plugin:$protoktVersion")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${System.getProperty("kotlin-integration.version", libs.versions.kotlin.get())}")
         classpath("com.diffplug.spotless:spotless-plugin-gradle:${libs.versions.spotless.get()}")
-        classpath("com.android.tools.build:gradle:${libs.versions.androidGradlePlugin.get()}")
+        classpath("com.android.tools.build:gradle:${System.getProperty("android-integration.version", libs.versions.androidGradlePlugin.get())}")
     }
 }
 
@@ -68,13 +68,13 @@ allprojects {
 
         kotlinGradle {
             target("**/*.kts")
-            targetExclude("**/build/generated/**")
+            targetExclude("**/build/**")
             ktlint(libs.versions.ktlint.get()).editorConfigOverride(editorConfigOverride)
         }
 
         kotlin {
             target("**/*.kt")
-            targetExclude("**/build/generated/**")
+            targetExclude("**/build/**")
             ktlint(libs.versions.ktlint.get()).editorConfigOverride(editorConfigOverride)
         }
 
@@ -84,7 +84,7 @@ allprojects {
                 rootProject.file("gradle/license-header-c-style"),
                 "(package |@file|import |fun )"
             )
-            targetExclude("**/generated-sources/**")
+            targetExclude("**/generated-sources/**", "**/build/**")
         }
 
         format("protobufLicense") {
@@ -93,6 +93,7 @@ allprojects {
                 rootProject.file("gradle/license-header-c-style"),
                 "(syntax )"
             )
+            targetExclude("**/build/**")
         }
     }
 }

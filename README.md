@@ -360,7 +360,7 @@ dependencies. The default is `optimal()`, which auto-detects the best codec
 based on your Kotlin plugin type:
 
 - **`kotlin("jvm")`** projects get `protokt-runtime-protobuf-java` + `protobuf-java`
-- **`kotlin("android")`** projects get `protokt-runtime-protobuf-java` + `protobuf-javalite`
+- **Android** projects (`kotlin("android")` or AGP 9+ built-in Kotlin) get `protokt-runtime-protobuf-java` + `protobuf-javalite`
 - **`kotlin("multiplatform")`** projects get `protokt-runtime-kotlinx-io` for all targets,
   plus `protokt-runtime-protobuf-java` and the appropriate `protobuf-java`/`protobuf-javalite`
   added to JVM/Android target-specific configurations

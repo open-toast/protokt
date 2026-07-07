@@ -15,13 +15,17 @@
 
 plugins {
     id("com.android.library")
-    kotlin("android")
     id("com.toasttab.protokt.v1")
+}
+
+// AGP 9+ has built-in Kotlin support; the standalone plugin conflicts with it
+if (com.android.Version.ANDROID_GRADLE_PLUGIN_VERSION.substringBefore(".").toInt() < 9) {
+    apply(plugin = "org.jetbrains.kotlin.android")
 }
 
 android {
     namespace = "protokt.v1.testing.android"
-    compileSdk = 31
+    compileSdk = 36
 
     testFixtures {
         enable = true

@@ -19,4 +19,6 @@ internal object KotlinPlugins {
     const val MULTIPLATFORM = "org.jetbrains.kotlin.multiplatform"
     const val JVM = "org.jetbrains.kotlin.jvm"
     const val ANDROID = "org.jetbrains.kotlin.android"
+    const val ANDROID_BASE = "com.android.base"
+    const val ANDROID_KMP_LIBRARY = "com.android.kotlin.multiplatform.library"
 }
