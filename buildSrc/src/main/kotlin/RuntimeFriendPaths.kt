@@ -18,6 +18,7 @@ import org.gradle.kotlin.dsl.configure
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation
 import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.tasks.BaseKotlinCompile
 import org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile
 import java.io.File
@@ -91,7 +92,7 @@ fun Project.friendPaths(vararg friendProjectPaths: String) {
     }
 }
 
-private fun dependsOnClosure(sourceSet: org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet): Set<org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet> =
+private fun dependsOnClosure(sourceSet: KotlinSourceSet): Set<KotlinSourceSet> =
     setOf(sourceSet) + sourceSet.dependsOn.flatMap { dependsOnClosure(it) }
 
 private fun Project.resolveFriendCompilations(
