@@ -25,7 +25,7 @@ if (com.android.Version.ANDROID_GRADLE_PLUGIN_VERSION.substringBefore(".").toInt
 
 android {
     namespace = "protokt.v1.testing.android"
-    compileSdk = 31
+    compileSdk = 36
 
     testFixtures {
         enable = true

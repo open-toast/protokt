@@ -119,24 +119,18 @@ private fun Project.configureProtobuf(
         configureForJvmLike(config, disableJava, KotlinTarget.Jvm, binary)
     }
 
-    var androidConfigured = false
-
-    fun configureForAndroid() {
-        if (!androidConfigured) {
-            androidConfigured = true
-            configureForJvmLike(config, disableJava, KotlinTarget.Android, binary)
-        }
-    }
-
     pluginManager.withPlugin(KotlinPlugins.ANDROID) {
-        configureForAndroid()
+        configureForJvmLike(config, disableJava, KotlinTarget.Android, binary)
     }
 
     // AGP 9+ built-in Kotlin: org.jetbrains.kotlin.android is never applied, but the
     // `kotlin` extension is already registered by the time com.android.base is applied.
     pluginManager.withPlugin(KotlinPlugins.ANDROID_BASE) {
-        if (!pluginManager.hasPlugin(KotlinPlugins.MULTIPLATFORM) && extensions.findByName("kotlin") != null) {
-            configureForAndroid()
+        if (!pluginManager.hasPlugin(KotlinPlugins.MULTIPLATFORM) &&
+            !pluginManager.hasPlugin(KotlinPlugins.ANDROID) &&
+            extensions.findByName("kotlin") != null
+        ) {
+            configureForJvmLike(config, disableJava, KotlinTarget.Android, binary)
         }
     }
 }

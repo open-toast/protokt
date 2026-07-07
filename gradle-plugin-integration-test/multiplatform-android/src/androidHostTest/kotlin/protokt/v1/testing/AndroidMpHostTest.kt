@@ -21,7 +21,7 @@ import kotlin.test.assertEquals
 class AndroidMpHostTest {
     @Test
     fun main_proto_round_trip() {
-        val message = AndroidMpMessageFactory.create("host")
+        val message = AndroidMpMessage { value = "host" }
 
         assertEquals(
             message,

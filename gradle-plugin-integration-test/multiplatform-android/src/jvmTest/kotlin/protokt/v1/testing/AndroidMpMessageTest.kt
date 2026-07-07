@@ -21,7 +21,7 @@ import kotlin.test.assertEquals
 class AndroidMpMessageTest {
     @Test
     fun serialization_round_trip() {
-        val message = AndroidMpMessageFactory.create("hello")
+        val message = AndroidMpMessage { value = "hello" }
 
         assertEquals(
             message,

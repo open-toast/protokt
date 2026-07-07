@@ -16,6 +16,8 @@
 package protokt.v1.gradle
 
 import org.gradle.api.Project
+import org.gradle.api.artifacts.Configuration
+import org.gradle.kotlin.dsl.the
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
 /**
@@ -43,13 +45,13 @@ internal object AndroidKmpLibrary {
         target: KotlinTarget,
         sourceSetName: String,
         compileTaskName: String,
-        extensionsConfiguration: org.gradle.api.artifacts.Configuration,
+        extensionsConfiguration: Configuration,
         test: Boolean
     ) {
         val protoSourceSetRoot = if (test) "test" else "main"
         val generateProtoTaskName = if (test) "generateTestProto" else "generateProto"
 
-        extensions.getByType(KotlinMultiplatformExtension::class.java).sourceSets.matching { it.name == sourceSetName }.all {
+        the<KotlinMultiplatformExtension>().sourceSets.matching { it.name == sourceSetName }.all {
             configurations.getByName(apiConfigurationName).extendsFrom(extensionsConfiguration)
             kotlin.srcDir(layout.buildDirectory.dir("generated/sources/proto/$protoSourceSetRoot/${target.protocPluginName}"))
 
