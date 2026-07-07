@@ -90,8 +90,8 @@ configure<KotlinMultiplatformExtension> {
 
     compilerOptions {
         allWarningsAsErrors = true
-        languageVersion.set(KotlinVersion.KOTLIN_2_1)
-        apiVersion.set(KotlinVersion.KOTLIN_2_1)
+        languageVersion.set(KotlinVersion.KOTLIN_2_2)
+        apiVersion.set(KotlinVersion.KOTLIN_2_2)
         freeCompilerArgs.addAll(
             "-Xexpect-actual-classes",
             "-opt-in=kotlinx.rpc.internal.utils.ExperimentalRpcApi",
