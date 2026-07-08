@@ -41,6 +41,37 @@
       }
     },
     {
+      "type": "member-missing",
+      "caller": "kotlin/internal/jdk8/JDK8PlatformImplementations",
+      "member": {
+        "type": "method",
+        "targetType": "java/util/Map",
+        "ref": {
+          "name": "getOrDefault",
+          "signature": "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;"
+        },
+        "accessType": "INTERFACE"
+      }
+    },
+    {
+      "type": "member-missing",
+      "caller": "kotlin/internal/jdk8/JDK8PlatformImplementations",
+      "member": {
+        "type": "method",
+        "targetType": "java/util/concurrent/ConcurrentMap",
+        "ref": {
+          "name": "computeIfAbsent",
+          "signature": "(Ljava/lang/Object;Ljava/util/function/Function;)Ljava/lang/Object;"
+        },
+        "accessType": "INTERFACE"
+      }
+    },
+    {
+      "type": "type-missing",
+      "caller": "kotlin/internal/jdk8/JDK8PlatformImplementations",
+      "target": "java/util/function/Function"
+    },
+    {
       "type": "type-missing",
       "caller": "io/grpc/CallOptions",
       "target": "java/time/Duration"

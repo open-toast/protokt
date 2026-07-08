@@ -17,6 +17,8 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation
+import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.tasks.BaseKotlinCompile
 import org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile
 import java.io.File
@@ -27,9 +29,11 @@ import java.io.File
 // Two quirks stem from protokt-runtime's custom nonJvmMain intermediate source set:
 //
 //   1. Metadata-target KotlinNativeCompile tasks (e.g. compileNativeMainKotlinMetadata)
-//      must friend ALL metadata compilations, not just the matching one, because
-//      internal members like codecOverride live in nonJvmMain while the consuming
-//      code is in nativeMain.
+//      must friend the matching compilation plus everything in its dependsOn closure,
+//      not just the matching one, because internal members like codecOverride live in
+//      nonJvmMain while the consuming code is in nativeMain. Friending compilations
+//      outside the closure trips Kotlin 2.4's warning about friend modules that are
+//      not on the library path.
 //
 //   2. -friend-modules only honours the last occurrence when passed multiple times,
 //      so all paths must be joined into a single argument.
@@ -56,9 +60,11 @@ fun Project.friendPaths(vararg friendProjectPaths: String) {
                         is BaseKotlinCompile -> {
                             for ((friendProject, _, friendCompilation) in friendCompilations) {
                                 friendPaths.from(friendCompilation.output.classesDirs, friendCompilation.output.allOutputs)
-                                val jarTaskName = "${compilation.target.name}Jar"
-                                if (jarTaskName in friendProject.tasks.names) {
-                                    friendPaths.from(friendProject.tasks.named(jarTaskName))
+                                if (compilation.platformType == KotlinPlatformType.jvm) {
+                                    val jarTaskName = "${compilation.target.name}Jar"
+                                    if (jarTaskName in friendProject.tasks.names) {
+                                        friendPaths.from(friendProject.tasks.named(jarTaskName))
+                                    }
                                 }
                             }
                         }
@@ -66,8 +72,11 @@ fun Project.friendPaths(vararg friendProjectPaths: String) {
                         is KotlinNativeCompile -> {
                             val allDirs = friendCompilations.flatMap { (_, friendKmp, friendCompilation) ->
                                 if (compilation.target.name == "metadata") {
+                                    val visibleSourceSets = dependsOnClosure(friendCompilation.defaultSourceSet).map { it.name }
                                     friendKmp.targets.getByName("metadata")
                                         .compilations
+                                        .filter { it.name != KotlinCompilation.MAIN_COMPILATION_NAME }
+                                        .filter { it.defaultSourceSet.name in visibleSourceSets }
                                         .flatMap { it.output.classesDirs }
                                 } else {
                                     friendCompilation.output.classesDirs.toList()
@@ -82,6 +91,9 @@ fun Project.friendPaths(vararg friendProjectPaths: String) {
         }
     }
 }
+
+private fun dependsOnClosure(sourceSet: KotlinSourceSet): Set<KotlinSourceSet> =
+    setOf(sourceSet) + sourceSet.dependsOn.flatMap { dependsOnClosure(it) }
 
 private fun Project.resolveFriendCompilations(
     compilation: KotlinCompilation<*>,

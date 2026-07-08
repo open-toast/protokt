@@ -13,7 +13,10 @@
  * limitations under the License.
  */
 
-@file:OptIn(kotlinx.cinterop.ExperimentalForeignApi::class)
+@file:OptIn(
+    kotlinx.cinterop.ExperimentalForeignApi::class,
+    kotlinx.cinterop.UnsafeNumber::class
+)
 
 package protokt.v1.benchmarks
 

@@ -18,6 +18,7 @@ package protokt.v1.testing
 import org.junit.jupiter.api.Test
 
 class EnumsWithSharedPrefixTest {
+    @Suppress("UNUSED_EXPRESSION")
     @Test
     fun `reference each enum name`() {
         // prefix is stripped

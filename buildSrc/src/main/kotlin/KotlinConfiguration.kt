@@ -25,8 +25,8 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 fun KotlinCommonCompilerOptions.configureKotlin() {
     allWarningsAsErrors = true
-    languageVersion.set(KotlinVersion.KOTLIN_2_1)
-    apiVersion.set(KotlinVersion.KOTLIN_2_1)
+    languageVersion.set(KotlinVersion.KOTLIN_2_2)
+    apiVersion.set(KotlinVersion.KOTLIN_2_2)
 
     freeCompilerArgs.add("-Xexpect-actual-classes")
 }
