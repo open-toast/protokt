@@ -252,12 +252,12 @@ private fun Project.linkGenerateProtoTasksAndIncludeGeneratedSource(target: Kotl
     generateProtoTask?.let { genProtoTask ->
         // Only include this target's output directory, not all targets' output directories.
         val targetOutputDir = layout.buildDirectory.dir("generated/sources/proto/$protoSourceSetRoot/${target.protocPluginName}")
-        sourceSet.kotlin.srcDir(targetOutputDir)
+        sourceSet.kotlin.srcDir(files(targetOutputDir).builtBy(genProtoTask))
 
         // JVM targets also need the Java protobuf output directory so the Kotlin compiler
         // can resolve references to generated Java classes (e.g., ProtoktProtos).
         if (target.treatTargetAsJvm) {
-            sourceSet.kotlin.srcDir(layout.buildDirectory.dir("generated/sources/proto/$protoSourceSetRoot/java"))
+            sourceSet.kotlin.srcDir(files(layout.buildDirectory.dir("generated/sources/proto/$protoSourceSetRoot/java")).builtBy(genProtoTask))
         }
 
         the<SourceSetContainer>()
