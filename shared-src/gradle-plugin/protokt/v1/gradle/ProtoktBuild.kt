@@ -38,7 +38,6 @@ import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 internal const val BASE_GROUP_NAME = "com.toasttab.protokt.v1"
 
@@ -263,13 +262,6 @@ private fun Project.linkGenerateProtoTasksAndIncludeGeneratedSource(target: Kotl
         the<SourceSetContainer>()
             .getByName(protoSourceSetRoot)
             .proto { sourceSet.resources.source(this) }
-
-        tasks.withType<KotlinCompilationTask<*>> {
-            if ((test && "Test" in name) || (!test && "Test" !in name)) {
-                logger.log(DEBUG_LOG_LEVEL, "Making task {} a dependency of {}", genProtoTask.name, name)
-                dependsOn(genProtoTask)
-            }
-        }
     }
 }
 
