@@ -13,8 +13,6 @@
  * limitations under the License.
  */
 
-import org.gradle.api.initialization.resolve.RepositoriesMode
-
 buildscript {
     repositories {
         maven(url = "https://repo1.maven.org/maven2")
@@ -28,7 +26,6 @@ buildscript {
 apply(plugin = "net.vivin.gradle-semantic-build-versioning")
 
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         mavenCentral()
         google()
