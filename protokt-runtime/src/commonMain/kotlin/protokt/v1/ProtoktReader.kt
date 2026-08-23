@@ -26,6 +26,9 @@ internal class ProtoktReader(
     override val lastTag: UInt
         get() = _lastTag.toUInt()
 
+    internal fun isAtEnd() =
+        pos == limit
+
     override fun readTag(): UInt {
         if (pos >= limit) {
             _lastTag = 0
