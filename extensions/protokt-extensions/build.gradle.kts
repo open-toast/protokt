@@ -33,6 +33,12 @@ configure<ExpediterExtension> {
     }
 }
 
+spotless {
+    kotlin {
+        targetExclude("src/jvmMain/kotlin/com/toasttab/protokt/ext/**.kt")
+    }
+}
+
 protokt {
     generate {
         types = false

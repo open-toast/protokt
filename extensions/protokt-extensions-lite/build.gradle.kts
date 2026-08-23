@@ -23,6 +23,12 @@ plugins {
 publishedLocalProtokt()
 enableNativeTargets()
 
+spotless {
+    kotlin {
+        targetExclude("src/jvmMain/kotlin/com/toasttab/protokt/ext/**.kt")
+    }
+}
+
 protokt {
     generate {
         lite()

@@ -19,6 +19,7 @@ import protokt.v1.gradle.protokt
 
 plugins {
     `kotlin-multiplatform`
+    id("protokt.common-conventions")
 }
 
 kotlin {

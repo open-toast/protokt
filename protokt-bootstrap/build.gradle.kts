@@ -26,3 +26,12 @@ kotlin {
 dependencies {
     implementation(project(":protokt-runtime"))
 }
+
+spotless {
+    kotlin {
+        targetExclude("**/*.kt")
+    }
+    format("kotlinLicense") {
+        targetExclude("**/*.kt")
+    }
+}
