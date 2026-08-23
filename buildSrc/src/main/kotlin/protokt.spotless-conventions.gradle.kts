@@ -15,90 +15,84 @@
 
 import com.diffplug.gradle.spotless.SpotlessExtension
 
-allprojects {
-    apply(plugin = "com.diffplug.spotless")
-    repositories { mavenCentral() }
+apply(plugin = "com.diffplug.spotless")
 
-    configure<SpotlessExtension> {
-        val editorConfigOverride =
-            mapOf(
-                "ktlint_standard_trailing-comma-on-call-site" to "disabled",
-                "ktlint_standard_trailing-comma-on-declaration-site" to "disabled",
-                "ktlint_function_signature_body_expression_wrapping" to "always",
-                "ij_kotlin_packages_to_use_import_on_demand" to "",
-                "ktlint_standard_no-unused-imports" to "enabled",
-            )
+configure<SpotlessExtension> {
+    val editorConfigOverride =
+        mapOf(
+            "ktlint_standard_trailing-comma-on-call-site" to "disabled",
+            "ktlint_standard_trailing-comma-on-declaration-site" to "disabled",
+            "ktlint_function_signature_body_expression_wrapping" to "always",
+            "ij_kotlin_packages_to_use_import_on_demand" to "",
+            "ktlint_standard_no-unused-imports" to "enabled",
+        )
 
-        kotlin {
-            ktlint(libs.versions.ktlint.get()).editorConfigOverride(editorConfigOverride)
-            target("**/*.kt")
-            targetExclude(
-                "buildSrc/build/generated-sources/**",
-                "**/generated/**",
-                "**/protokt-bootstrap/**",
-                "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/**/*.kt",
-                "extensions/protokt-jvm-extensions-lite/src/main/kotlin/com/toasttab/protokt/ext/**.kt",
-                "extensions/protokt-extensions-lite/src/jvmMain/kotlin/com/toasttab/protokt/ext/**.kt",
-                "extensions/protokt-extensions/src/jvmMain/kotlin/com/toasttab/protokt/ext/**.kt",
-                "protokt-core/src/jvmMain/kotlin/com/toasttab/protokt/**/*.kt"
-            )
-        }
+    kotlin {
+        ktlint(libs.versions.ktlint.get()).editorConfigOverride(editorConfigOverride)
+        target("**/*.kt")
+        targetExclude(
+            "**/build/**",
+            "**/generated/**",
+            "**/protokt-bootstrap/**",
+            "protokt-core-lite/src/jvmMain/kotlin/com/toasttab/protokt/**/*.kt",
+            "extensions/protokt-extensions-lite/src/jvmMain/kotlin/com/toasttab/protokt/ext/**.kt",
+            "extensions/protokt-extensions/src/jvmMain/kotlin/com/toasttab/protokt/ext/**.kt",
+            "protokt-core/src/jvmMain/kotlin/com/toasttab/protokt/**/*.kt"
+        )
+    }
 
-        kotlinGradle {
-            ktlint(libs.versions.ktlint.get()).editorConfigOverride(editorConfigOverride)
-            target("**/*.kts")
-            targetExclude("buildSrc/build/**")
-            licenseHeaderFile(
-                rootProject.file("gradle/license-header-c-style"),
-                "(package |@file|import |fun )|buildscript |plugins |subprojects |spotless |group =|rootProject"
-            )
-        }
+    kotlinGradle {
+        ktlint(libs.versions.ktlint.get()).editorConfigOverride(editorConfigOverride)
+        target("**/*.kts")
+        targetExclude("buildSrc/build/**")
+        licenseHeaderFile(
+            rootProject.file("gradle/license-header-c-style"),
+            "(package |@file|import |fun )|buildscript |plugins |subprojects |spotless |group =|rootProject"
+        )
+    }
 
-        format("kotlinLicense") {
-            target("**/*.kt")
-            licenseHeaderFile(
-                rootProject.file("gradle/license-header-c-style"),
-                "(package |@file|import |fun )"
-            )
-            targetExclude(
-                "**/buildSrc/build/generated/**",
-                "**/build/generated-sources/kotlin-dsl-*/**",
-                "**/build/generated/source/**",
-                "**/protokt/v1/animals/**",
-                "**/protokt/v1/helloworld/**",
-                "**/protokt/v1/io/grpc/examples/**",
-                "**/protokt/v1/bootstrap/**"
-            )
-        }
+    format("kotlinLicense") {
+        target("**/*.kt")
+        licenseHeaderFile(
+            rootProject.file("gradle/license-header-c-style"),
+            "(package |@file|import |fun )"
+        )
+        targetExclude(
+            "**/build/**",
+            "protokt-bootstrap/**/*.kt",
+            "**/protokt/v1/animals/**",
+            "**/protokt/v1/helloworld/**",
+            "**/protokt/v1/io/grpc/examples/**",
+            "**/protokt/v1/bootstrap/**"
+        )
+    }
 
-        format("protobufLicense") {
-            target("**/*.proto")
-            targetExclude(
-                listOf(
-                    "benchmarks/schema/src/main/resources/schema/benchmarks.proto",
-                    "examples/protos/src/main/proto/animals/dog.proto",
-                    "examples/protos/src/main/proto/animals/pig.proto",
-                    "examples/protos/src/main/proto/animals/sheep.proto",
-                    "examples/protos/src/main/proto/helloworld/hello_world.proto",
-                    "examples/protos/src/main/proto/io/grpc/examples/route_guide.proto",
-                    "testing/conformance/driver/src/main/proto/conformance/conformance.proto",
-                    "testing/conformance/driver/src/main/proto/protobuf_test_messages/editions/proto3/test_messages_proto3_editions.proto",
-                    "testing/conformance/driver/src/main/proto/protobuf_test_messages/editions/test_messages_edition2023.proto",
-                    "testing/conformance/driver/src/main/proto/protobuf_test_messages/proto2/test_messages_proto2.proto",
-                    "testing/conformance/driver/src/main/proto/protobuf_test_messages/proto3/test_messages_proto3.proto",
-                    "testing/interop/src/main/proto/tutorial/addressbook.proto",
-                    "testing/interop/src/main/proto/google/protobuf/unittest_import.proto",
-                    "testing/interop/src/main/proto/google/protobuf/unittest_import_public.proto",
-                    "testing/interop/src/main/proto/google/protobuf/unittest_proto3.proto",
-                ).map(rootProject::file) +
-                    "node_modules/**" +
-                    "**/build/extracted-include-protos/**" +
-                    "**/build/resources/**"
-            )
-            licenseHeaderFile(
-                rootProject.file("gradle/license-header-c-style"),
-                "(syntax |edition )"
-            )
-        }
+    format("protobufLicense") {
+        target("**/*.proto")
+        targetExclude(
+            listOf(
+                "benchmarks/schema/src/main/resources/schema/benchmarks.proto",
+                "examples/protos/src/main/proto/animals/dog.proto",
+                "examples/protos/src/main/proto/animals/pig.proto",
+                "examples/protos/src/main/proto/animals/sheep.proto",
+                "examples/protos/src/main/proto/helloworld/hello_world.proto",
+                "examples/protos/src/main/proto/io/grpc/examples/route_guide.proto",
+                "testing/conformance/driver/src/main/proto/conformance/conformance.proto",
+                "testing/conformance/driver/src/main/proto/protobuf_test_messages/editions/proto3/test_messages_proto3_editions.proto",
+                "testing/conformance/driver/src/main/proto/protobuf_test_messages/editions/test_messages_edition2023.proto",
+                "testing/conformance/driver/src/main/proto/protobuf_test_messages/proto2/test_messages_proto2.proto",
+                "testing/conformance/driver/src/main/proto/protobuf_test_messages/proto3/test_messages_proto3.proto",
+                "testing/interop/src/main/proto/tutorial/addressbook.proto",
+                "testing/interop/src/main/proto/google/protobuf/unittest_import.proto",
+                "testing/interop/src/main/proto/google/protobuf/unittest_import_public.proto",
+                "testing/interop/src/main/proto/google/protobuf/unittest_proto3.proto",
+            ).map(rootProject::file) +
+                "node_modules/**" +
+                "**/build/**"
+        )
+        licenseHeaderFile(
+            rootProject.file("gradle/license-header-c-style"),
+            "(syntax |edition )"
+        )
     }
 }

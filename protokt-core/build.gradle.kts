@@ -24,14 +24,6 @@ publishedLocalProtokt()
 compatibleWithAndroid()
 enableNativeTargets()
 
-spotless {
-    kotlin {
-        targetExclude(
-            "src/jvmMain/kotlin/com/toasttab/protokt/**/*.kt"
-        )
-    }
-}
-
 protokt {
     generate {
         types = false

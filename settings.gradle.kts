@@ -13,6 +13,8 @@
  * limitations under the License.
  */
 
+import org.gradle.api.initialization.resolve.RepositoriesMode
+
 buildscript {
     repositories {
         maven(url = "https://repo1.maven.org/maven2")
@@ -24,6 +26,27 @@ buildscript {
 }
 
 apply(plugin = "net.vivin.gradle-semantic-build-versioning")
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        mavenCentral()
+        google()
+        maven("https://packages.jetbrains.team/maven/p/krpc/grpc")
+        ivy {
+            setUrl("https://github.com/ogolberg/")
+            patternLayout {
+                artifact("/[organization]/releases/download/[revision]/[artifact]-[classifier]-[revision]")
+            }
+            metadataSources {
+                artifact()
+            }
+            content {
+                includeGroup("build-protobuf-conformance-runner")
+            }
+        }
+    }
+}
 
 rootProject.name = "protokt"
 

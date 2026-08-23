@@ -20,25 +20,6 @@ plugins {
     id("protokt.jvm-conventions")
 }
 
-repositories {
-    ivy {
-        setUrl("https://github.com/ogolberg/")
-        patternLayout {
-            artifact("/[organization]/releases/download/[revision]/[artifact]-[classifier]-[revision]")
-        }
-
-        metadataSources {
-            artifact()
-        }
-
-        content {
-            content {
-                includeGroup("build-protobuf-conformance-runner")
-            }
-        }
-    }
-}
-
 configurations.create("conformance")
 
 // protobuf-java version is [java-specific major version].[protobuf version], e.g. 4.26.1
