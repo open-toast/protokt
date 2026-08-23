@@ -18,9 +18,9 @@ package protokt.v1.google.protobuf
 import protokt.v1.Converter
 
 object Int32ValueConverter : Converter<Int32Value, Int> {
-    override val wrapper = Int::class
+    override val valueType = Int::class
 
-    override val wrapped = Int32Value::class
+    override val wireType = Int32Value::class
 
     override fun wrap(unwrapped: Int32Value) =
         unwrapped.value

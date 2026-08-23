@@ -18,7 +18,10 @@ package protokt.v1
 import protokt.v1.google.protobuf.StringValue
 import java.time.LocalDate
 
-object LocalDateStringValueConverter : AbstractConverter<StringValue, LocalDate>() {
+object LocalDateStringValueConverter : Converter<StringValue, LocalDate> {
+    override val wireType = StringValue::class
+
+    override val valueType = LocalDate::class
     override fun wrap(unwrapped: StringValue) =
         LocalDateStringConverter.wrap(unwrapped.value)
 
