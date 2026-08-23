@@ -27,8 +27,6 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
 import org.gradle.plugins.signing.SigningExtension
-import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
-import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
 import protokt.v1.gradle.KotlinPlugins
 
 private object Pgp {
@@ -110,17 +108,6 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
         }
     }
 
-    val nativeTargetNames = mutableSetOf<String>()
-    pluginManager.withPlugin(KotlinPlugins.MULTIPLATFORM) {
-        configure<KotlinMultiplatformExtension> {
-            targets.configureEach {
-                if (platformType == KotlinPlatformType.native) {
-                    nativeTargetNames.add(name)
-                }
-            }
-        }
-    }
-
     tasks.register("publishToIntegrationRepository") {
         group = "publishing"
 
@@ -128,8 +115,7 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
 
         dependsOn(
             tasks.withType<PublishToMavenRepository>().matching {
-                it.repository == publishingExtension.repositories.getByName("integration") &&
-                    nativeTargetNames.none { target -> it.name.contains(target, ignoreCase = true) }
+                it.repository == publishingExtension.repositories.getByName("integration")
             }
         )
     }
