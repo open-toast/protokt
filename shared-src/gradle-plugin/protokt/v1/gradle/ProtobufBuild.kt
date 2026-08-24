@@ -23,10 +23,8 @@ import com.google.protobuf.gradle.id
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.provider.Provider
-import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.named
 import org.gradle.kotlin.dsl.withType
 import java.net.URLEncoder
 
@@ -40,8 +38,6 @@ internal fun configureProtobufPlugin(
     project.apply<ProtobufPlugin>()
 
     project.configure<ProtobufExtension> {
-        configureSources(project)
-
         protoc {
             artifact = "com.google.protobuf:protoc:${ext.protocVersion}"
         }
@@ -152,16 +148,6 @@ private fun resolveExtensions(project: Project, task: GenerateProtoTask) =
             null
         }
     )
-
-private fun configureSources(project: Project) {
-    project.afterEvaluate {
-        if (project.tasks.findByName("sourcesJar") != null) {
-            tasks.named<Jar>("sourcesJar").configure {
-                from("generated/source/proto/main")
-            }
-        }
-    }
-}
 
 private fun normalizePath(binaryPath: String) =
     if (Os.current.kind == Os.Kind.WINDOWS) {

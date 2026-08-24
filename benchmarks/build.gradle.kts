@@ -17,6 +17,7 @@ import de.undercouch.gradle.tasks.download.Download
 
 plugins {
     alias(libs.plugins.download)
+    id("protokt.common-conventions")
 }
 
 val archive = layout.buildDirectory.file("datasets-${libs.versions.datasets.get()}.zip")

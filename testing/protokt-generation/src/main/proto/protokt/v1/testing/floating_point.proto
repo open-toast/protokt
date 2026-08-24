@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Toast, Inc.
+ * Copyright (c) 2026 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,20 @@
  * limitations under the License.
  */
 
-spotless {
-    kotlin {
-        targetExclude(
-            "protokt-extensions/src/jvmMain/kotlin/com/toasttab/protokt/ext/inet_socket_address.kt",
-            "protokt-extensions/src/jvmMain/kotlin/com/toasttab/protokt/ext/protokt.kt",
-            "protokt-extensions-lite/src/jvmMain/kotlin/com/toasttab/protokt/ext/inet_socket_address.kt",
-            "protokt-extensions-lite/src/jvmMain/kotlin/com/toasttab/protokt/ext/protokt.kt"
-        )
-    }
+syntax = "proto3";
+
+package protokt.v1.testing;
+
+message FloatingPointMessage {
+  float float_value = 1;
+  double double_value = 2;
+  optional float optional_float = 3;
+
+  oneof selection {
+    float selected_float = 4;
+    double selected_double = 5;
+  }
+
+  repeated float float_values = 6;
+  map<string, double> double_values = 7;
 }

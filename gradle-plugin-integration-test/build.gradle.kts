@@ -70,7 +70,10 @@ allprojects {
             )
 
         kotlinGradle {
-            target("*.gradle.kts")
+            target("build.gradle.kts")
+            if (this@allprojects == rootProject) {
+                target("settings.gradle.kts")
+            }
             ktlint(libs.versions.ktlint.get()).editorConfigOverride(editorConfigOverride)
         }
 
@@ -85,6 +88,7 @@ allprojects {
                 rootProject.file("gradle/license-header-c-style"),
                 "(package |@file|import |fun )"
             )
+            targetExclude("**/generated-sources/**")
         }
 
         format("protobufLicense") {

@@ -15,6 +15,7 @@
 
 plugins {
     `kotlin-multiplatform`
+    id("protokt.common-conventions")
 }
 
 kotlin {
