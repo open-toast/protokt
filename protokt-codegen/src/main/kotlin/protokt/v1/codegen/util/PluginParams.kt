@@ -15,8 +15,12 @@
 
 package protokt.v1.codegen.util
 
-import com.google.common.base.CaseFormat
-import com.squareup.kotlinpoet.asClassName
+import protokt.v1.gradle.DEFAULT_FORMAT_OUTPUT
+import protokt.v1.gradle.DEFAULT_GENERATE_DESCRIPTORS
+import protokt.v1.gradle.DEFAULT_GENERATE_GRPC_DESCRIPTORS
+import protokt.v1.gradle.DEFAULT_GENERATE_GRPC_KOTLIN_STUBS
+import protokt.v1.gradle.DEFAULT_GENERATE_GRPC_KRPC
+import protokt.v1.gradle.DEFAULT_GENERATE_TYPES
 import protokt.v1.gradle.FORMAT_OUTPUT
 import protokt.v1.gradle.GENERATE_DESCRIPTORS
 import protokt.v1.gradle.GENERATE_GRPC_DESCRIPTORS
@@ -24,53 +28,36 @@ import protokt.v1.gradle.GENERATE_GRPC_KOTLIN_STUBS
 import protokt.v1.gradle.GENERATE_GRPC_KRPC
 import protokt.v1.gradle.GENERATE_TYPES
 import protokt.v1.gradle.KOTLIN_EXTRA_CLASSPATH
+import protokt.v1.gradle.KOTLIN_EXTRA_CLASSPATH_FILE
 import protokt.v1.gradle.KOTLIN_TARGET
 import protokt.v1.gradle.KotlinTarget
-import protokt.v1.gradle.ProtoktExtension
-import protokt.v1.gradle.ProtoktExtension.Generate
 import protokt.v1.reflect.ClassLookup
+import java.io.File
 import java.net.URLDecoder
-import kotlin.reflect.full.declaredMemberProperties
 
 internal class PluginParams(
     params: Map<String, String>
 ) {
+    private val encodedClasspath =
+        params[KOTLIN_EXTRA_CLASSPATH_FILE]
+            ?.let { File(URLDecoder.decode(it, "UTF-8")).readText() }
+            ?: params.getOrDefault(KOTLIN_EXTRA_CLASSPATH, "")
+
     val classLookup =
         ClassLookup(
-            params.getOrDefault(KOTLIN_EXTRA_CLASSPATH, "")
+            encodedClasspath
                 .split(";")
                 .map { URLDecoder.decode(it, "UTF-8") }
         )
 
-    val generateTypes = params.getOrDefault<Generate>(GENERATE_TYPES)
-    val generateDescriptors = params.getOrDefault<Generate>(GENERATE_DESCRIPTORS)
-    val generateGrpcDescriptors = params.getOrDefault<Generate>(GENERATE_GRPC_DESCRIPTORS)
-    val generateGrpcKotlinStubs = params.getOrDefault<Generate>(GENERATE_GRPC_KOTLIN_STUBS)
-    val generateGrpcKrpc = params.getOrDefault<Generate>(GENERATE_GRPC_KRPC)
-    val formatOutput = params.getOrDefault<ProtoktExtension>(FORMAT_OUTPUT)
-    val kotlinTarget = KotlinTarget.fromPluginOptionString(params.getValue(KOTLIN_TARGET))
+    val generateTypes = params.boolean(GENERATE_TYPES, DEFAULT_GENERATE_TYPES)
+    val generateDescriptors = params.boolean(GENERATE_DESCRIPTORS, DEFAULT_GENERATE_DESCRIPTORS)
+    val generateGrpcDescriptors = params.boolean(GENERATE_GRPC_DESCRIPTORS, DEFAULT_GENERATE_GRPC_DESCRIPTORS)
+    val generateGrpcKotlinStubs = params.boolean(GENERATE_GRPC_KOTLIN_STUBS, DEFAULT_GENERATE_GRPC_KOTLIN_STUBS)
+    val generateGrpcKrpc = params.boolean(GENERATE_GRPC_KRPC, DEFAULT_GENERATE_GRPC_KRPC)
+    val formatOutput = params.boolean(FORMAT_OUTPUT, DEFAULT_FORMAT_OUTPUT)
+    val kotlinTarget = KotlinTarget.fromPluginOptionString(params.getOrDefault(KOTLIN_TARGET, KotlinTarget.Jvm.toString()))
 }
 
-private inline fun <reified T> Map<String, String>.getOrDefault(key: String): Boolean {
-    val inParams = get(key)?.toBoolean()
-    return if (inParams != null) {
-        inParams
-    } else {
-        val default = T::class.constructors.single().call()!!
-
-        val prefix =
-            T::class.asClassName()
-                .simpleNames
-                .filter { it != ProtoktExtension::class.simpleName }
-                .joinToString("_") { it.lowercase() }
-
-        default::class.declaredMemberProperties
-            .single {
-                it.name == CaseFormat.LOWER_UNDERSCORE.to(
-                    CaseFormat.LOWER_CAMEL,
-                    key.removePrefix(prefix + "_")
-                )
-            }
-            .call(default) as Boolean
-    }
-}
+private fun Map<String, String>.boolean(key: String, default: Boolean) =
+    get(key)?.toBoolean() ?: default
