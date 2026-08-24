@@ -19,16 +19,12 @@ import com.vanniktech.maven.publish.KotlinMultiplatform
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
 import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
-import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
-import org.gradle.plugins.signing.Sign
 import org.gradle.plugins.signing.SigningExtension
-import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import protokt.v1.gradle.KotlinPlugins
 
 private object Pgp {
@@ -96,25 +92,11 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
     if (isRelease()) {
         configure<MavenPublishBaseExtension> {
             publishToMavenCentral(automaticRelease = true)
+            signAllPublications()
         }
-
-        apply(plugin = "signing")
 
         configure<SigningExtension> {
             useInMemoryPgpKeys(Pgp.key, Pgp.password)
-
-            afterEvaluate {
-                the<PublishingExtension>()
-                    .publications
-                    .withType<MavenPublication>()
-                    .forEach(::sign)
-            }
-        }
-
-        afterEvaluate {
-            tasks.withType<PublishToMavenRepository> {
-                dependsOn(tasks.withType<Sign>())
-            }
         }
     }
 
@@ -122,18 +104,10 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
         group = "publishing"
 
         val publishingExtension = project.the<PublishingExtension>()
-        val nativeTargetNames =
-            extensions.findByType(KotlinMultiplatformExtension::class.java)
-                ?.targets
-                ?.filterIsInstance<KotlinNativeTarget>()
-                ?.map { it.name }
-                ?.toSet()
-                ?: emptySet()
 
         dependsOn(
             tasks.withType<PublishToMavenRepository>().matching {
-                it.repository == publishingExtension.repositories.getByName("integration") &&
-                    nativeTargetNames.none { target -> it.name.contains(target, ignoreCase = true) }
+                it.repository == publishingExtension.repositories.getByName("integration")
             }
         )
     }
