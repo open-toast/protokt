@@ -39,9 +39,7 @@ internal class KotlinxIoSourceReader(
             return 0u
         }
         _lastTag = readRawVarint32()
-        if (_lastTag == 0 || WireFormat.getTagFieldNumber(_lastTag) == 0) {
-            throw ProtoktDecodeException("Invalid tag: $_lastTag")
-        }
+        protoktCheck(_lastTag != 0 && WireFormat.getTagFieldNumber(_lastTag) != 0) { "Invalid tag: $_lastTag" }
         return _lastTag.toUInt()
     }
 
@@ -93,9 +91,7 @@ internal class KotlinxIoSourceReader(
     }
 
     override fun <T : Message> readMessage(m: Deserializer<T>): T {
-        if (messageDepth >= WireFormat.DEFAULT_RECURSION_LIMIT) {
-            throw ProtoktDecodeException(WireFormat.TOO_MANY_LEVELS_OF_NESTING)
-        }
+        protoktCheck(messageDepth < WireFormat.DEFAULT_RECURSION_LIMIT) { WireFormat.TOO_MANY_LEVELS_OF_NESTING }
         messageDepth++
         try {
             val length = readRawVarint32()
@@ -104,9 +100,7 @@ internal class KotlinxIoSourceReader(
             currentLimit = bytesRead + length
             try {
                 val result = m.deserialize(this)
-                if (bytesRead != currentLimit) {
-                    throw ProtoktDecodeException(WireFormat.MESSAGE_NOT_FULLY_CONSUMED)
-                }
+                protoktRequire(bytesRead == currentLimit) { WireFormat.MESSAGE_NOT_FULLY_CONSUMED }
                 return result
             } finally {
                 currentLimit = oldLimit
@@ -117,18 +111,14 @@ internal class KotlinxIoSourceReader(
     }
 
     private fun checkLength(length: Int) {
-        if (length < 0) {
-            throw ProtoktDecodeException(WireFormat.NEGATIVE_SIZE)
-        }
-        if (length > currentLimit - bytesRead || !source.request(length.toLong())) {
-            throw ProtoktDecodeException(WireFormat.TRUNCATED_MESSAGE)
-        }
+        protoktCheck(length >= 0) { WireFormat.NEGATIVE_SIZE }
+        protoktCheck(length <= currentLimit - bytesRead) { WireFormat.TRUNCATED_MESSAGE }
+        protoktCheck(source.request(length.toLong())) { WireFormat.TRUNCATED_MESSAGE }
     }
 
     private fun checkAvailable(size: Int) {
-        if (currentLimit - bytesRead < size || !source.request(size.toLong())) {
-            throw ProtoktDecodeException(WireFormat.TRUNCATED_MESSAGE)
-        }
+        protoktCheck(currentLimit - bytesRead >= size) { WireFormat.TRUNCATED_MESSAGE }
+        protoktCheck(source.request(size.toLong())) { WireFormat.TRUNCATED_MESSAGE }
     }
 
     private fun readSourceByte(): Byte {
