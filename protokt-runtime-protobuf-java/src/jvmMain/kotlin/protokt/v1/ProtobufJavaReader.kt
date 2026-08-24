@@ -56,7 +56,7 @@ internal class ProtobufJavaReader(
         decode { stream.readSInt64() }
 
     override fun readString() =
-        decode { stream.readString() }
+        decode { stream.readStringRequireUtf8() }
 
     override fun readUInt64() =
         decode { stream.readUInt64().toULong() }

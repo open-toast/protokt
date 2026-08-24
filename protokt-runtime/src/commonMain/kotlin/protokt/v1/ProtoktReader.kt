@@ -47,6 +47,7 @@ internal class ProtoktReader(
     override fun readString(): String {
         val length = readRawVarint32()
         checkLength(length)
+        validateUtf8(buf, pos, pos + length)
         val s = buf.decodeToString(pos, pos + length)
         pos += length
         return s

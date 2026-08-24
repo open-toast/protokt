@@ -21,7 +21,7 @@ object StringConverter : Converter<Bytes, String> {
     override val wrapped = Bytes::class
 
     override fun wrap(unwrapped: Bytes): String =
-        unwrapped.value.decodeToString()
+        decodeUtf8(unwrapped.value)
 
     override fun unwrap(wrapped: String): Bytes =
         Bytes(wrapped.encodeToByteArray())

@@ -17,6 +17,7 @@ package protokt.v1
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
 class ExtensionTest {
     @Test
@@ -103,6 +104,24 @@ class ExtensionTest {
     fun `decode singular string`() {
         val field = fieldOf(LengthDelimitedVal(Bytes("hello".encodeToByteArray())))
         assertThat(ExtensionCodecs.string.decodeSingular(field)).isEqualTo("hello")
+    }
+
+    @Test
+    fun `decode singular string rejects invalid UTF-8`() {
+        val field = fieldOf(LengthDelimitedVal(Bytes(byteArrayOf(0xC0.toByte(), 0xAF.toByte()))))
+
+        val exception = assertThrows<ProtoktDecodeException> { ExtensionCodecs.string.decodeSingular(field) }
+
+        assertThat(exception).hasMessageThat().isEqualTo(WireFormat.INVALID_UTF8)
+    }
+
+    @Test
+    fun `string converter rejects invalid UTF-8`() {
+        val exception = assertThrows<ProtoktDecodeException> {
+            StringConverter.wrap(Bytes(byteArrayOf(0xED.toByte(), 0xA0.toByte(), 0x80.toByte())))
+        }
+
+        assertThat(exception).hasMessageThat().isEqualTo(WireFormat.INVALID_UTF8)
     }
 
     @Test

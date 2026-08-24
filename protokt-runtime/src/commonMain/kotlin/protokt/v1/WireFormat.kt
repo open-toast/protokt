@@ -22,6 +22,7 @@ internal object WireFormat {
     // error messages inspired by protobuf-java's InvalidProtocolBufferException
     const val NEGATIVE_SIZE =
         "Protocol message had an embedded string or message which claimed to have negative size."
+    const val INVALID_UTF8 = "Protocol message had invalid UTF-8."
 
     const val TRUNCATED_MESSAGE =
         "While parsing a protocol message, the input ended unexpectedly " +

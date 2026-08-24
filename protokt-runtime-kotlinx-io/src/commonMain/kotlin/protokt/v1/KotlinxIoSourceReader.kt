@@ -19,7 +19,6 @@ import kotlinx.io.Source
 import kotlinx.io.readByteArray
 import kotlinx.io.readIntLe
 import kotlinx.io.readLongLe
-import kotlinx.io.readString
 
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
 internal class KotlinxIoSourceReader(
@@ -54,8 +53,7 @@ internal class KotlinxIoSourceReader(
     override fun readString(): String {
         val length = readRawVarint32()
         checkLength(length)
-        bytesRead += length
-        return source.readString(length.toLong())
+        return decodeUtf8(readSourceByteArray(length))
     }
 
     override fun readUInt64(): ULong =
