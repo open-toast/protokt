@@ -32,7 +32,7 @@ abstract class AbstractBytes internal constructor(
         BytesSlice(value)
 
     final override fun equals(other: Any?) =
-        other is Bytes && value.contentEquals(other.value)
+        other is AbstractBytes && value.contentEquals(other.value)
 
     final override fun hashCode() =
         value.contentHashCode()

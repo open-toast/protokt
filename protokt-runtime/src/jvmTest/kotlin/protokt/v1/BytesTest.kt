@@ -60,6 +60,16 @@ class BytesTest {
     }
 
     @Test
+    fun `abstract bytes subclasses compare symmetrically`() {
+        val bytes = Bytes.from(byteArrayOf(1, 2, 3))
+        val other = TestBytes(byteArrayOf(1, 2, 3))
+
+        assertThat(bytes).isEqualTo(other)
+        assertThat(other).isEqualTo(bytes)
+        assertThat(bytes.hashCode()).isEqualTo(other.hashCode())
+    }
+
+    @Test
     fun `preview includes all of a 32-byte value`() {
         val bytes = Bytes.from(ByteArray(32) { it.toByte() })
 
@@ -82,3 +92,5 @@ class BytesTest {
         assertThat(slice.toString()).isEqualTo("Bytes(size=3, hex=\"010203\")")
     }
 }
+
+private class TestBytes(value: ByteArray) : AbstractBytes(value)
