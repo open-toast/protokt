@@ -38,7 +38,6 @@ import org.gradle.kotlin.dsl.the
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 internal const val BASE_GROUP_NAME = "com.toasttab.protokt.v1"
 
@@ -252,24 +251,17 @@ private fun Project.linkGenerateProtoTasksAndIncludeGeneratedSource(target: Kotl
     generateProtoTask?.let { genProtoTask ->
         // Only include this target's output directory, not all targets' output directories.
         val targetOutputDir = layout.buildDirectory.dir("generated/sources/proto/$protoSourceSetRoot/${target.protocPluginName}")
-        sourceSet.kotlin.srcDir(targetOutputDir)
+        sourceSet.kotlin.srcDir(files(targetOutputDir).builtBy(genProtoTask))
 
         // JVM targets also need the Java protobuf output directory so the Kotlin compiler
         // can resolve references to generated Java classes (e.g., ProtoktProtos).
         if (target.treatTargetAsJvm) {
-            sourceSet.kotlin.srcDir(layout.buildDirectory.dir("generated/sources/proto/$protoSourceSetRoot/java"))
+            sourceSet.kotlin.srcDir(files(layout.buildDirectory.dir("generated/sources/proto/$protoSourceSetRoot/java")).builtBy(genProtoTask))
         }
 
         the<SourceSetContainer>()
             .getByName(protoSourceSetRoot)
             .proto { sourceSet.resources.source(this) }
-
-        tasks.withType<KotlinCompilationTask<*>> {
-            if ((test && "Test" in name) || (!test && "Test" !in name)) {
-                logger.log(DEBUG_LOG_LEVEL, "Making task {} a dependency of {}", genProtoTask.name, name)
-                dependsOn(genProtoTask)
-            }
-        }
     }
 }
 

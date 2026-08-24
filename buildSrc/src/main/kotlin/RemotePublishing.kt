@@ -13,7 +13,6 @@
  * limitations under the License.
  */
 
-import com.google.protobuf.gradle.GenerateProtoTask
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.KotlinJvm
 import com.vanniktech.maven.publish.KotlinMultiplatform
@@ -22,7 +21,6 @@ import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
-import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.the
@@ -91,12 +89,6 @@ fun Project.enablePublishing(defaultJars: Boolean = true) {
             }
             pluginManager.withPlugin(KotlinPlugins.JVM) {
                 configure(KotlinJvm(JavadocJar.Empty()))
-            }
-        }
-
-        afterEvaluate {
-            tasks.withType<Jar> {
-                dependsOn(tasks.withType<GenerateProtoTask>())
             }
         }
     }
