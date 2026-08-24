@@ -16,6 +16,7 @@
 package protokt.v1.gradle
 
 import com.google.protobuf.gradle.ProtobufExtension
+import com.google.protobuf.gradle.ProtobufPlugin
 import com.google.protobuf.gradle.proto
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
@@ -54,6 +55,8 @@ internal fun configureProtokt(
     disableJava: Boolean,
     binary: CodegenBinary
 ) {
+    injectKotlinPluginsIntoProtobufGradle()
+
     val config = project.createExtensionConfigurations()
 
     // must wait for extension to resolve
@@ -79,6 +82,15 @@ internal fun configureProtokt(
     project.configureProtobuf(disableJava, config, project.prepareCodegenBinary(binary))
 }
 
+private fun injectKotlinPluginsIntoProtobufGradle() {
+    val prerequisitePluginsField = ProtobufPlugin::class.java.getDeclaredField("PREREQ_PLUGIN_OPTIONS")
+    prerequisitePluginsField.isAccessible = true
+
+    @Suppress("UNCHECKED_CAST")
+    val prerequisitePlugins = prerequisitePluginsField.get(null) as MutableList<String>
+    prerequisitePlugins.add("org.jetbrains.kotlin.multiplatform")
+}
+
 internal class Config(
     val extension: ProtoktExtension,
     val extensions: Configuration,
@@ -99,7 +111,6 @@ private fun Project.configureProtobuf(
     binary: TaskProvider<PrepareCodegenBinary>
 ) {
     pluginManager.withPlugin(KotlinPlugins.MULTIPLATFORM) {
-        ProtobufGradlePluginCompatibility.enableMultiplatform()
         configureForMpp(disableJava, config, binary)
     }
 
