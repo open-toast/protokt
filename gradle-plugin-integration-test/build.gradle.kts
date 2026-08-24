@@ -70,8 +70,7 @@ allprojects {
             )
 
         kotlinGradle {
-            target("**/*.kts")
-            targetExclude("**/build/**")
+            target("*.gradle.kts")
             ktlint(libs.versions.ktlint.get()).editorConfigOverride(editorConfigOverride)
         }
 
