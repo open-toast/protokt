@@ -331,7 +331,7 @@ public final class protokt/v1/google/api/BackendRule$Deserializer : protokt/v1/A
 
 public abstract class protokt/v1/google/api/BackendRule$PathTranslation : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/api/BackendRule$PathTranslation$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -567,7 +567,7 @@ public final class protokt/v1/google/api/Billing$Deserializer : protokt/v1/Abstr
 
 public abstract class protokt/v1/google/api/ChangeType : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/api/ChangeType$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -606,7 +606,7 @@ public final class protokt/v1/google/api/ClientKt {
 
 public abstract class protokt/v1/google/api/ClientLibraryDestination : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/api/ClientLibraryDestination$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -634,7 +634,7 @@ public final class protokt/v1/google/api/ClientLibraryDestination$UNRECOGNIZED :
 
 public abstract class protokt/v1/google/api/ClientLibraryOrganization : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/api/ClientLibraryOrganization$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -1533,7 +1533,7 @@ public final class protokt/v1/google/api/Endpoint$Deserializer : protokt/v1/Abst
 
 public abstract class protokt/v1/google/api/ErrorReason : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/api/ErrorReason$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -1725,7 +1725,7 @@ public final class protokt/v1/google/api/ErrorReason$USER_PROJECT_DENIED : proto
 
 public abstract class protokt/v1/google/api/FieldBehavior : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/api/FieldBehavior$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -1815,7 +1815,7 @@ public final class protokt/v1/google/api/FieldInfo$Deserializer : protokt/v1/Abs
 
 public abstract class protokt/v1/google/api/FieldInfo$Format : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/api/FieldInfo$Format$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -1900,7 +1900,7 @@ public final class protokt/v1/google/api/Field_infoKt {
 
 public abstract class protokt/v1/google/api/FlowControlLimitExceededBehaviorProto : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/api/FlowControlLimitExceededBehaviorProto$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -2321,7 +2321,7 @@ public final class protokt/v1/google/api/LabelDescriptor$Deserializer : protokt/
 
 public abstract class protokt/v1/google/api/LabelDescriptor$ValueType : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/api/LabelDescriptor$ValueType$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -2349,7 +2349,7 @@ public final class protokt/v1/google/api/LabelDescriptor$ValueType$UNRECOGNIZED 
 
 public abstract class protokt/v1/google/api/LaunchStage : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/api/LaunchStage$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -2790,7 +2790,7 @@ public final class protokt/v1/google/api/MetricDescriptor$MetricDescriptorMetada
 
 public abstract class protokt/v1/google/api/MetricDescriptor$MetricDescriptorMetadata$TimeSeriesResourceHierarchyLevel : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/api/MetricDescriptor$MetricDescriptorMetadata$TimeSeriesResourceHierarchyLevel$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -2822,7 +2822,7 @@ public final class protokt/v1/google/api/MetricDescriptor$MetricDescriptorMetada
 
 public abstract class protokt/v1/google/api/MetricDescriptor$MetricKind : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/api/MetricDescriptor$MetricKind$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -2854,7 +2854,7 @@ public final class protokt/v1/google/api/MetricDescriptor$MetricKind$UNRECOGNIZE
 
 public abstract class protokt/v1/google/api/MetricDescriptor$ValueType : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/api/MetricDescriptor$ValueType$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -3368,7 +3368,7 @@ public final class protokt/v1/google/api/Property$Deserializer : protokt/v1/Abst
 
 public abstract class protokt/v1/google/api/Property$PropertyType : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/api/Property$PropertyType$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -3701,7 +3701,7 @@ public final class protokt/v1/google/api/ResourceDescriptor$Deserializer : proto
 
 public abstract class protokt/v1/google/api/ResourceDescriptor$History : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/api/ResourceDescriptor$History$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -3729,7 +3729,7 @@ public final class protokt/v1/google/api/ResourceDescriptor$History$UNRECOGNIZED
 
 public abstract class protokt/v1/google/api/ResourceDescriptor$Style : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/api/ResourceDescriptor$Style$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -4496,7 +4496,7 @@ public final class protokt/v1/google/apps/card/v1/Action$Deserializer : protokt/
 
 public abstract class protokt/v1/google/apps/card/v1/Action$Interaction : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Action$Interaction$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -4520,7 +4520,7 @@ public final class protokt/v1/google/apps/card/v1/Action$Interaction$UNRECOGNIZE
 
 public abstract class protokt/v1/google/apps/card/v1/Action$LoadIndicator : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Action$LoadIndicator$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -4562,7 +4562,7 @@ public final class protokt/v1/google/apps/card/v1/BorderStyle : protokt/v1/Abstr
 
 public abstract class protokt/v1/google/apps/card/v1/BorderStyle$BorderType : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/BorderStyle$BorderType$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -4666,7 +4666,7 @@ public final class protokt/v1/google/apps/card/v1/Button$Deserializer : protokt/
 
 public abstract class protokt/v1/google/apps/card/v1/Button$Type : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Button$Type$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -4916,7 +4916,7 @@ public final class protokt/v1/google/apps/card/v1/Card$Deserializer : protokt/v1
 
 public abstract class protokt/v1/google/apps/card/v1/Card$DisplayStyle : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Card$DisplayStyle$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -4944,7 +4944,7 @@ public final class protokt/v1/google/apps/card/v1/Card$DisplayStyle$UNRECOGNIZED
 
 public abstract class protokt/v1/google/apps/card/v1/Card$DividerStyle : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Card$DividerStyle$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -5251,7 +5251,7 @@ public final class protokt/v1/google/apps/card/v1/ChipList$Deserializer : protok
 
 public abstract class protokt/v1/google/apps/card/v1/ChipList$Layout : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/ChipList$Layout$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -5393,7 +5393,7 @@ public final class protokt/v1/google/apps/card/v1/Columns$Column$Deserializer : 
 
 public abstract class protokt/v1/google/apps/card/v1/Columns$Column$HorizontalSizeStyle : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Columns$Column$HorizontalSizeStyle$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -5421,7 +5421,7 @@ public final class protokt/v1/google/apps/card/v1/Columns$Column$HorizontalSizeS
 
 public abstract class protokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -5629,7 +5629,7 @@ public final class protokt/v1/google/apps/card/v1/DateTimePicker$Builder$Factory
 
 public abstract class protokt/v1/google/apps/card/v1/DateTimePicker$DateTimePickerType : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/DateTimePicker$DateTimePickerType$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -5808,7 +5808,7 @@ public final class protokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$Bu
 
 public abstract class protokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$ControlType : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$ControlType$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -5968,7 +5968,7 @@ public final class protokt/v1/google/apps/card/v1/Grid$GridItem$Deserializer : p
 
 public abstract class protokt/v1/google/apps/card/v1/Grid$GridItem$GridItemLayout : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Grid$GridItem$GridItemLayout$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -6196,7 +6196,7 @@ public final class protokt/v1/google/apps/card/v1/ImageCropStyle$Deserializer : 
 
 public abstract class protokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -6410,7 +6410,7 @@ public final class protokt/v1/google/apps/card/v1/OpenLink$Deserializer : protok
 
 public abstract class protokt/v1/google/apps/card/v1/OpenLink$OnClose : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/OpenLink$OnClose$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -6434,7 +6434,7 @@ public final class protokt/v1/google/apps/card/v1/OpenLink$OnClose$UNRECOGNIZED 
 
 public abstract class protokt/v1/google/apps/card/v1/OpenLink$OpenAs : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/OpenLink$OpenAs$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -6647,7 +6647,7 @@ public final class protokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSou
 
 public abstract class protokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$CommonDataSource : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$CommonDataSource$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -6752,7 +6752,7 @@ public final class protokt/v1/google/apps/card/v1/SelectionInput$SelectionItem$S
 
 public abstract class protokt/v1/google/apps/card/v1/SelectionInput$SelectionType : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/SelectionInput$SelectionType$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -6934,7 +6934,7 @@ public final class protokt/v1/google/apps/card/v1/TextInput$Deserializer : proto
 
 public abstract class protokt/v1/google/apps/card/v1/TextInput$Type : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/TextInput$Type$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -6999,7 +6999,7 @@ public final class protokt/v1/google/apps/card/v1/TextParagraph$Deserializer : p
 
 public abstract class protokt/v1/google/apps/card/v1/TextParagraph$TextSyntax : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/TextParagraph$TextSyntax$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -7065,7 +7065,7 @@ public final class protokt/v1/google/apps/card/v1/Validation$Deserializer : prot
 
 public abstract class protokt/v1/google/apps/card/v1/Validation$InputType : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Validation$InputType$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -7278,7 +7278,7 @@ public final class protokt/v1/google/apps/card/v1/Widget$Deserializer : protokt/
 
 public abstract class protokt/v1/google/apps/card/v1/Widget$HorizontalAlignment : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Widget$HorizontalAlignment$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -7310,7 +7310,7 @@ public final class protokt/v1/google/apps/card/v1/Widget$HorizontalAlignment$UNR
 
 public abstract class protokt/v1/google/apps/card/v1/Widget$ImageType : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Widget$ImageType$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -7334,7 +7334,7 @@ public final class protokt/v1/google/apps/card/v1/Widget$ImageType$UNRECOGNIZED 
 
 public abstract class protokt/v1/google/apps/card/v1/Widget$VerticalAlignment : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/apps/card/v1/Widget$VerticalAlignment$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -7374,7 +7374,7 @@ public final class protokt/v1/google/cloud/Extended_operationsKt {
 
 public abstract class protokt/v1/google/cloud/OperationResponseMapping : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/cloud/OperationResponseMapping$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -7584,7 +7584,7 @@ public final class protokt/v1/google/cloud/audit/AuthorizationInfo$Deserializer 
 
 public abstract class protokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -7964,7 +7964,7 @@ public final class protokt/v1/google/cloud/audit/ViolationInfo$Deserializer : pr
 
 public abstract class protokt/v1/google/cloud/audit/ViolationInfo$PolicyType : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/cloud/audit/ViolationInfo$PolicyType$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -8275,7 +8275,7 @@ public final class protokt/v1/google/logging/type/HttpRequest$Deserializer : pro
 
 public abstract class protokt/v1/google/logging/type/LogSeverity : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/logging/type/LogSeverity$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -8748,7 +8748,7 @@ public final class protokt/v1/google/rpc/BadRequest$FieldViolation$Deserializer 
 
 public abstract class protokt/v1/google/rpc/Code : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/rpc/Code$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -9926,7 +9926,7 @@ public final class protokt/v1/google/shopping/type/Channel$Builder$Factory {
 
 public abstract class protokt/v1/google/shopping/type/Channel$ChannelEnum : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/shopping/type/Channel$ChannelEnum$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -10033,7 +10033,7 @@ public final class protokt/v1/google/shopping/type/Destination$Deserializer : pr
 
 public abstract class protokt/v1/google/shopping/type/Destination$DestinationEnum : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/shopping/type/Destination$DestinationEnum$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -10171,7 +10171,7 @@ public final class protokt/v1/google/shopping/type/ReportingContext$Deserializer
 
 public abstract class protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -10305,7 +10305,7 @@ public final class protokt/v1/google/shopping/type/Weight$Deserializer : protokt
 
 public abstract class protokt/v1/google/shopping/type/Weight$WeightUnit : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/shopping/type/Weight$WeightUnit$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -10333,7 +10333,7 @@ public final class protokt/v1/google/shopping/type/Weight$WeightUnit$WEIGHT_UNIT
 
 public abstract class protokt/v1/google/type/CalendarPeriod : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/type/CalendarPeriod$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -10547,7 +10547,7 @@ public final class protokt/v1/google/type/DateTime$TimeOffset$UtcOffset : protok
 
 public abstract class protokt/v1/google/type/DayOfWeek : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/type/DayOfWeek$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -10867,7 +10867,7 @@ public final class protokt/v1/google/type/Money$Deserializer : protokt/v1/Abstra
 
 public abstract class protokt/v1/google/type/Month : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/type/Month$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
