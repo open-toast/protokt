@@ -17,6 +17,11 @@ package protokt.v1
 
 import kotlin.jvm.JvmStatic
 
+/**
+ * A byte range that may share its backing storage with a larger input buffer.
+ *
+ * Use [toBytes] when retaining a small range would otherwise retain the input buffer.
+ */
 class BytesSlice internal constructor(
     internal val array: ByteArray,
     internal val offset: Int,
@@ -30,6 +35,7 @@ class BytesSlice internal constructor(
     fun isNotEmpty() =
         length > 0
 
+    /** Copies this range into independently owned immutable bytes. */
     fun toBytes() =
         Bytes(array.sliceArray(offset until offset + length))
 

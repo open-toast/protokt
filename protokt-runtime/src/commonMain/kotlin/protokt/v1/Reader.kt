@@ -20,6 +20,12 @@ interface Reader {
     val lastTag: UInt
 
     fun readBytes(): Bytes
+
+    /**
+     * Reads a byte range that may share storage with the complete input buffer.
+     *
+     * Call [BytesSlice.toBytes] before retaining a small range beyond decoding.
+     */
     fun readBytesSlice(): BytesSlice
     fun readFixed32(): UInt
     fun readFixed64(): ULong
