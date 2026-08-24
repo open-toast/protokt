@@ -464,7 +464,6 @@ public final class protokt/v1/google/protobuf/Edition$EDITION_UNKNOWN : protokt/
 }
 
 public final class protokt/v1/google/protobuf/Edition$UNRECOGNIZED : protokt/v1/google/protobuf/Edition {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/protobuf/Empty : protokt/v1/AbstractMessage {
@@ -918,7 +917,6 @@ public final class protokt/v1/google/protobuf/ExtensionRangeOptions$Verification
 }
 
 public final class protokt/v1/google/protobuf/ExtensionRangeOptions$VerificationState$UNRECOGNIZED : protokt/v1/google/protobuf/ExtensionRangeOptions$VerificationState {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/protobuf/ExtensionRangeOptions$VerificationState$UNVERIFIED : protokt/v1/google/protobuf/ExtensionRangeOptions$VerificationState {
@@ -1003,7 +1001,6 @@ public final class protokt/v1/google/protobuf/FeatureSet$EnforceNamingStyle$STYL
 }
 
 public final class protokt/v1/google/protobuf/FeatureSet$EnforceNamingStyle$UNRECOGNIZED : protokt/v1/google/protobuf/FeatureSet$EnforceNamingStyle {
-	public fun <init> (I)V
 }
 
 public abstract class protokt/v1/google/protobuf/FeatureSet$EnumType : protokt/v1/Enum {
@@ -1031,7 +1028,6 @@ public final class protokt/v1/google/protobuf/FeatureSet$EnumType$OPEN : protokt
 }
 
 public final class protokt/v1/google/protobuf/FeatureSet$EnumType$UNRECOGNIZED : protokt/v1/google/protobuf/FeatureSet$EnumType {
-	public fun <init> (I)V
 }
 
 public abstract class protokt/v1/google/protobuf/FeatureSet$FieldPresence : protokt/v1/Enum {
@@ -1063,7 +1059,6 @@ public final class protokt/v1/google/protobuf/FeatureSet$FieldPresence$LEGACY_RE
 }
 
 public final class protokt/v1/google/protobuf/FeatureSet$FieldPresence$UNRECOGNIZED : protokt/v1/google/protobuf/FeatureSet$FieldPresence {
-	public fun <init> (I)V
 }
 
 public abstract class protokt/v1/google/protobuf/FeatureSet$JsonFormat : protokt/v1/Enum {
@@ -1091,7 +1086,6 @@ public final class protokt/v1/google/protobuf/FeatureSet$JsonFormat$LEGACY_BEST_
 }
 
 public final class protokt/v1/google/protobuf/FeatureSet$JsonFormat$UNRECOGNIZED : protokt/v1/google/protobuf/FeatureSet$JsonFormat {
-	public fun <init> (I)V
 }
 
 public abstract class protokt/v1/google/protobuf/FeatureSet$MessageEncoding : protokt/v1/Enum {
@@ -1119,7 +1113,6 @@ public final class protokt/v1/google/protobuf/FeatureSet$MessageEncoding$MESSAGE
 }
 
 public final class protokt/v1/google/protobuf/FeatureSet$MessageEncoding$UNRECOGNIZED : protokt/v1/google/protobuf/FeatureSet$MessageEncoding {
-	public fun <init> (I)V
 }
 
 public abstract class protokt/v1/google/protobuf/FeatureSet$RepeatedFieldEncoding : protokt/v1/Enum {
@@ -1147,7 +1140,6 @@ public final class protokt/v1/google/protobuf/FeatureSet$RepeatedFieldEncoding$R
 }
 
 public final class protokt/v1/google/protobuf/FeatureSet$RepeatedFieldEncoding$UNRECOGNIZED : protokt/v1/google/protobuf/FeatureSet$RepeatedFieldEncoding {
-	public fun <init> (I)V
 }
 
 public abstract class protokt/v1/google/protobuf/FeatureSet$Utf8Validation : protokt/v1/Enum {
@@ -1167,7 +1159,6 @@ public final class protokt/v1/google/protobuf/FeatureSet$Utf8Validation$NONE : p
 }
 
 public final class protokt/v1/google/protobuf/FeatureSet$Utf8Validation$UNRECOGNIZED : protokt/v1/google/protobuf/FeatureSet$Utf8Validation {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/protobuf/FeatureSet$Utf8Validation$UTF8_VALIDATION_UNKNOWN : protokt/v1/google/protobuf/FeatureSet$Utf8Validation {
@@ -1345,7 +1336,6 @@ public final class protokt/v1/google/protobuf/Field$Cardinality$UNKNOWN : protok
 }
 
 public final class protokt/v1/google/protobuf/Field$Cardinality$UNRECOGNIZED : protokt/v1/google/protobuf/Field$Cardinality {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/protobuf/Field$Deserializer : protokt/v1/AbstractDeserializer {
@@ -1443,7 +1433,6 @@ public final class protokt/v1/google/protobuf/Field$Kind$TYPE_UNKNOWN : protokt/
 }
 
 public final class protokt/v1/google/protobuf/Field$Kind$UNRECOGNIZED : protokt/v1/google/protobuf/Field$Kind {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/protobuf/FieldDescriptorProto : protokt/v1/AbstractMessage {
@@ -1536,7 +1525,6 @@ public final class protokt/v1/google/protobuf/FieldDescriptorProto$Label$REQUIRE
 }
 
 public final class protokt/v1/google/protobuf/FieldDescriptorProto$Label$UNRECOGNIZED : protokt/v1/google/protobuf/FieldDescriptorProto$Label {
-	public fun <init> (I)V
 }
 
 public abstract class protokt/v1/google/protobuf/FieldDescriptorProto$Type : protokt/v1/Enum {
@@ -1624,7 +1612,6 @@ public final class protokt/v1/google/protobuf/FieldDescriptorProto$Type$UINT64 :
 }
 
 public final class protokt/v1/google/protobuf/FieldDescriptorProto$Type$UNRECOGNIZED : protokt/v1/google/protobuf/FieldDescriptorProto$Type {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/protobuf/FieldMask : protokt/v1/AbstractMessage {
@@ -1755,7 +1742,6 @@ public final class protokt/v1/google/protobuf/FieldOptions$CType$STRING_PIECE : 
 }
 
 public final class protokt/v1/google/protobuf/FieldOptions$CType$UNRECOGNIZED : protokt/v1/google/protobuf/FieldOptions$CType {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/protobuf/FieldOptions$Deserializer : protokt/v1/AbstractDeserializer {
@@ -1871,7 +1857,6 @@ public final class protokt/v1/google/protobuf/FieldOptions$JSType$JS_STRING : pr
 }
 
 public final class protokt/v1/google/protobuf/FieldOptions$JSType$UNRECOGNIZED : protokt/v1/google/protobuf/FieldOptions$JSType {
-	public fun <init> (I)V
 }
 
 public abstract class protokt/v1/google/protobuf/FieldOptions$OptionRetention : protokt/v1/Enum {
@@ -1899,7 +1884,6 @@ public final class protokt/v1/google/protobuf/FieldOptions$OptionRetention$RETEN
 }
 
 public final class protokt/v1/google/protobuf/FieldOptions$OptionRetention$UNRECOGNIZED : protokt/v1/google/protobuf/FieldOptions$OptionRetention {
-	public fun <init> (I)V
 }
 
 public abstract class protokt/v1/google/protobuf/FieldOptions$OptionTargetType : protokt/v1/Enum {
@@ -1955,7 +1939,6 @@ public final class protokt/v1/google/protobuf/FieldOptions$OptionTargetType$TARG
 }
 
 public final class protokt/v1/google/protobuf/FieldOptions$OptionTargetType$UNRECOGNIZED : protokt/v1/google/protobuf/FieldOptions$OptionTargetType {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/protobuf/FileDescriptorProto : protokt/v1/AbstractMessage {
@@ -2184,7 +2167,6 @@ public final class protokt/v1/google/protobuf/FileOptions$OptimizeMode$SPEED : p
 }
 
 public final class protokt/v1/google/protobuf/FileOptions$OptimizeMode$UNRECOGNIZED : protokt/v1/google/protobuf/FileOptions$OptimizeMode {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/protobuf/FloatValue : protokt/v1/AbstractMessage {
@@ -2320,7 +2302,6 @@ public final class protokt/v1/google/protobuf/GeneratedCodeInfo$Annotation$Seman
 }
 
 public final class protokt/v1/google/protobuf/GeneratedCodeInfo$Annotation$Semantic$UNRECOGNIZED : protokt/v1/google/protobuf/GeneratedCodeInfo$Annotation$Semantic {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/protobuf/GeneratedCodeInfo$Builder : protokt/v1/BuilderScope {
@@ -2692,7 +2673,6 @@ public final class protokt/v1/google/protobuf/MethodOptions$IdempotencyLevel$NO_
 }
 
 public final class protokt/v1/google/protobuf/MethodOptions$IdempotencyLevel$UNRECOGNIZED : protokt/v1/google/protobuf/MethodOptions$IdempotencyLevel {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/protobuf/Mixin : protokt/v1/AbstractMessage {
@@ -2750,7 +2730,6 @@ public final class protokt/v1/google/protobuf/NullValue$NULL_VALUE : protokt/v1/
 }
 
 public final class protokt/v1/google/protobuf/NullValue$UNRECOGNIZED : protokt/v1/google/protobuf/NullValue {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/protobuf/OneofDescriptorProto : protokt/v1/AbstractMessage {
@@ -3171,7 +3150,6 @@ public final class protokt/v1/google/protobuf/Syntax$PROTO3 : protokt/v1/google/
 }
 
 public final class protokt/v1/google/protobuf/Syntax$UNRECOGNIZED : protokt/v1/google/protobuf/Syntax {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/protobuf/Timestamp : protokt/v1/AbstractMessage {
@@ -3608,7 +3586,6 @@ public final class protokt/v1/pb/JavaFeatures$Utf8Validation$Deserializer : prot
 }
 
 public final class protokt/v1/pb/JavaFeatures$Utf8Validation$UNRECOGNIZED : protokt/v1/pb/JavaFeatures$Utf8Validation {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/pb/JavaFeatures$Utf8Validation$UTF8_VALIDATION_UNKNOWN : protokt/v1/pb/JavaFeatures$Utf8Validation {

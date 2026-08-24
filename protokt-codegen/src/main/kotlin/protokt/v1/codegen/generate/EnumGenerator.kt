@@ -94,6 +94,7 @@ private class EnumGenerator(
                 .addSuperclassConstructorParameter("\"UNRECOGNIZED\"")
                 .primaryConstructor(
                     FunSpec.constructorBuilder()
+                        .addModifiers(KModifier.INTERNAL)
                         .addParameter("value", Int::class)
                         .build()
                 )

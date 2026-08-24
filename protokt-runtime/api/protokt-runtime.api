@@ -402,11 +402,6 @@ public final class protokt/v1/UnknownFieldSet$Field {
 	public final fun write-qim9Vi0 (ILprotokt/v1/Writer;)V
 }
 
-public final class protokt/v1/UnknownFieldSet$Field$Builder {
-	public final fun add (Lprotokt/v1/UnknownValue;)V
-	public final fun build ()Lprotokt/v1/UnknownFieldSet$Field;
-}
-
 public abstract interface class protokt/v1/UnknownValue {
 	public abstract fun size ()I
 }

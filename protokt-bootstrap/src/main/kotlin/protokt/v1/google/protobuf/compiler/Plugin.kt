@@ -716,7 +716,7 @@ public class CodeGeneratorResponse private constructor(
 
     public object SUPPORTS_EDITIONS : Feature(2, "SUPPORTS_EDITIONS")
 
-    public class UNRECOGNIZED(
+    public class UNRECOGNIZED internal constructor(
       `value`: Int
     ) : Feature(value, "UNRECOGNIZED")
 

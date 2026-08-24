@@ -15,6 +15,7 @@
 
 package protokt.v1.codegen
 
+import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
 import protokt.v1.Bytes
 import protokt.v1.Converter
@@ -32,6 +33,19 @@ class ProtoktCodegenTest : AbstractProtoktCodegenTest() {
                 println(it.name)
                 println(it.content)
             }
+    }
+
+    @Test
+    fun `generated enum unrecognized constructor is internal`() {
+        val generated =
+            runPlugin("test.proto", transform = { this + "\nenum TestEnum { TEST_ENUM_UNSPECIFIED = 0; }\n" })
+                .orFail()
+                .response
+                .fileList
+                .joinToString("\n") { it.content }
+
+        assertThat(generated).contains("public class UNRECOGNIZED internal constructor(")
+        assertThat(generated).contains("@file:OptIn(protokt.v1.OnlyForUseByGeneratedProtoCode::class)")
     }
 }
 

@@ -83,7 +83,7 @@ public sealed class Edition(
 
   public object EDITION_MAX : Edition(2147483647, "EDITION_MAX")
 
-  public class UNRECOGNIZED(
+  public class UNRECOGNIZED internal constructor(
     `value`: Int
   ) : Edition(value, "UNRECOGNIZED")
 
@@ -1547,7 +1547,7 @@ public class ExtensionRangeOptions private constructor(
 
     public object UNVERIFIED : VerificationState(1, "UNVERIFIED")
 
-    public class UNRECOGNIZED(
+    public class UNRECOGNIZED internal constructor(
       `value`: Int
     ) : VerificationState(value, "UNRECOGNIZED")
 
@@ -2226,7 +2226,7 @@ public class FieldDescriptorProto private constructor(
 
     public object SINT64 : Type(18, "SINT64")
 
-    public class UNRECOGNIZED(
+    public class UNRECOGNIZED internal constructor(
       `value`: Int
     ) : Type(value, "UNRECOGNIZED")
 
@@ -2272,7 +2272,7 @@ public class FieldDescriptorProto private constructor(
      */
     public object REQUIRED : Label(2, "REQUIRED")
 
-    public class UNRECOGNIZED(
+    public class UNRECOGNIZED internal constructor(
       `value`: Int
     ) : Label(value, "UNRECOGNIZED")
 
@@ -4058,7 +4058,7 @@ public class FileOptions private constructor(
 
     public object LITE_RUNTIME : OptimizeMode(3, "LITE_RUNTIME")
 
-    public class UNRECOGNIZED(
+    public class UNRECOGNIZED internal constructor(
       `value`: Int
     ) : OptimizeMode(value, "UNRECOGNIZED")
 
@@ -4806,7 +4806,7 @@ public class FieldOptions private constructor(
 
     public object STRING_PIECE : CType(2, "STRING_PIECE")
 
-    public class UNRECOGNIZED(
+    public class UNRECOGNIZED internal constructor(
       `value`: Int
     ) : CType(value, "UNRECOGNIZED")
 
@@ -4840,7 +4840,7 @@ public class FieldOptions private constructor(
      */
     public object JS_NUMBER : JSType(2, "JS_NUMBER")
 
-    public class UNRECOGNIZED(
+    public class UNRECOGNIZED internal constructor(
       `value`: Int
     ) : JSType(value, "UNRECOGNIZED")
 
@@ -4868,7 +4868,7 @@ public class FieldOptions private constructor(
 
     public object RETENTION_SOURCE : OptionRetention(2, "RETENTION_SOURCE")
 
-    public class UNRECOGNIZED(
+    public class UNRECOGNIZED internal constructor(
       `value`: Int
     ) : OptionRetention(value, "UNRECOGNIZED")
 
@@ -4910,7 +4910,7 @@ public class FieldOptions private constructor(
 
     public object TARGET_TYPE_METHOD : OptionTargetType(9, "TARGET_TYPE_METHOD")
 
-    public class UNRECOGNIZED(
+    public class UNRECOGNIZED internal constructor(
       `value`: Int
     ) : OptionTargetType(value, "UNRECOGNIZED")
 
@@ -6170,7 +6170,7 @@ public class MethodOptions private constructor(
 
     public object IDEMPOTENT : IdempotencyLevel(2, "IDEMPOTENT")
 
-    public class UNRECOGNIZED(
+    public class UNRECOGNIZED internal constructor(
       `value`: Int
     ) : IdempotencyLevel(value, "UNRECOGNIZED")
 
@@ -6827,7 +6827,7 @@ public class FeatureSet private constructor(
 
     public object LEGACY_REQUIRED : FieldPresence(3, "LEGACY_REQUIRED")
 
-    public class UNRECOGNIZED(
+    public class UNRECOGNIZED internal constructor(
       `value`: Int
     ) : FieldPresence(value, "UNRECOGNIZED")
 
@@ -6853,7 +6853,7 @@ public class FeatureSet private constructor(
 
     public object CLOSED : EnumType(2, "CLOSED")
 
-    public class UNRECOGNIZED(
+    public class UNRECOGNIZED internal constructor(
       `value`: Int
     ) : EnumType(value, "UNRECOGNIZED")
 
@@ -6878,7 +6878,7 @@ public class FeatureSet private constructor(
 
     public object EXPANDED : RepeatedFieldEncoding(2, "EXPANDED")
 
-    public class UNRECOGNIZED(
+    public class UNRECOGNIZED internal constructor(
       `value`: Int
     ) : RepeatedFieldEncoding(value, "UNRECOGNIZED")
 
@@ -6903,7 +6903,7 @@ public class FeatureSet private constructor(
 
     public object NONE : Utf8Validation(3, "NONE")
 
-    public class UNRECOGNIZED(
+    public class UNRECOGNIZED internal constructor(
       `value`: Int
     ) : Utf8Validation(value, "UNRECOGNIZED")
 
@@ -6928,7 +6928,7 @@ public class FeatureSet private constructor(
 
     public object DELIMITED : MessageEncoding(2, "DELIMITED")
 
-    public class UNRECOGNIZED(
+    public class UNRECOGNIZED internal constructor(
       `value`: Int
     ) : MessageEncoding(value, "UNRECOGNIZED")
 
@@ -6953,7 +6953,7 @@ public class FeatureSet private constructor(
 
     public object LEGACY_BEST_EFFORT : JsonFormat(2, "LEGACY_BEST_EFFORT")
 
-    public class UNRECOGNIZED(
+    public class UNRECOGNIZED internal constructor(
       `value`: Int
     ) : JsonFormat(value, "UNRECOGNIZED")
 
@@ -6978,7 +6978,7 @@ public class FeatureSet private constructor(
 
     public object STYLE_LEGACY : EnforceNamingStyle(2, "STYLE_LEGACY")
 
-    public class UNRECOGNIZED(
+    public class UNRECOGNIZED internal constructor(
       `value`: Int
     ) : EnforceNamingStyle(value, "UNRECOGNIZED")
 
@@ -8088,7 +8088,7 @@ public class GeneratedCodeInfo private constructor(
        */
       public object ALIAS : Semantic(2, "ALIAS")
 
-      public class UNRECOGNIZED(
+      public class UNRECOGNIZED internal constructor(
         `value`: Int
       ) : Semantic(value, "UNRECOGNIZED")
 
