@@ -21,6 +21,7 @@ import protokt.v1.animals.DogGrpcKt.DogCoroutineStub
 import protokt.v1.animals.PigGrpcKt.PigCoroutineStub
 import protokt.v1.animals.SheepGrpcKt.SheepCoroutineStub
 import protokt.v1.grpc.ChannelCredentials
+import protokt.v1.grpc.newChannel
 import kotlin.test.AfterTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -40,16 +41,18 @@ class AnimalsServerTest {
             server.start()
 
             val address = "localhost:${server.port}"
-            val dogStub = DogCoroutineStub(address, ChannelCredentials.createInsecure())
-            val dogBark = dogStub.bark(BarkRequest { })
-            assertEquals("Bark!", dogBark.message)
+            val channel = newChannel(address, ChannelCredentials.createInsecure())
+            try {
+                val dogBark = DogCoroutineStub(channel).bark(BarkRequest { })
+                assertEquals("Bark!", dogBark.message)
 
-            val pigStub = PigCoroutineStub(address, ChannelCredentials.createInsecure())
-            val pigOink = pigStub.oink(OinkRequest { })
-            assertEquals("Oink!", pigOink.message)
+                val pigOink = PigCoroutineStub(channel).oink(OinkRequest { })
+                assertEquals("Oink!", pigOink.message)
 
-            val sheepStub = SheepCoroutineStub(address, ChannelCredentials.createInsecure())
-            val sheepBaa = sheepStub.baa(BaaRequest { })
-            assertEquals("Baa!", sheepBaa.message)
+                val sheepBaa = SheepCoroutineStub(channel).baa(BaaRequest { })
+                assertEquals("Baa!", sheepBaa.message)
+            } finally {
+                channel.close()
+            }
         }
 }

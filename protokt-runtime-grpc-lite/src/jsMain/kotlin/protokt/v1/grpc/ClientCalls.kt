@@ -132,12 +132,18 @@ private fun toStatusException(error: dynamic): StatusException {
     return StatusException(status)
 }
 
-fun newClient(
+/**
+ * Creates a reusable channel. The caller must close it when it is no longer needed.
+ */
+@Beta
+fun newChannel(address: String, credentials: ChannelCredentials): Channel =
+    Channel(address, credentials, js("({})"))
+
+internal fun newClient(
     service: ServiceDescriptor,
-    @Suppress("UNUSED_PARAMETER") address: String,
-    @Suppress("UNUSED_PARAMETER") credentials: ChannelCredentials
+    @Suppress("UNUSED_PARAMETER") channel: Channel
 ): Client {
     @Suppress("UNUSED_VARIABLE")
     val constructor = makeClientConstructor(service.toServiceDefinition())
-    return js("new constructor(address, credentials)") as Client
+    return js("new constructor('', null, {channelOverride: channel})") as Client
 }

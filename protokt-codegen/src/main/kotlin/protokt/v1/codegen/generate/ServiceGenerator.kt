@@ -31,7 +31,7 @@ import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
 import com.squareup.kotlinpoet.withIndent
 import io.grpc.BindableService
-import io.grpc.ChannelCredentials
+import io.grpc.Channel
 import io.grpc.MethodDescriptor
 import io.grpc.MethodDescriptor.MethodType
 import io.grpc.ServerMethodDefinition
@@ -342,13 +342,11 @@ private class ServiceGenerator(
         return TypeSpec.classBuilder(coroutineStubClassName)
             .primaryConstructor(
                 FunSpec.constructorBuilder()
-                    .addParameter(ParameterSpec("address", String::class.asTypeName()))
-                    .addParameter(ParameterSpec("credentials", pivotClassName(ChannelCredentials::class)))
+                    .addParameter(ParameterSpec("channel", pivotClassName(Channel::class)))
                     .build()
             )
             .addSuperclassConstructorParameter("%M()", grpcServiceObjectClassName.member(getServiceDescriptorFunction.name))
-            .addSuperclassConstructorParameter("address")
-            .addSuperclassConstructorParameter("credentials")
+            .addSuperclassConstructorParameter("channel")
             .superclass(pivotClassName(AbstractCoroutineStub::class).parameterizedBy(coroutineStubClassName))
             .addFunctions(clientImplementations(grpcServiceObjectClassName, getMethodFunctions))
             .build()

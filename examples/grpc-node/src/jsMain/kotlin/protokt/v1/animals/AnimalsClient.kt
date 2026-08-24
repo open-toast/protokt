@@ -19,20 +19,23 @@ import protokt.v1.animals.DogGrpcKt.DogCoroutineStub
 import protokt.v1.animals.PigGrpcKt.PigCoroutineStub
 import protokt.v1.animals.SheepGrpcKt.SheepCoroutineStub
 import protokt.v1.grpc.ChannelCredentials
+import protokt.v1.grpc.newChannel
 
 class AnimalsClient(
     port: Int
 ) {
+    private val channel = newChannel("localhost:$port", ChannelCredentials.createInsecure())
+
     private val dogStub by lazy {
-        DogCoroutineStub("localhost:$port", ChannelCredentials.createInsecure())
+        DogCoroutineStub(channel)
     }
 
     private val pigStub by lazy {
-        PigCoroutineStub("localhost:$port", ChannelCredentials.createInsecure())
+        PigCoroutineStub(channel)
     }
 
     private val sheepStub by lazy {
-        SheepCoroutineStub("localhost:$port", ChannelCredentials.createInsecure())
+        SheepCoroutineStub(channel)
     }
 
     suspend fun bark() {
@@ -52,6 +55,10 @@ class AnimalsClient(
         val response = sheepStub.baa(request)
         println("Received: ${response.message}")
     }
+
+    fun close() {
+        channel.close()
+    }
 }
 
 /**
@@ -67,19 +74,22 @@ suspend fun main(args: Array<String>) {
 
     val port = 50051
     val client = AnimalsClient(port)
+    try {
+        args.forEach {
+            when (it) {
+                "dog" -> client.bark()
 
-    args.forEach {
-        when (it) {
-            "dog" -> client.bark()
+                "pig" -> client.oink()
 
-            "pig" -> client.oink()
+                "sheep" -> client.baa()
 
-            "sheep" -> client.baa()
-
-            else -> {
-                println("Unknown animal type: \"$it\". Try \"dog\", \"pig\" or \"sheep\".")
-                println(usage)
+                else -> {
+                    println("Unknown animal type: \"$it\". Try \"dog\", \"pig\" or \"sheep\".")
+                    println(usage)
+                }
             }
         }
+    } finally {
+        client.close()
     }
 }

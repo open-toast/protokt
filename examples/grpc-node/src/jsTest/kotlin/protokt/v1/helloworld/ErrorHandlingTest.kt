@@ -17,12 +17,14 @@ package protokt.v1.helloworld
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
+import protokt.v1.grpc.Channel
 import protokt.v1.grpc.ChannelCredentials
 import protokt.v1.grpc.Server
 import protokt.v1.grpc.ServerCredentials
 import protokt.v1.grpc.Status
 import protokt.v1.grpc.StatusException
 import protokt.v1.grpc.addService
+import protokt.v1.grpc.newChannel
 import protokt.v1.grpc.start
 import protokt.v1.helloworld.GreeterGrpcKt.GreeterCoroutineImplBase
 import protokt.v1.helloworld.GreeterGrpcKt.GreeterCoroutineStub
@@ -34,9 +36,13 @@ import kotlin.test.assertFailsWith
 @OptIn(ExperimentalCoroutinesApi::class)
 class ErrorHandlingTest {
     private val server = Server()
+    private lateinit var channel: Channel
 
     @AfterTest
     fun after() {
+        if (::channel.isInitialized) {
+            channel.close()
+        }
         server.forceShutdown()
     }
 
@@ -47,7 +53,8 @@ class ErrorHandlingTest {
                 .addService(GreeterGrpc.getServiceDescriptor(), NotFoundService())
                 .start("0.0.0.0:0", ServerCredentials.createInsecure())
 
-            val stub = GreeterCoroutineStub("localhost:$port", ChannelCredentials.createInsecure())
+            channel = newChannel("localhost:$port", ChannelCredentials.createInsecure())
+            val stub = GreeterCoroutineStub(channel)
 
             val exception = assertFailsWith<StatusException> {
                 stub.sayHello(HelloRequest { name = "test" })
@@ -62,7 +69,8 @@ class ErrorHandlingTest {
                 .addService(GreeterGrpc.getServiceDescriptor(), RuntimeErrorService())
                 .start("0.0.0.0:0", ServerCredentials.createInsecure())
 
-            val stub = GreeterCoroutineStub("localhost:$port", ChannelCredentials.createInsecure())
+            channel = newChannel("localhost:$port", ChannelCredentials.createInsecure())
+            val stub = GreeterCoroutineStub(channel)
 
             val exception = assertFailsWith<StatusException> {
                 stub.sayHello(HelloRequest { name = "test" })

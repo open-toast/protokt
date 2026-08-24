@@ -23,7 +23,6 @@ abstract class AbstractCoroutineStub<S : AbstractCoroutineStub<S>>(
 ) {
     constructor(
         serviceDescriptor: ServiceDescriptor,
-        address: String,
-        credentials: ChannelCredentials
-    ) : this(newClient(serviceDescriptor, address, credentials))
+        channel: Channel
+    ) : this(newClient(serviceDescriptor, channel))
 }
