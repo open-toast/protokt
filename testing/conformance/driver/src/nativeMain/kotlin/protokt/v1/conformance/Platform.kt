@@ -38,7 +38,11 @@ import platform.posix.stdout
 import platform.posix.write
 import protokt.v1.Bytes
 import protokt.v1.Deserializer
+import protokt.v1.KotlinxIoCodec
 import protokt.v1.Message
+import protokt.v1.OptimalKmpCodec
+import protokt.v1.PersistentCollectionFactory
+import protokt.v1.ProtoktRuntime
 import protokt.v1.conformance.ConformanceResponse.Result.ParseError
 import protokt.v1.conformance.ConformanceResponse.Result.RuntimeError
 import protokt.v1.conformance.ConformanceResponse.Result.SerializeError
@@ -47,6 +51,22 @@ import protokt.v1.serialize
 
 internal actual object Platform {
     actual val streaming = getenv("PROTOKT_STREAMING")?.toKString()?.toBoolean() ?: false
+
+    actual fun configureRuntime() {
+        val codec =
+            when (getenv("PROTOKT_V1_CODEC")?.toKString()) {
+                "protokt.v1.KotlinxIoCodec" -> KotlinxIoCodec
+                "protokt.v1.OptimalKmpCodec" -> OptimalKmpCodec
+                else -> null
+            }
+        val persistentCollections =
+            getenv("PROTOKT_V1_COLLECTION_FACTORY")?.toKString() == "protokt.v1.PersistentCollectionFactory"
+        when {
+            codec != null && persistentCollections -> ProtoktRuntime.configure(codec, PersistentCollectionFactory)
+            codec != null -> ProtoktRuntime.configure(codec)
+            persistentCollections -> ProtoktRuntime.configure(PersistentCollectionFactory)
+        }
+    }
 
     actual fun printErr(message: String) {
         val bytes = (message + "\n").encodeToByteArray()

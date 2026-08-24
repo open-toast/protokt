@@ -13,18 +13,13 @@
  * limitations under the License.
  */
 
-@file:OptIn(kotlinx.cinterop.ExperimentalForeignApi::class)
+package protokt.v1.testing.android
 
-package protokt.v1
+import protokt.v1.OptimalJvmCodec
+import protokt.v1.ProtoktRuntime
 
-import kotlinx.cinterop.toKString
-import platform.posix.getenv
+private val configuredRuntime = lazy { ProtoktRuntime.configure(OptimalJvmCodec) }
 
-fun configureKotlinxIoCodec() {
-    val env = getenv("PROTOKT_V1_CODEC")?.toKString() ?: ""
-    if (env == "protokt.v1.OptimalKmpCodec") {
-        codecOverride = OptimalKmpCodec
-    } else if (env == "protokt.v1.KotlinxIoCodec") {
-        codecOverride = KotlinxIoCodec
-    }
+internal fun configureRuntime() {
+    configuredRuntime.value
 }

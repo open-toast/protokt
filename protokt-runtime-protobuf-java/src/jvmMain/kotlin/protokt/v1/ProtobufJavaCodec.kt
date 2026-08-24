@@ -21,8 +21,11 @@ import java.io.InputStream
 import java.io.OutputStream
 import java.nio.ByteBuffer
 
+/**
+ * Uses protobuf-java for byte-array and JVM streaming operations.
+ */
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
-internal object ProtobufJavaCodec : JvmCodec {
+object ProtobufJavaCodec : JvmCodec {
     override fun writer(size: Int): Writer {
         val bytes = ByteArray(size)
         return ProtobufJavaWriter(CodedOutputStream.newInstance(bytes), bytes)

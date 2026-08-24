@@ -15,4 +15,7 @@
 
 package protokt.v1
 
-internal expect object OptimalKmpCodec
+/**
+ * Uses the built-in codec for byte arrays and kotlinx-io for streams.
+ */
+expect object OptimalKmpCodec : StreamingCodec

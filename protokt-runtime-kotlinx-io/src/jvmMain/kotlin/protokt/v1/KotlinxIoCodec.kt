@@ -15,4 +15,38 @@
 
 package protokt.v1
 
-internal actual object KotlinxIoCodec : AbstractKotlinxIoCodec(), JvmKotlinxIoStreaming
+import kotlinx.io.Sink
+import kotlinx.io.Source
+import java.io.InputStream
+import java.io.OutputStream
+import java.nio.ByteBuffer
+
+actual object KotlinxIoCodec : StreamingCodec, JvmCodec {
+    override fun writer(size: Int): Writer =
+        KotlinxIoCodecImplementation.writer(size)
+
+    override fun reader(bytes: ByteArray): Reader =
+        KotlinxIoCodecImplementation.reader(bytes)
+
+    override fun reader(bytes: ByteArray, offset: Int, length: Int): Reader =
+        KotlinxIoCodecImplementation.reader(bytes, offset, length)
+
+    override fun reader(source: Source): Reader =
+        KotlinxIoCodecImplementation.reader(source)
+
+    override fun reader(stream: InputStream): Reader =
+        KotlinxIoCodecImplementation.reader(stream)
+
+    override fun reader(buffer: ByteBuffer): Reader =
+        KotlinxIoCodecImplementation.reader(buffer)
+
+    override fun serialize(message: Message, sink: Sink) {
+        KotlinxIoCodecImplementation.serialize(message, sink)
+    }
+
+    override fun serialize(message: Message, outputStream: OutputStream) {
+        KotlinxIoCodecImplementation.serialize(message, outputStream)
+    }
+}
+
+private object KotlinxIoCodecImplementation : AbstractKotlinxIoCodec(), JvmKotlinxIoStreaming

@@ -15,4 +15,7 @@
 
 package protokt.v1
 
-internal expect object KotlinxIoCodec
+/**
+ * Uses kotlinx-io for byte-array and streaming operations.
+ */
+expect object KotlinxIoCodec : StreamingCodec

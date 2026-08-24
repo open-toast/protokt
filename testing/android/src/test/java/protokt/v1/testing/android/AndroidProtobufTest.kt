@@ -16,10 +16,16 @@
 package protokt.v1.testing.android
 
 import com.google.common.truth.Truth.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
 class AndroidProtobufTest {
+    @BeforeEach
+    fun configureProtoktRuntime() {
+        configureRuntime()
+    }
+
     @Test
     fun `can use protobuf lite on android protos`() {
         assertThat(
