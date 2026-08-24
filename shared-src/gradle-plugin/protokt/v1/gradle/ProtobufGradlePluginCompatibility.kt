@@ -28,16 +28,21 @@ internal object ProtobufGradlePluginCompatibility {
             return
         }
 
-        val prerequisitePlugins =
+        val prerequisitePluginsUntyped =
             try {
                 val field = ProtobufPlugin::class.java.getDeclaredField("PREREQ_PLUGIN_OPTIONS")
                 field.isAccessible = true
-
-                @Suppress("UNCHECKED_CAST")
-                field.get(null) as MutableList<String>
-            } catch (e: ReflectiveOperationException) {
+                field.get(null)
+            } catch (e: Exception) {
                 throw GradleException("protokt requires protobuf-gradle-plugin 0.10.0 for Kotlin Multiplatform projects", e)
             }
+
+        if (prerequisitePluginsUntyped !is MutableList<*> || prerequisitePluginsUntyped.any { it !is String }) {
+            throw GradleException("protokt requires protobuf-gradle-plugin 0.10.0 for Kotlin Multiplatform projects")
+        }
+
+        @Suppress("UNCHECKED_CAST")
+        val prerequisitePlugins = prerequisitePluginsUntyped as MutableList<String>
 
         if (KOTLIN_MULTIPLATFORM_PLUGIN !in prerequisitePlugins) {
             prerequisitePlugins.add(KOTLIN_MULTIPLATFORM_PLUGIN)
