@@ -63,7 +63,7 @@ private class GrpcKrpcServiceGenerator(
     }
 
     private fun methodFunction(method: Method): FunSpec {
-        val builder = buildFunSpec(method.name.toString()) {
+        val builder = buildFunSpec(method.name.decapitalized) {
             addModifiers(KModifier.ABSTRACT)
 
             if (!method.serverStreaming) {
