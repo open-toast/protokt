@@ -24,20 +24,27 @@ import protokt.v1.gradle.GENERATE_GRPC_KOTLIN_STUBS
 import protokt.v1.gradle.GENERATE_GRPC_KRPC
 import protokt.v1.gradle.GENERATE_TYPES
 import protokt.v1.gradle.KOTLIN_EXTRA_CLASSPATH
+import protokt.v1.gradle.KOTLIN_EXTRA_CLASSPATH_FILE
 import protokt.v1.gradle.KOTLIN_TARGET
 import protokt.v1.gradle.KotlinTarget
 import protokt.v1.gradle.ProtoktExtension
 import protokt.v1.gradle.ProtoktExtension.Generate
 import protokt.v1.reflect.ClassLookup
+import java.io.File
 import java.net.URLDecoder
 import kotlin.reflect.full.declaredMemberProperties
 
 internal class PluginParams(
     params: Map<String, String>
 ) {
+    private val encodedClasspath =
+        params[KOTLIN_EXTRA_CLASSPATH_FILE]
+            ?.let { File(URLDecoder.decode(it, "UTF-8")).readText() }
+            ?: params.getOrDefault(KOTLIN_EXTRA_CLASSPATH, "")
+
     val classLookup =
         ClassLookup(
-            params.getOrDefault(KOTLIN_EXTRA_CLASSPATH, "")
+            encodedClasspath
                 .split(";")
                 .map { URLDecoder.decode(it, "UTF-8") }
         )
