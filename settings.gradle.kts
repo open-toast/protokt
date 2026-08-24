@@ -30,18 +30,6 @@ dependencyResolutionManagement {
         mavenCentral()
         google()
         maven("https://packages.jetbrains.team/maven/p/krpc/grpc")
-        ivy {
-            setUrl("https://github.com/ogolberg/")
-            patternLayout {
-                artifact("/[organization]/releases/download/[revision]/[artifact]-[classifier]-[revision]")
-            }
-            metadataSources {
-                artifact()
-            }
-            content {
-                includeGroup("build-protobuf-conformance-runner")
-            }
-        }
     }
 }
 
