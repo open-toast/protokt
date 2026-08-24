@@ -89,30 +89,33 @@ class UnknownFieldSet private constructor(
     // to have to trace the origin of the unknown field.
     class Field
     private constructor(
-        internal val orderedValues: List<UnknownValue>
+        orderedValues: List<UnknownValue>
     ) {
-        val varint = freezeList(orderedValues.filterIsInstance<VarintVal>())
-        val fixed32 = freezeList(orderedValues.filterIsInstance<Fixed32Val>())
-        val fixed64 = freezeList(orderedValues.filterIsInstance<Fixed64Val>())
-        val lengthDelimited = freezeList(orderedValues.filterIsInstance<LengthDelimitedVal>())
+        @OnlyForUseByGeneratedProtoCode
+        val values = orderedValues
+
+        val varint = freezeList(values.filterIsInstance<VarintVal>())
+        val fixed32 = freezeList(values.filterIsInstance<Fixed32Val>())
+        val fixed64 = freezeList(values.filterIsInstance<Fixed64Val>())
+        val lengthDelimited = freezeList(values.filterIsInstance<LengthDelimitedVal>())
 
         private val size
-            get() = orderedValues.size
+            get() = values.size
 
         @OnlyForUseByGeneratedProtoCode
         fun size(fieldNumber: UInt) =
-            (sizeOf(WireFormat.makeTag(fieldNumber, WireFormat.WIRETYPE_VARINT)) * size) + orderedValues.sumOf { it.size() }
+            (sizeOf(WireFormat.makeTag(fieldNumber, WireFormat.WIRETYPE_VARINT)) * size) + values.sumOf { it.size() }
 
         @OnlyForUseByGeneratedProtoCode
         fun write(fieldNumber: UInt, serializer: Writer) {
-            orderedValues.forEach { it.write(fieldNumber, serializer) }
+            values.forEach { it.write(fieldNumber, serializer) }
         }
 
         override fun equals(other: Any?) =
-            other is Field && other.orderedValues == orderedValues
+            other is Field && other.values == values
 
         override fun hashCode() =
-            orderedValues.hashCode()
+            values.hashCode()
 
         override fun toString(): String =
             "Field(" +

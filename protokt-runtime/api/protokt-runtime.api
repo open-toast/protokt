@@ -401,6 +401,7 @@ public final class protokt/v1/UnknownFieldSet$Field {
 	public final fun getFixed32 ()Ljava/util/List;
 	public final fun getFixed64 ()Ljava/util/List;
 	public final fun getLengthDelimited ()Ljava/util/List;
+	public final fun getValues ()Ljava/util/List;
 	public final fun getVarint ()Ljava/util/List;
 	public fun hashCode ()I
 	public final fun size-WZ4Q5Ns (I)I
