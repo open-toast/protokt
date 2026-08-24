@@ -14,6 +14,7 @@
  */
 
 import com.diffplug.gradle.spotless.SpotlessExtension
+import com.diffplug.spotless.LineEnding
 import org.gradle.api.tasks.compile.JavaCompile
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -57,6 +58,8 @@ allprojects {
     apply(plugin = "com.diffplug.spotless")
 
     configure<SpotlessExtension> {
+        lineEndings = LineEnding.UNIX
+
         val editorConfigOverride =
             mapOf(
                 "ktlint_standard_trailing-comma-on-call-site" to "disabled",
