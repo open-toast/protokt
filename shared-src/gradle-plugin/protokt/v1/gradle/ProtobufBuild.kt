@@ -23,7 +23,6 @@ import com.google.protobuf.gradle.id
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.provider.Provider
-import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.withType
@@ -34,15 +33,13 @@ internal fun configureProtobufPlugin(
     ext: ProtoktExtension,
     disableJava: Boolean,
     target: KotlinTarget,
-    binary: TaskProvider<PrepareCodegenBinary>
+    binaryPath: Provider<String>
 ) {
     project.apply<ProtobufPlugin>()
 
     project.configure<ProtobufExtension> {
         plugins {
-            id(target.protocPluginName) {
-                path = binary.flatMap { it.outputFile }.get().asFile.absolutePath
-            }
+            id(target.protocPluginName)
         }
 
         generateProtoTasks {
@@ -66,7 +63,6 @@ internal fun configureProtobufPlugin(
 
                 val extensionFiles = project.objects.fileCollection().from(extensions.asList())
                 task.inputs.files(extensionFiles).withPropertyName("protoktExtensionClasspath-${target.protocPluginName}")
-                task.dependsOn(binary)
 
                 task.plugins {
                     id(target.protocPluginName) {
@@ -91,6 +87,18 @@ internal fun configureProtobufPlugin(
         }
     }
 
+    project.afterEvaluate {
+        configure<ProtobufExtension> {
+            plugins {
+                val pluginLocator = getByName(target.protocPluginName)
+                project.tasks.withType<GenerateProtoTask>().configureEach {
+                    doFirst {
+                        pluginLocator.path = normalizePath(binaryPath.get())
+                    }
+                }
+            }
+        }
+    }
 }
 
 private fun Project.handleExtraInputFiles(main: List<TaskInputFiles>, test: List<TaskInputFiles>) {
@@ -136,6 +144,14 @@ private fun resolveExtensions(project: Project, task: GenerateProtoTask) =
             null
         }
     )
+
+private fun normalizePath(binaryPath: String) =
+    if (Os.current.kind == Os.Kind.WINDOWS) {
+        // on windows, protoc expects a full, /-separated path to the binary
+        binaryPath.replace('\\', '/') + ".bat"
+    } else {
+        binaryPath
+    }
 
 private fun GenerateProtoTask.isTestTask() =
     name.isTestTask()

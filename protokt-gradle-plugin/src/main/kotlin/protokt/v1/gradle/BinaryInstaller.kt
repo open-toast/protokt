@@ -15,6 +15,7 @@
 
 package protokt.v1.gradle
 
+import com.google.protobuf.gradle.GenerateProtoTask
 import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Project
 import org.gradle.api.artifacts.transform.InputArtifact
@@ -30,6 +31,7 @@ import org.gradle.api.tasks.PathSensitivity
 import org.gradle.internal.file.PathTraversalChecker
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.registerTransform
+import org.gradle.kotlin.dsl.withType
 import org.gradle.work.DisableCachingByDefault
 import java.io.BufferedInputStream
 import java.io.File
@@ -72,7 +74,7 @@ abstract class UnzipDistTransform : TransformAction<TransformParameters.None> {
     }
 }
 
-internal fun binaryFromArtifact(project: Project): CodegenBinary {
+internal fun binaryFromArtifact(project: Project): Provider<String> {
     val configuration = project.configurations.create(CODEGEN_CONFIGURATION) {
         attributes.attribute(UNPACKED_CODEGEN_ATTRIBUTE, true)
     }
@@ -95,15 +97,17 @@ internal fun binaryFromArtifact(project: Project): CodegenBinary {
             CODEGEN_CONFIGURATION,
             "$BASE_GROUP_NAME:protokt-codegen:$PROTOKT_VERSION:dist@zip"
         )
+
+        project.afterEvaluate {
+            tasks.withType<GenerateProtoTask> {
+                inputs.files(project.configurations.getByName(CODEGEN_CONFIGURATION))
+            }
+        }
     }
 
-    val binary =
-        project.layout.file(
-            project.provider {
-                File(configuration.singleFile, "$CODEGEN_NAME-$PROTOKT_VERSION/bin/${codegenExecutableName(CODEGEN_NAME)}")
-            }
-        )
-    return CodegenBinary(binary, configuration)
+    return project.provider {
+        configuration.singleFile.absolutePath + "/$CODEGEN_NAME-$PROTOKT_VERSION/bin/$CODEGEN_NAME"
+    }
 }
 
 private fun <T : Any> NamedDomainObjectContainer<T>.createIfNecessary(name: String, configure: T.() -> Unit) {
