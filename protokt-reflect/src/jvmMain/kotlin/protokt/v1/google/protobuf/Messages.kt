@@ -17,7 +17,6 @@
 
 package protokt.v1.google.protobuf
 
-import com.google.protobuf.Descriptors.Descriptor
 import com.google.protobuf.Descriptors.FieldDescriptor
 import com.google.protobuf.DynamicMessage
 import protokt.v1.Beta
@@ -37,9 +36,4 @@ fun Message.getField(field: FieldDescriptor): Any? =
     toDynamicMessage(field).getField(field)
 
 private fun Message.toDynamicMessage(field: FieldDescriptor) =
-    toDynamicMessage(field.containingType)
-
-internal fun Message.toDynamicMessage(descriptor: Descriptor): DynamicMessage =
-    DynamicMessage.newBuilder(descriptor)
-        .mergeFrom(serialize())
-        .buildPartial()
+    DynamicMessage.parseFrom(field.containingType, serialize())
