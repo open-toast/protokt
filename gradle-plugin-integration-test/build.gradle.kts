@@ -67,33 +67,33 @@ allprojects {
             )
 
         kotlinGradle {
-            target("**/*.kts")
-            targetExclude("**/build/**")
+            target("build.gradle.kts")
+            if (this@allprojects == rootProject) {
+                target("settings.gradle.kts")
+            }
             ktlint(libs.versions.ktlint.get()).editorConfigOverride(editorConfigOverride)
         }
 
         kotlin {
-            target("**/*.kt")
-            targetExclude("**/build/**")
+            target("src/**/*.kt")
             ktlint(libs.versions.ktlint.get()).editorConfigOverride(editorConfigOverride)
         }
 
         format("kotlinLicense") {
-            target("**/*.kt")
+            target("src/**/*.kt")
             licenseHeaderFile(
                 rootProject.file("gradle/license-header-c-style"),
                 "(package |@file|import |fun )"
             )
-            targetExclude("**/generated-sources/**", "**/build/**")
+            targetExclude("**/generated-sources/**")
         }
 
         format("protobufLicense") {
-            target("**/*.proto")
+            target("src/**/*.proto")
             licenseHeaderFile(
                 rootProject.file("gradle/license-header-c-style"),
                 "(syntax )"
             )
-            targetExclude("**/build/**")
         }
     }
 }
