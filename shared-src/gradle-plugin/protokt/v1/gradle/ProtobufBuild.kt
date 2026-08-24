@@ -94,7 +94,6 @@ internal fun configureProtobufPlugin(
             project.handleExtraInputFiles(mainExtractProtoAdditions, testExtractProtoAdditions)
         }
     }
-
 }
 
 private fun Project.handleExtraInputFiles(main: List<TaskInputFiles>, test: List<TaskInputFiles>) {
