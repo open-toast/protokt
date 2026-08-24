@@ -52,5 +52,5 @@ private fun toDynamicMessage(message: Message, context: RuntimeContext): Dynamic
         context.descriptorsByTypeName
             .getValue(message::class.findAnnotation<GeneratedMessage>()!!.fullTypeName)
 
-    return DynamicMessage.parseFrom(descriptor, message.serialize())
+    return message.toDynamicMessage(descriptor)
 }
