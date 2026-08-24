@@ -53,7 +53,7 @@ class ToStringTest {
         assertThat(
             ToStringTest2 { extra = "foo" }.toString()
         ).isEqualTo(
-            "ToStringTest2(`val`=[], extra=foo)"
+            "ToStringTest2(`val`=Bytes(size=0, hex=\"\"), extra=foo)"
         )
     }
 
@@ -68,7 +68,7 @@ class ToStringTest {
             }.toString()
         ).isEqualTo(
             "ToStringTest2(" +
-                "`val`=[], " +
+                "`val`=Bytes(size=0, hex=\"\"), " +
                 "extra=foo, " +
                 "unknownFields=UnknownFieldSet(fields={5=Field(" +
                 "varint=[], " +
