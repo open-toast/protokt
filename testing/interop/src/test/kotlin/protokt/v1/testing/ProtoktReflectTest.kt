@@ -16,16 +16,38 @@
 package protokt.v1.testing
 
 import com.google.common.truth.Truth.assertThat
+import com.google.protobuf.CodedOutputStream
 import com.google.protobuf.Descriptors.FieldDescriptor
+import com.google.protobuf.DynamicMessage
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 import proto3_unittest.UnittestProto3
 import protokt.v1.google.protobuf.getField
 import protokt.v1.google.protobuf.hasField
 import protokt.v1.proto3_unittest.TestAllTypes
+import protokt.v1.proto3_unittest.TestEmptyMessage
+import java.io.ByteArrayOutputStream
 
 class ProtoktReflectTest {
     private val context = getContextReflectively()
+
+    @Test
+    fun `getField selects the descriptor wire type from mixed unknown values`() {
+        val field = descriptor.findFieldByName("optional_fixed32")
+        val output = ByteArrayOutputStream()
+        CodedOutputStream.newInstance(output).apply {
+            writeUInt64(field.number, 7)
+            writeFixed32(field.number, 42)
+            flush()
+        }
+        val bytes = output.toByteArray()
+        val message = TestEmptyMessage.deserialize(bytes)
+        val expected = DynamicMessage.parseFrom(descriptor, bytes)
+
+        assertThat(message.getField(field)).isEqualTo(expected.getField(field))
+        assertThat(expected.unknownFields.getField(field.number).varintList).containsExactly(7L)
+    }
 
     @ParameterizedTest
     @MethodSource("optionalDescriptors")

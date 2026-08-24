@@ -18,35 +18,22 @@
 package protokt.v1.google.protobuf
 
 import com.google.protobuf.Descriptors.FieldDescriptor
-import com.google.protobuf.Descriptors.FieldDescriptor.Type
 import com.google.protobuf.DynamicMessage
 import protokt.v1.Beta
-import protokt.v1.Bytes
 import protokt.v1.Message
+import kotlin.Any
 
 @Beta
 fun Message.toDynamicMessage(context: RuntimeContext): DynamicMessage =
     context.convertValue(this) as DynamicMessage
 
 @Beta
-fun Message.hasField(field: FieldDescriptor): Boolean {
-    val value = getField(field)
-
-    return if (field.hasPresence()) {
-        value != null
-    } else {
-        value != defaultValue(field)
-    }
-}
+fun Message.hasField(field: FieldDescriptor): Boolean =
+    toDynamicMessage(field).hasField(field)
 
 @Beta
-fun Message.getField(field: FieldDescriptor) =
-    ProtoktReflect.getField(this, field)
+fun Message.getField(field: FieldDescriptor): Any? =
+    toDynamicMessage(field).getField(field)
 
-private fun defaultValue(field: FieldDescriptor) =
-    when (field.type) {
-        Type.UINT64, Type.FIXED64 -> 0uL
-        Type.UINT32, Type.FIXED32 -> 0u
-        Type.BYTES -> Bytes.empty()
-        else -> field.defaultValue
-    }
+private fun Message.toDynamicMessage(field: FieldDescriptor) =
+    DynamicMessage.parseFrom(field.containingType, serialize())
