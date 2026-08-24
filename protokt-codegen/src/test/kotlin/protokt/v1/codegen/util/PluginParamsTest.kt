@@ -17,12 +17,13 @@ package protokt.v1.codegen.util
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
+import protokt.v1.gradle.KOTLIN_TARGET
 import protokt.v1.gradle.KotlinTarget
 
 class PluginParamsTest {
     @Test
-    fun `direct invocation uses complete defaults`() {
-        val params = PluginParams(emptyMap())
+    fun `codegen uses shared generation defaults`() {
+        val params = PluginParams(mapOf(KOTLIN_TARGET to KotlinTarget.Jvm.toString()))
 
         assertThat(params.generateTypes).isTrue()
         assertThat(params.generateDescriptors).isTrue()

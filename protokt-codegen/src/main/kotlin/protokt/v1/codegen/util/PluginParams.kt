@@ -49,7 +49,7 @@ internal class PluginParams(
     val generateGrpcKotlinStubs = params.boolean(GENERATE_GRPC_KOTLIN_STUBS, DEFAULT_GENERATE_GRPC_KOTLIN_STUBS)
     val generateGrpcKrpc = params.boolean(GENERATE_GRPC_KRPC, DEFAULT_GENERATE_GRPC_KRPC)
     val formatOutput = params.boolean(FORMAT_OUTPUT, DEFAULT_FORMAT_OUTPUT)
-    val kotlinTarget = KotlinTarget.fromPluginOptionString(params.getOrDefault(KOTLIN_TARGET, KotlinTarget.Jvm.toString()))
+    val kotlinTarget = KotlinTarget.fromPluginOptionString(params.getValue(KOTLIN_TARGET))
 }
 
 private fun Map<String, String>.boolean(key: String, default: Boolean) =
