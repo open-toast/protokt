@@ -36,7 +36,7 @@ internal fun configureProtobufPlugin(
     ext: ProtoktExtension,
     disableJava: Boolean,
     target: KotlinTarget,
-    binary: TaskProvider<PrepareCodegenBinary>
+    binaryPath: Provider<String>
 ) {
     project.apply<ProtobufPlugin>()
 
@@ -46,9 +46,7 @@ internal fun configureProtobufPlugin(
         }
 
         plugins {
-            id(target.protocPluginName) {
-                path = binary.flatMap { it.outputFile }.get().asFile.absolutePath
-            }
+            id(target.protocPluginName)
         }
 
         generateProtoTasks {
@@ -72,7 +70,6 @@ internal fun configureProtobufPlugin(
 
                 val extensionFiles = project.objects.fileCollection().from(extensions.asList())
                 task.inputs.files(extensionFiles).withPropertyName("protoktExtensionClasspath-${target.protocPluginName}")
-                task.dependsOn(binary)
 
                 val writeExtensionClasspath = project.extensionClasspathTask(task.isTestTask(), extensionFiles)
                 task.dependsOn(writeExtensionClasspath)
@@ -94,6 +91,19 @@ internal fun configureProtobufPlugin(
             }
 
             project.handleExtraInputFiles(mainExtractProtoAdditions, testExtractProtoAdditions)
+        }
+    }
+
+    project.afterEvaluate {
+        configure<ProtobufExtension> {
+            plugins {
+                val pluginLocator = getByName(target.protocPluginName)
+                project.tasks.withType<GenerateProtoTask>().configureEach {
+                    doFirst {
+                        pluginLocator.path = normalizePath(binaryPath.get())
+                    }
+                }
+            }
         }
     }
 }
@@ -152,6 +162,14 @@ private fun resolveExtensions(project: Project, task: GenerateProtoTask) =
             null
         }
     )
+
+private fun normalizePath(binaryPath: String) =
+    if (Os.current.kind == Os.Kind.WINDOWS) {
+        // on windows, protoc expects a full, /-separated path to the binary
+        binaryPath.replace('\\', '/') + ".bat"
+    } else {
+        binaryPath
+    }
 
 private fun GenerateProtoTask.isTestTask() =
     name.isTestTask()
