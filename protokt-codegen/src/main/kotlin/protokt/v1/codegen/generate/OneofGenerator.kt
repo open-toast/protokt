@@ -112,7 +112,32 @@ private class OneofGenerator(
                     .addParameter(v.fieldName, v.type)
                     .build()
             )
+            .apply {
+                if (v.type.isFloatingPoint) {
+                    addFunction(equalsFunction(oneof.className.nestedClass(name), v))
+                    addFunction(hashCodeFunction(v))
+                }
+            }
             .handleSuperInterface(implements, v)
+            .build()
+
+    private fun equalsFunction(variantClassName: ClassName, v: OneofGeneratorInfo) =
+        FunSpec.builder("equals")
+            .addModifiers(KModifier.OVERRIDE)
+            .addParameter("other", Any::class.asTypeName().copy(nullable = true))
+            .returns(Boolean::class)
+            .addStatement(
+                "return other is %T && %L",
+                variantClassName,
+                v.type.equalsExpression(CodeBlock.of("other.%N", v.fieldName), CodeBlock.of("%N", v.fieldName))
+            )
+            .build()
+
+    private fun hashCodeFunction(v: OneofGeneratorInfo) =
+        FunSpec.builder("hashCode")
+            .addModifiers(KModifier.OVERRIDE)
+            .returns(Int::class)
+            .addStatement("return %L", v.type.hashCodeExpression(CodeBlock.of("%N", v.fieldName)))
             .build()
 
     private fun buildCachingStringVariant(
