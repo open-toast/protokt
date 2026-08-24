@@ -708,17 +708,18 @@ public class CodeGeneratorResponse private constructor(
    */
   public sealed class Feature(
     override val `value`: Int,
-    override val name: String
-  ) : Enum() {
-    public object NONE : Feature(0, "NONE")
+    override val name: String,
+    isUnrecognized: Boolean
+  ) : Enum(protokt.v1.google.protobuf.compiler.CodeGeneratorResponse.Feature::class, isUnrecognized) {
+    public object NONE : Feature(0, "NONE", false)
 
-    public object PROTO3_OPTIONAL : Feature(1, "PROTO3_OPTIONAL")
+    public object PROTO3_OPTIONAL : Feature(1, "PROTO3_OPTIONAL", false)
 
-    public object SUPPORTS_EDITIONS : Feature(2, "SUPPORTS_EDITIONS")
+    public object SUPPORTS_EDITIONS : Feature(2, "SUPPORTS_EDITIONS", false)
 
     public class UNRECOGNIZED(
       `value`: Int
-    ) : Feature(value, "UNRECOGNIZED")
+    ) : Feature(value, "UNRECOGNIZED", true)
 
     public companion object Deserializer : EnumDeserializer<Feature> {
       override fun deserialize(`value`: Int): Feature =

@@ -22,7 +22,10 @@ message HasAnEnum {
 }
 
 enum SomeEnum {
+  option allow_alias = true;
+
   VALUE = 0;
+  VALUE_ALIAS = 0;
   VALUE_2 = 1;
 }
 
