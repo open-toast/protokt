@@ -25,7 +25,7 @@ object Sizes {
 
     @JvmStatic
     fun sizeOf(msg: Message) =
-        msg.serializedSize().let { size -> sizeOf(size.toUInt()) + size }
+        sizeOf(msg.serializedSize().toUInt()) + msg.serializedSize()
 
     @JvmStatic
     fun sizeOf(b: Bytes) =
