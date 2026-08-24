@@ -16,17 +16,16 @@
 package protokt.v1.gradle
 
 import com.google.protobuf.gradle.ProtobufExtension
-import com.google.protobuf.gradle.ProtobufPlugin
 import com.google.protobuf.gradle.proto
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.api.logging.LogLevel
-import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.AbstractCopyTask
 import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.SourceSetContainer
+import org.gradle.api.tasks.TaskProvider
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.internal.extensions.stdlib.capitalized
 import org.gradle.jvm.tasks.Jar
@@ -53,15 +52,18 @@ internal fun configureProtokt(
     project: Project,
     protoktVersion: Any?,
     disableJava: Boolean,
-    binary: Provider<String>
+    binary: CodegenBinary
 ) {
-    injectKotlinPluginsIntoProtobufGradle()
-
     val config = project.createExtensionConfigurations()
 
     // must wait for extension to resolve
     project.afterEvaluate {
         val ext = the<ProtoktExtension>()
+        ext.finalizeValues()
+
+        the<ProtobufExtension>().protoc {
+            artifact = "com.google.protobuf:protoc:${ext.protocVersion.get()}"
+        }
 
         (
             listOfNotNull(
@@ -72,23 +74,14 @@ internal fun configureProtokt(
             ).forEach(config.extensions.dependencies::add)
 
         // For OPTIMAL in KMP, add JVM-specific deps to target configs
-        if (ext.codec.selection == ProtoktExtension.CodecSelection.OPTIMAL &&
+        if (ext.codec.selection.get() == ProtoktExtension.CodecSelection.OPTIMAL &&
             plugins.hasPlugin(KotlinPlugins.MULTIPLATFORM)
         ) {
             addPerTargetOptimalDeps(protoktVersion, ext)
         }
     }
 
-    project.configureProtobuf(disableJava, config, binary)
-}
-
-private fun injectKotlinPluginsIntoProtobufGradle() {
-    val prerequisitePluginsField = ProtobufPlugin::class.java.getDeclaredField("PREREQ_PLUGIN_OPTIONS")
-    prerequisitePluginsField.isAccessible = true
-
-    @Suppress("UNCHECKED_CAST")
-    val prerequisitePlugins = prerequisitePluginsField.get(null) as MutableList<String>
-    prerequisitePlugins.add("org.jetbrains.kotlin.multiplatform")
+    project.configureProtobuf(disableJava, config, project.prepareCodegenBinary(binary))
 }
 
 internal class Config(
@@ -108,9 +101,10 @@ private fun Project.createExtensionConfigurations(): Config {
 private fun Project.configureProtobuf(
     disableJava: Boolean,
     config: Config,
-    binary: Provider<String>
+    binary: TaskProvider<PrepareCodegenBinary>
 ) {
     pluginManager.withPlugin(KotlinPlugins.MULTIPLATFORM) {
+        ProtobufGradlePluginCompatibility.enableMultiplatform()
         configureForMpp(disableJava, config, binary)
     }
 
@@ -134,7 +128,7 @@ private fun Project.configureProtobuf(
     }
 }
 
-private fun Project.configureForJvmLike(config: Config, disableJava: Boolean, target: KotlinTarget, binary: Provider<String>) {
+private fun Project.configureForJvmLike(config: Config, disableJava: Boolean, target: KotlinTarget, binary: TaskProvider<PrepareCodegenBinary>) {
     logger.log(DEBUG_LOG_LEVEL, "Configuring protokt for Kotlin ${target.name}")
     configureProtobufPlugin(project, config.extension, disableJava, target, binary)
     configurations.getByName("api").extendsFrom(config.extensions)
@@ -147,7 +141,7 @@ private fun Project.configureForJvmLike(config: Config, disableJava: Boolean, ta
 private fun Project.configureForMpp(
     disableJava: Boolean,
     config: Config,
-    binary: Provider<String>
+    binary: TaskProvider<PrepareCodegenBinary>
 ) {
     pluginManager.apply("java-base")
     the<SourceSetContainer>().maybeCreate("main")
@@ -171,7 +165,7 @@ private fun Project.configureTarget(
     targetName: String,
     disableJava: Boolean,
     config: Config,
-    binary: Provider<String>
+    binary: TaskProvider<PrepareCodegenBinary>
 ) {
     val target = KotlinTarget.fromMultiplatformTargetString(targetName)
     configureProtobufPlugin(project, config.extension, disableJava, target, binary)
@@ -274,7 +268,7 @@ private fun Project.resolveProtoktCoreDep(protoktVersion: Any?): Dependency? {
 }
 
 private fun Project.resolveProtoktGrpcDep(protoktVersion: Any?): Dependency? {
-    if (!the<ProtoktExtension>().generate.grpcDescriptors) {
+    if (!the<ProtoktExtension>().generate.grpcDescriptors.get()) {
         return null
     }
 
@@ -283,7 +277,7 @@ private fun Project.resolveProtoktGrpcDep(protoktVersion: Any?): Dependency? {
 
 private fun Project.resolveDependency(rootArtifactId: String, protoktVersion: Any?): Dependency? {
     val artifactId =
-        if (the<ProtoktExtension>().generate.descriptors) {
+        if (the<ProtoktExtension>().generate.descriptors.get()) {
             rootArtifactId
         } else {
             "$rootArtifactId-lite"
@@ -298,7 +292,7 @@ private fun Project.resolveDependency(rootArtifactId: String, protoktVersion: An
 
 private fun Project.resolveCommonCodecDeps(protoktVersion: Any?): List<Dependency> {
     val ext = the<ProtoktExtension>()
-    return when (ext.codec.selection) {
+    return when (ext.codec.selection.get()) {
         ProtoktExtension.CodecSelection.OPTIMAL ->
             if (plugins.hasPlugin(KotlinPlugins.MULTIPLATFORM)) {
                 // KMP: common deps are kotlinx-io only; JVM-specific deps added per-target
@@ -320,12 +314,12 @@ private fun Project.resolveCommonCodecDeps(protoktVersion: Any?): List<Dependenc
 
         ProtoktExtension.CodecSelection.PROTOBUF_JAVA -> listOfNotNull(
             resolveOptionalDep("protokt-runtime-protobuf-java", protoktVersion),
-            dependencies.create("com.google.protobuf:protobuf-java:${ext.protocVersion}")
+            dependencies.create("com.google.protobuf:protobuf-java:${ext.protocVersion.get()}")
         )
 
         ProtoktExtension.CodecSelection.PROTOBUF_JAVALITE -> listOfNotNull(
             resolveOptionalDep("protokt-runtime-protobuf-java", protoktVersion),
-            dependencies.create("com.google.protobuf:protobuf-javalite:${ext.protocVersion}")
+            dependencies.create("com.google.protobuf:protobuf-javalite:${ext.protocVersion.get()}")
         )
 
         ProtoktExtension.CodecSelection.MINIMAL -> emptyList()
@@ -338,13 +332,13 @@ private fun Project.resolveOptimalKmpDeps(protoktVersion: Any?) =
 private fun Project.resolveOptimalJvmDeps(protoktVersion: Any?, ext: ProtoktExtension) =
     listOfNotNull(
         resolveOptionalDep("protokt-runtime-protobuf-java", protoktVersion),
-        dependencies.create("com.google.protobuf:protobuf-java:${ext.protocVersion}")
+        dependencies.create("com.google.protobuf:protobuf-java:${ext.protocVersion.get()}")
     )
 
 private fun Project.resolveOptimalJvmLiteDeps(protoktVersion: Any?, ext: ProtoktExtension) =
     listOfNotNull(
         resolveOptionalDep("protokt-runtime-protobuf-java", protoktVersion),
-        dependencies.create("com.google.protobuf:protobuf-javalite:${ext.protocVersion}")
+        dependencies.create("com.google.protobuf:protobuf-javalite:${ext.protocVersion.get()}")
     )
 
 private fun Project.addPerTargetOptimalDeps(protoktVersion: Any?, ext: ProtoktExtension) {
@@ -366,7 +360,7 @@ private fun Project.addPerTargetOptimalDeps(protoktVersion: Any?, ext: ProtoktEx
 }
 
 private fun Project.resolveCollectionsDeps(protoktVersion: Any?): List<Dependency> =
-    when (the<ProtoktExtension>().collections.selection) {
+    when (the<ProtoktExtension>().collections.selection.get()) {
         ProtoktExtension.CollectionsSelection.PERSISTENT ->
             listOfNotNull(resolveOptionalDep("protokt-runtime-persistent-collections", protoktVersion))
 
