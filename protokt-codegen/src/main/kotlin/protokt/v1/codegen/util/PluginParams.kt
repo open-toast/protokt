@@ -55,7 +55,7 @@ internal class PluginParams(
     val generateGrpcKotlinStubs = params.getOrDefault<Generate>(GENERATE_GRPC_KOTLIN_STUBS)
     val generateGrpcKrpc = params.getOrDefault<Generate>(GENERATE_GRPC_KRPC)
     val formatOutput = params.getOrDefault<ProtoktExtension>(FORMAT_OUTPUT)
-    val kotlinTarget = KotlinTarget.fromPluginOptionString(params.getOrDefault(KOTLIN_TARGET, KotlinTarget.Jvm.toString()))
+    val kotlinTarget = KotlinTarget.fromPluginOptionString(params.getValue(KOTLIN_TARGET))
 }
 
 private inline fun <reified T> Map<String, String>.getOrDefault(key: String): Boolean {
