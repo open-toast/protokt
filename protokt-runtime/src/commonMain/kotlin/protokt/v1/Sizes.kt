@@ -25,8 +25,10 @@ object Sizes {
         sizeOf(enum.value)
 
     @JvmStatic
-    fun sizeOf(msg: Message) =
-        sizeOf(msg.serializedSize().toUInt()) + msg.serializedSize()
+    fun sizeOf(msg: Message): Int {
+        val size = msg.serializedSize()
+        return sizeOf(size.toUInt()) + size
+    }
 
     @JvmStatic
     fun sizeOf(b: Bytes) =
