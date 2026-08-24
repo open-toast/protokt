@@ -63,6 +63,7 @@ class UnknownFieldSetTest {
     }
 
     @Test
+    @OptIn(OnlyForUseByGeneratedProtoCode::class)
     fun `lookup retains wire order and typed projections`() {
         val unknownFields =
             unknownFieldSet(
@@ -72,7 +73,7 @@ class UnknownFieldSetTest {
             )
 
         assertThat(4u in unknownFields).isTrue()
-        assertThat(unknownFields[4u]?.orderedValues).containsExactly(
+        assertThat(unknownFields[4u]?.values).containsExactly(
             LengthDelimitedVal(Bytes.from(byteArrayOf(1))),
             VarintVal(2uL),
             LengthDelimitedVal(Bytes.from(byteArrayOf(3)))
