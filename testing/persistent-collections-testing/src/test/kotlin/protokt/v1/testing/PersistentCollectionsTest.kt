@@ -23,12 +23,20 @@ import kotlinx.collections.immutable.PersistentMap
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import protokt.v1.Bytes
+import protokt.v1.PersistentCollectionFactory
+import protokt.v1.ProtoktRuntime
 import com.toasttab.protokt.v1.testing.TestOuterClass.ListTest as JavaListTest
 import com.toasttab.protokt.v1.testing.TestOuterClass.MapTest as JavaMapTest
 import com.toasttab.protokt.v1.testing.TestOuterClass.Test as JavaTest
 import protokt.v1.testing.Test as KtTest
 
+private val configuredRuntime = lazy { ProtoktRuntime.configure(PersistentCollectionFactory) }
+
 class PersistentCollectionsTest {
+    init {
+        configuredRuntime.value
+    }
+
     private fun backingList(list: List<*>): List<*> {
         val field = list.javaClass.getDeclaredField("backing")
         field.isAccessible = true
