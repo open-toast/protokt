@@ -19,10 +19,17 @@ package protokt.v1.helloworld
 import io.grpc.testing.GrpcServerRule
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule
+import protokt.v1.configureRuntime
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class HelloWorldServerTest {
+
+    @BeforeTest
+    fun configureProtoktRuntime() {
+        configureRuntime()
+    }
 
     @get:Rule
     val grpcServerRule: GrpcServerRule = GrpcServerRule().directExecutor()
