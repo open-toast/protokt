@@ -1035,8 +1035,6 @@ public final class protokt/v1/google/protobuf/Messages {
 
 public final class protokt/v1/google/protobuf/RuntimeContext {
 	public fun <init> (Ljava/lang/Iterable;)V
-	public fun <init> (Ljava/lang/Iterable;Ljava/lang/ClassLoader;)V
-	public fun <init> (Ljava/lang/Iterable;Ljava/lang/Iterable;)V
 	public final fun convertValue (Ljava/lang/Object;)Ljava/lang/Object;
 }
 

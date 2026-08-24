@@ -18,7 +18,6 @@ package protokt.v1.testing
 import com.google.protobuf.DescriptorProtos
 import com.google.protobuf.Descriptors
 import io.github.classgraph.ClassGraph
-import protokt.v1.Converter
 import protokt.v1.GeneratedFileDescriptor
 import protokt.v1.google.protobuf.FileDescriptor
 import protokt.v1.google.protobuf.RuntimeContext
@@ -27,12 +26,6 @@ import kotlin.reflect.full.declaredMemberProperties
 
 fun getContextReflectively() =
     RuntimeContext(getDescriptors())
-
-fun getContextReflectively(classLoader: ClassLoader) =
-    RuntimeContext(getDescriptors(), classLoader)
-
-fun getContextReflectively(converters: Iterable<Converter<*, *>>) =
-    RuntimeContext(getDescriptors(), converters)
 
 private fun getDescriptors() =
     ClassGraph()

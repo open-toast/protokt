@@ -17,10 +17,7 @@ package protokt.v1.testing
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
-import protokt.v1.LocalDateStringConverter
 import protokt.v1.Message
-import protokt.v1.google.protobuf.RuntimeContext
 import protokt.v1.google.protobuf.toDynamicMessage
 import java.net.InetAddress
 import java.net.InetSocketAddress
@@ -59,40 +56,13 @@ class DynamicMessageTest {
     }
 
     @Test
-    fun `dynamic message with converters from an explicit registry`() {
+    fun `dynamic message with sparse wrapped fields`() {
         val message =
-            OneofWrappers {
-                wrappedOneof = OneofWrappers.WrappedOneof.LocalDateOneof(LocalDate.of(2026, 8, 23))
+            Wrappers {
+                localDate = LocalDate.of(2026, 8, 23)
             }
 
-        verifyMessage(message, getContextReflectively(listOf(LocalDateStringConverter)))
-    }
-
-    @Test
-    fun `dynamic message with converters from an explicit class loader`() {
-        val message =
-            OneofWrappers {
-                wrappedOneof = OneofWrappers.WrappedOneof.LocalDateOneof(LocalDate.of(2026, 8, 23))
-            }
-
-        verifyMessage(message, getContextReflectively(DynamicMessageTest::class.java.classLoader))
-    }
-
-    @Test
-    fun `missing converter identifies the requested types and registry`() {
-        val message =
-            OneofWrappers {
-                wrappedOneof = OneofWrappers.WrappedOneof.LocalDateOneof(LocalDate.of(2026, 8, 23))
-            }
-
-        val failure =
-            assertThrows<IllegalArgumentException> {
-                message.toDynamicMessage(getContextReflectively(emptyList()))
-            }
-
-        assertThat(failure).hasMessageThat().contains("wrapper type java.time.LocalDate")
-        assertThat(failure).hasMessageThat().contains("protobuf type kotlin.String")
-        assertThat(failure).hasMessageThat().contains("explicit converter registry")
+        verifyMessage(message)
     }
 
     @Test
@@ -179,11 +149,7 @@ class DynamicMessageTest {
     }
 
     private fun verifyMessage(message: Message) {
-        verifyMessage(message, getContextReflectively())
-    }
-
-    private fun verifyMessage(message: Message, context: RuntimeContext) {
-        val dynamicMessage = message.toDynamicMessage(context)
+        val dynamicMessage = message.toDynamicMessage(getContextReflectively())
 
         assertThat(dynamicMessage.serializedSize).isEqualTo(message.serializedSize())
         assertThat(dynamicMessage.toByteArray()).isEqualTo(message.serialize())

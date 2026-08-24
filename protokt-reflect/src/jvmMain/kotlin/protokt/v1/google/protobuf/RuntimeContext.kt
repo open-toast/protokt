@@ -16,59 +16,18 @@
 package protokt.v1.google.protobuf
 
 import com.google.protobuf.Descriptors
-import com.google.protobuf.Descriptors.FieldDescriptor
-import com.google.protobuf.Descriptors.FieldDescriptor.Type
 import com.google.protobuf.DynamicMessage
-import com.google.protobuf.MapEntry
-import com.google.protobuf.UnknownFieldSet
-import com.google.protobuf.UnknownFieldSet.Field
 import com.google.protobuf.UnsafeByteOperations
-import com.google.protobuf.WireFormat
-import com.toasttab.protokt.v1.ProtoktProtos
 import protokt.v1.Beta
 import protokt.v1.Bytes
-import protokt.v1.Converter
 import protokt.v1.Enum
 import protokt.v1.GeneratedMessage
 import protokt.v1.Message
-import protokt.v1.reflect.ClassLookup
-import protokt.v1.reflect.FieldType
-import protokt.v1.reflect.WellKnownTypes
-import protokt.v1.reflect.inferClassName
-import protokt.v1.reflect.resolvePackage
-import protokt.v1.reflect.typeName
 import kotlin.Any
 import kotlin.reflect.full.findAnnotation
 
 @Beta
-class RuntimeContext internal constructor(
-    descriptors: Iterable<Descriptors.Descriptor>,
-    private val classLookup: ClassLookup
-) {
-    /**
-     * Discovers converters through the current thread's context class loader.
-     */
-    constructor(descriptors: Iterable<Descriptors.Descriptor>) : this(
-        descriptors,
-        ClassLookup.fromClassLoader(Thread.currentThread().contextClassLoader ?: RuntimeContext::class.java.classLoader),
-    )
-
-    /**
-     * Discovers converters through [classLoader].
-     */
-    constructor(descriptors: Iterable<Descriptors.Descriptor>, classLoader: ClassLoader) : this(
-        descriptors,
-        ClassLookup.fromClassLoader(classLoader),
-    )
-
-    /**
-     * Resolves wrapped fields only from [converters].
-     */
-    constructor(descriptors: Iterable<Descriptors.Descriptor>, converters: Iterable<Converter<*, *>>) : this(
-        descriptors,
-        ClassLookup.fromConverters(converters),
-    )
-
+class RuntimeContext(descriptors: Iterable<Descriptors.Descriptor>) {
     internal val descriptorsByTypeName = descriptors.associateBy { it.fullName }
 
     fun convertValue(value: Any) =
@@ -86,186 +45,12 @@ class RuntimeContext internal constructor(
             // pray
             else -> value
         }
-
-    internal fun unwrap(value: Any, field: FieldDescriptor, wrap: String): Any {
-        val proto = field.toProto()
-        val type = FieldType.from(proto.type)
-        val converterDetails =
-            classLookup.converter(
-                ClassLookup.evaluateProtobufTypeCanonicalName(
-                    proto.typeName,
-                    typeName(proto.typeName, type),
-                    type,
-                    field.name
-                ),
-                wrap
-            )
-
-        @Suppress("UNCHECKED_CAST")
-        val converter = converterDetails.converter as Converter<Any, Any>
-        return converter.unwrap(value)
-    }
 }
 
-private fun toDynamicMessage(
-    message: Message,
-    context: RuntimeContext,
-): com.google.protobuf.Message {
+private fun toDynamicMessage(message: Message, context: RuntimeContext): DynamicMessage {
     val descriptor =
         context.descriptorsByTypeName
             .getValue(message::class.findAnnotation<GeneratedMessage>()!!.fullTypeName)
 
-    return DynamicMessage.newBuilder(descriptor)
-        .apply {
-            descriptor.fields.forEach { field ->
-                message.getField(field)?.let { value ->
-                    val fieldOptions = fieldOptions(field)
-
-                    setField(
-                        field,
-                        when {
-                            field.type == Type.ENUM ->
-                                if (field.isRepeated) {
-                                    (value as List<*>).map { field.enumType.findValueByNumberCreatingIfUnknown(((it as Enum).value)) }
-                                } else {
-                                    field.enumType.findValueByNumberCreatingIfUnknown(((value as Enum).value))
-                                }
-
-                            field.isMapField ->
-                                convertMap(value, field, fieldOptions, context)
-
-                            field.isRepeated ->
-                                convertList((value as List<*>), field, fieldOptions, context)
-
-                            else -> {
-                                val wrap = wrap(field, fieldOptions)
-                                if (wrap == null) {
-                                    context.convertValue(value)
-                                } else {
-                                    context.convertValue(context.unwrap(value, field, wrap))
-                                }
-                            }
-                        },
-                    )
-                }
-            }
-        }
-        .setUnknownFields(mapUnknownFields(message))
-        .build()
-}
-
-private fun fieldOptions(field: FieldDescriptor): ProtoktProtos.FieldOptions {
-    val options = field.toProto().options
-
-    return if (options.hasField(ProtoktProtos.property.descriptor)) {
-        options.getField(ProtoktProtos.property.descriptor) as ProtoktProtos.FieldOptions
-    } else if (options.unknownFields.hasField(ProtoktProtos.property.number)) {
-        ProtoktProtos.FieldOptions.parseFrom(
-            options.unknownFields.getField(ProtoktProtos.property.number)
-                .lengthDelimitedList
-                .last()
-        )
-    } else {
-        ProtoktProtos.FieldOptions.getDefaultInstance()
-    }
-}
-
-private fun wrap(field: FieldDescriptor, fieldOptions: ProtoktProtos.FieldOptions) =
-    getClassName(fieldOptions.wrap, field)
-
-private fun getClassName(wrap: String, field: FieldDescriptor): String? =
-    WellKnownTypes.wrapWithWellKnownInterception(wrap.takeIf { it.isNotEmpty() }, field.toProto().typeName)
-        ?.let { inferClassName(it, resolvePackage(field.file.`package`)) }
-        ?.let { (pkg, names) -> pkg + "." + names.joinToString(".") }
-
-private fun convertList(
-    value: List<*>,
-    field: FieldDescriptor,
-    fieldOptions: ProtoktProtos.FieldOptions,
-    context: RuntimeContext
-): List<*> {
-    val wrap = wrap(field, fieldOptions)
-    return value.map {
-        if (wrap == null) {
-            it?.let(context::convertValue)
-        } else {
-            context.convertValue(context.unwrap(it!!, field, wrap))
-        }
-    }
-}
-
-private fun convertMap(
-    value: Any,
-    field: FieldDescriptor,
-    fieldOptions: ProtoktProtos.FieldOptions,
-    context: RuntimeContext
-): List<MapEntry<*, *>> {
-    val keyDesc = field.messageType.findFieldByNumber(1)
-    val valDesc = field.messageType.findFieldByNumber(2)
-
-    val keyDefault =
-        if (keyDesc.type == Type.MESSAGE) {
-            null
-        } else {
-            keyDesc.defaultValue
-        }
-
-    val valDefault =
-        if (valDesc.type == Type.MESSAGE) {
-            null
-        } else {
-            valDesc.defaultValue
-        }
-
-    val keyWrap = getClassName(fieldOptions.keyWrap, keyDesc)
-    val valWrap = getClassName(fieldOptions.valueWrap, valDesc)
-
-    val defaultEntry =
-        MapEntry.newDefaultInstance(
-            field.messageType,
-            WireFormat.FieldType.valueOf(keyDesc.type.name),
-            keyDefault,
-            WireFormat.FieldType.valueOf(valDesc.type.name),
-            valDefault
-        ) as MapEntry<Any?, Any?>
-
-    return (value as Map<*, *>).map { (k, v) ->
-        defaultEntry.toBuilder()
-            .setKey(
-                if (keyWrap == null) {
-                    k?.let(context::convertValue)
-                } else {
-                    context.convertValue(context.unwrap(k!!, keyDesc, keyWrap))
-                }
-            )
-            .setValue(
-                if (valWrap == null) {
-                    v?.let(context::convertValue)
-                } else {
-                    context.convertValue(context.unwrap(v!!, valDesc, valWrap))
-                }
-            )
-            .build()
-    }
-}
-
-@OptIn(protokt.v1.OnlyForUseByGeneratedProtoCode::class)
-private fun mapUnknownFields(message: Message): UnknownFieldSet {
-    val unknownFields = UnknownFieldSet.newBuilder()
-
-    message.unknownFields.forEach { number, field ->
-        unknownFields.mergeField(
-            number.toInt(),
-            Field.newBuilder()
-                .apply {
-                    field.varint.forEach { addVarint(it.value.toLong()) }
-                    field.fixed32.forEach { addFixed32(it.value.toInt()) }
-                    field.fixed64.forEach { addFixed64(it.value.toLong()) }
-                    field.lengthDelimited.forEach { addLengthDelimited(UnsafeByteOperations.unsafeWrap(it.value.asReadOnlyBuffer())) }
-                }
-                .build()
-        )
-    }
-
-    return unknownFields.build()
+    return DynamicMessage.parseFrom(descriptor, message.serialize())
 }
