@@ -373,7 +373,7 @@ public final class protokt/v1/UnknownField$Companion {
 
 public final class protokt/v1/UnknownFieldSet {
 	public static final field Companion Lprotokt/v1/UnknownFieldSet$Companion;
-	public synthetic fun <init> (Ljava/util/List;Ljava/util/Map;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/util/Map;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun contains-WZ4Q5Ns (I)Z
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun forEach (Lkotlin/jvm/functions/Function2;)V

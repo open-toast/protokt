@@ -20,7 +20,6 @@ import protokt.v1.Collections.freezeMap
 import protokt.v1.Sizes.sizeOf
 
 class UnknownFieldSet private constructor(
-    private val orderedFields: List<UnknownField>,
     private val fieldMap: Map<UInt, Field>
 ) {
     operator fun get(fieldNumber: UInt): Field? =
@@ -34,15 +33,11 @@ class UnknownFieldSet private constructor(
 
     @OnlyForUseByGeneratedProtoCode
     fun size() =
-        orderedFields.sumOf { sizeOf(WireFormat.makeTag(it.fieldNumber, it.value.wireType)) + it.value.size() }
+        fieldMap.entries.sumOf { (fieldNumber, field) -> field.size(fieldNumber) }
 
     @OnlyForUseByGeneratedProtoCode
     fun forEach(action: (UInt, Field) -> Unit) {
         fieldMap.forEach { (k, v) -> action(k, v) }
-    }
-
-    internal fun forEachUnknown(action: (UnknownField) -> Unit) {
-        orderedFields.forEach(action)
     }
 
     override fun equals(other: Any?) =
@@ -56,7 +51,7 @@ class UnknownFieldSet private constructor(
         "UnknownFieldSet(fields=$fieldMap)"
 
     companion object {
-        private val EMPTY = UnknownFieldSet(emptyList(), emptyMap())
+        private val EMPTY = UnknownFieldSet(emptyMap())
 
         fun empty() =
             EMPTY
@@ -67,21 +62,15 @@ class UnknownFieldSet private constructor(
     }
 
     class Builder {
-        private val fields = mutableListOf<UnknownField>()
+        private val fields = linkedMapOf<UInt, Field.Builder>()
 
         fun add(unknown: UnknownField) {
-            fields.add(unknown)
+            fields.getOrPut(unknown.fieldNumber) { Field.Builder() }
+                .add(unknown.value)
         }
 
-        fun build(): UnknownFieldSet {
-            val frozenFields = freezeList(fields)
-            val builders = mutableMapOf<UInt, Field.Builder>()
-            frozenFields.forEach { unknown ->
-                builders.getOrPut(unknown.fieldNumber) { Field.Builder() }
-                    .add(unknown.value)
-            }
-            return UnknownFieldSet(frozenFields, freezeMap(builders.mapValues { (_, v) -> v.build() }))
-        }
+        fun build() =
+            UnknownFieldSet(freezeMap(fields.mapValues { (_, field) -> field.build() }))
     }
 
     // If unknown fields are keyed by tag instead of field number then the bit
@@ -96,12 +85,9 @@ class UnknownFieldSet private constructor(
         val fixed64 = freezeList(orderedValues.filterIsInstance<Fixed64Val>())
         val lengthDelimited = freezeList(orderedValues.filterIsInstance<LengthDelimitedVal>())
 
-        private val size
-            get() = orderedValues.size
-
         @OnlyForUseByGeneratedProtoCode
         fun size(fieldNumber: UInt) =
-            (sizeOf(WireFormat.makeTag(fieldNumber, WireFormat.WIRETYPE_VARINT)) * size) + orderedValues.sumOf { it.size() }
+            orderedValues.sumOf { sizeOf(WireFormat.makeTag(fieldNumber, it.wireType)) + it.size() }
 
         @OnlyForUseByGeneratedProtoCode
         fun write(fieldNumber: UInt, serializer: Writer) {
@@ -143,10 +129,6 @@ private val UnknownValue.wireType
             is Fixed64Val -> WireFormat.WIRETYPE_FIXED64
             is LengthDelimitedVal -> WireFormat.WIRETYPE_LENGTH_DELIMITED
         }
-
-internal fun UnknownField.write(serializer: Writer) {
-    value.write(fieldNumber, serializer)
-}
 
 private fun UnknownValue.write(fieldNumber: UInt, serializer: Writer) {
     serializer.writeTag(WireFormat.makeTag(fieldNumber, wireType))
