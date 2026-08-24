@@ -97,10 +97,12 @@ internal fun binaryFromArtifact(project: Project): Provider<String> {
             CODEGEN_CONFIGURATION,
             "$BASE_GROUP_NAME:protokt-codegen:$PROTOKT_VERSION:dist@zip"
         )
-    }
 
-    project.tasks.withType<GenerateProtoTask>().configureEach {
-        inputs.files(configuration)
+        project.afterEvaluate {
+            tasks.withType<GenerateProtoTask> {
+                inputs.files(project.configurations.getByName(CODEGEN_CONFIGURATION))
+            }
+        }
     }
 
     return project.provider {
