@@ -15,7 +15,20 @@
 
 package protokt.v1
 
+import kotlinx.io.Sink
+import kotlinx.io.Source
+
 /**
  * Uses kotlinx-io for byte-array and streaming operations.
  */
-expect object KotlinxIoCodec : StreamingCodec
+expect object KotlinxIoCodec : StreamingCodec {
+    override fun writer(size: Int): Writer
+
+    override fun reader(bytes: ByteArray): Reader
+
+    override fun reader(bytes: ByteArray, offset: Int, length: Int): Reader
+
+    override fun reader(source: Source): Reader
+
+    override fun serialize(message: Message, sink: Sink)
+}

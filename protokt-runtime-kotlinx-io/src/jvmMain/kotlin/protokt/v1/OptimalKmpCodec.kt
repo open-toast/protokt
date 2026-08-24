@@ -22,16 +22,16 @@ import java.io.OutputStream
 import java.nio.ByteBuffer
 
 actual object OptimalKmpCodec : StreamingCodec, JvmCodec {
-    override fun writer(size: Int): Writer =
+    actual override fun writer(size: Int): Writer =
         OptimalKmpCodecImplementation.writer(size)
 
-    override fun reader(bytes: ByteArray): Reader =
+    actual override fun reader(bytes: ByteArray): Reader =
         OptimalKmpCodecImplementation.reader(bytes)
 
-    override fun reader(bytes: ByteArray, offset: Int, length: Int): Reader =
+    actual override fun reader(bytes: ByteArray, offset: Int, length: Int): Reader =
         OptimalKmpCodecImplementation.reader(bytes, offset, length)
 
-    override fun reader(source: Source): Reader =
+    actual override fun reader(source: Source): Reader =
         OptimalKmpCodecImplementation.reader(source)
 
     override fun reader(stream: InputStream): Reader =
@@ -40,7 +40,7 @@ actual object OptimalKmpCodec : StreamingCodec, JvmCodec {
     override fun reader(buffer: ByteBuffer): Reader =
         OptimalKmpCodecImplementation.reader(buffer)
 
-    override fun serialize(message: Message, sink: Sink) {
+    actual override fun serialize(message: Message, sink: Sink) {
         OptimalKmpCodecImplementation.serialize(message, sink)
     }
 

@@ -22,16 +22,16 @@ import java.io.OutputStream
 import java.nio.ByteBuffer
 
 actual object KotlinxIoCodec : StreamingCodec, JvmCodec {
-    override fun writer(size: Int): Writer =
+    actual override fun writer(size: Int): Writer =
         KotlinxIoCodecImplementation.writer(size)
 
-    override fun reader(bytes: ByteArray): Reader =
+    actual override fun reader(bytes: ByteArray): Reader =
         KotlinxIoCodecImplementation.reader(bytes)
 
-    override fun reader(bytes: ByteArray, offset: Int, length: Int): Reader =
+    actual override fun reader(bytes: ByteArray, offset: Int, length: Int): Reader =
         KotlinxIoCodecImplementation.reader(bytes, offset, length)
 
-    override fun reader(source: Source): Reader =
+    actual override fun reader(source: Source): Reader =
         KotlinxIoCodecImplementation.reader(source)
 
     override fun reader(stream: InputStream): Reader =
@@ -40,7 +40,7 @@ actual object KotlinxIoCodec : StreamingCodec, JvmCodec {
     override fun reader(buffer: ByteBuffer): Reader =
         KotlinxIoCodecImplementation.reader(buffer)
 
-    override fun serialize(message: Message, sink: Sink) {
+    actual override fun serialize(message: Message, sink: Sink) {
         KotlinxIoCodecImplementation.serialize(message, sink)
     }
 
