@@ -32,9 +32,7 @@ internal class ProtoktReader(
             return 0u
         }
         _lastTag = readRawVarint32()
-        if (_lastTag == 0 || WireFormat.getTagFieldNumber(_lastTag) == 0) {
-            throw ProtoktDecodeException("Invalid tag: $_lastTag")
-        }
+        protoktCheck(_lastTag != 0 && WireFormat.getTagFieldNumber(_lastTag) != 0) { "Invalid tag: $_lastTag" }
         return _lastTag.toUInt()
     }
 
@@ -91,9 +89,7 @@ internal class ProtoktReader(
     }
 
     override fun <T : Message> readMessage(m: Deserializer<T>): T {
-        if (messageDepth >= WireFormat.DEFAULT_RECURSION_LIMIT) {
-            throw ProtoktDecodeException(WireFormat.TOO_MANY_LEVELS_OF_NESTING)
-        }
+        protoktCheck(messageDepth < WireFormat.DEFAULT_RECURSION_LIMIT) { WireFormat.TOO_MANY_LEVELS_OF_NESTING }
         messageDepth++
         try {
             val length = readRawVarint32()
@@ -102,9 +98,7 @@ internal class ProtoktReader(
             limit = pos + length
             try {
                 val result = m.deserialize(this)
-                if (pos != limit) {
-                    throw ProtoktDecodeException(WireFormat.MESSAGE_NOT_FULLY_CONSUMED)
-                }
+                protoktRequire(pos == limit) { WireFormat.MESSAGE_NOT_FULLY_CONSUMED }
                 return result
             } finally {
                 limit = oldLimit
@@ -115,18 +109,12 @@ internal class ProtoktReader(
     }
 
     private fun checkLength(length: Int) {
-        if (length < 0) {
-            throw ProtoktDecodeException(WireFormat.NEGATIVE_SIZE)
-        }
-        if (length > limit - pos) {
-            throw ProtoktDecodeException(WireFormat.TRUNCATED_MESSAGE)
-        }
+        protoktCheck(length >= 0) { WireFormat.NEGATIVE_SIZE }
+        protoktCheck(length <= limit - pos) { WireFormat.TRUNCATED_MESSAGE }
     }
 
     private fun checkAvailable(size: Int) {
-        if (limit - pos < size) {
-            throw ProtoktDecodeException(WireFormat.TRUNCATED_MESSAGE)
-        }
+        protoktCheck(limit - pos >= size) { WireFormat.TRUNCATED_MESSAGE }
     }
 
     private fun readRawVarint32(): Int {
