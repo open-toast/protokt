@@ -1279,6 +1279,7 @@ protokt % ./gradlew assemble
 
 protokt % protoc \
     --plugin=protoc-gen-custom=protokt-codegen/build/install/protoc-gen-protokt/bin/protoc-gen-protokt \
+    --custom_opt=kotlin_target=jvm \
     --custom_out=<output-directory> \
     -I<path-to-proto-file-containing-directory> \
     -Iprotokt-runtime/src/main/resources \
@@ -1291,6 +1292,7 @@ located at `protokt/test.proto`:
 ```sh
 protokt % protoc \
     --plugin=protoc-gen-custom=protokt-codegen/build/install/protoc-gen-protokt/bin/protoc-gen-protokt \
+    --custom_opt=kotlin_target=jvm \
     --custom_out=foo \
     -I. \
     -Iprotokt-runtime/src/main/resources \
