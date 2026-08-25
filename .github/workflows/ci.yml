@@ -100,9 +100,7 @@ jobs:
       uses: actions/setup-java@v5
       with:
         distribution: corretto
-        java-version: |
-          17
-          ${{ matrix.jdk }}
+        java-version: ${{ matrix.jdk }}
     - uses: actions/download-artifact@v8
       with:
         name: integration-repository
@@ -135,9 +133,7 @@ jobs:
       uses: actions/setup-java@v5
       with:
         distribution: corretto
-        java-version: |
-          17
-          21
+        java-version: 21
     - uses: actions/download-artifact@v8
       with:
         name: integration-repository
