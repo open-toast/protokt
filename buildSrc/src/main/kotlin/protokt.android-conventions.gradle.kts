@@ -21,10 +21,6 @@ plugins {
 
 javaBasedProjectConventions()
 
-repositories {
-    google()
-}
-
 kotlin {
     jvmToolchain(libs.versions.java.get().toInt())
 }
