@@ -1,3 +1,7 @@
+public abstract interface class protokt/v1/grpc/FileDescriptorProvider {
+	public abstract fun provide ()Ljava/lang/Object;
+}
+
 public final class protokt/v1/grpc/Marshaller : io/grpc/MethodDescriptor$Marshaller {
 	public fun <init> (Lprotokt/v1/Deserializer;)V
 	public synthetic fun parse (Ljava/io/InputStream;)Ljava/lang/Object;
@@ -7,7 +11,8 @@ public final class protokt/v1/grpc/Marshaller : io/grpc/MethodDescriptor$Marshal
 }
 
 public final class protokt/v1/grpc/SchemaDescriptor {
-	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
-	public final fun getFileDescriptorUntyped ()Ljava/lang/Object;
+	public fun <init> (Ljava/lang/String;)V
+	public fun <init> (Ljava/lang/String;Lprotokt/v1/grpc/FileDescriptorProvider;)V
+	public final fun resolveFileDescriptor ()Ljava/lang/Object;
 }
 

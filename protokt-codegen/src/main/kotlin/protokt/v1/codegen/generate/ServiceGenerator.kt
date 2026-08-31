@@ -50,6 +50,7 @@ import protokt.v1.codegen.util.Method
 import protokt.v1.codegen.util.PROTOKT_V1_GOOGLE_PROTO
 import protokt.v1.codegen.util.Service
 import protokt.v1.gradle.KotlinTarget
+import protokt.v1.grpc.FileDescriptorProvider
 import protokt.v1.grpc.Marshaller
 import protokt.v1.grpc.SchemaDescriptor
 import kotlin.coroutines.CoroutineContext
@@ -461,12 +462,21 @@ private class ServiceGenerator(
             CodeBlock.of(".addMethod(_${it.name.decapitalizedMethod})\n")
         } +
             if (pivotPlugin(jvm = true, js = false)) {
-                CodeBlock.of(
-                    ".setSchemaDescriptor(%T(className = %S, fileDescriptorClassName = %S))\n",
-                    SchemaDescriptor::class,
-                    "${ctx.info.kotlinPackage}.${s.name}",
-                    "${ctx.info.kotlinPackage}.${ctx.info.context.fileDescriptorObjectName}"
-                )
+                if (ctx.info.context.generateDescriptors) {
+                    CodeBlock.of(
+                        ".setSchemaDescriptor(%T(serviceName = %S, fileDescriptorProvider = %T { %L.descriptor }))\n",
+                        SchemaDescriptor::class,
+                        renderQualifiedName(),
+                        FileDescriptorProvider::class,
+                        ctx.info.context.fileDescriptorObjectName
+                    )
+                } else {
+                    CodeBlock.of(
+                        ".setSchemaDescriptor(%T(serviceName = %S))\n",
+                        SchemaDescriptor::class,
+                        renderQualifiedName()
+                    )
+                }
             } else {
                 null
             } +
