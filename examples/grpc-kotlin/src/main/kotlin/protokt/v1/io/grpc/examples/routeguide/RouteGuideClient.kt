@@ -123,6 +123,7 @@ class RouteGuideClient(private val channel: ManagedChannel) : Closeable {
 }
 
 suspend fun main() {
+    protokt.v1.ProtoktRuntime.configure(protokt.v1.OptimalJvmCodec)
     val features = Database.features()
 
     val channel = ManagedChannelBuilder.forAddress("localhost", 8980).usePlaintext().build()

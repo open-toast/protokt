@@ -30,7 +30,7 @@ import java.io.File
 //
 //   1. Metadata-target KotlinNativeCompile tasks (e.g. compileNativeMainKotlinMetadata)
 //      must friend the matching compilation plus everything in its dependsOn closure,
-//      not just the matching one, because internal members like codecOverride live in
+//      not just the matching one, because internal runtime members may live in
 //      nonJvmMain while the consuming code is in nativeMain. Friending compilations
 //      outside the closure trips Kotlin 2.4's warning about friend modules that are
 //      not on the library path.

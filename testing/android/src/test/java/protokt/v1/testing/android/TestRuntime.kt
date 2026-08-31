@@ -13,10 +13,13 @@
  * limitations under the License.
  */
 
-package protokt.v1
+package protokt.v1.testing.android
 
-internal actual val collectionFactory: CollectionFactory by lazy {
-    collectionFactoryOverride ?: DefaultCollectionFactory
+import protokt.v1.OptimalJvmCodec
+import protokt.v1.ProtoktRuntime
+
+private val configuredRuntime = lazy { ProtoktRuntime.configure(OptimalJvmCodec) }
+
+internal fun configureRuntime() {
+    configuredRuntime.value
 }
-
-internal var collectionFactoryOverride: CollectionFactory? = null

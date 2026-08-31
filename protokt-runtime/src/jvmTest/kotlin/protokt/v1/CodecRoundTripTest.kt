@@ -185,10 +185,10 @@ class CodecRoundTripTest {
         fun codecs(): List<Codec> =
             listOf(
                 ProtoktCodec,
-                loadCodec("protokt.v1.ProtobufJavaCodec"),
-                loadCodec("protokt.v1.KotlinxIoCodec"),
-                loadCodec("protokt.v1.OptimalKmpCodec"),
-                loadCodec("protokt.v1.OptimalJvmCodec")
+                ProtobufJavaCodec,
+                KotlinxIoCodec,
+                OptimalKmpCodec,
+                OptimalJvmCodec
             )
 
         @JvmStatic
@@ -196,8 +196,5 @@ class CodecRoundTripTest {
             codecs().flatMap { writer ->
                 codecs().map { reader -> arrayOf(writer, reader) }
             }
-
-        private fun loadCodec(fqcn: String): Codec =
-            Class.forName(fqcn).getField("INSTANCE").get(null) as Codec
     }
 }

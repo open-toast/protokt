@@ -20,10 +20,17 @@ import io.grpc.testing.GrpcServerRule
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule
+import protokt.v1.configureRuntime
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class RouteGuideServerTest {
+
+    @BeforeTest
+    fun configureProtoktRuntime() {
+        configureRuntime()
+    }
 
     @get:Rule
     val grpcServerRule: GrpcServerRule = GrpcServerRule().directExecutor()

@@ -111,6 +111,7 @@ class RouteGuideServer(
 }
 
 fun main() {
+    protokt.v1.ProtoktRuntime.configure(protokt.v1.OptimalJvmCodec)
     val port = 8980
     val server = RouteGuideServer(port)
     server.start()

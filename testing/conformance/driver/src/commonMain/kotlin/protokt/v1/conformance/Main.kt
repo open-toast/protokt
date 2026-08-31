@@ -31,6 +31,7 @@ import protokt.v1.protobuf_test_messages.editions.proto3.TestAllTypesProto3 as T
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
 fun main() =
     Platform.runBlockingMain {
+        Platform.configureRuntime()
         val builderResult = Collections.listBuilder<Any>().build()
         Platform.printErr("protoktCollectionFactory=${Platform.className(builderResult)}")
         lateinit var codecReader: Any

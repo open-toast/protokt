@@ -26,11 +26,14 @@ import build.buf.validate.Violations
 import com.google.protobuf.Descriptors
 import com.google.protobuf.ExtensionRegistry
 import protokt.v1.Message
+import protokt.v1.ProtobufJavaCodec
+import protokt.v1.ProtoktRuntime
 import protokt.v1.buf.validate.Validator
 
 object Main {
     @JvmStatic
     fun main(args: Array<String>) {
+        ProtoktRuntime.configure(ProtobufJavaCodec)
         val extensionRegistry = ExtensionRegistry.newInstance()
         extensionRegistry.add(ValidateProto.message)
         extensionRegistry.add(ValidateProto.field)

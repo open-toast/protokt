@@ -17,6 +17,7 @@ package protokt.v1.codegen
 
 import com.squareup.kotlinpoet.FileSpec
 import io.github.oshai.kotlinlogging.KotlinLoggingConfiguration
+import protokt.v1.ProtobufJavaCodec
 import protokt.v1.codegen.generate.generateFile
 import protokt.v1.codegen.util.ErrorContext.withFileName
 import protokt.v1.codegen.util.GeneratorContext
@@ -49,7 +50,7 @@ internal fun main(`in`: InputStream, out: OutputStream, err: PrintStream) =
     }
 
 private fun main(`in`: InputStream, out: OutputStream) {
-    val req = CodeGeneratorRequest.deserialize(`in`)
+    val req = CodeGeneratorRequest.deserialize(ProtobufJavaCodec.reader(`in`))
     val params = PluginParams(parseParams(req))
     val filesToGenerate = req.fileToGenerate.toSet()
 
@@ -63,17 +64,20 @@ private fun main(`in`: InputStream, out: OutputStream) {
 
     val grpcKotlinFiles = generateGrpcKotlinStubs(params, req)
 
-    CodeGeneratorResponse {
-        supportedFeatures =
-            (
-                CodeGeneratorResponse.Feature.PROTO3_OPTIONAL.value or
-                    CodeGeneratorResponse.Feature.SUPPORTS_EDITIONS.value
-                ).toULong()
+    ProtobufJavaCodec.serialize(
+        CodeGeneratorResponse {
+            supportedFeatures =
+                (
+                    CodeGeneratorResponse.Feature.PROTO3_OPTIONAL.value or
+                        CodeGeneratorResponse.Feature.SUPPORTS_EDITIONS.value
+                    ).toULong()
 
-        minimumEdition = Edition.EDITION_PROTO2.value
-        maximumEdition = Edition.EDITION_2023.value
-        file = files + grpcKotlinFiles
-    }.serialize(out)
+            minimumEdition = Edition.EDITION_PROTO2.value
+            maximumEdition = Edition.EDITION_2023.value
+            file = files + grpcKotlinFiles
+        },
+        out,
+    )
 }
 
 private fun response(fileSpec: FileSpec, context: GeneratorContext) =

@@ -1,0 +1,12 @@
+public final class protokt/v1/PersistentCollectionFactory : protokt/v1/CollectionFactory {
+	public static final field INSTANCE Lprotokt/v1/PersistentCollectionFactory;
+	public fun freezeList (Ljava/util/List;)Ljava/util/List;
+	public fun freezeMap (Ljava/util/Map;)Ljava/util/Map;
+	public fun listBuilder ()Lprotokt/v1/ListBuilder;
+	public fun listPlus (Ljava/util/List;Ljava/lang/Object;)Ljava/util/List;
+	public fun listPlusAll (Ljava/util/List;Ljava/lang/Iterable;)Ljava/util/List;
+	public fun mapBuilder ()Lprotokt/v1/MapBuilder;
+	public fun mapPlus (Ljava/util/Map;Lkotlin/Pair;)Ljava/util/Map;
+	public fun mapPlusAll (Ljava/util/Map;Ljava/lang/Iterable;)Ljava/util/Map;
+}
+

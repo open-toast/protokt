@@ -64,6 +64,7 @@ class HelloWorldServer(
 }
 
 fun main() {
+    protokt.v1.ProtoktRuntime.configure(protokt.v1.OptimalJvmCodec)
     val port = System.getenv("PORT")?.toInt() ?: 50051
     val server = HelloWorldServer(port)
     server.start()

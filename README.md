@@ -70,9 +70,9 @@ This will automatically download and install protokt, apply the Google protobuf
 plugin, and configure all the necessary boilerplate. By default it will also add
 `protokt-core` to the `api` scope of the project.
 
-By default the plugin auto-detects the best codec for your project type and adds
-`protokt-runtime-persistent-collections` dependencies automatically. You can
-customize which codec and collection implementation to use with the
+By default the plugin selects the codec dependency for your project type and adds
+`protokt-runtime-persistent-collections` automatically. Applications select the
+runtime implementations before first use. You can customize the available modules with the
 [`codec`](#codec-dsl) and [`collections`](#collections-dsl) DSLs described below.
 
 If your project has no Java code you may run into the following error:
@@ -356,8 +356,7 @@ dependencies {
 ### Codec DSL
 
 The `codec` DSL controls which codec module the plugin adds to your project's
-dependencies. The default is `optimal()`, which auto-detects the best codec
-based on your Kotlin plugin type:
+dependencies. The default is `optimal()`, which selects a module based on your Kotlin plugin type:
 
 - **`kotlin("jvm")`** projects get `protokt-runtime-protobuf-java` + `protobuf-java`
 - **Android** projects (`kotlin("android")` or AGP 9+ built-in Kotlin) get `protokt-runtime-protobuf-java` + `protobuf-javalite`
@@ -368,7 +367,7 @@ based on your Kotlin plugin type:
 ```kotlin
 protokt {
     codec {
-        optimal()          // default; auto-detects based on Kotlin plugin
+        optimal()          // default; selects a module based on the Kotlin plugin
         // optimalKmp()    // adds protokt-runtime-kotlinx-io
         // optimalJvm()    // adds protokt-runtime-protobuf-java + protobuf-java
         // optimalJvmLite() // adds protokt-runtime-protobuf-java + protobuf-javalite (recommended for a JVM module consumed by Android)
@@ -379,33 +378,23 @@ protokt {
 }
 ```
 
+The DSL makes codec implementations available to an application. It does not configure
+the process-wide runtime.
+
 If you are generating a library for export, `minimal()` is likely the right
 choice so that consumers can select their own codec without extra dependencies.
 
 ### Codec selection
 
-At runtime on JVM, the best available codec is auto-detected from the classpath
-in the following order:
+The built-in `ProtoktCodec` is used unless the application selects another codec before
+its first serialization or deserialization:
 
-1. `OptimalJvmCodec` (from `protokt-runtime-protobuf-java`)
-2. `OptimalKmpCodec` (from `protokt-runtime-kotlinx-io`)
-3. `ProtobufJavaCodec` (from `protokt-runtime-protobuf-java`)
-4. `KotlinxIoCodec` (from `protokt-runtime-kotlinx-io`)
-5. `ProtoktCodec` (built-in fallback)
-
-You can override auto-detection with a system property or environment variable:
-
-```
--Dprotokt.v1.codec=protokt.v1.ProtobufJavaCodec
+```kotlin
+ProtoktRuntime.configure(OptimalJvmCodec)
 ```
 
-or
-
-```
-PROTOKT_V1_CODEC=protokt.v1.ProtobufJavaCodec
-```
-
-The codec class is loaded reflectively and must be a Kotlin `object` implementing `Codec`.
+Runtime configuration is process-wide and may be performed once. Configuration fails if
+another call or protobuf runtime use has already selected the active configuration.
 
 Available codecs:
 
@@ -590,8 +579,18 @@ uses `PersistentList` and `PersistentMap` from
 These use tree-based structural sharing so that `+` inside a `copy {}` block
 runs in O(log n) instead of O(n).
 
-At runtime on JVM, `PersistentCollectionFactory` is auto-detected from the
-classpath if present; otherwise `DefaultCollectionFactory` is used.
+`DefaultCollectionFactory` is used unless the application selects persistent collections
+before its first protobuf runtime use:
+
+```kotlin
+ProtoktRuntime.configure(PersistentCollectionFactory)
+```
+
+To select a codec and collection implementation together, use one configuration call:
+
+```kotlin
+ProtoktRuntime.configure(OptimalJvmCodec, PersistentCollectionFactory)
+```
 
 Workloads that incrementally build up repeated or map fields via `copy {}` on messages that
 already have large collections may benefit from this option. Benchmarks show
@@ -603,20 +602,7 @@ more overhead than regular mutable lists. Serialization is marginally slower for
 If your workload is dominated by deserialize-then-read-only access patterns, use
 `collections { default() }` for the built-in unmodifiable collections.
 
-You can override auto-detection with a system property or environment variable:
-
-```
--Dprotokt.v1.collection.factory=protokt.v1.PersistentCollectionFactory
-```
-
-or
-
-```
-PROTOKT_V1_COLLECTION_FACTORY=protokt.v1.PersistentCollectionFactory
-```
-
-You can also supply any custom `CollectionFactory` implementation by fully
-qualified class name (the class must be a Kotlin `object`).
+You can also supply any custom `CollectionFactory` implementation.
 
 ### Other Notes
 

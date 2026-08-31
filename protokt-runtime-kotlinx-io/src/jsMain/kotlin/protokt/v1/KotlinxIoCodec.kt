@@ -15,4 +15,6 @@
 
 package protokt.v1
 
-internal actual object KotlinxIoCodec : AbstractKotlinxIoCodec()
+actual object KotlinxIoCodec : StreamingCodec by KotlinxIoCodecImplementation
+
+private object KotlinxIoCodecImplementation : AbstractKotlinxIoCodec()

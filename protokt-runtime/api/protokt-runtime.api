@@ -295,6 +295,13 @@ public abstract interface class protokt/v1/Message {
 public abstract interface annotation class protokt/v1/OnlyForUseByGeneratedProtoCode : java/lang/annotation/Annotation {
 }
 
+public final class protokt/v1/ProtoktRuntime {
+	public static final field INSTANCE Lprotokt/v1/ProtoktRuntime;
+	public final fun configure (Lprotokt/v1/Codec;)V
+	public final fun configure (Lprotokt/v1/Codec;Lprotokt/v1/CollectionFactory;)V
+	public final fun configure (Lprotokt/v1/CollectionFactory;)V
+}
+
 public abstract interface class protokt/v1/Reader {
 	public abstract fun getLastTag-pVg5ArA ()I
 	public fun readBool ()Z

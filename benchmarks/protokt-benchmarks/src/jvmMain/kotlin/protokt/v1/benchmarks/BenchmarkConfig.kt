@@ -15,7 +15,33 @@
 
 package protokt.v1.benchmarks
 
+import protokt.v1.KotlinxIoCodec
+import protokt.v1.PersistentCollectionFactory
+import protokt.v1.ProtobufJavaCodec
+import protokt.v1.ProtoktRuntime
+
 actual fun applyBenchmarkConfig(collectionFactory: String, codec: String) {
-    System.setProperty("protokt.v1.collection.factory", collectionFactory)
-    System.setProperty("protokt.v1.codec", codec)
+    val configuration = collectionFactory to codec
+    check(appliedConfiguration == null || appliedConfiguration == configuration) {
+        "Benchmark runtime is already configured as $appliedConfiguration"
+    }
+    if (appliedConfiguration != null) {
+        return
+    }
+    appliedConfiguration = configuration
+
+    val selectedCodec =
+        when (codec) {
+            "protokt.v1.ProtobufJavaCodec" -> ProtobufJavaCodec
+            "protokt.v1.KotlinxIoCodec" -> KotlinxIoCodec
+            else -> null
+        }
+    val persistent = collectionFactory == "protokt.v1.PersistentCollectionFactory"
+    when {
+        selectedCodec != null && persistent -> ProtoktRuntime.configure(selectedCodec, PersistentCollectionFactory)
+        selectedCodec != null -> ProtoktRuntime.configure(selectedCodec)
+        persistent -> ProtoktRuntime.configure(PersistentCollectionFactory)
+    }
 }
+
+private var appliedConfiguration: Pair<String, String>? = null

@@ -26,6 +26,9 @@ import org.khronos.webgl.Uint8Array
 import protokt.v1.Bytes
 import protokt.v1.Deserializer
 import protokt.v1.Message
+import protokt.v1.PersistentCollectionFactory
+import protokt.v1.ProtobufJsCodec
+import protokt.v1.ProtoktRuntime
 import protokt.v1.conformance.ConformanceResponse.Result.ParseError
 import protokt.v1.conformance.ConformanceResponse.Result.SerializeError
 import protokt.v1.deserialize
@@ -35,6 +38,17 @@ import kotlin.coroutines.suspendCoroutine
 
 internal actual object Platform {
     actual val streaming: Boolean = js("process.env.PROTOKT_STREAMING === 'true'").unsafeCast<Boolean>()
+
+    actual fun configureRuntime() {
+        val protobufJs = js("process.env.PROTOKT_V1_CODEC === 'protokt.v1.ProtobufJsCodec'").unsafeCast<Boolean>()
+        val persistentCollections =
+            js("process.env.PROTOKT_V1_COLLECTION_FACTORY === 'protokt.v1.PersistentCollectionFactory'").unsafeCast<Boolean>()
+        when {
+            protobufJs && persistentCollections -> ProtoktRuntime.configure(ProtobufJsCodec, PersistentCollectionFactory)
+            protobufJs -> ProtoktRuntime.configure(ProtobufJsCodec)
+            persistentCollections -> ProtoktRuntime.configure(PersistentCollectionFactory)
+        }
+    }
 
     actual fun printErr(message: String) {
         Process.stderr.write(message + "\n")
