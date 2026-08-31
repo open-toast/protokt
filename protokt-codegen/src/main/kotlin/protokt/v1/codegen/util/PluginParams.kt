@@ -37,7 +37,9 @@ internal class PluginParams(
     params: Map<String, String>
 ) {
     private val encodedClasspath =
-        File(URLDecoder.decode(params.getValue(KOTLIN_EXTRA_CLASSPATH_FILE), "UTF-8")).readText()
+        params[KOTLIN_EXTRA_CLASSPATH_FILE]
+            ?.let { File(URLDecoder.decode(it, "UTF-8")).readText() }
+            .orEmpty()
 
     val classLookup =
         ClassLookup(
