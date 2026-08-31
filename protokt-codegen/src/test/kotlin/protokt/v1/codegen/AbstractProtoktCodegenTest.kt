@@ -105,9 +105,14 @@ abstract class AbstractProtoktCodegenTest {
 
 private fun buildPluginOptions(extension: ProtoktExtension) =
     "--custom_opt=" +
-        extension::class.declaredMemberProperties
-            .filter { it.returnType.classifier as KClass<*> == Boolean::class }
-            .joinToString(",") { format(it.name) + "=${it.call(extension)}" } +
+        (
+            extension::class.declaredMemberProperties
+                .filter { it.returnType.classifier as KClass<*> == Boolean::class }
+                .map { format(it.name) + "=${it.call(extension)}" } +
+                extension.generate::class.declaredMemberProperties
+                    .filter { it.returnType.classifier as KClass<*> == Boolean::class }
+                    .map { "generate_${format(it.name)}=${it.call(extension.generate)}" }
+            ).joinToString(",") +
         ",${format(KOTLIN_TARGET)}=${KotlinTarget.Jvm}"
 
 private fun format(optionConst: String) =

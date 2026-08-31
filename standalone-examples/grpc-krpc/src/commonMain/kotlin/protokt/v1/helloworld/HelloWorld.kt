@@ -29,7 +29,7 @@ import kotlin.reflect.typeOf
 import kotlin.time.Duration.Companion.milliseconds
 
 internal class GreeterService : Greeter {
-    override suspend fun SayHello(message: HelloRequest) =
+    override suspend fun sayHello(message: HelloRequest) =
         HelloReply { this.message = "Hello ${message.name}" }
 }
 
@@ -66,7 +66,7 @@ fun runExample() {
                     credentials = plaintext()
                 }
             val greeter = client.withService<Greeter>()
-            val reply = greeter.SayHello(HelloRequest { name = "world" })
+            val reply = greeter.sayHello(HelloRequest { name = "world" })
             println("Received: ${reply.message}")
             server.shutdownNow()
         }
