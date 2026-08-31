@@ -19,7 +19,6 @@ import kotlinx.io.Source
 import kotlinx.io.readByteArray
 import kotlinx.io.readIntLe
 import kotlinx.io.readLongLe
-import kotlinx.io.readString
 
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
 internal class KotlinxIoSourceReader(
@@ -39,9 +38,7 @@ internal class KotlinxIoSourceReader(
             return 0u
         }
         _lastTag = readRawVarint32()
-        if (_lastTag == 0 || WireFormat.getTagFieldNumber(_lastTag) == 0) {
-            throw IllegalStateException("Invalid tag: $_lastTag")
-        }
+        protoktCheck(_lastTag != 0 && WireFormat.getTagFieldNumber(_lastTag) != 0) { "Invalid tag: $_lastTag" }
         return _lastTag.toUInt()
     }
 
@@ -54,8 +51,7 @@ internal class KotlinxIoSourceReader(
     override fun readString(): String {
         val length = readRawVarint32()
         checkLength(length)
-        bytesRead += length
-        return source.readString(length.toLong())
+        return decodeUtf8(readSourceByteArray(length))
     }
 
     override fun readUInt64(): ULong =
@@ -82,38 +78,45 @@ internal class KotlinxIoSourceReader(
             checkLength(length)
             val oldLimit = currentLimit
             currentLimit = bytesRead + length
-            while (bytesRead < currentLimit) {
-                acc(this)
+            try {
+                while (bytesRead < currentLimit) {
+                    acc(this)
+                }
+            } finally {
+                currentLimit = oldLimit
             }
-            currentLimit = oldLimit
         }
     }
 
     override fun <T : Message> readMessage(m: Deserializer<T>): T {
-        check(++messageDepth <= WireFormat.DEFAULT_RECURSION_LIMIT) { WireFormat.TOO_MANY_LEVELS_OF_NESTING }
+        protoktCheck(messageDepth < WireFormat.DEFAULT_RECURSION_LIMIT) { WireFormat.TOO_MANY_LEVELS_OF_NESTING }
+        messageDepth++
         try {
             val length = readRawVarint32()
             checkLength(length)
             val oldLimit = currentLimit
             currentLimit = bytesRead + length
-            val res = m.deserialize(this)
-            require(bytesRead == currentLimit) { "Message not fully consumed" }
-            currentLimit = oldLimit
-            return res
+            try {
+                val result = m.deserialize(this)
+                protoktRequire(bytesRead == currentLimit) { WireFormat.MESSAGE_NOT_FULLY_CONSUMED }
+                return result
+            } finally {
+                currentLimit = oldLimit
+            }
         } finally {
             messageDepth--
         }
     }
 
     private fun checkLength(length: Int) {
-        check(length >= 0) { WireFormat.NEGATIVE_SIZE }
-        check(length <= currentLimit - bytesRead) { WireFormat.TRUNCATED_MESSAGE }
-        check(source.request(length.toLong())) { WireFormat.TRUNCATED_MESSAGE }
+        protoktCheck(length >= 0) { WireFormat.NEGATIVE_SIZE }
+        protoktCheck(length <= currentLimit - bytesRead) { WireFormat.TRUNCATED_MESSAGE }
+        protoktCheck(source.request(length.toLong())) { WireFormat.TRUNCATED_MESSAGE }
     }
 
     private fun checkAvailable(size: Int) {
-        check(currentLimit - bytesRead >= size) { WireFormat.TRUNCATED_MESSAGE }
-        check(source.request(size.toLong())) { WireFormat.TRUNCATED_MESSAGE }
+        protoktCheck(currentLimit - bytesRead >= size) { WireFormat.TRUNCATED_MESSAGE }
+        protoktCheck(source.request(size.toLong())) { WireFormat.TRUNCATED_MESSAGE }
     }
 
     private fun readSourceByte(): Byte {
@@ -139,13 +142,14 @@ internal class KotlinxIoSourceReader(
             shift += 7
         }
         // discard upper bits for oversized varints
-        while (true) {
+        repeat(5) {
             checkAvailable(1)
             val b = readSourceByte().toInt()
             if (b and 0x80 == 0) {
                 return result
             }
         }
+        throw ProtoktDecodeException(WireFormat.MALFORMED_VARINT)
     }
 
     private fun readRawVarint64(): ULong {
@@ -160,7 +164,7 @@ internal class KotlinxIoSourceReader(
             }
             shift += 7
         }
-        throw IllegalStateException("Varint too long")
+        throw ProtoktDecodeException(WireFormat.MALFORMED_VARINT)
     }
 
     private fun readFixed32Bits(): UInt {

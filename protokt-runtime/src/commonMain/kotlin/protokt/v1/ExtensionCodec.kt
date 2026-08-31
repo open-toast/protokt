@@ -83,7 +83,7 @@ object ExtensionCodecs {
 
     val string: ExtensionCodec<String> =
         LengthDelimitedCodec(
-            { it.value.value.decodeToString() },
+            { decodeUtf8(it.value.value) },
             { LengthDelimitedVal(Bytes(it.encodeToByteArray())) }
         )
 

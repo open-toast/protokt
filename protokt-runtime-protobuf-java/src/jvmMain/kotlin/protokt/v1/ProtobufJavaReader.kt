@@ -28,76 +28,84 @@ internal class ProtobufJavaReader(
         get() = stream.lastTag.toUInt()
 
     override fun readDouble() =
-        stream.readDouble()
+        decode { stream.readDouble() }
 
     override fun readFixed32() =
-        stream.readFixed32().toUInt()
+        decode { stream.readFixed32().toUInt() }
 
     override fun readFixed64() =
-        stream.readFixed64().toULong()
+        decode { stream.readFixed64().toULong() }
 
     override fun readFloat() =
-        stream.readFloat()
+        decode { stream.readFloat() }
 
     override fun readInt64() =
-        stream.readInt64()
+        decode { stream.readInt64() }
 
     override fun readSFixed32() =
-        stream.readSFixed32()
+        decode { stream.readSFixed32() }
 
     override fun readSFixed64() =
-        stream.readSFixed64()
+        decode { stream.readSFixed64() }
 
     override fun readSInt32() =
-        stream.readSInt32()
+        decode { stream.readSInt32() }
 
     override fun readSInt64() =
-        stream.readSInt64()
+        decode { stream.readSInt64() }
 
     override fun readString() =
-        stream.readString()
+        decode { stream.readStringRequireUtf8() }
 
     override fun readUInt64() =
-        stream.readUInt64().toULong()
+        decode { stream.readUInt64().toULong() }
 
     override fun readTag() =
-        stream.readTag().toUInt()
+        decode { stream.readTag().toUInt() }
 
     override fun readBytes() =
-        Bytes(stream.readByteArray())
+        decode { Bytes(stream.readByteArray()) }
 
     override fun readBytesSlice() =
         if (bytes != null) {
-            val ln = stream.readRawVarint32()
+            val ln = decode { stream.readRawVarint32() }
             val off = stream.totalBytesRead
-            stream.skipRawBytes(ln)
+            decode { stream.skipRawBytes(ln) }
             BytesSlice(bytes, off, ln)
         } else {
-            BytesSlice(stream.readByteArray())
+            decode { BytesSlice(stream.readByteArray()) }
         }
 
     override fun readRepeated(packed: Boolean, acc: Reader.() -> Unit) {
         if (!packed || WireFormat.getTagWireType(lastTag.toInt()) != WireFormat.WIRETYPE_LENGTH_DELIMITED) {
             acc(this)
         } else {
-            stream.readRawVarint32().also { sz ->
-                val limit = stream.pushLimit(sz)
-                while (stream.bytesUntilLimit > 0) {
-                    acc(this)
+            decode { stream.readRawVarint32() }.also { size ->
+                val limit = decode { stream.pushLimit(size) }
+                try {
+                    while (stream.bytesUntilLimit > 0) {
+                        acc(this)
+                    }
+                } finally {
+                    stream.popLimit(limit)
                 }
-                stream.popLimit(limit)
             }
         }
     }
 
     override fun <T : Message> readMessage(m: Deserializer<T>): T {
-        check(++messageDepth <= WireFormat.DEFAULT_RECURSION_LIMIT) { WireFormat.TOO_MANY_LEVELS_OF_NESTING }
+        protoktCheck(messageDepth < WireFormat.DEFAULT_RECURSION_LIMIT) { WireFormat.TOO_MANY_LEVELS_OF_NESTING }
+        messageDepth++
         try {
-            val limit = stream.pushLimit(stream.readRawVarint32())
-            val res = m.deserialize(this)
-            require(stream.bytesUntilLimit == 0)
-            stream.popLimit(limit)
-            return res
+            val length = decode { stream.readRawVarint32() }
+            val limit = decode { stream.pushLimit(length) }
+            try {
+                val result = m.deserialize(this)
+                protoktRequire(stream.bytesUntilLimit == 0) { WireFormat.MESSAGE_NOT_FULLY_CONSUMED }
+                return result
+            } finally {
+                stream.popLimit(limit)
+            }
         } finally {
             messageDepth--
         }

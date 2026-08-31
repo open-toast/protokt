@@ -16,7 +16,9 @@
 package protokt.v1
 
 import com.google.common.truth.Truth.assertThat
+import com.google.protobuf.InvalidProtocolBufferException
 import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
@@ -61,7 +63,7 @@ class ReaderValidationTest {
             val bytes = byteArrayOf(0x0a) + NEGATIVE_ONE_VARINT
             val reader = codec.reader(bytes)
             reader.readTag()
-            val ex = assertThrows<Exception> { reader.readString() }
+            val ex = assertThrows<ProtoktDecodeException> { reader.readString() }
             assertThat(ex).hasMessageThat().endsWith("an embedded string or message which claimed to have negative size.")
         }
 
@@ -71,7 +73,7 @@ class ReaderValidationTest {
             val bytes = byteArrayOf(0x0a) + NEGATIVE_ONE_VARINT
             val reader = codec.reader(bytes)
             reader.readTag()
-            val ex = assertThrows<Exception> { reader.readBytes() }
+            val ex = assertThrows<ProtoktDecodeException> { reader.readBytes() }
             assertThat(ex).hasMessageThat().endsWith("an embedded string or message which claimed to have negative size.")
         }
 
@@ -81,7 +83,7 @@ class ReaderValidationTest {
             val bytes = byteArrayOf(0x0a) + NEGATIVE_ONE_VARINT
             val reader = codec.reader(bytes)
             reader.readTag()
-            val ex = assertThrows<Exception> { reader.readMessage(EmptyMessage) }
+            val ex = assertThrows<ProtoktDecodeException> { reader.readMessage(EmptyMessage) }
             assertThat(ex).hasMessageThat().endsWith("an embedded string or message which claimed to have negative size.")
         }
     }
@@ -102,7 +104,7 @@ class ReaderValidationTest {
             )
             val reader = codec.reader(bytes)
             reader.readTag()
-            val ex = assertThrows<Exception> { reader.readMessage(Fixed32FieldMessage) }
+            val ex = assertThrows<ProtoktDecodeException> { reader.readMessage(Fixed32FieldMessage) }
             assertThat(ex).hasMessageThat().isEqualTo(WireFormat.TRUNCATED_MESSAGE)
         }
 
@@ -118,7 +120,7 @@ class ReaderValidationTest {
             )
             val reader = codec.reader(bytes)
             reader.readTag()
-            val ex = assertThrows<Exception> { reader.readMessage(Fixed64FieldMessage) }
+            val ex = assertThrows<ProtoktDecodeException> { reader.readMessage(Fixed64FieldMessage) }
             assertThat(ex).hasMessageThat().isEqualTo(WireFormat.TRUNCATED_MESSAGE)
         }
 
@@ -133,7 +135,7 @@ class ReaderValidationTest {
             )
             val reader = codec.reader(bytes)
             reader.readTag()
-            val ex = assertThrows<Exception> { reader.readMessage(VarintFieldMessage) }
+            val ex = assertThrows<ProtoktDecodeException> { reader.readMessage(VarintFieldMessage) }
             assertThat(ex).hasMessageThat().isEqualTo(WireFormat.TRUNCATED_MESSAGE)
         }
     }
@@ -146,7 +148,7 @@ class ReaderValidationTest {
             val bytes = buildDeeplyNestedMessage(200)
             val reader = codec.reader(bytes)
             val ex =
-                assertThrows<Exception> {
+                assertThrows<ProtoktDecodeException> {
                     reader.readTag()
                     reader.readMessage(RecursiveMessage)
                 }
@@ -179,7 +181,7 @@ class ReaderValidationTest {
             )
             val reader = codec.reader(bytes)
             reader.readTag()
-            val ex = assertThrows<Exception> { reader.readMessage(NestedLenDelimitedMessage) }
+            val ex = assertThrows<ProtoktDecodeException> { reader.readMessage(NestedLenDelimitedMessage) }
             assertThat(ex).hasMessageThat().isEqualTo(WireFormat.TRUNCATED_MESSAGE)
         }
     }
@@ -192,7 +194,7 @@ class ReaderValidationTest {
             val bytes = byteArrayOf(0x0a) + INT_MAX_VARINT + byteArrayOf(0x00, 0x00)
             val reader = codec.reader(bytes)
             reader.readTag()
-            assertThrows<Exception> { reader.readMessage(EmptyMessage) }
+            assertThrows<ProtoktDecodeException> { reader.readMessage(EmptyMessage) }
         }
 
         @ParameterizedTest
@@ -201,8 +203,127 @@ class ReaderValidationTest {
             val bytes = byteArrayOf(0x0a) + INT_MAX_VARINT + byteArrayOf(0x00)
             val reader = codec.reader(bytes)
             reader.readTag()
-            val ex = assertThrows<Exception> { reader.readString() }
+            val ex = assertThrows<ProtoktDecodeException> { reader.readString() }
             assertThat(ex).hasMessageThat().isEqualTo(WireFormat.TRUNCATED_MESSAGE)
+        }
+    }
+
+    @Nested
+    inner class MalformedWireData {
+        @ParameterizedTest
+        @MethodSource("protokt.v1.ReaderValidationTest#codecs")
+        fun `invalid UTF-8`(codec: Codec) {
+            val malformedPayloads =
+                listOf(
+                    byteArrayOf(0xC0.toByte(), 0xAF.toByte()),
+                    byteArrayOf(0x80.toByte()),
+                    byteArrayOf(0xED.toByte(), 0xA0.toByte(), 0x80.toByte()),
+                    byteArrayOf(0xE2.toByte(), 0x82.toByte()),
+                    byteArrayOf(0xF4.toByte(), 0x90.toByte(), 0x80.toByte(), 0x80.toByte()),
+                    byteArrayOf(0xE2.toByte(), 0x28, 0xA1.toByte()),
+                )
+
+            malformedPayloads.forEach { payload ->
+                val reader = codec.reader(byteArrayOf(0x0A, payload.size.toByte()) + payload)
+                reader.readTag()
+
+                val exception = assertThrows<ProtoktDecodeException> { reader.readString() }
+                assertThat(exception).hasMessageThat().isEqualTo(WireFormat.INVALID_UTF8)
+
+                val converterReader = codec.reader(byteArrayOf(0x0A, payload.size.toByte()) + payload)
+                converterReader.readTag()
+                val converterException =
+                    assertThrows<ProtoktDecodeException> { StringConverter.readValidatedBytes(converterReader) }
+                assertThat(converterException).hasMessageThat().isEqualTo(WireFormat.INVALID_UTF8)
+            }
+        }
+
+        @ParameterizedTest
+        @MethodSource("protokt.v1.ReaderValidationTest#codecs")
+        fun `valid UTF-8 boundary code points`(codec: Codec) {
+            val value = "\u0000\u007F\u0080\u07FF\u0800\uD7FF\uE000\uFFFF\uD800\uDC00\uDBFF\uDFFF"
+            val payload = value.encodeToByteArray()
+            val reader = codec.reader(byteArrayOf(0x0A, payload.size.toByte()) + payload)
+            reader.readTag()
+
+            assertThat(reader.readString()).isEqualTo(value)
+        }
+
+        @ParameterizedTest
+        @MethodSource("protokt.v1.ReaderValidationTest#codecs")
+        fun `invalid tag`(codec: Codec) {
+            assertThrows<ProtoktDecodeException> {
+                codec.reader(byteArrayOf(0x00)).readTag()
+            }
+        }
+
+        @ParameterizedTest
+        @MethodSource("protokt.v1.ReaderValidationTest#codecs")
+        fun `invalid wire type`(codec: Codec) {
+            val reader = codec.reader(byteArrayOf(0x0e))
+            reader.readTag()
+
+            assertThrows<ProtoktDecodeException> {
+                reader.readUnknown()
+            }
+        }
+
+        @ParameterizedTest
+        @MethodSource("protokt.v1.ReaderValidationTest#codecs")
+        fun `overlong varint`(codec: Codec) {
+            val reader = codec.reader(byteArrayOf(0x08) + ByteArray(11) { 0x80.toByte() })
+            reader.readTag()
+
+            val exception =
+                assertThrows<ProtoktDecodeException> {
+                    reader.readUInt64()
+                }
+            assertThat(exception).hasMessageThat().isEqualTo(WireFormat.MALFORMED_VARINT)
+        }
+
+        @ParameterizedTest
+        @MethodSource("protokt.v1.ReaderValidationTest#codecs")
+        fun `truncated tag`(codec: Codec) {
+            assertThrows<ProtoktDecodeException> {
+                codec.reader(byteArrayOf(0x80.toByte())).readTag()
+            }
+        }
+
+        @ParameterizedTest
+        @MethodSource("protokt.v1.ReaderValidationTest#codecs")
+        fun `group wire type`(codec: Codec) {
+            val reader = codec.reader(byteArrayOf(0x0b))
+            reader.readTag()
+
+            assertThrows<ProtoktDecodeException> {
+                reader.readUnknown()
+            }
+        }
+
+        @Test
+        fun `protobuf-java cause retained`() {
+            val reader = loadCodec("protokt.v1.ProtobufJavaCodec").reader(byteArrayOf(0x0a, 0x02, 0x01))
+            reader.readTag()
+
+            val exception = assertThrows<ProtoktDecodeException> { reader.readBytes() }
+            assertThat(exception).hasCauseThat().isInstanceOf(InvalidProtocolBufferException::class.java)
+        }
+    }
+
+    @Nested
+    inner class CallbackFailures {
+        @ParameterizedTest
+        @MethodSource("protokt.v1.ReaderValidationTest#codecs")
+        fun `application exception is not wrapped and reader state is restored`(codec: Codec) {
+            val reader = codec.reader(byteArrayOf(0x0a, 0x00, 0x10, 0x01))
+            reader.readTag()
+
+            assertThrows<ApplicationDecodeException> {
+                reader.readMessage(ThrowingDeserializer)
+            }
+
+            assertThat(reader.readTag()).isEqualTo(0x10u)
+            assertThat(reader.readUInt64()).isEqualTo(1uL)
         }
     }
 
@@ -225,6 +346,13 @@ class ReaderValidationTest {
         result.add(v.toByte())
         return result.toByteArray()
     }
+}
+
+private class ApplicationDecodeException : RuntimeException()
+
+private object ThrowingDeserializer : AbstractDeserializer<EmptyMessage>() {
+    override fun deserialize(reader: Reader): EmptyMessage =
+        throw ApplicationDecodeException()
 }
 
 @OptIn(OnlyForUseByGeneratedProtoCode::class)

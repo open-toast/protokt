@@ -16,7 +16,7 @@
 package protokt.v1
 
 /**
- * Validates that [bytes] is well-formed UTF-8. Throws [IllegalArgumentException]
+ * Validates that [bytes] is well-formed UTF-8. Throws [ProtoktDecodeException]
  * on invalid input.
  *
  * Modeled after com.google.protobuf.Utf8.SafeProcessor: fast-path ASCII
@@ -24,24 +24,27 @@ package protokt.v1
  * computation), continuation-byte validation via unsigned comparison.
  */
 internal fun validateUtf8(bytes: ByteArray) {
-    val limit = bytes.size
-    var i = 0
+    validateUtf8(bytes, 0, bytes.size)
+}
+
+internal fun validateUtf8(bytes: ByteArray, startIndex: Int, endIndex: Int) {
+    var i = startIndex
 
     // Fast-path: scan ASCII bytes without per-byte branching into the
     // multi-byte `when`.  Most proto string payloads are predominantly ASCII.
-    while (i < limit && bytes[i] >= 0) {
+    while (i < endIndex && bytes[i] >= 0) {
         i++
     }
 
     // Now handle multi-byte sequences.
-    while (i < limit) {
+    while (i < endIndex) {
         val b0 = bytes[i]
 
         if (b0 >= 0) {
             // 0xxxxxxx – ASCII
             i++
             // Resume tight ASCII scan
-            while (i < limit && bytes[i] >= 0) {
+            while (i < endIndex && bytes[i] >= 0) {
                 i++
             }
             continue
@@ -56,14 +59,14 @@ internal fun validateUtf8(bytes: ByteArray) {
             // Lead byte 0xC2..0xDF (< 0xC2 means overlong or continuation)
             u0 < 0xE0 -> {
                 if (u0 < 0xC2) invalid()
-                if (i + 1 >= limit) invalid()
+                if (i + 1 >= endIndex) invalid()
                 if (bytes[i + 1].toInt() and 0xC0 != 0x80) invalid()
                 i += 2
             }
 
             // Three-byte form: 1110xxxx 10xxxxxx 10xxxxxx
             u0 < 0xF0 -> {
-                if (i + 2 >= limit) invalid()
+                if (i + 2 >= endIndex) invalid()
                 val b1 = bytes[i + 1]
                 val b2 = bytes[i + 2]
                 // Continuation byte check
@@ -77,7 +80,7 @@ internal fun validateUtf8(bytes: ByteArray) {
 
             // Four-byte form: 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
             u0 < 0xF5 -> {
-                if (i + 3 >= limit) invalid()
+                if (i + 3 >= endIndex) invalid()
                 val b1 = bytes[i + 1]
                 val b2 = bytes[i + 2]
                 val b3 = bytes[i + 3]
@@ -98,7 +101,12 @@ internal fun validateUtf8(bytes: ByteArray) {
 }
 
 private fun invalid(): Nothing =
-    throw IllegalArgumentException("Invalid UTF-8")
+    throw ProtoktDecodeException(WireFormat.INVALID_UTF8)
+
+internal fun decodeUtf8(bytes: ByteArray): String {
+    validateUtf8(bytes)
+    return bytes.decodeToString()
+}
 
 /**
  * Returns the number of bytes needed to encode [s] as UTF-8,

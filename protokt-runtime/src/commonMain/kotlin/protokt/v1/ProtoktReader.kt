@@ -32,9 +32,7 @@ internal class ProtoktReader(
             return 0u
         }
         _lastTag = readRawVarint32()
-        if (_lastTag == 0 || WireFormat.getTagFieldNumber(_lastTag) == 0) {
-            throw IllegalStateException("Invalid tag: $_lastTag")
-        }
+        protoktCheck(_lastTag != 0 && WireFormat.getTagFieldNumber(_lastTag) != 0) { "Invalid tag: $_lastTag" }
         return _lastTag.toUInt()
     }
 
@@ -47,6 +45,7 @@ internal class ProtoktReader(
     override fun readString(): String {
         val length = readRawVarint32()
         checkLength(length)
+        validateUtf8(buf, pos, pos + length)
         val s = buf.decodeToString(pos, pos + length)
         pos += length
         return s
@@ -79,36 +78,43 @@ internal class ProtoktReader(
             checkLength(length)
             val oldLimit = limit
             limit = pos + length
-            while (pos < limit) {
-                acc(this)
+            try {
+                while (pos < limit) {
+                    acc(this)
+                }
+            } finally {
+                limit = oldLimit
             }
-            limit = oldLimit
         }
     }
 
     override fun <T : Message> readMessage(m: Deserializer<T>): T {
-        check(++messageDepth <= WireFormat.DEFAULT_RECURSION_LIMIT) { WireFormat.TOO_MANY_LEVELS_OF_NESTING }
+        protoktCheck(messageDepth < WireFormat.DEFAULT_RECURSION_LIMIT) { WireFormat.TOO_MANY_LEVELS_OF_NESTING }
+        messageDepth++
         try {
             val length = readRawVarint32()
             checkLength(length)
             val oldLimit = limit
             limit = pos + length
-            val res = m.deserialize(this)
-            require(pos == limit) { "Message not fully consumed: pos=$pos, limit=$limit" }
-            limit = oldLimit
-            return res
+            try {
+                val result = m.deserialize(this)
+                protoktRequire(pos == limit) { WireFormat.MESSAGE_NOT_FULLY_CONSUMED }
+                return result
+            } finally {
+                limit = oldLimit
+            }
         } finally {
             messageDepth--
         }
     }
 
     private fun checkLength(length: Int) {
-        check(length >= 0) { WireFormat.NEGATIVE_SIZE }
-        check(length <= limit - pos) { WireFormat.TRUNCATED_MESSAGE }
+        protoktCheck(length >= 0) { WireFormat.NEGATIVE_SIZE }
+        protoktCheck(length <= limit - pos) { WireFormat.TRUNCATED_MESSAGE }
     }
 
     private fun checkAvailable(size: Int) {
-        check(limit - pos >= size) { WireFormat.TRUNCATED_MESSAGE }
+        protoktCheck(limit - pos >= size) { WireFormat.TRUNCATED_MESSAGE }
     }
 
     private fun readRawVarint32(): Int {
@@ -124,13 +130,14 @@ internal class ProtoktReader(
             shift += 7
         }
         // discard upper bits for oversized varints
-        while (true) {
+        repeat(5) {
             checkAvailable(1)
             val b = buf[pos++].toInt()
             if (b and 0x80 == 0) {
                 return result
             }
         }
+        throw ProtoktDecodeException(WireFormat.MALFORMED_VARINT)
     }
 
     private fun readRawVarint64(): ULong {
@@ -145,7 +152,7 @@ internal class ProtoktReader(
             }
             shift += 7
         }
-        throw IllegalStateException("Varint too long")
+        throw ProtoktDecodeException(WireFormat.MALFORMED_VARINT)
     }
 
     private fun readFixed32Bits(): UInt {
