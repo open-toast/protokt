@@ -18,6 +18,11 @@ plugins {
     id("com.toasttab.protokt.v1")
 }
 
+protokt {
+    protocVersion = libs.versions.protobuf.java
+    formatOutput = true
+}
+
 tasks {
     withType<Test> {
         useJUnitPlatform()

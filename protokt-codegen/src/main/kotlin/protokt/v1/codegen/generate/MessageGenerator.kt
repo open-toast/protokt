@@ -310,7 +310,10 @@ private class MessageGenerator(
 
     private fun equalsLines(properties: List<PropertyInfo>) =
         properties.map {
-            CodeBlock.of("other.%N == this.%N &&\n".bindSpaces(), it.name, it.name)
+            CodeBlock.of(
+                "%L &&\n".bindSpaces(),
+                it.propertyType.equalsExpression(CodeBlock.of("other.%N", it.name), CodeBlock.of("this.%N", it.name))
+            )
         }
 
     private fun TypeSpec.Builder.handleHashCode(
@@ -336,7 +339,10 @@ private class MessageGenerator(
 
     private fun hashCodeLines(properties: List<PropertyInfo>) =
         properties.map {
-            CodeBlock.of("result = 31 * result + %N.hashCode()\n".bindSpaces(), it.name)
+            CodeBlock.of(
+                "result = 31 * result + %L\n".bindSpaces(),
+                it.propertyType.hashCodeExpression(CodeBlock.of("%N", it.name))
+            )
         }
 
     private fun TypeSpec.Builder.handleToString(

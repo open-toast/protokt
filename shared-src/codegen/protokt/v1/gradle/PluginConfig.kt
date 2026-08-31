@@ -24,6 +24,13 @@ internal const val GENERATE_GRPC_KRPC = "generate_grpc_krpc"
 internal const val FORMAT_OUTPUT = "format_output"
 internal const val KOTLIN_TARGET = "kotlin_target"
 
+internal const val DEFAULT_GENERATE_TYPES = true
+internal const val DEFAULT_GENERATE_DESCRIPTORS = true
+internal const val DEFAULT_GENERATE_GRPC_DESCRIPTORS = false
+internal const val DEFAULT_GENERATE_GRPC_KOTLIN_STUBS = false
+internal const val DEFAULT_GENERATE_GRPC_KRPC = false
+internal const val DEFAULT_FORMAT_OUTPUT = true
+
 private val namesByKotlinTarget =
     mapOf(
         KotlinTarget.Android to "android",
