@@ -17,13 +17,13 @@ package protokt.v1.testing
 
 import com.google.common.truth.Truth.assertThat
 import com.google.protobuf.DescriptorProtos
-import com.toasttab.protokt.v1.ProtoktProtos
 import org.junit.jupiter.api.Test
 import protokt.v1.Extension
 import protokt.v1.ExtensionCodecs
 import protokt.v1.RepeatedExtension
 import protokt.v1.get
 import protokt.v1.google.protobuf.FieldOptions
+import protokt.v1.java.ProtoktProtos
 
 class ExtensionInteropTest {
     private val propertyExt =
