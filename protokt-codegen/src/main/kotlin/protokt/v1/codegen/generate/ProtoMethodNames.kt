@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Toast, Inc.
+ * Copyright (c) 2026 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,16 +13,9 @@
  * limitations under the License.
  */
 
-package protokt.v1.grpc
+package protokt.v1.codegen.generate
 
-import protokt.v1.Beta
+import io.grpc.kotlin.generator.protoc.ProtoMethodName
 
-@Beta
-abstract class AbstractCoroutineStub<S : AbstractCoroutineStub<S>>(
-    protected val client: Client
-) {
-    constructor(
-        serviceDescriptor: ServiceDescriptor,
-        channel: Channel
-    ) : this(newClient(serviceDescriptor, channel))
-}
+internal val ProtoMethodName.decapitalized
+    get() = toMemberSimpleName().name.replaceFirstChar { it.lowercase() }

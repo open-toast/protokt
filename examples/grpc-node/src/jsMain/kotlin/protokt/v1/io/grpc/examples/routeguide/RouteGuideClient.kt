@@ -20,13 +20,15 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import protokt.v1.grpc.ChannelCredentials
+import protokt.v1.grpc.newChannel
 import protokt.v1.io.grpc.examples.routeguide.RouteGuideGrpcKt.RouteGuideCoroutineStub
 import kotlin.random.Random
 import kotlin.random.nextLong
 
 class RouteGuideClient {
     private val random = Random(314159)
-    private val stub = RouteGuideCoroutineStub("localhost:8980", ChannelCredentials.createInsecure())
+    private val channel = newChannel("localhost:8980", ChannelCredentials.createInsecure())
+    private val stub = RouteGuideCoroutineStub(channel)
 
     suspend fun getFeature(latitude: Int, longitude: Int) {
         println("*** GetFeature: lat=$latitude lon=$longitude")
@@ -113,17 +115,24 @@ class RouteGuideClient {
                 delay(500)
             }
         }
+
+    fun close() {
+        channel.close()
+    }
 }
 
 suspend fun clientMain() {
     val features = Database.features()
 
-    RouteGuideClient().let {
-        it.getFeature(409146138, -746188906)
-        it.getFeature(0, 0)
-        it.listFeatures(400000000, -750000000, 420000000, -730000000)
-        it.recordRoute(it.generateRoutePoints(features, 10))
-        it.routeChat()
+    val client = RouteGuideClient()
+    try {
+        client.getFeature(409146138, -746188906)
+        client.getFeature(0, 0)
+        client.listFeatures(400000000, -750000000, 420000000, -730000000)
+        client.recordRoute(client.generateRoutePoints(features, 10))
+        client.routeChat()
+    } finally {
+        client.close()
     }
 }
 

@@ -67,6 +67,20 @@ abstract class AbstractProtoktCodegenTest {
         inputFile: String,
         ext: ProtoktExtension = ProtoktExtension(),
         transform: String.() -> String = { this }
+    ): PluginRunResult =
+        runPlugin(inputFile, ext, KotlinTarget.Jvm, transform)
+
+    protected fun runJsPlugin(
+        inputFile: String,
+        ext: ProtoktExtension
+    ): PluginRunResult =
+        runPlugin(inputFile, ext, KotlinTarget.MultiplatformJs) { this }
+
+    private fun runPlugin(
+        inputFile: String,
+        ext: ProtoktExtension,
+        kotlinTarget: KotlinTarget,
+        transform: String.() -> String
     ): PluginRunResult {
         testFile.writeText(
             Paths.get(Resources.getResource(inputFile).toURI())
@@ -85,7 +99,7 @@ abstract class AbstractProtoktCodegenTest {
             "-I$testDir",
             "-I$extensionsProto",
             "-I$includeProtos",
-            buildPluginOptions(ext),
+            buildPluginOptions(ext, kotlinTarget),
             "$testFile"
         ).joinToString(" ")
             .runCommand(
@@ -103,12 +117,17 @@ abstract class AbstractProtoktCodegenTest {
     }
 }
 
-private fun buildPluginOptions(extension: ProtoktExtension) =
+private fun buildPluginOptions(extension: ProtoktExtension, kotlinTarget: KotlinTarget) =
     "--custom_opt=" +
-        extension::class.declaredMemberProperties
-            .filter { it.returnType.classifier as KClass<*> == Boolean::class }
-            .joinToString(",") { format(it.name) + "=${it.call(extension)}" } +
-        ",${format(KOTLIN_TARGET)}=${KotlinTarget.Jvm}"
+        (
+            extension::class.declaredMemberProperties
+                .filter { it.returnType.classifier as KClass<*> == Boolean::class }
+                .map { format(it.name) + "=${it.call(extension)}" } +
+                extension.generate::class.declaredMemberProperties
+                    .filter { it.returnType.classifier as KClass<*> == Boolean::class }
+                    .map { "generate_${format(it.name)}=${it.call(extension.generate)}" }
+            ).joinToString(",") +
+        ",${format(KOTLIN_TARGET)}=$kotlinTarget"
 
 private fun format(optionConst: String) =
     CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, optionConst)

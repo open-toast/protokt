@@ -35,7 +35,12 @@ suspend fun main() {
                 }
 
                 "client" -> {
-                    HelloWorldClient().greet()
+                    val client = HelloWorldClient()
+                    try {
+                        client.greet()
+                    } finally {
+                        client.close()
+                    }
                 }
 
                 else -> error("unsupported mode: $mode")
