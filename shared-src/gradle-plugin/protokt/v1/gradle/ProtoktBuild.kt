@@ -55,8 +55,6 @@ internal fun configureProtokt(
     disableJava: Boolean,
     binary: CodegenBinary
 ) {
-    injectKotlinPluginsIntoProtobufGradle()
-
     val config = project.createExtensionConfigurations()
 
     // must wait for extension to resolve
@@ -116,6 +114,7 @@ private fun Project.configureProtobuf(
     binary: TaskProvider<PrepareCodegenBinary>
 ) {
     pluginManager.withPlugin(KotlinPlugins.MULTIPLATFORM) {
+        injectKotlinPluginsIntoProtobufGradle()
         configureForMpp(disableJava, config, binary)
     }
 
