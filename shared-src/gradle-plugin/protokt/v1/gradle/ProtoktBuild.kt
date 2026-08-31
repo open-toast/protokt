@@ -62,6 +62,11 @@ internal fun configureProtokt(
     // must wait for extension to resolve
     project.afterEvaluate {
         val ext = the<ProtoktExtension>()
+        ext.finalizeValues()
+
+        the<ProtobufExtension>().protoc {
+            artifact = "com.google.protobuf:protoc:${ext.protocVersion.get()}"
+        }
 
         (
             listOfNotNull(
@@ -72,7 +77,7 @@ internal fun configureProtokt(
             ).forEach(config.extensions.dependencies::add)
 
         // For OPTIMAL in KMP, add JVM-specific deps to target configs
-        if (ext.codec.selection == ProtoktExtension.CodecSelection.OPTIMAL &&
+        if (ext.codec.selection.get() == ProtoktExtension.CodecSelection.OPTIMAL &&
             plugins.hasPlugin(KotlinPlugins.MULTIPLATFORM)
         ) {
             addPerTargetOptimalDeps(protoktVersion, ext)
@@ -274,7 +279,7 @@ private fun Project.resolveProtoktCoreDep(protoktVersion: Any?): Dependency? {
 }
 
 private fun Project.resolveProtoktGrpcDep(protoktVersion: Any?): Dependency? {
-    if (!the<ProtoktExtension>().generate.grpcDescriptors) {
+    if (!the<ProtoktExtension>().generate.grpcDescriptors.get()) {
         return null
     }
 
@@ -283,7 +288,7 @@ private fun Project.resolveProtoktGrpcDep(protoktVersion: Any?): Dependency? {
 
 private fun Project.resolveDependency(rootArtifactId: String, protoktVersion: Any?): Dependency? {
     val artifactId =
-        if (the<ProtoktExtension>().generate.descriptors) {
+        if (the<ProtoktExtension>().generate.descriptors.get()) {
             rootArtifactId
         } else {
             "$rootArtifactId-lite"
@@ -298,7 +303,7 @@ private fun Project.resolveDependency(rootArtifactId: String, protoktVersion: An
 
 private fun Project.resolveCommonCodecDeps(protoktVersion: Any?): List<Dependency> {
     val ext = the<ProtoktExtension>()
-    return when (ext.codec.selection) {
+    return when (ext.codec.selection.get()) {
         ProtoktExtension.CodecSelection.OPTIMAL ->
             if (plugins.hasPlugin(KotlinPlugins.MULTIPLATFORM)) {
                 // KMP: common deps are kotlinx-io only; JVM-specific deps added per-target
@@ -320,12 +325,12 @@ private fun Project.resolveCommonCodecDeps(protoktVersion: Any?): List<Dependenc
 
         ProtoktExtension.CodecSelection.PROTOBUF_JAVA -> listOfNotNull(
             resolveOptionalDep("protokt-runtime-protobuf-java", protoktVersion),
-            dependencies.create("com.google.protobuf:protobuf-java:${ext.protocVersion}")
+            dependencies.create("com.google.protobuf:protobuf-java:${ext.protocVersion.get()}")
         )
 
         ProtoktExtension.CodecSelection.PROTOBUF_JAVALITE -> listOfNotNull(
             resolveOptionalDep("protokt-runtime-protobuf-java", protoktVersion),
-            dependencies.create("com.google.protobuf:protobuf-javalite:${ext.protocVersion}")
+            dependencies.create("com.google.protobuf:protobuf-javalite:${ext.protocVersion.get()}")
         )
 
         ProtoktExtension.CodecSelection.MINIMAL -> emptyList()
@@ -338,13 +343,13 @@ private fun Project.resolveOptimalKmpDeps(protoktVersion: Any?) =
 private fun Project.resolveOptimalJvmDeps(protoktVersion: Any?, ext: ProtoktExtension) =
     listOfNotNull(
         resolveOptionalDep("protokt-runtime-protobuf-java", protoktVersion),
-        dependencies.create("com.google.protobuf:protobuf-java:${ext.protocVersion}")
+        dependencies.create("com.google.protobuf:protobuf-java:${ext.protocVersion.get()}")
     )
 
 private fun Project.resolveOptimalJvmLiteDeps(protoktVersion: Any?, ext: ProtoktExtension) =
     listOfNotNull(
         resolveOptionalDep("protokt-runtime-protobuf-java", protoktVersion),
-        dependencies.create("com.google.protobuf:protobuf-javalite:${ext.protocVersion}")
+        dependencies.create("com.google.protobuf:protobuf-javalite:${ext.protocVersion.get()}")
     )
 
 private fun Project.addPerTargetOptimalDeps(protoktVersion: Any?, ext: ProtoktExtension) {
@@ -366,7 +371,7 @@ private fun Project.addPerTargetOptimalDeps(protoktVersion: Any?, ext: ProtoktEx
 }
 
 private fun Project.resolveCollectionsDeps(protoktVersion: Any?): List<Dependency> =
-    when (the<ProtoktExtension>().collections.selection) {
+    when (the<ProtoktExtension>().collections.selection.get()) {
         ProtoktExtension.CollectionsSelection.PERSISTENT ->
             listOfNotNull(resolveOptionalDep("protokt-runtime-persistent-collections", protoktVersion))
 

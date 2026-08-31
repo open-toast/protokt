@@ -39,10 +39,6 @@ internal fun configureProtobufPlugin(
     project.apply<ProtobufPlugin>()
 
     project.configure<ProtobufExtension> {
-        protoc {
-            artifact = "com.google.protobuf:protoc:${ext.protocVersion}"
-        }
-
         plugins {
             id(target.protocPluginName) {
                 path = binary.flatMap { it.outputFile }.get().asFile.absolutePath
@@ -74,12 +70,12 @@ internal fun configureProtobufPlugin(
 
                 task.plugins {
                     id(target.protocPluginName) {
-                        option("$GENERATE_TYPES=${ext.generate.types}")
-                        option("$GENERATE_DESCRIPTORS=${ext.generate.descriptors}")
-                        option("$GENERATE_GRPC_DESCRIPTORS=${ext.generate.grpcDescriptors}")
-                        option("$GENERATE_GRPC_KOTLIN_STUBS=${ext.generate.grpcKotlinStubs}")
-                        option("$GENERATE_GRPC_KRPC=${ext.generate.grpcKrpc}")
-                        option("$FORMAT_OUTPUT=${ext.formatOutput}")
+                        option("$GENERATE_TYPES=${ext.generate.types.get()}")
+                        option("$GENERATE_DESCRIPTORS=${ext.generate.descriptors.get()}")
+                        option("$GENERATE_GRPC_DESCRIPTORS=${ext.generate.grpcDescriptors.get()}")
+                        option("$GENERATE_GRPC_KOTLIN_STUBS=${ext.generate.grpcKotlinStubs.get()}")
+                        option("$GENERATE_GRPC_KRPC=${ext.generate.grpcKrpc.get()}")
+                        option("$FORMAT_OUTPUT=${ext.formatOutput.get()}")
                         option("$KOTLIN_TARGET=$target")
 
                         val pluginOptions = this
