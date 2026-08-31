@@ -17,12 +17,16 @@ package protokt.v1.testing
 
 import com.google.common.truth.Truth.assertThat
 import com.google.protobuf.Descriptors.FieldDescriptor
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 import proto3_unittest.UnittestProto3
+import protokt.v1.UnknownField
+import protokt.v1.UnknownFieldSet
 import protokt.v1.google.protobuf.getField
 import protokt.v1.google.protobuf.hasField
 import protokt.v1.proto3_unittest.TestAllTypes
+import protokt.v1.proto3_unittest.TestEmptyMessage
 
 class ProtoktReflectTest {
     private val context = getContextReflectively()
@@ -38,6 +42,28 @@ class ProtoktReflectTest {
 
         assertThat(protoktDefault.getField(field)?.let(context::convertValue))
             .isEqualTo(javaDefault.getField(field))
+    }
+
+    @Test
+    fun `unknown repeated fields combine packed and unpacked values in wire order`() {
+        val field = descriptor.findFieldByName("repeated_int32")
+        val message =
+            unknownMessage(
+                UnknownField.varint(field.number.toUInt(), 1),
+                UnknownField.fixed32(field.number.toUInt(), 99u),
+                UnknownField.lengthDelimited(field.number.toUInt(), byteArrayOf(2, 3)),
+                UnknownField.varint(field.number.toUInt(), 4)
+            )
+
+        assertThat(message.getField(field)).isEqualTo(listOf(1, 2, 3, 4))
+    }
+
+    @Test
+    fun `unknown scalar fields use their descriptor encoding`() {
+        val field = descriptor.findFieldByName("optional_sint32")
+        val message = unknownMessage(UnknownField.varint(field.number.toUInt(), 3))
+
+        assertThat(message.getField(field)).isEqualTo(-2)
     }
 
     companion object {
@@ -64,3 +90,11 @@ class ProtoktReflectTest {
             )
     }
 }
+
+private fun unknownMessage(vararg fields: UnknownField) =
+    TestEmptyMessage {
+        unknownFields =
+            UnknownFieldSet.Builder()
+                .apply { fields.forEach(::add) }
+                .build()
+    }

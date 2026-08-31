@@ -156,5 +156,5 @@ private class LengthDelimitedCodec<T>(
         field.lengthDelimited.map(decode)
 
     override fun encode(fieldNumber: UInt, value: T): UnknownField =
-        UnknownField.lengthDelimited(fieldNumber, encode(value).value.value)
+        UnknownField.lengthDelimited(fieldNumber, encode(value).value)
 }

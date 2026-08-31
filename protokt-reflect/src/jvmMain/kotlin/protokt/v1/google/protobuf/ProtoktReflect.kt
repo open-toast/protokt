@@ -15,14 +15,18 @@
 
 package protokt.v1.google.protobuf
 
+import com.google.protobuf.CodedInputStream
 import com.google.protobuf.Descriptors.FieldDescriptor
 import com.google.protobuf.Descriptors.FieldDescriptor.Type
+import com.google.protobuf.DynamicMessage
+import protokt.v1.Bytes
 import protokt.v1.Enum
 import protokt.v1.Fixed32Val
 import protokt.v1.Fixed64Val
 import protokt.v1.GeneratedProperty
 import protokt.v1.LengthDelimitedVal
 import protokt.v1.Message
+import protokt.v1.UnknownValue
 import protokt.v1.VarintVal
 import java.nio.charset.StandardCharsets
 import java.util.concurrent.ConcurrentHashMap
@@ -98,50 +102,112 @@ internal object ProtoktReflect {
     }
 
     private fun getUnknownField(field: FieldDescriptor, message: Message) =
-        message.unknownFields[field.number.toUInt()]?.let { value ->
-            when {
-                value.varint.isNotEmpty() ->
-                    value.varint
-                        .map(VarintVal::value)
-                        .map {
-                            if (field.type == Type.UINT64) {
-                                it
-                            } else {
-                                it.toLong()
-                            }
-                        }
-
-                value.fixed32.isNotEmpty() ->
-                    value.fixed32.map(Fixed32Val::value)
-
-                value.fixed64.isNotEmpty() ->
-                    value.fixed64.map(Fixed64Val::value)
-
-                value.lengthDelimited.isNotEmpty() ->
-                    value.lengthDelimited
-                        .map(LengthDelimitedVal::value)
-                        .map {
-                            if (field.type == Type.STRING) {
-                                StandardCharsets.UTF_8.decode(it.asReadOnlyBuffer()).toString()
-                            } else {
-                                it
-                            }
-                        }
-
-                else -> error("unknown field for field number ${field.number} existed but was empty")
-            }
+        message.unknownFields[field.number.toUInt()]?.values?.flatMap { value ->
+            decodeUnknownValue(field, value)
         }.let {
             if (field.isRepeated) {
                 if (field.isMapField) {
-                    it ?: emptyMap<Any, Any>()
+                    it.orEmpty()
+                        .filterIsInstance<DynamicMessage>()
+                        .associate { entry ->
+                            entry.getField(field.messageType.findFieldByNumber(1)) to
+                                entry.getField(field.messageType.findFieldByNumber(2))
+                        }
                 } else {
-                    it ?: emptyList<Any>()
+                    it.orEmpty()
                 }
             } else {
-                it?.first()
+                it?.lastOrNull()
             }
         }
 
+    private fun decodeUnknownValue(field: FieldDescriptor, value: UnknownValue): List<Any> =
+        when (value) {
+            is VarintVal -> decodeVarint(field, value.value)?.let(::listOf).orEmpty()
+            is Fixed32Val -> decodeFixed32(field, value.value)?.let(::listOf).orEmpty()
+            is Fixed64Val -> decodeFixed64(field, value.value)?.let(::listOf).orEmpty()
+            is LengthDelimitedVal -> decodeLengthDelimited(field, value.value)
+        }
+
+    private fun decodeVarint(field: FieldDescriptor, value: ULong): Any? =
+        when (field.type) {
+            Type.INT32 -> value.toInt()
+            Type.INT64 -> value.toLong()
+            Type.UINT32 -> value.toUInt()
+            Type.UINT64 -> value
+            Type.SINT32 -> value.toInt().let { (it ushr 1) xor -(it and 1) }
+            Type.SINT64 -> value.toLong().let { (it ushr 1) xor -(it and 1) }
+            Type.BOOL -> value != 0uL
+            Type.ENUM -> ReflectedUnknownEnum(value.toInt())
+            else -> null
+        }
+
+    private fun decodeFixed32(field: FieldDescriptor, value: UInt): Any? =
+        when (field.type) {
+            Type.FIXED32 -> value
+            Type.SFIXED32 -> value.toInt()
+            Type.FLOAT -> Float.fromBits(value.toInt())
+            else -> null
+        }
+
+    private fun decodeFixed64(field: FieldDescriptor, value: ULong): Any? =
+        when (field.type) {
+            Type.FIXED64 -> value
+            Type.SFIXED64 -> value.toLong()
+            Type.DOUBLE -> Double.fromBits(value.toLong())
+            else -> null
+        }
+
+    private fun decodeLengthDelimited(field: FieldDescriptor, value: Bytes): List<Any> =
+        when (field.type) {
+            Type.STRING -> listOf(StandardCharsets.UTF_8.decode(value.asReadOnlyBuffer()).toString())
+
+            Type.BYTES -> listOf(value)
+
+            Type.MESSAGE ->
+                listOf(
+                    DynamicMessage.parseFrom(
+                        field.messageType,
+                        CodedInputStream.newInstance(value.asReadOnlyBuffer()),
+                    )
+                )
+
+            else -> if (field.isRepeated && field.isPackable) decodePacked(field, value) else emptyList()
+        }
+
+    private fun decodePacked(field: FieldDescriptor, value: Bytes): List<Any> {
+        val input = CodedInputStream.newInstance(value.asReadOnlyBuffer())
+        return buildList {
+            while (!input.isAtEnd) {
+                add(
+                    when (field.type) {
+                        Type.INT32 -> input.readInt32()
+                        Type.INT64 -> input.readInt64()
+                        Type.UINT32 -> input.readUInt32().toUInt()
+                        Type.UINT64 -> input.readUInt64().toULong()
+                        Type.SINT32 -> input.readSInt32()
+                        Type.SINT64 -> input.readSInt64()
+                        Type.FIXED32 -> input.readFixed32().toUInt()
+                        Type.FIXED64 -> input.readFixed64().toULong()
+                        Type.SFIXED32 -> input.readSFixed32()
+                        Type.SFIXED64 -> input.readSFixed64()
+                        Type.FLOAT -> input.readFloat()
+                        Type.DOUBLE -> input.readDouble()
+                        Type.BOOL -> input.readBool()
+                        Type.ENUM -> ReflectedUnknownEnum(input.readEnum())
+                        else -> error("field ${field.fullName} is not packable")
+                    }
+                )
+            }
+        }
+    }
+
     fun getField(message: Message, field: FieldDescriptor): Any? =
         getReflectedGettersByClass(message::class)(field, message)
+}
+
+private class ReflectedUnknownEnum(
+    override val value: Int
+) : Enum() {
+    override val name = "UNRECOGNIZED"
 }
