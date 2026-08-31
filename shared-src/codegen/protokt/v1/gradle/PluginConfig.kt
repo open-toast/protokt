@@ -15,7 +15,6 @@
 
 package protokt.v1.gradle
 
-internal const val KOTLIN_EXTRA_CLASSPATH = "kotlin_extra_classpath"
 internal const val KOTLIN_EXTRA_CLASSPATH_FILE = "kotlin_extra_classpath_file"
 internal const val GENERATE_TYPES = "generate_types"
 internal const val GENERATE_DESCRIPTORS = "generate_descriptors"
