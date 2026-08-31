@@ -20,6 +20,7 @@ import protokt.v1.Collections.freezeMap
 import protokt.v1.Sizes.sizeOf
 
 class UnknownFieldSet private constructor(
+    private val orderedFields: List<UnknownField>,
     private val fieldMap: Map<UInt, Field>
 ) {
     operator fun get(fieldNumber: UInt): Field? =
@@ -33,11 +34,15 @@ class UnknownFieldSet private constructor(
 
     @OnlyForUseByGeneratedProtoCode
     fun size() =
-        fieldMap.entries.sumOf { (k, v) -> v.size(k) }
+        orderedFields.sumOf { sizeOf(WireFormat.makeTag(it.fieldNumber, it.value.wireType)) + it.value.size() }
 
     @OnlyForUseByGeneratedProtoCode
     fun forEach(action: (UInt, Field) -> Unit) {
         fieldMap.forEach { (k, v) -> action(k, v) }
+    }
+
+    internal fun forEachUnknown(action: (UnknownField) -> Unit) {
+        orderedFields.forEach(action)
     }
 
     override fun equals(other: Any?) =
@@ -51,7 +56,7 @@ class UnknownFieldSet private constructor(
         "UnknownFieldSet(fields=$fieldMap)"
 
     companion object {
-        private val EMPTY = UnknownFieldSet(emptyMap())
+        private val EMPTY = UnknownFieldSet(emptyList(), emptyMap())
 
         fun empty() =
             EMPTY
@@ -62,15 +67,21 @@ class UnknownFieldSet private constructor(
     }
 
     class Builder {
-        private val map = mutableMapOf<UInt, Field.Builder>()
+        private val fields = mutableListOf<UnknownField>()
 
         fun add(unknown: UnknownField) {
-            map.getOrPut(unknown.fieldNumber) { Field.Builder() }
-                .add(unknown.value)
+            fields.add(unknown)
         }
 
-        fun build() =
-            UnknownFieldSet(freezeMap(map.mapValues { (_, v) -> v.build() }))
+        fun build(): UnknownFieldSet {
+            val frozenFields = freezeList(fields)
+            val builders = mutableMapOf<UInt, Field.Builder>()
+            frozenFields.forEach { unknown ->
+                builders.getOrPut(unknown.fieldNumber) { Field.Builder() }
+                    .add(unknown.value)
+            }
+            return UnknownFieldSet(frozenFields, freezeMap(builders.mapValues { (_, v) -> v.build() }))
+        }
     }
 
     // If unknown fields are keyed by tag instead of field number then the bit
@@ -78,43 +89,30 @@ class UnknownFieldSet private constructor(
     // to have to trace the origin of the unknown field.
     class Field
     private constructor(
-        val varint: List<VarintVal>,
-        val fixed32: List<Fixed32Val>,
-        val fixed64: List<Fixed64Val>,
-        val lengthDelimited: List<LengthDelimitedVal>
+        internal val orderedValues: List<UnknownValue>
     ) {
+        val varint = freezeList(orderedValues.filterIsInstance<VarintVal>())
+        val fixed32 = freezeList(orderedValues.filterIsInstance<Fixed32Val>())
+        val fixed64 = freezeList(orderedValues.filterIsInstance<Fixed64Val>())
+        val lengthDelimited = freezeList(orderedValues.filterIsInstance<LengthDelimitedVal>())
+
         private val size
-            get() = varint.size + fixed32.size + fixed64.size + lengthDelimited.size
+            get() = orderedValues.size
 
         @OnlyForUseByGeneratedProtoCode
         fun size(fieldNumber: UInt) =
-            (sizeOf(WireFormat.makeTag(fieldNumber, WireFormat.WIRETYPE_VARINT)) * size) + asSequence().sumOf { it.size() }
-
-        private fun asSequence(): Sequence<UnknownValue> =
-            (varint.asSequence() + fixed32 + fixed64 + lengthDelimited)
+            (sizeOf(WireFormat.makeTag(fieldNumber, WireFormat.WIRETYPE_VARINT)) * size) + orderedValues.sumOf { it.size() }
 
         @OnlyForUseByGeneratedProtoCode
         fun write(fieldNumber: UInt, serializer: Writer) {
-            asSequence().forEach { serializer.write(it, fieldNumber) }
-        }
-
-        private fun Writer.write(
-            unknownValue: UnknownValue,
-            fieldNumber: UInt
-        ) {
-            when (unknownValue) {
-                is VarintVal -> writeTag(WireFormat.makeTag(fieldNumber, WireFormat.WIRETYPE_VARINT)).writeUInt64(unknownValue.value)
-                is Fixed32Val -> writeTag(WireFormat.makeTag(fieldNumber, WireFormat.WIRETYPE_FIXED32)).writeFixed32(unknownValue.value)
-                is Fixed64Val -> writeTag(WireFormat.makeTag(fieldNumber, WireFormat.WIRETYPE_FIXED64)).writeFixed64(unknownValue.value)
-                is LengthDelimitedVal -> writeTag(WireFormat.makeTag(fieldNumber, WireFormat.WIRETYPE_LENGTH_DELIMITED)).write(unknownValue.value)
-            }
+            orderedValues.forEach { it.write(fieldNumber, serializer) }
         }
 
         override fun equals(other: Any?) =
-            equalsUsingSequence(other, { it.size }, Field::asSequence)
+            other is Field && other.orderedValues == orderedValues
 
         override fun hashCode() =
-            hashCodeUsingSequence(asSequence())
+            orderedValues.hashCode()
 
         override fun toString(): String =
             "Field(" +
@@ -123,53 +121,39 @@ class UnknownFieldSet private constructor(
                 "fixed64=$fixed64, " +
                 "lengthDelimited=$lengthDelimited)"
 
-        class Builder
+        internal class Builder
         internal constructor() {
-            private var varint: MutableList<VarintVal>? = null
-            private var fixed32: MutableList<Fixed32Val>? = null
-            private var fixed64: MutableList<Fixed64Val>? = null
-            private var lengthDelimited: MutableList<LengthDelimitedVal>? = null
-
-            private fun varint() =
-                varint.let {
-                    it ?: mutableListOf<VarintVal>()
-                        .apply { varint = this }
-                }
-
-            private fun fixed32() =
-                fixed32.let {
-                    it ?: mutableListOf<Fixed32Val>()
-                        .apply { fixed32 = this }
-                }
-
-            private fun fixed64() =
-                fixed64.let {
-                    it ?: mutableListOf<Fixed64Val>()
-                        .apply { fixed64 = this }
-                }
-
-            private fun lengthDelimited() =
-                lengthDelimited.let {
-                    it ?: mutableListOf<LengthDelimitedVal>()
-                        .apply { lengthDelimited = this }
-                }
+            private val values = mutableListOf<UnknownValue>()
 
             fun add(unknown: UnknownValue) {
-                when (unknown) {
-                    is VarintVal -> varint().add(unknown)
-                    is Fixed32Val -> fixed32().add(unknown)
-                    is Fixed64Val -> fixed64().add(unknown)
-                    is LengthDelimitedVal -> lengthDelimited().add(unknown)
-                }
+                values.add(unknown)
             }
 
             fun build() =
-                Field(
-                    varint?.let { freezeList(it) } ?: emptyList(),
-                    fixed32?.let { freezeList(it) } ?: emptyList(),
-                    fixed64?.let { freezeList(it) } ?: emptyList(),
-                    lengthDelimited?.let { freezeList(it) } ?: emptyList()
-                )
+                Field(freezeList(values))
         }
+    }
+}
+
+private val UnknownValue.wireType
+    get() =
+        when (this) {
+            is VarintVal -> WireFormat.WIRETYPE_VARINT
+            is Fixed32Val -> WireFormat.WIRETYPE_FIXED32
+            is Fixed64Val -> WireFormat.WIRETYPE_FIXED64
+            is LengthDelimitedVal -> WireFormat.WIRETYPE_LENGTH_DELIMITED
+        }
+
+internal fun UnknownField.write(serializer: Writer) {
+    value.write(fieldNumber, serializer)
+}
+
+private fun UnknownValue.write(fieldNumber: UInt, serializer: Writer) {
+    serializer.writeTag(WireFormat.makeTag(fieldNumber, wireType))
+    when (val unknownValue = this) {
+        is VarintVal -> serializer.writeUInt64(unknownValue.value)
+        is Fixed32Val -> serializer.writeFixed32(unknownValue.value)
+        is Fixed64Val -> serializer.writeFixed64(unknownValue.value)
+        is LengthDelimitedVal -> serializer.write(unknownValue.value)
     }
 }

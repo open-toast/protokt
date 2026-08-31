@@ -18,7 +18,10 @@ package protokt.v1
 import protokt.v1.google.protobuf.BytesValue
 import java.util.UUID
 
-object UuidBytesValueConverter : AbstractConverter<BytesValue, UUID>() {
+object UuidBytesValueConverter : Converter<BytesValue, UUID> {
+    override val wireType = BytesValue::class
+
+    override val valueType = UUID::class
     override fun wrap(unwrapped: BytesValue) =
         UuidBytesConverter.wrap(unwrapped.value)
 

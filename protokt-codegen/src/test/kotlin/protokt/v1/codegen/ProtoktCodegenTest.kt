@@ -15,9 +15,10 @@
 
 package protokt.v1.codegen
 
+import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
-import protokt.v1.AbstractConverter
 import protokt.v1.Bytes
+import protokt.v1.Converter
 import java.nio.ByteBuffer
 import java.util.UUID
 
@@ -33,9 +34,25 @@ class ProtoktCodegenTest : AbstractProtoktCodegenTest() {
                 println(it.content)
             }
     }
+
+    @Test
+    fun `generated enum unrecognized constructor is internal`() {
+        val generated =
+            runPlugin("test.proto", transform = { this + "\nenum TestEnum { TEST_ENUM_UNSPECIFIED = 0; }\n" })
+                .orFail()
+                .response
+                .fileList
+                .joinToString("\n") { it.content }
+
+        assertThat(generated).contains("public class UNRECOGNIZED internal constructor(")
+        assertThat(generated).contains("@file:OptIn(protokt.v1.OnlyForUseByGeneratedProtoCode::class)")
+    }
 }
 
-object UuidBytesConverter : AbstractConverter<Bytes, UUID>() {
+object UuidBytesConverter : Converter<Bytes, UUID> {
+    override val wireType = Bytes::class
+
+    override val valueType = UUID::class
     override fun wrap(unwrapped: Bytes): UUID {
         val buf = unwrapped.asReadOnlyBuffer()
 

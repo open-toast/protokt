@@ -15,10 +15,11 @@
 
 package protokt.v1
 
+@OnlyForUseByGeneratedProtoCode
 object StringConverter : Converter<Bytes, String> {
-    override val wrapper = String::class
+    override val wireType = Bytes::class
 
-    override val wrapped = Bytes::class
+    override val valueType = String::class
 
     override fun wrap(unwrapped: Bytes): String =
         unwrapped.value.decodeToString()

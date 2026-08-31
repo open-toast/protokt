@@ -18,14 +18,17 @@ package protokt.v1
 import kotlin.jvm.JvmName
 import kotlin.jvm.JvmStatic
 
+@OnlyForUseByGeneratedProtoCode
 object Sizes {
     @JvmStatic
     fun sizeOf(enum: Enum) =
         sizeOf(enum.value)
 
     @JvmStatic
-    fun sizeOf(msg: Message) =
-        sizeOf(msg.serializedSize().toUInt()) + msg.serializedSize()
+    fun sizeOf(msg: Message): Int {
+        val size = msg.serializedSize()
+        return sizeOf(size.toUInt()) + size
+    }
 
     @JvmStatic
     fun sizeOf(b: Bytes) =
