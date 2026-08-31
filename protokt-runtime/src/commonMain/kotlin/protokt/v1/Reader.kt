@@ -65,19 +65,19 @@ interface Reader {
                 UnknownField.fixed64(fieldNumber, readFixed64())
 
             WireFormat.WIRETYPE_LENGTH_DELIMITED ->
-                UnknownField.lengthDelimited(fieldNumber, readBytes().value)
+                UnknownField.lengthDelimited(fieldNumber, readBytes())
 
             WireFormat.WIRETYPE_FIXED32 ->
                 UnknownField.fixed32(fieldNumber, readFixed32())
 
             WireFormat.WIRETYPE_START_GROUP ->
-                throw UnsupportedOperationException("WIRETYPE_START_GROUP")
+                throw ProtoktDecodeException("Groups are not supported")
 
             WireFormat.WIRETYPE_END_GROUP ->
-                throw UnsupportedOperationException("WIRETYPE_END_GROUP")
+                throw ProtoktDecodeException("Groups are not supported")
 
             else ->
-                error("Unrecognized wire type")
+                throw ProtoktDecodeException("Invalid wire type: ${WireFormat.getTagWireType(tag)}")
         }
     }
 

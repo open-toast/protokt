@@ -111,7 +111,15 @@ private class VarintCodec<T>(
         field.varint.lastOrNull()?.let { decode(it.value) }
 
     override fun decodeRepeated(field: UnknownFieldSet.Field): List<T> =
-        field.varint.map { decode(it.value) }
+        buildList {
+            field.orderedValues.forEach {
+                when (it) {
+                    is VarintVal -> add(decode(it.value))
+                    is LengthDelimitedVal -> addAll(it.decodePacked { decode(readUInt64()) })
+                    else -> Unit
+                }
+            }
+        }
 
     override fun encode(fieldNumber: UInt, value: T): UnknownField =
         UnknownField.varint(fieldNumber, encode(value).toLong())
@@ -125,7 +133,15 @@ private class Fixed32Codec<T>(
         field.fixed32.lastOrNull()?.let { decode(it.value) }
 
     override fun decodeRepeated(field: UnknownFieldSet.Field): List<T> =
-        field.fixed32.map { decode(it.value) }
+        buildList {
+            field.orderedValues.forEach {
+                when (it) {
+                    is Fixed32Val -> add(decode(it.value))
+                    is LengthDelimitedVal -> addAll(it.decodePacked { decode(readFixed32()) })
+                    else -> Unit
+                }
+            }
+        }
 
     override fun encode(fieldNumber: UInt, value: T): UnknownField =
         UnknownField.fixed32(fieldNumber, encode(value))
@@ -139,7 +155,15 @@ private class Fixed64Codec<T>(
         field.fixed64.lastOrNull()?.let { decode(it.value) }
 
     override fun decodeRepeated(field: UnknownFieldSet.Field): List<T> =
-        field.fixed64.map { decode(it.value) }
+        buildList {
+            field.orderedValues.forEach {
+                when (it) {
+                    is Fixed64Val -> add(decode(it.value))
+                    is LengthDelimitedVal -> addAll(it.decodePacked { decode(readFixed64()) })
+                    else -> Unit
+                }
+            }
+        }
 
     override fun encode(fieldNumber: UInt, value: T): UnknownField =
         UnknownField.fixed64(fieldNumber, encode(value))
@@ -156,5 +180,13 @@ private class LengthDelimitedCodec<T>(
         field.lengthDelimited.map(decode)
 
     override fun encode(fieldNumber: UInt, value: T): UnknownField =
-        UnknownField.lengthDelimited(fieldNumber, encode(value).value.value)
+        UnknownField.lengthDelimited(fieldNumber, encode(value).value)
 }
+
+private fun <T> LengthDelimitedVal.decodePacked(decode: ProtoktReader.() -> T): List<T> =
+    buildList {
+        val reader = ProtoktReader(value.value)
+        while (!reader.isAtEnd()) {
+            add(reader.decode())
+        }
+    }

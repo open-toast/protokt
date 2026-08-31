@@ -38,11 +38,14 @@ class UnknownField private constructor(
 
         @JvmStatic
         fun lengthDelimited(fieldNumber: UInt, bytes: ByteArray) =
-            UnknownField(fieldNumber, LengthDelimitedVal(Bytes(bytes)))
+            lengthDelimited(fieldNumber, Bytes.from(bytes))
+
+        internal fun lengthDelimited(fieldNumber: UInt, bytes: Bytes) =
+            UnknownField(fieldNumber, LengthDelimitedVal(bytes))
     }
 }
 
-interface UnknownValue {
+sealed interface UnknownValue {
     fun size(): Int
 }
 
