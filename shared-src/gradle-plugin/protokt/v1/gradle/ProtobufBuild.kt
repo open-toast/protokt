@@ -23,10 +23,9 @@ import com.google.protobuf.gradle.id
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.provider.Provider
-import org.gradle.jvm.tasks.Jar
+import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.named
 import org.gradle.kotlin.dsl.withType
 import java.net.URLEncoder
 
@@ -35,19 +34,15 @@ internal fun configureProtobufPlugin(
     ext: ProtoktExtension,
     disableJava: Boolean,
     target: KotlinTarget,
-    binaryPath: Provider<String>
+    binary: TaskProvider<PrepareCodegenBinary>
 ) {
     project.apply<ProtobufPlugin>()
 
     project.configure<ProtobufExtension> {
-        configureSources(project)
-
-        protoc {
-            artifact = "com.google.protobuf:protoc:${ext.protocVersion}"
-        }
-
         plugins {
-            id(target.protocPluginName)
+            id(target.protocPluginName) {
+                path = binary.flatMap { it.outputFile }.get().asFile.absolutePath
+            }
         }
 
         generateProtoTasks {
@@ -71,15 +66,16 @@ internal fun configureProtobufPlugin(
 
                 val extensionFiles = project.objects.fileCollection().from(extensions.asList())
                 task.inputs.files(extensionFiles).withPropertyName("protoktExtensionClasspath-${target.protocPluginName}")
+                task.dependsOn(binary)
 
                 task.plugins {
                     id(target.protocPluginName) {
-                        option("$GENERATE_TYPES=${ext.generate.types}")
-                        option("$GENERATE_DESCRIPTORS=${ext.generate.descriptors}")
-                        option("$GENERATE_GRPC_DESCRIPTORS=${ext.generate.grpcDescriptors}")
-                        option("$GENERATE_GRPC_KOTLIN_STUBS=${ext.generate.grpcKotlinStubs}")
-                        option("$GENERATE_GRPC_KRPC=${ext.generate.grpcKrpc}")
-                        option("$FORMAT_OUTPUT=${ext.formatOutput}")
+                        option("$GENERATE_TYPES=${ext.generate.types.get()}")
+                        option("$GENERATE_DESCRIPTORS=${ext.generate.descriptors.get()}")
+                        option("$GENERATE_GRPC_DESCRIPTORS=${ext.generate.grpcDescriptors.get()}")
+                        option("$GENERATE_GRPC_KOTLIN_STUBS=${ext.generate.grpcKotlinStubs.get()}")
+                        option("$GENERATE_GRPC_KRPC=${ext.generate.grpcKrpc.get()}")
+                        option("$FORMAT_OUTPUT=${ext.formatOutput.get()}")
                         option("$KOTLIN_TARGET=$target")
 
                         val pluginOptions = this
@@ -92,19 +88,6 @@ internal fun configureProtobufPlugin(
             }
 
             project.handleExtraInputFiles(mainExtractProtoAdditions, testExtractProtoAdditions)
-        }
-    }
-
-    project.afterEvaluate {
-        configure<ProtobufExtension> {
-            plugins {
-                val pluginLocator = getByName(target.protocPluginName)
-                project.tasks.withType<GenerateProtoTask>().configureEach {
-                    doFirst {
-                        pluginLocator.path = normalizePath(binaryPath.get())
-                    }
-                }
-            }
         }
     }
 }
@@ -152,24 +135,6 @@ private fun resolveExtensions(project: Project, task: GenerateProtoTask) =
             null
         }
     )
-
-private fun configureSources(project: Project) {
-    project.afterEvaluate {
-        if (project.tasks.findByName("sourcesJar") != null) {
-            tasks.named<Jar>("sourcesJar").configure {
-                from("generated/source/proto/main")
-            }
-        }
-    }
-}
-
-private fun normalizePath(binaryPath: String) =
-    if (Os.current.kind == Os.Kind.WINDOWS) {
-        // on windows, protoc expects a full, /-separated path to the binary
-        binaryPath.replace('\\', '/') + ".bat"
-    } else {
-        binaryPath
-    }
 
 private fun GenerateProtoTask.isTestTask() =
     name.isTestTask()
