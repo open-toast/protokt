@@ -23,10 +23,10 @@ import org.gradle.api.artifacts.Configuration
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.api.logging.LogLevel
-import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.AbstractCopyTask
 import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.SourceSetContainer
+import org.gradle.api.tasks.TaskProvider
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.internal.extensions.stdlib.capitalized
 import org.gradle.jvm.tasks.Jar
@@ -53,7 +53,7 @@ internal fun configureProtokt(
     project: Project,
     protoktVersion: Any?,
     disableJava: Boolean,
-    binary: Provider<String>
+    binary: CodegenBinary
 ) {
     injectKotlinPluginsIntoProtobufGradle()
 
@@ -79,7 +79,7 @@ internal fun configureProtokt(
         }
     }
 
-    project.configureProtobuf(disableJava, config, binary)
+    project.configureProtobuf(disableJava, config, project.prepareCodegenBinary(binary))
 }
 
 private fun injectKotlinPluginsIntoProtobufGradle() {
@@ -108,7 +108,7 @@ private fun Project.createExtensionConfigurations(): Config {
 private fun Project.configureProtobuf(
     disableJava: Boolean,
     config: Config,
-    binary: Provider<String>
+    binary: TaskProvider<PrepareCodegenBinary>
 ) {
     pluginManager.withPlugin(KotlinPlugins.MULTIPLATFORM) {
         configureForMpp(disableJava, config, binary)
@@ -134,7 +134,7 @@ private fun Project.configureProtobuf(
     }
 }
 
-private fun Project.configureForJvmLike(config: Config, disableJava: Boolean, target: KotlinTarget, binary: Provider<String>) {
+private fun Project.configureForJvmLike(config: Config, disableJava: Boolean, target: KotlinTarget, binary: TaskProvider<PrepareCodegenBinary>) {
     logger.log(DEBUG_LOG_LEVEL, "Configuring protokt for Kotlin ${target.name}")
     configureProtobufPlugin(project, config.extension, disableJava, target, binary)
     configurations.getByName("api").extendsFrom(config.extensions)
@@ -147,7 +147,7 @@ private fun Project.configureForJvmLike(config: Config, disableJava: Boolean, ta
 private fun Project.configureForMpp(
     disableJava: Boolean,
     config: Config,
-    binary: Provider<String>
+    binary: TaskProvider<PrepareCodegenBinary>
 ) {
     pluginManager.apply("java-base")
     the<SourceSetContainer>().maybeCreate("main")
@@ -171,7 +171,7 @@ private fun Project.configureTarget(
     targetName: String,
     disableJava: Boolean,
     config: Config,
-    binary: Provider<String>
+    binary: TaskProvider<PrepareCodegenBinary>
 ) {
     val target = KotlinTarget.fromMultiplatformTargetString(targetName)
     configureProtobufPlugin(project, config.extension, disableJava, target, binary)
