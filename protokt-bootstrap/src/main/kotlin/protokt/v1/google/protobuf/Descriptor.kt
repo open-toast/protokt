@@ -57,35 +57,36 @@ import kotlin.jvm.JvmStatic
  */
 public sealed class Edition(
   override val `value`: Int,
-  override val name: String
-) : Enum() {
-  public object EDITION_UNKNOWN : Edition(0, "EDITION_UNKNOWN")
+  override val name: String,
+  isUnrecognized: Boolean
+) : Enum(protokt.v1.google.protobuf.Edition::class, isUnrecognized) {
+  public object EDITION_UNKNOWN : Edition(0, "EDITION_UNKNOWN", false)
 
-  public object EDITION_LEGACY : Edition(900, "EDITION_LEGACY")
+  public object EDITION_LEGACY : Edition(900, "EDITION_LEGACY", false)
 
-  public object EDITION_PROTO2 : Edition(998, "EDITION_PROTO2")
+  public object EDITION_PROTO2 : Edition(998, "EDITION_PROTO2", false)
 
-  public object EDITION_PROTO3 : Edition(999, "EDITION_PROTO3")
+  public object EDITION_PROTO3 : Edition(999, "EDITION_PROTO3", false)
 
-  public object EDITION_2023 : Edition(1000, "EDITION_2023")
+  public object EDITION_2023 : Edition(1000, "EDITION_2023", false)
 
-  public object EDITION_2024 : Edition(1001, "EDITION_2024")
+  public object EDITION_2024 : Edition(1001, "EDITION_2024", false)
 
-  public object EDITION_1_TEST_ONLY : Edition(1, "EDITION_1_TEST_ONLY")
+  public object EDITION_1_TEST_ONLY : Edition(1, "EDITION_1_TEST_ONLY", false)
 
-  public object EDITION_2_TEST_ONLY : Edition(2, "EDITION_2_TEST_ONLY")
+  public object EDITION_2_TEST_ONLY : Edition(2, "EDITION_2_TEST_ONLY", false)
 
-  public object EDITION_99997_TEST_ONLY : Edition(99997, "EDITION_99997_TEST_ONLY")
+  public object EDITION_99997_TEST_ONLY : Edition(99997, "EDITION_99997_TEST_ONLY", false)
 
-  public object EDITION_99998_TEST_ONLY : Edition(99998, "EDITION_99998_TEST_ONLY")
+  public object EDITION_99998_TEST_ONLY : Edition(99998, "EDITION_99998_TEST_ONLY", false)
 
-  public object EDITION_99999_TEST_ONLY : Edition(99999, "EDITION_99999_TEST_ONLY")
+  public object EDITION_99999_TEST_ONLY : Edition(99999, "EDITION_99999_TEST_ONLY", false)
 
-  public object EDITION_MAX : Edition(2147483647, "EDITION_MAX")
+  public object EDITION_MAX : Edition(2147483647, "EDITION_MAX", false)
 
   public class UNRECOGNIZED(
     `value`: Int
-  ) : Edition(value, "UNRECOGNIZED")
+  ) : Edition(value, "UNRECOGNIZED", true)
 
   public companion object Deserializer : EnumDeserializer<Edition> {
     override fun deserialize(`value`: Int): Edition =
@@ -1538,18 +1539,19 @@ public class ExtensionRangeOptions private constructor(
    */
   public sealed class VerificationState(
     override val `value`: Int,
-    override val name: String
-  ) : Enum() {
+    override val name: String,
+    isUnrecognized: Boolean
+  ) : Enum(protokt.v1.google.protobuf.ExtensionRangeOptions.VerificationState::class, isUnrecognized) {
     /**
      * All the extensions of the range must be declared.
      */
-    public object DECLARATION : VerificationState(0, "DECLARATION")
+    public object DECLARATION : VerificationState(0, "DECLARATION", false)
 
-    public object UNVERIFIED : VerificationState(1, "UNVERIFIED")
+    public object UNVERIFIED : VerificationState(1, "UNVERIFIED", false)
 
     public class UNRECOGNIZED(
       `value`: Int
-    ) : VerificationState(value, "UNRECOGNIZED")
+    ) : VerificationState(value, "UNRECOGNIZED", true)
 
     public companion object Deserializer : EnumDeserializer<VerificationState> {
       override fun deserialize(`value`: Int): VerificationState =
@@ -2173,62 +2175,63 @@ public class FieldDescriptorProto private constructor(
 
   public sealed class Type(
     override val `value`: Int,
-    override val name: String
-  ) : Enum() {
+    override val name: String,
+    isUnrecognized: Boolean
+  ) : Enum(protokt.v1.google.protobuf.FieldDescriptorProto.Type::class, isUnrecognized) {
     /**
      * 0 is reserved for errors. Order is weird for historical reasons.
      */
-    public object DOUBLE : Type(1, "DOUBLE")
+    public object DOUBLE : Type(1, "DOUBLE", false)
 
-    public object FLOAT : Type(2, "FLOAT")
+    public object FLOAT : Type(2, "FLOAT", false)
 
     /**
      * Not ZigZag encoded.  Negative numbers take 10 bytes.  Use TYPE_SINT64 if negative values are likely.
      */
-    public object INT64 : Type(3, "INT64")
+    public object INT64 : Type(3, "INT64", false)
 
-    public object UINT64 : Type(4, "UINT64")
+    public object UINT64 : Type(4, "UINT64", false)
 
     /**
      * Not ZigZag encoded.  Negative numbers take 10 bytes.  Use TYPE_SINT32 if negative values are likely.
      */
-    public object INT32 : Type(5, "INT32")
+    public object INT32 : Type(5, "INT32", false)
 
-    public object FIXED64 : Type(6, "FIXED64")
+    public object FIXED64 : Type(6, "FIXED64", false)
 
-    public object FIXED32 : Type(7, "FIXED32")
+    public object FIXED32 : Type(7, "FIXED32", false)
 
-    public object BOOL : Type(8, "BOOL")
+    public object BOOL : Type(8, "BOOL", false)
 
-    public object STRING : Type(9, "STRING")
+    public object STRING : Type(9, "STRING", false)
 
     /**
      * Tag-delimited aggregate. Group type is deprecated and not supported after google.protobuf. However, Proto3 implementations should still be able to parse the group wire format and treat group fields as unknown fields.  In Editions, the group wire format can be enabled via the `message_encoding` feature.
      */
-    public object GROUP : Type(10, "GROUP")
+    public object GROUP : Type(10, "GROUP", false)
 
-    public object MESSAGE : Type(11, "MESSAGE")
+    public object MESSAGE : Type(11, "MESSAGE", false)
 
     /**
      * New in version 2.
      */
-    public object BYTES : Type(12, "BYTES")
+    public object BYTES : Type(12, "BYTES", false)
 
-    public object UINT32 : Type(13, "UINT32")
+    public object UINT32 : Type(13, "UINT32", false)
 
-    public object ENUM : Type(14, "ENUM")
+    public object ENUM : Type(14, "ENUM", false)
 
-    public object SFIXED32 : Type(15, "SFIXED32")
+    public object SFIXED32 : Type(15, "SFIXED32", false)
 
-    public object SFIXED64 : Type(16, "SFIXED64")
+    public object SFIXED64 : Type(16, "SFIXED64", false)
 
-    public object SINT32 : Type(17, "SINT32")
+    public object SINT32 : Type(17, "SINT32", false)
 
-    public object SINT64 : Type(18, "SINT64")
+    public object SINT64 : Type(18, "SINT64", false)
 
     public class UNRECOGNIZED(
       `value`: Int
-    ) : Type(value, "UNRECOGNIZED")
+    ) : Type(value, "UNRECOGNIZED", true)
 
     public companion object Deserializer : EnumDeserializer<Type> {
       override fun deserialize(`value`: Int): Type =
@@ -2258,23 +2261,24 @@ public class FieldDescriptorProto private constructor(
 
   public sealed class Label(
     override val `value`: Int,
-    override val name: String
-  ) : Enum() {
+    override val name: String,
+    isUnrecognized: Boolean
+  ) : Enum(protokt.v1.google.protobuf.FieldDescriptorProto.Label::class, isUnrecognized) {
     /**
      * 0 is reserved for errors
      */
-    public object OPTIONAL : Label(1, "OPTIONAL")
+    public object OPTIONAL : Label(1, "OPTIONAL", false)
 
-    public object REPEATED : Label(3, "REPEATED")
+    public object REPEATED : Label(3, "REPEATED", false)
 
     /**
      * The required label is only allowed in google.protobuf.  In proto3 and Editions it's explicitly prohibited.  In Editions, the `field_presence` feature can be used to get this behavior.
      */
-    public object REQUIRED : Label(2, "REQUIRED")
+    public object REQUIRED : Label(2, "REQUIRED", false)
 
     public class UNRECOGNIZED(
       `value`: Int
-    ) : Label(value, "UNRECOGNIZED")
+    ) : Label(value, "UNRECOGNIZED", true)
 
     public companion object Deserializer : EnumDeserializer<Label> {
       override fun deserialize(`value`: Int): Label =
@@ -4047,20 +4051,21 @@ public class FileOptions private constructor(
    */
   public sealed class OptimizeMode(
     override val `value`: Int,
-    override val name: String
-  ) : Enum() {
-    public object SPEED : OptimizeMode(1, "SPEED")
+    override val name: String,
+    isUnrecognized: Boolean
+  ) : Enum(protokt.v1.google.protobuf.FileOptions.OptimizeMode::class, isUnrecognized) {
+    public object SPEED : OptimizeMode(1, "SPEED", false)
 
     /**
      * etc.
      */
-    public object CODE_SIZE : OptimizeMode(2, "CODE_SIZE")
+    public object CODE_SIZE : OptimizeMode(2, "CODE_SIZE", false)
 
-    public object LITE_RUNTIME : OptimizeMode(3, "LITE_RUNTIME")
+    public object LITE_RUNTIME : OptimizeMode(3, "LITE_RUNTIME", false)
 
     public class UNRECOGNIZED(
       `value`: Int
-    ) : OptimizeMode(value, "UNRECOGNIZED")
+    ) : OptimizeMode(value, "UNRECOGNIZED", true)
 
     public companion object Deserializer : EnumDeserializer<OptimizeMode> {
       override fun deserialize(`value`: Int): OptimizeMode =
@@ -4792,23 +4797,24 @@ public class FieldOptions private constructor(
 
   public sealed class CType(
     override val `value`: Int,
-    override val name: String
-  ) : Enum() {
+    override val name: String,
+    isUnrecognized: Boolean
+  ) : Enum(protokt.v1.google.protobuf.FieldOptions.CType::class, isUnrecognized) {
     /**
      * Default mode.
      */
-    public object STRING : CType(0, "STRING")
+    public object STRING : CType(0, "STRING", false)
 
     /**
      * The option [ctype=CORD] may be applied to a non-repeated field of type "bytes". It indicates that in C++, the data should be stored in a Cord instead of a string.  For very large strings, this may reduce memory fragmentation. It may also allow better performance when parsing from a Cord, or when parsing with aliasing enabled, as the parsed Cord may then alias the original buffer.
      */
-    public object CORD : CType(1, "CORD")
+    public object CORD : CType(1, "CORD", false)
 
-    public object STRING_PIECE : CType(2, "STRING_PIECE")
+    public object STRING_PIECE : CType(2, "STRING_PIECE", false)
 
     public class UNRECOGNIZED(
       `value`: Int
-    ) : CType(value, "UNRECOGNIZED")
+    ) : CType(value, "UNRECOGNIZED", true)
 
     public companion object Deserializer : EnumDeserializer<CType> {
       override fun deserialize(`value`: Int): CType =
@@ -4823,26 +4829,27 @@ public class FieldOptions private constructor(
 
   public sealed class JSType(
     override val `value`: Int,
-    override val name: String
-  ) : Enum() {
+    override val name: String,
+    isUnrecognized: Boolean
+  ) : Enum(protokt.v1.google.protobuf.FieldOptions.JSType::class, isUnrecognized) {
     /**
      * Use the default type.
      */
-    public object JS_NORMAL : JSType(0, "JS_NORMAL")
+    public object JS_NORMAL : JSType(0, "JS_NORMAL", false)
 
     /**
      * Use JavaScript strings.
      */
-    public object JS_STRING : JSType(1, "JS_STRING")
+    public object JS_STRING : JSType(1, "JS_STRING", false)
 
     /**
      * Use JavaScript numbers.
      */
-    public object JS_NUMBER : JSType(2, "JS_NUMBER")
+    public object JS_NUMBER : JSType(2, "JS_NUMBER", false)
 
     public class UNRECOGNIZED(
       `value`: Int
-    ) : JSType(value, "UNRECOGNIZED")
+    ) : JSType(value, "UNRECOGNIZED", true)
 
     public companion object Deserializer : EnumDeserializer<JSType> {
       override fun deserialize(`value`: Int): JSType =
@@ -4860,17 +4867,18 @@ public class FieldOptions private constructor(
    */
   public sealed class OptionRetention(
     override val `value`: Int,
-    override val name: String
-  ) : Enum() {
-    public object RETENTION_UNKNOWN : OptionRetention(0, "RETENTION_UNKNOWN")
+    override val name: String,
+    isUnrecognized: Boolean
+  ) : Enum(protokt.v1.google.protobuf.FieldOptions.OptionRetention::class, isUnrecognized) {
+    public object RETENTION_UNKNOWN : OptionRetention(0, "RETENTION_UNKNOWN", false)
 
-    public object RETENTION_RUNTIME : OptionRetention(1, "RETENTION_RUNTIME")
+    public object RETENTION_RUNTIME : OptionRetention(1, "RETENTION_RUNTIME", false)
 
-    public object RETENTION_SOURCE : OptionRetention(2, "RETENTION_SOURCE")
+    public object RETENTION_SOURCE : OptionRetention(2, "RETENTION_SOURCE", false)
 
     public class UNRECOGNIZED(
       `value`: Int
-    ) : OptionRetention(value, "UNRECOGNIZED")
+    ) : OptionRetention(value, "UNRECOGNIZED", true)
 
     public companion object Deserializer : EnumDeserializer<OptionRetention> {
       override fun deserialize(`value`: Int): OptionRetention =
@@ -4888,31 +4896,32 @@ public class FieldOptions private constructor(
    */
   public sealed class OptionTargetType(
     override val `value`: Int,
-    override val name: String
-  ) : Enum() {
-    public object TARGET_TYPE_UNKNOWN : OptionTargetType(0, "TARGET_TYPE_UNKNOWN")
+    override val name: String,
+    isUnrecognized: Boolean
+  ) : Enum(protokt.v1.google.protobuf.FieldOptions.OptionTargetType::class, isUnrecognized) {
+    public object TARGET_TYPE_UNKNOWN : OptionTargetType(0, "TARGET_TYPE_UNKNOWN", false)
 
-    public object TARGET_TYPE_FILE : OptionTargetType(1, "TARGET_TYPE_FILE")
+    public object TARGET_TYPE_FILE : OptionTargetType(1, "TARGET_TYPE_FILE", false)
 
-    public object TARGET_TYPE_EXTENSION_RANGE : OptionTargetType(2, "TARGET_TYPE_EXTENSION_RANGE")
+    public object TARGET_TYPE_EXTENSION_RANGE : OptionTargetType(2, "TARGET_TYPE_EXTENSION_RANGE", false)
 
-    public object TARGET_TYPE_MESSAGE : OptionTargetType(3, "TARGET_TYPE_MESSAGE")
+    public object TARGET_TYPE_MESSAGE : OptionTargetType(3, "TARGET_TYPE_MESSAGE", false)
 
-    public object TARGET_TYPE_FIELD : OptionTargetType(4, "TARGET_TYPE_FIELD")
+    public object TARGET_TYPE_FIELD : OptionTargetType(4, "TARGET_TYPE_FIELD", false)
 
-    public object TARGET_TYPE_ONEOF : OptionTargetType(5, "TARGET_TYPE_ONEOF")
+    public object TARGET_TYPE_ONEOF : OptionTargetType(5, "TARGET_TYPE_ONEOF", false)
 
-    public object TARGET_TYPE_ENUM : OptionTargetType(6, "TARGET_TYPE_ENUM")
+    public object TARGET_TYPE_ENUM : OptionTargetType(6, "TARGET_TYPE_ENUM", false)
 
-    public object TARGET_TYPE_ENUM_ENTRY : OptionTargetType(7, "TARGET_TYPE_ENUM_ENTRY")
+    public object TARGET_TYPE_ENUM_ENTRY : OptionTargetType(7, "TARGET_TYPE_ENUM_ENTRY", false)
 
-    public object TARGET_TYPE_SERVICE : OptionTargetType(8, "TARGET_TYPE_SERVICE")
+    public object TARGET_TYPE_SERVICE : OptionTargetType(8, "TARGET_TYPE_SERVICE", false)
 
-    public object TARGET_TYPE_METHOD : OptionTargetType(9, "TARGET_TYPE_METHOD")
+    public object TARGET_TYPE_METHOD : OptionTargetType(9, "TARGET_TYPE_METHOD", false)
 
     public class UNRECOGNIZED(
       `value`: Int
-    ) : OptionTargetType(value, "UNRECOGNIZED")
+    ) : OptionTargetType(value, "UNRECOGNIZED", true)
 
     public companion object Deserializer : EnumDeserializer<OptionTargetType> {
       override fun deserialize(`value`: Int): OptionTargetType =
@@ -6162,17 +6171,18 @@ public class MethodOptions private constructor(
    */
   public sealed class IdempotencyLevel(
     override val `value`: Int,
-    override val name: String
-  ) : Enum() {
-    public object IDEMPOTENCY_UNKNOWN : IdempotencyLevel(0, "IDEMPOTENCY_UNKNOWN")
+    override val name: String,
+    isUnrecognized: Boolean
+  ) : Enum(protokt.v1.google.protobuf.MethodOptions.IdempotencyLevel::class, isUnrecognized) {
+    public object IDEMPOTENCY_UNKNOWN : IdempotencyLevel(0, "IDEMPOTENCY_UNKNOWN", false)
 
-    public object NO_SIDE_EFFECTS : IdempotencyLevel(1, "NO_SIDE_EFFECTS")
+    public object NO_SIDE_EFFECTS : IdempotencyLevel(1, "NO_SIDE_EFFECTS", false)
 
-    public object IDEMPOTENT : IdempotencyLevel(2, "IDEMPOTENT")
+    public object IDEMPOTENT : IdempotencyLevel(2, "IDEMPOTENT", false)
 
     public class UNRECOGNIZED(
       `value`: Int
-    ) : IdempotencyLevel(value, "UNRECOGNIZED")
+    ) : IdempotencyLevel(value, "UNRECOGNIZED", true)
 
     public companion object Deserializer : EnumDeserializer<IdempotencyLevel> {
       override fun deserialize(`value`: Int): IdempotencyLevel =
@@ -6817,19 +6827,20 @@ public class FeatureSet private constructor(
 
   public sealed class FieldPresence(
     override val `value`: Int,
-    override val name: String
-  ) : Enum() {
-    public object FIELD_PRESENCE_UNKNOWN : FieldPresence(0, "FIELD_PRESENCE_UNKNOWN")
+    override val name: String,
+    isUnrecognized: Boolean
+  ) : Enum(protokt.v1.google.protobuf.FeatureSet.FieldPresence::class, isUnrecognized) {
+    public object FIELD_PRESENCE_UNKNOWN : FieldPresence(0, "FIELD_PRESENCE_UNKNOWN", false)
 
-    public object EXPLICIT : FieldPresence(1, "EXPLICIT")
+    public object EXPLICIT : FieldPresence(1, "EXPLICIT", false)
 
-    public object IMPLICIT : FieldPresence(2, "IMPLICIT")
+    public object IMPLICIT : FieldPresence(2, "IMPLICIT", false)
 
-    public object LEGACY_REQUIRED : FieldPresence(3, "LEGACY_REQUIRED")
+    public object LEGACY_REQUIRED : FieldPresence(3, "LEGACY_REQUIRED", false)
 
     public class UNRECOGNIZED(
       `value`: Int
-    ) : FieldPresence(value, "UNRECOGNIZED")
+    ) : FieldPresence(value, "UNRECOGNIZED", true)
 
     public companion object Deserializer : EnumDeserializer<FieldPresence> {
       override fun deserialize(`value`: Int): FieldPresence =
@@ -6845,17 +6856,18 @@ public class FeatureSet private constructor(
 
   public sealed class EnumType(
     override val `value`: Int,
-    override val name: String
-  ) : Enum() {
-    public object ENUM_TYPE_UNKNOWN : EnumType(0, "ENUM_TYPE_UNKNOWN")
+    override val name: String,
+    isUnrecognized: Boolean
+  ) : Enum(protokt.v1.google.protobuf.FeatureSet.EnumType::class, isUnrecognized) {
+    public object ENUM_TYPE_UNKNOWN : EnumType(0, "ENUM_TYPE_UNKNOWN", false)
 
-    public object OPEN : EnumType(1, "OPEN")
+    public object OPEN : EnumType(1, "OPEN", false)
 
-    public object CLOSED : EnumType(2, "CLOSED")
+    public object CLOSED : EnumType(2, "CLOSED", false)
 
     public class UNRECOGNIZED(
       `value`: Int
-    ) : EnumType(value, "UNRECOGNIZED")
+    ) : EnumType(value, "UNRECOGNIZED", true)
 
     public companion object Deserializer : EnumDeserializer<EnumType> {
       override fun deserialize(`value`: Int): EnumType =
@@ -6870,17 +6882,18 @@ public class FeatureSet private constructor(
 
   public sealed class RepeatedFieldEncoding(
     override val `value`: Int,
-    override val name: String
-  ) : Enum() {
-    public object REPEATED_FIELD_ENCODING_UNKNOWN : RepeatedFieldEncoding(0, "REPEATED_FIELD_ENCODING_UNKNOWN")
+    override val name: String,
+    isUnrecognized: Boolean
+  ) : Enum(protokt.v1.google.protobuf.FeatureSet.RepeatedFieldEncoding::class, isUnrecognized) {
+    public object REPEATED_FIELD_ENCODING_UNKNOWN : RepeatedFieldEncoding(0, "REPEATED_FIELD_ENCODING_UNKNOWN", false)
 
-    public object PACKED : RepeatedFieldEncoding(1, "PACKED")
+    public object PACKED : RepeatedFieldEncoding(1, "PACKED", false)
 
-    public object EXPANDED : RepeatedFieldEncoding(2, "EXPANDED")
+    public object EXPANDED : RepeatedFieldEncoding(2, "EXPANDED", false)
 
     public class UNRECOGNIZED(
       `value`: Int
-    ) : RepeatedFieldEncoding(value, "UNRECOGNIZED")
+    ) : RepeatedFieldEncoding(value, "UNRECOGNIZED", true)
 
     public companion object Deserializer : EnumDeserializer<RepeatedFieldEncoding> {
       override fun deserialize(`value`: Int): RepeatedFieldEncoding =
@@ -6895,17 +6908,18 @@ public class FeatureSet private constructor(
 
   public sealed class Utf8Validation(
     override val `value`: Int,
-    override val name: String
-  ) : Enum() {
-    public object UTF8_VALIDATION_UNKNOWN : Utf8Validation(0, "UTF8_VALIDATION_UNKNOWN")
+    override val name: String,
+    isUnrecognized: Boolean
+  ) : Enum(protokt.v1.google.protobuf.FeatureSet.Utf8Validation::class, isUnrecognized) {
+    public object UTF8_VALIDATION_UNKNOWN : Utf8Validation(0, "UTF8_VALIDATION_UNKNOWN", false)
 
-    public object VERIFY : Utf8Validation(2, "VERIFY")
+    public object VERIFY : Utf8Validation(2, "VERIFY", false)
 
-    public object NONE : Utf8Validation(3, "NONE")
+    public object NONE : Utf8Validation(3, "NONE", false)
 
     public class UNRECOGNIZED(
       `value`: Int
-    ) : Utf8Validation(value, "UNRECOGNIZED")
+    ) : Utf8Validation(value, "UNRECOGNIZED", true)
 
     public companion object Deserializer : EnumDeserializer<Utf8Validation> {
       override fun deserialize(`value`: Int): Utf8Validation =
@@ -6920,17 +6934,18 @@ public class FeatureSet private constructor(
 
   public sealed class MessageEncoding(
     override val `value`: Int,
-    override val name: String
-  ) : Enum() {
-    public object MESSAGE_ENCODING_UNKNOWN : MessageEncoding(0, "MESSAGE_ENCODING_UNKNOWN")
+    override val name: String,
+    isUnrecognized: Boolean
+  ) : Enum(protokt.v1.google.protobuf.FeatureSet.MessageEncoding::class, isUnrecognized) {
+    public object MESSAGE_ENCODING_UNKNOWN : MessageEncoding(0, "MESSAGE_ENCODING_UNKNOWN", false)
 
-    public object LENGTH_PREFIXED : MessageEncoding(1, "LENGTH_PREFIXED")
+    public object LENGTH_PREFIXED : MessageEncoding(1, "LENGTH_PREFIXED", false)
 
-    public object DELIMITED : MessageEncoding(2, "DELIMITED")
+    public object DELIMITED : MessageEncoding(2, "DELIMITED", false)
 
     public class UNRECOGNIZED(
       `value`: Int
-    ) : MessageEncoding(value, "UNRECOGNIZED")
+    ) : MessageEncoding(value, "UNRECOGNIZED", true)
 
     public companion object Deserializer : EnumDeserializer<MessageEncoding> {
       override fun deserialize(`value`: Int): MessageEncoding =
@@ -6945,17 +6960,18 @@ public class FeatureSet private constructor(
 
   public sealed class JsonFormat(
     override val `value`: Int,
-    override val name: String
-  ) : Enum() {
-    public object JSON_FORMAT_UNKNOWN : JsonFormat(0, "JSON_FORMAT_UNKNOWN")
+    override val name: String,
+    isUnrecognized: Boolean
+  ) : Enum(protokt.v1.google.protobuf.FeatureSet.JsonFormat::class, isUnrecognized) {
+    public object JSON_FORMAT_UNKNOWN : JsonFormat(0, "JSON_FORMAT_UNKNOWN", false)
 
-    public object ALLOW : JsonFormat(1, "ALLOW")
+    public object ALLOW : JsonFormat(1, "ALLOW", false)
 
-    public object LEGACY_BEST_EFFORT : JsonFormat(2, "LEGACY_BEST_EFFORT")
+    public object LEGACY_BEST_EFFORT : JsonFormat(2, "LEGACY_BEST_EFFORT", false)
 
     public class UNRECOGNIZED(
       `value`: Int
-    ) : JsonFormat(value, "UNRECOGNIZED")
+    ) : JsonFormat(value, "UNRECOGNIZED", true)
 
     public companion object Deserializer : EnumDeserializer<JsonFormat> {
       override fun deserialize(`value`: Int): JsonFormat =
@@ -6970,17 +6986,18 @@ public class FeatureSet private constructor(
 
   public sealed class EnforceNamingStyle(
     override val `value`: Int,
-    override val name: String
-  ) : Enum() {
-    public object ENFORCE_NAMING_STYLE_UNKNOWN : EnforceNamingStyle(0, "ENFORCE_NAMING_STYLE_UNKNOWN")
+    override val name: String,
+    isUnrecognized: Boolean
+  ) : Enum(protokt.v1.google.protobuf.FeatureSet.EnforceNamingStyle::class, isUnrecognized) {
+    public object ENFORCE_NAMING_STYLE_UNKNOWN : EnforceNamingStyle(0, "ENFORCE_NAMING_STYLE_UNKNOWN", false)
 
-    public object STYLE2024 : EnforceNamingStyle(1, "STYLE2024")
+    public object STYLE2024 : EnforceNamingStyle(1, "STYLE2024", false)
 
-    public object STYLE_LEGACY : EnforceNamingStyle(2, "STYLE_LEGACY")
+    public object STYLE_LEGACY : EnforceNamingStyle(2, "STYLE_LEGACY", false)
 
     public class UNRECOGNIZED(
       `value`: Int
-    ) : EnforceNamingStyle(value, "UNRECOGNIZED")
+    ) : EnforceNamingStyle(value, "UNRECOGNIZED", true)
 
     public companion object Deserializer : EnumDeserializer<EnforceNamingStyle> {
       override fun deserialize(`value`: Int): EnforceNamingStyle =
@@ -8071,26 +8088,27 @@ public class GeneratedCodeInfo private constructor(
      */
     public sealed class Semantic(
       override val `value`: Int,
-      override val name: String
-    ) : Enum() {
+      override val name: String,
+      isUnrecognized: Boolean
+    ) : Enum(protokt.v1.google.protobuf.GeneratedCodeInfo.Annotation.Semantic::class, isUnrecognized) {
       /**
        * There is no effect or the effect is indescribable.
        */
-      public object NONE : Semantic(0, "NONE")
+      public object NONE : Semantic(0, "NONE", false)
 
       /**
        * The element is set or otherwise mutated.
        */
-      public object SET : Semantic(1, "SET")
+      public object SET : Semantic(1, "SET", false)
 
       /**
        * An alias to the element is returned.
        */
-      public object ALIAS : Semantic(2, "ALIAS")
+      public object ALIAS : Semantic(2, "ALIAS", false)
 
       public class UNRECOGNIZED(
         `value`: Int
-      ) : Semantic(value, "UNRECOGNIZED")
+      ) : Semantic(value, "UNRECOGNIZED", true)
 
       public companion object Deserializer : EnumDeserializer<Semantic> {
         override fun deserialize(`value`: Int): Semantic =

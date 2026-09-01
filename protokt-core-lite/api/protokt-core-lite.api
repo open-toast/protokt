@@ -405,7 +405,7 @@ public final class protokt/v1/google/protobuf/Duration$Deserializer : protokt/v1
 
 public abstract class protokt/v1/google/protobuf/Edition : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/Edition$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -903,7 +903,7 @@ public final class protokt/v1/google/protobuf/ExtensionRangeOptions$Deserializer
 
 public abstract class protokt/v1/google/protobuf/ExtensionRangeOptions$VerificationState : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/ExtensionRangeOptions$VerificationState$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -980,7 +980,7 @@ public final class protokt/v1/google/protobuf/FeatureSet$Deserializer : protokt/
 
 public abstract class protokt/v1/google/protobuf/FeatureSet$EnforceNamingStyle : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/FeatureSet$EnforceNamingStyle$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -1008,7 +1008,7 @@ public final class protokt/v1/google/protobuf/FeatureSet$EnforceNamingStyle$UNRE
 
 public abstract class protokt/v1/google/protobuf/FeatureSet$EnumType : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/FeatureSet$EnumType$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -1036,7 +1036,7 @@ public final class protokt/v1/google/protobuf/FeatureSet$EnumType$UNRECOGNIZED :
 
 public abstract class protokt/v1/google/protobuf/FeatureSet$FieldPresence : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/FeatureSet$FieldPresence$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -1068,7 +1068,7 @@ public final class protokt/v1/google/protobuf/FeatureSet$FieldPresence$UNRECOGNI
 
 public abstract class protokt/v1/google/protobuf/FeatureSet$JsonFormat : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/FeatureSet$JsonFormat$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -1096,7 +1096,7 @@ public final class protokt/v1/google/protobuf/FeatureSet$JsonFormat$UNRECOGNIZED
 
 public abstract class protokt/v1/google/protobuf/FeatureSet$MessageEncoding : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/FeatureSet$MessageEncoding$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -1124,7 +1124,7 @@ public final class protokt/v1/google/protobuf/FeatureSet$MessageEncoding$UNRECOG
 
 public abstract class protokt/v1/google/protobuf/FeatureSet$RepeatedFieldEncoding : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/FeatureSet$RepeatedFieldEncoding$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -1152,7 +1152,7 @@ public final class protokt/v1/google/protobuf/FeatureSet$RepeatedFieldEncoding$U
 
 public abstract class protokt/v1/google/protobuf/FeatureSet$Utf8Validation : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/FeatureSet$Utf8Validation$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -1318,7 +1318,7 @@ public final class protokt/v1/google/protobuf/Field$Builder$Factory {
 
 public abstract class protokt/v1/google/protobuf/Field$Cardinality : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/Field$Cardinality$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -1356,7 +1356,7 @@ public final class protokt/v1/google/protobuf/Field$Deserializer : protokt/v1/Ab
 
 public abstract class protokt/v1/google/protobuf/Field$Kind : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/Field$Kind$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -1513,7 +1513,7 @@ public final class protokt/v1/google/protobuf/FieldDescriptorProto$Deserializer 
 
 public abstract class protokt/v1/google/protobuf/FieldDescriptorProto$Label : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/FieldDescriptorProto$Label$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -1541,7 +1541,7 @@ public final class protokt/v1/google/protobuf/FieldDescriptorProto$Label$UNRECOG
 
 public abstract class protokt/v1/google/protobuf/FieldDescriptorProto$Type : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/FieldDescriptorProto$Type$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -1732,7 +1732,7 @@ public final class protokt/v1/google/protobuf/FieldOptions$Builder$Factory {
 
 public abstract class protokt/v1/google/protobuf/FieldOptions$CType : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/FieldOptions$CType$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -1848,7 +1848,7 @@ public final class protokt/v1/google/protobuf/FieldOptions$FeatureSupport$Deseri
 
 public abstract class protokt/v1/google/protobuf/FieldOptions$JSType : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/FieldOptions$JSType$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -1876,7 +1876,7 @@ public final class protokt/v1/google/protobuf/FieldOptions$JSType$UNRECOGNIZED :
 
 public abstract class protokt/v1/google/protobuf/FieldOptions$OptionRetention : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/FieldOptions$OptionRetention$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -1904,7 +1904,7 @@ public final class protokt/v1/google/protobuf/FieldOptions$OptionRetention$UNREC
 
 public abstract class protokt/v1/google/protobuf/FieldOptions$OptionTargetType : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/FieldOptions$OptionTargetType$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -2161,7 +2161,7 @@ public final class protokt/v1/google/protobuf/FileOptions$Deserializer : protokt
 
 public abstract class protokt/v1/google/protobuf/FileOptions$OptimizeMode : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/FileOptions$OptimizeMode$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -2297,7 +2297,7 @@ public final class protokt/v1/google/protobuf/GeneratedCodeInfo$Annotation$Deser
 
 public abstract class protokt/v1/google/protobuf/GeneratedCodeInfo$Annotation$Semantic : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/GeneratedCodeInfo$Annotation$Semantic$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -2669,7 +2669,7 @@ public final class protokt/v1/google/protobuf/MethodOptions$Deserializer : proto
 
 public abstract class protokt/v1/google/protobuf/MethodOptions$IdempotencyLevel : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/MethodOptions$IdempotencyLevel$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -2735,7 +2735,7 @@ public final class protokt/v1/google/protobuf/Mixin$Deserializer : protokt/v1/Ab
 
 public abstract class protokt/v1/google/protobuf/NullValue : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/NullValue$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -3148,7 +3148,7 @@ public final class protokt/v1/google/protobuf/Struct$Deserializer : protokt/v1/A
 
 public abstract class protokt/v1/google/protobuf/Syntax : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/google/protobuf/Syntax$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
@@ -3593,7 +3593,7 @@ public final class protokt/v1/pb/JavaFeatures$Deserializer : protokt/v1/Abstract
 
 public abstract class protokt/v1/pb/JavaFeatures$Utf8Validation : protokt/v1/Enum {
 	public static final field Deserializer Lprotokt/v1/pb/JavaFeatures$Utf8Validation$Deserializer;
-	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILjava/lang/String;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getName ()Ljava/lang/String;
 	public fun getValue ()I
 }
