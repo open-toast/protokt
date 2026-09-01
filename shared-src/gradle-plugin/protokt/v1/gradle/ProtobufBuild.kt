@@ -26,6 +26,8 @@ import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.named
+import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.withType
 import java.net.URLEncoder
 
@@ -49,7 +51,7 @@ internal fun configureProtobufPlugin(
             val mainExtractProtoAdditions = mutableListOf<TaskInputFiles>()
             val testExtractProtoAdditions = mutableListOf<TaskInputFiles>()
 
-            for (task in all()) {
+            for (task in all().toList()) {
                 if (disableJava) {
                     task.builtins {
                         findByName("java")?.run(::remove)
@@ -68,6 +70,10 @@ internal fun configureProtobufPlugin(
                 task.inputs.files(extensionFiles).withPropertyName("protoktExtensionClasspath-${target.protocPluginName}")
                 task.dependsOn(binary)
 
+                val writeExtensionClasspath = project.extensionClasspathTask(task.isTestTask(), extensionFiles)
+                task.dependsOn(writeExtensionClasspath)
+                task.inputs.file(writeExtensionClasspath.flatMap { it.outputFile }).withPropertyName("protoktExtensionClasspathFile-${target.protocPluginName}")
+
                 task.plugins {
                     id(target.protocPluginName) {
                         option("$GENERATE_TYPES=${ext.generate.types.get()}")
@@ -77,12 +83,8 @@ internal fun configureProtobufPlugin(
                         option("$GENERATE_GRPC_KRPC=${ext.generate.grpcKrpc.get()}")
                         option("$FORMAT_OUTPUT=${ext.formatOutput.get()}")
                         option("$KOTLIN_TARGET=$target")
-
-                        val pluginOptions = this
-                        task.doFirst {
-                            val classpath = extensionFiles.files.joinToString(";") { URLEncoder.encode(it.path, "UTF-8") }
-                            pluginOptions.option("$KOTLIN_EXTRA_CLASSPATH=$classpath")
-                        }
+                        val classpathFile = writeExtensionClasspath.flatMap { it.outputFile }.get().asFile
+                        option("$KOTLIN_EXTRA_CLASSPATH_FILE=${URLEncoder.encode(classpathFile.path, "UTF-8")}")
                     }
                 }
             }
@@ -92,11 +94,22 @@ internal fun configureProtobufPlugin(
     }
 }
 
-private fun Project.handleExtraInputFiles(main: List<TaskInputFiles>, test: List<TaskInputFiles>) {
-    afterEvaluate {
-        handleExtractProtoAdditions(main, false)
-        handleExtractProtoAdditions(test, true)
+private fun Project.extensionClasspathTask(test: Boolean, extensionFiles: Any): TaskProvider<WriteExtensionClasspath> {
+    val sourceSetName = if (test) "test" else "main"
+    val taskName = "write${sourceSetName.replaceFirstChar(Char::uppercase)}ProtoktExtensionClasspath"
+    return if (taskName in tasks.names) {
+        tasks.named<WriteExtensionClasspath>(taskName)
+    } else {
+        tasks.register<WriteExtensionClasspath>(taskName) {
+            classpath.from(extensionFiles)
+            outputFile.set(layout.buildDirectory.file("protokt/extension-classpaths/$sourceSetName.txt"))
+        }
     }
+}
+
+private fun Project.handleExtraInputFiles(main: List<TaskInputFiles>, test: List<TaskInputFiles>) {
+    handleExtractProtoAdditions(main, false)
+    handleExtractProtoAdditions(test, true)
 }
 
 private fun Project.handleExtractProtoAdditions(additions: List<TaskInputFiles>, test: Boolean) {
