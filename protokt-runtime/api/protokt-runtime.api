@@ -396,7 +396,7 @@ public final class protokt/v1/UnknownFieldSet$Companion {
 }
 
 public final class protokt/v1/UnknownFieldSet$Field {
-	public synthetic fun <init> (Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/util/List;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getFixed32 ()Ljava/util/List;
 	public final fun getFixed64 ()Ljava/util/List;
