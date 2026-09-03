@@ -202,6 +202,7 @@ private class MapEntryGenerator(
                                 "${value.tag.value}u -> value = %L",
                                 wireDeserialize(value, mapCachingInfo.valueWrapped, mapCachingInfo.valueIsString)
                             )
+                            addStatement("else -> $READER.readUnknown()")
                             endControlFlow()
                             endControlFlow()
                         } else {
@@ -219,6 +220,7 @@ private class MapEntryGenerator(
                                 "${value.tag.value}u -> value = %L",
                                 deserialize(value, ctx)
                             )
+                            addStatement("else -> $READER.readUnknown()")
                             endControlFlow()
                             endControlFlow()
                         }
