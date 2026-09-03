@@ -22,6 +22,7 @@ object InetAddressBytesValueConverter : Converter<BytesValue, InetAddress> {
     override val wireType = BytesValue::class
 
     override val valueType = InetAddress::class
+
     override fun wrap(unwrapped: BytesValue) =
         InetAddressBytesConverter.wrap(unwrapped.value)
 

@@ -22,6 +22,7 @@ object UuidBytesValueConverter : Converter<BytesValue, UUID> {
     override val wireType = BytesValue::class
 
     override val valueType = UUID::class
+
     override fun wrap(unwrapped: BytesValue) =
         UuidBytesConverter.wrap(unwrapped.value)
 

@@ -19,6 +19,7 @@ object DurationConverter : Converter<protokt.v1.google.protobuf.Duration, java.t
     override val wireType = protokt.v1.google.protobuf.Duration::class
 
     override val valueType = java.time.Duration::class
+
     override fun wrap(unwrapped: protokt.v1.google.protobuf.Duration): java.time.Duration =
         java.time.Duration.ofSeconds(unwrapped.seconds, unwrapped.nanos.toLong())
 

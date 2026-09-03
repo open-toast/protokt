@@ -27,6 +27,7 @@ object BooleanConverter : Converter<Boolean, BoolBox> {
     override val wireType = Boolean::class
 
     override val valueType = BoolBox::class
+
     override fun unwrap(wrapped: BoolBox) =
         wrapped.wrapped
 
@@ -42,6 +43,7 @@ object BytesConverter : Converter<Bytes, ByteArrayBox> {
     override val wireType = Bytes::class
 
     override val valueType = ByteArrayBox::class
+
     override fun unwrap(wrapped: ByteArrayBox) =
         wrapped.wrapped
 
@@ -57,6 +59,7 @@ object DoubleConverter : Converter<Double, DoubleBox> {
     override val wireType = Double::class
 
     override val valueType = DoubleBox::class
+
     override fun unwrap(wrapped: DoubleBox) =
         wrapped.wrapped
 
@@ -72,6 +75,7 @@ object IntConverter : Converter<Int, IntBox> {
     override val wireType = Int::class
 
     override val valueType = IntBox::class
+
     override fun unwrap(wrapped: IntBox) =
         wrapped.wrapped
 
@@ -87,6 +91,7 @@ object UIntConverter : Converter<UInt, UIntBox> {
     override val wireType = UInt::class
 
     override val valueType = UIntBox::class
+
     override fun unwrap(wrapped: UIntBox) =
         wrapped.wrapped
 
@@ -102,6 +107,7 @@ object LongConverter : Converter<Long, LongBox> {
     override val wireType = Long::class
 
     override val valueType = LongBox::class
+
     override fun unwrap(wrapped: LongBox) =
         wrapped.wrapped
 
@@ -117,6 +123,7 @@ object ULongConverter : Converter<ULong, ULongBox> {
     override val wireType = ULong::class
 
     override val valueType = ULongBox::class
+
     override fun unwrap(wrapped: ULongBox) =
         wrapped.wrapped
 
@@ -132,6 +139,7 @@ object FloatConverter : Converter<Float, FloatBox> {
     override val wireType = Float::class
 
     override val valueType = FloatBox::class
+
     override fun unwrap(wrapped: FloatBox) =
         wrapped.wrapped
 
@@ -147,6 +155,7 @@ object StringConverter : Converter<String, StringBox> {
     override val wireType = String::class
 
     override val valueType = StringBox::class
+
     override fun unwrap(wrapped: StringBox) =
         wrapped.wrapped
 

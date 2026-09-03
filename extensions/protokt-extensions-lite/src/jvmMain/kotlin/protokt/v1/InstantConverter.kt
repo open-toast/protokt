@@ -22,6 +22,7 @@ object InstantConverter : Converter<Timestamp, Instant> {
     override val wireType = Timestamp::class
 
     override val valueType = Instant::class
+
     override fun wrap(unwrapped: Timestamp): Instant =
         Instant.ofEpochSecond(unwrapped.seconds, unwrapped.nanos.toLong())
 

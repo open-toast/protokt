@@ -27,6 +27,7 @@ object IdConverter : Converter<Bytes, Id> {
     override val wireType = Bytes::class
 
     override val valueType = Id::class
+
     override fun wrap(unwrapped: Bytes) =
         Id(String(unwrapped.bytes))
 

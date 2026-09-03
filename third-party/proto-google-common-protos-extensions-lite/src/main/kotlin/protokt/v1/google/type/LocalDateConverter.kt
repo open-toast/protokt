@@ -25,6 +25,7 @@ object LocalDateConverter : Converter<Date, LocalDate> {
     override val wireType = Date::class
 
     override val valueType = LocalDate::class
+
     override fun wrap(unwrapped: Date): LocalDate =
         LocalDate.of(unwrapped.year, unwrapped.month, unwrapped.day)
 
