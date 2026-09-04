@@ -126,8 +126,8 @@ public final class protokt/v1/google/protobuf/BoolValue$Deserializer : protokt/v
 
 public final class protokt/v1/google/protobuf/BoolValueConverter : protokt/v1/Converter {
 	public static final field INSTANCE Lprotokt/v1/google/protobuf/BoolValueConverter;
-	public fun getWrapped ()Lkotlin/reflect/KClass;
-	public fun getWrapper ()Lkotlin/reflect/KClass;
+	public fun getValueType ()Lkotlin/reflect/KClass;
+	public fun getWireType ()Lkotlin/reflect/KClass;
 	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
 	public fun unwrap (Z)Lprotokt/v1/google/protobuf/BoolValue;
 	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
@@ -171,8 +171,8 @@ public final class protokt/v1/google/protobuf/BytesValue$Deserializer : protokt/
 
 public final class protokt/v1/google/protobuf/BytesValueConverter : protokt/v1/Converter {
 	public static final field INSTANCE Lprotokt/v1/google/protobuf/BytesValueConverter;
-	public fun getWrapped ()Lkotlin/reflect/KClass;
-	public fun getWrapper ()Lkotlin/reflect/KClass;
+	public fun getValueType ()Lkotlin/reflect/KClass;
+	public fun getWireType ()Lkotlin/reflect/KClass;
 	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
 	public fun unwrap (Lprotokt/v1/Bytes;)Lprotokt/v1/google/protobuf/BytesValue;
 	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
@@ -357,8 +357,8 @@ public final class protokt/v1/google/protobuf/DoubleValue$Deserializer : protokt
 
 public final class protokt/v1/google/protobuf/DoubleValueConverter : protokt/v1/Converter {
 	public static final field INSTANCE Lprotokt/v1/google/protobuf/DoubleValueConverter;
-	public fun getWrapped ()Lkotlin/reflect/KClass;
-	public fun getWrapper ()Lkotlin/reflect/KClass;
+	public fun getValueType ()Lkotlin/reflect/KClass;
+	public fun getWireType ()Lkotlin/reflect/KClass;
 	public fun unwrap (D)Lprotokt/v1/google/protobuf/DoubleValue;
 	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
 	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
@@ -2224,8 +2224,8 @@ public final class protokt/v1/google/protobuf/FloatValue$Deserializer : protokt/
 
 public final class protokt/v1/google/protobuf/FloatValueConverter : protokt/v1/Converter {
 	public static final field INSTANCE Lprotokt/v1/google/protobuf/FloatValueConverter;
-	public fun getWrapped ()Lkotlin/reflect/KClass;
-	public fun getWrapper ()Lkotlin/reflect/KClass;
+	public fun getValueType ()Lkotlin/reflect/KClass;
+	public fun getWireType ()Lkotlin/reflect/KClass;
 	public fun unwrap (F)Lprotokt/v1/google/protobuf/FloatValue;
 	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
 	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
@@ -2379,8 +2379,8 @@ public final class protokt/v1/google/protobuf/Int32Value$Deserializer : protokt/
 
 public final class protokt/v1/google/protobuf/Int32ValueConverter : protokt/v1/Converter {
 	public static final field INSTANCE Lprotokt/v1/google/protobuf/Int32ValueConverter;
-	public fun getWrapped ()Lkotlin/reflect/KClass;
-	public fun getWrapper ()Lkotlin/reflect/KClass;
+	public fun getValueType ()Lkotlin/reflect/KClass;
+	public fun getWireType ()Lkotlin/reflect/KClass;
 	public fun unwrap (I)Lprotokt/v1/google/protobuf/Int32Value;
 	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
 	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
@@ -2424,8 +2424,8 @@ public final class protokt/v1/google/protobuf/Int64Value$Deserializer : protokt/
 
 public final class protokt/v1/google/protobuf/Int64ValueConverter : protokt/v1/Converter {
 	public static final field INSTANCE Lprotokt/v1/google/protobuf/Int64ValueConverter;
-	public fun getWrapped ()Lkotlin/reflect/KClass;
-	public fun getWrapper ()Lkotlin/reflect/KClass;
+	public fun getValueType ()Lkotlin/reflect/KClass;
+	public fun getWireType ()Lkotlin/reflect/KClass;
 	public fun unwrap (J)Lprotokt/v1/google/protobuf/Int64Value;
 	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
 	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
@@ -3103,8 +3103,8 @@ public final class protokt/v1/google/protobuf/StringValue$Deserializer : protokt
 
 public final class protokt/v1/google/protobuf/StringValueConverter : protokt/v1/Converter {
 	public static final field INSTANCE Lprotokt/v1/google/protobuf/StringValueConverter;
-	public fun getWrapped ()Lkotlin/reflect/KClass;
-	public fun getWrapper ()Lkotlin/reflect/KClass;
+	public fun getValueType ()Lkotlin/reflect/KClass;
+	public fun getWireType ()Lkotlin/reflect/KClass;
 	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
 	public fun unwrap (Ljava/lang/String;)Lprotokt/v1/google/protobuf/StringValue;
 	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
@@ -3302,8 +3302,8 @@ public final class protokt/v1/google/protobuf/UInt32Value$Deserializer : protokt
 
 public final class protokt/v1/google/protobuf/UInt32ValueConverter : protokt/v1/Converter {
 	public static final field INSTANCE Lprotokt/v1/google/protobuf/UInt32ValueConverter;
-	public fun getWrapped ()Lkotlin/reflect/KClass;
-	public fun getWrapper ()Lkotlin/reflect/KClass;
+	public fun getValueType ()Lkotlin/reflect/KClass;
+	public fun getWireType ()Lkotlin/reflect/KClass;
 	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
 	public fun unwrap-WZ4Q5Ns (I)Lprotokt/v1/google/protobuf/UInt32Value;
 	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
@@ -3347,8 +3347,8 @@ public final class protokt/v1/google/protobuf/UInt64Value$Deserializer : protokt
 
 public final class protokt/v1/google/protobuf/UInt64ValueConverter : protokt/v1/Converter {
 	public static final field INSTANCE Lprotokt/v1/google/protobuf/UInt64ValueConverter;
-	public fun getWrapped ()Lkotlin/reflect/KClass;
-	public fun getWrapper ()Lkotlin/reflect/KClass;
+	public fun getValueType ()Lkotlin/reflect/KClass;
+	public fun getWireType ()Lkotlin/reflect/KClass;
 	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
 	public fun unwrap-VKZWuLQ (J)Lprotokt/v1/google/protobuf/UInt64Value;
 	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;

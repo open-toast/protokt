@@ -8,12 +8,6 @@ public abstract class protokt/v1/AbstractBytes {
 	public final fun toString ()Ljava/lang/String;
 }
 
-public abstract class protokt/v1/AbstractConverter : protokt/v1/Converter {
-	public fun <init> ()V
-	public final fun getWrapped ()Lkotlin/reflect/KClass;
-	public final fun getWrapper ()Lkotlin/reflect/KClass;
-}
-
 public abstract class protokt/v1/AbstractDeserializer : protokt/v1/Deserializer {
 	public fun <init> ()V
 	public final fun deserialize (Lprotokt/v1/Bytes;)Lprotokt/v1/Message;
@@ -102,8 +96,8 @@ public final class protokt/v1/Collections {
 }
 
 public abstract interface class protokt/v1/Converter {
-	public abstract fun getWrapped ()Lkotlin/reflect/KClass;
-	public abstract fun getWrapper ()Lkotlin/reflect/KClass;
+	public abstract fun getValueType ()Lkotlin/reflect/KClass;
+	public abstract fun getWireType ()Lkotlin/reflect/KClass;
 	public abstract fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
 	public abstract fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
 }
@@ -344,8 +338,8 @@ public final class protokt/v1/Sizes {
 
 public final class protokt/v1/StringConverter : protokt/v1/Converter {
 	public static final field INSTANCE Lprotokt/v1/StringConverter;
-	public fun getWrapped ()Lkotlin/reflect/KClass;
-	public fun getWrapper ()Lkotlin/reflect/KClass;
+	public fun getValueType ()Lkotlin/reflect/KClass;
+	public fun getWireType ()Lkotlin/reflect/KClass;
 	public final fun readValidatedBytes (Lprotokt/v1/Reader;)Lprotokt/v1/Bytes;
 	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
 	public fun unwrap (Ljava/lang/String;)Lprotokt/v1/Bytes;

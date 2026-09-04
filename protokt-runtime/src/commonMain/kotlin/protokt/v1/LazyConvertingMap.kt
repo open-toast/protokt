@@ -27,14 +27,14 @@ class LazyConvertingMap<KotlinK : Any, KotlinV : Any>(
 
     @Suppress("UNCHECKED_CAST")
     override fun get(key: KotlinK): KotlinV? {
-        val lookupKey = if (keyWrapped) LazyReference(key as Any, keyConverter as Converter<Any, Any>) else key
+        val lookupKey = if (keyWrapped) (keyConverter as Converter<Any, Any>).unwrap(key) else key
         val raw = backing[lookupKey] ?: return null
         return if (valueWrapped) (raw as LazyReference<*, *>).value() as KotlinV else raw as KotlinV
     }
 
     @Suppress("UNCHECKED_CAST")
     override fun containsKey(key: KotlinK): Boolean {
-        val lookupKey = if (keyWrapped) LazyReference(key as Any, keyConverter as Converter<Any, Any>) else key
+        val lookupKey = if (keyWrapped) (keyConverter as Converter<Any, Any>).unwrap(key) else key
         return backing.containsKey(lookupKey)
     }
 
@@ -44,7 +44,7 @@ class LazyConvertingMap<KotlinK : Any, KotlinV : Any>(
     @Suppress("UNCHECKED_CAST")
     fun <WireK, WireV> wireEntryForEach(action: (WireK, WireV) -> Unit) {
         for ((k, v) in backing) {
-            val wireK = if (keyWrapped) (k as LazyReference<*, *>).wireValue() as WireK else k as WireK
+            val wireK = k as WireK
             val wireV = if (valueWrapped) (v as LazyReference<*, *>).wireValue() as WireV else v as WireV
             action(wireK, wireV)
         }
@@ -52,7 +52,7 @@ class LazyConvertingMap<KotlinK : Any, KotlinV : Any>(
 
     @Suppress("UNCHECKED_CAST")
     operator fun plus(pair: Pair<KotlinK, KotlinV>): LazyConvertingMap<KotlinK, KotlinV> {
-        val bk = if (keyWrapped) LazyReference(pair.first as Any, keyConverter as Converter<Any, Any>) else pair.first
+        val bk = if (keyWrapped) (keyConverter as Converter<Any, Any>).unwrap(pair.first) else pair.first
         val bv = if (valueWrapped) LazyReference(pair.second as Any, valueConverter as Converter<Any, Any>) else pair.second
         val newBacking = collectionFactory.mapPlus(backing, (bk to bv))
         return LazyConvertingMap(newBacking, keyWrapped, valueWrapped, keyConverter, valueConverter)
@@ -70,7 +70,7 @@ class LazyConvertingMap<KotlinK : Any, KotlinV : Any>(
         }
         var newBacking = backing
         for ((k, v) in other) {
-            val bk = if (keyWrapped) LazyReference(k as Any, keyConverter as Converter<Any, Any>) else k
+            val bk = if (keyWrapped) (keyConverter as Converter<Any, Any>).unwrap(k) else k
             val bv = if (valueWrapped) LazyReference(v as Any, valueConverter as Converter<Any, Any>) else v
             newBacking = collectionFactory.mapPlus(newBacking, bk to bv)
         }
@@ -89,7 +89,7 @@ class LazyConvertingMap<KotlinK : Any, KotlinV : Any>(
 
                 override fun next(): Map.Entry<KotlinK, KotlinV> {
                     val entry = backingIterator.next()
-                    val key = if (keyWrapped) (entry.key as LazyReference<*, *>).value() as KotlinK else entry.key as KotlinK
+                    val key = if (keyWrapped) (keyConverter as Converter<Any, Any>).wrap(entry.key as Any) as KotlinK else entry.key as KotlinK
                     val value = if (valueWrapped) (entry.value as LazyReference<*, *>).value() as KotlinV else entry.value as KotlinV
                     return object : Map.Entry<KotlinK, KotlinV> {
                         override val key: KotlinK = key
@@ -120,7 +120,7 @@ class LazyConvertingMap<KotlinK : Any, KotlinV : Any>(
         ): LazyConvertingMap<KotlinK, KotlinV> {
             val backing = linkedMapOf<Any?, Any?>()
             for ((k, v) in kotlinMap) {
-                val bk = if (keyWrapped) LazyReference(k as Any, keyConverter as Converter<Any, Any>) else k
+                val bk = if (keyWrapped) (keyConverter as Converter<Any, Any>).unwrap(k) else k
                 val bv = if (valueWrapped) LazyReference(v as Any, valueConverter as Converter<Any, Any>) else v
                 backing[bk] = bv
             }

@@ -17,19 +17,29 @@ package protokt.v1
 
 import kotlin.concurrent.Volatile
 
-class LazyReference<WireT : Any, KotlinT : Any>(
+/**
+ * Lazily converts between runtime-disjoint wire and value types while retaining one representation at a time.
+ */
+class LazyReference<WireT : Any, ValueT : Any>(
     @Volatile private var ref: Any,
-    private val converter: Converter<WireT, KotlinT>
+    private val converter: Converter<WireT, ValueT>
 ) {
+    init {
+        representation(ref)
+    }
+
     /** Returns the user-facing Kotlin type. Lazily converts from wire form if needed. */
-    fun value(): KotlinT {
+    fun value(): ValueT {
         val current = ref
-        return if (converter.wrapper.isInstance(current)) {
+        return if (converter.valueType.isInstance(current)) {
             @Suppress("UNCHECKED_CAST")
-            current as KotlinT
+            current as ValueT
         } else {
             @Suppress("UNCHECKED_CAST")
             val converted = converter.wrap(current as WireT)
+            require(representation(converted) == Representation.Value) {
+                "Converter returned a value that does not exclusively match ${converter.valueType}"
+            }
             ref = converted
             converted
         }
@@ -38,12 +48,15 @@ class LazyReference<WireT : Any, KotlinT : Any>(
     /** Returns the wire type. Lazily converts from Kotlin form if needed. */
     fun wireValue(): WireT {
         val current = ref
-        return if (!converter.wrapper.isInstance(current)) {
+        return if (converter.wireType.isInstance(current)) {
             @Suppress("UNCHECKED_CAST")
             current as WireT
         } else {
             @Suppress("UNCHECKED_CAST")
-            val converted = converter.unwrap(current as KotlinT)
+            val converted = converter.unwrap(current as ValueT)
+            require(representation(converted) == Representation.Wire) {
+                "Converter returned a value that does not exclusively match ${converter.wireType}"
+            }
             ref = converted
             converted
         }
@@ -57,4 +70,20 @@ class LazyReference<WireT : Any, KotlinT : Any>(
 
     override fun toString(): String =
         value().toString()
+
+    private fun representation(value: Any): Representation {
+        val isWire = converter.wireType.isInstance(value)
+        val isValue = converter.valueType.isInstance(value)
+
+        require(isWire != isValue) {
+            "Converter value ${value::class} must match exactly one of ${converter.wireType} and ${converter.valueType}"
+        }
+
+        return if (isWire) Representation.Wire else Representation.Value
+    }
+
+    private enum class Representation {
+        Wire,
+        Value
+    }
 }

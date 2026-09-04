@@ -16,13 +16,16 @@
 package protokt.v1.google.type
 
 import com.google.auto.service.AutoService
-import protokt.v1.AbstractConverter
 import protokt.v1.Converter
 import java.time.LocalDate
 
 @SuppressWarnings("rawtypes")
 @AutoService(Converter::class)
-object LocalDateConverter : AbstractConverter<Date, LocalDate>() {
+object LocalDateConverter : Converter<Date, LocalDate> {
+    override val wireType = Date::class
+
+    override val valueType = LocalDate::class
+
     override fun wrap(unwrapped: Date): LocalDate =
         LocalDate.of(unwrapped.year, unwrapped.month, unwrapped.day)
 
