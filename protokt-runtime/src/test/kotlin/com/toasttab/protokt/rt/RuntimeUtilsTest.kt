@@ -90,4 +90,68 @@ class RuntimeUtilsTest {
             assertThat(restored).isEqualTo(finished)
         }
     }
+
+    @Nested
+    inner class Maps {
+        private val source = mutableMapOf("c" to 3, "a" to 1, "b" to 2)
+        private val finished = finishMap(source)
+
+        @Test
+        fun `finished map keeps insertion order and map equality`() {
+            assertThat(finished.keys).containsExactly("c", "a", "b").inOrder()
+            assertThat(finished).isEqualTo(mapOf("c" to 3, "a" to 1, "b" to 2))
+            assertThat(finished.hashCode()).isEqualTo(source.hashCode())
+            assertThat(finished.toString()).isEqualTo(source.toString())
+        }
+
+        @Test
+        fun `small and large maps finish with the same contents`() {
+            (1..20).forEach { size ->
+                val map = (1..size).associateWith { it * 10 }
+                assertThat(finishMap(LinkedHashMap(map))).isEqualTo(map)
+                assertThat(finishMap(LinkedHashMap(map)).keys).containsExactlyElementsIn(map.keys).inOrder()
+            }
+        }
+
+        @Test
+        fun `small finished maps are detached from their source`() {
+            source["d"] = 4
+            assertThat(finished).hasSize(3)
+        }
+
+        @Test
+        fun `finished map rejects mutation through java collection APIs`() {
+            @Suppress("UNCHECKED_CAST", "PLATFORM_CLASS_MAPPED_TO_KOTLIN")
+            val asJava = finished as java.util.Map<String, Int>
+
+            assertThrows<UnsupportedOperationException> { asJava.put("d", 4) }
+            assertThrows<UnsupportedOperationException> { asJava.remove("a") }
+            assertThrows<UnsupportedOperationException> { asJava.clear() }
+            assertThrows<UnsupportedOperationException> {
+                asJava.entrySet().iterator().apply { next() }.remove()
+            }
+        }
+
+        @Test
+        fun `empty and null maps finish to the shared empty map`() {
+            assertThat(finishMap<String, Int>(null)).isSameInstanceAs(emptyMap<String, Int>())
+            assertThat(finishMap(mutableMapOf<String, Int>())).isSameInstanceAs(emptyMap<String, Int>())
+            assertThat(copyMap(mapOf<String, Int>())).isSameInstanceAs(emptyMap<String, Int>())
+        }
+
+        @Test
+        fun `finishing an already finished or copied map returns the same instance`() {
+            assertThat(finishMap(finished)).isSameInstanceAs(finished)
+
+            val copied = copyMap(source)
+            assertThat(finishMap(copied)).isSameInstanceAs(copied)
+        }
+
+        @Test
+        fun `copy map is detached from its source`() {
+            val copied = copyMap(source)
+            source["d"] = 4
+            assertThat(copied).hasSize(3)
+        }
+    }
 }
