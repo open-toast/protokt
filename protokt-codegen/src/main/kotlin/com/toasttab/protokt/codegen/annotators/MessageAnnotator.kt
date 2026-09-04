@@ -46,6 +46,8 @@ import com.toasttab.protokt.rt.KtGeneratedMessage
 import com.toasttab.protokt.rt.KtMessage
 import com.toasttab.protokt.rt.UnknownFieldSet
 
+internal const val MEMOIZED_MESSAGE_SIZE = "memoizedMessageSize"
+
 class MessageAnnotator
 private constructor(
     private val msg: Message,
@@ -138,11 +140,34 @@ private constructor(
         handleSuperInterface(msg, ctx)
     }
 
+    // Memoized with a sentinel rather than `by lazy` so each message holds one Int instead of a
+    // SynchronizedLazyImpl, an initializer lambda, and a boxed result. The unsynchronized write is
+    // a benign race: every thread computes the same value, and Int writes are atomic on the JVM.
     private fun TypeSpec.Builder.handleMessageSize() =
         addProperty(
+            PropertySpec.builder(MEMOIZED_MESSAGE_SIZE, Int::class)
+                .addModifiers(KModifier.PRIVATE)
+                .mutable(true)
+                .addAnnotation(Transient::class)
+                .initializer("-1")
+                .build()
+        ).addProperty(
             PropertySpec.builder("messageSize", Int::class)
                 .addModifiers(KModifier.OVERRIDE)
-                .delegate("lazy { messageSize() }")
+                .getter(
+                    FunSpec.getterBuilder()
+                        .addCode(
+                            """
+                                |var size = $MEMOIZED_MESSAGE_SIZE
+                                |if (size == -1) {
+                                |    size = messageSize()
+                                |    $MEMOIZED_MESSAGE_SIZE = size
+                                |}
+                                |return size
+                            """.bindMargin()
+                        )
+                        .build()
+                )
                 .build()
         )
 
