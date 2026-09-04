@@ -17,11 +17,19 @@ package com.toasttab.protokt.rt
 
 import java.util.Collections
 
+private val UNMODIFIABLE_MAP_CLASS: Class<*> =
+    Collections.unmodifiableMap(HashMap<Any, Any>()).javaClass
+
+// A LinkedHashMap holds a 16-slot table until it has more than 12 entries, while the copy
+// constructor sizes the table for the actual entry count. Copying only pays off up to 5 entries.
+private const val LARGEST_MAP_WORTH_RESIZING = 5
+
 fun <K, V> finishMap(map: Map<K, V>?): Map<K, V> =
-    if (map.isNullOrEmpty()) {
-        emptyMap()
-    } else {
-        Collections.unmodifiableMap(map)
+    when {
+        map.isNullOrEmpty() -> emptyMap()
+        map.javaClass == UNMODIFIABLE_MAP_CLASS -> map
+        map.size > LARGEST_MAP_WORTH_RESIZING -> Collections.unmodifiableMap(map)
+        else -> Collections.unmodifiableMap(LinkedHashMap(map))
     }
 
 fun <K, V> copyMap(map: Map<K, V>): Map<K, V> =
@@ -32,18 +40,14 @@ fun <K, V> copyMap(map: Map<K, V>): Map<K, V> =
     }
 
 fun <T> finishList(list: List<T>?): List<T> =
-    if (list.isNullOrEmpty()) {
-        emptyList()
-    } else {
-        Collections.unmodifiableList(list)
+    when {
+        list.isNullOrEmpty() -> emptyList()
+        list is ImmutableArrayList -> list
+        else -> ImmutableArrayList.copyOf(list)
     }
 
 fun <T> copyList(list: List<T>): List<T> =
-    if (list.isEmpty()) {
-        emptyList()
-    } else {
-        Collections.unmodifiableList(ArrayList(list))
-    }
+    finishList(list)
 
 internal inline fun <reified T> T.equalsUsingSequence(
     other: Any?,
