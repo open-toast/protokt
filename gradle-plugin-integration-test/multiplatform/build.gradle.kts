@@ -20,6 +20,7 @@ import protokt.v1.gradle.protoktExtensions
 plugins {
     kotlin("multiplatform")
     id("com.toasttab.protokt.v1")
+    `maven-publish`
 }
 
 kotlin {
@@ -81,6 +82,19 @@ kotlin {
 
 tasks.named<Test>("jvmTest") {
     useJUnitPlatform()
+}
+
+// Publishing schedules every publication artifact (sources jars, metadata jar,
+// module metadata) in the same graph as proto generation, verifying that
+// Gradle's implicit dependency validation passes. CI invokes
+// publishAllPublicationsToIntegrationTestRepository alongside build.
+publishing {
+    repositories {
+        maven {
+            name = "integrationTest"
+            url = uri(layout.buildDirectory.dir("test-repo"))
+        }
+    }
 }
 
 dependencies {
