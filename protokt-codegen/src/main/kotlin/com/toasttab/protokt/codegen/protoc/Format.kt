@@ -16,6 +16,7 @@
 package com.toasttab.protokt.codegen.protoc
 
 import com.google.protobuf.DescriptorProtos.FileDescriptorProto
+import com.toasttab.protokt.codegen.annotators.MEMOIZED_MESSAGE_SIZE
 import com.toasttab.protokt.codegen.model.PPackage
 import com.toasttab.protokt.codegen.util.capitalize
 import com.toasttab.protokt.codegen.util.decapitalize
@@ -52,6 +53,7 @@ internal object Keywords {
             "deserializer",
             "serializer",
             "messageSize",
+            MEMOIZED_MESSAGE_SIZE,
             "emptyList"
         )
 
