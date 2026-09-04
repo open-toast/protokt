@@ -50,6 +50,7 @@ import kotlin.ULong
 import kotlin.Unit
 import kotlin.collections.List
 import kotlin.jvm.JvmStatic
+import kotlin.jvm.Transient
 
 /**
  * The version number of protocol compiler.
@@ -65,7 +66,17 @@ public class Version private constructor(
   private val _suffix: LazyReference<Bytes, String>?,
   override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
-  private val __serializedSize: Int by lazy {
+  @Transient
+  private var __serializedSize: Int = -1
+
+  /**
+   * A suffix for alpha, beta or rc release, e.g., "alpha-1", "rc2". It should be empty for mainline stable releases.
+   */
+  @GeneratedProperty(4)
+  public val suffix: String?
+    get() = _suffix?.value()
+
+  private fun __computeSerializedSize(): Int {
     var result = 0
     if (major != null) {
       result += sizeOf(8u) + sizeOf(major)
@@ -80,18 +91,17 @@ public class Version private constructor(
       result += sizeOf(34u) + sizeOf(_suffix.wireValue())
     }
     result += unknownFields.size()
-    result
+    return result
   }
 
-  /**
-   * A suffix for alpha, beta or rc release, e.g., "alpha-1", "rc2". It should be empty for mainline stable releases.
-   */
-  @GeneratedProperty(4)
-  public val suffix: String?
-    get() = _suffix?.value()
-
-  override fun serializedSize(): Int =
-    __serializedSize
+  override fun serializedSize(): Int {
+    var size = __serializedSize
+    if (size == -1) {
+      size = __computeSerializedSize()
+      __serializedSize = size
+    }
+    return size
+  }
 
   override fun serialize(writer: Writer) {
     if (major != null) {
@@ -267,7 +277,17 @@ public class CodeGeneratorRequest private constructor(
   public val sourceFileDescriptors: List<FileDescriptorProto>,
   override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
-  private val __serializedSize: Int by lazy {
+  @Transient
+  private var __serializedSize: Int = -1
+
+  /**
+   * The generator parameter passed on the command-line.
+   */
+  @GeneratedProperty(2)
+  public val parameter: String?
+    get() = _parameter?.value()
+
+  private fun __computeSerializedSize(): Int {
     var result = 0
     if (fileToGenerate.isNotEmpty()) {
       result +=
@@ -294,18 +314,17 @@ public class CodeGeneratorRequest private constructor(
       result += (sizeOf(138u) * sourceFileDescriptors.size) + sourceFileDescriptors.sumOf { sizeOf(it) }
     }
     result += unknownFields.size()
-    result
+    return result
   }
 
-  /**
-   * The generator parameter passed on the command-line.
-   */
-  @GeneratedProperty(2)
-  public val parameter: String?
-    get() = _parameter?.value()
-
-  override fun serializedSize(): Int =
-    __serializedSize
+  override fun serializedSize(): Int {
+    var size = __serializedSize
+    if (size == -1) {
+      size = __computeSerializedSize()
+      __serializedSize = size
+    }
+    return size
+  }
 
   override fun serialize(writer: Writer) {
     if (fileToGenerate.isNotEmpty()) {
@@ -509,7 +528,19 @@ public class CodeGeneratorResponse private constructor(
   public val `file`: List<File>,
   override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
-  private val __serializedSize: Int by lazy {
+  @Transient
+  private var __serializedSize: Int = -1
+
+  /**
+   * Error message.  If non-empty, code generation failed.  The plugin process should exit with status code zero even if it reports an error in this way.
+   *
+   *  This should be used to indicate errors in .proto files which prevent the code generator from generating correct code.  Errors which indicate a problem in protoc itself -- such as the input CodeGeneratorRequest being unparseable -- should be reported by writing a message to stderr and exiting with a non-zero status code.
+   */
+  @GeneratedProperty(1)
+  public val error: String?
+    get() = _error?.value()
+
+  private fun __computeSerializedSize(): Int {
     var result = 0
     if (_error != null) {
       result += sizeOf(10u) + sizeOf(_error.wireValue())
@@ -527,20 +558,17 @@ public class CodeGeneratorResponse private constructor(
       result += (sizeOf(122u) * `file`.size) + `file`.sumOf { sizeOf(it) }
     }
     result += unknownFields.size()
-    result
+    return result
   }
 
-  /**
-   * Error message.  If non-empty, code generation failed.  The plugin process should exit with status code zero even if it reports an error in this way.
-   *
-   *  This should be used to indicate errors in .proto files which prevent the code generator from generating correct code.  Errors which indicate a problem in protoc itself -- such as the input CodeGeneratorRequest being unparseable -- should be reported by writing a message to stderr and exiting with a non-zero status code.
-   */
-  @GeneratedProperty(1)
-  public val error: String?
-    get() = _error?.value()
-
-  override fun serializedSize(): Int =
-    __serializedSize
+  override fun serializedSize(): Int {
+    var size = __serializedSize
+    if (size == -1) {
+      size = __computeSerializedSize()
+      __serializedSize = size
+    }
+    return size
+  }
 
   override fun serialize(writer: Writer) {
     if (_error != null) {
@@ -746,23 +774,8 @@ public class CodeGeneratorResponse private constructor(
     public val generatedCodeInfo: GeneratedCodeInfo?,
     override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
   ) : AbstractMessage() {
-    private val __serializedSize: Int by lazy {
-      var result = 0
-      if (_name != null) {
-        result += sizeOf(10u) + sizeOf(_name.wireValue())
-      }
-      if (_insertionPoint != null) {
-        result += sizeOf(18u) + sizeOf(_insertionPoint.wireValue())
-      }
-      if (_content != null) {
-        result += sizeOf(122u) + sizeOf(_content.wireValue())
-      }
-      if (generatedCodeInfo != null) {
-        result += sizeOf(130u) + sizeOf(generatedCodeInfo)
-      }
-      result += unknownFields.size()
-      result
-    }
+    @Transient
+    private var __serializedSize: Int = -1
 
     /**
      * The file name, relative to the output directory.  The name must not contain "." or ".." components and must be relative, not be absolute (so, the file cannot lie outside the output directory).  "/" must be used as the path separator, not "\".
@@ -795,8 +808,32 @@ public class CodeGeneratorResponse private constructor(
     public val content: String?
       get() = _content?.value()
 
-    override fun serializedSize(): Int =
-      __serializedSize
+    private fun __computeSerializedSize(): Int {
+      var result = 0
+      if (_name != null) {
+        result += sizeOf(10u) + sizeOf(_name.wireValue())
+      }
+      if (_insertionPoint != null) {
+        result += sizeOf(18u) + sizeOf(_insertionPoint.wireValue())
+      }
+      if (_content != null) {
+        result += sizeOf(122u) + sizeOf(_content.wireValue())
+      }
+      if (generatedCodeInfo != null) {
+        result += sizeOf(130u) + sizeOf(generatedCodeInfo)
+      }
+      result += unknownFields.size()
+      return result
+    }
+
+    override fun serializedSize(): Int {
+      var size = __serializedSize
+      if (size == -1) {
+        size = __computeSerializedSize()
+        __serializedSize = size
+      }
+      return size
+    }
 
     override fun serialize(writer: Writer) {
       if (_name != null) {
