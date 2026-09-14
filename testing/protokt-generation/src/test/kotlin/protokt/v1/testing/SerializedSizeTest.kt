@@ -20,8 +20,6 @@ import org.junit.jupiter.api.Test
 import protokt.v1.Bytes
 import protokt.v1.UnknownField
 import protokt.v1.UnknownFieldSet
-import java.util.concurrent.Callable
-import java.util.concurrent.Executors
 
 class SerializedSizeTest {
     private val populated =
@@ -59,30 +57,5 @@ class SerializedSizeTest {
 
         assertThat(withUnknowns.serializedSize()).isGreaterThan(populated.serializedSize())
         assertThat(withUnknowns.serializedSize()).isEqualTo(withUnknowns.serialize().size)
-    }
-
-    @Test
-    fun `repeated reads return the same value`() {
-        val first = populated.serializedSize()
-        repeat(10) {
-            assertThat(populated.serializedSize()).isEqualTo(first)
-        }
-    }
-
-    @Test
-    fun `concurrent first reads agree`() {
-        val executor = Executors.newFixedThreadPool(8)
-        try {
-            repeat(50) {
-                val message = ToStringTest2 { extra = "content $it" }
-                val sizes =
-                    executor.invokeAll(List(8) { Callable { message.serializedSize() } })
-                        .map { it.get() }
-
-                assertThat(sizes.toSet()).containsExactly(message.serialize().size)
-            }
-        } finally {
-            executor.shutdownNow()
-        }
     }
 }

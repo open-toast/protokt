@@ -269,9 +269,6 @@ private class MessageGenerator(
     private fun dereferenceNullableBackingProperty(propName: String, oneof: Boolean) =
         "requireNotNull($propName) { \"$propName is assumed non-null with (protokt.v1.${if (oneof) "oneof" else "property"}).generate_non_null_accessor but was null\" }".bindSpaces()
 
-    // Memoized with a sentinel rather than `by lazy` so each message holds one Int instead of a
-    // SynchronizedLazyImpl, an initializer lambda, and a boxed result. The unsynchronized write is
-    // a benign race: every thread computes the same value, and Int writes are atomic.
     private fun TypeSpec.Builder.handleMessageSize(propertySpecs: List<PropertySpec>, propertyInfoList: List<PropertyInfo>) {
         addProperty(
             PropertySpec.builder(SERIALIZED_SIZE, Int::class)
