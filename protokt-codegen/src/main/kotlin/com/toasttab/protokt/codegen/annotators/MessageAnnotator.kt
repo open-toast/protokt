@@ -140,9 +140,6 @@ private constructor(
         handleSuperInterface(msg, ctx)
     }
 
-    // Memoized with a sentinel rather than `by lazy` so each message holds one Int instead of a
-    // SynchronizedLazyImpl, an initializer lambda, and a boxed result. The unsynchronized write is
-    // a benign race: every thread computes the same value, and Int writes are atomic on the JVM.
     private fun TypeSpec.Builder.handleMessageSize() =
         addProperty(
             PropertySpec.builder(MEMOIZED_MESSAGE_SIZE, Int::class)

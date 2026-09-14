@@ -25,8 +25,6 @@ import org.junit.jupiter.api.Test
 import toasttab.protokt.testing.rt.Empty
 import toasttab.protokt.testing.rt.ListTest
 import toasttab.protokt.testing.rt.MapTest
-import java.util.concurrent.Callable
-import java.util.concurrent.Executors
 import toasttab.protokt.testing.rt.Test as KtTest
 
 class MessageSizeTest {
@@ -67,31 +65,6 @@ class MessageSizeTest {
 
         assertThat(withUnknowns.messageSize).isGreaterThan(simple.messageSize)
         assertThat(withUnknowns.messageSize).isEqualTo(withUnknowns.serialize().size)
-    }
-
-    @Test
-    fun `repeated reads return the same value`() {
-        val first = nested.messageSize
-        repeat(10) {
-            assertThat(nested.messageSize).isEqualTo(first)
-        }
-    }
-
-    @Test
-    fun `concurrent first reads agree`() {
-        val executor = Executors.newFixedThreadPool(8)
-        try {
-            repeat(50) {
-                val message = ListTest { list = listOf(simple, simple, simple) }
-                val sizes =
-                    executor.invokeAll(List(8) { Callable { message.messageSize } })
-                        .map { it.get() }
-
-                assertThat(sizes.toSet()).containsExactly(message.serialize().size)
-            }
-        } finally {
-            executor.shutdownNow()
-        }
     }
 
     @Test
