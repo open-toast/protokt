@@ -47,7 +47,7 @@ class BytesSlice internal constructor(
         hashCodeUsingSequence(asSequence())
 
     override fun toString() =
-        asSequence().joinToString(prefix = "[", postfix = "]")
+        renderBytes(array, offset, length)
 
     companion object {
         private val EMPTY = BytesSlice(ByteArray(0), 0, 0)
