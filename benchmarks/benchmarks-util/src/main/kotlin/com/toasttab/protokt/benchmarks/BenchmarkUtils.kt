@@ -15,6 +15,7 @@
 
 package com.toasttab.protokt.benchmarks
 
+import org.openjdk.jmh.profile.GCProfiler
 import org.openjdk.jmh.results.format.ResultFormatType
 import org.openjdk.jmh.runner.Runner
 import org.openjdk.jmh.runner.options.OptionsBuilder
@@ -29,6 +30,7 @@ fun run(self: KClass<*>) = Runner(
         .warmupIterations(1)
         .measurementIterations(5)
         .forks(1)
+        .addProfiler(GCProfiler::class.java)
         .resultFormat(ResultFormatType.JSON)
         .result("../build/jmh-${self.simpleName}.json")
         .build()
