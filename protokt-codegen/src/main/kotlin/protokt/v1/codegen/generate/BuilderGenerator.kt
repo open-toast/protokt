@@ -15,6 +15,7 @@
 
 package protokt.v1.codegen.generate
 
+import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
@@ -76,7 +77,7 @@ private class BuilderGenerator(
                 .addAnnotation(BuilderDsl::class)
                 .addSuperinterface(BuilderScope::class)
                 .addProperties(
-                    properties.flatMap { prop ->
+                    properties.zip(msg.fields).flatMap { (prop, field) ->
                         if (prop.cachingInfo != null) {
                             cachingBuilderProperties(prop, prop.cachingInfo)
                         } else {
@@ -86,7 +87,7 @@ private class BuilderGenerator(
                                     .handleDeprecation(prop.deprecation)
                                     .apply {
                                         if (prop.mapCachingInfo != null) {
-                                            setter(convertingMapSetter(prop.mapCachingInfo))
+                                            setter(convertingMapSetter(prop.mapCachingInfo, enumMapValueClass(field)))
                                         } else if (prop.repeatedCachingInfo != null) {
                                             setter(convertingListSetter(prop.repeatedCachingInfo))
                                         } else if (prop.isMap) {
@@ -163,6 +164,9 @@ private class BuilderGenerator(
 
     private fun canonicalizeStandardEnum(property: PropertyInfo, field: StandardField): CodeBlock? =
         when {
+            field.isMap && field.mapValue.type == FieldType.Enum && !field.mapValue.wrapped && property.mapCachingInfo != null ->
+                CodeBlock.of("%N", property.name)
+
             field.isMap && field.mapValue.type == FieldType.Enum && !field.mapValue.wrapped ->
                 CodeBlock.of(
                     "%M(%N.mapValues { (_, value) -> %T.deserialize(value.value) })",
@@ -187,6 +191,12 @@ private class BuilderGenerator(
 
             else -> null
         }
+
+    private fun enumMapValueClass(field: Field): ClassName? =
+        (field as? StandardField)
+            ?.takeIf { it.isMap && it.mapValue.type == FieldType.Enum && !it.mapValue.wrapped }
+            ?.mapValue
+            ?.className
 
     private fun canonicalizeOneofEnums(property: PropertyInfo, oneof: Oneof): CodeBlock? {
         val enumFields = oneof.fields.filter { it.type == FieldType.Enum && !it.wrapped }
@@ -281,7 +291,7 @@ private class BuilderGenerator(
             .build()
     }
 
-    private fun convertingMapSetter(info: MapCachingInfo): FunSpec {
+    private fun convertingMapSetter(info: MapCachingInfo, enumValueClass: ClassName?): FunSpec {
         val keyConverterRef = if (info.keyConverterClassName != null) {
             CodeBlock.of("%T", info.keyConverterClassName)
         } else {
@@ -292,12 +302,17 @@ private class BuilderGenerator(
         } else {
             CodeBlock.of("null")
         }
+        val newValue =
+            enumValueClass?.let {
+                CodeBlock.of("newValue.mapValues { (_, value) -> %T.deserialize(value.value) }", it)
+            } ?: CodeBlock.of("newValue")
         return FunSpec.setterBuilder()
             .addParameter("newValue", Map::class)
             .addCode(
-                "field = if (newValue is %T<*, *>) newValue else %T.fromKotlin(newValue, %L, %L, %L, %L)",
+                "field = if (newValue is %T<*, *>) newValue else %T.fromKotlin(%L, %L, %L, %L, %L)",
                 LazyConvertingMap::class,
                 LazyConvertingMap::class,
+                newValue,
                 info.keyWrapped,
                 info.valueWrapped,
                 keyConverterRef,
