@@ -45,7 +45,29 @@ class RuntimeContext internal constructor(
     descriptors: Iterable<Descriptors.Descriptor>,
     private val classLookup: ClassLookup
 ) {
-    constructor(descriptors: Iterable<Descriptors.Descriptor>) : this(descriptors, ClassLookup(emptyList()))
+    /**
+     * Discovers converters through the current thread's context class loader.
+     */
+    constructor(descriptors: Iterable<Descriptors.Descriptor>) : this(
+        descriptors,
+        ClassLookup.fromClassLoader(Thread.currentThread().contextClassLoader ?: RuntimeContext::class.java.classLoader),
+    )
+
+    /**
+     * Discovers converters through [classLoader].
+     */
+    constructor(descriptors: Iterable<Descriptors.Descriptor>, classLoader: ClassLoader) : this(
+        descriptors,
+        ClassLookup.fromClassLoader(classLoader),
+    )
+
+    /**
+     * Resolves wrapped fields only from [converters].
+     */
+    constructor(descriptors: Iterable<Descriptors.Descriptor>, converters: Iterable<Converter<*, *>>) : this(
+        descriptors,
+        ClassLookup.fromConverters(converters),
+    )
 
     internal val descriptorsByTypeName = descriptors.associateBy { it.fullName }
 
