@@ -32,18 +32,14 @@ fun <K, V> copyMap(map: Map<K, V>): Map<K, V> =
     }
 
 fun <T> finishList(list: List<T>?): List<T> =
-    if (list.isNullOrEmpty()) {
-        emptyList()
-    } else {
-        Collections.unmodifiableList(list)
+    when {
+        list.isNullOrEmpty() -> emptyList()
+        list is ImmutableArrayList -> list
+        else -> ImmutableArrayList.copyOf(list)
     }
 
 fun <T> copyList(list: List<T>): List<T> =
-    if (list.isEmpty()) {
-        emptyList()
-    } else {
-        Collections.unmodifiableList(ArrayList(list))
-    }
+    finishList(list)
 
 internal inline fun <reified T> T.equalsUsingSequence(
     other: Any?,
