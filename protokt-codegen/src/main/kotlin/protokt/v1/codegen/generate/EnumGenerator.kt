@@ -44,8 +44,6 @@ private class EnumGenerator(
         TypeSpec.classBuilder(e.className).apply {
             addModifiers(KModifier.SEALED)
             superclass(protokt.v1.Enum::class)
-            addSuperclassConstructorParameter("%L::class", e.className.canonicalName)
-            addSuperclassConstructorParameter("isUnrecognized")
             addKDoc()
             handleDeprecation(e.options.default.deprecated == true, e.options.protokt.deprecationMessage)
             addConstructor()
@@ -73,7 +71,6 @@ private class EnumGenerator(
             FunSpec.constructorBuilder()
                 .addParameter("value", Int::class)
                 .addParameter("name", String::class)
-                .addParameter("isUnrecognized", Boolean::class)
                 .build()
         )
     }
@@ -86,7 +83,6 @@ private class EnumGenerator(
                     addKDoc(it)
                     addSuperclassConstructorParameter(it.number.toString())
                     addSuperclassConstructorParameter("\"${it.valueName}\"")
-                    addSuperclassConstructorParameter("false")
                     handleDeprecation(it.options.default.deprecated == true, it.options.protokt.deprecationMessage)
                 }.build()
             }
@@ -96,7 +92,6 @@ private class EnumGenerator(
                 .superclass(e.className)
                 .addSuperclassConstructorParameter("value")
                 .addSuperclassConstructorParameter("\"UNRECOGNIZED\"")
-                .addSuperclassConstructorParameter("true")
                 .primaryConstructor(
                     FunSpec.constructorBuilder()
                         .addParameter("value", Int::class)

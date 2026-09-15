@@ -20,9 +20,8 @@ import org.junit.jupiter.api.Test
 
 class EnumTest {
     @Test
-    fun `aliases with the same wire value are equal`() {
-        assertThat(SomeEnum.VALUE_ALIAS).isEqualTo(SomeEnum.VALUE)
-        assertThat(SomeEnum.VALUE_ALIAS.hashCode()).isEqualTo(SomeEnum.VALUE.hashCode())
+    fun `aliases with the same wire value remain distinct constants`() {
+        assertThat(SomeEnum.VALUE_ALIAS).isNotEqualTo(SomeEnum.VALUE)
     }
 
     @Test
@@ -45,12 +44,36 @@ class EnumTest {
     }
 
     @Test
-    fun `message equality uses alias semantics`() {
+    fun `messages canonicalize enum aliases`() {
         val canonical = HasAnEnum { enum = SomeEnum.VALUE }
         val alias = HasAnEnum { enum = SomeEnum.VALUE_ALIAS }
+        val recognizedNumber = HasAnEnum { enum = SomeEnum.UNRECOGNIZED(0) }
+        val unknownNumber = HasAnEnum { enum = SomeEnum.UNRECOGNIZED(10) }
 
+        assertThat(alias.enum).isSameInstanceAs(SomeEnum.VALUE)
+        assertThat(recognizedNumber.enum).isSameInstanceAs(SomeEnum.VALUE)
         assertThat(alias).isEqualTo(canonical)
+        assertThat(recognizedNumber).isEqualTo(canonical)
         assertThat(alias.hashCode()).isEqualTo(canonical.hashCode())
+        assertThat(recognizedNumber.hashCode()).isEqualTo(canonical.hashCode())
+        assertThat(unknownNumber.enum).isEqualTo(SomeEnum.UNRECOGNIZED(10))
+    }
+
+    @Test
+    fun `messages canonicalize enum aliases in collections and oneofs`() {
+        val message =
+            HasEnumCollections {
+                enums = listOf(SomeEnum.VALUE_ALIAS)
+                enumsByName = mapOf("alias" to SomeEnum.VALUE_ALIAS)
+                optionalEnum = SomeEnum.VALUE_ALIAS
+                selection = HasEnumCollections.Selection.SelectedEnum(SomeEnum.VALUE_ALIAS)
+            }
+
+        assertThat(message.enums.single()).isSameInstanceAs(SomeEnum.VALUE)
+        assertThat(message.enumsByName.getValue("alias")).isSameInstanceAs(SomeEnum.VALUE)
+        assertThat(message.optionalEnum).isSameInstanceAs(SomeEnum.VALUE)
+        assertThat((message.selection as HasEnumCollections.Selection.SelectedEnum).selectedEnum)
+            .isSameInstanceAs(SomeEnum.VALUE)
     }
 
     @Test

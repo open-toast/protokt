@@ -15,34 +15,17 @@
 
 package protokt.v1
 
-import kotlin.reflect.KClass
-
-/**
- * Base type for generated protobuf enums.
- *
- * Values compare equal when they belong to the same generated enum, have the same wire value, and are
- * either both recognized or both unrecognized. This makes recognized aliases equal while preserving the
- * distinction between a recognized value and an unrecognized value with the same number.
- */
-abstract class Enum protected constructor(
-    private val enumType: KClass<out Enum>,
-    private val isUnrecognized: Boolean,
-) {
+abstract class Enum {
     abstract val value: Int
     abstract val name: String
 
     final override fun equals(other: Any?) =
-        other is Enum &&
-            other.enumType == enumType &&
-            other.isUnrecognized == isUnrecognized &&
-            other.value == value
+        other != null &&
+            other::class == this::class &&
+            (other as Enum).value == value
 
-    final override fun hashCode(): Int {
-        var result = enumType.hashCode()
-        result = 31 * result + isUnrecognized.hashCode()
-        result = 31 * result + value
-        return result
-    }
+    final override fun hashCode() =
+        value
 
     final override fun toString() =
         name

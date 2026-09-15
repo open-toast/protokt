@@ -35,8 +35,12 @@ import protokt.v1.OnlyForUseByGeneratedProtoCode
 import protokt.v1.StringConverter
 import protokt.v1.UnknownFieldSet
 import protokt.v1.codegen.generate.Deprecation.handleDeprecation
+import protokt.v1.codegen.generate.Wrapper.wrapped
 import protokt.v1.codegen.util.BUILDER
+import protokt.v1.codegen.util.Field
 import protokt.v1.codegen.util.Message
+import protokt.v1.codegen.util.Oneof
+import protokt.v1.codegen.util.StandardField
 import protokt.v1.reflect.FieldType
 
 internal fun TypeSpec.Builder.handleBuilder(msg: Message, properties: List<PropertyInfo>) =
@@ -131,7 +135,8 @@ private class BuilderGenerator(
                                     add("return %T(\n", msg.className)
                                     withIndent {
                                         properties
-                                            .map { wrapDeserializedValueForConstructor(it, fromBuilder = true) }
+                                            .zip(msg.fields)
+                                            .map { (property, field) -> builderConstructorValue(property, field) }
                                             .forEach { add("%L,\n", it) }
                                         add("unknownFields\n")
                                     }
@@ -148,6 +153,62 @@ private class BuilderGenerator(
                 )
                 .build()
         )
+    }
+
+    private fun builderConstructorValue(property: PropertyInfo, field: Field) =
+        when (field) {
+            is StandardField -> canonicalizeStandardEnum(property, field)
+            is Oneof -> canonicalizeOneofEnums(property, field)
+        } ?: wrapDeserializedValueForConstructor(property, fromBuilder = true)
+
+    private fun canonicalizeStandardEnum(property: PropertyInfo, field: StandardField): CodeBlock? =
+        when {
+            field.isMap && field.mapValue.type == FieldType.Enum && !field.mapValue.wrapped ->
+                CodeBlock.of(
+                    "%M(%N.mapValues { (_, value) -> %T.deserialize(value.value) })",
+                    freezeMap,
+                    property.name,
+                    field.mapValue.className
+                )
+
+            field.repeated && field.type == FieldType.Enum && !field.wrapped ->
+                CodeBlock.of(
+                    "%M(%N.map { %T.deserialize(it.value) })",
+                    freezeList,
+                    property.name,
+                    field.className
+                )
+
+            field.type == FieldType.Enum && !field.wrapped && property.nullable ->
+                CodeBlock.of("%N?.let { %T.deserialize(it.value) }", property.name, field.className)
+
+            field.type == FieldType.Enum && !field.wrapped ->
+                CodeBlock.of("%T.deserialize(%N.value)", field.className, property.name)
+
+            else -> null
+        }
+
+    private fun canonicalizeOneofEnums(property: PropertyInfo, oneof: Oneof): CodeBlock? {
+        val enumFields = oneof.fields.filter { it.type == FieldType.Enum && !it.wrapped }
+        if (enumFields.isEmpty()) {
+            return null
+        }
+
+        return buildCodeBlock {
+            beginControlFlow("when (val value = %N)", property.name)
+            enumFields.forEach { field ->
+                val variant = oneof.className.nestedClass(oneof.fieldTypeNames.getValue(field.fieldName))
+                addStatement(
+                    "is %T -> %T(%T.deserialize(value.%N.value))",
+                    variant,
+                    variant,
+                    field.className,
+                    field.fieldName
+                )
+            }
+            addStatement("else -> value")
+            endControlFlowWithoutNewline()
+        }
     }
 
     private fun cachingBuilderProperties(prop: PropertyInfo, info: CachingFieldInfo): List<PropertySpec> {
