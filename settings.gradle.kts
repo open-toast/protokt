@@ -52,8 +52,6 @@ include(
     "protokt-runtime-grpc-krpc",
     "protokt-runtime-grpc-lite",
 
-    "grpc-kotlin-shim",
-
     "examples",
     "examples:grpc-java",
     "examples:grpc-java-lite",
