@@ -534,7 +534,7 @@ public class FileDescriptorProto private constructor(
         freezeList(publicDependency),
         freezeList(weakDependency),
         _syntaxRef,
-        edition,
+        edition?.let { Edition.deserialize(it.value) },
         unknownFields
       )
 
@@ -1507,7 +1507,7 @@ public class ExtensionRangeOptions private constructor(
     public fun build(): ExtensionRangeOptions =
       ExtensionRangeOptions(
         freezeList(declaration),
-        verification,
+        verification?.let { VerificationState.deserialize(it.value) },
         features,
         freezeList(uninterpretedOption),
         unknownFields
@@ -2119,8 +2119,8 @@ public class FieldDescriptorProto private constructor(
         _nameRef,
         _extendeeRef,
         number,
-        label,
-        type,
+        label?.let { Label.deserialize(it.value) },
+        type?.let { Type.deserialize(it.value) },
         _typeNameRef,
         _defaultValueRef,
         options,
@@ -3967,7 +3967,7 @@ public class FileOptions private constructor(
       FileOptions(
         _javaPackageRef,
         _javaOuterClassnameRef,
-        optimizeFor,
+        optimizeFor?.let { OptimizeMode.deserialize(it.value) },
         javaMultipleFiles,
         _goPackageRef,
         ccGenericServices,
@@ -4768,16 +4768,16 @@ public class FieldOptions private constructor(
 
     public fun build(): FieldOptions =
       FieldOptions(
-        ctype,
+        ctype?.let { CType.deserialize(it.value) },
         packed,
         deprecated,
         lazy,
-        jstype,
+        jstype?.let { JSType.deserialize(it.value) },
         weak,
         unverifiedLazy,
         debugRedact,
-        retention,
-        freezeList(targets),
+        retention?.let { OptionRetention.deserialize(it.value) },
+        freezeList(targets.map { OptionTargetType.deserialize(it.value) }),
         freezeList(editionDefaults),
         features,
         featureSupport,
@@ -5173,7 +5173,7 @@ public class FieldOptions private constructor(
       public fun build(): EditionDefault =
         EditionDefault(
           _valueRef,
-          edition,
+          edition?.let { Edition.deserialize(it.value) },
           unknownFields
         )
 
@@ -5356,10 +5356,10 @@ public class FieldOptions private constructor(
 
       public fun build(): FeatureSupport =
         FeatureSupport(
-          editionIntroduced,
-          editionDeprecated,
+          editionIntroduced?.let { Edition.deserialize(it.value) },
+          editionDeprecated?.let { Edition.deserialize(it.value) },
           _deprecationWarningRef,
-          editionRemoved,
+          editionRemoved?.let { Edition.deserialize(it.value) },
           unknownFields
         )
 
@@ -6298,7 +6298,7 @@ public class MethodOptions private constructor(
     public fun build(): MethodOptions =
       MethodOptions(
         deprecated,
-        idempotencyLevel,
+        idempotencyLevel?.let { IdempotencyLevel.deserialize(it.value) },
         features,
         freezeList(uninterpretedOption),
         unknownFields
@@ -6963,13 +6963,13 @@ public class FeatureSet private constructor(
 
     public fun build(): FeatureSet =
       FeatureSet(
-        fieldPresence,
-        enumType,
-        repeatedFieldEncoding,
-        utf8Validation,
-        messageEncoding,
-        jsonFormat,
-        enforceNamingStyle,
+        fieldPresence?.let { FieldPresence.deserialize(it.value) },
+        enumType?.let { EnumType.deserialize(it.value) },
+        repeatedFieldEncoding?.let { RepeatedFieldEncoding.deserialize(it.value) },
+        utf8Validation?.let { Utf8Validation.deserialize(it.value) },
+        messageEncoding?.let { MessageEncoding.deserialize(it.value) },
+        jsonFormat?.let { JsonFormat.deserialize(it.value) },
+        enforceNamingStyle?.let { EnforceNamingStyle.deserialize(it.value) },
         unknownFields
       )
 
@@ -7339,8 +7339,8 @@ public class FeatureSetDefaults private constructor(
     public fun build(): FeatureSetDefaults =
       FeatureSetDefaults(
         freezeList(defaults),
-        minimumEdition,
-        maximumEdition,
+        minimumEdition?.let { Edition.deserialize(it.value) },
+        maximumEdition?.let { Edition.deserialize(it.value) },
         unknownFields
       )
 
@@ -7506,7 +7506,7 @@ public class FeatureSetDefaults private constructor(
 
       public fun build(): FeatureSetEditionDefault =
         FeatureSetEditionDefault(
-          edition,
+          edition?.let { Edition.deserialize(it.value) },
           overridableFeatures,
           fixedFeatures,
           unknownFields
@@ -8274,7 +8274,7 @@ public class GeneratedCodeInfo private constructor(
           _sourceFileRef,
           begin,
           end,
-          semantic,
+          semantic?.let { Semantic.deserialize(it.value) },
           unknownFields
         )
 
