@@ -29,7 +29,7 @@ class FileDescriptor private constructor(
 
     val enumTypes =
         proto.enumType.mapIndexed { idx, proto ->
-            EnumDescriptor(proto, this, idx)
+            EnumDescriptor(proto, this, idx, null)
         }.let(::freezeList)
 
     val services =
@@ -85,16 +85,17 @@ class Descriptor private constructor(
 
     val enumTypes =
         proto.enumType.mapIndexed { idx, proto ->
-            EnumDescriptor(proto, file, idx)
+            EnumDescriptor(proto, file, idx, this)
         }.let(::freezeList)
 }
 
 class EnumDescriptor internal constructor(
     val proto: EnumDescriptorProto,
     val file: FileDescriptor,
-    val index: Int
+    val index: Int,
+    parent: Descriptor?
 ) {
-    val fullName = computeFullName(file, null, proto.name.orEmpty())
+    val fullName = computeFullName(file, parent, proto.name.orEmpty())
 }
 
 class ServiceDescriptor internal constructor(
