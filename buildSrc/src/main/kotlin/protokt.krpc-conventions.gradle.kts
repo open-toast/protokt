@@ -21,10 +21,6 @@ plugins {
 
 configureMultiplatformJvm()
 
-repositories {
-    maven("https://packages.jetbrains.team/maven/p/krpc/grpc")
-}
-
 kotlin {
     compilerOptions {
         freeCompilerArgs.add("-opt-in=kotlinx.rpc.internal.utils.ExperimentalRpcApi")

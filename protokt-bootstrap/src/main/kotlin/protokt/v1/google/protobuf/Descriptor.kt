@@ -51,6 +51,7 @@ import kotlin.ULong
 import kotlin.Unit
 import kotlin.collections.List
 import kotlin.jvm.JvmStatic
+import kotlin.jvm.Transient
 
 /**
  * The protocol compiler can output a FileDescriptorSet containing the .proto files it parses.
@@ -117,17 +118,26 @@ public class FileDescriptorSet private constructor(
   public val `file`: List<FileDescriptorProto>,
   override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
-  private val __serializedSize: Int by lazy {
+  @Transient
+  private var __serializedSize: Int = -1
+
+  private fun __computeSerializedSize(): Int {
     var result = 0
     if (`file`.isNotEmpty()) {
       result += (sizeOf(10u) * `file`.size) + `file`.sumOf { sizeOf(it) }
     }
     result += unknownFields.size()
-    result
+    return result
   }
 
-  override fun serializedSize(): Int =
-    __serializedSize
+  override fun serializedSize(): Int {
+    var size = __serializedSize
+    if (size == -1) {
+      size = __computeSerializedSize()
+      __serializedSize = size
+    }
+    return size
+  }
 
   override fun serialize(writer: Writer) {
     `file`.forEach { writer.writeTag(10u).write(it) }
@@ -269,7 +279,27 @@ public class FileDescriptorProto private constructor(
   public val edition: Edition?,
   override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
-  private val __serializedSize: Int by lazy {
+  @Transient
+  private var __serializedSize: Int = -1
+
+  @GeneratedProperty(1)
+  public val name: String?
+    get() = _name?.value()
+
+  @GeneratedProperty(2)
+  public val `package`: String?
+    get() = _package?.value()
+
+  /**
+   * The syntax of the proto file. The supported values are "proto2", "proto3", and "editions".
+   *
+   *  If `edition` is present, this value must be "editions". WARNING: This field should only be used by protobuf plugins or special cases like the proto compiler. Other uses are discouraged and developers should rely on the protoreflect APIs for their client language.
+   */
+  @GeneratedProperty(12)
+  public val syntax: String?
+    get() = _syntax?.value()
+
+  private fun __computeSerializedSize(): Int {
     var result = 0
     if (_name != null) {
       result += sizeOf(10u) + sizeOf(_name.wireValue())
@@ -320,28 +350,17 @@ public class FileDescriptorProto private constructor(
       result += sizeOf(112u) + sizeOf(edition)
     }
     result += unknownFields.size()
-    result
+    return result
   }
 
-  @GeneratedProperty(1)
-  public val name: String?
-    get() = _name?.value()
-
-  @GeneratedProperty(2)
-  public val `package`: String?
-    get() = _package?.value()
-
-  /**
-   * The syntax of the proto file. The supported values are "proto2", "proto3", and "editions".
-   *
-   *  If `edition` is present, this value must be "editions". WARNING: This field should only be used by protobuf plugins or special cases like the proto compiler. Other uses are discouraged and developers should rely on the protoreflect APIs for their client language.
-   */
-  @GeneratedProperty(12)
-  public val syntax: String?
-    get() = _syntax?.value()
-
-  override fun serializedSize(): Int =
-    __serializedSize
+  override fun serializedSize(): Int {
+    var size = __serializedSize
+    if (size == -1) {
+      size = __computeSerializedSize()
+      __serializedSize = size
+    }
+    return size
+  }
 
   override fun serialize(writer: Writer) {
     if (_name != null) {
@@ -731,7 +750,14 @@ public class DescriptorProto private constructor(
   public val reservedName: List<String>,
   override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
-  private val __serializedSize: Int by lazy {
+  @Transient
+  private var __serializedSize: Int = -1
+
+  @GeneratedProperty(1)
+  public val name: String?
+    get() = _name?.value()
+
+  private fun __computeSerializedSize(): Int {
     var result = 0
     if (_name != null) {
       result += sizeOf(10u) + sizeOf(_name.wireValue())
@@ -773,15 +799,17 @@ public class DescriptorProto private constructor(
         }
     }
     result += unknownFields.size()
-    result
+    return result
   }
 
-  @GeneratedProperty(1)
-  public val name: String?
-    get() = _name?.value()
-
-  override fun serializedSize(): Int =
-    __serializedSize
+  override fun serializedSize(): Int {
+    var size = __serializedSize
+    if (size == -1) {
+      size = __computeSerializedSize()
+      __serializedSize = size
+    }
+    return size
+  }
 
   override fun serialize(writer: Writer) {
     if (_name != null) {
@@ -1079,7 +1107,10 @@ public class DescriptorProto private constructor(
     public val options: ExtensionRangeOptions?,
     override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
   ) : AbstractMessage() {
-    private val __serializedSize: Int by lazy {
+    @Transient
+    private var __serializedSize: Int = -1
+
+    private fun __computeSerializedSize(): Int {
       var result = 0
       if (start != null) {
         result += sizeOf(8u) + sizeOf(start)
@@ -1091,11 +1122,17 @@ public class DescriptorProto private constructor(
         result += sizeOf(26u) + sizeOf(options)
       }
       result += unknownFields.size()
-      result
+      return result
     }
 
-    override fun serializedSize(): Int =
-      __serializedSize
+    override fun serializedSize(): Int {
+      var size = __serializedSize
+      if (size == -1) {
+        size = __computeSerializedSize()
+        __serializedSize = size
+      }
+      return size
+    }
 
     override fun serialize(writer: Writer) {
       if (start != null) {
@@ -1226,7 +1263,10 @@ public class DescriptorProto private constructor(
     public val end: Int?,
     override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
   ) : AbstractMessage() {
-    private val __serializedSize: Int by lazy {
+    @Transient
+    private var __serializedSize: Int = -1
+
+    private fun __computeSerializedSize(): Int {
       var result = 0
       if (start != null) {
         result += sizeOf(8u) + sizeOf(start)
@@ -1235,11 +1275,17 @@ public class DescriptorProto private constructor(
         result += sizeOf(16u) + sizeOf(end)
       }
       result += unknownFields.size()
-      result
+      return result
     }
 
-    override fun serializedSize(): Int =
-      __serializedSize
+    override fun serializedSize(): Int {
+      var size = __serializedSize
+      if (size == -1) {
+        size = __computeSerializedSize()
+        __serializedSize = size
+      }
+      return size
+    }
 
     override fun serialize(writer: Writer) {
       if (start != null) {
@@ -1368,7 +1414,10 @@ public class ExtensionRangeOptions private constructor(
   public val uninterpretedOption: List<UninterpretedOption>,
   override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
-  private val __serializedSize: Int by lazy {
+  @Transient
+  private var __serializedSize: Int = -1
+
+  private fun __computeSerializedSize(): Int {
     var result = 0
     if (declaration.isNotEmpty()) {
       result += (sizeOf(18u) * declaration.size) + declaration.sumOf { sizeOf(it) }
@@ -1383,11 +1432,17 @@ public class ExtensionRangeOptions private constructor(
       result += (sizeOf(7994u) * uninterpretedOption.size) + uninterpretedOption.sumOf { sizeOf(it) }
     }
     result += unknownFields.size()
-    result
+    return result
   }
 
-  override fun serializedSize(): Int =
-    __serializedSize
+  override fun serializedSize(): Int {
+    var size = __serializedSize
+    if (size == -1) {
+      size = __computeSerializedSize()
+      __serializedSize = size
+    }
+    return size
+  }
 
   override fun serialize(writer: Writer) {
     declaration.forEach { writer.writeTag(18u).write(it) }
@@ -1584,7 +1639,24 @@ public class ExtensionRangeOptions private constructor(
     public val repeated: Boolean?,
     override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
   ) : AbstractMessage() {
-    private val __serializedSize: Int by lazy {
+    @Transient
+    private var __serializedSize: Int = -1
+
+    /**
+     * The fully-qualified name of the extension field. There must be a leading dot in front of the full name.
+     */
+    @GeneratedProperty(2)
+    public val fullName: String?
+      get() = _fullName?.value()
+
+    /**
+     * The fully-qualified type name of the extension field. Unlike Metadata.type, Declaration.type must have a leading dot for messages and enums.
+     */
+    @GeneratedProperty(3)
+    public val type: String?
+      get() = _type?.value()
+
+    private fun __computeSerializedSize(): Int {
       var result = 0
       if (number != null) {
         result += sizeOf(8u) + sizeOf(number)
@@ -1602,25 +1674,17 @@ public class ExtensionRangeOptions private constructor(
         result += sizeOf(48u) + 1
       }
       result += unknownFields.size()
-      result
+      return result
     }
 
-    /**
-     * The fully-qualified name of the extension field. There must be a leading dot in front of the full name.
-     */
-    @GeneratedProperty(2)
-    public val fullName: String?
-      get() = _fullName?.value()
-
-    /**
-     * The fully-qualified type name of the extension field. Unlike Metadata.type, Declaration.type must have a leading dot for messages and enums.
-     */
-    @GeneratedProperty(3)
-    public val type: String?
-      get() = _type?.value()
-
-    override fun serializedSize(): Int =
-      __serializedSize
+    override fun serializedSize(): Int {
+      var size = __serializedSize
+      if (size == -1) {
+        size = __computeSerializedSize()
+        __serializedSize = size
+      }
+      return size
+    }
 
     override fun serialize(writer: Writer) {
       if (number != null) {
@@ -1824,7 +1888,42 @@ public class FieldDescriptorProto private constructor(
   public val proto3Optional: Boolean?,
   override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
-  private val __serializedSize: Int by lazy {
+  @Transient
+  private var __serializedSize: Int = -1
+
+  @GeneratedProperty(1)
+  public val name: String?
+    get() = _name?.value()
+
+  /**
+   * For extensions, this is the name of the type being extended.  It is resolved in the same manner as type_name.
+   */
+  @GeneratedProperty(2)
+  public val extendee: String?
+    get() = _extendee?.value()
+
+  /**
+   * For message and enum types, this is the name of the type.  If the name starts with a '.', it is fully-qualified.  Otherwise, C++-like scoping rules are used to find the type (i.e. first the nested types within this message are searched, then within the parent, on up to the root namespace).
+   */
+  @GeneratedProperty(6)
+  public val typeName: String?
+    get() = _typeName?.value()
+
+  /**
+   * For numeric types, contains the original text representation of the value. For booleans, "true" or "false". For strings, contains the default text contents (not escaped in any way). For bytes, contains the C escaped value.  All bytes >= 128 are escaped.
+   */
+  @GeneratedProperty(7)
+  public val defaultValue: String?
+    get() = _defaultValue?.value()
+
+  /**
+   * JSON name of this field. The value is set by protocol compiler. If the user has set a "json_name" option on this field, that option's value will be used. Otherwise, it's deduced from the field's name by converting it to camelCase.
+   */
+  @GeneratedProperty(10)
+  public val jsonName: String?
+    get() = _jsonName?.value()
+
+  private fun __computeSerializedSize(): Int {
     var result = 0
     if (_name != null) {
       result += sizeOf(10u) + sizeOf(_name.wireValue())
@@ -1860,43 +1959,17 @@ public class FieldDescriptorProto private constructor(
       result += sizeOf(136u) + 1
     }
     result += unknownFields.size()
-    result
+    return result
   }
 
-  @GeneratedProperty(1)
-  public val name: String?
-    get() = _name?.value()
-
-  /**
-   * For extensions, this is the name of the type being extended.  It is resolved in the same manner as type_name.
-   */
-  @GeneratedProperty(2)
-  public val extendee: String?
-    get() = _extendee?.value()
-
-  /**
-   * For message and enum types, this is the name of the type.  If the name starts with a '.', it is fully-qualified.  Otherwise, C++-like scoping rules are used to find the type (i.e. first the nested types within this message are searched, then within the parent, on up to the root namespace).
-   */
-  @GeneratedProperty(6)
-  public val typeName: String?
-    get() = _typeName?.value()
-
-  /**
-   * For numeric types, contains the original text representation of the value. For booleans, "true" or "false". For strings, contains the default text contents (not escaped in any way). For bytes, contains the C escaped value.  All bytes >= 128 are escaped.
-   */
-  @GeneratedProperty(7)
-  public val defaultValue: String?
-    get() = _defaultValue?.value()
-
-  /**
-   * JSON name of this field. The value is set by protocol compiler. If the user has set a "json_name" option on this field, that option's value will be used. Otherwise, it's deduced from the field's name by converting it to camelCase.
-   */
-  @GeneratedProperty(10)
-  public val jsonName: String?
-    get() = _jsonName?.value()
-
-  override fun serializedSize(): Int =
-    __serializedSize
+  override fun serializedSize(): Int {
+    var size = __serializedSize
+    if (size == -1) {
+      size = __computeSerializedSize()
+      __serializedSize = size
+    }
+    return size
+  }
 
   override fun serialize(writer: Writer) {
     if (_name != null) {
@@ -2302,7 +2375,14 @@ public class OneofDescriptorProto private constructor(
   public val options: OneofOptions?,
   override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
-  private val __serializedSize: Int by lazy {
+  @Transient
+  private var __serializedSize: Int = -1
+
+  @GeneratedProperty(1)
+  public val name: String?
+    get() = _name?.value()
+
+  private fun __computeSerializedSize(): Int {
     var result = 0
     if (_name != null) {
       result += sizeOf(10u) + sizeOf(_name.wireValue())
@@ -2311,15 +2391,17 @@ public class OneofDescriptorProto private constructor(
       result += sizeOf(18u) + sizeOf(options)
     }
     result += unknownFields.size()
-    result
+    return result
   }
 
-  @GeneratedProperty(1)
-  public val name: String?
-    get() = _name?.value()
-
-  override fun serializedSize(): Int =
-    __serializedSize
+  override fun serializedSize(): Int {
+    var size = __serializedSize
+    if (size == -1) {
+      size = __computeSerializedSize()
+      __serializedSize = size
+    }
+    return size
+  }
 
   override fun serialize(writer: Writer) {
     if (_name != null) {
@@ -2451,7 +2533,14 @@ public class EnumDescriptorProto private constructor(
   public val reservedName: List<String>,
   override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
-  private val __serializedSize: Int by lazy {
+  @Transient
+  private var __serializedSize: Int = -1
+
+  @GeneratedProperty(1)
+  public val name: String?
+    get() = _name?.value()
+
+  private fun __computeSerializedSize(): Int {
     var result = 0
     if (_name != null) {
       result += sizeOf(10u) + sizeOf(_name.wireValue())
@@ -2478,15 +2567,17 @@ public class EnumDescriptorProto private constructor(
         }
     }
     result += unknownFields.size()
-    result
+    return result
   }
 
-  @GeneratedProperty(1)
-  public val name: String?
-    get() = _name?.value()
-
-  override fun serializedSize(): Int =
-    __serializedSize
+  override fun serializedSize(): Int {
+    var size = __serializedSize
+    if (size == -1) {
+      size = __computeSerializedSize()
+      __serializedSize = size
+    }
+    return size
+  }
 
   override fun serialize(writer: Writer) {
     if (_name != null) {
@@ -2677,7 +2768,10 @@ public class EnumDescriptorProto private constructor(
     public val end: Int?,
     override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
   ) : AbstractMessage() {
-    private val __serializedSize: Int by lazy {
+    @Transient
+    private var __serializedSize: Int = -1
+
+    private fun __computeSerializedSize(): Int {
       var result = 0
       if (start != null) {
         result += sizeOf(8u) + sizeOf(start)
@@ -2686,11 +2780,17 @@ public class EnumDescriptorProto private constructor(
         result += sizeOf(16u) + sizeOf(end)
       }
       result += unknownFields.size()
-      result
+      return result
     }
 
-    override fun serializedSize(): Int =
-      __serializedSize
+    override fun serializedSize(): Int {
+      var size = __serializedSize
+      if (size == -1) {
+        size = __computeSerializedSize()
+        __serializedSize = size
+      }
+      return size
+    }
 
     override fun serialize(writer: Writer) {
       if (start != null) {
@@ -2807,7 +2907,14 @@ public class EnumValueDescriptorProto private constructor(
   public val options: EnumValueOptions?,
   override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
-  private val __serializedSize: Int by lazy {
+  @Transient
+  private var __serializedSize: Int = -1
+
+  @GeneratedProperty(1)
+  public val name: String?
+    get() = _name?.value()
+
+  private fun __computeSerializedSize(): Int {
     var result = 0
     if (_name != null) {
       result += sizeOf(10u) + sizeOf(_name.wireValue())
@@ -2819,15 +2926,17 @@ public class EnumValueDescriptorProto private constructor(
       result += sizeOf(26u) + sizeOf(options)
     }
     result += unknownFields.size()
-    result
+    return result
   }
 
-  @GeneratedProperty(1)
-  public val name: String?
-    get() = _name?.value()
-
-  override fun serializedSize(): Int =
-    __serializedSize
+  override fun serializedSize(): Int {
+    var size = __serializedSize
+    if (size == -1) {
+      size = __computeSerializedSize()
+      __serializedSize = size
+    }
+    return size
+  }
 
   override fun serialize(writer: Writer) {
     if (_name != null) {
@@ -2965,7 +3074,14 @@ public class ServiceDescriptorProto private constructor(
   public val options: ServiceOptions?,
   override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
-  private val __serializedSize: Int by lazy {
+  @Transient
+  private var __serializedSize: Int = -1
+
+  @GeneratedProperty(1)
+  public val name: String?
+    get() = _name?.value()
+
+  private fun __computeSerializedSize(): Int {
     var result = 0
     if (_name != null) {
       result += sizeOf(10u) + sizeOf(_name.wireValue())
@@ -2977,15 +3093,17 @@ public class ServiceDescriptorProto private constructor(
       result += sizeOf(26u) + sizeOf(options)
     }
     result += unknownFields.size()
-    result
+    return result
   }
 
-  @GeneratedProperty(1)
-  public val name: String?
-    get() = _name?.value()
-
-  override fun serializedSize(): Int =
-    __serializedSize
+  override fun serializedSize(): Int {
+    var size = __serializedSize
+    if (size == -1) {
+      size = __computeSerializedSize()
+      __serializedSize = size
+    }
+    return size
+  }
 
   override fun serialize(writer: Writer) {
     if (_name != null) {
@@ -3139,7 +3257,25 @@ public class MethodDescriptorProto private constructor(
   public val serverStreaming: Boolean?,
   override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
-  private val __serializedSize: Int by lazy {
+  @Transient
+  private var __serializedSize: Int = -1
+
+  @GeneratedProperty(1)
+  public val name: String?
+    get() = _name?.value()
+
+  /**
+   * Input and output type names.  These are resolved in the same way as FieldDescriptorProto.type_name, but must refer to a message type.
+   */
+  @GeneratedProperty(2)
+  public val inputType: String?
+    get() = _inputType?.value()
+
+  @GeneratedProperty(3)
+  public val outputType: String?
+    get() = _outputType?.value()
+
+  private fun __computeSerializedSize(): Int {
     var result = 0
     if (_name != null) {
       result += sizeOf(10u) + sizeOf(_name.wireValue())
@@ -3160,26 +3296,17 @@ public class MethodDescriptorProto private constructor(
       result += sizeOf(48u) + 1
     }
     result += unknownFields.size()
-    result
+    return result
   }
 
-  @GeneratedProperty(1)
-  public val name: String?
-    get() = _name?.value()
-
-  /**
-   * Input and output type names.  These are resolved in the same way as FieldDescriptorProto.type_name, but must refer to a message type.
-   */
-  @GeneratedProperty(2)
-  public val inputType: String?
-    get() = _inputType?.value()
-
-  @GeneratedProperty(3)
-  public val outputType: String?
-    get() = _outputType?.value()
-
-  override fun serializedSize(): Int =
-    __serializedSize
+  override fun serializedSize(): Int {
+    var size = __serializedSize
+    if (size == -1) {
+      size = __computeSerializedSize()
+      __serializedSize = size
+    }
+    return size
+  }
 
   override fun serialize(writer: Writer) {
     if (_name != null) {
@@ -3432,74 +3559,8 @@ public class FileOptions private constructor(
   public val uninterpretedOption: List<UninterpretedOption>,
   override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
-  private val __serializedSize: Int by lazy {
-    var result = 0
-    if (_javaPackage != null) {
-      result += sizeOf(10u) + sizeOf(_javaPackage.wireValue())
-    }
-    if (_javaOuterClassname != null) {
-      result += sizeOf(66u) + sizeOf(_javaOuterClassname.wireValue())
-    }
-    if (optimizeFor != null) {
-      result += sizeOf(72u) + sizeOf(optimizeFor)
-    }
-    if (javaMultipleFiles != null) {
-      result += sizeOf(80u) + 1
-    }
-    if (_goPackage != null) {
-      result += sizeOf(90u) + sizeOf(_goPackage.wireValue())
-    }
-    if (ccGenericServices != null) {
-      result += sizeOf(128u) + 1
-    }
-    if (javaGenericServices != null) {
-      result += sizeOf(136u) + 1
-    }
-    if (pyGenericServices != null) {
-      result += sizeOf(144u) + 1
-    }
-    if (javaGenerateEqualsAndHash != null) {
-      result += sizeOf(160u) + 1
-    }
-    if (deprecated != null) {
-      result += sizeOf(184u) + 1
-    }
-    if (javaStringCheckUtf8 != null) {
-      result += sizeOf(216u) + 1
-    }
-    if (ccEnableArenas != null) {
-      result += sizeOf(248u) + 1
-    }
-    if (_objcClassPrefix != null) {
-      result += sizeOf(290u) + sizeOf(_objcClassPrefix.wireValue())
-    }
-    if (_csharpNamespace != null) {
-      result += sizeOf(298u) + sizeOf(_csharpNamespace.wireValue())
-    }
-    if (_swiftPrefix != null) {
-      result += sizeOf(314u) + sizeOf(_swiftPrefix.wireValue())
-    }
-    if (_phpClassPrefix != null) {
-      result += sizeOf(322u) + sizeOf(_phpClassPrefix.wireValue())
-    }
-    if (_phpNamespace != null) {
-      result += sizeOf(330u) + sizeOf(_phpNamespace.wireValue())
-    }
-    if (_phpMetadataNamespace != null) {
-      result += sizeOf(354u) + sizeOf(_phpMetadataNamespace.wireValue())
-    }
-    if (_rubyPackage != null) {
-      result += sizeOf(362u) + sizeOf(_rubyPackage.wireValue())
-    }
-    if (features != null) {
-      result += sizeOf(402u) + sizeOf(features)
-    }
-    if (uninterpretedOption.isNotEmpty()) {
-      result += (sizeOf(7994u) * uninterpretedOption.size) + uninterpretedOption.sumOf { sizeOf(it) }
-    }
-    result += unknownFields.size()
-    result
-  }
+  @Transient
+  private var __serializedSize: Int = -1
 
   /**
    * Sets the Java package where classes generated from this .proto will be placed.  By default, the proto package is used, but this is often inappropriate because proto packages do not normally start with backwards domain names.
@@ -3571,8 +3632,83 @@ public class FileOptions private constructor(
   public val rubyPackage: String?
     get() = _rubyPackage?.value()
 
-  override fun serializedSize(): Int =
-    __serializedSize
+  private fun __computeSerializedSize(): Int {
+    var result = 0
+    if (_javaPackage != null) {
+      result += sizeOf(10u) + sizeOf(_javaPackage.wireValue())
+    }
+    if (_javaOuterClassname != null) {
+      result += sizeOf(66u) + sizeOf(_javaOuterClassname.wireValue())
+    }
+    if (optimizeFor != null) {
+      result += sizeOf(72u) + sizeOf(optimizeFor)
+    }
+    if (javaMultipleFiles != null) {
+      result += sizeOf(80u) + 1
+    }
+    if (_goPackage != null) {
+      result += sizeOf(90u) + sizeOf(_goPackage.wireValue())
+    }
+    if (ccGenericServices != null) {
+      result += sizeOf(128u) + 1
+    }
+    if (javaGenericServices != null) {
+      result += sizeOf(136u) + 1
+    }
+    if (pyGenericServices != null) {
+      result += sizeOf(144u) + 1
+    }
+    if (javaGenerateEqualsAndHash != null) {
+      result += sizeOf(160u) + 1
+    }
+    if (deprecated != null) {
+      result += sizeOf(184u) + 1
+    }
+    if (javaStringCheckUtf8 != null) {
+      result += sizeOf(216u) + 1
+    }
+    if (ccEnableArenas != null) {
+      result += sizeOf(248u) + 1
+    }
+    if (_objcClassPrefix != null) {
+      result += sizeOf(290u) + sizeOf(_objcClassPrefix.wireValue())
+    }
+    if (_csharpNamespace != null) {
+      result += sizeOf(298u) + sizeOf(_csharpNamespace.wireValue())
+    }
+    if (_swiftPrefix != null) {
+      result += sizeOf(314u) + sizeOf(_swiftPrefix.wireValue())
+    }
+    if (_phpClassPrefix != null) {
+      result += sizeOf(322u) + sizeOf(_phpClassPrefix.wireValue())
+    }
+    if (_phpNamespace != null) {
+      result += sizeOf(330u) + sizeOf(_phpNamespace.wireValue())
+    }
+    if (_phpMetadataNamespace != null) {
+      result += sizeOf(354u) + sizeOf(_phpMetadataNamespace.wireValue())
+    }
+    if (_rubyPackage != null) {
+      result += sizeOf(362u) + sizeOf(_rubyPackage.wireValue())
+    }
+    if (features != null) {
+      result += sizeOf(402u) + sizeOf(features)
+    }
+    if (uninterpretedOption.isNotEmpty()) {
+      result += (sizeOf(7994u) * uninterpretedOption.size) + uninterpretedOption.sumOf { sizeOf(it) }
+    }
+    result += unknownFields.size()
+    return result
+  }
+
+  override fun serializedSize(): Int {
+    var size = __serializedSize
+    if (size == -1) {
+      size = __computeSerializedSize()
+      __serializedSize = size
+    }
+    return size
+  }
 
   override fun serialize(writer: Writer) {
     if (_javaPackage != null) {
@@ -4135,7 +4271,10 @@ public class MessageOptions private constructor(
   public val uninterpretedOption: List<UninterpretedOption>,
   override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
-  private val __serializedSize: Int by lazy {
+  @Transient
+  private var __serializedSize: Int = -1
+
+  private fun __computeSerializedSize(): Int {
     var result = 0
     if (messageSetWireFormat != null) {
       result += sizeOf(8u) + 1
@@ -4159,11 +4298,17 @@ public class MessageOptions private constructor(
       result += (sizeOf(7994u) * uninterpretedOption.size) + uninterpretedOption.sumOf { sizeOf(it) }
     }
     result += unknownFields.size()
-    result
+    return result
   }
 
-  override fun serializedSize(): Int =
-    __serializedSize
+  override fun serializedSize(): Int {
+    var size = __serializedSize
+    if (size == -1) {
+      size = __computeSerializedSize()
+      __serializedSize = size
+    }
+    return size
+  }
 
   override fun serialize(writer: Writer) {
     if (messageSetWireFormat != null) {
@@ -4424,7 +4569,10 @@ public class FieldOptions private constructor(
   public val uninterpretedOption: List<UninterpretedOption>,
   override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
-  private val __serializedSize: Int by lazy {
+  @Transient
+  private var __serializedSize: Int = -1
+
+  private fun __computeSerializedSize(): Int {
     var result = 0
     if (ctype != null) {
       result += sizeOf(8u) + sizeOf(ctype)
@@ -4469,11 +4617,17 @@ public class FieldOptions private constructor(
       result += (sizeOf(7994u) * uninterpretedOption.size) + uninterpretedOption.sumOf { sizeOf(it) }
     }
     result += unknownFields.size()
-    result
+    return result
   }
 
-  override fun serializedSize(): Int =
-    __serializedSize
+  override fun serializedSize(): Int {
+    var size = __serializedSize
+    if (size == -1) {
+      size = __computeSerializedSize()
+      __serializedSize = size
+    }
+    return size
+  }
 
   override fun serialize(writer: Writer) {
     if (ctype != null) {
@@ -4948,7 +5102,14 @@ public class FieldOptions private constructor(
     public val edition: Edition?,
     override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
   ) : AbstractMessage() {
-    private val __serializedSize: Int by lazy {
+    @Transient
+    private var __serializedSize: Int = -1
+
+    @GeneratedProperty(2)
+    public val `value`: String?
+      get() = _value?.value()
+
+    private fun __computeSerializedSize(): Int {
       var result = 0
       if (_value != null) {
         result += sizeOf(18u) + sizeOf(_value.wireValue())
@@ -4957,15 +5118,17 @@ public class FieldOptions private constructor(
         result += sizeOf(24u) + sizeOf(edition)
       }
       result += unknownFields.size()
-      result
+      return result
     }
 
-    @GeneratedProperty(2)
-    public val `value`: String?
-      get() = _value?.value()
-
-    override fun serializedSize(): Int =
-      __serializedSize
+    override fun serializedSize(): Int {
+      var size = __serializedSize
+      if (size == -1) {
+        size = __computeSerializedSize()
+        __serializedSize = size
+      }
+      return size
+    }
 
     override fun serialize(writer: Writer) {
       if (_value != null) {
@@ -5098,7 +5261,17 @@ public class FieldOptions private constructor(
     public val editionRemoved: Edition?,
     override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
   ) : AbstractMessage() {
-    private val __serializedSize: Int by lazy {
+    @Transient
+    private var __serializedSize: Int = -1
+
+    /**
+     * The deprecation warning text if this feature is used after the edition it was marked deprecated in.
+     */
+    @GeneratedProperty(3)
+    public val deprecationWarning: String?
+      get() = _deprecationWarning?.value()
+
+    private fun __computeSerializedSize(): Int {
       var result = 0
       if (editionIntroduced != null) {
         result += sizeOf(8u) + sizeOf(editionIntroduced)
@@ -5113,18 +5286,17 @@ public class FieldOptions private constructor(
         result += sizeOf(32u) + sizeOf(editionRemoved)
       }
       result += unknownFields.size()
-      result
+      return result
     }
 
-    /**
-     * The deprecation warning text if this feature is used after the edition it was marked deprecated in.
-     */
-    @GeneratedProperty(3)
-    public val deprecationWarning: String?
-      get() = _deprecationWarning?.value()
-
-    override fun serializedSize(): Int =
-      __serializedSize
+    override fun serializedSize(): Int {
+      var size = __serializedSize
+      if (size == -1) {
+        size = __computeSerializedSize()
+        __serializedSize = size
+      }
+      return size
+    }
 
     override fun serialize(writer: Writer) {
       if (editionIntroduced != null) {
@@ -5281,7 +5453,10 @@ public class OneofOptions private constructor(
   public val uninterpretedOption: List<UninterpretedOption>,
   override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
-  private val __serializedSize: Int by lazy {
+  @Transient
+  private var __serializedSize: Int = -1
+
+  private fun __computeSerializedSize(): Int {
     var result = 0
     if (features != null) {
       result += sizeOf(10u) + sizeOf(features)
@@ -5290,11 +5465,17 @@ public class OneofOptions private constructor(
       result += (sizeOf(7994u) * uninterpretedOption.size) + uninterpretedOption.sumOf { sizeOf(it) }
     }
     result += unknownFields.size()
-    result
+    return result
   }
 
-  override fun serializedSize(): Int =
-    __serializedSize
+  override fun serializedSize(): Int {
+    var size = __serializedSize
+    if (size == -1) {
+      size = __computeSerializedSize()
+      __serializedSize = size
+    }
+    return size
+  }
 
   override fun serialize(writer: Writer) {
     if (features != null) {
@@ -5434,7 +5615,10 @@ public class EnumOptions private constructor(
   public val uninterpretedOption: List<UninterpretedOption>,
   override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
-  private val __serializedSize: Int by lazy {
+  @Transient
+  private var __serializedSize: Int = -1
+
+  private fun __computeSerializedSize(): Int {
     var result = 0
     if (allowAlias != null) {
       result += sizeOf(16u) + 1
@@ -5452,11 +5636,17 @@ public class EnumOptions private constructor(
       result += (sizeOf(7994u) * uninterpretedOption.size) + uninterpretedOption.sumOf { sizeOf(it) }
     }
     result += unknownFields.size()
-    result
+    return result
   }
 
-  override fun serializedSize(): Int =
-    __serializedSize
+  override fun serializedSize(): Int {
+    var size = __serializedSize
+    if (size == -1) {
+      size = __computeSerializedSize()
+      __serializedSize = size
+    }
+    return size
+  }
 
   override fun serialize(writer: Writer) {
     if (allowAlias != null) {
@@ -5644,7 +5834,10 @@ public class EnumValueOptions private constructor(
   public val uninterpretedOption: List<UninterpretedOption>,
   override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
-  private val __serializedSize: Int by lazy {
+  @Transient
+  private var __serializedSize: Int = -1
+
+  private fun __computeSerializedSize(): Int {
     var result = 0
     if (deprecated != null) {
       result += sizeOf(8u) + 1
@@ -5662,11 +5855,17 @@ public class EnumValueOptions private constructor(
       result += (sizeOf(7994u) * uninterpretedOption.size) + uninterpretedOption.sumOf { sizeOf(it) }
     }
     result += unknownFields.size()
-    result
+    return result
   }
 
-  override fun serializedSize(): Int =
-    __serializedSize
+  override fun serializedSize(): Int {
+    var size = __serializedSize
+    if (size == -1) {
+      size = __computeSerializedSize()
+      __serializedSize = size
+    }
+    return size
+  }
 
   override fun serialize(writer: Writer) {
     if (deprecated != null) {
@@ -5843,7 +6042,10 @@ public class ServiceOptions private constructor(
   public val uninterpretedOption: List<UninterpretedOption>,
   override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
-  private val __serializedSize: Int by lazy {
+  @Transient
+  private var __serializedSize: Int = -1
+
+  private fun __computeSerializedSize(): Int {
     var result = 0
     if (deprecated != null) {
       result += sizeOf(264u) + 1
@@ -5855,11 +6057,17 @@ public class ServiceOptions private constructor(
       result += (sizeOf(7994u) * uninterpretedOption.size) + uninterpretedOption.sumOf { sizeOf(it) }
     }
     result += unknownFields.size()
-    result
+    return result
   }
 
-  override fun serializedSize(): Int =
-    __serializedSize
+  override fun serializedSize(): Int {
+    var size = __serializedSize
+    if (size == -1) {
+      size = __computeSerializedSize()
+      __serializedSize = size
+    }
+    return size
+  }
 
   override fun serialize(writer: Writer) {
     if (deprecated != null) {
@@ -6006,7 +6214,10 @@ public class MethodOptions private constructor(
   public val uninterpretedOption: List<UninterpretedOption>,
   override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
-  private val __serializedSize: Int by lazy {
+  @Transient
+  private var __serializedSize: Int = -1
+
+  private fun __computeSerializedSize(): Int {
     var result = 0
     if (deprecated != null) {
       result += sizeOf(264u) + 1
@@ -6021,11 +6232,17 @@ public class MethodOptions private constructor(
       result += (sizeOf(7994u) * uninterpretedOption.size) + uninterpretedOption.sumOf { sizeOf(it) }
     }
     result += unknownFields.size()
-    result
+    return result
   }
 
-  override fun serializedSize(): Int =
-    __serializedSize
+  override fun serializedSize(): Int {
+    var size = __serializedSize
+    if (size == -1) {
+      size = __computeSerializedSize()
+      __serializedSize = size
+    }
+    return size
+  }
 
   override fun serialize(writer: Writer) {
     if (deprecated != null) {
@@ -6215,7 +6432,21 @@ public class UninterpretedOption private constructor(
   private val _aggregateValue: LazyReference<Bytes, String>?,
   override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
-  private val __serializedSize: Int by lazy {
+  @Transient
+  private var __serializedSize: Int = -1
+
+  /**
+   * The value of the uninterpreted option, in whatever type the tokenizer identified it as during parsing. Exactly one of these should be set.
+   */
+  @GeneratedProperty(3)
+  public val identifierValue: String?
+    get() = _identifierValue?.value()
+
+  @GeneratedProperty(8)
+  public val aggregateValue: String?
+    get() = _aggregateValue?.value()
+
+  private fun __computeSerializedSize(): Int {
     var result = 0
     if (name.isNotEmpty()) {
       result += (sizeOf(18u) * name.size) + name.sumOf { sizeOf(it) }
@@ -6239,22 +6470,17 @@ public class UninterpretedOption private constructor(
       result += sizeOf(66u) + sizeOf(_aggregateValue.wireValue())
     }
     result += unknownFields.size()
-    result
+    return result
   }
 
-  /**
-   * The value of the uninterpreted option, in whatever type the tokenizer identified it as during parsing. Exactly one of these should be set.
-   */
-  @GeneratedProperty(3)
-  public val identifierValue: String?
-    get() = _identifierValue?.value()
-
-  @GeneratedProperty(8)
-  public val aggregateValue: String?
-    get() = _aggregateValue?.value()
-
-  override fun serializedSize(): Int =
-    __serializedSize
+  override fun serializedSize(): Int {
+    var size = __serializedSize
+    if (size == -1) {
+      size = __computeSerializedSize()
+      __serializedSize = size
+    }
+    return size
+  }
 
   override fun serialize(writer: Writer) {
     name.forEach { writer.writeTag(18u).write(it) }
@@ -6285,7 +6511,7 @@ public class UninterpretedOption private constructor(
       other.identifierValue == this.identifierValue &&
       other.positiveIntValue == this.positiveIntValue &&
       other.negativeIntValue == this.negativeIntValue &&
-      other.doubleValue == this.doubleValue &&
+      other.doubleValue?.toBits() == this.doubleValue?.toBits() &&
       other.stringValue == this.stringValue &&
       other.aggregateValue == this.aggregateValue &&
       other.unknownFields == unknownFields
@@ -6296,7 +6522,7 @@ public class UninterpretedOption private constructor(
     result = 31 * result + identifierValue.hashCode()
     result = 31 * result + positiveIntValue.hashCode()
     result = 31 * result + negativeIntValue.hashCode()
-    result = 31 * result + doubleValue.hashCode()
+    result = 31 * result + doubleValue?.toBits().hashCode()
     result = 31 * result + stringValue.hashCode()
     result = 31 * result + aggregateValue.hashCode()
     return result
@@ -6465,7 +6691,14 @@ public class UninterpretedOption private constructor(
     public val isExtension: Boolean,
     override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
   ) : AbstractMessage() {
-    private val __serializedSize: Int by lazy {
+    @Transient
+    private var __serializedSize: Int = -1
+
+    @GeneratedProperty(1)
+    public val namePart: String
+      get() = _namePart.value()
+
+    private fun __computeSerializedSize(): Int {
       var result = 0
       if (_namePart.wireValue().isNotEmpty()) {
         result += sizeOf(10u) + sizeOf(_namePart.wireValue())
@@ -6474,15 +6707,17 @@ public class UninterpretedOption private constructor(
         result += sizeOf(16u) + 1
       }
       result += unknownFields.size()
-      result
+      return result
     }
 
-    @GeneratedProperty(1)
-    public val namePart: String
-      get() = _namePart.value()
-
-    override fun serializedSize(): Int =
-      __serializedSize
+    override fun serializedSize(): Int {
+      var size = __serializedSize
+      if (size == -1) {
+        size = __computeSerializedSize()
+        __serializedSize = size
+      }
+      return size
+    }
 
     override fun serialize(writer: Writer) {
       if (_namePart.wireValue().isNotEmpty()) {
@@ -6614,7 +6849,10 @@ public class FeatureSet private constructor(
   public val enforceNamingStyle: EnforceNamingStyle?,
   override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
-  private val __serializedSize: Int by lazy {
+  @Transient
+  private var __serializedSize: Int = -1
+
+  private fun __computeSerializedSize(): Int {
     var result = 0
     if (fieldPresence != null) {
       result += sizeOf(8u) + sizeOf(fieldPresence)
@@ -6638,11 +6876,17 @@ public class FeatureSet private constructor(
       result += sizeOf(56u) + sizeOf(enforceNamingStyle)
     }
     result += unknownFields.size()
-    result
+    return result
   }
 
-  override fun serializedSize(): Int =
-    __serializedSize
+  override fun serializedSize(): Int {
+    var size = __serializedSize
+    if (size == -1) {
+      size = __computeSerializedSize()
+      __serializedSize = size
+    }
+    return size
+  }
 
   override fun serialize(writer: Writer) {
     if (fieldPresence != null) {
@@ -7030,7 +7274,10 @@ public class FeatureSetDefaults private constructor(
   public val maximumEdition: Edition?,
   override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
-  private val __serializedSize: Int by lazy {
+  @Transient
+  private var __serializedSize: Int = -1
+
+  private fun __computeSerializedSize(): Int {
     var result = 0
     if (defaults.isNotEmpty()) {
       result += (sizeOf(10u) * defaults.size) + defaults.sumOf { sizeOf(it) }
@@ -7042,11 +7289,17 @@ public class FeatureSetDefaults private constructor(
       result += sizeOf(40u) + sizeOf(maximumEdition)
     }
     result += unknownFields.size()
-    result
+    return result
   }
 
-  override fun serializedSize(): Int =
-    __serializedSize
+  override fun serializedSize(): Int {
+    var size = __serializedSize
+    if (size == -1) {
+      size = __computeSerializedSize()
+      __serializedSize = size
+    }
+    return size
+  }
 
   override fun serialize(writer: Writer) {
     defaults.forEach { writer.writeTag(10u).write(it) }
@@ -7190,7 +7443,10 @@ public class FeatureSetDefaults private constructor(
     public val fixedFeatures: FeatureSet?,
     override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
   ) : AbstractMessage() {
-    private val __serializedSize: Int by lazy {
+    @Transient
+    private var __serializedSize: Int = -1
+
+    private fun __computeSerializedSize(): Int {
       var result = 0
       if (edition != null) {
         result += sizeOf(24u) + sizeOf(edition)
@@ -7202,11 +7458,17 @@ public class FeatureSetDefaults private constructor(
         result += sizeOf(42u) + sizeOf(fixedFeatures)
       }
       result += unknownFields.size()
-      result
+      return result
     }
 
-    override fun serializedSize(): Int =
-      __serializedSize
+    override fun serializedSize(): Int {
+      var size = __serializedSize
+      if (size == -1) {
+        size = __computeSerializedSize()
+        __serializedSize = size
+      }
+      return size
+    }
 
     override fun serialize(writer: Writer) {
       if (edition != null) {
@@ -7343,17 +7605,26 @@ public class SourceCodeInfo private constructor(
   public val location: List<Location>,
   override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
-  private val __serializedSize: Int by lazy {
+  @Transient
+  private var __serializedSize: Int = -1
+
+  private fun __computeSerializedSize(): Int {
     var result = 0
     if (location.isNotEmpty()) {
       result += (sizeOf(10u) * location.size) + location.sumOf { sizeOf(it) }
     }
     result += unknownFields.size()
-    result
+    return result
   }
 
-  override fun serializedSize(): Int =
-    __serializedSize
+  override fun serializedSize(): Int {
+    var size = __serializedSize
+    if (size == -1) {
+      size = __computeSerializedSize()
+      __serializedSize = size
+    }
+    return size
+  }
 
   override fun serialize(writer: Writer) {
     location.forEach { writer.writeTag(10u).write(it) }
@@ -7468,35 +7739,8 @@ public class SourceCodeInfo private constructor(
     public val leadingDetachedComments: List<String>,
     override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
   ) : AbstractMessage() {
-    private val __serializedSize: Int by lazy {
-      var result = 0
-      if (path.isNotEmpty()) {
-        result += sizeOf(10u) + path.sumOf { sizeOf(it) }.let { it + sizeOf(it.toUInt()) }
-      }
-      if (span.isNotEmpty()) {
-        result += sizeOf(18u) + span.sumOf { sizeOf(it) }.let { it + sizeOf(it.toUInt()) }
-      }
-      if (_leadingComments != null) {
-        result += sizeOf(26u) + sizeOf(_leadingComments.wireValue())
-      }
-      if (_trailingComments != null) {
-        result += sizeOf(34u) + sizeOf(_trailingComments.wireValue())
-      }
-      if (leadingDetachedComments.isNotEmpty()) {
-        result +=
-          @Suppress("UNCHECKED_CAST")
-          (leadingDetachedComments as LazyConvertingList<Bytes, Any>).let { list ->
-            (sizeOf(50u) * list.size) +
-              run {
-                var sum = 0
-                for (i in list.indices) sum += sizeOf(list.wireGet(i))
-                sum
-              }
-          }
-      }
-      result += unknownFields.size()
-      result
-    }
+    @Transient
+    private var __serializedSize: Int = -1
 
     /**
      * If this SourceCodeInfo represents a complete declaration, these are any comments appearing before and after the declaration which appear to be attached to the declaration.
@@ -7531,8 +7775,44 @@ public class SourceCodeInfo private constructor(
     public val trailingComments: String?
       get() = _trailingComments?.value()
 
-    override fun serializedSize(): Int =
-      __serializedSize
+    private fun __computeSerializedSize(): Int {
+      var result = 0
+      if (path.isNotEmpty()) {
+        result += sizeOf(10u) + path.sumOf { sizeOf(it) }.let { it + sizeOf(it.toUInt()) }
+      }
+      if (span.isNotEmpty()) {
+        result += sizeOf(18u) + span.sumOf { sizeOf(it) }.let { it + sizeOf(it.toUInt()) }
+      }
+      if (_leadingComments != null) {
+        result += sizeOf(26u) + sizeOf(_leadingComments.wireValue())
+      }
+      if (_trailingComments != null) {
+        result += sizeOf(34u) + sizeOf(_trailingComments.wireValue())
+      }
+      if (leadingDetachedComments.isNotEmpty()) {
+        result +=
+          @Suppress("UNCHECKED_CAST")
+          (leadingDetachedComments as LazyConvertingList<Bytes, Any>).let { list ->
+            (sizeOf(50u) * list.size) +
+              run {
+                var sum = 0
+                for (i in list.indices) sum += sizeOf(list.wireGet(i))
+                sum
+              }
+          }
+      }
+      result += unknownFields.size()
+      return result
+    }
+
+    override fun serializedSize(): Int {
+      var size = __serializedSize
+      if (size == -1) {
+        size = __computeSerializedSize()
+        __serializedSize = size
+      }
+      return size
+    }
 
     override fun serialize(writer: Writer) {
       if (path.isNotEmpty()) {
@@ -7754,17 +8034,26 @@ public class GeneratedCodeInfo private constructor(
   public val `annotation`: List<Annotation>,
   override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
-  private val __serializedSize: Int by lazy {
+  @Transient
+  private var __serializedSize: Int = -1
+
+  private fun __computeSerializedSize(): Int {
     var result = 0
     if (`annotation`.isNotEmpty()) {
       result += (sizeOf(10u) * `annotation`.size) + `annotation`.sumOf { sizeOf(it) }
     }
     result += unknownFields.size()
-    result
+    return result
   }
 
-  override fun serializedSize(): Int =
-    __serializedSize
+  override fun serializedSize(): Int {
+    var size = __serializedSize
+    if (size == -1) {
+      size = __computeSerializedSize()
+      __serializedSize = size
+    }
+    return size
+  }
 
   override fun serialize(writer: Writer) {
     `annotation`.forEach { writer.writeTag(10u).write(it) }
@@ -7879,7 +8168,17 @@ public class GeneratedCodeInfo private constructor(
     public val semantic: Semantic?,
     override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
   ) : AbstractMessage() {
-    private val __serializedSize: Int by lazy {
+    @Transient
+    private var __serializedSize: Int = -1
+
+    /**
+     * Identifies the filesystem path to the original source .proto.
+     */
+    @GeneratedProperty(2)
+    public val sourceFile: String?
+      get() = _sourceFile?.value()
+
+    private fun __computeSerializedSize(): Int {
       var result = 0
       if (path.isNotEmpty()) {
         result += sizeOf(10u) + path.sumOf { sizeOf(it) }.let { it + sizeOf(it.toUInt()) }
@@ -7897,18 +8196,17 @@ public class GeneratedCodeInfo private constructor(
         result += sizeOf(40u) + sizeOf(semantic)
       }
       result += unknownFields.size()
-      result
+      return result
     }
 
-    /**
-     * Identifies the filesystem path to the original source .proto.
-     */
-    @GeneratedProperty(2)
-    public val sourceFile: String?
-      get() = _sourceFile?.value()
-
-    override fun serializedSize(): Int =
-      __serializedSize
+    override fun serializedSize(): Int {
+      var size = __serializedSize
+      if (size == -1) {
+        size = __computeSerializedSize()
+        __serializedSize = size
+      }
+      return size
+    }
 
     override fun serialize(writer: Writer) {
       if (path.isNotEmpty()) {

@@ -15,5 +15,19 @@
 
 plugins {
     id("protokt.common-conventions")
-    id("protokt.spotless-conventions")
+}
+
+spotless {
+    kotlin {
+        target("buildSrc/src/**/*.kt", "shared-src/**/*.kt", "standalone-examples/**/src/**/*.kt")
+    }
+    kotlinGradle {
+        target("build.gradle.kts", "settings.gradle.kts", "buildSrc/**/*.gradle.kts", "standalone-examples/**/*.gradle.kts")
+    }
+    format("kotlinLicense") {
+        target("buildSrc/src/**/*.kt", "shared-src/**/*.kt", "standalone-examples/**/src/**/*.kt")
+    }
+    format("protobufLicense") {
+        target("standalone-examples/**/src/**/*.proto")
+    }
 }
