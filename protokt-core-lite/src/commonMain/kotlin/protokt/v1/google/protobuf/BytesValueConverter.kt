@@ -19,9 +19,9 @@ import protokt.v1.Bytes
 import protokt.v1.Converter
 
 object BytesValueConverter : Converter<BytesValue, Bytes> {
-    override val wrapper = Bytes::class
+    override val valueType = Bytes::class
 
-    override val wrapped = BytesValue::class
+    override val wireType = BytesValue::class
 
     override fun wrap(unwrapped: BytesValue) =
         unwrapped.value

@@ -18,9 +18,9 @@ package protokt.v1.google.protobuf
 import protokt.v1.Converter
 
 object FloatValueConverter : Converter<FloatValue, Float> {
-    override val wrapper = Float::class
+    override val valueType = Float::class
 
-    override val wrapped = FloatValue::class
+    override val wireType = FloatValue::class
 
     override fun wrap(unwrapped: FloatValue) =
         unwrapped.value

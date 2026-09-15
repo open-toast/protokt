@@ -18,7 +18,11 @@ package protokt.v1
 import protokt.v1.google.protobuf.BytesValue
 import java.net.InetAddress
 
-object InetAddressBytesValueConverter : AbstractConverter<BytesValue, InetAddress>() {
+object InetAddressBytesValueConverter : Converter<BytesValue, InetAddress> {
+    override val wireType = BytesValue::class
+
+    override val valueType = InetAddress::class
+
     override fun wrap(unwrapped: BytesValue) =
         InetAddressBytesConverter.wrap(unwrapped.value)
 

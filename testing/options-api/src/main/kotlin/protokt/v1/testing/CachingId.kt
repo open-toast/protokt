@@ -16,7 +16,6 @@
 package protokt.v1.testing
 
 import com.google.auto.service.AutoService
-import protokt.v1.AbstractConverter
 import protokt.v1.Bytes
 import protokt.v1.Converter
 
@@ -26,7 +25,11 @@ data class CachingId(
 
 @SuppressWarnings("rawtypes")
 @AutoService(Converter::class)
-object CachingIdConverter : AbstractConverter<Bytes, CachingId>() {
+object CachingIdConverter : Converter<Bytes, CachingId> {
+    override val wireType = Bytes::class
+
+    override val valueType = CachingId::class
+
     override fun unwrap(wrapped: CachingId) =
         wrapped.value
 
