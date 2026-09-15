@@ -24,13 +24,13 @@ import com.google.protobuf.UnknownFieldSet
 import com.google.protobuf.UnknownFieldSet.Field
 import com.google.protobuf.UnsafeByteOperations
 import com.google.protobuf.WireFormat
-import com.toasttab.protokt.v1.ProtoktProtos
 import protokt.v1.Beta
 import protokt.v1.Bytes
 import protokt.v1.Converter
 import protokt.v1.Enum
 import protokt.v1.GeneratedMessage
 import protokt.v1.Message
+import protokt.v1.java.ProtoktProtos
 import protokt.v1.reflect.ClassLookup
 import protokt.v1.reflect.FieldType
 import protokt.v1.reflect.WellKnownTypes

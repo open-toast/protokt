@@ -19,7 +19,7 @@ package protokt.v1;
 
 import "protokt/v1/protokt.proto";
 
-option java_package = "com.toasttab.protokt.v1";
+option java_package = "protokt.v1.java";
 option java_outer_classname = "InetSocketAddressProto";
 option (protokt.v1.file).file_descriptor_object_name = "InetSocketAddressProto";
 
