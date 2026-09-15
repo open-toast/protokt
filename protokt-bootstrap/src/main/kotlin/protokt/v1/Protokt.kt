@@ -28,20 +28,15 @@ import kotlin.String
 import kotlin.Suppress
 import kotlin.Unit
 import kotlin.jvm.JvmStatic
+import kotlin.jvm.Transient
 
 @GeneratedMessage("protokt.v1.FileOptions")
 public class FileOptions private constructor(
   private val _fileDescriptorObjectName: LazyReference<Bytes, String>,
   override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
-  private val __serializedSize: Int by lazy {
-    var result = 0
-    if (_fileDescriptorObjectName.wireValue().isNotEmpty()) {
-      result += sizeOf(10u) + sizeOf(_fileDescriptorObjectName.wireValue())
-    }
-    result += unknownFields.size()
-    result
-  }
+  @Transient
+  private var __serializedSize: Int = -1
 
   /**
    * Specify the name of the Kotlin object that contains the reference to this file's FileDescriptor object.
@@ -50,8 +45,23 @@ public class FileOptions private constructor(
   public val fileDescriptorObjectName: String
     get() = _fileDescriptorObjectName.value()
 
-  override fun serializedSize(): Int =
-    __serializedSize
+  private fun __computeSerializedSize(): Int {
+    var result = 0
+    if (_fileDescriptorObjectName.wireValue().isNotEmpty()) {
+      result += sizeOf(10u) + sizeOf(_fileDescriptorObjectName.wireValue())
+    }
+    result += unknownFields.size()
+    return result
+  }
+
+  override fun serializedSize(): Int {
+    var size = __serializedSize
+    if (size == -1) {
+      size = __computeSerializedSize()
+      __serializedSize = size
+    }
+    return size
+  }
 
   override fun serialize(writer: Writer) {
     if (_fileDescriptorObjectName.wireValue().isNotEmpty()) {
@@ -151,17 +161,8 @@ public class MessageOptions private constructor(
   private val _deprecationMessage: LazyReference<Bytes, String>,
   override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
-  private val __serializedSize: Int by lazy {
-    var result = 0
-    if (_implements.wireValue().isNotEmpty()) {
-      result += sizeOf(10u) + sizeOf(_implements.wireValue())
-    }
-    if (_deprecationMessage.wireValue().isNotEmpty()) {
-      result += sizeOf(18u) + sizeOf(_deprecationMessage.wireValue())
-    }
-    result += unknownFields.size()
-    result
-  }
+  @Transient
+  private var __serializedSize: Int = -1
 
   /**
    * Declares that the message class implements an interface. Scoping rules are the same as those for declaring wrapper types.
@@ -177,8 +178,26 @@ public class MessageOptions private constructor(
   public val deprecationMessage: String
     get() = _deprecationMessage.value()
 
-  override fun serializedSize(): Int =
-    __serializedSize
+  private fun __computeSerializedSize(): Int {
+    var result = 0
+    if (_implements.wireValue().isNotEmpty()) {
+      result += sizeOf(10u) + sizeOf(_implements.wireValue())
+    }
+    if (_deprecationMessage.wireValue().isNotEmpty()) {
+      result += sizeOf(18u) + sizeOf(_deprecationMessage.wireValue())
+    }
+    result += unknownFields.size()
+    return result
+  }
+
+  override fun serializedSize(): Int {
+    var size = __serializedSize
+    if (size == -1) {
+      size = __computeSerializedSize()
+      __serializedSize = size
+    }
+    return size
+  }
 
   override fun serialize(writer: Writer) {
     if (_implements.wireValue().isNotEmpty()) {
@@ -318,29 +337,8 @@ public class FieldOptions private constructor(
   private val _valueWrap: LazyReference<Bytes, String>,
   override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
-  private val __serializedSize: Int by lazy {
-    var result = 0
-    if (generateNonNullAccessor) {
-      result += sizeOf(8u) + 1
-    }
-    if (_wrap.wireValue().isNotEmpty()) {
-      result += sizeOf(18u) + sizeOf(_wrap.wireValue())
-    }
-    if (bytesSlice) {
-      result += sizeOf(24u) + 1
-    }
-    if (_deprecationMessage.wireValue().isNotEmpty()) {
-      result += sizeOf(34u) + sizeOf(_deprecationMessage.wireValue())
-    }
-    if (_keyWrap.wireValue().isNotEmpty()) {
-      result += sizeOf(42u) + sizeOf(_keyWrap.wireValue())
-    }
-    if (_valueWrap.wireValue().isNotEmpty()) {
-      result += sizeOf(50u) + sizeOf(_valueWrap.wireValue())
-    }
-    result += unknownFields.size()
-    result
-  }
+  @Transient
+  private var __serializedSize: Int = -1
 
   /**
    * Expose a wrapper class instead of a raw protobuf type.
@@ -402,8 +400,38 @@ public class FieldOptions private constructor(
   public val valueWrap: String
     get() = _valueWrap.value()
 
-  override fun serializedSize(): Int =
-    __serializedSize
+  private fun __computeSerializedSize(): Int {
+    var result = 0
+    if (generateNonNullAccessor) {
+      result += sizeOf(8u) + 1
+    }
+    if (_wrap.wireValue().isNotEmpty()) {
+      result += sizeOf(18u) + sizeOf(_wrap.wireValue())
+    }
+    if (bytesSlice) {
+      result += sizeOf(24u) + 1
+    }
+    if (_deprecationMessage.wireValue().isNotEmpty()) {
+      result += sizeOf(34u) + sizeOf(_deprecationMessage.wireValue())
+    }
+    if (_keyWrap.wireValue().isNotEmpty()) {
+      result += sizeOf(42u) + sizeOf(_keyWrap.wireValue())
+    }
+    if (_valueWrap.wireValue().isNotEmpty()) {
+      result += sizeOf(50u) + sizeOf(_valueWrap.wireValue())
+    }
+    result += unknownFields.size()
+    return result
+  }
+
+  override fun serializedSize(): Int {
+    var size = __serializedSize
+    if (size == -1) {
+      size = __computeSerializedSize()
+      __serializedSize = size
+    }
+    return size
+  }
 
   override fun serialize(writer: Writer) {
     if (generateNonNullAccessor) {
@@ -612,20 +640,8 @@ public class OneofOptions private constructor(
   private val _deprecationMessage: LazyReference<Bytes, String>,
   override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
-  private val __serializedSize: Int by lazy {
-    var result = 0
-    if (generateNonNullAccessor) {
-      result += sizeOf(8u) + 1
-    }
-    if (_implements.wireValue().isNotEmpty()) {
-      result += sizeOf(18u) + sizeOf(_implements.wireValue())
-    }
-    if (_deprecationMessage.wireValue().isNotEmpty()) {
-      result += sizeOf(26u) + sizeOf(_deprecationMessage.wireValue())
-    }
-    result += unknownFields.size()
-    result
-  }
+  @Transient
+  private var __serializedSize: Int = -1
 
   /**
    * Make the sealed class implement an interface, enforcing the presence of a property in each possible variant. Scoping rules  are the same as those for declaring wrapper types.
@@ -641,8 +657,29 @@ public class OneofOptions private constructor(
   public val deprecationMessage: String
     get() = _deprecationMessage.value()
 
-  override fun serializedSize(): Int =
-    __serializedSize
+  private fun __computeSerializedSize(): Int {
+    var result = 0
+    if (generateNonNullAccessor) {
+      result += sizeOf(8u) + 1
+    }
+    if (_implements.wireValue().isNotEmpty()) {
+      result += sizeOf(18u) + sizeOf(_implements.wireValue())
+    }
+    if (_deprecationMessage.wireValue().isNotEmpty()) {
+      result += sizeOf(26u) + sizeOf(_deprecationMessage.wireValue())
+    }
+    result += unknownFields.size()
+    return result
+  }
+
+  override fun serializedSize(): Int {
+    var size = __serializedSize
+    if (size == -1) {
+      size = __computeSerializedSize()
+      __serializedSize = size
+    }
+    return size
+  }
 
   override fun serialize(writer: Writer) {
     if (generateNonNullAccessor) {
@@ -779,14 +816,8 @@ public class EnumOptions private constructor(
   private val _deprecationMessage: LazyReference<Bytes, String>,
   override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
-  private val __serializedSize: Int by lazy {
-    var result = 0
-    if (_deprecationMessage.wireValue().isNotEmpty()) {
-      result += sizeOf(10u) + sizeOf(_deprecationMessage.wireValue())
-    }
-    result += unknownFields.size()
-    result
-  }
+  @Transient
+  private var __serializedSize: Int = -1
 
   /**
    * Provides a message for deprecation
@@ -795,8 +826,23 @@ public class EnumOptions private constructor(
   public val deprecationMessage: String
     get() = _deprecationMessage.value()
 
-  override fun serializedSize(): Int =
-    __serializedSize
+  private fun __computeSerializedSize(): Int {
+    var result = 0
+    if (_deprecationMessage.wireValue().isNotEmpty()) {
+      result += sizeOf(10u) + sizeOf(_deprecationMessage.wireValue())
+    }
+    result += unknownFields.size()
+    return result
+  }
+
+  override fun serializedSize(): Int {
+    var size = __serializedSize
+    if (size == -1) {
+      size = __computeSerializedSize()
+      __serializedSize = size
+    }
+    return size
+  }
 
   override fun serialize(writer: Writer) {
     if (_deprecationMessage.wireValue().isNotEmpty()) {
@@ -895,14 +941,8 @@ public class EnumValueOptions private constructor(
   private val _deprecationMessage: LazyReference<Bytes, String>,
   override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
-  private val __serializedSize: Int by lazy {
-    var result = 0
-    if (_deprecationMessage.wireValue().isNotEmpty()) {
-      result += sizeOf(10u) + sizeOf(_deprecationMessage.wireValue())
-    }
-    result += unknownFields.size()
-    result
-  }
+  @Transient
+  private var __serializedSize: Int = -1
 
   /**
    * Provides a message for deprecation
@@ -911,8 +951,23 @@ public class EnumValueOptions private constructor(
   public val deprecationMessage: String
     get() = _deprecationMessage.value()
 
-  override fun serializedSize(): Int =
-    __serializedSize
+  private fun __computeSerializedSize(): Int {
+    var result = 0
+    if (_deprecationMessage.wireValue().isNotEmpty()) {
+      result += sizeOf(10u) + sizeOf(_deprecationMessage.wireValue())
+    }
+    result += unknownFields.size()
+    return result
+  }
+
+  override fun serializedSize(): Int {
+    var size = __serializedSize
+    if (size == -1) {
+      size = __computeSerializedSize()
+      __serializedSize = size
+    }
+    return size
+  }
 
   override fun serialize(writer: Writer) {
     if (_deprecationMessage.wireValue().isNotEmpty()) {
@@ -1010,12 +1065,20 @@ public class EnumValueOptions private constructor(
 public class ServiceOptions private constructor(
   override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
-  private val __serializedSize: Int by lazy {
-    unknownFields.size()
-  }
+  @Transient
+  private var __serializedSize: Int = -1
 
-  override fun serializedSize(): Int =
-    __serializedSize
+  private fun __computeSerializedSize(): Int =
+    unknownFields.size()
+
+  override fun serializedSize(): Int {
+    var size = __serializedSize
+    if (size == -1) {
+      size = __computeSerializedSize()
+      __serializedSize = size
+    }
+    return size
+  }
 
   override fun serialize(writer: Writer) {
     writer.writeUnknown(unknownFields)
@@ -1087,17 +1150,8 @@ public class MethodOptions private constructor(
   private val _responseMarshaller: LazyReference<Bytes, String>,
   override val unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
 ) : AbstractMessage() {
-  private val __serializedSize: Int by lazy {
-    var result = 0
-    if (_requestMarshaller.wireValue().isNotEmpty()) {
-      result += sizeOf(10u) + sizeOf(_requestMarshaller.wireValue())
-    }
-    if (_responseMarshaller.wireValue().isNotEmpty()) {
-      result += sizeOf(18u) + sizeOf(_responseMarshaller.wireValue())
-    }
-    result += unknownFields.size()
-    result
-  }
+  @Transient
+  private var __serializedSize: Int = -1
 
   /**
    * Provides a custom request marshaller for the generated method descriptor. Substitutes the provided expression directly for `com.toasttab.protokt.grpc.KtMarshaller(<request_type>)`
@@ -1113,8 +1167,26 @@ public class MethodOptions private constructor(
   public val responseMarshaller: String
     get() = _responseMarshaller.value()
 
-  override fun serializedSize(): Int =
-    __serializedSize
+  private fun __computeSerializedSize(): Int {
+    var result = 0
+    if (_requestMarshaller.wireValue().isNotEmpty()) {
+      result += sizeOf(10u) + sizeOf(_requestMarshaller.wireValue())
+    }
+    if (_responseMarshaller.wireValue().isNotEmpty()) {
+      result += sizeOf(18u) + sizeOf(_responseMarshaller.wireValue())
+    }
+    result += unknownFields.size()
+    return result
+  }
+
+  override fun serializedSize(): Int {
+    var size = __serializedSize
+    if (size == -1) {
+      size = __computeSerializedSize()
+      __serializedSize = size
+    }
+    return size
+  }
 
   override fun serialize(writer: Writer) {
     if (_requestMarshaller.wireValue().isNotEmpty()) {

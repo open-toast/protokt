@@ -270,12 +270,25 @@ private class MessageGenerator(
         "requireNotNull($propName) { \"$propName is assumed non-null with (protokt.v1.${if (oneof) "oneof" else "property"}).generate_non_null_accessor but was null\" }".bindSpaces()
 
     private fun TypeSpec.Builder.handleMessageSize(propertySpecs: List<PropertySpec>, propertyInfoList: List<PropertyInfo>) {
-        addProperty(generateMessageSize(msg, propertySpecs, ctx, propertyInfoList))
+        addProperty(
+            PropertySpec.builder(SERIALIZED_SIZE, Int::class)
+                .addModifiers(KModifier.PRIVATE)
+                .mutable(true)
+                .addAnnotation(Transient::class)
+                .initializer("-1")
+                .build()
+        )
+        addFunction(generateComputeSerializedSize(msg, propertySpecs, ctx, propertyInfoList))
         addFunction(
             buildFunSpec("serializedSize") {
                 returns(Int::class)
                 addModifiers(KModifier.OVERRIDE)
-                addStatement("return $SERIALIZED_SIZE")
+                addStatement("var·size·=·$SERIALIZED_SIZE")
+                beginControlFlow("if·(size·==·-1)")
+                addStatement("size·=·$COMPUTE_SERIALIZED_SIZE()")
+                addStatement("$SERIALIZED_SIZE·=·size")
+                endControlFlow()
+                addStatement("return·size")
             }
         )
     }
