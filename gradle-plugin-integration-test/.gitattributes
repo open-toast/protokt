@@ -1,0 +1,3 @@
+*.kt text eol=lf
+*.kts text eol=lf
+*.proto text eol=lf
