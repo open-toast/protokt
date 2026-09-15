@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Toast, Inc.
+ * Copyright (c) 2026 Toast, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,18 +15,25 @@
 
 @file:OptIn(protokt.v1.OnlyForUseByGeneratedProtoCode::class)
 
-package protokt.v1.testing
+package protokt.v1.helloworld
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import protokt.v1.grpc.SchemaDescriptor
-import protokt.v1.grpc.fileDescriptor
 
-class SchemaDescriptorTest {
+class LiteSchemaDescriptorTest {
     @Test
-    fun `schemaDescriptor has correct file descriptor`() {
-        val schemaDescriptor = TestServiceGrpc.getServiceDescriptor().schemaDescriptor as SchemaDescriptor
-        assertThat(schemaDescriptor.fileDescriptor.proto)
-            .isEqualTo(service_package_file_descriptor.descriptor.proto)
+    fun `lite generated service reports unavailable file descriptor`() {
+        val schemaDescriptor = GreeterGrpc.getServiceDescriptor().schemaDescriptor as SchemaDescriptor
+
+        val failure = assertThrows<IllegalStateException> { schemaDescriptor.resolveFileDescriptor() }
+
+        assertThat(failure)
+            .hasMessageThat()
+            .isEqualTo(
+                "File descriptor is unavailable for `helloworld.Greeter`; " +
+                    "regenerate the service with descriptors enabled"
+            )
     }
 }
