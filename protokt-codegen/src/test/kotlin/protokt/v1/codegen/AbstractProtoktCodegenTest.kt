@@ -15,14 +15,12 @@
 
 package protokt.v1.codegen
 
-import com.google.common.base.CaseFormat
 import com.google.common.io.Resources
 import com.google.protobuf.compiler.PluginProtos
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.io.TempDir
 import protokt.v1.gradle.KOTLIN_TARGET
 import protokt.v1.gradle.KotlinTarget
-import protokt.v1.gradle.ProtoktExtension
 import protokt.v1.testing.ProcessOutput
 import protokt.v1.testing.projectRoot
 import protokt.v1.testing.runCommand
@@ -31,8 +29,6 @@ import java.io.File
 import java.io.PrintStream
 import java.nio.file.Path
 import java.nio.file.Paths
-import kotlin.reflect.KClass
-import kotlin.reflect.full.declaredMemberProperties
 
 abstract class AbstractProtoktCodegenTest {
     @TempDir
@@ -65,7 +61,7 @@ abstract class AbstractProtoktCodegenTest {
 
     protected fun runPlugin(
         inputFile: String,
-        ext: ProtoktExtension = ProtoktExtension(),
+        formatOutput: Boolean = true,
         transform: String.() -> String = { this }
     ): PluginRunResult {
         testFile.writeText(
@@ -85,7 +81,7 @@ abstract class AbstractProtoktCodegenTest {
             "-I$testDir",
             "-I$extensionsProto",
             "-I$includeProtos",
-            buildPluginOptions(ext),
+            "--custom_opt=format_output=$formatOutput,$KOTLIN_TARGET=${KotlinTarget.Jvm}",
             "$testFile"
         ).joinToString(" ")
             .runCommand(
@@ -102,16 +98,6 @@ abstract class AbstractProtoktCodegenTest {
         }
     }
 }
-
-private fun buildPluginOptions(extension: ProtoktExtension) =
-    "--custom_opt=" +
-        extension::class.declaredMemberProperties
-            .filter { it.returnType.classifier as KClass<*> == Boolean::class }
-            .joinToString(",") { format(it.name) + "=${it.call(extension)}" } +
-        ",${format(KOTLIN_TARGET)}=${KotlinTarget.Jvm}"
-
-private fun format(optionConst: String) =
-    CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, optionConst)
 
 private val codegenTestingResources =
     Path.of(

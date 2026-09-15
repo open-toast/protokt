@@ -76,13 +76,9 @@ internal class ProtobufJsReader(
             if (reader.pos == endPosition) {
                 0u
             } else {
-                if (reader.pos > endPosition) {
-                    throw ProtoktDecodeException(WireFormat.TRUNCATED_MESSAGE)
-                }
+                protoktCheck(reader.pos <= endPosition) { WireFormat.TRUNCATED_MESSAGE }
                 val tag = readInt32()
-                if (tag ushr 3 == 0) {
-                    throw ProtoktDecodeException("Invalid tag: $tag")
-                }
+                protoktCheck(tag ushr 3 != 0) { "Invalid tag: $tag" }
                 tag.toUInt()
             }
         return _lastTag
@@ -104,25 +100,19 @@ internal class ProtobufJsReader(
             while (reader.pos < packedEndPosition) {
                 acc(this)
             }
-            if (reader.pos != packedEndPosition) {
-                throw ProtoktDecodeException(WireFormat.TRUNCATED_MESSAGE)
-            }
+            protoktCheck(reader.pos == packedEndPosition) { WireFormat.TRUNCATED_MESSAGE }
         }
     }
 
     override fun <T : Message> readMessage(m: Deserializer<T>): T {
-        if (messageDepth >= WireFormat.DEFAULT_RECURSION_LIMIT) {
-            throw ProtoktDecodeException(WireFormat.TOO_MANY_LEVELS_OF_NESTING)
-        }
+        protoktCheck(messageDepth < WireFormat.DEFAULT_RECURSION_LIMIT) { WireFormat.TOO_MANY_LEVELS_OF_NESTING }
         messageDepth++
         try {
             val oldEndPosition = endPosition
             endPosition = checkedEndPosition(readInt32())
             try {
                 val result = m.deserialize(this)
-                if (reader.pos != endPosition) {
-                    throw ProtoktDecodeException(WireFormat.MESSAGE_NOT_FULLY_CONSUMED)
-                }
+                protoktRequire(reader.pos == endPosition) { WireFormat.MESSAGE_NOT_FULLY_CONSUMED }
                 return result
             } finally {
                 endPosition = oldEndPosition
@@ -133,27 +123,12 @@ internal class ProtobufJsReader(
     }
 
     private fun checkAvailable(size: Int) {
-        if (size > endPosition - reader.pos) {
-            throw ProtoktDecodeException(WireFormat.TRUNCATED_MESSAGE)
-        }
+        protoktCheck(size <= endPosition - reader.pos) { WireFormat.TRUNCATED_MESSAGE }
     }
 
     private fun checkedEndPosition(length: Int): Int {
-        if (length < 0) {
-            throw ProtoktDecodeException(WireFormat.NEGATIVE_SIZE)
-        }
-        if (length > endPosition - reader.pos) {
-            throw ProtoktDecodeException(WireFormat.TRUNCATED_MESSAGE)
-        }
+        protoktCheck(length >= 0) { WireFormat.NEGATIVE_SIZE }
+        protoktCheck(length <= endPosition - reader.pos) { WireFormat.TRUNCATED_MESSAGE }
         return reader.pos + length
     }
-
-    private inline fun <T> decode(block: () -> T): T =
-        try {
-            block()
-        } catch (e: ProtoktDecodeException) {
-            throw e
-        } catch (e: Throwable) {
-            throw ProtoktDecodeException(e.message ?: "Malformed protobuf input", e)
-        }
 }

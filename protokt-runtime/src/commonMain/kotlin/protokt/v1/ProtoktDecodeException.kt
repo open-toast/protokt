@@ -23,3 +23,26 @@ class ProtoktDecodeException : RuntimeException {
 
     constructor(message: String, cause: Throwable) : super(message, cause)
 }
+
+internal inline fun protoktCheck(value: Boolean, lazyMessage: () -> Any) {
+    if (!value) {
+        throw ProtoktDecodeException(lazyMessage().toString())
+    }
+}
+
+internal inline fun protoktRequire(value: Boolean, lazyMessage: () -> Any) {
+    if (!value) {
+        throw ProtoktDecodeException(lazyMessage().toString())
+    }
+}
+
+internal inline fun <T> decode(block: () -> T): T =
+    try {
+        block()
+    } catch (e: ProtoktDecodeException) {
+        throw e
+    } catch (e: Throwable) {
+        val message = e.message ?: "Malformed protobuf input"
+        val normalizedMessage = if (message.contains("malformed varint", ignoreCase = true)) WireFormat.MALFORMED_VARINT else message
+        throw ProtoktDecodeException(normalizedMessage, e)
+    }

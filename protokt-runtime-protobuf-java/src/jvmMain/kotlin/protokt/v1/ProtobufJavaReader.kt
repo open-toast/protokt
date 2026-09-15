@@ -16,7 +16,6 @@
 package protokt.v1
 
 import com.google.protobuf.CodedInputStream
-import com.google.protobuf.InvalidProtocolBufferException
 
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
 internal class ProtobufJavaReader(
@@ -95,18 +94,14 @@ internal class ProtobufJavaReader(
     }
 
     override fun <T : Message> readMessage(m: Deserializer<T>): T {
-        if (messageDepth >= WireFormat.DEFAULT_RECURSION_LIMIT) {
-            throw ProtoktDecodeException(WireFormat.TOO_MANY_LEVELS_OF_NESTING)
-        }
+        protoktCheck(messageDepth < WireFormat.DEFAULT_RECURSION_LIMIT) { WireFormat.TOO_MANY_LEVELS_OF_NESTING }
         messageDepth++
         try {
             val length = decode { stream.readRawVarint32() }
             val limit = decode { stream.pushLimit(length) }
             try {
                 val result = m.deserialize(this)
-                if (stream.bytesUntilLimit != 0) {
-                    throw ProtoktDecodeException(WireFormat.MESSAGE_NOT_FULLY_CONSUMED)
-                }
+                protoktRequire(stream.bytesUntilLimit == 0) { WireFormat.MESSAGE_NOT_FULLY_CONSUMED }
                 return result
             } finally {
                 stream.popLimit(limit)
@@ -115,13 +110,4 @@ internal class ProtobufJavaReader(
             messageDepth--
         }
     }
-
-    private inline fun <T> decode(block: () -> T): T =
-        try {
-            block()
-        } catch (e: InvalidProtocolBufferException) {
-            val message = e.message ?: "Malformed protobuf input"
-            val normalizedMessage = if (message.contains("malformed varint", ignoreCase = true)) WireFormat.MALFORMED_VARINT else message
-            throw ProtoktDecodeException(normalizedMessage, e)
-        }
 }

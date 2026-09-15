@@ -244,6 +244,16 @@ class ReaderValidationTest {
 
         @ParameterizedTest
         @MethodSource("protokt.v1.ReaderValidationTest#codecs")
+        fun `overlong tag varint`(codec: Codec) {
+            val exception =
+                assertThrows<ProtoktDecodeException> {
+                    codec.reader(ByteArray(10) { 0x80.toByte() } + byteArrayOf(0x01)).readTag()
+                }
+            assertThat(exception).hasMessageThat().isEqualTo(WireFormat.MALFORMED_VARINT)
+        }
+
+        @ParameterizedTest
+        @MethodSource("protokt.v1.ReaderValidationTest#codecs")
         fun `truncated tag`(codec: Codec) {
             assertThrows<ProtoktDecodeException> {
                 codec.reader(byteArrayOf(0x80.toByte())).readTag()

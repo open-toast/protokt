@@ -35,10 +35,7 @@ configure<ExpediterExtension> {
 
 spotless {
     kotlin {
-        targetExclude(
-            "src/jvmMain/kotlin/com/toasttab/protokt/ext/inet_socket_address.kt",
-            "src/jvmMain/kotlin/com/toasttab/protokt/ext/protokt.kt"
-        )
+        targetExclude("src/jvmMain/kotlin/com/toasttab/protokt/ext/**.kt")
     }
 }
 

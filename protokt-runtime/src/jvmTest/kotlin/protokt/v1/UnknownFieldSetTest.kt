@@ -20,15 +20,15 @@ import org.junit.jupiter.api.Test
 
 class UnknownFieldSetTest {
     @Test
-    fun `serialization preserves wire order`() {
+    fun `serialization preserves wire order within each field number`() {
         val unknownFields =
             unknownFieldSet(
                 UnknownField.lengthDelimited(15u, "abc".encodeToByteArray()),
-                UnknownField.varint(15u, 123),
-                UnknownField.lengthDelimited(15u, "def".encodeToByteArray()),
-                UnknownField.varint(15u, 456),
                 UnknownField.fixed32(2u, 0x01020304u),
-                UnknownField.varint(1u, 1)
+                UnknownField.varint(15u, 123),
+                UnknownField.varint(1u, 1),
+                UnknownField.lengthDelimited(15u, "def".encodeToByteArray()),
+                UnknownField.varint(15u, 456)
             )
 
         val writer = ProtoktWriter(ByteArray(unknownFields.size()))
