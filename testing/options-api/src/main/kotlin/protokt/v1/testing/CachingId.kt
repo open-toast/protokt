@@ -29,6 +29,7 @@ object CachingIdConverter : Converter<Bytes, CachingId> {
     override val wireType = Bytes::class
 
     override val valueType = CachingId::class
+
     override fun unwrap(wrapped: CachingId) =
         wrapped.value
 

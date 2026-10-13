@@ -19,6 +19,7 @@ object InetSocketAddressConverter : Converter<InetSocketAddress, java.net.InetSo
     override val wireType = InetSocketAddress::class
 
     override val valueType = java.net.InetSocketAddress::class
+
     override fun wrap(unwrapped: InetSocketAddress) =
         java.net.InetSocketAddress(
             InetAddressBytesConverter.wrap(unwrapped.address),

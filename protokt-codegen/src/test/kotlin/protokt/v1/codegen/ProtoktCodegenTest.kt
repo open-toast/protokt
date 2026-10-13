@@ -53,6 +53,7 @@ object UuidBytesConverter : Converter<Bytes, UUID> {
     override val wireType = Bytes::class
 
     override val valueType = UUID::class
+
     override fun wrap(unwrapped: Bytes): UUID {
         val buf = unwrapped.asReadOnlyBuffer()
 

@@ -26,6 +26,7 @@ object DurationConverter : Converter<protokt.v1.google.protobuf.Duration, Durati
     override val wireType = protokt.v1.google.protobuf.Duration::class
 
     override val valueType = Duration::class
+
     override fun wrap(unwrapped: protokt.v1.google.protobuf.Duration) =
         Duration(unwrapped)
 
