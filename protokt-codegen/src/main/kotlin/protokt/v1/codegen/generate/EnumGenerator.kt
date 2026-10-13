@@ -19,6 +19,7 @@ import com.google.protobuf.DescriptorProtos
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
+import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.buildCodeBlock
@@ -77,7 +78,7 @@ private class EnumGenerator(
 
     private fun TypeSpec.Builder.addEnumValues() {
         addTypes(
-            e.values.map {
+            e.values.distinctBy { it.number }.map {
                 TypeSpec.objectBuilder(it.valueName).apply {
                     superclass(e.className)
                     addKDoc(it)
@@ -108,6 +109,24 @@ private class EnumGenerator(
                     EnumDeserializer::class
                         .asTypeName()
                         .parameterizedBy(e.className)
+                )
+                .addProperties(
+                    e.values.groupBy { it.number }.values.flatMap { values ->
+                        val first = values.first()
+                        values.drop(1).map { alias ->
+                            PropertySpec.builder(alias.valueName, e.className.nestedClass(first.valueName))
+                                .getter(FunSpec.getterBuilder().addStatement("return %N", first.valueName).build())
+                                .apply {
+                                    baseLocation(ctx, enumPath + listOf(DescriptorProtos.EnumDescriptorProto.VALUE_FIELD_NUMBER, alias.index))
+                                        ?.cleanDocumentation()
+                                        ?.let { addKdoc(formatDoc(it)) }
+                                    if (alias.options.default.deprecated == true) {
+                                        handleDeprecation(Deprecation.renderOptions(alias.options.protokt.deprecationMessage.ifEmpty { "deprecated in proto" }))
+                                    }
+                                }
+                                .build()
+                        }
+                    }
                 )
                 .addFunction(
                     buildFunSpec("deserialize") {

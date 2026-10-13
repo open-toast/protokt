@@ -23,8 +23,10 @@ import protokt.v1.OnlyForUseByGeneratedProtoCode
 
 class EnumTest {
     @Test
-    fun `aliases with the same wire value remain distinct constants`() {
-        assertThat(SomeEnum.VALUE_ALIAS).isNotEqualTo(SomeEnum.VALUE)
+    fun `aliases with the same wire value refer to the same constant`() {
+        assertThat(SomeEnum.VALUE_ALIAS).isSameInstanceAs(SomeEnum.VALUE)
+        assertThat(SomeEnum.VALUE_ALIAS.name).isEqualTo("VALUE")
+        assertThat(SomeEnum.deserialize(0)).isSameInstanceAs(SomeEnum.VALUE_ALIAS)
     }
 
     @Test
@@ -47,23 +49,20 @@ class EnumTest {
     }
 
     @Test
-    fun `messages canonicalize enum aliases`() {
+    fun `messages built with enum aliases are equal`() {
         val canonical = HasAnEnum { enum = SomeEnum.VALUE }
         val alias = HasAnEnum { enum = SomeEnum.VALUE_ALIAS }
-        val recognizedNumber = HasAnEnum { enum = SomeEnum.UNRECOGNIZED(0) }
         val unknownNumber = HasAnEnum { enum = SomeEnum.UNRECOGNIZED(10) }
 
         assertThat(alias.enum).isSameInstanceAs(SomeEnum.VALUE)
-        assertThat(recognizedNumber.enum).isSameInstanceAs(SomeEnum.VALUE)
         assertThat(alias).isEqualTo(canonical)
-        assertThat(recognizedNumber).isEqualTo(canonical)
         assertThat(alias.hashCode()).isEqualTo(canonical.hashCode())
-        assertThat(recognizedNumber.hashCode()).isEqualTo(canonical.hashCode())
+        assertThat(HasAnEnum.deserialize(alias.serialize())).isEqualTo(alias)
         assertThat(unknownNumber.enum).isEqualTo(SomeEnum.UNRECOGNIZED(10))
     }
 
     @Test
-    fun `messages canonicalize enum aliases in collections and oneofs`() {
+    fun `messages accept aliases in collections and oneofs`() {
         val message =
             HasEnumCollections {
                 enums = listOf(SomeEnum.VALUE_ALIAS)
@@ -81,7 +80,7 @@ class EnumTest {
 
     @OptIn(OnlyForUseByGeneratedProtoCode::class)
     @Test
-    fun `builder plus canonicalizes enum aliases in lazy maps`() {
+    fun `builder plus retains alias identity and lazy map keys`() {
         val original = HasEnumCollections { enumsByName = mapOf("canonical" to SomeEnum.VALUE) }
         val pair = original.copy { enumsByName += "alias" to SomeEnum.VALUE_ALIAS }
         val map = original.copy { enumsByName += mapOf("alias" to SomeEnum.VALUE_ALIAS) }
