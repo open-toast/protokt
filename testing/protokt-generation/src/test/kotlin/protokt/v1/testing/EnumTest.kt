@@ -17,6 +17,9 @@ package protokt.v1.testing
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
+import protokt.v1.Bytes
+import protokt.v1.LazyConvertingMap
+import protokt.v1.OnlyForUseByGeneratedProtoCode
 
 class EnumTest {
     @Test
@@ -74,6 +77,25 @@ class EnumTest {
         assertThat(message.optionalEnum).isSameInstanceAs(SomeEnum.VALUE)
         assertThat((message.selection as HasEnumCollections.Selection.SelectedEnum).selectedEnum)
             .isSameInstanceAs(SomeEnum.VALUE)
+    }
+
+    @OptIn(OnlyForUseByGeneratedProtoCode::class)
+    @Test
+    fun `builder plus canonicalizes enum aliases in lazy maps`() {
+        val original = HasEnumCollections { enumsByName = mapOf("canonical" to SomeEnum.VALUE) }
+        val pair = original.copy { enumsByName += "alias" to SomeEnum.VALUE_ALIAS }
+        val map = original.copy { enumsByName += mapOf("alias" to SomeEnum.VALUE_ALIAS) }
+
+        assertThat(pair.enumsByName.getValue("alias")).isSameInstanceAs(SomeEnum.VALUE)
+        assertThat(map.enumsByName.getValue("alias")).isSameInstanceAs(SomeEnum.VALUE)
+        assertThat(pair).isEqualTo(HasEnumCollections.deserialize(pair.serialize()))
+        assertThat(map).isEqualTo(HasEnumCollections.deserialize(map.serialize()))
+
+        val originalKeys = mutableListOf<Bytes>()
+        val copiedKeys = mutableListOf<Bytes>()
+        (original.enumsByName as LazyConvertingMap<*, *>).wireEntryForEach<Bytes, SomeEnum> { key, _ -> originalKeys.add(key) }
+        (pair.enumsByName as LazyConvertingMap<*, *>).wireEntryForEach<Bytes, SomeEnum> { key, _ -> copiedKeys.add(key) }
+        assertThat(copiedKeys.first()).isSameInstanceAs(originalKeys.single())
     }
 
     @Test

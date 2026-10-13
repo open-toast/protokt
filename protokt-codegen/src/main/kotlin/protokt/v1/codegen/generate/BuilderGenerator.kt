@@ -306,11 +306,25 @@ private class BuilderGenerator(
             enumValueClass?.let {
                 CodeBlock.of("newValue.mapValues { (_, value) -> %T.deserialize(value.value) }", it)
             } ?: CodeBlock.of("newValue")
+        val lazyValue =
+            enumValueClass?.let {
+                CodeBlock.of(
+                    "%T(buildMap { newValue.wireEntryForEach<Any?, %T> { key, value -> put(key, %T.deserialize(value.value)) } }, %L, %L, %L, %L)",
+                    LazyConvertingMap::class,
+                    it,
+                    it,
+                    info.keyWrapped,
+                    info.valueWrapped,
+                    keyConverterRef,
+                    valueConverterRef
+                )
+            } ?: CodeBlock.of("newValue")
         return FunSpec.setterBuilder()
             .addParameter("newValue", Map::class)
             .addCode(
-                "field = if (newValue is %T<*, *>) newValue else %T.fromKotlin(%L, %L, %L, %L, %L)",
+                "field = if (newValue is %T<*, *>) %L else %T.fromKotlin(%L, %L, %L, %L, %L)",
                 LazyConvertingMap::class,
+                lazyValue,
                 LazyConvertingMap::class,
                 newValue,
                 info.keyWrapped,
