@@ -15,7 +15,10 @@
 
 import protokt.v1.gradle.BASE_GROUP_NAME
 
-plugins { idea }
+plugins {
+    idea
+    id("protokt.spotless-conventions")
+}
 
 version = rootProject.version
 group = BASE_GROUP_NAME

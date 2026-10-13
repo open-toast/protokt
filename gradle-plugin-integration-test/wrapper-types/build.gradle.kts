@@ -13,10 +13,14 @@
  * limitations under the License.
  */
 
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     kotlin("jvm")
     kotlin("kapt")
 }
+
+val runtimeJavaVersion = libs.versions.java.get()
 
 dependencies {
     implementation("com.toasttab.protokt.v1:protokt-core:$version")
@@ -28,18 +32,14 @@ dependencies {
     kapt(libs.autoService)
 }
 
-// pin to the runtime version used by protokt; wrapper-types extensions are loaded
-// by the codegen plugin which runs on the project's own JDK
 java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(libs.versions.java.get().toInt()))
-    }
+    sourceCompatibility = JavaVersion.toVersion(runtimeJavaVersion)
+    targetCompatibility = JavaVersion.toVersion(runtimeJavaVersion)
 }
 
 kotlin {
-    jvmToolchain(libs.versions.java.get().toInt())
-
     compilerOptions {
+        jvmTarget = JvmTarget.fromTarget(runtimeJavaVersion)
         // suppress a kapt warning for K2 and Kotlin 2.x
         freeCompilerArgs.add("-Xsuppress-version-warnings")
     }

@@ -25,6 +25,14 @@ buildscript {
 
 apply(plugin = "net.vivin.gradle-semantic-build-versioning")
 
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+        google()
+        maven("https://packages.jetbrains.team/maven/p/krpc/grpc")
+    }
+}
+
 rootProject.name = "protokt"
 
 include(

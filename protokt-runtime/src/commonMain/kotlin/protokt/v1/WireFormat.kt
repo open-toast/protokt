@@ -31,6 +31,12 @@ internal object WireFormat {
     const val TOO_MANY_LEVELS_OF_NESTING =
         "Protocol message had too many levels of nesting"
 
+    const val MALFORMED_VARINT =
+        "Protocol message contained a malformed varint."
+
+    const val MESSAGE_NOT_FULLY_CONSUMED =
+        "Protocol message was not fully consumed."
+
     const val WIRETYPE_VARINT = 0
     const val WIRETYPE_FIXED64 = 1
     const val WIRETYPE_LENGTH_DELIMITED = 2
