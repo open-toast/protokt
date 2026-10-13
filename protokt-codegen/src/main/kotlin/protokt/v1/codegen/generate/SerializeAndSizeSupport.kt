@@ -80,6 +80,10 @@ private fun StandardField.nonDefault(ctx: Context, property: PropertySpec): Code
 
                 type == FieldType.Bool -> wireValueAccess
 
+                type == FieldType.Float -> CodeBlock.of("%L.toRawBits() != 0", wireValueAccess)
+
+                type == FieldType.Double -> CodeBlock.of("%L.toRawBits() != 0L", wireValueAccess)
+
                 type.scalar -> CodeBlock.of("%L != %L", wireValueAccess, type.defaultValue)
 
                 else -> error("Unsupported non-nullable caching field type: $type")
@@ -96,6 +100,8 @@ private fun StandardField.nonDefault(ctx: Context, property: PropertySpec): Code
             type == FieldType.Bytes || type == FieldType.String -> CodeBlock.of("%L.isNotEmpty()", valueAccess)
             type == FieldType.Enum -> CodeBlock.of("%L.value != 0", valueAccess)
             type == FieldType.Bool -> valueAccess
+            type == FieldType.Float -> CodeBlock.of("%L.toRawBits() != 0", valueAccess)
+            type == FieldType.Double -> CodeBlock.of("%L.toRawBits() != 0L", valueAccess)
             type.scalar -> CodeBlock.of("%L != %L", valueAccess, type.defaultValue)
             else -> error("Field doesn't have nondefault check: $this, $type")
         }

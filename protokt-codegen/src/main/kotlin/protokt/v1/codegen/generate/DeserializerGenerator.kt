@@ -255,16 +255,6 @@ private class DeserializerGenerator(
             beginControlFlow("$READER.readRepeated(false)")
             add(read)
             beginControlFlow(".let")
-            // Wrap key in LazyReference if needed
-            val keyExpr = if (info.keyWrapped) {
-                CodeBlock.of(
-                    "%T(it.key, %T)",
-                    LazyReference::class,
-                    info.keyConverterClassName!!
-                )
-            } else {
-                CodeBlock.of("it.key")
-            }
             // Wrap value in LazyReference if needed
             val valueExpr = if (info.valueWrapped) {
                 CodeBlock.of(
@@ -275,7 +265,7 @@ private class DeserializerGenerator(
             } else {
                 CodeBlock.of("it.value")
             }
-            add("put(%L, %L)\n", keyExpr, valueExpr)
+            add("put(it.key, %L)\n", valueExpr)
             endControlFlow()
             endControlFlow()
             endControlFlowWithoutNewline()

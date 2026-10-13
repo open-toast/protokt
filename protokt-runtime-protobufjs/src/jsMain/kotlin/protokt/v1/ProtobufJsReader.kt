@@ -26,53 +26,66 @@ internal class ProtobufJsReader(
     override val lastTag: UInt
         get() = _lastTag
 
-    override fun readDouble() =
-        reader.double()
+    override fun readDouble(): Double {
+        checkAvailable(8)
+        return decode { reader.double() }
+    }
 
-    override fun readFixed32() =
-        reader.fixed32().toUInt()
+    override fun readFixed32(): UInt {
+        checkAvailable(4)
+        return decode { reader.fixed32().toUInt() }
+    }
 
-    override fun readFixed64() =
-        Long.fromProtobufJsLong(reader.fixed64()).toULong()
+    override fun readFixed64(): ULong {
+        checkAvailable(8)
+        return decode { Long.fromProtobufJsLong(reader.fixed64()).toULong() }
+    }
 
-    override fun readFloat() =
-        reader.float()
+    override fun readFloat(): Float {
+        checkAvailable(4)
+        return decode { reader.float() }
+    }
 
     override fun readInt64() =
-        Long.fromProtobufJsLong(reader.int64())
+        decode { Long.fromProtobufJsLong(reader.int64()) }
 
-    override fun readSFixed32() =
-        reader.sfixed32()
+    override fun readSFixed32(): Int {
+        checkAvailable(4)
+        return decode { reader.sfixed32() }
+    }
 
-    override fun readSFixed64() =
-        Long.fromProtobufJsLong(reader.sfixed64())
+    override fun readSFixed64(): Long {
+        checkAvailable(8)
+        return decode { Long.fromProtobufJsLong(reader.sfixed64()) }
+    }
 
     override fun readSInt32() =
-        reader.sint32()
+        decode { reader.sint32() }
 
     override fun readSInt64() =
-        Long.fromProtobufJsLong(reader.sint64())
+        decode { Long.fromProtobufJsLong(reader.sint64()) }
 
     override fun readString() =
-        reader.string()
+        decode { reader.string() }
 
     override fun readUInt64() =
-        Long.fromProtobufJsLong(reader.uint64()).toULong()
+        decode { Long.fromProtobufJsLong(reader.uint64()).toULong() }
 
     override fun readTag(): UInt {
         _lastTag =
             if (reader.pos == endPosition) {
                 0u
             } else {
+                protoktCheck(reader.pos <= endPosition) { WireFormat.TRUNCATED_MESSAGE }
                 val tag = readInt32()
-                check(tag ushr 3 != 0) { "Invalid tag" }
+                protoktCheck(tag ushr 3 != 0) { "Invalid tag: $tag" }
                 tag.toUInt()
             }
         return _lastTag
     }
 
     override fun readBytes() =
-        Bytes(reader.bytes().asByteArray())
+        decode { Bytes(reader.bytes().asByteArray()) }
 
     // Does protobufjs support reading a slice?
     override fun readBytesSlice() =
@@ -83,26 +96,39 @@ internal class ProtobufJsReader(
             acc(this)
         } else {
             val length = readInt32()
-            val endPosition = reader.pos + length
-            while (reader.pos < endPosition) {
+            val packedEndPosition = checkedEndPosition(length)
+            while (reader.pos < packedEndPosition) {
                 acc(this)
             }
+            protoktCheck(reader.pos == packedEndPosition) { WireFormat.TRUNCATED_MESSAGE }
         }
     }
 
     override fun <T : Message> readMessage(m: Deserializer<T>): T {
-        check(++messageDepth <= WireFormat.DEFAULT_RECURSION_LIMIT) { WireFormat.TOO_MANY_LEVELS_OF_NESTING }
+        protoktCheck(messageDepth < WireFormat.DEFAULT_RECURSION_LIMIT) { WireFormat.TOO_MANY_LEVELS_OF_NESTING }
+        messageDepth++
         try {
             val oldEndPosition = endPosition
-            endPosition = readInt32() + reader.pos
-            val ret = m.deserialize(this)
-            require(reader.pos == endPosition) {
-                "Not at the end of the current message limit as expected"
+            endPosition = checkedEndPosition(readInt32())
+            try {
+                val result = m.deserialize(this)
+                protoktRequire(reader.pos == endPosition) { WireFormat.MESSAGE_NOT_FULLY_CONSUMED }
+                return result
+            } finally {
+                endPosition = oldEndPosition
             }
-            endPosition = oldEndPosition
-            return ret
         } finally {
             messageDepth--
         }
+    }
+
+    private fun checkAvailable(size: Int) {
+        protoktCheck(size <= endPosition - reader.pos) { WireFormat.TRUNCATED_MESSAGE }
+    }
+
+    private fun checkedEndPosition(length: Int): Int {
+        protoktCheck(length >= 0) { WireFormat.NEGATIVE_SIZE }
+        protoktCheck(length <= endPosition - reader.pos) { WireFormat.TRUNCATED_MESSAGE }
+        return reader.pos + length
     }
 }
