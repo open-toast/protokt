@@ -657,26 +657,31 @@ message WrapperMessage {
 ```
 
 Converters implement the
-[Converter](extensions/protokt-extensions-api/src/commonMain/kotlin/protokt/v1/Converter.kt)
+[Converter](protokt-runtime/src/commonMain/kotlin/protokt/v1/Converter.kt)
 interface:
 
 ```kotlin
-interface Converter<WireT : Any, KotlinT : Any> {
-  val wrapper: KClass<KotlinT>
+interface Converter<WireT : Any, ValueT : Any> {
+  val wireType: KClass<WireT>
 
-  val wrapped: KClass<WireT>
+  val valueType: KClass<ValueT>
 
-  fun wrap(unwrapped: WireT): KotlinT
+  fun wrap(unwrapped: WireT): ValueT
 
-  fun unwrap(wrapped: KotlinT): WireT
+  fun unwrap(wrapped: ValueT): WireT
 }
 ```
 
-and protokt will reference the converter's methods to wrap and unwrap from
-protobuf primitives:
+The wire and value types must be runtime-disjoint. Protokt rejects converters whose types are identical, related through inheritance, or otherwise match the same runtime value.
+
+Protokt references the converter's methods to wrap and unwrap protobuf values:
 
 ```kotlin
-object InstantConverter : AbstractConverter<Timestamp, Instant>() {
+object InstantConverter : Converter<Timestamp, Instant> {
+    override val wireType = Timestamp::class
+
+    override val valueType = Instant::class
+
     override fun wrap(unwrapped: Timestamp): Instant =
         Instant.ofEpochSecond(unwrapped.seconds, unwrapped.nanos.toLong())
 
@@ -691,10 +696,10 @@ object InstantConverter : AbstractConverter<Timestamp, Instant>() {
 All wrapper types use lazy conversion via `LazyReference`. The wire-form value
 is stored at deserialization time and only converted to the Kotlin type on first
 access. This means:
-- Deserialization never invokes the converter's `wrap()` — it only reads the
+
+- Deserialization never invokes the converter's `wrap()`; it only reads the
   raw wire value
-- Serialization uses `wireValue()` to write the original wire form without
-  re-encoding
+- `LazyReference` retains one representation at a time to avoid holding both values
 - Conversion exceptions (e.g. malformed data) are deferred to the point of
   access rather than thrown during deserialization
 

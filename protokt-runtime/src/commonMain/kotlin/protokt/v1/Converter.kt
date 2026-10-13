@@ -17,11 +17,20 @@ package protokt.v1
 
 import kotlin.reflect.KClass
 
-interface Converter<WireT : Any, KotlinT : Any> {
-    val wrapper: KClass<KotlinT>
+/**
+ * Converts between a protobuf wire value and its user-facing value.
+ */
+interface Converter<WireT : Any, ValueT : Any> {
+    /**
+     * The protobuf wire type. It must be runtime-disjoint from [valueType].
+     */
+    val wireType: KClass<WireT>
 
-    val wrapped: KClass<WireT>
+    /**
+     * The user-facing type. It must be runtime-disjoint from [wireType].
+     */
+    val valueType: KClass<ValueT>
 
-    fun wrap(unwrapped: WireT): KotlinT
-    fun unwrap(wrapped: KotlinT): WireT
+    fun wrap(unwrapped: WireT): ValueT
+    fun unwrap(wrapped: ValueT): WireT
 }
