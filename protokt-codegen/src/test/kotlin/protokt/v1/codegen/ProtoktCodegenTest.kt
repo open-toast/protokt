@@ -16,8 +16,8 @@
 package protokt.v1.codegen
 
 import org.junit.jupiter.api.Test
-import protokt.v1.AbstractConverter
 import protokt.v1.Bytes
+import protokt.v1.Converter
 import java.nio.ByteBuffer
 import java.util.UUID
 
@@ -35,7 +35,11 @@ class ProtoktCodegenTest : AbstractProtoktCodegenTest() {
     }
 }
 
-object UuidBytesConverter : AbstractConverter<Bytes, UUID>() {
+object UuidBytesConverter : Converter<Bytes, UUID> {
+    override val wireType = Bytes::class
+
+    override val valueType = UUID::class
+
     override fun wrap(unwrapped: Bytes): UUID {
         val buf = unwrapped.asReadOnlyBuffer()
 

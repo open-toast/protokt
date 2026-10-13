@@ -150,7 +150,7 @@ internal object Wrapper {
         return withWrapper(ctx.info.context) { details ->
             CachingFieldInfo.Converted(
                 details.converter::class.asClassName(),
-                details.converter.wrapped.asTypeName(),
+                details.converter.wireType.asTypeName(),
                 type,
                 nullable
             )
@@ -164,7 +164,7 @@ internal object Wrapper {
         return withWrapper(ctx.info.context) { details ->
             RepeatedCachingInfo.Converted(
                 details.converter::class.asClassName(),
-                details.converter.wrapped.asTypeName()
+                details.converter.wireType.asTypeName()
             )
         }
     }
@@ -186,7 +186,7 @@ internal object Wrapper {
         }
         val keyWireTypeName = when {
             keyIsString -> Bytes::class.asTypeName()
-            keyIsWrapped -> key.withWrapper(ctx.info.context) { it.converter.wrapped.asTypeName() }
+            keyIsWrapped -> key.withWrapper(ctx.info.context) { it.converter.wireType.asTypeName() }
             else -> null
         }
         val valueConverterClassName = when {
@@ -196,7 +196,7 @@ internal object Wrapper {
         }
         val valueWireTypeName = when {
             valueIsString -> Bytes::class.asTypeName()
-            valueIsWrapped -> value.withWrapper(ctx.info.context) { it.converter.wrapped.asTypeName() }
+            valueIsWrapped -> value.withWrapper(ctx.info.context) { it.converter.wireType.asTypeName() }
             else -> null
         }
 
