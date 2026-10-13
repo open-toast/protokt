@@ -78,76 +78,73 @@ private class ServiceGenerator(
     private val ProtoMethodName.decapitalized
         get() = toMemberSimpleName().name.decapitalize()
 
-    private fun grpcImplementations(): List<TypeSpec> =
-        if (supportedPlugin()) {
-            val getMethodFunctions =
-                s.methods.map { method ->
-                    buildFunSpec(
-                        method.name
-                            .withMethodSuffix()
-                            .withPrefix("get")
-                            .name
-                    ) {
-                        returns(pivotClassName(MethodDescriptor::class).parameterizedBy(method.inputType, method.outputType))
-                        addCode("return _${method.name.decapitalizedMethod}")
-                        staticIfAppropriate()
-                    }
-                }
-
-            val getServiceDescriptorFunction =
-                buildFunSpec("getServiceDescriptor") {
-                    returns(pivotClassName(ServiceDescriptor::class))
-                    addCode("return _serviceDescriptor")
+    private fun grpcImplementations(): List<TypeSpec> {
+        val getMethodFunctions =
+            s.methods.map { method ->
+                buildFunSpec(
+                    method.name
+                        .withMethodSuffix()
+                        .withPrefix("get")
+                        .name
+                ) {
+                    returns(pivotClassName(MethodDescriptor::class).parameterizedBy(method.inputType, method.outputType))
+                    addCode("return _${method.name.decapitalizedMethod}")
                     staticIfAppropriate()
                 }
+            }
 
-            val grpcServiceObjectClassName = ClassName(ctx.info.kotlinPackage, s.name + "Grpc")
-            val grpcServiceObject =
-                if (ctx.info.context.generateGrpcDescriptors && kotlinTarget !is KotlinTarget.MultiplatformCommon) {
-                    TypeSpec.objectBuilder(grpcServiceObjectClassName)
-                        .addProperty(
-                            PropertySpec.builder("SERVICE_NAME", String::class)
-                                .addModifiers(KModifier.CONST)
-                                .initializer("\"" + renderQualifiedName() + "\"")
-                                .build()
-                        )
-                        .addServiceDescriptor()
-                        .addMethodProperties()
-                        .addFunction(getServiceDescriptorFunction)
-                        .addFunctions(getMethodFunctions)
-                        .build()
-                } else {
-                    null
-                }
+        val getServiceDescriptorFunction =
+            buildFunSpec("getServiceDescriptor") {
+                returns(pivotClassName(ServiceDescriptor::class))
+                addCode("return _serviceDescriptor")
+                staticIfAppropriate()
+            }
 
-            val grpcKtObject =
-                if (kotlinTarget == KotlinTarget.MultiplatformJs && ctx.info.context.generateGrpcKotlinStubs) {
-                    val grpcKtClassName = ClassName(ctx.info.kotlinPackage, s.name + "GrpcKt")
-                    TypeSpec.objectBuilder(grpcKtClassName)
-                        .addType(
-                            coroutineServerBase(
-                                grpcServiceObjectClassName,
-                                getServiceDescriptorFunction,
-                                getMethodFunctions
-                            )
-                        )
-                        .addType(
-                            coroutineStub(
-                                grpcKtClassName,
-                                grpcServiceObjectClassName,
-                                getServiceDescriptorFunction,
-                                getMethodFunctions
-                            )
-                        )
-                        .build()
-                } else {
-                    null
-                }
+        val grpcServiceObjectClassName = ClassName(ctx.info.kotlinPackage, s.name + "Grpc")
+        val grpcServiceObject =
+            if (ctx.info.context.generateGrpcDescriptors && kotlinTarget !is KotlinTarget.MultiplatformCommon) {
+                TypeSpec.objectBuilder(grpcServiceObjectClassName)
+                    .addProperty(
+                        PropertySpec.builder("SERVICE_NAME", String::class)
+                            .addModifiers(KModifier.CONST)
+                            .initializer("\"" + renderQualifiedName() + "\"")
+                            .build()
+                    )
+                    .addServiceDescriptor()
+                    .addMethodProperties()
+                    .addFunction(getServiceDescriptorFunction)
+                    .addFunctions(getMethodFunctions)
+                    .build()
+            } else {
+                null
+            }
 
-            listOfNotNull(grpcServiceObject, grpcKtObject)
-        } else {
-            emptyList()
-        }
+        val grpcKtObject =
+            if (kotlinTarget == KotlinTarget.MultiplatformJs && ctx.info.context.generateGrpcKotlinStubs) {
+                val grpcKtClassName = ClassName(ctx.info.kotlinPackage, s.name + "GrpcKt")
+                TypeSpec.objectBuilder(grpcKtClassName)
+                    .addType(
+                        coroutineServerBase(
+                            grpcServiceObjectClassName,
+                            getServiceDescriptorFunction,
+                            getMethodFunctions
+                        )
+                    )
+                    .addType(
+                        coroutineStub(
+                            grpcKtClassName,
+                            grpcServiceObjectClassName,
+                            getServiceDescriptorFunction,
+                            getMethodFunctions
+                        )
+                    )
+                    .build()
+            } else {
+                null
+            }
+
+        return listOfNotNull(grpcServiceObject, grpcKtObject)
+    }
 
     private fun TypeSpec.Builder.addServiceDescriptor() =
         addProperty(
@@ -422,14 +419,6 @@ private class ServiceGenerator(
                 .build()
         } else {
             null
-        }
-
-    private fun supportedPlugin() =
-        try {
-            pivotClassName(Unit::class)
-            true
-        } catch (ex: IllegalStateException) {
-            false
         }
 
     private fun pivotClassName(jvmClass: KClass<*>) =
