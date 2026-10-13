@@ -14,12 +14,29 @@
  */
 
 import protokt.v1.gradle.CODEGEN_NAME
+import java.util.zip.ZipFile
 
 plugins {
     id("protokt.jvm-conventions")
     id("com.google.protobuf")
     alias(libs.plugins.buildConfig)
     application
+}
+
+val grpcKotlinGenerator = configurations.create("grpcKotlinGenerator")
+configurations.compileOnly {
+    extendsFrom(grpcKotlinGenerator)
+}
+
+dependencies {
+    grpcKotlinGenerator(libs.grpc.kotlin.gen) {
+        artifact {
+            name = "protoc-gen-grpc-kotlin"
+            classifier = "jdk8"
+            type = "jar"
+            extension = "jar"
+        }
+    }
 }
 
 defaultProtoc()
@@ -60,8 +77,6 @@ dependencies {
     implementation(project(":protokt-bootstrap"))
     implementation(project(":protokt-runtime-protobuf-java"))
     implementation(project(":protokt-runtime-grpc-lite"))
-    implementation(project(":grpc-kotlin-shim"))
-
     implementation(kotlin("reflect"))
 
     implementation(libs.grpc.kotlin.stub)
@@ -78,6 +93,69 @@ dependencies {
 
     testImplementation(libs.junit.jupiter)
     testImplementation(libs.truth)
+}
+
+val codegenJar = tasks.named<Jar>("jar") {
+    from(
+        provider {
+            zipTree(grpcKotlinGenerator.singleFile)
+                .matching { include("io/grpc/kotlin/generator/**") }
+        }
+    )
+}
+
+val verifyGrpcKotlinGeneratorPackaging by tasks.registering {
+    dependsOn(codegenJar)
+    val archiveFile = codegenJar.flatMap { it.archiveFile }
+    inputs.file(archiveFile)
+
+    doLast {
+        val grpcKotlinClasses =
+            ZipFile(archiveFile.get().asFile).use { archive ->
+                archive.entries().asSequence()
+                    .map { it.name }
+                    .filter { it.startsWith("io/grpc/kotlin/") && it.endsWith(".class") }
+                    .toList()
+            }
+
+        check("io/grpc/kotlin/generator/GeneratorRunner.class" in grpcKotlinClasses)
+        check(grpcKotlinClasses.all { it.startsWith("io/grpc/kotlin/generator/") }) {
+            "Codegen JAR contains grpc-kotlin runtime classes"
+        }
+    }
+}
+
+val installCodegenDistribution = tasks.named<Sync>("installDist")
+val codegenDistributionLib = layout.buildDirectory.dir("install/$CODEGEN_NAME/lib")
+val verifyCodegenDistribution by tasks.registering {
+    dependsOn(installCodegenDistribution)
+    inputs.dir(codegenDistributionLib)
+
+    doLast {
+        val jars = codegenDistributionLib.get().asFile.listFiles().orEmpty().filter { it.extension == "jar" }
+        check(jars.none { it.name.startsWith("grpc-kotlin-shim-") })
+
+        val ownersByClass = mutableMapOf<String, MutableList<String>>()
+        jars.forEach { jar ->
+            ZipFile(jar).use { archive ->
+                archive.entries().asSequence()
+                    .map { it.name }
+                    .filter { it.endsWith(".class") && !it.endsWith("module-info.class") }
+                    .forEach { ownersByClass.getOrPut(it, ::mutableListOf).add(jar.name) }
+            }
+        }
+
+        val duplicateClasses = ownersByClass.filterValues { it.size > 1 }
+        check(duplicateClasses.isEmpty()) {
+            duplicateClasses.entries.joinToString(prefix = "Duplicate classes in codegen distribution:\n", separator = "\n") { (name, owners) ->
+                "$name: ${owners.joinToString()}"
+            }
+        }
+    }
+}
+
+tasks.named("check") {
+    dependsOn(verifyGrpcKotlinGeneratorPackaging, verifyCodegenDistribution)
 }
 
 configure<PublishingExtension> {
