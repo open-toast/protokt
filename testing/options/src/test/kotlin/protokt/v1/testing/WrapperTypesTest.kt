@@ -383,4 +383,60 @@ class WrapperTypesTest {
         assertThat(MapWrappers.deserialize(obj.serialize()))
             .isEqualTo(obj)
     }
+
+    @Test
+    fun `repeated values can move between fields with different wire types`() {
+        val values = listOf(UUID.fromString("00112233-4455-6677-8899-aabbccddeeff"))
+        val source = RepeatedWrappers { uuids = values }
+        val target = RepeatedWrappers { uuidsWrapped = source.uuids }
+
+        assertThat(RepeatedWrappers.deserialize(target.serialize()).uuidsWrapped).isEqualTo(values)
+    }
+
+    @Test
+    fun `map values can move between fields with different wire types`() {
+        val values = mapOf(StringBox("key") to UUID.fromString("00112233-4455-6677-8899-aabbccddeeff"))
+        val source = MapWrappers { mapStringUuid = values }
+        val target = MapWrappers { mapStringUuidWrapped = source.mapStringUuid }
+
+        assertThat(MapWrappers.deserialize(target.serialize()).mapStringUuidWrapped).isEqualTo(values)
+    }
+
+    @Test
+    fun `maps with different wire types can be combined in a builder`() {
+        val value = UUID.fromString("00112233-4455-6677-8899-aabbccddeeff")
+        val source = MapWrappers { mapStringUuid = mapOf(StringBox("source") to value) }
+        val target = MapWrappers {
+            mapStringUuidWrapped = mapOf(StringBox("target") to value)
+            mapStringUuidWrapped += source.mapStringUuid
+        }
+
+        assertThat(MapWrappers.deserialize(target.serialize()).mapStringUuidWrapped)
+            .isEqualTo(mapOf(StringBox("target") to value, StringBox("source") to value))
+    }
+
+    @Test
+    fun `decoded wrapped values can move to fields with scalar wire types`() {
+        val value = UUID.fromString("00112233-4455-6677-8899-aabbccddeeff")
+        val sourceList = RepeatedWrappers.deserialize(RepeatedWrappers { uuidsWrapped = listOf(value) }.serialize())
+        val targetList = RepeatedWrappers { uuids = sourceList.uuidsWrapped }
+        val values = mapOf(StringBox("key") to value)
+        val sourceMap = MapWrappers.deserialize(MapWrappers { mapStringUuidWrapped = values }.serialize())
+        val targetMap = MapWrappers { mapStringUuid = sourceMap.mapStringUuidWrapped }
+
+        assertThat(RepeatedWrappers.deserialize(targetList.serialize()).uuids).isEqualTo(listOf(value))
+        assertThat(MapWrappers.deserialize(targetMap.serialize()).mapStringUuid).isEqualTo(values)
+    }
+
+    @Test
+    fun `collections with the same converters are shared between messages`() {
+        val value = UUID.fromString("00112233-4455-6677-8899-aabbccddeeff")
+        val sourceList = RepeatedWrappers { uuids = listOf(value) }
+        val targetList = RepeatedWrappers { uuids = sourceList.uuids }
+        val sourceMap = MapWrappers { mapStringUuid = mapOf(StringBox("key") to value) }
+        val targetMap = MapWrappers { mapStringUuid = sourceMap.mapStringUuid }
+
+        assertThat(targetList.uuids).isSameInstanceAs(sourceList.uuids)
+        assertThat(targetMap.mapStringUuid).isSameInstanceAs(sourceMap.mapStringUuid)
+    }
 }

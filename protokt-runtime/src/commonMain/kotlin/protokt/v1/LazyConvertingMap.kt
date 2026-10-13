@@ -60,8 +60,10 @@ class LazyConvertingMap<KotlinK : Any, KotlinV : Any>(
 
     @Suppress("UNCHECKED_CAST")
     operator fun plus(other: Map<out KotlinK, KotlinV>): LazyConvertingMap<KotlinK, KotlinV> {
-        if (other.isEmpty()) return this
-        if (other is LazyConvertingMap<*, *>) {
+        if (other.isEmpty()) {
+            return this
+        }
+        if (other is LazyConvertingMap<*, *> && other.matchesConversion(keyWrapped, valueWrapped, keyConverter, valueConverter)) {
             var newBacking = backing
             for ((k, v) in other.backing) {
                 newBacking = collectionFactory.mapPlus(newBacking, k to v)
@@ -76,6 +78,15 @@ class LazyConvertingMap<KotlinK : Any, KotlinV : Any>(
         }
         return LazyConvertingMap(newBacking, keyWrapped, valueWrapped, keyConverter, valueConverter)
     }
+
+    private fun matchesConversion(
+        keyWrapped: Boolean,
+        valueWrapped: Boolean,
+        keyConverter: Converter<*, *>?,
+        valueConverter: Converter<*, *>?
+    ): Boolean =
+        this.keyWrapped == keyWrapped && this.valueWrapped == valueWrapped &&
+            this.keyConverter === keyConverter && this.valueConverter === valueConverter
 
     @Suppress("UNCHECKED_CAST")
     private inner class ConvertingEntrySet : AbstractSet<Map.Entry<KotlinK, KotlinV>>() {
@@ -118,6 +129,9 @@ class LazyConvertingMap<KotlinK : Any, KotlinV : Any>(
             keyConverter: Converter<*, *>?,
             valueConverter: Converter<*, *>?
         ): LazyConvertingMap<KotlinK, KotlinV> {
+            if (kotlinMap is LazyConvertingMap<*, *> && kotlinMap.matchesConversion(keyWrapped, valueWrapped, keyConverter, valueConverter)) {
+                return kotlinMap as LazyConvertingMap<KotlinK, KotlinV>
+            }
             val backing = linkedMapOf<Any?, Any?>()
             for ((k, v) in kotlinMap) {
                 val bk = if (keyWrapped) (keyConverter as Converter<Any, Any>).unwrap(k) else k

@@ -48,6 +48,10 @@ class LazyConvertingList<WireT : Any, KotlinT : Any>(
             kotlinList: List<KotlinT>,
             converter: Converter<WireT, KotlinT>
         ): LazyConvertingList<WireT, KotlinT> =
-            LazyConvertingList(kotlinList.map { LazyReference(it, converter) }, converter)
+            if (kotlinList is LazyConvertingList<*, *> && kotlinList.converter === converter) {
+                kotlinList as LazyConvertingList<WireT, KotlinT>
+            } else {
+                LazyConvertingList(kotlinList.map { LazyReference(it, converter) }, converter)
+            }
     }
 }
