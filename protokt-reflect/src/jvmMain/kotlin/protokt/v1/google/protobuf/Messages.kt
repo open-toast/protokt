@@ -17,11 +17,13 @@
 
 package protokt.v1.google.protobuf
 
+import com.google.protobuf.Descriptors.EnumValueDescriptor
 import com.google.protobuf.Descriptors.FieldDescriptor
 import com.google.protobuf.Descriptors.FieldDescriptor.Type
 import com.google.protobuf.DynamicMessage
 import protokt.v1.Beta
 import protokt.v1.Bytes
+import protokt.v1.Enum
 import protokt.v1.Message
 
 @Beta
@@ -30,7 +32,7 @@ fun Message.toDynamicMessage(context: RuntimeContext): DynamicMessage =
 
 @Beta
 fun Message.hasField(field: FieldDescriptor): Boolean {
-    val value = getField(field)
+    val value = getField(field).let { if (it is Enum) it.value else it }
 
     return if (field.hasPresence()) {
         value != null
@@ -48,5 +50,6 @@ private fun defaultValue(field: FieldDescriptor) =
         Type.UINT64, Type.FIXED64 -> 0uL
         Type.UINT32, Type.FIXED32 -> 0u
         Type.BYTES -> Bytes.empty()
+        Type.ENUM -> (field.defaultValue as EnumValueDescriptor).number
         else -> field.defaultValue
     }

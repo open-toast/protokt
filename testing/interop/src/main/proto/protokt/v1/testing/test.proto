@@ -61,3 +61,12 @@ message RepeatedAnyTest {
 
 message Empty {
 }
+
+message EnumPresence {
+  enum Choice {
+    ZERO = 0;
+    ONE = 1;
+  }
+
+  optional Choice choice = 1;
+}
