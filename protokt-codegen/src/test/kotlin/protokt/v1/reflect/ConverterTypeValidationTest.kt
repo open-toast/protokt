@@ -15,6 +15,7 @@
 
 package protokt.v1.reflect
 
+import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import protokt.v1.Converter
@@ -30,6 +31,18 @@ class ConverterTypeValidationTest {
         assertThrows<IllegalArgumentException> {
             validateConverterTypes(StringToStringConverter)
         }
+    }
+
+    @Test
+    fun `explicit converter registries reject overlapping types`() {
+        val lookup = ClassLookup.fromConverters(listOf(StringToStringConverter))
+
+        val failure =
+            assertThrows<IllegalArgumentException> {
+                lookup.converter("kotlin.String", "kotlin.String")
+            }
+
+        assertThat(failure).hasMessageThat().contains("types must be runtime-disjoint")
     }
 
     @Test
