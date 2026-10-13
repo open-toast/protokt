@@ -46,7 +46,7 @@ class HelloWorldTest {
                     }
 
                 val greeter = client.withService<Greeter>()
-                val reply = greeter.SayHello(HelloRequest { name = "test name" })
+                val reply = greeter.sayHello(HelloRequest { name = "test name" })
                 assertEquals("Hello test name", reply.message)
             } finally {
                 server.shutdownNow()

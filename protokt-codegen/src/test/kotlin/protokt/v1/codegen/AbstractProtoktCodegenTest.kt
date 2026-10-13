@@ -59,9 +59,11 @@ abstract class AbstractProtoktCodegenTest {
         val err: String
     ) : PluginRunResult
 
-    protected fun runPlugin(
+    internal fun runPlugin(
         inputFile: String,
         formatOutput: Boolean = true,
+        kotlinTarget: KotlinTarget = KotlinTarget.Jvm,
+        options: List<String> = emptyList(),
         transform: String.() -> String = { this }
     ): PluginRunResult {
         testFile.writeText(
@@ -81,7 +83,7 @@ abstract class AbstractProtoktCodegenTest {
             "-I$testDir",
             "-I$extensionsProto",
             "-I$includeProtos",
-            "--custom_opt=format_output=$formatOutput,$KOTLIN_TARGET=${KotlinTarget.Jvm}",
+            "--custom_opt=" + (listOf("format_output=$formatOutput", "$KOTLIN_TARGET=$kotlinTarget") + options).joinToString(","),
             "$testFile"
         ).joinToString(" ")
             .runCommand(

@@ -73,10 +73,7 @@ private class ServiceGenerator(
         toMemberSimpleName().withSuffix("Method")
 
     private val ProtoMethodName.decapitalizedMethod
-        get() = withMethodSuffix().name.decapitalize()
-
-    private val ProtoMethodName.decapitalized
-        get() = toMemberSimpleName().name.decapitalize()
+        get() = withMethodSuffix().name.replaceFirstChar { it.lowercase() }
 
     private fun grpcImplementations(): List<TypeSpec> =
         if (supportedPlugin()) {
