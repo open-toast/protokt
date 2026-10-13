@@ -54,8 +54,13 @@ internal class ClassLookup(classpath: List<String>) {
                     }
             }.fold(mutableMapOf<String, MutableMap<String, MutableList<Converter<*, *>>>>()) { acc, converter ->
                 acc.apply {
-                    getOrPut(converter.wrapped.qualifiedName!!, ::mutableMapOf)
-                        .getOrPut(converter.wrapper.qualifiedName!!, ::mutableListOf)
+                    validateConverterTypes(converter)
+
+                    val wireType = converter.wireType
+                    val valueType = converter.valueType
+
+                    getOrPut(wireType.qualifiedName!!, ::mutableMapOf)
+                        .getOrPut(valueType.qualifiedName!!, ::mutableListOf)
                         .add(converter)
                 }
             }
@@ -114,3 +119,13 @@ internal class ConverterDetails(
     val converter: Converter<*, *>,
     val kotlinCanonicalClassName: String
 )
+
+internal fun validateConverterTypes(converter: Converter<*, *>) {
+    val wireType = converter.wireType
+    val valueType = converter.valueType
+
+    require(!wireType.java.isAssignableFrom(valueType.java) && !valueType.java.isAssignableFrom(wireType.java)) {
+        "Converter ${converter::class.qualifiedName} types must be runtime-disjoint: " +
+            "${wireType.qualifiedName} and ${valueType.qualifiedName}"
+    }
+}
