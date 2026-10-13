@@ -13,6 +13,8 @@
  * limitations under the License.
  */
 
+@file:OptIn(protokt.v1.OnlyForUseByGeneratedProtoCode::class)
+
 package protokt.v1.testing
 
 import com.google.common.truth.Truth.assertThat

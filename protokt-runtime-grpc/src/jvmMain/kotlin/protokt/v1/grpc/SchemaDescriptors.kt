@@ -14,11 +14,12 @@
  */
 
 @file:JvmName("SchemaDescriptors")
+@file:OptIn(protokt.v1.OnlyForUseByGeneratedProtoCode::class)
 
 package protokt.v1.grpc
 
 import protokt.v1.google.protobuf.FileDescriptor
 
-@Suppress("DEPRECATION")
+@Suppress("UNCHECKED_CAST")
 val SchemaDescriptor.fileDescriptor: FileDescriptor
-    get() = fileDescriptorUntyped as FileDescriptor
+    get() = resolveFileDescriptor() as FileDescriptor
