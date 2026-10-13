@@ -65,7 +65,7 @@ interface Reader {
                 UnknownField.fixed64(fieldNumber, readFixed64())
 
             WireFormat.WIRETYPE_LENGTH_DELIMITED ->
-                UnknownField.lengthDelimited(fieldNumber, readBytes().value)
+                UnknownField.lengthDelimited(fieldNumber, readBytes())
 
             WireFormat.WIRETYPE_FIXED32 ->
                 UnknownField.fixed32(fieldNumber, readFixed32())

@@ -59,14 +59,18 @@ internal fun validateUtf8(bytes: ByteArray, startIndex: Int, endIndex: Int) {
             // Lead byte 0xC2..0xDF (< 0xC2 means overlong or continuation)
             u0 < 0xE0 -> {
                 if (u0 < 0xC2) invalid()
-                if (i + 1 >= endIndex) invalid()
+                if (i + 1 >= endIndex) {
+                    invalid()
+                }
                 if (bytes[i + 1].toInt() and 0xC0 != 0x80) invalid()
                 i += 2
             }
 
             // Three-byte form: 1110xxxx 10xxxxxx 10xxxxxx
             u0 < 0xF0 -> {
-                if (i + 2 >= endIndex) invalid()
+                if (i + 2 >= endIndex) {
+                    invalid()
+                }
                 val b1 = bytes[i + 1]
                 val b2 = bytes[i + 2]
                 // Continuation byte check
@@ -80,7 +84,9 @@ internal fun validateUtf8(bytes: ByteArray, startIndex: Int, endIndex: Int) {
 
             // Four-byte form: 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
             u0 < 0xF5 -> {
-                if (i + 3 >= endIndex) invalid()
+                if (i + 3 >= endIndex) {
+                    invalid()
+                }
                 val b1 = bytes[i + 1]
                 val b2 = bytes[i + 2]
                 val b3 = bytes[i + 3]

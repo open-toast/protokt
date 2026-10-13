@@ -1,5 +1,7 @@
-public final class protokt/v1/google/type/LocalDateConverter : protokt/v1/AbstractConverter {
+public final class protokt/v1/google/type/LocalDateConverter : protokt/v1/Converter {
 	public static final field INSTANCE Lprotokt/v1/google/type/LocalDateConverter;
+	public fun getValueType ()Lkotlin/reflect/KClass;
+	public fun getWireType ()Lkotlin/reflect/KClass;
 	public synthetic fun unwrap (Ljava/lang/Object;)Ljava/lang/Object;
 	public fun unwrap (Ljava/time/LocalDate;)Lprotokt/v1/google/type/Date;
 	public synthetic fun wrap (Ljava/lang/Object;)Ljava/lang/Object;
