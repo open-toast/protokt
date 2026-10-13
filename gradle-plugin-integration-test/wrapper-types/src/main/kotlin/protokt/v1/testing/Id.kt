@@ -24,9 +24,9 @@ data class Id(val value: String)
 @SuppressWarnings("rawtypes")
 @AutoService(Converter::class)
 object IdConverter : Converter<Bytes, Id> {
-    override val wrapper = Id::class
+    override val valueType = Id::class
 
-    override val wrapped = Bytes::class
+    override val wireType = Bytes::class
 
     override fun wrap(unwrapped: Bytes) =
         Id(String(unwrapped.bytes))

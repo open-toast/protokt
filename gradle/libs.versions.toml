@@ -38,10 +38,10 @@ binaryCompatibilityValidator = "0.18.1"
 buildConfig = "6.0.9"
 gradleMavenPublishPlugin = "0.37.0"
 java = "17"
-kotlin = "2.4.0"
+kotlin = "2.4.10"
 krpcKotlin = "2.4.0" # kotlinx-rpc compiler plugin only supports up to this version
 pluginPublish = "2.1.1"
-spotless = "8.6.0"
+spotless = "8.10.1"
 
 # benchmarks
 datasets = "0.1.0"
