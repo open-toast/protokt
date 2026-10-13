@@ -21,8 +21,22 @@ message HasAnEnum {
   SomeEnum enum = 1;
 }
 
+message HasEnumCollections {
+  repeated SomeEnum enums = 1;
+  map<string, SomeEnum> enums_by_name = 2;
+  optional SomeEnum optional_enum = 3;
+
+  oneof selection {
+    SomeEnum selected_enum = 4;
+    string selected_text = 5;
+  }
+}
+
 enum SomeEnum {
+  option allow_alias = true;
+
   VALUE = 0;
+  VALUE_ALIAS = 0;
   VALUE_2 = 1;
 }
 

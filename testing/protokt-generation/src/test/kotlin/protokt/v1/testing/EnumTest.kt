@@ -17,8 +17,86 @@ package protokt.v1.testing
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
+import protokt.v1.Bytes
+import protokt.v1.LazyConvertingMap
+import protokt.v1.OnlyForUseByGeneratedProtoCode
 
 class EnumTest {
+    @Test
+    fun `aliases with the same wire value refer to the same constant`() {
+        assertThat(SomeEnum.VALUE_ALIAS).isSameInstanceAs(SomeEnum.VALUE)
+        assertThat(SomeEnum.VALUE_ALIAS.name).isEqualTo("VALUE")
+        assertThat(SomeEnum.deserialize(0)).isSameInstanceAs(SomeEnum.VALUE_ALIAS)
+    }
+
+    @Test
+    fun `known and unrecognized values with the same wire value are unequal`() {
+        assertThat(SomeEnum.UNRECOGNIZED(0)).isNotEqualTo(SomeEnum.VALUE)
+    }
+
+    @Test
+    fun `unrecognized values from the same enum are equal`() {
+        val first = SomeEnum.UNRECOGNIZED(10)
+        val second = SomeEnum.UNRECOGNIZED(10)
+
+        assertThat(first).isEqualTo(second)
+        assertThat(first.hashCode()).isEqualTo(second.hashCode())
+    }
+
+    @Test
+    fun `equal wire values from different enums are unequal`() {
+        assertThat(SomeEnum.VALUE).isNotEqualTo(MoreEnum.MORE_VALUE)
+    }
+
+    @Test
+    fun `messages built with enum aliases are equal`() {
+        val canonical = HasAnEnum { enum = SomeEnum.VALUE }
+        val alias = HasAnEnum { enum = SomeEnum.VALUE_ALIAS }
+        val unknownNumber = HasAnEnum { enum = SomeEnum.UNRECOGNIZED(10) }
+
+        assertThat(alias.enum).isSameInstanceAs(SomeEnum.VALUE)
+        assertThat(alias).isEqualTo(canonical)
+        assertThat(alias.hashCode()).isEqualTo(canonical.hashCode())
+        assertThat(HasAnEnum.deserialize(alias.serialize())).isEqualTo(alias)
+        assertThat(unknownNumber.enum).isEqualTo(SomeEnum.UNRECOGNIZED(10))
+    }
+
+    @Test
+    fun `messages accept aliases in collections and oneofs`() {
+        val message =
+            HasEnumCollections {
+                enums = listOf(SomeEnum.VALUE_ALIAS)
+                enumsByName = mapOf("alias" to SomeEnum.VALUE_ALIAS)
+                optionalEnum = SomeEnum.VALUE_ALIAS
+                selection = HasEnumCollections.Selection.SelectedEnum(SomeEnum.VALUE_ALIAS)
+            }
+
+        assertThat(message.enums.single()).isSameInstanceAs(SomeEnum.VALUE)
+        assertThat(message.enumsByName.getValue("alias")).isSameInstanceAs(SomeEnum.VALUE)
+        assertThat(message.optionalEnum).isSameInstanceAs(SomeEnum.VALUE)
+        assertThat((message.selection as HasEnumCollections.Selection.SelectedEnum).selectedEnum)
+            .isSameInstanceAs(SomeEnum.VALUE)
+    }
+
+    @OptIn(OnlyForUseByGeneratedProtoCode::class)
+    @Test
+    fun `builder plus retains alias identity and lazy map keys`() {
+        val original = HasEnumCollections { enumsByName = mapOf("canonical" to SomeEnum.VALUE) }
+        val pair = original.copy { enumsByName += "alias" to SomeEnum.VALUE_ALIAS }
+        val map = original.copy { enumsByName += mapOf("alias" to SomeEnum.VALUE_ALIAS) }
+
+        assertThat(pair.enumsByName.getValue("alias")).isSameInstanceAs(SomeEnum.VALUE)
+        assertThat(map.enumsByName.getValue("alias")).isSameInstanceAs(SomeEnum.VALUE)
+        assertThat(pair).isEqualTo(HasEnumCollections.deserialize(pair.serialize()))
+        assertThat(map).isEqualTo(HasEnumCollections.deserialize(map.serialize()))
+
+        val originalKeys = mutableListOf<Bytes>()
+        val copiedKeys = mutableListOf<Bytes>()
+        (original.enumsByName as LazyConvertingMap<*, *>).wireEntryForEach<Bytes, SomeEnum> { key, _ -> originalKeys.add(key) }
+        (pair.enumsByName as LazyConvertingMap<*, *>).wireEntryForEach<Bytes, SomeEnum> { key, _ -> copiedKeys.add(key) }
+        assertThat(copiedKeys.first()).isSameInstanceAs(originalKeys.single())
+    }
+
     @Test
     fun `round trip preserves unknown enums`() {
         val with3 = HasMoreEnum { enum = MoreEnum.MORE_VALUE_3 }
