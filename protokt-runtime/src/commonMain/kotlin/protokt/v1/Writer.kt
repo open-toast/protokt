@@ -72,7 +72,7 @@ interface Writer {
     }
 
     fun writeUnknown(u: UnknownFieldSet) {
-        u.forEach { k, v -> v.write(k, this) }
+        u.forEach { fieldNumber, field -> field.write(fieldNumber, this) }
     }
 
     fun toByteArray(): ByteArray

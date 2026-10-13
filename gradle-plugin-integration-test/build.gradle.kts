@@ -14,6 +14,7 @@
  */
 
 import com.diffplug.gradle.spotless.SpotlessExtension
+import com.diffplug.spotless.LineEnding
 import org.gradle.api.tasks.compile.JavaCompile
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -57,6 +58,8 @@ allprojects {
     apply(plugin = "com.diffplug.spotless")
 
     configure<SpotlessExtension> {
+        lineEndings = LineEnding.UNIX
+
         val editorConfigOverride =
             mapOf(
                 "ktlint_standard_trailing-comma-on-call-site" to "disabled",
@@ -67,33 +70,33 @@ allprojects {
             )
 
         kotlinGradle {
-            target("**/*.kts")
-            targetExclude("**/build/**")
+            target("build.gradle.kts")
+            if (this@allprojects == rootProject) {
+                target("settings.gradle.kts")
+            }
             ktlint(libs.versions.ktlint.get()).editorConfigOverride(editorConfigOverride)
         }
 
         kotlin {
-            target("**/*.kt")
-            targetExclude("**/build/**")
+            target("src/**/*.kt")
             ktlint(libs.versions.ktlint.get()).editorConfigOverride(editorConfigOverride)
         }
 
         format("kotlinLicense") {
-            target("**/*.kt")
+            target("src/**/*.kt")
             licenseHeaderFile(
                 rootProject.file("gradle/license-header-c-style"),
                 "(package |@file|import |fun )"
             )
-            targetExclude("**/generated-sources/**", "**/build/**")
+            targetExclude("**/generated-sources/**")
         }
 
         format("protobufLicense") {
-            target("**/*.proto")
+            target("src/**/*.proto")
             licenseHeaderFile(
                 rootProject.file("gradle/license-header-c-style"),
                 "(syntax )"
             )
-            targetExclude("**/build/**")
         }
     }
 }

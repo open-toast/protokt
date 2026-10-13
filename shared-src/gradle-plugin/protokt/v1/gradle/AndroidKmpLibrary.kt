@@ -15,6 +15,7 @@
 
 package protokt.v1.gradle
 
+import com.google.protobuf.gradle.GenerateProtoTask
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
 import org.gradle.kotlin.dsl.the
@@ -31,8 +32,8 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
  */
 internal object AndroidKmpLibrary {
     fun configure(project: Project, target: KotlinTarget, config: Config) {
-        project.wireSourceSet(target, "androidMain", "compileAndroidMain", config.extensions, false)
-        project.wireSourceSet(target, "androidHostTest", "compileAndroidHostTest", config.testExtensions, true)
+        project.wireSourceSet(target, "androidMain", config.extensions, false)
+        project.wireSourceSet(target, "androidHostTest", config.testExtensions, true)
 
         // AGP derives baselineProfiles directories as siblings of Kotlin source
         // directories, which places them inside generateProto's output.
@@ -44,20 +45,19 @@ internal object AndroidKmpLibrary {
     private fun Project.wireSourceSet(
         target: KotlinTarget,
         sourceSetName: String,
-        compileTaskName: String,
         extensionsConfiguration: Configuration,
         test: Boolean
     ) {
         val protoSourceSetRoot = if (test) "test" else "main"
         val generateProtoTaskName = if (test) "generateTestProto" else "generateProto"
+        val generateProtoTasks = tasks.withType(GenerateProtoTask::class.java).matching { it.name == generateProtoTaskName }
 
         the<KotlinMultiplatformExtension>().sourceSets.matching { it.name == sourceSetName }.all {
             configurations.getByName(apiConfigurationName).extendsFrom(extensionsConfiguration)
-            kotlin.srcDir(layout.buildDirectory.dir("generated/sources/proto/$protoSourceSetRoot/${target.protocPluginName}"))
-
-            tasks.matching { it.name == compileTaskName }.configureEach {
-                dependsOn(generateProtoTaskName)
-            }
+            kotlin.srcDir(
+                files(layout.buildDirectory.dir("generated/sources/proto/$protoSourceSetRoot/${target.protocPluginName}"))
+                    .builtBy(generateProtoTasks)
+            )
         }
     }
 }
