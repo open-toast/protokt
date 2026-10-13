@@ -23,6 +23,7 @@ import com.google.protobuf.gradle.id
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.provider.Provider
+import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
@@ -68,6 +69,9 @@ internal fun configureProtobufPlugin(
 
                 val extensionFiles = project.objects.fileCollection().from(extensions.asList())
                 task.inputs.files(extensionFiles).withPropertyName("protoktExtensionClasspath-${target.protocPluginName}")
+                task.inputs.files(binary.map { it.distributionFiles })
+                    .withPropertyName("protoktCodegenDistribution-${target.protocPluginName}")
+                    .withPathSensitivity(PathSensitivity.RELATIVE)
                 task.dependsOn(binary)
 
                 val writeExtensionClasspath = project.extensionClasspathTask(task.isTestTask(), extensionFiles)

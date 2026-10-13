@@ -28,7 +28,9 @@ import java.io.File
 fun Project.localProtokt(disableJava: Boolean = true) {
     val binary =
         layout.file(provider { File(rootDir, "protokt-codegen/build/install/$CODEGEN_NAME/bin/${codegenExecutableName(CODEGEN_NAME)}") })
-    configureProtokt(this, null, disableJava, CodegenBinary(binary, ":protokt-codegen:installDist"))
+    val distributionFiles =
+        files(binary.map { it.asFile.parentFile.parentFile }).builtBy(":protokt-codegen:installDist")
+    configureProtokt(this, null, disableJava, CodegenBinary(binary, distributionFiles))
 }
 
 fun Project.publishedLocalProtokt(disableJava: Boolean = true) {
