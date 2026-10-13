@@ -142,6 +142,15 @@ external interface ClientDuplexStream<ReqT, RespT> :
 external class Client
 
 @Beta
+external class Channel internal constructor(
+    address: String,
+    credentials: ChannelCredentials,
+    options: dynamic
+) {
+    fun close()
+}
+
+@Beta
 external fun makeClientConstructor(serviceDefinition: dynamic): (address: String, credentials: ChannelCredentials) -> dynamic
 
 @Beta

@@ -16,14 +16,20 @@
 package protokt.v1.helloworld
 
 import protokt.v1.grpc.ChannelCredentials
+import protokt.v1.grpc.newChannel
 import protokt.v1.helloworld.GreeterGrpcKt.GreeterCoroutineStub
 
 class HelloWorldClient {
-    private val stub = GreeterCoroutineStub("localhost:50051", ChannelCredentials.createInsecure())
+    private val channel = newChannel("localhost:50051", ChannelCredentials.createInsecure())
+    private val stub = GreeterCoroutineStub(channel)
 
     suspend fun greet(name: String = "world"): HelloReply {
         val reply = stub.sayHello(HelloRequest { this.name = name })
         println("Greeting: ${reply.message}")
         return reply
+    }
+
+    fun close() {
+        channel.close()
     }
 }

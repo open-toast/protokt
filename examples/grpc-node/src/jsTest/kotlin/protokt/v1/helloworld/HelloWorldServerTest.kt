@@ -17,7 +17,9 @@ package protokt.v1.helloworld
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
+import protokt.v1.grpc.Channel
 import protokt.v1.grpc.ChannelCredentials
+import protokt.v1.grpc.newChannel
 import protokt.v1.helloworld.GreeterGrpcKt.GreeterCoroutineStub
 import kotlin.test.AfterTest
 import kotlin.test.Test
@@ -26,9 +28,13 @@ import kotlin.test.assertEquals
 @OptIn(ExperimentalCoroutinesApi::class)
 class HelloWorldServerTest {
     private val server = HelloWorldServer(0)
+    private lateinit var channel: Channel
 
     @AfterTest
     fun after() {
+        if (::channel.isInitialized) {
+            channel.close()
+        }
         server.server.forceShutdown()
     }
 
@@ -37,7 +43,8 @@ class HelloWorldServerTest {
         runTest {
             server.start()
 
-            val stub = GreeterCoroutineStub("localhost:${server.port}", ChannelCredentials.createInsecure())
+            channel = newChannel("localhost:${server.port}", ChannelCredentials.createInsecure())
+            val stub = GreeterCoroutineStub(channel)
             val testName = "test name"
 
             val reply = stub.sayHello(HelloRequest { this.name = testName })

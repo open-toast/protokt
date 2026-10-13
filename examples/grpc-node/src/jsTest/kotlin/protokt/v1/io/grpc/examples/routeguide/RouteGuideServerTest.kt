@@ -20,7 +20,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
+import protokt.v1.grpc.Channel
 import protokt.v1.grpc.ChannelCredentials
+import protokt.v1.grpc.newChannel
 import protokt.v1.io.grpc.examples.routeguide.RouteGuideGrpcKt.RouteGuideCoroutineStub
 import kotlin.test.AfterTest
 import kotlin.test.Test
@@ -30,9 +32,13 @@ import kotlin.test.assertTrue
 @OptIn(ExperimentalCoroutinesApi::class)
 class RouteGuideServerTest {
     private val server = RouteGuideServer(0)
+    private lateinit var channel: Channel
 
     @AfterTest
     fun after() {
+        if (::channel.isInitialized) {
+            channel.close()
+        }
         server.stop()
     }
 
@@ -41,7 +47,8 @@ class RouteGuideServerTest {
         runTest {
             server.start()
 
-            val stub = RouteGuideCoroutineStub("localhost:${server.port}", ChannelCredentials.createInsecure())
+            channel = newChannel("localhost:${server.port}", ChannelCredentials.createInsecure())
+            val stub = RouteGuideCoroutineStub(channel)
 
             val rectangle = Rectangle {
                 lo = Point {
@@ -63,7 +70,8 @@ class RouteGuideServerTest {
         runTest {
             server.start()
 
-            val stub = RouteGuideCoroutineStub("localhost:${server.port}", ChannelCredentials.createInsecure())
+            channel = newChannel("localhost:${server.port}", ChannelCredentials.createInsecure())
+            val stub = RouteGuideCoroutineStub(channel)
 
             val points = flowOf(
                 Point {
@@ -90,7 +98,8 @@ class RouteGuideServerTest {
         runTest {
             server.start()
 
-            val stub = RouteGuideCoroutineStub("localhost:${server.port}", ChannelCredentials.createInsecure())
+            channel = newChannel("localhost:${server.port}", ChannelCredentials.createInsecure())
+            val stub = RouteGuideCoroutineStub(channel)
 
             val notes = flowOf(
                 RouteNote {
