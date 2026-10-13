@@ -63,7 +63,7 @@ internal object DefaultCollectionFactory : CollectionFactory {
 
     override fun <T> freezeList(list: List<T>): List<T> =
         when {
-            list.isEmpty() -> list
+            list.isEmpty() -> emptyList()
             list is UnmodifiableList -> list
             list is LazyConvertingList<*, *> -> list
             else -> UnmodifiableList(ArrayList(list))
@@ -141,16 +141,43 @@ internal open class UnmodifiableCollection<E>(
         UnmodifiableIterator(delegate.iterator())
 }
 
-internal class UnmodifiableSet<E>(delegate: Collection<E>) :
+internal class UnmodifiableSet<E>(private val delegate: Set<E>) :
     UnmodifiableCollection<E>(delegate),
-    Set<E>
+    Set<E> {
+    override fun equals(other: Any?) =
+        delegate == other
 
-internal class UnmodifiableMapEntry<K, V>(delegate: Map.Entry<K, V>) : Map.Entry<K, V> by delegate
+    override fun hashCode() =
+        delegate.hashCode()
+
+    override fun toString() =
+        delegate.toString()
+}
+
+internal class UnmodifiableMapEntry<K, V>(private val delegate: Map.Entry<K, V>) : Map.Entry<K, V> by delegate {
+    override fun equals(other: Any?) =
+        delegate == other
+
+    override fun hashCode() =
+        delegate.hashCode()
+
+    override fun toString() =
+        delegate.toString()
+}
 
 internal class UnmodifiableMapEntries<K, V>(
     private val delegate: Set<Map.Entry<K, V>>
 ) : UnmodifiableCollection<Map.Entry<K, V>>(delegate),
     Set<Map.Entry<K, V>> {
+
+    override fun equals(other: Any?) =
+        delegate == other
+
+    override fun hashCode() =
+        delegate.hashCode()
+
+    override fun toString() =
+        delegate.toString()
 
     override fun iterator(): Iterator<Map.Entry<K, V>> {
         val itr = delegate.iterator()
@@ -172,6 +199,9 @@ internal class UnmodifiableList<T>(
 
     override fun listIterator(index: Int) =
         UnmodifiableListIterator(delegate.listIterator(index))
+
+    override fun subList(fromIndex: Int, toIndex: Int): List<T> =
+        UnmodifiableList(delegate.subList(fromIndex, toIndex))
 
     override fun equals(other: Any?) =
         other == delegate
