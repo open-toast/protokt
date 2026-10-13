@@ -19,7 +19,8 @@ import kotlin.concurrent.atomics.AtomicReference
 import kotlin.concurrent.atomics.ExperimentalAtomicApi
 
 /**
- * Configures process-wide protobuf runtime implementations before their first use.
+ * Selects runtime implementations once, before serialization, deserialization, or message collection construction.
+ * Applications own configuration; libraries leave it to their caller.
  */
 object ProtoktRuntime {
     /**
