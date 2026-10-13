@@ -47,6 +47,7 @@ class HelloWorldClient(
  * greets "world" otherwise.
  */
 fun main(args: Array<String>) {
+    protokt.v1.ProtoktRuntime.configure(protokt.v1.OptimalJvmCodec)
     val port = 50051
 
     val channel = ManagedChannelBuilder.forAddress("localhost", port).usePlaintext().build()

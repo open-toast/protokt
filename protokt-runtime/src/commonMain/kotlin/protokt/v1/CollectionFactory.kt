@@ -15,7 +15,9 @@
 
 package protokt.v1
 
-@OnlyForUseByGeneratedProtoCode
+/**
+ * Creates and freezes collection values used by generated messages.
+ */
 interface CollectionFactory {
     fun <T> listBuilder(): ListBuilder<T>
     fun <K, V> mapBuilder(): MapBuilder<K, V>
@@ -27,4 +29,5 @@ interface CollectionFactory {
     fun <K, V> mapPlusAll(map: Map<K, V>, pairs: Iterable<Pair<K, V>>): Map<K, V>
 }
 
-internal expect val collectionFactory: CollectionFactory
+internal val collectionFactory: CollectionFactory
+    get() = RuntimeConfiguration.active().collectionFactory

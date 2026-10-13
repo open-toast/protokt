@@ -15,10 +15,14 @@
 
 package protokt.v1
 
+/**
+ * Creates protobuf wire-format readers and writers for byte arrays.
+ */
 interface Codec {
     fun writer(size: Int): Writer
     fun reader(bytes: ByteArray): Reader
     fun reader(bytes: ByteArray, offset: Int, length: Int): Reader
 }
 
-internal expect val codec: Codec
+internal val codec: Codec
+    get() = RuntimeConfiguration.active().codec

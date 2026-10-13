@@ -40,6 +40,13 @@ kotlin {
             }
         }
 
+        val jsMain by getting {
+            dependencies {
+                implementation(project(":protokt-runtime-persistent-collections"))
+                implementation(project(":protokt-runtime-protobufjs"))
+            }
+        }
+
         val nativeMain by getting {
             dependencies {
                 implementation(project(":protokt-runtime-persistent-collections"))

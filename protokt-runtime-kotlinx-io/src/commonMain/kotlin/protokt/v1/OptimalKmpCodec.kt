@@ -15,4 +15,20 @@
 
 package protokt.v1
 
-internal expect object OptimalKmpCodec
+import kotlinx.io.Sink
+import kotlinx.io.Source
+
+/**
+ * Uses the built-in codec for byte arrays and kotlinx-io for streams.
+ */
+expect object OptimalKmpCodec : StreamingCodec {
+    override fun writer(size: Int): Writer
+
+    override fun reader(bytes: ByteArray): Reader
+
+    override fun reader(bytes: ByteArray, offset: Int, length: Int): Reader
+
+    override fun reader(source: Source): Reader
+
+    override fun serialize(message: Message, sink: Sink)
+}

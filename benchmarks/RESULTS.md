@@ -239,8 +239,8 @@ identically.
 
 ## Kotlin/Native (macosArm64)
 
-Native benchmarks use `ProtoktCodec` (the only codec available on native).
-Collection factory is configurable via `collectionFactoryOverride`.
+Native benchmarks use `ProtoktCodec` by default. The codec and collection factory are
+selected through `ProtoktRuntime` before each benchmark process begins protobuf work.
 
 ### JVM vs Native (ProtoktCodec, DefaultCollectionFactory)
 

@@ -22,6 +22,9 @@ import kotlinx.io.readByteArray
 import protokt.v1.Bytes
 import protokt.v1.Deserializer
 import protokt.v1.Message
+import protokt.v1.PersistentCollectionFactory
+import protokt.v1.ProtobufJavaCodec
+import protokt.v1.ProtoktRuntime
 import protokt.v1.conformance.ConformanceResponse.Result.ParseError
 import protokt.v1.conformance.ConformanceResponse.Result.RuntimeError
 import protokt.v1.conformance.ConformanceResponse.Result.SerializeError
@@ -32,6 +35,17 @@ import java.nio.ByteOrder
 
 internal actual object Platform {
     actual val streaming = System.getProperty("protokt.streaming")?.toBoolean() ?: false
+
+    actual fun configureRuntime() {
+        val protobufJava = System.getProperty("protokt.v1.codec") == "protokt.v1.ProtobufJavaCodec"
+        val persistentCollections =
+            System.getProperty("protokt.v1.collection.factory") == "protokt.v1.PersistentCollectionFactory"
+        when {
+            protobufJava && persistentCollections -> ProtoktRuntime.configure(ProtobufJavaCodec, PersistentCollectionFactory)
+            protobufJava -> ProtoktRuntime.configure(ProtobufJavaCodec)
+            persistentCollections -> ProtoktRuntime.configure(PersistentCollectionFactory)
+        }
+    }
 
     actual fun printErr(message: String) {
         System.err.println(message)

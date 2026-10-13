@@ -15,4 +15,6 @@
 
 package protokt.v1
 
-internal actual object OptimalKmpCodec : AbstractOptimalKmpCodec()
+actual object OptimalKmpCodec : StreamingCodec by OptimalKmpCodecImplementation
+
+private object OptimalKmpCodecImplementation : AbstractOptimalKmpCodec()

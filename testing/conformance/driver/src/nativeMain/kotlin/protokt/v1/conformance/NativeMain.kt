@@ -15,11 +15,6 @@
 
 package protokt.v1.conformance
 
-import protokt.v1.configureKotlinxIoCodec
-import protokt.v1.configurePersistentCollections
-
 fun nativeMain() {
-    configurePersistentCollections()
-    configureKotlinxIoCodec()
     main()
 }

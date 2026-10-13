@@ -15,15 +15,11 @@
 
 package protokt.v1
 
-fun configureProtobufJsCodec() {
-    val env = js("(typeof process !== 'undefined' && process.env && process.env.PROTOKT_V1_CODEC) || ''")
-    if ((env as String) == "protokt.v1.ProtobufJsCodec") {
-        codecOverride = ProtobufJsCodec
-    }
-}
-
+/**
+ * Uses protobuf.js for byte-array operations on Kotlin/JS.
+ */
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
-internal object ProtobufJsCodec : Codec {
+object ProtobufJsCodec : Codec {
     override fun writer(size: Int): Writer =
         ProtobufJsWriter(ProtobufJsWriterAdapter.create())
 

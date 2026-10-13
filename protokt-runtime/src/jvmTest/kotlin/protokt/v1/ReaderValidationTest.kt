@@ -30,14 +30,11 @@ class ReaderValidationTest {
         fun codecs(): List<Codec> =
             listOf(
                 ProtoktCodec,
-                loadCodec("protokt.v1.ProtobufJavaCodec"),
-                loadCodec("protokt.v1.KotlinxIoCodec"),
-                loadCodec("protokt.v1.OptimalKmpCodec"),
-                loadCodec("protokt.v1.OptimalJvmCodec")
+                ProtobufJavaCodec,
+                KotlinxIoCodec,
+                OptimalKmpCodec,
+                OptimalJvmCodec
             )
-
-        private fun loadCodec(fqcn: String): Codec =
-            Class.forName(fqcn).getField("INSTANCE").get(null) as Codec
 
         private val NEGATIVE_ONE_VARINT =
             byteArrayOf(
@@ -273,7 +270,7 @@ class ReaderValidationTest {
 
         @Test
         fun `protobuf-java cause retained`() {
-            val reader = loadCodec("protokt.v1.ProtobufJavaCodec").reader(byteArrayOf(0x0a, 0x02, 0x01))
+            val reader = ProtobufJavaCodec.reader(byteArrayOf(0x0a, 0x02, 0x01))
             reader.readTag()
 
             val exception = assertThrows<ProtoktDecodeException> { reader.readBytes() }

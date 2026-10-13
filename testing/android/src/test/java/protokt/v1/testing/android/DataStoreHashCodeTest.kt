@@ -26,11 +26,17 @@ import okio.BufferedSink
 import okio.BufferedSource
 import okio.Path.Companion.toPath
 import okio.fakefilesystem.FakeFileSystem
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.io.InputStream
 import java.io.OutputStream
 
 class DataStoreHashCodeTest {
+    @BeforeEach
+    fun configureProtoktRuntime() {
+        configureRuntime()
+    }
+
     object MapMessageSerializer : Serializer<MapMessage> {
         override val defaultValue = MapMessage {}
 

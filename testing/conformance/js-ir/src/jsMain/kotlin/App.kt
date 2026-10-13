@@ -14,8 +14,6 @@
  */
 
 fun main() {
-    protokt.v1.configurePersistentCollections()
-    protokt.v1.configureProtobufJsCodec()
     protokt.v1.configureLong()
     protokt.v1.conformance.main()
 }

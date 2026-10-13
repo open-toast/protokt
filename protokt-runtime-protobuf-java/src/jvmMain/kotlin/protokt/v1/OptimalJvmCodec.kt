@@ -19,11 +19,11 @@ import java.io.InputStream
 import java.io.OutputStream
 import java.nio.ByteBuffer
 
-// Combines ProtoktCodec for byte-array paths (direct array manipulation,
-// no intermediate buffers) with ProtobufJavaCodec for streaming paths
-// (InputStream/OutputStream/ByteBuffer via protobuf-java's CodedInputStream).
+/**
+ * Uses the built-in codec for byte arrays and [ProtobufJavaCodec] for JVM streams.
+ */
 @OptIn(OnlyForUseByGeneratedProtoCode::class)
-internal object OptimalJvmCodec : JvmCodec {
+object OptimalJvmCodec : JvmCodec {
     override fun writer(size: Int): Writer =
         ProtoktCodec.writer(size)
 

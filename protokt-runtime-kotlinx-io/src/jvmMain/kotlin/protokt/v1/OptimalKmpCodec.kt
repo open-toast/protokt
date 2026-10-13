@@ -15,4 +15,38 @@
 
 package protokt.v1
 
-internal actual object OptimalKmpCodec : AbstractOptimalKmpCodec(), JvmKotlinxIoStreaming
+import kotlinx.io.Sink
+import kotlinx.io.Source
+import java.io.InputStream
+import java.io.OutputStream
+import java.nio.ByteBuffer
+
+actual object OptimalKmpCodec : StreamingCodec, JvmCodec {
+    actual override fun writer(size: Int): Writer =
+        OptimalKmpCodecImplementation.writer(size)
+
+    actual override fun reader(bytes: ByteArray): Reader =
+        OptimalKmpCodecImplementation.reader(bytes)
+
+    actual override fun reader(bytes: ByteArray, offset: Int, length: Int): Reader =
+        OptimalKmpCodecImplementation.reader(bytes, offset, length)
+
+    actual override fun reader(source: Source): Reader =
+        OptimalKmpCodecImplementation.reader(source)
+
+    override fun reader(stream: InputStream): Reader =
+        OptimalKmpCodecImplementation.reader(stream)
+
+    override fun reader(buffer: ByteBuffer): Reader =
+        OptimalKmpCodecImplementation.reader(buffer)
+
+    actual override fun serialize(message: Message, sink: Sink) {
+        OptimalKmpCodecImplementation.serialize(message, sink)
+    }
+
+    override fun serialize(message: Message, outputStream: OutputStream) {
+        OptimalKmpCodecImplementation.serialize(message, outputStream)
+    }
+}
+
+private object OptimalKmpCodecImplementation : AbstractOptimalKmpCodec(), JvmKotlinxIoStreaming

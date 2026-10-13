@@ -99,6 +99,7 @@ class AnimalsServer(
 }
 
 fun main() {
+    protokt.v1.ProtoktRuntime.configure(protokt.v1.OptimalJvmCodec)
     val port = 50051
     val server = AnimalsServer(port)
     server.start()

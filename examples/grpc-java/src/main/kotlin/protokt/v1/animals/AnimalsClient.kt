@@ -61,6 +61,7 @@ class AnimalsClient(
  * Talk to the animals. Fluent in dog, pig and sheep.
  */
 fun main(args: Array<String>) {
+    protokt.v1.ProtoktRuntime.configure(protokt.v1.OptimalJvmCodec)
     val usage = "usage: ./gradlew :examples:grpc-java[-lite]:AnimalsClient --args={dog|pig|sheep}"
 
     if (args.isEmpty()) {

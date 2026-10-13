@@ -22,7 +22,10 @@ import kotlinx.collections.immutable.PersistentMap
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.persistentMapOf
 
-internal object PersistentCollectionFactory : CollectionFactory {
+/**
+ * Uses persistent collections for generated repeated and map fields.
+ */
+object PersistentCollectionFactory : CollectionFactory {
     override fun <T> listBuilder(): ListBuilder<T> =
         PersistentListBuilderImpl()
 
