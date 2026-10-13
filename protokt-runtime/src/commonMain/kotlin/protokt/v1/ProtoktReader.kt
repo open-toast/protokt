@@ -26,6 +26,9 @@ internal class ProtoktReader(
     override val lastTag: UInt
         get() = _lastTag.toUInt()
 
+    internal fun isAtEnd() =
+        pos == limit
+
     override fun readTag(): UInt {
         if (pos >= limit) {
             _lastTag = 0
@@ -45,6 +48,7 @@ internal class ProtoktReader(
     override fun readString(): String {
         val length = readRawVarint32()
         checkLength(length)
+        validateUtf8(buf, pos, pos + length)
         val s = buf.decodeToString(pos, pos + length)
         pos += length
         return s

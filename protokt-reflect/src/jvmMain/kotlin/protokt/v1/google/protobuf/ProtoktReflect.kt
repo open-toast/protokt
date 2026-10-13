@@ -15,16 +15,21 @@
 
 package protokt.v1.google.protobuf
 
+import com.google.protobuf.ByteString
+import com.google.protobuf.CodedInputStream
+import com.google.protobuf.Descriptors.EnumValueDescriptor
 import com.google.protobuf.Descriptors.FieldDescriptor
 import com.google.protobuf.Descriptors.FieldDescriptor.Type
+import com.google.protobuf.DynamicMessage
+import com.google.protobuf.InvalidProtocolBufferException
+import protokt.v1.Bytes
 import protokt.v1.Enum
-import protokt.v1.Fixed32Val
-import protokt.v1.Fixed64Val
+import protokt.v1.EnumDeserializer
+import protokt.v1.ExtensionCodec
+import protokt.v1.ExtensionCodecs
 import protokt.v1.GeneratedProperty
-import protokt.v1.LengthDelimitedVal
 import protokt.v1.Message
-import protokt.v1.VarintVal
-import java.nio.charset.StandardCharsets
+import protokt.v1.ProtoktDecodeException
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.Any
 import kotlin.reflect.KClass
@@ -97,51 +102,85 @@ internal object ProtoktReflect {
         return { field, msg -> gettersByNumber[field.number]?.invoke(msg) }
     }
 
-    private fun getUnknownField(field: FieldDescriptor, message: Message) =
-        message.unknownFields[field.number.toUInt()]?.let { value ->
-            when {
-                value.varint.isNotEmpty() ->
-                    value.varint
-                        .map(VarintVal::value)
-                        .map {
-                            if (field.type == Type.UINT64) {
-                                it
-                            } else {
-                                it.toLong()
-                            }
-                        }
-
-                value.fixed32.isNotEmpty() ->
-                    value.fixed32.map(Fixed32Val::value)
-
-                value.fixed64.isNotEmpty() ->
-                    value.fixed64.map(Fixed64Val::value)
-
-                value.lengthDelimited.isNotEmpty() ->
-                    value.lengthDelimited
-                        .map(LengthDelimitedVal::value)
-                        .map {
-                            if (field.type == Type.STRING) {
-                                StandardCharsets.UTF_8.decode(it.asReadOnlyBuffer()).toString()
-                            } else {
-                                it
-                            }
-                        }
-
-                else -> error("unknown field for field number ${field.number} existed but was empty")
-            }
-        }.let {
-            if (field.isRepeated) {
-                if (field.isMapField) {
-                    it ?: emptyMap<Any, Any>()
-                } else {
-                    it ?: emptyList<Any>()
-                }
+    private fun getUnknownField(field: FieldDescriptor, message: Message): Any? {
+        val unknown = message.unknownFields[field.number.toUInt()]
+            ?: return if (field.isMapField) {
+                emptyMap<Any, Any>()
+            } else if (field.isRepeated) {
+                emptyList<Any>()
             } else {
-                it?.first()
+                null
             }
+
+        if (field.type == Type.MESSAGE) {
+            val values = unknown.lengthDelimited.map { decodeMessage(field, it.value) }
+            return when {
+                field.isMapField -> {
+                    val key = field.messageType.findFieldByNumber(1)
+                    val value = field.messageType.findFieldByNumber(2)
+                    values.associate { entry ->
+                        mapValue(key, entry.getField(key)) to mapValue(value, entry.getField(value))
+                    }
+                }
+
+                field.isRepeated -> values
+
+                else -> values.lastOrNull()
+            }
+        }
+
+        val codec = scalarCodec(field) ?: return if (field.isRepeated) emptyList<Any>() else null
+        return if (field.isRepeated) codec.decodeRepeated(unknown) else codec.decodeSingular(unknown)
+    }
+
+    private fun scalarCodec(field: FieldDescriptor): ExtensionCodec<*>? =
+        when (field.type) {
+            Type.INT32 -> ExtensionCodecs.int32
+            Type.INT64 -> ExtensionCodecs.int64
+            Type.UINT32 -> ExtensionCodecs.uint32
+            Type.UINT64 -> ExtensionCodecs.uint64
+            Type.SINT32 -> ExtensionCodecs.sint32
+            Type.SINT64 -> ExtensionCodecs.sint64
+            Type.BOOL -> ExtensionCodecs.bool
+            Type.ENUM -> ExtensionCodecs.enum(ReflectedUnknownEnum)
+            Type.FIXED32 -> ExtensionCodecs.fixed32
+            Type.SFIXED32 -> ExtensionCodecs.sfixed32
+            Type.FLOAT -> ExtensionCodecs.float
+            Type.FIXED64 -> ExtensionCodecs.fixed64
+            Type.SFIXED64 -> ExtensionCodecs.sfixed64
+            Type.DOUBLE -> ExtensionCodecs.double
+            Type.STRING -> ExtensionCodecs.string
+            Type.BYTES -> ExtensionCodecs.bytes
+            else -> null
+        }
+
+    private fun decodeMessage(field: FieldDescriptor, bytes: Bytes): DynamicMessage =
+        try {
+            DynamicMessage.parseFrom(field.messageType, CodedInputStream.newInstance(bytes.asReadOnlyBuffer()))
+        } catch (e: InvalidProtocolBufferException) {
+            throw ProtoktDecodeException(e.message ?: "Malformed protobuf input", e)
+        }
+
+    private fun mapValue(field: FieldDescriptor, value: Any): Any =
+        when (field.type) {
+            Type.UINT32, Type.FIXED32 -> (value as Int).toUInt()
+            Type.UINT64, Type.FIXED64 -> (value as Long).toULong()
+            Type.ENUM -> ReflectedUnknownEnum((value as EnumValueDescriptor).number)
+            Type.BYTES -> Bytes.from((value as ByteString).toByteArray())
+            else -> value
         }
 
     fun getField(message: Message, field: FieldDescriptor): Any? =
         getReflectedGettersByClass(message::class)(field, message)
+}
+
+private class ReflectedUnknownEnum(
+    override val value: Int
+) : Enum() {
+    override val name = "UNRECOGNIZED"
+
+    companion object : EnumDeserializer<ReflectedUnknownEnum> {
+        override fun deserialize(value: Int) =
+            ReflectedUnknownEnum(value)
+    }
 }

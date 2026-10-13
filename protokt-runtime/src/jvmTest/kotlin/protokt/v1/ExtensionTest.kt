@@ -17,6 +17,7 @@ package protokt.v1
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
 class ExtensionTest {
     @Test
@@ -106,6 +107,24 @@ class ExtensionTest {
     }
 
     @Test
+    fun `decode singular string rejects invalid UTF-8`() {
+        val field = fieldOf(LengthDelimitedVal(Bytes(byteArrayOf(0xC0.toByte(), 0xAF.toByte()))))
+
+        val exception = assertThrows<ProtoktDecodeException> { ExtensionCodecs.string.decodeSingular(field) }
+
+        assertThat(exception).hasMessageThat().isEqualTo(WireFormat.INVALID_UTF8)
+    }
+
+    @Test
+    fun `string converter rejects invalid UTF-8`() {
+        val exception = assertThrows<ProtoktDecodeException> {
+            StringConverter.wrap(Bytes(byteArrayOf(0xED.toByte(), 0xA0.toByte(), 0x80.toByte())))
+        }
+
+        assertThat(exception).hasMessageThat().isEqualTo(WireFormat.INVALID_UTF8)
+    }
+
+    @Test
     fun `decode singular bytes`() {
         val data = byteArrayOf(1, 2, 3)
         val field = fieldOf(LengthDelimitedVal(Bytes(data)))
@@ -122,6 +141,135 @@ class ExtensionTest {
     fun `decode repeated fixed32`() {
         val field = fieldOf(Fixed32Val(10u), Fixed32Val(20u))
         assertThat(ExtensionCodecs.fixed32.decodeRepeated(field)).containsExactly(10u, 20u).inOrder()
+    }
+
+    @Test
+    fun `decode packed varints`() {
+        val unsigned =
+            fieldOf(
+                packedValue(3) {
+                    writeUInt64(1uL)
+                    writeUInt64(150uL)
+                }
+            )
+        val zigzag =
+            fieldOf(
+                packedValue(2) {
+                    writeUInt64(1uL)
+                    writeUInt64(2uL)
+                }
+            )
+        val bool =
+            fieldOf(
+                packedValue(2) {
+                    writeUInt64(0uL)
+                    writeUInt64(2uL)
+                }
+            )
+
+        assertThat(ExtensionCodecs.int32.decodeRepeated(unsigned)).containsExactly(1, 150).inOrder()
+        assertThat(ExtensionCodecs.int64.decodeRepeated(unsigned)).containsExactly(1L, 150L).inOrder()
+        assertThat(ExtensionCodecs.uint32.decodeRepeated(unsigned)).containsExactly(1u, 150u).inOrder()
+        assertThat(ExtensionCodecs.uint64.decodeRepeated(unsigned)).containsExactly(1uL, 150uL).inOrder()
+        assertThat(ExtensionCodecs.sint32.decodeRepeated(zigzag)).containsExactly(-1, 1).inOrder()
+        assertThat(ExtensionCodecs.sint64.decodeRepeated(zigzag)).containsExactly(-1L, 1L).inOrder()
+        assertThat(ExtensionCodecs.bool.decodeRepeated(bool)).containsExactly(false, true).inOrder()
+        assertThat(ExtensionCodecs.enum(TestEnumDeserializer).decodeRepeated(unsigned))
+            .containsExactly(TestEnum(1), TestEnum(150))
+            .inOrder()
+    }
+
+    @Test
+    fun `decode packed fixed32 values`() {
+        val unsigned =
+            fieldOf(
+                packedValue(8) {
+                    writeFixed32(1u)
+                    writeFixed32(UInt.MAX_VALUE)
+                }
+            )
+        val float =
+            fieldOf(
+                packedValue(8) {
+                    write(1.5f)
+                    write(-0.0f)
+                }
+            )
+
+        assertThat(ExtensionCodecs.fixed32.decodeRepeated(unsigned)).containsExactly(1u, UInt.MAX_VALUE).inOrder()
+        assertThat(ExtensionCodecs.sfixed32.decodeRepeated(unsigned)).containsExactly(1, -1).inOrder()
+        assertThat(ExtensionCodecs.float.decodeRepeated(float).map { it.toRawBits() })
+            .containsExactly(1.5f.toRawBits(), (-0.0f).toRawBits())
+            .inOrder()
+    }
+
+    @Test
+    fun `decode packed fixed64 values`() {
+        val unsigned =
+            fieldOf(
+                packedValue(16) {
+                    writeFixed64(1uL)
+                    writeFixed64(ULong.MAX_VALUE)
+                }
+            )
+        val double =
+            fieldOf(
+                packedValue(16) {
+                    write(1.5)
+                    write(-0.0)
+                }
+            )
+
+        assertThat(ExtensionCodecs.fixed64.decodeRepeated(unsigned)).containsExactly(1uL, ULong.MAX_VALUE).inOrder()
+        assertThat(ExtensionCodecs.sfixed64.decodeRepeated(unsigned)).containsExactly(1L, -1L).inOrder()
+        assertThat(ExtensionCodecs.double.decodeRepeated(double).map { it.toRawBits() })
+            .containsExactly(1.5.toRawBits(), (-0.0).toRawBits())
+            .inOrder()
+    }
+
+    @Test
+    fun `mixed packed and unpacked values retain wire order`() {
+        val field =
+            fieldOf(
+                VarintVal(1uL),
+                packedValue(2) {
+                    writeUInt64(2uL)
+                    writeUInt64(3uL)
+                },
+                VarintVal(4uL)
+            )
+
+        assertThat(ExtensionCodecs.int32.decodeRepeated(field)).containsExactly(1, 2, 3, 4).inOrder()
+    }
+
+    @Test
+    fun `empty packed values make no contribution`() {
+        val field =
+            fieldOf(
+                VarintVal(1uL),
+                LengthDelimitedVal(Bytes.empty()),
+                VarintVal(2uL)
+            )
+
+        assertThat(ExtensionCodecs.int32.decodeRepeated(field)).containsExactly(1, 2).inOrder()
+    }
+
+    @Test
+    fun `singular scalar extensions ignore packed values`() {
+        val field = fieldOf(packedValue(1) { writeUInt64(1uL) })
+
+        assertThat(ExtensionCodecs.int32.decodeSingular(field)).isNull()
+    }
+
+    @Test
+    fun `malformed packed values throw decode exception`() {
+        val malformedVarint = fieldOf(LengthDelimitedVal(Bytes.from(ByteArray(10) { 0x80.toByte() })))
+        val truncatedFixed32 = fieldOf(LengthDelimitedVal(Bytes.from(byteArrayOf(1, 2, 3))))
+        val truncatedFixed64 = fieldOf(LengthDelimitedVal(Bytes.from(byteArrayOf(1, 2, 3, 4, 5, 6, 7))))
+
+        assertThrows<ProtoktDecodeException> { ExtensionCodecs.int32.decodeRepeated(malformedVarint) }
+        assertThrows<ProtoktDecodeException> { ExtensionCodecs.fixed32.decodeRepeated(truncatedFixed32) }
+        assertThrows<ProtoktDecodeException> { ExtensionCodecs.fixed64.decodeRepeated(truncatedFixed64) }
     }
 
     @Test
@@ -223,6 +371,12 @@ class ExtensionTest {
     private fun buildField(unknownField: UnknownField): UnknownFieldSet.Field =
         UnknownFieldSet.Field.Builder().apply { add(unknownField.value) }.build()
 
+    private fun packedValue(size: Int, write: Writer.() -> Unit): LengthDelimitedVal {
+        val writer = ProtoktWriter(ByteArray(size))
+        writer.write()
+        return LengthDelimitedVal(Bytes(writer.toByteArray()))
+    }
+
     @OptIn(OnlyForUseByGeneratedProtoCode::class)
     private class TestMsg(
         override val unknownFields: UnknownFieldSet
@@ -238,4 +392,15 @@ class ExtensionTest {
         override fun serialize(writer: Writer) =
             writer.writeUnknown(unknownFields)
     }
+}
+
+private class TestEnum(
+    override val value: Int
+) : Enum() {
+    override val name = "VALUE_$value"
+}
+
+private object TestEnumDeserializer : EnumDeserializer<TestEnum> {
+    override fun deserialize(value: Int) =
+        TestEnum(value)
 }
