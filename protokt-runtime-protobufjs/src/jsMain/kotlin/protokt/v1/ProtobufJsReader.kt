@@ -65,8 +65,13 @@ internal class ProtobufJsReader(
     override fun readSInt64() =
         decode { Long.fromProtobufJsLong(reader.sint64()) }
 
-    override fun readString() =
-        decode { reader.string() }
+    override fun readString(): String {
+        val bytes = decode { reader.bytes().asByteArray() }
+        if (reader.pos > endPosition) {
+            throw ProtoktDecodeException(WireFormat.TRUNCATED_MESSAGE)
+        }
+        return decodeUtf8(bytes)
+    }
 
     override fun readUInt64() =
         decode { Long.fromProtobufJsLong(reader.uint64()).toULong() }

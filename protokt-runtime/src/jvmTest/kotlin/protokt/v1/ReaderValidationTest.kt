@@ -212,6 +212,45 @@ class ReaderValidationTest {
     inner class MalformedWireData {
         @ParameterizedTest
         @MethodSource("protokt.v1.ReaderValidationTest#codecs")
+        fun `invalid UTF-8`(codec: Codec) {
+            val malformedPayloads =
+                listOf(
+                    byteArrayOf(0xC0.toByte(), 0xAF.toByte()),
+                    byteArrayOf(0x80.toByte()),
+                    byteArrayOf(0xED.toByte(), 0xA0.toByte(), 0x80.toByte()),
+                    byteArrayOf(0xE2.toByte(), 0x82.toByte()),
+                    byteArrayOf(0xF4.toByte(), 0x90.toByte(), 0x80.toByte(), 0x80.toByte()),
+                    byteArrayOf(0xE2.toByte(), 0x28, 0xA1.toByte()),
+                )
+
+            malformedPayloads.forEach { payload ->
+                val reader = codec.reader(byteArrayOf(0x0A, payload.size.toByte()) + payload)
+                reader.readTag()
+
+                val exception = assertThrows<ProtoktDecodeException> { reader.readString() }
+                assertThat(exception).hasMessageThat().isEqualTo(WireFormat.INVALID_UTF8)
+
+                val converterReader = codec.reader(byteArrayOf(0x0A, payload.size.toByte()) + payload)
+                converterReader.readTag()
+                val converterException =
+                    assertThrows<ProtoktDecodeException> { StringConverter.readValidatedBytes(converterReader) }
+                assertThat(converterException).hasMessageThat().isEqualTo(WireFormat.INVALID_UTF8)
+            }
+        }
+
+        @ParameterizedTest
+        @MethodSource("protokt.v1.ReaderValidationTest#codecs")
+        fun `valid UTF-8 boundary code points`(codec: Codec) {
+            val value = "\u0000\u007F\u0080\u07FF\u0800\uD7FF\uE000\uFFFF\uD800\uDC00\uDBFF\uDFFF"
+            val payload = value.encodeToByteArray()
+            val reader = codec.reader(byteArrayOf(0x0A, payload.size.toByte()) + payload)
+            reader.readTag()
+
+            assertThat(reader.readString()).isEqualTo(value)
+        }
+
+        @ParameterizedTest
+        @MethodSource("protokt.v1.ReaderValidationTest#codecs")
         fun `invalid tag`(codec: Codec) {
             assertThrows<ProtoktDecodeException> {
                 codec.reader(byteArrayOf(0x00)).readTag()
