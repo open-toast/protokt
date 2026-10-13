@@ -16,7 +16,6 @@
 package protokt.v1.testing
 
 import com.google.auto.service.AutoService
-import protokt.v1.AbstractConverter
 import protokt.v1.Bytes
 import protokt.v1.Converter
 
@@ -24,7 +23,11 @@ data class BoolBox(val wrapped: Boolean)
 
 @SuppressWarnings("rawtypes")
 @AutoService(Converter::class)
-object BooleanConverter : AbstractConverter<Boolean, BoolBox>() {
+object BooleanConverter : Converter<Boolean, BoolBox> {
+    override val wireType = Boolean::class
+
+    override val valueType = BoolBox::class
+
     override fun unwrap(wrapped: BoolBox) =
         wrapped.wrapped
 
@@ -36,7 +39,11 @@ data class ByteArrayBox(val wrapped: Bytes)
 
 @SuppressWarnings("rawtypes")
 @AutoService(Converter::class)
-object BytesConverter : AbstractConverter<Bytes, ByteArrayBox>() {
+object BytesConverter : Converter<Bytes, ByteArrayBox> {
+    override val wireType = Bytes::class
+
+    override val valueType = ByteArrayBox::class
+
     override fun unwrap(wrapped: ByteArrayBox) =
         wrapped.wrapped
 
@@ -48,7 +55,11 @@ data class DoubleBox(val wrapped: Double)
 
 @SuppressWarnings("rawtypes")
 @AutoService(Converter::class)
-object DoubleConverter : AbstractConverter<Double, DoubleBox>() {
+object DoubleConverter : Converter<Double, DoubleBox> {
+    override val wireType = Double::class
+
+    override val valueType = DoubleBox::class
+
     override fun unwrap(wrapped: DoubleBox) =
         wrapped.wrapped
 
@@ -60,7 +71,11 @@ data class IntBox(val wrapped: Int)
 
 @SuppressWarnings("rawtypes")
 @AutoService(Converter::class)
-object IntConverter : AbstractConverter<Int, IntBox>() {
+object IntConverter : Converter<Int, IntBox> {
+    override val wireType = Int::class
+
+    override val valueType = IntBox::class
+
     override fun unwrap(wrapped: IntBox) =
         wrapped.wrapped
 
@@ -72,7 +87,11 @@ data class UIntBox(val wrapped: UInt)
 
 @SuppressWarnings("rawtypes")
 @AutoService(Converter::class)
-object UIntConverter : AbstractConverter<UInt, UIntBox>() {
+object UIntConverter : Converter<UInt, UIntBox> {
+    override val wireType = UInt::class
+
+    override val valueType = UIntBox::class
+
     override fun unwrap(wrapped: UIntBox) =
         wrapped.wrapped
 
@@ -84,7 +103,11 @@ data class LongBox(val wrapped: Long)
 
 @SuppressWarnings("rawtypes")
 @AutoService(Converter::class)
-object LongConverter : AbstractConverter<Long, LongBox>() {
+object LongConverter : Converter<Long, LongBox> {
+    override val wireType = Long::class
+
+    override val valueType = LongBox::class
+
     override fun unwrap(wrapped: LongBox) =
         wrapped.wrapped
 
@@ -96,7 +119,11 @@ data class ULongBox(val wrapped: ULong)
 
 @SuppressWarnings("rawtypes")
 @AutoService(Converter::class)
-object ULongConverter : AbstractConverter<ULong, ULongBox>() {
+object ULongConverter : Converter<ULong, ULongBox> {
+    override val wireType = ULong::class
+
+    override val valueType = ULongBox::class
+
     override fun unwrap(wrapped: ULongBox) =
         wrapped.wrapped
 
@@ -108,7 +135,11 @@ data class FloatBox(val wrapped: Float)
 
 @SuppressWarnings("rawtypes")
 @AutoService(Converter::class)
-object FloatConverter : AbstractConverter<Float, FloatBox>() {
+object FloatConverter : Converter<Float, FloatBox> {
+    override val wireType = Float::class
+
+    override val valueType = FloatBox::class
+
     override fun unwrap(wrapped: FloatBox) =
         wrapped.wrapped
 
@@ -120,7 +151,11 @@ data class StringBox(val wrapped: String)
 
 @SuppressWarnings("rawtypes")
 @AutoService(Converter::class)
-object StringConverter : AbstractConverter<String, StringBox>() {
+object StringConverter : Converter<String, StringBox> {
+    override val wireType = String::class
+
+    override val valueType = StringBox::class
+
     override fun unwrap(wrapped: StringBox) =
         wrapped.wrapped
 
