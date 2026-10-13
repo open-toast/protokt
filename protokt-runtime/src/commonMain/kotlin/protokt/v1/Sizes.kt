@@ -18,6 +18,7 @@ package protokt.v1
 import kotlin.jvm.JvmName
 import kotlin.jvm.JvmStatic
 
+@OnlyForUseByGeneratedProtoCode
 object Sizes {
     @JvmStatic
     fun sizeOf(enum: Enum) =

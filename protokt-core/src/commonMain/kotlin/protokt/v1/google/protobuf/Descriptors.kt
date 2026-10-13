@@ -16,6 +16,7 @@
 package protokt.v1.google.protobuf
 
 import protokt.v1.Collections.freezeList
+import protokt.v1.OnlyForUseByGeneratedProtoCode
 import kotlin.jvm.JvmStatic
 
 class FileDescriptor private constructor(
@@ -39,6 +40,7 @@ class FileDescriptor private constructor(
 
     companion object {
         @JvmStatic
+        @OnlyForUseByGeneratedProtoCode
         fun buildFrom(
             data: Array<String>,
             dependencies: List<FileDescriptor>

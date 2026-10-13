@@ -354,7 +354,6 @@ public final class protokt/v1/google/api/BackendRule$PathTranslation$PATH_TRANSL
 }
 
 public final class protokt/v1/google/api/BackendRule$PathTranslation$UNRECOGNIZED : protokt/v1/google/api/BackendRule$PathTranslation {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/api/BatchingConfigProto : protokt/v1/AbstractMessage {
@@ -594,7 +593,6 @@ public final class protokt/v1/google/api/ChangeType$REMOVED : protokt/v1/google/
 }
 
 public final class protokt/v1/google/api/ChangeType$UNRECOGNIZED : protokt/v1/google/api/ChangeType {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/api/ClientKt {
@@ -629,7 +627,6 @@ public final class protokt/v1/google/api/ClientLibraryDestination$PACKAGE_MANAGE
 }
 
 public final class protokt/v1/google/api/ClientLibraryDestination$UNRECOGNIZED : protokt/v1/google/api/ClientLibraryDestination {
-	public fun <init> (I)V
 }
 
 public abstract class protokt/v1/google/api/ClientLibraryOrganization : protokt/v1/Enum {
@@ -677,7 +674,6 @@ public final class protokt/v1/google/api/ClientLibraryOrganization$STREET_VIEW :
 }
 
 public final class protokt/v1/google/api/ClientLibraryOrganization$UNRECOGNIZED : protokt/v1/google/api/ClientLibraryOrganization {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/api/ClientLibrarySettings : protokt/v1/AbstractMessage {
@@ -1712,7 +1708,6 @@ public final class protokt/v1/google/api/ErrorReason$TLS_ORG_POLICY_VIOLATED : p
 }
 
 public final class protokt/v1/google/api/ErrorReason$UNRECOGNIZED : protokt/v1/google/api/ErrorReason {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/api/ErrorReason$USER_BLOCKED_BY_ADMIN : protokt/v1/google/api/ErrorReason {
@@ -1772,7 +1767,6 @@ public final class protokt/v1/google/api/FieldBehavior$UNORDERED_LIST : protokt/
 }
 
 public final class protokt/v1/google/api/FieldBehavior$UNRECOGNIZED : protokt/v1/google/api/FieldBehavior {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/api/FieldInfo : protokt/v1/AbstractMessage {
@@ -1842,7 +1836,6 @@ public final class protokt/v1/google/api/FieldInfo$Format$IPV6 : protokt/v1/goog
 }
 
 public final class protokt/v1/google/api/FieldInfo$Format$UNRECOGNIZED : protokt/v1/google/api/FieldInfo$Format {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/api/FieldInfo$Format$UUID4 : protokt/v1/google/api/FieldInfo$Format {
@@ -1923,7 +1916,6 @@ public final class protokt/v1/google/api/FlowControlLimitExceededBehaviorProto$T
 }
 
 public final class protokt/v1/google/api/FlowControlLimitExceededBehaviorProto$UNRECOGNIZED : protokt/v1/google/api/FlowControlLimitExceededBehaviorProto {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/api/FlowControlLimitExceededBehaviorProto$UNSET_BEHAVIOR : protokt/v1/google/api/FlowControlLimitExceededBehaviorProto {
@@ -2344,7 +2336,6 @@ public final class protokt/v1/google/api/LabelDescriptor$ValueType$STRING : prot
 }
 
 public final class protokt/v1/google/api/LabelDescriptor$ValueType$UNRECOGNIZED : protokt/v1/google/api/LabelDescriptor$ValueType {
-	public fun <init> (I)V
 }
 
 public abstract class protokt/v1/google/api/LaunchStage : protokt/v1/Enum {
@@ -2392,7 +2383,6 @@ public final class protokt/v1/google/api/LaunchStage$UNIMPLEMENTED : protokt/v1/
 }
 
 public final class protokt/v1/google/api/LaunchStage$UNRECOGNIZED : protokt/v1/google/api/LaunchStage {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/api/LogDescriptor : protokt/v1/AbstractMessage {
@@ -2817,7 +2807,6 @@ public final class protokt/v1/google/api/MetricDescriptor$MetricDescriptorMetada
 }
 
 public final class protokt/v1/google/api/MetricDescriptor$MetricDescriptorMetadata$TimeSeriesResourceHierarchyLevel$UNRECOGNIZED : protokt/v1/google/api/MetricDescriptor$MetricDescriptorMetadata$TimeSeriesResourceHierarchyLevel {
-	public fun <init> (I)V
 }
 
 public abstract class protokt/v1/google/api/MetricDescriptor$MetricKind : protokt/v1/Enum {
@@ -2849,7 +2838,6 @@ public final class protokt/v1/google/api/MetricDescriptor$MetricKind$METRIC_KIND
 }
 
 public final class protokt/v1/google/api/MetricDescriptor$MetricKind$UNRECOGNIZED : protokt/v1/google/api/MetricDescriptor$MetricKind {
-	public fun <init> (I)V
 }
 
 public abstract class protokt/v1/google/api/MetricDescriptor$ValueType : protokt/v1/Enum {
@@ -2889,7 +2877,6 @@ public final class protokt/v1/google/api/MetricDescriptor$ValueType$STRING : pro
 }
 
 public final class protokt/v1/google/api/MetricDescriptor$ValueType$UNRECOGNIZED : protokt/v1/google/api/MetricDescriptor$ValueType {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/api/MetricDescriptor$ValueType$VALUE_TYPE_UNSPECIFIED : protokt/v1/google/api/MetricDescriptor$ValueType {
@@ -3395,7 +3382,6 @@ public final class protokt/v1/google/api/Property$PropertyType$STRING : protokt/
 }
 
 public final class protokt/v1/google/api/Property$PropertyType$UNRECOGNIZED : protokt/v1/google/api/Property$PropertyType {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/api/Property$PropertyType$UNSPECIFIED : protokt/v1/google/api/Property$PropertyType {
@@ -3724,7 +3710,6 @@ public final class protokt/v1/google/api/ResourceDescriptor$History$ORIGINALLY_S
 }
 
 public final class protokt/v1/google/api/ResourceDescriptor$History$UNRECOGNIZED : protokt/v1/google/api/ResourceDescriptor$History {
-	public fun <init> (I)V
 }
 
 public abstract class protokt/v1/google/api/ResourceDescriptor$Style : protokt/v1/Enum {
@@ -3748,7 +3733,6 @@ public final class protokt/v1/google/api/ResourceDescriptor$Style$STYLE_UNSPECIF
 }
 
 public final class protokt/v1/google/api/ResourceDescriptor$Style$UNRECOGNIZED : protokt/v1/google/api/ResourceDescriptor$Style {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/api/ResourceKt {
@@ -4515,7 +4499,6 @@ public final class protokt/v1/google/apps/card/v1/Action$Interaction$OPEN_DIALOG
 }
 
 public final class protokt/v1/google/apps/card/v1/Action$Interaction$UNRECOGNIZED : protokt/v1/google/apps/card/v1/Action$Interaction {
-	public fun <init> (I)V
 }
 
 public abstract class protokt/v1/google/apps/card/v1/Action$LoadIndicator : protokt/v1/Enum {
@@ -4539,7 +4522,6 @@ public final class protokt/v1/google/apps/card/v1/Action$LoadIndicator$SPINNER :
 }
 
 public final class protokt/v1/google/apps/card/v1/Action$LoadIndicator$UNRECOGNIZED : protokt/v1/google/apps/card/v1/Action$LoadIndicator {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/apps/card/v1/BorderStyle : protokt/v1/AbstractMessage {
@@ -4585,7 +4567,6 @@ public final class protokt/v1/google/apps/card/v1/BorderStyle$BorderType$STROKE 
 }
 
 public final class protokt/v1/google/apps/card/v1/BorderStyle$BorderType$UNRECOGNIZED : protokt/v1/google/apps/card/v1/BorderStyle$BorderType {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/apps/card/v1/BorderStyle$Builder : protokt/v1/BuilderScope {
@@ -4697,7 +4678,6 @@ public final class protokt/v1/google/apps/card/v1/Button$Type$TYPE_UNSPECIFIED :
 }
 
 public final class protokt/v1/google/apps/card/v1/Button$Type$UNRECOGNIZED : protokt/v1/google/apps/card/v1/Button$Type {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/apps/card/v1/ButtonList : protokt/v1/AbstractMessage {
@@ -4939,7 +4919,6 @@ public final class protokt/v1/google/apps/card/v1/Card$DisplayStyle$REPLACE : pr
 }
 
 public final class protokt/v1/google/apps/card/v1/Card$DisplayStyle$UNRECOGNIZED : protokt/v1/google/apps/card/v1/Card$DisplayStyle {
-	public fun <init> (I)V
 }
 
 public abstract class protokt/v1/google/apps/card/v1/Card$DividerStyle : protokt/v1/Enum {
@@ -4967,7 +4946,6 @@ public final class protokt/v1/google/apps/card/v1/Card$DividerStyle$SOLID_DIVIDE
 }
 
 public final class protokt/v1/google/apps/card/v1/Card$DividerStyle$UNRECOGNIZED : protokt/v1/google/apps/card/v1/Card$DividerStyle {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/apps/card/v1/Card$NestedWidget : protokt/v1/AbstractMessage {
@@ -5270,7 +5248,6 @@ public final class protokt/v1/google/apps/card/v1/ChipList$Layout$LAYOUT_UNSPECI
 }
 
 public final class protokt/v1/google/apps/card/v1/ChipList$Layout$UNRECOGNIZED : protokt/v1/google/apps/card/v1/ChipList$Layout {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/apps/card/v1/ChipList$Layout$WRAPPED : protokt/v1/google/apps/card/v1/ChipList$Layout {
@@ -5416,7 +5393,6 @@ public final class protokt/v1/google/apps/card/v1/Columns$Column$HorizontalSizeS
 }
 
 public final class protokt/v1/google/apps/card/v1/Columns$Column$HorizontalSizeStyle$UNRECOGNIZED : protokt/v1/google/apps/card/v1/Columns$Column$HorizontalSizeStyle {
-	public fun <init> (I)V
 }
 
 public abstract class protokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment : protokt/v1/Enum {
@@ -5444,7 +5420,6 @@ public final class protokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignme
 }
 
 public final class protokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment$UNRECOGNIZED : protokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment$VERTICAL_ALIGNMENT_UNSPECIFIED : protokt/v1/google/apps/card/v1/Columns$Column$VerticalAlignment {
@@ -5652,7 +5627,6 @@ public final class protokt/v1/google/apps/card/v1/DateTimePicker$DateTimePickerT
 }
 
 public final class protokt/v1/google/apps/card/v1/DateTimePicker$DateTimePickerType$UNRECOGNIZED : protokt/v1/google/apps/card/v1/DateTimePicker$DateTimePickerType {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/apps/card/v1/DateTimePicker$Deserializer : protokt/v1/AbstractDeserializer {
@@ -5831,7 +5805,6 @@ public final class protokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$Co
 }
 
 public final class protokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$ControlType$UNRECOGNIZED : protokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$ControlType {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/apps/card/v1/DecoratedText$SwitchControl$Deserializer : protokt/v1/AbstractDeserializer {
@@ -5991,7 +5964,6 @@ public final class protokt/v1/google/apps/card/v1/Grid$GridItem$GridItemLayout$T
 }
 
 public final class protokt/v1/google/apps/card/v1/Grid$GridItem$GridItemLayout$UNRECOGNIZED : protokt/v1/google/apps/card/v1/Grid$GridItem$GridItemLayout {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/apps/card/v1/Icon : protokt/v1/AbstractMessage {
@@ -6227,7 +6199,6 @@ public final class protokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType$S
 }
 
 public final class protokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType$UNRECOGNIZED : protokt/v1/google/apps/card/v1/ImageCropStyle$ImageCropType {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/apps/card/v1/MaterialIcon : protokt/v1/AbstractMessage {
@@ -6429,7 +6400,6 @@ public final class protokt/v1/google/apps/card/v1/OpenLink$OnClose$RELOAD : prot
 }
 
 public final class protokt/v1/google/apps/card/v1/OpenLink$OnClose$UNRECOGNIZED : protokt/v1/google/apps/card/v1/OpenLink$OnClose {
-	public fun <init> (I)V
 }
 
 public abstract class protokt/v1/google/apps/card/v1/OpenLink$OpenAs : protokt/v1/Enum {
@@ -6453,7 +6423,6 @@ public final class protokt/v1/google/apps/card/v1/OpenLink$OpenAs$OVERLAY : prot
 }
 
 public final class protokt/v1/google/apps/card/v1/OpenLink$OpenAs$UNRECOGNIZED : protokt/v1/google/apps/card/v1/OpenLink$OpenAs {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/apps/card/v1/OverflowMenu : protokt/v1/AbstractMessage {
@@ -6662,7 +6631,6 @@ public final class protokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSou
 }
 
 public final class protokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$CommonDataSource$UNRECOGNIZED : protokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$CommonDataSource {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$CommonDataSource$USER : protokt/v1/google/apps/card/v1/SelectionInput$PlatformDataSource$CommonDataSource {
@@ -6783,7 +6751,6 @@ public final class protokt/v1/google/apps/card/v1/SelectionInput$SelectionType$S
 }
 
 public final class protokt/v1/google/apps/card/v1/SelectionInput$SelectionType$UNRECOGNIZED : protokt/v1/google/apps/card/v1/SelectionInput$SelectionType {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/apps/card/v1/Suggestions : protokt/v1/AbstractMessage {
@@ -6953,7 +6920,6 @@ public final class protokt/v1/google/apps/card/v1/TextInput$Type$SINGLE_LINE : p
 }
 
 public final class protokt/v1/google/apps/card/v1/TextInput$Type$UNRECOGNIZED : protokt/v1/google/apps/card/v1/TextInput$Type {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/apps/card/v1/TextParagraph : protokt/v1/AbstractMessage {
@@ -7022,7 +6988,6 @@ public final class protokt/v1/google/apps/card/v1/TextParagraph$TextSyntax$TEXT_
 }
 
 public final class protokt/v1/google/apps/card/v1/TextParagraph$TextSyntax$UNRECOGNIZED : protokt/v1/google/apps/card/v1/TextParagraph$TextSyntax {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/apps/card/v1/Validation : protokt/v1/AbstractMessage {
@@ -7100,7 +7065,6 @@ public final class protokt/v1/google/apps/card/v1/Validation$InputType$TEXT : pr
 }
 
 public final class protokt/v1/google/apps/card/v1/Validation$InputType$UNRECOGNIZED : protokt/v1/google/apps/card/v1/Validation$InputType {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/apps/card/v1/Widget : protokt/v1/AbstractMessage {
@@ -7305,7 +7269,6 @@ public final class protokt/v1/google/apps/card/v1/Widget$HorizontalAlignment$STA
 }
 
 public final class protokt/v1/google/apps/card/v1/Widget$HorizontalAlignment$UNRECOGNIZED : protokt/v1/google/apps/card/v1/Widget$HorizontalAlignment {
-	public fun <init> (I)V
 }
 
 public abstract class protokt/v1/google/apps/card/v1/Widget$ImageType : protokt/v1/Enum {
@@ -7329,7 +7292,6 @@ public final class protokt/v1/google/apps/card/v1/Widget$ImageType$SQUARE : prot
 }
 
 public final class protokt/v1/google/apps/card/v1/Widget$ImageType$UNRECOGNIZED : protokt/v1/google/apps/card/v1/Widget$ImageType {
-	public fun <init> (I)V
 }
 
 public abstract class protokt/v1/google/apps/card/v1/Widget$VerticalAlignment : protokt/v1/Enum {
@@ -7357,7 +7319,6 @@ public final class protokt/v1/google/apps/card/v1/Widget$VerticalAlignment$TOP :
 }
 
 public final class protokt/v1/google/apps/card/v1/Widget$VerticalAlignment$UNRECOGNIZED : protokt/v1/google/apps/card/v1/Widget$VerticalAlignment {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/apps/card/v1/Widget$VerticalAlignment$VERTICAL_ALIGNMENT_UNSPECIFIED : protokt/v1/google/apps/card/v1/Widget$VerticalAlignment {
@@ -7405,7 +7366,6 @@ public final class protokt/v1/google/cloud/OperationResponseMapping$UNDEFINED : 
 }
 
 public final class protokt/v1/google/cloud/OperationResponseMapping$UNRECOGNIZED : protokt/v1/google/cloud/OperationResponseMapping {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/cloud/audit/AuditLog : protokt/v1/AbstractMessage {
@@ -7615,7 +7575,6 @@ public final class protokt/v1/google/cloud/audit/AuthorizationInfo$PermissionTyp
 }
 
 public final class protokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType$UNRECOGNIZED : protokt/v1/google/cloud/audit/AuthorizationInfo$PermissionType {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/cloud/audit/OrgPolicyViolationInfo : protokt/v1/AbstractMessage {
@@ -7991,7 +7950,6 @@ public final class protokt/v1/google/cloud/audit/ViolationInfo$PolicyType$POLICY
 }
 
 public final class protokt/v1/google/cloud/audit/ViolationInfo$PolicyType$UNRECOGNIZED : protokt/v1/google/cloud/audit/ViolationInfo$PolicyType {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/cloud/location/GetLocationRequest : protokt/v1/AbstractMessage {
@@ -8318,7 +8276,6 @@ public final class protokt/v1/google/logging/type/LogSeverity$NOTICE : protokt/v
 }
 
 public final class protokt/v1/google/logging/type/LogSeverity$UNRECOGNIZED : protokt/v1/google/logging/type/LogSeverity {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/logging/type/LogSeverity$WARNING : protokt/v1/google/logging/type/LogSeverity {
@@ -8827,7 +8784,6 @@ public final class protokt/v1/google/rpc/Code$UNKNOWN : protokt/v1/google/rpc/Co
 }
 
 public final class protokt/v1/google/rpc/Code$UNRECOGNIZED : protokt/v1/google/rpc/Code {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/rpc/DebugInfo : protokt/v1/AbstractMessage {
@@ -9949,7 +9905,6 @@ public final class protokt/v1/google/shopping/type/Channel$ChannelEnum$ONLINE : 
 }
 
 public final class protokt/v1/google/shopping/type/Channel$ChannelEnum$UNRECOGNIZED : protokt/v1/google/shopping/type/Channel$ChannelEnum {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/shopping/type/Channel$Deserializer : protokt/v1/AbstractDeserializer {
@@ -10080,7 +10035,6 @@ public final class protokt/v1/google/shopping/type/Destination$DestinationEnum$S
 }
 
 public final class protokt/v1/google/shopping/type/Destination$DestinationEnum$UNRECOGNIZED : protokt/v1/google/shopping/type/Destination$DestinationEnum {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/shopping/type/Destination$DestinationEnum$VEHICLE_ADS : protokt/v1/google/shopping/type/Destination$DestinationEnum {
@@ -10242,7 +10196,6 @@ public final class protokt/v1/google/shopping/type/ReportingContext$ReportingCon
 }
 
 public final class protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$UNRECOGNIZED : protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum$VEHICLE_INVENTORY_ADS : protokt/v1/google/shopping/type/ReportingContext$ReportingContextEnum {
@@ -10324,7 +10277,6 @@ public final class protokt/v1/google/shopping/type/Weight$WeightUnit$POUND : pro
 }
 
 public final class protokt/v1/google/shopping/type/Weight$WeightUnit$UNRECOGNIZED : protokt/v1/google/shopping/type/Weight$WeightUnit {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/shopping/type/Weight$WeightUnit$WEIGHT_UNIT_UNSPECIFIED : protokt/v1/google/shopping/type/Weight$WeightUnit {
@@ -10368,7 +10320,6 @@ public final class protokt/v1/google/type/CalendarPeriod$QUARTER : protokt/v1/go
 }
 
 public final class protokt/v1/google/type/CalendarPeriod$UNRECOGNIZED : protokt/v1/google/type/CalendarPeriod {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/type/CalendarPeriod$WEEK : protokt/v1/google/type/CalendarPeriod {
@@ -10586,7 +10537,6 @@ public final class protokt/v1/google/type/DayOfWeek$TUESDAY : protokt/v1/google/
 }
 
 public final class protokt/v1/google/type/DayOfWeek$UNRECOGNIZED : protokt/v1/google/type/DayOfWeek {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/type/DayOfWeek$WEDNESDAY : protokt/v1/google/type/DayOfWeek {
@@ -10930,7 +10880,6 @@ public final class protokt/v1/google/type/Month$SEPTEMBER : protokt/v1/google/ty
 }
 
 public final class protokt/v1/google/type/Month$UNRECOGNIZED : protokt/v1/google/type/Month {
-	public fun <init> (I)V
 }
 
 public final class protokt/v1/google/type/PhoneNumber : protokt/v1/AbstractMessage {

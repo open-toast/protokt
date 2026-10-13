@@ -20,6 +20,7 @@ import kotlin.concurrent.Volatile
 /**
  * Lazily converts between runtime-disjoint wire and value types while retaining one representation at a time.
  */
+@OnlyForUseByGeneratedProtoCode
 class LazyReference<WireT : Any, ValueT : Any>(
     @Volatile private var ref: Any,
     private val converter: Converter<WireT, ValueT>

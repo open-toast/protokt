@@ -107,7 +107,7 @@ class UnknownFieldSet private constructor(
                 "fixed64=$fixed64, " +
                 "lengthDelimited=$lengthDelimited)"
 
-        class Builder
+        internal class Builder
         internal constructor() {
             private val values = mutableListOf<UnknownValue>()
 

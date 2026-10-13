@@ -15,6 +15,7 @@
 
 package protokt.v1
 
+@OnlyForUseByGeneratedProtoCode
 object StringConverter : Converter<Bytes, String> {
     override val wireType = Bytes::class
 
