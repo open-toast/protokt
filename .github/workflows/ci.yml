@@ -106,10 +106,10 @@ jobs:
         name: integration-repository
         path: build/repos/integration
     - name: Build and test
-      run: ./gradlew "-Dkotlin-integration.version=${{ matrix.kotlin }}" "-Djava-integration.version=${{ matrix.jdk }}" build --stacktrace --no-daemon
+      run: ./gradlew "-Dkotlin-integration.version=${{ matrix.kotlin }}" "-Djava-integration.version=${{ matrix.jdk }}" build publishAllPublicationsToIntegrationTestRepository --stacktrace --no-daemon
       working-directory: gradle-plugin-integration-test
     - name: Verify configuration cache compatibility
-      run: ./gradlew "-Dkotlin-integration.version=${{ matrix.kotlin }}" "-Djava-integration.version=${{ matrix.jdk }}" --configuration-cache build --stacktrace --no-daemon
+      run: ./gradlew "-Dkotlin-integration.version=${{ matrix.kotlin }}" "-Djava-integration.version=${{ matrix.jdk }}" --configuration-cache build publishAllPublicationsToIntegrationTestRepository --stacktrace --no-daemon
       working-directory: gradle-plugin-integration-test
 
   # AGP 9 built-in Kotlin: runs with the default Kotlin version only, since AGP 9
@@ -139,10 +139,10 @@ jobs:
         name: integration-repository
         path: build/repos/integration
     - name: Build and test
-      run: ./gradlew "-Dandroid-integration.version=9.2.1" build --stacktrace --no-daemon
+      run: ./gradlew "-Dandroid-integration.version=9.2.1" build publishAllPublicationsToIntegrationTestRepository --stacktrace --no-daemon
       working-directory: gradle-plugin-integration-test
     - name: Verify configuration cache compatibility
-      run: ./gradlew "-Dandroid-integration.version=9.2.1" --configuration-cache build --stacktrace --no-daemon
+      run: ./gradlew "-Dandroid-integration.version=9.2.1" --configuration-cache build publishAllPublicationsToIntegrationTestRepository --stacktrace --no-daemon
       working-directory: gradle-plugin-integration-test
 
   # Native satellite jobs: download cross-compiled binaries and execute.
