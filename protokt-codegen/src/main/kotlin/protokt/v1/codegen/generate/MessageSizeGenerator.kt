@@ -16,6 +16,7 @@
 package protokt.v1.codegen.generate
 
 import com.squareup.kotlinpoet.CodeBlock
+import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.asTypeName
@@ -37,8 +38,9 @@ import protokt.v1.codegen.util.sizeFn
 import protokt.v1.reflect.FieldType
 
 internal const val SERIALIZED_SIZE = "__serializedSize"
+internal const val COMPUTE_SERIALIZED_SIZE = "__computeSerializedSize"
 
-internal fun generateMessageSize(
+internal fun generateComputeSerializedSize(
     msg: Message,
     properties: List<PropertySpec>,
     ctx: Context,
@@ -64,7 +66,7 @@ private class MessageSizeGenerator(
     private fun propertyInfoForField(f: StandardField): PropertyInfo? =
         propertyInfoList.firstOrNull { it.name == f.fieldName }
 
-    fun generate(): PropertySpec {
+    fun generate(): FunSpec {
         val fieldSizes =
             msg.mapFields(
                 ctx,
@@ -92,24 +94,19 @@ private class MessageSizeGenerator(
                 { oneof, std, _ -> sizeofOneof(oneof, std) }
             )
 
-        return PropertySpec.builder(SERIALIZED_SIZE, Int::class)
+        return FunSpec.builder(COMPUTE_SERIALIZED_SIZE)
             .addModifiers(KModifier.PRIVATE)
-            .delegate(
-                buildCodeBlock {
-                    beginControlFlow("lazy")
-                    add(
-                        if (fieldSizes.isEmpty()) {
-                            CodeBlock.of("unknownFields.size()")
-                        } else {
-                            buildCodeBlock {
-                                addStatement("var·$resultVarName·=·0")
-                                fieldSizes.forEach { fs -> add(fs) }
-                                addStatement("$resultVarName·+=·unknownFields.size()")
-                                addStatement(resultVarName)
-                            }
-                        }
-                    )
-                    endControlFlow()
+            .returns(Int::class)
+            .addCode(
+                if (fieldSizes.isEmpty()) {
+                    CodeBlock.of("return·unknownFields.size()")
+                } else {
+                    buildCodeBlock {
+                        addStatement("var·$resultVarName·=·0")
+                        fieldSizes.forEach { fs -> add(fs) }
+                        addStatement("$resultVarName·+=·unknownFields.size()")
+                        addStatement("return·$resultVarName")
+                    }
                 }
             )
             .build()

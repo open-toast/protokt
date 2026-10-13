@@ -17,14 +17,17 @@ package protokt.v1.codegen
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
-import protokt.v1.gradle.ProtoktExtension
+import protokt.v1.gradle.KotlinTarget
 
 class GrpcNodeServiceGeneratorTest : AbstractProtoktCodegenTest() {
     @Test
     fun `coroutine stub accepts a caller-owned channel`() {
-        val extension = ProtoktExtension().apply { generate { grpcKotlinLite() } }
         val generated =
-            runJsPlugin("grpc_krpc_method_names.proto", extension)
+            runPlugin(
+                "grpc_krpc_method_names.proto",
+                kotlinTarget = KotlinTarget.MultiplatformJs,
+                options = listOf("generate_grpc_descriptors=true", "generate_grpc_kotlin_stubs=true"),
+            )
                 .orFail()
                 .response
                 .fileList

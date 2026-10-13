@@ -17,14 +17,12 @@ package protokt.v1.codegen
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.api.Test
-import protokt.v1.gradle.ProtoktExtension
 
 class GrpcKrpcServiceGeneratorTest : AbstractProtoktCodegenTest() {
     @Test
     fun `method names use lower camel case`() {
-        val extension = ProtoktExtension().apply { generate { grpcKrpcLite() } }
         val generated =
-            runPlugin("grpc_krpc_method_names.proto", extension)
+            runPlugin("grpc_krpc_method_names.proto", options = listOf("generate_grpc_krpc=true"))
                 .orFail()
                 .response
                 .fileList
