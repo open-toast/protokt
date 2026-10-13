@@ -24,6 +24,7 @@ import protokt.v1.ExtensionCodecs
 import protokt.v1.RepeatedExtension
 import protokt.v1.get
 import protokt.v1.google.protobuf.FieldOptions
+import com.toasttab.protokt.v1.testing.PackedExtensions as JavaPackedExtensions
 
 class ExtensionInteropTest {
     private val propertyExt =
@@ -129,5 +130,34 @@ class ExtensionInteropTest {
             FieldOptions.deserialize(javaFieldOptions.toByteArray())
 
         assertThat(protoktFieldOptions[ext]).isEmpty()
+    }
+
+    @Test
+    fun `read packed extensions written by protobuf-java`() {
+        val javaMessage =
+            JavaPackedExtensions.PackedExtensionContainer.newBuilder()
+                .addExtension(JavaPackedExtensions.packedInt32Extension, -1)
+                .addExtension(JavaPackedExtensions.packedInt32Extension, 150)
+                .addExtension(JavaPackedExtensions.packedEnumExtension, JavaPackedExtensions.PackedExtensionEnum.ONE)
+                .addExtension(JavaPackedExtensions.packedEnumExtension, JavaPackedExtensions.PackedExtensionEnum.TWO)
+                .build()
+
+        val protoktMessage = PackedExtensionContainer.deserialize(javaMessage.toByteArray())
+
+        assertThat(protoktMessage.packedInt32Extension).containsExactly(-1, 150).inOrder()
+        assertThat(protoktMessage.packedEnumExtension).containsExactly(PackedExtensionEnum.ONE, PackedExtensionEnum.TWO).inOrder()
+    }
+
+    @Test
+    fun `read unpacked extension written by protobuf-java`() {
+        val javaMessage =
+            JavaPackedExtensions.PackedExtensionContainer.newBuilder()
+                .addExtension(JavaPackedExtensions.unpackedFixed32Extension, 1)
+                .addExtension(JavaPackedExtensions.unpackedFixed32Extension, -1)
+                .build()
+
+        val protoktMessage = PackedExtensionContainer.deserialize(javaMessage.toByteArray())
+
+        assertThat(protoktMessage.unpackedFixed32Extension).containsExactly(1u, UInt.MAX_VALUE).inOrder()
     }
 }
