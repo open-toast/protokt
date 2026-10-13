@@ -15,20 +15,21 @@
 
 package protokt.v1.google.protobuf
 
+import com.google.protobuf.ByteString
 import com.google.protobuf.CodedInputStream
+import com.google.protobuf.Descriptors.EnumValueDescriptor
 import com.google.protobuf.Descriptors.FieldDescriptor
 import com.google.protobuf.Descriptors.FieldDescriptor.Type
 import com.google.protobuf.DynamicMessage
+import com.google.protobuf.InvalidProtocolBufferException
 import protokt.v1.Bytes
 import protokt.v1.Enum
-import protokt.v1.Fixed32Val
-import protokt.v1.Fixed64Val
+import protokt.v1.EnumDeserializer
+import protokt.v1.ExtensionCodec
+import protokt.v1.ExtensionCodecs
 import protokt.v1.GeneratedProperty
-import protokt.v1.LengthDelimitedVal
 import protokt.v1.Message
-import protokt.v1.UnknownValue
-import protokt.v1.VarintVal
-import java.nio.charset.StandardCharsets
+import protokt.v1.ProtoktDecodeException
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.Any
 import kotlin.reflect.KClass
@@ -101,106 +102,73 @@ internal object ProtoktReflect {
         return { field, msg -> gettersByNumber[field.number]?.invoke(msg) }
     }
 
-    private fun getUnknownField(field: FieldDescriptor, message: Message) =
-        message.unknownFields[field.number.toUInt()]?.values?.flatMap { value ->
-            decodeUnknownValue(field, value)
-        }.let {
-            if (field.isRepeated) {
-                if (field.isMapField) {
-                    it.orEmpty()
-                        .filterIsInstance<DynamicMessage>()
-                        .associate { entry ->
-                            entry.getField(field.messageType.findFieldByNumber(1)) to
-                                entry.getField(field.messageType.findFieldByNumber(2))
-                        }
-                } else {
-                    it.orEmpty()
-                }
+    private fun getUnknownField(field: FieldDescriptor, message: Message): Any? {
+        val unknown = message.unknownFields[field.number.toUInt()]
+            ?: return if (field.isMapField) {
+                emptyMap<Any, Any>()
+            } else if (field.isRepeated) {
+                emptyList<Any>()
             } else {
-                it?.lastOrNull()
+                null
             }
-        }
 
-    private fun decodeUnknownValue(field: FieldDescriptor, value: UnknownValue): List<Any> =
-        when (value) {
-            is VarintVal -> decodeVarint(field, value.value)?.let(::listOf).orEmpty()
-            is Fixed32Val -> decodeFixed32(field, value.value)?.let(::listOf).orEmpty()
-            is Fixed64Val -> decodeFixed64(field, value.value)?.let(::listOf).orEmpty()
-            is LengthDelimitedVal -> decodeLengthDelimited(field, value.value)
-        }
-
-    private fun decodeVarint(field: FieldDescriptor, value: ULong): Any? =
-        when (field.type) {
-            Type.INT32 -> value.toInt()
-            Type.INT64 -> value.toLong()
-            Type.UINT32 -> value.toUInt()
-            Type.UINT64 -> value
-            Type.SINT32 -> value.toInt().let { (it ushr 1) xor -(it and 1) }
-            Type.SINT64 -> value.toLong().let { (it ushr 1) xor -(it and 1) }
-            Type.BOOL -> value != 0uL
-            Type.ENUM -> ReflectedUnknownEnum(value.toInt())
-            else -> null
-        }
-
-    private fun decodeFixed32(field: FieldDescriptor, value: UInt): Any? =
-        when (field.type) {
-            Type.FIXED32 -> value
-            Type.SFIXED32 -> value.toInt()
-            Type.FLOAT -> Float.fromBits(value.toInt())
-            else -> null
-        }
-
-    private fun decodeFixed64(field: FieldDescriptor, value: ULong): Any? =
-        when (field.type) {
-            Type.FIXED64 -> value
-            Type.SFIXED64 -> value.toLong()
-            Type.DOUBLE -> Double.fromBits(value.toLong())
-            else -> null
-        }
-
-    private fun decodeLengthDelimited(field: FieldDescriptor, value: Bytes): List<Any> =
-        when (field.type) {
-            Type.STRING -> listOf(StandardCharsets.UTF_8.decode(value.asReadOnlyBuffer()).toString())
-
-            Type.BYTES -> listOf(value)
-
-            Type.MESSAGE ->
-                listOf(
-                    DynamicMessage.parseFrom(
-                        field.messageType,
-                        CodedInputStream.newInstance(value.asReadOnlyBuffer()),
-                    )
-                )
-
-            else -> if (field.isRepeated && field.isPackable) decodePacked(field, value) else emptyList()
-        }
-
-    private fun decodePacked(field: FieldDescriptor, value: Bytes): List<Any> {
-        val input = CodedInputStream.newInstance(value.asReadOnlyBuffer())
-        return buildList {
-            while (!input.isAtEnd) {
-                add(
-                    when (field.type) {
-                        Type.INT32 -> input.readInt32()
-                        Type.INT64 -> input.readInt64()
-                        Type.UINT32 -> input.readUInt32().toUInt()
-                        Type.UINT64 -> input.readUInt64().toULong()
-                        Type.SINT32 -> input.readSInt32()
-                        Type.SINT64 -> input.readSInt64()
-                        Type.FIXED32 -> input.readFixed32().toUInt()
-                        Type.FIXED64 -> input.readFixed64().toULong()
-                        Type.SFIXED32 -> input.readSFixed32()
-                        Type.SFIXED64 -> input.readSFixed64()
-                        Type.FLOAT -> input.readFloat()
-                        Type.DOUBLE -> input.readDouble()
-                        Type.BOOL -> input.readBool()
-                        Type.ENUM -> ReflectedUnknownEnum(input.readEnum())
-                        else -> error("field ${field.fullName} is not packable")
+        if (field.type == Type.MESSAGE) {
+            val values = unknown.lengthDelimited.map { decodeMessage(field, it.value) }
+            return when {
+                field.isMapField -> {
+                    val key = field.messageType.findFieldByNumber(1)
+                    val value = field.messageType.findFieldByNumber(2)
+                    values.associate { entry ->
+                        mapValue(key, entry.getField(key)) to mapValue(value, entry.getField(value))
                     }
-                )
+                }
+
+                field.isRepeated -> values
+
+                else -> values.lastOrNull()
             }
         }
+
+        val codec = scalarCodec(field) ?: return if (field.isRepeated) emptyList<Any>() else null
+        return if (field.isRepeated) codec.decodeRepeated(unknown) else codec.decodeSingular(unknown)
     }
+
+    private fun scalarCodec(field: FieldDescriptor): ExtensionCodec<*>? =
+        when (field.type) {
+            Type.INT32 -> ExtensionCodecs.int32
+            Type.INT64 -> ExtensionCodecs.int64
+            Type.UINT32 -> ExtensionCodecs.uint32
+            Type.UINT64 -> ExtensionCodecs.uint64
+            Type.SINT32 -> ExtensionCodecs.sint32
+            Type.SINT64 -> ExtensionCodecs.sint64
+            Type.BOOL -> ExtensionCodecs.bool
+            Type.ENUM -> ExtensionCodecs.enum(ReflectedUnknownEnum)
+            Type.FIXED32 -> ExtensionCodecs.fixed32
+            Type.SFIXED32 -> ExtensionCodecs.sfixed32
+            Type.FLOAT -> ExtensionCodecs.float
+            Type.FIXED64 -> ExtensionCodecs.fixed64
+            Type.SFIXED64 -> ExtensionCodecs.sfixed64
+            Type.DOUBLE -> ExtensionCodecs.double
+            Type.STRING -> ExtensionCodecs.string
+            Type.BYTES -> ExtensionCodecs.bytes
+            else -> null
+        }
+
+    private fun decodeMessage(field: FieldDescriptor, bytes: Bytes): DynamicMessage =
+        try {
+            DynamicMessage.parseFrom(field.messageType, CodedInputStream.newInstance(bytes.asReadOnlyBuffer()))
+        } catch (e: InvalidProtocolBufferException) {
+            throw ProtoktDecodeException(e.message ?: "Malformed protobuf input", e)
+        }
+
+    private fun mapValue(field: FieldDescriptor, value: Any): Any =
+        when (field.type) {
+            Type.UINT32, Type.FIXED32 -> (value as Int).toUInt()
+            Type.UINT64, Type.FIXED64 -> (value as Long).toULong()
+            Type.ENUM -> ReflectedUnknownEnum((value as EnumValueDescriptor).number)
+            Type.BYTES -> Bytes.from((value as ByteString).toByteArray())
+            else -> value
+        }
 
     fun getField(message: Message, field: FieldDescriptor): Any? =
         getReflectedGettersByClass(message::class)(field, message)
@@ -210,4 +178,9 @@ private class ReflectedUnknownEnum(
     override val value: Int
 ) : Enum() {
     override val name = "UNRECOGNIZED"
+
+    companion object : EnumDeserializer<ReflectedUnknownEnum> {
+        override fun deserialize(value: Int) =
+            ReflectedUnknownEnum(value)
+    }
 }
