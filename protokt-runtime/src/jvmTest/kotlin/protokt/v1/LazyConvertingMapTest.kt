@@ -61,6 +61,32 @@ class LazyConvertingMapTest {
         assertThat(wireEntries).containsExactly(WireKey("first") to "one", WireKey("second") to "two").inOrder()
         assertThat(converter.wrapCount).isEqualTo(0)
     }
+
+    @Test
+    fun `map conversion replaces a different key encoding with the same wire type`() {
+        val sourceConverter = PrefixedKeyConverter("source:")
+        val destinationConverter = PrefixedKeyConverter("destination:")
+        val values = mapOf(ValueKey("key") to "value")
+        val source = LazyConvertingMap.fromKotlin(values, true, false, sourceConverter, null)
+        val destination = LazyConvertingMap.fromKotlin(source, true, false, destinationConverter, null)
+
+        assertThat(destination).isEqualTo(values)
+        val wireEntries = mutableListOf<Pair<WireKey, String>>()
+        destination.wireEntryForEach<WireKey, String> { key, value -> wireEntries += key to value }
+        assertThat(wireEntries).containsExactly(WireKey("destination:key") to "value")
+    }
+
+    @Test
+    fun `map addition converts keys with a different encoding`() {
+        val destination = LazyConvertingMap.fromKotlin(mapOf(ValueKey("first") to "one"), true, false, PrefixedKeyConverter("a:"), null)
+        val source = LazyConvertingMap.fromKotlin(mapOf(ValueKey("second") to "two"), true, false, PrefixedKeyConverter("b:"), null)
+        val combined = destination + source
+
+        assertThat(combined).isEqualTo(mapOf(ValueKey("first") to "one", ValueKey("second") to "two"))
+        val wireEntries = mutableListOf<Pair<WireKey, String>>()
+        combined.wireEntryForEach<WireKey, String> { key, value -> wireEntries += key to value }
+        assertThat(wireEntries).containsExactly(WireKey("a:first") to "one", WireKey("a:second") to "two").inOrder()
+    }
 }
 
 private data class WireKey(val value: String)
@@ -91,4 +117,15 @@ private class CountingKeyConverter : Converter<WireKey, ValueKey> {
         unwrapCount++
         return WireKey(wrapped.value)
     }
+}
+
+private class PrefixedKeyConverter(private val prefix: String) : Converter<WireKey, ValueKey> {
+    override val wireType = WireKey::class
+    override val valueType = ValueKey::class
+
+    override fun wrap(unwrapped: WireKey): ValueKey =
+        ValueKey(unwrapped.value.removePrefix(prefix))
+
+    override fun unwrap(wrapped: ValueKey): WireKey =
+        WireKey(prefix + wrapped.value)
 }

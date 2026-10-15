@@ -471,7 +471,7 @@ public class FileDescriptorProto private constructor(
 
     public var dependency: List<String> = emptyList()
       set(newValue) {
-        field = if (newValue is LazyConvertingList<*, *>) newValue else LazyConvertingList.fromKotlin(newValue, StringConverter)
+        field = LazyConvertingList.fromKotlin(newValue, StringConverter)
       }
 
     public var messageType: List<DescriptorProto> = emptyList()
@@ -929,7 +929,7 @@ public class DescriptorProto private constructor(
 
     public var reservedName: List<String> = emptyList()
       set(newValue) {
-        field = if (newValue is LazyConvertingList<*, *>) newValue else LazyConvertingList.fromKotlin(newValue, StringConverter)
+        field = LazyConvertingList.fromKotlin(newValue, StringConverter)
       }
 
     public var unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
@@ -2649,7 +2649,7 @@ public class EnumDescriptorProto private constructor(
 
     public var reservedName: List<String> = emptyList()
       set(newValue) {
-        field = if (newValue is LazyConvertingList<*, *>) newValue else LazyConvertingList.fromKotlin(newValue, StringConverter)
+        field = LazyConvertingList.fromKotlin(newValue, StringConverter)
       }
 
     public var unknownFields: UnknownFieldSet = UnknownFieldSet.empty()
@@ -7883,7 +7883,7 @@ public class SourceCodeInfo private constructor(
 
       public var leadingDetachedComments: List<String> = emptyList()
         set(newValue) {
-          field = if (newValue is LazyConvertingList<*, *>) newValue else LazyConvertingList.fromKotlin(newValue, StringConverter)
+          field = LazyConvertingList.fromKotlin(newValue, StringConverter)
         }
 
       public var unknownFields: UnknownFieldSet = UnknownFieldSet.empty()

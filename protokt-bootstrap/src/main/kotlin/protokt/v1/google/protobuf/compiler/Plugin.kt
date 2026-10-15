@@ -380,7 +380,7 @@ public class CodeGeneratorRequest private constructor(
   public class Builder : BuilderScope {
     public var fileToGenerate: List<String> = emptyList()
       set(newValue) {
-        field = if (newValue is LazyConvertingList<*, *>) newValue else LazyConvertingList.fromKotlin(newValue, StringConverter)
+        field = LazyConvertingList.fromKotlin(newValue, StringConverter)
       }
 
     private var _parameterRef: LazyReference<Bytes, String>? = null

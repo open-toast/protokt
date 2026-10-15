@@ -199,4 +199,9 @@ message MapWrappers {
     (.protokt.v1.property).key_wrap = "StringBox",
     (.protokt.v1.property).value_wrap = "java.net.InetSocketAddress"
   ];
+
+  map<string, google.protobuf.BytesValue> map_string_uuid_wrapped = 9 [
+    (.protokt.v1.property).key_wrap = "StringBox",
+    (.protokt.v1.property).value_wrap = "java.util.UUID"
+  ];
 }

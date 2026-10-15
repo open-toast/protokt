@@ -212,8 +212,7 @@ private class BuilderGenerator(
         return FunSpec.setterBuilder()
             .addParameter("newValue", List::class)
             .addCode(
-                "field = if (newValue is %T<*, *>) newValue else %T.fromKotlin(newValue, %L)",
-                LazyConvertingList::class,
+                "field = %T.fromKotlin(newValue, %L)",
                 LazyConvertingList::class,
                 converterRef
             )
@@ -234,8 +233,7 @@ private class BuilderGenerator(
         return FunSpec.setterBuilder()
             .addParameter("newValue", Map::class)
             .addCode(
-                "field = if (newValue is %T<*, *>) newValue else %T.fromKotlin(newValue, %L, %L, %L, %L)",
-                LazyConvertingMap::class,
+                "field = %T.fromKotlin(newValue, %L, %L, %L, %L)",
                 LazyConvertingMap::class,
                 info.keyWrapped,
                 info.valueWrapped,
