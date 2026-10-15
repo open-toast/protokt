@@ -17,12 +17,15 @@ package protokt.v1.testing
 
 import com.google.common.truth.Truth.assertThat
 import com.google.protobuf.Descriptors.FieldDescriptor
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.ValueSource
 import proto3_unittest.UnittestProto3
 import protokt.v1.google.protobuf.getField
 import protokt.v1.google.protobuf.hasField
 import protokt.v1.proto3_unittest.TestAllTypes
+import protokt.v1.proto3_unittest.TestOneof2
 
 class ProtoktReflectTest {
     private val context = getContextReflectively()
@@ -38,6 +41,49 @@ class ProtoktReflectTest {
 
         assertThat(protoktDefault.getField(field)?.let(context::convertValue))
             .isEqualTo(javaDefault.getField(field))
+    }
+
+    @Test
+    fun `default enum field is absent like protobuf java`() {
+        val field = UnittestProto3.TestAllTypes.getDescriptor().findFieldByName("optional_nested_enum")
+
+        assertThat(UnittestProto3.TestAllTypes.getDefaultInstance().hasField(field)).isFalse()
+        assertThat(TestAllTypes {}.hasField(field)).isFalse()
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = [0, 1, 123])
+    fun `implicit enum presence matches protobuf java after decoding`(number: Int) {
+        val field = UnittestProto3.TestAllTypes.getDescriptor().findFieldByName("optional_nested_enum")
+        val javaMessage = UnittestProto3.TestAllTypes.newBuilder().setOptionalNestedEnumValue(number).build()
+        val message = TestAllTypes.deserialize(javaMessage.toByteArray())
+
+        assertThat(message.hasField(field)).isEqualTo(javaMessage.hasField(field))
+    }
+
+    @Test
+    fun `oneof enum presence includes the zero value`() {
+        val field = UnittestProto3.TestOneof2.getDescriptor().findFieldByName("foo_enum")
+        val javaMessage = UnittestProto3.TestOneof2.newBuilder().setFooEnumValue(0).build()
+        val message = TestOneof2.deserialize(javaMessage.toByteArray())
+
+        assertThat(javaMessage.hasField(field)).isTrue()
+        assertThat(message.hasField(field)).isTrue()
+        assertThat(TestOneof2 {}.hasField(field)).isFalse()
+    }
+
+    @Test
+    fun `optional enum presence includes the zero value`() {
+        val javaMessage =
+            com.toasttab.protokt.v1.testing.TestOuterClass.EnumPresence.newBuilder()
+                .setChoiceValue(0)
+                .build()
+        val field = javaMessage.descriptorForType.findFieldByName("choice")
+        val message = EnumPresence.deserialize(javaMessage.toByteArray())
+
+        assertThat(javaMessage.hasField(field)).isTrue()
+        assertThat(message.hasField(field)).isTrue()
+        assertThat(EnumPresence {}.hasField(field)).isFalse()
     }
 
     companion object {
