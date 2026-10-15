@@ -18,10 +18,13 @@ package protokt.v1.gradle
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.Project
+import org.gradle.api.file.ConfigurableFileCollection
+import org.gradle.api.file.FileCollection
 import org.gradle.api.file.RegularFile
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.InputFile
+import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.PathSensitive
 import org.gradle.api.tasks.PathSensitivity
@@ -31,7 +34,7 @@ import org.gradle.work.DisableCachingByDefault
 
 internal class CodegenBinary(
     val file: Provider<RegularFile>,
-    val builtBy: Any
+    val distributionFiles: FileCollection
 )
 
 @DisableCachingByDefault(because = "The launcher contains a machine-specific absolute path")
@@ -39,6 +42,9 @@ internal abstract class PrepareCodegenBinary : DefaultTask() {
     @get:InputFile
     @get:PathSensitive(PathSensitivity.ABSOLUTE)
     abstract val inputFile: RegularFileProperty
+
+    @get:Internal
+    abstract val distributionFiles: ConfigurableFileCollection
 
     @get:OutputFile
     abstract val outputFile: RegularFileProperty
@@ -64,7 +70,8 @@ internal fun Project.prepareCodegenBinary(binary: CodegenBinary): TaskProvider<P
     tasks.register("prepareProtoktCodegenBinary", PrepareCodegenBinary::class.java) {
         inputFile.set(binary.file)
         outputFile.set(layout.buildDirectory.file("protokt/bin/${codegenExecutableName(CODEGEN_NAME)}"))
-        dependsOn(binary.builtBy)
+        distributionFiles.from(binary.distributionFiles)
+        dependsOn(binary.distributionFiles)
     }
 
 internal fun codegenExecutableName(name: String) =
